@@ -1,0 +1,73 @@
+﻿
+@model List<Wms12m.Entity.Models.Malzeme>
+@using (Ajax.BeginForm("InsertMalzeme", "Buy", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid" }, new { @class = "form-horizontal" }))
+{
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th> Malzeme Kodu</th>
+                <th> Malzeme Adı</th>
+                <th> Birim Miktar</th>
+                <th> Birim </th>
+                <th> Depo </th>
+                <th> İşlem </th>
+            </tr>
+        </thead>
+        <tbody id="StoreFrom">
+            @{Html.RenderAction("NewMalzemeForm", new { id = ViewBag.IrsaliyeId });}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MalzemeKodu</td>
+                    <td>@item.MalzemeAdi</td>
+                    <td>@item.Miktar</td>
+                    <td>@item.Birim</td>
+                    <td>@item.Depo </td>
+                    <td>
+                        <a class="edit" href="javascript:;" onclick="CreateEdit('@item.Id')"> Düzenle </a>
+                        <a class="edit" href="javascript:;" onclick="Delete('@item.Id','/Storage/StoreGridPartial','StoreGrid','0')"> Sil </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+                }
+<script>
+    $("#rowSearch").hide(); var searching = true;
+    function getMalzeme(kod, ad) {
+        if (searching == false) return;
+        $("#malzemeSelector option").remove();
+        $.ajax({
+            url: "/Buy/getMalzeme",
+            type: 'POST',
+            data: JSON.stringify({ kod: kod, ad:ad }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $("#rowSearch").show()
+                    $.each(data, function (i, item) {
+                        console.log(item);
+                        $('#malzemeSelector').append($('<option>', {
+                            value: item.MalKodu,
+                            text: item.MalAdi
+                        }));
+                        //$("#malzemeSelector").append("<option value=" + item.MalKodu + " text="+item.MalAdi + "></option>");
+                    });
+                }
+            }
+        });
+    }
+    function selectSearcher() {
+        searching = false;
+        $("#MalKodu").val($("#malzemeSelector").val());
+        $("#MalAdi").val($("#malzemeSelector").text());
+        $("#rowSearch").hide()
+        searching = true;
+    }
+
+    $('#malzemeSelector').on('change', function () {
+        console.log(this.value);
+        console.log(this.Text);
+    });
+</script>

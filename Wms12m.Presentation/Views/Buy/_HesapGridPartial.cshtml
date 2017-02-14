@@ -1,0 +1,28 @@
+﻿@model List<Wms12m.Entity.Models.GetHesapCodes_Result>
+<table class="table table-striped table-bordered table-hover" id="sample_1">
+    <thead>
+        <tr>
+            <th>Hesap Kodu</th>
+            <th>Ünvan</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="cursor:pointer;" ondblclick="hesapSelect('@item.HesapKodu','@item.Unvan1');">
+                <td>@item.HesapKodu</td>
+                <td>@item.Unvan1</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    function hesapSelect(no,ad)
+    {
+        $('#HesapKodu').val(no);
+        $('#Unvan').val(ad);
+        $('#hesapSelect').hide();
+    }
+</script>
+
+

@@ -1,0 +1,98 @@
+﻿
+@model  Wms12m.Entity.frmIrsaliye
+@{
+    ViewBag.Title = "İrsaliye";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+<link href="~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+<h3 class="page-title">İrsaliye</h3>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Evrak Bilgileri
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        @using (Ajax.BeginForm("New", "Buy", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid" }, new { @class = "form-horizontal" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Şirket</label>
+                                    <div class="col-md-4">
+                                        <select name="Company" class="form-control input-circle" required="" onfocus="$('#hesapSelect').hide()"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+                                        <span class="field-validation-valid" data-valmsg-for="Company" data-valmsg-replace="true" style="color:red;"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Hesap Kodu</label>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(a => a.HesapKodu, new { @class = "form-control input-circle", @required = "", @onclick = "ShowHide()", @readonly = "", style = "cursor:pointer;" })
+                                        <span class="field-validation-valid" data-valmsg-for="HesapKodu" data-valmsg-replace="true" style="color:red;"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Unvan</label>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(a => a.Unvan, new { @class = "form-control input-circle", @required = "", @onclick = "ShowHide()", @readonly = "", style = "cursor:pointer;" })
+                                        <span class="field-validation-valid" data-valmsg-for="Unvan" data-valmsg-replace="true" style="color:red;"></span>
+                                    </div>
+                                </div>
+                                <div id="hesapSelect">@{Html.RenderAction("GetHesapCodes");}</div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Evrak No</label>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(a => a.EvrakNo, new { @class = "form-control input-circle", @required = "", @placeholder = "Evrak No", @onfocus = "$('#hesapSelect').hide()" })
+                                        <span class="field-validation-valid" data-valmsg-for="EvrakNo" data-valmsg-replace="true" style="color:red;"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Tarih</label>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(a => a.Tarih, new { @class = "form-control input-circle", @required = "", @onfocus = "$('#hesapSelect').hide()" })
+                                        <span class="field-validation-valid" data-valmsg-for="Tarih" data-valmsg-replace="true" style="color:red;"></span>
+                                    </div>
+                                </div>
+                                <input type="submit" value="Kaydet" />
+                            </div>
+                                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Malzeme Bilgileri
+                    </div>
+                </div>
+            </div>
+            <div id="StoreGrid" style="padding:8px;"></div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/Scripts/_Operation.js"></script>
+<script src="~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="~/Content/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
+<script>
+    $("#Tarih").val('@DateTime.Now.ToShortDateString()');
+    $("#Tarih").datepicker({  dateFormat: "dd-mm-yyyy" });
+    //var StoreGridUrl = '@Url.Action("GridPartial", "Buy")';
+    //PartialView(StoreGridUrl, 'StoreGrid');
+    $('#hesapSelect').hide();
+    function ShowHide()
+    {
+        if ($('#hesapSelect').css("display") == "none")
+            $('#hesapSelect').show();
+        else
+            $('#hesapSelect').hide();
+    }
+</script>
+

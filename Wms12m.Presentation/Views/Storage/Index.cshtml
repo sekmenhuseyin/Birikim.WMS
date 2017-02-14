@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "Depo Kartı işlemleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    var StoreGridUrl = '@Url.Action("StoreGridPartial", "Storage")';
+    var StoreDetailUrl = '@Url.Action("StoreDetailPartial", "Storage")';
+    var DeleteFunctionUrl = '@Url.Action("Delete", "Storage")';
+    var StoreListUrl = '@Url.Action("StoreList", "Corridor")';
+    $(document).ready(function () {
+        PartialView(StoreDetailUrl, 'CreateEdit', JSON.stringify({ Id: '0' }));     
+        $('#SearchBtn').click(function () {
+            FuncSearchBtn();
+        });
+        FuncSearchBtn();
+    });
+    function StoreReturn(Data) {
+        FuncSearchBtn();
+        Modaldialog(Data.Message, (Data.Status == true ? "Başaralı" : "Hata"), "Tamam", "btn-success");
+        CreateEdit('0');
+    }
+    function CreateEdit(Id) {
+        PartialView(StoreDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id }));
+    }
+    function FuncSearchBtn()
+    {
+        var Type = $("input[type='radio'][name='Locked']:checked").val();
+        PartialView(StoreGridUrl, 'StoreGrid', JSON.stringify({ Id: Type }));
+    }
+</script>
+<h3 class="page-title">Depo İşlemleri</h3>
+<div class="row">
+    <div class="col-lg-12">
+        <div id="CreateEdit"></div>
+        <div>
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Depo Kart Listesi
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <div class="form-horizontal">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-3">
+                                    <div class="form-group">
+                                        <div class="radio-list col-xs-12 col-md-12 col-lg-12">
+                                            <div class="col-sm-12 col-xs-12">
+                                                <label>
+                                                    <label style="color:#32c5d2;">Durum</label>
+                                                </label>
+                                            </div>
+                                            <div class="radio-list col-sm-12 col-xs-12">
+                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3" style="padding-left:20px;">
+                                                    <input type="radio" name="Locked" value="Locked" /> Aktif
+                                                </label>
+                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3">
+                                                    <input type="radio" name="Locked" value="noLocked" checked /> Pasif
+                                                </label>
+                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3">
+                                                    <input type="radio" name="Locked" value="All" checked /> Tümü
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" style="margin-top:10px;">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="row">
+                                            <div class="col-sm-2 col-md-2 col-lg-2">
+                                                <button type="submit" class="btn green" id="SearchBtn">Ara</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="col-xs-12 col-md-9 col-lg-6">
+                                    <div class="form-group">                                    
+                                        <div class="radio-list col-xs-12 col-sm-12">
+                                            <div class="col-sm-2 col-xs-12">
+                                                <label class="radio-inline ">
+                                                    <label>Durum</label>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-8 col-xs-12">
+                                                <label class="radio-inline col-xs-3 col-sm-3" style="margin-left:20px;">
+                                                    <input type="radio" name="Locked" value="Locked" /> Aktif
+                                                </label>
+                                                <label class="radio-inline col-xs-3 col-sm-3" style="margin-left:20px;">
+                                                    <input type="radio" name="Locked" value="noLocked" checked /> Pasif
+                                                </label>
+                                                <label class="radio-inline col-xs-3 col-sm-3" style="margin-left:20px;">
+                                                    <input type="radio" name="Locked" value="All" checked /> Tümü
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-2 col-xs-12">
+                                                <label class="radio-inline col-xs-12 col-sm-12">
+                                                    <button type="submit" class="btn green" id="SearchBtn" style="margin-top:-5px!important">Ara</button>
+                                                </label>
+                                            </div>
+                                            </div>
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div id="StoreGrid" style="padding:8px;"></div>
+                </div>
+            </div>           
+        </div>
+    </div>
+</div>
+<script src="~/Content/Scripts/_Operation.js"></script>
+

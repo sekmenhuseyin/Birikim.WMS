@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="IRS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IslemTur" Type="smallint" Nullable="false" />
+          <Property Name="EvrakNo" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="HesapKodu" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TeslimCHK" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Tarih" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="STI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IrsaliyeID" Type="int" Nullable="false" />
+          <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Depo" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Malzeme_Irsaliye">
+          <End Role="IRS" Type="Self.IRS" Multiplicity="1" />
+          <End Role="STI" Type="Self.STI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IRS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="STI">
+              <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetHesapCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetMalzeme" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="kod" Type="varchar" Mode="In" />
+          <Parameter Name="ad" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetMalzemeCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="MModelStoreContainer">
+          <EntitySet Name="IRS" EntityType="Self.IRS" Schema="WMS" store:Type="Tables" />
+          <EntitySet Name="STI" EntityType="Self.STI" Schema="WMS" store:Type="Tables" />
+          <AssociationSet Name="FK_Malzeme_Irsaliye" Association="Self.FK_Malzeme_Irsaliye">
+            <End Role="IRS" EntitySet="IRS" />
+            <End Role="STI" EntitySet="STI" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="IR">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IslemTur" Type="Int16" Nullable="false" />
+          <Property Name="EvrakNo" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HesapKodu" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TeslimCHK" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Tarih" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="STIs" Relationship="Self.FK_Malzeme_Irsaliye" FromRole="IRS" ToRole="STI" />
+        </EntityType>
+        <EntityType Name="STI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IrsaliyeID" Type="Int32" Nullable="false" />
+          <Property Name="MalKodu" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Birim" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Miktar" Type="Decimal" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Depo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="IR" Relationship="Self.FK_Malzeme_Irsaliye" FromRole="STI" ToRole="IRS" />
+        </EntityType>
+        <Association Name="FK_Malzeme_Irsaliye">
+          <End Role="IRS" Type="Self.IR" Multiplicity="1" />
+          <End Role="STI" Type="Self.STI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IRS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="STI">
+              <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WMSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="IRS" EntityType="Self.IR" />
+          <EntitySet Name="STIs" EntityType="Self.STI" />
+          <AssociationSet Name="FK_Malzeme_Irsaliye" Association="Self.FK_Malzeme_Irsaliye">
+            <End Role="IRS" EntitySet="IRS" />
+            <End Role="STI" EntitySet="STIs" />
+          </AssociationSet>
+          <FunctionImport Name="GetHesapCodes" ReturnType="Collection(MModel.GetHesapCodes_Result)" />
+          <FunctionImport Name="GetMalzeme" ReturnType="Collection(MModel.GetMalzeme_Result)">
+            <Parameter Name="kod" Mode="In" Type="String" />
+            <Parameter Name="ad" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMalzemeCodes" ReturnType="Collection(MModel.GetMalzemeCodes_Result)" />
+        </EntityContainer>
+        <ComplexType Name="GetHesapCodes_Result">
+          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Unvan1" Nullable="false" MaxLength="40" />
+        </ComplexType>
+        <ComplexType Name="GetMalzeme_Result">
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="MalAdi" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetMalzemeCodes_Result">
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="MalAdi" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Birim1" Nullable="false" MaxLength="4" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MModelStoreContainer" CdmEntityContainer="WMSEntities">
+          <EntitySetMapping Name="IRS">
+            <EntityTypeMapping TypeName="MModel.IR">
+              <MappingFragment StoreEntitySet="IRS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IslemTur" ColumnName="IslemTur" />
+                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="TeslimCHK" ColumnName="TeslimCHK" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="STIs">
+            <EntityTypeMapping TypeName="MModel.STI">
+              <MappingFragment StoreEntitySet="STI">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Depo" ColumnName="Depo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetHesapCodes" FunctionName="MModel.Store.GetHesapCodes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetHesapCodes_Result">
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="Unvan1" ColumnName="Unvan1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMalzeme" FunctionName="MModel.Store.GetMalzeme">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetMalzeme_Result">
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMalzemeCodes" FunctionName="MModel.Store.GetMalzemeCodes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetMalzemeCodes_Result">
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
+                <ScalarProperty Name="Birim1" ColumnName="Birim1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
