@@ -121,10 +121,11 @@ namespace Wms12m.Business
         {
             _Result = new Result();
             string Query = "";
-            P.Degistiren = Users.AppIdentity.User.LogonUserName;
             bool NameControlId = SetList((int)GetListStatus.Close).Where(a => a.Raf == P.Raf && a.ID == P.ID && a.KoridorID == P.KoridorID).Count() > 0 ? true : false;
             try
             {
+                P.Degistiren = Users.AppIdentity.User.LogonUserName;
+                P.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
                 if (P.ID > 0)
                 {
                     Query = QueryAnalysis<Store03>.Update(P, "WMS.TK_RAF");
@@ -132,6 +133,7 @@ namespace Wms12m.Business
                 else
                 {
                     P.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                    P.KayitTarih = Convert.ToInt32(DateTime.Today.ToOADate());
                     Query = QueryAnalysis<Store03>.Insert(P, "WMS.TK_RAF");
                 }
                 _unitOfWork = new UnitOfWork();
@@ -185,10 +187,10 @@ namespace Wms12m.Business
         }
         private string Ouery()
         {
-            return @"SELECT        WMS.TK_KOR.ID, WMS.TK_KOR.DepoID, WMS.TK_KOR.Koridor, WMS.TK_KOR.SiraNo, WMS.TK_KOR.Aktif, WMS.TK_KOR.Kaydeden, WMS.TK_KOR.KayitTarih, WMS.TK_KOR.Degistiren, 
-                         WMS.TK_KOR.DegisTarih, WMS.TK_RAF.Raf
-FROM            WMS.TK_KOR INNER JOIN
-                         WMS.TK_RAF ON WMS.TK_KOR.ID = WMS.TK_RAF.KoridorID";
+            return @"SELECT        WMS.TK_RAF.ID, WMS.TK_RAF.KoridorID, WMS.TK_RAF.Raf, WMS.TK_RAF.Derinlik, WMS.TK_RAF.SiraNo, WMS.TK_RAF.Aktif, WMS.TK_RAF.Kaydeden, WMS.TK_RAF.KayitTarih, WMS.TK_RAF.Degistiren, 
+                         WMS.TK_RAF.DegisTarih, WMS.TK_KOR.Koridor
+FROM            WMS.TK_RAF INNER JOIN
+                         WMS.TK_KOR ON WMS.TK_RAF.KoridorID = WMS.TK_KOR.ID";
         }
     }
 }

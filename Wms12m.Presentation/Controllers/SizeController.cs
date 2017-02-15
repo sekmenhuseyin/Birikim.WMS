@@ -202,7 +202,7 @@ namespace Wms12m.Presentation.Controllers
             FloorOperation = new Floor();
             try
             {
-                _List = FloorOperation.GetList().Where(a => a.BolumID == Convert.ToInt16(Id)).ToList();
+                _List = FloorOperation.GetList().Where(a => a.RafID == Convert.ToInt16(Id)).ToList();
 
                 List<SelectListItem> List = new List<SelectListItem>();
                 foreach (Store05 item in _List)
@@ -229,7 +229,7 @@ namespace Wms12m.Presentation.Controllers
             FloorOperation = new Floor();
             try
             {
-                _List = FloorOperation.GetList().Where(a => a.BolumID == Convert.ToInt16(Id)).ToList();
+                _List = FloorOperation.GetList().Where(a => a.RafID == Convert.ToInt16(Id)).ToList();
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)

@@ -22,6 +22,7 @@
         $('#ShelfListi').prop('disabled', 'disabled');
 
         $('#SearchBtn').click(function () {
+            
             FuncSearchBtn();
         });
         $('#StoreListi').on('change', function () {
@@ -81,7 +82,7 @@
                     $("#CorridorList").append("<option value=" + '0' + ">Lütfen Koridor Seçiniz !!!</option>");
                     $("#CorridorList").removeAttr("disabled");
                     $.each(data, function (i, item) {
-                        $("#CorridorList").append("<option value=" + item.Id + ">" + item.CorridorName + "</option>");
+                        $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
                     });
                 }
             }
@@ -103,7 +104,7 @@
                     //alert("Hata Oluştu !!!");
                 } else {
                     $.each(data, function (i, item) {
-                        $("#CorridorList").append("<option value=" + item.Id + ">" + item.CorridorName + "</option>");
+                        $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
                     });
                 }
             }
@@ -123,7 +124,7 @@
                     //Modaldialog("Kaydedilmiş depo bulunmamaktadır.", "Uyarı", "Tamam", "btn-success");
                 } else {
                     $.each(data, function (i, item) {
-                        $("#StoreListi").append("<option value=" + item.Id + ">" + item.StoreName + "</option>");
+                        $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
                     });
                 }
             }
@@ -144,7 +145,7 @@
                     $("#ShelfListi").removeAttr("disabled");
                     $("#ShelfListi").append("<option value=" + '0' + ">Lütfen Raf Seçiniz !!!</option>");
                     $.each(data, function (i, item) {
-                        $("#ShelfListi").append("<option value=" + item.Id + ">" + item.ShelfName + "</option>");
+                        $("#ShelfListi").append("<option value=" + item.ID + ">" + item.Raf + "</option>");
                     });
                 }
             }

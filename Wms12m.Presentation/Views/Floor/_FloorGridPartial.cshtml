@@ -9,6 +9,9 @@
             <tr>
                 <th> Kat</th>
                 <th> Sıra No</th>
+                <th> Boy</th>
+                <th> Özellik</th>
+                <th> Açıklama</th>
                 <th> Tarih </th>
                 <th> Durum </th>
                 <th> Düzenle </th>
@@ -19,13 +22,16 @@
             @foreach (Wms12m.Entity.Store05 item in Model)
             {
                 <tr>
-                    <td>@item.FloorName</td>
-                    <td>@item.Sort </td>
-                    <td>@((item.CreateDate).Value.ToString("dd-MM-yyyy HH:mm:ss"))</td>
-                    <td>@(item.Locked ? "Aktif" : "Pasif")</td>
-                    <td><a class="edit" href="javascript:;" onclick="CreateEdit('@item.Id')"> Düzenle </a></td>
+                    <td>@item.Kat</td>
+                    <td>@item.SiraNo </td>
+                    <td>@item.Boy </td>
+                    <td>@item.Ozellik </td>
+                    <td>@item.Aciklama </td>
+                    <td>@DateTime.FromOADate(item.KayitTarih).ToShortDateString()</td>
+                    <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
+                    <td><a class="edit" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a></td>
                     <td>
-                        <a class="edit" href="javascript:;" onclick="Delete('@item.Id','/Floor/FloorGridPartial','FloorGrid','@item.ChapterId')"> Sil </a>
+                        <a class="edit" href="javascript:;" onclick="Delete('@item.ID','/Floor/FloorGridPartial','FloorGrid','@item.RafID')"> Sil </a>
                     </td>
                 </tr>
             }

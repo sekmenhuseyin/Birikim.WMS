@@ -1,88 +1,66 @@
 ﻿@using Newtonsoft.Json;
 @model Wms12m.Entity.Store05
 @{
-    if (Model.Id > 0)
+    if (Model.ID > 0)
     {
         Wms12m.Business.abstractStore<Wms12m.Entity.Store01> _Store = new Wms12m.Business.Store();
         Wms12m.Business.abstractStore<Wms12m.Entity.Store02> _Corridor = new Wms12m.Business.Corridor();
         Wms12m.Business.abstractStore<Wms12m.Entity.Store03> _Shelf = new Wms12m.Business.Shelf();
-        Wms12m.Business.abstractStore<Wms12m.Entity.Store04> _Chapter = new Wms12m.Business.Chapter();
-        ViewBag.ShelfId = _Chapter.Detail(Model.ChapterId).ShelfId;
-        ViewBag.CorridorId = _Shelf.Detail(ViewBag.ShelfId).CorridorId;
-        ViewBag.StoreId = _Corridor.Detail(ViewBag.CorridorId).StoreId;
+        ViewBag.CorridorId = _Shelf.Detail(Model.RafID).KoridorID;
+        ViewBag.StoreId = _Corridor.Detail(ViewBag.CorridorId).DepoID;
 
     }
 }
 
 <script type="text/javascript">
     $(".make-switch").bootstrapSwitch();
+    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
+        $(".make-switch").val(data)
+    });
     $(document).ready(function () {
         StoreList();
         var Links = @Html.Raw(JsonConvert.SerializeObject(Model));
         if (!Links.Locked) {
             $('input[type=checkbox]').prop("checked", true).trigger("change");
         }
-        $('.ekle-duzenle').prop('disabled', 'disabled');
+        //$('.ekle-duzenle').prop('disabled', 'disabled');
         $('#CorrridorId').prop('disabled', 'disabled');
         $('#ShelfList').prop('disabled', 'disabled');
-        $('#ChapterList').prop('disabled', 'disabled');
 
         $('#StoreId').on('change', function() {
             if(this.value=="0"){
-                $('.ekle-duzenle').prop('disabled', 'disabled');
+                //$('.ekle-duzenle').prop('disabled', 'disabled');
                 $("#CorrridorId option").remove();
                 $('#CorrridorId').prop('disabled', 'disabled');
                 $("#ShelfList option").remove();
                 $('#ShelfList').prop('disabled', 'disabled');
-                $("#ChapterList option").remove();
-                $('#ChapterList').prop('disabled', 'disabled');
             }
             else{
                 $("#ShelfList option").remove();
                 $('#ShelfList').prop('disabled', 'disabled');
-                $("#ChapterList option").remove();
-                $('#ChapterList').prop('disabled', 'disabled');
                 $("#CorrridorId").removeAttr("disabled");
                 CreateCorridorList(this.value);
             }
         })
         $('#CorrridorId').on('change', function() {
             if(this.value=="0"){
-                $('.ekle-duzenle').prop('disabled', 'disabled');
+                //$('.ekle-duzenle').prop('disabled', 'disabled');
                 $("#ShelfList option").remove();
-                $("#ChapterList option").remove();
-                $('#ChapterList').prop('disabled', 'disabled');
                 $('#ShelfList').prop('disabled', 'disabled');
             }
             else{
-                $("#ChapterList option").remove();
-                $('#ChapterList').prop('disabled', 'disabled');
                 $("#ShelfList").removeAttr("disabled");
                 ShelfList(this.value);
             }
         })
         $('#ShelfList').on('change', function() {
-            if(this.value=="0"){
-                $('.ekle-duzenle').prop('disabled', 'disabled');
-                $("#ChapterList option").remove();
-                $('#ChapterList').prop('disabled', 'disabled');
-            }
-            else{
-                $("#ChapterList").removeAttr("disabled");
-                ChapterList(this.value);
-            }
-        });
-        $('#ChapterList').on('change', function() {
-            $('.ekle-duzenle').removeAttr("disabled");
-            $("#ChapterId").val(this.value);
+            $("#RafID").val(this.value);
         });
         if (Links.Id>0) {
             $("#StoreId option:selected").val('@ViewBag.StoreId');
             CreateCorridorList('@ViewBag.StoreId');
             $("#ShelfList").removeAttr("disabled");
             ShelfList('@ViewBag.CorridorId');
-            $("#ChapterList").removeAttr("disabled");
-            ChapterList('@ViewBag.ShelfId');
         }
 
     });
@@ -97,16 +75,16 @@
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 if (data == "") {
-                    
+
                     //alert("Hata Oluştu !!!");
                 } else {
                     $.each(data, function (i, item) {
-                        if('@ViewBag.StoreId'==item.Id)
+                        if('@ViewBag.StoreId'==item.ID)
                         {
-                            $("#StoreId").append("<option value=" + item.Id + " selected>" + item.StoreName + "</option>");
+                            $("#StoreId").append("<option value=" + item.ID + " selected>" + item.DepoAdi + "</option>");
 
                         }else{
-                            $("#StoreId").append("<option value=" + item.Id + ">" + item.StoreName + "</option>");
+                            $("#StoreId").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
                         }
 
 
@@ -117,7 +95,7 @@
     }
     function CreateCorridorList(Id) {
         $("#CorrridorId option").remove();
-        
+
         $.ajax({
             url: CorrridorList,
             type: 'POST',
@@ -132,12 +110,12 @@
                     $("#CorrridorId").append("<option value=" + '0' + ">Lütfen Karidor Seçiniz !!!</option>");
                     $.each(data, function (i, item) {
 
-                        if('@ViewBag.CorridorId'==item.Id)
+                        if('@ViewBag.CorridorId'==item.ID)
                         { $("#CorrridorId").removeAttr("disabled");
-                            $("#CorrridorId").append("<option value=" + item.Id + " selected>" + item.CorridorName + "</option>");
+                            $("#CorrridorId").append("<option value=" + item.ID + " selected>" + item.Koridor + "</option>");
 
                         }else{
-                            $("#CorrridorId").append("<option value=" + item.Id + ">" + item.CorridorName + "</option>");
+                            $("#CorrridorId").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
                         }
                     });
                 }
@@ -146,7 +124,7 @@
     }
     function  ShelfList(Id) {
         $("#ShelfList option").remove();
-        
+
         $.ajax({
             url: ShelfListUrl,
             type: 'POST',
@@ -160,46 +138,14 @@
                 } else {
                     $("#ShelfList").append("<option value=" + '0' + ">Lütfen Raf Seçiniz !!!</option>");
                     $.each(data, function (i, item) {
-                        if('@ViewBag.ShelfId'==item.Id)
+                        if('@Model.RafID'==item.ID)
                         {
                             $("#ShelfList").removeAttr("disabled");
-                            @*$("#ShelfId").val('@ViewBag.ShelfId');*@
-                            $("#ShelfList").append("<option value=" + item.Id + " selected>" + item.ShelfName + "</option>");
+                            $("#RafID").val('@Model.RafID');
+                            $("#ShelfList").append("<option value=" + item.ID + " selected>" + item.Raf + "</option>");
 
                         }else{
-                            $("#ShelfList").append("<option value=" + item.Id + ">" + item.ShelfName + "</option>");
-                        }
-
-                    });
-                }
-            }
-        });
-    }
-    function ChapterList(Id) {
-        $("#ChapterList option").remove();
-        
-        $.ajax({
-            url: ChapterListUrl,
-            type: 'POST',
-            data: JSON.stringify({ Id: Id }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    $('#ChapterList').prop('disabled', 'disabled');
-                    //alert("Hata Oluştu !!!");
-                } else {
-                    $("#ChapterList").append("<option value=" + '0' + ">Lütfen Kat Seçiniz !!!</option>");
-                    $.each(data, function (i, item) {
-                        console.log(item);
-                        if('@Model.ChapterId'==item.Value)
-                        {
-                            $("#ChapterList").removeAttr("disabled");
-                            $("#ChapterId").val('@Model.ChapterId');
-                            $("#ChapterList").append("<option value=" + item.Value + " selected>" + item.Text + "</option>");
-
-                        }else{
-                            $("#ChapterList").append("<option value=" + item.Value + ">" + item.Text + "</option>");
+                            $("#ShelfList").append("<option value=" + item.ID + ">" + item.Raf + "</option>");
                         }
 
                     });
@@ -216,7 +162,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>@(Model.Id > 0 ? Model.FloorName + "  Kat Düzenle" : "Kat Ekle")
+                    <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.Kat + "  Kat Düzenle" : "Kat Ekle")
                 </div>
             </div>
             <div class="portlet-body form">
@@ -252,40 +198,54 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Bölüm</label>
+                            <label class="col-md-3 control-label">Kat</label>
                             <div class="col-md-4">
-                                <select id="ChapterList" class="form-control"></select>
-                                <span class="field-validation-valid" data-valmsg-for="ChapterList" data-valmsg-replace="true" style="color:red;"></span>
+                                @Html.TextBoxFor(a => a.Kat, new { @class = "form-control input-circle", @placeholder = "Kat" })
+                                <span class="field-validation-valid" data-valmsg-for="Kat" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Kat</label>
+                            <label class="col-md-3 control-label">Boy</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.FloorName, new { @class = "form-control input-circle", @placeholder = "Kat" })
-                                <span class="field-validation-valid" data-valmsg-for="FloorName" data-valmsg-replace="true" style="color:red;"></span>
+                                @Html.TextBoxFor(a => a.Boy, new { @class = "form-control input-circle", @placeholder = "Kat" })
+                                <span class="field-validation-valid" data-valmsg-for="Boy" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Özellik</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(a => a.Ozellik, new { @class = "form-control input-circle", @placeholder = "Kat" })
+                                <span class="field-validation-valid" data-valmsg-for="Ozellik" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Açıklama</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(a => a.Aciklama, new { @class = "form-control input-circle", @placeholder = "Kat" })
+                                <span class="field-validation-valid" data-valmsg-for="Aciklama" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Sıra</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Sort, new { @id = "touchspin_11", @class = "form-control" })
+                                @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
                                 <span class="field-validation-valid" data-valmsg-for="Sort" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Durum</label>
                             <div class="col-md-4">
-                                @Html.CheckBoxFor(a => a.Locked, new { @checked = Model.Locked ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
 
                             </div>
                         </div>
                     </div>
-                    @Html.HiddenFor(a => a.Id)
-                    @Html.HiddenFor(a => a.ChapterId)
+                    @Html.HiddenFor(a => a.ID)
+                    @Html.HiddenFor(a => a.RafID)
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn btn-circle green ekle-duzenle">@(Model.Id > 0 ? "Düzenle" : "Ekle")</button>
+                                <button type="submit" class="btn btn-circle green ekle-duzenle">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
                             </div>
                         </div>

@@ -13,13 +13,19 @@ namespace Wms12m.Entity
         [DisplayName("Durum")]
         [Range(0, 999999, ErrorMessage = "Lütfen Koridor Seçiniz !!!")]
         [Required(ErrorMessage = "Lütfen Koridor Seçiniz !!!")]
-        public int BolumID { get; set; }
+        public int RafID { get; set; }
         [DataMember]
         [DisplayName("Durum")]
         [Required(ErrorMessage = "Lütfen Kat Giriniz !!!")]
         public string Kat { get; set; }
         [DataMember]
         public int SiraNo { get; set; }
+        [DataMember]
+        public decimal Boy { get; set; }
+        [DataMember]
+        public decimal Ozellik { get; set; }
+        [DataMember]
+        public decimal Aciklama { get; set; }
         [DataMember]
         public bool Aktif { get; set; }
         [DataMember]

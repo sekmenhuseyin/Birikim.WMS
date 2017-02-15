@@ -19,7 +19,6 @@
         //$("#CorridorList").append("<option value=" + '0' + ">Lütfen Koridor Seçiniz !!!</option>");
         //$("#ShelfListi").append("<option value=" + '0' + ">Lütfen Raf Seçiniz !!!</option>");
         //$("#ChapterListi").append("<option value=" + '0' + ">Lütfen Bölüm Seçiniz !!!</option>");
-        $('.ara-btn').prop('disabled', 'disabled');
         $('#CorridorList').prop('disabled', 'disabled');
         $('#ShelfListi').prop('disabled', 'disabled');
         $('#ChapterListi').prop('disabled', 'disabled');
@@ -36,7 +35,6 @@
                 $('#ShelfListi').prop('disabled', 'disabled');
                 $("#ChapterListi option").remove();
                 $('#ChapterListi').prop('disabled', 'disabled');
-                $('.ara-btn').prop('disabled', 'disabled');
             }
             else {
                 $("#ShelfListi option").remove();
@@ -52,7 +50,6 @@
                 $('#ShelfListi').prop('disabled', 'disabled');
                 $("#ChapterListi option").remove();
                 $('#ChapterListi').prop('disabled', 'disabled');
-                $('.ara-btn').prop('disabled', 'disabled');
             }
             else {
                 $("#ChapterListi option").remove();
@@ -64,21 +61,11 @@
             if (this.value == 0) {
                 $("#ChapterListi option").remove();
                 $('#ChapterListi').prop('disabled', 'disabled');
-                $('.ara-btn').prop('disabled', 'disabled');
             }
             else {
                 Chapter(this.value);
             }
         });
-        $('#ChapterListi').on('change', function () {
-            if (this.value != 0) {
-                $(".ara-btn").removeAttr("disabled");
-            }
-            else {
-                $('.ara-btn').prop('disabled', 'disabled');
-            }
-        });
-
     });
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
@@ -86,7 +73,7 @@
         var CorridorId = $("#CorridorList option:selected").val();
         var ShelfId = $("#ShelfListi option:selected").val();
         var ChapterId = $("#ChapterListi option:selected").val();
-        PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId + "#" + ChapterId) }));
+        PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId) }));
     }
     function CorridorList(Id) {
         $("#CorridorList option").remove();
@@ -104,7 +91,7 @@
                     $("#CorridorList").removeAttr("disabled");
                     $("#CorridorList").append("<option value=" + '0' + ">Lütfen Karidor Seçiniz !!!</option>");
                     $.each(data, function (i, item) {
-                        $("#CorridorList").append("<option value=" + item.Id + ">" + item.CorridorName + "</option>");
+                        $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
                     });
                 }
             }
@@ -126,7 +113,7 @@
                     //alert("Hata Oluştu !!!");
                 } else {
                     $.each(data, function (i, item) {
-                        $("#CorridorList").append("<option value=" + item.Id + ">" + item.CorridorName + "</option>");
+                        $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
                     });
                 }
             }
@@ -146,7 +133,7 @@
                     //alert("Hata Oluştu !!!");
                 } else {
                     $.each(data, function (i, item) {
-                        $("#StoreListi").append("<option value=" + item.Id + ">" + item.StoreName + "</option>");
+                        $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
                     });
                 }
             }
@@ -167,7 +154,7 @@
                     $("#ShelfListi").append("<option value=" + '0' + ">Lütfen Raf Seçiniz !!!</option>");
                     $("#ShelfListi").removeAttr("disabled");
                     $.each(data, function (i, item) {
-                        $("#ShelfListi").append("<option value=" + item.Id + ">" + item.ShelfName + "</option>");
+                        $("#ShelfListi").append("<option value=" + item.ID + ">" + item.Raf + "</option>");
                     });
                 }
             }
@@ -263,17 +250,9 @@
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:5px;">
                                         <div class="row">
-                                            <label class="control-label col-sm-2 col-md-2 col-lg-2" style="color:#32c5d2;">Raf</label>
+                                            <label class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2" style="color:#32c5d2;">Raf</label>
                                             <div class="col-sm-8 col-md-8 col-lg-7">
                                                 <select id="ShelfListi" class="form-control"></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:5px;">
-                                        <div class="row">
-                                            <label class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2" style="color:#32c5d2;">Bölüm</label>
-                                            <div class="col-sm-8 col-md-8 col-lg-7">
-                                                <select id="ChapterListi" class="form-control"></select>
                                             </div>
                                             <div class="col-sm-2 col-md-2 col-lg-2">
                                                 <button type="submit" class="btn green ara-btn" id="SearchBtn">Ara</button>

@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Controllers
         abstractStore<Store03> ShelfOperation;
         abstractStore<Store04> ChapterOperation;
         abstractStore<Store05> FloorOperation;
-        abstractStore<Store06> delKontrolOpertion;
+        //abstractStore<Store06> delKontrolOpertion;
         public ActionResult Index()
         {
             return View();
@@ -27,7 +27,6 @@ namespace Wms12m.Presentation.Controllers
             int CorridorId = 0;
             int StoreId = 0;
             int ShelfId = 0;
-            int ChapterId = 0;
             string Locked = "";
             FloorOperation = new Floor();
             List<Store05> _List = new List<Store05>();
@@ -38,9 +37,8 @@ namespace Wms12m.Presentation.Controllers
                     CorridorId = Convert.ToInt16(Id.Split('#')[2]);
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
                     ShelfId = Convert.ToInt16(Id.Split('#')[3]);
-                    ChapterId = Convert.ToInt16(Id.Split('#')[4]);
                     Locked = Id.Split('#')[0];
-                    _List = Locked == "Locked" ? FloorOperation.SubList(ChapterId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? FloorOperation.SubList(ChapterId).Where(a => a.Aktif ==false).ToList() : FloorOperation.SubList(ChapterId).ToList();
+                    _List = Locked == "Locked" ? FloorOperation.SubList(ShelfId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? FloorOperation.SubList(ShelfId).Where(a => a.Aktif ==false).ToList() : FloorOperation.SubList(ShelfId).ToList();
                     return PartialView("_FloorGridPartial", _List);
                 }
                 else
@@ -194,19 +192,9 @@ namespace Wms12m.Presentation.Controllers
         {
             _Result = new Result();
 
-            delKontrolOpertion = new Size();
-            int altBirim = delKontrolOpertion.GetList().Where(a => a.KatID == Convert.ToInt32(Id)).Count();
-            if (altBirim < 1)
-            {
                 FloorOperation = new Floor();
                 _Result = FloorOperation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
                 return Json(_Result, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                _Result.Message = "Bölüm";
-                return Json(_Result, JsonRequestBehavior.AllowGet);
-            } 
         }
         public ActionResult FlooriOperation(Store05 P)
         {

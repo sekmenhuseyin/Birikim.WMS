@@ -122,7 +122,6 @@ namespace Wms12m.Business
         {
             _Result = new Result();
             string Query = "";
-            P.Kaydeden = Users.AppIdentity.User.LogonUserName;        
             bool NameControlId = SetList((int)GetListStatus.Close).Where(a => a.Koridor == P.Koridor && a.ID != P.ID && a.DepoID == P.DepoID).Count() > 0 ? true : false;
             try
             {
@@ -136,7 +135,7 @@ namespace Wms12m.Business
                     }
                 }
                 P.Degistiren = Users.AppIdentity.User.LogonUserName;
-                
+                P.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
                 if (P.ID > 0)
                 {
                     Query = QueryAnalysis<Store02>.Update(P, "WMS.TK_KOR");
@@ -144,6 +143,7 @@ namespace Wms12m.Business
                 else
                 {
                     P.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                    P.KayitTarih = Convert.ToInt32(DateTime.Today.ToOADate());
                     Query = QueryAnalysis<Store02>.Insert(P, "WMS.TK_KOR");
                 }
                 _unitOfWork = new UnitOfWork();

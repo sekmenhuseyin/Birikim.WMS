@@ -28,7 +28,7 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                _Result.Id = _unitOfWork.Repository<Store04>().Delete("delete from Store04 where Id=" + Id);
+                _Result.Id = _unitOfWork.Repository<Store04>().Delete("delete from WMS.TK_BOL where Id=" + Id);
                 _unitOfWork.Commit();
                 if (_Result.Id > 0)
                 {
@@ -91,14 +91,14 @@ namespace Wms12m.Business
             {
                 if (Status == (int)GetListStatus.Refresh)
                 {
-                    PList = ((Task.Run(() => _unitOfWork.Repository<Store04>().QueryAll("select * from Store04")).Result)).ToList();
+                    PList = ((Task.Run(() => _unitOfWork.Repository<Store04>().QueryAll("select * from WMS.TK_BOL")).Result)).ToList();
                     Cache.CacheUpdate(PList, CacheKeys.StoreCacheKeys.DataListOfChapter);
                 }
                 else if (Status == (int)GetListStatus.Close)
                 {
                     if (Cache.CacheGet(CacheKeys.StoreCacheKeys.DataListOfChapter) == null)
                     {
-                        PList = ((Task.Run(() => _unitOfWork.Repository<Store04>().QueryAll("select * from Store04")).Result)).ToList();
+                        PList = ((Task.Run(() => _unitOfWork.Repository<Store04>().QueryAll("select * from WMS.TK_BOL")).Result)).ToList();
                         Cache.CacheUpdate(PList, CacheKeys.StoreCacheKeys.DataListOfChapter);
                     }
                     else
@@ -122,17 +122,20 @@ namespace Wms12m.Business
         {
             _Result = new Result();
             string Query = "";
-            P.Kaydeden = Users.AppIdentity.User.LogonUserName;
 
             try
             {
+                P.Degistiren = Users.AppIdentity.User.LogonUserName;
+                P.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
                 if (P.ID > 0)
                 {
-                    Query = QueryAnalysis<Store04>.Update(P, "Store04");
+                    Query = QueryAnalysis<Store04>.Update(P, "WMS.TK_BOL");
                 }
                 else
                 {
-                    Query = QueryAnalysis<Store04>.Insert(P, "dbo.Store04");
+                    P.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                    P.KayitTarih = Convert.ToInt32(DateTime.Today.ToOADate());
+                    Query = QueryAnalysis<Store04>.Insert(P, "WMS.TK_BOL");
                 }
                 _unitOfWork = new UnitOfWork();
                 _Result.Id = _unitOfWork.Repository<Store04>().Add(P, Query);
@@ -184,9 +187,10 @@ namespace Wms12m.Business
         }
         private string Ouery()
         {
-            return @"SELECT dbo.Store03.Id, dbo.Store03.CorridorId, dbo.Store03.ShelfName, dbo.Store03.Locked, dbo.Store03.CreateUserId, dbo.Store03.CreateDate, dbo.Store03.Sort, dbo.Store02.CorridorName
-FROM            dbo.Store03 LEFT OUTER JOIN
-                         dbo.Store02 ON dbo.Store03.CorridorId = dbo.Store02.Id";
+            return @"SELECT        WMS.TK_BOL.ID, WMS.TK_BOL.RafID, WMS.TK_BOL.Bolum, WMS.TK_BOL.En, WMS.TK_BOL.KatAgirlik, WMS.TK_BOL.SiraNo, WMS.TK_BOL.Aktif, WMS.TK_BOL.Kaydeden, WMS.TK_BOL.KayitTarih, 
+                         WMS.TK_BOL.Degistiren, WMS.TK_BOL.DegisTarih, WMS.TK_RAF.Raf
+FROM            WMS.TK_RAF INNER JOIN
+                         WMS.TK_BOL ON WMS.TK_RAF.ID = WMS.TK_BOL.RafID";
         }
     }
 }

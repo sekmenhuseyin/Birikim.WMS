@@ -21,6 +21,12 @@ namespace Wms12m.Entity
         [DataMember]
         public int SiraNo { get; set; }
         [DataMember]
+        [DisplayName("En")]
+        public decimal En { get; set; }
+        [DataMember]
+        [DisplayName("KatAgirlik")]
+        public decimal KatAgirlik { get; set; }
+        [DataMember]
         public bool Aktif { get; set; }
         [DataMember]
         public int KayitTarih { get; set; }

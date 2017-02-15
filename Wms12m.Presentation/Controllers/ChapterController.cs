@@ -123,7 +123,7 @@ namespace Wms12m.Presentation.Controllers
             _Result = new Result();
 
             delKontrolOpertion = new Floor();
-            int altBirim = delKontrolOpertion.GetList().Where(a => a.BolumID == Convert.ToInt32(Id)).Count();
+            int altBirim = delKontrolOpertion.GetList().Where(a => a.RafID == Convert.ToInt32(Id)).Count();
             if (altBirim < 1)
             {
                 ChapterOperation = new Chapter();

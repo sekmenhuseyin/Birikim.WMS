@@ -29,7 +29,7 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                _Result.Id = _unitOfWork.Repository<Store05>().Delete("delete from Store05 where Id=" + Id);
+                _Result.Id = _unitOfWork.Repository<Store05>().Delete("delete from WMS.TK_KAT where ID=" + Id);
                 _unitOfWork.Commit();
                 if (_Result.Id > 0)
                 {
@@ -90,17 +90,20 @@ namespace Wms12m.Business
         {
             _Result = new Result();
             string Query = "";
-            P.Kaydeden = Users.AppIdentity.User.LogonUserName;
+            P.Degistiren = Users.AppIdentity.User.LogonUserName;
+            P.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
 
             try
             {
                 if (P.ID > 0)
                 {
-                    Query = QueryAnalysis<Store05>.Update(P, "Store05");
+                    Query = QueryAnalysis<Store05>.Update(P, "WMS.TK_KAT");
                 }
                 else
                 {
-                    Query = QueryAnalysis<Store05>.Insert(P, "dbo.Store05");
+                    P.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                    P.KayitTarih = Convert.ToInt32(DateTime.Today.ToOADate());
+                    Query = QueryAnalysis<Store05>.Insert(P, "WMS.TK_KAT");
                 }
                 _unitOfWork = new UnitOfWork();
                 _Result.Id = _unitOfWork.Repository<Store05>().Add(P, Query);
@@ -139,7 +142,7 @@ namespace Wms12m.Business
             PList = new List<Store05>();
             try
             {
-                return PList = SetList((int)GetListStatus.Refresh).Where(a => a.BolumID == Id).ToList();
+                return PList = SetList((int)GetListStatus.Refresh).Where(a => a.RafID == Id).ToList();
             }
             catch (Exception ex)
             {
@@ -161,14 +164,14 @@ namespace Wms12m.Business
             {
                 if (Status == (int)GetListStatus.Refresh)
                 {
-                    PList = ((Task.Run(() => _unitOfWork.Repository<Store05>().QueryAll("select * from Store05")).Result)).ToList();
+                    PList = ((Task.Run(() => _unitOfWork.Repository<Store05>().QueryAll("select * from WMS.TK_KAT")).Result)).ToList();
                     Cache.CacheUpdate(PList, CacheKeys.StoreCacheKeys.DataListOfFloor);
                 }
                 else if (Status == (int)GetListStatus.Close)
                 {
                     if (Cache.CacheGet(CacheKeys.StoreCacheKeys.DataListOfFloor) == null)
                     {
-                        PList = ((Task.Run(() => _unitOfWork.Repository<Store05>().QueryAll("select * from Store05")).Result)).ToList();
+                        PList = ((Task.Run(() => _unitOfWork.Repository<Store05>().QueryAll("select * from WMS.TK_KAT")).Result)).ToList();
                         Cache.CacheUpdate(PList, CacheKeys.StoreCacheKeys.DataListOfFloor);
                     }
                     else
