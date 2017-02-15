@@ -59,7 +59,7 @@
                     $("#CorridorList").append("<option value=" + '0' + ">Lütfen Koridor Seçiniz !!!</option>");
                     $("#CorridorList").removeAttr("disabled");
                     $.each(data, function (i, item) {
-                        $("#CorridorList").append("<option value=" + item.Id + ">" + item.CorridorName + "</option>");
+                        $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
                     });
                 }
             }
@@ -80,7 +80,7 @@
                 } else {
                     
                     $.each(data, function (i, item) {
-                        $("#StoreListi").append("<option value=" + item.Id + ">" + item.StoreName + "</option>");
+                        $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
                     });
                 }
             }

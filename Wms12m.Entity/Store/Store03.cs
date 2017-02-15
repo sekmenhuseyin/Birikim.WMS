@@ -26,6 +26,9 @@ namespace Wms12m.Entity
         public int SiraNo { get; set; }
         [DataMember]
         [DisplayName("Durum")]
+        public decimal Derinlik { get; set; }
+        [DataMember]
+        [DisplayName("Durum")]
         public int KayitTarih { get; set; }
         [DataMember]
         [DisplayName("Durum")]

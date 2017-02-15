@@ -19,13 +19,13 @@
             @foreach (Wms12m.Entity.Store03 item in Model)
             {
                 <tr>
-                    <td>@item.ShelfName</td>
-                    <td>@item.Sort </td>
-                    <td>@((item.CreateDate).Value.ToString("dd-MM-yyyy HH:mm:ss"))</td>
-                    <td>@(item.Locked ? "Aktif" : "Pasif")</td>
-                    <td><a class="edit" href="javascript:;" onclick="CreateEdit('@item.Id')"> Düzenle </a></td>
+                    <td>@item.Raf</td>
+                    <td>@item.SiraNo </td>
+                    <td>@DateTime.FromOADate(item.KayitTarih).ToShortDateString()</td>
+                    <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
+                    <td><a class="edit" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a></td>
                     <td>
-                        <a class="edit" href="javascript:;" onclick="Delete('@item.Id','/Shelf/ShelfGridPartial','ShelfGrid','@item.CorridorId')"> Sil </a>
+                        <a class="edit" href="javascript:;" onclick="Delete('@item.ID','/Shelf/ShelfGridPartial','ShelfGrid','@item.KoridorID')"> Sil </a>
                     </td>
                 </tr>
             }

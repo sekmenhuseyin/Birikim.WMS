@@ -121,7 +121,7 @@ namespace Wms12m.Business
         {
             _Result = new Result();
             string Query = "";
-            P.Kaydeden = Users.AppIdentity.User.LogonUserName;
+            P.Degistiren = Users.AppIdentity.User.LogonUserName;
             bool NameControlId = SetList((int)GetListStatus.Close).Where(a => a.Raf == P.Raf && a.ID == P.ID && a.KoridorID == P.KoridorID).Count() > 0 ? true : false;
             try
             {
@@ -131,6 +131,7 @@ namespace Wms12m.Business
                 }
                 else
                 {
+                    P.Kaydeden = Users.AppIdentity.User.LogonUserName;
                     Query = QueryAnalysis<Store03>.Insert(P, "WMS.TK_RAF");
                 }
                 _unitOfWork = new UnitOfWork();
@@ -139,6 +140,7 @@ namespace Wms12m.Business
                 if (_Result.Id > 0)
                 {
                     _Result.Id = SetList((int)GetListStatus.Refresh).OrderByDescending(a => a.ID).Select(a => a.ID).Take(1).SingleOrDefault();
+                    Cache.CacheUpdate(PList, CacheKeys.StoreCacheKeys.DataListOfShelf);
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
                 }

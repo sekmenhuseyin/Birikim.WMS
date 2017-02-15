@@ -1,26 +1,29 @@
 ﻿@using Newtonsoft.Json;
 @model Wms12m.Entity.Store03
 @{
-    if (Model.Id > 0)
+    if (Model.ID > 0)
     {
         Wms12m.Business.abstractStore<Wms12m.Entity.Store02> CorridorOperation = new Wms12m.Business.Corridor();       
-        ViewBag.StoreId = CorridorOperation.GetList().Where(a => a.Id == Model.CorridorId).Select(a => a.StoreId).Take(1).SingleOrDefault();
+        ViewBag.StoreId = CorridorOperation.GetList().Where(a => a.ID == Model.KoridorID).Select(a => a.DepoID).Take(1).SingleOrDefault();
     }
 }
 <script type="text/javascript">
     $(".make-switch").bootstrapSwitch();
+    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
+        $(".make-switch").val(data)
+    });
     $(document).ready(function () {
         $('.ekle-duzenle').prop('disabled', 'disabled');
         var Links = @Html.Raw(JsonConvert.SerializeObject(Model));
-        if (!Links.Locked) {
+        if (!Links.Aktif) {
             $('input[type=checkbox]').prop("checked", true).trigger("change");
         }
-        if(Links.CorridorId>0)
+        if(Links.KoridorID>0)
         {
             $("#StoreId option:selected").val('@ViewBag.StoreId').trigger('change');
         }
     });
-    $('#CorridorId').on('change', function() {
+    $('#KoridorID').on('change', function() {
         if(this.value!=0){
             $('.ekle-duzenle').removeAttr("disabled");
         }
@@ -37,7 +40,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>@(Model.Id > 0 ? Model.ShelfName + "  Raf Düzenle" : "Raf Ekle")
+                    <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.Raf + "  Raf Düzenle" : "Raf Ekle")
                 </div>
             </div>
             <div class="portlet-body form">
@@ -54,11 +57,11 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Depo</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("StoreId", new SelectList(ViewBag.Store, "Id", "StoreName"), "Seçiniz", new Dictionary<string, object> {
+                                @Html.DropDownList("StoreId", new SelectList(ViewBag.Store, "ID", "DepoAdi"), "Seçiniz", new Dictionary<string, object> {
                                         { "data-action-url", Url.Action("CorrridorList", "Shelf")},
-                                        { "data-action-dropdown", "CorridorId" },
+                                        { "data-action-dropdown", "KoridorID" },
                                         { "data-action-label", "Seçiniz !!!" },
-                                           { "data-action-selected", Model.CorridorId },
+                                           { "data-action-selected", Model.KoridorID },
                                         { "class", "cascading form-control" }
                                     })
                                 <span class="field-validation-valid" data-valmsg-for="StoreId" data-valmsg-replace="true" style="color:red;"></span>
@@ -67,38 +70,45 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Koridor</label>
                             <div class="col-md-4">
-                                @Html.DropDownListFor(x => x.CorridorId, new SelectList(new List<SelectListItem>(), "Id", "CorridorName", Model.CorridorId), "Seçiniz !!!", new { @class = "form-control", @disabled = "disabled" })
+                                @Html.DropDownListFor(x => x.KoridorID, new SelectList(new List<SelectListItem>(), "ID", "Koridor", Model.KoridorID), "Seçiniz !!!", new { @class = "form-control", @disabled = "disabled" })
                                 <span class="field-validation-valid" data-valmsg-for="CorridorId" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Raf</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.ShelfName, new { @class = "form-control input-circle", @placeholder = "Raf" })
+                                @Html.TextBoxFor(a => a.Raf, new { @class = "form-control input-circle", @placeholder = "Raf" })
                                 <span class="field-validation-valid" data-valmsg-for="ShelfName" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Sıra</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Sort, new { @id = "touchspin_11", @class = "form-control" })
+                                @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
                                 <span class="field-validation-valid" data-valmsg-for="Sort" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Derinlik</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(a => a.Derinlik, new { @class = "form-control" })
+                                <span class="field-validation-valid" data-valmsg-for="Derinlik" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Durum</label>
                             <div class="col-md-4">
-                                @Html.CheckBoxFor(a => a.Locked, new { @checked = Model.Locked ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
 
                             </div>
                         </div>
                     </div>
-                    @Html.HiddenFor(a => a.Id)
-                    @Html.HiddenFor(a => a.CorridorId)
+                    @Html.HiddenFor(a => a.ID)
+                    @Html.HiddenFor(a => a.KoridorID)
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn btn-circle green ekle-duzenle">@(Model.Id > 0 ? "Düzenle" : "Ekle")</button>
+                                <button type="submit" class="btn btn-circle green ekle-duzenle">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
                                 <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
                             </div>
                         </div>
