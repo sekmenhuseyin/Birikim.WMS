@@ -5449,6 +5449,7 @@
     <Content Include="Content\Scripts\_MessageBox.js" />
     <Content Include="Content\Scripts\_Operation.js" />
     <Content Include="Content\View\Login.js" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
@@ -5892,6 +5893,7 @@
     <Content Include="Views\Gorev\Index.cshtml" />
     <Content Include="Views\Gorev\_GorevGridPartial.cshtml" />
     <Content Include="Views\Gorev\_GorevDetailPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout.Null.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
