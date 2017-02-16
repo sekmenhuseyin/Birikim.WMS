@@ -5450,6 +5450,8 @@
     <Content Include="Content\Scripts\_Operation.js" />
     <Content Include="Content\View\Login.js" />
     <Content Include="Global.asax" />
+    <Content Include="robots.txt" />
+    <Content Include="humans.txt" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
