@@ -23,9 +23,9 @@ namespace Wms12m.Entity
         public string EvrakNo { get; set; }
 
         [DataMember, DisplayName("Tarih"), Required(ErrorMessage = "Boş bırakmayınız")]
-        public int Tarih { get; set; }
+        public DateTime Tarih { get; set; }
 
         [DataMember, DisplayName("Depo"), Required(ErrorMessage = "Boş bırakmayınız")]
-        public string DepoID { get; set; }
+        public int DepoID { get; set; }
     }
 }
