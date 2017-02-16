@@ -1,69 +1,7 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Koridor Kartı işlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script type="text/javascript">
-    var CorridorGridUrl = '@Url.Action("CorridorGridPartial", "Corridor")';
-    var CorridorDetailUrl = '@Url.Action("CorridorDetailPartial", "Corridor")';
-    var DeleteFunctionUrl = '@Url.Action("Delete", "Corridor")';
-    var StoreListUrl = '@Url.Action("StoreList", "Corridor")';  
-    $(document).ready(function () {
-        $('.ara-btn').prop('disabled', 'disabled');
-        PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: '0' }));
-        StoreList();
-        FuncSearchBtn();
-        $('#SearchBtn').click(function () {
-            FuncSearchBtn();
-        });
-        $('#StoreListi').on('change', function () {
-            if (this.value != 0) {
-                $(".ara-btn").removeAttr("disabled");
-            }
-            else {
-                $('.ara-btn').prop('disabled', 'disabled');
-            }
-        })
-    });
-   
-    function FuncSearchBtn() {
-        var Type = $("input[type='radio'][name='Locked']:checked").val();
-        var StoreId = $("#StoreListi option:selected").val();
-        PartialView(CorridorGridUrl, 'CorridorGrid', JSON.stringify({ Id: (Type + "#" + StoreId) }));
-    }
-    function StoreList() {
-        $("#StoreListi option").remove();
-        $("#StoreListi").append("<option value=" + '0' + ">Lütfen Depo Seçiniz !!!</option>");
-        $.ajax({
-            url: StoreListUrl,
-            type: 'POST',
-            data: '',
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    //Modaldialog("Kaydedilmiş depo bulunmamaktadır.", "Uyarı", "Tamam", "btn-success");
-                } else {
-                    $.each(data, function (i, item) {
-                        $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
-                    });
-                }
-            }
-        });
-    }
-    function CorridorReturn(Data) {
-        FuncSearchBtn();
-        Modaldialog(Data.Message, (Data.Status == true ? "Başaralı" : "Hata"), "Tamam", "btn-success");
-        CreateEdit('0');
-     
-    }
-    function CreateEdit(Id) {
-        PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id==null?'':Id }));       
-    }
-    function InsertRefresh() {
-        PartialView(CorridorDetailUrl, "CreateEdit", '0');
-    }
-</script>
 <h3 class="page-title">Koridor İşlemleri</h3>
 <div class="row">
     <div class="col-md-12">
@@ -124,4 +62,64 @@
     </div>
 </div>
 <script src="~/Content/Scripts/_Operation.js"></script>
+<script type="text/javascript">
+    var CorridorGridUrl = '@Url.Action("CorridorGridPartial", "Corridor")';
+    var CorridorDetailUrl = '@Url.Action("CorridorDetailPartial", "Corridor")';
+    var DeleteFunctionUrl = '@Url.Action("Delete", "Corridor")';
+    var StoreListUrl = '@Url.Action("StoreList", "Corridor")';
+    $(document).ready(function () {
+        $('.ara-btn').prop('disabled', 'disabled');
+        PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: '0' }));
+        StoreList();
+        FuncSearchBtn();
+        $('#SearchBtn').click(function () {
+            FuncSearchBtn();
+        });
+        $('#StoreListi').on('change', function () {
+            if (this.value != 0) {
+                $(".ara-btn").removeAttr("disabled");
+            }
+            else {
+                $('.ara-btn').prop('disabled', 'disabled');
+            }
+        })
+    });
 
+    function FuncSearchBtn() {
+        var Type = $("input[type='radio'][name='Locked']:checked").val();
+        var StoreId = $("#StoreListi option:selected").val();
+        PartialView(CorridorGridUrl, 'CorridorGrid', JSON.stringify({ Id: (Type + "#" + StoreId) }));
+    }
+    function StoreList() {
+        $("#StoreListi option").remove();
+        $("#StoreListi").append("<option value=" + '0' + ">Lütfen Depo Seçiniz !!!</option>");
+        $.ajax({
+            url: StoreListUrl,
+            type: 'POST',
+            data: '',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data == "") {
+                    //Modaldialog("Kaydedilmiş depo bulunmamaktadır.", "Uyarı", "Tamam", "btn-success");
+                } else {
+                    $.each(data, function (i, item) {
+                        $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
+                    });
+                }
+            }
+        });
+    }
+    function CorridorReturn(Data) {
+        FuncSearchBtn();
+        Modaldialog(Data.Message, (Data.Status == true ? "Başaralı" : "Hata"), "Tamam", "btn-success");
+        CreateEdit('0');
+
+    }
+    function CreateEdit(Id) {
+        PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id==null?'':Id }));
+    }
+    function InsertRefresh() {
+        PartialView(CorridorDetailUrl, "CreateEdit", '0');
+    }
+</script>
