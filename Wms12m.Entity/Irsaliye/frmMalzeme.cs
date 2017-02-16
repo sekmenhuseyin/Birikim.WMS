@@ -23,8 +23,5 @@ namespace Wms12m.Entity
 
         [DataMember, DisplayName("Birim"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string Birim { get; set; }
-
-        [DataMember, DisplayName("Depo"), Required(ErrorMessage = "Boş bırakmayınız")]
-        public string Depo { get; set; }
     }
 }

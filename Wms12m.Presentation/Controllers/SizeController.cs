@@ -218,7 +218,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }

@@ -24,5 +24,8 @@ namespace Wms12m.Entity
 
         [DataMember, DisplayName("Tarih"), Required(ErrorMessage = "Boş bırakmayınız")]
         public int Tarih { get; set; }
+
+        [DataMember, DisplayName("Depo"), Required(ErrorMessage = "Boş bırakmayınız")]
+        public string DepoID { get; set; }
     }
 }
