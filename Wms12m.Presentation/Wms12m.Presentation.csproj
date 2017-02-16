@@ -33,7 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs87F3.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs1E70.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,7 +42,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs87F3.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs1E70.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -2559,11 +2559,6 @@
     <Content Include="Content\assets\global\plugins\bootstrap-wysihtml5\locales\bootstrap-wysihtml5.zh-TW.js" />
     <Content Include="Content\assets\global\plugins\bootstrap-wysihtml5\wysihtml5-0.3.0.js" />
     <Content Include="Content\assets\global\plugins\bootstrap-wysihtml5\wysiwyg-color.css" />
-    <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.css" />
-    <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.min.css" />
-    <Content Include="Content\assets\global\plugins\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\assets\global\plugins\bootstrap\js\bootstrap.js" />
-    <Content Include="Content\assets\global\plugins\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\assets\global\plugins\ckeditor\adapters\jquery.js" />
     <Content Include="Content\assets\global\plugins\ckeditor\build-config.js" />
     <Content Include="Content\assets\global\plugins\ckeditor\ckeditor.js" />
@@ -4012,7 +4007,6 @@
     <Content Include="Content\assets\global\plugins\jquery.blockui.min.js" />
     <Content Include="Content\assets\global\plugins\jquery.easing.js" />
     <Content Include="Content\assets\global\plugins\jquery.input-ip-address-control-1.0.min.js" />
-    <Content Include="Content\assets\global\plugins\jquery.min.js" />
     <Content Include="Content\assets\global\plugins\jquery.mockjax.js" />
     <Content Include="Content\assets\global\plugins\jquery.parallax.js" />
     <Content Include="Content\assets\global\plugins\jquery.pulsate.min.js" />
@@ -5446,16 +5440,18 @@
     <Content Include="Content\assets\pages\scripts\ui-tree.min.js" />
     <Content Include="Content\assets\pages\scripts\widgets.js" />
     <Content Include="Content\assets\pages\scripts\widgets.min.js" />
+    <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\Scripts\_MessageBox.js" />
     <Content Include="Content\Scripts\_Operation.js" />
     <Content Include="Content\View\Login.js" />
     <Content Include="favicon.ico" />
+    <Content Include="Content\assets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
-    <Content Include="Scripts\angular-mocks.js" />
-    <Content Include="Scripts\angular.js" />
-    <Content Include="Scripts\angular.min.js" />
     <Content Include="Content\assets\global\img\social\Thumbs.db" />
     <Content Include="Content\assets\global\plugins\amcharts\amcharts\plugins\dataloader\examples\data\gauge.json" />
     <Content Include="Content\assets\global\plugins\amcharts\amcharts\plugins\dataloader\examples\data\map.json" />
@@ -5519,8 +5515,6 @@
     <Content Include="Content\assets\global\plugins\autosize\readme.md" />
     <Content Include="Content\assets\global\plugins\backstretch\LICENSE-MIT" />
     <Content Include="Content\assets\global\plugins\backstretch\README.md" />
-    <Content Include="Content\assets\global\plugins\bootbox\LICENSE.md" />
-    <Content Include="Content\assets\global\plugins\bootbox\README.md" />
     <Content Include="Content\assets\global\plugins\bootstrap-confirmation\README.md" />
     <Content Include="Content\assets\global\plugins\bootstrap-contextmenu\README.md" />
     <Content Include="Content\assets\global\plugins\bootstrap-datepaginator\README.md" />
@@ -5570,10 +5564,6 @@
     <Content Include="Content\assets\global\plugins\bootstrap-touchspin\README.md" />
     <Content Include="Content\assets\global\plugins\bootstrap-typeahead\README.md" />
     <Content Include="Content\assets\global\plugins\bootstrap-wizard\README.md" />
-    <Content Include="Content\assets\global\plugins\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\assets\global\plugins\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\assets\global\plugins\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\assets\global\plugins\bootstrap\fonts\bootstrap\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\assets\global\plugins\ckeditor\CHANGES.md" />
     <Content Include="Content\assets\global\plugins\ckeditor\LICENSE.md" />
     <Content Include="Content\assets\global\plugins\ckeditor\plugins\scayt\LICENSE.md" />
@@ -5651,8 +5641,6 @@
     <Content Include="Content\assets\global\plugins\jquery-slimscroll\README.md" />
     <Content Include="Content\assets\global\plugins\jquery-slimscroll\slimScroll.jquery.json" />
     <Content Include="Content\assets\global\plugins\jquery-ui-touch-punch\README.md" />
-    <Content Include="Content\assets\global\plugins\jquery-validation\README.md" />
-    <Content Include="Content\assets\global\plugins\jquery.min.map" />
     <Content Include="Content\assets\global\plugins\jqvmap\.gitignore" />
     <Content Include="Content\assets\global\plugins\jqvmap\README.md" />
     <Content Include="Content\assets\global\plugins\jstree\jstree.jquery.json" />
@@ -5815,19 +5803,34 @@
     <Content Include="Content\assets\layouts\layout7\img\Thumbs.db" />
     <Content Include="Content\assets\pages\media\blog\Thumbs.db" />
     <Content Include="Content\assets\pages\media\pages\Thumbs.db" />
-    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Content\assets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\assets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\assets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\assets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap-theme.min.css.map" />
+    <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.inline.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <None Include="Content\assets\global\plugins\jquery\jquery-3.1.1.intellisense.js" />
+    <Content Include="Content\assets\global\plugins\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\assets\global\plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery\jquery-3.1.1.js" />
+    <Content Include="Content\assets\global\plugins\jquery\jquery-3.1.1.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery\jquery-3.1.1.slim.js" />
+    <Content Include="Content\assets\global\plugins\jquery\jquery-3.1.1.slim.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-validation\jquery.unobtrusive-ajax.js" />
+    <Content Include="Content\assets\global\plugins\jquery-validation\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery\jquery-3.1.1.slim.min.map" />
+    <Content Include="Content\assets\global\plugins\jquery\jquery-3.1.1.min.map" />
+    <None Include="Content\assets\global\plugins\jquery-validation\jquery.validate-vsdoc.js" />
+    <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.inline.js" />
+    <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.js" />
+    <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\assets\global\plugins\jquery\jquery-1.10.2.js" />
+    <Content Include="Content\assets\global\plugins\jquery\jquery-1.10.2.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -5864,7 +5867,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\_TopMenuPartial.cshtml" />
     <Content Include="Views\Shared\_MenuList.cshtml" />
     <Content Include="Views\Storage\Index.cshtml" />
@@ -5894,6 +5896,7 @@
     <Content Include="Views\Gorev\_GorevGridPartial.cshtml" />
     <Content Include="Views\Gorev\_GorevDetailPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.Null.cshtml" />
+    <Content Include="Content\assets\global\plugins\jquery\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,199 +1,7 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Kat Kartı işlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-<script type="text/javascript">
-    var FloorGridUrl = '@Url.Action("FloorGridPartial", "Floor")';
-    var FloorDetailUrl = '@Url.Action("FloorDetailPartial", "Floor")';
-    var DeleteFunctionUrl = '@Url.Action("Delete", "Floor")';
-    var CorrridorList = '@Url.Action("SearchCorrridor", "Shelf")';
-    var StoreListUrl = '@Url.Action("StoreList", "Corridor")';
-    var ShelfListUrl = '@Url.Action("ShelfList", "Chapter")';
-    var ChapterListUrl = '@Url.Action("ChapterList", "Floor")';
-    $(document).ready(function () {
-        PartialView(FloorDetailUrl, 'CreateEdit', JSON.stringify({ Id: '0' }));
-        StoreList();
-        //$("#CorridorList").append("<option value=" + '0' + ">Lütfen Koridor Seçiniz !!!</option>");
-        //$("#ShelfListi").append("<option value=" + '0' + ">Lütfen Raf Seçiniz !!!</option>");
-        //$("#ChapterListi").append("<option value=" + '0' + ">Lütfen Bölüm Seçiniz !!!</option>");
-        $('#CorridorList').prop('disabled', 'disabled');
-        $('#ShelfListi').prop('disabled', 'disabled');
-        $('#ChapterListi').prop('disabled', 'disabled');
-
-        $('#SearchBtn').click(function () {
-            FuncSearchBtn();
-        });
-        
-        $('#StoreListi').on('change', function () {
-            if (this.value == 0) {
-                $("#CorridorList option").remove();
-                $('#CorridorList').prop('disabled', 'disabled');
-                $("#ShelfListi option").remove();
-                $('#ShelfListi').prop('disabled', 'disabled');
-                $("#ChapterListi option").remove();
-                $('#ChapterListi').prop('disabled', 'disabled');
-            }
-            else {
-                $("#ShelfListi option").remove();
-                $('#ShelfListi').prop('disabled', 'disabled');
-                $("#ChapterListi option").remove();
-                $('#ChapterListi').prop('disabled', 'disabled');
-                CorridorList(this.value);
-            }
-        });
-        $('#CorridorList').on('change', function () {
-            if (this.value == 0) {
-                $("#ShelfListi option").remove();
-                $('#ShelfListi').prop('disabled', 'disabled');
-                $("#ChapterListi option").remove();
-                $('#ChapterListi').prop('disabled', 'disabled');
-            }
-            else {
-                $("#ChapterListi option").remove();
-                $('#ChapterListi').prop('disabled', 'disabled');
-                Shelf(this.value);
-            }
-        });
-        $('#ShelfListi').on('change', function () {
-            if (this.value == 0) {
-                $("#ChapterListi option").remove();
-                $('#ChapterListi').prop('disabled', 'disabled');
-            }
-            else {
-                Chapter(this.value);
-            }
-        });
-    });
-    function FuncSearchBtn() {
-        var Type = $("input[type='radio'][name='Locked']:checked").val();
-        var StoreId = $("#StoreListi option:selected").val();
-        var CorridorId = $("#CorridorList option:selected").val();
-        var ShelfId = $("#ShelfListi option:selected").val();
-        var ChapterId = $("#ChapterListi option:selected").val();
-        PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId) }));
-    }
-    function CorridorList(Id) {
-        $("#CorridorList option").remove();
-        
-        $.ajax({
-            url: CorrridorList,
-            type: 'POST',
-            data: JSON.stringify({ Id: Id }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    //Modaldialog("Kaydedilmiş depo bulunmamaktadır.", "Uyarı", "Tamam", "btn-success");
-                } else {
-                    $("#CorridorList").removeAttr("disabled");
-                    $("#CorridorList").append("<option value=" + '0' + ">Lütfen Karidor Seçiniz !!!</option>");
-                    $.each(data, function (i, item) {
-                        $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
-                    });
-                }
-            }
-        });
-    }
-
-
-    function CreateCorridorList(Id) {
-        $("#CorridorList option").remove();
-        $("#CorridorList").append("<option value=" + '0' + ">Lütfen Karidor Seçiniz !!!</option>");
-        $.ajax({
-            url: CorrridorList,
-            type: 'POST',
-            data: JSON.stringify({ Id: Id }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    //alert("Hata Oluştu !!!");
-                } else {
-                    $.each(data, function (i, item) {
-                        $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
-                    });
-                }
-            }
-        });
-    }
-    function StoreList() {
-        $("#StoreListi option").remove();
-        $("#StoreListi").append("<option value=" + '0' + ">Lütfen Depo Seçiniz !!!</option>");
-        $.ajax({
-            url: StoreListUrl,
-            type: 'POST',
-            data: '',
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    //alert("Hata Oluştu !!!");
-                } else {
-                    $.each(data, function (i, item) {
-                        $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
-                    });
-                }
-            }
-        });
-    }
-    function Shelf(Id) {
-        $("#ShelfListi option").remove();
-        $.ajax({
-            url: ShelfListUrl,
-            type: 'POST',
-            data: JSON.stringify({ Id: Id }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    //alert("Hata Oluştu !!!");
-                } else {
-                    $("#ShelfListi").append("<option value=" + '0' + ">Lütfen Raf Seçiniz !!!</option>");
-                    $("#ShelfListi").removeAttr("disabled");
-                    $.each(data, function (i, item) {
-                        $("#ShelfListi").append("<option value=" + item.ID + ">" + item.Raf + "</option>");
-                    });
-                }
-            }
-        });
-    }
-    function Chapter(Id) {
-        $("#ChapterListi option").remove();
-        $.ajax({
-            url: ChapterListUrl,
-            type: 'POST',
-            data: JSON.stringify({ Id: Id }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    //alert("Hata Oluştu !!!");
-                } else {
-                    $("#ChapterListi").removeAttr("disabled");
-                    $("#ChapterListi").append("<option value=" + '0' + ">Lütfen Bölüm Seçiniz !!!</option>");
-                    $.each(data, function (i, item) {
-                        $("#ChapterListi").append("<option value=" + item.Value + ">" + item.Text + "</option>");
-                    });
-                }
-            }
-        });
-    }
-    function FloorReturn(Data) {
-        //FuncSearchBtn();
-        Modaldialog(Data.Message, (Data.Status == true ? "Başaralı" : "Hata"), "Tamam", "btn-success");
-        CreateEdit('0');
-
-    }
-    function CreateEdit(Id) {
-        PartialView(FloorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
-    }
-    function InsertRefresh() {
-        PartialView(FloorDetailUrl, "CreateEdit", '0');
-    }
-</script>
 <h3 class="page-title">Kat İşlemleri</h3>
 <div class="row">
     <div class="col-md-12">
@@ -270,5 +78,178 @@
     </div>
 </div>
 <script src="~/Content/Scripts/_Operation.js"></script>
+<script type="text/javascript">
+    var FloorGridUrl = '@Url.Action("FloorGridPartial", "Floor")';
+    var FloorDetailUrl = '@Url.Action("FloorDetailPartial", "Floor")';
+    var DeleteFunctionUrl = '@Url.Action("Delete", "Floor")';
+    var CorrridorList = '@Url.Action("SearchCorrridor", "Shelf")';
+    var StoreListUrl = '@Url.Action("StoreList", "Corridor")';
+    var ShelfListUrl = '@Url.Action("ShelfList", "Chapter")';
+    var ChapterListUrl = '@Url.Action("ChapterList", "Floor")';
+    $(document).ready(function () {
+        PartialView(FloorDetailUrl, 'CreateEdit', JSON.stringify({ Id: '0' }));
+        StoreList();
+        $('#CorridorList').prop('disabled', 'disabled');
+        $('#ShelfListi').prop('disabled', 'disabled');
+        $('#ChapterListi').prop('disabled', 'disabled');
+
+        $('#SearchBtn').click(function () {
+            FuncSearchBtn();
+        });
+
+        $('#StoreListi').on('change', function () {
+            if (this.value == 0) {
+                $("#CorridorList option").remove();
+                $('#CorridorList').prop('disabled', 'disabled');
+                $("#ShelfListi option").remove();
+                $('#ShelfListi').prop('disabled', 'disabled');
+                $("#ChapterListi option").remove();
+                $('#ChapterListi').prop('disabled', 'disabled');
+            }
+            else {
+                $("#ShelfListi option").remove();
+                $('#ShelfListi').prop('disabled', 'disabled');
+                $("#ChapterListi option").remove();
+                $('#ChapterListi').prop('disabled', 'disabled');
+                CorridorList(this.value);
+            }
+        });
+        $('#CorridorList').on('change', function () {
+            if (this.value == 0) {
+                $("#ShelfListi option").remove();
+                $('#ShelfListi').prop('disabled', 'disabled');
+                $("#ChapterListi option").remove();
+                $('#ChapterListi').prop('disabled', 'disabled');
+            }
+            else {
+                $("#ChapterListi option").remove();
+                $('#ChapterListi').prop('disabled', 'disabled');
+                Shelf(this.value);
+            }
+        });
+        $('#ShelfListi').on('change', function () {
+            if (this.value == 0) {
+                $("#ChapterListi option").remove();
+                $('#ChapterListi').prop('disabled', 'disabled');
+            }
+            else {
+                Chapter(this.value);
+            }
+        });
+    });
+    function FuncSearchBtn() {
+        var Type = $("input[type='radio'][name='Locked']:checked").val();
+        var StoreId = $("#StoreListi option:selected").val();
+        var CorridorId = $("#CorridorList option:selected").val();
+        var ShelfId = $("#ShelfListi option:selected").val();
+        var ChapterId = $("#ChapterListi option:selected").val();
+        PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId) }));
+    }
+    function CorridorList(Id) {
+        $("#CorridorList option").remove();
+
+        $.ajax({
+            url: CorrridorList,
+            type: 'POST',
+            data: JSON.stringify({ Id: Id }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $("#CorridorList").removeAttr("disabled");
+                    $("#CorridorList").append("<option value=" + '0' + ">Lütfen Karidor Seçiniz !!!</option>");
+                    $.each(data, function (i, item) {
+                        $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
+                    });
+                }
+            }
+        });
+    }
 
 
+    function CreateCorridorList(Id) {
+        $("#CorridorList option").remove();
+        $("#CorridorList").append("<option value=" + '0' + ">Lütfen Karidor Seçiniz !!!</option>");
+        $.ajax({
+            url: CorrridorList,
+            type: 'POST',
+            data: JSON.stringify({ Id: Id }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
+                    });
+                }
+            }
+        });
+    }
+    function StoreList() {
+        $("#StoreListi option").remove();
+        $("#StoreListi").append("<option value=" + '0' + ">Lütfen Depo Seçiniz !!!</option>");
+        $.ajax({
+            url: StoreListUrl,
+            type: 'POST',
+            data: '',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
+                    });
+                }
+            }
+        });
+    }
+    function Shelf(Id) {
+        $("#ShelfListi option").remove();
+        $.ajax({
+            url: ShelfListUrl,
+            type: 'POST',
+            data: JSON.stringify({ Id: Id }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $("#ShelfListi").append("<option value=" + '0' + ">Lütfen Raf Seçiniz !!!</option>");
+                    $("#ShelfListi").removeAttr("disabled");
+                    $.each(data, function (i, item) {
+                        $("#ShelfListi").append("<option value=" + item.ID + ">" + item.Raf + "</option>");
+                    });
+                }
+            }
+        });
+    }
+    function Chapter(Id) {
+        $("#ChapterListi option").remove();
+        $.ajax({
+            url: ChapterListUrl,
+            type: 'POST',
+            data: JSON.stringify({ Id: Id }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $("#ChapterListi").removeAttr("disabled");
+                    $("#ChapterListi").append("<option value=" + '0' + ">Lütfen Bölüm Seçiniz !!!</option>");
+                    $.each(data, function (i, item) {
+                        $("#ChapterListi").append("<option value=" + item.Value + ">" + item.Text + "</option>");
+                    });
+                }
+            }
+        });
+    }
+    function FloorReturn(Data) {
+        Modaldialog(Data.Message, (Data.Status == true ? "Başaralı" : "Hata"), "Tamam", "btn-success");
+        CreateEdit('0');
+
+    }
+    function CreateEdit(Id) {
+        PartialView(FloorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+    }
+    function InsertRefresh() {
+        PartialView(FloorDetailUrl, "CreateEdit", '0');
+    }
+</script>

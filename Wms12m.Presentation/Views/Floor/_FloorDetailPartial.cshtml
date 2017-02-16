@@ -1,161 +1,15 @@
 ﻿@using Newtonsoft.Json;
-@model Wms12m.Entity.Store05
+@model Store05
 @{
     if (Model.ID > 0)
     {
-        Wms12m.Business.abstractStore<Wms12m.Entity.Store01> _Store = new Wms12m.Business.Store();
-        Wms12m.Business.abstractStore<Wms12m.Entity.Store02> _Corridor = new Wms12m.Business.Corridor();
-        Wms12m.Business.abstractStore<Wms12m.Entity.Store03> _Shelf = new Wms12m.Business.Shelf();
+        Wms12m.Business.abstractStore<Store01> _Store = new Wms12m.Business.Store();
+        Wms12m.Business.abstractStore<Store02> _Corridor = new Wms12m.Business.Corridor();
+        Wms12m.Business.abstractStore<Store03> _Shelf = new Wms12m.Business.Shelf();
         ViewBag.CorridorId = _Shelf.Detail(Model.RafID).KoridorID;
         ViewBag.StoreId = _Corridor.Detail(ViewBag.CorridorId).DepoID;
-
     }
 }
-
-<script type="text/javascript">
-    $(".make-switch").bootstrapSwitch();
-    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
-        $(".make-switch").val(data)
-    });
-    $(document).ready(function () {
-        StoreList();
-        var Links = @Html.Raw(JsonConvert.SerializeObject(Model));
-        if (!Links.Locked) {
-            $('input[type=checkbox]').prop("checked", true).trigger("change");
-        }
-        //$('.ekle-duzenle').prop('disabled', 'disabled');
-        $('#CorrridorId').prop('disabled', 'disabled');
-        $('#ShelfList').prop('disabled', 'disabled');
-
-        $('#StoreId').on('change', function() {
-            if(this.value=="0"){
-                //$('.ekle-duzenle').prop('disabled', 'disabled');
-                $("#CorrridorId option").remove();
-                $('#CorrridorId').prop('disabled', 'disabled');
-                $("#ShelfList option").remove();
-                $('#ShelfList').prop('disabled', 'disabled');
-            }
-            else{
-                $("#ShelfList option").remove();
-                $('#ShelfList').prop('disabled', 'disabled');
-                $("#CorrridorId").removeAttr("disabled");
-                CreateCorridorList(this.value);
-            }
-        })
-        $('#CorrridorId').on('change', function() {
-            if(this.value=="0"){
-                //$('.ekle-duzenle').prop('disabled', 'disabled');
-                $("#ShelfList option").remove();
-                $('#ShelfList').prop('disabled', 'disabled');
-            }
-            else{
-                $("#ShelfList").removeAttr("disabled");
-                ShelfList(this.value);
-            }
-        })
-        $('#ShelfList').on('change', function() {
-            $("#RafID").val(this.value);
-        });
-        if (Links.Id>0) {
-            $("#StoreId option:selected").val('@ViewBag.StoreId');
-            CreateCorridorList('@ViewBag.StoreId');
-            $("#ShelfList").removeAttr("disabled");
-            ShelfList('@ViewBag.CorridorId');
-        }
-
-    });
-    function StoreList() {
-        $("#StoreId option").remove();
-        $("#StoreId").append("<option value=" + '0' + ">Lütfen Depo Seçiniz !!!</option>");
-        $.ajax({
-            url: StoreListUrl,
-            type: 'POST',
-            data: '',
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-
-                    //alert("Hata Oluştu !!!");
-                } else {
-                    $.each(data, function (i, item) {
-                        if('@ViewBag.StoreId'==item.ID)
-                        {
-                            $("#StoreId").append("<option value=" + item.ID + " selected>" + item.DepoAdi + "</option>");
-
-                        }else{
-                            $("#StoreId").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
-                        }
-
-
-                    });
-                }
-            }
-        });
-    }
-    function CreateCorridorList(Id) {
-        $("#CorrridorId option").remove();
-
-        $.ajax({
-            url: CorrridorList,
-            type: 'POST',
-            data: JSON.stringify({ Id: Id }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    $('#CorrridorId').prop('disabled', 'disabled');
-                    //alert("Hata Oluştu !!!");
-                } else {
-                    $("#CorrridorId").append("<option value=" + '0' + ">Lütfen Karidor Seçiniz !!!</option>");
-                    $.each(data, function (i, item) {
-
-                        if('@ViewBag.CorridorId'==item.ID)
-                        { $("#CorrridorId").removeAttr("disabled");
-                            $("#CorrridorId").append("<option value=" + item.ID + " selected>" + item.Koridor + "</option>");
-
-                        }else{
-                            $("#CorrridorId").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
-                        }
-                    });
-                }
-            }
-        });
-    }
-    function  ShelfList(Id) {
-        $("#ShelfList option").remove();
-
-        $.ajax({
-            url: ShelfListUrl,
-            type: 'POST',
-            data: JSON.stringify({ Id: Id }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    $('#ShelfList').prop('disabled', 'disabled');
-                    //alert("Hata Oluştu !!!");
-                } else {
-                    $("#ShelfList").append("<option value=" + '0' + ">Lütfen Raf Seçiniz !!!</option>");
-                    $.each(data, function (i, item) {
-                        if('@Model.RafID'==item.ID)
-                        {
-                            $("#ShelfList").removeAttr("disabled");
-                            $("#RafID").val('@Model.RafID');
-                            $("#ShelfList").append("<option value=" + item.ID + " selected>" + item.Raf + "</option>");
-
-                        }else{
-                            $("#ShelfList").append("<option value=" + item.ID + ">" + item.Raf + "</option>");
-                        }
-
-                    });
-                }
-            }
-        });
-    }
-</script>
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
 <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.css")" rel="stylesheet" type="text/css" />
 <div class="row">
     <div class="col-md-12">
@@ -255,16 +109,11 @@
         </div>
     </div>
 </div>
+<script src="@Url.Content("~/Content/assets/global/plugins/fuelux/js/spinner.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/assets/global/scripts/app.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/assets/pages/scripts/components-bootstrap-touchspin.min.js")" type="text/javascript"></script>
 <script type="text/javascript">
-    //function ShowLoader(text) {
-    //    if (text) {
-    //        $('.page-loader div').css('width', '420px').css('margin-left', '-210px');
-    //        $('.page-loader span').html(text);
-    //    } else {
-    //        $('.page-loader span').html('');
-    //    }
-    //    $('.page-loader').show();
-    //}
     $(document).on('change', '.cascading', function () {
         var $dropdown = $(this);
         var selectedValue = $dropdown.val();
@@ -274,7 +123,6 @@
         var selected = $dropdown.attr("data-action-selected");
         var otherDropDown = $("#" + $dropdown.attr("data-action-dropdown"));
         if (selectedValue != null && selectedValue != '') {
-            //ShowLoader();
             $.ajax({
                 type: "GET",
                 url: actionUrl,
@@ -304,10 +152,8 @@
                         }
                     });
                 }
-                //HideLoader();
             }).fail(function (xhr, status, error) {
                 Failure(error);
-                //HideLoader();
             });
         }
         else {
@@ -315,8 +161,136 @@
             otherDropDown.attr("disabled", "disabled");
         }
     });
+    $(".make-switch").bootstrapSwitch();
+    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
+        $(".make-switch").val(data)
+    });
+    $(document).ready(function () {
+        StoreList();
+        var Links = @Html.Raw(JsonConvert.SerializeObject(Model));
+        if (!Links.Locked) {
+            $('input[type=checkbox]').prop("checked", true).trigger("change");
+        }
+        $('#CorrridorId').prop('disabled', 'disabled');
+        $('#ShelfList').prop('disabled', 'disabled');
+
+        $('#StoreId').on('change', function() {
+            if(this.value=="0"){
+                $("#CorrridorId option").remove();
+                $('#CorrridorId').prop('disabled', 'disabled');
+                $("#ShelfList option").remove();
+                $('#ShelfList').prop('disabled', 'disabled');
+            }
+            else{
+                $("#ShelfList option").remove();
+                $('#ShelfList').prop('disabled', 'disabled');
+                $("#CorrridorId").removeAttr("disabled");
+                CreateCorridorList(this.value);
+            }
+        })
+        $('#CorrridorId').on('change', function() {
+            if(this.value=="0"){
+                $("#ShelfList option").remove();
+                $('#ShelfList').prop('disabled', 'disabled');
+            }
+            else{
+                $("#ShelfList").removeAttr("disabled");
+                ShelfList(this.value);
+            }
+        })
+        $('#ShelfList').on('change', function() {
+            $("#RafID").val(this.value);
+        });
+        if (Links.Id>0) {
+            $("#StoreId option:selected").val('@ViewBag.StoreId');
+            CreateCorridorList('@ViewBag.StoreId');
+            $("#ShelfList").removeAttr("disabled");
+            ShelfList('@ViewBag.CorridorId');
+        }
+
+    });
+    function StoreList() {
+        $("#StoreId option").remove();
+        $("#StoreId").append("<option value=" + '0' + ">Lütfen Depo Seçiniz !!!</option>");
+        $.ajax({
+            url: StoreListUrl,
+            type: 'POST',
+            data: '',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        if('@ViewBag.StoreId'==item.ID)
+                        {
+                            $("#StoreId").append("<option value=" + item.ID + " selected>" + item.DepoAdi + "</option>");
+
+                        }else{
+                            $("#StoreId").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
+                        }
+
+
+                    });
+                }
+            }
+        });
+    }
+    function CreateCorridorList(Id) {
+        $("#CorrridorId option").remove();
+
+        $.ajax({
+            url: CorrridorList,
+            type: 'POST',
+            data: JSON.stringify({ Id: Id }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data == "") {
+                    $('#CorrridorId').prop('disabled', 'disabled');
+                } else {
+                    $("#CorrridorId").append("<option value=" + '0' + ">Lütfen Karidor Seçiniz !!!</option>");
+                    $.each(data, function (i, item) {
+
+                        if('@ViewBag.CorridorId'==item.ID)
+                        { $("#CorrridorId").removeAttr("disabled");
+                            $("#CorrridorId").append("<option value=" + item.ID + " selected>" + item.Koridor + "</option>");
+
+                        }else{
+                            $("#CorrridorId").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
+                        }
+                    });
+                }
+            }
+        });
+    }
+    function  ShelfList(Id) {
+        $("#ShelfList option").remove();
+
+        $.ajax({
+            url: ShelfListUrl,
+            type: 'POST',
+            data: JSON.stringify({ Id: Id }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data == "") {
+                    $('#ShelfList').prop('disabled', 'disabled');
+                } else {
+                    $("#ShelfList").append("<option value=" + '0' + ">Lütfen Raf Seçiniz !!!</option>");
+                    $.each(data, function (i, item) {
+                        if('@Model.RafID'==item.ID)
+                        {
+                            $("#ShelfList").removeAttr("disabled");
+                            $("#RafID").val('@Model.RafID');
+                            $("#ShelfList").append("<option value=" + item.ID + " selected>" + item.Raf + "</option>");
+
+                        }else{
+                            $("#ShelfList").append("<option value=" + item.ID + ">" + item.Raf + "</option>");
+                        }
+
+                    });
+                }
+            }
+        });
+    }
 </script>
-<script src="@Url.Content("~/Content/assets/global/plugins/fuelux/js/spinner.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Content/assets/global/scripts/app.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Content/assets/pages/scripts/components-bootstrap-touchspin.min.js")" type="text/javascript"></script>

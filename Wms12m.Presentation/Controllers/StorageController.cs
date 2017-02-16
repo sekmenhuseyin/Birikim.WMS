@@ -13,10 +13,12 @@ namespace Wms12m.Presentation.Controllers
         Result _Result;
         abstractStore<Store01> Operation;
         abstractStore<Store02> delKontrolOpertion;
+        //depo anasayfası
         public ActionResult Index()
         {
-            return View();
+            return View("Index", new Store01());
         }
+        //depo listesi
         public ActionResult StoreGridPartial(string Id)
         {
             Operation = new Store();
@@ -24,11 +26,13 @@ namespace Wms12m.Presentation.Controllers
             _List = Id == "Locked" ? Operation.GetList().Where(a => a.Aktif == true).ToList() : Id == "noLocked" ? Operation.GetList().Where(a => a.Aktif == false).ToList() : Operation.GetList();
             return PartialView("_StoreGridPartial", _List);
         }
+        //depo düzenle
         public ActionResult StoreDetailPartial(string Id)
         {
             Operation = new Store();
-            return PartialView("_StoreDetailPartial", Convert.ToInt16(Id == "" ? "0" : Id) > 0 ? Operation.Detail(Convert.ToInt16(Id)) : new Store01() {Aktif=false });
+            return PartialView("_StoreDetailPartial", Convert.ToInt16(Id == "" ? "0" : Id) > 0 ? Operation.Detail(Convert.ToInt16(Id)) : new Store01() { Aktif = false });
         }
+        //depo sil
         public ActionResult Delete(string Id)
         {
             _Result = new Result();
@@ -47,6 +51,7 @@ namespace Wms12m.Presentation.Controllers
             }
             
         }
+        //depo işlemleri
         public ActionResult StoreOperation(Store01 P)
         {
             _Result = new Result();
