@@ -1,37 +1,69 @@
-﻿@{
+﻿@model Store01
+@{
     ViewBag.Title = "Depo Kartı işlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script type="text/javascript">
-    var StoreGridUrl = '@Url.Action("StoreGridPartial", "Storage")';
-    var StoreDetailUrl = '@Url.Action("StoreDetailPartial", "Storage")';
-    var DeleteFunctionUrl = '@Url.Action("Delete", "Storage")';
-    var StoreListUrl = '@Url.Action("StoreList", "Corridor")';
-    $(document).ready(function () {
-        PartialView(StoreDetailUrl, 'CreateEdit', JSON.stringify({ Id: '0' }));     
-        $('#SearchBtn').click(function () {
-            FuncSearchBtn();
-        });
-        FuncSearchBtn();
-    });
-    function StoreReturn(Data) {
-        FuncSearchBtn();
-        Modaldialog(Data.Message, (Data.Status == true ? "Başaralı" : "Hata"), "Tamam", "btn-success");
-        CreateEdit('0');
-    }
-    function CreateEdit(Id) {
-        PartialView(StoreDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id }));
-    }
-    function FuncSearchBtn()
-    {
-        var Type = $("input[type='radio'][name='Locked']:checked").val();
-        PartialView(StoreGridUrl, 'StoreGrid', JSON.stringify({ Id: Type }));
-    }
-</script>
+<link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.css")" rel="stylesheet" type="text/css" />
 <h3 class="page-title">Depo İşlemleri</h3>
 <div class="row">
     <div class="col-lg-12">
-        <div id="CreateEdit"></div>
+        <div class="row" id="CreateEdit">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.DepoAdi + "  Depo Kartı Düzenle" : "Depo Ekle")
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        @using (Ajax.BeginForm("StoreOperation", "Storage", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreFrom", OnSuccess = "StoreReturn" }, new { @class = "form-horizontal" }))
+                        {
+                            @Html.HiddenFor(a => a.ID)
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Depo Kodu</label>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(a => a.DepoKodu, new { @class = "form-control input-circle", @placeholder = "Depo Kodu" })
+                                        <span class="field-validation-valid" data-valmsg-for="StoreCode" data-valmsg-replace="true" style="color:red;"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Depo adı</label>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(a => a.DepoAdi, new { @class = "form-control input-circle", @placeholder = "Depo adı" })
+                                        <span class="field-validation-valid" data-valmsg-for="StoreName" data-valmsg-replace="true" style="color:red;"></span>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Sıra</label>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Durum</label>
+                                    <div class="col-md-4">
+                                        @Html.CheckBoxFor(a => a.Aktif, new { @value = false, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
+                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
         <div>
             <div class="portlet box green">
                 <div class="portlet-title">
@@ -43,64 +75,18 @@
                     <div class="form-horizontal">
                         <div class="form-body">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-3">
-                                    <div class="form-group">
-                                        <div class="radio-list col-xs-12 col-md-12 col-lg-12">
-                                            <div class="col-sm-12 col-xs-12">
-                                                <label>
-                                                    <label style="color:#32c5d2;">Durum</label>
-                                                </label>
-                                            </div>
-                                            <div class="radio-list col-sm-12 col-xs-12">
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3" style="padding-left:20px;">
-                                                    <input type="radio" name="Locked" value="Locked" /> Aktif
-                                                </label>
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3">
-                                                    <input type="radio" name="Locked" value="noLocked" checked /> Pasif
-                                                </label>
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3">
-                                                    <input type="radio" name="Locked" value="All" checked /> Tümü
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" style="margin-top:10px;">
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <div class="row">
-                                            <div class="col-sm-2 col-md-2 col-lg-2">
-                                                <button type="submit" class="btn green" id="SearchBtn">Ara</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @*<div class="col-xs-12 col-md-9 col-lg-6">
-                                    <div class="form-group">                                    
-                                        <div class="radio-list col-xs-12 col-sm-12">
-                                            <div class="col-sm-2 col-xs-12">
-                                                <label class="radio-inline ">
-                                                    <label>Durum</label>
-                                                </label>
-                                            </div>
-                                            <div class="col-sm-8 col-xs-12">
-                                                <label class="radio-inline col-xs-3 col-sm-3" style="margin-left:20px;">
-                                                    <input type="radio" name="Locked" value="Locked" /> Aktif
-                                                </label>
-                                                <label class="radio-inline col-xs-3 col-sm-3" style="margin-left:20px;">
-                                                    <input type="radio" name="Locked" value="noLocked" checked /> Pasif
-                                                </label>
-                                                <label class="radio-inline col-xs-3 col-sm-3" style="margin-left:20px;">
-                                                    <input type="radio" name="Locked" value="All" checked /> Tümü
-                                                </label>
-                                            </div>
-                                            <div class="col-sm-2 col-xs-12">
-                                                <label class="radio-inline col-xs-12 col-sm-12">
-                                                    <button type="submit" class="btn green" id="SearchBtn" style="margin-top:-5px!important">Ara</button>
-                                                </label>
-                                            </div>
-                                            </div>
-                                    </div>
-                                </div>*@
+                                <label class="col-sm-1">
+                                    <label style="color:#32c5d2;">Durum</label>
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="Locked" /> Aktif
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="noLocked" /> Pasif
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="All" checked /> Tümü
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -110,5 +96,36 @@
         </div>
     </div>
 </div>
+@section Scripts{
 <script src="~/Content/Scripts/_Operation.js"></script>
-
+<script type="text/javascript">
+    var StoreGridUrl = '@Url.Action("StoreGridPartial", "Storage")';
+    var StoreDetailUrl = '@Url.Action("StoreDetailPartial", "Storage")';
+    var DeleteFunctionUrl = '@Url.Action("Delete", "Storage")';
+    var StoreListUrl = '@Url.Action("StoreList", "Corridor")';
+    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
+        $(".make-switch").val(data)
+    });
+    $(document).ready(function () {
+        $(".make-switch").bootstrapSwitch();
+        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
+        $('[name="Locked"]').click(function () { FuncSearchBtn(); });
+        FuncSearchBtn();
+    });
+    function StoreReturn(Data) {
+        FuncSearchBtn();
+        CreateEdit('0');
+    }
+    function CreateEdit(Id) {
+        PartialView(StoreDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id }));
+    }
+    function FuncSearchBtn() {
+        var Type = $("input[type='radio'][name='Locked']:checked").val();
+        PartialView(StoreGridUrl, 'StoreGrid', JSON.stringify({ Id: Type }));
+    }
+</script>
+<script src="@Url.Content("~/Content/assets/global/plugins/fuelux/js/spinner.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/assets/global/scripts/app.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/assets/pages/scripts/components-bootstrap-touchspin.min.js")" type="text/javascript"></script>
+}
