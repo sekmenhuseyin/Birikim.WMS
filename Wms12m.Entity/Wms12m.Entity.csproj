@@ -56,6 +56,12 @@
     <Compile Include="Irsaliye\frmMalzeme.cs" />
     <Compile Include="Irsaliye\frmMalzemeSearch.cs" />
     <Compile Include="Log\LogCs.cs" />
+    <Compile Include="Models\ComboItemName.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ComboName.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetHesapCodes_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -105,6 +111,9 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TK_RAF.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\USR01.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Persons\USER01.cs" />

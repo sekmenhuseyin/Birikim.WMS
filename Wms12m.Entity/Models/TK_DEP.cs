@@ -18,8 +18,8 @@ namespace Wms12m.Entity.Models
         public TK_DEP()
         {
             this.TK_KOR = new HashSet<TK_KOR>();
-            this.GorevListesis = new HashSet<GorevListesi>();
             this.IRS = new HashSet<IR>();
+            this.GorevListesis = new HashSet<GorevListesi>();
         }
     
         public int ID { get; set; }
@@ -35,8 +35,8 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TK_KOR> TK_KOR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevListesi> GorevListesis { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IR> IRS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevListesi> GorevListesis { get; set; }
     }
 }

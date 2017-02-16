@@ -33,9 +33,12 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<TK_KAT> TK_KAT { get; set; }
         public virtual DbSet<TK_KOR> TK_KOR { get; set; }
         public virtual DbSet<TK_RAF> TK_RAF { get; set; }
-        public virtual DbSet<GorevListesi> GorevListesis { get; set; }
         public virtual DbSet<IR> IRS { get; set; }
         public virtual DbSet<STI> STIs { get; set; }
+        public virtual DbSet<ComboItemName> ComboItemNames { get; set; }
+        public virtual DbSet<ComboName> ComboNames { get; set; }
+        public virtual DbSet<GorevListesi> GorevListesis { get; set; }
+        public virtual DbSet<USR01> USR01 { get; set; }
     
         public virtual ObjectResult<GetHesapCodes_Result> GetHesapCodes()
         {

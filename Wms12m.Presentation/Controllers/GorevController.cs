@@ -38,7 +38,7 @@ namespace Wms12m.Presentation.Controllers
                 tmp.AtayanID = tbl.AtayanID;
                 tmp.Aciklama = tbl.Aciklama;
                 tmp.Bilgi = tbl.Bilgi;
-                tmp.Durum = tbl.Durum;
+                tmp.DurumID = tbl.Durum;
                 db.SaveChanges();
             }
             //get list

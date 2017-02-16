@@ -12,29 +12,24 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class IR
+    public partial class ComboItemName
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public IR()
+        public ComboItemName()
         {
-            this.STIs = new HashSet<STI>();
             this.GorevListesis = new HashSet<GorevListesi>();
+            this.GorevListesis1 = new HashSet<GorevListesi>();
         }
     
         public int ID { get; set; }
-        public int DepoID { get; set; }
-        public bool IslemTur { get; set; }
-        public string EvrakNo { get; set; }
-        public string HesapKodu { get; set; }
-        public string TeslimCHK { get; set; }
-        public int Tarih { get; set; }
-        public string Kaydeden { get; set; }
-        public int KayitTarih { get; set; }
+        public int ComboID { get; set; }
+        public string ItemName { get; set; }
+        public bool ItemVisible { get; set; }
     
-        public virtual TK_DEP TK_DEP { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<STI> STIs { get; set; }
+        public virtual ComboName ComboName { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevListesi> GorevListesis { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevListesi> GorevListesis1 { get; set; }
     }
 }
