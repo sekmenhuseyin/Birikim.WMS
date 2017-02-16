@@ -20,6 +20,6 @@ namespace Wms12m.Entity
         [DataMember]
         public int Updatedate { get; set; }
         [DataMember]
-        public bool Locked { get; set; }
+        public bool Aktif { get; set; }
     }
 }
