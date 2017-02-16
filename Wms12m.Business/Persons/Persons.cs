@@ -27,12 +27,12 @@ namespace Wms12m.Business
             try
             {
                
-                _Result.Id = GetList((int)GetListStatus.Close).Where(a=>a.UserName==P.UserName && a.Password==P.Password && a.Locked==false).Select(a=>a.Id).SingleOrDefault();
+                _Result.Id = GetList((int)GetListStatus.Close).Where(a=>a.UserName==P.UserName && a.Password==P.Password && a.Aktif==false).Select(a=>a.Id).SingleOrDefault();
                 if(_Result.Id>0)
                 {
                     _Result.Status = true;
                     _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Data= GetList((int)GetListStatus.Close).Where(a => a.UserName == P.UserName && a.Password == P.Password && a.Locked == false).SingleOrDefault();
+                    _Result.Data= GetList((int)GetListStatus.Close).Where(a => a.UserName == P.UserName && a.Password == P.Password && a.Aktif == false).SingleOrDefault();
 
                 }
                 else

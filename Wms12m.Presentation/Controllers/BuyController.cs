@@ -12,6 +12,7 @@ namespace Wms12m.Presentation.Controllers
         // GET: Buy
         public ActionResult Index()
         {
+            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
             return View("Index", new frmIrsaliye());
         }
         //yeni irsaliye fatura
@@ -24,9 +25,13 @@ namespace Wms12m.Presentation.Controllers
             {
                 //add new
                 IR tablo = new IR();
+                tablo.DepoID = tbl.DepoID;
                 tablo.EvrakNo = tbl.EvrakNo;
                 tablo.HesapKodu = tbl.HesapKodu;
-                tablo.Tarih = tbl.Tarih;
+                tablo.TeslimCHK = tbl.HesapKodu;
+                tablo.Tarih = Convert.ToInt32(tbl.Tarih.ToOADate());
+                tablo.Kaydeden = User.LogonUserName;
+                tablo.KayitTarih = Convert.ToInt32(tbl.Tarih.ToOADate());
                 db.IRS.Add(tablo);
                 db.SaveChanges();
                 tbl.Id = tablo.ID;

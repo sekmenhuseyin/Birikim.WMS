@@ -1,5 +1,5 @@
 ﻿
-@model Wms12m.Entity.frmMalzeme
+@model frmMalzeme
 <tr>
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -7,7 +7,6 @@
     <td>@Html.TextBoxFor(a => a.MalAdi, new { @class = "form-control input-circle", @required = "", @onkeypress = "getMalzeme('',this.value)" })</td>
     <td>@Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle", @required = "" })</td>
     <td>@Html.TextBoxFor(a => a.Birim, new { @class = "form-control input-circle", @required = "" })</td>
-    <td>@Html.TextBoxFor(a => a.Depo, new { @class = "form-control input-circle", @required = "" })</td>
     <td><input type="hidden" name="IrsaliyeId" value="@ViewBag.IrsaliyeId" /><input type="submit" class="hide" value="Kaydet" />Ekle</td>
 </tr>
 <tr id="rowSearch"><td colspan="6"><select id="malzemeSelector"></select></td></tr>

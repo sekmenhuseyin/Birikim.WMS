@@ -29,13 +29,13 @@ namespace Wms12m.Entity.Models
     
         public virtual DbSet<GorevListesi> GorevListesis { get; set; }
         public virtual DbSet<Olcu> Olcus { get; set; }
-        public virtual DbSet<IR> IRS { get; set; }
-        public virtual DbSet<STI> STIs { get; set; }
         public virtual DbSet<TK_BOL> TK_BOL { get; set; }
         public virtual DbSet<TK_DEP> TK_DEP { get; set; }
         public virtual DbSet<TK_KAT> TK_KAT { get; set; }
         public virtual DbSet<TK_KOR> TK_KOR { get; set; }
         public virtual DbSet<TK_RAF> TK_RAF { get; set; }
+        public virtual DbSet<IR> IRS { get; set; }
+        public virtual DbSet<STI> STIs { get; set; }
     
         public virtual ObjectResult<GetHesapCodes_Result> GetHesapCodes()
         {
