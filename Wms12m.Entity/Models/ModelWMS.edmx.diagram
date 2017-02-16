@@ -5,9 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1">
-        <EntityTypeShape EntityType="MModel.IR" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="MModel.STI" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="MModel.FK_Malzeme_Irsaliye" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MModel.GorevListesi" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="MModel.IR" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="MModel.STI" Width="1.5" PointX="3" PointY="1.375" />
+        <AssociationConnector Association="MModel.FK_STI_IRS" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

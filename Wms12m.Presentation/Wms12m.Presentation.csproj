@@ -5837,6 +5837,7 @@
     <Compile Include="Controllers\CorridorController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
+    <Compile Include="Controllers\GorevController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RootController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
@@ -5886,6 +5887,8 @@
     <Content Include="Views\Buy\_GridPartial.cshtml" />
     <Content Include="Views\Buy\_HesapGridPartial.cshtml" />
     <Content Include="Views\Buy\Index.cshtml" />
+    <Content Include="Views\Gorev\Index.cshtml" />
+    <Content Include="Views\Gorev\_GorevGridPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
