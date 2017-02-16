@@ -17,10 +17,10 @@ namespace Wms12m.Entity
         public string GorevNo { get; set; }
 
         [DataMember, DisplayName("Görev Tipi"), Required(ErrorMessage = "Boş bırakmayınız")]
-        public byte GorevTipi { get; set; }
+        public int GorevTipiID { get; set; }
 
         [DataMember, DisplayName("Görev Durumu"), Required(ErrorMessage = "Boş bırakmayınız")]
-        public byte Durum { get; set; }
+        public int DurumID { get; set; }
 
         [DataMember, DisplayName("Görevli"), Required(ErrorMessage = "Boş bırakmayınız")]
         public int GorevliID { get; set; }

@@ -23,6 +23,10 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult GorevDetailPartial(int id)
         {
             ViewBag.ID = id;
+            ViewBag.GorevTipiID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 1).ToList(), "ID", "ItemName");
+            ViewBag.DurumID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 2).ToList(), "ID", "ItemName");
+            ViewBag.GorevliID = new SelectList(db.USR01.ToList(), "Id", "UserName");
+
             var list = db.GorevListesis.Where(m => m.ID == id).FirstOrDefault();
             return PartialView("_GorevDetailPartial", list);
         }
@@ -35,10 +39,9 @@ namespace Wms12m.Presentation.Controllers
             {
                 //add new
                 tmp.GorevliID = tbl.GorevliID;
-                tmp.AtayanID = tbl.AtayanID;
                 tmp.Aciklama = tbl.Aciklama;
                 tmp.Bilgi = tbl.Bilgi;
-                tmp.DurumID = tbl.Durum;
+                tmp.DurumID = tbl.DurumID;
                 db.SaveChanges();
             }
             //get list
