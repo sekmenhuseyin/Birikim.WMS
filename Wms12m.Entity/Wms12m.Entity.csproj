@@ -64,6 +64,9 @@
     <Compile Include="Models\GetMalzeme_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GorevListesi.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IR.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -81,6 +84,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelWMS.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Olcu.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STI.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>

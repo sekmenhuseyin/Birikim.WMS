@@ -12,14 +12,19 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class STI
+    public partial class GorevListesi
     {
         public int ID { get; set; }
-        public int IrsaliyeID { get; set; }
-        public string MalKodu { get; set; }
-        public decimal Miktar { get; set; }
-        public string Birim { get; set; }
-    
-        public virtual IR IR { get; set; }
+        public int DepoID { get; set; }
+        public string GorevNo { get; set; }
+        public byte GorevTipi { get; set; }
+        public byte Durum { get; set; }
+        public int GorevliID { get; set; }
+        public int AtayanID { get; set; }
+        public int OlusturmaTarihi { get; set; }
+        public Nullable<int> AtamaTarihi { get; set; }
+        public Nullable<int> BitirmeTarihi { get; set; }
+        public string Bilgi { get; set; }
+        public string Aciklama { get; set; }
     }
 }

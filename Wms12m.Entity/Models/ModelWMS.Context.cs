@@ -27,6 +27,8 @@ namespace Wms12m.Entity.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<GorevListesi> GorevListesis { get; set; }
+        public virtual DbSet<Olcu> Olcus { get; set; }
         public virtual DbSet<IR> IRS { get; set; }
         public virtual DbSet<STI> STIs { get; set; }
     
