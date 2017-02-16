@@ -12,21 +12,21 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GorevListesi
+    public partial class TK_KAT
     {
         public int ID { get; set; }
-        public int DepoID { get; set; }
-        public string GorevNo { get; set; }
-        public byte GorevTipi { get; set; }
-        public byte Durum { get; set; }
-        public int GorevliID { get; set; }
-        public int AtayanID { get; set; }
-        public int OlusturmaTarihi { get; set; }
-        public Nullable<int> AtamaTarihi { get; set; }
-        public Nullable<int> BitirmeTarihi { get; set; }
-        public string Bilgi { get; set; }
+        public int RafID { get; set; }
+        public string Kat { get; set; }
+        public decimal Boy { get; set; }
+        public int Ozellik { get; set; }
         public string Aciklama { get; set; }
+        public int SiraNo { get; set; }
+        public bool Aktif { get; set; }
+        public string Kaydeden { get; set; }
+        public int KayitTarih { get; set; }
+        public string Degistiren { get; set; }
+        public int DegisTarih { get; set; }
     
-        public virtual TK_DEP TK_DEP { get; set; }
+        public virtual TK_RAF TK_RAF { get; set; }
     }
 }

@@ -16,14 +16,10 @@ namespace Wms12m.Entity
         [DataMember]
         public string Password { get; set; }
         [DataMember]
-        public DateTime? CreateDate { get; set; }
+        public int CreateDate { get; set; }
         [DataMember]
-        public DateTime? Updatedate { get; set; }
+        public int Updatedate { get; set; }
         [DataMember]
         public bool Locked { get; set; }
-        [DataMember]
-        public int CompanyId { get; set; }
-        [DataMember]
-        public int CreateUserId { get; set; }      
     }
 }
