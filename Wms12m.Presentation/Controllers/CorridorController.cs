@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
 using Wms12m.Entity;
-using Wms12m.Security;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -15,10 +14,13 @@ namespace Wms12m.Presentation.Controllers
         abstractStore<Store01> StoreOperation;
         abstractStore<Store02> CorrridorOperation;
         abstractStore<Store03> delKontrolOpertion;
+        //koridor anasayfa
         public ActionResult Index()
         {
-            return View();
+            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
+            return View("Index", new Store02());
         }
+        //koridor listesi
         public ActionResult CorridorGridPartial(string Id)
         {
             CorrridorOperation = new Corridor();
@@ -46,16 +48,20 @@ namespace Wms12m.Presentation.Controllers
             }
 
         }
+        //koridor düzenle
         public ActionResult CorridorDetailPartial(string Id)
         {
             CorrridorOperation = new Corridor();
+            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
             return PartialView("_CorridorDetailPartial", Convert.ToInt16(Id == "" ? "0" : Id) > 0 ? CorrridorOperation.Detail(Convert.ToInt16(Id)) : new Store02());
         }
+        //koridor listesi
         public ActionResult StoreList()
         {
             StoreOperation = new Store();
             return Json(StoreOperation.GetList(), JsonRequestBehavior.AllowGet);
         }
+        //koridor sil
         public ActionResult Delete(string Id)
         {
             _Result = new Result();
@@ -75,6 +81,7 @@ namespace Wms12m.Presentation.Controllers
             }
             
         }
+        //işlemler
         public ActionResult CorridorOperation(Store02 P)
         {
             _Result = new Result();

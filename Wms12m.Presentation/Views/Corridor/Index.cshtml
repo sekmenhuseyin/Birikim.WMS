@@ -1,11 +1,66 @@
-﻿@{
+﻿@model Store02
+@{
     ViewBag.Title = "Koridor Kartı işlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.css")" rel="stylesheet" type="text/css" />
 <h3 class="page-title">Koridor İşlemleri</h3>
 <div class="row">
     <div class="col-md-12">
-        <div id="CreateEdit"></div>
+        <div id="CreateEdit">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.Koridor + "  Koridor Düzenle" : "Koridor Ekle")
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    @using (Ajax.BeginForm("CorridorOperation", "Corridor", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "CorridorFrom", OnSuccess = "CorridorReturn" }, new { @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Depo</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+                                    <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Koridor</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.Koridor, new { @class = "form-control input-circle", @placeholder = "Koridor" })
+                                    <span class="field-validation-valid" data-valmsg-for="Koridor" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Sıra</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
+                                    <span class="field-validation-valid" data-valmsg-for="SiraNo" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Durum</label>
+                                <div class="col-md-4">
+                                    @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                </div>
+                            </div>
+                        </div>
+                        @Html.HiddenFor(a => a.ID)
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
+                                    <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
         <div>
             <div class="portlet box green">
                 <div class="portlet-title">
@@ -61,6 +116,10 @@
         </div>
     </div>
 </div>
+<script src="@Url.Content("~/Content/assets/global/plugins/fuelux/js/spinner.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/assets/global/scripts/app.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/assets/pages/scripts/components-bootstrap-touchspin.min.js")" type="text/javascript"></script>
 <script src="~/Content/Scripts/_Operation.js"></script>
 <script type="text/javascript">
     var CorridorGridUrl = '@Url.Action("CorridorGridPartial", "Corridor")';
@@ -68,8 +127,9 @@
     var DeleteFunctionUrl = '@Url.Action("Delete", "Corridor")';
     var StoreListUrl = '@Url.Action("StoreList", "Corridor")';
     $(document).ready(function () {
-        $('.ara-btn').prop('disabled', 'disabled');
-        PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: '0' }));
+        $(".make-switch").bootstrapSwitch();
+        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
+            $('.ara-btn').prop('disabled', 'disabled');
         StoreList();
         FuncSearchBtn();
         $('#SearchBtn').click(function () {
@@ -84,7 +144,9 @@
             }
         })
     });
-
+    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
+        $(".make-switch").val(data)
+    });
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
         var StoreId = $("#StoreListi option:selected").val();
@@ -100,9 +162,7 @@
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                if (data == "") {
-                    //Modaldialog("Kaydedilmiş depo bulunmamaktadır.", "Uyarı", "Tamam", "btn-success");
-                } else {
+                if (data != "") {
                     $.each(data, function (i, item) {
                         $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
                     });
@@ -112,7 +172,6 @@
     }
     function CorridorReturn(Data) {
         FuncSearchBtn();
-        Modaldialog(Data.Message, (Data.Status == true ? "Başaralı" : "Hata"), "Tamam", "btn-success");
         CreateEdit('0');
 
     }
