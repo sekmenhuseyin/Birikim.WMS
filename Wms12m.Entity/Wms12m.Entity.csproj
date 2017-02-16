@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gorev\frmGorev.cs" />
     <Compile Include="Irsaliye\frmIrsaliye.cs" />
     <Compile Include="Irsaliye\frmMalzeme.cs" />
     <Compile Include="Irsaliye\frmMalzemeSearch.cs" />
