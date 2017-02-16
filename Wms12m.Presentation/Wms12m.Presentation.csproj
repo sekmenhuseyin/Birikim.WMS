@@ -5889,6 +5889,7 @@
     <Content Include="Views\Buy\Index.cshtml" />
     <Content Include="Views\Gorev\Index.cshtml" />
     <Content Include="Views\Gorev\_GorevGridPartial.cshtml" />
+    <Content Include="Views\Gorev\_GorevDetailPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

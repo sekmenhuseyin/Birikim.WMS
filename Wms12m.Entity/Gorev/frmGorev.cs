@@ -17,10 +17,10 @@ namespace Wms12m.Entity
         public string GorevNo { get; set; }
 
         [DataMember, DisplayName("Görev Tipi"), Required(ErrorMessage = "Boş bırakmayınız")]
-        public short GorevTipi { get; set; }
+        public byte GorevTipi { get; set; }
 
         [DataMember, DisplayName("Görev Durumu"), Required(ErrorMessage = "Boş bırakmayınız")]
-        public short Durum { get; set; }
+        public byte Durum { get; set; }
 
         [DataMember, DisplayName("Görevli"), Required(ErrorMessage = "Boş bırakmayınız")]
         public int GorevliID { get; set; }
@@ -35,8 +35,8 @@ namespace Wms12m.Entity
         [DataMember, DisplayName("Bitirme Tarihi"), Required(ErrorMessage = "Boş bırakmayınız")]
         public int BitirmeTarihi { get; set; }
         [DataMember, DisplayName("Bilgi"), Required(ErrorMessage = "Boş bırakmayınız")]
-        public int Bilgi { get; set; }
+        public string Bilgi { get; set; }
         [DataMember, DisplayName("Açıklama"), Required(ErrorMessage = "Boş bırakmayınız")]
-        public int Aciklama { get; set; }
+        public string Aciklama { get; set; }
     }
 }

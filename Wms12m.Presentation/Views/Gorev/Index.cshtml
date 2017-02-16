@@ -4,16 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
-    var GorevGridUrl = '@Url.Action("GorevGridPartial", "Gorev")';
+    var GorevGridUrl = '@Url.Action("GorevGridPartial", "Gorev")'; 
+    var GorevDetailUrl = '@Url.Action("GorevDetailPartial", "Gorev")'; 
     var DeleteFunctionUrl = '@Url.Action("Delete", "Gorev")';
     $(document).ready(function () {
         PartialView(GorevGridUrl, 'GorevGrid', JSON.stringify({ Id: '0' }));
         StoreList();
-        
+
         $('#SearchBtn').click(function () {
             FuncSearchBtn();
         });
-       
+        
     });
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
@@ -70,7 +71,11 @@
 
     }
     function CreateEdit(Id) {
-        PartialView(ShelfDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+        PartialView(GorevDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+        $("#CreateEdit").show();
+    }
+    function DuzenleIptal() {
+        $("#CreateEdit").hide();
     }
     function InsertRefresh() {
         PartialView(ShelfDetailUrl, "CreateEdit", '0');
@@ -79,7 +84,7 @@
 <h3 class="page-title">Görev İşlemleri</h3>
 <div class="row">
     <div class="col-md-12">
-        @*<div id="CreateEdit"></div>*@
+        <div id="CreateEdit"></div>
         <div>
             <div class="portlet box green">
                 <div class="portlet-title">
