@@ -14,9 +14,10 @@
           <Property Name="GorevNo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="GorevTipi" Type="tinyint" Nullable="false" />
           <Property Name="Durum" Type="tinyint" Nullable="false" />
-          <Property Name="GorevliID" Type="int" Nullable="false" />
           <Property Name="AtayanID" Type="int" Nullable="false" />
           <Property Name="OlusturmaTarihi" Type="int" Nullable="false" />
+          <Property Name="IrsaliyeID" Type="int" />
+          <Property Name="GorevliID" Type="int" />
           <Property Name="AtamaTarihi" Type="int" />
           <Property Name="BitirmeTarihi" Type="int" />
           <Property Name="Bilgi" Type="nvarchar" MaxLength="50" />
@@ -46,7 +47,7 @@
           <Property Name="IslemTur" Type="bit" Nullable="false" />
           <Property Name="EvrakNo" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="HesapKodu" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="TeslimCHK" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TeslimCHK" Type="varchar" MaxLength="20" />
           <Property Name="Tarih" Type="int" Nullable="false" />
           <Property Name="Kaydeden" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="KayitTarih" Type="int" Nullable="false" />
@@ -137,6 +138,18 @@
           <Property Name="Degistiren" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DegisTarih" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_GorevListesi_IRS">
+          <End Role="IRS" Type="Self.IRS" Multiplicity="0..1" />
+          <End Role="GorevListesi" Type="Self.GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IRS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GorevListesi_TK_DEP">
           <End Role="TK_DEP" Type="Self.TK_DEP" Multiplicity="1" />
           <End Role="GorevListesi" Type="Self.GorevListesi" Multiplicity="*" />
@@ -227,6 +240,18 @@
           <Parameter Name="ad" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetMalzemeCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UpdateIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="DepoID" Type="int" Mode="In" />
+          <Parameter Name="IslemTur" Type="bit" Mode="In" />
+          <Parameter Name="EvrakNo" Type="varchar" Mode="In" />
+          <Parameter Name="HesapKodu" Type="varchar" Mode="In" />
+          <Parameter Name="TeslimCHK" Type="varchar" Mode="In" />
+          <Parameter Name="Tarih" Type="int" Mode="In" />
+          <Parameter Name="Kaydeden" Type="varchar" Mode="In" />
+          <Parameter Name="KayitTarih" Type="int" Mode="In" />
+          <Parameter Name="LoggedUserID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="GorevListesi" EntityType="Self.GorevListesi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Olcu" EntityType="Self.Olcu" Schema="dbo" store:Type="Tables" />
@@ -237,6 +262,10 @@
           <EntitySet Name="TK_KAT" EntityType="Self.TK_KAT" Schema="WMS" store:Type="Tables" />
           <EntitySet Name="TK_KOR" EntityType="Self.TK_KOR" Schema="WMS" store:Type="Tables" />
           <EntitySet Name="TK_RAF" EntityType="Self.TK_RAF" Schema="WMS" store:Type="Tables" />
+          <AssociationSet Name="FK_GorevListesi_IRS" Association="Self.FK_GorevListesi_IRS">
+            <End Role="IRS" EntitySet="IRS" />
+            <End Role="GorevListesi" EntitySet="GorevListesi" />
+          </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_TK_DEP" Association="Self.FK_GorevListesi_TK_DEP">
             <End Role="TK_DEP" EntitySet="TK_DEP" />
             <End Role="GorevListesi" EntitySet="GorevListesi" />
@@ -277,17 +306,12 @@
             <Parameter Name="ad" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetMalzemeCodes" ReturnType="Collection(MModel.GetMalzemeCodes_Result)" />
-          <EntitySet Name="GorevListesis" EntityType="MModel.GorevListesi" />
           <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
           <EntitySet Name="TK_BOL" EntityType="MModel.TK_BOL" />
           <EntitySet Name="TK_DEP" EntityType="MModel.TK_DEP" />
           <EntitySet Name="TK_KAT" EntityType="MModel.TK_KAT" />
           <EntitySet Name="TK_KOR" EntityType="MModel.TK_KOR" />
           <EntitySet Name="TK_RAF" EntityType="MModel.TK_RAF" />
-          <AssociationSet Name="FK_GorevListesi_TK_DEP" Association="MModel.FK_GorevListesi_TK_DEP">
-            <End Role="TK_DEP" EntitySet="TK_DEP" />
-            <End Role="GorevListesi" EntitySet="GorevListesis" />
-          </AssociationSet>
           <AssociationSet Name="FK_TK_BOL_TK_RAF" Association="MModel.FK_TK_BOL_TK_RAF">
             <End Role="TK_RAF" EntitySet="TK_RAF" />
             <End Role="TK_BOL" EntitySet="TK_BOL" />
@@ -304,8 +328,17 @@
             <End Role="TK_KOR" EntitySet="TK_KOR" />
             <End Role="TK_RAF" EntitySet="TK_RAF" />
           </AssociationSet>
+          <EntitySet Name="GorevListesis" EntityType="MModel.GorevListesi" />
           <EntitySet Name="IRS" EntityType="MModel.IR" />
           <EntitySet Name="STIs" EntityType="MModel.STI" />
+          <AssociationSet Name="FK_GorevListesi_IRS" Association="MModel.FK_GorevListesi_IRS">
+            <End Role="IR" EntitySet="IRS" />
+            <End Role="GorevListesi" EntitySet="GorevListesis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevListesi_TK_DEP" Association="MModel.FK_GorevListesi_TK_DEP">
+            <End Role="TK_DEP" EntitySet="TK_DEP" />
+            <End Role="GorevListesi" EntitySet="GorevListesis" />
+          </AssociationSet>
           <AssociationSet Name="FK_IRS_TK_DEP" Association="MModel.FK_IRS_TK_DEP">
             <End Role="TK_DEP" EntitySet="TK_DEP" />
             <End Role="IR" EntitySet="IRS" />
@@ -314,6 +347,18 @@
             <End Role="IR" EntitySet="IRS" />
             <End Role="STI" EntitySet="STIs" />
           </AssociationSet>
+          <FunctionImport Name="UpdateIrsaliye" ReturnType="Collection(Int32)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="IslemTur" Mode="In" Type="Boolean" />
+            <Parameter Name="EvrakNo" Mode="In" Type="String" />
+            <Parameter Name="HesapKodu" Mode="In" Type="String" />
+            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
+            <Parameter Name="Tarih" Mode="In" Type="Int32" />
+            <Parameter Name="Kaydeden" Mode="In" Type="String" />
+            <Parameter Name="KayitTarih" Mode="In" Type="Int32" />
+            <Parameter Name="LoggedUserID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GetHesapCodes_Result">
           <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
@@ -328,24 +373,6 @@
           <Property Type="String" Name="MalAdi" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Birim1" Nullable="false" MaxLength="4" />
         </ComplexType>
-        <EntityType Name="GorevListesi">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DepoID" Type="Int32" Nullable="false" />
-          <Property Name="GorevNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="GorevTipi" Type="Byte" Nullable="false" />
-          <Property Name="Durum" Type="Byte" Nullable="false" />
-          <Property Name="GorevliID" Type="Int32" Nullable="false" />
-          <Property Name="AtayanID" Type="Int32" Nullable="false" />
-          <Property Name="OlusturmaTarihi" Type="Int32" Nullable="false" />
-          <Property Name="AtamaTarihi" Type="Int32" />
-          <Property Name="BitirmeTarihi" Type="Int32" />
-          <Property Name="Bilgi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_GorevListesi_TK_DEP" FromRole="GorevListesi" ToRole="TK_DEP" />
-        </EntityType>
         <EntityType Name="Olcu">
           <Key>
             <PropertyRef Name="ID" />
@@ -391,8 +418,8 @@
           <Property Name="KayitTarih" Type="Int32" Nullable="false" />
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_TK_DEP" FromRole="TK_DEP" ToRole="GorevListesi" />
           <NavigationProperty Name="TK_KOR" Relationship="MModel.FK_TK_KOR_TK_DEP" FromRole="TK_DEP" ToRole="TK_KOR" />
+          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_TK_DEP" FromRole="TK_DEP" ToRole="GorevListesi" />
           <NavigationProperty Name="IRS" Relationship="MModel.FK_IRS_TK_DEP" FromRole="TK_DEP" ToRole="IR" />
         </EntityType>
         <EntityType Name="TK_KAT">
@@ -447,18 +474,6 @@
           <NavigationProperty Name="TK_KAT" Relationship="MModel.FK_TK_KAT_TK_RAF" FromRole="TK_RAF" ToRole="TK_KAT" />
           <NavigationProperty Name="TK_KOR" Relationship="MModel.FK_TK_RAF_TK_KOR" FromRole="TK_RAF" ToRole="TK_KOR" />
         </EntityType>
-        <Association Name="FK_GorevListesi_TK_DEP">
-          <End Type="MModel.TK_DEP" Role="TK_DEP" Multiplicity="1" />
-          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TK_DEP">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevListesi">
-              <PropertyRef Name="DepoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TK_BOL_TK_RAF">
           <End Type="MModel.TK_RAF" Role="TK_RAF" Multiplicity="1" />
           <End Type="MModel.TK_BOL" Role="TK_BOL" Multiplicity="*" />
@@ -507,6 +522,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="GorevListesi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepoID" Type="Int32" Nullable="false" />
+          <Property Name="GorevNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GorevTipi" Type="Byte" Nullable="false" />
+          <Property Name="Durum" Type="Byte" Nullable="false" />
+          <Property Name="AtayanID" Type="Int32" Nullable="false" />
+          <Property Name="OlusturmaTarihi" Type="Int32" Nullable="false" />
+          <Property Name="IrsaliyeID" Type="Int32" />
+          <Property Name="GorevliID" Type="Int32" />
+          <Property Name="AtamaTarihi" Type="Int32" />
+          <Property Name="BitirmeTarihi" Type="Int32" />
+          <Property Name="Bilgi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="IR" Relationship="MModel.FK_GorevListesi_IRS" FromRole="GorevListesi" ToRole="IR" />
+          <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_GorevListesi_TK_DEP" FromRole="GorevListesi" ToRole="TK_DEP" />
+        </EntityType>
         <EntityType Name="IR">
           <Key>
             <PropertyRef Name="ID" />
@@ -516,10 +551,11 @@
           <Property Name="IslemTur" Type="Boolean" Nullable="false" />
           <Property Name="EvrakNo" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
           <Property Name="HesapKodu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TeslimCHK" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TeslimCHK" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Tarih" Type="Int32" Nullable="false" />
           <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="KayitTarih" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_IRS" FromRole="IR" ToRole="GorevListesi" />
           <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_IRS_TK_DEP" FromRole="IR" ToRole="TK_DEP" />
           <NavigationProperty Name="STIs" Relationship="MModel.FK_STI_IRS" FromRole="IR" ToRole="STI" />
         </EntityType>
@@ -534,6 +570,30 @@
           <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_STI_IRS" FromRole="STI" ToRole="IR" />
         </EntityType>
+        <Association Name="FK_GorevListesi_IRS">
+          <End Type="MModel.IR" Role="IR" Multiplicity="0..1" />
+          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevListesi_TK_DEP">
+          <End Type="MModel.TK_DEP" Role="TK_DEP" Multiplicity="1" />
+          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TK_DEP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_IRS_TK_DEP">
           <End Type="MModel.TK_DEP" Role="TK_DEP" Multiplicity="1" />
           <End Type="MModel.IR" Role="IR" Multiplicity="*" />
@@ -589,24 +649,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="GorevListesis">
-            <EntityTypeMapping TypeName="MModel.GorevListesi">
-              <MappingFragment StoreEntitySet="GorevListesi">
-                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
-                <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
-                <ScalarProperty Name="BitirmeTarihi" ColumnName="BitirmeTarihi" />
-                <ScalarProperty Name="AtamaTarihi" ColumnName="AtamaTarihi" />
-                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
-                <ScalarProperty Name="AtayanID" ColumnName="AtayanID" />
-                <ScalarProperty Name="GorevliID" ColumnName="GorevliID" />
-                <ScalarProperty Name="Durum" ColumnName="Durum" />
-                <ScalarProperty Name="GorevTipi" ColumnName="GorevTipi" />
-                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
-                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Olcus">
             <EntityTypeMapping TypeName="MModel.Olcu">
               <MappingFragment StoreEntitySet="Olcu">
@@ -704,6 +746,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="GorevListesis">
+            <EntityTypeMapping TypeName="MModel.GorevListesi">
+              <MappingFragment StoreEntitySet="GorevListesi">
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
+                <ScalarProperty Name="BitirmeTarihi" ColumnName="BitirmeTarihi" />
+                <ScalarProperty Name="AtamaTarihi" ColumnName="AtamaTarihi" />
+                <ScalarProperty Name="GorevliID" ColumnName="GorevliID" />
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
+                <ScalarProperty Name="AtayanID" ColumnName="AtayanID" />
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+                <ScalarProperty Name="GorevTipi" ColumnName="GorevTipi" />
+                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="IRS">
             <EntityTypeMapping TypeName="MModel.IR">
               <MappingFragment StoreEntitySet="IRS">
@@ -730,6 +791,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="UpdateIrsaliye" FunctionName="MModel.Store.UpdateIrsaliye" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

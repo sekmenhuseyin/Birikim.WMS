@@ -22,24 +22,9 @@ namespace Wms12m.Presentation.Controllers
             //check if exists
             var tmp = db.IRS.Where(m => m.EvrakNo == tbl.EvrakNo).FirstOrDefault();
             if (tmp == null)
-            {
-                //add new
-                IR tablo = new IR();
-                tablo.DepoID = tbl.DepoID;
-                tablo.EvrakNo = tbl.EvrakNo;
-                tablo.HesapKodu = tbl.HesapKodu;
-                tablo.TeslimCHK = tbl.HesapKodu;
-                tablo.Tarih = Convert.ToInt32(tbl.Tarih.ToOADate());
-                tablo.Kaydeden = User.LogonUserName;
-                tablo.KayitTarih = Convert.ToInt32(tbl.Tarih.ToOADate());
-                db.IRS.Add(tablo);
-                db.SaveChanges();
-                tbl.Id = tablo.ID;
-            }
+                tbl.Id = db.UpdateIrsaliye(0, tbl.DepoID, false, tbl.EvrakNo, tbl.HesapKodu, "", Convert.ToInt32(tbl.Tarih.ToOADate()), User.LogonUserName, Convert.ToInt32(tbl.Tarih.ToOADate()), User.Id).FirstOrDefault().Value;
             else
-            {
                 tbl.Id = tmp.ID;
-            }
             //get list
             var list = db.STIs.Where(m => m.IrsaliyeID == tbl.Id).ToList();
             ViewBag.IrsaliyeId = tbl.Id;

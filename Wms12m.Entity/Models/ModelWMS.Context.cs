@@ -27,13 +27,13 @@ namespace Wms12m.Entity.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<GorevListesi> GorevListesis { get; set; }
         public virtual DbSet<Olcu> Olcus { get; set; }
         public virtual DbSet<TK_BOL> TK_BOL { get; set; }
         public virtual DbSet<TK_DEP> TK_DEP { get; set; }
         public virtual DbSet<TK_KAT> TK_KAT { get; set; }
         public virtual DbSet<TK_KOR> TK_KOR { get; set; }
         public virtual DbSet<TK_RAF> TK_RAF { get; set; }
+        public virtual DbSet<GorevListesi> GorevListesis { get; set; }
         public virtual DbSet<IR> IRS { get; set; }
         public virtual DbSet<STI> STIs { get; set; }
     
@@ -58,6 +58,51 @@ namespace Wms12m.Entity.Models
         public virtual ObjectResult<GetMalzemeCodes_Result> GetMalzemeCodes()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMalzemeCodes_Result>("GetMalzemeCodes");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> UpdateIrsaliye(Nullable<int> iD, Nullable<int> depoID, Nullable<bool> islemTur, string evrakNo, string hesapKodu, string teslimCHK, Nullable<int> tarih, string kaydeden, Nullable<int> kayitTarih, Nullable<int> loggedUserID)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            var islemTurParameter = islemTur.HasValue ?
+                new ObjectParameter("IslemTur", islemTur) :
+                new ObjectParameter("IslemTur", typeof(bool));
+    
+            var evrakNoParameter = evrakNo != null ?
+                new ObjectParameter("EvrakNo", evrakNo) :
+                new ObjectParameter("EvrakNo", typeof(string));
+    
+            var hesapKoduParameter = hesapKodu != null ?
+                new ObjectParameter("HesapKodu", hesapKodu) :
+                new ObjectParameter("HesapKodu", typeof(string));
+    
+            var teslimCHKParameter = teslimCHK != null ?
+                new ObjectParameter("TeslimCHK", teslimCHK) :
+                new ObjectParameter("TeslimCHK", typeof(string));
+    
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("Tarih", tarih) :
+                new ObjectParameter("Tarih", typeof(int));
+    
+            var kaydedenParameter = kaydeden != null ?
+                new ObjectParameter("Kaydeden", kaydeden) :
+                new ObjectParameter("Kaydeden", typeof(string));
+    
+            var kayitTarihParameter = kayitTarih.HasValue ?
+                new ObjectParameter("KayitTarih", kayitTarih) :
+                new ObjectParameter("KayitTarih", typeof(int));
+    
+            var loggedUserIDParameter = loggedUserID.HasValue ?
+                new ObjectParameter("LoggedUserID", loggedUserID) :
+                new ObjectParameter("LoggedUserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("UpdateIrsaliye", iDParameter, depoIDParameter, islemTurParameter, evrakNoParameter, hesapKoduParameter, teslimCHKParameter, tarihParameter, kaydedenParameter, kayitTarihParameter, loggedUserIDParameter);
         }
     }
 }

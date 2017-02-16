@@ -19,14 +19,16 @@ namespace Wms12m.Entity.Models
         public string GorevNo { get; set; }
         public byte GorevTipi { get; set; }
         public byte Durum { get; set; }
-        public int GorevliID { get; set; }
         public int AtayanID { get; set; }
         public int OlusturmaTarihi { get; set; }
+        public Nullable<int> IrsaliyeID { get; set; }
+        public Nullable<int> GorevliID { get; set; }
         public Nullable<int> AtamaTarihi { get; set; }
         public Nullable<int> BitirmeTarihi { get; set; }
         public string Bilgi { get; set; }
         public string Aciklama { get; set; }
     
+        public virtual IR IR { get; set; }
         public virtual TK_DEP TK_DEP { get; set; }
     }
 }
