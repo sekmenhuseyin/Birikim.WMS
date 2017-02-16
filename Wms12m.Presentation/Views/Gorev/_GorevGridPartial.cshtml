@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <th> Depo</th>
+            <th> EvrakNo</th>
             <th> Görev No</th>
             <th> Görev Tipi</th>
             <th> Durum </th>
@@ -22,14 +23,18 @@
             {
             <tr>
                 <td>@item.TK_DEP.DepoAdi</td>
+                <td>@item.IR.EvrakNo</td>
                 <td>@item.GorevNo</td>
                 <td>@item.GorevTipi</td>
                 <td>@item.Durum</td>
                 <td>@item.GorevliID </td>
                 <td>@item.AtayanID</td>
-                <td>@item.OlusturmaTarihi</td>
+                <td>@DateTime.FromOADate(item.OlusturmaTarihi).ToShortDateString()</td>
+                <td>@DateTime.FromOADate(item.AtamaTarihi.Value).ToShortDateString()</td>
+                <td>@DateTime.FromOADate(item.BitirmeTarihi.Value).ToShortDateString()</td>
+                @*<td>@item.OlusturmaTarihi</td>
                 <td>@item.AtamaTarihi</td>
-                <td>@item.BitirmeTarihi</td>
+                <td>@item.BitirmeTarihi</td>*@
                 <td>@item.Bilgi </td>
                 <td>@item.Aciklama </td>
                 <td>
