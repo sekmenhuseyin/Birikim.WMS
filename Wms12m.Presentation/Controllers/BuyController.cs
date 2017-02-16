@@ -47,7 +47,6 @@ namespace Wms12m.Presentation.Controllers
             //add new
             STI tablo = new STI();
             tablo.IrsaliyeID = tbl.IrsaliyeId;
-            tablo.Depo = tbl.Depo;
             tablo.MalKodu = tbl.MalKodu;
             tablo.Miktar = tbl.Miktar;
             tablo.Birim = tbl.Birim;
