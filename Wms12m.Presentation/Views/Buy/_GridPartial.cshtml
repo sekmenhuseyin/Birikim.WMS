@@ -34,7 +34,7 @@
     $("#rowSearch").hide(); var searching = true;
     function getMalzeme(kod, ad) {
         if (searching == false) return;
-        $("#malzemeSelector option").remove();
+        $("#malzemeSelector option").remove(); $("#rowSearch").hide();
         $.ajax({
             url: "/Buy/getMalzeme",
             type: 'POST',
@@ -45,27 +45,17 @@
                 if (data != "") {
                     $("#rowSearch").show()
                     $.each(data, function (i, item) {
-                        console.log(item);
-                        $('#malzemeSelector').append($('<option>', {
-                            value: item.MalKodu,
-                            text: item.MalAdi
-                        }));
-                        //$("#malzemeSelector").append("<option value=" + item.MalKodu + " text="+item.MalAdi + "></option>");
+                        $('#malzemeSelector').append($('<option>', {value: item.MalKodu,text: item.MalAdi}));
                     });
                 }
             }
         });
     }
-    function selectSearcher() {
+    $('#malzemeSelector').on('change', function () {
         searching = false;
-        $("#MalKodu").val($("#malzemeSelector").val());
-        $("#MalAdi").val($("#malzemeSelector").text());
+        $("#MalKodu").val($("#malzemeSelector option:selected").val());
+        $("#MalAdi").val($("#malzemeSelector option:selected").text());
         $("#rowSearch").hide()
         searching = true;
-    }
-
-    $('#malzemeSelector').on('change', function () {
-        console.log(this.value);
-        console.log(this.Text);
     });
 </script>

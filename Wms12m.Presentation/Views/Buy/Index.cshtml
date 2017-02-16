@@ -5,6 +5,7 @@
 }
 <link href="~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
 <h3 class="page-title">İrsaliye</h3>
 <div class="row">
     <div class="col-lg-12">
@@ -85,12 +86,13 @@
     </div>
 </div>
 <script src="~/Content/Scripts/_Operation.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
 <script>
-    $("#Tarih").val('@DateTime.Now.ToShortDateString()');
-    $("#Tarih").datepicker({  language:'tr' });
     $('#hesapSelect').hide();
+    $("#Tarih").val('@DateTime.Now.ToShortDateString()');
+    $("#Tarih").datepicker({ language:'tr' });
     function ShowHide()
     {
         if ($('#hesapSelect').css("display") == "none")
