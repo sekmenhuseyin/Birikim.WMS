@@ -6,7 +6,6 @@
             <tr>
                 <th> Raf</th>
                 <th> Sıra No</th>
-                <th> Tarih </th>
                 <th> Durum </th>
                 <th></th>
             </tr>
@@ -17,7 +16,6 @@
                 <tr>
                     <td>@item.Raf</td>
                     <td>@item.SiraNo </td>
-                    <td>@DateTime.FromOADate(item.KayitTarih).ToShortDateString()</td>
                     <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
                     <td>
                         <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>

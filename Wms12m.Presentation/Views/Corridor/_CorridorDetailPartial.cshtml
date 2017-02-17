@@ -17,7 +17,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Depo</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required" })
+                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle DepoID2", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch();
         @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
-        @if (@Model.ID == 0) { <text> $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0; </text>}
+        @if (@Model.ID == 0) { <text> $(".DepoID2").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID2")[0].selectedIndex = 0; </text>}
     });
     $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
         $(".make-switch").val(data)
