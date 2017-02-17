@@ -1,5 +1,4 @@
-﻿@model List<GorevListesi>
-<table class="table table-striped table-bordered table-hover">
+﻿<table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th> Depo</th>
@@ -20,7 +19,7 @@
         @*@{Html.RenderAction("NewMalzemeForm", new { id = ViewBag.IrsaliyeId });}*@
         @foreach (var item in Model)
             {
-            <tr ondblclick="tiklama('@item.IrsaliyeID')">
+            <tr>
                 <td>@item.TK_DEP.DepoAdi</td>
                 <td>@item.IR.EvrakNo</td>
                 <td>@item.GorevNo</td>
@@ -31,8 +30,8 @@
                 <td>@DateTime.FromOADate(item.AtamaTarihi.Value).ToShortDateString()</td>
                 <td>@DateTime.FromOADate(item.BitirmeTarihi.Value).ToShortDateString()</td>
                 @*<td>@item.OlusturmaTarihi</td>
-                <td>@item.AtamaTarihi</td>
-                <td>@item.BitirmeTarihi</td>*@
+                    <td>@item.AtamaTarihi</td>
+                    <td>@item.BitirmeTarihi</td>*@
                 <td>@item.Bilgi </td>
                 <td>@item.Aciklama </td>
                 <td>
@@ -45,8 +44,8 @@
 </table>
 <script type="text/javascript">
     $("#CreateEdit").hide();
-    function tiklama(id)
-    {
-        console.log(id);
-    }
+    $('#GorevFrom tr').dblclick(function () {
+        console.log(this);
+        //do something with id
+    })
 </script>

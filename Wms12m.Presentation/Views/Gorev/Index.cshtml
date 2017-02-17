@@ -9,7 +9,7 @@
     var DeleteFunctionUrl = '@Url.Action("Delete", "Gorev")';
     $(document).ready(function () {
         PartialView(GorevGridUrl, 'GorevGrid', JSON.stringify({ Id: '0' }));
-        StoreList();
+        //StoreList();
 
         $('#SearchBtn').click(function () {
             FuncSearchBtn();
@@ -22,48 +22,48 @@
         var CorridorId = $("#CorridorList option:selected").val();
         PartialView(ShelfGridUrl, 'ShelfGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId) }));
     }
-    function CorridorList(Id) {
-        $("#CorridorList option").remove();
-        $.ajax({
-            url: CorrridorList,
-            type: 'POST',
-            data: JSON.stringify({ Id: Id }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    //alert("Hata Oluştu !!!");
-                } else {
-                    $("#CorridorList").append("<option value=" + '0' + ">Lütfen Koridor Seçiniz !!!</option>");
-                    $("#CorridorList").removeAttr("disabled");
-                    $.each(data, function (i, item) {
-                        $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
-                    });
-                }
-            }
-        });
-    }
-    function StoreList() {
-        $("#StoreListi option").remove();
-        $("#StoreListi").append("<option value=" + '0' + ">Lütfen Depo Seçiniz !!!</option>");
-        $.ajax({
-            url: StoreListUrl,
-            type: 'POST',
-            data: '',
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    //Modaldialog("Kaydedilmiş depo bulunmamaktadır.", "Uyarı", "Tamam", "btn-success");
-                } else {
+    //function CorridorList(Id) {
+    //    $("#CorridorList option").remove();
+    //    $.ajax({
+    //        url: CorrridorList,
+    //        type: 'POST',
+    //        data: JSON.stringify({ Id: Id }),
+    //        dataType: "json",
+    //        contentType: 'application/json; charset=utf-8',
+    //        success: function (data) {
+    //            if (data == "") {
+    //                //alert("Hata Oluştu !!!");
+    //            } else {
+    //                $("#CorridorList").append("<option value=" + '0' + ">Lütfen Koridor Seçiniz !!!</option>");
+    //                $("#CorridorList").removeAttr("disabled");
+    //                $.each(data, function (i, item) {
+    //                    $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
+    //                });
+    //            }
+    //        }
+    //    });
+    //}
+    //function StoreList() {
+    //    $("#StoreListi option").remove();
+    //    $("#StoreListi").append("<option value=" + '0' + ">Lütfen Depo Seçiniz !!!</option>");
+    //    $.ajax({
+    //        url: StoreListUrl,
+    //        type: 'POST',
+    //        data: '',
+    //        dataType: "json",
+    //        contentType: 'application/json; charset=utf-8',
+    //        success: function (data) {
+    //            if (data == "") {
+    //                //Modaldialog("Kaydedilmiş depo bulunmamaktadır.", "Uyarı", "Tamam", "btn-success");
+    //            } else {
 
-                    $.each(data, function (i, item) {
-                        $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
-                    });
-                }
-            }
-        });
-    }
+    //                $.each(data, function (i, item) {
+    //                    $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
+    //                });
+    //            }
+    //        }
+    //    });
+    //}
     function ShelfReturn(Data) {
         FuncSearchBtn();
         Modaldialog(Data.Message, (Data.Status == true ? "Başaralı" : "Hata"), "Tamam", "btn-success");
