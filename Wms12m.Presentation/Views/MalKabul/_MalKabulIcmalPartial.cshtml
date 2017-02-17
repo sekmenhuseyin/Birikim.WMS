@@ -7,114 +7,105 @@
             </div>
         </div>
 
-        <div class="portlet-body form">
+        <div class="portlet-body form" style="padding:10px !important;">
+            <table style="width:100%;">
+                <tr style="margin-top:15px;">
+                    <td>
+                        <form class="form-horizontal" role="form">
+                            <div class="form-body" style="padding:0 !important;">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Hesap Kodu</label>
+                                    <div class="col-md-8 input-icon right">
+                                        @*<i class="fa fa-microphone fa-spin font-blue"></i>*@
+                                        <input type="text" class="form-control" value="@Model.HesapKodu" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                    <td colspan="2">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-body" style="padding:0 !important;">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" style="color:#5cb4e6; font-weight:bold;">Unvan</label>
+                                    <div class="col-md-10 input-icon right">
+                                        <input type="text" class="form-control" value="@ViewBag.Unvan" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </trstyle="width:100%;">
+                <tr>
+                    <td>
+                        <form class="form-horizontal" role="form">
+                            <div class="form-body" style="padding:0 !important;">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Evrak No</label>
+                                    <div class="col-md-8 input-icon right">
+                                        <input type="text" class="form-control" value="@Model.EvrakNo" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <form class="form-horizontal" role="form">
+                            <div class="form-body" style="padding:0 !important;">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Depo</label>
+                                    <div class="col-md-8 input-icon right">
+                                        <input type="text" class="form-control" value="@Model.TK_DEP.DepoAdi" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <form class="form-horizontal" role="form">
+                            <div class="form-body" style="padding:0 !important;">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Teslim Yeri</label>
+                                    <div class="col-md-8 input-icon right">
+                                        <input type="text" class="form-control" value="@Model.TeslimCHK" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <form class="form-horizontal" role="form">
+                            <div class="form-body" style="padding:0 !important;">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Kaydeden</label>
+                                    <div class="col-md-8 input-icon right">
+                                        <input type="text" class="form-control" value="@Model.Kaydeden" readonly>
+                                    </div>
+                                </div>
+                            </div>
+</form>
+                    </td>
+                    <td>
+                        <form class="form-horizontal" role="form">
+                            <div class="form-body" style="padding:0 !important;">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">İrsaliye Tarihi</label>
+                                    <div class="col-md-8 input-icon right">
+                                        <input type="text" class="form-control" value="@Model.Tarih" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            </table>
 
-            <div class="col-md-4 ">
-                @*<div class="portlet light bordered">*@
-                <div class="portlet-body form">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Hesap Kodu</label>
-                                <div class="col-md-8 input-icon right">
-                                    @*<i class="fa fa-microphone fa-spin font-blue"></i>*@
-                                    <input type="text" class="form-control" value="@Model.HesapKodu" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                @*</div>*@
-            </div>
-            <div class="col-md-8 ">
-                @*<div class="portlet light bordered">*@
-                <div class="portlet-body form">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label class="col-md-2 control-label" style="color:#5cb4e6; font-weight:bold;">Unvan</label>
-                                <div class="col-md-10 input-icon right">
-                                    <input type="text" class="form-control" value="@ViewBag.Unvan" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-4 ">
-                @*<div class="portlet light bordered">*@
-                <div class="portlet-body form">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Hesap Kodu</label>
-                                <div class="col-md-8 input-icon right">
-                                    @*<i class="fa fa-microphone fa-spin font-blue"></i>*@
-                                    <input type="text" class="form-control" value="@Model.HesapKodu" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Evrak No</label>
-                                <div class="col-md-8 input-icon right">
-                                    <input type="text" class="form-control" value="@Model.EvrakNo" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Unvan</label>
-                                <div class="col-md-8 input-icon right">
-                                    <input type="text" class="form-control" value="@ViewBag.Unvan" readonly>
-                                </div>
-                            </div>
 
 
-                        </div>
-                    </form>
-                </div>
-                @*</div>*@
-            </div>
-            <div class="col-md-4 ">
-                @*<div class="portlet light bordered">*@
-                <div class="portlet-body form">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Depo</label>
-                                <div class="col-md-8 input-icon right">
-                                    <input type="text" class="form-control" value="@Model.TK_DEP.DepoAdi" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Teslim Yeri</label>
-                                <div class="col-md-8 input-icon right">
-                                    <input type="text" class="form-control" value="@Model.TeslimCHK" readonly>
-                                </div>
-                            </div>
 
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-4 ">
-                @*<div class="portlet light bordered">*@
-                <div class="portlet-body form">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Kaydeden</label>
-                                <div class="col-md-8 input-icon right">
-                                    <input type="text" class="form-control" value="@Model.Kaydeden" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">İrsaliye Tarihi</label>
-                                <div class="col-md-8 input-icon right">
-                                    <input type="text" class="form-control" value="@Model.Tarih" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+
         </div>
     </div>
     @*</div>*@
