@@ -1,68 +1,41 @@
-﻿@model GorevListesi
+﻿@model STI
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Görev Bilgileri
+                    <i class="fa fa-gift"></i>Mal Bilgileri
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("New", "Gorev", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "GorevGrid" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("New", "MalKabul", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "MalKabulGrid" }, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Depo</label>
+                            <label class="col-md-3 control-label">MalKodu</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.TK_DEP.DepoAdi, new { @class = "form-control input-circle depoAdi", @required = "" })
-                                <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
+                                @Html.TextBoxFor(a => a.MalKodu, new { @class = "form-control input-circle", @required = "" })
+                                <span class="field-validation-valid" data-valmsg-for="MalKodu" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Görev No</label>
+                            <label class="col-md-3 control-label">Miktar</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.GorevNo, new { @class = "form-control input-circle gorevNo", @required = "" })
-                                <span class="field-validation-valid" data-valmsg-for="GorevNo" data-valmsg-replace="true" style="color:red;"></span>
+                                @Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle", @required = "" })
+                                <span class="field-validation-valid" data-valmsg-for="Miktar" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
+                        
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Görev Tipi</label>
+                            <label class="col-md-3 control-label">Birim</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("GorevTipiID", null, htmlAttributes: new { @class = "form-control input-circle ", required = "required", @disabled = "disabled" })
-                                <span class="field-validation-valid" data-valmsg-for="GorevTipi" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Durum</label>
-                            <div class="col-md-4">
-                                @Html.DropDownList("DurumID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
-                                <span class="field-validation-valid" data-valmsg-for="Durum" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Görevli</label>
-                            <div class="col-md-4">
-                                @Html.DropDownList("GorevliID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
-                                <span class="field-validation-valid" data-valmsg-for="GorevliID" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Açıklama</label>
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Aciklama, new { @class = "form-control input-circle", @required = "" })
-                                <span class="field-validation-valid" data-valmsg-for="Aciklama" data-valmsg-replace="true" style="color:red;"></span>
+                                @Html.TextBoxFor(a => a.Birim, new { @class = "form-control input-circle", @required = "" })
+                                <span class="field-validation-valid" data-valmsg-for="Birim" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         @Html.HiddenFor(a => a.ID)
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Bilgi</label>
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Bilgi, new { @class = "form-control input-circle", @required = "" })
-                                <span class="field-validation-valid" data-valmsg-for="Bilgi" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>
                         <input class="btn btn-primary" type="submit" value="Düzenle" />
                         <input class="btn btn-danger" type="button" value="İptal" onclick="DuzenleIptal()" />
                     </div>
@@ -72,9 +45,9 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(".depoAdi").prop("readonly", true);
-    $(".gorevNo").prop("readonly", true);
-    $(".gorevTip").prop("readonly", true);
+    //$(".depoAdi").prop("readonly", true);
+    //$(".gorevNo").prop("readonly", true);
+    //$(".gorevTip").prop("readonly", true);
 </script>
 
 
