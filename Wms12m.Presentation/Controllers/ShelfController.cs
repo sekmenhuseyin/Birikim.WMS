@@ -16,10 +16,13 @@ namespace Wms12m.Presentation.Controllers
         abstractStore<Store02> CorrridorOperation;
         abstractStore<Store03> ShelfOperation;
         abstractStore<Store04> delKontrolOpertion;
+        //raf anasayfası
         public ActionResult Index()
         {
-            return View();
+            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
+            return View("Index", new Store03());
         }
+        //raf listesi
         public ActionResult ShelfGridPartial(string Id)
         {
             int CorridorId = 0;
@@ -48,13 +51,16 @@ namespace Wms12m.Presentation.Controllers
                 return PartialView("_ShelfGridPartial", _List);
             }
         }
+        //raf düzenleme
         public ActionResult ShelfDetailPartial(string Id)
         {
             StoreOperation = new Store();
             ViewBag.Store = StoreOperation.GetList();
             ShelfOperation = new Shelf();
+            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
             return PartialView("_ShelfDetailPartial", Convert.ToInt16(Id == "" ? "0" : Id) > 0 ? ShelfOperation.Detail(Convert.ToInt16(Id)) : new Store03());
         }
+        //raf listesi
         public ActionResult CorrridorList(string val)
         {
             List<Store02> _List = new List<Store02>();
@@ -82,6 +88,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }
+        //koridor arama?
         public ActionResult SearchCorrridor(string Id)
         {
             List<Store02> _List = new List<Store02>();
@@ -96,6 +103,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }
+        //raf sil
         public ActionResult Delete(string Id)
         {
             _Result = new Result();
@@ -114,6 +122,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             }
         }
+        //raf işlemleri
         public ActionResult ShelfiOperation(Store03 P)
         {
             _Result = new Result();
