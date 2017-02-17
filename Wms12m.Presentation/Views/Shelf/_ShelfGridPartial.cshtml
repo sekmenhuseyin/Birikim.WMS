@@ -8,8 +8,7 @@
                 <th> Sıra No</th>
                 <th> Tarih </th>
                 <th> Durum </th>
-                <th> Düzenle </th>
-                <th> Sil </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -20,9 +19,9 @@
                     <td>@item.SiraNo </td>
                     <td>@DateTime.FromOADate(item.KayitTarih).ToShortDateString()</td>
                     <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
-                    <td><a class="edit" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a></td>
                     <td>
-                        <a class="edit" href="javascript:;" onclick="Delete('@item.ID','/Shelf/ShelfGridPartial','ShelfGrid','@item.KoridorID')"> Sil </a>
+                        <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                        <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Shelf/ShelfGridPartial','ShelfGrid','@item.KoridorID')"> Sil </a>
                     </td>
                 </tr>
             }

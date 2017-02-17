@@ -12,7 +12,6 @@ namespace Wms12m.Presentation.Controllers
     {
         // GET: Shelf
         Result _Result;
-        abstractStore<Store01> StoreOperation;
         abstractStore<Store02> CorrridorOperation;
         abstractStore<Store03> ShelfOperation;
         abstractStore<Store04> delKontrolOpertion;
@@ -52,22 +51,34 @@ namespace Wms12m.Presentation.Controllers
             }
         }
         //raf düzenleme
-        public ActionResult ShelfDetailPartial(string Id)
+        public PartialViewResult ShelfDetailPartial(string Id)
         {
-            StoreOperation = new Store();
-            ViewBag.Store = StoreOperation.GetList();
-            ShelfOperation = new Shelf();
-            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
-            return PartialView("_ShelfDetailPartial", Convert.ToInt16(Id == "" ? "0" : Id) > 0 ? ShelfOperation.Detail(Convert.ToInt16(Id)) : new Store03());
+            int tmp = Convert.ToInt32(Id);
+            if (tmp==0)
+            {
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
+                ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
+                return PartialView("_ShelfDetailPartial", new Store03());
+            }
+            else
+            {
+                var tablo = db.TK_RAF.Where(m => m.ID == tmp).FirstOrDefault();
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi", tablo.TK_KOR.DepoID);
+                ViewBag.KoridorID = new SelectList(db.TK_KOR.ToList(), "ID", "Koridor", tablo.KoridorID);
+                return PartialView("_ShelfDetailPartial", new Shelf().Detail(tmp));
+            }
         }
         //raf listesi
-        public ActionResult CorrridorList(string val)
+        [HttpPost]
+        public ActionResult CorrridorList()
         {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
             List<Store02> _List = new List<Store02>();
             CorrridorOperation = new Corridor();
             try
             {
-                _List = CorrridorOperation.GetList().Where(a => a.DepoID == Convert.ToInt16(val)).ToList();
+                _List = CorrridorOperation.GetList().Where(a => a.DepoID == Convert.ToInt16(id)).ToList();
 
                 List<SelectListItem>  List = new List<SelectListItem>();
                 foreach (Store02 item in _List)

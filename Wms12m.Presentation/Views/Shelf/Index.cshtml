@@ -17,62 +17,61 @@
                 <div class="portlet-body form">
                     @using (Ajax.BeginForm("ShelfiOperation", "Shelf", new { }, new AjaxOptions{InsertionMode = InsertionMode.Replace,UpdateTargetId = "ShelfFrom",OnSuccess = "ShelfReturn"}, new { @class = "form-horizontal" }))
                     {
-                        @Html.HiddenFor(a => a.ID)
-                        @Html.HiddenFor(a => a.KoridorID)
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true)
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Depo</label>
-                                <div class="col-md-4">
-                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
-                                    <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
-                                </div>
+                    @Html.HiddenFor(a => a.ID)
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Depo</label>
+                            <div class="col-md-4">
+                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required", @onchange = "getCorridor(this.value,'KoridorID');" })
+                                <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Koridor</label>
-                                <div class="col-md-4">
-                                    @Html.DropDownListFor(x => x.KoridorID, new SelectList(new List<SelectListItem>(), "ID", "Koridor", Model.KoridorID), "Seçiniz !!!", new { @class = "form-control input-circle", @disabled = "disabled" })
-                                    <span class="field-validation-valid" data-valmsg-for="KoridorID" data-valmsg-replace="true" style="color:red;"></span>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Koridor</label>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(x => x.KoridorID, new SelectList(new List<SelectListItem>(), "ID", "Koridor", Model.KoridorID), "Seçiniz !!!", new { @class = "form-control input-circle" })
+                                <span class="field-validation-valid" data-valmsg-for="KoridorID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Raf</label>
-                                <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.Raf, new { @class = "form-control input-circle", @placeholder = "Raf" })
-                                    <span class="field-validation-valid" data-valmsg-for="ShelfName" data-valmsg-replace="true" style="color:red;"></span>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Raf</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(a => a.Raf, new { @class = "form-control input-circle", @placeholder = "Raf" })
+                                <span class="field-validation-valid" data-valmsg-for="ShelfName" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Sıra</label>
-                                <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
-                                    <span class="field-validation-valid" data-valmsg-for="Sort" data-valmsg-replace="true" style="color:red;"></span>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Sıra</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
+                                <span class="field-validation-valid" data-valmsg-for="Sort" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Derinlik</label>
-                                <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.Derinlik, new { @class = "form-control input-circle" })
-                                    <span class="field-validation-valid" data-valmsg-for="Derinlik" data-valmsg-replace="true" style="color:red;"></span>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Derinlik</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(a => a.Derinlik, new { @class = "form-control input-circle" })
+                                <span class="field-validation-valid" data-valmsg-for="Derinlik" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Durum</label>
-                                <div class="col-md-4">
-                                    @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Durum</label>
+                            <div class="col-md-4">
+                                @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
 
-                                </div>
                             </div>
                         </div>
-                        <div class="form-actions">
-                            <div class="row">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <button type="submit" class="btn btn-circle green ekle-duzenle">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
-                                    <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
-                                </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-circle green ekle-duzenle">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
                             </div>
                         </div>
+                    </div>
                     }
                 </div>
             </div>
@@ -88,53 +87,36 @@
                     <div class="form-horizontal">
                         <div class="form-body">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-                                    <div class="form-group">
-                                        <div class="radio-list col-xs-12 col-md-12 col-lg-12">
-                                            <div class="col-sm-12 col-xs-12">
-                                                <label>
-                                                    <label style="color:#32c5d2;">Durum</label>
-                                                </label>
-                                            </div>
-                                            <div class="radio-list col-sm-12 col-xs-12">
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3" style="padding-left:20px;">
-                                                    <input type="radio" name="Locked" value="Locked" /> Aktif
-                                                </label>
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3">
-                                                    <input type="radio" name="Locked" value="noLocked" checked /> Pasif
-                                                </label>
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3">
-                                                    <input type="radio" name="Locked" value="All" checked /> Tümü
-                                                </label>
-                                            </div>
+                                <label class="col-sm-1">
+                                    <label style="color:#32c5d2;">Durum</label>
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="Locked" /> Aktif
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="noLocked" /> Pasif
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="All" checked /> Tümü
+                                </label>
+                                <div class="col-sm-3 col-sm-offset-4" style="color:#32c5d2;">
+                                    <div class="row">
+                                        <div class="col-sm-4">Depo</div>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle DepoID", required = "required", @onchange = "getCorridor(this.value,'CorridorList');" })
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <div class="row">
-                                            <label class="control-label col-sm-2 col-md-2 col-lg-2" style="color:#32c5d2;">Depo</label>
-                                            <div class="col-sm-8 col-md-8 col-lg-7">
-                                                <select id="StoreListi" class="form-control"></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:5px;">
-                                        <div class="row">
-                                            <label class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2" style="color:#32c5d2;">Koridor</label>
-                                            <div class="col-sm-8 col-md-8 col-lg-7">
-                                                <select id="CorridorList" class="form-control"></select>
-                                            </div>
-                                            <div class="col-sm-2 col-md-2 col-lg-2">
-                                                <button type="submit" class="btn green ara-btn" id="SearchBtn">Ara</button>
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">Koridor</div>
+                                        <div class="col-sm-8">
+                                            <select id="CorridorList" class="form-control input-circle"></select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="ShelfGrid" style="padding:10px;margin-top:18px;"></div>
+                    <div id="ShelfGrid" style="padding:10px;margin-top:30px;"></div>
                 </div>
             </div>
         </div>
@@ -149,123 +131,43 @@
     var ShelfGridUrl = '@Url.Action("ShelfGridPartial", "Shelf")';
     var ShelfDetailUrl = '@Url.Action("ShelfDetailPartial", "Shelf")';
     var DeleteFunctionUrl = '@Url.Action("Delete", "Shelf")';
-    var CorrridorList = '@Url.Action("SearchCorrridor", "Shelf")';
     var StoreListUrl = '@Url.Action("StoreList", "Corridor")';
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch();
         @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
-        StoreList();
-        $('#CorridorList').prop('disabled', 'disabled');
-        $('#SearchBtn').click(function () {
-            FuncSearchBtn();
-        });
-        $('#StoreListi').on('change', function () {
-            if (this.value==0) {
-                $("#CorridorList option").remove();
-                $('#CorridorList').prop('disabled', 'disabled');
-            }
-            else {
-                CorridorList(this.value);
-            }
-
-        })
+        $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
+        $('[name="Locked"]').click(function () { FuncSearchBtn(); });
+        FuncSearchBtn();
+        $('.StoreListi').on('change', function () { FuncSearchBtn(); })
+        $('#CorridorList').on('change', function () { FuncSearchBtn(); })
     });
-    $(document).on('change', '.cascading', function () {
-        var $dropdown = $(this);
-        var selectedValue = $dropdown.val();
-        var actionUrl = $dropdown.attr("data-action-url");
-        var actionLabel = $dropdown.attr("data-action-label");
-        var actionValue = $dropdown.attr("data-action-value");
-        var selected = $dropdown.attr("data-action-selected");
-        var otherDropDown = $("#" + $dropdown.attr("data-action-dropdown"));
-        if (selectedValue != null && selectedValue != '') {
-            $.ajax({
-                type: "GET",
-                url: actionUrl,
-                data: { val: selectedValue },
-                beforeSend: function (xhr) {
-                }
-            }).done(function (items) {
-                otherDropDown.empty();
-                if (actionLabel != null && actionLabel != undefined) {
-                    otherDropDown.append($('<option/>', {
-                        value: actionValue == "0" ? "0" : "",
-                        text: actionLabel
-                    }));
-                }
-                if (items) {
-                    otherDropDown.removeAttr("disabled");
-                    $.each(items, function (index, item) {
-                        if (item.Value == selected) {
-                            otherDropDown.append('<option value="' + item.Value + '" selected>' + item.Text + '</option>');
-                        } else {
-                            otherDropDown.append($('<option/>', {
-                                value: item.Value,
-                                text: item.Text,
-                                selectedValue: selectedValue
-                            }));
-                        }
+    function getCorridor(id, what) {
+        $("#" + what + " option").remove();
+        $.ajax({
+            url: "/Shelf/CorrridorList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
                     });
+                    $("#" + what).prepend("<option value='0'>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
                 }
-            }).fail(function (xhr, status, error) {
-                Failure(error);
-            });
-        }
-        else {
-            otherDropDown.empty();
-            otherDropDown.attr("disabled", "disabled");
-        }
-    });
+            }
+        });
+    }
     $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
         $(".make-switch").val(data)
     });
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
-        var StoreId = $("#StoreListi option:selected").val();
+        var StoreId = $(".StoreListi option:selected").val();
         var CorridorId = $("#CorridorList option:selected").val();
+        if (StoreId == null) StoreId = 0;
+        if (CorridorId == null) CorridorId = 0;
         PartialView(ShelfGridUrl, 'ShelfGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId) }));
-    }
-    function CorridorList(Id) {
-        $("#CorridorList option").remove();
-        $.ajax({
-            url: CorrridorList,
-            type: 'POST',
-            data: JSON.stringify({ Id: Id }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    //alert("Hata Oluştu !!!");
-                } else {
-                    $("#CorridorList").append("<option value=" + '0' + ">Lütfen Koridor Seçiniz !!!</option>");
-                    $("#CorridorList").removeAttr("disabled");
-                    $.each(data, function (i, item) {
-                        $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
-                    });
-                }
-            }
-        });
-    }
-    function StoreList() {
-        $("#StoreListi option").remove();
-        $("#StoreListi").append("<option value=" + '0' + ">Lütfen Depo Seçiniz !!!</option>");
-        $.ajax({
-            url: StoreListUrl,
-            type: 'POST',
-            data: '',
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    //Modaldialog("Kaydedilmiş depo bulunmamaktadır.", "Uyarı", "Tamam", "btn-success");
-                } else {
-
-                    $.each(data, function (i, item) {
-                        $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
-                    });
-                }
-            }
-        });
     }
     function ShelfReturn(Data) {
         FuncSearchBtn();
