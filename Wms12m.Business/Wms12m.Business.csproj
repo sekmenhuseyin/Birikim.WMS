@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -53,6 +54,7 @@
     <Compile Include="CacheControl\abstractCache.cs" />
     <Compile Include="CacheControl\CacheControl.cs" />
     <Compile Include="Control\QueryAnalysis.cs" />
+    <Compile Include="Logger\Logger.cs" />
     <Compile Include="Persons\AbstractPersons.cs" />
     <Compile Include="Persons\Persons.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,10 +78,6 @@
     <ProjectReference Include="..\Wms12m.Entity\Wms12m.Entity.csproj">
       <Project>{8c1be237-38f4-4170-ae02-ac56d44fde73}</Project>
       <Name>Wms12m.Entity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Wms12m.Log\Wms12m.Log.csproj">
-      <Project>{4a452865-99d1-4247-a094-e1be0c389369}</Project>
-      <Name>Wms12m.Log</Name>
     </ProjectReference>
     <ProjectReference Include="..\Wms12m.Repository\Wms12m.Repository.csproj">
       <Project>{46B145C2-528C-41D4-B305-E611C045BED7}</Project>

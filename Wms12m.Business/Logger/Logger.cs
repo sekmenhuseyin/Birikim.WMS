@@ -2,15 +2,13 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using Wms12m.Configuration;
 using Wms12m.Entity;
 using Wms12m.Security;
 
-namespace Wms12m.Log
+namespace Wms12m.Business
 {
     public sealed class Logger
     {
-        //public string ConnectionString { get; set; }
         public void Writer(LogCs Parametre)
         {
             string ConnectionString = ConfigurationManager.ConnectionStrings["LogConnectionString"].ConnectionString;
@@ -20,12 +18,12 @@ namespace Wms12m.Log
             string url = Identity.Current.Action.Url;
             SqlConnection connection = new SqlConnection(ConnectionString);
             SqlCommand command = new SqlCommand("Insert into ApplicationLog(UserName,Machine,IpAddress,Description,Method,Url) values(@UserName, @Machine, @IpAddress, @Description,@Method,@Url)", connection);
-            command.Parameters.Add("@UserName", System.Data.SqlDbType.VarChar).Value = username;
-            command.Parameters.Add("@Machine", System.Data.SqlDbType.VarChar).Value = machine;
-            command.Parameters.Add("@IpAddress", System.Data.SqlDbType.VarChar).Value = ipAddress;
-            command.Parameters.Add("@Description", System.Data.SqlDbType.VarChar).Value = Parametre.Description;
-            command.Parameters.Add("@Method", System.Data.SqlDbType.VarChar).Value = Parametre.Method;
-            command.Parameters.Add("@Url", System.Data.SqlDbType.VarChar).Value = url;
+            command.Parameters.Add("@UserName", SqlDbType.VarChar).Value = username;
+            command.Parameters.Add("@Machine", SqlDbType.VarChar).Value = machine;
+            command.Parameters.Add("@IpAddress", SqlDbType.VarChar).Value = ipAddress;
+            command.Parameters.Add("@Description", SqlDbType.VarChar).Value = Parametre.Description;
+            command.Parameters.Add("@Method", SqlDbType.VarChar).Value = Parametre.Method;
+            command.Parameters.Add("@Url", SqlDbType.VarChar).Value = url;
             if (connection.State == ConnectionState.Closed) connection.Open();
             command.BeginExecuteNonQuery(AsyncCommandCompletionCallback, command);
         }
