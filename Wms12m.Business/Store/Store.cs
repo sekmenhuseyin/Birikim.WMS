@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Web;
 using Wms12m.Cache;
 using Wms12m.Entity;
-using Wms12m.Log;
 using Wms12m.Repository;
 using static Wms12m.Configuration.Enm;
 
@@ -19,7 +18,7 @@ namespace Wms12m.Business
         Logger _Logger;
         List<Store01> PList;
         IUnitOfWork _unitOfWork;
-        Wms12m.Security.CustomPrincipal Users = HttpContext.Current.User as Wms12m.Security.CustomPrincipal;
+        Security.CustomPrincipal Users = HttpContext.Current.User as Security.CustomPrincipal;
         public override Result Delete(int Id)
         {
             _unitOfWork = new UnitOfWork();

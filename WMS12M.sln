@@ -5,13 +5,9 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Business", "Wms12m.Business\Wms12m.Business.csproj", "{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Log", "Wms12m.Log\Wms12m.Log.csproj", "{4A452865-99D1-4247-A094-E1BE0C389369}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Repository", "Wms12m.Repository\Wms12m.Repository.csproj", "{46B145C2-528C-41D4-B305-E611C045BED7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Security", "Wms12m.Security\Wms12m.Security.csproj", "{F58A64AC-4465-4049-8006-2FF5C931CE3D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Notification", "Wms12m.Notification\Wms12m.Notification.csproj", "{3C5506DF-2E0A-4420-A2A6-82443E166592}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Cache", "Wms12m.Cache\Wms12m.Cache.csproj", "{EC3E0EBD-A381-459A-AD4F-F74D23D0F162}"
 EndProject
@@ -31,10 +27,6 @@ Global
 		{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A452865-99D1-4247-A094-E1BE0C389369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A452865-99D1-4247-A094-E1BE0C389369}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A452865-99D1-4247-A094-E1BE0C389369}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A452865-99D1-4247-A094-E1BE0C389369}.Release|Any CPU.Build.0 = Release|Any CPU
 		{46B145C2-528C-41D4-B305-E611C045BED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{46B145C2-528C-41D4-B305-E611C045BED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46B145C2-528C-41D4-B305-E611C045BED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,10 +35,6 @@ Global
 		{F58A64AC-4465-4049-8006-2FF5C931CE3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F58A64AC-4465-4049-8006-2FF5C931CE3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F58A64AC-4465-4049-8006-2FF5C931CE3D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C5506DF-2E0A-4420-A2A6-82443E166592}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C5506DF-2E0A-4420-A2A6-82443E166592}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C5506DF-2E0A-4420-A2A6-82443E166592}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C5506DF-2E0A-4420-A2A6-82443E166592}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EC3E0EBD-A381-459A-AD4F-F74D23D0F162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EC3E0EBD-A381-459A-AD4F-F74D23D0F162}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC3E0EBD-A381-459A-AD4F-F74D23D0F162}.Release|Any CPU.ActiveCfg = Release|Any CPU
