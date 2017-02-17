@@ -103,15 +103,13 @@
     var StoreDetailUrl = '@Url.Action("StoreDetailPartial", "Storage")';
     var DeleteFunctionUrl = '@Url.Action("Delete", "Storage")';
     var StoreListUrl = '@Url.Action("StoreList", "Corridor")';
-    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
-        $(".make-switch").val(data)
-    });
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch();
         @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
         FuncSearchBtn();
     });
+    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
     function StoreReturn(Data) {
         FuncSearchBtn();
         CreateEdit('0');

@@ -5,10 +5,8 @@
             <th> Depo Kodu</th>
             <th> Depo Adı</th>
             <th> Sıra No</th>
-            <th> Tarih </th>
             <th> Durum </th>
-            <th> Düzenle </th>
-            <th> Sil </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -18,11 +16,10 @@
                 <td>@item.DepoKodu</td>
                 <td>@item.DepoAdi</td>
                 <td>@item.SiraNo </td>
-                <td>@DateTime.FromOADate(item.KayitTarih).ToShortDateString()</td>
                 <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
-                <td><a class="edit" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a></td>
                 <td>
-                    <a class="edit" href="javascript:;" onclick="Delete('@item.ID','/Storage/StoreGridPartial','StoreGrid','0')"> Sil </a>
+                    <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                    <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Storage/StoreGridPartial','StoreGrid','0')"> Sil </a>
                 </td>
             </tr>
         }

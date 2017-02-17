@@ -183,7 +183,7 @@ namespace Wms12m.Business
             PList = new List<Store02>();
             try
             {
-                return PList = SetList((int)GetListStatus.Refresh).Where(a => a.DepoID == Id).ToList();
+                return PList = Id == 0 ? SetList((int)GetListStatus.Refresh).ToList() : SetList((int)GetListStatus.Refresh).Where(a => a.DepoID == Id).ToList();
             }
             catch (Exception ex)
             {

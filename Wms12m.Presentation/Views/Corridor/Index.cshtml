@@ -17,6 +17,7 @@
                 <div class="portlet-body form">
                     @using (Ajax.BeginForm("CorridorOperation", "Corridor", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "CorridorFrom", OnSuccess = "CorridorReturn" }, new { @class = "form-horizontal" }))
                     {
+                        @Html.HiddenFor(a => a.ID)
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
                         <div class="form-body">
@@ -48,7 +49,6 @@
                                 </div>
                             </div>
                         </div>
-                        @Html.HiddenFor(a => a.ID)
                         <div class="form-actions">
                             <div class="row">
                                 <div class="col-md-offset-3 col-md-9">
@@ -72,45 +72,26 @@
                     <div class="form-horizontal">
                         <div class="form-body">
                             <div class="row">
-                                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-                                    <div class="form-group">
-                                        <div class="radio-list col-xs-12 col-md-12 col-lg-12">
-                                            <div class="col-sm-12 col-xs-12">
-                                                <label>
-                                                    <label style="color:#32c5d2;">Durum</label>
-                                                </label>
-                                            </div>
-                                            <div class="radio-list col-sm-12 col-xs-12">
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3" style="padding-left:20px;">
-                                                    <input type="radio" name="Locked" value="Locked" /> Aktif
-                                                </label>
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3">
-                                                    <input type="radio" name="Locked" value="noLocked" checked /> Pasif
-                                                </label>
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3">
-                                                    <input type="radio" name="Locked" value="All" checked /> Tümü
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <div class="row">
-                                            <label class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2" style="color:#32c5d2;">Depo</label>
-                                            <div class="col-sm-8 col-md-8 col-lg-7">
-                                                <select id="StoreListi" class="form-control"></select>
-                                            </div>
-                                            <div class="col-sm-2 col-md-2 col-lg-2">
-                                                <button type="submit" class="btn green ara-btn" id="SearchBtn">Ara</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <label class="col-sm-1">
+                                    <label style="color:#32c5d2;">Durum</label>
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="Locked" /> Aktif
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="noLocked" /> Pasif
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="All" checked /> Tümü
+                                </label>
+                                <div class="col-sm-1 col-sm-offset-4" style="color:#32c5d2;">Depo</div>
+                                <label class="col-sm-2">                                    
+                                    <select id="StoreListi" class="form-control  input-circle"></select>
+                                </label>
                             </div>
                         </div>
                     </div>
-                    <div id="CorridorGrid" style="padding:8px;"></div>
+                    <div id="CorridorGrid" style="padding:8px;margin-top:30px;"></div>
                 </div>
             </div>
         </div>
@@ -129,24 +110,15 @@
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch();
         @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
-            $('.ara-btn').prop('disabled', 'disabled');
+        $('[name="Locked"]').click(function () { FuncSearchBtn(); });
         StoreList();
         FuncSearchBtn();
         $('#SearchBtn').click(function () {
             FuncSearchBtn();
         });
-        $('#StoreListi').on('change', function () {
-            if (this.value != 0) {
-                $(".ara-btn").removeAttr("disabled");
-            }
-            else {
-                $('.ara-btn').prop('disabled', 'disabled');
-            }
-        })
+        $('#StoreListi').on('change', function () { FuncSearchBtn(); })
     });
-    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
-        $(".make-switch").val(data)
-    });
+    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
         var StoreId = $("#StoreListi option:selected").val();
@@ -176,7 +148,7 @@
 
     }
     function CreateEdit(Id) {
-        PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id==null?'':Id }));
+        PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
     }
     function InsertRefresh() {
         PartialView(CorridorDetailUrl, "CreateEdit", '0');
