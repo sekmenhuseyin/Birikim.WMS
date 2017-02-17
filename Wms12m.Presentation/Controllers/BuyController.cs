@@ -55,12 +55,6 @@ namespace Wms12m.Presentation.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         //anasayfadaki malzeme listesi
-        public PartialViewResult GridPartial()
-        {
-            var list = db.STIs.ToList();
-            return PartialView("_GridPartial", list);
-        }
-        //anasayfadaki malzeme listesi
         public PartialViewResult GetHesapCodes()
         {
             var list = db.GetHesapCodes().ToList();
