@@ -21,13 +21,13 @@
         <AssociationConnector Association="MModel.FK_STI_IRS" />
         <EntityTypeShape EntityType="MModel.ComboItemName" Width="1.5" PointX="10.625" PointY="8.75" />
         <EntityTypeShape EntityType="MModel.ComboName" Width="1.5" PointX="10.125" PointY="12" />
-        <EntityTypeShape EntityType="MModel.GorevListesi" Width="1.5" PointX="6.125" PointY="6.125" />
         <AssociationConnector Association="MModel.FK_ComboItemName_ComboName" />
+        <EntityTypeShape EntityType="MModel.USR01" Width="1.5" PointX="1.625" PointY="8.25" />
+        <EntityTypeShape EntityType="MModel.GorevListesi" Width="1.5" PointX="6.375" PointY="6.75" />
         <AssociationConnector Association="MModel.FK_GorevListesi_ComboItemName" />
         <AssociationConnector Association="MModel.FK_GorevListesi_ComboItemName1" />
         <AssociationConnector Association="MModel.FK_GorevListesi_IRS" />
         <AssociationConnector Association="MModel.FK_GorevListesi_TK_DEP" />
-        <EntityTypeShape EntityType="MModel.USR01" Width="1.5" PointX="1.625" PointY="8.25" />
         <AssociationConnector Association="MModel.FK_GorevListesi_USR01" />
         <AssociationConnector Association="MModel.FK_GorevListesi_USR011" />
         </Diagram>

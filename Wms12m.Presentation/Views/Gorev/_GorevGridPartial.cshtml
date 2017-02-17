@@ -19,14 +19,14 @@
     <tbody id="GorevFrom">
         @*@{Html.RenderAction("NewMalzemeForm", new { id = ViewBag.IrsaliyeId });}*@
         @foreach (var item in Model)
-            {
+        {
             <tr ondblclick="tiklama('@item.IrsaliyeID')">
                 <td>@item.TK_DEP.DepoAdi</td>
                 <td>@item.IR.EvrakNo</td>
                 <td>@item.GorevNo</td>
                 <td>@item.ComboItemName.ItemName</td>
                 <td>@item.ComboItemName1.ItemName</td>
-                <td>@item.USR01.UserName </td>
+                <td>@{if(item.USR01!=null) { @item.USR01.UserName}} </td>
                 <td>@DateTime.FromOADate(item.OlusturmaTarihi).ToShortDateString()</td>
                 <td>@DateTime.FromOADate(item.AtamaTarihi.Value).ToShortDateString()</td>
                 <td>@DateTime.FromOADate(item.BitirmeTarihi.Value).ToShortDateString()</td>

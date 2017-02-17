@@ -19,7 +19,7 @@ namespace Wms12m.Entity.Models
         public string GorevNo { get; set; }
         public int GorevTipiID { get; set; }
         public int DurumID { get; set; }
-        public int GorevliID { get; set; }
+        public Nullable<int> GorevliID { get; set; }
         public int AtayanID { get; set; }
         public Nullable<int> IrsaliyeID { get; set; }
         public int OlusturmaTarihi { get; set; }

@@ -1,8 +1,9 @@
-﻿@model List<STI>
+﻿@model List<GetIrsaliyeSTI_Result>
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th> MalKodu</th>
+            <th> Mal Kodu</th>
+            <th> Mal Adı</th>
             <th> Miktar</th>
             <th> Birim</th>
             <th> İşlem </th>
@@ -14,6 +15,7 @@
             {
             <tr>
                 <td>@item.MalKodu</td>
+                <td>@item.MalAdi</td>
                 <td>@item.Miktar</td>
                 <td>@item.Birim</td>
                 <td>
