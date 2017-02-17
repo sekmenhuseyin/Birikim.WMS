@@ -5,13 +5,15 @@
 }
 
 <script type="text/javascript">
+    var IrsNo = '@ViewBag.IrsNo';
     var MalKabulGridUrl = '@Url.Action("MalKabulGridPartial", "MalKabul")';
     var MalKabulDetailUrl = '@Url.Action("MalKabulDetailPartial", "MalKabul")';
     var MalKabulIcmalUrl = '@Url.Action("MalKabulIcmalPartial", "MalKabul")';
     var DeleteFunctionUrl = '@Url.Action("Delete", "MalKabul")';
     $(document).ready(function () {
-        PartialView(GorevGridUrl, 'GorevGrid', JSON.stringify({ Id: '0' }));
-        StoreList();
+        PartialView(MalKabulIcmalUrl, 'MalKabulIcmalGrid', JSON.stringify({ IrsNo: IrsNo }));
+        PartialView(MalKabulGridUrl, 'MalKabulGrid', JSON.stringify({ IrsNo: IrsNo }));
+        //StoreList();
 
         $('#SearchBtn').click(function () {
             FuncSearchBtn();
@@ -55,7 +57,7 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    <div id="MalKabulMalGrid" style="padding:10px;margin-top:18px;"></div>
+                    <div id="MalKabulGrid" style="padding:10px;margin-top:18px;"></div>
                 </div>
             </div>
         </div>
