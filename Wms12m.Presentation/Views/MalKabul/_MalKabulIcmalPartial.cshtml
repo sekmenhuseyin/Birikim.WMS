@@ -1,5 +1,94 @@
 ﻿@model List<IR>
-<table class="table table-striped table-bordered table-hover">
+<div class="row" style="border: 1px solid #5cd1db;border-top: 0;margin:0!important;">
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>İcmal Listesi
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <div class="col-md-6 ">
+                @*<div class="portlet light bordered">*@
+                <div class="portlet-body form">
+                    <form role="form">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label style="color:#5cb4e6; font-weight:bold;">Hesap Kodu</label>
+                                <div class="input-icon right">
+                                    <i class="fa fa-microphone fa-spin font-blue"></i>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label style="color:#5cb4e6; font-weight:bold;">Evrak No</label>
+                                <div class="input-icon right">
+                                    <i class="fa fa-microphone fa-spin font-blue"></i>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label style="color:#5cb4e6; font-weight:bold;">Depo</label>
+                                <div class="input-icon right">
+                                    <i class="fa fa-microphone fa-spin font-blue"></i>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                @*</div>*@
+            </div>
+            <div class="col-md-6 ">
+                @*<div class="portlet light bordered">*@
+                <div class="portlet-body form">
+                    <form role="form">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label style="color:#5cb4e6; font-weight:bold;">Teslim Yeri</label>
+                                <div class="input-icon right">
+                                    <i class="fa fa-microphone fa-spin font-blue"></i>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label style="color:#5cb4e6; font-weight:bold;">Teslim Tarihi</label>
+                                <div class="input-icon right">
+                                    <i class="fa fa-microphone fa-spin font-blue"></i>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label style="color:#5cb4e6; font-weight:bold;">Kaydeden</label>
+                                <div class="input-icon right">
+                                    <i class="fa fa-microphone fa-spin font-blue"></i>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label style="color:#5cb4e6; font-weight:bold;">Kayıt Tarihi</label>
+                                <div class="input-icon right">
+                                    <i class="fa fa-microphone fa-spin font-blue"></i>
+                                    <input type="text" class="form-control" value="Model.KayitTarih">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*</div>*@
+    </div>
+
+
+
+
+
+
+
+
+@*<table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th> HesapKodu</th>
@@ -8,12 +97,12 @@
             <th> Teslim Yeri</th>
             <th> Teslim Tarihi</th>
             <th> Kaydeden </th>
-            <th> KayıtTarihi </th>
+            <th> Kayıt Tarihi </th>
         </tr>
     </thead>
-    <tbody id="IcmalFrom">
+    <tbody id="IcmalFrom">*@
         @*@{Html.RenderAction("NewMalzemeForm", new { id = ViewBag.IrsaliyeId });}*@
-        @foreach (var item in Model)
+        @*@foreach (var item in Model)
             {
             <tr>
                 <td>@item.HesapKodu</td>
@@ -24,9 +113,9 @@
                 <td>@item.Kaydeden</td>
                 <td>@item.KayitTarih</td>
             </tr>
-        }
-    </tbody>
-</table>
+        }*@
+    @*</tbody>
+</table>*@
 <script type="text/javascript">
     $("#CreateEdit").hide();
 </script>

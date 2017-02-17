@@ -46,6 +46,7 @@ namespace Wms12m.Presentation.Controllers
             if (tmp != null)
             {
                 //add new
+                tmp.MalKodu = tbl.MalKodu;
                 tmp.Birim = tbl.Birim;
                 tmp.Miktar = tbl.Miktar;
                 db.SaveChanges();
