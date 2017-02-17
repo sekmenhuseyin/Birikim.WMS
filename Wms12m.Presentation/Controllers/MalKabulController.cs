@@ -35,7 +35,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult MalKabulIcmalPartial(int IrsNo)
         {
 
-            var list = db.IRS.Where(m => m.ID == IrsNo).ToList();
+            var list = db.IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
             return PartialView("_MalKabulIcmalPartial", list);
         }
 
@@ -46,6 +46,7 @@ namespace Wms12m.Presentation.Controllers
             if (tmp != null)
             {
                 //add new
+                tmp.MalKodu = tbl.MalKodu;
                 tmp.Birim = tbl.Birim;
                 tmp.Miktar = tbl.Miktar;
                 db.SaveChanges();
