@@ -134,5 +134,14 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsaliyeSTI_Result>("GetIrsaliyeSTI", irsaliyeIDParameter);
         }
+    
+        public virtual ObjectResult<string> GetMalBirim(string kod)
+        {
+            var kodParameter = kod != null ?
+                new ObjectParameter("kod", kod) :
+                new ObjectParameter("kod", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetMalBirim", kodParameter);
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace Wms12m.Presentation.Controllers
             else
                 tbl.Id = tmp.ID;
             //get list
-            var list = db.STIs.Where(m => m.IrsaliyeID == tbl.Id).ToList();
+            var list = db.GetIrsaliyeSTI(tbl.Id).ToList();
             ViewBag.IrsaliyeId = tbl.Id;
             return PartialView("_GridPartial", list);
         }
@@ -43,15 +43,22 @@ namespace Wms12m.Presentation.Controllers
             db.STIs.Add(tablo);
             db.SaveChanges();
             //get list
-            var list = db.STIs.Where(m => m.IrsaliyeID == tablo.IrsaliyeID).ToList();
+            var list = db.GetIrsaliyeSTI(tablo.IrsaliyeID).ToList();
             ViewBag.IrsaliyeId = tablo.ID;
             return PartialView("_GridPartial", list);
         }
         //malzeme autocomplete and search
-        //[HttpPost]
+        [HttpPost]
         public JsonResult getMalzeme(frmMalzemeSearch tbl)
         {
             var list = db.GetMalzeme(tbl.kod, tbl.ad).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+        //malzeme koduna göre birim getirir
+        [HttpPost]
+        public JsonResult getBirim(string kod)
+        {
+            var list = db.GetMalBirim(kod).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         //anasayfadaki malzeme listesi

@@ -330,6 +330,9 @@
         <Function Name="GetIrsaliyeSTI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IrsaliyeID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetMalBirim" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="kod" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetMalzeme" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="kod" Type="varchar" Mode="In" />
           <Parameter Name="ad" Type="varchar" Mode="In" />
@@ -510,7 +513,10 @@
           <Parameter Name="kod" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetIrsaliyeSTI" ReturnType="Collection(MModel.GetIrsaliyeSTI_Result)">
-            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
+          <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetMalBirim" ReturnType="Collection(String)">
+            <Parameter Name="kod" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GetHesapCodes_Result">
@@ -1098,6 +1104,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMalBirim" FunctionName="MModel.Store.GetMalBirim" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

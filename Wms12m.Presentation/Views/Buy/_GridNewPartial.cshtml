@@ -5,7 +5,7 @@
     <td>@Html.TextBoxFor(a => a.MalKodu, new { @class = "form-control input-circle", @required = "", @onkeypress = "getMalzeme(this.value,'')" })</td>
     <td>@Html.TextBoxFor(a => a.MalAdi, new { @class = "form-control input-circle", @required = "", @onkeypress = "getMalzeme('',this.value)" })</td>
     <td>@Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle", @required = "" })</td>
-    <td>@Html.TextBoxFor(a => a.Birim, new { @class = "form-control input-circle", @required = "" })</td>
+    <td><select name="Birim" id="Birim" class = "form-control input-circle" required></select></td>
     <td><input type="hidden" name="IrsaliyeId" value="@ViewBag.IrsaliyeId" /><input type="submit" class="btn btn-primary btn-block input-circle" value="Ekle" /></td>
 </tr>
 <tr id="rowSearch"><td colspan="6"><select id="malzemeSelector"></select></td></tr>
