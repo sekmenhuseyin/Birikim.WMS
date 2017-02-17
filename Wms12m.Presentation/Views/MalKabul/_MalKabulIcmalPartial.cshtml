@@ -6,7 +6,41 @@
                 <i class="fa fa-gift"></i>İcmal Listesi
             </div>
         </div>
+
         <div class="portlet-body form">
+
+            <div class="col-md-4 ">
+                @*<div class="portlet light bordered">*@
+                <div class="portlet-body form">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Hesap Kodu</label>
+                                <div class="col-md-8 input-icon right">
+                                    @*<i class="fa fa-microphone fa-spin font-blue"></i>*@
+                                    <input type="text" class="form-control" value="@Model.HesapKodu" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                @*</div>*@
+            </div>
+            <div class="col-md-8 ">
+                @*<div class="portlet light bordered">*@
+                <div class="portlet-body form">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" style="color:#5cb4e6; font-weight:bold;">Unvan</label>
+                                <div class="col-md-10 input-icon right">
+                                    <input type="text" class="form-control" value="@ViewBag.Unvan" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div class="col-md-4 ">
                 @*<div class="portlet light bordered">*@
                 <div class="portlet-body form">
@@ -25,7 +59,13 @@
                                     <input type="text" class="form-control" value="@Model.EvrakNo" readonly>
                                 </div>
                             </div>
-                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">Unvan</label>
+                                <div class="col-md-8 input-icon right">
+                                    <input type="text" class="form-control" value="@ViewBag.Unvan" readonly>
+                                </div>
+                            </div>
+
 
                         </div>
                     </form>
@@ -49,7 +89,7 @@
                                     <input type="text" class="form-control" value="@Model.TeslimCHK" readonly>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </form>
                 </div>
@@ -78,7 +118,7 @@
         </div>
     </div>
     @*</div>*@
-    </div>
+</div>
 
 
 
@@ -100,21 +140,21 @@
         </tr>
     </thead>
     <tbody id="IcmalFrom">*@
-        @*@{Html.RenderAction("NewMalzemeForm", new { id = ViewBag.IrsaliyeId });}*@
-        @*@foreach (var item in Model)
-            {
-            <tr>
-                <td>@item.HesapKodu</td>
-                <td>@item.EvrakNo</td>
-                <td>@item.TK_DEP.DepoAdi</td>
-                <td>@item.TeslimCHK</td>
-                <td>@item.Tarih</td>
-                <td>@item.Kaydeden</td>
-                <td>@item.KayitTarih</td>
-            </tr>
-        }*@
-    @*</tbody>
-</table>*@
+@*@{Html.RenderAction("NewMalzemeForm", new { id = ViewBag.IrsaliyeId });}*@
+@*@foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.HesapKodu</td>
+            <td>@item.EvrakNo</td>
+            <td>@item.TK_DEP.DepoAdi</td>
+            <td>@item.TeslimCHK</td>
+            <td>@item.Tarih</td>
+            <td>@item.Kaydeden</td>
+            <td>@item.KayitTarih</td>
+        </tr>
+    }*@
+@*</tbody>
+    </table>*@
 <script type="text/javascript">
     $("#CreateEdit").hide();
 </script>

@@ -65,6 +65,9 @@
     <Compile Include="Models\GetHesapCodes_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetIrsaliyeSTI_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetMalzemeCodes_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

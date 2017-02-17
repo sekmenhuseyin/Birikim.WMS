@@ -107,5 +107,32 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("UpdateIrsaliye", iDParameter, depoIDParameter, islemTurParameter, evrakNoParameter, hesapKoduParameter, teslimCHKParameter, tarihParameter, kaydedenParameter, kayitTarihParameter, loggedUserIDParameter);
         }
+    
+        public virtual ObjectResult<string> GetHesapUnvan(string kod)
+        {
+            var kodParameter = kod != null ?
+                new ObjectParameter("kod", kod) :
+                new ObjectParameter("kod", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetHesapUnvan", kodParameter);
+        }
+    
+        public virtual ObjectResult<string> GetMalzemeAd(string kod)
+        {
+            var kodParameter = kod != null ?
+                new ObjectParameter("kod", kod) :
+                new ObjectParameter("kod", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetMalzemeAd", kodParameter);
+        }
+    
+        public virtual ObjectResult<GetIrsaliyeSTI_Result> GetIrsaliyeSTI(Nullable<int> irsaliyeID)
+        {
+            var irsaliyeIDParameter = irsaliyeID.HasValue ?
+                new ObjectParameter("IrsaliyeID", irsaliyeID) :
+                new ObjectParameter("IrsaliyeID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsaliyeSTI_Result>("GetIrsaliyeSTI", irsaliyeIDParameter);
+        }
     }
 }

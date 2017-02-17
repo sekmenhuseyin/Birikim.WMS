@@ -36,6 +36,7 @@ namespace Wms12m.Presentation.Controllers
         {
 
             var list = db.IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
+            ViewBag.Unvan = db.GetHesapUnvan(list.HesapKodu).FirstOrDefault();
             return PartialView("_MalKabulIcmalPartial", list);
         }
 
