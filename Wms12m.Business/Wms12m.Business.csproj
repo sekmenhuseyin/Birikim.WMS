@@ -54,6 +54,13 @@
     <Compile Include="CacheControl\abstractCache.cs" />
     <Compile Include="CacheControl\CacheControl.cs" />
     <Compile Include="Control\QueryAnalysis.cs" />
+    <Compile Include="Extension\Extensions.cs" />
+    <Compile Include="Gorev\abstractMalKabul.cs" />
+    <Compile Include="Gorev\MalKabulDSTOnay.cs" />
+    <Compile Include="Gorev\MalKabulFTDOnay.cs" />
+    <Compile Include="Gorev\MalKabulMFKOnay.cs" />
+    <Compile Include="Gorev\MalKabulOnay.cs" />
+    <Compile Include="Gorev\MalKabulSTKOnay.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Persons\AbstractPersons.cs" />
     <Compile Include="Persons\Persons.cs" />

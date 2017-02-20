@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -49,6 +50,31 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.GorevID = tbl.ID;
             var list = db.GorevListesis.ToList();
             return PartialView("_GorevGridPartial", list);
+        }
+
+        public string MalKabulOnay(string EvrakNo, string CHK, int IrsaliyeNo, string GorevNo, int SirketKodu)
+        {
+            abstractMalKabul<STII> STIset = new MalKabulSTIOnay();
+            abstractMalKabul<FTDD> FTDset = new MalKabulFTDOnay();
+            abstractMalKabul<MFKK> MFKset = new MalKabulMFKOnay();
+            abstractMalKabul<STKK> STKset = new MalKabulSTKOnay();
+            abstractMalKabul<DSTT> DSTset = new MalKabulDSTOnay();
+
+
+
+            //var tmp = db.GorevListesis.Where(m => m.GorevNo == GorevNo && m.GorevTipiID=12).FirstOrDefault();
+            //if (tmp != null)
+            //{
+            //    //add new
+            //    tmp.GorevliID = tbl.GorevliID;
+            //    tmp.Aciklama = tbl.Aciklama;
+            //    tmp.Bilgi = tbl.Bilgi;
+            //    tmp.DurumID = tbl.DurumID;
+            //    db.SaveChanges();
+            //}
+
+            return "";
+            //return View();
         }
     }
 }
