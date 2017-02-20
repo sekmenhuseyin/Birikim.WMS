@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Globalization;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -22,7 +23,17 @@ namespace Wms12m.Presentation.Controllers
             //check if exists
             var tmp = db.IRS.Where(m => m.EvrakNo == tbl.EvrakNo).FirstOrDefault();
             if (tmp == null)
-                tbl.Id = db.UpdateIrsaliye(0, tbl.DepoID, false, tbl.EvrakNo, tbl.HesapKodu, "", Convert.ToInt32(tbl.Tarih.ToOADate()), User.LogonUserName, Convert.ToInt32(DateTime.Today.ToOADate()), User.Id).FirstOrDefault().Value;
+            {
+                DateTime dateValue=DateTime.Now;
+                if (DateTime.TryParse(tbl.Tarih, out dateValue) == true)
+                {
+                    try
+                    {
+                        tbl.Id = db.UpdateIRS(0, tbl.DepoID, false, tbl.EvrakNo, tbl.HesapKodu, "", Convert.ToInt32(dateValue.ToOADate()), User.LogonUserName, Convert.ToInt32(DateTime.Today.ToOADate()), User.Id).FirstOrDefault().Value;
+                    }
+                    catch (Exception) { }
+                }
+            }
             else
                 tbl.Id = tmp.ID;
             //get list
@@ -35,16 +46,13 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult InsertMalzeme(frmMalzeme tbl)
         {
             //add new
-            STI tablo = new STI();
-            tablo.IrsaliyeID = tbl.IrsaliyeId;
-            tablo.MalKodu = tbl.MalKodu;
-            tablo.Miktar = tbl.Miktar;
-            tablo.Birim = tbl.Birim;
-            db.STIs.Add(tablo);
-            db.SaveChanges();
+            try
+            {
+                var tmp = db.UpdateSTI(0, tbl.IrsaliyeId, tbl.MalKodu, tbl.Miktar, tbl.Birim).FirstOrDefault();
+            }catch (Exception){}
             //get list
-            var list = db.GetIrsaliyeSTI(tablo.IrsaliyeID).ToList();
-            ViewBag.IrsaliyeId = tablo.ID;
+            var list = db.GetIrsaliyeSTI(tbl.IrsaliyeId).ToList();
+            ViewBag.IrsaliyeId = tbl.IrsaliyeId;
             return PartialView("_GridPartial", list);
         }
         //malzeme autocomplete

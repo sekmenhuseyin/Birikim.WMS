@@ -341,7 +341,7 @@
           <Parameter Name="kod" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetMalzemeCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="UpdateIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="UpdateIRS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="IslemTur" Type="bit" Mode="In" />
@@ -352,6 +352,13 @@
           <Parameter Name="Kaydeden" Type="varchar" Mode="In" />
           <Parameter Name="KayitTarih" Type="int" Mode="In" />
           <Parameter Name="LoggedUserID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateSTI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="IrsaliyeID" Type="int" Mode="In" />
+          <Parameter Name="MalKodu" Type="varchar" Mode="In" />
+          <Parameter Name="Miktar" Type="numeric" Mode="In" />
+          <Parameter Name="Birim" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="ComboItemName" EntityType="Self.ComboItemName" Schema="dbo" store:Type="Tables" />
@@ -458,18 +465,6 @@
             <End Role="IR" EntitySet="IRS" />
             <End Role="STI" EntitySet="STIs" />
           </AssociationSet>
-          <FunctionImport Name="UpdateIrsaliye" ReturnType="Collection(Int32)">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="IslemTur" Mode="In" Type="Boolean" />
-            <Parameter Name="EvrakNo" Mode="In" Type="String" />
-            <Parameter Name="HesapKodu" Mode="In" Type="String" />
-            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
-            <Parameter Name="Tarih" Mode="In" Type="Int32" />
-            <Parameter Name="Kaydeden" Mode="In" Type="String" />
-            <Parameter Name="KayitTarih" Mode="In" Type="Int32" />
-            <Parameter Name="LoggedUserID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="ComboItemNames" EntityType="MModel.ComboItemName" />
           <EntitySet Name="ComboNames" EntityType="MModel.ComboName" />
           <AssociationSet Name="FK_ComboItemName_ComboName" Association="MModel.FK_ComboItemName_ComboName">
@@ -517,6 +512,25 @@
           <FunctionImport Name="GetMalzeme" ReturnType="Collection(MModel.GetMalzeme_Result)">
             <Parameter Name="kod" Mode="In" Type="String" />
             <Parameter Name="ad" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateIRS" ReturnType="Collection(Int32)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="IslemTur" Mode="In" Type="Boolean" />
+            <Parameter Name="EvrakNo" Mode="In" Type="String" />
+            <Parameter Name="HesapKodu" Mode="In" Type="String" />
+            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
+            <Parameter Name="Tarih" Mode="In" Type="Int32" />
+            <Parameter Name="Kaydeden" Mode="In" Type="String" />
+            <Parameter Name="KayitTarih" Mode="In" Type="Int32" />
+            <Parameter Name="LoggedUserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateSTI" ReturnType="Collection(Int32)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
+            <Parameter Name="MalKodu" Mode="In" Type="String" />
+            <Parameter Name="Miktar" Mode="In" Type="Decimal" />
+            <Parameter Name="Birim" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="GetHesapCodes_Result">
@@ -1031,7 +1045,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="UpdateIrsaliye" FunctionName="MModel.Store.UpdateIrsaliye" />
           <EntitySetMapping Name="ComboItemNames">
             <EntityTypeMapping TypeName="MModel.ComboItemName">
               <MappingFragment StoreEntitySet="ComboItemName">
@@ -1107,6 +1120,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateIRS" FunctionName="MModel.Store.UpdateIRS" />
+          <FunctionImportMapping FunctionImportName="UpdateSTI" FunctionName="MModel.Store.UpdateSTI" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
