@@ -168,5 +168,10 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("UpdateSTI", iDParameter, irsaliyeIDParameter, malKoduParameter, miktarParameter, birimParameter);
         }
+    
+        public virtual ObjectResult<GetSirkets_Result> GetSirkets()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSirkets_Result>("GetSirkets");
+        }
     }
 }

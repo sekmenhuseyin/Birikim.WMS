@@ -10,17 +10,10 @@
 namespace Wms12m.Entity.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class STI
+    public partial class GetSirkets_Result
     {
-        public int ID { get; set; }
-        public int IrsaliyeID { get; set; }
-        public string MalKodu { get; set; }
-        public decimal Miktar { get; set; }
-        public string Birim { get; set; }
-        public Nullable<decimal> MiktarReal { get; set; }
-    
-        public virtual IR IR { get; set; }
+        public string Kod { get; set; }
+        public string Ad { get; set; }
     }
 }

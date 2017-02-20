@@ -80,6 +80,7 @@
           <Property Name="Tarih" Type="int" Nullable="false" />
           <Property Name="Kaydeden" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="KayitTarih" Type="int" Nullable="false" />
+          <Property Name="Onay" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="STI">
           <Key>
@@ -88,8 +89,9 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IrsaliyeID" Type="int" Nullable="false" />
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="MiktarReal" Type="numeric" Precision="25" Scale="6" />
         </EntityType>
         <EntityType Name="TK_BOL">
           <Key>
@@ -341,6 +343,7 @@
           <Parameter Name="kod" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetMalzemeCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UpdateIRS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
@@ -532,6 +535,7 @@
             <Parameter Name="Miktar" Mode="In" Type="Decimal" />
             <Parameter Name="Birim" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
         </EntityContainer>
         <ComplexType Name="GetHesapCodes_Result">
           <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
@@ -707,6 +711,7 @@
           <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_IRS_TK_DEP" FromRole="IR" ToRole="TK_DEP" />
           <NavigationProperty Name="STIs" Relationship="MModel.FK_STI_IRS" FromRole="IR" ToRole="STI" />
           <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_IRS" FromRole="IR" ToRole="GorevListesi" />
+          <Property Name="Onay" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="STI">
           <Key>
@@ -718,6 +723,7 @@
           <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
           <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_STI_IRS" FromRole="STI" ToRole="IR" />
+          <Property Name="MiktarReal" Type="Decimal" Precision="25" Scale="6" />
         </EntityType>
         <Association Name="FK_IRS_TK_DEP">
           <End Type="MModel.TK_DEP" Role="TK_DEP" Multiplicity="1" />
@@ -899,6 +905,10 @@
           <Property Type="String" Name="value" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="label" Nullable="false" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="GetSirkets_Result">
+          <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Ad" Nullable="false" MaxLength="55" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1022,6 +1032,7 @@
           <EntitySetMapping Name="IRS">
             <EntityTypeMapping TypeName="MModel.IR">
               <MappingFragment StoreEntitySet="IRS">
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
                 <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
                 <ScalarProperty Name="Tarih" ColumnName="Tarih" />
@@ -1037,6 +1048,7 @@
           <EntitySetMapping Name="STIs">
             <EntityTypeMapping TypeName="MModel.STI">
               <MappingFragment StoreEntitySet="STI">
+                <ScalarProperty Name="MiktarReal" ColumnName="MiktarReal" />
                 <ScalarProperty Name="Birim" ColumnName="Birim" />
                 <ScalarProperty Name="Miktar" ColumnName="Miktar" />
                 <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
@@ -1122,6 +1134,14 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UpdateIRS" FunctionName="MModel.Store.UpdateIRS" />
           <FunctionImportMapping FunctionImportName="UpdateSTI" FunctionName="MModel.Store.UpdateSTI" />
+          <FunctionImportMapping FunctionImportName="GetSirkets" FunctionName="MModel.Store.GetSirkets">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetSirkets_Result">
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

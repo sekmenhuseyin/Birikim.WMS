@@ -74,6 +74,9 @@
     <Compile Include="Models\GetMalzeme_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetSirkets_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GorevListesi.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

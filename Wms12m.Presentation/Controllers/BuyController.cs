@@ -13,6 +13,7 @@ namespace Wms12m.Presentation.Controllers
         // GET: Buy
         public ActionResult Index()
         {
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
             return View("Index", new frmIrsaliye());
         }
