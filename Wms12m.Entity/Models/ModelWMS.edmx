@@ -72,6 +72,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SirketKod" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="DepoID" Type="int" Nullable="false" />
           <Property Name="IslemTur" Type="bit" Nullable="false" />
           <Property Name="EvrakNo" Type="varchar" MaxLength="16" Nullable="false" />
@@ -325,27 +326,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="GetHesapCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetHesapCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetHesapUnvan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="kod" Type="nvarchar" Mode="In" />
+          <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetIrsaliyeSTI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IrsaliyeID" Type="int" Mode="In" />
+          <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetMalBirim" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="kod" Type="nvarchar" Mode="In" />
+          <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetMalzeme" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="kod" Type="varchar" Mode="In" />
           <Parameter Name="ad" Type="varchar" Mode="In" />
+          <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetMalzemeAd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="kod" Type="varchar" Mode="In" />
+          <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="GetMalzemeCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetMalzemeCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UpdateIRS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="SirketKod" Type="varchar" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="IslemTur" Type="bit" Mode="In" />
           <Parameter Name="EvrakNo" Type="varchar" Mode="In" />
@@ -434,8 +445,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="MModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="WMSEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="GetHesapCodes" ReturnType="Collection(MModel.GetHesapCodes_Result)" />
-          <FunctionImport Name="GetMalzemeCodes" ReturnType="Collection(MModel.GetMalzemeCodes_Result)" />
           <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
           <EntitySet Name="TK_BOL" EntityType="MModel.TK_BOL" />
           <EntitySet Name="TK_DEP" EntityType="MModel.TK_DEP" />
@@ -475,18 +484,6 @@
             <End Role="ComboItemName" EntitySet="ComboItemNames" />
           </AssociationSet>
           <EntitySet Name="USR01" EntityType="MModel.USR01" />
-          <FunctionImport Name="GetHesapUnvan" ReturnType="Collection(String)">
-          <Parameter Name="kod" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetMalzemeAd" ReturnType="Collection(String)">
-          <Parameter Name="kod" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetIrsaliyeSTI" ReturnType="Collection(MModel.GetIrsaliyeSTI_Result)">
-          <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetMalBirim" ReturnType="Collection(String)">
-          <Parameter Name="kod" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="GorevListesis" EntityType="MModel.GorevListesi" />
           <AssociationSet Name="FK_GorevListesi_ComboItemName" Association="MModel.FK_GorevListesi_ComboItemName">
             <End Role="ComboItemName" EntitySet="ComboItemNames" />
@@ -512,12 +509,29 @@
             <End Role="USR01" EntitySet="USR01" />
             <End Role="GorevListesi" EntitySet="GorevListesis" />
           </AssociationSet>
+          <FunctionImport Name="GetHesapCodes" ReturnType="Collection(MModel.GetHesapCodes_Result)">
+          <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetHesapUnvan" ReturnType="Collection(String)">
+            <Parameter Name="kod" Mode="In" Type="String" />
+            <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="GetMalzeme" ReturnType="Collection(MModel.GetMalzeme_Result)">
             <Parameter Name="kod" Mode="In" Type="String" />
             <Parameter Name="ad" Mode="In" Type="String" />
+            <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="GetMalzemeAd" ReturnType="Collection(String)">
+            <Parameter Name="kod" Mode="In" Type="String" />
+            <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMalzemeCodes" ReturnType="Collection(MModel.GetMalzemeCodes_Result)">
+          <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
           <FunctionImport Name="UpdateIRS" ReturnType="Collection(Int32)">
             <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="SirketKod" Mode="In" Type="String" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
             <Parameter Name="IslemTur" Mode="In" Type="Boolean" />
             <Parameter Name="EvrakNo" Mode="In" Type="String" />
@@ -535,17 +549,15 @@
             <Parameter Name="Miktar" Mode="In" Type="Decimal" />
             <Parameter Name="Birim" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
+          <FunctionImport Name="GetMalBirim">
+            <Parameter Name="kod" Mode="In" Type="String" />
+            <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetIrsaliyeSTI" ReturnType="Collection(MModel.GetIrsaliyeSTI_Result)">
+            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
+            <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="GetHesapCodes_Result">
-          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Unvan1" Nullable="false" MaxLength="40" />
-        </ComplexType>
-        <ComplexType Name="GetMalzemeCodes_Result">
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="MalAdi" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Birim1" Nullable="false" MaxLength="4" />
-        </ComplexType>
         <EntityType Name="Olcu">
           <Key>
             <PropertyRef Name="ID" />
@@ -712,6 +724,7 @@
           <NavigationProperty Name="STIs" Relationship="MModel.FK_STI_IRS" FromRole="IR" ToRole="STI" />
           <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_IRS" FromRole="IR" ToRole="GorevListesi" />
           <Property Name="Onay" Type="Boolean" Nullable="false" />
+          <Property Name="SirketKod" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="STI">
           <Key>
@@ -796,14 +809,6 @@
           <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_USR01" FromRole="USR01" ToRole="GorevListesi" />
           <NavigationProperty Name="GorevListesis1" Relationship="MModel.FK_GorevListesi_USR011" FromRole="USR01" ToRole="GorevListesi" />
           </EntityType>
-        <ComplexType Name="GetIrsaliyeSTI_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="Int32" Name="IrsaliyeID" Nullable="false" />
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="MalAdi" Nullable="false" MaxLength="50" />
-        </ComplexType>
         <EntityType Name="GorevListesi">
           <Key>
             <PropertyRef Name="ID" />
@@ -900,14 +905,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetHesapCodes_Result">
+          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Unvan1" Nullable="false" MaxLength="40" />
+        </ComplexType>
         <ComplexType Name="GetMalzeme_Result">
           <Property Type="String" Name="id" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="value" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="label" Nullable="false" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="GetMalzemeCodes_Result">
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="MalAdi" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Birim1" Nullable="false" MaxLength="4" />
+        </ComplexType>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="Ad" Nullable="false" MaxLength="55" />
+        </ComplexType>
+        <ComplexType Name="GetIrsaliyeSTI_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="IrsaliyeID" Nullable="false" />
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="MalAdi" Nullable="false" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -915,23 +937,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MModelStoreContainer" CdmEntityContainer="WMSEntities">
-          <FunctionImportMapping FunctionImportName="GetHesapCodes" FunctionName="MModel.Store.GetHesapCodes">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetHesapCodes_Result">
-                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
-                <ScalarProperty Name="Unvan1" ColumnName="Unvan1" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetMalzemeCodes" FunctionName="MModel.Store.GetMalzemeCodes">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetMalzemeCodes_Result">
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
-                <ScalarProperty Name="Birim1" ColumnName="Birim1" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Olcus">
             <EntityTypeMapping TypeName="MModel.Olcu">
               <MappingFragment StoreEntitySet="Olcu">
@@ -1032,6 +1037,7 @@
           <EntitySetMapping Name="IRS">
             <EntityTypeMapping TypeName="MModel.IR">
               <MappingFragment StoreEntitySet="IRS">
+                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
                 <ScalarProperty Name="Onay" ColumnName="Onay" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
                 <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
@@ -1089,21 +1095,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetHesapUnvan" FunctionName="MModel.Store.GetHesapUnvan" />
-          <FunctionImportMapping FunctionImportName="GetMalzemeAd" FunctionName="MModel.Store.GetMalzemeAd" />
-          <FunctionImportMapping FunctionImportName="GetIrsaliyeSTI" FunctionName="MModel.Store.GetIrsaliyeSTI">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetIrsaliyeSTI_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetMalBirim" FunctionName="MModel.Store.GetMalBirim" />
           <EntitySetMapping Name="GorevListesis">
             <EntityTypeMapping TypeName="MModel.GorevListesi">
               <MappingFragment StoreEntitySet="GorevListesi">
@@ -1123,6 +1114,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetHesapCodes" FunctionName="MModel.Store.GetHesapCodes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetHesapCodes_Result">
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="Unvan1" ColumnName="Unvan1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetHesapUnvan" FunctionName="MModel.Store.GetHesapUnvan" />
           <FunctionImportMapping FunctionImportName="GetMalzeme" FunctionName="MModel.Store.GetMalzeme">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetMalzeme_Result">
@@ -1132,13 +1132,36 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="UpdateIRS" FunctionName="MModel.Store.UpdateIRS" />
-          <FunctionImportMapping FunctionImportName="UpdateSTI" FunctionName="MModel.Store.UpdateSTI" />
+          <FunctionImportMapping FunctionImportName="GetMalzemeAd" FunctionName="MModel.Store.GetMalzemeAd" />
+          <FunctionImportMapping FunctionImportName="GetMalzemeCodes" FunctionName="MModel.Store.GetMalzemeCodes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetMalzemeCodes_Result">
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
+                <ScalarProperty Name="Birim1" ColumnName="Birim1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetSirkets" FunctionName="MModel.Store.GetSirkets">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetSirkets_Result">
                 <ScalarProperty Name="Kod" ColumnName="Kod" />
                 <ScalarProperty Name="Ad" ColumnName="Ad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateIRS" FunctionName="MModel.Store.UpdateIRS" />
+          <FunctionImportMapping FunctionImportName="UpdateSTI" FunctionName="MModel.Store.UpdateSTI" />
+          <FunctionImportMapping FunctionImportName="GetMalBirim" FunctionName="MModel.Store.GetMalBirim" />
+          <FunctionImportMapping FunctionImportName="GetIrsaliyeSTI" FunctionName="MModel.Store.GetIrsaliyeSTI">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetIrsaliyeSTI_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

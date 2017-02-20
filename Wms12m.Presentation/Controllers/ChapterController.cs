@@ -11,7 +11,6 @@ namespace Wms12m.Presentation.Controllers
     {
         // GET: Chapter
         Result _Result;
-        abstractStore<Store01> StoreOperation;
         abstractStore<Store02> CorrridorOperation;
         abstractStore<Store03> ShelfOperation;
         abstractStore<Store04> ChapterOperation;

@@ -18,7 +18,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult MalKabulGridPartial(int IrsNo)
         {
-            var list = db.GetIrsaliyeSTI(IrsNo).ToList();
+            var list = db.GetIrsaliyeSTI(IrsNo,"33").ToList();
             return PartialView("_MalKabulGridPartial", list);
         }
         public PartialViewResult MalKabulDetailPartial(int id)
@@ -36,7 +36,7 @@ namespace Wms12m.Presentation.Controllers
         {
 
             var list = db.IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
-            ViewBag.Unvan = db.GetHesapUnvan(list.HesapKodu).FirstOrDefault();
+            ViewBag.Unvan = db.GetHesapUnvan(list.HesapKodu,"33").FirstOrDefault();
             return PartialView("_MalKabulIcmalPartial", list);
         }
 

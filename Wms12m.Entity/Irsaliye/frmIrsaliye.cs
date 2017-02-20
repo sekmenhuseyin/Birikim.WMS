@@ -11,7 +11,10 @@ namespace Wms12m.Entity
         public int Id { get; set; }
 
         [DataMember, DisplayName("Şirket"), Required(ErrorMessage = "Boş bırakmayınız")]
-        public string Company { get; set; }
+        public string SirketID { get; set; }
+
+        [DataMember, DisplayName("Depo"), Required(ErrorMessage = "Boş bırakmayınız")]
+        public int DepoID { get; set; }
 
         [DataMember, DisplayName("Hesap Kodu"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string HesapKodu { get; set; }
@@ -24,8 +27,5 @@ namespace Wms12m.Entity
 
         [DataMember, DisplayName("Tarih"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string Tarih { get; set; }
-
-        [DataMember, DisplayName("Depo"), Required(ErrorMessage = "Boş bırakmayınız")]
-        public int DepoID { get; set; }
     }
 }

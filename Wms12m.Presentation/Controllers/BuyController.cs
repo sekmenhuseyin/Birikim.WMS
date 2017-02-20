@@ -30,7 +30,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     try
                     {
-                        tbl.Id = db.UpdateIRS(0, tbl.DepoID, false, tbl.EvrakNo, tbl.HesapKodu, "", Convert.ToInt32(dateValue.ToOADate()), User.LogonUserName, Convert.ToInt32(DateTime.Today.ToOADate()), User.Id).FirstOrDefault().Value;
+                        tbl.Id = db.UpdateIRS(0, tbl.SirketID, tbl.DepoID, false, tbl.EvrakNo, tbl.HesapKodu, "", Convert.ToInt32(dateValue.ToOADate()), User.LogonUserName, Convert.ToInt32(DateTime.Today.ToOADate()), User.Id).FirstOrDefault().Value;
                     }
                     catch (Exception) { }
                 }
@@ -38,7 +38,7 @@ namespace Wms12m.Presentation.Controllers
             else
                 tbl.Id = tmp.ID;
             //get list
-            var list = db.GetIrsaliyeSTI(tbl.Id).ToList();
+            var list = db.GetIrsaliyeSTI(tbl.Id,tbl.SirketID).ToList();
             ViewBag.IrsaliyeId = tbl.Id;
             return PartialView("_GridPartial", list);
         }
@@ -52,32 +52,38 @@ namespace Wms12m.Presentation.Controllers
                 var tmp = db.UpdateSTI(0, tbl.IrsaliyeId, tbl.MalKodu, tbl.Miktar, tbl.Birim).FirstOrDefault();
             }catch (Exception){}
             //get list
-            var list = db.GetIrsaliyeSTI(tbl.IrsaliyeId).ToList();
+            var list = db.GetIrsaliyeSTI(tbl.IrsaliyeId, "33");
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
             return PartialView("_GridPartial", list);
         }
         //malzeme autocomplete
         public JsonResult getMalzemebyCode(string term)
         {
-            var list = db.GetMalzeme(term, "").ToList();
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            var list = db.GetMalzeme(term, "", id.ToString()).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         public JsonResult getMalzemebyName(string term)
         {
-            var list = db.GetMalzeme("", term).ToList();
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            var list = db.GetMalzeme("", term, id.ToString()).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         //malzeme koduna göre birim getirir
         [HttpPost]
-        public JsonResult getBirim(string kod)
+        public JsonResult getBirim(string kod,string s)
         {
-            var list = db.GetMalBirim(kod).ToList();
+            var list = db.GetMalBirim(kod, s);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         //anasayfadaki malzeme listesi
         public PartialViewResult GetHesapCodes()
         {
-            var list = db.GetHesapCodes().ToList();
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            var list = db.GetHesapCodes(id.ToString()).ToList();
             return PartialView("_HesapGridPartial", list);
         }
         // GET: Buy
