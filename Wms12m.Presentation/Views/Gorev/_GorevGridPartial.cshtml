@@ -26,13 +26,10 @@
                 <td>@item.GorevNo</td>
                 <td>@item.ComboItemName.ItemName</td>
                 <td>@item.ComboItemName1.ItemName</td>
-                <td>@{if(item.USR01!=null) { @item.USR01.UserName}} </td>
+                <td>@{if (item.USR01 != null) { @item.USR01.UserName}} </td>
                 <td>@DateTime.FromOADate(item.OlusturmaTarihi).ToShortDateString()</td>
-                <td>@DateTime.FromOADate(item.AtamaTarihi.Value).ToShortDateString()</td>
-                <td>@DateTime.FromOADate(item.BitirmeTarihi.Value).ToShortDateString()</td>
-                @*<td>@item.OlusturmaTarihi</td>
-                <td>@item.AtamaTarihi</td>
-                <td>@item.BitirmeTarihi</td>*@
+                <td>@{if (item.USR01 != null) { @DateTime.FromOADate(item.AtamaTarihi.Value).ToShortDateString()} }</td>
+                <td>@{if (item.BitirmeTarihi != null) { @DateTime.FromOADate(item.BitirmeTarihi.Value).ToShortDateString()}}</td>
                 <td>@item.Bilgi </td>
                 <td>@item.Aciklama </td>
                 <td>

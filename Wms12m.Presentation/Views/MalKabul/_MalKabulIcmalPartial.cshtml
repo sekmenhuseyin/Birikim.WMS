@@ -93,7 +93,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" style="color:#5cb4e6; font-weight:bold;">İrsaliye Tarihi</label>
                                     <div class="col-md-8 input-icon right">
-                                        <input type="text" class="form-control" value="@Model.Tarih" readonly>
+                                        <input type="text" class="form-control" value="@DateTime.FromOADate(Model.Tarih).ToShortDateString()" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -148,4 +148,5 @@
     </table>*@
 <script type="text/javascript">
     $("#CreateEdit").hide();
+    var Irs_Tarih = @DateTime.FromOADate(Model.Tarih).ToShortDateString();
 </script>
