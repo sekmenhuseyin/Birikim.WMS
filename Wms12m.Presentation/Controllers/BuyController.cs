@@ -22,7 +22,7 @@ namespace Wms12m.Presentation.Controllers
             //check if exists
             var tmp = db.IRS.Where(m => m.EvrakNo == tbl.EvrakNo).FirstOrDefault();
             if (tmp == null)
-                tbl.Id = db.UpdateIrsaliye(0, tbl.DepoID, false, tbl.EvrakNo, tbl.HesapKodu, "", Convert.ToInt32(tbl.Tarih.ToOADate()), User.LogonUserName, Convert.ToInt32(tbl.Tarih.ToOADate()), User.Id).FirstOrDefault().Value;
+                tbl.Id = db.UpdateIrsaliye(0, tbl.DepoID, false, tbl.EvrakNo, tbl.HesapKodu, "", Convert.ToInt32(tbl.Tarih.ToOADate()), User.LogonUserName, Convert.ToInt32(DateTime.Today.ToOADate()), User.Id).FirstOrDefault().Value;
             else
                 tbl.Id = tmp.ID;
             //get list
@@ -47,11 +47,15 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.IrsaliyeId = tablo.ID;
             return PartialView("_GridPartial", list);
         }
-        //malzeme autocomplete and search
-        [HttpPost]
-        public JsonResult getMalzeme(frmMalzemeSearch tbl)
+        //malzeme autocomplete
+        public JsonResult getMalzemebyCode(string term)
         {
-            var list = db.GetMalzeme(tbl.kod, tbl.ad).ToList();
+            var list = db.GetMalzeme(term, "").ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult getMalzemebyName(string term)
+        {
+            var list = db.GetMalzeme("", term).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         //malzeme koduna göre birim getirir

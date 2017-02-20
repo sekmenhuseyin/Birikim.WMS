@@ -45,19 +45,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHesapCodes_Result>("GetHesapCodes");
         }
     
-        public virtual ObjectResult<GetMalzeme_Result> GetMalzeme(string kod, string ad)
-        {
-            var kodParameter = kod != null ?
-                new ObjectParameter("kod", kod) :
-                new ObjectParameter("kod", typeof(string));
-    
-            var adParameter = ad != null ?
-                new ObjectParameter("ad", ad) :
-                new ObjectParameter("ad", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMalzeme_Result>("GetMalzeme", kodParameter, adParameter);
-        }
-    
         public virtual ObjectResult<GetMalzemeCodes_Result> GetMalzemeCodes()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMalzemeCodes_Result>("GetMalzemeCodes");
@@ -142,6 +129,19 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("kod", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetMalBirim", kodParameter);
+        }
+    
+        public virtual ObjectResult<GetMalzeme_Result> GetMalzeme(string kod, string ad)
+        {
+            var kodParameter = kod != null ?
+                new ObjectParameter("kod", kod) :
+                new ObjectParameter("kod", typeof(string));
+    
+            var adParameter = ad != null ?
+                new ObjectParameter("ad", ad) :
+                new ObjectParameter("ad", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMalzeme_Result>("GetMalzeme", kodParameter, adParameter);
         }
     }
 }

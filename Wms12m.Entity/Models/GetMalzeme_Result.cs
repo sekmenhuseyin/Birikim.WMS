@@ -13,7 +13,8 @@ namespace Wms12m.Entity.Models
     
     public partial class GetMalzeme_Result
     {
-        public string MalKodu { get; set; }
-        public string MalAdi { get; set; }
+        public string id { get; set; }
+        public string value { get; set; }
+        public string label { get; set; }
     }
 }
