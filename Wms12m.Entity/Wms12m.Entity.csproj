@@ -51,11 +51,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CHK.cs">
+      <DependentUpon>ModelFinsat.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityDinamik.cs" />
+    <Compile Include="FTD.cs">
+      <DependentUpon>ModelFinsat.tt</DependentUpon>
+    </Compile>
     <Compile Include="Gorev\frmGorev.cs" />
     <Compile Include="Irsaliye\frmIrsaliye.cs" />
     <Compile Include="Irsaliye\frmMalzeme.cs" />
     <Compile Include="Irsaliye\frmMalzemeSearch.cs" />
     <Compile Include="Log\LogCs.cs" />
+    <Compile Include="MFK.cs">
+      <DependentUpon>ModelFinsat.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelFinsat.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelFinsat.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelFinsat.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelFinsat.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModelFinsat.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelFinsat.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\ComboItemName.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -80,9 +105,6 @@
     <Compile Include="Models\GorevListesi.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\IR.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ModelWMS.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -99,9 +121,6 @@
       <DependentUpon>ModelWMS.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Olcu.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STI.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TK_BOL.cs">
@@ -122,9 +141,24 @@
     <Compile Include="Models\USR01.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WMS_IRS.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WMS_STI.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Persons\USER01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result\Result.cs" />
+    <Compile Include="SPI.cs">
+      <DependentUpon>ModelFinsat.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STI.cs">
+      <DependentUpon>ModelFinsat.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STK.cs">
+      <DependentUpon>ModelFinsat.tt</DependentUpon>
+    </Compile>
     <Compile Include="Store\Store01.cs" />
     <Compile Include="Store\Store02.cs" />
     <Compile Include="Store\Store03.cs" />
@@ -140,12 +174,29 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelWMS.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <EntityDeploy Include="ModelFinsat.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelFinsat.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ModelFinsat.edmx.diagram">
+      <DependentUpon>ModelFinsat.edmx</DependentUpon>
+    </None>
     <None Include="Models\ModelWMS.edmx.diagram">
       <DependentUpon>ModelWMS.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ModelFinsat.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelFinsat.edmx</DependentUpon>
+      <LastGenOutput>ModelFinsat.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="ModelFinsat.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelFinsat.edmx</DependentUpon>
+      <LastGenOutput>ModelFinsat.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\ModelWMS.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelWMS.edmx</DependentUpon>

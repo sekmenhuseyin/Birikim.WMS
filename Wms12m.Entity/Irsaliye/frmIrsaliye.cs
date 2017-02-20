@@ -28,4 +28,10 @@ namespace Wms12m.Entity
         [DataMember, DisplayName("Tarih"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string Tarih { get; set; }
     }
+
+    public class MinChk
+    {
+        public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+    }
 }

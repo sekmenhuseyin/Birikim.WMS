@@ -2,7 +2,7 @@
 <#@ include file="EF6.Utility.CS.ttinclude"#><#@
  output extension=".cs"#><#
 
-const string inputFile = @"ModelWMS.edmx";
+const string inputFile = @"ModelFinsat.edmx";
 var textTransform = DynamicTextTransformation.Create(this);
 var code = new CodeGenerationTools(this);
 var ef = new MetadataTools(this);
@@ -300,7 +300,7 @@ public class CodeStringGenerator
             CultureInfo.InvariantCulture,
             "return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction{0}(\"{1}\"{2});",
             returnType == null ? "" : "<" + _typeMapper.GetTypeName(returnType, modelNamespace) + ">",
-            edmFunction.FullName ,
+            edmFunction.Name,
             callParams);
     }
     

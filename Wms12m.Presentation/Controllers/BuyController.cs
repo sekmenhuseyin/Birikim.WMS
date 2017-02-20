@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using System.Globalization;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -22,7 +21,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult New(frmIrsaliye tbl)
         {
             //check if exists
-            var tmp = db.IRS.Where(m => m.EvrakNo == tbl.EvrakNo).FirstOrDefault();
+            var tmp = db.WMS_IRS.Where(m => m.EvrakNo == tbl.EvrakNo).FirstOrDefault();
             if (tmp == null)
             {
                 DateTime dateValue=DateTime.Now;
@@ -83,7 +82,11 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            var list = db.GetHesapCodes(id.ToString()).ToList();
+            //var list = db.GetHesapCodes(id.ToString()).ToList();
+
+            DinamikModelContext Dinamik = new DinamikModelContext(id.ToString());
+            var list = Dinamik.Context.CHKs.Where(x => x.HesapKodu.StartsWith("320")).Select(m=> new MinChk{ HesapKodu = m.HesapKodu, Unvan = m.Unvan1+" "+m.Unvan2}).ToList();
+            Dinamik.Dispose();
             return PartialView("_HesapGridPartial", list);
         }
         // GET: Buy

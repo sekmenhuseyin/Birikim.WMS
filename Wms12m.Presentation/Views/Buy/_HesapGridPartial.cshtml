@@ -1,4 +1,4 @@
-﻿@model List<GetHesapCodes_Result>
+﻿@model List<MinChk>
 <table class="table table-striped table-bordered table-hover" id="sample_1">
     <thead>
         <tr>
@@ -9,9 +9,9 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr style="cursor:pointer;" ondblclick="hesapSelect('@item.HesapKodu','@item.Unvan1');">
+            <tr style="cursor:pointer;" ondblclick="hesapSelect('@item.HesapKodu','@item.Unvan ');">
                 <td>@item.HesapKodu</td>
-                <td>@item.Unvan1</td>
+                <td>@item.Unvan</td>
             </tr>
         }
     </tbody>

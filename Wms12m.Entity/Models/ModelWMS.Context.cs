@@ -33,12 +33,12 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<TK_KAT> TK_KAT { get; set; }
         public virtual DbSet<TK_KOR> TK_KOR { get; set; }
         public virtual DbSet<TK_RAF> TK_RAF { get; set; }
-        public virtual DbSet<IR> IRS { get; set; }
-        public virtual DbSet<STI> STIs { get; set; }
         public virtual DbSet<ComboItemName> ComboItemNames { get; set; }
         public virtual DbSet<ComboName> ComboNames { get; set; }
         public virtual DbSet<USR01> USR01 { get; set; }
         public virtual DbSet<GorevListesi> GorevListesis { get; set; }
+        public virtual DbSet<WMS_IRS> WMS_IRS { get; set; }
+        public virtual DbSet<WMS_STI> WMS_STI { get; set; }
     
         public virtual ObjectResult<GetHesapCodes_Result> GetHesapCodes(string dB)
         {
@@ -46,7 +46,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("DB", dB) :
                 new ObjectParameter("DB", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHesapCodes_Result>("GetHesapCodes", dBParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHesapCodes_Result>("WMSEntities.GetHesapCodes", dBParameter);
         }
     
         public virtual ObjectResult<string> GetHesapUnvan(string kod, string dB)
@@ -59,7 +59,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("DB", dB) :
                 new ObjectParameter("DB", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetHesapUnvan", kodParameter, dBParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetHesapUnvan", kodParameter, dBParameter);
         }
     
         public virtual ObjectResult<GetMalzeme_Result> GetMalzeme(string kod, string ad, string dB)
@@ -76,7 +76,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("DB", dB) :
                 new ObjectParameter("DB", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMalzeme_Result>("GetMalzeme", kodParameter, adParameter, dBParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMalzeme_Result>("WMSEntities.GetMalzeme", kodParameter, adParameter, dBParameter);
         }
     
         public virtual ObjectResult<string> GetMalzemeAd(string kod, string dB)
@@ -89,7 +89,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("DB", dB) :
                 new ObjectParameter("DB", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetMalzemeAd", kodParameter, dBParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetMalzemeAd", kodParameter, dBParameter);
         }
     
         public virtual ObjectResult<GetMalzemeCodes_Result> GetMalzemeCodes(string dB)
@@ -98,12 +98,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("DB", dB) :
                 new ObjectParameter("DB", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMalzemeCodes_Result>("GetMalzemeCodes", dBParameter);
-        }
-    
-        public virtual ObjectResult<GetSirkets_Result> GetSirkets()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSirkets_Result>("GetSirkets");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMalzemeCodes_Result>("WMSEntities.GetMalzemeCodes", dBParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> UpdateIRS(Nullable<int> iD, string sirketKod, Nullable<int> depoID, Nullable<bool> islemTur, string evrakNo, string hesapKodu, string teslimCHK, Nullable<int> tarih, string kaydeden, Nullable<int> kayitTarih, Nullable<int> loggedUserID)
@@ -152,7 +147,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("LoggedUserID", loggedUserID) :
                 new ObjectParameter("LoggedUserID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("UpdateIRS", iDParameter, sirketKodParameter, depoIDParameter, islemTurParameter, evrakNoParameter, hesapKoduParameter, teslimCHKParameter, tarihParameter, kaydedenParameter, kayitTarihParameter, loggedUserIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.UpdateIRS", iDParameter, sirketKodParameter, depoIDParameter, islemTurParameter, evrakNoParameter, hesapKoduParameter, teslimCHKParameter, tarihParameter, kaydedenParameter, kayitTarihParameter, loggedUserIDParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> UpdateSTI(Nullable<int> iD, Nullable<int> irsaliyeID, string malKodu, Nullable<decimal> miktar, string birim)
@@ -177,7 +172,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Birim", birim) :
                 new ObjectParameter("Birim", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("UpdateSTI", iDParameter, irsaliyeIDParameter, malKoduParameter, miktarParameter, birimParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.UpdateSTI", iDParameter, irsaliyeIDParameter, malKoduParameter, miktarParameter, birimParameter);
         }
     
         public virtual int GetMalBirim(string kod, string dB)
@@ -190,7 +185,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("DB", dB) :
                 new ObjectParameter("DB", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetMalBirim", kodParameter, dBParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetMalBirim", kodParameter, dBParameter);
         }
     
         public virtual ObjectResult<GetIrsaliyeSTI_Result> GetIrsaliyeSTI(Nullable<int> irsaliyeID, string dB)
@@ -203,7 +198,12 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("DB", dB) :
                 new ObjectParameter("DB", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsaliyeSTI_Result>("GetIrsaliyeSTI", irsaliyeIDParameter, dBParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsaliyeSTI_Result>("WMSEntities.GetIrsaliyeSTI", irsaliyeIDParameter, dBParameter);
+        }
+    
+        public virtual ObjectResult<GetSirkets_Result> GetSirkets()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSirkets_Result>("WMSEntities.GetSirkets");
         }
     }
 }
