@@ -28,39 +28,36 @@
             }
         </tbody>
     </table>
-                }
+}
+<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js"></script>
+<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script>
-    $("#rowSearch").hide(); var searching = true;
-    function getMalzeme(kod, ad) {
-        if (searching == false) return;
-        $("#malzemeSelector option").remove(); $("#rowSearch").hide();
-        $.ajax({
-            url: "/Buy/getMalzeme",
-            type: 'POST',
-            data: JSON.stringify({ kod: kod, ad:ad }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data != "") {
-                    $("#rowSearch").show()
-                    $.each(data, function (i, item) {
-                        $('#malzemeSelector').append($('<option>', {value: item.MalKodu,text: item.MalAdi}));
-                    });
-                }
-            }
-        });
-    }
-    $('#malzemeSelector').on('change', function () {
-        searching = false;
-        $("#MalKodu").val($("#malzemeSelector option:selected").val());
-        $("#MalAdi").val($("#malzemeSelector option:selected").text());
-        $("#rowSearch").hide()
-        searching = true;
+    $("#MalKodu").autocomplete({
+        source: "/Buy/getMalzemebyCode/",
+        minLength: 2,
+        select: function (event, ui) {
+            $("#MalKodu").val(ui.item.id);
+            $("#MalAdi").val(ui.item.value);
+            getBirims(ui.item.id);
+        }
+    });
+    $("#MalAdi").autocomplete({
+        source: "/Buy/getMalzemebyName/",
+        minLength: 2,
+        select: function (event, ui) {
+            $("#MalKodu").val(ui.item.id);
+            $("#MalAdi").val(ui.item.value);
+            getBirims(ui.item.id);
+        }
+    });
+    function getBirims(id)
+    {
         $("#Birim option").remove();
         $.ajax({
             url: "/Buy/getBirim",
             type: 'POST',
-            data: JSON.stringify({ kod: this.value }),
+            data: JSON.stringify({ kod: id }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
@@ -71,5 +68,5 @@
                 }
             }
         });
-    });
+    }
 </script>
