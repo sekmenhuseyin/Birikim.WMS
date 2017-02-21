@@ -8,12 +8,10 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Wms12m.Entity
+namespace Wms12m.Entity.Models
 {
 	internal static class DatabaseUtils
 	{
@@ -110,7 +108,7 @@ namespace Wms12m.Entity
 
 	public class DinamikModelContext : IDisposable
 	{
-		private readonly string EDMXModelName = "ModelFinsat"; // EDMX MODELNAME
+		private readonly string EDMXModelName = "Models.ModelFinsat"; // EDMX MODELNAME
 		public FINSATEntities Context;
 
 		public DinamikModelContext(string SirketKodu)

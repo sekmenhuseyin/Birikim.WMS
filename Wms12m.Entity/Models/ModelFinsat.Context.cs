@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wms12m.Entity
+namespace Wms12m.Entity.Models
 {
     using System;
     using System.Data.Entity;
