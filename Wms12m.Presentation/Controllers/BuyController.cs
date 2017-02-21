@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Controllers
             else
                 tbl.Id = tmp.ID;
             //get list
-            var list = db.GetIrsaliyeSTI(tbl.Id,tbl.SirketID).ToList();
+            var list = db.WMS_STI.Where(m=>m.IrsaliyeID==tbl.Id).ToList();
             ViewBag.IrsaliyeId = tbl.Id;
             return PartialView("_GridPartial", list);
         }
@@ -57,7 +57,7 @@ namespace Wms12m.Presentation.Controllers
                 var tmp = db.UpdateSTI(0, tbl.IrsaliyeId, tbl.MalKodu, tbl.Miktar, tbl.Birim).FirstOrDefault();
             }catch (Exception){}
             //get list
-            var list = db.GetIrsaliyeSTI(tbl.IrsaliyeId, "33");
+            var list = db.WMS_STI.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).ToList();
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
             return PartialView("_GridPartial", list);
         }
@@ -68,15 +68,21 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            var list = db.GetMalzeme(term, "", id.ToString()).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
+            {
+                var list = Dinamik.Context.STKs.Where(m => m.MalKodu.StartsWith(term)).Select(m => new frmJson { id = m.MalKodu, value = m.MalAdi, label = m.MalAdi }).Take(20).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
         }
         public JsonResult getMalzemebyName(string term)
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            var list = db.GetMalzeme("", term, id.ToString()).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
+            {
+                var list = Dinamik.Context.STKs.Where(m => m.MalAdi.Contains(term)).Select(m => new frmJson { id = m.MalKodu, value = m.MalAdi, label = m.MalAdi }).Take(20).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
         }
         /// <summary>
         /// malzeme koduna göre birim getirir
@@ -84,8 +90,11 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult getBirim(string kod,string s)
         {
-            var list = db.GetMalBirim(kod, s);
-            return Json(list, JsonRequestBehavior.AllowGet);
+            using (DinamikModelContext Dinamik = new DinamikModelContext(s))
+            {
+                var list = Dinamik.Context.STKs.Where(m => m.MalKodu == kod).Select(m => new { m.Birim1, m.Birim2, m.Birim3, m.Birim4 }).FirstOrDefault();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
         }
         /// <summary>
         /// anasayfadaki malzeme listesi
@@ -94,9 +103,10 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
+            if (id.ToString() == "0") return null;
             using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
             {
-                var list = Dinamik.Context.CHKs.Where(x => x.HesapKodu.StartsWith("320")).Select(m => new frmHesapUnvan { HesapKodu = m.HesapKodu, Unvan = m.Unvan1 + " " + m.Unvan2 }).ToList();
+                var list = Dinamik.Context.CHKs.Where(m => m.HesapKodu.StartsWith("320")).Select(m => new frmHesapUnvan { HesapKodu = m.HesapKodu, Unvan = m.Unvan1 + " " + m.Unvan2 }).ToList();
                 return PartialView("_HesapGridPartial", list);
             }
         }

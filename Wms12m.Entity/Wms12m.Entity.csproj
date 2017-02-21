@@ -67,6 +67,9 @@
     <Compile Include="Irsaliye\frmIrsaliye.cs" />
     <Compile Include="Irsaliye\frmMalzeme.cs" />
     <Compile Include="Log\LogCs.cs" />
+    <Compile Include="Models\GetSirkets_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MFK.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
@@ -89,18 +92,6 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ComboName.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetIrsaliyeSTI_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetMalzemeCodes_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetMalzeme_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GetSirkets_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GorevListesi.cs">

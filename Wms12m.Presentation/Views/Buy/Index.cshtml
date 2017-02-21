@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="portlet-body form">
-                        @using (Ajax.BeginForm("New", "Buy", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid" }, new { @class = "form-horizontal" }))
+                        @using (Ajax.BeginForm("New", "Buy", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnBegin = "$('#StoreGrid').html();", UpdateTargetId = "StoreGrid" }, new { @class = "form-horizontal" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)

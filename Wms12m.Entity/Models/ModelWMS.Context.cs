@@ -40,45 +40,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<WMS_IRS> WMS_IRS { get; set; }
         public virtual DbSet<WMS_STI> WMS_STI { get; set; }
     
-        public virtual ObjectResult<GetMalzeme_Result> GetMalzeme(string kod, string ad, string dB)
-        {
-            var kodParameter = kod != null ?
-                new ObjectParameter("kod", kod) :
-                new ObjectParameter("kod", typeof(string));
-    
-            var adParameter = ad != null ?
-                new ObjectParameter("ad", ad) :
-                new ObjectParameter("ad", typeof(string));
-    
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMalzeme_Result>("WMSEntities.GetMalzeme", kodParameter, adParameter, dBParameter);
-        }
-    
-        public virtual ObjectResult<string> GetMalzemeAd(string kod, string dB)
-        {
-            var kodParameter = kod != null ?
-                new ObjectParameter("kod", kod) :
-                new ObjectParameter("kod", typeof(string));
-    
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetMalzemeAd", kodParameter, dBParameter);
-        }
-    
-        public virtual ObjectResult<GetMalzemeCodes_Result> GetMalzemeCodes(string dB)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMalzemeCodes_Result>("WMSEntities.GetMalzemeCodes", dBParameter);
-        }
-    
         public virtual ObjectResult<Nullable<int>> UpdateIRS(Nullable<int> iD, string sirketKod, Nullable<int> depoID, Nullable<bool> islemTur, string evrakNo, string hesapKodu, string teslimCHK, Nullable<int> tarih, string kaydeden, Nullable<int> kayitTarih, Nullable<int> loggedUserID)
         {
             var iDParameter = iD.HasValue ?
@@ -164,19 +125,6 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("DB", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetMalBirim", kodParameter, dBParameter);
-        }
-    
-        public virtual ObjectResult<GetIrsaliyeSTI_Result> GetIrsaliyeSTI(Nullable<int> irsaliyeID, string dB)
-        {
-            var irsaliyeIDParameter = irsaliyeID.HasValue ?
-                new ObjectParameter("IrsaliyeID", irsaliyeID) :
-                new ObjectParameter("IrsaliyeID", typeof(int));
-    
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsaliyeSTI_Result>("WMSEntities.GetIrsaliyeSTI", irsaliyeIDParameter, dBParameter);
         }
     
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()

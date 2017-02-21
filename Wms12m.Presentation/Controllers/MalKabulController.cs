@@ -19,7 +19,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult MalKabulGridPartial(int IrsNo)
         {
-            var list = db.GetIrsaliyeSTI(IrsNo,"33").ToList();
+            var list = db.WMS_STI.Where(m=>m.IrsaliyeID== IrsNo).ToList();
             return PartialView("_MalKabulGridPartial", list);
         }
         public PartialViewResult MalKabulDetailPartial(int id)
