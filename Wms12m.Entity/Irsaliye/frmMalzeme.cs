@@ -24,4 +24,9 @@ namespace Wms12m.Entity
         [DataMember, DisplayName("Birim"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string Birim { get; set; }
     }
+    public class frmMalzemeSearch
+    {
+        public string kod { get; set; }
+        public string ad { get; set; }
+    }
 }

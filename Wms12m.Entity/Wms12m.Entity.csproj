@@ -61,7 +61,6 @@
     <Compile Include="Gorev\frmGorev.cs" />
     <Compile Include="Irsaliye\frmIrsaliye.cs" />
     <Compile Include="Irsaliye\frmMalzeme.cs" />
-    <Compile Include="Irsaliye\frmMalzemeSearch.cs" />
     <Compile Include="Log\LogCs.cs" />
     <Compile Include="Models\MFK.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
