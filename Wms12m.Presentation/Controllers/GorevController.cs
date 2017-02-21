@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Wms12m.Business;
 using Wms12m.Entity;
-using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -20,12 +16,10 @@ namespace Wms12m.Presentation.Controllers
         }
         public ActionResult GorevDetailPartial(int id)
         {
-            ViewBag.ID = id;
-            ViewBag.GorevTipiID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 1).ToList(), "ID", "ItemName");
-            ViewBag.DurumID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 2).ToList(), "ID", "ItemName");
-            ViewBag.GorevliID = new SelectList(db.USR01.ToList(), "Id", "UserName");
-
             var list = db.GorevListesis.Where(m => m.ID == id).FirstOrDefault();
+            ViewBag.GorevTipiID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 1).ToList(), "ID", "ItemName", list.GorevTipiID);
+            ViewBag.DurumID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 2).ToList(), "ID", "ItemName", list.DurumID);
+            ViewBag.GorevliID = new SelectList(db.USR01.ToList(), "Id", "UserName", list.GorevliID);
             return PartialView("_GorevDetailPartial", list);
         }
 
@@ -43,12 +37,14 @@ namespace Wms12m.Presentation.Controllers
                 db.SaveChanges();
             }
             //get list
-            //var list = db.GorevListesis.Where(m => m.ID == tbl.ID).ToList();
             ViewBag.GorevID = tbl.ID;
             var list = db.GorevListesis.ToList();
             return PartialView("_GorevGridPartial", list);
         }
 
-        
+        public string MalKabulOnay(string EvrakNo, string CHK, int IrsaliyeNo, string GorevNo, int SirketKodu)
+        {
+            return "";
+        }
     }
 }
