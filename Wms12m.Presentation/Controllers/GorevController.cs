@@ -11,18 +11,14 @@ namespace Wms12m.Presentation.Controllers
 {
     public class GorevController : RootController
     {
-        
+
         // GET: Gorev
         public ActionResult Index()
         {
-            return View("Index", new frmGorev());
-        }
-        public PartialViewResult GorevGridPartial()
-        {
             var list = db.GorevListesis.ToList();
-            return PartialView("_GorevGridPartial", list);
+            return View("Index", list);
         }
-        public PartialViewResult GorevDetailPartial(int id)
+        public ActionResult GorevDetailPartial(int id)
         {
             ViewBag.ID = id;
             ViewBag.GorevTipiID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 1).ToList(), "ID", "ItemName");
@@ -33,7 +29,7 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_GorevDetailPartial", list);
         }
 
-        public PartialViewResult New(frmGorev tbl)
+        public PartialViewResult Update(frmGorev tbl)
         {
             //check if exists
             var tmp = db.GorevListesis.Where(m => m.ID == tbl.ID).FirstOrDefault();
