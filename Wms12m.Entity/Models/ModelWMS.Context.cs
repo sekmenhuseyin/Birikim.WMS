@@ -40,28 +40,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<WMS_IRS> WMS_IRS { get; set; }
         public virtual DbSet<WMS_STI> WMS_STI { get; set; }
     
-        public virtual ObjectResult<GetHesapCodes_Result> GetHesapCodes(string dB)
-        {
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHesapCodes_Result>("WMSEntities.GetHesapCodes", dBParameter);
-        }
-    
-        public virtual ObjectResult<string> GetHesapUnvan(string kod, string dB)
-        {
-            var kodParameter = kod != null ?
-                new ObjectParameter("kod", kod) :
-                new ObjectParameter("kod", typeof(string));
-    
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetHesapUnvan", kodParameter, dBParameter);
-        }
-    
         public virtual ObjectResult<GetMalzeme_Result> GetMalzeme(string kod, string ad, string dB)
         {
             var kodParameter = kod != null ?

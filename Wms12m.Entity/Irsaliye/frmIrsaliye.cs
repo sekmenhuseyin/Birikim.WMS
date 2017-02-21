@@ -32,11 +32,18 @@ namespace Wms12m.Entity
         public string Tarih { get; set; }
     }
     /// <summary>
-    /// hesap kodu ve invanı: şirket değişince gelen bilgiler
+    /// hesap kodu ve ünvanı: şirket değişince gelen bilgiler
     /// </summary>
-    public class MinChk
+    public class frmHesapUnvan
     {
         public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+    }
+    /// <summary>
+    /// ünvanı: şirket değişince gelen bilgiler
+    /// </summary>
+    public class frmUnvan
+    {
         public string Unvan { get; set; }
     }
 }

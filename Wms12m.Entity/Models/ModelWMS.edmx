@@ -326,13 +326,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="GetHesapCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="GetHesapUnvan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="kod" Type="nvarchar" Mode="In" />
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="GetIrsaliyeSTI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IrsaliyeID" Type="int" Mode="In" />
           <Parameter Name="DB" Type="varchar" Mode="In" />
@@ -495,13 +488,6 @@
             <End Role="USR01" EntitySet="USR01" />
             <End Role="GorevListesi" EntitySet="GorevListesis" />
           </AssociationSet>
-          <FunctionImport Name="GetHesapCodes" ReturnType="Collection(MModel.GetHesapCodes_Result)">
-          <Parameter Name="DB" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetHesapUnvan" ReturnType="Collection(String)">
-            <Parameter Name="kod" Mode="In" Type="String" />
-            <Parameter Name="DB" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="GetMalzeme" ReturnType="Collection(MModel.GetMalzeme_Result)">
             <Parameter Name="kod" Mode="In" Type="String" />
             <Parameter Name="ad" Mode="In" Type="String" />
@@ -838,10 +824,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetHesapCodes_Result">
-          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Unvan1" Nullable="false" MaxLength="40" />
-        </ComplexType>
         <ComplexType Name="GetMalzeme_Result">
           <Property Type="String" Name="id" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="value" Nullable="false" MaxLength="50" />
@@ -1085,15 +1067,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetHesapCodes" FunctionName="MModel.Store.GetHesapCodes">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetHesapCodes_Result">
-                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
-                <ScalarProperty Name="Unvan1" ColumnName="Unvan1" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetHesapUnvan" FunctionName="MModel.Store.GetHesapUnvan" />
           <FunctionImportMapping FunctionImportName="GetMalzeme" FunctionName="MModel.Store.GetMalzeme">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetMalzeme_Result">

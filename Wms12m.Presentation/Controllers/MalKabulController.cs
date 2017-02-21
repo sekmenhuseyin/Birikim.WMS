@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -36,7 +37,10 @@ namespace Wms12m.Presentation.Controllers
         {
 
             var list = db.WMS_IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
-            ViewBag.Unvan = db.GetHesapUnvan(list.HesapKodu,"33").FirstOrDefault();
+            using (DinamikModelContext Dinamik = new DinamikModelContext(list.SirketKod))
+            {
+                ViewBag.Unvan = Dinamik.Context.CHKs.Where(x => x.HesapKodu== list.HesapKodu).Select(m => new frmUnvan { Unvan = m.Unvan1 + " " + m.Unvan2 }).FirstOrDefault();
+            }
             return PartialView("_MalKabulIcmalPartial", list);
         }
 
