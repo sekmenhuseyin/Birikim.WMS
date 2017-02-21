@@ -5894,7 +5894,6 @@
     <Content Include="Views\Buy\_HesapGridPartial.cshtml" />
     <Content Include="Views\Buy\Index.cshtml" />
     <Content Include="Views\Gorev\Index.cshtml" />
-    <Content Include="Views\Gorev\_GorevGridPartial.cshtml" />
     <Content Include="Views\Gorev\_GorevDetailPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.Null.cshtml" />
     <Content Include="Content\assets\global\plugins\jquery\jquery-1.10.2.min.map" />
@@ -5902,6 +5901,7 @@
     <Content Include="Views\MalKabul\_MalKabulDetailPartial.cshtml" />
     <Content Include="Views\MalKabul\_MalKabulGridPartial.cshtml" />
     <Content Include="Views\MalKabul\_MalKabulIcmalPartial.cshtml" />
+    <Content Include="Views\Gorev\_GorevGridPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
