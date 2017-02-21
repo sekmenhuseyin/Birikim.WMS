@@ -99,6 +99,5 @@
     });
     $(document).ready(function () {
         @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
-        @if (@Model.ID == 0) { <text> $(".DepoID2").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID2")[0].selectedIndex = 0; </text>}
     });
 </script>

@@ -11,8 +11,6 @@ namespace Wms12m.Presentation.Controllers
     {
         // GET: Chapter
         Result _Result;
-        abstractStore<Store02> CorrridorOperation;
-        abstractStore<Store03> ShelfOperation;
         abstractStore<Store04> ChapterOperation;
         abstractStore<Store05> delKontrolOpertion;
         //bölüm anasayfa
@@ -20,6 +18,7 @@ namespace Wms12m.Presentation.Controllers
         {
             ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
             ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
+            ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
             return View("Index", new Store04());
         }
         //bölüm listesi
@@ -71,46 +70,6 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.KoridorID = new SelectList(db.TK_KOR.ToList(), "ID", "Koridor", tablo.TK_RAF.KoridorID);
                 ViewBag.RafID = new SelectList(db.TK_RAF.ToList(), "ID", "Raf", tablo.RafID);
                 return PartialView("_ChapterDetailPartial", new Chapter().Detail(tmp));
-            }
-        }
-        public JsonResult ShelfList()
-        {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null) return null;
-            List<Store03> _List = new List<Store03>();
-            ShelfOperation = new Shelf();
-            try
-            {
-                _List = ShelfOperation.GetList().Where(a => a.KoridorID == Convert.ToInt16(id)).ToList();
-                List<SelectListItem> List = new List<SelectListItem>();
-                foreach (Store03 item in _List)
-                {
-                    List.Add(new SelectListItem
-                    {
-                        Selected = false,
-                        Text = item.Raf,
-                        Value = item.ID.ToString()
-                    });
-                }
-                return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(_List, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public ActionResult SearchCorrridor(string Id)
-        {
-            List<Store02> _List = new List<Store02>();
-            CorrridorOperation = new Corridor();
-            try
-            {
-                _List = CorrridorOperation.GetList().Where(a => a.DepoID == Convert.ToInt16(Id)).ToList();
-                return Json(_List, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }
         //bölüm sil
