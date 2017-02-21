@@ -51,31 +51,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\CHK.cs">
+    <Compile Include="CHK.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EntityDinamik.cs" />
-    <Compile Include="Models\FTD.cs">
+    <Compile Include="EntityDinamik.cs" />
+    <Compile Include="FTD.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
     <Compile Include="Gorev\frmGorev.cs" />
-    <Compile Include="ViewModels\frmMalzeme.cs" />
-    <Compile Include="ViewModels\frmIrsaliye.cs" />
+    <Compile Include="Irsaliye\frmIrsaliye.cs" />
+    <Compile Include="Irsaliye\frmMalzeme.cs" />
+    <Compile Include="Irsaliye\frmMalzemeSearch.cs" />
     <Compile Include="Log\LogCs.cs" />
-    <Compile Include="Models\MFK.cs">
+    <Compile Include="MFK.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelFinsat.Context.cs">
+    <Compile Include="ModelFinsat.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelFinsat.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelFinsat.cs">
+    <Compile Include="ModelFinsat.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelFinsat.Designer.cs">
+    <Compile Include="ModelFinsat.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelFinsat.edmx</DependentUpon>
@@ -149,13 +150,13 @@
     <Compile Include="Persons\USER01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Result\Result.cs" />
-    <Compile Include="Models\SPI.cs">
+    <Compile Include="SPI.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\STI.cs">
+    <Compile Include="STI.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\STK.cs">
+    <Compile Include="STK.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
     <Compile Include="Store\Store01.cs" />
@@ -173,11 +174,11 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelWMS.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EntityDeploy Include="Models\ModelFinsat.edmx">
+    <EntityDeploy Include="ModelFinsat.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelFinsat.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Models\ModelFinsat.edmx.diagram">
+    <None Include="ModelFinsat.edmx.diagram">
       <DependentUpon>ModelFinsat.edmx</DependentUpon>
     </None>
     <None Include="Models\ModelWMS.edmx.diagram">
@@ -186,12 +187,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models\ModelFinsat.Context.tt">
+    <Content Include="ModelFinsat.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelFinsat.edmx</DependentUpon>
       <LastGenOutput>ModelFinsat.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\ModelFinsat.tt">
+    <Content Include="ModelFinsat.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelFinsat.edmx</DependentUpon>
       <LastGenOutput>ModelFinsat.cs</LastGenOutput>

@@ -7,19 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wms12m.Entity.Models
+namespace Wms12m.Entity
 {
     using System;
     using System.Data.Entity;
+    using System.Data.Entity.Core.EntityClient;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class FINSATEntities : DbContext
     {
         public FINSATEntities()
             : base("name=FINSATEntities")
         {
         }
-    
+
+        public FINSATEntities(EntityConnection entityConnection) : 
+                               base(entityConnection, false)
+        {
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
