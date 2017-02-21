@@ -52,14 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gorev\DSTT.cs" />
-    <Compile Include="Gorev\frmGorev.cs" />
     <Compile Include="Gorev\FTDD.cs" />
     <Compile Include="Gorev\MFKK.cs" />
     <Compile Include="Gorev\STII.cs" />
     <Compile Include="Gorev\STKK.cs" />
     <Compile Include="Irsaliye\frmIrsaliye.cs" />
     <Compile Include="Irsaliye\frmMalzeme.cs" />
-    <Compile Include="Irsaliye\frmMalzemeSearch.cs" />
     <Compile Include="Log\LogCs.cs" />
     <Compile Include="Models\ComboItemName.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
