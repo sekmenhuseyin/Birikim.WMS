@@ -327,10 +327,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="GetMalBirim" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="kod" Type="nvarchar" Mode="In" />
-          <Parameter Name="DB" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UpdateIRS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
@@ -492,10 +488,6 @@
             <Parameter Name="MalKodu" Mode="In" Type="String" />
             <Parameter Name="Miktar" Mode="In" Type="Decimal" />
             <Parameter Name="Birim" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetMalBirim">
-            <Parameter Name="kod" Mode="In" Type="String" />
-            <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="WMS_IRS" EntityType="MModel.WMS_IRS" />
           <EntitySet Name="WMS_STI" EntityType="MModel.WMS_STI" />
@@ -1021,7 +1013,6 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="UpdateIRS" FunctionName="MModel.Store.UpdateIRS" />
           <FunctionImportMapping FunctionImportName="UpdateSTI" FunctionName="MModel.Store.UpdateSTI" />
-          <FunctionImportMapping FunctionImportName="GetMalBirim" FunctionName="MModel.Store.GetMalBirim" />
           <EntitySetMapping Name="WMS_IRS">
             <EntityTypeMapping TypeName="MModel.WMS_IRS">
               <MappingFragment StoreEntitySet="WMS_IRS">

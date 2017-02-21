@@ -83,7 +83,6 @@ namespace Wms12m.Presentation.Controllers
             {
                 for (int i = 0; i < sti.Count; i++)
                 {
-                    f_sti= 
                 }
 
 
@@ -93,7 +92,6 @@ namespace Wms12m.Presentation.Controllers
 
                 }
                 //add new
-                sti.Onay = false;
                 db.SaveChanges();
             }
 
