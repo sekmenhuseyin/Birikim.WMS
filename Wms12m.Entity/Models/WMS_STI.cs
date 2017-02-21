@@ -20,6 +20,7 @@ namespace Wms12m.Entity.Models
         public string Birim { get; set; }
         public decimal Miktar { get; set; }
         public Nullable<decimal> MiktarReal { get; set; }
+        public string MalAdi { get; set; }
     
         public virtual WMS_IRS WMS_IRS { get; set; }
     }

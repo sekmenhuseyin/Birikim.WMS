@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Controllers
             else
                 tbl.Id = tmp.ID;
             //get list
-            var list = db.GetIrsaliyeSTI(tbl.Id,tbl.SirketID).ToList();
+            var list = db.WMS_STI.Where(m=>m.IrsaliyeID==tbl.Id).ToList();
             ViewBag.IrsaliyeId = tbl.Id;
             return PartialView("_GridPartial", list);
         }
@@ -57,7 +57,7 @@ namespace Wms12m.Presentation.Controllers
                 var tmp = db.UpdateSTI(0, tbl.IrsaliyeId, tbl.MalKodu, tbl.Miktar, tbl.Birim).FirstOrDefault();
             }catch (Exception){}
             //get list
-            var list = db.GetIrsaliyeSTI(tbl.IrsaliyeId, "33");
+            var list = db.WMS_STI.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).ToList();
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
             return PartialView("_GridPartial", list);
         }
