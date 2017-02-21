@@ -5,6 +5,9 @@ using System.Runtime.Serialization;
 
 namespace Wms12m.Entity
 {
+    /// <summary>
+    /// yeni irsaliye formu
+    /// </summary>
     public class frmIrsaliye
     {
         [Key]
@@ -28,7 +31,9 @@ namespace Wms12m.Entity
         [DataMember, DisplayName("Tarih"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string Tarih { get; set; }
     }
-
+    /// <summary>
+    /// hesap kodu ve unvanlar
+    /// </summary>
     public class MinChk
     {
         public string HesapKodu { get; set; }
