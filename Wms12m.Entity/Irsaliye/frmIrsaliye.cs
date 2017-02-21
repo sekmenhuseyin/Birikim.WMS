@@ -46,4 +46,14 @@ namespace Wms12m.Entity
     {
         public string Unvan { get; set; }
     }
+    /// <summary>
+    /// json result
+    /// </summary>
+    public class frmJson
+    {
+        public string id { get; set; }
+        public string value { get; set; }
+        public string label { get; set; }
+    }
+
 }

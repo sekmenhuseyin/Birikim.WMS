@@ -68,15 +68,21 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            var list = db.GetMalzeme(term, "", id.ToString()).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
+            {
+                var list = Dinamik.Context.STKs.Where(x => x.MalKodu.StartsWith(term)).Select(m => new frmJson { id = m.MalKodu, value = m.MalAdi, label = m.MalAdi }).Take(20).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
         }
         public JsonResult getMalzemebyName(string term)
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            var list = db.GetMalzeme("", term, id.ToString()).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
+            {
+                var list = Dinamik.Context.STKs.Where(x => x.MalAdi.Contains(term)).Select(m => new frmJson { id = m.MalKodu, value = m.MalAdi, label = m.MalAdi }).Take(20).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
         }
         /// <summary>
         /// malzeme koduna göre birim getirir
@@ -94,6 +100,7 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
+            if (id.ToString() == "0") return null;
             using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
             {
                 var list = Dinamik.Context.CHKs.Where(x => x.HesapKodu.StartsWith("320")).Select(m => new frmHesapUnvan { HesapKodu = m.HesapKodu, Unvan = m.Unvan1 + " " + m.Unvan2 }).ToList();
