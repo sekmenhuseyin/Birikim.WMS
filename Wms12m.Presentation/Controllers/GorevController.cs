@@ -62,16 +62,59 @@ namespace Wms12m.Presentation.Controllers
 
 
 
-            //var tmp = db.GorevListesis.Where(m => m.GorevNo == GorevNo && m.GorevTipiID=12).FirstOrDefault();
-            //if (tmp != null)
-            //{
-            //    //add new
-            //    tmp.GorevliID = tbl.GorevliID;
-            //    tmp.Aciklama = tbl.Aciklama;
-            //    tmp.Bilgi = tbl.Bilgi;
-            //    tmp.DurumID = tbl.DurumID;
-            //    db.SaveChanges();
-            //}
+            var grv = db.GorevListesis.Where(m => (m.GorevNo == GorevNo) && (m.GorevTipiID == 1)).FirstOrDefault();
+            if (grv != null)
+            {
+                //add new
+                grv.DurumID = 12;
+                db.SaveChanges();
+            }
+
+            var irs = db.WMS_IRS.Where(m => m.ID == IrsaliyeNo).FirstOrDefault();
+            if (irs != null)
+            {
+                //add new
+                irs.Onay = false;
+                db.SaveChanges();
+            }
+            List<STI> f_sti = new List<STI>();
+            var sti = db.WMS_STI.Where(m => m.IrsaliyeID == IrsaliyeNo).ToList();
+            if (sti != null)
+            {
+                for (int i = 0; i < sti.Count; i++)
+                {
+                    f_sti= 
+                }
+
+
+                using (DinamikModelContext Dinamik = new DinamikModelContext(irs.SirketKod))
+                {
+                    var list = Dinamik.Context.STIs;
+
+                }
+                //add new
+                sti.Onay = false;
+                db.SaveChanges();
+            }
+
+            
+            
+
+            
+            var ftd = db.WMS_IRS.Where(m => m.ID == IrsaliyeNo).FirstOrDefault();
+            if (ftd != null)
+            {
+                //add new
+                ftd.Onay = false;
+                db.SaveChanges();
+            }
+            var mfk = db.WMS_IRS.Where(m => m.ID == IrsaliyeNo).FirstOrDefault();
+            if (mfk != null)
+            {
+                //add new
+                mfk.Onay = false;
+                db.SaveChanges();
+            }
 
             return "";
             //return View();

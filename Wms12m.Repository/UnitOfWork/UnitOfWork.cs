@@ -26,6 +26,20 @@ namespace Wms12m.Repository
             }
 
         }
+        public UnitOfWork(string conectionName)
+        {
+            try
+            {
+                _connection = new SqlConnection(ConfigurationManager.ConnectionStrings[conectionName].ConnectionString);
+                _connection.Open();
+                _transaction = _connection.BeginTransaction();
+            }
+            catch (Exception)
+            {
+                _transaction = null;
+            }
+
+        }
 
         public IRepository<T> Repository<T>() where T : class, new()
         {

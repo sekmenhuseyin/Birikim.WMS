@@ -59,7 +59,7 @@
     <Compile Include="Gorev\MalKabulDSTOnay.cs" />
     <Compile Include="Gorev\MalKabulFTDOnay.cs" />
     <Compile Include="Gorev\MalKabulMFKOnay.cs" />
-    <Compile Include="Gorev\MalKabulOnay.cs" />
+    <Compile Include="Gorev\MalKabulSTIOnay.cs" />
     <Compile Include="Gorev\MalKabulSTKOnay.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Persons\AbstractPersons.cs" />
