@@ -5912,7 +5912,6 @@
   <ItemGroup>
     <Folder Include="Content\assets\apps\img\" />
     <Folder Include="Content\assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
-    <Folder Include="Content\Img\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">
