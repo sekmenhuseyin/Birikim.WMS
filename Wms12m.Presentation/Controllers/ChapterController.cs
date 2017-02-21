@@ -73,42 +73,26 @@ namespace Wms12m.Presentation.Controllers
                 return PartialView("_ChapterDetailPartial", new Chapter().Detail(tmp));
             }
         }
-
-        public ActionResult CorrridorList(string val)
+        public JsonResult ShelfList()
         {
-            List<Store02> _List = new List<Store02>();
-            CorrridorOperation = new Corridor();
-            try
-            {
-                _List = CorrridorOperation.GetList().Where(a => a.DepoID == Convert.ToInt16(val)).ToList();
-
-                List<SelectListItem> List = new List<SelectListItem>();
-                foreach (Store02 item in _List)
-                {
-                    
-                        List.Add(new SelectListItem
-                        {
-                            Selected = false,
-                            Text = item.Koridor,
-                            Value = item.ID.ToString()
-                        });
-                   
-                }
-                return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(_List, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public ActionResult ShelfList(string Id)
-        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
             List<Store03> _List = new List<Store03>();
             ShelfOperation = new Shelf();
             try
             {
-                _List = ShelfOperation.GetList().Where(a => a.KoridorID == Convert.ToInt16(Id)).ToList();                
-                return Json(_List, JsonRequestBehavior.AllowGet);
+                _List = ShelfOperation.GetList().Where(a => a.KoridorID == Convert.ToInt16(id)).ToList();
+                List<SelectListItem> List = new List<SelectListItem>();
+                foreach (Store03 item in _List)
+                {
+                    List.Add(new SelectListItem
+                    {
+                        Selected = false,
+                        Text = item.Raf,
+                        Value = item.ID.ToString()
+                    });
+                }
+                return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {

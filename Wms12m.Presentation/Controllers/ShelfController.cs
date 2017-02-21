@@ -69,7 +69,7 @@ namespace Wms12m.Presentation.Controllers
         }
         //raf listesi
         [HttpPost]
-        public ActionResult CorrridorList()
+        public JsonResult CorrridorList()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
@@ -78,18 +78,15 @@ namespace Wms12m.Presentation.Controllers
             try
             {
                 _List = CorrridorOperation.GetList().Where(a => a.DepoID == Convert.ToInt16(id)).ToList();
-
                 List<SelectListItem>  List = new List<SelectListItem>();
                 foreach (Store02 item in _List)
-                {
-                    
+                {                    
                         List.Add(new SelectListItem
                         {
                             Selected = false,
                             Text = item.Koridor,
                             Value = item.ID.ToString()
-                        });
-                                     
+                        });                                     
                 }
                 return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected=x.Selected}), JsonRequestBehavior.AllowGet);
             }
