@@ -33,31 +33,30 @@
 <script src="~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js"></script>
 <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script>
+    $("#MalKodu").focus();
     $("#MalKodu").autocomplete({
-        source: "/Buy/getMalzemebyCode/",
+        source: "/Buy/getMalzemebyCode/" + $("#SirketID").val(),
         minLength: 2,
         select: function (event, ui) {
-            $("#MalKodu").val(ui.item.id);
-            $("#MalAdi").val(ui.item.value);
             getBirims(ui.item.id);
+            $("#MalAdi").val(ui.item.value);
         }
     });
     $("#MalAdi").autocomplete({
-        source: "/Buy/getMalzemebyName/",
+        source: "/Buy/getMalzemebyName/" + $("#SirketID").val(),
         minLength: 2,
         select: function (event, ui) {
-            $("#MalKodu").val(ui.item.id);
-            $("#MalAdi").val(ui.item.value);
             getBirims(ui.item.id);
+            $("#MalAdi").val(ui.item.value);
         }
     });
     function getBirims(id)
     {
         $("#Birim option").remove();
         $.ajax({
-            url: "/Buy/getBirim",
+            url: "/Buy/getBirim" ,
             type: 'POST',
-            data: JSON.stringify({ kod: id }),
+            data: JSON.stringify({ kod: id,s:$("#SirketID").val() }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
@@ -66,6 +65,7 @@
                         $('#Birim').append($('<option>', { value: item, text: item }));
                     });
                 }
+                $("#MalKodu").val(id);
             }
         });
     }

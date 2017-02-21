@@ -15,63 +15,62 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    @using (Ajax.BeginForm("ShelfiOperation", "Shelf", new { }, new AjaxOptions{InsertionMode = InsertionMode.Replace,UpdateTargetId = "ShelfFrom",OnSuccess = "ShelfReturn"}, new { @class = "form-horizontal" }))
+                    @using (Ajax.BeginForm("ShelfiOperation", "Shelf", new { }, new AjaxOptions{InsertionMode = InsertionMode.Replace,UpdateTargetId = "ShelfFrom",OnSuccess = "FuncSearchBtn()" }, new { @class = "form-horizontal" }))
                     {
-                    @Html.HiddenFor(a => a.ID)
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Depo</label>
-                            <div class="col-md-4">
-                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required", @onchange = "getCorridor(this.value,'KoridorID');" })
-                                <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
+                        @Html.HiddenFor(a => a.ID)
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Depo</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required", @onchange = "getCorridor(this.value,'KoridorID');" })
+                                    <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Koridor</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(x => x.KoridorID, new SelectList(new List<SelectListItem>(), "ID", "Koridor", Model.KoridorID), "Seçiniz !!!", new { @class = "form-control input-circle" })
+                                    <span class="field-validation-valid" data-valmsg-for="KoridorID" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Raf</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.Raf, new { @class = "form-control input-circle", @placeholder = "Raf" })
+                                    <span class="field-validation-valid" data-valmsg-for="ShelfName" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Sıra</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
+                                    <span class="field-validation-valid" data-valmsg-for="Sort" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Derinlik</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.Derinlik, new { @class = "form-control input-circle" })
+                                    <span class="field-validation-valid" data-valmsg-for="Derinlik" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Durum</label>
+                                <div class="col-md-4">
+                                    @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Koridor</label>
-                            <div class="col-md-4">
-                                @Html.DropDownListFor(x => x.KoridorID, new SelectList(new List<SelectListItem>(), "ID", "Koridor", Model.KoridorID), "Seçiniz !!!", new { @class = "form-control input-circle" })
-                                <span class="field-validation-valid" data-valmsg-for="KoridorID" data-valmsg-replace="true" style="color:red;"></span>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-circle green ekle-duzenle">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
+                                    <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Raf</label>
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Raf, new { @class = "form-control input-circle", @placeholder = "Raf" })
-                                <span class="field-validation-valid" data-valmsg-for="ShelfName" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Sıra</label>
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
-                                <span class="field-validation-valid" data-valmsg-for="Sort" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Derinlik</label>
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Derinlik, new { @class = "form-control input-circle" })
-                                <span class="field-validation-valid" data-valmsg-for="Derinlik" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Durum</label>
-                            <div class="col-md-4">
-                                @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <div class="row">
-                            <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn btn-circle green ekle-duzenle">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
-                            </div>
-                        </div>
-                    </div>
                     }
                 </div>
             </div>
@@ -137,7 +136,6 @@
         @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
         $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
-        FuncSearchBtn();
         $('.StoreListi').on('change', function () { FuncSearchBtn(); })
         $('#CorridorList').on('change', function () { FuncSearchBtn(); })
     });

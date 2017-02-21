@@ -67,30 +67,6 @@
           <Property Name="UpdateDate" Type="int" Nullable="false" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="IRS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DepoID" Type="int" Nullable="false" />
-          <Property Name="IslemTur" Type="bit" Nullable="false" />
-          <Property Name="EvrakNo" Type="varchar" MaxLength="16" Nullable="false" />
-          <Property Name="HesapKodu" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="TeslimCHK" Type="varchar" MaxLength="20" />
-          <Property Name="Tarih" Type="int" Nullable="false" />
-          <Property Name="Kaydeden" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="KayitTarih" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="STI">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IrsaliyeID" Type="int" Nullable="false" />
-          <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
-          <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
-        </EntityType>
         <EntityType Name="TK_BOL">
           <Key>
             <PropertyRef Name="ID" />
@@ -167,6 +143,33 @@
           <Property Name="Degistiren" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="DegisTarih" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="WMS_IRS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SirketKod" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="DepoID" Type="int" Nullable="false" />
+          <Property Name="IslemTur" Type="bit" Nullable="false" />
+          <Property Name="EvrakNo" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="HesapKodu" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TeslimCHK" Type="varchar" MaxLength="20" />
+          <Property Name="Tarih" Type="int" Nullable="false" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="KayitTarih" Type="int" Nullable="false" />
+          <Property Name="Onay" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WMS_STI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IrsaliyeID" Type="int" Nullable="false" />
+          <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="MiktarReal" Type="numeric" Precision="25" Scale="6" />
+        </EntityType>
         <Association Name="FK_ComboItemName_ComboName">
           <End Role="ComboName" Type="Self.ComboName" Multiplicity="1" />
           <End Role="ComboItemName" Type="Self.ComboItemName" Multiplicity="*" />
@@ -204,10 +207,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_GorevListesi_IRS">
-          <End Role="IRS" Type="Self.IRS" Multiplicity="0..1" />
+          <End Role="WMS_IRS" Type="Self.WMS_IRS" Multiplicity="0..1" />
           <End Role="GorevListesi" Type="Self.GorevListesi" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="IRS">
+            <Principal Role="WMS_IRS">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="GorevListesi">
@@ -253,24 +256,24 @@
         </Association>
         <Association Name="FK_IRS_TK_DEP">
           <End Role="TK_DEP" Type="Self.TK_DEP" Multiplicity="1" />
-          <End Role="IRS" Type="Self.IRS" Multiplicity="*" />
+          <End Role="WMS_IRS" Type="Self.WMS_IRS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TK_DEP">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="IRS">
+            <Dependent Role="WMS_IRS">
               <PropertyRef Name="DepoID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_STI_IRS">
-          <End Role="IRS" Type="Self.IRS" Multiplicity="1" />
-          <End Role="STI" Type="Self.STI" Multiplicity="*" />
+          <End Role="WMS_IRS" Type="Self.WMS_IRS" Multiplicity="1" />
+          <End Role="WMS_STI" Type="Self.WMS_STI" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="IRS">
+            <Principal Role="WMS_IRS">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="STI">
+            <Dependent Role="WMS_STI">
               <PropertyRef Name="IrsaliyeID" />
             </Dependent>
           </ReferentialConstraint>
@@ -323,26 +326,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="GetHesapCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetHesapUnvan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="kod" Type="nvarchar" Mode="In" />
-        </Function>
         <Function Name="GetIrsaliyeSTI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IrsaliyeID" Type="int" Mode="In" />
+          <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetMalBirim" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="kod" Type="nvarchar" Mode="In" />
+          <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetMalzeme" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="kod" Type="varchar" Mode="In" />
           <Parameter Name="ad" Type="varchar" Mode="In" />
+          <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetMalzemeAd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="kod" Type="varchar" Mode="In" />
+          <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="GetMalzemeCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="UpdateIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="GetMalzemeCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UpdateIRS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="SirketKod" Type="varchar" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="IslemTur" Type="bit" Mode="In" />
           <Parameter Name="EvrakNo" Type="varchar" Mode="In" />
@@ -353,19 +360,26 @@
           <Parameter Name="KayitTarih" Type="int" Mode="In" />
           <Parameter Name="LoggedUserID" Type="int" Mode="In" />
         </Function>
+        <Function Name="UpdateSTI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="IrsaliyeID" Type="int" Mode="In" />
+          <Parameter Name="MalKodu" Type="varchar" Mode="In" />
+          <Parameter Name="Miktar" Type="numeric" Mode="In" />
+          <Parameter Name="Birim" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="ComboItemName" EntityType="Self.ComboItemName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboName" EntityType="Self.ComboName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GorevListesi" EntityType="Self.GorevListesi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Olcu" EntityType="Self.Olcu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USR01" EntityType="Self.USR01" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="IRS" EntityType="Self.IRS" Schema="WMS" store:Type="Tables" />
-          <EntitySet Name="STI" EntityType="Self.STI" Schema="WMS" store:Type="Tables" />
           <EntitySet Name="TK_BOL" EntityType="Self.TK_BOL" Schema="WMS" store:Type="Tables" />
           <EntitySet Name="TK_DEP" EntityType="Self.TK_DEP" Schema="WMS" store:Type="Tables" />
           <EntitySet Name="TK_KAT" EntityType="Self.TK_KAT" Schema="WMS" store:Type="Tables" />
           <EntitySet Name="TK_KOR" EntityType="Self.TK_KOR" Schema="WMS" store:Type="Tables" />
           <EntitySet Name="TK_RAF" EntityType="Self.TK_RAF" Schema="WMS" store:Type="Tables" />
+          <EntitySet Name="WMS_IRS" EntityType="Self.WMS_IRS" Schema="WMS" store:Type="Tables" />
+          <EntitySet Name="WMS_STI" EntityType="Self.WMS_STI" Schema="WMS" store:Type="Tables" />
           <AssociationSet Name="FK_ComboItemName_ComboName" Association="Self.FK_ComboItemName_ComboName">
             <End Role="ComboName" EntitySet="ComboName" />
             <End Role="ComboItemName" EntitySet="ComboItemName" />
@@ -379,7 +393,7 @@
             <End Role="GorevListesi" EntitySet="GorevListesi" />
           </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_IRS" Association="Self.FK_GorevListesi_IRS">
-            <End Role="IRS" EntitySet="IRS" />
+            <End Role="WMS_IRS" EntitySet="WMS_IRS" />
             <End Role="GorevListesi" EntitySet="GorevListesi" />
           </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_TK_DEP" Association="Self.FK_GorevListesi_TK_DEP">
@@ -396,11 +410,11 @@
           </AssociationSet>
           <AssociationSet Name="FK_IRS_TK_DEP" Association="Self.FK_IRS_TK_DEP">
             <End Role="TK_DEP" EntitySet="TK_DEP" />
-            <End Role="IRS" EntitySet="IRS" />
+            <End Role="WMS_IRS" EntitySet="WMS_IRS" />
           </AssociationSet>
           <AssociationSet Name="FK_STI_IRS" Association="Self.FK_STI_IRS">
-            <End Role="IRS" EntitySet="IRS" />
-            <End Role="STI" EntitySet="STI" />
+            <End Role="WMS_IRS" EntitySet="WMS_IRS" />
+            <End Role="WMS_STI" EntitySet="WMS_STI" />
           </AssociationSet>
           <AssociationSet Name="FK_TK_BOL_TK_RAF" Association="Self.FK_TK_BOL_TK_RAF">
             <End Role="TK_RAF" EntitySet="TK_RAF" />
@@ -424,8 +438,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="MModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="WMSEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="GetHesapCodes" ReturnType="Collection(MModel.GetHesapCodes_Result)" />
-          <FunctionImport Name="GetMalzemeCodes" ReturnType="Collection(MModel.GetMalzemeCodes_Result)" />
           <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
           <EntitySet Name="TK_BOL" EntityType="MModel.TK_BOL" />
           <EntitySet Name="TK_DEP" EntityType="MModel.TK_DEP" />
@@ -448,28 +460,6 @@
             <End Role="TK_KOR" EntitySet="TK_KOR" />
             <End Role="TK_RAF" EntitySet="TK_RAF" />
           </AssociationSet>
-          <EntitySet Name="IRS" EntityType="MModel.IR" />
-          <EntitySet Name="STIs" EntityType="MModel.STI" />
-          <AssociationSet Name="FK_IRS_TK_DEP" Association="MModel.FK_IRS_TK_DEP">
-            <End Role="TK_DEP" EntitySet="TK_DEP" />
-            <End Role="IR" EntitySet="IRS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_STI_IRS" Association="MModel.FK_STI_IRS">
-            <End Role="IR" EntitySet="IRS" />
-            <End Role="STI" EntitySet="STIs" />
-          </AssociationSet>
-          <FunctionImport Name="UpdateIrsaliye" ReturnType="Collection(Int32)">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="IslemTur" Mode="In" Type="Boolean" />
-            <Parameter Name="EvrakNo" Mode="In" Type="String" />
-            <Parameter Name="HesapKodu" Mode="In" Type="String" />
-            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
-            <Parameter Name="Tarih" Mode="In" Type="Int32" />
-            <Parameter Name="Kaydeden" Mode="In" Type="String" />
-            <Parameter Name="KayitTarih" Mode="In" Type="Int32" />
-            <Parameter Name="LoggedUserID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="ComboItemNames" EntityType="MModel.ComboItemName" />
           <EntitySet Name="ComboNames" EntityType="MModel.ComboName" />
           <AssociationSet Name="FK_ComboItemName_ComboName" Association="MModel.FK_ComboItemName_ComboName">
@@ -477,18 +467,6 @@
             <End Role="ComboItemName" EntitySet="ComboItemNames" />
           </AssociationSet>
           <EntitySet Name="USR01" EntityType="MModel.USR01" />
-          <FunctionImport Name="GetHesapUnvan" ReturnType="Collection(String)">
-          <Parameter Name="kod" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetMalzemeAd" ReturnType="Collection(String)">
-          <Parameter Name="kod" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="GetIrsaliyeSTI" ReturnType="Collection(MModel.GetIrsaliyeSTI_Result)">
-          <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetMalBirim" ReturnType="Collection(String)">
-          <Parameter Name="kod" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="GorevListesis" EntityType="MModel.GorevListesi" />
           <AssociationSet Name="FK_GorevListesi_ComboItemName" Association="MModel.FK_GorevListesi_ComboItemName">
             <End Role="ComboItemName" EntitySet="ComboItemNames" />
@@ -496,10 +474,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_ComboItemName1" Association="MModel.FK_GorevListesi_ComboItemName1">
             <End Role="ComboItemName" EntitySet="ComboItemNames" />
-            <End Role="GorevListesi" EntitySet="GorevListesis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GorevListesi_IRS" Association="MModel.FK_GorevListesi_IRS">
-            <End Role="IR" EntitySet="IRS" />
             <End Role="GorevListesi" EntitySet="GorevListesis" />
           </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_TK_DEP" Association="MModel.FK_GorevListesi_TK_DEP">
@@ -517,17 +491,59 @@
           <FunctionImport Name="GetMalzeme" ReturnType="Collection(MModel.GetMalzeme_Result)">
             <Parameter Name="kod" Mode="In" Type="String" />
             <Parameter Name="ad" Mode="In" Type="String" />
+            <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="GetMalzemeAd" ReturnType="Collection(String)">
+            <Parameter Name="kod" Mode="In" Type="String" />
+            <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMalzemeCodes" ReturnType="Collection(MModel.GetMalzemeCodes_Result)">
+          <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateIRS" ReturnType="Collection(Int32)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="SirketKod" Mode="In" Type="String" />
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="IslemTur" Mode="In" Type="Boolean" />
+            <Parameter Name="EvrakNo" Mode="In" Type="String" />
+            <Parameter Name="HesapKodu" Mode="In" Type="String" />
+            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
+            <Parameter Name="Tarih" Mode="In" Type="Int32" />
+            <Parameter Name="Kaydeden" Mode="In" Type="String" />
+            <Parameter Name="KayitTarih" Mode="In" Type="Int32" />
+            <Parameter Name="LoggedUserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateSTI" ReturnType="Collection(Int32)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
+            <Parameter Name="MalKodu" Mode="In" Type="String" />
+            <Parameter Name="Miktar" Mode="In" Type="Decimal" />
+            <Parameter Name="Birim" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetMalBirim">
+            <Parameter Name="kod" Mode="In" Type="String" />
+            <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetIrsaliyeSTI" ReturnType="Collection(MModel.GetIrsaliyeSTI_Result)">
+            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
+            <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="WMS_IRS" EntityType="MModel.WMS_IRS" />
+          <EntitySet Name="WMS_STI" EntityType="MModel.WMS_STI" />
+          <AssociationSet Name="FK_GorevListesi_IRS" Association="MModel.FK_GorevListesi_IRS">
+            <End Role="WMS_IRS" EntitySet="WMS_IRS" />
+            <End Role="GorevListesi" EntitySet="GorevListesis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IRS_TK_DEP" Association="MModel.FK_IRS_TK_DEP">
+            <End Role="TK_DEP" EntitySet="TK_DEP" />
+            <End Role="WMS_IRS" EntitySet="WMS_IRS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_STI_IRS" Association="MModel.FK_STI_IRS">
+            <End Role="WMS_IRS" EntitySet="WMS_IRS" />
+            <End Role="WMS_STI" EntitySet="WMS_STI" />
+          </AssociationSet>
+          <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
         </EntityContainer>
-        <ComplexType Name="GetHesapCodes_Result">
-          <Property Type="String" Name="HesapKodu" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Unvan1" Nullable="false" MaxLength="40" />
-        </ComplexType>
-        <ComplexType Name="GetMalzemeCodes_Result">
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="MalAdi" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Birim1" Nullable="false" MaxLength="4" />
-        </ComplexType>
         <EntityType Name="Olcu">
           <Key>
             <PropertyRef Name="ID" />
@@ -574,8 +590,8 @@
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="Int32" Nullable="false" />
           <NavigationProperty Name="TK_KOR" Relationship="MModel.FK_TK_KOR_TK_DEP" FromRole="TK_DEP" ToRole="TK_KOR" />
-          <NavigationProperty Name="IRS" Relationship="MModel.FK_IRS_TK_DEP" FromRole="TK_DEP" ToRole="IR" />
           <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_TK_DEP" FromRole="TK_DEP" ToRole="GorevListesi" />
+          <NavigationProperty Name="WMS_IRS" Relationship="MModel.FK_IRS_TK_DEP" FromRole="TK_DEP" ToRole="WMS_IRS" />
         </EntityType>
         <EntityType Name="TK_KAT">
           <Key>
@@ -677,58 +693,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="IR">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DepoID" Type="Int32" Nullable="false" />
-          <Property Name="IslemTur" Type="Boolean" Nullable="false" />
-          <Property Name="EvrakNo" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
-          <Property Name="HesapKodu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="TeslimCHK" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Tarih" Type="Int32" Nullable="false" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_IRS_TK_DEP" FromRole="IR" ToRole="TK_DEP" />
-          <NavigationProperty Name="STIs" Relationship="MModel.FK_STI_IRS" FromRole="IR" ToRole="STI" />
-          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_IRS" FromRole="IR" ToRole="GorevListesi" />
-        </EntityType>
-        <EntityType Name="STI">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IrsaliyeID" Type="Int32" Nullable="false" />
-          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
-          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="IR" Relationship="MModel.FK_STI_IRS" FromRole="STI" ToRole="IR" />
-        </EntityType>
-        <Association Name="FK_IRS_TK_DEP">
-          <End Type="MModel.TK_DEP" Role="TK_DEP" Multiplicity="1" />
-          <End Type="MModel.IR" Role="IR" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TK_DEP">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="IR">
-              <PropertyRef Name="DepoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_STI_IRS">
-          <End Type="MModel.IR" Role="IR" Multiplicity="1" />
-          <End Type="MModel.STI" Role="STI" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="IR">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="STI">
-              <PropertyRef Name="IrsaliyeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ComboItemName">
           <Key>
             <PropertyRef Name="ID" />
@@ -776,14 +740,6 @@
           <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_USR01" FromRole="USR01" ToRole="GorevListesi" />
           <NavigationProperty Name="GorevListesis1" Relationship="MModel.FK_GorevListesi_USR011" FromRole="USR01" ToRole="GorevListesi" />
           </EntityType>
-        <ComplexType Name="GetIrsaliyeSTI_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="Int32" Name="IrsaliyeID" Nullable="false" />
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="MalAdi" Nullable="false" MaxLength="50" />
-        </ComplexType>
         <EntityType Name="GorevListesi">
           <Key>
             <PropertyRef Name="ID" />
@@ -803,10 +759,10 @@
           <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ComboItemName" Relationship="MModel.FK_GorevListesi_ComboItemName" FromRole="GorevListesi" ToRole="ComboItemName" />
           <NavigationProperty Name="ComboItemName1" Relationship="MModel.FK_GorevListesi_ComboItemName1" FromRole="GorevListesi" ToRole="ComboItemName" />
-          <NavigationProperty Name="IR" Relationship="MModel.FK_GorevListesi_IRS" FromRole="GorevListesi" ToRole="IR" />
           <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_GorevListesi_TK_DEP" FromRole="GorevListesi" ToRole="TK_DEP" />
           <NavigationProperty Name="USR01" Relationship="MModel.FK_GorevListesi_USR01" FromRole="GorevListesi" ToRole="USR01" />
           <NavigationProperty Name="USR011" Relationship="MModel.FK_GorevListesi_USR011" FromRole="GorevListesi" ToRole="USR01" />
+          <NavigationProperty Name="WMS_IRS" Relationship="MModel.FK_GorevListesi_IRS" FromRole="GorevListesi" ToRole="WMS_IRS" />
         </EntityType>
         <Association Name="FK_GorevListesi_ComboItemName">
           <End Type="MModel.ComboItemName" Role="ComboItemName" Multiplicity="1" />
@@ -829,18 +785,6 @@
             </Principal>
             <Dependent Role="GorevListesi">
               <PropertyRef Name="DurumID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GorevListesi_IRS">
-          <End Type="MModel.IR" Role="IR" Multiplicity="0..1" />
-          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="IR">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevListesi">
-              <PropertyRef Name="IrsaliyeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -885,29 +829,96 @@
           <Property Type="String" Name="value" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="label" Nullable="false" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="GetMalzemeCodes_Result">
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="MalAdi" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Birim1" Nullable="false" MaxLength="4" />
+        </ComplexType>
+        <ComplexType Name="GetIrsaliyeSTI_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="IrsaliyeID" Nullable="false" />
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="MalAdi" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="WMS_IRS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SirketKod" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="DepoID" Type="Int32" Nullable="false" />
+          <Property Name="IslemTur" Type="Boolean" Nullable="false" />
+          <Property Name="EvrakNo" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="HesapKodu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TeslimCHK" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Tarih" Type="Int32" Nullable="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
+          <Property Name="Onay" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_IRS" FromRole="WMS_IRS" ToRole="GorevListesi" />
+          <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_IRS_TK_DEP" FromRole="WMS_IRS" ToRole="TK_DEP" />
+          <NavigationProperty Name="WMS_STI" Relationship="MModel.FK_STI_IRS" FromRole="WMS_IRS" ToRole="WMS_STI" />
+        </EntityType>
+        <EntityType Name="WMS_STI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IrsaliyeID" Type="Int32" Nullable="false" />
+          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="MiktarReal" Type="Decimal" Precision="25" Scale="6" />
+          <NavigationProperty Name="WMS_IRS" Relationship="MModel.FK_STI_IRS" FromRole="WMS_STI" ToRole="WMS_IRS" />
+        </EntityType>
+        <Association Name="FK_GorevListesi_IRS">
+          <End Type="MModel.WMS_IRS" Role="WMS_IRS" Multiplicity="0..1" />
+          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WMS_IRS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IRS_TK_DEP">
+          <End Type="MModel.TK_DEP" Role="TK_DEP" Multiplicity="1" />
+          <End Type="MModel.WMS_IRS" Role="WMS_IRS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TK_DEP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WMS_IRS">
+              <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_STI_IRS">
+          <End Type="MModel.WMS_IRS" Role="WMS_IRS" Multiplicity="1" />
+          <End Type="MModel.WMS_STI" Role="WMS_STI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WMS_IRS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WMS_STI">
+              <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetSirkets_Result">
+          <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Ad" Nullable="false" MaxLength="55" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MModelStoreContainer" CdmEntityContainer="WMSEntities">
-          <FunctionImportMapping FunctionImportName="GetHesapCodes" FunctionName="MModel.Store.GetHesapCodes">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetHesapCodes_Result">
-                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
-                <ScalarProperty Name="Unvan1" ColumnName="Unvan1" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetMalzemeCodes" FunctionName="MModel.Store.GetMalzemeCodes">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetMalzemeCodes_Result">
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
-                <ScalarProperty Name="Birim1" ColumnName="Birim1" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Olcus">
             <EntityTypeMapping TypeName="MModel.Olcu">
               <MappingFragment StoreEntitySet="Olcu">
@@ -1005,33 +1016,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="IRS">
-            <EntityTypeMapping TypeName="MModel.IR">
-              <MappingFragment StoreEntitySet="IRS">
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
-                <ScalarProperty Name="TeslimCHK" ColumnName="TeslimCHK" />
-                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
-                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
-                <ScalarProperty Name="IslemTur" ColumnName="IslemTur" />
-                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="STIs">
-            <EntityTypeMapping TypeName="MModel.STI">
-              <MappingFragment StoreEntitySet="STI">
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="UpdateIrsaliye" FunctionName="MModel.Store.UpdateIrsaliye" />
           <EntitySetMapping Name="ComboItemNames">
             <EntityTypeMapping TypeName="MModel.ComboItemName">
               <MappingFragment StoreEntitySet="ComboItemName">
@@ -1064,21 +1048,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetHesapUnvan" FunctionName="MModel.Store.GetHesapUnvan" />
-          <FunctionImportMapping FunctionImportName="GetMalzemeAd" FunctionName="MModel.Store.GetMalzemeAd" />
-          <FunctionImportMapping FunctionImportName="GetIrsaliyeSTI" FunctionName="MModel.Store.GetIrsaliyeSTI">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetIrsaliyeSTI_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetMalBirim" FunctionName="MModel.Store.GetMalBirim" />
           <EntitySetMapping Name="GorevListesis">
             <EntityTypeMapping TypeName="MModel.GorevListesi">
               <MappingFragment StoreEntitySet="GorevListesi">
@@ -1104,6 +1073,68 @@
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="value" ColumnName="value" />
                 <ScalarProperty Name="label" ColumnName="label" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMalzemeAd" FunctionName="MModel.Store.GetMalzemeAd" />
+          <FunctionImportMapping FunctionImportName="GetMalzemeCodes" FunctionName="MModel.Store.GetMalzemeCodes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetMalzemeCodes_Result">
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
+                <ScalarProperty Name="Birim1" ColumnName="Birim1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateIRS" FunctionName="MModel.Store.UpdateIRS" />
+          <FunctionImportMapping FunctionImportName="UpdateSTI" FunctionName="MModel.Store.UpdateSTI" />
+          <FunctionImportMapping FunctionImportName="GetMalBirim" FunctionName="MModel.Store.GetMalBirim" />
+          <FunctionImportMapping FunctionImportName="GetIrsaliyeSTI" FunctionName="MModel.Store.GetIrsaliyeSTI">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetIrsaliyeSTI_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="WMS_IRS">
+            <EntityTypeMapping TypeName="MModel.WMS_IRS">
+              <MappingFragment StoreEntitySet="WMS_IRS">
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="TeslimCHK" ColumnName="TeslimCHK" />
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="EvrakNo" ColumnName="EvrakNo" />
+                <ScalarProperty Name="IslemTur" ColumnName="IslemTur" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WMS_STI">
+            <EntityTypeMapping TypeName="MModel.WMS_STI">
+              <MappingFragment StoreEntitySet="WMS_STI">
+                <ScalarProperty Name="MiktarReal" ColumnName="MiktarReal" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetSirkets" FunctionName="MModel.Store.GetSirkets">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetSirkets_Result">
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

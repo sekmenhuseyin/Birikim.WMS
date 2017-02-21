@@ -12,17 +12,16 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class STI
+    public partial class SPI
     {
         public short IslemTur { get; set; }
         public string EvrakNo { get; set; }
         public int Tarih { get; set; }
         public string Chk { get; set; }
-        public short KynkEvrakTip { get; set; }
         public short SiraNo { get; set; }
-        public short IrsFat { get; set; }
         public short IslemTip { get; set; }
         public string MalKodu { get; set; }
+        public short KynkEvrakTip { get; set; }
         public decimal Miktar { get; set; }
         public decimal Fiyat { get; set; }
         public decimal Tutar { get; set; }
@@ -39,9 +38,6 @@ namespace Wms12m.Entity.Models
         public decimal KDV { get; set; }
         public float KDVOran { get; set; }
         public short KDVDahilHaric { get; set; }
-        public short OtvDahilHaric { get; set; }
-        public decimal OtvTutar { get; set; }
-        public string GtkListeNo { get; set; }
         public string Aciklama { get; set; }
         public string Kod1 { get; set; }
         public string Kod2 { get; set; }
@@ -57,26 +53,27 @@ namespace Wms12m.Entity.Models
         public short Kod12 { get; set; }
         public decimal Kod13 { get; set; }
         public decimal Kod14 { get; set; }
-        public string Depo { get; set; }
-        public string Vasita { get; set; }
-        public string SeriNo { get; set; }
-        public int SevkTarih { get; set; }
-        public decimal PromosyonMiktar { get; set; }
+        public int EvrakTarih { get; set; }
         public decimal Miktar2 { get; set; }
         public decimal Tutar2 { get; set; }
         public int Tarih2 { get; set; }
         public int VadeTarih { get; set; }
+        public string Depo { get; set; }
+        public string Vasita { get; set; }
+        public string SeriNo { get; set; }
+        public string IrsaliyeNo { get; set; }
+        public int IrsaliyeTarih { get; set; }
+        public decimal PromosyonMiktar { get; set; }
+        public string Aciklama2 { get; set; }
+        public string AsilEvrakNo { get; set; }
         public decimal Masraf { get; set; }
-        public decimal Maliyet { get; set; }
-        public short MlyYontem { get; set; }
-        public string MhsKod { get; set; }
-        public string MhsKarsiKod { get; set; }
-        public string MasrafMerkezi { get; set; }
-        public short MhsDurum { get; set; }
-        public short MlyMhs { get; set; }
-        public short MhsTabloNo { get; set; }
-        public int EvrakTarih { get; set; }
-        public short SiparisSiraNo { get; set; }
+        public decimal TeslimMiktar { get; set; }
+        public int TahTeslimTarih { get; set; }
+        public int SonTeslimTarih { get; set; }
+        public short SiparisDurumu { get; set; }
+        public string RezervasyonEvrakNo { get; set; }
+        public int RezervasyonTarihi { get; set; }
+        public decimal KapatilanMiktar { get; set; }
         public float IskontoOran1 { get; set; }
         public short IskOran1Net { get; set; }
         public float IskontoOran2 { get; set; }
@@ -92,64 +89,29 @@ namespace Wms12m.Entity.Models
         public string TeslimChk { get; set; }
         public string ButceKod { get; set; }
         public string FytListeNo { get; set; }
-        public decimal FatMiktar { get; set; }
-        public string TesTemMalKod { get; set; }
+        public string MasrafMerkez { get; set; }
         public short DvzTL { get; set; }
-        public string BarkodNo { get; set; }
-        public double Katsayi { get; set; }
-        public short Operator { get; set; }
-        public short ValorGun { get; set; }
-        public string KaynakIrsEvrakNo { get; set; }
-        public int KaynakIrsTarih { get; set; }
-        public string KaynakIIFEvrakNo { get; set; }
-        public int KaynakIIFTarih { get; set; }
-        public string KaynakSiparisNo { get; set; }
-        public int KaynakSiparisTarih { get; set; }
-        public string ErekIFEvrakNo { get; set; }
-        public short ErekIFKEvrakTip { get; set; }
-        public decimal ErekIFMiktar { get; set; }
-        public string ErekIIFEvrakNo { get; set; }
-        public short ErekIIFKEvrakTip { get; set; }
-        public decimal ErekIIFMiktar { get; set; }
         public string RenkBedenKod1 { get; set; }
         public string RenkBedenKod2 { get; set; }
         public string RenkBedenKod3 { get; set; }
         public string RenkBedenKod4 { get; set; }
+        public string BarkodNo { get; set; }
+        public double Katsayi { get; set; }
+        public short Operator { get; set; }
+        public short ValorGun { get; set; }
         public short KayitTuru { get; set; }
         public string Nesne1 { get; set; }
         public string Nesne2 { get; set; }
         public string Nesne3 { get; set; }
-        public short IrsFat2 { get; set; }
+        public string TesTemMalKod { get; set; }
         public decimal Miktar3 { get; set; }
         public decimal Tutar3 { get; set; }
         public short SiraNo2 { get; set; }
+        public decimal BlkMiktar { get; set; }
+        public int BlkTarih { get; set; }
+        public short BlkDurumu { get; set; }
         public int KurTarihi { get; set; }
-        public decimal KrediBorcTutar { get; set; }
-        public decimal AktiflesenKrediFaizi { get; set; }
-        public int Kredi_Donem_BaslangicTarih { get; set; }
-        public int Kredi_Donem_BitisTarih { get; set; }
-        public int Kredi_Donem_VadeTarih { get; set; }
-        public decimal Kredi_Donem_VadeFarkiTutar { get; set; }
-        public decimal ReelOlmayanFinansmanMaliyet { get; set; }
-        public short KrediArindirmaSekli { get; set; }
-        public short FinansmanGiderTuru { get; set; }
-        public int Duz_Yapilan_Yil { get; set; }
-        public short Duz_Yapilan_Donem { get; set; }
-        public short Duz_Yontemi { get; set; }
-        public string Duz_Mhs_Hesap_Kodu { get; set; }
-        public short Duz_Mhs_Durumu { get; set; }
-        public float Duz_Stok_Devir_Hizi { get; set; }
-        public float Duz_Katsayisi { get; set; }
-        public decimal Duz_Esas_Tutar { get; set; }
-        public decimal Duz_Tutar { get; set; }
-        public short Duz_Mly_Yontemi { get; set; }
-        public decimal Duz_Mly_Tarihi_Mly_Tutar { get; set; }
-        public decimal Duz_Mly_Satilan_Mal_Mly_Tutar { get; set; }
-        public string Duz_Mly_Mhs_Hesap_Kodu { get; set; }
-        public short Duz_Mly_Mhs_Durumu { get; set; }
         public short AnaEvrakTip { get; set; }
-        public string KartDovizCinsi { get; set; }
-        public decimal KartDovizKuru { get; set; }
         public string GuvenlikKod { get; set; }
         public string Kaydeden { get; set; }
         public int KayitTarih { get; set; }
@@ -162,41 +124,19 @@ namespace Wms12m.Entity.Models
         public short DegisKaynak { get; set; }
         public string DegisSurum { get; set; }
         public short CheckSum { get; set; }
-        public string FFEvrakNo { get; set; }
-        public int FFTarih { get; set; }
-        public short KaynakSiraNo { get; set; }
+        public string TeklifEvrakNo { get; set; }
+        public int TeklifTarihi { get; set; }
+        public decimal OnayMiktar { get; set; }
         public int SonKullanimTarihi { get; set; }
         public short DvzKurCinsi { get; set; }
-        public decimal DepoIadeEdilenMiktar { get; set; }
         public string TevfikatOran { get; set; }
         public decimal TevfikatTutar { get; set; }
-        public decimal Masraf1 { get; set; }
-        public decimal Masraf2 { get; set; }
-        public string IthalatDosyaNo { get; set; }
-        public short IthalatMDagDurum { get; set; }
         public int Tarih3 { get; set; }
         public int Tarih4 { get; set; }
         public int Tarih5 { get; set; }
         public int Tarih6 { get; set; }
-        public short EFatTip { get; set; }
-        public short EFatDurum { get; set; }
-        public decimal ToplamKlmIskonto { get; set; }
-        public short IthalatMDagYontem { get; set; }
-        public string KDVMuafAck { get; set; }
-        public string KarsiMalKodu { get; set; }
-        public string UreticiMalKodu { get; set; }
-        public float StopajOran { get; set; }
-        public decimal StopajTutar { get; set; }
-        public short OTVTevkifatVarYok { get; set; }
-        public string Aciklama2 { get; set; }
-        public string eFatIrsReferansNo { get; set; }
-        public string IhracatDosyaNo { get; set; }
         public string TevfikatOranKod { get; set; }
-        public string OzelMatKDVKod { get; set; }
         public string ProjeKodu { get; set; }
-        public short EArsivTeslimSekli { get; set; }
-        public short EArsivFaturaTipi { get; set; }
-        public short EArsivFaturaDurum { get; set; }
         public decimal IskontoTutar { get; set; }
         public decimal IskontoTutar1 { get; set; }
         public decimal IskontoTutar2 { get; set; }
@@ -208,22 +148,6 @@ namespace Wms12m.Entity.Models
         public string Not3 { get; set; }
         public string Not4 { get; set; }
         public string Not5 { get; set; }
-        public decimal BrutAgirlik { get; set; }
-        public decimal NetAgirlik { get; set; }
-        public decimal DaraAgirlik { get; set; }
-        public string BirimAgirlik { get; set; }
-        public decimal BrutHacim { get; set; }
-        public decimal NetHacim { get; set; }
-        public string BirimHacim { get; set; }
-        public string KapTipi { get; set; }
-        public decimal KapAdet { get; set; }
-        public int FormBaBsTarih { get; set; }
-        public int YOKCZRaporNo { get; set; }
-        public float KDVDahilKalemIskontoOran { get; set; }
-        public decimal KDVDahilKalemOranIskontosu { get; set; }
-        public decimal KDVDahilKalemTutarIskontosu { get; set; }
-        public decimal KDVDahilIskonto { get; set; }
-        public decimal KDVIstisnaTutar { get; set; }
         public int ROW_ID { get; set; }
         public byte[] timestamp { get; set; }
     }

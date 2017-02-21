@@ -30,9 +30,9 @@ namespace Wms12m.Entity.Models
     
         public virtual ComboItemName ComboItemName { get; set; }
         public virtual ComboItemName ComboItemName1 { get; set; }
-        public virtual IR IR { get; set; }
         public virtual TK_DEP TK_DEP { get; set; }
         public virtual USR01 USR01 { get; set; }
         public virtual USR01 USR011 { get; set; }
+        public virtual WMS_IRS WMS_IRS { get; set; }
     }
 }

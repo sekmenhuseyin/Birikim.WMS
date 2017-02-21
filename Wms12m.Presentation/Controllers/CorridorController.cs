@@ -51,9 +51,18 @@ namespace Wms12m.Presentation.Controllers
         //koridor düzenle
         public ActionResult CorridorDetailPartial(string Id)
         {
-            CorrridorOperation = new Corridor();
-            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
-            return PartialView("_CorridorDetailPartial", Convert.ToInt16(Id == "" ? "0" : Id) > 0 ? CorrridorOperation.Detail(Convert.ToInt16(Id)) : new Store02());
+            int tmp = Convert.ToInt32(Id);
+            if (tmp == 0)
+            {
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
+                return PartialView("_CorridorDetailPartial", new Store02());
+            }
+            else
+            {
+                var tablo = db.TK_KOR.Where(m => m.ID == tmp).FirstOrDefault();
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi", tablo.DepoID);
+                return PartialView("_CorridorDetailPartial", new Corridor().Detail(tmp));
+            }
         }
         //koridor listesi
         public ActionResult StoreList()

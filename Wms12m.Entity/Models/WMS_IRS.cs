@@ -12,16 +12,17 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class IR
+    public partial class WMS_IRS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public IR()
+        public WMS_IRS()
         {
-            this.STIs = new HashSet<STI>();
             this.GorevListesis = new HashSet<GorevListesi>();
+            this.WMS_STI = new HashSet<WMS_STI>();
         }
     
         public int ID { get; set; }
+        public string SirketKod { get; set; }
         public int DepoID { get; set; }
         public bool IslemTur { get; set; }
         public string EvrakNo { get; set; }
@@ -30,11 +31,12 @@ namespace Wms12m.Entity.Models
         public int Tarih { get; set; }
         public string Kaydeden { get; set; }
         public int KayitTarih { get; set; }
+        public bool Onay { get; set; }
     
-        public virtual TK_DEP TK_DEP { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<STI> STIs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevListesi> GorevListesis { get; set; }
+        public virtual TK_DEP TK_DEP { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WMS_STI> WMS_STI { get; set; }
     }
 }
