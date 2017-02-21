@@ -61,9 +61,11 @@
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 if (data != "") {
-                    $.each(data, function (i, item) {
-                        $('#Birim').append($('<option>', { value: item, text: item }));
-                    });
+                    alert(item);
+                    if (item.Birim1 != "") { $('#Birim').append($('<option>', { value: item.Birim1, text: item.Birim1 })); }
+                    if (item.Birim2 != "") { $('#Birim').append($('<option>', { value: item.Birim2, text: item.Birim2 })); }
+                    if (item.Birim3 != "") { $('#Birim').append($('<option>', { value: item.Birim3, text: item.Birim3 })); }
+                    if (item.Birim4 != "") { $('#Birim').append($('<option>', { value: item.Birim4, text: item.Birim4 })); }
                 }
                 $("#MalKodu").val(id);
             }

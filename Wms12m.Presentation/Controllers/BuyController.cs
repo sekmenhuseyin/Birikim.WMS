@@ -70,7 +70,7 @@ namespace Wms12m.Presentation.Controllers
             if (id == null) return null;
             using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
             {
-                var list = Dinamik.Context.STKs.Where(x => x.MalKodu.StartsWith(term)).Select(m => new frmJson { id = m.MalKodu, value = m.MalAdi, label = m.MalAdi }).Take(20).ToList();
+                var list = Dinamik.Context.STKs.Where(m => m.MalKodu.StartsWith(term)).Select(m => new frmJson { id = m.MalKodu, value = m.MalAdi, label = m.MalAdi }).Take(20).ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
         }
@@ -80,7 +80,7 @@ namespace Wms12m.Presentation.Controllers
             if (id == null) return null;
             using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
             {
-                var list = Dinamik.Context.STKs.Where(x => x.MalAdi.Contains(term)).Select(m => new frmJson { id = m.MalKodu, value = m.MalAdi, label = m.MalAdi }).Take(20).ToList();
+                var list = Dinamik.Context.STKs.Where(m => m.MalAdi.Contains(term)).Select(m => new frmJson { id = m.MalKodu, value = m.MalAdi, label = m.MalAdi }).Take(20).ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
         }
@@ -90,8 +90,11 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult getBirim(string kod,string s)
         {
-            var list = db.GetMalBirim(kod, s);
-            return Json(list, JsonRequestBehavior.AllowGet);
+            using (DinamikModelContext Dinamik = new DinamikModelContext(s))
+            {
+                var list = Dinamik.Context.STKs.Where(m => m.MalKodu == kod).Select(m => new { m.Birim1, m.Birim2, m.Birim3, m.Birim4 }).FirstOrDefault();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
         }
         /// <summary>
         /// anasayfadaki malzeme listesi
@@ -103,7 +106,7 @@ namespace Wms12m.Presentation.Controllers
             if (id.ToString() == "0") return null;
             using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
             {
-                var list = Dinamik.Context.CHKs.Where(x => x.HesapKodu.StartsWith("320")).Select(m => new frmHesapUnvan { HesapKodu = m.HesapKodu, Unvan = m.Unvan1 + " " + m.Unvan2 }).ToList();
+                var list = Dinamik.Context.CHKs.Where(m => m.HesapKodu.StartsWith("320")).Select(m => new frmHesapUnvan { HesapKodu = m.HesapKodu, Unvan = m.Unvan1 + " " + m.Unvan2 }).ToList();
                 return PartialView("_HesapGridPartial", list);
             }
         }
