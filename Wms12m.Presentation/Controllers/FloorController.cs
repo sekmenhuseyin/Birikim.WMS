@@ -64,7 +64,7 @@ namespace Wms12m.Presentation.Controllers
             }
             else
             {
-                var tablo = db.TK_BOL.Where(m => m.ID == tmp).FirstOrDefault();
+                var tablo = db.TK_KAT.Where(m => m.ID == tmp).FirstOrDefault();
                 ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi", tablo.TK_RAF.TK_KOR.DepoID);
                 ViewBag.KoridorID = new SelectList(db.TK_KOR.ToList(), "ID", "Koridor", tablo.TK_RAF.KoridorID);
                 ViewBag.RafID = new SelectList(db.TK_RAF.ToList(), "ID", "Raf", tablo.RafID);

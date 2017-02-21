@@ -63,10 +63,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch();
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
+            $(".make-switch").val(data)
+        });
         @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
-        @if (@Model.ID == 0) { <text> $(".DepoID2").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID2")[0].selectedIndex = 0; </text>}
-    });
-    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
-        $(".make-switch").val(data)
     });
 </script>
