@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.Caching;
 
-namespace Wms12m.Cache
+namespace Wms12m.Business
 {
     public sealed class CacheManager
     {

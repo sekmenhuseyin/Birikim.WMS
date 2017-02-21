@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Repository", "Wms12m
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Security", "Wms12m.Security\Wms12m.Security.csproj", "{F58A64AC-4465-4049-8006-2FF5C931CE3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Cache", "Wms12m.Cache\Wms12m.Cache.csproj", "{EC3E0EBD-A381-459A-AD4F-F74D23D0F162}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Configuration", "Wms12m.Configuration\Wms12m.Configuration.csproj", "{B02DF729-740C-4D5F-ADF1-320245CB584C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Entity", "Wms12m.Entity\Wms12m.Entity.csproj", "{8C1BE237-38F4-4170-AE02-AC56D44FDE73}"
@@ -35,10 +33,6 @@ Global
 		{F58A64AC-4465-4049-8006-2FF5C931CE3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F58A64AC-4465-4049-8006-2FF5C931CE3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F58A64AC-4465-4049-8006-2FF5C931CE3D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC3E0EBD-A381-459A-AD4F-F74D23D0F162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC3E0EBD-A381-459A-AD4F-F74D23D0F162}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC3E0EBD-A381-459A-AD4F-F74D23D0F162}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC3E0EBD-A381-459A-AD4F-F74D23D0F162}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B02DF729-740C-4D5F-ADF1-320245CB584C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B02DF729-740C-4D5F-ADF1-320245CB584C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B02DF729-740C-4D5F-ADF1-320245CB584C}.Release|Any CPU.ActiveCfg = Release|Any CPU

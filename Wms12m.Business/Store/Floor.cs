@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Wms12m.Cache;
 using Wms12m.Entity;
 using Wms12m.Repository;
 using static Wms12m.Configuration.Enm;
