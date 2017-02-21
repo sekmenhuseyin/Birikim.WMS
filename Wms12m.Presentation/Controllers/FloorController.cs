@@ -11,17 +11,16 @@ namespace Wms12m.Presentation.Controllers
     {
         // GET: Floor
         Result _Result;
-        abstractStore<Store01> StoreOperation;
-        abstractStore<Store02> CorrridorOperation;
-        abstractStore<Store03> ShelfOperation;
-        abstractStore<Store04> ChapterOperation;
         abstractStore<Store05> FloorOperation;
-        //abstractStore<Store06> delKontrolOpertion;
+        //kat anasayfa
         public ActionResult Index()
         {
-            return View();
+            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
+            ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
+            ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
+            return View("Index", new Store05());
         }
-
+        //kat listesi
         public ActionResult FloorGridPartial(string Id)
         {
             int CorridorId = 0;
@@ -52,142 +51,27 @@ namespace Wms12m.Presentation.Controllers
                 return PartialView("_FloorGridPartial", _List);
             }
         }
+        //kat düzenle
         public ActionResult FloorDetailPartial(string Id)
         {
-            StoreOperation = new Store();
-            ShelfOperation = new Shelf();
-            CorrridorOperation = new Corridor();
-            ChapterOperation = new Chapter();
-            ViewBag.Store = StoreOperation.GetList();
-            ViewBag.Shelf = ShelfOperation.GetList();
-            ViewBag.Corrridor = CorrridorOperation.GetList();
-            ViewBag.Chapter = ChapterOperation.GetList();
-            FloorOperation = new Floor();
-            return PartialView("_FloorDetailPartial", Convert.ToInt16(Id == "" ? "0" : Id) > 0 ? FloorOperation.Detail(Convert.ToInt16(Id)) : new Store05());
-        }
-        public ActionResult CorrridorList(string val)
-        {
-            List<Store02> _List = new List<Store02>();
-            CorrridorOperation = new Corridor();
-            try
+            int tmp = Convert.ToInt32(Id);
+            if (tmp == 0)
             {
-                _List = CorrridorOperation.GetList().Where(a => a.DepoID == Convert.ToInt16(val)).ToList();
-
-                List<SelectListItem> List = new List<SelectListItem>();
-                foreach (Store02 item in _List)
-                {
-
-                    List.Add(new SelectListItem
-                    {
-                        Selected = false,
-                        Text = item.Koridor,
-                        Value = item.ID.ToString()
-                    });
-
-                }
-                return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
+                ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
+                ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
+                return PartialView("_FloorDetailPartial", new Store05());
             }
-            catch (Exception)
+            else
             {
-                return Json(_List, JsonRequestBehavior.AllowGet);
+                var tablo = db.TK_KAT.Where(m => m.ID == tmp).FirstOrDefault();
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi", tablo.TK_RAF.TK_KOR.DepoID);
+                ViewBag.KoridorID = new SelectList(db.TK_KOR.ToList(), "ID", "Koridor", tablo.TK_RAF.KoridorID);
+                ViewBag.RafID = new SelectList(db.TK_RAF.ToList(), "ID", "Raf", tablo.RafID);
+                return PartialView("_FloorDetailPartial", new Floor().Detail(tmp));
             }
         }
-        public ActionResult SearchCorrridor(string Id)
-        {
-            List<Store02> _List = new List<Store02>();
-            CorrridorOperation = new Corridor();
-            try
-            {
-                _List = CorrridorOperation.GetList().Where(a => a.DepoID == Convert.ToInt16(Id)).ToList();
-                return Json(_List, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(_List, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public ActionResult ShelfList(string val)
-        {
-            List<Store03> _List = new List<Store03>();
-            ShelfOperation = new Shelf();
-            try
-            {
-                _List = ShelfOperation.GetList().Where(a => a.KoridorID == Convert.ToInt16(val)).ToList();
-
-                List<SelectListItem> List = new List<SelectListItem>();
-                foreach (Store03 item in _List)
-                {
-
-                    List.Add(new SelectListItem
-                    {
-                        Selected = false,
-                        Text = item.Raf,
-                        Value = item.ID.ToString()
-                    });
-
-                }
-                return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(_List, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public ActionResult SearchShelf(string Id)
-        {
-            List<Store03> _List = new List<Store03>();
-            ShelfOperation = new Shelf();
-            try
-            {
-                _List = ShelfOperation.GetList().Where(a => a.KoridorID == Convert.ToInt16(Id)).ToList();
-                return Json(_List, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(_List, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public ActionResult ChapterList(string Id)
-        {
-            List<Store04> _List = new List<Store04>();
-            ChapterOperation = new Chapter();
-            try
-            {
-                _List = ChapterOperation.GetList().Where(a => a.RafID == Convert.ToInt16(Id)).ToList();
-
-                List<SelectListItem> List = new List<SelectListItem>();
-                foreach (Store04 item in _List)
-                {
-
-                    List.Add(new SelectListItem
-                    {
-                        Selected = false,
-                        Text = item.Bolum,
-                        Value = item.ID.ToString()
-                    });
-
-                }
-                return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(_List, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public ActionResult SearchChapter(string Id)
-        {
-            List<Store04> _List = new List<Store04>();
-            ChapterOperation = new Chapter();
-            try
-            {
-                _List = ChapterOperation.GetList().Where(a => a.RafID == Convert.ToInt16(Id)).ToList();
-                return Json(_List, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(_List, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //kat sil
         public ActionResult Delete(string Id)
         {
             _Result = new Result();
@@ -196,6 +80,7 @@ namespace Wms12m.Presentation.Controllers
                 _Result = FloorOperation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
                 return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+        //kat kaydet
         public ActionResult FlooriOperation(Store05 P)
         {
             _Result = new Result();

@@ -9,34 +9,30 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("ChapteriOperation", "Chapter", new { }, new AjaxOptions
+                @using (Ajax.BeginForm("ChapteriOperation", "Chapter", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ChapterFrom", OnSuccess = "ChapterReturn" }, new { @class = "form-horizontal" }))
                 {
-                    InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "ChapterFrom",
-                    OnSuccess = "ChapterReturn"
-                }, new { @class = "form-horizontal" }))
-                {
+                    @Html.HiddenFor(a => a.ID)
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-3 control-label">Depo</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle DepoID2", required = "required", @onchange = "getCorridor(this.value,'KoridorID');" })
+                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required", @onchange = "getCorridor(this.value,'KoridorID');" })
                                 <span class="field-validation-valid" data-valmsg-for="StoreId" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Koridor</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("KoridorID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+                                @Html.DropDownList("KoridorID", null, htmlAttributes: new { @class = "form-control input-circle KoridorID", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="CorrridorId" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Raf</label>
                             <div class="col-md-4">
-                                <select id="ShelfList" class="form-control"></select>
+                                @Html.DropDownList("RafID", null, htmlAttributes: new { @class = "form-control input-circle RafID", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="ShelfList" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -76,8 +72,6 @@
                             </div>
                         </div>
                     </div>
-                    @Html.HiddenFor(a => a.ID)
-                    @Html.HiddenFor(a => a.RafID)
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-9">
@@ -96,113 +90,11 @@
 <script src="@Url.Content("~/Content/assets/global/scripts/app.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Content/assets/pages/scripts/components-bootstrap-touchspin.min.js")" type="text/javascript"></script>
 <script type="text/javascript">
-    $(document).on('change', '.cascading', function () {
-        var $dropdown = $(this);
-        var selectedValue = $dropdown.val();
-        var actionUrl = $dropdown.attr("data-action-url");
-        var actionLabel = $dropdown.attr("data-action-label");
-        var actionValue = $dropdown.attr("data-action-value");
-        var selected = $dropdown.attr("data-action-selected");
-        var otherDropDown = $("#" + $dropdown.attr("data-action-dropdown"));
-        if (selectedValue != null && selectedValue != '') {
-            $.ajax({
-                type: "GET",
-                url: actionUrl,
-                data: { val: selectedValue },
-                beforeSend: function (xhr) {
-                }
-            }).done(function (items) {
-                otherDropDown.empty();
-                if (actionLabel != null && actionLabel != undefined) {
-                    otherDropDown.append($('<option/>', {
-                        value: actionValue == "0" ? "0" : "",
-                        text: actionLabel
-                    }));
-                }
-                if (items) {
-                    otherDropDown.removeAttr("disabled");
-                    $.each(items, function (index, item) {
-                        if(item.Value==selected)
-                        {
-                            otherDropDown.append('<option value="' + item.Value + '" selected>' + item.Text + '</option>');
-                        }else{
-                            otherDropDown.append($('<option/>', {
-                                value: item.Value,
-                                text: item.Text,
-                                selectedValue:selectedValue
-                            }));
-                        }
-                    });
-                }
-            }).fail(function (xhr, status, error) {
-                Failure(error);
-            });
-        }
-        else {
-            otherDropDown.empty();
-            otherDropDown.attr("disabled", "disabled");
-        }
-    });
-    $(".make-switch").bootstrapSwitch();
-    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
-        $(".make-switch").val(data)
-    });
-    function CreateCorridorList(Id) {
-        $("#CorrridorId option").remove();
-        $.ajax({
-            url: CorrridorList,
-            type: 'POST',
-            data: JSON.stringify({ Id: Id }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data == "") {
-                    $('#CorrridorId').prop('disabled', 'disabled');
-                } else {
-
-                    $("#CorrridorId").append("<option value=" + '0' + ">Lütfen Karidor Seçiniz !!!</option>");
-                    $.each(data, function (i, item) {
-
-                        if('@ViewBag.CorridorId'==item.ID)
-                        { $("#CorrridorId").removeAttr("disabled");
-                        $("#CorrridorId").append("<option value=" + item.ID + " selected>" + item.Koridor + "</option>");
-
-                        }else{
-                            $("#CorrridorId").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
-                        }
-                    });
-                }
-            }
+    $(document).ready(function () {
+        $(".make-switch").bootstrapSwitch();
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
+            $(".make-switch").val(data)
         });
-    }
-    function  ShelfList(Id) {
-        $("#ShelfList option").remove();
-        $.ajax({
-            url: ShelfListUrl,
-            type: 'POST',
-            data: JSON.stringify({ Id: Id }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                console.log(data);
-                if (data == "") {
-                    $('#ShelfList').prop('disabled', 'disabled');
-                } else {
-                    $("#ShelfList").append("<option value=" + '0' + ">Lütfen Raf Seçiniz !!!</option>");
-                    $.each(data, function (i, item) {
-                        if('@Model.RafID'==item.ID)
-                        {
-                            $("#ShelfList").removeAttr("disabled");
-                            $("#RafID").val('@Model.RafID');
-                            $("#ShelfList").append("<option value=" + item.ID + " selected>" + item.Raf + "</option>");
-
-                        }else{
-                            $("#ShelfList").append("<option value=" + item.ID + ">" + item.Raf + "</option>");
-                        }
-
-                    });
-                }
-            }
-        });
-    }
+        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
+    });
 </script>

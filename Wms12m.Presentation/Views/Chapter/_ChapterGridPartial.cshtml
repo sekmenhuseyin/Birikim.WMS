@@ -4,14 +4,12 @@
     <table class="table table-striped table-bordered table-hover" id="sample_1">
         <thead>
             <tr>
-                <th> Bölüm</th>
-                <th> Sıra No</th>
-                <th> En</th>
-                <th> Kat Ağırlık Kapasite</th>
-                <th> Tarih </th>
-                <th> Durum </th>
-                <th> Düzenle </th>
-                <th> Sil </th>
+                <th>Bölüm</th>
+                <th>Sıra No</th>
+                <th>En</th>
+                <th>Kat Ağırlık Kapasite</th>
+                <th>Durum </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -22,11 +20,10 @@
                     <td>@item.SiraNo </td>
                     <td>@item.En </td>
                     <td>@item.KatAgirlik </td>
-                    <td>@DateTime.FromOADate(item.KayitTarih).ToShortDateString()</td>
                     <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
-                    <td><a class="edit" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a></td>
                     <td>
-                        <a class="edit" href="javascript:;" onclick="Delete('@item.ID','/Chapter/ChapterGridPartial','ChapterGrid','@item.RafID')"> Sil </a>
+                        <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                        <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Chapter/ChapterGridPartial','ChapterGrid','@item.RafID')"> Sil </a>
                     </td>
                 </tr>
             }

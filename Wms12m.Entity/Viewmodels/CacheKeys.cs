@@ -1,4 +1,4 @@
-﻿namespace Wms12m.Cache
+﻿namespace Wms12m.Entity
 {
     public class CacheKeys
     {

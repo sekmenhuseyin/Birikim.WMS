@@ -130,19 +130,17 @@
     var ShelfGridUrl = '@Url.Action("ShelfGridPartial", "Shelf")';
     var ShelfDetailUrl = '@Url.Action("ShelfDetailPartial", "Shelf")';
     var DeleteFunctionUrl = '@Url.Action("Delete", "Shelf")';
-    var StoreListUrl = '@Url.Action("StoreList", "Corridor")';
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch();
         @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
         $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
-        $('.StoreListi').on('change', function () { FuncSearchBtn(); })
         $('#CorridorList').on('change', function () { FuncSearchBtn(); })
     });
     function getCorridor(id, what) {
         $("#" + what + " option").remove();
         $.ajax({
-            url: "/Shelf/CorrridorList/" + id,
+            url: "/Corridor/CorridorList/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -170,7 +168,6 @@
     function ShelfReturn(Data) {
         FuncSearchBtn();
         CreateEdit('0');
-
     }
     function CreateEdit(Id) {
         PartialView(ShelfDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));

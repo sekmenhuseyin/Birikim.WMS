@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("New", "Gorev", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "GorevGrid" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("Update", "Gorev", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "GorevGrid", OnSuccess = "$('#CreateEdit').html('');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -51,7 +51,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Açıklama</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Aciklama, new { @class = "form-control input-circle", @required = "" })
+                                @Html.TextBoxFor(a => a.Aciklama, new { @class = "form-control input-circle" })
                                 <span class="field-validation-valid" data-valmsg-for="Aciklama" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Bilgi</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Bilgi, new { @class = "form-control input-circle", @required = "" })
+                                @Html.TextBoxFor(a => a.Bilgi, new { @class = "form-control input-circle" })
                                 <span class="field-validation-valid" data-valmsg-for="Bilgi" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>

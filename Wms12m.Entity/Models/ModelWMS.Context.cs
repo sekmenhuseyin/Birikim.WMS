@@ -114,19 +114,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.UpdateSTI", iDParameter, irsaliyeIDParameter, malKoduParameter, miktarParameter, birimParameter);
         }
     
-        public virtual int GetMalBirim(string kod, string dB)
-        {
-            var kodParameter = kod != null ?
-                new ObjectParameter("kod", kod) :
-                new ObjectParameter("kod", typeof(string));
-    
-            var dBParameter = dB != null ?
-                new ObjectParameter("DB", dB) :
-                new ObjectParameter("DB", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.GetMalBirim", kodParameter, dBParameter);
-        }
-    
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSirkets_Result>("WMSEntities.GetSirkets");

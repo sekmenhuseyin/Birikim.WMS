@@ -1,86 +1,8 @@
-﻿@model  frmGorev
+﻿@model List<GorevListesi>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Gorev Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script type="text/javascript">
-    var GorevGridUrl = '@Url.Action("GorevGridPartial", "Gorev")'; 
-    var GorevDetailUrl = '@Url.Action("GorevDetailPartial", "Gorev")'; 
-    var DeleteFunctionUrl = '@Url.Action("Delete", "Gorev")';
-    $(document).ready(function () {
-        PartialView(GorevGridUrl, 'GorevGrid', JSON.stringify({ Id: '0' }));
-        //StoreList();
-
-        $('#SearchBtn').click(function () {
-            FuncSearchBtn();
-        });
-        
-    });
-    function FuncSearchBtn() {
-        var Type = $("input[type='radio'][name='Locked']:checked").val();
-        var StoreId = $("#StoreListi option:selected").val();
-        var CorridorId = $("#CorridorList option:selected").val();
-        PartialView(ShelfGridUrl, 'ShelfGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId) }));
-    }
-    //function CorridorList(Id) {
-    //    $("#CorridorList option").remove();
-    //    $.ajax({
-    //        url: CorrridorList,
-    //        type: 'POST',
-    //        data: JSON.stringify({ Id: Id }),
-    //        dataType: "json",
-    //        contentType: 'application/json; charset=utf-8',
-    //        success: function (data) {
-    //            if (data == "") {
-    //                //alert("Hata Oluştu !!!");
-    //            } else {
-    //                $("#CorridorList").append("<option value=" + '0' + ">Lütfen Koridor Seçiniz !!!</option>");
-    //                $("#CorridorList").removeAttr("disabled");
-    //                $.each(data, function (i, item) {
-    //                    $("#CorridorList").append("<option value=" + item.ID + ">" + item.Koridor + "</option>");
-    //                });
-    //            }
-    //        }
-    //    });
-    //}
-    //function StoreList() {
-    //    $("#StoreListi option").remove();
-    //    $("#StoreListi").append("<option value=" + '0' + ">Lütfen Depo Seçiniz !!!</option>");
-    //    $.ajax({
-    //        url: StoreListUrl,
-    //        type: 'POST',
-    //        data: '',
-    //        dataType: "json",
-    //        contentType: 'application/json; charset=utf-8',
-    //        success: function (data) {
-    //            if (data == "") {
-    //                //Modaldialog("Kaydedilmiş depo bulunmamaktadır.", "Uyarı", "Tamam", "btn-success");
-    //            } else {
-
-    //                $.each(data, function (i, item) {
-    //                    $("#StoreListi").append("<option value=" + item.ID + ">" + item.DepoAdi + "</option>");
-    //                });
-    //            }
-    //        }
-    //    });
-    //}
-    function ShelfReturn(Data) {
-        FuncSearchBtn();
-        Modaldialog(Data.Message, (Data.Status == true ? "Başaralı" : "Hata"), "Tamam", "btn-success");
-        CreateEdit('0');
-
-    }
-    function CreateEdit(Id) {
-        PartialView(GorevDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
-        $("#CreateEdit").show();
-    }
-    function DuzenleIptal() {
-        $("#CreateEdit").hide();
-    }
-    function InsertRefresh() {
-        PartialView(ShelfDetailUrl, "CreateEdit", '0');
-    }
-</script>
 <h3 class="page-title">Görev İşlemleri</h3>
 <div class="row">
     <div class="col-md-12">
@@ -93,59 +15,69 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    @*<div class="form-horizontal">
-                        <div class="form-body">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-                                    <div class="form-group">
-                                        <div class="radio-list col-xs-12 col-md-12 col-lg-12">
-                                            <div class="col-sm-12 col-xs-12">
-                                                <label>
-                                                    <label style="color:#32c5d2;">Durum</label>
-                                                </label>
-                                            </div>
-                                            <div class="radio-list col-sm-12 col-xs-12">
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3" style="padding-left:20px;">
-                                                    <input type="radio" name="Locked" value="Locked" /> Aktif
-                                                </label>
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3">
-                                                    <input type="radio" name="Locked" value="noLocked" checked /> Pasif
-                                                </label>
-                                                <label class="radio-inline col-xs-3 col-md-3 col-lg-3">
-                                                    <input type="radio" name="Locked" value="All" checked /> Tümü
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <div class="row">
-                                            <label class="control-label col-sm-2 col-md-2 col-lg-2" style="color:#32c5d2;">Depo</label>
-                                            <div class="col-sm-8 col-md-8 col-lg-7">
-                                                <select id="StoreListi" class="form-control"></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top:5px;">
-                                        <div class="row">
-                                            <label class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2" style="color:#32c5d2;">Koridor</label>
-                                            <div class="col-sm-8 col-md-8 col-lg-7">
-                                                <select id="CorridorList" class="form-control"></select>
-                                            </div>
-                                            <div class="col-sm-2 col-md-2 col-lg-2">
-                                                <button type="submit" class="btn green ara-btn" id="SearchBtn">Ara</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>*@
-                    <div id="GorevGrid" style="padding:10px;margin-top:18px;"></div>
+                    <div id="GorevGrid" style="padding:10px;margin-top:18px;">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Depo</th>
+                                    <th>EvrakNo</th>
+                                    <th>Görev No</th>
+                                    <th>Görev Tipi</th>
+                                    <th>Durum</th>
+                                    <th>Görevli</th>
+                                    <th>Oluşturma Tarihi</th>
+                                    <th>Atama Tarihi</th>
+                                    <th>Bitirme Tarihi</th>
+                                    <th>Bilgi</th>
+                                    <th>Açıklama</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="GorevFrom">
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.TK_DEP.DepoAdi</td>
+                                        <td>@item.WMS_IRS.EvrakNo</td>
+                                        <td>@item.GorevNo</td>
+                                        <td>@item.ComboItemName.ItemName</td>
+                                        <td>@item.ComboItemName1.ItemName</td>
+                                        <td>@{if (item.USR01 != null) { @item.USR01.UserName}} </td>
+                                        <td>@DateTime.FromOADate(item.OlusturmaTarihi).ToShortDateString()</td>
+                                        <td>@{if (item.AtamaTarihi != null) { @DateTime.FromOADate(item.AtamaTarihi.Value).ToShortDateString()} }</td>
+                                        <td>@{if (item.BitirmeTarihi != null) { @DateTime.FromOADate(item.BitirmeTarihi.Value).ToShortDateString()}}</td>
+                                        <td>@item.Bilgi </td>
+                                        <td>@item.Aciklama </td>
+                                        <td>
+                                            <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Gorev/GorevGridPartial','GorevGrid','0')"> Sil </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script src="~/Content/Scripts/_Operation.js"></script>
+<script type="text/javascript">
+    var GorevGridUrl = '@Url.Action("GorevGridPartial", "Gorev")';
+    var GorevDetailUrl = '@Url.Action("GorevDetailPartial", "Gorev")';
+    var DeleteFunctionUrl = '@Url.Action("Delete", "Gorev")';
+    function ShelfReturn(Data) {
+        CreateEdit('0');
+    }
+    function CreateEdit(Id) {
+        PartialView(GorevDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+        $("#CreateEdit").show();
+    }
+    function DuzenleIptal() {
+        $("#CreateEdit").hide();
+    }
+    function InsertRefresh() {
+        PartialView(ShelfDetailUrl, "CreateEdit", '0');
+    }
+</script>

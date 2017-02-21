@@ -42,6 +42,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,6 +54,7 @@
   <ItemGroup>
     <Compile Include="CacheControl\abstractCache.cs" />
     <Compile Include="CacheControl\CacheControl.cs" />
+    <Compile Include="CacheControl\CacheManager.cs" />
     <Compile Include="Control\QueryAnalysis.cs" />
     <Compile Include="Extension\Extensions.cs" />
     <Compile Include="Gorev\abstractMalKabul.cs" />
@@ -74,10 +76,6 @@
     <Compile Include="Store\Store.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wms12m.Cache\Wms12m.Cache.csproj">
-      <Project>{EC3E0EBD-A381-459A-AD4F-F74D23D0F162}</Project>
-      <Name>Wms12m.Cache</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Wms12m.Configuration\Wms12m.Configuration.csproj">
       <Project>{B02DF729-740C-4D5F-ADF1-320245CB584C}</Project>
       <Name>Wms12m.Configuration</Name>
