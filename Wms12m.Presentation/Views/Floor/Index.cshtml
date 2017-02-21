@@ -7,7 +7,96 @@
 <h3 class="page-title">Kat İşlemleri</h3>
 <div class="row">
     <div class="col-md-12">
-        <div id="CreateEdit"></div>
+        <div id="CreateEdit">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Kat Ekle
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    @using (Ajax.BeginForm("FlooriOperation", "Floor", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "FloorFrom", OnSuccess = "FuncSearchBtn()" }, new { @class = "form-horizontal" }))
+                    {
+                        @Html.HiddenFor(a => a.ID)
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Depo</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required", @onchange = "getCorridor(this.value,'KoridorID');" })
+                                    <span class="field-validation-valid" data-valmsg-for="StoreId" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Koridor</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("KoridorID", null, htmlAttributes: new { @class = "form-control input-circle KoridorID", required = "required", @onchange = "getShelf(this.value,'RafID');" })
+                                    <span class="field-validation-valid" data-valmsg-for="CorrridorId" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Raf</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("RafID", null, htmlAttributes: new { @class = "form-control input-circle RafID", required = "required" })
+                                    <span class="field-validation-valid" data-valmsg-for="ShelfList" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Kat</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.Kat, new { @class = "form-control input-circle", @placeholder = "Kat" })
+                                    <span class="field-validation-valid" data-valmsg-for="Kat" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Boy</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.Boy, new { @class = "form-control input-circle", @placeholder = "Kat" })
+                                    <span class="field-validation-valid" data-valmsg-for="Boy" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Özellik</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.Ozellik, new { @class = "form-control input-circle", @placeholder = "Kat" })
+                                    <span class="field-validation-valid" data-valmsg-for="Ozellik" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Açıklama</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.Aciklama, new { @class = "form-control input-circle", @placeholder = "Kat" })
+                                    <span class="field-validation-valid" data-valmsg-for="Aciklama" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Sıra</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
+                                    <span class="field-validation-valid" data-valmsg-for="Sort" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Durum</label>
+                                <div class="col-md-4">
+                                    @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-circle green ekle-duzenle">Ekle</button>
+                                    <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
         <div>
             <div class="portlet box green">
                 <div class="portlet-title">
@@ -82,7 +171,7 @@
         $("#" + what + " option").remove();
         if (what == "RafID") { $("#RafID option").remove(); $("#RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0; }
         $.ajax({
-            url: "/Corrridor/CorrridorList/" + id,
+            url: "/Corridor/CorridorList/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -115,14 +204,14 @@
     }
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
-        var StoreId = $("#StoreListi option:selected").val();
+        var StoreId = $(".StoreListi option:selected").val();
         var CorridorId = $("#CorridorList option:selected").val();
         var ShelfId = $("#ShelfListi option:selected").val();
         PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId) }));
     }
     function FloorReturn(Data) {
+        FuncSearchBtn();
         CreateEdit('0');
-
     }
     function CreateEdit(Id) {
         PartialView(FloorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));

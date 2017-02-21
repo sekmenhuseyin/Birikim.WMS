@@ -168,7 +168,6 @@
     function ShelfReturn(Data) {
         FuncSearchBtn();
         CreateEdit('0');
-
     }
     function CreateEdit(Id) {
         PartialView(ShelfDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
