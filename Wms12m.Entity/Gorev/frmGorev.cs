@@ -27,6 +27,7 @@ namespace Wms12m.Entity
 
         [DataMember, DisplayName("Atayan"), Required(ErrorMessage = "Boş bırakmayınız")]
         public int AtayanID { get; set; }
+        public int IrsaliyeID { get; set; }
 
         [DataMember, DisplayName("Oluşturma Tarihi"), Required(ErrorMessage = "Boş bırakmayınız")]
         public int OlusturmaTarihi { get; set; }

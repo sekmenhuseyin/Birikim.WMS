@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Wms12m.Business;
 using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
@@ -25,17 +26,9 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult Update(frmGorev tbl)
         {
-            //check if exists
-            var tmp = db.GorevListesis.Where(m => m.ID == tbl.ID).FirstOrDefault();
-            if (tmp != null)
-            {
-                //add new
-                tmp.GorevliID = tbl.GorevliID;
-                tmp.Aciklama = tbl.Aciklama;
-                tmp.Bilgi = tbl.Bilgi;
-                tmp.DurumID = tbl.DurumID;
-                db.SaveChanges();
-            }
+            //update
+            Gorev tmpTable = new Gorev();
+            Result _Result = tmpTable.Update(tbl);
             //get list
             ViewBag.GorevID = tbl.ID;
             var list = db.GorevListesis.ToList();
