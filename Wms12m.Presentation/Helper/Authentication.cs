@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.Security;
-using Wms12m.Configuration;
 using Wms12m.Entity;
 using Wms12m.Security;
 
