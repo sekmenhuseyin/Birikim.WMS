@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -28,15 +29,10 @@ namespace Wms12m.Presentation.Controllers
             var tmp = db.WMS_IRS.Where(m => m.EvrakNo == tbl.EvrakNo).FirstOrDefault();
             if (tmp == null)
             {
-                DateTime dateValue=DateTime.Now;
-                if (DateTime.TryParse(tbl.Tarih, out dateValue) == true)
-                {
-                    try
-                    {
-                        tbl.Id = db.UpdateIRS(0, tbl.SirketID, tbl.DepoID, false, tbl.EvrakNo, tbl.HesapKodu, "", Convert.ToInt32(dateValue.ToOADate()), User.LogonUserName, Convert.ToInt32(DateTime.Today.ToOADate()), User.Id).FirstOrDefault().Value;
-                    }
-                    catch (Exception) { }
-                }
+                Irsaliye irsaliye = new Irsaliye();
+                Result _Result = irsaliye.Insert(tbl);
+                if (_Result.Id == 0) return null;
+                tbl.Id = _Result.Id;
             }
             else
                 tbl.Id = tmp.ID;

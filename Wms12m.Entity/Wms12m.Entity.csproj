@@ -119,9 +119,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelWMS.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Olcu.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TK_BOL.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
