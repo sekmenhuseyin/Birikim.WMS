@@ -43,6 +43,19 @@
     function InsertRefresh() {
         PartialView(ShelfDetailUrl, "CreateEdit", '0');
     }
+    function MalKabulOnay() {
+        var _dfd = $.Deferred();
+        $.ajax({
+            url: window.location.origin + "/Home/FaturaDetayData",
+            data: { EvrakNo: f_evrakNo },
+            type: "post",
+            success: function (data) {
+
+            },
+            error: function (jqxhr) { console.log(jqxhr); }
+        });
+        return _dfd.promise();
+    }
 </script>
 <h3 class="page-title">MalKabul İşlemleri</h3>
 <div class="row">
