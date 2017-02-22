@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
-using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -17,6 +17,9 @@ namespace Wms12m.Presentation.Controllers
             var list = db.GorevListesis.ToList();
             return View("Index", list);
         }
+        /// <summary>
+        /// sadece listeyi gösterir
+        /// </summary>
         public PartialViewResult GorevGridPartial()
         {
             var list = db.GorevListesis.ToList();
@@ -53,6 +56,27 @@ namespace Wms12m.Presentation.Controllers
             Gorev tmpTable = new Gorev();
             Result _Result = tmpTable.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// görevli ata
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult GorevliAta()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            Int32 ID = Convert.ToInt32(id);
+            var list = db.GorevListesis.Where(m=>m.ID==ID).FirstOrDefault();
+            ViewBag.GorevliID = new SelectList(db.USR01.OrderBy(m=>m.UserName).ToList(), "Id", "UserName", list.GorevliID);
+            return PartialView("GorevliAta", list);
+        }
+        /// <summary>
+        /// görevliyi kaydeder
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult GorevliAta(int GorevliID)
+        {
+            return RedirectToAction("Index");
         }
     }
 }

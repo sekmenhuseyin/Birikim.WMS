@@ -161,12 +161,12 @@
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch();
         @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
-            $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
-            $(".KoridorID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".KoridorID")[0].selectedIndex = 0; $(".KoridorID")[1].selectedIndex = 0;
-            $(".RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".RafID")[0].selectedIndex = 0; $(".RafID")[1].selectedIndex = 0;
-            $('[name="Locked"]').click(function () { FuncSearchBtn(); });
-            $('#ShelfListi').on('change', function () { FuncSearchBtn(); })
-        });
+        $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
+        $(".KoridorID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".KoridorID")[0].selectedIndex = 0; $(".KoridorID")[1].selectedIndex = 0;
+        $(".RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".RafID")[0].selectedIndex = 0; $(".RafID")[1].selectedIndex = 0;
+        $('[name="Locked"]').click(function () { FuncSearchBtn(); });
+        $('#ShelfListi').on('change', function () { FuncSearchBtn(); })
+    });
     function getCorridor(id, what) {
         $("#" + what + " option").remove();
         if (what == "RafID") { $("#RafID option").remove(); $("#RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0; }

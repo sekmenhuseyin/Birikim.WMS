@@ -20,7 +20,7 @@
                     <td>@item.MalAdi</td>
                     <td>@item.Miktar</td>
                     <td>@item.Birim</td>
-                    <td>@{if (Model.FirstOrDefault().WMS_IRS.Onay==false) {<a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Buy/GridPartial','StoreGrid','@ViewBag.IrsaliyeId')"> Sil </a>}}</td>
+                    <td>@{if (Model.FirstOrDefault().WMS_IRS.Onay==false) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/Buy/GridPartial','StoreGrid','@ViewBag.IrsaliyeId')"> Sil </a>}}</td>
                 </tr>
             }
         </tbody>

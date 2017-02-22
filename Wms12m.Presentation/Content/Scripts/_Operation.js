@@ -1,4 +1,14 @@
-﻿//url:method adresi ,div:render edeceği div,Id:detay için id göndere bilir
+﻿//personel ayrıntıları editleme sayfaları
+function editInModal(URL) {
+    $("#modalEditPage").html("");
+    $.ajax({
+        type: "POST",
+        url: URL,
+        datatype: "html",
+        success: function (data) { $("#modalEditPage").html(data); }
+    });
+}
+//url:method adresi ,div:render edeceği div,Id:detay için id göndere bilir
 function PartialView(Url, Div, Id) {
     $.ajax({
         url: Url,

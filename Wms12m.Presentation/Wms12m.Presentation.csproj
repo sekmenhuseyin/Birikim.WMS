@@ -4860,9 +4860,13 @@
     <Content Include="Content\assets\layouts\layout7\scripts\layout.js" />
     <Content Include="Content\assets\layouts\layout7\scripts\layout.min.js" />
     <Content Include="Content\assets\layouts\layout\css\custom.css" />
-    <Content Include="Content\assets\layouts\layout\css\custom.min.css" />
+    <Content Include="Content\assets\layouts\layout\css\custom.min.css">
+      <DependentUpon>custom.css</DependentUpon>
+    </Content>
     <Content Include="Content\assets\layouts\layout\css\layout.css" />
-    <Content Include="Content\assets\layouts\layout\css\layout.min.css" />
+    <Content Include="Content\assets\layouts\layout\css\layout.min.css">
+      <DependentUpon>layout.css</DependentUpon>
+    </Content>
     <Content Include="Content\assets\layouts\layout\css\themes\blue.css" />
     <Content Include="Content\assets\layouts\layout\css\themes\blue.min.css" />
     <Content Include="Content\assets\layouts\layout\css\themes\darkblue.css" />
@@ -5811,6 +5815,7 @@
     <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.css.map" />
     <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap-theme.min.css.map" />
     <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap-theme.css.map" />
+    <None Include="bundleconfig.json" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
     <None Include="Content\assets\global\plugins\jquery\jquery-3.1.1.intellisense.js" />
     <Content Include="Content\assets\global\plugins\bootstrap\js\bootstrap.js" />
@@ -5898,6 +5903,7 @@
     <Content Include="Views\MalKabul\_MalKabulGridPartial.cshtml" />
     <Content Include="Views\MalKabul\_MalKabulIcmalPartial.cshtml" />
     <Content Include="Views\Gorev\_GorevGridPartial.cshtml" />
+    <Content Include="Views\Gorev\GorevliAta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
