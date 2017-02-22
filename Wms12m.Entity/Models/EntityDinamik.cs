@@ -194,7 +194,7 @@ namespace Wms12m.Entity.Models
 		}
 	}
 
-	// public FinsatContext(EntityConnection entityConnection) : 
+	// public FINSATEntities(EntityConnection entityConnection) : 
 	//                       base(entityConnection, false)
 	//{
 	//}
