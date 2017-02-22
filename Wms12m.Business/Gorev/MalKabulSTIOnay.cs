@@ -15,7 +15,7 @@ namespace Wms12m.Business
         {
             Security.CustomPrincipal Users = HttpContext.Current.User as Security.CustomPrincipal;
             private WMSEntities db = new WMSEntities();
-            public string MalKabulOnay(string EvrakNo, string CHK, int IrsaliyeNo, string GorevNo, int SirketKodu)
+            public string MalKabulOnay(string EvrakNo, string CHK, int IrsaliyeNo, string GorevNo, int SirketKodu,string DepoKodu)
             {
                 abstractMalKabul<STII> STIset = new MalKabulSTIOnay();
                 abstractMalKabul<FTDD> FTDset = new MalKabulFTDOnay();
@@ -46,6 +46,7 @@ namespace Wms12m.Business
                     {
                         for (short i = 0; i < sti.Count; i++)
                         {
+                            // STI Insert
                             STI f_sti = new STI();
                             f_sti.DefaultValueSet();
                             f_sti.EvrakNo = sti[i].WMS_IRS.EvrakNo;
@@ -97,6 +98,46 @@ namespace Wms12m.Business
                             Dinamik.Context.SaveChanges();
                         }
 
+                        // FTD Insert
+                        FTD f_ftd = new FTD();
+                        f_ftd.IslemTip = 2;
+                        f_ftd.BA = 1;
+                        f_ftd.EvrakNo = EvrakNo;
+                        f_ftd.Tarih = Convert.ToInt32(DateTime.Today.ToOADate());
+                        f_ftd.HesapKodu = CHK;
+                        f_ftd.Aciklama = "Mal Hizmet Bedeli";
+                        f_ftd.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                        f_ftd.KayitTarih = Helper.SaatForDB(DateTime.Now);
+                        f_ftd.KayitSaat = Convert.ToInt32(DateTime.Today.ToOADate());
+                        f_ftd.Degistiren = Users.AppIdentity.User.LogonUserName;
+                        f_ftd.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
+                        f_ftd.DegisSaat = Helper.SaatForDB(DateTime.Now);
+                        f_ftd.KynkEvrakTip = 3;
+                        f_ftd.AnaEvrakTip = 3;
+                        f_ftd.EFatDurum = -1;
+                        f_ftd.EFatSureDurum = -1;
+                        f_ftd.EArsivTeslimSekli = -1;
+                        f_ftd.EArsivFaturaTipi = -1;
+                        f_ftd.EArsivFaturaDurum = -1;
+                        Dinamik.Context.FTDs.Add(f_ftd);
+                        Dinamik.Context.SaveChanges();
+
+                        //MFK Insert
+                        MFK f_mfk = new MFK();
+                        f_mfk.IslemTip = 2;
+                        f_mfk.EvrakNo = EvrakNo;
+                        f_mfk.EvrakTarih = Convert.ToInt32(DateTime.Today.ToOADate());
+                        f_mfk.HesapKod = CHK;
+                        f_mfk.KynkEvrakTip = 3;
+                        f_mfk.OnayIslemTip = -1;
+                        f_mfk.OnayStatus = -1;
+                        f_mfk.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                        f_mfk.KayitTarih = Helper.SaatForDB(DateTime.Now);
+                        f_mfk.KayitSaat = Convert.ToInt32(DateTime.Today.ToOADate());
+                        f_mfk.Degistiren = Users.AppIdentity.User.LogonUserName;
+                        f_mfk.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
+                        f_mfk.DegisSaat = Helper.SaatForDB(DateTime.Now);
+                        f_mfk.Depo = DepoKodu;
                     }
                 }
 
