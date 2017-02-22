@@ -18,25 +18,34 @@ namespace Wms12m.Business
         public Result Insert(frmMalzeme tbl)
         {
             _Result = new Result();
-            UserIdentity User= Users.AppIdentity.User;
-            try
+            if (tbl.Miktar<=0)
             {
-                WMS_STI tablo = new WMS_STI();
-                tablo.IrsaliyeID = tbl.IrsaliyeId;
-                tablo.MalKodu = tbl.MalKodu;
-                tablo.Birim = tbl.Birim;
-                tablo.Miktar = tbl.Miktar;
-                db.WMS_STI.Add(tablo);
-                db.SaveChanges();
-                _Result.Message = "İşlem Başarılı !!!";
-                _Result.Status = true;
-                _Result.Id = tablo.ID;
-            }
-            catch (Exception ex)
-            {
-                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                _Result.Message = "Miktar hatalı";
                 _Result.Status = false;
                 _Result.Id = 0;
+            }
+            else
+            {
+                UserIdentity User= Users.AppIdentity.User;
+                try
+                {
+                    WMS_STI tablo = new WMS_STI();
+                    tablo.IrsaliyeID = tbl.IrsaliyeId;
+                    tablo.MalKodu = tbl.MalKodu;
+                    tablo.Birim = tbl.Birim;
+                    tablo.Miktar = tbl.Miktar;
+                    db.WMS_STI.Add(tablo);
+                    db.SaveChanges();
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                    _Result.Id = tablo.ID;
+                }
+                catch (Exception ex)
+                {
+                    _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                    _Result.Status = false;
+                    _Result.Id = 0;
+                }
             }
             return _Result;
         }

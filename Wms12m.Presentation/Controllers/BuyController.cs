@@ -63,7 +63,6 @@ namespace Wms12m.Presentation.Controllers
             //add new
             Stok tmpTable = new Stok();
             Result _Result = tmpTable.Insert(tbl);
-            if (_Result.Id == 0) return null;
             //get list
             var list = db.WMS_STI.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).ToList();
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
