@@ -64,7 +64,6 @@
     <Compile Include="MalKabul\MalKabulMFKOnay.cs" />
     <Compile Include="MalKabul\MalKabulSTIOnay.cs" />
     <Compile Include="MalKabul\MalKabulSTKOnay.cs" />
-    <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Irsaliye\Stok.cs" />
     <Compile Include="Irsaliye\Irsaliye.cs" />
     <Compile Include="Logger\Logger.cs" />

@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseConfigurationSection.cs" />
-    <Compile Include="Enm\Enm.cs" />
     <Compile Include="LogConfigurationSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

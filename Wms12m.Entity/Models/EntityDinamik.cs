@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Data.Entity.Core.EntityClient;
-using System.Data.Entity.Core.Mapping;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Xml;
+using System.Linq;
 using System.Xml.Linq;
+using System.Data.Common;
+using System.Reflection;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+using System.Data.Entity.Core.Mapping;
+using System.Data.Entity.Core.EntityClient;
+using System.Data.Entity.Core.Metadata.Edm;
 
 namespace Wms12m.Entity.Models
 {
@@ -27,22 +27,17 @@ namespace Wms12m.Entity.Models
 				InitialCatalog = buildConnectionParams.DatabaseName,             
 				UserID = buildConnectionParams.UserID,
 				Password= buildConnectionParams.Password
-				//IntegratedSecurity = true,
 			};
-
 			var providerString = sqlBuilder.ToString();
 			var entityBuilder = new EntityConnectionStringBuilder
 			{
 				Provider = buildConnectionParams.ProviderName,
 				ProviderConnectionString = providerString,
-				Metadata = string.Format(@"res://*/{0}.csdl|
-							res://*/{0}.ssdl|
-							res://*/{0}.msl", buildConnectionParams.ModelName)
+				Metadata = string.Format(@"res://*/{0}.csdl|res://*/{0}.ssdl|res://*/{0}.msl", buildConnectionParams.ModelName)
 			};
 
 			return CreateConnection(buildConnectionParams.SchemaName, entityBuilder, buildConnectionParams.ModelName);
 		}
-
 		/// <summary>
 		/// Creates the EntityConnection, based on new schema & existing connectionString
 		/// </summary>
@@ -104,13 +99,10 @@ namespace Wms12m.Entity.Models
 			return new EntityConnection(workspace, connection);
 		}
 	}
-
-
 	public class DinamikModelContext : IDisposable
 	{
 		private readonly string EDMXModelName = "Models.ModelFinsat"; // EDMX MODELNAME
 		public FINSATEntities Context;
-
 		public DinamikModelContext(string SirketKodu)
 		{
 			var entityConnection = DatabaseUtils.BuildConnection(new NewConnectionParams
@@ -123,17 +115,10 @@ namespace Wms12m.Entity.Models
 				UserID = "sa",
 				Password = "Birikim12"
 			});
-
 			if (entityConnection == null)
 				throw new Exception("EntityConnection oluşturulamadı !!");
-
 			Context = new FINSATEntities(entityConnection);
 		}
-
-
-		
-
-
 		/// <summary>
 		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
 		/// </summary>
@@ -141,59 +126,23 @@ namespace Wms12m.Entity.Models
 		{
 			if (Context == null)
 				return;
-
 			Context.Dispose();
 			Context = null;
 		}
 	}
-
-
+	//model
 	internal struct NewConnectionParams
 	{
-		public string ProviderName
-		{
-			get;
-			set;
-		}
-
-		public string ServerName
-		{
-			get;
-			set;
-		}
-
-		public string DatabaseName
-		{
-			get;
-			set;
-		}
-
-		public string UserID
-		{
-			get;
-			set;
-		}
-
-		public string Password
-		{
-			get;
-			set;
-		}
-
-
-		public string ModelName
-		{
-			get;
-			set;
-		}
-
-		public string SchemaName
-		{
-			get;
-			set;
-		}
+		public string ProviderName{get;set;}
+		public string ServerName{get;set;}
+		public string DatabaseName{get;set;}
+		public string UserID{get;set;}
+		public string Password{get;set;}
+		public string ModelName{get;set;}
+		public string SchemaName{get;set;}
 	}
 
+	//copy to model.context.cs
 	// public FINSATEntities(EntityConnection entityConnection) : 
 	//                       base(entityConnection, false)
 	//{

@@ -35,9 +35,38 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                _Result.Message = "İşlem Hatalı !!!";
+                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
                 _Result.Status = false;
                 _Result.Id = 0;
+            }
+            return _Result;
+        }
+        /// <summary>
+        /// silme işlemleri
+        /// </summary>
+        public Result Delete(int ID)
+        {
+            _Result = new Result();
+            try
+            {
+                WMS_STI tbl = db.WMS_STI.Where(m => m.ID == ID).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.WMS_STI.Remove(tbl);
+                    db.SaveChanges();
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                _Result.Status = false;
             }
             return _Result;
         }

@@ -84,11 +84,11 @@ namespace Wms12m.Business
                             f_sti.Duz_Mly_Mhs_Durumu = -1;
                             f_sti.AnaEvrakTip = 3;
                             f_sti.Kaydeden = Users.AppIdentity.User.LogonUserName;
-                            f_sti.KayitTarih = Helper.SaatForDB(DateTime.Now);
+                            //f_sti.KayitTarih = Helper.SaatForDB(DateTime.Now);
                             f_sti.KayitSaat = Convert.ToInt32(DateTime.Today.ToOADate());
                             f_sti.Degistiren = Users.AppIdentity.User.LogonUserName;
                             f_sti.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
-                            f_sti.DegisSaat = Helper.SaatForDB(DateTime.Now);
+                            //f_sti.DegisSaat = Helper.SaatForDB(DateTime.Now);
                             f_sti.EFatDurum = -1;
                             f_sti.OTVTevkifatVarYok = 1;
                             f_sti.EArsivTeslimSekli = -1;
@@ -125,11 +125,11 @@ namespace Wms12m.Business
                                 f_dst.SonMlySekli = -1;
                                 f_dst.BakGostSekli = -1;
                                 f_dst.Kaydeden = Users.AppIdentity.User.LogonUserName;
-                                f_dst.KayitTarih = Helper.SaatForDB(DateTime.Now);
+                                //f_dst.KayitTarih = Helper.SaatForDB(DateTime.Now);
                                 f_dst.KayitSaat = Convert.ToInt32(DateTime.Today.ToOADate());
                                 f_dst.Degistiren = Users.AppIdentity.User.LogonUserName;
                                 f_dst.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
-                                f_dst.DegisSaat = Helper.SaatForDB(DateTime.Now);
+                                //f_dst.DegisSaat = Helper.SaatForDB(DateTime.Now);
                                 f_dst.TahminiStok = sti[i].Miktar;
                                 Dinamik.Context.DSTs.Add(f_dst);
                                 Dinamik.Context.SaveChanges();
@@ -145,11 +145,11 @@ namespace Wms12m.Business
                         f_ftd.HesapKodu = CHK;
                         f_ftd.Aciklama = "Mal Hizmet Bedeli";
                         f_ftd.Kaydeden = Users.AppIdentity.User.LogonUserName;
-                        f_ftd.KayitTarih = Helper.SaatForDB(DateTime.Now);
+                        //f_ftd.KayitTarih = Helper.SaatForDB(DateTime.Now);
                         f_ftd.KayitSaat = Convert.ToInt32(DateTime.Today.ToOADate());
                         f_ftd.Degistiren = Users.AppIdentity.User.LogonUserName;
                         f_ftd.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
-                        f_ftd.DegisSaat = Helper.SaatForDB(DateTime.Now);
+                        //f_ftd.DegisSaat = Helper.SaatForDB(DateTime.Now);
                         f_ftd.KynkEvrakTip = 3;
                         f_ftd.AnaEvrakTip = 3;
                         f_ftd.EFatDurum = -1;
@@ -170,11 +170,11 @@ namespace Wms12m.Business
                         f_mfk.OnayIslemTip = -1;
                         f_mfk.OnayStatus = -1;
                         f_mfk.Kaydeden = Users.AppIdentity.User.LogonUserName;
-                        f_mfk.KayitTarih = Helper.SaatForDB(DateTime.Now);
+                        //f_mfk.KayitTarih = Helper.SaatForDB(DateTime.Now);
                         f_mfk.KayitSaat = Convert.ToInt32(DateTime.Today.ToOADate());
                         f_mfk.Degistiren = Users.AppIdentity.User.LogonUserName;
                         f_mfk.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
-                        f_mfk.DegisSaat = Helper.SaatForDB(DateTime.Now);
+                        //f_mfk.DegisSaat = Helper.SaatForDB(DateTime.Now);
                         f_mfk.Depo = DepoKodu;
                     }
                 }

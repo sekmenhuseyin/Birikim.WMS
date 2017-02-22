@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\Enums.cs" />
     <Compile Include="Gorev\DSTT.cs" />
     <Compile Include="Gorev\FTDD.cs" />
     <Compile Include="Gorev\MFKK.cs" />

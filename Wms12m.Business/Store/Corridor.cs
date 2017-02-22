@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Web;
 using Wms12m.Entity;
 using Wms12m.Repository;
-using static Wms12m.Configuration.Enm;
 
 namespace Wms12m.Business
 {

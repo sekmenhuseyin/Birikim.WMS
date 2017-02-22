@@ -39,8 +39,8 @@ namespace Wms12m.Business
                     GorevListesi gorev = new GorevListesi();
                     gorev.DepoID = tbl.DepoID;
                     gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-1";
-                    gorev.GorevTipiID = Enm.ComboNames.MalKabul.ToInt32();
-                    gorev.DurumID = Enm.ComboNames.Açık.ToInt32();
+                    gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
+                    gorev.DurumID = ComboNames.Açık.ToInt32();
                     gorev.OlusturanID = User.Id;
                     gorev.OlusturmaTarihi = Convert.ToInt32(DateTime.Today.ToOADate());
                     gorev.IrsaliyeID = tablo.ID;
@@ -52,9 +52,9 @@ namespace Wms12m.Business
                     _Result.Status = true;
                     _Result.Id = tablo.ID;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    _Result.Message = "İşlem Hatalı !!!";
+                    _Result.Message = ex.Message + ": " + ex.InnerException.Message;
                     _Result.Status = false;
                     _Result.Id = 0;
                 }

@@ -4,16 +4,11 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Wms12m.Business
 {
     public static class Extensions
     {
-
-        #region GENEL TİP DÖNÜŞÜMLERİ
-
         /// <summary>
         /// <para>Gelen değeri Int32 türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
@@ -23,8 +18,6 @@ namespace Wms12m.Business
             try { return Convert.ToInt32(Deger); }
             catch { return defaultValue; }
         }
-
-
         /// <summary>
         /// <para>Gelen değeri Short (Int16) türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
@@ -34,8 +27,6 @@ namespace Wms12m.Business
             try { return Convert.ToInt16(Deger); }
             catch { return defaultValue; }
         }
-
-
         /// <summary>
         /// <para>Gelen değeri Long (Int64) türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
@@ -45,7 +36,6 @@ namespace Wms12m.Business
             try { return Convert.ToInt64(Deger); }
             catch { return defaultValue; }
         }
-
         /// <summary>
         /// <para>Gelen değeri Double türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
@@ -55,7 +45,6 @@ namespace Wms12m.Business
             try { return Convert.ToDouble(Deger); }
             catch { return defaultValue; }
         }
-
         /// <summary>
         /// <para>Gelen değeri Float türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
@@ -65,7 +54,6 @@ namespace Wms12m.Business
             try { return Convert.ToSingle(Deger); }
             catch { return defaultValue; }
         }
-
         /// <summary>
         /// <para>Gelen değeri Decimal türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
@@ -75,7 +63,6 @@ namespace Wms12m.Business
             try { return Convert.ToDecimal(Deger); }
             catch { return defaultValue; }
         }
-
         /// <summary>
         /// <para>Gelen değeri Char türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
@@ -85,8 +72,6 @@ namespace Wms12m.Business
             try { return Convert.ToChar(Deger); }
             catch { return defaultValue; }
         }
-
-
         /// <summary>
         /// <para>Gelen değeri DateTime türüne dönüştürür.</para>
         /// <para> Hata olursa "01.01.1970" değeri döner.</para>
@@ -113,7 +98,6 @@ namespace Wms12m.Business
             }
             return mDeger;
         }
-
         /// <summary>
         /// <para>Gelen değeri DateTime türüne dönüştürür.</para>
         /// <para> Hata olursa NULL değeri döner.</para>
@@ -140,7 +124,6 @@ namespace Wms12m.Business
             }
             return mDeger;
         }
-
         /// <summary>
         /// <para>Gelen değeri Bool türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
@@ -150,7 +133,6 @@ namespace Wms12m.Business
             try { return Convert.ToBoolean(Deger); }
             catch { return defaultValue; }
         }
-
         /// <summary>
         /// <para>Gelen değeri String türüne dönüştürür.</para>
         /// Trimle boşluklar atılır. Hata olursa defaultValue döner.
@@ -160,8 +142,6 @@ namespace Wms12m.Business
             try { return Convert.ToString(Deger).Trim(); }
             catch { return defaultValue; }
         }
-
-
         /// <summary>
         /// Int tipindeki değerleri DateTime tipine dönüştürür.
         /// </summary>
@@ -171,7 +151,6 @@ namespace Wms12m.Business
             date = date.AddDays(Deger);
             return date;
         }
-
         /// <summary>
         /// DateTime tipindeki saat kısmını alıp int olarak saat değeri üretir.
         /// </summary>
@@ -179,9 +158,9 @@ namespace Wms12m.Business
         {
             return Deger.Hour * 60 * 60 + Deger.Minute * 60 + Deger.Second;
         }
-
-        #endregion   // GENEL TİP DÖNÜŞÜMLERİ
-
+        /// <summary>
+        /// iki nesnenin birbiryle aynı olup olmadığını kontrol ediyor
+        /// </summary>
         public static bool IsDifferent(this object Nesne, object Nesne2)
         {
             foreach (PropertyInfo pthis in Nesne.GetType().GetProperties())
@@ -193,10 +172,6 @@ namespace Wms12m.Business
             }
             return false;
         }
-
-
-        #region KOMPLEX TİP DÖNÜŞÜMLERİ
-
         /// <summary>
         /// IEnumerable tipleri Datatable'a hızlı dönüştürür.
         /// </summary>
@@ -247,8 +222,6 @@ namespace Wms12m.Business
                 return t;
             }
         }
-
-
         /// <summary>
         /// IEnumerable tipleri DataTable'a dönüştürür.  Örnek List<Class> => DataTable
         /// </summary>
@@ -294,8 +267,6 @@ namespace Wms12m.Business
             newDataTable.AcceptChanges();
             return newDataTable;
         }
-
-
         public static DataTable ToDataTableV3<T>(this IEnumerable<T> source)
         {
             PropertyInfo[] properties = typeof(T).GetProperties();
@@ -321,16 +292,10 @@ namespace Wms12m.Business
 
             return output;
         }
-
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> Coll)
         {
             return new ObservableCollection<T>(Coll);
         }
-
-
-        #endregion // KOMPLEX TİP DÖNÜŞÜMLERİ
-
-        #region TİPLERDE BOŞLUK NULL KONTROLLERİ
         /// <summary>
         /// Null ve DBNULL kontrolü yapar 
         /// </summary>
@@ -341,7 +306,6 @@ namespace Wms12m.Business
             else
                 return false;
         }
-
         /// <summary>
         /// Null ve DBNULL değilse true döner
         /// </summary>
@@ -352,7 +316,6 @@ namespace Wms12m.Business
             else
                 return true;
         }
-
         /// <summary>
         /// Null ve DBNULL değilse true döner
         /// </summary>
@@ -363,7 +326,6 @@ namespace Wms12m.Business
             if (value.ToString().Trim() == string.Empty) return true;
             return false;
         }
-
         public static bool IsNotNullEmpty(this object value)
         {
             if (value == null) return false;
@@ -371,9 +333,6 @@ namespace Wms12m.Business
             if (value.ToString().Trim() == string.Empty) return false;
             return true;
         }
-        #endregion  // TİPLERDE BOŞLUK NULL KONTROLLERİ
-
-        #region KONTROL VE İŞLEMLER
         /// <summary>
         /// <para>Gelen değeri string olarak alır ve ifadeyi ters çevirir.</para>
         /// Hata olursa defaultValue döner.
@@ -388,7 +347,6 @@ namespace Wms12m.Business
             }
             catch { return defaultValue; }
         }
-
         /// <summary>
         /// Gelen değer NULL ise boşluk değilse aynı değeri döndürür
         /// </summary>
@@ -401,7 +359,6 @@ namespace Wms12m.Business
             else
                 return Deger;
         }
-
         /// <summary>
         /// ? operatöründe kullanılan karşılaştırmayı yapar. 
         /// İlk parametre hangi değerle karşılaştırıldığını gösterir.
@@ -414,8 +371,6 @@ namespace Wms12m.Business
             else
                 return Degilse;
         }
-
-
         /// <summary>
         /// Propertisi olan nesnelerin propertisini default değerler verir.
         /// </summary>
@@ -466,14 +421,10 @@ namespace Wms12m.Business
                             pi.SetValue(Deger, (byte)0, null);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    //Mesaj.Hata(ex, "###" + pi.Name);
                 }
             }
         }
-        #endregion  //  KONTROL VE İŞLEMLER
-
-
     }
 }

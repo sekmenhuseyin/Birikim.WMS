@@ -18,19 +18,32 @@ namespace Wms12m.Business
         /// </summary>
         public Result Insert(frmGorev tbl)
         {
-            UserIdentity User= Users.AppIdentity.User;
+            _Result = new Result();
+            UserIdentity User = Users.AppIdentity.User;
             //add görevlist table
-            GorevListesi gorev = new GorevListesi();
-            gorev.DepoID = tbl.DepoID;
-            gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-1";
-            gorev.GorevTipiID = Enm.ComboNames.MalKabul.ToInt32();
-            gorev.DurumID = Enm.ComboNames.Açık.ToInt32();
-            gorev.OlusturanID = User.Id;
-            gorev.OlusturmaTarihi = Convert.ToInt32(DateTime.Today.ToOADate());
-            gorev.IrsaliyeID = tbl.IrsaliyeID;
-            gorev.Bilgi = "IrsNo: " + tbl.IrsaliyeID.ToString();
-            db.GorevListesis.Add(gorev);
-            db.SaveChanges();
+            try
+            {
+                GorevListesi gorev = new GorevListesi();
+                gorev.DepoID = tbl.DepoID;
+                gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-1";
+                gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
+                gorev.DurumID = ComboNames.Açık.ToInt32();
+                gorev.OlusturanID = User.Id;
+                gorev.OlusturmaTarihi = Convert.ToInt32(DateTime.Today.ToOADate());
+                gorev.IrsaliyeID = tbl.IrsaliyeID;
+                gorev.Bilgi = "IrsNo: " + tbl.IrsaliyeID.ToString();
+                db.GorevListesis.Add(gorev);
+                db.SaveChanges();
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+                _Result.Id = gorev.ID;
+            }
+            catch (Exception ex)
+            {
+                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                _Result.Status = false;
+                _Result.Id = 0;
+            }
             return _Result;
         }
         /// <summary>
@@ -38,15 +51,57 @@ namespace Wms12m.Business
         /// </summary>
         public Result Update(frmGorev tbl)
         {
+            _Result = new Result();
             var tmp = db.GorevListesis.Where(m => m.ID == tbl.ID).FirstOrDefault();
             if (tmp != null)
             {
-                tmp.GorevliID = tbl.GorevliID;
-                tmp.Aciklama = tbl.Aciklama;
-                tmp.Bilgi = tbl.Bilgi;
-                tmp.DurumID = tbl.DurumID;
-                db.SaveChanges();
+                try
+                {
+                    tmp.GorevliID = tbl.GorevliID;
+                    tmp.Aciklama = tbl.Aciklama;
+                    tmp.Bilgi = tbl.Bilgi;
+                    tmp.DurumID = tbl.DurumID;
+                    db.SaveChanges();
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                    _Result.Id = tmp.ID;
+                }
+                catch (Exception ex)
+                {
+                    _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                    _Result.Status = false;
+                    _Result.Id = 0;
+                }
             }
+            return _Result;
+        }
+        /// <summary>
+        /// silme işlemi
+        /// </summary>
+        public Result Delete(int ID)
+        {
+            _Result = new Result();
+            try
+            {
+                GorevListesi tbl = db.GorevListesis.Where(m => m.ID == ID).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.GorevListesis.Remove(tbl);
+                    db.SaveChanges();
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                _Result.Status = false;
+           }
             return _Result;
         }
     }
