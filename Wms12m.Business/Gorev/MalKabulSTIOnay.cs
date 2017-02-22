@@ -96,6 +96,17 @@ namespace Wms12m.Business
                             f_sti.EArsivFaturaDurum = -1;
                             Dinamik.Context.STIs.Add(f_sti);
                             Dinamik.Context.SaveChanges();
+
+                            var tmp = db.GorevListesis.Where(m => m.ID == tbl.ID).FirstOrDefault();
+                            if (tmp != null)
+                            {
+                                //add new
+                                tmp.GorevliID = tbl.GorevliID;
+                                tmp.Aciklama = tbl.Aciklama;
+                                tmp.Bilgi = tbl.Bilgi;
+                                tmp.DurumID = tbl.DurumID;
+                                db.SaveChanges();
+                            }
                         }
 
                         // FTD Insert
