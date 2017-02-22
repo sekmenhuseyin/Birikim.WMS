@@ -17,13 +17,14 @@ namespace Wms12m.Business
         {
             Security.CustomPrincipal Users = HttpContext.Current.User as Security.CustomPrincipal;
             private WMSEntities db = new WMSEntities();
-            public string MalKabulOnay(string EvrakNo, string CHK, int IrsaliyeNo, string GorevNo, int SirketKodu,string DepoKodu)
+            public Result MalKabulOnay(string EvrakNo, string CHK, int IrsaliyeNo, string GorevNo, int SirketKodu,string DepoKodu)
             {
                 //abstractMalKabul<STII> STIset = new MalKabulSTIOnay();
                 //abstractMalKabul<FTDD> FTDset = new MalKabulFTDOnay();
                 //abstractMalKabul<MFKK> MFKset = new MalKabulMFKOnay();
                 //abstractMalKabul<STKK> STKset = new MalKabulSTKOnay();
                 //abstractMalKabul<DSTT> DSTset = new MalKabulDSTOnay();
+                Result _Result = new Result();
 
                 using (TransactionScope Scope = new TransactionScope())
                 {
@@ -32,7 +33,7 @@ namespace Wms12m.Business
                     if (grv != null)
                     {
                         //add new
-                        grv.DurumID = Enm.ComboNames.Tamamlanan.ToInt32();
+                        grv.DurumID = ComboNames.Tamamlanan.ToInt32();
                     }
 
                     var irs = db.WMS_IRS.Where(m => m.ID == IrsaliyeNo).FirstOrDefault();
@@ -188,7 +189,7 @@ namespace Wms12m.Business
                     Scope.Complete();
                 }
 
-                
+                return _Result;
 
                 
             }
