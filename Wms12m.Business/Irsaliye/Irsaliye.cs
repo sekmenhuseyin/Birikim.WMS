@@ -23,32 +23,41 @@ namespace Wms12m.Business
             DateTime dateValue = DateTime.Now;
             if (DateTime.TryParse(tbl.Tarih, out dateValue) == true)
             {
-                //add irsaliye table
-                WMS_IRS tablo = new WMS_IRS();
-                tablo.SirketKod = tbl.SirketID;
-                tablo.DepoID = tbl.DepoID;
-                tablo.EvrakNo = tbl.EvrakNo;
-                tablo.HesapKodu = tbl.HesapKodu;
-                tablo.Tarih = Convert.ToInt32(dateValue.ToOADate());
-                tablo.Kaydeden = User.LogonUserName;
-                tablo.KayitTarih = Convert.ToInt32(DateTime.Today.ToOADate());
-                db.WMS_IRS.Add(tablo);
-                //add görevlist table
-                GorevListesi gorev = new GorevListesi();
-                gorev.DepoID = tbl.DepoID;
-                gorev.GorevNo = DateTime.Today.ToString("ddmmyy") + "-1";
-                gorev.GorevTipiID = Enm.ComboNames.MalKabul.ToInt32();
-                gorev.DurumID = Enm.ComboNames.Açık.ToInt32();
-                gorev.OlusturanID = User.Id;
-                gorev.OlusturmaTarihi = Convert.ToInt32(DateTime.Today.ToOADate());
-                gorev.IrsaliyeID = tablo.ID;
-                gorev.Bilgi = "IrsNo: " + tablo.ID.ToString();
-                db.GorevListesis.Add(gorev);
-                //save
-                db.SaveChanges();
-                _Result.Message = "İşlem Başarılı !!!";
-                _Result.Status = true;
-                _Result.Id = tablo.ID;
+                try
+                {
+                    //add irsaliye table
+                    WMS_IRS tablo = new WMS_IRS();
+                    tablo.SirketKod = tbl.SirketID;
+                    tablo.DepoID = tbl.DepoID;
+                    tablo.EvrakNo = tbl.EvrakNo;
+                    tablo.HesapKodu = tbl.HesapKodu;
+                    tablo.Tarih = Convert.ToInt32(dateValue.ToOADate());
+                    tablo.Kaydeden = User.LogonUserName;
+                    tablo.KayitTarih = Convert.ToInt32(DateTime.Today.ToOADate());
+                    db.WMS_IRS.Add(tablo);
+                    //add görevlist table
+                    GorevListesi gorev = new GorevListesi();
+                    gorev.DepoID = tbl.DepoID;
+                    gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-1";
+                    gorev.GorevTipiID = Enm.ComboNames.MalKabul.ToInt32();
+                    gorev.DurumID = Enm.ComboNames.Açık.ToInt32();
+                    gorev.OlusturanID = User.Id;
+                    gorev.OlusturmaTarihi = Convert.ToInt32(DateTime.Today.ToOADate());
+                    gorev.IrsaliyeID = tablo.ID;
+                    gorev.Bilgi = "IrsNo: " + tablo.ID.ToString();
+                    db.GorevListesis.Add(gorev);
+                    //save
+                    db.SaveChanges();
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                    _Result.Id = tablo.ID;
+                }
+                catch (Exception)
+                {
+                    _Result.Message = "İşlem Hatalı !!!";
+                    _Result.Status = false;
+                    _Result.Id = 0;
+                }
             }
             else
             {
