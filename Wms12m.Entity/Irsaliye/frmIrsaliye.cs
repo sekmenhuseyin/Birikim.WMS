@@ -30,6 +30,7 @@ namespace Wms12m.Entity
 
         [DataMember, DisplayName("Tarih"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string Tarih { get; set; }
+        public bool Onay { get; set; }
     }
     /// <summary>
     /// hesap kodu ve ünvanı: şirket değişince gelen bilgiler
