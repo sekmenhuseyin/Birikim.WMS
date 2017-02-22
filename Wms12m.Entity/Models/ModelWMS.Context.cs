@@ -27,7 +27,6 @@ namespace Wms12m.Entity.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Olcu> Olcus { get; set; }
         public virtual DbSet<TK_BOL> TK_BOL { get; set; }
         public virtual DbSet<TK_DEP> TK_DEP { get; set; }
         public virtual DbSet<TK_KAT> TK_KAT { get; set; }
@@ -36,9 +35,9 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<ComboItemName> ComboItemNames { get; set; }
         public virtual DbSet<ComboName> ComboNames { get; set; }
         public virtual DbSet<USR01> USR01 { get; set; }
-        public virtual DbSet<GorevListesi> GorevListesis { get; set; }
         public virtual DbSet<WMS_IRS> WMS_IRS { get; set; }
         public virtual DbSet<WMS_STI> WMS_STI { get; set; }
+        public virtual DbSet<GorevListesi> GorevListesis { get; set; }
     
         public virtual ObjectResult<Nullable<int>> UpdateIRS(Nullable<int> iD, string sirketKod, Nullable<int> depoID, Nullable<bool> islemTur, string evrakNo, string hesapKodu, string teslimCHK, Nullable<int> tarih, string kaydeden, Nullable<int> kayitTarih, Nullable<int> loggedUserID)
         {

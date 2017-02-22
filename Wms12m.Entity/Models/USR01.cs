@@ -19,6 +19,7 @@ namespace Wms12m.Entity.Models
         {
             this.GorevListesis = new HashSet<GorevListesi>();
             this.GorevListesis1 = new HashSet<GorevListesi>();
+            this.GorevListesis2 = new HashSet<GorevListesi>();
         }
     
         public int Id { get; set; }
@@ -33,5 +34,7 @@ namespace Wms12m.Entity.Models
         public virtual ICollection<GorevListesi> GorevListesis { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevListesi> GorevListesis1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevListesi> GorevListesis2 { get; set; }
     }
 }
