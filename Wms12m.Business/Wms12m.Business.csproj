@@ -64,6 +64,7 @@
     <Compile Include="Gorev\MalKabulSTIOnay.cs" />
     <Compile Include="Gorev\MalKabulSTKOnay.cs" />
     <Compile Include="Helpers\Helper.cs" />
+    <Compile Include="Irsaliye\Stok.cs" />
     <Compile Include="Irsaliye\Irsaliye.cs" />
     <Compile Include="Logger\Logger.cs" />
     <Compile Include="Persons\AbstractPersons.cs" />

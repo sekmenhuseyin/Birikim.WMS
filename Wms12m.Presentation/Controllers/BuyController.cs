@@ -29,8 +29,8 @@ namespace Wms12m.Presentation.Controllers
             var tmp = db.WMS_IRS.Where(m => m.EvrakNo == tbl.EvrakNo).FirstOrDefault();
             if (tmp == null)
             {
-                Irsaliye irsaliye = new Irsaliye();
-                Result _Result = irsaliye.Insert(tbl);
+                Irsaliye tmpTable = new Irsaliye();
+                Result _Result = tmpTable.Insert(tbl);
                 if (_Result.Id == 0) return null;
                 tbl.Id = _Result.Id;
             }
@@ -48,10 +48,9 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult InsertMalzeme(frmMalzeme tbl)
         {
             //add new
-            try
-            {
-                var tmp = db.UpdateSTI(0, tbl.IrsaliyeId, tbl.MalKodu, tbl.Miktar, tbl.Birim).FirstOrDefault();
-            }catch (Exception){}
+            Stok tmpTable = new Stok();
+            Result _Result = tmpTable.Insert(tbl);
+            if (_Result.Id == 0) return null;
             //get list
             var list = db.WMS_STI.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).ToList();
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
