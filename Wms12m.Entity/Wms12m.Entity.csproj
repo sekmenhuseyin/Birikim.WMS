@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -51,6 +52,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\BaseConfigurationSection.cs" />
+    <Compile Include="Configuration\LogConfigurationSection.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Gorev\DSTT.cs" />
     <Compile Include="Gorev\FTDD.cs" />

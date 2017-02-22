@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace Wms12m.Configuration
+namespace Wms12m.Entity
 {
     public class LogConfigurationSection : ConfigurationSection
     {

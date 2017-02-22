@@ -80,10 +80,6 @@
     <Compile Include="Store\Store.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wms12m.Configuration\Wms12m.Configuration.csproj">
-      <Project>{B02DF729-740C-4D5F-ADF1-320245CB584C}</Project>
-      <Name>Wms12m.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Wms12m.Entity\Wms12m.Entity.csproj">
       <Project>{8c1be237-38f4-4170-ae02-ac56d44fde73}</Project>
       <Name>Wms12m.Entity</Name>

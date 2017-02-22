@@ -326,26 +326,6 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="UpdateIRS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="ID" Type="int" Mode="In" />
-          <Parameter Name="SirketKod" Type="varchar" Mode="In" />
-          <Parameter Name="DepoID" Type="int" Mode="In" />
-          <Parameter Name="IslemTur" Type="bit" Mode="In" />
-          <Parameter Name="EvrakNo" Type="varchar" Mode="In" />
-          <Parameter Name="HesapKodu" Type="varchar" Mode="In" />
-          <Parameter Name="TeslimCHK" Type="varchar" Mode="In" />
-          <Parameter Name="Tarih" Type="int" Mode="In" />
-          <Parameter Name="Kaydeden" Type="varchar" Mode="In" />
-          <Parameter Name="KayitTarih" Type="int" Mode="In" />
-          <Parameter Name="LoggedUserID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="UpdateSTI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="ID" Type="int" Mode="In" />
-          <Parameter Name="IrsaliyeID" Type="int" Mode="In" />
-          <Parameter Name="MalKodu" Type="varchar" Mode="In" />
-          <Parameter Name="Miktar" Type="numeric" Mode="In" />
-          <Parameter Name="Birim" Type="varchar" Mode="In" />
-        </Function>
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="ComboItemName" EntityType="Self.ComboItemName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboName" EntityType="Self.ComboName" Schema="dbo" store:Type="Tables" />
@@ -448,26 +428,6 @@
             <End Role="ComboItemName" EntitySet="ComboItemNames" />
           </AssociationSet>
           <EntitySet Name="USR01" EntityType="MModel.USR01" />
-          <FunctionImport Name="UpdateIRS" ReturnType="Collection(Int32)">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
-            <Parameter Name="SirketKod" Mode="In" Type="String" />
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="IslemTur" Mode="In" Type="Boolean" />
-            <Parameter Name="EvrakNo" Mode="In" Type="String" />
-            <Parameter Name="HesapKodu" Mode="In" Type="String" />
-            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
-            <Parameter Name="Tarih" Mode="In" Type="Int32" />
-            <Parameter Name="Kaydeden" Mode="In" Type="String" />
-            <Parameter Name="KayitTarih" Mode="In" Type="Int32" />
-            <Parameter Name="LoggedUserID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="UpdateSTI" ReturnType="Collection(Int32)">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
-            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
-            <Parameter Name="MalKodu" Mode="In" Type="String" />
-            <Parameter Name="Miktar" Mode="In" Type="Decimal" />
-            <Parameter Name="Birim" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="WMS_IRS" EntityType="MModel.WMS_IRS" />
           <EntitySet Name="WMS_STI" EntityType="MModel.WMS_STI" />
           <AssociationSet Name="FK_IRS_TK_DEP" Association="MModel.FK_IRS_TK_DEP">
@@ -980,8 +940,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="UpdateIRS" FunctionName="MModel.Store.UpdateIRS" />
-          <FunctionImportMapping FunctionImportName="UpdateSTI" FunctionName="MModel.Store.UpdateSTI" />
           <EntitySetMapping Name="WMS_IRS">
             <EntityTypeMapping TypeName="MModel.WMS_IRS">
               <MappingFragment StoreEntitySet="WMS_IRS">
