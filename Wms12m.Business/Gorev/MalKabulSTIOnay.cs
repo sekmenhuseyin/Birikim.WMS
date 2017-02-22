@@ -97,15 +97,42 @@ namespace Wms12m.Business
                             Dinamik.Context.STIs.Add(f_sti);
                             Dinamik.Context.SaveChanges();
 
-                            var tmp = db.GorevListesis.Where(m => m.ID == tbl.ID).FirstOrDefault();
-                            if (tmp != null)
+                            var stk = Dinamik.Context.STKs.Where(m => m.MalKodu == sti[i].MalKodu).FirstOrDefault();
+                            if (stk != null)
                             {
                                 //add new
-                                tmp.GorevliID = tbl.GorevliID;
-                                tmp.Aciklama = tbl.Aciklama;
-                                tmp.Bilgi = tbl.Bilgi;
-                                tmp.DurumID = tbl.DurumID;
+                                stk.GirMiktar = stk.GirMiktar + sti[i].Miktar;
+                                stk.TahminiStok = stk.TahminiStok + sti[i].Miktar;
+                                stk.GirTarih = Convert.ToInt32(DateTime.Today.ToOADate());
                                 db.SaveChanges();
+                            }
+                            var dst = Dinamik.Context.DSTs.Where(m => m.MalKodu == sti[i].MalKodu).FirstOrDefault();
+                            if (dst != null)
+                            {
+                                //add new
+                                dst.GirMiktar = stk.GirMiktar + sti[i].Miktar;
+                                dst.TahminiStok = dst.TahminiStok + sti[i].Miktar;
+                                dst.SonGirTarih = Convert.ToInt32(DateTime.Today.ToOADate());
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                DST f_dst = new DST();
+                                f_dst.MalKodu= sti[i].MalKodu;
+                                f_dst.Depo = sti[i].WMS_IRS.TK_DEP.DepoKodu;
+                                f_dst.GirMiktar = sti[i].Miktar;
+                                f_dst.SonGirTarih = Convert.ToInt32(DateTime.Today.ToOADate());
+                                f_dst.SonMlySekli = -1;
+                                f_dst.BakGostSekli = -1;
+                                f_dst.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                                f_dst.KayitTarih = Helper.SaatForDB(DateTime.Now);
+                                f_dst.KayitSaat = Convert.ToInt32(DateTime.Today.ToOADate());
+                                f_dst.Degistiren = Users.AppIdentity.User.LogonUserName;
+                                f_dst.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
+                                f_dst.DegisSaat = Helper.SaatForDB(DateTime.Now);
+                                f_dst.TahminiStok = sti[i].Miktar;
+                                Dinamik.Context.DSTs.Add(f_dst);
+                                Dinamik.Context.SaveChanges();
                             }
                         }
 
