@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FINSATModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FINSATModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CHK">
           <Key>
             <PropertyRef Name="HesapKodu" />
@@ -276,6 +276,74 @@
           <Property Name="EArsivTeslimEMail3" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="EArsivDosya" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="EArsivUnvanFaturadan" Type="smallint" Nullable="false" />
+          <Property Name="ROW_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DST">
+          <Key>
+            <PropertyRef Name="MalKodu" />
+            <PropertyRef Name="Depo" />
+          </Key>
+          <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Depo" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="KritikStok" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="AzamiStok" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="DvrMiktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="DvrTutar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="DvrTarih" Type="int" Nullable="false" />
+          <Property Name="GirMiktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="GirTutar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="GirIskonto" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="DvzGirTutar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="DvzGirIskonto" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="SonGirTarih" Type="int" Nullable="false" />
+          <Property Name="CikMiktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="CikTutar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="CikIskonto" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="DvzCikTutar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="DvzCikIskonto" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="SonCikTarih" Type="int" Nullable="false" />
+          <Property Name="SonSayimTarih" Type="int" Nullable="false" />
+          <Property Name="SonSayimFarki" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="SatSiparis" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="AlSiparis" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="SatRezervasyon" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="AlRezervasyon" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="KonsGirMiktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="KonsCikMiktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="SonMlySekli" Type="smallint" Nullable="false" />
+          <Property Name="SonMlyTarih" Type="int" Nullable="false" />
+          <Property Name="SonMlyBirimFiyat" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Miktar2" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Tutar2" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="BlkMiktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Kod1" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Kod2" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Kod3" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Kod4" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Kod5" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Kod6" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Kod7" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Kod8" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Kod9" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Kod10" Type="smallint" Nullable="false" />
+          <Property Name="Kod11" Type="smallint" Nullable="false" />
+          <Property Name="Kod12" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Kod13" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="BakGostSekli" Type="smallint" Nullable="false" />
+          <Property Name="GuvenlikKod" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="KayitTarih" Type="int" Nullable="false" />
+          <Property Name="KayitSaat" Type="int" Nullable="false" />
+          <Property Name="KayitKaynak" Type="smallint" Nullable="false" />
+          <Property Name="KayitSurum" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DegisTarih" Type="int" Nullable="false" />
+          <Property Name="DegisSaat" Type="int" Nullable="false" />
+          <Property Name="DegisKaynak" Type="smallint" Nullable="false" />
+          <Property Name="DegisSurum" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="CheckSum" Type="smallint" Nullable="false" />
+          <Property Name="TahminiStok" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="ROW_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
@@ -1011,14 +1079,14 @@
         </EntityType>
         <EntityContainer Name="FINSATModelStoreContainer">
           <EntitySet Name="CHK" EntityType="Self.CHK" Schema="FINSAT633" store:Type="Tables" />
+          <EntitySet Name="DST" EntityType="Self.DST" Schema="FINSAT633" store:Type="Tables" />
           <EntitySet Name="FTD" EntityType="Self.FTD" Schema="FINSAT633" store:Type="Tables" />
           <EntitySet Name="MFK" EntityType="Self.MFK" Schema="FINSAT633" store:Type="Tables" />
           <EntitySet Name="SPI" EntityType="Self.SPI" Schema="FINSAT633" store:Type="Tables" />
           <EntitySet Name="STI" EntityType="Self.STI" Schema="FINSAT633" store:Type="Tables" />
           <EntitySet Name="STK" EntityType="Self.STK" Schema="FINSAT633" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FINSATModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2033,7 +2101,76 @@
           <EntitySet Name="SPIs" EntityType="Self.SPI" />
           <EntitySet Name="STIs" EntityType="Self.STI" />
           <EntitySet Name="STKs" EntityType="Self.STK" />
+          <EntitySet Name="DSTs" EntityType="FINSATModel.DST" />
         </EntityContainer>
+        <EntityType Name="DST">
+          <Key>
+            <PropertyRef Name="MalKodu" />
+            <PropertyRef Name="Depo" />
+          </Key>
+          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Depo" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KritikStok" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="AzamiStok" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="DvrMiktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="DvrTutar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="DvrTarih" Type="Int32" Nullable="false" />
+          <Property Name="GirMiktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="GirTutar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="GirIskonto" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="DvzGirTutar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="DvzGirIskonto" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="SonGirTarih" Type="Int32" Nullable="false" />
+          <Property Name="CikMiktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="CikTutar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="CikIskonto" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="DvzCikTutar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="DvzCikIskonto" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="SonCikTarih" Type="Int32" Nullable="false" />
+          <Property Name="SonSayimTarih" Type="Int32" Nullable="false" />
+          <Property Name="SonSayimFarki" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="SatSiparis" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="AlSiparis" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="SatRezervasyon" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="AlRezervasyon" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="KonsGirMiktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="KonsCikMiktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="SonMlySekli" Type="Int16" Nullable="false" />
+          <Property Name="SonMlyTarih" Type="Int32" Nullable="false" />
+          <Property Name="SonMlyBirimFiyat" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Miktar2" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Tutar2" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="BlkMiktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Kod1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Kod2" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Kod3" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Kod4" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Kod5" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Kod6" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Kod7" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Kod8" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Kod9" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Kod10" Type="Int16" Nullable="false" />
+          <Property Name="Kod11" Type="Int16" Nullable="false" />
+          <Property Name="Kod12" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Kod13" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="BakGostSekli" Type="Int16" Nullable="false" />
+          <Property Name="GuvenlikKod" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
+          <Property Name="KayitSaat" Type="Int32" Nullable="false" />
+          <Property Name="KayitKaynak" Type="Int16" Nullable="false" />
+          <Property Name="KayitSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+          <Property Name="DegisSaat" Type="Int32" Nullable="false" />
+          <Property Name="DegisKaynak" Type="Int16" Nullable="false" />
+          <Property Name="DegisSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="CheckSum" Type="Int16" Nullable="false" />
+          <Property Name="TahminiStok" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="ROW_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3028,6 +3165,74 @@
                 <ScalarProperty Name="YOKCPLUID" ColumnName="YOKCPLUID" />
                 <ScalarProperty Name="ROW_ID" ColumnName="ROW_ID" />
                 <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DSTs">
+            <EntityTypeMapping TypeName="FINSATModel.DST">
+              <MappingFragment StoreEntitySet="DST">
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="ROW_ID" ColumnName="ROW_ID" />
+                <ScalarProperty Name="TahminiStok" ColumnName="TahminiStok" />
+                <ScalarProperty Name="CheckSum" ColumnName="CheckSum" />
+                <ScalarProperty Name="DegisSurum" ColumnName="DegisSurum" />
+                <ScalarProperty Name="DegisKaynak" ColumnName="DegisKaynak" />
+                <ScalarProperty Name="DegisSaat" ColumnName="DegisSaat" />
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitSurum" ColumnName="KayitSurum" />
+                <ScalarProperty Name="KayitKaynak" ColumnName="KayitKaynak" />
+                <ScalarProperty Name="KayitSaat" ColumnName="KayitSaat" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="GuvenlikKod" ColumnName="GuvenlikKod" />
+                <ScalarProperty Name="BakGostSekli" ColumnName="BakGostSekli" />
+                <ScalarProperty Name="Kod13" ColumnName="Kod13" />
+                <ScalarProperty Name="Kod12" ColumnName="Kod12" />
+                <ScalarProperty Name="Kod11" ColumnName="Kod11" />
+                <ScalarProperty Name="Kod10" ColumnName="Kod10" />
+                <ScalarProperty Name="Kod9" ColumnName="Kod9" />
+                <ScalarProperty Name="Kod8" ColumnName="Kod8" />
+                <ScalarProperty Name="Kod7" ColumnName="Kod7" />
+                <ScalarProperty Name="Kod6" ColumnName="Kod6" />
+                <ScalarProperty Name="Kod5" ColumnName="Kod5" />
+                <ScalarProperty Name="Kod4" ColumnName="Kod4" />
+                <ScalarProperty Name="Kod3" ColumnName="Kod3" />
+                <ScalarProperty Name="Kod2" ColumnName="Kod2" />
+                <ScalarProperty Name="Kod1" ColumnName="Kod1" />
+                <ScalarProperty Name="BlkMiktar" ColumnName="BlkMiktar" />
+                <ScalarProperty Name="Tutar2" ColumnName="Tutar2" />
+                <ScalarProperty Name="Miktar2" ColumnName="Miktar2" />
+                <ScalarProperty Name="SonMlyBirimFiyat" ColumnName="SonMlyBirimFiyat" />
+                <ScalarProperty Name="SonMlyTarih" ColumnName="SonMlyTarih" />
+                <ScalarProperty Name="SonMlySekli" ColumnName="SonMlySekli" />
+                <ScalarProperty Name="KonsCikMiktar" ColumnName="KonsCikMiktar" />
+                <ScalarProperty Name="KonsGirMiktar" ColumnName="KonsGirMiktar" />
+                <ScalarProperty Name="AlRezervasyon" ColumnName="AlRezervasyon" />
+                <ScalarProperty Name="SatRezervasyon" ColumnName="SatRezervasyon" />
+                <ScalarProperty Name="AlSiparis" ColumnName="AlSiparis" />
+                <ScalarProperty Name="SatSiparis" ColumnName="SatSiparis" />
+                <ScalarProperty Name="SonSayimFarki" ColumnName="SonSayimFarki" />
+                <ScalarProperty Name="SonSayimTarih" ColumnName="SonSayimTarih" />
+                <ScalarProperty Name="SonCikTarih" ColumnName="SonCikTarih" />
+                <ScalarProperty Name="DvzCikIskonto" ColumnName="DvzCikIskonto" />
+                <ScalarProperty Name="DvzCikTutar" ColumnName="DvzCikTutar" />
+                <ScalarProperty Name="CikIskonto" ColumnName="CikIskonto" />
+                <ScalarProperty Name="CikTutar" ColumnName="CikTutar" />
+                <ScalarProperty Name="CikMiktar" ColumnName="CikMiktar" />
+                <ScalarProperty Name="SonGirTarih" ColumnName="SonGirTarih" />
+                <ScalarProperty Name="DvzGirIskonto" ColumnName="DvzGirIskonto" />
+                <ScalarProperty Name="DvzGirTutar" ColumnName="DvzGirTutar" />
+                <ScalarProperty Name="GirIskonto" ColumnName="GirIskonto" />
+                <ScalarProperty Name="GirTutar" ColumnName="GirTutar" />
+                <ScalarProperty Name="GirMiktar" ColumnName="GirMiktar" />
+                <ScalarProperty Name="DvrTarih" ColumnName="DvrTarih" />
+                <ScalarProperty Name="DvrTutar" ColumnName="DvrTutar" />
+                <ScalarProperty Name="DvrMiktar" ColumnName="DvrMiktar" />
+                <ScalarProperty Name="AzamiStok" ColumnName="AzamiStok" />
+                <ScalarProperty Name="KritikStok" ColumnName="KritikStok" />
+                <ScalarProperty Name="Depo" ColumnName="Depo" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

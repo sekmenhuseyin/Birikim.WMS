@@ -11,21 +11,15 @@ namespace Wms12m.Entity.Models
 {
     using System;
     using System.Data.Entity;
-    using System.Data.Entity.Core.EntityClient;
     using System.Data.Entity.Infrastructure;
-
+    
     public partial class FINSATEntities : DbContext
     {
         public FINSATEntities()
             : base("name=FINSATEntities")
         {
         }
-
-        public FINSATEntities(EntityConnection entityConnection) : 
-                               base(entityConnection, false)
-        {
-        }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -37,5 +31,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<SPI> SPIs { get; set; }
         public virtual DbSet<STI> STIs { get; set; }
         public virtual DbSet<STK> STKs { get; set; }
+        public virtual DbSet<DST> DSTs { get; set; }
     }
 }

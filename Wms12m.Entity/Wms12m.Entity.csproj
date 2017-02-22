@@ -59,6 +59,9 @@
     <Compile Include="Models\CHK.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DST.cs">
+      <DependentUpon>ModelFinsat.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EntityDinamik.cs" />
     <Compile Include="Models\FTD.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
