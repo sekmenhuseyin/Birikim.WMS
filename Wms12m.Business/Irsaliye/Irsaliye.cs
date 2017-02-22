@@ -2,8 +2,8 @@
 using System.Web;
 using System.Linq;
 using Wms12m.Entity;
-using Wms12m.Entity.Models;
 using Wms12m.Security;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Business
 {
@@ -34,6 +34,7 @@ namespace Wms12m.Business
                     tablo.Kaydeden = User.LogonUserName;
                     tablo.KayitTarih = Convert.ToInt32(DateTime.Today.ToOADate());
                     db.WMS_IRS.Add(tablo);
+                    db.SaveChanges();
                     //add görevlist table
                     GorevListesi gorev = new GorevListesi();
                     gorev.DepoID = tbl.DepoID;
@@ -45,8 +46,8 @@ namespace Wms12m.Business
                     gorev.IrsaliyeID = tablo.ID;
                     gorev.Bilgi = "IrsNo: " + tablo.ID.ToString();
                     db.GorevListesis.Add(gorev);
-                    //save
                     db.SaveChanges();
+                    //result
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
                     _Result.Id = tablo.ID;

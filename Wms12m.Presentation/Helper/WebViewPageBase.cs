@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using Wms12m.Security;
 
-namespace Wms12m.Presentation.Helper
+namespace Wms12m
 {
     public abstract class WebViewPageBase<T> : WebViewPage<T>
     {

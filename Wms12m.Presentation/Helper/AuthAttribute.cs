@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Wms12m.Security;
 
-namespace Wms12m.Presentation
+namespace Wms12m
 {
     public class AuthAttribute : AuthorizeAttribute
     {

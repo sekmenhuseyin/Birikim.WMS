@@ -5,7 +5,7 @@ using System.Web.Security;
 using Wms12m.Entity;
 using Wms12m.Security;
 
-namespace Wms12m.Presentation.Helper
+namespace Wms12m
 {
     public class Authentication
     {

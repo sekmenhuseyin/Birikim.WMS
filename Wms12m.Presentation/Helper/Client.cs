@@ -2,7 +2,7 @@
 using System.Web;
 using Wms12m.Security;
 
-namespace Wms12m.Presentation.Helper
+namespace Wms12m
 {
     public sealed class Client
     {

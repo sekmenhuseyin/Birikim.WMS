@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
-using System.Web.Script.Serialization;
-using System.Web.Security;
-using Wms12m.Presentation.Helper;
 using Wms12m.Security;
+using System.Web.Routing;
+using System.Web.Security;
+using System.Web.Script.Serialization;
 
 namespace Wms12m.Presentation
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
