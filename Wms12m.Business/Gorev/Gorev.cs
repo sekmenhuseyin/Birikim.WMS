@@ -87,6 +87,7 @@ namespace Wms12m.Business
                     db.GorevListesis.Remove(tbl);
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Id = ID;
                     _Result.Status = true;
                 }
                 else

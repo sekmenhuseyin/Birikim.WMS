@@ -53,6 +53,7 @@ namespace Wms12m.Business
                 {
                     db.WMS_STI.Remove(tbl);
                     db.SaveChanges();
+                    _Result.Id = ID;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
                 }
