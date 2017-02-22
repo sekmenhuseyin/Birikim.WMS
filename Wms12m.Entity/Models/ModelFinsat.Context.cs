@@ -21,7 +21,8 @@ namespace Wms12m.Entity.Models
         {
         }
 
-        public FINSATEntities(EntityConnection entityConnection) : 
+        
+         public FINSATEntities(EntityConnection entityConnection) :
                                base(entityConnection, false)
         {
         }
