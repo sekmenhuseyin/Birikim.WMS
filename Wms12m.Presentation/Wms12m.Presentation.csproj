@@ -5849,7 +5849,6 @@
     <Compile Include="Controllers\RootController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\ShelfController.cs" />
-    <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -5886,9 +5885,6 @@
     <Content Include="Views\Chapter\_ChapterDetailPartial.cshtml" />
     <Content Include="Views\Floor\_FloorDetailPartial.cshtml" />
     <Content Include="Views\Floor\_FloorGridPartial.cshtml" />
-    <Content Include="Views\Size\_SizeDetailPartial.cshtml" />
-    <Content Include="Views\Size\_SizeGridPartial.cshtml" />
-    <Content Include="Views\Size\Index.cshtml" />
     <Content Include="Views\Buy\_GridNewPartial.cshtml" />
     <Content Include="Views\Buy\_GridPartial.cshtml" />
     <Content Include="Views\Buy\_HesapGridPartial.cshtml" />

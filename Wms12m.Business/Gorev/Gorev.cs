@@ -17,7 +17,6 @@ namespace Wms12m.Business
         public Result Insert(frmGorev tbl)
         {
             _Result = new Result();
-            UserIdentity User = Users.AppIdentity.User;
             //add görevlist table
             try
             {
@@ -26,7 +25,7 @@ namespace Wms12m.Business
                 gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-1";
                 gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
                 gorev.DurumID = ComboNames.Açık.ToInt32();
-                gorev.OlusturanID = User.Id;
+                gorev.OlusturanID = SiteSessions.LoggedUserNo;
                 gorev.OlusturmaTarihi = Convert.ToInt32(DateTime.Today.ToOADate());
                 gorev.IrsaliyeID = tbl.IrsaliyeID;
                 gorev.Bilgi = "IrsNo: " + tbl.IrsaliyeID.ToString();

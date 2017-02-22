@@ -26,7 +26,6 @@ namespace Wms12m.Business
             }
             else
             {
-                UserIdentity User= Users.AppIdentity.User;
                 try
                 {
                     WMS_STI tablo = new WMS_STI();

@@ -30,6 +30,9 @@ namespace Wms12m.Business
                     _Result.Status = true;
                     _Result.Id = tbl.Id;
                     _Result.Message = "İşlem Başarılı";
+                    SiteSessions.LoggedUserNo = tbl.Id;
+                    SiteSessions.LoggedUserName = tbl.UserName;
+                    SiteSessions.LoggedRealName = tbl.Name;
 
                 }
                 else
