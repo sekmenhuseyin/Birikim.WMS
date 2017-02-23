@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "Content/assets/layouts/layout/css/custom.min.css",
+    "inputFiles": [
+      "Content/assets/layouts/layout/css/custom.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/assets/layouts/layout/css/layout.min.css",
+    "inputFiles": [
+      "Content/assets/layouts/layout/css/layout.css"
+    ]
+  }
+]

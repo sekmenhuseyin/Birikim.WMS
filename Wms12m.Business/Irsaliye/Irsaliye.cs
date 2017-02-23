@@ -18,7 +18,6 @@ namespace Wms12m.Business
         public Result Insert(frmIrsaliye tbl)
         {
             _Result = new Result();
-            UserIdentity User= Users.AppIdentity.User;
             DateTime dateValue = DateTime.Now;
             if (DateTime.TryParse(tbl.Tarih, out dateValue) == true)
             {
@@ -31,7 +30,7 @@ namespace Wms12m.Business
                     tablo.EvrakNo = tbl.EvrakNo;
                     tablo.HesapKodu = tbl.HesapKodu;
                     tablo.Tarih = Convert.ToInt32(dateValue.ToOADate());
-                    tablo.Kaydeden = User.LogonUserName;
+                    tablo.Kaydeden = SiteSessions.LoggedUserName;
                     tablo.KayitTarih = Convert.ToInt32(DateTime.Today.ToOADate());
                     db.WMS_IRS.Add(tablo);
                     db.SaveChanges();
@@ -41,7 +40,7 @@ namespace Wms12m.Business
                     gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-1";
                     gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
                     gorev.DurumID = ComboNames.Açık.ToInt32();
-                    gorev.OlusturanID = User.Id;
+                    gorev.OlusturanID = SiteSessions.LoggedUserNo;
                     gorev.OlusturmaTarihi = Convert.ToInt32(DateTime.Today.ToOADate());
                     gorev.IrsaliyeID = tablo.ID;
                     gorev.Bilgi = "IrsNo: " + tablo.ID.ToString();

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace Wms12m.Entity
 {
@@ -18,7 +19,7 @@ namespace Wms12m.Entity
         [DataMember, DisplayName("Mal Adı"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string MalAdi { get; set; }
 
-        [DataMember, DisplayName("Miktar"), Required(ErrorMessage = "Boş bırakmayınız")]
+        [DataMember, DisplayName("Miktar"), Required(ErrorMessage = "Boş bırakmayınız"), Range(1, Int32.MaxValue)]
         public int Miktar { get; set; }
 
         [DataMember, DisplayName("Birim"), Required(ErrorMessage = "Boş bırakmayınız")]

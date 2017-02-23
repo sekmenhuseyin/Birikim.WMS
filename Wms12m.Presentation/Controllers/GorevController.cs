@@ -1,21 +1,34 @@
 ﻿using System;
 using System.Linq;
+using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
-using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
     public class GorevController : RootController
     {
 
-        // GET: Gorev
+        /// <summary>
+        /// görev anasayfa
+        /// </summary>
         public ActionResult Index()
         {
             var list = db.GorevListesis.ToList();
             return View("Index", list);
         }
-        public ActionResult GorevDetailPartial(int id)
+        /// <summary>
+        /// sadece listeyi gösterir
+        /// </summary>
+        public PartialViewResult GorevGridPartial()
+        {
+            var list = db.GorevListesis.ToList();
+            return PartialView("_GorevGridPartial", list);
+        }
+        /// <summary>
+        /// görev düzenle
+        /// </summary>
+        public PartialViewResult GorevDetailPartial(int id)
         {
             var list = db.GorevListesis.Where(m => m.ID == id).FirstOrDefault();
             ViewBag.GorevTipiID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 1).ToList(), "ID", "ItemName", list.GorevTipiID);
@@ -23,21 +36,47 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.GorevliID = new SelectList(db.USR01.ToList(), "Id", "UserName", list.GorevliID);
             return PartialView("_GorevDetailPartial", list);
         }
-
+        /// <summary>
+        /// görev güncelle
+        /// </summary>
         public PartialViewResult Update(frmGorev tbl)
         {
             //update
             Gorev tmpTable = new Gorev();
             Result _Result = tmpTable.Update(tbl);
             //get list
-            ViewBag.GorevID = tbl.ID;
             var list = db.GorevListesis.ToList();
             return PartialView("_GorevGridPartial", list);
         }
-
-        public string MalKabulOnay(string EvrakNo, string CHK, int IrsaliyeNo, string GorevNo, int SirketKodu)
+        /// <summary>
+        /// görev sil
+        /// </summary>
+        public JsonResult Delete(int ID)
         {
-            return "";
+            Gorev tmpTable = new Gorev();
+            Result _Result = tmpTable.Delete(ID);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// görevli ata
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult GorevliAta()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            Int32 ID = Convert.ToInt32(id);
+            var list = db.GorevListesis.Where(m=>m.ID==ID).FirstOrDefault();
+            ViewBag.GorevliID = new SelectList(db.USR01.OrderBy(m=>m.UserName).ToList(), "Id", "UserName", list.GorevliID);
+            return PartialView("GorevliAta", list);
+        }
+        /// <summary>
+        /// görevliyi kaydeder
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult GorevliAta(int GorevliID)
+        {
+            return RedirectToAction("Index");
         }
     }
 }

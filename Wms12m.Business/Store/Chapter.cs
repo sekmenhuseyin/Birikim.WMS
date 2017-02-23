@@ -16,7 +16,6 @@ namespace Wms12m.Business
         Logger _Logger;
         List<Store04> PList;
         IUnitOfWork _unitOfWork;
-        Wms12m.Security.CustomPrincipal Users = HttpContext.Current.User as Wms12m.Security.CustomPrincipal;
         public override Result Delete(int Id)
         {
             _unitOfWork = new UnitOfWork();
@@ -122,7 +121,7 @@ namespace Wms12m.Business
 
             try
             {
-                P.Degistiren = Users.AppIdentity.User.LogonUserName;
+                P.Degistiren = SiteSessions.LoggedUserName;
                 P.DegisTarih = Convert.ToInt32(DateTime.Today.ToOADate());
                 if (P.ID > 0)
                 {
@@ -130,7 +129,7 @@ namespace Wms12m.Business
                 }
                 else
                 {
-                    P.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                    P.Kaydeden = SiteSessions.LoggedUserName;
                     P.KayitTarih = Convert.ToInt32(DateTime.Today.ToOADate());
                     Query = QueryAnalysis<Store04>.Insert(P, "WMS.TK_BOL");
                 }

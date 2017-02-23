@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
-using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -33,12 +33,25 @@ namespace Wms12m.Presentation.Controllers
                 Result _Result = tmpTable.Insert(tbl);
                 if (_Result.Id == 0) return null;
                 tbl.Id = _Result.Id;
+                ViewBag.Editable = true;
             }
             else
+            {
                 tbl.Id = tmp.ID;
+                ViewBag.Editable = tbl.Onay;
+            }
             //get list
             var list = db.WMS_STI.Where(m=>m.IrsaliyeID==tbl.Id).ToList();
             ViewBag.IrsaliyeId = tbl.Id;
+            return PartialView("_GridPartial", list);
+        }
+        /// <summary>
+        /// listeyi günceller
+        /// </summary>
+        public PartialViewResult GridPartial(int ID)
+        {
+            var list = db.WMS_STI.Where(m => m.IrsaliyeID == ID).ToList();
+            ViewBag.IrsaliyeId = ID;
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -50,7 +63,6 @@ namespace Wms12m.Presentation.Controllers
             //add new
             Stok tmpTable = new Stok();
             Result _Result = tmpTable.Insert(tbl);
-            if (_Result.Id == 0) return null;
             //get list
             var list = db.WMS_STI.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).ToList();
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
@@ -112,6 +124,15 @@ namespace Wms12m.Presentation.Controllers
         {
             ViewBag.IrsaliyeId = id;
             return PartialView("_GridNewPartial", new frmMalzeme());
+        }
+        /// <summary>
+        /// stok malzeme sil
+        /// </summary>
+        public JsonResult Delete(int ID)
+        {
+            Stok tmpTable = new Stok();
+            Result _Result = tmpTable.Delete(ID);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }

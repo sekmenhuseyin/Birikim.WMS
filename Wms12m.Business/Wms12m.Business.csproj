@@ -57,6 +57,8 @@
     <Compile Include="CacheControl\CacheControl.cs" />
     <Compile Include="CacheControl\CacheManager.cs" />
     <Compile Include="Control\QueryAnalysis.cs" />
+    <Compile Include="Control\SiteCookies.cs" />
+    <Compile Include="Control\SiteSessions.cs" />
     <Compile Include="Extension\Extensions.cs" />
     <Compile Include="Gorev\Gorev.cs" />
     <Compile Include="MalKabul\abstractMalKabul.cs" />
@@ -76,7 +78,6 @@
     <Compile Include="Store\Corridor.cs" />
     <Compile Include="Store\Floor.cs" />
     <Compile Include="Store\Shelf.cs" />
-    <Compile Include="Store\Size.cs" />
     <Compile Include="Store\Store.cs" />
   </ItemGroup>
   <ItemGroup>

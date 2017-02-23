@@ -1,4 +1,14 @@
-﻿//url:method adresi ,div:render edeceği div,Id:detay için id göndere bilir
+﻿//personel ayrıntıları editleme sayfaları
+function editInModal(URL) {
+    $("#modalEditPage").html("");
+    $.ajax({
+        type: "POST",
+        url: URL,
+        datatype: "html",
+        success: function (data) { $("#modalEditPage").html(data); }
+    });
+}
+//url:method adresi ,div:render edeceği div,Id:detay için id göndere bilir
 function PartialView(Url, Div, Id) {
     $.ajax({
         url: Url,
@@ -30,28 +40,28 @@ function FunctionDelete(deleteId) {
         success: function (data) {
             if (data.Id == 0) {
                 if (data.Message == "Depo") {
-                    Modaldialog("Bu depoya kayıtlı koridor bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-success");
+                    Modaldialog("Bu depoya kayıtlı koridor bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-danger");
                 }
                 else if (data.Message == "Koridor") {
-                    Modaldialog("Bu koridora kayıtlı raf bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-success");
+                    Modaldialog("Bu koridora kayıtlı raf bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-danger");
                 }
                 else if (data.Message == "Raf") {
-                    Modaldialog("Bu rafa kayıtlı bölüm bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-success");
+                    Modaldialog("Bu rafa kayıtlı bölüm bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-danger");
                 }
                 else if (data.Message == "Bölüm") {
-                    Modaldialog("Bu bölüme kayıtlı kat bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-success");
+                    Modaldialog("Bu bölüme kayıtlı kat bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-danger");
                 }
                 else if (data.Message == "Kat") {
-                    Modaldialog("Bu kata kayıtlı ölçü bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-success");
+                    Modaldialog("Bu kata kayıtlı ölçü bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-danger");
                 }
                 else {
-                    Modaldialog("Hata oluştu3333", "Hata", "Tamam", "btn-success");
+                    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
                 }
             }
         }
     }).done(function (data) {
         if (data.Id == -2) {
-            Modaldialog("Hata oluştu222", "Hata", "Tamam", "btn-success");
+            Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
         } else if (data.Id > 0) {
             return $Return = true;
         }

@@ -38,6 +38,12 @@ namespace Wms12m.Presentation.Controllers
                 }));
                 return;
             }
+            else
+            {
+                SiteSessions.LoggedUserNo = User.Id;
+                SiteSessions.LoggedRealName = User.FirstName;
+                SiteSessions.LoggedUserName = User.UserName;
+            }
             logWatch = new Stopwatch();
             logWatch.Start();
             base.OnActionExecuting(filterContext);

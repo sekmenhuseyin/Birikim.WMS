@@ -49,8 +49,9 @@
                                         <td>@item.Bilgi </td>
                                         <td>@item.Aciklama </td>
                                         <td>
-                                            <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Gorev/GorevGridPartial','GorevGrid','0')"> Sil </a>
+                                            <a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                                            <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/GorevliAta/@item.ID')"> Görevli Ata </a>
+                                            <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/Gorev/GorevGridPartial','GorevGrid','0')"> Sil </a>
                                         </td>
                                     </tr>
                                 }
