@@ -20,6 +20,15 @@ namespace Wms12m.Presentation.Controllers
             return View("Index", new frmIrsaliye());
         }
         /// <summary>
+        /// irsaliye listesi
+        /// </summary>
+        /// <returns></returns>
+        public PartialViewResult List()
+        {
+            var list = db.WMS_IRS.ToList();
+            return PartialView("List", list);
+        }
+        /// <summary>
         /// yeni irsaliye fatura kaydeder
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
