@@ -39,7 +39,6 @@ namespace Wms12m.Business
                         db.SaveChanges();
                         //add görevlist table
                         GorevListesi gorev = new GorevListesi();
-
                         gorev.DepoID = tbl.DepoID;
                         gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-1";
                         gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
@@ -55,7 +54,6 @@ namespace Wms12m.Business
                         _Result.Message = "İşlem Başarılı !!!";
                         _Result.Status = true;
                         _Result.Id = tablo.ID;
-
                     }
                     catch (Exception ex)
                     {
