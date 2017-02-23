@@ -87,6 +87,15 @@
                     </div>
                 </div>
             </div>
+            <div class="import-content" style="position:relative;height:40px;">
+                <div class="btnDosyaImport" style="float:right;text-align:center;line-height:40px; margin-left:10px; background-color:#10b9b9; color:white;height:100%;width:100px;">
+                    IMPORT
+                </div>
+                <div class="import-dosya" style="float:right;text-align:center;line-height:40px; background-color:#acbfbf; color:#1c53c6;height:100%;width:100px;">
+                    DOSYA SEÇ
+                </div>
+                
+            </div>
             <div id="StoreGrid" style="padding:8px;"></div>
         </div>
     </div>
@@ -96,11 +105,12 @@
 <script src="~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
 <script>
+    $(".import-content").hide();
     var DeleteFunctionUrl = '@Url.Action("Delete", "Buy")';
     $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>");
     $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>");
-    CreateNew()
-    $("#Tarih").datepicker({ todayBtn: 'true', todayHighlight: 'true', language: 'tr' })
+    CreateNew();
+    $("#Tarih").datepicker({ todayBtn: 'true', todayHighlight: 'true', language: 'tr' });
     $('#SirketID').on('change', function () {
         $("#hesapSelect").html("");
         $("#HesapKodu").val('');

@@ -29,6 +29,7 @@
 <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script>
+    $(".import-content").show();
     $("#MalKodu").focus();
     $("#MalKodu").autocomplete({
         source: "/Buy/getMalzemebyCode/" + $("#SirketID").val(),

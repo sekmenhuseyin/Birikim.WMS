@@ -38,7 +38,7 @@
           <Property Name="GorevliID" Type="int" />
           <Property Name="AtamaTarihi" Type="int" />
           <Property Name="BitisTarihi" Type="int" />
-          <Property Name="Bilgi" Type="nvarchar" MaxLength="50" />
+          <Property Name="Bilgi" Type="nvarchar" MaxLength="250" />
           <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="USR01">
@@ -469,7 +469,7 @@
             <End Role="TK_DEP" EntitySet="TK_DEP" />
             <End Role="GorevListesi" EntitySet="GorevListesis" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="TK_BOL">
           <Key>
             <PropertyRef Name="ID" />
@@ -669,8 +669,8 @@
           <Property Name="Onay" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_IRS_TK_DEP" FromRole="WMS_IRS" ToRole="TK_DEP" />
           <NavigationProperty Name="WMS_STI" Relationship="MModel.FK_STI_IRS" FromRole="WMS_IRS" ToRole="WMS_STI" />
-          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_IRS" FromRole="WMS_IRS" ToRole="GorevListesi" />
           <Property Name="Unvan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_IRS" FromRole="WMS_IRS" ToRole="GorevListesi" />
         </EntityType>
         <EntityType Name="WMS_STI">
           <Key>
@@ -729,7 +729,7 @@
           <Property Name="GorevliID" Type="Int32" />
           <Property Name="AtamaTarihi" Type="Int32" />
           <Property Name="BitisTarihi" Type="Int32" />
-          <Property Name="Bilgi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Bilgi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ComboItemName" Relationship="MModel.FK_GorevListesi_ComboItemName" FromRole="GorevListesi" ToRole="ComboItemName" />
           <NavigationProperty Name="ComboItemName1" Relationship="MModel.FK_GorevListesi_ComboItemName1" FromRole="GorevListesi" ToRole="ComboItemName" />
@@ -823,7 +823,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>

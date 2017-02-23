@@ -21,41 +21,49 @@ namespace Wms12m.Business
             DateTime dateValue = DateTime.Now;
             if (DateTime.TryParse(tbl.Tarih, out dateValue) == true)
             {
-                try
+                using (var dbContextTransaction = db.Database.BeginTransaction())
                 {
-                    //add irsaliye table
-                    WMS_IRS tablo = new WMS_IRS();
-                    tablo.SirketKod = tbl.SirketID;
-                    tablo.DepoID = tbl.DepoID;
-                    tablo.EvrakNo = tbl.EvrakNo;
-                    tablo.HesapKodu = tbl.HesapKodu;
-                    tablo.Tarih = Convert.ToInt32(dateValue.ToOADate());
-                    tablo.Kaydeden = SiteSessions.LoggedUserName;
-                    tablo.KayitTarih = Convert.ToInt32(DateTime.Today.ToOADate());
-                    db.WMS_IRS.Add(tablo);
-                    db.SaveChanges();
-                    //add görevlist table
-                    GorevListesi gorev = new GorevListesi();
-                    gorev.DepoID = tbl.DepoID;
-                    gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-1";
-                    gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
-                    gorev.DurumID = ComboNames.Açık.ToInt32();
-                    gorev.OlusturanID = SiteSessions.LoggedUserNo;
-                    gorev.OlusturmaTarihi = Convert.ToInt32(DateTime.Today.ToOADate());
-                    gorev.IrsaliyeID = tablo.ID;
-                    gorev.Bilgi = "IrsNo: " + tablo.ID.ToString() + ", Tedarikçi: " + tbl.Unvan;
-                    db.GorevListesis.Add(gorev);
-                    db.SaveChanges();
-                    //result
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                    _Result.Id = tablo.ID;
-                }
-                catch (Exception ex)
-                {
-                    _Result.Message = ex.Message + ": " + ex.InnerException.Message;
-                    _Result.Status = false;
-                    _Result.Id = 0;
+                    try
+                    {
+                        //add irsaliye table
+                        WMS_IRS tablo = new WMS_IRS();
+
+                        tablo.SirketKod = tbl.SirketID;
+                        tablo.DepoID = tbl.DepoID;
+                        tablo.EvrakNo = tbl.EvrakNo;
+                        tablo.HesapKodu = tbl.HesapKodu;
+                        tablo.Tarih = Convert.ToInt32(dateValue.ToOADate());
+                        tablo.Kaydeden = SiteSessions.LoggedUserName;
+                        tablo.KayitTarih = Convert.ToInt32(DateTime.Today.ToOADate());
+                        db.WMS_IRS.Add(tablo);
+                        db.SaveChanges();
+                        //add görevlist table
+                        GorevListesi gorev = new GorevListesi();
+
+                        gorev.DepoID = tbl.DepoID;
+                        gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-1";
+                        gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
+                        gorev.DurumID = ComboNames.Açık.ToInt32();
+                        gorev.OlusturanID = 3;
+                        gorev.OlusturmaTarihi = Convert.ToInt32(DateTime.Today.ToOADate());
+                        gorev.IrsaliyeID = tablo.ID;
+                        gorev.Bilgi = "IrsNo: " + tablo.ID.ToString() + ", Tedarikçi: " + tbl.Unvan;
+                        db.GorevListesis.Add(gorev);
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        //result
+                        _Result.Message = "İşlem Başarılı !!!";
+                        _Result.Status = true;
+                        _Result.Id = tablo.ID;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                        _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                        _Result.Status = false;
+                        _Result.Id = 0;
+                    }
                 }
             }
             else

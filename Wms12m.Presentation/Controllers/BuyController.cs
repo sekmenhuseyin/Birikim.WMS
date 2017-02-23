@@ -34,6 +34,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult New(frmIrsaliye tbl)
         {
+
             //check if exists
             var tmp = db.WMS_IRS.Where(m => m.EvrakNo == tbl.EvrakNo).FirstOrDefault();
             if (tmp == null)
