@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
+using static Wms12m.Business.MalKabulSTIOnay;
 
 namespace Wms12m.Presentation.Controllers
 {
     public class MalKabulController : RootController
     {
+        Result _Result = new Result();
         // GET: MalKabul
         public ActionResult Index(int IrsNo)
         {
+            dene dn = new dene();
+            _Result = dn.MalKabulOnay("2", "3201100KB", 1, "220217-1", 33,"ADA");
             ViewBag.IrsNo = IrsNo;
             return View();
         }
