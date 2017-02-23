@@ -106,7 +106,7 @@
                 <div class="btnDosyaImport" style="float:right;text-align:center;line-height:40px; margin-left:10px; background-color:#10b9b9; color:white;height:100%;width:100px;">
                     IMPORT
                 </div>
-                <div class="import-dosya" style="float:right;text-align:center;line-height:40px; background-color:#acbfbf; color:#1c53c6;height:100%;width:100px;">
+                <div class="import-dosya"  type="file" name="files[]" data-url="\\SQLSERVER\Kullanıcılar$\yazilim4\Desktop" multiple style="float:right;text-align:center;line-height:40px; background-color:#acbfbf; color:#1c53c6;height:100%;width:100px;">
                     DOSYA SEÇ
                 </div>
                 
@@ -120,8 +120,17 @@
 <script src="~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
 <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
-<link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
 <script>
+    $(function () {
+        $('.import-dosya').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    $('<p/>').text(file.name).appendTo(document.body);
+                });
+            }
+        });
+    });
     $(".import-content").hide();
     var DeleteFunctionUrl = '@Url.Action("Delete", "Buy")';
     $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>");
