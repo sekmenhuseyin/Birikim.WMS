@@ -70,9 +70,7 @@ namespace Wms12m
                     UserName = person.UserName,
                     LogonUserName = person.UserName,
                     FirstName = person.Name,
-                    //LastName = person.PersonSurname,
-                    Id = person.Id,
-                    //Gender = person.Gender
+                    Id = person.Id
                 },
                 Action = new ActionIdentity()
                 {

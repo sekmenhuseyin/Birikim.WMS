@@ -30,7 +30,9 @@ namespace Wms12m.Presentation.Controllers
                         Authentication.CreateAuth((USER01)_Result.Data, false);
                 }                
             }
-            catch (Exception){}
+            catch (Exception ex){
+                return null;
+            }
             return Json(new { data = (_Result.Status) }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult LogOut()
