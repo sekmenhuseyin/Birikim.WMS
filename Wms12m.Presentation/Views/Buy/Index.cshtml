@@ -4,10 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
-@*<style>
+<style>
     #frmUpload input{display:none;}/*upload form hide inputs*/
     .bar {height: 18px;background: green;}
-</style>*@
+</style>
 <link href="~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
@@ -104,7 +104,7 @@
                 </div>
             </div>
             <div class="row">
-                <form id="fileupload" action="../assets/global/plugins/jquery-file-upload/server/php/" method="POST" enctype="multipart/form-data">
+                <form id="fileupload" action="/Upload/Irsaliye" method="POST" enctype="multipart/form-data">
                     <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
                     <div class="row fileupload-buttonbar">
                         <div class="col-lg-7">
@@ -148,9 +148,10 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
-<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
 <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
 <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/main.js"></script>
 
 <script>
 
