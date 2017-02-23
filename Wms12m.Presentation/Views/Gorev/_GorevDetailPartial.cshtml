@@ -43,13 +43,6 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Görevli</label>
-                            <div class="col-md-4">
-                                @Html.DropDownList("GorevliID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
-                                <span class="field-validation-valid" data-valmsg-for="GorevliID" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label class="col-md-3 control-label">Açıklama</label>
                             <div class="col-md-4">
                                 @Html.TextBoxFor(a => a.Aciklama, new { @class = "form-control input-circle" })

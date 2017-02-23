@@ -42,7 +42,7 @@
                                         <td>@item.GorevNo</td>
                                         <td>@item.ComboItemName.ItemName</td>
                                         <td>@item.ComboItemName1.ItemName</td>
-                                        <td>@{if (item.USR01 != null) { @item.USR01.UserName}} </td>
+                                        <td>@{if (item.USR011 != null) { @item.USR011.UserName}} </td>
                                         <td>@DateTime.FromOADate(item.OlusturmaTarihi).ToShortDateString()</td>
                                         <td>@{if (item.AtamaTarihi != null) { @DateTime.FromOADate(item.AtamaTarihi.Value).ToShortDateString()} }</td>
                                         <td>@{if (item.BitisTarihi != null) { @DateTime.FromOADate(item.BitisTarihi.Value).ToShortDateString()}}</td>
