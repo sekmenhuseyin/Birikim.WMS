@@ -50,8 +50,7 @@ namespace Wms12m.Business
                             db.SaveChanges();
 
                             sti = db.WMS_STI.Where(m => m.IrsaliyeID == IrsaliyeID).ToList();
-
-
+                        }
                             if (sti != null)
                             {
                                 using (DinamikModelContext Dinamik = new DinamikModelContext(irs.SirketKod))
@@ -193,7 +192,7 @@ namespace Wms12m.Business
 
 
                             }
-                        }
+                        
 
                         Scope.Complete();
                         _Result.Message = "İşlem Başarılı";
