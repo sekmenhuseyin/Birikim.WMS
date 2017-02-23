@@ -144,6 +144,7 @@
           <Property Name="Kaydeden" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="KayitTarih" Type="int" Nullable="false" />
           <Property Name="Onay" Type="bit" Nullable="false" />
+          <Property Name="Unvan" Type="varchar" MaxLength="50" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="WMS_STI">
           <Key>
@@ -669,6 +670,7 @@
           <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_IRS_TK_DEP" FromRole="WMS_IRS" ToRole="TK_DEP" />
           <NavigationProperty Name="WMS_STI" Relationship="MModel.FK_STI_IRS" FromRole="WMS_IRS" ToRole="WMS_STI" />
           <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_IRS" FromRole="WMS_IRS" ToRole="GorevListesi" />
+          <Property Name="Unvan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="WMS_STI">
           <Key>
@@ -943,6 +945,7 @@
           <EntitySetMapping Name="WMS_IRS">
             <EntityTypeMapping TypeName="MModel.WMS_IRS">
               <MappingFragment StoreEntitySet="WMS_IRS">
+                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
                 <ScalarProperty Name="Onay" ColumnName="Onay" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
                 <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />

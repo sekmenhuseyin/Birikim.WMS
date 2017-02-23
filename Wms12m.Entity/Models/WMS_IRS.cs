@@ -32,6 +32,7 @@ namespace Wms12m.Entity.Models
         public string Kaydeden { get; set; }
         public int KayitTarih { get; set; }
         public bool Onay { get; set; }
+        public string Unvan { get; set; }
     
         public virtual TK_DEP TK_DEP { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
