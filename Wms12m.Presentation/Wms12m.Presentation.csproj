@@ -5855,6 +5855,7 @@
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\ShelfController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
+    <Compile Include="Controllers\UploadsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -5915,6 +5916,8 @@
   <ItemGroup>
     <Folder Include="Content\assets\apps\img\" />
     <Folder Include="Content\assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
+    <Folder Include="Content\Uploads\" />
+    <Folder Include="Views\Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">
