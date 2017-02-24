@@ -92,7 +92,7 @@
                     <div class="caption">
                         <i class="fa fa-gift"></i>Malzeme Bilgileri
                     </div>
-                    <div class="col-md-1 pull-right">
+                    @*<div class="col-md-1 pull-right">
                         @using (Html.BeginForm("STI", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmUpload" }))
                         {
                             @Html.AntiForgeryToken()
@@ -100,18 +100,24 @@
                             <input id="btnUpload" type="file" name="file" />
                             <div id="progress"><div class="bar" style="width: 0%;"></div></div>
                         }
-                    </div>
+                    </div>*@
                 </div>
             </div>
             <div class="row">
                 <form id="fileupload" action="/Uploads/Irsaliye" method="POST" enctype="multipart/form-data">
                     <div class="row fileupload-buttonbar">
                         <div class="col-lg-7" style="float:right; text-align:right; margin-right:15px;">
-                            <span class="btn green fileinput-button">
-                                <span> Dosya Seç </span>
-                                <input type="file" name="file">
-                            </span>
-                            <span class="fileupload-process"> </span>
+                            <div style="float:right;margin-left:40px;">
+                                <span class="btn green fileinput-button">
+                                    <span> Dosya Seç </span>
+                                    <input type="file" name="file">
+                                </span>
+                                <span class="fileupload-process"> </span>
+                            </div>
+                                <div class="sablon-indir" style="height:30px;width:60px;float:right;">
+                                    <a href="~/Content/Uploads/STISablon.xlsx" class="btn btn-default">Şablon İndir</a>
+                                </div>
+
                         </div>
                         <div class="col-lg-5 fileupload-progress fade">
                             <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
@@ -122,6 +128,7 @@
                     </div>
                 </form>
             </div>
+            
             <div id="StoreGrid" style="padding:8px;"></div>
         </div>
     </div>

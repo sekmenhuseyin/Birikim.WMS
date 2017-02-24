@@ -1,43 +1,69 @@
-﻿using System;
+﻿using Excel;
+using OfficeOpenXml.Core.ExcelPackage;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Wms12m.Entity.Models;
+
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class UploadsController : Controller
+    public class UploadsController : RootController
     {
         // GET: Uploads
-        public JsonResult Irsaliye(HttpPostedFileBase file)
+        public JsonResult Irsaliye(int IrsNo,HttpPostedFileBase file)
         {
             if (file != null && file.ContentLength > 0)
             {
-                var fileName = Path.GetFileName("ImportData.xml");
-                var path = Path.Combine(Server.MapPath("~/Content/Uploads/"), fileName);
-                file.SaveAs(path);
+                List<WMS_STI> list_sti = new List<WMS_STI>();
 
+                Stream stream = file.InputStream;
 
-                DataSet xmlVeri = XmlVerileriGetir(path);
-               
+                // We return the interface, so that
+                IExcelDataReader reader = null;
 
+                if (file.FileName.EndsWith(".xls"))
+                {
+                    reader = ExcelReaderFactory.CreateBinaryReader(stream);
+                }
+                else if (file.FileName.EndsWith(".xlsx"))
+                {
+                    reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                }
+                else
+                {
+                    ModelState.AddModelError("File", "This file format is not supported");
+                    //return View();
+                }
 
+                reader.IsFirstRowAsColumnNames = true;
+
+                DataSet result = reader.AsDataSet();
+                if (result.Tables[0].Rows != null)
+                {
+                    for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+                    {
+                        DataRow dr = result.Tables[0].Rows[0];
+                        var sti = new WMS_STI();
+                        sti.IrsaliyeID = IrsNo;
+                        sti.MalKodu = dr["MalKodu"].ToString();
+                        sti.Miktar = Convert.ToDecimal(dr["Miktar"]);
+                        sti.Birim = dr["Birim"].ToString();
+                        db.WMS_STI.Add(sti);
+                        db.SaveChanges();
+                        //list_sti.Add(sti);
+                    }
+                    //db.SaveChanges();
+                }
+
+                reader.Close();
             }
             return Json(true, JsonRequestBehavior.AllowGet);
             //return Json(true, JsonRequestBehavior.AllowGet);
-        }
-        public DataSet XmlVerileriGetir(string xmlDosya)
-        {
-            DataSet ds = new DataSet();
-            // xlm Dosya varmı onun kontrolü.
-            if (System.IO.File.Exists(xmlDosya))
-            {
-                // varsa Dosyayı oku ve dataset ‘ e aktar.
-                ds.ReadXml(xmlDosya);
-            }
-            return ds;
         }
     }
 }
