@@ -9,7 +9,6 @@ namespace Wms12m.Business
         public abstract List<T> GetList();
         public abstract List<T> GetList(int ParentId);
         public abstract Result Delete(int Id);      
-        public abstract Result Update(T tbl);
-        public abstract Result Insert(T tbl);
+        public abstract Result Operation(T tbl);
     }
 }

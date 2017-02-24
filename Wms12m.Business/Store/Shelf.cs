@@ -11,9 +11,9 @@ namespace Wms12m.Business
         Result _Result;
         WMSEntities db = new WMSEntities();
         /// <summary>
-        /// güncelle
+        /// ekle ve güncelle
         /// </summary>
-        public override Result Update(TK_RAF tbl)
+        public override Result Operation(TK_RAF tbl)
         {
             _Result = new Result();
             if (tbl.Raf == "")
@@ -28,42 +28,12 @@ namespace Wms12m.Business
                 {
                     tbl.Degistiren = SiteSessions.LoggedUserName;
                     tbl.DegisTarih = DateTime.Today.ToOADateInt();
-                    db.SaveChanges();
-                    //result
-                    _Result.Id = tbl.ID;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                catch (Exception ex)
-                {
-                    _Result.Id = 0;
-                    _Result.Message = "İşlem Hatalı: " + ex.Message;
-                    _Result.Status = false;
-                }
-            }
-            return _Result;
-        }
-        /// <summary>
-        /// yeni ekle
-        /// </summary>
-        public override Result Insert(TK_RAF tbl)
-        {
-            _Result = new Result();
-            if (tbl.Raf == "")
-            {
-                _Result.Id = 0;
-                _Result.Message = "İşlem Hatalı !!!";
-                _Result.Status = false;
-            }
-            else
-            {
-                try
-                {
-                    tbl.Degistiren = SiteSessions.LoggedUserName;
-                    tbl.DegisTarih = DateTime.Today.ToOADateInt();
-                    tbl.Kaydeden = SiteSessions.LoggedUserName;
-                    tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    db.TK_RAF.Add(tbl);
+                    if (tbl.ID == 0)
+                    {
+                        tbl.Kaydeden = SiteSessions.LoggedUserName;
+                        tbl.KayitTarih = DateTime.Today.ToOADateInt();
+                        db.TK_RAF.Add(tbl);
+                    }
                     db.SaveChanges();
                     //result
                     _Result.Id = tbl.ID;
