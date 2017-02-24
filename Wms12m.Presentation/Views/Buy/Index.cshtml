@@ -105,41 +105,23 @@
             </div>
             <div class="row">
                 <form id="fileupload" action="/Uploads/Irsaliye" method="POST" enctype="multipart/form-data">
-                    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
                     <div class="row fileupload-buttonbar">
                         <div class="col-lg-7" style="float:right; text-align:right; margin-right:15px;">
-                            <!-- The fileinput-button span is used to style the file input field as button -->
                             <span class="btn green fileinput-button">
                                 <span> Dosya Seç </span>
                                 <input type="file" name="file">
                             </span>
-                            <!-- The global file processing state -->
                             <span class="fileupload-process"> </span>
                         </div>
-                        <!-- The global progress information -->
                         <div class="col-lg-5 fileupload-progress fade">
-                            <!-- The global progress bar -->
                             <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                                 <div class="progress-bar progress-bar-success" style="width:0%;"> </div>
                             </div>
-                            <!-- The extended global progress information -->
                             <div class="progress-extended"> &nbsp; </div>
                         </div>
                     </div>
-                    <!-- The table listing the files available for upload/download -->
-                    <table role="presentation" class="table table-striped clearfix">
-                        <tbody class="files"> </tbody>
-                    </table>
                 </form>
             </div>
-            @*<div class="import-content" style="position:relative;height:40px;">
-                <div class="btnDosyaImport" style="float:right;text-align:center;line-height:40px; margin-left:10px; background-color:#10b9b9; color:white;height:100%;width:100px;">
-                    IMPORT
-                </div>
-                <div class="import-dosya"  type="file" name="files[]" data-url="\\SQLSERVER\Kullanıcılar$\yazilim4\Desktop" multiple style="float:right;text-align:center;line-height:40px; background-color:#acbfbf; color:#1c53c6;height:100%;width:100px;">
-                    
-                </div>
-            </div>*@
             <div id="StoreGrid" style="padding:8px;"></div>
         </div>
     </div>
@@ -152,10 +134,7 @@
 <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
 <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
 <script src="~/Content/assets/global/plugins/jquery-file-upload/js/main.js"></script>
-
 <script>
-
-
     //$(".import-content").hide();
     var DeleteFunctionUrl = '@Url.Action("Delete", "Buy")';
     $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>");
