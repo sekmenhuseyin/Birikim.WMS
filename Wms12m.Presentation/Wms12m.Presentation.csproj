@@ -34,7 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsD64C.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs2309.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,7 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsD64C.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs2309.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -52,10 +52,6 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
-      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Excel, Version=2.1.2.3, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
@@ -75,19 +71,7 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OfficeOpenXml.Core.ExcelPackage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OfficeOpenXml.Core.ExcelPackage.1.0.0\lib\net46\OfficeOpenXml.Core.ExcelPackage.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.Packaging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Packaging.4.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -3913,8 +3897,6 @@
     <Content Include="Content\assets\global\plugins\jquery-ui\LICENSE.txt" />
     <Content Include="Content\assets\global\plugins\jquery-validation\js\additional-methods.js" />
     <Content Include="Content\assets\global\plugins\jquery-validation\js\additional-methods.min.js" />
-    <Content Include="Content\assets\global\plugins\jquery-validation\js\jquery.validate.js" />
-    <Content Include="Content\assets\global\plugins\jquery-validation\js\jquery.validate.min.js" />
     <Content Include="Content\assets\global\plugins\jquery-validation\js\localization\messages_ar.js" />
     <Content Include="Content\assets\global\plugins\jquery-validation\js\localization\messages_ar.min.js" />
     <Content Include="Content\assets\global\plugins\jquery-validation\js\localization\messages_bg.js" />
@@ -5854,14 +5836,14 @@
     <Content Include="Content\assets\global\plugins\jquery-validation\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Content\assets\global\plugins\jquery\jquery-3.1.1.slim.min.map" />
     <Content Include="Content\assets\global\plugins\jquery\jquery-3.1.1.min.map" />
-    <None Include="Content\assets\global\plugins\jquery-validation\jquery.validate-vsdoc.js" />
     <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.inline.js" />
-    <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.js" />
-    <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.min.js" />
     <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.unobtrusive.js" />
     <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.unobtrusive.min.js" />
     <Content Include="Content\assets\global\plugins\jquery\jquery-1.10.2.js" />
     <Content Include="Content\assets\global\plugins\jquery\jquery-1.10.2.min.js" />
+    <None Include="Content\assets\global\plugins\jquery-validation\jquery.validate-vsdoc.js" />
+    <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.js" />
+    <Content Include="Content\assets\global\plugins\jquery-validation\jquery.validate.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
