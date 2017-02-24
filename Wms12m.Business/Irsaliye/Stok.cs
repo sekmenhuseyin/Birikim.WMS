@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Web;
 using System.Linq;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
@@ -11,7 +9,6 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// yeni ekle
         /// </summary>

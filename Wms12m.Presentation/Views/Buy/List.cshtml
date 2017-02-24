@@ -24,7 +24,10 @@
                                     <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                                     <td>@Html.DisplayFor(modelItem => item.HesapKodu)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Unvan)</td>
-                                    <td><button class="btn btn-primary" onclick="CopyValues('@item.ID','@item.SirketKod','@item.DepoID','@item.HesapKodu','@item.Unvan','@item.EvrakNo','@item.Tarih')">Seç</button></td>
+                                    <td>
+                                        <button class="btn btn-primary input-circle" onclick="CopyValues('@item.ID','@item.SirketKod','@item.DepoID','@item.HesapKodu','@item.Unvan','@item.EvrakNo','@item.Tarih')">Seç</button>
+                                        <button value="btn btn-danger input-circle" onclick="Delete">Sil</button>
+                                    </td>
                                 </tr>
                             }
                         </tbody>

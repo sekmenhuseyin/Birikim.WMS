@@ -14,27 +14,28 @@ namespace Wms12m.Entity.Models
     
     public partial class USR01
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public USR01()
-        {
-            this.GorevListesis = new HashSet<GorevListesi>();
-            this.GorevListesis1 = new HashSet<GorevListesi>();
-            this.GorevListesis2 = new HashSet<GorevListesi>();
-        }
-    
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public int CreateDate { get; set; }
-        public int UpdateDate { get; set; }
+        public int ID { get; set; }
+        public string Sirket { get; set; }
+        public short Tip { get; set; }
+        public string Kod { get; set; }
+        public string Sifre { get; set; }
+        public string AdSoyad { get; set; }
+        public string Email { get; set; }
+        public string RoleName { get; set; }
+        public string Tema { get; set; }
+        public bool Admin { get; set; }
         public bool Aktif { get; set; }
+        public string Kaydeden { get; set; }
+        public int KayitTarih { get; set; }
+        public int KayitSaat { get; set; }
+        public short KayitKaynak { get; set; }
+        public string KayitSurum { get; set; }
+        public string Degistiren { get; set; }
+        public int DegisTarih { get; set; }
+        public int DegisSaat { get; set; }
+        public short DegisKaynak { get; set; }
+        public string DegisSurum { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevListesi> GorevListesis { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevListesi> GorevListesis1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevListesi> GorevListesis2 { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

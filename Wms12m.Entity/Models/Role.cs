@@ -12,26 +12,18 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TK_KOR
+    public partial class Role
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TK_KOR()
+        public Role()
         {
-            this.TK_RAF = new HashSet<TK_RAF>();
+            this.USR01 = new HashSet<USR01>();
         }
     
         public int ID { get; set; }
-        public int DepoID { get; set; }
-        public string Koridor { get; set; }
-        public int SiraNo { get; set; }
-        public bool Aktif { get; set; }
-        public string Kaydeden { get; set; }
-        public int KayitTarih { get; set; }
-        public string Degistiren { get; set; }
-        public int DegisTarih { get; set; }
+        public string RoleName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TK_RAF> TK_RAF { get; set; }
-        public virtual TK_DEP TK_DEP { get; set; }
+        public virtual ICollection<USR01> USR01 { get; set; }
     }
 }
