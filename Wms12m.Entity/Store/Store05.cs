@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.Runtime.Serialization;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 
 namespace Wms12m.Entity
 {
@@ -10,22 +8,32 @@ namespace Wms12m.Entity
         [Key]
         public int ID { get; set; }
         [DataMember]
-        [DisplayName("Durum")]
         [Range(0, 999999, ErrorMessage = "Lütfen Koridor Seçiniz !!!")]
         [Required(ErrorMessage = "Lütfen Koridor Seçiniz !!!")]
         public int RafID { get; set; }
         [DataMember]
-        [DisplayName("Durum")]
         [Required(ErrorMessage = "Lütfen Kat Giriniz !!!")]
         public string Kat { get; set; }
         [DataMember]
-        public int SiraNo { get; set; }
+        [Required(ErrorMessage = "Lütfen Genişlik Giriniz !!!")]
+        public decimal En { get; set; }
         [DataMember]
+        [Required(ErrorMessage = "Lütfen Yükseklik Giriniz !!!")]
         public decimal Boy { get; set; }
         [DataMember]
-        public decimal Ozellik { get; set; }
+        [Required(ErrorMessage = "Lütfen Derinlik Giriniz !!!")]
+        public decimal Derinlik { get; set; }
         [DataMember]
-        public decimal Aciklama { get; set; }
+        [Required(ErrorMessage = "Lütfen Kapasite Giriniz !!!")]
+        public int AgirlikKapasite { get; set; }
+        [DataMember]
+        [Required(ErrorMessage = "Lütfen Özellik Giriniz !!!")]
+        public string Ozellik { get; set; }
+        [DataMember]
+        [Required(ErrorMessage = "Lütfen Açıklama Giriniz !!!")]
+        public string Aciklama { get; set; }
+        [DataMember]
+        public int SiraNo { get; set; }
         [DataMember]
         public bool Aktif { get; set; }
         [DataMember]

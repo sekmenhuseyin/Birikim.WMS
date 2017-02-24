@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.Runtime.Serialization;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 
 namespace Wms12m.Entity
 {
@@ -10,14 +8,11 @@ namespace Wms12m.Entity
         [Key]
         public int ID { get; set; }
         [DataMember]
-        [DisplayName("Durum")]
         [Required(ErrorMessage = "Lütfen Depo Adı Giriniz !!!")]
         public string DepoAdi { get; set; }
         [DataMember]
-        [DisplayName("Durum")]
         public int SiraNo { get; set; }
         [DataMember]
-        [DisplayName("Durum")]
         public bool Aktif { get; set; }
         [DataMember]
         public int KayitTarih { get; set; }
@@ -28,7 +23,6 @@ namespace Wms12m.Entity
         [DataMember]
         public string Degistiren { get; set; }
         [DataMember]
-        [DisplayName("Durum")]
         [Required(ErrorMessage = "Lütfen Depo Kodu Giriniz !!!")]
         public string DepoKodu { get; set; }
     }

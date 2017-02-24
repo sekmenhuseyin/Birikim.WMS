@@ -61,12 +61,7 @@
     <Compile Include="Control\SiteSessions.cs" />
     <Compile Include="Extension\Extensions.cs" />
     <Compile Include="Gorev\Gorev.cs" />
-    <Compile Include="MalKabul\abstractMalKabul.cs" />
-    <Compile Include="MalKabul\MalKabulDSTOnay.cs" />
-    <Compile Include="MalKabul\MalKabulFTDOnay.cs" />
-    <Compile Include="MalKabul\MalKabulMFKOnay.cs" />
     <Compile Include="MalKabul\MalKabulSTIOnay.cs" />
-    <Compile Include="MalKabul\MalKabulSTKOnay.cs" />
     <Compile Include="Irsaliye\Stok.cs" />
     <Compile Include="Irsaliye\Irsaliye.cs" />
     <Compile Include="Logger\Logger.cs" />
