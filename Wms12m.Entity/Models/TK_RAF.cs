@@ -18,13 +18,11 @@ namespace Wms12m.Entity.Models
         public TK_RAF()
         {
             this.TK_BOL = new HashSet<TK_BOL>();
-            this.TK_KAT = new HashSet<TK_KAT>();
         }
     
         public int ID { get; set; }
         public int KoridorID { get; set; }
         public string Raf { get; set; }
-        public decimal Derinlik { get; set; }
         public int SiraNo { get; set; }
         public bool Aktif { get; set; }
         public string Kaydeden { get; set; }
@@ -34,8 +32,6 @@ namespace Wms12m.Entity.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TK_BOL> TK_BOL { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TK_KAT> TK_KAT { get; set; }
         public virtual TK_KOR TK_KOR { get; set; }
     }
 }

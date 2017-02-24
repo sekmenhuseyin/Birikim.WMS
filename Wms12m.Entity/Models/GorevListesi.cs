@@ -21,13 +21,15 @@ namespace Wms12m.Entity.Models
         public int DurumID { get; set; }
         public int OlusturanID { get; set; }
         public int OlusturmaTarihi { get; set; }
-        public Nullable<int> IrsaliyeID { get; set; }
-        public Nullable<int> AtayanID { get; set; }
-        public Nullable<int> GorevliID { get; set; }
-        public Nullable<int> AtamaTarihi { get; set; }
-        public Nullable<int> BitisTarihi { get; set; }
+        public int OlusturmaSaati { get; set; }
         public string Bilgi { get; set; }
         public string Aciklama { get; set; }
+        public Nullable<int> IrsaliyeID { get; set; }
+        public Nullable<int> GorevliID { get; set; }
+        public Nullable<int> AtayanID { get; set; }
+        public Nullable<int> AtamaTarihi { get; set; }
+        public Nullable<int> BitisTarihi { get; set; }
+        public Nullable<int> BitisSaati { get; set; }
     
         public virtual ComboItemName ComboItemName { get; set; }
         public virtual ComboItemName ComboItemName1 { get; set; }

@@ -14,11 +14,15 @@ namespace Wms12m.Entity.Models
     
     public partial class TK_BOL
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TK_BOL()
+        {
+            this.TK_KAT = new HashSet<TK_KAT>();
+        }
+    
         public int ID { get; set; }
         public int RafID { get; set; }
         public string Bolum { get; set; }
-        public decimal En { get; set; }
-        public Nullable<decimal> KatAgirlik { get; set; }
         public int SiraNo { get; set; }
         public bool Aktif { get; set; }
         public string Kaydeden { get; set; }
@@ -27,5 +31,7 @@ namespace Wms12m.Entity.Models
         public int DegisTarih { get; set; }
     
         public virtual TK_RAF TK_RAF { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TK_KAT> TK_KAT { get; set; }
     }
 }

@@ -4,25 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="52">
-        <EntityTypeShape EntityType="MModel.TK_BOL" Width="1.5" PointX="18.625" PointY="6.375" />
-        <EntityTypeShape EntityType="MModel.TK_DEP" Width="1.5" PointX="9.25" PointY="3.875" />
-        <EntityTypeShape EntityType="MModel.TK_KAT" Width="1.5" PointX="18.75" PointY="2.125" />
-        <EntityTypeShape EntityType="MModel.TK_KOR" Width="1.5" PointX="12.625" PointY="3.875" />
-        <EntityTypeShape EntityType="MModel.TK_RAF" Width="1.5" PointX="15.75" PointY="4" />
-        <AssociationConnector Association="MModel.FK_TK_BOL_TK_RAF" />
-        <AssociationConnector Association="MModel.FK_TK_KOR_TK_DEP" />
-        <AssociationConnector Association="MModel.FK_TK_KAT_TK_RAF" />
-        <AssociationConnector Association="MModel.FK_TK_RAF_TK_KOR" />
-        <EntityTypeShape EntityType="MModel.ComboItemName" Width="1.5" PointX="10.625" PointY="8.75" />
-        <EntityTypeShape EntityType="MModel.ComboName" Width="1.5" PointX="10.125" PointY="12" />
+      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="62">
+        <EntityTypeShape EntityType="MModel.ComboItemName" Width="1.5" PointX="7.125" PointY="3.625" />
+        <EntityTypeShape EntityType="MModel.ComboName" Width="1.5" PointX="3" PointY="4.125" />
+        <EntityTypeShape EntityType="MModel.GorevListesi" Width="1.5" PointX="7.25" PointY="8.25" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="10.625" PointY="0.625" />
+        <EntityTypeShape EntityType="MModel.USR01" Width="1.5" PointX="2.125" PointY="9.625" />
+        <EntityTypeShape EntityType="MModel.TK_BOL" Width="1.5" PointX="17.5" PointY="6" />
+        <EntityTypeShape EntityType="MModel.TK_DEP" Width="1.5" PointX="10.25" PointY="6.5" />
+        <EntityTypeShape EntityType="MModel.TK_KAT" Width="1.5" PointX="20.125" PointY="5.875" />
+        <EntityTypeShape EntityType="MModel.TK_KOR" Width="1.5" PointX="12.75" PointY="6.25" />
+        <EntityTypeShape EntityType="MModel.TK_RAF" Width="1.5" PointX="15.25" PointY="6" />
+        <EntityTypeShape EntityType="MModel.WMS_IRS" Width="1.5" PointX="10.5" PointY="11.75" />
+        <EntityTypeShape EntityType="MModel.WMS_STI" Width="1.5" PointX="12.625" PointY="11.625" />
         <AssociationConnector Association="MModel.FK_ComboItemName_ComboName" />
-        <EntityTypeShape EntityType="MModel.USR01" Width="1.5" PointX="1.625" PointY="8.25" />
-        <EntityTypeShape EntityType="MModel.WMS_IRS" Width="1.5" PointX="5.625" PointY="0.875" />
-        <EntityTypeShape EntityType="MModel.WMS_STI" Width="1.5" PointX="2.5" PointY="0.875" />
-        <AssociationConnector Association="MModel.FK_IRS_TK_DEP" />
-        <AssociationConnector Association="MModel.FK_STI_IRS" />
-        <EntityTypeShape EntityType="MModel.GorevListesi" Width="1.5" PointX="6.125" PointY="6.75" />
         <AssociationConnector Association="MModel.FK_GorevListesi_ComboItemName" />
         <AssociationConnector Association="MModel.FK_GorevListesi_ComboItemName1" />
         <AssociationConnector Association="MModel.FK_GorevListesi_Atayan" />
@@ -30,7 +25,13 @@
         <AssociationConnector Association="MModel.FK_GorevListesi_IRS" />
         <AssociationConnector Association="MModel.FK_GorevListesi_Olusturan" />
         <AssociationConnector Association="MModel.FK_GorevListesi_TK_DEP" />
-        </Diagram>
+        <AssociationConnector Association="MModel.FK_TK_BOL_TK_RAF" />
+        <AssociationConnector Association="MModel.FK_TK_KAT_TK_BOL" />
+        <AssociationConnector Association="MModel.FK_IRS_TK_DEP" />
+        <AssociationConnector Association="MModel.FK_TK_KOR_TK_DEP" />
+        <AssociationConnector Association="MModel.FK_TK_RAF_TK_KOR" />
+        <AssociationConnector Association="MModel.FK_STI_IRS" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

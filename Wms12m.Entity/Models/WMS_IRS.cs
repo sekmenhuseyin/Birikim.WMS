@@ -17,8 +17,8 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public WMS_IRS()
         {
-            this.WMS_STI = new HashSet<WMS_STI>();
             this.GorevListesis = new HashSet<GorevListesi>();
+            this.WMS_STI = new HashSet<WMS_STI>();
         }
     
         public int ID { get; set; }
@@ -34,10 +34,10 @@ namespace Wms12m.Entity.Models
         public bool Onay { get; set; }
         public string Unvan { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevListesi> GorevListesis { get; set; }
         public virtual TK_DEP TK_DEP { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WMS_STI> WMS_STI { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevListesi> GorevListesis { get; set; }
     }
 }

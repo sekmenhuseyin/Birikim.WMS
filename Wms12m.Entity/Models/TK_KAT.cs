@@ -15,9 +15,12 @@ namespace Wms12m.Entity.Models
     public partial class TK_KAT
     {
         public int ID { get; set; }
-        public int RafID { get; set; }
+        public int BolumID { get; set; }
         public string Kat { get; set; }
         public decimal Boy { get; set; }
+        public decimal Derinlik { get; set; }
+        public decimal En { get; set; }
+        public decimal AgirlikKapasite { get; set; }
         public int Ozellik { get; set; }
         public string Aciklama { get; set; }
         public int SiraNo { get; set; }
@@ -27,6 +30,6 @@ namespace Wms12m.Entity.Models
         public string Degistiren { get; set; }
         public int DegisTarih { get; set; }
     
-        public virtual TK_RAF TK_RAF { get; set; }
+        public virtual TK_BOL TK_BOL { get; set; }
     }
 }
