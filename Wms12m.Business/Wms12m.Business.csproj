@@ -56,7 +56,6 @@
     <Compile Include="CacheControl\abstractCache.cs" />
     <Compile Include="CacheControl\CacheControl.cs" />
     <Compile Include="CacheControl\CacheManager.cs" />
-    <Compile Include="Control\QueryAnalysis.cs" />
     <Compile Include="Control\SiteCookies.cs" />
     <Compile Include="Control\SiteSessions.cs" />
     <Compile Include="Extension\Extensions.cs" />
@@ -69,7 +68,7 @@
     <Compile Include="Persons\Persons.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Store\abstractStore.cs" />
-    <Compile Include="Store\Chapter.cs" />
+    <Compile Include="Store\Section.cs" />
     <Compile Include="Store\Corridor.cs" />
     <Compile Include="Store\Floor.cs" />
     <Compile Include="Store\Shelf.cs" />

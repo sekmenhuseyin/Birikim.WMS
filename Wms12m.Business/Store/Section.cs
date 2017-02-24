@@ -6,17 +6,17 @@ using System.Collections.Generic;
 
 namespace Wms12m.Business
 {
-    public class Floor : abstractStore<TK_KAT>
+    public class Section : abstractStore<TK_BOL>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
         /// <summary>
         /// güncelle
         /// </summary>
-        public override Result Update(TK_KAT tbl)
+        public override Result Update(TK_BOL tbl)
         {
             _Result = new Result();
-            if (tbl.Kat == "")
+            if (tbl.Bolum == "")
             {
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı !!!";
@@ -46,10 +46,10 @@ namespace Wms12m.Business
         /// <summary>
         /// yeni ekle
         /// </summary>
-        public override Result Insert(TK_KAT tbl)
+        public override Result Insert(TK_BOL tbl)
         {
             _Result = new Result();
-            if (tbl.Kat == "")
+            if (tbl.Bolum == "")
             {
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı !!!";
@@ -63,7 +63,7 @@ namespace Wms12m.Business
                     tbl.DegisTarih = DateTime.Today.ToOADateInt();
                     tbl.Kaydeden = SiteSessions.LoggedUserName;
                     tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    db.TK_KAT.Add(tbl);
+                    db.TK_BOL.Add(tbl);
                     db.SaveChanges();
                     //result
                     _Result.Id = tbl.ID;
@@ -87,10 +87,10 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                TK_KAT tbl = db.TK_KAT.Where(m => m.ID == Id).FirstOrDefault();
+                TK_BOL tbl = db.TK_BOL.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.TK_KAT.Remove(tbl);
+                    db.TK_BOL.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
@@ -112,31 +112,31 @@ namespace Wms12m.Business
         /// <summary>
         /// bir tanesinin ayrıntıları
         /// </summary>
-        public override TK_KAT Detail(int Id)
+        public override TK_BOL Detail(int Id)
         {
             try
             {
-                return db.TK_KAT.Where(m => m.ID == Id).FirstOrDefault();
+                return db.TK_BOL.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new TK_KAT();
+                return new TK_BOL();
             }
 
         }
         /// <summary>
         /// tüm listesi
         /// </summary>
-        public override List<TK_KAT> GetList()
+        public override List<TK_BOL> GetList()
         {
-            return db.TK_KAT.ToList();
+            return db.TK_BOL.ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<TK_KAT> GetList(int ParentId)
+        public override List<TK_BOL> GetList(int ParentId)
         {
-            return db.TK_KAT.Where(m => m.BolumID == ParentId).ToList();
+            return db.TK_BOL.Where(m => m.RafID == ParentId).ToList();
         }
     }
 }

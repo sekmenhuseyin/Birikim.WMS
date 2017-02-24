@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
+using System.Collections.Generic;
 
 namespace Wms12m.Business
 {
@@ -51,6 +51,9 @@ namespace Wms12m.Business
             _Result = new Result();
             if (tbl.Depo=="" || tbl.DepoKodu=="")
             {
+                _Result.Id = 0;
+                _Result.Message = "İşlem Hatalı !!!";
+                _Result.Status = false;
             }
             else
             {
@@ -132,13 +135,6 @@ namespace Wms12m.Business
         /// üst tabloya ait olanları getir
         /// </summary>
         public override List<TK_DEP> GetList(int ParentId)
-        {
-            return GetList();
-        }
-        /// <summary>
-        /// depo alt listesi
-        /// </summary>
-        public override List<TK_DEP> SubList(int Id)
         {
             return GetList();
         }
