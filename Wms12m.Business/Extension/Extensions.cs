@@ -19,6 +19,24 @@ namespace Wms12m.Business
             catch { return defaultValue; }
         }
         /// <summary>
+        /// <para>Gelen tarihi Int32 türüne dönüştürür.</para>
+        /// Hata olursa defaultValue parametresi döner.
+        /// </summary>
+        public static int ToOADateInt(this DateTime Deger, int defaultValue = 0)
+        {
+            try { return Convert.ToInt32(Deger.ToOADate()); }
+            catch { return defaultValue; }
+        }
+        /// <summary>
+        /// <para>Gelen tarihi Int32 türüne dönüştürür.</para>
+        /// Hata olursa bugünü gösterir.
+        /// </summary>
+        public static string FromOADateInt(this int Deger)
+        {
+            try { return DateTime.FromOADate(Deger).ToShortDateString(); }
+            catch { return DateTime.Today.ToShortDateString(); }
+        }
+        /// <summary>
         /// <para>Gelen değeri Short (Int16) türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
         /// </summary>

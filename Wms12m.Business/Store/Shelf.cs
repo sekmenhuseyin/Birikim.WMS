@@ -183,7 +183,7 @@ namespace Wms12m.Business
         }
         private string Ouery()
         {
-            return @"SELECT        WMS.TK_RAF.ID, WMS.TK_RAF.KoridorID, WMS.TK_RAF.Raf, WMS.TK_RAF.Derinlik, WMS.TK_RAF.SiraNo, WMS.TK_RAF.Aktif, WMS.TK_RAF.Kaydeden, WMS.TK_RAF.KayitTarih, WMS.TK_RAF.Degistiren, 
+            return @"SELECT        WMS.TK_RAF.ID, WMS.TK_RAF.KoridorID, WMS.TK_RAF.Raf, WMS.TK_RAF.SiraNo, WMS.TK_RAF.Aktif, WMS.TK_RAF.Kaydeden, WMS.TK_RAF.KayitTarih, WMS.TK_RAF.Degistiren, 
                          WMS.TK_RAF.DegisTarih, WMS.TK_KOR.Koridor
 FROM            WMS.TK_RAF INNER JOIN
                          WMS.TK_KOR ON WMS.TK_RAF.KoridorID = WMS.TK_KOR.ID";
