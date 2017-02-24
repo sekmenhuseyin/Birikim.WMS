@@ -1,29 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
-using Wms12m.Entity;
+using Wms12m.Entity.Models;
+using System.Collections.Generic;
 
 namespace Wms12m.Presentation.Controllers
 {
     public class CorridorController : RootController
     {
-        // GET: Corridor
-        Result _Result;
-        abstractStore<Store02> Operation;
-        abstractStore<Store03> delKontrolOpertion;
-        //koridor anasayfa
+        abstractStore<TK_KOR> Operation;
+        /// <summary>
+        /// anasayfası
+        /// </summary>
         public ActionResult Index()
         {
-            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
-            return View("Index", new Store02());
+            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
+            return View("Index", new TK_KOR());
         }
-        //koridor listesi
+        /// <summary>
+        /// listesi
+        /// </summary>
         public ActionResult CorridorGridPartial(string Id)
         {
             Operation = new Corridor();
-            List<Store02> _List = new List<Store02>();
+            List<TK_KOR> _List = new List<TK_KOR>();
             int StoreId = 0;
             string Locked = "";
             try
@@ -32,50 +34,54 @@ namespace Wms12m.Presentation.Controllers
                 {
                     StoreId = Convert.ToInt32(Id.Split('#')[1]);
                     Locked = Id.Split('#')[0];
-                    _List = Locked == "Locked" ? Operation.SubList(StoreId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Operation.SubList(StoreId).Where(a => a.Aktif == false).ToList() : Operation.SubList(StoreId).ToList();
+                    _List = Locked == "Locked" ? Operation.GetList(StoreId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Operation.GetList(StoreId).Where(a => a.Aktif == false).ToList() : Operation.GetList(StoreId).ToList();
                 }
                 else
                 {
                     StoreId = Convert.ToInt16(Id);
-                    _List = Operation.SubList(StoreId).ToList();
+                    _List = Operation.GetList(StoreId).ToList();
                 }
                 return PartialView("_CorridorGridPartial", _List);
             }
             catch (Exception)
             {
-                return PartialView("_CorridorGridPartial", new List<Store02>());
+                return PartialView("_CorridorGridPartial", new List<TK_KOR>());
             }
 
         }
-        //koridor düzenle
+        /// <summary>
+        /// düzenle
+        /// </summary>
         public ActionResult CorridorDetailPartial(string Id)
         {
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
-                return PartialView("_CorridorDetailPartial", new Store02());
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
+                return PartialView("_CorridorDetailPartial", new TK_KOR());
             }
             else
             {
                 var tablo = db.TK_KOR.Where(m => m.ID == tmp).FirstOrDefault();
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi", tablo.DepoID);
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo", tablo.DepoID);
                 return PartialView("_CorridorDetailPartial", new Corridor().Detail(tmp));
             }
         }
-        //koridor listesi
+        /// <summary>
+        /// listesi
+        /// </summary>
         [HttpPost]
         public JsonResult CorridorList()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            List<Store02> _List = new List<Store02>();
+            List<TK_KOR> _List = new List<TK_KOR>();
             Operation = new Corridor();
             try
             {
                 _List = Operation.GetList().Where(a => a.DepoID == Convert.ToInt16(id)).ToList();
                 List<SelectListItem> List = new List<SelectListItem>();
-                foreach (Store02 item in _List)
+                foreach (TK_KOR item in _List)
                 {
                     List.Add(new SelectListItem
                     {
@@ -91,40 +97,24 @@ namespace Wms12m.Presentation.Controllers
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }
-        //koridor sil
+        /// <summary>
+        /// sil
+        /// </summary>
         public ActionResult Delete(string Id)
         {
-            _Result = new Result();
-            
-            delKontrolOpertion = new Shelf();
-            int altBirim = delKontrolOpertion.GetList().Where(a => a.KoridorID == Convert.ToInt32(Id)).Count();
-            if (altBirim < 1)
-            {
-                Operation = new Corridor();
-                _Result = Operation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
-                return Json(_Result, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                _Result.Message = "Koridor";
-                return Json(_Result, JsonRequestBehavior.AllowGet);
-            }
+            Operation = new Corridor();
+            Result _Result = Operation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            return Json(_Result, JsonRequestBehavior.AllowGet);
             
         }
-        //işlemler
-        public ActionResult CorridorOperation(Store02 P)
+        /// <summary>
+        /// kayıt işlemleri
+        /// </summary>
+        public ActionResult CorridorOperation(TK_KOR P)
         {
-            _Result = new Result();
-            try
-            {
-                Operation = new Corridor();
-                _Result = Operation.Operation(P);
-                return Json(_Result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { data = (_Result.Status), Message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
+            Operation = new Corridor();
+            Result _Result = Operation.Operation(P);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -17,7 +17,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Depo</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.TK_DEP.DepoAdi, new { @class = "form-control input-circle depoAdi", @required = ""})
+                                @Html.TextBoxFor(a => a.TK_DEP.Depo, new { @class = "form-control input-circle Depo", @required = ""})
                                 <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(".depoAdi").prop("readonly", true);
+    $(".Depo").prop("readonly", true);
     $(".gorevNo").prop("readonly", true);
     $(".gorevTip").prop("readonly", true);
 </script>

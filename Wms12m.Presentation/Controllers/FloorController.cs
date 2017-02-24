@@ -1,26 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
-using Wms12m.Entity;
+using Wms12m.Entity.Models;
+using System.Collections.Generic;
 
 namespace Wms12m.Presentation.Controllers
 {
     public class FloorController : RootController
     {
-        // GET: Floor
-        Result _Result;
-        abstractStore<Store05> FloorOperation;
-        //kat anasayfa
+        abstractStore<TK_KAT> FloorOperation;
+        /// <summary>
+        /// anasayfası
+        /// </summary>
         public ActionResult Index()
         {
-            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
+            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
             ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
             ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
-            return View("Index", new Store05());
+            return View("Index", new TK_KAT());
         }
-        //kat listesi
+        /// <summary>
+        /// listesi
+        /// </summary>
         public ActionResult FloorGridPartial(string Id)
         {
             int CorridorId = 0;
@@ -28,7 +31,7 @@ namespace Wms12m.Presentation.Controllers
             int ShelfId = 0;
             string Locked = "";
             FloorOperation = new Floor();
-            List<Store05> _List = new List<Store05>();
+            List<TK_KAT> _List = new List<TK_KAT>();
             try
             {
                 if (Id.IndexOf("#") > -1)
@@ -37,12 +40,12 @@ namespace Wms12m.Presentation.Controllers
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
                     ShelfId = Convert.ToInt16(Id.Split('#')[3]);
                     Locked = Id.Split('#')[0];
-                    _List = Locked == "Locked" ? FloorOperation.SubList(ShelfId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? FloorOperation.SubList(ShelfId).Where(a => a.Aktif ==false).ToList() : FloorOperation.SubList(ShelfId).ToList();
+                    _List = Locked == "Locked" ? FloorOperation.GetList(ShelfId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? FloorOperation.GetList(ShelfId).Where(a => a.Aktif ==false).ToList() : FloorOperation.GetList(ShelfId).ToList();
                     return PartialView("_FloorGridPartial", _List);
                 }
                 else
                 {
-                    _List = FloorOperation.SubList(Convert.ToInt16(Id));
+                    _List = FloorOperation.GetList(Convert.ToInt16(Id));
                     return PartialView("_FloorGridPartial", _List);
                 }
             }
@@ -51,49 +54,46 @@ namespace Wms12m.Presentation.Controllers
                 return PartialView("_FloorGridPartial", _List);
             }
         }
-        //kat düzenle
+        /// <summary>
+        /// düzenle
+        /// </summary>
         public ActionResult FloorDetailPartial(string Id)
         {
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
                 ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
                 ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
-                return PartialView("_FloorDetailPartial", new Store05());
+                return PartialView("_FloorDetailPartial", new TK_KAT());
             }
             else
             {
                 var tablo = db.TK_KAT.Where(m => m.ID == tmp).FirstOrDefault();
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi", tablo.TK_RAF.TK_KOR.DepoID);
-                ViewBag.KoridorID = new SelectList(db.TK_KOR.ToList(), "ID", "Koridor", tablo.TK_RAF.KoridorID);
-                ViewBag.RafID = new SelectList(db.TK_RAF.ToList(), "ID", "Raf", tablo.RafID);
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo", tablo.TK_BOL.TK_RAF.TK_KOR.DepoID);
+                ViewBag.KoridorID = new SelectList(db.TK_KOR.ToList(), "ID", "Koridor", tablo.TK_BOL.TK_RAF.KoridorID);
+                ViewBag.RafID = new SelectList(db.TK_RAF.ToList(), "ID", "Raf", tablo.TK_BOL.RafID);
+                ViewBag.BolumID = new SelectList(db.TK_BOL.ToList(), "ID", "Bolum", tablo.BolumID);
                 return PartialView("_FloorDetailPartial", new Floor().Detail(tmp));
             }
         }
-        //kat sil
+        /// <summary>
+        /// sil
+        /// </summary>
         public ActionResult Delete(string Id)
         {
-            _Result = new Result();
-
-                FloorOperation = new Floor();
-                _Result = FloorOperation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
-                return Json(_Result, JsonRequestBehavior.AllowGet);
+            FloorOperation = new Floor();
+            Result _Result = FloorOperation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        //kat kaydet
-        public ActionResult FlooriOperation(Store05 P)
+        /// <summary>
+        /// kayıt işlemleri
+        /// </summary>
+        public ActionResult FlooriOperation(TK_KAT P)
         {
-            _Result = new Result();
-            try
-            {
-                FloorOperation = new Floor();
-                _Result = FloorOperation.Operation(P);
-                return Json(_Result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { data = (_Result.Status), Message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
+            FloorOperation = new Floor();
+            Result _Result = FloorOperation.Operation(P);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }

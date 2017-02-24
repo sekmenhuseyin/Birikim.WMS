@@ -1,32 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
-using Wms12m.Entity;
+using Wms12m.Entity.Models;
+using System.Collections.Generic;
 
 namespace Wms12m.Presentation.Controllers
 {
     public class ShelfController : RootController
     {
-        // GET: Shelf
-        Result _Result;
-        abstractStore<Store03> ShelfOperation;
-        abstractStore<Store04> delKontrolOpertion;
-        //raf anasayfası
+        abstractStore<TK_RAF> ShelfOperation;
+        /// <summary>
+        /// anasayfası
+        /// </summary>
         public ActionResult Index()
         {
-            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
-            return View("Index", new Store03());
+            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
+            return View("Index", new TK_RAF());
         }
-        //raf listesi
+        /// <summary>
+        /// listesi
+        /// </summary>
         public ActionResult ShelfGridPartial(string Id)
         {
             int CorridorId = 0;
             int StoreId = 0;
             string Locked = "";
             ShelfOperation = new Shelf();
-            List<Store03> _List = new List<Store03>();
+            List<TK_RAF> _List = new List<TK_RAF>();
             try
             {
                 if (Id.IndexOf("#") > -1)
@@ -34,12 +36,12 @@ namespace Wms12m.Presentation.Controllers
                     CorridorId = Convert.ToInt16(Id.Split('#')[2]);
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
                     Locked = Id.Split('#')[0];
-                     _List = Locked == "Locked" ? ShelfOperation.SubList(CorridorId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? ShelfOperation.SubList(CorridorId).Where(a => a.Aktif == false).ToList() : ShelfOperation.SubList(CorridorId).ToList();
+                     _List = Locked == "Locked" ? ShelfOperation.GetList(CorridorId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? ShelfOperation.GetList(CorridorId).Where(a => a.Aktif == false).ToList() : ShelfOperation.GetList(CorridorId).ToList();
                     return PartialView("_ShelfGridPartial", _List);
                 }
                 else
                 {
-                    _List = ShelfOperation.SubList(Convert.ToInt16(Id));
+                    _List = ShelfOperation.GetList(Convert.ToInt16(Id));
                     return PartialView("_ShelfGridPartial", _List);
                 }
             }
@@ -48,37 +50,41 @@ namespace Wms12m.Presentation.Controllers
                 return PartialView("_ShelfGridPartial", _List);
             }
         }
-        //raf düzenleme
+        /// <summary>
+        /// düzenle
+        /// </summary>
         public PartialViewResult ShelfDetailPartial(string Id)
         {
             int tmp = Convert.ToInt32(Id);
             if (tmp==0)
             {
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi");
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
                 ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
-                return PartialView("_ShelfDetailPartial", new Store03());
+                return PartialView("_ShelfDetailPartial", new TK_RAF());
             }
             else
             {
                 var tablo = db.TK_RAF.Where(m => m.ID == tmp).FirstOrDefault();
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "DepoAdi", tablo.TK_KOR.DepoID);
+                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo", tablo.TK_KOR.DepoID);
                 ViewBag.KoridorID = new SelectList(db.TK_KOR.ToList(), "ID", "Koridor", tablo.KoridorID);
                 return PartialView("_ShelfDetailPartial", new Shelf().Detail(tmp));
             }
         }
-        //raf listesi
+        /// <summary>
+        /// listesi
+        /// </summary>
         [HttpPost]
         public JsonResult ShelfList()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            List<Store03> _List = new List<Store03>();
+            List<TK_RAF> _List = new List<TK_RAF>();
             ShelfOperation = new Shelf();
             try
             {
                 _List = ShelfOperation.GetList().Where(a => a.KoridorID == Convert.ToInt16(id)).ToList();
                 List<SelectListItem> List = new List<SelectListItem>();
-                foreach (Store03 item in _List)
+                foreach (TK_RAF item in _List)
                 {
                     List.Add(new SelectListItem
                     {
@@ -94,39 +100,23 @@ namespace Wms12m.Presentation.Controllers
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }
-        //raf sil
+        /// <summary>
+        /// sil
+        /// </summary>
         public ActionResult Delete(string Id)
         {
-            _Result = new Result();
-
-            delKontrolOpertion = new Chapter();
-            int altBirim = delKontrolOpertion.GetList().Where(a => a.RafID == Convert.ToInt32(Id)).Count();
-            if (altBirim < 1)
-            {
-                ShelfOperation = new Shelf();
-                _Result = ShelfOperation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
-                return Json(_Result, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                _Result.Message = "Raf";
-                return Json(_Result, JsonRequestBehavior.AllowGet);
-            }
+            ShelfOperation = new Shelf();
+            Result _Result = ShelfOperation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        //raf işlemleri
-        public ActionResult ShelfiOperation(Store03 P)
+        /// <summary>
+        /// kayıt işlemleri
+        /// </summary>
+        public ActionResult ShelfiOperation(TK_RAF P)
         {
-            _Result = new Result();
-            try
-            {
-                ShelfOperation = new Shelf();
-                _Result = ShelfOperation.Operation(P);
-                return Json(_Result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { data = (_Result.Status), Message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
+            ShelfOperation = new Shelf();
+            Result _Result = ShelfOperation.Operation(P);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }
