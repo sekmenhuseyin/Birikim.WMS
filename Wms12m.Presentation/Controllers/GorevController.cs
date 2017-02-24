@@ -67,7 +67,7 @@ namespace Wms12m.Presentation.Controllers
             if (id == null) return null;
             Int32 ID = Convert.ToInt32(id);
             var list = db.GorevListesis.Where(m=>m.ID==ID).FirstOrDefault();
-            ViewBag.GorevliID = new SelectList(db.USR01.OrderBy(m=>m.UserName).ToList(), "Id", "UserName", list.GorevliID);
+            ViewBag.GorevliID = new SelectList(db.USR01.OrderBy(m=>m.Kod).ToList(), "ID", "Kod", list.GorevliID);
             return PartialView("GorevliAta", list);
         }
         /// <summary>
