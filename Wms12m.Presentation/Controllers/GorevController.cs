@@ -74,8 +74,10 @@ namespace Wms12m.Presentation.Controllers
         /// görevliyi kaydeder
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult GorevliAta(int GorevliID)
+        public ActionResult GorevliKaydet(frmGorevli tbl)
         {
+            Gorev tmpTable = new Gorev();
+            Result _Result = tmpTable.UpdateGorevli(tbl);
             return RedirectToAction("Index");
         }
     }

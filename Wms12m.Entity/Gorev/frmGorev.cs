@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Wms12m.Entity
 {
+    //tüm tablo
     public class frmGorev
     {
         [Key]
@@ -39,5 +40,13 @@ namespace Wms12m.Entity
         public string Bilgi { get; set; }
         [DataMember, DisplayName("Açıklama"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string Aciklama { get; set; }
+    }
+    /// <summary>
+    /// görev id ve görevli id
+    /// </summary>
+    public class frmGorevli
+    {
+        public int ID { get; set; }
+        public int GorevliID { get; set; }
     }
 }
