@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
+using System.Collections.Generic;
 
 namespace Wms12m.Business
 {
@@ -10,6 +10,45 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
+        /// <summary>
+        /// ekle/güncelle
+        /// </summary>
+        public override Result Operation(WMS_STI tbl)
+        {
+            _Result = new Result();
+            if (tbl.Miktar <= 0)
+            {
+                _Result.Id = 0;
+                _Result.Message = "Eksik Bilgi Girdiniz";
+                _Result.Status = false;
+                return _Result;
+            }
+            try
+            {
+                if (tbl.ID == 0)
+                    db.WMS_STI.Add(tbl);
+                else
+                {
+                    var tmp = Detail(tbl.ID);
+                    tmp.IrsaliyeID = tbl.IrsaliyeID;
+                    tmp.MalKodu = tbl.MalKodu;
+                    tmp.Birim = tbl.Birim;
+                    tmp.Miktar = tbl.Miktar;
+                }
+                db.SaveChanges();
+                //result
+                _Result.Id = tbl.ID;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                _Result.Id = 0;
+                _Result.Message = "İşlem Hatalı: " + ex.Message;
+                _Result.Status = false;
+            }
+            return _Result;
+        }
         /// <summary>
         /// yeni ekle
         /// </summary>
@@ -76,25 +115,34 @@ namespace Wms12m.Business
             }
             return _Result;
         }
-
+        /// <summary>
+        /// ayrıntı
+        /// </summary>
         public override WMS_STI Detail(int Id)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                return db.WMS_STI.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return new WMS_STI();
+            }
 
+        }
+        /// <summary>
+        /// liste
+        /// </summary>
         public override List<WMS_STI> GetList()
         {
-            throw new NotImplementedException();
+            return db.WMS_STI.OrderBy(m => m.IrsaliyeID).ToList();
         }
-
+        /// <summary>
+        /// liste
+        /// </summary>
         public override List<WMS_STI> GetList(int ParentId)
         {
-            throw new NotImplementedException();
-        }
-
-        public override Result Operation(WMS_STI tbl)
-        {
-            throw new NotImplementedException();
+            return db.WMS_STI.Where(m => m.IrsaliyeID==ParentId).ToList();
         }
     }
 }

@@ -115,7 +115,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<TK_RAF> GetList()
         {
-            return db.TK_RAF.ToList();
+            return db.TK_RAF.OrderBy(m => m.Raf).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir

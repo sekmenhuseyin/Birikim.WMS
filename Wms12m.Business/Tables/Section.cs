@@ -114,7 +114,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<TK_BOL> GetList()
         {
-            return db.TK_BOL.ToList();
+            return db.TK_BOL.OrderBy(m => m.Bolum).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir

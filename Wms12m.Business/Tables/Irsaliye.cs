@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Web;
 using System.Linq;
 using Wms12m.Entity;
-using Wms12m.Security;
 using Wms12m.Entity.Models;
 using System.Collections.Generic;
 
@@ -12,7 +10,13 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
+        /// <summary>
+        /// ekle/güncelle
+        /// </summary>
+        public override Result Operation(WMS_IRS tbl)
+        {
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// yeni ekle
         /// </summary>
@@ -73,30 +77,63 @@ namespace Wms12m.Business
             }
             return _Result;
         }
-
+        /// <summary>
+        /// ayrıntılar
+        /// </summary>
         public override WMS_IRS Detail(int Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return db.WMS_IRS.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return new WMS_IRS();
+            }
         }
-
+        /// <summary>
+        /// liste
+        /// </summary>
         public override List<WMS_IRS> GetList()
         {
-            throw new NotImplementedException();
+            return db.WMS_IRS.OrderBy(m => m.EvrakNo).ToList();
         }
-
+        /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
         public override List<WMS_IRS> GetList(int ParentId)
         {
-            throw new NotImplementedException();
+            return GetList();
         }
-
+        /// <summary>
+        /// silme
+        /// </summary>
         public override Result Delete(int Id)
         {
-            throw new NotImplementedException();
-        }
-
-        public override Result Operation(WMS_IRS tbl)
-        {
-            throw new NotImplementedException();
+            _Result = new Result();
+            try
+            {
+                WMS_IRS tbl = db.WMS_IRS.Where(m => m.ID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.WMS_IRS.Remove(tbl);
+                    db.SaveChanges();
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                _Result.Status = false;
+            }
+            return _Result;
         }
     }
 }

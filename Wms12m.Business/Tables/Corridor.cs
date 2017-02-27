@@ -115,7 +115,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<TK_KOR> GetList()
         {
-            return db.TK_KOR.ToList();
+            return db.TK_KOR.OrderBy(m => m.Koridor).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir

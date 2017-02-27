@@ -121,7 +121,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<TK_KAT> GetList()
         {
-            return db.TK_KAT.ToList();
+            return db.TK_KAT.OrderBy(m => m.Kat).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir

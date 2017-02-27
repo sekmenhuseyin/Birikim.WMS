@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Web;
 using System.Linq;
 using Wms12m.Entity;
-using Wms12m.Security;
 using Wms12m.Entity.Models;
 using System.Collections.Generic;
 
@@ -12,7 +10,13 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
+        /// <summary>
+        /// ekle/güncelle
+        /// </summary>
+        public override Result Operation(GorevListesi tbl)
+        {
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// yeni ekle
         /// </summary>
@@ -131,25 +135,33 @@ namespace Wms12m.Business
            }
             return _Result;
         }
-
+        /// <summary>
+        /// ayrıntılar
+        /// </summary>
         public override GorevListesi Detail(int Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return db.GorevListesis.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return new GorevListesi();
+            }
         }
-
+        /// <summary>
+        /// liste
+        /// </summary>
         public override List<GorevListesi> GetList()
         {
-            throw new NotImplementedException();
+            return db.GorevListesis.OrderBy(m => m.OlusturmaTarihi).ToList();
         }
-
+        /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
         public override List<GorevListesi> GetList(int ParentId)
         {
-            throw new NotImplementedException();
-        }
-
-        public override Result Operation(GorevListesi tbl)
-        {
-            throw new NotImplementedException();
+            return GetList();
         }
     }
 }

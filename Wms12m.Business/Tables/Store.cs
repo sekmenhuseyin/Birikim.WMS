@@ -108,14 +108,13 @@ namespace Wms12m.Business
             {
                 return new TK_DEP();
             }
-
         }
         /// <summary>
         /// depo listesi
         /// </summary>
         public override List<TK_DEP> GetList()
         {
-            return db.TK_DEP.ToList();
+            return db.TK_DEP.OrderBy(m=>m.Depo).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir

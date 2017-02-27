@@ -67,7 +67,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<USR01> GetList()
         {
-            return db.USR01.ToList();
+            return db.USR01.OrderBy(m => m.AdSoyad).ToList();
         }
         /// <summary>
         /// yetkiye sahip kişiler
