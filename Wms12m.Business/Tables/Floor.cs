@@ -45,6 +45,12 @@ namespace Wms12m.Business
                 {
                     var tmp = Detail(tbl.ID);
                     tmp.Kat = tbl.Kat;
+                    tmp.En = tbl.En;
+                    tmp.Boy = tbl.Boy;
+                    tmp.Derinlik = tbl.Derinlik;
+                    tmp.AgirlikKapasite = tbl.AgirlikKapasite;
+                    tmp.Ozellik = tbl.Ozellik;
+                    tmp.Aciklama = tbl.Aciklama;
                     tmp.BolumID = tbl.BolumID;
                     tmp.SiraNo = tbl.SiraNo;
                     tmp.Aktif = tbl.Aktif;

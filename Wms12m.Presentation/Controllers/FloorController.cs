@@ -19,6 +19,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
             ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
             ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
+            ViewBag.BolumID = new SelectList(db.TK_BOL.Where(m => m.ID == 0).ToList(), "ID", "Bolum");
             return View("Index", new TK_KAT());
         }
         /// <summary>
@@ -29,6 +30,7 @@ namespace Wms12m.Presentation.Controllers
             int CorridorId = 0;
             int StoreId = 0;
             int ShelfId = 0;
+            int SectionId = 0;
             string Locked = "";
             FloorOperation = new Floor();
             List<TK_KAT> _List = new List<TK_KAT>();
@@ -36,11 +38,12 @@ namespace Wms12m.Presentation.Controllers
             {
                 if (Id.IndexOf("#") > -1)
                 {
-                    CorridorId = Convert.ToInt16(Id.Split('#')[2]);
-                    StoreId = Convert.ToInt16(Id.Split('#')[1]);
-                    ShelfId = Convert.ToInt16(Id.Split('#')[3]);
                     Locked = Id.Split('#')[0];
-                    _List = Locked == "Locked" ? FloorOperation.GetList(ShelfId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? FloorOperation.GetList(ShelfId).Where(a => a.Aktif ==false).ToList() : FloorOperation.GetList(ShelfId).ToList();
+                    StoreId = Convert.ToInt16(Id.Split('#')[1]);
+                    CorridorId = Convert.ToInt16(Id.Split('#')[2]);
+                    ShelfId = Convert.ToInt16(Id.Split('#')[3]);
+                    SectionId = Convert.ToInt16(Id.Split('#')[4]);
+                    _List = Locked == "Locked" ? FloorOperation.GetList(SectionId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? FloorOperation.GetList(SectionId).Where(a => a.Aktif ==false).ToList() : FloorOperation.GetList(SectionId).ToList();
                     return PartialView("_FloorGridPartial", _List);
                 }
                 else
@@ -65,6 +68,7 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
                 ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
                 ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
+                ViewBag.BolumID = new SelectList(db.TK_BOL.Where(m => m.ID == 0).ToList(), "ID", "Bolum");
                 return PartialView("_FloorDetailPartial", new TK_KAT());
             }
             else

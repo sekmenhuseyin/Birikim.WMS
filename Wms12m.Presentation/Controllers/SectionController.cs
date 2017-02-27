@@ -77,6 +77,36 @@ namespace Wms12m.Presentation.Controllers
             }
         }
         /// <summary>
+        /// listesi
+        /// </summary>
+        [HttpPost]
+        public JsonResult SectionList()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            List<TK_BOL> _List = new List<TK_BOL>();
+            SectionOperation = new Section();
+            try
+            {
+                _List = SectionOperation.GetList().Where(a => a.RafID == Convert.ToInt16(id)).ToList();
+                List<SelectListItem> List = new List<SelectListItem>();
+                foreach (TK_BOL item in _List)
+                {
+                    List.Add(new SelectListItem
+                    {
+                        Selected = false,
+                        Text = item.Bolum,
+                        Value = item.ID.ToString()
+                    });
+                }
+                return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(_List, JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
         /// sil
         /// </summary>
         public ActionResult Delete(string Id)

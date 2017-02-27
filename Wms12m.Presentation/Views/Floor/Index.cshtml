@@ -1,4 +1,4 @@
-﻿@model Store05
+﻿@model TK_KAT
 @{
     ViewBag.Title = "Kat Kartı işlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    @using (Ajax.BeginForm("FlooriOperation", "Floor", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "FloorFrom", OnSuccess = "FuncSearchBtn()" }, new { @class = "form-horizontal" }))
+                    @using (Ajax.BeginForm("FlooriOperation", "Floor", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "FloorFrom", OnSuccess = "FloorReturn" }, new { @class = "form-horizontal" }))
                     {
                         @Html.HiddenFor(a => a.ID)
                         @Html.AntiForgeryToken()
@@ -38,7 +38,14 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Raf</label>
                                 <div class="col-md-4">
-                                    @Html.DropDownList("RafID", null, htmlAttributes: new { @class = "form-control input-circle RafID", required = "required" })
+                                    @Html.DropDownList("RafID", null, htmlAttributes: new { @class = "form-control input-circle RafID", required = "required", @onchange = "getSection(this.value,'BolumID');" })
+                                    <span class="field-validation-valid" data-valmsg-for="ShelfList" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Bölüm</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("BolumID", null, htmlAttributes: new { @class = "form-control input-circle BolumID", required = "required" })
                                     <span class="field-validation-valid" data-valmsg-for="ShelfList" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
@@ -50,23 +57,37 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-md-3 control-label">En</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.En, new { @class = "form-control input-circle", @placeholder = "En" })
+                                    <span class="field-validation-valid" data-valmsg-for="En" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-md-3 control-label">Boy</label>
                                 <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.Boy, new { @class = "form-control input-circle", @placeholder = "Kat" })
+                                    @Html.TextBoxFor(a => a.Boy, new { @class = "form-control input-circle", @placeholder = "Boy" })
                                     <span class="field-validation-valid" data-valmsg-for="Boy" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Derinlik</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.Derinlik, new { @class = "form-control input-circle", @placeholder = "Derinlik" })
+                                    <span class="field-validation-valid" data-valmsg-for="Derinlik" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Özellik</label>
                                 <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.Ozellik, new { @class = "form-control input-circle", @placeholder = "Kat" })
+                                    @Html.TextBoxFor(a => a.Ozellik, new { @class = "form-control input-circle", @placeholder = "Özellik" })
                                     <span class="field-validation-valid" data-valmsg-for="Ozellik" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Açıklama</label>
                                 <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.Aciklama, new { @class = "form-control input-circle", @placeholder = "Kat" })
+                                    @Html.TextBoxFor(a => a.Aciklama, new { @class = "form-control input-circle", @placeholder = "Açıklama" })
                                     <span class="field-validation-valid" data-valmsg-for="Aciklama" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
@@ -136,7 +157,13 @@
                                     <div class="row">
                                         <div class="col-sm-4">Raf</div>
                                         <div class="col-sm-8">
-                                            <select id="ShelfListi" class="form-control input-circle RafID"></select>
+                                            <select id="ShelfListi" class="form-control input-circle RafID" onchange = "getSection(this.value, 'SectionListi');"></select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">Bölüm</div>
+                                        <div class="col-sm-8">
+                                            <select id="SectionListi" class="form-control input-circle BolumID"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -160,12 +187,14 @@
     var DeleteFunctionUrl = '@Url.Action("Delete", "Floor")';
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch();
-        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
+        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); $(".make-switch").val(true);</text>}
         $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $(".KoridorID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".KoridorID")[0].selectedIndex = 0; $(".KoridorID")[1].selectedIndex = 0;
         $(".RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".RafID")[0].selectedIndex = 0; $(".RafID")[1].selectedIndex = 0;
+        $(".BolumID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".BolumID")[0].selectedIndex = 0; $(".BolumID")[1].selectedIndex = 0;
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
-        $('#ShelfListi').on('change', function () { FuncSearchBtn(); })
+        $('#SectionListi').on('change', function () { FuncSearchBtn(); })
     });
     function getCorridor(id, what) {
         $("#" + what + " option").remove();
@@ -202,19 +231,48 @@
             }
         });
     }
+    function getSection(id, what) {
+        $("#" + what + " option").remove();
+        $.ajax({
+            url: "/Section/SectionList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#" + what).prepend("<option value='0'>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
+                }
+            }
+        });
+    }
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
         var StoreId = $(".StoreListi option:selected").val();
         var CorridorId = $("#CorridorList option:selected").val();
         var ShelfId = $("#ShelfListi option:selected").val();
-        PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId) }));
+        var SectionId = $("#SectionListi option:selected").val();
+        PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId + "#" + SectionId) }));
     }
     function FloorReturn(Data) {
         FuncSearchBtn();
+        if (Data.Status == false) Modaldialog(Data.Message, "Hata", "Tamam", "btn-warning");
         CreateEdit('0');
     }
     function CreateEdit(Id) {
-        PartialView(FloorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+        if (Id == 0) {
+            $("#ID").val("0");
+            $("#Kat").val("");
+            $("#Boy").val("");
+            $("#En").val("");
+            $("#Derinlik").val("");
+            $("#Ozellik").val("");
+            $("#Aciklama").val("");
+        }
+        else
+            PartialView(FloorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
     }
     function InsertRefresh() {
         PartialView(FloorDetailUrl, "CreateEdit", '0');
