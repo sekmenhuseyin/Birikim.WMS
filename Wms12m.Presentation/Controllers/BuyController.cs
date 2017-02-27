@@ -77,6 +77,7 @@ namespace Wms12m.Presentation.Controllers
             //get list
             var list = db.WMS_STI.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).ToList();
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
+            ViewBag.Onay = db.WMS_IRS.Where(m => m.ID == tbl.IrsaliyeId).Select(m => m.Onay).FirstOrDefault();
             return PartialView("_GridPartial", list);
         }
         /// <summary>

@@ -106,7 +106,7 @@
             <div class="row import-content">
                 <form id="fileupload" action="/Uploads/Irsaliye" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="IrsaliyeId" id="IrsaliyeId" value="1" />
-                    <div class="row fileupload-buttonbar">
+                    <div class="fileupload-buttonbar">
                         <div class="col-lg-7" style="float:right; text-align:right; margin-right:15px;">
                             <div style="float:right;margin-left:40px;">
                                 <span class="btn green fileinput-button">
@@ -144,7 +144,7 @@
 <script src="~/Content/assets/global/plugins/jquery-file-upload/js/main.js"></script>
 <script>
     $(".import-content").hide();
-    var DeleteFunctionUrl = '@Url.Action("Delete1", "Buy")';
+    var DeleteFunctionUrl = '@Url.Action("Delete2", "Buy")';
     $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>");
     $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>");
     CreateNew();

@@ -116,6 +116,8 @@ namespace Wms12m.Business
                 WMS_IRS tbl = db.WMS_IRS.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
+                    db.GorevListesis.RemoveRange(db.GorevListesis.Where(m => m.IrsaliyeID == tbl.ID));
+                    db.WMS_STI.RemoveRange(db.WMS_STI.Where(m => m.IrsaliyeID == tbl.ID));
                     db.WMS_IRS.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;

@@ -59,6 +59,7 @@
     <Compile Include="Control\SiteCookies.cs" />
     <Compile Include="Control\SiteSessions.cs" />
     <Compile Include="Extension\Extensions.cs" />
+    <Compile Include="Extension\Functions.cs" />
     <Compile Include="Tables\Gorev.cs" />
     <Compile Include="MalKabul\MalKabulSTIOnay.cs" />
     <Compile Include="Tables\Stok.cs" />

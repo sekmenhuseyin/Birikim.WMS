@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 
-namespace Wms12m.Business
+namespace Wms12m
 {
     public static class Extensions
     {
