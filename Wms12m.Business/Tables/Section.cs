@@ -92,7 +92,6 @@ namespace Wms12m.Business
             {
                 return new TK_BOL();
             }
-
         }
         /// <summary>
         /// tüm listesi

@@ -1,4 +1,4 @@
-﻿@model USER01
+﻿@model USR01
 @{
     ViewBag.Title = "Giriş Yap";
     Layout = "~/Views/Shared/_Layout.Null.cshtml";
@@ -11,19 +11,19 @@
             @Html.ValidationSummary(true)
             <h3 class="form-title">Login to your account</h3>
             <div class="form-group">
-                <label class="control-label visible-ie8 visible-ie9">@Html.DisplayNameFor(a => a.UserName)</label>
+                <label class="control-label visible-ie8 visible-ie9">@Html.DisplayNameFor(a => a.Kod)</label>
                 <div class="input-icon">
                     <i class="fa fa-user"></i>
-                    @Html.TextBoxFor(Model => Model.UserName, new { @class = "form-control placeholder-no-fix", placeholder = "Kullanıcı Adı" })
+                    @Html.TextBoxFor(Model => Model.Kod, new { @class = "form-control placeholder-no-fix", placeholder = "Kullanıcı Adı" })
                     <span class="field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true" style="color:red;"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label visible-ie8 visible-ie9">@Html.DisplayNameFor(a => a.Password)</label>
+                <label class="control-label visible-ie8 visible-ie9">@Html.DisplayNameFor(a => a.Sifre)</label>
                 <div class="input-icon">
                     <i class="fa fa-lock"></i>
-                    @Html.PasswordFor(Model => Model.Password, new { @class = "form-control placeholder-no-fix", placeholder = "Kullanıcı Şifresi" })
-                    <span class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true" style="color:red;"></span>
+                    @Html.PasswordFor(Model => Model.Sifre, new { @class = "form-control placeholder-no-fix", placeholder = "Kullanıcı Şifresi" })
+                    <span class="field-validation-valid" data-valmsg-for="Sifre" data-valmsg-replace="true" style="color:red;"></span>
                 </div>
             </div>
             <div class="form-actions">
