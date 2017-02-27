@@ -79,10 +79,6 @@
       <Project>{8c1be237-38f4-4170-ae02-ac56d44fde73}</Project>
       <Name>Wms12m.Entity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Wms12m.Repository\Wms12m.Repository.csproj">
-      <Project>{46B145C2-528C-41D4-B305-E611C045BED7}</Project>
-      <Name>Wms12m.Repository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Wms12m.Security\Wms12m.Security.csproj">
       <Project>{f58a64ac-4465-4049-8006-2ff5c931ce3d}</Project>
       <Name>Wms12m.Security</Name>
