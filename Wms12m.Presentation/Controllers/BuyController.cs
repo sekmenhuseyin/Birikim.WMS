@@ -137,9 +137,18 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_GridNewPartial", new frmMalzeme());
         }
         /// <summary>
+        /// irsaliye sil
+        /// </summary>
+        public JsonResult Delete1(int ID)
+        {
+            Irsaliye tmpTable = new Irsaliye();
+            Result _Result = tmpTable.Delete(ID);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
         /// stok malzeme sil
         /// </summary>
-        public JsonResult Delete(int ID)
+        public JsonResult Delete2(int ID)
         {
             Stok tmpTable = new Stok();
             Result _Result = tmpTable.Delete(ID);

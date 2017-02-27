@@ -78,6 +78,13 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-md-3 control-label">Ağırlık Kapasitesi</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.AgirlikKapasite, new { @class = "form-control input-circle", @placeholder = "Ağırlık Kapasitesi" })
+                                    <span class="field-validation-valid" data-valmsg-for="AgirlikKapasite" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-md-3 control-label">Özellik</label>
                                 <div class="col-md-4">
                                     @Html.TextBoxFor(a => a.Ozellik, new { @class = "form-control input-circle", @placeholder = "Özellik" })
@@ -262,13 +269,14 @@
         CreateEdit('0');
     }
     function CreateEdit(Id) {
-        if (Id == 0) {
+        if (Id == 0) {            
             $("#ID").val("0");
             $("#Kat").val("");
-            $("#Boy").val("");
-            $("#En").val("");
-            $("#Derinlik").val("");
-            $("#Ozellik").val("");
+            $("#Boy").val("0");
+            $("#En").val("0");
+            $("#Derinlik").val("0");
+            $("#AgirlikKapasite").val("0");
+            $("#Ozellik").val("0");
             $("#Aciklama").val("");
         }
         else

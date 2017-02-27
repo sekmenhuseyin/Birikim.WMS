@@ -26,7 +26,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.Unvan)</td>
                                     <td>
                                         <button class="btn btn-primary input-circle" onclick="CopyValues('@item.ID','@item.SirketKod','@item.DepoID','@item.HesapKodu','@item.Unvan','@item.EvrakNo','@item.Tarih')">Seç</button>
-                                        <button value="btn btn-danger input-circle" onclick="Delete">Sil</button>
+                                        <button class="btn btn-danger input-circle" onclick="Delete('@item.ID', '/Buy/List', 'modalEditPage', '0', 'Buy/Delete1')">Sil</button>
                                     </td>
                                 </tr>
                             }

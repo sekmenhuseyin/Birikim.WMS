@@ -28,8 +28,9 @@ function PartialView(Url, Div, Id) {
     });
 }
 // silme için deleteıd ıd gönderme işlemi
-function FunctionDelete(deleteId) {
+function FunctionDelete(URL, deleteId) {
     var $Return = false;
+    if (URL == "") URL = DeleteFunctionUrl;
     $.ajax({
         url: DeleteFunctionUrl,
         type: 'POST',
@@ -71,11 +72,12 @@ function FunctionDelete(deleteId) {
 function CreateEditHide(CreateEditFunction) {
     $('#' + CreateEditFunction).html("");
 }
-// silme işleminde method silinecek nesne ile ilgili method belirtiyor,divname ise günceleme sonrası hangi div veya elementi günceliyecegini belirliyor
-function Delete(deleteId, Method, DivName, extraId) {
+// silme işleminde method silinecek nesne ile ilgili method belirtiyor,divname ise günceleme sonrası hangi div veya elementi güncelleyecegini belirliyor
+function Delete(deleteId, Method, DivName, extraId, URL) {
     ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz !!!', ' İşlemi', "Evet", 'btn-success', DeleteTriger, 'Hayır', 'btn-warning', null);
+    URL = URL || DeleteFunctionUrl;
     function DeleteTriger() {
-        var Status = FunctionDelete(deleteId);
+        var Status = FunctionDelete(URL, deleteId);
         if (Status) {
             PartialView(Method, DivName, JSON.stringify({ Id: extraId }));
         }

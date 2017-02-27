@@ -25,14 +25,14 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Koridor</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("KoridorID", null, htmlAttributes: new { @class = "form-control input-circle KoridorID", required = "required" })
+                                @Html.DropDownList("KoridorID", null, htmlAttributes: new { @class = "form-control input-circle KoridorID", required = "required", @onchange = "getShelf(this.value,'RafID');" })
                                 <span class="field-validation-valid" data-valmsg-for="CorrridorId" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Bölüm</label>
+                            <label class="col-md-3 control-label">Raf</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("BolumID", null, htmlAttributes: new { @class = "form-control input-circle BolumID", required = "required" })
+                                @Html.DropDownList("RafID", null, htmlAttributes: new { @class = "form-control input-circle RafID", required = "required", @onchange = "getSection(this.value,'BolumID');" })
                                 <span class="field-validation-valid" data-valmsg-for="ShelfList" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -62,6 +62,13 @@
                             <div class="col-md-4">
                                 @Html.TextBoxFor(a => a.Derinlik, new { @class = "form-control input-circle", @placeholder = "Derinlik" })
                                 <span class="field-validation-valid" data-valmsg-for="Derinlik" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Ağırlık Kapasitesi</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(a => a.AgirlikKapasite, new { @class = "form-control input-circle", @placeholder = "Ağırlık Kapasitesi" })
+                                <span class="field-validation-valid" data-valmsg-for="AgirlikKapasite" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
