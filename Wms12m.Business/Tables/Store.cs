@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Wms12m.Business
 {
-    public class Store : abstractStore<TK_DEP>
+    public class Store : abstractTables<TK_DEP>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();

@@ -3,7 +3,7 @@ using Wms12m.Entity;
 
 namespace Wms12m.Business
 {
-    public abstract class abstractStore<T>
+    public abstract class abstractTables<T>
     {
         public abstract T Detail(int Id);
         public abstract List<T> GetList();

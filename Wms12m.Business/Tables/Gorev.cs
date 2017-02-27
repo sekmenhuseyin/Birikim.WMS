@@ -2,11 +2,13 @@
 using System.Web;
 using System.Linq;
 using Wms12m.Entity;
-using Wms12m.Entity.Models;
 using Wms12m.Security;
+using Wms12m.Entity.Models;
+using System.Collections.Generic;
+
 namespace Wms12m.Business
 {
-    public class Gorev
+    public class Gorev : abstractTables<GorevListesi>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -102,18 +104,18 @@ namespace Wms12m.Business
         /// <summary>
         /// silme işlemi
         /// </summary>
-        public Result Delete(int ID)
+        public override Result Delete(int Id)
         {
             _Result = new Result();
             try
             {
-                GorevListesi tbl = db.GorevListesis.Where(m => m.ID == ID).FirstOrDefault();
+                GorevListesi tbl = db.GorevListesis.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
                     db.GorevListesis.Remove(tbl);
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Id = ID;
+                    _Result.Id = Id;
                     _Result.Status = true;
                 }
                 else
@@ -128,6 +130,26 @@ namespace Wms12m.Business
                 _Result.Status = false;
            }
             return _Result;
+        }
+
+        public override GorevListesi Detail(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<GorevListesi> GetList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<GorevListesi> GetList(int ParentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Result Operation(GorevListesi tbl)
+        {
+            throw new NotImplementedException();
         }
     }
 }

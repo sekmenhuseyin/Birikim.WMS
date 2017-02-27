@@ -4,10 +4,11 @@ using System.Linq;
 using Wms12m.Entity;
 using Wms12m.Security;
 using Wms12m.Entity.Models;
+using System.Collections.Generic;
 
 namespace Wms12m.Business
 {
-    public class Irsaliye
+    public class Irsaliye : abstractTables<WMS_IRS>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -71,6 +72,31 @@ namespace Wms12m.Business
                 _Result.Id = 0;
             }
             return _Result;
+        }
+
+        public override WMS_IRS Detail(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<WMS_IRS> GetList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<WMS_IRS> GetList(int ParentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Result Delete(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Result Operation(WMS_IRS tbl)
+        {
+            throw new NotImplementedException();
         }
     }
 }

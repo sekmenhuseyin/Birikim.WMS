@@ -6,17 +6,17 @@ using System.Collections.Generic;
 
 namespace Wms12m.Business
 {
-    public class Shelf : abstractStore<TK_RAF>
+    public class Corridor : abstractTables<TK_KOR>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
-        public override Result Operation(TK_RAF tbl)
+        public override Result Operation(TK_KOR tbl)
         {
             _Result = new Result();
-            if (tbl.Raf == "")
+            if (tbl.Koridor == "")
             {
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı !!!";
@@ -32,7 +32,7 @@ namespace Wms12m.Business
                     {
                         tbl.Kaydeden = SiteSessions.LoggedUserName;
                         tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                        db.TK_RAF.Add(tbl);
+                        db.TK_KOR.Add(tbl);
                     }
                     db.SaveChanges();
                     //result
@@ -57,10 +57,10 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                TK_RAF tbl = db.TK_RAF.Where(m => m.ID == Id).FirstOrDefault();
+                TK_KOR tbl = db.TK_KOR.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.TK_RAF.Remove(tbl);
+                    db.TK_KOR.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
@@ -82,31 +82,31 @@ namespace Wms12m.Business
         /// <summary>
         /// bir tanesinin ayrıntıları
         /// </summary>
-        public override TK_RAF Detail(int Id)
+        public override TK_KOR Detail(int Id)
         {
             try
             {
-                return db.TK_RAF.Where(m => m.ID == Id).FirstOrDefault();
+                return db.TK_KOR.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new TK_RAF();
+                return new TK_KOR();
             }
 
         }
         /// <summary>
         /// tüm listesi
         /// </summary>
-        public override List<TK_RAF> GetList()
+        public override List<TK_KOR> GetList()
         {
-            return db.TK_RAF.ToList();
+            return db.TK_KOR.ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<TK_RAF> GetList(int ParentId)
+        public override List<TK_KOR> GetList(int ParentId)
         {
-            return db.TK_RAF.Where(m=>m.KoridorID==ParentId).ToList();
+            return db.TK_KOR.Where(m => m.DepoID == ParentId).ToList();
         }
     }
 }

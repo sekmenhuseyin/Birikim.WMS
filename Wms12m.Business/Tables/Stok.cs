@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Business
 {
-    public class Stok
+    public class Stok : abstractTables<WMS_STI>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -48,17 +49,17 @@ namespace Wms12m.Business
         /// <summary>
         /// silme işlemleri
         /// </summary>
-        public Result Delete(int ID)
+        public override Result Delete(int Id)
         {
             _Result = new Result();
             try
             {
-                WMS_STI tbl = db.WMS_STI.Where(m => m.ID == ID).FirstOrDefault();
+                WMS_STI tbl = db.WMS_STI.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
                     db.WMS_STI.Remove(tbl);
                     db.SaveChanges();
-                    _Result.Id = ID;
+                    _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
                 }
@@ -74,6 +75,26 @@ namespace Wms12m.Business
                 _Result.Status = false;
             }
             return _Result;
+        }
+
+        public override WMS_STI Detail(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<WMS_STI> GetList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<WMS_STI> GetList(int ParentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Result Operation(WMS_STI tbl)
+        {
+            throw new NotImplementedException();
         }
     }
 }
