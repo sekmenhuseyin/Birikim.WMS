@@ -10,7 +10,7 @@ namespace Wms12m.Presentation.Controllers
 {
     public class ChapterController : RootController
     {
-        abstractStore<TK_BOL> ChapterOperation;
+        abstractTables<TK_BOL> ChapterOperation;
         /// <summary>
         /// anasayfası
         /// </summary>

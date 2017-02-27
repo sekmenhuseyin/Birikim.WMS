@@ -17,13 +17,13 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Role()
         {
-            this.USR01 = new HashSet<USR01>();
+            this.RolePerms = new HashSet<RolePerm>();
         }
     
         public int ID { get; set; }
         public string RoleName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<USR01> USR01 { get; set; }
+        public virtual ICollection<RolePerm> RolePerms { get; set; }
     }
 }

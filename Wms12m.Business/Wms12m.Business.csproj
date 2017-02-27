@@ -64,7 +64,7 @@
     <Compile Include="Tables\Stok.cs" />
     <Compile Include="Tables\Irsaliye.cs" />
     <Compile Include="Logger\Logger.cs" />
-    <Compile Include="Tables\User.cs" />
+    <Compile Include="Tables\Persons.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="abstract.cs" />
     <Compile Include="Tables\Section.cs" />

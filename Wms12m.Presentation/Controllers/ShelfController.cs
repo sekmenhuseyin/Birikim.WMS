@@ -10,7 +10,7 @@ namespace Wms12m.Presentation.Controllers
 {
     public class ShelfController : RootController
     {
-        abstractStore<TK_RAF> ShelfOperation;
+        abstractTables<TK_RAF> ShelfOperation;
         /// <summary>
         /// anasayfası
         /// </summary>

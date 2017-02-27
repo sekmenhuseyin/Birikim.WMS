@@ -23,18 +23,18 @@
         <AssociationConnector Association="MModel.FK_TK_KAT_TK_BOL" />
         <AssociationConnector Association="MModel.FK_TK_RAF_TK_KOR" />
         <AssociationConnector Association="MModel.FK_STI_IRS" />
-        <EntityTypeShape EntityType="MModel.USR01" Width="1.5" PointX="3.125" PointY="16.375" />
-        <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="12" PointY="16.5" />
-        <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="14.375" PointY="17.5" />
-        <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="5.625" PointY="16.375" />
-        <EntityTypeShape EntityType="MModel.UserPerm" Width="1.5" PointX="8.625" PointY="16.75" />
-        <AssociationConnector Association="MModel.FK_Perm_UserPerm2" />
-        <AssociationConnector Association="MModel.FK_RolePerm_Perm" />
-        <AssociationConnector Association="MModel.FK_USR01_Roles" />
         <EntityTypeShape EntityType="MModel.TK_DEP" Width="1.5" PointX="10.125" PointY="7" />
         <AssociationConnector Association="MModel.FK_GorevListesi_TK_DEP" />
         <AssociationConnector Association="MModel.FK_IRS_TK_DEP" />
         <AssociationConnector Association="MModel.FK_TK_KOR_TK_DEP" />
+        <EntityTypeShape EntityType="MModel.USR01" Width="1.5" PointX="5.75" PointY="14.75" />
+        <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="9.625" PointY="20.125" />
+        <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="9.375" PointY="16.125" />
+        <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="7.5" PointY="16.625" />
+        <EntityTypeShape EntityType="MModel.UserPerm" Width="1.5" PointX="7.5" PointY="19.25" />
+        <AssociationConnector Association="MModel.FK_Perm_UserPerm2" />
+        <AssociationConnector Association="MModel.FK_RolePerm_Perm" />
+        <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

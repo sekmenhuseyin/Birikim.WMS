@@ -27,5 +27,6 @@ namespace Wms12m.Entity.Models
         public string ModifiedUser { get; set; }
     
         public virtual Perm Perm { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

@@ -343,6 +343,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RolePerm_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="RolePerm" Type="Self.RolePerm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleName" />
+            </Principal>
+            <Dependent Role="RolePerm">
+              <PropertyRef Name="RoleName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_STI_IRS">
           <End Role="WMS_IRS" Type="Self.WMS_IRS" Multiplicity="1" />
           <End Role="WMS_STI" Type="Self.WMS_STI" Multiplicity="*" />
@@ -403,18 +415,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_USR01_Roles">
-          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
-          <End Role="USR01" Type="Self.USR01" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Roles">
-              <PropertyRef Name="RoleName" />
-            </Principal>
-            <Dependent Role="USR01">
-              <PropertyRef Name="RoleName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="ComboItemName" EntityType="Self.ComboItemName" Schema="dbo" store:Type="Tables" />
@@ -465,6 +465,10 @@
             <End Role="Perm" EntitySet="Perm" />
             <End Role="RolePerm" EntitySet="RolePerm" />
           </AssociationSet>
+          <AssociationSet Name="FK_RolePerm_Roles" Association="Self.FK_RolePerm_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RolePerm" EntitySet="RolePerm" />
+          </AssociationSet>
           <AssociationSet Name="FK_STI_IRS" Association="Self.FK_STI_IRS">
             <End Role="WMS_IRS" EntitySet="WMS_IRS" />
             <End Role="WMS_STI" EntitySet="WMS_STI" />
@@ -484,10 +488,6 @@
           <AssociationSet Name="FK_TK_RAF_TK_KOR" Association="Self.FK_TK_RAF_TK_KOR">
             <End Role="TK_KOR" EntitySet="TK_KOR" />
             <End Role="TK_RAF" EntitySet="TK_RAF" />
-          </AssociationSet>
-          <AssociationSet Name="FK_USR01_Roles" Association="Self.FK_USR01_Roles">
-            <End Role="Roles" EntitySet="Roles" />
-            <End Role="USR01" EntitySet="USR01" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -538,6 +538,19 @@
             <End Role="WMS_IRS" EntitySet="WMS_IRS" />
             <End Role="WMS_STI" EntitySet="WMS_STI" />
           </AssociationSet>
+          <EntitySet Name="TK_DEP" EntityType="MModel.TK_DEP" />
+          <AssociationSet Name="FK_GorevListesi_TK_DEP" Association="MModel.FK_GorevListesi_TK_DEP">
+            <End Role="TK_DEP" EntitySet="TK_DEP" />
+            <End Role="GorevListesi" EntitySet="GorevListesis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IRS_TK_DEP" Association="MModel.FK_IRS_TK_DEP">
+            <End Role="TK_DEP" EntitySet="TK_DEP" />
+            <End Role="WMS_IRS" EntitySet="WMS_IRS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TK_KOR_TK_DEP" Association="MModel.FK_TK_KOR_TK_DEP">
+            <End Role="TK_DEP" EntitySet="TK_DEP" />
+            <End Role="TK_KOR" EntitySet="TK_KOR" />
+          </AssociationSet>
           <EntitySet Name="USR01" EntityType="MModel.USR01" />
           <EntitySet Name="Perms" EntityType="MModel.Perm" />
           <EntitySet Name="RolePerms" EntityType="MModel.RolePerm" />
@@ -551,22 +564,9 @@
             <End Role="Perm" EntitySet="Perms" />
             <End Role="RolePerm" EntitySet="RolePerms" />
           </AssociationSet>
-          <AssociationSet Name="FK_USR01_Roles" Association="MModel.FK_USR01_Roles">
+          <AssociationSet Name="FK_RolePerm_Roles" Association="MModel.FK_RolePerm_Roles">
             <End Role="Role" EntitySet="Roles" />
-            <End Role="USR01" EntitySet="USR01" />
-          </AssociationSet>
-          <EntitySet Name="TK_DEP" EntityType="MModel.TK_DEP" />
-          <AssociationSet Name="FK_GorevListesi_TK_DEP" Association="MModel.FK_GorevListesi_TK_DEP">
-            <End Role="TK_DEP" EntitySet="TK_DEP" />
-            <End Role="GorevListesi" EntitySet="GorevListesis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_IRS_TK_DEP" Association="MModel.FK_IRS_TK_DEP">
-            <End Role="TK_DEP" EntitySet="TK_DEP" />
-            <End Role="WMS_IRS" EntitySet="WMS_IRS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TK_KOR_TK_DEP" Association="MModel.FK_TK_KOR_TK_DEP">
-            <End Role="TK_DEP" EntitySet="TK_DEP" />
-            <End Role="TK_KOR" EntitySet="TK_KOR" />
+            <End Role="RolePerm" EntitySet="RolePerms" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -832,132 +832,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="USR01">
-          <Key>
-            <PropertyRef Name="Sirket" />
-            <PropertyRef Name="Tip" />
-            <PropertyRef Name="Kod" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Sirket" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Tip" Type="Int16" Nullable="false" />
-          <Property Name="Kod" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Sifre" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="AdSoyad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Tema" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Admin" Type="Boolean" Nullable="false" />
-          <Property Name="Aktif" Type="Boolean" Nullable="false" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
-          <Property Name="KayitSaat" Type="Int32" Nullable="false" />
-          <Property Name="KayitKaynak" Type="Int16" Nullable="false" />
-          <Property Name="KayitSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
-          <Property Name="DegisSaat" Type="Int32" Nullable="false" />
-          <Property Name="DegisKaynak" Type="Int16" Nullable="false" />
-          <Property Name="DegisSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Role" Relationship="MModel.FK_USR01_Roles" FromRole="USR01" ToRole="Role" />
-        </EntityType>
-        <EntityType Name="Perm">
-          <Key>
-            <PropertyRef Name="PermName" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="PermName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
-          <Property Name="Type" Type="Int16" Nullable="false" />
-          <Property Name="AppType" Type="Int16" Nullable="false" />
-          <Property Name="Group" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RecordDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="UserPerms" Relationship="MModel.FK_Perm_UserPerm2" FromRole="Perm" ToRole="UserPerm" />
-          <NavigationProperty Name="RolePerms" Relationship="MModel.FK_RolePerm_Perm" FromRole="Perm" ToRole="RolePerm" />
-        </EntityType>
-        <EntityType Name="RolePerm">
-          <Key>
-            <PropertyRef Name="RoleName" />
-            <PropertyRef Name="PermName" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="PermName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Reading" Type="Boolean" Nullable="false" />
-          <Property Name="Writing" Type="Boolean" Nullable="false" />
-          <Property Name="Updating" Type="Boolean" Nullable="false" />
-          <Property Name="Deleting" Type="Boolean" Nullable="false" />
-          <Property Name="RecordDate" Type="DateTime" Precision="0" />
-          <Property Name="RecordUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
-          <Property Name="ModifiedUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Perm" Relationship="MModel.FK_RolePerm_Perm" FromRole="RolePerm" ToRole="Perm" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="RoleName" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="USR01" Relationship="MModel.FK_USR01_Roles" FromRole="Role" ToRole="USR01" />
-        </EntityType>
-        <EntityType Name="UserPerm">
-          <Key>
-            <PropertyRef Name="UserName" />
-            <PropertyRef Name="PermName" />
-          </Key>
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="PermName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Reading" Type="Boolean" Nullable="false" />
-          <Property Name="Writing" Type="Boolean" Nullable="false" />
-          <Property Name="Updating" Type="Boolean" Nullable="false" />
-          <Property Name="Deleting" Type="Boolean" Nullable="false" />
-          <Property Name="RecordDate" Type="DateTime" Precision="0" />
-          <Property Name="RecordUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
-          <Property Name="ModifiedUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Perm" Relationship="MModel.FK_Perm_UserPerm2" FromRole="UserPerm" ToRole="Perm" />
-        </EntityType>
-        <Association Name="FK_Perm_UserPerm2">
-          <End Type="MModel.Perm" Role="Perm" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="MModel.UserPerm" Role="UserPerm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Perm">
-              <PropertyRef Name="PermName" />
-            </Principal>
-            <Dependent Role="UserPerm">
-              <PropertyRef Name="PermName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RolePerm_Perm">
-          <End Type="MModel.Perm" Role="Perm" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="MModel.RolePerm" Role="RolePerm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Perm">
-              <PropertyRef Name="PermName" />
-            </Principal>
-            <Dependent Role="RolePerm">
-              <PropertyRef Name="PermName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_USR01_Roles">
-          <End Type="MModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="MModel.USR01" Role="USR01" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleName" />
-            </Principal>
-            <Dependent Role="USR01">
-              <PropertyRef Name="RoleName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="TK_DEP">
           <Key>
             <PropertyRef Name="ID" />
@@ -1008,6 +882,132 @@
             </Principal>
             <Dependent Role="TK_KOR">
               <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="USR01">
+          <Key>
+            <PropertyRef Name="Sirket" />
+            <PropertyRef Name="Tip" />
+            <PropertyRef Name="Kod" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sirket" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Tip" Type="Int16" Nullable="false" />
+          <Property Name="Kod" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Sifre" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="AdSoyad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Tema" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Admin" Type="Boolean" Nullable="false" />
+          <Property Name="Aktif" Type="Boolean" Nullable="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
+          <Property Name="KayitSaat" Type="Int32" Nullable="false" />
+          <Property Name="KayitKaynak" Type="Int16" Nullable="false" />
+          <Property Name="KayitSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+          <Property Name="DegisSaat" Type="Int32" Nullable="false" />
+          <Property Name="DegisKaynak" Type="Int16" Nullable="false" />
+          <Property Name="DegisSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Perm">
+          <Key>
+            <PropertyRef Name="PermName" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="PermName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Type" Type="Int16" Nullable="false" />
+          <Property Name="AppType" Type="Int16" Nullable="false" />
+          <Property Name="Group" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RecordDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="UserPerms" Relationship="MModel.FK_Perm_UserPerm2" FromRole="Perm" ToRole="UserPerm" />
+          <NavigationProperty Name="RolePerms" Relationship="MModel.FK_RolePerm_Perm" FromRole="Perm" ToRole="RolePerm" />
+        </EntityType>
+        <EntityType Name="RolePerm">
+          <Key>
+            <PropertyRef Name="RoleName" />
+            <PropertyRef Name="PermName" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PermName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Reading" Type="Boolean" Nullable="false" />
+          <Property Name="Writing" Type="Boolean" Nullable="false" />
+          <Property Name="Updating" Type="Boolean" Nullable="false" />
+          <Property Name="Deleting" Type="Boolean" Nullable="false" />
+          <Property Name="RecordDate" Type="DateTime" Precision="0" />
+          <Property Name="RecordUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Perm" Relationship="MModel.FK_RolePerm_Perm" FromRole="RolePerm" ToRole="Perm" />
+          <NavigationProperty Name="Role" Relationship="MModel.FK_RolePerm_Roles" FromRole="RolePerm" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleName" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RolePerms" Relationship="MModel.FK_RolePerm_Roles" FromRole="Role" ToRole="RolePerm" />
+        </EntityType>
+        <EntityType Name="UserPerm">
+          <Key>
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="PermName" />
+          </Key>
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PermName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Reading" Type="Boolean" Nullable="false" />
+          <Property Name="Writing" Type="Boolean" Nullable="false" />
+          <Property Name="Updating" Type="Boolean" Nullable="false" />
+          <Property Name="Deleting" Type="Boolean" Nullable="false" />
+          <Property Name="RecordDate" Type="DateTime" Precision="0" />
+          <Property Name="RecordUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Perm" Relationship="MModel.FK_Perm_UserPerm2" FromRole="UserPerm" ToRole="Perm" />
+        </EntityType>
+        <Association Name="FK_Perm_UserPerm2">
+          <End Type="MModel.Perm" Role="Perm" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MModel.UserPerm" Role="UserPerm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perm">
+              <PropertyRef Name="PermName" />
+            </Principal>
+            <Dependent Role="UserPerm">
+              <PropertyRef Name="PermName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePerm_Perm">
+          <End Type="MModel.Perm" Role="Perm" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MModel.RolePerm" Role="RolePerm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perm">
+              <PropertyRef Name="PermName" />
+            </Principal>
+            <Dependent Role="RolePerm">
+              <PropertyRef Name="PermName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePerm_Roles">
+          <End Type="MModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="MModel.RolePerm" Role="RolePerm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleName" />
+            </Principal>
+            <Dependent Role="RolePerm">
+              <PropertyRef Name="RoleName" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1179,6 +1179,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TK_DEP">
+            <EntityTypeMapping TypeName="MModel.TK_DEP">
+              <MappingFragment StoreEntitySet="TK_DEP">
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+                <ScalarProperty Name="SiraNo" ColumnName="SiraNo" />
+                <ScalarProperty Name="Depo" ColumnName="Depo" />
+                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="USR01">
             <EntityTypeMapping TypeName="MModel.USR01">
               <MappingFragment StoreEntitySet="USR01">
@@ -1257,21 +1272,6 @@
                 <ScalarProperty Name="Reading" ColumnName="Reading" />
                 <ScalarProperty Name="PermName" ColumnName="PermName" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TK_DEP">
-            <EntityTypeMapping TypeName="MModel.TK_DEP">
-              <MappingFragment StoreEntitySet="TK_DEP">
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
-                <ScalarProperty Name="SiraNo" ColumnName="SiraNo" />
-                <ScalarProperty Name="Depo" ColumnName="Depo" />
-                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

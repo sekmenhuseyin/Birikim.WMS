@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
-using Wms12m.Business;
 using Wms12m.Entity;
+using System.Web.Mvc;
+using Wms12m.Business;
+using System.Web.Security;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -16,18 +17,18 @@ namespace Wms12m.Presentation.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(USER01 P)
+        public ActionResult Login(USR01 P)
         {
-            AbstractPersons _Person = new Persons();
+            Persons _Person = new Persons();
             _Result = new Result();
             try
             {             
-                if (string.IsNullOrEmpty(P.UserName) || string.IsNullOrEmpty(P.Password)){}
+                if (string.IsNullOrEmpty(P.Kod) || string.IsNullOrEmpty(P.Sifre)){}
                 else
                 {
                     _Result = _Person.Login(P);
                     if (_Result.Id > 0)
-                        Authentication.CreateAuth((USER01)_Result.Data, false);
+                        Authentication.CreateAuth((USR01)_Result.Data, false);
                 }                
             }
             catch (Exception ex){

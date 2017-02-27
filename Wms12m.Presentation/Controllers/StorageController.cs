@@ -10,7 +10,7 @@ namespace Wms12m.Presentation.Controllers
 {
     public class StorageController : RootController
     {
-        abstractStore<TK_DEP> Operation;
+        abstractTables<TK_DEP> Operation;
         /// <summary>
         /// anasayfası
         /// </summary>
@@ -51,7 +51,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult StoreOperation(TK_DEP P)
         {
-            abstractStore<TK_DEP> Operation = new Store();
+            abstractTables<TK_DEP> Operation = new Store();
             Result _Result = Operation.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

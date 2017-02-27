@@ -35,7 +35,5 @@ namespace Wms12m.Entity.Models
         public int DegisSaat { get; set; }
         public short DegisKaynak { get; set; }
         public string DegisSurum { get; set; }
-    
-        public virtual Role Role { get; set; }
     }
 }

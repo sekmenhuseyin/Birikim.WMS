@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Web;
-using System.Web.Script.Serialization;
-using System.Web.Security;
 using Wms12m.Entity;
 using Wms12m.Security;
+using System.Web.Security;
+using Wms12m.Entity.Models;
+using System.Web.Script.Serialization;
 
 namespace Wms12m
 {
     public class Authentication
     {
-        public static void CreateAuth(USER01 person, bool rememberMe)
+        public static void CreateAuth(USR01 person, bool rememberMe)
         {
             var serializeModel = AuthIdentity(person, rememberMe);
             DateTime expiration = DateTime.Now.AddMinutes(HttpContext.Current.Session.Timeout);
@@ -25,7 +26,7 @@ namespace Wms12m
             var serializer = new JavaScriptSerializer();
             string userData = serializer.Serialize(serializeModel);
             var authTicket = new FormsAuthenticationTicket(1,
-                                                           person.UserName,
+                                                           person.Kod,
                                                            DateTime.Now,
                                                            expiration,
                                                            rememberMe,
@@ -36,7 +37,7 @@ namespace Wms12m
             cookie.Expires = expiration;
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
-        public static void UpdateAuth(USER01 person)
+        public static void UpdateAuth(USR01 person)
         {
             var user = (HttpContext.Current.User as CustomPrincipal).AppIdentity.User;
             var serializeModel = AuthIdentity(person, true);
@@ -54,7 +55,7 @@ namespace Wms12m
             cookie.Expires = ticket.Expiration;
             HttpContext.Current.Response.Cookies.Set(cookie);
         }
-        private static CustomPrincipalSerializeModel AuthIdentity(USER01 person, bool isUpdate)
+        private static CustomPrincipalSerializeModel AuthIdentity(USR01 person, bool isUpdate)
         {
             var identity = HttpContext.Current.User as CustomPrincipal;
             var serializeModel = new CustomPrincipalSerializeModel();
@@ -67,10 +68,10 @@ namespace Wms12m
                 },
                 User = new UserIdentity()
                 {
-                    UserName = person.UserName,
-                    LogonUserName = person.UserName,
-                    FirstName = person.Name,
-                    Id = person.Id
+                    UserName = person.Kod,
+                    LogonUserName = person.AdSoyad,
+                    FirstName = person.AdSoyad,
+                    Id = person.ID
                 },
                 Action = new ActionIdentity()
                 {

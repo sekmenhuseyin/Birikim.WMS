@@ -10,7 +10,7 @@ namespace Wms12m.Presentation.Controllers
 {
     public class CorridorController : RootController
     {
-        abstractStore<TK_KOR> Operation;
+        abstractTables<TK_KOR> Operation;
         /// <summary>
         /// anasayfası
         /// </summary>

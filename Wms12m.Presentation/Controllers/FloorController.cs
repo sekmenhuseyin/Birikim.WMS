@@ -10,7 +10,7 @@ namespace Wms12m.Presentation.Controllers
 {
     public class FloorController : RootController
     {
-        abstractStore<TK_KAT> FloorOperation;
+        abstractTables<TK_KAT> FloorOperation;
         /// <summary>
         /// anasayfası
         /// </summary>
