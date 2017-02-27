@@ -1,4 +1,4 @@
-﻿@model Store04
+﻿@model TK_BOL
 @{
     ViewBag.Title = "Bölüm Kartı işlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    @using (Ajax.BeginForm("ChapteriOperation", "Chapter", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ChapterFrom", OnSuccess = "FuncSearchBtn()" }, new { @class = "form-horizontal" }))
+                    @using (Ajax.BeginForm("SectioniOperation", "Section", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "SectionFrom", OnSuccess = "SectionReturn" }, new { @class = "form-horizontal" }))
                     {
                         @Html.HiddenFor(a => a.ID)
                         @Html.AntiForgeryToken()
@@ -47,20 +47,6 @@
                                 <div class="col-md-4">
                                     @Html.TextBoxFor(a => a.Bolum, new { @class = "form-control input-circle", @placeholder = "Bölüm" })
                                     <span class="field-validation-valid" data-valmsg-for="Bolum" data-valmsg-replace="true" style="color:red;"></span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">En</label>
-                                <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.En, new { @class = "form-control input-circle", @placeholder = "En" })
-                                    <span class="field-validation-valid" data-valmsg-for="En" data-valmsg-replace="true" style="color:red;"></span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Kat Ağırlık Kapasite</label>
-                                <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.KatAgirlik, new { @class = "form-control input-circle", @placeholder = "KatAgirlik" })
-                                    <span class="field-validation-valid" data-valmsg-for="KatAgirlik" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -136,7 +122,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="ChapterGrid" style="padding:10px;margin-top:30px;"></div>
+                    <div id="SectionGrid" style="padding:10px;margin-top:30px;"></div>
                 </div>
             </div>
         </div>
@@ -148,12 +134,13 @@
 <script src="@Url.Content("~/Content/assets/pages/scripts/components-bootstrap-touchspin.min.js")" type="text/javascript"></script>
 <script src="~/Content/Scripts/_Operation.js"></script>
 <script type="text/javascript">
-    var ChapterGridUrl = '@Url.Action("ChapterGridPartial", "Chapter")';
-    var ChapterDetailUrl = '@Url.Action("ChapterDetailPartial", "Chapter")';
-    var DeleteFunctionUrl = '@Url.Action("Delete", "Chapter")';
+    var SectionGridUrl = '@Url.Action("SectionGridPartial", "Section")';
+    var SectionDetailUrl = '@Url.Action("SectionDetailPartial", "Section")';
+    var DeleteFunctionUrl = '@Url.Action("Delete", "Section")';
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch();
-        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
+        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); $(".make-switch").val(true);</text>}
         $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $(".KoridorID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".KoridorID")[0].selectedIndex = 0; $(".KoridorID")[1].selectedIndex = 0;
         $(".RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".RafID")[0].selectedIndex = 0; $(".RafID")[1].selectedIndex = 0;
@@ -200,16 +187,19 @@
         var StoreId = $(".StoreListi option:selected").val();
         var CorridorId = $("#CorridorList option:selected").val();
         var ShelfId = $("#ShelfListi option:selected").val();
-        PartialView(ChapterGridUrl, 'ChapterGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId) }));
+        PartialView(SectionGridUrl, 'SectionGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId) }));
     }
-    function ChapterReturn(Data) {
+    function SectionReturn(Data) {
         FuncSearchBtn();
+        if (Data.Status == false) Modaldialog(Data.Message, "Hata", "Tamam", "btn-warning");
         CreateEdit('0');
     }
     function CreateEdit(Id) {
-        PartialView(ChapterDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
-    }
-    function InsertRefresh() {
-        PartialView(ChapterDetailUrl, "CreateEdit", '0');
+        if (Id == 0) {
+            $("#ID").val("0");
+            $("#Bolum").val("");
+        }
+        else
+            PartialView(SectionDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
     }
 </script>

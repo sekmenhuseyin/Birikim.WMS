@@ -16,54 +16,52 @@ namespace Wms12m.Business
         public override Result Operation(TK_RAF tbl)
         {
             _Result = new Result();
-            if (tbl.Raf == "")
+            if (tbl.Raf == "" || tbl.KoridorID == 0)
             {
                 _Result.Id = 0;
-                _Result.Message = "İşlem Hatalı !!!";
+                _Result.Message = "Eksik Bilgi Girdiniz";
                 _Result.Status = false;
+                return _Result;
             }
-            else
+            var kontrol = db.TK_RAF.Where(m => m.Raf == tbl.Raf && m.KoridorID == tbl.KoridorID && m.ID != tbl.ID).FirstOrDefault();
+            if (kontrol != null)
             {
-                var kontrol = db.TK_RAF.Where(m => m.Raf == tbl.Raf && m.KoridorID == tbl.KoridorID && m.ID != tbl.ID).FirstOrDefault();
-                if (kontrol != null)
+                _Result.Id = 0;
+                _Result.Message = "Bu isim kullanılıyor";
+                _Result.Status = false;
+                return _Result;
+            }
+            try
+            {
+                tbl.Degistiren = SiteSessions.LoggedUserName;
+                tbl.DegisTarih = DateTime.Today.ToOADateInt();
+                if (tbl.ID == 0)
                 {
-                    _Result.Id = 0;
-                    _Result.Message = "Bu isim kullanılıyor";
-                    _Result.Status = false;
-                    return _Result;
+                    tbl.Kaydeden = SiteSessions.LoggedUserName;
+                    tbl.KayitTarih = DateTime.Today.ToOADateInt();
+                    db.TK_RAF.Add(tbl);
                 }
-                try
+                else
                 {
-                    tbl.Degistiren = SiteSessions.LoggedUserName;
-                    tbl.DegisTarih = DateTime.Today.ToOADateInt();
-                    if (tbl.ID == 0)
-                    {
-                        tbl.Kaydeden = SiteSessions.LoggedUserName;
-                        tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                        db.TK_RAF.Add(tbl);
-                    }
-                    else
-                    {
-                        var tmp = Detail(tbl.ID);
-                        tmp.Raf = tbl.Raf;
-                        tmp.KoridorID = tbl.KoridorID;
-                        tmp.SiraNo = tbl.SiraNo;
-                        tmp.Aktif = tbl.Aktif;
-                        tmp.Degistiren = tbl.Degistiren;
-                        tmp.DegisTarih = tbl.DegisTarih;
-                    }
-                    db.SaveChanges();
-                    //result
-                    _Result.Id = tbl.ID;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
+                    var tmp = Detail(tbl.ID);
+                    tmp.Raf = tbl.Raf;
+                    tmp.KoridorID = tbl.KoridorID;
+                    tmp.SiraNo = tbl.SiraNo;
+                    tmp.Aktif = tbl.Aktif;
+                    tmp.Degistiren = tbl.Degistiren;
+                    tmp.DegisTarih = tbl.DegisTarih;
                 }
-                catch (Exception ex)
-                {
-                    _Result.Id = 0;
-                    _Result.Message = "İşlem Hatalı: " + ex.Message;
-                    _Result.Status = false;
-                }
+                db.SaveChanges();
+                //result
+                _Result.Id = tbl.ID;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                _Result.Id = 0;
+                _Result.Message = "İşlem Hatalı: " + ex.Message;
+                _Result.Status = false;
             }
             return _Result;
         }

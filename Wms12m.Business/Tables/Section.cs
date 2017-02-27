@@ -16,36 +16,52 @@ namespace Wms12m.Business
         public override Result Operation(TK_BOL tbl)
         {
             _Result = new Result();
-            if (tbl.Bolum == "")
+            if (tbl.Bolum == "" || tbl.RafID == 0)
             {
                 _Result.Id = 0;
-                _Result.Message = "İşlem Hatalı !!!";
+                _Result.Message = "Eksik Bilgi Girdiniz";
                 _Result.Status = false;
+                return _Result;
             }
-            else
+            var kontrol = db.TK_BOL.Where(m => m.Bolum == tbl.Bolum && m.RafID == tbl.RafID && m.ID != tbl.ID).FirstOrDefault();
+            if (kontrol != null)
             {
-                try
+                _Result.Id = 0;
+                _Result.Message = "Bu isim kullanılıyor";
+                _Result.Status = false;
+                return _Result;
+            }
+            try
+            {
+                tbl.Degistiren = SiteSessions.LoggedUserName;
+                tbl.DegisTarih = DateTime.Today.ToOADateInt();
+                if (tbl.ID == 0)
                 {
-                    tbl.Degistiren = SiteSessions.LoggedUserName;
-                    tbl.DegisTarih = DateTime.Today.ToOADateInt();
-                    if (tbl.ID == 0)
-                    {
-                        tbl.Kaydeden = SiteSessions.LoggedUserName;
-                        tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                        db.TK_BOL.Add(tbl);
-                    }
-                    db.SaveChanges();
-                    //result
-                    _Result.Id = tbl.ID;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
+                    tbl.Kaydeden = SiteSessions.LoggedUserName;
+                    tbl.KayitTarih = DateTime.Today.ToOADateInt();
+                    db.TK_BOL.Add(tbl);
                 }
-                catch (Exception ex)
+                else
                 {
-                    _Result.Id = 0;
-                    _Result.Message = "İşlem Hatalı: " + ex.Message;
-                    _Result.Status = false;
+                    var tmp = Detail(tbl.ID);
+                    tmp.Bolum = tbl.Bolum;
+                    tmp.RafID = tbl.RafID;
+                    tmp.SiraNo = tbl.SiraNo;
+                    tmp.Aktif = tbl.Aktif;
+                    tmp.Degistiren = tbl.Degistiren;
+                    tmp.DegisTarih = tbl.DegisTarih;
                 }
+                db.SaveChanges();
+                //result
+                _Result.Id = tbl.ID;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                _Result.Id = 0;
+                _Result.Message = "İşlem Hatalı: " + ex.Message;
+                _Result.Status = false;
             }
             return _Result;
         }

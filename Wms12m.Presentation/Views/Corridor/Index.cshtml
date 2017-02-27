@@ -128,9 +128,7 @@
     function CreateEdit(Id) {
         if (Id == 0) {
             $("#ID").val("0");
-            $(".DepoID")[0].selectedIndex = 0;
             $("#Koridor").val("");
-            $("#Raf").val("");
         }
         else
             PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));

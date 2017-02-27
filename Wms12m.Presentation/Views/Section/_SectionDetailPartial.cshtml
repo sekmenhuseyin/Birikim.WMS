@@ -1,4 +1,4 @@
-﻿@model Store04
+﻿@model TK_BOL
 <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.css")" rel="stylesheet" type="text/css" />
 <div class="row">
     <div class="col-md-12">
@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("ChapteriOperation", "Chapter", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ChapterFrom", OnSuccess = "ChapterReturn" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("SectioniOperation", "Section", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "SectionFrom", OnSuccess = "SectionReturn" }, new { @class = "form-horizontal" }))
                 {
                     @Html.HiddenFor(a => a.ID)
                     @Html.AntiForgeryToken()
@@ -41,20 +41,6 @@
                             <div class="col-md-4">
                                 @Html.TextBoxFor(a => a.Bolum, new { @class = "form-control input-circle", @placeholder = "Bölüm" })
                                 <span class="field-validation-valid" data-valmsg-for="Bolum" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">En</label>
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.En, new { @class = "form-control input-circle", @placeholder = "En" })
-                                <span class="field-validation-valid" data-valmsg-for="En" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Kat Ağırlık Kapasite</label>
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.KatAgirlik, new { @class = "form-control input-circle", @placeholder = "KatAgirlik" })
-                                <span class="field-validation-valid" data-valmsg-for="KatAgirlik" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
