@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Wms12m.Entity;
-using Wms12m.Repository;
 using Wms12m.Security;
+using Wms12m.Repository;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Wms12m.Business
 {
-    public class Persons : AbstractPersons
+    public class Persons : abstractTables<USER01>
     {
         CacheControl<USER01> Cache;
         Result _Result;
@@ -17,9 +17,9 @@ namespace Wms12m.Business
         USER01 P;
         List<USER01> PList;
         private IUnitOfWork _unitOfWork;
-        public override Result Login(USER01 P)
+        public Result Login(USER01 P)
         {
-            P.Password = CryptographyExtension.Encrypt(P.Password);
+            P.Password = CryptographyExtension.Sifrele(P.Password);
             _Result = new Result();
             try
             {
@@ -70,7 +70,7 @@ namespace Wms12m.Business
                 return new USER01();
             }
         }
-        public override List<USER01> PersonList()
+        public override List<USER01> GetList()
         {           
             PList = new List<USER01>();
             try
@@ -87,18 +87,18 @@ namespace Wms12m.Business
                 return PList;
             }
         }
-        private List<USER01> GetList(int Status)
+        public override List<USER01> GetList(int ParentId)
         {
             _unitOfWork = new UnitOfWork();
             PList = new List<USER01>();
             Cache = new CacheControl<USER01>();
             try
             {
-                if (Status == (int)GetListStatus.Refresh)
+                if (ParentId == (int)GetListStatus.Refresh)
                 {
                     PList = ((Task.Run(() => _unitOfWork.Repository<USER01>().All("USR01")).Result)).ToList();
                 }
-                else if (Status == (int)GetListStatus.Close)
+                else if (ParentId == (int)GetListStatus.Close)
                 {
                     if (Cache.CacheGet(CacheKeys.PersonsCacheKeys.DataListOfUSER01) ==null)
                     {
@@ -121,6 +121,15 @@ namespace Wms12m.Business
                 _Logger.Writer(_Log);
                 return new List<USER01>();
             }
+        }
+        public override Result Delete(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Result Operation(USER01 tbl)
+        {
+            throw new NotImplementedException();
         }
     }
 }
