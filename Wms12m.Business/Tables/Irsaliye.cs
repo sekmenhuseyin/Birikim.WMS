@@ -48,7 +48,7 @@ namespace Wms12m.Business
                         gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-1";
                         gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
                         gorev.DurumID = ComboNames.Açık.ToInt32();
-                        gorev.OlusturanID = SiteSessions.LoggedUserNo;
+                        gorev.Olusturan = SiteSessions.LoggedUserName;
                         gorev.OlusturmaTarihi = DateTime.Today.ToOADate().ToInt32();
                         gorev.IrsaliyeID = tablo.ID;
                         gorev.Bilgi = "IrsNo: " + tablo.ID.ToString() + ", Tedarikçi: " + tbl.Unvan;

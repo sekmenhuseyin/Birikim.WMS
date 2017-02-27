@@ -31,14 +31,14 @@
           <Property Name="GorevNo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="GorevTipiID" Type="int" Nullable="false" />
           <Property Name="DurumID" Type="int" Nullable="false" />
-          <Property Name="OlusturanID" Type="int" Nullable="false" />
+          <Property Name="Olusturan" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="OlusturmaTarihi" Type="int" Nullable="false" />
           <Property Name="OlusturmaSaati" Type="int" Nullable="false" />
           <Property Name="Bilgi" Type="nvarchar" MaxLength="250" />
           <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
           <Property Name="IrsaliyeID" Type="int" />
-          <Property Name="GorevliID" Type="int" />
-          <Property Name="AtayanID" Type="int" />
+          <Property Name="Gorevli" Type="varchar" MaxLength="50" />
+          <Property Name="Atayan" Type="varchar" MaxLength="50" />
           <Property Name="AtamaTarihi" Type="int" />
           <Property Name="BitisTarihi" Type="int" />
           <Property Name="BitisSaati" Type="int" />
@@ -67,7 +67,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Sirket" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Tip" Type="smallint" Nullable="false" />
-          <Property Name="Kod" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Kod" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Sifre" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="AdSoyad" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
@@ -498,7 +498,6 @@
           <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
           <EntitySet Name="ComboItemNames" EntityType="MModel.ComboItemName" />
           <EntitySet Name="ComboNames" EntityType="MModel.ComboName" />
-          <EntitySet Name="GorevListesis" EntityType="MModel.GorevListesi" />
           <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
           <EntitySet Name="TK_BOL" EntityType="MModel.TK_BOL" />
           <EntitySet Name="TK_KAT" EntityType="MModel.TK_KAT" />
@@ -509,18 +508,6 @@
           <AssociationSet Name="FK_ComboItemName_ComboName" Association="MModel.FK_ComboItemName_ComboName">
             <End Role="ComboName" EntitySet="ComboNames" />
             <End Role="ComboItemName" EntitySet="ComboItemNames" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GorevListesi_ComboItemName" Association="MModel.FK_GorevListesi_ComboItemName">
-            <End Role="ComboItemName" EntitySet="ComboItemNames" />
-            <End Role="GorevListesi" EntitySet="GorevListesis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GorevListesi_ComboItemName1" Association="MModel.FK_GorevListesi_ComboItemName1">
-            <End Role="ComboItemName" EntitySet="ComboItemNames" />
-            <End Role="GorevListesi" EntitySet="GorevListesis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GorevListesi_IRS" Association="MModel.FK_GorevListesi_IRS">
-            <End Role="WMS_IRS" EntitySet="WMS_IRS" />
-            <End Role="GorevListesi" EntitySet="GorevListesis" />
           </AssociationSet>
           <AssociationSet Name="FK_TK_BOL_TK_RAF" Association="MModel.FK_TK_BOL_TK_RAF">
             <End Role="TK_RAF" EntitySet="TK_RAF" />
@@ -539,10 +526,6 @@
             <End Role="WMS_STI" EntitySet="WMS_STI" />
           </AssociationSet>
           <EntitySet Name="TK_DEP" EntityType="MModel.TK_DEP" />
-          <AssociationSet Name="FK_GorevListesi_TK_DEP" Association="MModel.FK_GorevListesi_TK_DEP">
-            <End Role="TK_DEP" EntitySet="TK_DEP" />
-            <End Role="GorevListesi" EntitySet="GorevListesis" />
-          </AssociationSet>
           <AssociationSet Name="FK_IRS_TK_DEP" Association="MModel.FK_IRS_TK_DEP">
             <End Role="TK_DEP" EntitySet="TK_DEP" />
             <End Role="WMS_IRS" EntitySet="WMS_IRS" />
@@ -568,6 +551,23 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="RolePerm" EntitySet="RolePerms" />
           </AssociationSet>
+          <EntitySet Name="GorevListesis" EntityType="MModel.GorevListesi" />
+          <AssociationSet Name="FK_GorevListesi_ComboItemName" Association="MModel.FK_GorevListesi_ComboItemName">
+            <End Role="ComboItemName" EntitySet="ComboItemNames" />
+            <End Role="GorevListesi" EntitySet="GorevListesis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevListesi_ComboItemName1" Association="MModel.FK_GorevListesi_ComboItemName1">
+            <End Role="ComboItemName" EntitySet="ComboItemNames" />
+            <End Role="GorevListesi" EntitySet="GorevListesis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevListesi_IRS" Association="MModel.FK_GorevListesi_IRS">
+            <End Role="WMS_IRS" EntitySet="WMS_IRS" />
+            <End Role="GorevListesi" EntitySet="GorevListesis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevListesi_TK_DEP" Association="MModel.FK_GorevListesi_TK_DEP">
+            <End Role="TK_DEP" EntitySet="TK_DEP" />
+            <End Role="GorevListesi" EntitySet="GorevListesis" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -584,7 +584,7 @@
           <NavigationProperty Name="ComboName" Relationship="MModel.FK_ComboItemName_ComboName" FromRole="ComboItemName" ToRole="ComboName" />
           <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_ComboItemName" FromRole="ComboItemName" ToRole="GorevListesi" />
           <NavigationProperty Name="GorevListesis1" Relationship="MModel.FK_GorevListesi_ComboItemName1" FromRole="ComboItemName" ToRole="GorevListesi" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="ComboName">
           <Key>
             <PropertyRef Name="ID" />
@@ -593,31 +593,6 @@
           <Property Name="ComboName1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ComboVisible" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ComboItemNames" Relationship="MModel.FK_ComboItemName_ComboName" FromRole="ComboName" ToRole="ComboItemName" />
-        </EntityType>
-        <EntityType Name="GorevListesi">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DepoID" Type="Int32" Nullable="false" />
-          <Property Name="GorevNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="GorevTipiID" Type="Int32" Nullable="false" />
-          <Property Name="DurumID" Type="Int32" Nullable="false" />
-          <Property Name="OlusturanID" Type="Int32" Nullable="false" />
-          <Property Name="OlusturmaTarihi" Type="Int32" Nullable="false" />
-          <Property Name="OlusturmaSaati" Type="Int32" Nullable="false" />
-          <Property Name="Bilgi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="IrsaliyeID" Type="Int32" />
-          <Property Name="GorevliID" Type="Int32" />
-          <Property Name="AtayanID" Type="Int32" />
-          <Property Name="AtamaTarihi" Type="Int32" />
-          <Property Name="BitisTarihi" Type="Int32" />
-          <Property Name="BitisSaati" Type="Int32" />
-          <NavigationProperty Name="ComboItemName" Relationship="MModel.FK_GorevListesi_ComboItemName" FromRole="GorevListesi" ToRole="ComboItemName" />
-          <NavigationProperty Name="ComboItemName1" Relationship="MModel.FK_GorevListesi_ComboItemName1" FromRole="GorevListesi" ToRole="ComboItemName" />
-          <NavigationProperty Name="WMS_IRS" Relationship="MModel.FK_GorevListesi_IRS" FromRole="GorevListesi" ToRole="WMS_IRS" />
-          <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_GorevListesi_TK_DEP" FromRole="GorevListesi" ToRole="TK_DEP" />
         </EntityType>
         <EntityType Name="Olcu">
           <Key>
@@ -719,9 +694,9 @@
           <Property Name="KayitTarih" Type="Int32" Nullable="false" />
           <Property Name="Onay" Type="Boolean" Nullable="false" />
           <Property Name="Unvan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_IRS" FromRole="WMS_IRS" ToRole="GorevListesi" />
           <NavigationProperty Name="WMS_STI" Relationship="MModel.FK_STI_IRS" FromRole="WMS_IRS" ToRole="WMS_STI" />
           <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_IRS_TK_DEP" FromRole="WMS_IRS" ToRole="TK_DEP" />
+          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_IRS" FromRole="WMS_IRS" ToRole="GorevListesi" />
         </EntityType>
         <EntityType Name="WMS_STI">
           <Key>
@@ -745,42 +720,6 @@
             </Principal>
             <Dependent Role="ComboItemName">
               <PropertyRef Name="ComboID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GorevListesi_ComboItemName">
-          <End Type="MModel.ComboItemName" Role="ComboItemName" Multiplicity="1" />
-          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItemName">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevListesi">
-              <PropertyRef Name="GorevTipiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GorevListesi_ComboItemName1">
-          <End Type="MModel.ComboItemName" Role="ComboItemName" Multiplicity="1" />
-          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItemName">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevListesi">
-              <PropertyRef Name="DurumID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GorevListesi_IRS">
-          <End Type="MModel.WMS_IRS" Role="WMS_IRS" Multiplicity="0..1" />
-          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WMS_IRS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevListesi">
-              <PropertyRef Name="IrsaliyeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -845,22 +784,10 @@
           <Property Name="KayitTarih" Type="Int32" Nullable="false" />
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_TK_DEP" FromRole="TK_DEP" ToRole="GorevListesi" />
           <NavigationProperty Name="WMS_IRS" Relationship="MModel.FK_IRS_TK_DEP" FromRole="TK_DEP" ToRole="WMS_IRS" />
           <NavigationProperty Name="TK_KOR" Relationship="MModel.FK_TK_KOR_TK_DEP" FromRole="TK_DEP" ToRole="TK_KOR" />
+          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_TK_DEP" FromRole="TK_DEP" ToRole="GorevListesi" />
         </EntityType>
-        <Association Name="FK_GorevListesi_TK_DEP">
-          <End Type="MModel.TK_DEP" Role="TK_DEP" Multiplicity="1" />
-          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TK_DEP">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevListesi">
-              <PropertyRef Name="DepoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_IRS_TK_DEP">
           <End Type="MModel.TK_DEP" Role="TK_DEP" Multiplicity="1" />
           <End Type="MModel.WMS_IRS" Role="WMS_IRS" Multiplicity="*" />
@@ -894,7 +821,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Sirket" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Tip" Type="Int16" Nullable="false" />
-          <Property Name="Kod" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Kod" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Sifre" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="AdSoyad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -1011,6 +938,79 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="GorevListesi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepoID" Type="Int32" Nullable="false" />
+          <Property Name="GorevNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GorevTipiID" Type="Int32" Nullable="false" />
+          <Property Name="DurumID" Type="Int32" Nullable="false" />
+          <Property Name="Olusturan" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OlusturmaTarihi" Type="Int32" Nullable="false" />
+          <Property Name="OlusturmaSaati" Type="Int32" Nullable="false" />
+          <Property Name="Bilgi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IrsaliyeID" Type="Int32" />
+          <Property Name="Gorevli" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Atayan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AtamaTarihi" Type="Int32" />
+          <Property Name="BitisTarihi" Type="Int32" />
+          <Property Name="BitisSaati" Type="Int32" />
+          <NavigationProperty Name="ComboItemName" Relationship="MModel.FK_GorevListesi_ComboItemName" FromRole="GorevListesi" ToRole="ComboItemName" />
+          <NavigationProperty Name="ComboItemName1" Relationship="MModel.FK_GorevListesi_ComboItemName1" FromRole="GorevListesi" ToRole="ComboItemName" />
+          <NavigationProperty Name="WMS_IRS" Relationship="MModel.FK_GorevListesi_IRS" FromRole="GorevListesi" ToRole="WMS_IRS" />
+          <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_GorevListesi_TK_DEP" FromRole="GorevListesi" ToRole="TK_DEP" />
+        </EntityType>
+        <Association Name="FK_GorevListesi_ComboItemName">
+          <End Type="MModel.ComboItemName" Role="ComboItemName" Multiplicity="1" />
+          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItemName">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="GorevTipiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevListesi_ComboItemName1">
+          <End Type="MModel.ComboItemName" Role="ComboItemName" Multiplicity="1" />
+          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItemName">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="DurumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevListesi_IRS">
+          <End Type="MModel.WMS_IRS" Role="WMS_IRS" Multiplicity="0..1" />
+          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WMS_IRS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevListesi_TK_DEP">
+          <End Type="MModel.TK_DEP" Role="TK_DEP" Multiplicity="1" />
+          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TK_DEP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1040,28 +1040,6 @@
               <MappingFragment StoreEntitySet="ComboName">
                 <ScalarProperty Name="ComboVisible" ColumnName="ComboVisible" />
                 <ScalarProperty Name="ComboName1" ColumnName="ComboName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GorevListesis">
-            <EntityTypeMapping TypeName="MModel.GorevListesi">
-              <MappingFragment StoreEntitySet="GorevListesi">
-                <ScalarProperty Name="BitisSaati" ColumnName="BitisSaati" />
-                <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
-                <ScalarProperty Name="AtamaTarihi" ColumnName="AtamaTarihi" />
-                <ScalarProperty Name="AtayanID" ColumnName="AtayanID" />
-                <ScalarProperty Name="GorevliID" ColumnName="GorevliID" />
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
-                <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
-                <ScalarProperty Name="OlusturmaSaati" ColumnName="OlusturmaSaati" />
-                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
-                <ScalarProperty Name="OlusturanID" ColumnName="OlusturanID" />
-                <ScalarProperty Name="DurumID" ColumnName="DurumID" />
-                <ScalarProperty Name="GorevTipiID" ColumnName="GorevTipiID" />
-                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
-                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1272,6 +1250,28 @@
                 <ScalarProperty Name="Reading" ColumnName="Reading" />
                 <ScalarProperty Name="PermName" ColumnName="PermName" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GorevListesis">
+            <EntityTypeMapping TypeName="MModel.GorevListesi">
+              <MappingFragment StoreEntitySet="GorevListesi">
+                <ScalarProperty Name="BitisSaati" ColumnName="BitisSaati" />
+                <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
+                <ScalarProperty Name="AtamaTarihi" ColumnName="AtamaTarihi" />
+                <ScalarProperty Name="Atayan" ColumnName="Atayan" />
+                <ScalarProperty Name="Gorevli" ColumnName="Gorevli" />
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
+                <ScalarProperty Name="OlusturmaSaati" ColumnName="OlusturmaSaati" />
+                <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
+                <ScalarProperty Name="Olusturan" ColumnName="Olusturan" />
+                <ScalarProperty Name="DurumID" ColumnName="DurumID" />
+                <ScalarProperty Name="GorevTipiID" ColumnName="GorevTipiID" />
+                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

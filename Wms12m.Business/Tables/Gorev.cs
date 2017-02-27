@@ -31,7 +31,7 @@ namespace Wms12m.Business
                 gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-1";
                 gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
                 gorev.DurumID = ComboNames.Açık.ToInt32();
-                gorev.OlusturanID = SiteSessions.LoggedUserNo;
+                gorev.Olusturan = SiteSessions.LoggedUserName;
                 gorev.OlusturmaTarihi = DateTime.Today.ToOADate().ToInt32();
                 gorev.IrsaliyeID = tbl.IrsaliyeID;
                 gorev.Bilgi = "IrsNo: " + tbl.IrsaliyeID.ToString();
@@ -63,6 +63,7 @@ namespace Wms12m.Business
                     tmp.Aciklama = tbl.Aciklama;
                     tmp.Bilgi = tbl.Bilgi;
                     tmp.DurumID = tbl.DurumID;
+                    if (tbl.DurumID == ComboNames.Tamamlanan.ToInt32()) tmp.BitisTarihi = DateTime.Today.ToOADateInt();
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -88,8 +89,8 @@ namespace Wms12m.Business
             {
                 try
                 {
-                    tmp.GorevliID = tbl.GorevliID;
-                    tmp.AtayanID = SiteSessions.LoggedUserNo;
+                    tmp.Gorevli = db.USR01.Where(m => m.ID == tbl.GorevliID).Select(m => m.Kod).FirstOrDefault();
+                    tmp.Atayan = SiteSessions.LoggedUserName;
                     tmp.AtamaTarihi = DateTime.Today.ToOADate().ToInt32();
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";

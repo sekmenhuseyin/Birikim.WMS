@@ -17,9 +17,9 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TK_DEP()
         {
-            this.GorevListesis = new HashSet<GorevListesi>();
             this.WMS_IRS = new HashSet<WMS_IRS>();
             this.TK_KOR = new HashSet<TK_KOR>();
+            this.GorevListesis = new HashSet<GorevListesi>();
         }
     
         public int ID { get; set; }
@@ -33,10 +33,10 @@ namespace Wms12m.Entity.Models
         public int DegisTarih { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevListesi> GorevListesis { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WMS_IRS> WMS_IRS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TK_KOR> TK_KOR { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevListesi> GorevListesis { get; set; }
     }
 }
