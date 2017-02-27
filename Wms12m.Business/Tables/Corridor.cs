@@ -24,6 +24,14 @@ namespace Wms12m.Business
             }
             else
             {
+                var kontrol = db.TK_KOR.Where(m => m.Koridor == tbl.Koridor && m.DepoID == tbl.DepoID && m.ID != tbl.ID).FirstOrDefault();
+                if (kontrol != null)
+                {
+                    _Result.Id = 0;
+                    _Result.Message = "Bu isim kullanılıyor";
+                    _Result.Status = false;
+                    return _Result;
+                }
                 try
                 {
                     tbl.Degistiren = SiteSessions.LoggedUserName;

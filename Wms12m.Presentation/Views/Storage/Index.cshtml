@@ -112,6 +112,7 @@
     });
     function StoreReturn(Data) {
         FuncSearchBtn();
+        if (Data.Status == false) Modaldialog(Data.Message, "Hata", "Tamam", "btn-warning");
         CreateEdit('0');
     }
     function CreateEdit(Id) {

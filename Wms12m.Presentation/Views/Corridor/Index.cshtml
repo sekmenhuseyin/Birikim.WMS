@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    @using (Ajax.BeginForm("CorridorOperation", "Corridor", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "CorridorFrom", OnSuccess = "FuncSearchBtn" }, new { @class = "form-horizontal" }))
+                    @using (Ajax.BeginForm("CorridorOperation", "Corridor", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "CorridorFrom", OnSuccess = "CorridorReturn" }, new { @class = "form-horizontal" }))
                     {
                         @Html.HiddenFor(a => a.ID)
                         @Html.AntiForgeryToken()
@@ -122,6 +122,7 @@
     }
     function CorridorReturn(Data) {
         FuncSearchBtn();
+        if (Data.Status == false) Modaldialog(Data.Message, "Hata", "Tamam", "btn-warning");
         CreateEdit('0');
     }
     function CreateEdit(Id) {
