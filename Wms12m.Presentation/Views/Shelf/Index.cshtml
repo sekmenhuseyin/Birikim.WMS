@@ -1,4 +1,4 @@
-﻿@model Store03
+﻿@model TK_RAF
 @{
     ViewBag.Title = "Raf Kartı işlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="portlet-body form">
-                    @using (Ajax.BeginForm("ShelfiOperation", "Shelf", new { }, new AjaxOptions{InsertionMode = InsertionMode.Replace,UpdateTargetId = "ShelfFrom",OnSuccess = "FuncSearchBtn()" }, new { @class = "form-horizontal" }))
+                    @using (Ajax.BeginForm("ShelfiOperation", "Shelf", new { }, new AjaxOptions{InsertionMode = InsertionMode.Replace,UpdateTargetId = "ShelfFrom",OnSuccess = "ShelfReturn" }, new { @class = "form-horizontal" }))
                     {
                         @Html.HiddenFor(a => a.ID)
                         @Html.AntiForgeryToken()
@@ -38,22 +38,15 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Raf</label>
                                 <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.Raf, new { @class = "form-control input-circle", @placeholder = "Raf" })
+                                    @Html.TextBoxFor(a => a.Raf, new { @class = "form-control input-circle", @placeholder = "Raf", required = "required" })
                                     <span class="field-validation-valid" data-valmsg-for="ShelfName" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Sıra</label>
                                 <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
+                                    @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control", required = "required" })
                                     <span class="field-validation-valid" data-valmsg-for="Sort" data-valmsg-replace="true" style="color:red;"></span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Derinlik</label>
-                                <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.Derinlik, new { @class = "form-control input-circle" })
-                                    <span class="field-validation-valid" data-valmsg-for="Derinlik" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -132,7 +125,8 @@
     var DeleteFunctionUrl = '@Url.Action("Delete", "Shelf")';
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch();
-        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
+        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); $(".make-switch").val(true);</text>}
         $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
         $('#CorridorList').on('change', function () { FuncSearchBtn(); })
@@ -154,9 +148,6 @@
             }
         });
     }
-    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
-        $(".make-switch").val(data)
-    });
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
         var StoreId = $(".StoreListi option:selected").val();
@@ -167,12 +158,17 @@
     }
     function ShelfReturn(Data) {
         FuncSearchBtn();
+        if (Data.Status == false) Modaldialog(Data.Message, "Hata", "Tamam", "btn-warning");
         CreateEdit('0');
     }
     function CreateEdit(Id) {
-        PartialView(ShelfDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
-    }
-    function InsertRefresh() {
-        PartialView(ShelfDetailUrl, "CreateEdit", '0');
+        if (Id == 0) {
+            $("#ID").val("0");
+            $(".DepoID")[0].selectedIndex = 0;
+            $("#KoridorID")[0].selectedIndex = 0;
+            $("#Raf").val("");
+        }
+        else
+            PartialView(ShelfDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
     }
 </script>

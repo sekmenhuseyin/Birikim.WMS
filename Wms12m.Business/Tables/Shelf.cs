@@ -24,6 +24,14 @@ namespace Wms12m.Business
             }
             else
             {
+                var kontrol = db.TK_RAF.Where(m => m.Raf == tbl.Raf && m.KoridorID == tbl.KoridorID && m.ID != tbl.ID).FirstOrDefault();
+                if (kontrol != null)
+                {
+                    _Result.Id = 0;
+                    _Result.Message = "Bu isim kullanılıyor";
+                    _Result.Status = false;
+                    return _Result;
+                }
                 try
                 {
                     tbl.Degistiren = SiteSessions.LoggedUserName;
@@ -33,6 +41,16 @@ namespace Wms12m.Business
                         tbl.Kaydeden = SiteSessions.LoggedUserName;
                         tbl.KayitTarih = DateTime.Today.ToOADateInt();
                         db.TK_RAF.Add(tbl);
+                    }
+                    else
+                    {
+                        var tmp = Detail(tbl.ID);
+                        tmp.Raf = tbl.Raf;
+                        tmp.KoridorID = tbl.KoridorID;
+                        tmp.SiraNo = tbl.SiraNo;
+                        tmp.Aktif = tbl.Aktif;
+                        tmp.Degistiren = tbl.Degistiren;
+                        tmp.DegisTarih = tbl.DegisTarih;
                     }
                     db.SaveChanges();
                     //result

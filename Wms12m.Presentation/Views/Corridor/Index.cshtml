@@ -31,14 +31,14 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Koridor</label>
                                 <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.Koridor, new { @class = "form-control input-circle", @placeholder = "Koridor" })
+                                    @Html.TextBoxFor(a => a.Koridor, new { @class = "form-control input-circle", @placeholder = "Koridor", required = "required" })
                                     <span class="field-validation-valid" data-valmsg-for="Koridor" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Sıra</label>
                                 <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
+                                    @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control", required = "required" })
                                     <span class="field-validation-valid" data-valmsg-for="SiraNo" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
@@ -110,7 +110,7 @@
         $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $(".make-switch").bootstrapSwitch();
         $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
-        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
+        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); $(".make-switch").val(true);</text>}
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
         FuncSearchBtn();
         $('.StoreListi').on('change', function () { FuncSearchBtn(); })
@@ -126,9 +126,13 @@
         CreateEdit('0');
     }
     function CreateEdit(Id) {
-        PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
-    }
-    function InsertRefresh() {
-        PartialView(CorridorDetailUrl, "CreateEdit", '0');
+        if (Id == 0) {
+            $("#ID").val("0");
+            $(".DepoID")[0].selectedIndex = 0;
+            $("#Koridor").val("");
+            $("#Raf").val("");
+        }
+        else
+            PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
     }
 </script>

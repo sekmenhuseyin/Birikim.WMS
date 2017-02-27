@@ -1,5 +1,5 @@
-﻿@model List<Store03>
-@if (((List<Store03>)Model).Count() > 0)
+﻿@model List<TK_RAF>
+@if (Model.Count() > 0)
 {
     <table class="table table-striped table-bordered table-hover" id="sample_1">
         <thead>
@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Store03 item in Model)
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>@item.Raf</td>
@@ -27,11 +27,7 @@
     </table>
 }
 else
-{
-    <div>
-        Kayıt Bulunamadı
-    </div>
-}
+{<div>Kayıt Bulunamadı</div>}
 <script type="text/javascript">
     $(".make-switch").bootstrapSwitch();
 </script>

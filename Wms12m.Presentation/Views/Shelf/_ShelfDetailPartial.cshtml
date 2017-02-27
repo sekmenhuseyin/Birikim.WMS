@@ -1,4 +1,4 @@
-﻿@model Store03
+﻿@model TK_RAF
 <link href="@Url.Content("~/Content/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.css")" rel="stylesheet" type="text/css" />
 <div class="row">
     <div class="col-md-12">
@@ -32,22 +32,15 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Raf</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Raf, new { @class = "form-control input-circle", @placeholder = "Raf" })
+                                @Html.TextBoxFor(a => a.Raf, new { @class = "form-control input-circle", @placeholder = "Raf", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="ShelfName" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Sıra</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control" })
+                                @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="Sort" data-valmsg-replace="true" style="color:red;"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Derinlik</label>
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Derinlik, new { @class = "form-control input-circle" })
-                                <span class="field-validation-valid" data-valmsg-for="Derinlik" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
