@@ -28,11 +28,21 @@ namespace Wms12m.Business
                 {
                     tbl.Degistiren = SiteSessions.LoggedUserName;
                     tbl.DegisTarih = DateTime.Today.ToOADateInt();
-                    if (tbl.ID==0)
+                    if (tbl.ID == 0)
                     {
                         tbl.Kaydeden = SiteSessions.LoggedUserName;
                         tbl.KayitTarih = DateTime.Today.ToOADateInt();
                         db.TK_DEP.Add(tbl);
+                    }
+                    else
+                    {
+                        var tmp = Detail(tbl.ID);
+                        tmp.Depo = tbl.Depo;
+                        tmp.DepoKodu = tbl.DepoKodu;
+                        tmp.SiraNo = tbl.SiraNo;
+                        tmp.Aktif = tbl.Aktif;
+                        tmp.Degistiren = tbl.Degistiren;
+                        tmp.DegisTarih = tbl.DegisTarih;
                     }
                     db.SaveChanges();
                     //result

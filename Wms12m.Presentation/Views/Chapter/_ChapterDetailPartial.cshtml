@@ -95,6 +95,6 @@
         $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
             $(".make-switch").val(data)
         });
-        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
+        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); $(".make-switch").val(true);</text>}
     });
 </script>

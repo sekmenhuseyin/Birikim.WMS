@@ -1,4 +1,4 @@
-﻿@model Store02
+﻿@model TK_KOR
 @{
     ViewBag.Title = "Koridor Kartı işlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -109,12 +109,12 @@
     $(document).ready(function () {
         $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $(".make-switch").bootstrapSwitch();
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
         @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); </text>}
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
         FuncSearchBtn();
         $('.StoreListi').on('change', function () { FuncSearchBtn(); })
     });
-    $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
         var StoreId = $(".StoreListi option:selected").val();

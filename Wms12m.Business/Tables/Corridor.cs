@@ -34,6 +34,16 @@ namespace Wms12m.Business
                         tbl.KayitTarih = DateTime.Today.ToOADateInt();
                         db.TK_KOR.Add(tbl);
                     }
+                    else
+                    {
+                        var tmp = Detail(tbl.ID);
+                        tmp.Koridor = tbl.Koridor;
+                        tmp.DepoID = tbl.DepoID;
+                        tmp.SiraNo = tbl.SiraNo;
+                        tmp.Aktif = tbl.Aktif;
+                        tmp.Degistiren = tbl.Degistiren;
+                        tmp.DegisTarih = tbl.DegisTarih;
+                    }
                     db.SaveChanges();
                     //result
                     _Result.Id = tbl.ID;

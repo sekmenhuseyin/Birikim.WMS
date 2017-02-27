@@ -1,4 +1,4 @@
-﻿@model List<Store01>
+﻿@model List<TK_DEP>
 <table class="table table-striped table-bordered table-hover" id="sample_1">
     <thead>
         <tr>
@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (Store01 item in Model)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>@item.DepoKodu</td>
