@@ -1077,6 +1077,55 @@
           <Property Name="ROW_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
+        <EntityType Name="TTY">
+          <Key>
+            <PropertyRef Name="MalKodu" />
+            <PropertyRef Name="Chk" />
+            <PropertyRef Name="KartTip" />
+          </Key>
+          <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Chk" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="SatMalKodu" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="SatMalAdi" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BarKodNo1" Type="varchar" MaxLength="52" Nullable="false" />
+          <Property Name="B1Birim" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="B1Operator" Type="smallint" Nullable="false" />
+          <Property Name="B1KatSayi" Type="float" Nullable="false" />
+          <Property Name="BarKodNo2" Type="varchar" MaxLength="52" Nullable="false" />
+          <Property Name="B2Birim" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="B2Operator" Type="smallint" Nullable="false" />
+          <Property Name="B2KatSayi" Type="float" Nullable="false" />
+          <Property Name="BarKodNo3" Type="varchar" MaxLength="52" Nullable="false" />
+          <Property Name="B3Birim" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="B3Operator" Type="smallint" Nullable="false" />
+          <Property Name="B3KatSayi" Type="float" Nullable="false" />
+          <Property Name="MaxSiparis" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="MinSiparis" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="BekSiparis" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="BekRezervasyon" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="SonFaturaNo" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="SonFaturaTarih" Type="int" Nullable="false" />
+          <Property Name="SonMiktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="NetBirimFiyat" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="NetBirimFiyatDov" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="TesTeminSuresi" Type="int" Nullable="false" />
+          <Property Name="KartTip" Type="smallint" Nullable="false" />
+          <Property Name="KayitTuru" Type="smallint" Nullable="false" />
+          <Property Name="GuvenlikKod" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="KayitTarih" Type="int" Nullable="false" />
+          <Property Name="KayitSaat" Type="int" Nullable="false" />
+          <Property Name="KayitKaynak" Type="smallint" Nullable="false" />
+          <Property Name="KayitSurum" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DegisTarih" Type="int" Nullable="false" />
+          <Property Name="DegisSaat" Type="int" Nullable="false" />
+          <Property Name="DegisKaynak" Type="smallint" Nullable="false" />
+          <Property Name="DegisSurum" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="CheckSum" Type="smallint" Nullable="false" />
+          <Property Name="Row_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="FINSATModelStoreContainer">
           <EntitySet Name="CHK" EntityType="Self.CHK" Schema="FINSAT633" store:Type="Tables" />
           <EntitySet Name="DST" EntityType="Self.DST" Schema="FINSAT633" store:Type="Tables" />
@@ -1085,6 +1134,7 @@
           <EntitySet Name="SPI" EntityType="Self.SPI" Schema="FINSAT633" store:Type="Tables" />
           <EntitySet Name="STI" EntityType="Self.STI" Schema="FINSAT633" store:Type="Tables" />
           <EntitySet Name="STK" EntityType="Self.STK" Schema="FINSAT633" store:Type="Tables" />
+          <EntitySet Name="TTY" EntityType="Self.TTY" Schema="FINSAT633" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -2102,6 +2152,7 @@
           <EntitySet Name="STIs" EntityType="Self.STI" />
           <EntitySet Name="STKs" EntityType="Self.STK" />
           <EntitySet Name="DSTs" EntityType="FINSATModel.DST" />
+          <EntitySet Name="TTies" EntityType="FINSATModel.TTY" />
         </EntityContainer>
         <EntityType Name="DST">
           <Key>
@@ -2169,6 +2220,55 @@
           <Property Name="CheckSum" Type="Int16" Nullable="false" />
           <Property Name="TahminiStok" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
           <Property Name="ROW_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="TTY">
+          <Key>
+            <PropertyRef Name="MalKodu" />
+            <PropertyRef Name="Chk" />
+            <PropertyRef Name="KartTip" />
+          </Key>
+          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Chk" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SatMalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="SatMalAdi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BarKodNo1" Type="String" Nullable="false" MaxLength="52" FixedLength="false" Unicode="false" />
+          <Property Name="B1Birim" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="B1Operator" Type="Int16" Nullable="false" />
+          <Property Name="B1KatSayi" Type="Double" Nullable="false" />
+          <Property Name="BarKodNo2" Type="String" Nullable="false" MaxLength="52" FixedLength="false" Unicode="false" />
+          <Property Name="B2Birim" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="B2Operator" Type="Int16" Nullable="false" />
+          <Property Name="B2KatSayi" Type="Double" Nullable="false" />
+          <Property Name="BarKodNo3" Type="String" Nullable="false" MaxLength="52" FixedLength="false" Unicode="false" />
+          <Property Name="B3Birim" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="B3Operator" Type="Int16" Nullable="false" />
+          <Property Name="B3KatSayi" Type="Double" Nullable="false" />
+          <Property Name="MaxSiparis" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="MinSiparis" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="BekSiparis" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="BekRezervasyon" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="SonFaturaNo" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="SonFaturaTarih" Type="Int32" Nullable="false" />
+          <Property Name="SonMiktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="NetBirimFiyat" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="NetBirimFiyatDov" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="TesTeminSuresi" Type="Int32" Nullable="false" />
+          <Property Name="KartTip" Type="Int16" Nullable="false" />
+          <Property Name="KayitTuru" Type="Int16" Nullable="false" />
+          <Property Name="GuvenlikKod" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
+          <Property Name="KayitSaat" Type="Int32" Nullable="false" />
+          <Property Name="KayitKaynak" Type="Int16" Nullable="false" />
+          <Property Name="KayitSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+          <Property Name="DegisSaat" Type="Int32" Nullable="false" />
+          <Property Name="DegisKaynak" Type="Int16" Nullable="false" />
+          <Property Name="DegisSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="CheckSum" Type="Int16" Nullable="false" />
+          <Property Name="Row_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
       </Schema>
@@ -3232,6 +3332,54 @@
                 <ScalarProperty Name="AzamiStok" ColumnName="AzamiStok" />
                 <ScalarProperty Name="KritikStok" ColumnName="KritikStok" />
                 <ScalarProperty Name="Depo" ColumnName="Depo" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TTies">
+            <EntityTypeMapping TypeName="FINSATModel.TTY">
+              <MappingFragment StoreEntitySet="TTY">
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="Row_ID" ColumnName="Row_ID" />
+                <ScalarProperty Name="CheckSum" ColumnName="CheckSum" />
+                <ScalarProperty Name="DegisSurum" ColumnName="DegisSurum" />
+                <ScalarProperty Name="DegisKaynak" ColumnName="DegisKaynak" />
+                <ScalarProperty Name="DegisSaat" ColumnName="DegisSaat" />
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitSurum" ColumnName="KayitSurum" />
+                <ScalarProperty Name="KayitKaynak" ColumnName="KayitKaynak" />
+                <ScalarProperty Name="KayitSaat" ColumnName="KayitSaat" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="GuvenlikKod" ColumnName="GuvenlikKod" />
+                <ScalarProperty Name="KayitTuru" ColumnName="KayitTuru" />
+                <ScalarProperty Name="KartTip" ColumnName="KartTip" />
+                <ScalarProperty Name="TesTeminSuresi" ColumnName="TesTeminSuresi" />
+                <ScalarProperty Name="NetBirimFiyatDov" ColumnName="NetBirimFiyatDov" />
+                <ScalarProperty Name="NetBirimFiyat" ColumnName="NetBirimFiyat" />
+                <ScalarProperty Name="SonMiktar" ColumnName="SonMiktar" />
+                <ScalarProperty Name="SonFaturaTarih" ColumnName="SonFaturaTarih" />
+                <ScalarProperty Name="SonFaturaNo" ColumnName="SonFaturaNo" />
+                <ScalarProperty Name="BekRezervasyon" ColumnName="BekRezervasyon" />
+                <ScalarProperty Name="BekSiparis" ColumnName="BekSiparis" />
+                <ScalarProperty Name="MinSiparis" ColumnName="MinSiparis" />
+                <ScalarProperty Name="MaxSiparis" ColumnName="MaxSiparis" />
+                <ScalarProperty Name="B3KatSayi" ColumnName="B3KatSayi" />
+                <ScalarProperty Name="B3Operator" ColumnName="B3Operator" />
+                <ScalarProperty Name="B3Birim" ColumnName="B3Birim" />
+                <ScalarProperty Name="BarKodNo3" ColumnName="BarKodNo3" />
+                <ScalarProperty Name="B2KatSayi" ColumnName="B2KatSayi" />
+                <ScalarProperty Name="B2Operator" ColumnName="B2Operator" />
+                <ScalarProperty Name="B2Birim" ColumnName="B2Birim" />
+                <ScalarProperty Name="BarKodNo2" ColumnName="BarKodNo2" />
+                <ScalarProperty Name="B1KatSayi" ColumnName="B1KatSayi" />
+                <ScalarProperty Name="B1Operator" ColumnName="B1Operator" />
+                <ScalarProperty Name="B1Birim" ColumnName="B1Birim" />
+                <ScalarProperty Name="BarKodNo1" ColumnName="BarKodNo1" />
+                <ScalarProperty Name="SatMalAdi" ColumnName="SatMalAdi" />
+                <ScalarProperty Name="SatMalKodu" ColumnName="SatMalKodu" />
+                <ScalarProperty Name="Chk" ColumnName="Chk" />
                 <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -21,9 +21,8 @@ namespace Wms12m.Entity.Models
         {
         }
 
-        
-         public FINSATEntities(EntityConnection entityConnection) :
-                               base(entityConnection, false)
+        public FINSATEntities(EntityConnection entityConnection) :
+                              base(entityConnection, false)
         {
         }
 
@@ -39,5 +38,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<STI> STIs { get; set; }
         public virtual DbSet<STK> STKs { get; set; }
         public virtual DbSet<DST> DSTs { get; set; }
+        public virtual DbSet<TTY> TTies { get; set; }
     }
 }

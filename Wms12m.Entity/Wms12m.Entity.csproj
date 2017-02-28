@@ -65,6 +65,9 @@
     <Compile Include="Models\FTD.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TTY.cs">
+      <DependentUpon>ModelFinsat.tt</DependentUpon>
+    </Compile>
     <Compile Include="Viewmodels\frmGorev.cs" />
     <Compile Include="Viewmodels\frmIrsaliye.cs" />
     <Compile Include="Viewmodels\frmMalzeme.cs" />

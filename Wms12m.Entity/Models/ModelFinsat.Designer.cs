@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model '\\SQLSERVER\Kullanıcılar$\yazilim4\Desktop\WMS12M\WMS12M\Wms12m.Entity\Models\ModelFinsat.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Dropbox\Projects\ASP .NET\WMS\Wms12m.Entity\Models\ModelFinsat.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
