@@ -18,7 +18,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Irsaliye(int IrsNo, HttpPostedFileBase file)
         {
-            if (file == null || file.ContentLength == 0) return null;
+            if (file == null || file.ContentLength == 0 || IrsNo==0) return null;
             Stream stream = file.InputStream;
             IExcelDataReader reader;
             //dosya tipini bul
@@ -33,14 +33,15 @@ namespace Wms12m.Presentation.Controllers
             reader.IsFirstRowAsColumnNames = true;
             DataSet result = reader.AsDataSet();
             if (result.Tables.Count == 0) return null;
-            if (result.Tables[0].Rows != null) return null;
+            if (result.Tables[0].Rows == null) return null;
             var irsaliye = db.WMS_IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
             using (DinamikModelContext Dinamik = new DinamikModelContext(irsaliye.SirketKod))
             {
                 for (int i = 0; i < result.Tables[0].Rows.Count; i++)
                 {
-                    DataRow dr = result.Tables[0].Rows[0];
-                    string malkodu = Dinamik.Context.TTies.Where(m => m.SatMalKodu == dr["MalKodu"].ToString() && m.Chk == irsaliye.HesapKodu).Select(m => m.MalKodu).FirstOrDefault();
+                    DataRow dr = result.Tables[0].Rows[i];
+                    string tmp = dr["MalKodu"].ToString();
+                    string malkodu = Dinamik.Context.TTies.Where(m => m.SatMalKodu == tmp && m.Chk == irsaliye.HesapKodu).Select(m => m.MalKodu).FirstOrDefault();
                     //add new
                     try
                     {
