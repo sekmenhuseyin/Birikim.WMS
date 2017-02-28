@@ -21,7 +21,6 @@ namespace Wms12m.Presentation.Controllers
             if (file == null || file.ContentLength == 0) return null;
             Stream stream = file.InputStream;
             IExcelDataReader reader;
-            Result _Result = null;
             //dosya tipini bul
             if (file.FileName.EndsWith(".xls"))
                 reader = ExcelReaderFactory.CreateBinaryReader(stream);
@@ -30,32 +29,32 @@ namespace Wms12m.Presentation.Controllers
             else
                 return null;
             //ilk satır başlık
+            Result _Result = null;
             reader.IsFirstRowAsColumnNames = true;
             DataSet result = reader.AsDataSet();
-            if (result.Tables[0].Rows != null)
+            if (result.Tables.Count == 0) return null;
+            if (result.Tables[0].Rows != null) return null;
+            var irsaliye = db.WMS_IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
+            using (DinamikModelContext Dinamik = new DinamikModelContext(irsaliye.SirketKod))
             {
-                var irsaliye = db.WMS_IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
-                using (DinamikModelContext Dinamik = new DinamikModelContext(irsaliye.SirketKod))
+                for (int i = 0; i < result.Tables[0].Rows.Count; i++)
                 {
-                    for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+                    DataRow dr = result.Tables[0].Rows[0];
+                    string malkodu = Dinamik.Context.TTies.Where(m => m.SatMalKodu == dr["MalKodu"].ToString() && m.Chk == irsaliye.HesapKodu).Select(m => m.MalKodu).FirstOrDefault();
+                    //add new
+                    try
                     {
-                        DataRow dr = result.Tables[0].Rows[0];
-                        string malkodu = Dinamik.Context.TTies.Where(m => m.SatMalKodu == dr["MalKodu"].ToString() && m.Chk == irsaliye.HesapKodu).Select(m => m.MalKodu).FirstOrDefault();
-                        //add new
-                        try
-                        {
-                            WMS_STI sti = new WMS_STI();
-                            sti.IrsaliyeID = IrsNo;
-                            sti.MalKodu = malkodu;
-                            sti.Miktar = Convert.ToDecimal(dr["Miktar"]);
-                            sti.Birim = dr["Birim"].ToString();
-                            Stok tmpTable = new Stok();
-                            _Result = tmpTable.Operation(sti);
-                        }
-                        catch (Exception)
-                        {
-                            return null;
-                        }
+                        WMS_STI sti = new WMS_STI();
+                        sti.IrsaliyeID = IrsNo;
+                        sti.MalKodu = malkodu;
+                        sti.Miktar = Convert.ToDecimal(dr["Miktar"]);
+                        sti.Birim = dr["Birim"].ToString();
+                        Stok tmpTable = new Stok();
+                        _Result = tmpTable.Operation(sti);
+                    }
+                    catch (Exception)
+                    {
+                        return null;
                     }
                 }
             }

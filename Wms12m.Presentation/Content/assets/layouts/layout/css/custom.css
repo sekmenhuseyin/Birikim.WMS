@@ -1,5 +1,4 @@
 #fileupload input{display:none;}/*upload form hide inputs*/
-#progress .bar {height: 18px;background: green;}
 .loader {
     position: fixed;
     left: 0px;
