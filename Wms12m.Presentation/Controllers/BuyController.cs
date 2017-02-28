@@ -33,7 +33,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult SiparisList()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null) return null;
+            if (id == null || id.ToString2() == "0") return null;
             string sirket = id.ToString().Left(2);
             string kod = id.ToString().Mid(2, 99);
             using (DinamikModelContext Dinamik = new DinamikModelContext(sirket))

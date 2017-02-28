@@ -16,35 +16,31 @@ namespace Wms12m.Business
         /// </summary>
         public Result Login(USR01 P)
         {
-            P.Sifre = CryptographyExtension.Sifrele(P.Sifre);
             _Result = new Result();
+            _Result.Status = false;
+            _Result.Message = "İşlem Hata !!!";
+            _Result.Id = 0;
             try
             {
 
-                var tbl = db.USR01.Where(a => a.Kod.ToLower() == P.Kod.ToLower() && a.Sifre == P.Sifre && a.Aktif == true).FirstOrDefault();
+                var tbl = db.USR01.Where(a => a.Kod.ToLower() == P.Kod.ToLower() && a.Aktif == true).FirstOrDefault();
                 if(tbl!=null)
                 {
-                    _Result.Status = true;
-                    _Result.Id = tbl.ID;
-                    _Result.Message = "İşlem Başarılı";
-                    _Result.Data = tbl;
-                    SiteSessions.LoggedUserNo = tbl.ID;
-                    SiteSessions.LoggedUserName = tbl.Kod;
-                    SiteSessions.LoggedRealName = tbl.AdSoyad;
-
-                }
-                else
-                {
-                    _Result.Status = false;
-                    _Result.Message = "İşlem Hata !!!";
-                    _Result.Id = 0;
+                    if (P.Sifre == CryptographyExtension.Cozumle(tbl.Sifre))
+                    {
+                        _Result.Status = true;
+                        _Result.Id = tbl.ID;
+                        _Result.Message = "İşlem Başarılı";
+                        _Result.Data = tbl;
+                        SiteSessions.LoggedUserNo = tbl.ID;
+                        SiteSessions.LoggedUserName = tbl.Kod;
+                        SiteSessions.LoggedRealName = tbl.AdSoyad;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                _Result.Status = false;
-                _Result.Message = "İşlem Hata !!!"+ex.Message;
-                _Result.Id = 0;
+                _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
             return _Result;
         }

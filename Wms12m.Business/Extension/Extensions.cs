@@ -30,6 +30,7 @@ namespace Wms12m
         public static string Mid(this string value, int start, int length)
         {
             if (value.Length < (length + start)) length = value.Length - start;
+            if (length < 0) return value;
             return value != null ? value.Substring(start, length) : value;
         }
         /// <summary>
