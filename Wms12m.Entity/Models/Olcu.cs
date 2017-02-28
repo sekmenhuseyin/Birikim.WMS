@@ -16,13 +16,11 @@ namespace Wms12m.Entity.Models
     {
         public int ID { get; set; }
         public string MalKodu { get; set; }
-        public byte Tip { get; set; }
+        public string Birim { get; set; }
         public Nullable<decimal> En { get; set; }
         public Nullable<decimal> Boy { get; set; }
         public Nullable<decimal> Genislik { get; set; }
-        public Nullable<decimal> AgirlikNet { get; set; }
-        public Nullable<decimal> AgirlikBrut { get; set; }
-        public Nullable<decimal> HacimNet { get; set; }
-        public Nullable<decimal> HacimBrut { get; set; }
+        public Nullable<decimal> Agirlik { get; set; }
+        public Nullable<decimal> Hacim { get; set; }
     }
 }

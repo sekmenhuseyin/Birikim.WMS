@@ -29,7 +29,6 @@ namespace Wms12m.Entity.Models
     
         public virtual DbSet<ComboItemName> ComboItemNames { get; set; }
         public virtual DbSet<ComboName> ComboNames { get; set; }
-        public virtual DbSet<Olcu> Olcus { get; set; }
         public virtual DbSet<TK_BOL> TK_BOL { get; set; }
         public virtual DbSet<TK_KAT> TK_KAT { get; set; }
         public virtual DbSet<TK_KOR> TK_KOR { get; set; }
@@ -43,6 +42,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<UserPerm> UserPerms { get; set; }
         public virtual DbSet<GorevListesi> GorevListesis { get; set; }
+        public virtual DbSet<Olcu> Olcus { get; set; }
     
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {

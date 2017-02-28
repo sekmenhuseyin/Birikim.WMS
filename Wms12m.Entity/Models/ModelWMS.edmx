@@ -49,14 +49,12 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="Tip" Type="tinyint" Nullable="false" />
+          <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="En" Type="numeric" Precision="25" Scale="6" />
           <Property Name="Boy" Type="numeric" Precision="25" Scale="6" />
           <Property Name="Genislik" Type="numeric" Precision="25" Scale="6" />
-          <Property Name="AgirlikNet" Type="numeric" Precision="25" Scale="6" />
-          <Property Name="AgirlikBrut" Type="numeric" Precision="25" Scale="6" />
-          <Property Name="HacimNet" Type="numeric" Precision="25" Scale="6" />
-          <Property Name="HacimBrut" Type="numeric" Precision="25" Scale="6" />
+          <Property Name="Agirlik" Type="numeric" Precision="25" Scale="6" />
+          <Property Name="Hacim" Type="numeric" Precision="38" Scale="6" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="USR01">
           <Key>
@@ -499,7 +497,6 @@
           <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
           <EntitySet Name="ComboItemNames" EntityType="MModel.ComboItemName" />
           <EntitySet Name="ComboNames" EntityType="MModel.ComboName" />
-          <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
           <EntitySet Name="TK_BOL" EntityType="MModel.TK_BOL" />
           <EntitySet Name="TK_KAT" EntityType="MModel.TK_KAT" />
           <EntitySet Name="TK_KOR" EntityType="MModel.TK_KOR" />
@@ -569,6 +566,7 @@
             <End Role="TK_DEP" EntitySet="TK_DEP" />
             <End Role="GorevListesi" EntitySet="GorevListesis" />
           </AssociationSet>
+          <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -594,21 +592,6 @@
           <Property Name="ComboName1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ComboVisible" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ComboItemNames" Relationship="MModel.FK_ComboItemName_ComboName" FromRole="ComboName" ToRole="ComboItemName" />
-        </EntityType>
-        <EntityType Name="Olcu">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Tip" Type="Byte" Nullable="false" />
-          <Property Name="En" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="Boy" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="Genislik" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="AgirlikNet" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="AgirlikBrut" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="HacimNet" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="HacimBrut" Type="Decimal" Precision="25" Scale="6" />
         </EntityType>
         <EntityType Name="TK_BOL">
           <Key>
@@ -1013,6 +996,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Olcu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="En" Type="Decimal" Precision="25" Scale="6" />
+          <Property Name="Boy" Type="Decimal" Precision="25" Scale="6" />
+          <Property Name="Genislik" Type="Decimal" Precision="25" Scale="6" />
+          <Property Name="Agirlik" Type="Decimal" Precision="25" Scale="6" />
+          <Property Name="Hacim" Type="Decimal" Precision="38" Scale="6" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1042,22 +1038,6 @@
               <MappingFragment StoreEntitySet="ComboName">
                 <ScalarProperty Name="ComboVisible" ColumnName="ComboVisible" />
                 <ScalarProperty Name="ComboName1" ColumnName="ComboName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Olcus">
-            <EntityTypeMapping TypeName="MModel.Olcu">
-              <MappingFragment StoreEntitySet="Olcu">
-                <ScalarProperty Name="HacimBrut" ColumnName="HacimBrut" />
-                <ScalarProperty Name="HacimNet" ColumnName="HacimNet" />
-                <ScalarProperty Name="AgirlikBrut" ColumnName="AgirlikBrut" />
-                <ScalarProperty Name="AgirlikNet" ColumnName="AgirlikNet" />
-                <ScalarProperty Name="Genislik" ColumnName="Genislik" />
-                <ScalarProperty Name="Boy" ColumnName="Boy" />
-                <ScalarProperty Name="En" ColumnName="En" />
-                <ScalarProperty Name="Tip" ColumnName="Tip" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1274,6 +1254,20 @@
                 <ScalarProperty Name="GorevTipiID" ColumnName="GorevTipiID" />
                 <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
                 <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Olcus">
+            <EntityTypeMapping TypeName="MModel.Olcu">
+              <MappingFragment StoreEntitySet="Olcu">
+                <ScalarProperty Name="Hacim" ColumnName="Hacim" />
+                <ScalarProperty Name="Agirlik" ColumnName="Agirlik" />
+                <ScalarProperty Name="Genislik" ColumnName="Genislik" />
+                <ScalarProperty Name="Boy" ColumnName="Boy" />
+                <ScalarProperty Name="En" ColumnName="En" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
