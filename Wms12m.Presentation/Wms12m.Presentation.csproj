@@ -5848,6 +5848,7 @@
     <Compile Include="Controllers\RootController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\ShelfController.cs" />
+    <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -5901,6 +5902,7 @@
     <Content Include="Views\Gorev\GorevliAta.cshtml" />
     <Content Include="Views\Buy\List.cshtml" />
     <Content Include="Views\Buy\SiparisList.cshtml" />
+    <Content Include="Views\Size\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
