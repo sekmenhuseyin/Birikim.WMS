@@ -86,13 +86,13 @@
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-gift"></i>Malzeme Bilgileri
+                        <i class="fa fa-files-o"></i>Malzeme Bilgileri
                     </div>
                     <div class="col-md-2 pull-right m-t-5">
                         @using (Html.BeginForm("Irsaliye", "Uploads", FormMethod.Post, new { enctype = "multipart/form-data", id = "fileupload" }))
                         {
                             @Html.AntiForgeryToken()
-                            <div class="col-md-6"><a href="~/Content/Uploads/STISablon.xlsx" class="btn btn-default">Şablon İndir</a></div>
+                            <div class="col-md-6"><a href="~/Content/STISablon.xlsx" class="btn btn-default">Şablon İndir</a></div>
                             <div class="col-md-6"><a id="linkUpload" class="btn btn-warning">Yükle</a></div>
                             <input id="btnUpload" type="file" name="file" />
                             <input type="hidden" name="IrsNo" id="IrsNo" value="0" />
