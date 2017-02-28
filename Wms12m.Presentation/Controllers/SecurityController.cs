@@ -31,7 +31,7 @@ namespace Wms12m.Presentation.Controllers
                         Authentication.CreateAuth((USR01)_Result.Data, false);
                 }                
             }
-            catch (Exception ex){
+            catch (Exception){
                 return null;
             }
             return Json(new { data = (_Result.Status) }, JsonRequestBehavior.AllowGet);

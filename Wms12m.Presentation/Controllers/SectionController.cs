@@ -49,7 +49,7 @@ namespace Wms12m.Presentation.Controllers
                     return PartialView("_SectionGridPartial", _List);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return PartialView("_SectionGridPartial", _List);
             }
