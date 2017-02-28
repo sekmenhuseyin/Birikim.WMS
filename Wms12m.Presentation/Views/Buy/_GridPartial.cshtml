@@ -30,6 +30,7 @@
 <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script>
     $(".import-content").show();
+    $("#IrsNo").val('@ViewBag.IrsaliyeId');
     $("#MalKodu").focus();
     $("#MalKodu").autocomplete({
         source: "/Buy/getMalzemebyCode/" + $("#SirketID").val(),

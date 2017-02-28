@@ -12,56 +12,52 @@ namespace Wms12m.Presentation.Controllers
 {
     public class UploadsController : RootController
     {
-        // GET: Uploads
+        /// <summary>
+        /// irsaliye için malzeme girişi yapar
+        /// </summary>
         public JsonResult Irsaliye(int IrsNo,HttpPostedFileBase file)
         {
             if (file != null && file.ContentLength > 0)
             {
                 List<WMS_STI> list_sti = new List<WMS_STI>();
-
                 Stream stream = file.InputStream;
-
-                // We return the interface, so that
                 IExcelDataReader reader = null;
-
+                //dosya tipini bul
                 if (file.FileName.EndsWith(".xls"))
-                {
                     reader = ExcelReaderFactory.CreateBinaryReader(stream);
-                }
                 else if (file.FileName.EndsWith(".xlsx"))
-                {
                     reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                }
                 else
-                {
-                    ModelState.AddModelError("File", "This file format is not supported");
-                    //return View();
-                }
-
+                    return null;
+                //ilk satır başlık
                 reader.IsFirstRowAsColumnNames = true;
-
                 DataSet result = reader.AsDataSet();
-                if (result.Tables[0].Rows != null)
+                try
                 {
-                    for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+                    if (result.Tables[0].Rows != null)
                     {
-                        DataRow dr = result.Tables[0].Rows[0];
-                        var sti = new WMS_STI();
-                        sti.IrsaliyeID = IrsNo;
-                        sti.MalKodu = dr["MalKodu"].ToString();
-                        sti.Miktar = Convert.ToDecimal(dr["Miktar"]);
-                        sti.Birim = dr["Birim"].ToString();
-                        db.WMS_STI.Add(sti);
-                        db.SaveChanges();
-                        //list_sti.Add(sti);
+                        for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+                        {
+                            DataRow dr = result.Tables[0].Rows[0];
+                            var sti = new WMS_STI();
+                            sti.IrsaliyeID = IrsNo;
+                            sti.MalKodu = dr["MalKodu"].ToString();
+                            sti.Miktar = Convert.ToDecimal(dr["Miktar"]);
+                            sti.Birim = dr["Birim"].ToString();
+                            db.WMS_STI.Add(sti);
+                            db.SaveChanges();
+                            //list_sti.Add(sti);
+                        }
+                        //db.SaveChanges();
                     }
-                    //db.SaveChanges();
                 }
-
+                catch (Exception)
+                {
+                    return null;
+                }
                 reader.Close();
             }
             return Json(true, JsonRequestBehavior.AllowGet);
-            //return Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }
