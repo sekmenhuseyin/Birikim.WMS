@@ -15,6 +15,7 @@
                                 <th>@Html.DisplayNameFor(model => model.MalKodu)</th>
                                 <th>@Html.DisplayNameFor(model => model.MalAdi)</th>
                                 <th>@Html.DisplayNameFor(model => model.AçıkMiktar)</th>
+                                <th>@Html.DisplayNameFor(model => model.Birim)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -23,17 +24,19 @@
                                 <tr onclick="toggle('c-@item.ID')">
                                     <td><input type="checkbox" name="checkboxes" id="c-@item.ID" class="form-control" disabled /></td>
                                     <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Tarih)</td>
+                                    <td>@item.Tarih.FromOADateInt()</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
                                     <td>@Html.DisplayFor(modelItem => item.AçıkMiktar)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                    <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" id="submitter">Ekle</button>
                 </div>
             </div>
         </div>
@@ -45,8 +48,22 @@
 <script src="~/Content/assets/global/scripts/app.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/pages/scripts/table-datatables-buttons.min.js" type="text/javascript"></script>
 <script>
-    function toggle(id)
-    {
-        $("#" + id).attr('checked', !$("#" + id).attr('checked'));
-    }
+    function toggle(id) { $("#" + id).attr('checked', !$("#" + id).attr('checked')); }
+    $("#submitter").click(function () {
+        var sList = "";
+        $("#sample_1 input[type=checkbox]").each(function () {
+            if (this.checked)
+                sList += $(this).attr('id').replace("c-", "") + ",";
+        });
+        if (sList == "") return;
+        $.ajax({
+            url: "/Buy/FromSiparis",
+            data: { 's': $("#SirketID").val(), 'id':$("#IrsNo").val(), 'ids':sList },
+            type: 'POST',
+            dataType: "html",
+            success: function (data) {
+                if (data != "") $("#StoreGrid").html(data);
+            }
+        });
+    });
 </script>

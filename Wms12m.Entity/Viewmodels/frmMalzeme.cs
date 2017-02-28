@@ -1,10 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.ComponentModel.DataAnnotations;
-using System;
 
 namespace Wms12m.Entity
 {
+    /// <summary>
+    /// malzeme ekleme formu
+    /// </summary>
     public class frmMalzeme
     {
         [Key]
@@ -25,9 +28,26 @@ namespace Wms12m.Entity
         [DataMember, DisplayName("Birim"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string Birim { get; set; }
     }
+    /// <summary>
+    /// malzeme arama
+    /// </summary>
     public class frmMalzemeSearch
     {
         public string kod { get; set; }
         public string ad { get; set; }
+    }
+    /// <summary>
+    /// sipraişten malzeme ekleme
+    /// </summary>
+    public class frmFromSiparis
+    {
+        //irsaliye id
+        public string id { get; set; }
+        //şirket kod
+        public string kod { get; set; }
+        //finsat6x.spi.chk
+        public string chk { get; set; }
+        //açık miktar
+        public string miktar { get; set; }
     }
 }

@@ -42,9 +42,45 @@ namespace Wms12m.Presentation.Controllers
                     .Join(Dinamik.Context.CHKs, ti => ti.Chk, tc => tc.HesapKodu, (ti, tc) => new { ti = ti, tc = tc })
                     .Join(Dinamik.Context.STKs, ts => ts.ti.MalKodu, ti => ti.MalKodu, (ts, ti) => new { ts = ts, ti = ti })
                     .Where(m => m.ts.ti.KynkEvrakTip == 63 && m.ts.ti.SiparisDurumu == 0 && m.ts.ti.Chk == kod && m.ts.ti.BirimMiktar - m.ts.ti.TeslimMiktar - m.ts.ti.KapatilanMiktar > 0)
-                    .Select(m => new frmSiparistenGelen { ID= m.ts.ti.ROW_ID, EvrakNo = m.ts.ti.EvrakNo, Tarih = m.ts.ti.Tarih, MalAdi = m.ti.MalAdi, MalKodu = m.ti.MalKodu, AçıkMiktar = m.ts.ti.BirimMiktar - m.ts.ti.TeslimMiktar - m.ts.ti.KapatilanMiktar }).ToList();
+                    .Select(m => new frmSiparistenGelen { ID = m.ts.ti.ROW_ID, EvrakNo = m.ts.ti.EvrakNo, Tarih = m.ts.ti.Tarih, MalAdi = m.ti.MalAdi, MalKodu = m.ti.MalKodu, AçıkMiktar = m.ts.ti.BirimMiktar - m.ts.ti.TeslimMiktar - m.ts.ti.KapatilanMiktar, Birim = m.ts.ti.Birim }).ToList();
                 return PartialView("SiparisList", list);
             }
+        }
+        /// <summary>
+        /// siparişten malzeme ekler
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult FromSiparis(string s, string id, string ids)
+        {
+            if (s == null || id == null || ids == null) return null;
+            //loop ids
+            string[] tmp = ids.Split(',');
+            int rowid; int irsaliyeID = id.ToInt32();
+            using (DinamikModelContext Dinamik = new DinamikModelContext(s))
+            {
+                foreach (var item in tmp)
+                {
+                    if (item != "")
+                    {
+                        rowid = item.ToInt32();
+                        var tbl = Dinamik.Context.SPIs.Where(m => m.ROW_ID == rowid && m.IslemTur == 0 && m.KynkEvrakTip == 63 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar)>0).FirstOrDefault();
+                        //save details
+                        WMS_STI sti = new WMS_STI();
+                        sti.IrsaliyeID = irsaliyeID;
+                        sti.Birim = tbl.Birim;
+                        sti.KaynakSiparisNo = tbl.EvrakNo;
+                        sti.MalKodu = tbl.MalKodu;
+                        sti.Miktar = tbl.BirimMiktar - tbl.TeslimMiktar - tbl.KapatilanMiktar;
+                        Stok tmpTable = new Stok();
+                        Result _Result = tmpTable.Operation(sti);
+                    }
+                }
+            }
+            //get list
+            var list = db.WMS_STI.Where(m => m.IrsaliyeID == irsaliyeID).ToList();
+            ViewBag.IrsaliyeId = irsaliyeID;
+            ViewBag.Onay = db.WMS_IRS.Where(m => m.ID == irsaliyeID).Select(m => m.Onay).FirstOrDefault();
+            return PartialView("_GridPartial", list);
         }
         /// <summary>
         /// yeni irsaliye fatura kaydeder
@@ -52,7 +88,6 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult New(frmIrsaliye tbl)
         {
-
             //check if exists
             var tmp = db.WMS_IRS.Where(m => m.EvrakNo == tbl.EvrakNo).FirstOrDefault();
             if (tmp == null)

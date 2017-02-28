@@ -67,5 +67,6 @@ namespace Wms12m.Entity
         public string MalKodu { get; set; }
         public string MalAdi { get; set; }
         public decimal AçıkMiktar { get; set; }
+        public string Birim { get; set; }
     }
 }
