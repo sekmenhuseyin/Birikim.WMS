@@ -34,9 +34,15 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
+            string sirket = id.ToString().Left(2);
+            string kod = id.ToString().Mid(2, 99);
+            using (DinamikModelContext Dinamik = new DinamikModelContext(sirket))
             {
-                var list = Dinamik.Context.SPIs;
+                var list = Dinamik.Context.SPIs
+                    .Join(Dinamik.Context.CHKs, ti => ti.Chk, tc => tc.HesapKodu, (ti, tc) => new { ti = ti, tc = tc })
+                    .Join(Dinamik.Context.STKs, ts => ts.ti.MalKodu, ti => ti.MalKodu, (ts, ti) => new { ts = ts, ti = ti })
+                    .Where(m => m.ts.ti.KynkEvrakTip == 63 && m.ts.ti.SiparisDurumu == 0 && m.ts.ti.Chk == kod && m.ts.ti.BirimMiktar - m.ts.ti.TeslimMiktar - m.ts.ti.KapatilanMiktar > 0)
+                    .Select(m => new frmSiparistenGelen { ID= m.ts.ti.ROW_ID, EvrakNo = m.ts.ti.EvrakNo, Tarih = m.ts.ti.Tarih, MalAdi = m.ti.MalAdi, MalKodu = m.ti.MalKodu, AçıkMiktar = m.ts.ti.BirimMiktar - m.ts.ti.TeslimMiktar - m.ts.ti.KapatilanMiktar }).ToList();
                 return PartialView("SiparisList", list);
             }
         }

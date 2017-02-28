@@ -1,14 +1,170 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 namespace Wms12m
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Returns characters from right of specified length
+        /// </summary>
+        public static string Right(this string value, int length)
+        {
+            return value != null && value.Length > length ? value.Substring(value.Length - length) : value;
+        }
+        /// <summary>
+        /// Returns characters from left of specified length
+        /// </summary>
+        public static string Left(this string value, int length)
+        {
+            return value != null && value.Length > length ? value.Substring(0, length) : value;
+        }
+        /// <summary>
+        /// Returns characters from left of specified length
+        /// </summary>
+        public static string Mid(this string value, int start, int length)
+        {
+            if (value.Length < (length + start)) length = value.Length - start;
+            return value != null ? value.Substring(start, length) : value;
+        }
+        /// <summary>
+        /// Removes last n chars from a string
+        /// </summary>
+        public static string RemoveLastCharacter(this String instr, int number = 1)
+        {
+            return instr.Substring(0, instr.Length - number);
+        }
+        /// <summary>
+        /// Removes first n chars from a string
+        /// </summary>
+        public static string RemoveFirstCharacter(this String instr, int number = 1)
+        {
+            return instr.Substring(number);
+        }
+        /// <summary>
+        /// Formats the string according to the specified mask
+        /// </summary>
+        public static string FormatWithMask(this string input, string mask)
+        {
+            if (input == null) return input;
+            var output = string.Empty;
+            var index = 0;
+            foreach (var m in mask)
+            {
+                if (m == '#')
+                {
+                    if (index < input.Length)
+                    {
+                        output += input[index];
+                        index++;
+                    }
+                }
+                else
+                    output += m;
+            }
+            return output;
+        }
+        /// <summary>
+        /// Checks if a string value is numeric according to you system culture.
+        /// </summary>
+        public static bool IsNumeric(this string theValue)
+        {
+            long retNum;
+            return long.TryParse(theValue, System.Globalization.NumberStyles.Integer, System.Globalization.NumberFormatInfo.InvariantInfo, out retNum);
+        }
+        /// <summary>
+        /// Checks whether the type is Boolean
+        /// </summary>
+        public static bool IsBoolean(this Type type)
+        {
+            return type.Equals(typeof(Boolean));
+        }
+        /// <summary>
+        /// Check wheter a string is an valid e-mail address
+        /// </summary>
+        public static bool IsValidEmailAddress(this string s)
+        {
+            Regex regex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+            return regex.IsMatch(s);
+        }
+        /// <summary>
+        /// Shortcut for foreach
+        /// </summary>
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+        {
+            foreach (var item in source)
+                action(item);
+        }
+        /// <summary>
+        /// Wraps DateTime.TryParse() and all the other kinds of code you need to determine if a given string holds a value that can be converted into a DateTime object.
+        /// </summary>
+        public static bool IsDate(this string input)
+        {
+            if (!string.IsNullOrEmpty(input))
+            {
+                DateTime dt;
+                return (DateTime.TryParse(input, out dt));
+            }
+            else
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// clean html codes
+        /// </summary>
+        public static string CleanHtmlCodes(this string s)
+        {
+            s = s.Replace("<", "&amp;lt;");
+            s = s.Replace(">", "&amp;gt;");
+            s = s.Replace("script", "scr_ipt");
+            s = s.Replace("'", "'");
+            s = s.Replace("\"", "'");
+            s = s.Replace("&amp;", "-");
+
+            s = s.Trim();
+            return s;
+        }
+        /// <summary>
+        /// clean url
+        /// </summary>
+        public static string ToURL(this string s)
+        {
+            if (string.IsNullOrEmpty(s)) return "";
+            s = s.Trim();
+            if (s.Length > 80)
+                s = s.Substring(0, 80);
+            s = s.Replace("ş", "s");
+            s = s.Replace("Ş", "S");
+            s = s.Replace("ğ", "g");
+            s = s.Replace("Ğ", "G");
+            s = s.Replace("İ", "I");
+            s = s.Replace("ı", "i");
+            s = s.Replace("ç", "c");
+            s = s.Replace("Ç", "C");
+            s = s.Replace("ö", "o");
+            s = s.Replace("Ö", "O");
+            s = s.Replace("ü", "u");
+            s = s.Replace("Ü", "U");
+            s = s.Replace("'", "");
+            s = s.Replace("\"", "");
+            s = s.Replace("-", "");
+            s = s.Replace("'", "");
+            Regex r = new Regex("[^a-zA-Z0-9_-]");
+
+            s = r.Replace(s, "-");
+            if (!string.IsNullOrEmpty(s))
+                while (s.IndexOf("--") > -1)
+                    s = s.Replace("--", "-");
+            if (s.StartsWith("-")) s = s.Substring(1);
+            if (s.EndsWith("-")) s = s.Substring(0, s.Length - 1);
+            return s;
+        }
         /// <summary>
         /// <para>Gelen değeri Int32 türüne dönüştürür.</para>
         /// Hata olursa defaultValue parametresi döner.
@@ -28,8 +184,37 @@ namespace Wms12m
             catch { return defaultValue; }
         }
         /// <summary>
-        /// <para>Gelen tarihi Int32 türüne dönüştürür.</para>
-        /// Hata olursa bugünü gösterir.
+        /// Nicely formatted file size. This method will return file size with bytes, KB, MB and GB in it. You can use this alongside the Extension method named FileSize.
+        /// </summary>
+        public static string FormatFileSize(this long fileSize)
+        {
+            string[] suffix = { "bytes", "KB", "MB", "GB" };
+            long j = 0;
+
+            while (fileSize > 1024 && j < 4)
+            {
+                fileSize = fileSize / 1024;
+                j++;
+            }
+            return (fileSize + " " + suffix[j]);
+        }
+        /// <summary>
+        /// Get the file size of a given filename.
+        /// </summary>
+        public static long FileSize(this string filePath)
+        {
+            long bytes = 0;
+
+            try
+            {
+                System.IO.FileInfo oFileInfo = new System.IO.FileInfo(filePath);
+                bytes = oFileInfo.Length;
+            }
+            catch { }
+            return bytes;
+        }
+        /// <summary>
+        /// <para>Gelen Int formatındaki tarihi normal formata dönüştürür.</para>
         /// </summary>
         public static string FromOADateInt(this int Deger)
         {
