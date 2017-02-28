@@ -4,10 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
-<style>
-    #frmUpload input{display:none;}/*upload form hide inputs*/
-    .bar {height: 18px;background: green;}
-</style>
 <link href="~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
@@ -38,7 +34,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Depo</label>
                                     <div class="col-md-4">
-                                        @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required"})
+                                        @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                         <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                                     </div>
                                 </div>
@@ -92,44 +88,38 @@
                     <div class="caption">
                         <i class="fa fa-gift"></i>Malzeme Bilgileri
                     </div>
-                    @*<div class="col-md-1 pull-right">
-                        @using (Html.BeginForm("STI", "Upload", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmUpload" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <div class="m-t-10"><a id="linkUpload" class="btn btn-warning btn-block btn-sm">Yükle</a></div>
-                            <input id="btnUpload" type="file" name="file" />
-                            <div id="progress"><div class="bar" style="width: 0%;"></div></div>
-                        }
-                    </div>*@
+                    <div class="col-md-1 pull-right">
+                        <a class="btn btn-default input-circle green" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Buy/SiparisList/'+$('#SirketID').val())"> Siparişten Getir </a>
+                    </div>
+                   <div class="col-md-1 pull-right">
+                        <form id="fileupload" action="/Uploads/Irsaliye" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="IrsaliyeId" id="IrsaliyeId" value="1" />
+                            <div class="fileupload-buttonbar">
+                                <div class="col-lg-7" style="float:right; text-align:right; margin-right:15px;">
+                                    <div style="float:right;margin-left:40px;">
+                                        <span class="btn green fileinput-button">
+                                            <span> Dosya Seç </span>
+                                            <input type="file" name="file">
+                                        </span>
+                                        <span class="fileupload-process"> </span>
+                                    </div>
+                                    <div class="sablon-indir" style="height:30px;width:60px;float:right;">
+                                        <a href="~/Content/Uploads/STISablon.xlsx" class="btn btn-default">Şablon İndir</a>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-5 fileupload-progress fade">
+                                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar progress-bar-success" style="width:0%;"> </div>
+                                    </div>
+                                    <div class="progress-extended"> &nbsp; </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
             </div>
-            <div class="row import-content">
-                <form id="fileupload" action="/Uploads/Irsaliye" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="IrsaliyeId" id="IrsaliyeId" value="1" />
-                    <div class="fileupload-buttonbar">
-                        <div class="col-lg-7" style="float:right; text-align:right; margin-right:15px;">
-                            <div style="float:right;margin-left:40px;">
-                                <span class="btn green fileinput-button">
-                                    <span> Dosya Seç </span>
-                                    <input type="file" name="file">
-                                </span>
-                                <span class="fileupload-process"> </span>
-                            </div>
-                                <div class="sablon-indir" style="height:30px;width:60px;float:right;">
-                                    <a href="~/Content/Uploads/STISablon.xlsx" class="btn btn-default">Şablon İndir</a>
-                                </div>
-
-                        </div>
-                        <div class="col-lg-5 fileupload-progress fade">
-                            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                                <div class="progress-bar progress-bar-success" style="width:0%;"> </div>
-                            </div>
-                            <div class="progress-extended"> &nbsp; </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            
             <div id="StoreGrid" style="padding:8px;"></div>
         </div>
     </div>
@@ -154,7 +144,7 @@
         $("#HesapKodu").val('');
         $("#Unvan").val('');
         $.ajax({
-            url: "/Buy/GetHesapCodes/"+$('#SirketID').val(),
+            url: "/Buy/GetHesapCodes/" + $('#SirketID').val(),
             type: 'POST',
             dataType: "html",
             success: function (data) {
@@ -162,15 +152,13 @@
             }
         });
     });
-    function ShowHide()
-    {
+    function ShowHide() {
         if ($('#hesapSelect').css("display") == "none")
             $('#hesapSelect').show();
         else
             $('#hesapSelect').hide();
     }
-    function CreateNew()
-    {
+    function CreateNew() {
         $('#hesapSelect').hide();
         $("#SirketID")[0].selectedIndex = 0;
         $("#DepoID")[0].selectedIndex = 0;

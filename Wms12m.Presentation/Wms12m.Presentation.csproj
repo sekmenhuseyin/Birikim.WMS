@@ -5914,6 +5914,7 @@
     <Content Include="Views\Gorev\_GorevGridPartial.cshtml" />
     <Content Include="Views\Gorev\GorevliAta.cshtml" />
     <Content Include="Views\Buy\List.cshtml" />
+    <Content Include="Views\Buy\SiparisList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

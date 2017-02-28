@@ -22,11 +22,23 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// irsaliye listesi
         /// </summary>
-        /// <returns></returns>
         public PartialViewResult List()
         {
             var list = db.WMS_IRS.ToList();
             return PartialView("List", list);
+        }
+        /// <summary>
+        /// irsaliye listesi
+        /// </summary>
+        public PartialViewResult SiparisList()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
+            {
+                var list = Dinamik.Context.SPIs;
+                return PartialView("SiparisList", list);
+            }
         }
         /// <summary>
         /// yeni irsaliye fatura kaydeder
