@@ -3355,6 +3355,12 @@
     <Content Include="Content\assets\global\plugins\datatables\images\sort_desc_disabled.png" />
     <Content Include="Content\assets\global\plugins\datatables\plugins\bootstrap\datatables.bootstrap.css" />
     <Content Include="Content\assets\global\plugins\datatables\plugins\bootstrap\datatables.bootstrap.js" />
+    <Content Include="Content\assets\global\plugins\datatables\plugins\bootstrap\datatables.bootstrap.min.css">
+      <DependentUpon>datatables.bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Content\assets\global\plugins\datatables\plugins\bootstrap\datatables.bootstrap.min.js">
+      <DependentUpon>datatables.bootstrap.js</DependentUpon>
+    </Content>
     <Content Include="Content\assets\global\plugins\dropzone\basic.min.css" />
     <Content Include="Content\assets\global\plugins\dropzone\dropzone.min.css" />
     <Content Include="Content\assets\global\plugins\dropzone\dropzone.min.js" />
@@ -5421,7 +5427,13 @@
     <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.css" />
     <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\Scripts\_MessageBox.js" />
+    <Content Include="Content\Scripts\_MessageBox.min.js">
+      <DependentUpon>_MessageBox.js</DependentUpon>
+    </Content>
     <Content Include="Content\Scripts\_Operation.js" />
+    <Content Include="Content\Scripts\_Operation.min.js">
+      <DependentUpon>_Operation.js</DependentUpon>
+    </Content>
     <Content Include="Content\View\Login.js" />
     <Content Include="favicon.ico" />
     <Content Include="Content\assets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />

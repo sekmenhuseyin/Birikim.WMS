@@ -31,7 +31,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Create()
         {
-            return PartialView("_Create");
+            return PartialView("_Create", new Olcu());
         }
 
     }

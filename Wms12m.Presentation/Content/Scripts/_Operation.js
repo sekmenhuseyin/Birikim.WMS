@@ -1,4 +1,5 @@
-﻿//personel ayrıntıları editleme sayfaları
+﻿$(function () { $("#div_loading").hide(); }); $(document).ajaxStart(function () { $("#div_loading").show(); }); $(document).ajaxStop(function () { $("#div_loading").hide(); });
+//personel ayrıntıları editleme sayfaları
 function editInModal(URL) {
     $("#modalEditPage").html("");
     $.ajax({
