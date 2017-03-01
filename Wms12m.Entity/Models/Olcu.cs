@@ -15,6 +15,7 @@ namespace Wms12m.Entity.Models
     public partial class Olcu
     {
         public int ID { get; set; }
+        public string SirketKodu { get; set; }
         public string MalKodu { get; set; }
         public string Birim { get; set; }
         public Nullable<decimal> En { get; set; }
@@ -22,5 +23,6 @@ namespace Wms12m.Entity.Models
         public Nullable<decimal> Genislik { get; set; }
         public Nullable<decimal> Agirlik { get; set; }
         public Nullable<decimal> Hacim { get; set; }
+        public string MalAdi { get; set; }
     }
 }

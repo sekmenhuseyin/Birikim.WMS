@@ -5903,6 +5903,7 @@
     <Content Include="Views\Buy\List.cshtml" />
     <Content Include="Views\Buy\SiparisList.cshtml" />
     <Content Include="Views\Size\Index.cshtml" />
+    <Content Include="Views\Size\_GetList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

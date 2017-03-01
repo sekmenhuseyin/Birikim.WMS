@@ -34,7 +34,7 @@
         <AssociationConnector Association="MModel.FK_GorevListesi_ComboItemName1" />
         <AssociationConnector Association="MModel.FK_GorevListesi_IRS" />
         <AssociationConnector Association="MModel.FK_GorevListesi_TK_DEP" />
-        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="2.125" PointY="4.25" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="0.75" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

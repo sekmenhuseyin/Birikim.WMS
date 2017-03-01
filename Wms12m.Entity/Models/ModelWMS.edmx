@@ -48,6 +48,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SirketKodu" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="En" Type="numeric" Precision="25" Scale="6" />
@@ -55,6 +56,7 @@
           <Property Name="Genislik" Type="numeric" Precision="25" Scale="6" />
           <Property Name="Agirlik" Type="numeric" Precision="25" Scale="6" />
           <Property Name="Hacim" Type="numeric" Precision="38" Scale="6" StoreGeneratedPattern="Computed" />
+          <Property Name="MalAdi" Type="varchar" MaxLength="50" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="USR01">
           <Key>
@@ -1001,6 +1003,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SirketKodu" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
           <Property Name="En" Type="Decimal" Precision="25" Scale="6" />
@@ -1008,6 +1011,7 @@
           <Property Name="Genislik" Type="Decimal" Precision="25" Scale="6" />
           <Property Name="Agirlik" Type="Decimal" Precision="25" Scale="6" />
           <Property Name="Hacim" Type="Decimal" Precision="38" Scale="6" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="MalAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1261,6 +1265,7 @@
           <EntitySetMapping Name="Olcus">
             <EntityTypeMapping TypeName="MModel.Olcu">
               <MappingFragment StoreEntitySet="Olcu">
+                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
                 <ScalarProperty Name="Hacim" ColumnName="Hacim" />
                 <ScalarProperty Name="Agirlik" ColumnName="Agirlik" />
                 <ScalarProperty Name="Genislik" ColumnName="Genislik" />
@@ -1268,6 +1273,7 @@
                 <ScalarProperty Name="En" ColumnName="En" />
                 <ScalarProperty Name="Birim" ColumnName="Birim" />
                 <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="SirketKodu" ColumnName="SirketKodu" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
