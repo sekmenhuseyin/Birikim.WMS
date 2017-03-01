@@ -31,14 +31,14 @@
           <Property Name="GorevNo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="GorevTipiID" Type="int" Nullable="false" />
           <Property Name="DurumID" Type="int" Nullable="false" />
-          <Property Name="Olusturan" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OlusturanID" Type="int" Nullable="false" />
           <Property Name="OlusturmaTarihi" Type="int" Nullable="false" />
           <Property Name="OlusturmaSaati" Type="int" Nullable="false" />
           <Property Name="Bilgi" Type="nvarchar" MaxLength="250" />
           <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
           <Property Name="IrsaliyeID" Type="int" />
-          <Property Name="Gorevli" Type="varchar" MaxLength="50" />
-          <Property Name="Atayan" Type="varchar" MaxLength="50" />
+          <Property Name="GorevliID" Type="int" />
+          <Property Name="AtayanID" Type="int" />
           <Property Name="AtamaTarihi" Type="int" />
           <Property Name="BitisTarihi" Type="int" />
           <Property Name="BitisSaati" Type="int" />
@@ -60,9 +60,7 @@
         </EntityType>
         <EntityType Name="USR01">
           <Key>
-            <PropertyRef Name="Sirket" />
-            <PropertyRef Name="Tip" />
-            <PropertyRef Name="Kod" />
+            <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Sirket" Type="varchar" MaxLength="5" Nullable="false" />
@@ -71,7 +69,7 @@
           <Property Name="Sifre" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="AdSoyad" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
           <Property Name="Tema" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Admin" Type="bit" Nullable="false" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
@@ -85,58 +83,6 @@
           <Property Name="DegisSaat" Type="int" Nullable="false" />
           <Property Name="DegisKaynak" Type="smallint" Nullable="false" />
           <Property Name="DegisSurum" Type="varchar" MaxLength="12" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Perm">
-          <Key>
-            <PropertyRef Name="PermName" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="PermName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Active" Type="bit" Nullable="false" />
-          <Property Name="Type" Type="smallint" Nullable="false" />
-          <Property Name="AppType" Type="smallint" Nullable="false" />
-          <Property Name="Group" Type="varchar" MaxLength="50" />
-          <Property Name="RecordDate" Type="smalldatetime" />
-        </EntityType>
-        <EntityType Name="RolePerm">
-          <Key>
-            <PropertyRef Name="RoleName" />
-            <PropertyRef Name="PermName" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="PermName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Reading" Type="bit" Nullable="false" />
-          <Property Name="Writing" Type="bit" Nullable="false" />
-          <Property Name="Updating" Type="bit" Nullable="false" />
-          <Property Name="Deleting" Type="bit" Nullable="false" />
-          <Property Name="RecordDate" Type="smalldatetime" />
-          <Property Name="RecordUser" Type="varchar" MaxLength="20" />
-          <Property Name="ModifiedDate" Type="smalldatetime" />
-          <Property Name="ModifiedUser" Type="varchar" MaxLength="20" />
-        </EntityType>
-        <EntityType Name="Roles">
-          <Key>
-            <PropertyRef Name="RoleName" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
-        </EntityType>
-        <EntityType Name="UserPerm">
-          <Key>
-            <PropertyRef Name="UserName" />
-            <PropertyRef Name="PermName" />
-          </Key>
-          <Property Name="UserName" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="PermName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Reading" Type="bit" Nullable="false" />
-          <Property Name="Writing" Type="bit" Nullable="false" />
-          <Property Name="Updating" Type="bit" Nullable="false" />
-          <Property Name="Deleting" Type="bit" Nullable="false" />
-          <Property Name="RecordDate" Type="smalldatetime" />
-          <Property Name="RecordUser" Type="varchar" MaxLength="20" />
-          <Property Name="ModifiedDate" Type="smalldatetime" />
-          <Property Name="ModifiedUser" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="TK_BOL">
           <Key>
@@ -256,6 +202,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GorevListesi_Atayan">
+          <End Role="USR01" Type="Self.USR01" Multiplicity="0..1" />
+          <End Role="GorevListesi" Type="Self.GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USR01">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="AtayanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GorevListesi_ComboItemName">
           <End Role="ComboItemName" Type="Self.ComboItemName" Multiplicity="1" />
           <End Role="GorevListesi" Type="Self.GorevListesi" Multiplicity="*" />
@@ -280,6 +238,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GorevListesi_Gorevli">
+          <End Role="USR01" Type="Self.USR01" Multiplicity="0..1" />
+          <End Role="GorevListesi" Type="Self.GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USR01">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="GorevliID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GorevListesi_IRS">
           <End Role="WMS_IRS" Type="Self.WMS_IRS" Multiplicity="0..1" />
           <End Role="GorevListesi" Type="Self.GorevListesi" Multiplicity="*" />
@@ -289,6 +259,18 @@
             </Principal>
             <Dependent Role="GorevListesi">
               <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevListesi_Olusturan">
+          <End Role="USR01" Type="Self.USR01" Multiplicity="1" />
+          <End Role="GorevListesi" Type="Self.GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USR01">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="OlusturanID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -313,46 +295,6 @@
             </Principal>
             <Dependent Role="WMS_IRS">
               <PropertyRef Name="DepoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Perm_UserPerm2">
-          <End Role="Perm" Type="Self.Perm" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="UserPerm" Type="Self.UserPerm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Perm">
-              <PropertyRef Name="PermName" />
-            </Principal>
-            <Dependent Role="UserPerm">
-              <PropertyRef Name="PermName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RolePerm_Perm">
-          <End Role="Perm" Type="Self.Perm" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="RolePerm" Type="Self.RolePerm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Perm">
-              <PropertyRef Name="PermName" />
-            </Principal>
-            <Dependent Role="RolePerm">
-              <PropertyRef Name="PermName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RolePerm_Roles">
-          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
-          <End Role="RolePerm" Type="Self.RolePerm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Roles">
-              <PropertyRef Name="RoleName" />
-            </Principal>
-            <Dependent Role="RolePerm">
-              <PropertyRef Name="RoleName" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -423,10 +365,6 @@
           <EntitySet Name="GorevListesi" EntityType="Self.GorevListesi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Olcu" EntityType="Self.Olcu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USR01" EntityType="Self.USR01" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Perm" EntityType="Self.Perm" Schema="usr" store:Type="Tables" />
-          <EntitySet Name="RolePerm" EntityType="Self.RolePerm" Schema="usr" store:Type="Tables" />
-          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="usr" store:Type="Tables" />
-          <EntitySet Name="UserPerm" EntityType="Self.UserPerm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="TK_BOL" EntityType="Self.TK_BOL" Schema="WMS" store:Type="Tables" />
           <EntitySet Name="TK_DEP" EntityType="Self.TK_DEP" Schema="WMS" store:Type="Tables" />
           <EntitySet Name="TK_KAT" EntityType="Self.TK_KAT" Schema="WMS" store:Type="Tables" />
@@ -438,6 +376,10 @@
             <End Role="ComboName" EntitySet="ComboName" />
             <End Role="ComboItemName" EntitySet="ComboItemName" />
           </AssociationSet>
+          <AssociationSet Name="FK_GorevListesi_Atayan" Association="Self.FK_GorevListesi_Atayan">
+            <End Role="USR01" EntitySet="USR01" />
+            <End Role="GorevListesi" EntitySet="GorevListesi" />
+          </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_ComboItemName" Association="Self.FK_GorevListesi_ComboItemName">
             <End Role="ComboItemName" EntitySet="ComboItemName" />
             <End Role="GorevListesi" EntitySet="GorevListesi" />
@@ -446,8 +388,16 @@
             <End Role="ComboItemName" EntitySet="ComboItemName" />
             <End Role="GorevListesi" EntitySet="GorevListesi" />
           </AssociationSet>
+          <AssociationSet Name="FK_GorevListesi_Gorevli" Association="Self.FK_GorevListesi_Gorevli">
+            <End Role="USR01" EntitySet="USR01" />
+            <End Role="GorevListesi" EntitySet="GorevListesi" />
+          </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_IRS" Association="Self.FK_GorevListesi_IRS">
             <End Role="WMS_IRS" EntitySet="WMS_IRS" />
+            <End Role="GorevListesi" EntitySet="GorevListesi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevListesi_Olusturan" Association="Self.FK_GorevListesi_Olusturan">
+            <End Role="USR01" EntitySet="USR01" />
             <End Role="GorevListesi" EntitySet="GorevListesi" />
           </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_TK_DEP" Association="Self.FK_GorevListesi_TK_DEP">
@@ -457,18 +407,6 @@
           <AssociationSet Name="FK_IRS_TK_DEP" Association="Self.FK_IRS_TK_DEP">
             <End Role="TK_DEP" EntitySet="TK_DEP" />
             <End Role="WMS_IRS" EntitySet="WMS_IRS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Perm_UserPerm2" Association="Self.FK_Perm_UserPerm2">
-            <End Role="Perm" EntitySet="Perm" />
-            <End Role="UserPerm" EntitySet="UserPerm" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RolePerm_Perm" Association="Self.FK_RolePerm_Perm">
-            <End Role="Perm" EntitySet="Perm" />
-            <End Role="RolePerm" EntitySet="RolePerm" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RolePerm_Roles" Association="Self.FK_RolePerm_Roles">
-            <End Role="Roles" EntitySet="Roles" />
-            <End Role="RolePerm" EntitySet="RolePerm" />
           </AssociationSet>
           <AssociationSet Name="FK_STI_IRS" Association="Self.FK_STI_IRS">
             <End Role="WMS_IRS" EntitySet="WMS_IRS" />
@@ -534,23 +472,8 @@
             <End Role="TK_DEP" EntitySet="TK_DEP" />
             <End Role="TK_KOR" EntitySet="TK_KOR" />
           </AssociationSet>
+          <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
           <EntitySet Name="USR01" EntityType="MModel.USR01" />
-          <EntitySet Name="Perms" EntityType="MModel.Perm" />
-          <EntitySet Name="RolePerms" EntityType="MModel.RolePerm" />
-          <EntitySet Name="Roles" EntityType="MModel.Role" />
-          <EntitySet Name="UserPerms" EntityType="MModel.UserPerm" />
-          <AssociationSet Name="FK_Perm_UserPerm2" Association="MModel.FK_Perm_UserPerm2">
-            <End Role="Perm" EntitySet="Perms" />
-            <End Role="UserPerm" EntitySet="UserPerms" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RolePerm_Perm" Association="MModel.FK_RolePerm_Perm">
-            <End Role="Perm" EntitySet="Perms" />
-            <End Role="RolePerm" EntitySet="RolePerms" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RolePerm_Roles" Association="MModel.FK_RolePerm_Roles">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="RolePerm" EntitySet="RolePerms" />
-          </AssociationSet>
           <EntitySet Name="GorevListesis" EntityType="MModel.GorevListesi" />
           <AssociationSet Name="FK_GorevListesi_ComboItemName" Association="MModel.FK_GorevListesi_ComboItemName">
             <End Role="ComboItemName" EntitySet="ComboItemNames" />
@@ -560,15 +483,26 @@
             <End Role="ComboItemName" EntitySet="ComboItemNames" />
             <End Role="GorevListesi" EntitySet="GorevListesis" />
           </AssociationSet>
+          <AssociationSet Name="FK_GorevListesi_Atayan" Association="MModel.FK_GorevListesi_Atayan">
+            <End Role="USR01" EntitySet="USR01" />
+            <End Role="GorevListesi" EntitySet="GorevListesis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevListesi_Gorevli" Association="MModel.FK_GorevListesi_Gorevli">
+            <End Role="USR01" EntitySet="USR01" />
+            <End Role="GorevListesi" EntitySet="GorevListesis" />
+          </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_IRS" Association="MModel.FK_GorevListesi_IRS">
             <End Role="WMS_IRS" EntitySet="WMS_IRS" />
+            <End Role="GorevListesi" EntitySet="GorevListesis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevListesi_Olusturan" Association="MModel.FK_GorevListesi_Olusturan">
+            <End Role="USR01" EntitySet="USR01" />
             <End Role="GorevListesi" EntitySet="GorevListesis" />
           </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_TK_DEP" Association="MModel.FK_GorevListesi_TK_DEP">
             <End Role="TK_DEP" EntitySet="TK_DEP" />
             <End Role="GorevListesi" EntitySet="GorevListesis" />
           </AssociationSet>
-          <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -799,11 +733,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Olcu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SirketKodu" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="En" Type="Decimal" Precision="25" Scale="6" />
+          <Property Name="Boy" Type="Decimal" Precision="25" Scale="6" />
+          <Property Name="Genislik" Type="Decimal" Precision="25" Scale="6" />
+          <Property Name="Agirlik" Type="Decimal" Precision="25" Scale="6" />
+          <Property Name="Hacim" Type="Decimal" Precision="38" Scale="6" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="MalAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
         <EntityType Name="USR01">
           <Key>
-            <PropertyRef Name="Sirket" />
-            <PropertyRef Name="Tip" />
-            <PropertyRef Name="Kod" />
+            <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Sirket" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
@@ -812,7 +759,7 @@
           <Property Name="Sifre" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="AdSoyad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="Tema" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Admin" Type="Boolean" Nullable="false" />
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
@@ -826,105 +773,10 @@
           <Property Name="DegisSaat" Type="Int32" Nullable="false" />
           <Property Name="DegisKaynak" Type="Int16" Nullable="false" />
           <Property Name="DegisSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Perm">
-          <Key>
-            <PropertyRef Name="PermName" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="PermName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
-          <Property Name="Type" Type="Int16" Nullable="false" />
-          <Property Name="AppType" Type="Int16" Nullable="false" />
-          <Property Name="Group" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RecordDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="UserPerms" Relationship="MModel.FK_Perm_UserPerm2" FromRole="Perm" ToRole="UserPerm" />
-          <NavigationProperty Name="RolePerms" Relationship="MModel.FK_RolePerm_Perm" FromRole="Perm" ToRole="RolePerm" />
-        </EntityType>
-        <EntityType Name="RolePerm">
-          <Key>
-            <PropertyRef Name="RoleName" />
-            <PropertyRef Name="PermName" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="PermName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Reading" Type="Boolean" Nullable="false" />
-          <Property Name="Writing" Type="Boolean" Nullable="false" />
-          <Property Name="Updating" Type="Boolean" Nullable="false" />
-          <Property Name="Deleting" Type="Boolean" Nullable="false" />
-          <Property Name="RecordDate" Type="DateTime" Precision="0" />
-          <Property Name="RecordUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
-          <Property Name="ModifiedUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Perm" Relationship="MModel.FK_RolePerm_Perm" FromRole="RolePerm" ToRole="Perm" />
-          <NavigationProperty Name="Role" Relationship="MModel.FK_RolePerm_Roles" FromRole="RolePerm" ToRole="Role" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="RoleName" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="RolePerms" Relationship="MModel.FK_RolePerm_Roles" FromRole="Role" ToRole="RolePerm" />
-        </EntityType>
-        <EntityType Name="UserPerm">
-          <Key>
-            <PropertyRef Name="UserName" />
-            <PropertyRef Name="PermName" />
-          </Key>
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="PermName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Reading" Type="Boolean" Nullable="false" />
-          <Property Name="Writing" Type="Boolean" Nullable="false" />
-          <Property Name="Updating" Type="Boolean" Nullable="false" />
-          <Property Name="Deleting" Type="Boolean" Nullable="false" />
-          <Property Name="RecordDate" Type="DateTime" Precision="0" />
-          <Property Name="RecordUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
-          <Property Name="ModifiedUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Perm" Relationship="MModel.FK_Perm_UserPerm2" FromRole="UserPerm" ToRole="Perm" />
-        </EntityType>
-        <Association Name="FK_Perm_UserPerm2">
-          <End Type="MModel.Perm" Role="Perm" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="MModel.UserPerm" Role="UserPerm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Perm">
-              <PropertyRef Name="PermName" />
-            </Principal>
-            <Dependent Role="UserPerm">
-              <PropertyRef Name="PermName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RolePerm_Perm">
-          <End Type="MModel.Perm" Role="Perm" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="MModel.RolePerm" Role="RolePerm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Perm">
-              <PropertyRef Name="PermName" />
-            </Principal>
-            <Dependent Role="RolePerm">
-              <PropertyRef Name="PermName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RolePerm_Roles">
-          <End Type="MModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="MModel.RolePerm" Role="RolePerm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleName" />
-            </Principal>
-            <Dependent Role="RolePerm">
-              <PropertyRef Name="RoleName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+          <NavigationProperty Name="GorevListesis" Relationship="MModel.FK_GorevListesi_Atayan" FromRole="USR01" ToRole="GorevListesi" />
+          <NavigationProperty Name="GorevListesis1" Relationship="MModel.FK_GorevListesi_Gorevli" FromRole="USR01" ToRole="GorevListesi" />
+          <NavigationProperty Name="GorevListesis2" Relationship="MModel.FK_GorevListesi_Olusturan" FromRole="USR01" ToRole="GorevListesi" />
+          </EntityType>
         <EntityType Name="GorevListesi">
           <Key>
             <PropertyRef Name="ID" />
@@ -934,20 +786,23 @@
           <Property Name="GorevNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="GorevTipiID" Type="Int32" Nullable="false" />
           <Property Name="DurumID" Type="Int32" Nullable="false" />
-          <Property Name="Olusturan" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OlusturanID" Type="Int32" Nullable="false" />
           <Property Name="OlusturmaTarihi" Type="Int32" Nullable="false" />
           <Property Name="OlusturmaSaati" Type="Int32" Nullable="false" />
           <Property Name="Bilgi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IrsaliyeID" Type="Int32" />
-          <Property Name="Gorevli" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Atayan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GorevliID" Type="Int32" />
+          <Property Name="AtayanID" Type="Int32" />
           <Property Name="AtamaTarihi" Type="Int32" />
           <Property Name="BitisTarihi" Type="Int32" />
           <Property Name="BitisSaati" Type="Int32" />
           <NavigationProperty Name="ComboItemName" Relationship="MModel.FK_GorevListesi_ComboItemName" FromRole="GorevListesi" ToRole="ComboItemName" />
           <NavigationProperty Name="ComboItemName1" Relationship="MModel.FK_GorevListesi_ComboItemName1" FromRole="GorevListesi" ToRole="ComboItemName" />
+          <NavigationProperty Name="USR01" Relationship="MModel.FK_GorevListesi_Atayan" FromRole="GorevListesi" ToRole="USR01" />
+          <NavigationProperty Name="USR011" Relationship="MModel.FK_GorevListesi_Gorevli" FromRole="GorevListesi" ToRole="USR01" />
           <NavigationProperty Name="WMS_IRS" Relationship="MModel.FK_GorevListesi_IRS" FromRole="GorevListesi" ToRole="WMS_IRS" />
+          <NavigationProperty Name="USR012" Relationship="MModel.FK_GorevListesi_Olusturan" FromRole="GorevListesi" ToRole="USR01" />
           <NavigationProperty Name="TK_DEP" Relationship="MModel.FK_GorevListesi_TK_DEP" FromRole="GorevListesi" ToRole="TK_DEP" />
         </EntityType>
         <Association Name="FK_GorevListesi_ComboItemName">
@@ -974,6 +829,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GorevListesi_Atayan">
+          <End Type="MModel.USR01" Role="USR01" Multiplicity="0..1" />
+          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USR01">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="AtayanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevListesi_Gorevli">
+          <End Type="MModel.USR01" Role="USR01" Multiplicity="0..1" />
+          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USR01">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="GorevliID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GorevListesi_IRS">
           <End Type="MModel.WMS_IRS" Role="WMS_IRS" Multiplicity="0..1" />
           <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
@@ -983,6 +862,18 @@
             </Principal>
             <Dependent Role="GorevListesi">
               <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevListesi_Olusturan">
+          <End Type="MModel.USR01" Role="USR01" Multiplicity="1" />
+          <End Type="MModel.GorevListesi" Role="GorevListesi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USR01">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevListesi">
+              <PropertyRef Name="OlusturanID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -998,21 +889,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Olcu">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SirketKodu" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="En" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="Boy" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="Genislik" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="Agirlik" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="Hacim" Type="Decimal" Precision="38" Scale="6" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="MalAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1159,6 +1035,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Olcus">
+            <EntityTypeMapping TypeName="MModel.Olcu">
+              <MappingFragment StoreEntitySet="Olcu">
+                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
+                <ScalarProperty Name="Hacim" ColumnName="Hacim" />
+                <ScalarProperty Name="Agirlik" ColumnName="Agirlik" />
+                <ScalarProperty Name="Genislik" ColumnName="Genislik" />
+                <ScalarProperty Name="Boy" ColumnName="Boy" />
+                <ScalarProperty Name="En" ColumnName="En" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="SirketKodu" ColumnName="SirketKodu" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="USR01">
             <EntityTypeMapping TypeName="MModel.USR01">
               <MappingFragment StoreEntitySet="USR01">
@@ -1175,7 +1067,7 @@
                 <ScalarProperty Name="Aktif" ColumnName="Aktif" />
                 <ScalarProperty Name="Admin" ColumnName="Admin" />
                 <ScalarProperty Name="Tema" ColumnName="Tema" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="AdSoyad" ColumnName="AdSoyad" />
                 <ScalarProperty Name="Sifre" ColumnName="Sifre" />
@@ -1186,94 +1078,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Perms">
-            <EntityTypeMapping TypeName="MModel.Perm">
-              <MappingFragment StoreEntitySet="Perm">
-                <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
-                <ScalarProperty Name="Group" ColumnName="Group" />
-                <ScalarProperty Name="AppType" ColumnName="AppType" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="PermName" ColumnName="PermName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RolePerms">
-            <EntityTypeMapping TypeName="MModel.RolePerm">
-              <MappingFragment StoreEntitySet="RolePerm">
-                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="RecordUser" ColumnName="RecordUser" />
-                <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
-                <ScalarProperty Name="Deleting" ColumnName="Deleting" />
-                <ScalarProperty Name="Updating" ColumnName="Updating" />
-                <ScalarProperty Name="Writing" ColumnName="Writing" />
-                <ScalarProperty Name="Reading" ColumnName="Reading" />
-                <ScalarProperty Name="PermName" ColumnName="PermName" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="MModel.Role">
-              <MappingFragment StoreEntitySet="Roles">
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserPerms">
-            <EntityTypeMapping TypeName="MModel.UserPerm">
-              <MappingFragment StoreEntitySet="UserPerm">
-                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="RecordUser" ColumnName="RecordUser" />
-                <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
-                <ScalarProperty Name="Deleting" ColumnName="Deleting" />
-                <ScalarProperty Name="Updating" ColumnName="Updating" />
-                <ScalarProperty Name="Writing" ColumnName="Writing" />
-                <ScalarProperty Name="Reading" ColumnName="Reading" />
-                <ScalarProperty Name="PermName" ColumnName="PermName" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GorevListesis">
             <EntityTypeMapping TypeName="MModel.GorevListesi">
               <MappingFragment StoreEntitySet="GorevListesi">
                 <ScalarProperty Name="BitisSaati" ColumnName="BitisSaati" />
                 <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
                 <ScalarProperty Name="AtamaTarihi" ColumnName="AtamaTarihi" />
-                <ScalarProperty Name="Atayan" ColumnName="Atayan" />
-                <ScalarProperty Name="Gorevli" ColumnName="Gorevli" />
+                <ScalarProperty Name="AtayanID" ColumnName="AtayanID" />
+                <ScalarProperty Name="GorevliID" ColumnName="GorevliID" />
                 <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
                 <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
                 <ScalarProperty Name="Bilgi" ColumnName="Bilgi" />
                 <ScalarProperty Name="OlusturmaSaati" ColumnName="OlusturmaSaati" />
                 <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
-                <ScalarProperty Name="Olusturan" ColumnName="Olusturan" />
+                <ScalarProperty Name="OlusturanID" ColumnName="OlusturanID" />
                 <ScalarProperty Name="DurumID" ColumnName="DurumID" />
                 <ScalarProperty Name="GorevTipiID" ColumnName="GorevTipiID" />
                 <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
                 <ScalarProperty Name="DepoID" ColumnName="DepoID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Olcus">
-            <EntityTypeMapping TypeName="MModel.Olcu">
-              <MappingFragment StoreEntitySet="Olcu">
-                <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
-                <ScalarProperty Name="Hacim" ColumnName="Hacim" />
-                <ScalarProperty Name="Agirlik" ColumnName="Agirlik" />
-                <ScalarProperty Name="Genislik" ColumnName="Genislik" />
-                <ScalarProperty Name="Boy" ColumnName="Boy" />
-                <ScalarProperty Name="En" ColumnName="En" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="SirketKodu" ColumnName="SirketKodu" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -36,13 +36,9 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<WMS_IRS> WMS_IRS { get; set; }
         public virtual DbSet<WMS_STI> WMS_STI { get; set; }
         public virtual DbSet<TK_DEP> TK_DEP { get; set; }
-        public virtual DbSet<USR01> USR01 { get; set; }
-        public virtual DbSet<Perm> Perms { get; set; }
-        public virtual DbSet<RolePerm> RolePerms { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<UserPerm> UserPerms { get; set; }
-        public virtual DbSet<GorevListesi> GorevListesis { get; set; }
         public virtual DbSet<Olcu> Olcus { get; set; }
+        public virtual DbSet<USR01> USR01 { get; set; }
+        public virtual DbSet<GorevListesi> GorevListesis { get; set; }
     
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {

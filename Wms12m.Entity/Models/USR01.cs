@@ -14,6 +14,14 @@ namespace Wms12m.Entity.Models
     
     public partial class USR01
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public USR01()
+        {
+            this.GorevListesis = new HashSet<GorevListesi>();
+            this.GorevListesis1 = new HashSet<GorevListesi>();
+            this.GorevListesis2 = new HashSet<GorevListesi>();
+        }
+    
         public int ID { get; set; }
         public string Sirket { get; set; }
         public short Tip { get; set; }
@@ -21,7 +29,7 @@ namespace Wms12m.Entity.Models
         public string Sifre { get; set; }
         public string AdSoyad { get; set; }
         public string Email { get; set; }
-        public string RoleName { get; set; }
+        public int RoleID { get; set; }
         public string Tema { get; set; }
         public bool Admin { get; set; }
         public bool Aktif { get; set; }
@@ -35,5 +43,12 @@ namespace Wms12m.Entity.Models
         public int DegisSaat { get; set; }
         public short DegisKaynak { get; set; }
         public string DegisSurum { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevListesi> GorevListesis { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevListesi> GorevListesis1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevListesi> GorevListesis2 { get; set; }
     }
 }
