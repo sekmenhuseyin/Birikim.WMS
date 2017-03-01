@@ -62,7 +62,7 @@
     <Compile Include="Extension\Functions.cs" />
     <Compile Include="Tables\Gorev.cs" />
     <Compile Include="MalKabul\MalKabulSTIOnay.cs" />
-    <Compile Include="Tables\Size.cs" />
+    <Compile Include="Tables\Dimension.cs" />
     <Compile Include="Tables\Stok.cs" />
     <Compile Include="Tables\Irsaliye.cs" />
     <Compile Include="Logger\Logger.cs" />

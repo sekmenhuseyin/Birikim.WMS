@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Wms12m.Entity;
 using System.Web.Mvc;
+using Wms12m.Business;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -31,8 +33,22 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Create()
         {
-            return PartialView("_Create", new Olcu());
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            if (id.ToString() == "0") return null;
+            Olcu tbl = new Olcu();
+            tbl.SirketKodu = id.ToString();
+            return PartialView("_Create", tbl);
         }
-
+        /// <summary>
+        /// yeni boyut kartı
+        /// </summary>
+        public PartialViewResult Save(Olcu tbl)
+        {
+            Dimension tmpTable = new Dimension();
+            Result _Result = tmpTable.Operation(tbl);
+            var list = db.Olcus.Where(m => m.SirketKodu == tbl.SirketKodu).OrderBy(m => m.MalKodu).ToList();
+            return PartialView("_GetList", list);
+        }
     }
 }
