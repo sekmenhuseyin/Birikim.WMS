@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Olcu>
-<p>@Html.ActionLink("Create New", "Create")</p>
+<p>@Html.ActionLink("Yeni Ekle", "Create")</p>
 <table class="table table-striped table-bordered table-hover" id="sample_1">
     <thead>
         <tr>
@@ -18,18 +18,16 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.SirketKodu)</td>
                 <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
+                <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
                 <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                 <td>@Html.DisplayFor(modelItem => item.En)</td>
                 <td>@Html.DisplayFor(modelItem => item.Boy)</td>
                 <td>@Html.DisplayFor(modelItem => item.Genislik)</td>
                 <td>@Html.DisplayFor(modelItem => item.Agirlik)</td>
                 <td>@Html.DisplayFor(modelItem => item.Hacim)</td>
-                <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.ID }) |
                     @Html.ActionLink("Delete", "Delete", new { id=item.ID })
                 </td>
             </tr>

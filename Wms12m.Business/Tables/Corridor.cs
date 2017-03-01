@@ -108,7 +108,6 @@ namespace Wms12m.Business
             {
                 return new TK_KOR();
             }
-
         }
         /// <summary>
         /// tüm listesi

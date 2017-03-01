@@ -26,5 +26,13 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Olcus.Where(m => m.SirketKodu == id.ToString()).OrderBy(m => m.MalKodu).ToList();
             return PartialView("_GetList", list);
         }
+        /// <summary>
+        /// yeni boyut kartı
+        /// </summary>
+        public PartialViewResult Create()
+        {
+            return PartialView("_Create");
+        }
+
     }
 }
