@@ -159,7 +159,8 @@
             maxFileSize: 2000000,
             acceptFileTypes: /(\.|\/)(xlsx)$/i,
             dataType: 'json',
-            add: function (e, data) { data.submit(); }
+            add: function (e, data) { data.submit(); },
+            done: function (e, data) { $('#submitForm').click(); }
         });
     });</script>
 
