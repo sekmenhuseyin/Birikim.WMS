@@ -358,6 +358,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetGorevNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tarih" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="ComboItemName" EntityType="Self.ComboItemName" Schema="dbo" store:Type="Tables" />
@@ -503,6 +506,9 @@
             <End Role="TK_DEP" EntitySet="TK_DEP" />
             <End Role="GorevListesi" EntitySet="GorevListesis" />
           </AssociationSet>
+          <FunctionImport Name="GetGorevNo" ReturnType="Collection(Int32)">
+            <Parameter Name="tarih" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1100,6 +1106,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetGorevNo" FunctionName="MModel.Store.GetGorevNo" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

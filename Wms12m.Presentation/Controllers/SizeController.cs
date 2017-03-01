@@ -41,6 +41,19 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_Create", tbl);
         }
         /// <summary>
+        /// düzenleme
+        /// </summary>
+        public ActionResult Edit()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            if (id.ToString() == "0") return null;
+            int tmp = id.ToInt32();
+            var tbl = db.Olcus.Where(m => m.ID == tmp).FirstOrDefault();
+            if (tbl == null) return null;
+            return View("_Edit", tbl);
+        }
+        /// <summary>
         /// yeni boyut kartı
         /// </summary>
         public PartialViewResult Save(Olcu tbl)
@@ -49,6 +62,13 @@ namespace Wms12m.Presentation.Controllers
             Result _Result = tmpTable.Operation(tbl);
             var list = db.Olcus.Where(m => m.SirketKodu == tbl.SirketKodu).OrderBy(m => m.MalKodu).ToList();
             return PartialView("_GetList", list);
+        }
+        /// <summary>
+        /// silme
+        /// </summary>
+        public ActionResult Delete()
+        {
+            return View("Index");
         }
     }
 }

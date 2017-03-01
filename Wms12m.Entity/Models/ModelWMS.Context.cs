@@ -44,5 +44,14 @@ namespace Wms12m.Entity.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSirkets_Result>("WMSEntities.GetSirkets");
         }
+    
+        public virtual ObjectResult<Nullable<int>> GetGorevNo(Nullable<int> tarih)
+        {
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("tarih", tarih) :
+                new ObjectParameter("tarih", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetGorevNo", tarihParameter);
+        }
     }
 }

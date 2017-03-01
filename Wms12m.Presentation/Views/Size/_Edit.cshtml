@@ -1,0 +1,68 @@
+﻿@model Olcu
+<div class="modal-content">
+    <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="modal-body">@*Project Details Go Here*@
+                    <h4>Boyut Düzenle</h4>
+                    @using (Ajax.BeginForm("Save", "Size", new AjaxOptions { UpdateTargetId = "liste" }, htmlAttributes: new { @class = "form", id = "frmNewSize", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.ID)
+                        @Html.HiddenFor(m => m.SirketKodu)
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MalKodu, "Mal Kodu", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.MalKodu, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.MalKodu, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Birim, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Birim, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.Birim, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.En, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.En, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.En, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Boy, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Boy, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.Boy, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Genislik, "Genişlik", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Genislik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.Genislik, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Agirlik, "Ağırlık", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Agirlik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.Agirlik, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                    <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" id="submitter" onclick="$('#frmNewSize').submit()">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5917,6 +5917,7 @@
     <Content Include="Views\Size\Index.cshtml" />
     <Content Include="Views\Size\_GetList.cshtml" />
     <Content Include="Views\Size\_Create.cshtml" />
+    <Content Include="Views\Size\_Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

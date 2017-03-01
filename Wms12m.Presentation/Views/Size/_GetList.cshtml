@@ -27,8 +27,8 @@
                 <td>@Html.DisplayFor(modelItem => item.Agirlik)</td>
                 <td>@Html.DisplayFor(modelItem => item.Hacim)</td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+                    <a class="btn btn-default input-circle"  href="#modalEditPage" data-toggle="modal"onclick="editInModal('/Size/Edit/@item.ID')"> Düzenle </a>
+                    <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/Size/Delete,'liste','', '')"> Sil </a>
                 </td>
             </tr>
         }
