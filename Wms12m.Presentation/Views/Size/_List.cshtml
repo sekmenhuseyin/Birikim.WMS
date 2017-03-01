@@ -9,8 +9,8 @@
             <th>@Html.DisplayNameFor(model => model.En)</th>
             <th>@Html.DisplayNameFor(model => model.Boy)</th>
             <th>@Html.DisplayNameFor(model => model.Genislik)</th>
-            <th>@Html.DisplayNameFor(model => model.Agirlik)</th>
             <th>@Html.DisplayNameFor(model => model.Hacim)</th>
+            <th>@Html.DisplayNameFor(model => model.Agirlik)</th>
             <th></th>
         </tr>
     </thead>
@@ -24,11 +24,11 @@
                 <td>@Html.DisplayFor(modelItem => item.En)</td>
                 <td>@Html.DisplayFor(modelItem => item.Boy)</td>
                 <td>@Html.DisplayFor(modelItem => item.Genislik)</td>
-                <td>@Html.DisplayFor(modelItem => item.Agirlik)</td>
                 <td>@Html.DisplayFor(modelItem => item.Hacim)</td>
+                <td>@Html.DisplayFor(modelItem => item.Agirlik)</td>
                 <td>
                     <a class="btn btn-default input-circle"  href="#modalEditPage" data-toggle="modal"onclick="editInModal('/Size/Edit/@item.ID')"> Düzenle </a>
-                    <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/Size/Delete,'liste','', '')"> Sil </a>
+                    <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/Size/List2','liste','@item.SirketKodu')"> Sil </a>
                 </td>
             </tr>
         }

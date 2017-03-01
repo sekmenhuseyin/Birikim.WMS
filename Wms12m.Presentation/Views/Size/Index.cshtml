@@ -22,10 +22,11 @@
     </div>
 </div>
 <script>
+    var DeleteFunctionUrl = '@Url.Action("Delete", "Size")';
     $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#SirketID")[0].selectedIndex = 0;
     $('#SirketID').on('change', function () {
         $.ajax({
-            url: "/Size/GetList/" + $('#SirketID').val(),
+            url: "/Size/List/" + $('#SirketID').val(),
             type: 'POST',
             dataType: "html",
             success: function (data) {

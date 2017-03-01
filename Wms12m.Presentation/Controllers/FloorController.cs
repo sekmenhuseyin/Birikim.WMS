@@ -84,7 +84,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// sil
         /// </summary>
-        public ActionResult Delete(string Id)
+        public JsonResult Delete(string Id)
         {
             FloorOperation = new Floor();
             Result _Result = FloorOperation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));

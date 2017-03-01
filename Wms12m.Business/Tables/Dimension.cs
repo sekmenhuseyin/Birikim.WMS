@@ -30,7 +30,7 @@ namespace Wms12m.Business
                 if (tmp == null)
                     kontrol = false;
             }
-            var tmp2 = db.Olcus.Where(m => m.SirketKodu == tbl.SirketKodu && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim).FirstOrDefault();
+            var tmp2 = db.Olcus.Where(m => m.SirketKodu == tbl.SirketKodu && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.ID != tbl.ID).FirstOrDefault();
             if (tmp2 != null)
                 kontrol = false;
             if (kontrol == false)

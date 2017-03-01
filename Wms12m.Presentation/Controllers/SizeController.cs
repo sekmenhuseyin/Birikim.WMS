@@ -20,13 +20,18 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// şirket ID'ye göre stok listesini getirir
         /// </summary>
-        public PartialViewResult GetList()
+        public PartialViewResult List()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             if (id.ToString() == "0") return null;
             var list = db.Olcus.Where(m => m.SirketKodu == id.ToString()).OrderBy(m => m.MalKodu).ToList();
-            return PartialView("_GetList", list);
+            return PartialView("_List", list);
+        }
+        public PartialViewResult List2(string Id)
+        {
+            var list = db.Olcus.Where(m => m.SirketKodu == Id).OrderBy(m => m.MalKodu).ToList();
+            return PartialView("_List", list);
         }
         /// <summary>
         /// yeni boyut kartı
@@ -43,7 +48,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// düzenleme
         /// </summary>
-        public ActionResult Edit()
+        public PartialViewResult Edit()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
@@ -51,7 +56,7 @@ namespace Wms12m.Presentation.Controllers
             int tmp = id.ToInt32();
             var tbl = db.Olcus.Where(m => m.ID == tmp).FirstOrDefault();
             if (tbl == null) return null;
-            return View("_Edit", tbl);
+            return PartialView("_Edit", tbl);
         }
         /// <summary>
         /// yeni boyut kartı
@@ -61,14 +66,16 @@ namespace Wms12m.Presentation.Controllers
             Dimension tmpTable = new Dimension();
             Result _Result = tmpTable.Operation(tbl);
             var list = db.Olcus.Where(m => m.SirketKodu == tbl.SirketKodu).OrderBy(m => m.MalKodu).ToList();
-            return PartialView("_GetList", list);
+            return PartialView("_List", list);
         }
         /// <summary>
         /// silme
         /// </summary>
-        public ActionResult Delete()
+        public JsonResult Delete(string Id)
         {
-            return View("Index");
+             var operation = new Dimension();
+            Result _Result = operation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }

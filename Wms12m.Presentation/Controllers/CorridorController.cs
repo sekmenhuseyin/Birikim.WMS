@@ -100,7 +100,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// sil
         /// </summary>
-        public ActionResult Delete(string Id)
+        public JsonResult Delete(string Id)
         {
             Operation = new Corridor();
             Result _Result = Operation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
