@@ -45,10 +45,10 @@ namespace Wms12m.Business
                         db.WMS_IRS.Add(tablo);
                         db.SaveChanges();
                         //add görevlist table
-                        int gorevno = db.GetGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault().Value;
+                        string gorevno = db.GetGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
                         GorevListesi gorev = new GorevListesi();
                         gorev.DepoID = tbl.DepoID;
-                        gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-" + gorevno;
+                        gorev.GorevNo = gorevno;
                         gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
                         gorev.DurumID = ComboNames.Açık.ToInt32();
                         gorev.OlusturanID = Users.AppIdentity.User.Id;

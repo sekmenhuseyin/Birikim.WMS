@@ -571,9 +571,6 @@
             <End Role="TK_DEP" EntitySet="TK_DEP" />
             <End Role="GorevListesi" EntitySet="GorevListesis" />
           </AssociationSet>
-          <FunctionImport Name="GetGorevNo" ReturnType="Collection(Int32)">
-          <Parameter Name="tarih" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="Logger">
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="Machine" Mode="In" Type="String" />
@@ -611,6 +608,9 @@
             <End Role="ComboItemName" EntitySet="ComboItemNames" />
             <End Role="TK_KAT" EntitySet="TK_KAT" />
           </AssociationSet>
+          <FunctionImport Name="GetGorevNo" ReturnType="Collection(String)">
+            <Parameter Name="tarih" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1237,7 +1237,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetGorevNo" FunctionName="MModel.Store.GetGorevNo" />
           <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
           <EntitySetMapping Name="ComboItemNames">
             <EntityTypeMapping TypeName="MModel.ComboItemName">
@@ -1298,6 +1297,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetGorevNo" FunctionName="MModel.Store.GetGorevNo" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -47,15 +47,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSirkets_Result>("WMSEntities.GetSirkets");
         }
     
-        public virtual ObjectResult<Nullable<int>> GetGorevNo(Nullable<int> tarih)
-        {
-            var tarihParameter = tarih.HasValue ?
-                new ObjectParameter("tarih", tarih) :
-                new ObjectParameter("tarih", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetGorevNo", tarihParameter);
-        }
-    
         public virtual int Logger(string userName, string machine, string ipAddress, string description, string method, string url)
         {
             var userNameParameter = userName != null ?
@@ -83,6 +74,15 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Url", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.Logger", userNameParameter, machineParameter, ipAddressParameter, descriptionParameter, methodParameter, urlParameter);
+        }
+    
+        public virtual ObjectResult<string> GetGorevNo(Nullable<int> tarih)
+        {
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("tarih", tarih) :
+                new ObjectParameter("tarih", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetGorevNo", tarihParameter);
         }
     }
 }
