@@ -7,6 +7,7 @@
                 <th>Kat</th>
                 <th>Sıra No</th>
                 <th>En x Boy x Derinlik</th>
+                <th>Ağırlık Kapasitesi</th>
                 <th>Özellik</th>
                 <th>Açıklama</th>
                 <th>Durum</th>
@@ -20,7 +21,8 @@
                     <td>@item.Kat</td>
                     <td>@item.SiraNo </td>
                     <td>@item.En x @item.Boy x @item.Derinlik </td>
-                    <td>@item.Ozellik </td>
+                    <td>@item.AgirlikKapasite </td>
+                    <td>@item.ComboItemName.Name </td>
                     <td>@item.Aciklama </td>
                     <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
                     <td>
@@ -31,8 +33,7 @@
             }
         </tbody>
     </table>
-}
-else{<div>Kayıt Bulunamadı</div>}
+}else{<div>Kayıt Bulunamadı</div>}
 <script src="~/Content/assets/global/scripts/datatable.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
@@ -40,6 +41,3 @@ else{<div>Kayıt Bulunamadı</div>}
 <script src="~/Content/assets/global/scripts/app.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/pages/scripts/table-datatables-buttons.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/pages/scripts/components-bootstrap-switch.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-    $(".make-switch").bootstrapSwitch();
-</script>
