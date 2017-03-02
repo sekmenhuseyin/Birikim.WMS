@@ -1,46 +1,22 @@
-﻿@{
-    string User = "";
-    if (HttpContext.Current.Session["Identity"] as Wms12m.Security.Identity != null)
-    {
-        Wms12m.Security.CustomPrincipal aa = HttpContext.Current.User as Wms12m.Security.CustomPrincipal;
-        var UserName = aa.AppIdentity.User;
-        User = UserName.FirstName + " " + UserName.LastName;
-    }
-}
-<div class="page-header navbar navbar-fixed-top">
-    <div class="page-header-inner ">
-        <div class="page-logo">
-            <a href="@Url.Action("Index", "Home")">
-                <img src="@Url.Content("~/Content/assets/layouts/layout/img/TumGrubuLogo.jpg")" alt="logo" class="logo-default" style="margin:3px 0 0;" />
-            </a>
-            @*<div class="menu-toggler sidebar-toggler">
-                    <span></span>
-                </div>*@
-        </div>
-        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
-            <span></span>
-        </a>
-        <div class="top-menu">
-            <ul class="nav navbar-nav pull-right">
-                @*<li class="dropdownCustomer">
-                        <div class="sbxCustomer"></div>
-                    </li>*@
-                <li class="dropdown dropdown-user">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                        <span class="username username-hide-on-mobile">@User </span>
-                        <i class="fa fa-angle-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-default">
-                        <li>
-                            <a href="@Url.Action("LogOut", "Security")">
-                                <i class="icon-user"></i> Çıkış
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+﻿    <div class="page-header navbar navbar-fixed-top">
+        <div class="page-header-inner ">
+            <div class="page-logo">
+                <a href="@Url.Action("Index", "Home")">
+                    <img src="@Url.Content("~/Content/assets/layouts/layout/img/TumGrubuLogo.jpg")" alt="logo" class="logo-default" style="margin:3px 0 0;" />
+                </a>
+            </div>
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="dropdown dropdown-user">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            <span class="username username-hide-on-mobile">@ViewBag.User </span><i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default">
+                            <li><a href="@Url.Action("LogOut", "Security")"><i class="icon-user"></i> Çıkış</a></li>
+                        </ul>
+                    </li>
 
-            </ul>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-

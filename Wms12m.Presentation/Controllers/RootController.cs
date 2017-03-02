@@ -42,6 +42,7 @@ namespace Wms12m.Presentation.Controllers
             }
             logWatch = new Stopwatch();
             logWatch.Start();
+            ViewBag.User = User.FirstName + " " + User.LastName;
             base.OnActionExecuting(filterContext);
         }
         /// <summary>

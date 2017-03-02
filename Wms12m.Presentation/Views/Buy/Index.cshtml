@@ -3,10 +3,10 @@
     ViewBag.Title = "İrsaliye";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
+@section Styles{<link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />}
 <h3 class="page-title">İrsaliye</h3>
 <div class="row">
     <div class="col-lg-12">
@@ -107,60 +107,62 @@
         </div>
     </div>
 </div>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
-<script src="~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="~/Content/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
-<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-<script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
-<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
-<script>
-    $(".import-content").hide();
-    var DeleteFunctionUrl = '@Url.Action("Delete2", "Buy")';
-    $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>");
-    $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>");
-    CreateNew();
-    $("#Tarih").datepicker({ todayBtn: 'true', todayHighlight: 'true', language: 'tr' });
-    $('#SirketID').on('change', function () {
-        $("#hesapSelect").html("");
-        $("#HesapKodu").val('');
-        $("#Unvan").val('');
-        $.ajax({
-            url: "/Buy/GetHesapCodes/" + $('#SirketID').val(),
-            type: 'POST',
-            dataType: "html",
-            success: function (data) {
-                if (data != "") $("#hesapSelect").html(data);
-            }
+@section Scripts{
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/Content/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
+    <script>
+        $(".import-content").hide();
+        var DeleteFunctionUrl = '@Url.Action("Delete2", "Buy")';
+        $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>");
+        $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>");
+        CreateNew();
+        $("#Tarih").datepicker({ todayBtn: 'true', todayHighlight: 'true', language: 'tr' });
+        $('#SirketID').on('change', function () {
+            $("#hesapSelect").html("");
+            $("#HesapKodu").val('');
+            $("#Unvan").val('');
+            $.ajax({
+                url: "/Buy/GetHesapCodes/" + $('#SirketID').val(),
+                type: 'POST',
+                dataType: "html",
+                success: function (data) {
+                    if (data != "") $("#hesapSelect").html(data);
+                }
+            });
         });
-    });
-    function ShowHide() {
-        if ($('#hesapSelect').css("display") == "none")
-            $('#hesapSelect').show();
-        else
+        function ShowHide() {
+            if ($('#hesapSelect').css("display") == "none")
+                $('#hesapSelect').show();
+            else
+                $('#hesapSelect').hide();
+        }
+        function CreateNew() {
             $('#hesapSelect').hide();
-    }
-    function CreateNew() {
-        $('#hesapSelect').hide();
-        $("#SirketID")[0].selectedIndex = 0;
-        $("#DepoID")[0].selectedIndex = 0;
-        $("#hesapSelect").html("");
-        $("#HesapKodu").val('');
-        $("#Unvan").val('');
-        $("#EvrakNo").val('');
-        $("#Tarih").val('@DateTime.Now.ToShortDateString()');
-        $("#StoreGrid").html('');
-    }
-    $(function () {
-        $('#linkUpload').click(function () {
-            if ($("#IrsNo").val() > 0)
-                $("#btnUpload").click();
+            $("#SirketID")[0].selectedIndex = 0;
+            $("#DepoID")[0].selectedIndex = 0;
+            $("#hesapSelect").html("");
+            $("#HesapKodu").val('');
+            $("#Unvan").val('');
+            $("#EvrakNo").val('');
+            $("#Tarih").val('@DateTime.Now.ToShortDateString()');
+            $("#StoreGrid").html('');
+        }
+        $(function () {
+            $('#linkUpload').click(function () {
+                if ($("#IrsNo").val() > 0)
+                    $("#btnUpload").click();
+            });
+            $('#fileupload').fileupload({
+                maxFileSize: 2000000,
+                acceptFileTypes: /(\.|\/)(xlsx)$/i,
+                dataType: 'json',
+                add: function (e, data) { data.submit(); },
+                done: function (e, data) { $('#submitForm').click(); }
+            });
         });
-        $('#fileupload').fileupload({
-            maxFileSize: 2000000,
-            acceptFileTypes: /(\.|\/)(xlsx)$/i,
-            dataType: 'json',
-            add: function (e, data) { data.submit(); },
-            done: function (e, data) { $('#submitForm').click(); }
-        });
-    });</script>
-
+    </script>
+}

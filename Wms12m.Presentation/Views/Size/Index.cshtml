@@ -21,17 +21,19 @@
         </div>
     </div>
 </div>
-<script>
-    var DeleteFunctionUrl = '@Url.Action("Delete", "Size")';
-    $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#SirketID")[0].selectedIndex = 0;
-    $('#SirketID').on('change', function () {
-        $.ajax({
-            url: "/Size/List/" + $('#SirketID').val(),
-            type: 'POST',
-            dataType: "html",
-            success: function (data) {
-                if (data != "") $("#liste").html(data);
-            }
+@section Scripts{
+    <script>
+        var DeleteFunctionUrl = '@Url.Action("Delete", "Size")';
+        $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#SirketID")[0].selectedIndex = 0;
+        $('#SirketID').on('change', function () {
+            $.ajax({
+                url: "/Size/List/" + $('#SirketID').val(),
+                type: 'POST',
+                dataType: "html",
+                success: function (data) {
+                    if (data != "") $("#liste").html(data);
+                }
+            });
         });
-    });
-</script>
+    </script>
+}

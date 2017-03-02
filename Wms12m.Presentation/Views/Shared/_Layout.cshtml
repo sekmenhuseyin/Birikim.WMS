@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />@******************internet explorerda çalışması için bu satır gerekli**********************@
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="Content-Language" content="tr" />
@@ -12,8 +12,27 @@
     <meta name="keywords" content="" />
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <title>@ViewBag.Title</title>
-    <script src="~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js"></script>
-    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+</head>
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+@Html.Partial("_TopMenuPartial")
+    <div class="clearfix"> </div>
+    <div class="page-container">
+        <div class="page-sidebar-wrapper">
+            @Html.Partial("_MenuList")
+        </div>
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                @RenderBody()
+            </div>
+        </div>
+        <a href="javascript:;" class="page-quick-sidebar-toggler"><i class="icon-login"></i></a>
+    </div>
+    <div class="page-footer">
+        <div class="page-footer-inner">@DateTime.Today.Year &copy; 12M Consulting</div>
+        <div class="scroll-to-top"><i class="icon-arrow-up"></i></div>
+    </div>
+    <div id="div_loading" class="loader"></div>
+    <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/assets/global/plugins/simple-line-icons/simple-line-icons.min.css")" rel="stylesheet" type="text/css" />
@@ -31,33 +50,8 @@
     <link href="@Url.Content("~/Content/assets/layouts/layout/css/themes/darkblue.min.css")" rel="stylesheet" type="text/css" id="style_color" />
     <link href="@Url.Content("~/Content/assets/layouts/layout/css/custom.min.css")" rel="stylesheet" type="text/css" />
     @RenderSection("Styles", required: false)
-</head>
-<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
-    @Html.Partial("_TopMenuPartial")
-    <div class="clearfix"> </div>
-    <div class="page-container">
-        <div class="page-sidebar-wrapper">
-            @Html.Partial("_MenuList")
-        </div>
-        <div class="page-content-wrapper">
-            <div class="page-content">
-                @RenderBody()
-            </div>
-        </div>
-        <a href="javascript:;" class="page-quick-sidebar-toggler">
-            <i class="icon-login"></i>
-        </a>
-    </div>
-    <div class="page-footer">
-        <div class="page-footer-inner">
-            @DateTime.Today.Year &copy; 12MConsulting
-        </div>
-        <div class="scroll-to-top">
-            <i class="icon-arrow-up"></i>
-        </div>
-    </div>
-    <div id="div_loading" class="loader"></div>
-    <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
+    <script src="~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
     <script src="~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Content/assets/global/plugins/jquery-validation/jquery.unobtrusive-ajax.min.js"></script>
