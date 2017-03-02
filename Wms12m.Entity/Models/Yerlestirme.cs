@@ -12,17 +12,14 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Olcu
+    public partial class Yerlestirme
     {
         public int ID { get; set; }
-        public string SirketKodu { get; set; }
+        public int KatID { get; set; }
         public string MalKodu { get; set; }
         public string Birim { get; set; }
-        public Nullable<decimal> En { get; set; }
-        public Nullable<decimal> Boy { get; set; }
-        public Nullable<decimal> Genislik { get; set; }
-        public Nullable<decimal> Agirlik { get; set; }
-        public Nullable<decimal> Hacim { get; set; }
-        public string MalAdi { get; set; }
+        public decimal Miktar { get; set; }
+    
+        public virtual TK_KAT TK_KAT { get; set; }
     }
 }

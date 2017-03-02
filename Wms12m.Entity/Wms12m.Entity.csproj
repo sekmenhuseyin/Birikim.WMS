@@ -65,15 +65,21 @@
     <Compile Include="Models\FTD.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TK_OLCU.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TTY.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Yerlestirme.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Yerlestirme_Hareketler.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Viewmodels\frmGorev.cs" />
     <Compile Include="Viewmodels\frmIrsaliye.cs" />
     <Compile Include="Viewmodels\frmMalzeme.cs" />
-    <Compile Include="Models\Olcu.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Viewmodels\CacheKeys.cs" />
     <Compile Include="Viewmodels\LogCs.cs" />
     <Compile Include="Models\GetSirkets_Result.cs">

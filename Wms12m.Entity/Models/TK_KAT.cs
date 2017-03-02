@@ -14,6 +14,13 @@ namespace Wms12m.Entity.Models
     
     public partial class TK_KAT
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TK_KAT()
+        {
+            this.Yerlestirmes = new HashSet<Yerlestirme>();
+            this.Yerlestirme_Hareketler = new HashSet<Yerlestirme_Hareketler>();
+        }
+    
         public int ID { get; set; }
         public int BolumID { get; set; }
         public string Kat { get; set; }
@@ -31,5 +38,10 @@ namespace Wms12m.Entity.Models
         public int DegisTarih { get; set; }
     
         public virtual TK_BOL TK_BOL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Yerlestirme> Yerlestirmes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Yerlestirme_Hareketler> Yerlestirme_Hareketler { get; set; }
+        public virtual ComboItemName ComboItemName { get; set; }
     }
 }

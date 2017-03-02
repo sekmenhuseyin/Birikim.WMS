@@ -27,8 +27,6 @@ namespace Wms12m.Entity.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ComboItemName> ComboItemNames { get; set; }
-        public virtual DbSet<ComboName> ComboNames { get; set; }
         public virtual DbSet<TK_BOL> TK_BOL { get; set; }
         public virtual DbSet<TK_KAT> TK_KAT { get; set; }
         public virtual DbSet<TK_KOR> TK_KOR { get; set; }
@@ -36,9 +34,13 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<WMS_IRS> WMS_IRS { get; set; }
         public virtual DbSet<WMS_STI> WMS_STI { get; set; }
         public virtual DbSet<TK_DEP> TK_DEP { get; set; }
-        public virtual DbSet<Olcu> Olcus { get; set; }
         public virtual DbSet<USR01> USR01 { get; set; }
         public virtual DbSet<GorevListesi> GorevListesis { get; set; }
+        public virtual DbSet<ComboItemName> ComboItemNames { get; set; }
+        public virtual DbSet<ComboName> ComboNames { get; set; }
+        public virtual DbSet<Yerlestirme> Yerlestirmes { get; set; }
+        public virtual DbSet<Yerlestirme_Hareketler> Yerlestirme_Hareketler { get; set; }
+        public virtual DbSet<TK_OLCU> TK_OLCU { get; set; }
     
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {

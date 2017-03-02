@@ -12,18 +12,17 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ComboName
+    public partial class TK_OLCU
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ComboName()
-        {
-            this.ComboItemNames = new HashSet<ComboItemName>();
-        }
-    
         public int ID { get; set; }
-        public string ComboName1 { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ComboItemName> ComboItemNames { get; set; }
+        public string SirketKod { get; set; }
+        public string MalKodu { get; set; }
+        public string Birim { get; set; }
+        public Nullable<decimal> En { get; set; }
+        public Nullable<decimal> Boy { get; set; }
+        public Nullable<decimal> Derinlik { get; set; }
+        public Nullable<decimal> Agirlik { get; set; }
+        public Nullable<decimal> Hacim { get; set; }
+        public string MalAdi { get; set; }
     }
 }
