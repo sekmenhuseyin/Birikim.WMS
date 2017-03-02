@@ -42,7 +42,10 @@
                                         <td>@item.GorevNo</td>
                                         <td>@item.ComboItemName.ItemName</td>
                                         <td>@item.ComboItemName1.ItemName</td>
-                                        <td>@{if (item.USR011 != null) { @item.USR011.AdSoyad}} </td>
+                                        <td>
+                                            <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/GorevliAta/@item.ID')"> @{if (item.USR011 != null){ @item.USR011.AdSoyad} else {<text>Görevli Ata</text>}} </a>
+                                            
+                                        </td>
                                         <td>@DateTime.FromOADate(item.OlusturmaTarihi).ToShortDateString()</td>
                                         <td>@{if (item.AtamaTarihi != null) { @DateTime.FromOADate(item.AtamaTarihi.Value).ToShortDateString()} }</td>
                                         <td>@{if (item.BitisTarihi != null) { @DateTime.FromOADate(item.BitisTarihi.Value).ToShortDateString()}}</td>
@@ -50,7 +53,6 @@
                                         <td>@item.Aciklama </td>
                                         <td>
                                             <a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                                            <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/GorevliAta/@item.ID')"> Görevli Ata </a>
                                             <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/Gorev/GorevGridPartial','GorevGrid','0')"> Sil </a>
                                         </td>
                                     </tr>
