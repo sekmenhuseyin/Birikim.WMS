@@ -5915,9 +5915,9 @@
     <Content Include="Views\Buy\List.cshtml" />
     <Content Include="Views\Buy\SiparisList.cshtml" />
     <Content Include="Views\Size\Index.cshtml" />
-    <Content Include="Views\Size\_List.cshtml" />
     <Content Include="Views\Size\_Create.cshtml" />
     <Content Include="Views\Size\_Edit.cshtml" />
+    <Content Include="Views\Size\_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

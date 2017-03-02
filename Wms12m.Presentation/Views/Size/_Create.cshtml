@@ -1,4 +1,4 @@
-﻿@model Olcu
+﻿@model TK_OLCU
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
@@ -9,9 +9,15 @@
                     @using (Ajax.BeginForm("Save", "Size", new AjaxOptions { UpdateTargetId = "liste" }, htmlAttributes: new { @class = "form", id = "frmNewSize", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.HiddenFor(m => m.SirketKodu)
                         <div class="form-horizontal">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SirketKod, "Şirket", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownList("SirketKod", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.SirketKod, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.MalKodu, "Mal Kodu", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
@@ -41,10 +47,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Genislik, "Genişlik", htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.Derinlik, "Derinlik", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Genislik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
-                                    @Html.ValidationMessageFor(model => model.Genislik, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Derinlik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.Derinlik, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
@@ -54,6 +60,7 @@
                                     @Html.ValidationMessageFor(model => model.Agirlik, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+                            <div class="form-group"><input type="submit" class="hide" /></div>
                         </div>
                     }
                 </div>

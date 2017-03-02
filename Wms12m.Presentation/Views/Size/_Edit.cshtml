@@ -1,4 +1,4 @@
-﻿@model Olcu
+﻿@model TK_OLCU
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
@@ -10,7 +10,7 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.ID)
-                        @Html.HiddenFor(m => m.SirketKodu)
+                        @Html.HiddenFor(m => m.SirketKod)
                         <div class="form-horizontal">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-group">
@@ -42,10 +42,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Genislik, "Genişlik", htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.Derinlik, "Derinlik", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Genislik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
-                                    @Html.ValidationMessageFor(model => model.Genislik, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.Derinlik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.Derinlik, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
@@ -55,6 +55,7 @@
                                     @Html.ValidationMessageFor(model => model.Agirlik, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+                            <div class="form-group"><input type="submit" class="hide" /></div>
                         </div>
                     }
                 </div>

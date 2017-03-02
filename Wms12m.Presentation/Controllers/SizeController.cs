@@ -14,23 +14,15 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            return View("Index");
+            var list = db.TK_OLCU.OrderBy(m => m.MalKodu).ToList();
+            return View("Index", list);
         }
         /// <summary>
-        /// şirket ID'ye göre stok listesini getirir
+        /// silme sonrası listeyi yenile
         /// </summary>
-        public PartialViewResult List()
+        public PartialViewResult List(string Id)
         {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null) return null;
-            if (id.ToString() == "0") return null;
-            var list = db.Olcus.Where(m => m.SirketKodu == id.ToString()).OrderBy(m => m.MalKodu).ToList();
-            return PartialView("_List", list);
-        }
-        public PartialViewResult List2(string Id)
-        {
-            var list = db.Olcus.Where(m => m.SirketKodu == Id).OrderBy(m => m.MalKodu).ToList();
+            var list = db.TK_OLCU.OrderBy(m => m.MalKodu).ToList();
             return PartialView("_List", list);
         }
         /// <summary>
@@ -38,12 +30,8 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Create()
         {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null) return null;
-            if (id.ToString() == "0") return null;
-            Olcu tbl = new Olcu();
-            tbl.SirketKodu = id.ToString();
-            return PartialView("_Create", tbl);
+            ViewBag.SirketKod = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            return PartialView("_Create", new TK_OLCU());
         }
         /// <summary>
         /// düzenleme
@@ -54,18 +42,18 @@ namespace Wms12m.Presentation.Controllers
             if (id == null) return null;
             if (id.ToString() == "0") return null;
             int tmp = id.ToInt32();
-            var tbl = db.Olcus.Where(m => m.ID == tmp).FirstOrDefault();
+            var tbl = db.TK_OLCU.Where(m => m.ID == tmp).FirstOrDefault();
             if (tbl == null) return null;
             return PartialView("_Edit", tbl);
         }
         /// <summary>
         /// yeni boyut kartı
         /// </summary>
-        public PartialViewResult Save(Olcu tbl)
+        public PartialViewResult Save(TK_OLCU tbl)
         {
             Dimension tmpTable = new Dimension();
             Result _Result = tmpTable.Operation(tbl);
-            var list = db.Olcus.Where(m => m.SirketKodu == tbl.SirketKodu).OrderBy(m => m.MalKodu).ToList();
+            var list = db.TK_OLCU.OrderBy(m => m.MalKodu).ToList();
             return PartialView("_List", list);
         }
         /// <summary>

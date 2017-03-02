@@ -6,17 +6,17 @@ using System.Collections.Generic;
 
 namespace Wms12m.Business
 {
-    public class Dimension : abstractTables<Olcu>
+    public class Dimension : abstractTables<TK_OLCU>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
         /// <summary>
         /// ekle-kaydet
         /// </summary>
-        public override Result Operation(Olcu tbl)
+        public override Result Operation(TK_OLCU tbl)
         {
             _Result = new Result();
-            if (tbl.MalKodu == "" || tbl.Birim == "" || (tbl.Boy == 0 && tbl.En == 0 && tbl.Genislik == 0 && tbl.Agirlik == 0))
+            if (tbl.MalKodu == "" || tbl.Birim == "" || (tbl.Boy == 0 && tbl.En == 0 && tbl.Derinlik == 0 && tbl.Agirlik == 0))
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
@@ -24,13 +24,13 @@ namespace Wms12m.Business
                 return _Result;
             }
             bool kontrol = true;
-            using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketKodu))
+            using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketKod))
             {
                 var tmp = Dinamik.Context.STKs.Where(m => m.MalKodu == tbl.MalKodu && (m.Birim1 == tbl.Birim || m.Birim2 == tbl.Birim || m.Birim3 == tbl.Birim || m.Birim4 == tbl.Birim)).FirstOrDefault();
                 if (tmp == null)
                     kontrol = false;
             }
-            var tmp2 = db.Olcus.Where(m => m.SirketKodu == tbl.SirketKodu && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.ID != tbl.ID).FirstOrDefault();
+            var tmp2 = db.TK_OLCU.Where(m => m.SirketKod == tbl.SirketKod && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.ID != tbl.ID).FirstOrDefault();
             if (tmp2 != null)
                 kontrol = false;
             if (kontrol == false)
@@ -44,7 +44,7 @@ namespace Wms12m.Business
             {
                 if (tbl.ID == 0)
                 {
-                    db.Olcus.Add(tbl);
+                    db.TK_OLCU.Add(tbl);
                 }
                 else
                 {
@@ -53,7 +53,7 @@ namespace Wms12m.Business
                     tmp.Birim = tbl.Birim;
                     tmp.En = tbl.En;
                     tmp.Boy = tbl.Boy;
-                    tmp.Genislik = tbl.Genislik;
+                    tmp.Derinlik = tbl.Derinlik;
                     tmp.Agirlik = tbl.Agirlik;
                 }
                 db.SaveChanges();
@@ -78,10 +78,10 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                Olcu tbl = db.Olcus.Where(m => m.ID == Id).FirstOrDefault();
+                TK_OLCU tbl = db.TK_OLCU.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.Olcus.Remove(tbl);
+                    db.TK_OLCU.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
@@ -104,32 +104,32 @@ namespace Wms12m.Business
         /// ayrıntılar
         /// </summary>
 
-        public override Olcu Detail(int Id)
+        public override TK_OLCU Detail(int Id)
         {
             try
             {
-                return db.Olcus.Where(m => m.ID == Id).FirstOrDefault();
+                return db.TK_OLCU.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new Olcu();
+                return new TK_OLCU();
             }
         }
         /// <summary>
         /// tüm liste
         /// </summary>
-        public override List<Olcu> GetList()
+        public override List<TK_OLCU> GetList()
         {
-            return db.Olcus.ToList();
+            return db.TK_OLCU.ToList();
         }
         /// <summary>
         /// şirkete göre lsite
         /// </summary>
-        public List<Olcu> GetList(string ParentId)
+        public List<TK_OLCU> GetList(string ParentId)
         {
-            return db.Olcus.Where(m=>m.SirketKodu==ParentId).ToList();
+            return db.TK_OLCU.Where(m=>m.SirketKod==ParentId).ToList();
         }
-        public override List<Olcu> GetList(int ParentId)
+        public override List<TK_OLCU> GetList(int ParentId)
         {
             return GetList();
         }
