@@ -24,7 +24,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List()
         {
-            var list = db.WMS_IRS.ToList();
+            var list = db.WMS_IRS.OrderByDescending(m=>m.ID).ToList();
             return PartialView("List", list);
         }
         /// <summary>

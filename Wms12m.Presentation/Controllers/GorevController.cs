@@ -31,8 +31,8 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult GorevDetailPartial(int id)
         {
             var list = db.GorevListesis.Where(m => m.ID == id).FirstOrDefault();
-            ViewBag.GorevTipiID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 1).ToList(), "ID", "ItemName", list.GorevTipiID);
-            ViewBag.DurumID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 2).ToList(), "ID", "ItemName", list.DurumID);
+            ViewBag.GorevTipiID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 1).OrderBy(m => m.Name).ToList(), "ID", "Name", list.GorevTipiID);
+            ViewBag.DurumID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 2).OrderBy(m=>m.Name).ToList(), "ID", "Name", list.DurumID);
             return PartialView("_GorevDetailPartial", list);
         }
         /// <summary>

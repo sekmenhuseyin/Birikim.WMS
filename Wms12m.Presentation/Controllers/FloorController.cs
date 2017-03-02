@@ -20,6 +20,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
             ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
             ViewBag.BolumID = new SelectList(db.TK_BOL.Where(m => m.ID == 0).ToList(), "ID", "Bolum");
+            ViewBag.Ozellik = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name");
             return View("Index", new TK_KAT());
         }
         /// <summary>
@@ -69,6 +70,7 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
                 ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
                 ViewBag.BolumID = new SelectList(db.TK_BOL.Where(m => m.ID == 0).ToList(), "ID", "Bolum");
+                ViewBag.Ozellik = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name");
                 return PartialView("_FloorDetailPartial", new TK_KAT());
             }
             else
@@ -78,6 +80,7 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.KoridorID = new SelectList(db.TK_KOR.ToList(), "ID", "Koridor", tablo.TK_BOL.TK_RAF.KoridorID);
                 ViewBag.RafID = new SelectList(db.TK_RAF.ToList(), "ID", "Raf", tablo.TK_BOL.RafID);
                 ViewBag.BolumID = new SelectList(db.TK_BOL.ToList(), "ID", "Bolum", tablo.BolumID);
+                ViewBag.Ozellik = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name", tablo.Ozellik);
                 return PartialView("_FloorDetailPartial", new Floor().Detail(tmp));
             }
         }
