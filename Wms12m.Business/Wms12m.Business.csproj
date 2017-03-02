@@ -56,8 +56,6 @@
     <Compile Include="CacheControl\abstractCache.cs" />
     <Compile Include="CacheControl\CacheControl.cs" />
     <Compile Include="CacheControl\CacheManager.cs" />
-    <Compile Include="Control\SiteCookies.cs" />
-    <Compile Include="Control\SiteSessions.cs" />
     <Compile Include="Extension\Extensions.cs" />
     <Compile Include="Extension\Functions.cs" />
     <Compile Include="Tables\Gorev.cs" />
@@ -65,7 +63,7 @@
     <Compile Include="Tables\Dimension.cs" />
     <Compile Include="Tables\Stok.cs" />
     <Compile Include="Tables\Irsaliye.cs" />
-    <Compile Include="Logger\Logger.cs" />
+    <Compile Include="Tables\Logger.cs" />
     <Compile Include="Tables\Persons.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="abstract.cs" />

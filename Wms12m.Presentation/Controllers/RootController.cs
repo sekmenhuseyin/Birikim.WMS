@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
-using System.Net;
+﻿using System.Net;
 using System.Web.Mvc;
-using System.Web.Routing;
-using Wms12m.Entity.Models;
 using Wms12m.Security;
+using System.Web.Routing;
+using System.Diagnostics;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -39,12 +39,6 @@ namespace Wms12m.Presentation.Controllers
                     status = (int)HttpStatusCode.NotImplemented //Security Attribute koyulmalı!!!
                 }));
                 return;
-            }
-            else
-            {
-                SiteSessions.LoggedUserNo = User.Id;
-                SiteSessions.LoggedRealName = User.FirstName;
-                SiteSessions.LoggedUserName = User.UserName;
             }
             logWatch = new Stopwatch();
             logWatch.Start();

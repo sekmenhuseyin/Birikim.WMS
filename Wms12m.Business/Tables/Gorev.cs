@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Web;
 using System.Linq;
 using Wms12m.Entity;
+using Wms12m.Security;
 using Wms12m.Entity.Models;
 using System.Collections.Generic;
 
@@ -10,6 +12,7 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
+        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle/güncelle
         /// </summary>
@@ -33,7 +36,7 @@ namespace Wms12m.Business
                 gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-" + gorevno;
                 gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
                 gorev.DurumID = ComboNames.Açık.ToInt32();
-                gorev.OlusturanID = SiteSessions.LoggedUserNo;
+                gorev.OlusturanID = Users.AppIdentity.User.Id;
                 gorev.OlusturmaTarihi = DateTime.Today.ToOADate().ToInt32();
                 gorev.IrsaliyeID = tbl.IrsaliyeID;
                 gorev.Bilgi = "Irs: " + evrakno;
@@ -92,7 +95,7 @@ namespace Wms12m.Business
                 try
                 {
                     tmp.GorevliID = tbl.GorevliID;
-                    tmp.AtayanID = SiteSessions.LoggedUserNo;
+                    tmp.AtayanID = Users.AppIdentity.User.Id;
                     tmp.AtamaTarihi = DateTime.Today.ToOADate().ToInt32();
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";

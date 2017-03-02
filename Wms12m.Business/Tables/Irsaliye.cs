@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Web;
 using System.Linq;
 using Wms12m.Entity;
+using Wms12m.Security;
 using Wms12m.Entity.Models;
 using System.Collections.Generic;
 
@@ -10,6 +12,7 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
+        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle/güncelle
         /// </summary>
@@ -37,7 +40,7 @@ namespace Wms12m.Business
                         tablo.EvrakNo = tbl.EvrakNo;
                         tablo.HesapKodu = tbl.HesapKodu;
                         tablo.Tarih = Convert.ToInt32(dateValue.ToOADate());
-                        tablo.Kaydeden = SiteSessions.LoggedUserName;
+                        tablo.Kaydeden = Users.AppIdentity.User.LogonUserName;
                         tablo.KayitTarih = DateTime.Today.ToOADate().ToInt32();
                         db.WMS_IRS.Add(tablo);
                         db.SaveChanges();
@@ -48,7 +51,7 @@ namespace Wms12m.Business
                         gorev.GorevNo = DateTime.Today.ToString("ddMMyy") + "-" + gorevno;
                         gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
                         gorev.DurumID = ComboNames.Açık.ToInt32();
-                        gorev.OlusturanID = SiteSessions.LoggedUserNo;
+                        gorev.OlusturanID = Users.AppIdentity.User.Id;
                         gorev.OlusturmaTarihi = DateTime.Today.ToOADate().ToInt32();
                         gorev.IrsaliyeID = tablo.ID;
                         gorev.Bilgi = "Irs: " + tablo.EvrakNo + ", Tedarikçi: " + tbl.Unvan;

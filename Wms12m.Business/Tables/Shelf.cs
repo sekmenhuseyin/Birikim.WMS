@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Web;
 using System.Linq;
 using Wms12m.Entity;
+using Wms12m.Security;
 using Wms12m.Entity.Models;
 using System.Collections.Generic;
 
@@ -10,6 +12,7 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
+        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
@@ -33,11 +36,11 @@ namespace Wms12m.Business
             }
             try
             {
-                tbl.Degistiren = SiteSessions.LoggedUserName;
+                tbl.Degistiren = Users.AppIdentity.User.LogonUserName;
                 tbl.DegisTarih = DateTime.Today.ToOADateInt();
                 if (tbl.ID == 0)
                 {
-                    tbl.Kaydeden = SiteSessions.LoggedUserName;
+                    tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
                     tbl.KayitTarih = DateTime.Today.ToOADateInt();
                     db.TK_RAF.Add(tbl);
                 }
