@@ -46,6 +46,14 @@
     <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs2309.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elmah.Mvc, Version=2.1.2.1389, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elmah.Mvc.2.1.2\lib\net40\Elmah.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -5850,6 +5858,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BuyController.cs" />
+    <Compile Include="Controllers\CombosController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\CorridorController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -5863,6 +5872,7 @@
     <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -5928,6 +5938,8 @@
   <ItemGroup>
     <Folder Include="Content\assets\apps\img\" />
     <Folder Include="Content\assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
+    <Folder Include="Views\Combos\" />
+    <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">
