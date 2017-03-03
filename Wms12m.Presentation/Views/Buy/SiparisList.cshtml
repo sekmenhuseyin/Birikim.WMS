@@ -21,7 +21,7 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr onclick="toggle('c-@item.ID')">
+                                <tr style="cursor:pointer;" onclick="toggle('c-@item.ID')">
                                     <td><input type="checkbox" name="checkboxes" id="c-@item.ID" class="form-control" disabled /></td>
                                     <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                                     <td>@item.Tarih.FromOADateInt()</td>

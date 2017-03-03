@@ -24,7 +24,15 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List()
         {
-            var list = db.WMS_IRS.OrderByDescending(m=>m.ID).ToList();
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null || id.ToString2() == "0,0,") return null;
+            //get IDs
+            string[] tmp = id.ToString().Split(',');
+            if (tmp.Length != 3) return null;
+            string SirketKod = tmp[0];
+            int DepoID = tmp[1].ToInt32();
+            string HesapKodu = tmp[2];
+            var list = db.WMS_IRS.Where(m => m.SirketKod == SirketKod && m.HesapKodu == HesapKodu && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
             return PartialView("List", list);
         }
         /// <summary>

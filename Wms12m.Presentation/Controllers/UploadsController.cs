@@ -76,7 +76,10 @@ namespace Wms12m.Presentation.Controllers
                         db.WMS_STI.AddRange(liste);
                         db.SaveChanges();
                         dbContextTransaction.Commit();
-                    }catch (Exception){}
+                    }
+                    catch (Exception ex){
+                        return Json(false, JsonRequestBehavior.AllowGet);
+                    }
                 }
             }
             reader.Close();

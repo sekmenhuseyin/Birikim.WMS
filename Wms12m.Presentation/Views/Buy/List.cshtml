@@ -19,15 +19,12 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
+                                <tr style="cursor:pointer;" ondblclick="CopyValues('@item.ID','@item.SirketKod','@item.DepoID','@item.HesapKodu','@item.Unvan','@item.EvrakNo','@item.Tarih.FromOADateInt()')">
                                     <td>@Html.DisplayFor(modelItem => item.SirketKod)</td>
                                     <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                                     <td>@Html.DisplayFor(modelItem => item.HesapKodu)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Unvan)</td>
-                                    <td>
-                                        <button class="btn btn-primary input-circle" onclick="CopyValues('@item.ID','@item.SirketKod','@item.DepoID','@item.HesapKodu','@item.Unvan','@item.EvrakNo','@item.Tarih.FromOADateInt()')">Seç</button>
-                                        <button class="btn btn-danger input-circle" onclick="Delete('@item.ID', '/Buy/List', 'modalEditPage', '0', 'Buy/Delete1')">Sil</button>
-                                    </td>
+                                    <td><button class="btn btn-danger input-circle" onclick="Delete('@item.ID', '/Buy/List', 'modalEditPage', '0', 'Buy/Delete1')">Sil</button></td>
                                 </tr>
                             }
                         </tbody>
