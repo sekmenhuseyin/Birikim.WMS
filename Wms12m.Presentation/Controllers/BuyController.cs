@@ -104,7 +104,7 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.Editable = tbl.Onay;
             }
             //get list
-            var list = db.WMS_STI.Where(m=>m.IrsaliyeID==tbl.Id).ToList();
+            var list = db.WMS_STI.Where(m=>m.IrsaliyeID==tbl.Id).OrderByDescending(m=>m.ID).ToList();
             ViewBag.IrsaliyeId = tbl.Id;
             ViewBag.Onay = db.WMS_IRS.Where(m => m.ID == tbl.Id).Select(m => m.Onay).FirstOrDefault();
             return PartialView("_GridPartial", list);
@@ -114,7 +114,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult GridPartial(int ID)
         {
-            var list = db.WMS_STI.Where(m => m.IrsaliyeID == ID).ToList();
+            var list = db.WMS_STI.Where(m => m.IrsaliyeID == ID).OrderByDescending(m => m.ID).ToList();
             ViewBag.IrsaliyeId = ID;
             ViewBag.Onay = db.WMS_IRS.Where(m => m.ID == ID).Select(m => m.Onay).FirstOrDefault();
             return PartialView("_GridPartial", list);
@@ -129,7 +129,7 @@ namespace Wms12m.Presentation.Controllers
             Stok tmpTable = new Stok();
             Result _Result = tmpTable.Insert(tbl);
             //get list
-            var list = db.WMS_STI.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).ToList();
+            var list = db.WMS_STI.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).OrderByDescending(m => m.ID).ToList();
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
             ViewBag.Onay = db.WMS_IRS.Where(m => m.ID == tbl.IrsaliyeId).Select(m => m.Onay).FirstOrDefault();
             return PartialView("_GridPartial", list);
