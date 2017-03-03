@@ -1,19 +1,7 @@
 ﻿@model IEnumerable<TK_OLCU>
 <p><a class="btn btn-default green" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Size/Create/'+$('#SirketID').val())"> Yeni Ekle </a></p>
 <table class="table table-striped table-bordered table-hover" id="sample_1">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.MalKodu)</th>
-            <th>@Html.DisplayNameFor(model => model.MalAdi)</th>
-            <th>@Html.DisplayNameFor(model => model.Birim)</th>
-            <th>@Html.DisplayNameFor(model => model.En)</th>
-            <th>@Html.DisplayNameFor(model => model.Boy)</th>
-            <th>@Html.DisplayNameFor(model => model.Derinlik)</th>
-            <th>@Html.DisplayNameFor(model => model.Hacim)</th>
-            <th>@Html.DisplayNameFor(model => model.Agirlik)</th>
-            <th></th>
-        </tr>
-    </thead>
+    <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th>En</th><th>Boy</th><th>Derinlik</th><th>Hacim</th><th>Ağırlık</th><th></th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
