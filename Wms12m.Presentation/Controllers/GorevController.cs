@@ -14,7 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var list = db.GorevListesis.ToList();
+            var list = db.GorevListesis.OrderBy(m=>m.DurumID).OrderByDescending(m=>m.ID).ToList();
             return View("Index", list);
         }
         /// <summary>
@@ -22,7 +22,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult GorevGridPartial()
         {
-            var list = db.GorevListesis.ToList();
+            var list = db.GorevListesis.OrderBy(m => m.DurumID).OrderByDescending(m => m.ID).ToList();
             return PartialView("_GorevGridPartial", list);
         }
         /// <summary>

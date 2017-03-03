@@ -39,9 +39,9 @@ namespace Wms12m.Business
                         tablo.DepoID = tbl.DepoID;
                         tablo.EvrakNo = tbl.EvrakNo;
                         tablo.HesapKodu = tbl.HesapKodu;
-                        tablo.Tarih = Convert.ToInt32(dateValue.ToOADate());
+                        tablo.Tarih = dateValue.ToOADateInt();
                         tablo.Kaydeden = Users.AppIdentity.User.LogonUserName;
-                        tablo.KayitTarih = DateTime.Today.ToOADate().ToInt32();
+                        tablo.KayitTarih = DateTime.Today.ToOADateInt();
                         db.WMS_IRS.Add(tablo);
                         db.SaveChanges();
                         //add görevlist table
@@ -52,7 +52,8 @@ namespace Wms12m.Business
                         gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
                         gorev.DurumID = ComboNames.Açık.ToInt32();
                         gorev.OlusturanID = Users.AppIdentity.User.Id;
-                        gorev.OlusturmaTarihi = DateTime.Today.ToOADate().ToInt32();
+                        gorev.OlusturmaTarihi = DateTime.Today.ToOADateInt();
+                        gorev.OlusturmaSaati = DateTime.Now.SaatiAl();
                         gorev.IrsaliyeID = tablo.ID;
                         gorev.Bilgi = "Irs: " + tablo.EvrakNo + ", Tedarikçi: " + tbl.Unvan;
                         db.GorevListesis.Add(gorev);
