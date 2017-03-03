@@ -1,0 +1,45 @@
+﻿@model IEnumerable<USR01>
+@{
+    ViewBag.Title = "Kullanıcılar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Kullanıcılar</h2>
+<p>@Html.ActionLink("Yeni", "Create")</p>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Sirket)</th>
+        <th>@Html.DisplayNameFor(model => model.Kod)</th>
+        <th>@Html.DisplayNameFor(model => model.Sifre)</th>
+        <th>@Html.DisplayNameFor(model => model.AdSoyad)</th>
+        <th>@Html.DisplayNameFor(model => model.Email)</th>
+        <th>@Html.DisplayNameFor(model => model.Tema)</th>
+        <th>@Html.DisplayNameFor(model => model.Admin)</th>
+        <th>@Html.DisplayNameFor(model => model.Aktif)</th>
+        <th>@Html.DisplayNameFor(model => model.Kaydeden)</th>
+        <th>@Html.DisplayNameFor(model => model.KayitSurum)</th>
+        <th>@Html.DisplayNameFor(model => model.Degistiren)</th>
+        <th>@Html.DisplayNameFor(model => model.DegisSurum)</th>
+        <th></th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.Sirket)</td>
+        <td>@Html.DisplayFor(modelItem => item.Kod)</td>
+        <td>@Html.DisplayFor(modelItem => item.Sifre)</td>
+        <td>@Html.DisplayFor(modelItem => item.AdSoyad)</td>
+        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+        <td>@Html.DisplayFor(modelItem => item.Tema)</td>
+        <td>@Html.DisplayFor(modelItem => item.Admin)</td>
+        <td>@Html.DisplayFor(modelItem => item.Aktif)</td>
+        <td>@Html.DisplayFor(modelItem => item.Kaydeden)</td>
+        <td>@Html.DisplayFor(modelItem => item.KayitSurum)</td>
+        <td>@Html.DisplayFor(modelItem => item.Degistiren)</td>
+        <td>@Html.DisplayFor(modelItem => item.DegisSurum)</td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+</table>

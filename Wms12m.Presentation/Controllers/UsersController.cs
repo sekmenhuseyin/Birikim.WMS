@@ -6,10 +6,13 @@ namespace Wms12m.Presentation.Controllers
 {
     public class UsersController : RootController
     {
-        // GET: Users
+        /// <summary>
+        /// kullanıcılar
+        /// </summary>
         public ActionResult Index()
         {
-            return View();
+            var list = db.USR01.ToList();
+            return View("Index", list);
         }
 
         // GET: Users/Details/5
