@@ -279,6 +279,50 @@
           <Property Name="ROW_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
+        <EntityType Name="DEP">
+          <Key>
+            <PropertyRef Name="Depo" />
+          </Key>
+          <Property Name="Depo" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DepoAdi" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Adres1" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Adres2" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Adres3" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Telefon1" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="Telefon2" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="Telefon3" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="Fax" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="BolgeKod" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="GrupKod" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TipKod" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Kod1" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Kod2" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Kod3" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Yetkili1" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Yetkili2" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Yetkili1EMail" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Yetkili2EMail" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SonSayimSonuc" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="MerkezDepo" Type="smallint" Nullable="false" />
+          <Property Name="GuvenlikKod" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="KayitTarih" Type="int" Nullable="false" />
+          <Property Name="KayitSaat" Type="int" Nullable="false" />
+          <Property Name="KayitKaynak" Type="smallint" Nullable="false" />
+          <Property Name="KayitSurum" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DegisTarih" Type="int" Nullable="false" />
+          <Property Name="DegisSaat" Type="int" Nullable="false" />
+          <Property Name="DegisKaynak" Type="smallint" Nullable="false" />
+          <Property Name="DegisSurum" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="CheckSum" Type="smallint" Nullable="false" />
+          <Property Name="GirisMhsKod" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CikisMhsKod" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TuketimMhsKod" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DepoTipi" Type="smallint" Nullable="false" />
+          <Property Name="ROW_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
         <EntityType Name="DST">
           <Key>
             <PropertyRef Name="MalKodu" />
@@ -1128,6 +1172,7 @@
         </EntityType>
         <EntityContainer Name="FINSATModelStoreContainer">
           <EntitySet Name="CHK" EntityType="Self.CHK" Schema="FINSAT633" store:Type="Tables" />
+          <EntitySet Name="DEP" EntityType="Self.DEP" Schema="FINSAT633" store:Type="Tables" />
           <EntitySet Name="DST" EntityType="Self.DST" Schema="FINSAT633" store:Type="Tables" />
           <EntitySet Name="FTD" EntityType="Self.FTD" Schema="FINSAT633" store:Type="Tables" />
           <EntitySet Name="MFK" EntityType="Self.MFK" Schema="FINSAT633" store:Type="Tables" />
@@ -2153,6 +2198,7 @@
           <EntitySet Name="STKs" EntityType="Self.STK" />
           <EntitySet Name="DSTs" EntityType="FINSATModel.DST" />
           <EntitySet Name="TTies" EntityType="FINSATModel.TTY" />
+          <EntitySet Name="DEPs" EntityType="FINSATModel.DEP" />
         </EntityContainer>
         <EntityType Name="DST">
           <Key>
@@ -2269,6 +2315,50 @@
           <Property Name="DegisSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
           <Property Name="CheckSum" Type="Int16" Nullable="false" />
           <Property Name="Row_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="DEP">
+          <Key>
+            <PropertyRef Name="Depo" />
+          </Key>
+          <Property Name="Depo" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DepoAdi" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Adres1" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Adres2" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Adres3" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Telefon1" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="Telefon2" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="Telefon3" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="BolgeKod" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="GrupKod" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TipKod" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Kod1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Kod2" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Kod3" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Yetkili1" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Yetkili2" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Yetkili1EMail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Yetkili2EMail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SonSayimSonuc" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="MerkezDepo" Type="Int16" Nullable="false" />
+          <Property Name="GuvenlikKod" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
+          <Property Name="KayitSaat" Type="Int32" Nullable="false" />
+          <Property Name="KayitKaynak" Type="Int16" Nullable="false" />
+          <Property Name="KayitSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+          <Property Name="DegisSaat" Type="Int32" Nullable="false" />
+          <Property Name="DegisKaynak" Type="Int16" Nullable="false" />
+          <Property Name="DegisSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="CheckSum" Type="Int16" Nullable="false" />
+          <Property Name="GirisMhsKod" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CikisMhsKod" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TuketimMhsKod" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DepoTipi" Type="Int16" Nullable="false" />
+          <Property Name="ROW_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="timestamp" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
       </Schema>
@@ -3381,6 +3471,51 @@
                 <ScalarProperty Name="SatMalKodu" ColumnName="SatMalKodu" />
                 <ScalarProperty Name="Chk" ColumnName="Chk" />
                 <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DEPs">
+            <EntityTypeMapping TypeName="FINSATModel.DEP">
+              <MappingFragment StoreEntitySet="DEP">
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="ROW_ID" ColumnName="ROW_ID" />
+                <ScalarProperty Name="DepoTipi" ColumnName="DepoTipi" />
+                <ScalarProperty Name="TuketimMhsKod" ColumnName="TuketimMhsKod" />
+                <ScalarProperty Name="CikisMhsKod" ColumnName="CikisMhsKod" />
+                <ScalarProperty Name="GirisMhsKod" ColumnName="GirisMhsKod" />
+                <ScalarProperty Name="CheckSum" ColumnName="CheckSum" />
+                <ScalarProperty Name="DegisSurum" ColumnName="DegisSurum" />
+                <ScalarProperty Name="DegisKaynak" ColumnName="DegisKaynak" />
+                <ScalarProperty Name="DegisSaat" ColumnName="DegisSaat" />
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitSurum" ColumnName="KayitSurum" />
+                <ScalarProperty Name="KayitKaynak" ColumnName="KayitKaynak" />
+                <ScalarProperty Name="KayitSaat" ColumnName="KayitSaat" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="GuvenlikKod" ColumnName="GuvenlikKod" />
+                <ScalarProperty Name="MerkezDepo" ColumnName="MerkezDepo" />
+                <ScalarProperty Name="SonSayimSonuc" ColumnName="SonSayimSonuc" />
+                <ScalarProperty Name="Yetkili2EMail" ColumnName="Yetkili2EMail" />
+                <ScalarProperty Name="Yetkili1EMail" ColumnName="Yetkili1EMail" />
+                <ScalarProperty Name="Yetkili2" ColumnName="Yetkili2" />
+                <ScalarProperty Name="Yetkili1" ColumnName="Yetkili1" />
+                <ScalarProperty Name="Kod3" ColumnName="Kod3" />
+                <ScalarProperty Name="Kod2" ColumnName="Kod2" />
+                <ScalarProperty Name="Kod1" ColumnName="Kod1" />
+                <ScalarProperty Name="TipKod" ColumnName="TipKod" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="BolgeKod" ColumnName="BolgeKod" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Telefon3" ColumnName="Telefon3" />
+                <ScalarProperty Name="Telefon2" ColumnName="Telefon2" />
+                <ScalarProperty Name="Telefon1" ColumnName="Telefon1" />
+                <ScalarProperty Name="Adres3" ColumnName="Adres3" />
+                <ScalarProperty Name="Adres2" ColumnName="Adres2" />
+                <ScalarProperty Name="Adres1" ColumnName="Adres1" />
+                <ScalarProperty Name="DepoAdi" ColumnName="DepoAdi" />
+                <ScalarProperty Name="Depo" ColumnName="Depo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

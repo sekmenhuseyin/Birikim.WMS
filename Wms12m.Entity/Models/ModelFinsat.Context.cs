@@ -39,5 +39,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<STK> STKs { get; set; }
         public virtual DbSet<DST> DSTs { get; set; }
         public virtual DbSet<TTY> TTies { get; set; }
+        public virtual DbSet<DEP> DEPs { get; set; }
     }
 }

@@ -5869,6 +5869,7 @@
     <Compile Include="Controllers\MalKabulController.cs" />
     <Compile Include="Controllers\RootController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\SellController.cs" />
     <Compile Include="Controllers\ShelfController.cs" />
     <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
@@ -5930,6 +5931,7 @@
     <Content Include="Views\Size\_Edit.cshtml" />
     <Content Include="Views\Size\_List.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Sell\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
