@@ -20,10 +20,13 @@
         İrsaliyeKes = 5,
         Paketle = 6,
         SevkiyatıGerçekleştir = 7,
-        KontrolSayım = 9,
-        Açık = 10,
-        Durdurulan = 11,
-        Tamamlanan = 12,
+        KontrolSayım = 8,
+        Açık = 9,
+        Durdurulan = 10,
+        Tamamlanan = 11,
+        Bobin = 12,
+        KabloKanalı = 13,
+        MuhtelifKoli = 14
     }
     /// <summary>
     /// combo item names
@@ -31,6 +34,7 @@
     public enum ComboItemNames
     {
         GorevTipleri = 1,
-        GorevDurum = 2
+        GorevDurum = 2,
+        Özellik = 3
     }
 }

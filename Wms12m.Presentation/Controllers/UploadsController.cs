@@ -77,7 +77,82 @@ namespace Wms12m.Presentation.Controllers
                         db.SaveChanges();
                         dbContextTransaction.Commit();
                     }
-                    catch (Exception ex){
+                    catch (Exception){
+                        return Json(false, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            reader.Close();
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// boyut kartı için toplu giriş yapar
+        /// </summary>
+        public JsonResult Olcu(string SirketKod, HttpPostedFileBase file)
+        {
+            if (file == null || file.ContentLength == 0 || SirketKod == "0") return Json(false, JsonRequestBehavior.AllowGet);
+            //gelen dosyayı oku
+            Stream stream = file.InputStream;
+            IExcelDataReader reader;
+            //dosya tipini bul
+            if (file.FileName.EndsWith(".xls"))
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            else if (file.FileName.EndsWith(".xlsx"))
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            else
+                return Json(false, JsonRequestBehavior.AllowGet);
+            //ilk satır başlık
+            reader.IsFirstRowAsColumnNames = true;
+            //exceldeki bilgileri datasete aktar
+            DataSet result = reader.AsDataSet();
+            //kontorl
+            if (result.Tables.Count == 0) return Json(false, JsonRequestBehavior.AllowGet);
+            if (result.Tables[0].Rows == null) return Json(false, JsonRequestBehavior.AllowGet);
+            //sti listesi oluşturuyoruz. tüm bilgiyi tek seferde veritabanına kaydetçek
+            List<TK_OLCU> liste = new List<TK_OLCU>();
+            //finsat işlemleri
+            using (DinamikModelContext Dinamik = new DinamikModelContext(SirketKod))
+            {
+                for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+                {
+                    DataRow dr = result.Tables[0].Rows[i];
+                    //kontrol
+                    if (dr["Mal Kodu"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
+                    if (dr["Birim"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
+                    if (dr["En"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
+                    if (dr["Boy"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
+                    if (dr["Derinlik"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
+                    if (dr["Ağırlık"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
+                    //add new
+                    try
+                    {
+                        TK_OLCU sti = new TK_OLCU();
+                        sti.SirketKod = SirketKod;
+                        sti.MalKodu = dr["Mal Kodu"].ToString();
+                        sti.Birim = dr["Birim"].ToString();
+                        sti.En = dr["En"].ToDecimal();
+                        sti.Boy = dr["Boy"].ToDecimal();
+                        sti.Derinlik = dr["Derinlik"].ToDecimal();
+                        sti.Agirlik = dr["Ağırlık"].ToDecimal();
+                        //ekle
+                        liste.Add(sti);
+                    }
+                    catch (Exception)
+                    {
+                        return Json(false, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        db.TK_OLCU.AddRange(liste);
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
                         return Json(false, JsonRequestBehavior.AllowGet);
                     }
                 }
