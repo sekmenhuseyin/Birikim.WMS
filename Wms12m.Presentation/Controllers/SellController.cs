@@ -34,17 +34,17 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// depo ve şirket seçince açık siparişler gelecek
         /// </summary>
-        /// <returns></returns>
         [HttpPost]
         public PartialViewResult GetSiparis()
         {
             var ID = Url.RequestContext.RouteData.Values["id"];
-            if (ID == null || ID.ToString2() == "0,0") return null;
-            //connect
-            string[] tmp = ID.ToString().Split(',');
-            using (DinamikModelContext Dinamik = new DinamikModelContext(tmp[0]))
+            if (ID == null || ID.ToString2().Contains("-") == false) return null;
+            string[] tmp = ID.ToString().Split('-');
+            string kod = tmp[0]; if (kod == "0") return null;
+            string depo = tmp[1]; if (depo == "0") return null;
+            using (DinamikModelContext Dinamik = new DinamikModelContext(kod))
             {
-                var list = Dinamik.Context.SPIs.Where(m => m.Depo == tmp[1] && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0).Select(m => new frmSiparisler { EvrakNo = m.EvrakNo, Tarih = m.Tarih }).ToList();
+                var list = Dinamik.Context.SPIs.Where(m => m.Depo == depo && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0).Select(m => new frmSiparisler { EvrakNo = m.EvrakNo, Tarih = m.Tarih }).ToList();
                 return PartialView("_Siparis", list);
             }
         }

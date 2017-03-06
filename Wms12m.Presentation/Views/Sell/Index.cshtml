@@ -82,9 +82,9 @@
         });
         $('#DepoID').on('change', function () {
             $.ajax({
-                url: "/Sell/GetSiparis/" + $('#DepoID').val(),
                 type: 'POST',
-                dataType: "json",
+                url: "/Sell/GetSiparis/" + $('#SirketID').val() + "-" + $('#DepoID').val(),
+                dataType: "html",
                 success: function (data) { $("#liste").html(data); }
             });
         });
