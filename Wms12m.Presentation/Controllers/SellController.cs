@@ -19,9 +19,12 @@ namespace Wms12m.Presentation.Controllers
         /// get depo names based on şirket
         /// </summary>
         [HttpPost]
-        public JsonResult GetDepo(string ID)
+        public JsonResult GetDepo()
         {
-            using (DinamikModelContext Dinamik = new DinamikModelContext(ID))
+            var ID = Url.RequestContext.RouteData.Values["id"];
+            if (ID == null || ID.ToString2() == "0") return null;
+            //connect
+            using (DinamikModelContext Dinamik = new DinamikModelContext(ID.ToString()))
             {
                 var list = Dinamik.Context.DEPs.Select(m => new { value = m.Depo, text = m.DepoAdi }).ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
