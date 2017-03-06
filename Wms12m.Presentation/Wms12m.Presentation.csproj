@@ -3347,6 +3347,17 @@
     <Content Include="Content\assets\global\plugins\cubeportfolio\img\cbp-sprite.png" />
     <Content Include="Content\assets\global\plugins\cubeportfolio\js\jquery.cubeportfolio.js" />
     <Content Include="Content\assets\global\plugins\cubeportfolio\js\jquery.cubeportfolio.min.js" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\back_disabled.png" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\back_enabled.png" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\back_enabled_hover.png" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\forward_disabled.png" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\forward_enabled.png" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\forward_enabled_hover.png" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\sort_asc.png" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\sort_asc_disabled.png" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\sort_both.png" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\sort_desc.png" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\sort_desc_disabled.png" />
     <Content Include="Content\assets\global\plugins\datatables\datatables.all.min.js" />
     <Content Include="Content\assets\global\plugins\datatables\datatables.min.css" />
     <Content Include="Content\assets\global\plugins\datatables\datatables.min.js" />
@@ -5824,6 +5835,7 @@
     <Content Include="Content\assets\global\plugins\font-awesome\scss\_stacked.scss" />
     <Content Include="Content\assets\global\plugins\font-awesome\scss\_variables.scss" />
     <Content Include="Content\SizeSablon.xlsx" />
+    <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\Sorting icons.psd" />
     <None Include="Content\STISablon.xlsx" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
     <None Include="Content\assets\global\plugins\jquery\jquery-3.1.1.intellisense.js" />

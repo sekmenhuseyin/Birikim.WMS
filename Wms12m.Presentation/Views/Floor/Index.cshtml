@@ -185,106 +185,108 @@
     </div>
 </div>
 @section Scripts{
-    <script src="@Url.Content("~/Content/assets/global/plugins/fuelux/js/spinner.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Content/assets/global/scripts/app.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Content/assets/pages/scripts/components-bootstrap-touchspin.min.js")" type="text/javascript"></script>
-    <script type="text/javascript">
-        var FloorGridUrl = '@Url.Action("FloorGridPartial", "Floor")';
-        var FloorDetailUrl = '@Url.Action("FloorDetailPartial", "Floor")';
-        var DeleteFunctionUrl = '@Url.Action("Delete", "Floor")';
-        $(document).ready(function () {
-            $(".make-switch").bootstrapSwitch();
-            $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
-            @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); $(".make-switch").val(true);</text>}
-            $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
-            $(".KoridorID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".KoridorID")[0].selectedIndex = 0; $(".KoridorID")[1].selectedIndex = 0;
-            $(".RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".RafID")[0].selectedIndex = 0; $(".RafID")[1].selectedIndex = 0;
-            $(".BolumID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".BolumID")[0].selectedIndex = 0; $(".BolumID")[1].selectedIndex = 0;
-            $('[name="Locked"]').click(function () { FuncSearchBtn(); });
-            $('#SectionListi').on('change', function () { FuncSearchBtn(); })
-        });
-        function getCorridor(id, what) {
-            $("#" + what + " option").remove();
-            if (what == "RafID") { $("#RafID option").remove(); $("#RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0; }
-            $.ajax({
-                url: "/Corridor/CorridorList/" + id,
-                type: 'POST',
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    if (data != "") {
-                        $.each(data, function (i, item) {
-                            $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
-                        });
-                        $("#" + what).prepend("<option value='0'>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
-                    }
+<script src="@Url.Content("~/Content/assets/global/plugins/fuelux/js/spinner.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/assets/global/plugins/bootstrap-touchspin/bootstrap.touchspin.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Content/assets/pages/scripts/components-bootstrap-touchspin.min.js")" type="text/javascript"></script>
+<script src="~/Content/assets/global/scripts/datatable.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var FloorGridUrl = '@Url.Action("FloorGridPartial", "Floor")';
+    var FloorDetailUrl = '@Url.Action("FloorDetailPartial", "Floor")';
+    var DeleteFunctionUrl = '@Url.Action("Delete", "Floor")';
+    $(document).ready(function () {
+        $(".make-switch").bootstrapSwitch();
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
+        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); $(".make-switch").val(true);</text>}
+        $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
+        $(".KoridorID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".KoridorID")[0].selectedIndex = 0; $(".KoridorID")[1].selectedIndex = 0;
+        $(".RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".RafID")[0].selectedIndex = 0; $(".RafID")[1].selectedIndex = 0;
+        $(".BolumID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".BolumID")[0].selectedIndex = 0; $(".BolumID")[1].selectedIndex = 0;
+        $('[name="Locked"]').click(function () { FuncSearchBtn(); });
+        $('#SectionListi').on('change', function () { FuncSearchBtn(); })
+    });
+    function getCorridor(id, what) {
+        $("#" + what + " option").remove();
+        if (what == "RafID") { $("#RafID option").remove(); $("#RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0; }
+        $.ajax({
+            url: "/Corridor/CorridorList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#" + what).prepend("<option value='0'>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
                 }
-            });
-        }
-        function getShelf(id, what) {
-            $("#" + what + " option").remove();
-            $.ajax({
-                url: "/Shelf/ShelfList/" + id,
-                type: 'POST',
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    if (data != "") {
-                        $.each(data, function (i, item) {
-                            $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
-                        });
-                        $("#" + what).prepend("<option value='0'>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
-                    }
-                }
-            });
-        }
-        function getSection(id, what) {
-            $("#" + what + " option").remove();
-            $.ajax({
-                url: "/Section/SectionList/" + id,
-                type: 'POST',
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    if (data != "") {
-                        $.each(data, function (i, item) {
-                            $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
-                        });
-                        $("#" + what).prepend("<option value='0'>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
-                    }
-                }
-            });
-        }
-        function FuncSearchBtn() {
-            var Type = $("input[type='radio'][name='Locked']:checked").val();
-            var StoreId = $(".StoreListi option:selected").val();
-            var CorridorId = $("#CorridorList option:selected").val();
-            var ShelfId = $("#ShelfListi option:selected").val();
-            var SectionId = $("#SectionListi option:selected").val();
-            PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId + "#" + SectionId) }));
-        }
-        function FloorReturn(Data) {
-            FuncSearchBtn();
-            if (Data.Status == false) Modaldialog(Data.Message, "Hata", "Tamam", "btn-warning");
-            CreateEdit('0');
-        }
-        function CreateEdit(Id) {
-            if (Id == 0) {            
-                $("#ID").val("0");
-                $("#Kat").val("");
-                $("#Boy").val("0");
-                $("#En").val("0");
-                $("#Derinlik").val("0");
-                $("#AgirlikKapasite").val("0");
-                $("#Ozellik").val("0");
-                $("#Aciklama").val("");
             }
-            else
-                PartialView(FloorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+        });
+    }
+    function getShelf(id, what) {
+        $("#" + what + " option").remove();
+        $.ajax({
+            url: "/Shelf/ShelfList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#" + what).prepend("<option value='0'>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
+                }
+            }
+        });
+    }
+    function getSection(id, what) {
+        $("#" + what + " option").remove();
+        $.ajax({
+            url: "/Section/SectionList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#" + what).prepend("<option value='0'>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
+                }
+            }
+        });
+    }
+    function FuncSearchBtn() {
+        var Type = $("input[type='radio'][name='Locked']:checked").val();
+        var StoreId = $(".StoreListi option:selected").val();
+        var CorridorId = $("#CorridorList option:selected").val();
+        var ShelfId = $("#ShelfListi option:selected").val();
+        var SectionId = $("#SectionListi option:selected").val();
+        PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId + "#" + SectionId) }));
+    }
+    function FloorReturn(Data) {
+        FuncSearchBtn();
+        if (Data.Status == false) Modaldialog(Data.Message, "Hata", "Tamam", "btn-warning");
+        CreateEdit('0');
+    }
+    function CreateEdit(Id) {
+        if (Id == 0) {            
+            $("#ID").val("0");
+            $("#Kat").val("");
+            $("#Boy").val("0");
+            $("#En").val("0");
+            $("#Derinlik").val("0");
+            $("#AgirlikKapasite").val("0");
+            $("#Ozellik").val("0");
+            $("#Aciklama").val("");
         }
-        function InsertRefresh() {
-            PartialView(FloorDetailUrl, "CreateEdit", '0');
-        }
-    </script>
+        else
+            PartialView(FloorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+    }
+    function InsertRefresh() {
+        PartialView(FloorDetailUrl, "CreateEdit", '0');
+    }
+</script>
 }

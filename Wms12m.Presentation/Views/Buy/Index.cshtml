@@ -107,73 +107,76 @@
     </div>
 </div>
 @section Scripts{
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
-    <script src="~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="~/Content/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
-    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
-    <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
-    <script>
-        $(".import-content").hide();
-        var DeleteFunctionUrl = '@Url.Action("Delete2", "Buy")';
-        $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>");
-        $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>");
-        CreateNew(); checkEnabled();
-        $("#Tarih").datepicker({ todayBtn: 'true', todayHighlight: 'true', language: 'tr' });
-        $('#SirketID').on('change', function () {
-            $("#hesapSelect").html("");
-            $("#HesapKodu").val('');
-            $("#Unvan").val('');
-            $.ajax({
-                url: "/Buy/GetHesapCodes/" + $('#SirketID').val(),
-                type: 'POST',
-                dataType: "html",
-                success: function (data) { if (data != "") $("#hesapSelect").html(data);}
-            });
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+<script src="~/Content/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="~/Content/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.tr.min.js"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
+<script src="~/Content/assets/global/scripts/datatable.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
+<script>
+    $(".import-content").hide();
+    var DeleteFunctionUrl = '@Url.Action("Delete2", "Buy")';
+    $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>");
+    $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>");
+    CreateNew(); checkEnabled();
+    $("#Tarih").datepicker({ todayBtn: 'true', todayHighlight: 'true', language: 'tr' });
+    $('#SirketID').on('change', function () {
+        $("#hesapSelect").html("");
+        $("#HesapKodu").val('');
+        $("#Unvan").val('');
+        $.ajax({
+            url: "/Buy/GetHesapCodes/" + $('#SirketID').val(),
+            type: 'POST',
+            dataType: "html",
+            success: function (data) { if (data != "") $("#hesapSelect").html(data);}
         });
-        function checkEnabled() {
-            if ($("#SirketID").val() == 0 || $("#DepoID").val() == 0 || $("#HesapKodu").val() == "" || $("#HesapKodu").val() == null) {
-                $("#btnList").hide(); $("#btnSiparis").hide(); $("#btnSablon").hide(); $("#linkUpload").hide();
-            } else {
-                $("#btnList").show(); $("#btnSiparis").show(); $("#btnSablon").show(); $("#linkUpload").show();
-            }
+    });
+    function checkEnabled() {
+        if ($("#SirketID").val() == 0 || $("#DepoID").val() == 0 || $("#HesapKodu").val() == "" || $("#HesapKodu").val() == null) {
+            $("#btnList").hide(); $("#btnSiparis").hide(); $("#btnSablon").hide(); $("#linkUpload").hide();
+        } else {
+            $("#btnList").show(); $("#btnSiparis").show(); $("#btnSablon").show(); $("#linkUpload").show();
         }
-        function ShowHide() {
-            if ($('#hesapSelect').css("display") == "none")
-                $('#hesapSelect').show();
-            else
-                $('#hesapSelect').hide();
-        }
-        function ShowHide() {
-            if ($('#hesapSelect').css("display") == "none")
-                $('#hesapSelect').show();
-            else
-                $('#hesapSelect').hide();
-        }
-        function CreateNew() {
+    }
+    function ShowHide() {
+        if ($('#hesapSelect').css("display") == "none")
+            $('#hesapSelect').show();
+        else
             $('#hesapSelect').hide();
-            $("#IrsNo").val('0');
-            $("#SirketID")[0].selectedIndex = 0;
-            $("#DepoID")[0].selectedIndex = 0;
-            $("#hesapSelect").html("");
-            $("#HesapKodu").val('');
-            $("#Unvan").val('');
-            $("#EvrakNo").val('');
-            $("#Tarih").val('@DateTime.Now.ToShortDateString()');
-            $("#StoreGrid").html('');
-        }
-        $(function () {
-            $('#linkUpload').click(function () {
-                if ($("#IrsNo").val() > 0)
-                    $("#btnUpload").click();
-            });
-            $('#fileupload').fileupload({
-                maxFileSize: 2000000,
-                acceptFileTypes: /(\.|\/)(xlsx)$/i,
-                dataType: 'json',
-                add: function (e, data) { data.submit(); },
-                done: function (e, data) { $('#submitForm').click(); }
-            });
+    }
+    function ShowHide() {
+        if ($('#hesapSelect').css("display") == "none")
+            $('#hesapSelect').show();
+        else
+            $('#hesapSelect').hide();
+    }
+    function CreateNew() {
+        $('#hesapSelect').hide();
+        $("#IrsNo").val('0');
+        $("#SirketID")[0].selectedIndex = 0;
+        $("#DepoID")[0].selectedIndex = 0;
+        $("#hesapSelect").html("");
+        $("#HesapKodu").val('');
+        $("#Unvan").val('');
+        $("#EvrakNo").val('');
+        $("#Tarih").val('@DateTime.Now.ToShortDateString()');
+        $("#StoreGrid").html('');
+    }
+    $(function () {
+        $('#linkUpload').click(function () {
+            if ($("#IrsNo").val() > 0)
+                $("#btnUpload").click();
         });
-    </script>
+        $('#fileupload').fileupload({
+            maxFileSize: 2000000,
+            acceptFileTypes: /(\.|\/)(xlsx)$/i,
+            dataType: 'json',
+            add: function (e, data) { data.submit(); },
+            done: function (e, data) { $('#submitForm').click(); }
+        });
+    });
+</script>
 }
