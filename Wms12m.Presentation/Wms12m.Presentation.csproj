@@ -5925,6 +5925,7 @@
     <Content Include="Views\Size\_List.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Sell\Index.cshtml" />
+    <Content Include="Views\Sell\_Siparis.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

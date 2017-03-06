@@ -51,6 +51,8 @@
                                     <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
+                            <div class="form-group" id="liste">
+                            </div>
                         </div>
                     }
                 </div>
@@ -63,6 +65,7 @@
         var DeleteFunctionUrl = '@Url.Action("Delete", "Sell")';
         $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#SirketID")[0].selectedIndex = 0;
         $('#SirketID').on('change', function () {
+            $("#DepoID option").remove();
             $.ajax({
                 url: "/Sell/GetDepo/" + $('#SirketID').val(),
                 type: 'POST',
@@ -75,6 +78,14 @@
                         $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
                     }
                 }
+            });
+        });
+        $('#DepoID').on('change', function () {
+            $.ajax({
+                url: "/Sell/GetSiparis/" + $('#DepoID').val(),
+                type: 'POST',
+                dataType: "json",
+                success: function (data) { $("#liste").html(data); }
             });
         });
     </script>

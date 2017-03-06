@@ -2,13 +2,24 @@
 
 namespace Wms12m.Entity
 {
+    /// <summary>
+    /// genel sonuç
+    /// </summary>
     public class Result
     {
-
         public int Id { get; set; }
         public bool Status { get; set; }
         public string Message { get; set; }
         public object Data { get; set; }
+    }
+    /// <summary>
+    /// json result
+    /// </summary>
+    public class frmJson
+    {
+        public string id { get; set; }
+        public string value { get; set; }
+        public string label { get; set; }
     }
     /// <summary>
     /// datatables için bir kaç form

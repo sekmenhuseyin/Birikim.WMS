@@ -1,0 +1,13 @@
+﻿@model IEnumerable<frmSiparisler>
+<table class="table">
+    <tr>
+        <th>Evrak No</th>
+        <th>Tarih</th>
+    </tr>
+    @foreach (var item in Model) {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
+            <td>@Html.DisplayFor(modelItem => item.Tarih.FromOADateInt())</td>
+        </tr>
+    }
+</table>

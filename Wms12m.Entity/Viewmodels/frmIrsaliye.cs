@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace Wms12m.Entity
 {
@@ -48,16 +48,7 @@ namespace Wms12m.Entity
         public string Unvan { get; set; }
     }
     /// <summary>
-    /// json result
-    /// </summary>
-    public class frmJson
-    {
-        public string id { get; set; }
-        public string value { get; set; }
-        public string label { get; set; }
-    }
-    /// <summary>
-    /// sipraişten getir sayfası
+    /// siparişten getir sayfası
     /// </summary>
     public class frmSiparistenGelen
     {

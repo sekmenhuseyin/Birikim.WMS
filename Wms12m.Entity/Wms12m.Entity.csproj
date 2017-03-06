@@ -81,6 +81,7 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Viewmodels\frmGorev.cs" />
+    <Compile Include="Viewmodels\frmSiparis.cs" />
     <Compile Include="Viewmodels\frmIrsaliye.cs" />
     <Compile Include="Viewmodels\frmMalzeme.cs" />
     <Compile Include="Viewmodels\CacheKeys.cs" />
