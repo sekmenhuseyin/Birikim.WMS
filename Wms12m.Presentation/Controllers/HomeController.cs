@@ -4,10 +4,10 @@ namespace Wms12m.Presentation.Controllers
 {
     public class HomeController : RootController
     {
-        // GET: Home
+        // Anasayfa
         public ActionResult Index()
         {
-            return View();
+            return View("Index");
         }
     }
 }

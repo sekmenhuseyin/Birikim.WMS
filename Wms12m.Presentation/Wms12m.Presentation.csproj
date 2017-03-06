@@ -4882,9 +4882,6 @@
     <Content Include="Content\assets\layouts\layout\css\themes\light.min.css" />
     <Content Include="Content\assets\layouts\layout\css\themes\light2.css" />
     <Content Include="Content\assets\layouts\layout\css\themes\light2.min.css" />
-    <Content Include="Content\assets\layouts\layout\img\12mLogo.ico" />
-    <Content Include="Content\assets\layouts\layout\img\12MLogo.png" />
-    <Content Include="Content\assets\layouts\layout\img\12mLogoMiddi.ico" />
     <Content Include="Content\assets\layouts\layout\img\ajax-loading.gif" />
     <Content Include="Content\assets\layouts\layout\img\ajax-modal-loading.gif" />
     <Content Include="Content\assets\layouts\layout\img\arrow-down.png" />
@@ -4900,9 +4897,7 @@
     <Content Include="Content\assets\layouts\layout\img\loading.gif" />
     <Content Include="Content\assets\layouts\layout\img\logo-big-white.png" />
     <Content Include="Content\assets\layouts\layout\img\logo-big.png" />
-    <Content Include="Content\assets\layouts\layout\img\logo-invert.png" />
     <Content Include="Content\assets\layouts\layout\img\logo.png" />
-    <Content Include="Content\assets\layouts\layout\img\logo50.png" />
     <Content Include="Content\assets\layouts\layout\img\menu-toggler.png" />
     <Content Include="Content\assets\layouts\layout\img\remove-icon-small.png" />
     <Content Include="Content\assets\layouts\layout\img\search_icon_light.png" />
@@ -4923,7 +4918,6 @@
     <Content Include="Content\assets\layouts\layout\img\sidebar_toggler_icon_grey.png" />
     <Content Include="Content\assets\layouts\layout\img\sidebar_toggler_icon_light.png" />
     <Content Include="Content\assets\layouts\layout\img\sidebar_toggler_icon_light2.png" />
-    <Content Include="Content\assets\layouts\layout\img\TumGrubuLogo.jpg" />
     <Content Include="Content\assets\layouts\layout\scripts\demo.js" />
     <Content Include="Content\assets\layouts\layout\scripts\demo.min.js" />
     <Content Include="Content\assets\layouts\layout\scripts\layout.js" />
@@ -5892,7 +5886,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_TopMenuPartial.cshtml" />
     <Content Include="Views\Shared\_MenuList.cshtml" />
     <Content Include="Views\Storage\Index.cshtml" />
     <Content Include="Views\Storage\_StoreGridPartial.cshtml" />

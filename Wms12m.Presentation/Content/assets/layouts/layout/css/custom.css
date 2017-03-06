@@ -11,6 +11,7 @@
     background: url('/Content/ajaxloader.gif') 50% 50% no-repeat rgba(255,255,255,0.25);
     opacity: 0.5;
 }
+/* auto css */
 .m-auto { margin: 0 auto !important; }
 .m-0 { margin: 0px !important; }
 .m-1 { margin: 1px !important; }
