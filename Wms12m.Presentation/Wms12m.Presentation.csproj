@@ -5837,6 +5837,7 @@
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\assets\global\plugins\datatables\DataTables-1.10.12\images\Sorting icons.psd" />
     <None Include="Content\STISablon.xlsx" />
+    <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
     <None Include="Content\assets\global\plugins\jquery\jquery-3.1.1.intellisense.js" />
     <Content Include="Content\assets\global\plugins\bootstrap\js\bootstrap.js" />
