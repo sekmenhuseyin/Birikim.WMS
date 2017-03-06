@@ -26,8 +26,8 @@ namespace Wms12m.Presentation.Controllers
             //connect
             using (DinamikModelContext Dinamik = new DinamikModelContext(ID.ToString()))
             {
-                var list = Dinamik.Context.DEPs.Select(m => new { value = m.Depo, text = m.DepoAdi }).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
+                var list = Dinamik.Context.DEPs.Select(m => new { m.Depo, m.DepoAdi }).ToList();
+                return Json(list.Select(x => new { Value = x.Depo, Text = x.DepoAdi, Selected = 0 }), JsonRequestBehavior.AllowGet);
             }
         }
     }
