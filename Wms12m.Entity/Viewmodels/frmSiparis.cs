@@ -28,13 +28,22 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmSiparisMalzeme
     {
-        [Required]
         public string MalKodu { get; set; }
-        [Required]
         public string MalAdi { get; set; }
-        [Required]
         public decimal Miktar { get; set; }
-        [Required]
         public string Birim { get; set; }
+    }
+    /// <summary>
+    /// siparişlerin malzeme detay
+    /// </summary>
+    public class frmSiparisMalzemeDetay
+    {
+        public string EvrakNo { get; set; }
+        public int Tarih { get; set; }
+        public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
+        public decimal Miktar { get; set; }
+        public string Birim { get; set; }
+        public decimal Stok { get; set; }
     }
 }

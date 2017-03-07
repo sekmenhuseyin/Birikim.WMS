@@ -1,0 +1,31 @@
+﻿@model IEnumerable<frmSiparisMalzemeDetay>
+@{
+    ViewBag.Title = "Step3";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Step3</h2>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.EvrakNo)</th>
+        <th>@Html.DisplayNameFor(model => model.Tarih)</th>
+        <th>@Html.DisplayNameFor(model => model.MalKodu)</th>
+        <th>@Html.DisplayNameFor(model => model.MalAdi)</th>
+        <th>@Html.DisplayNameFor(model => model.Miktar)</th>
+        <th>@Html.DisplayNameFor(model => model.Birim)</th>
+        <th>@Html.DisplayNameFor(model => model.Stok)</th>
+        <th></th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
+        <td>@item.Tarih.FromOADateInt()</td>
+        <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
+        <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
+        <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
+        <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+        <td>@Html.DisplayFor(modelItem => item.Stok)</td>
+        <td>
+        </td>
+    </tr>
+}
+</table>

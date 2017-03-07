@@ -25,11 +25,11 @@ namespace Wms12m.Presentation.Controllers
             using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketID))
             {
                 string[] evraks = tbl.checkboxes.Split(',');
-                var list = (from s in Dinamik.Context.SPIs
+                var list = from s in Dinamik.Context.SPIs
                             join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
                             where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
                             group new { s, s2 } by new { s.MalKodu, s2.MalAdi, s.Birim } into g
-                            select new frmSiparisMalzeme { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim }).ToList();
+                            select new frmSiparisMalzeme { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim };
                 //var list2 = from s in db.Yerlestirmes
                 //            join s2 in list on s.MalKodu equals s2.MalKodu
                 //            where s.TK_KAT.TK_BOL.TK_RAF.TK_KOR.TK_DEP.Depo == tbl.DepoID
@@ -49,7 +49,11 @@ namespace Wms12m.Presentation.Controllers
             using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketID))
             {
                 string[] mals = tbl.checkboxes.Split(',');
-                var list = "";
+                string[] evraks = tbl.EvrakNos.Split(',');
+                var list = from s in Dinamik.Context.SPIs
+                            join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
+                            where evraks.Contains(s.EvrakNo) && mals.Contains(s.MalKodu) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
+                            select new frmSiparisMalzemeDetay { EvrakNo=s.EvrakNo, Tarih=s.Tarih, MalKodu = s.MalKodu, MalAdi = s2.MalAdi, Miktar = (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar), Birim = s.Birim };
                 return View("Step3", list.ToList());
             }
         }

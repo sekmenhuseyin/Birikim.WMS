@@ -5373,6 +5373,7 @@
     <Content Include="Views\Sell\Index.cshtml" />
     <Content Include="Views\Sell\_Siparis.cshtml" />
     <Content Include="Views\Sell\Step2.cshtml" />
+    <Content Include="Views\Sell\Step3.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
