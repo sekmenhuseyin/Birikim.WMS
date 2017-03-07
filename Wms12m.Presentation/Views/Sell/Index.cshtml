@@ -90,10 +90,9 @@
             success: function (data) { $("#liste").html(data); }
         });
     });
-    function toggle(id) {
-        var id2 = id.replace(" ", "_");
-        $("#c-" + id2).attr('checked', !$("#c-" + id2).attr('checked'));
-        if ($("#c-" + id2).attr('checked')) selected = selected + id + ",";
+    function toggle(id,what) {
+        $("#c-" + what).attr('checked', !$("#c-" + what).attr('checked'));
+        if ($("#c-" + what).attr('checked')) selected = selected + id + ",";
         else selected = selected.replace(id + ",", "");
         $("#checkboxes").val(selected);
     }

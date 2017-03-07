@@ -4,7 +4,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr style="cursor:pointer;" onclick="toggle('@item.EvrakNo')">
+            <tr style="cursor:pointer;" onclick="toggle('@item.EvrakNo', '@item.EvrakNo.Replace(" ","_")')">
                 <td width="20"><input type="checkbox" name="cb" id="c-@item.EvrakNo.Replace(" ","_")" class="form-control" disabled /></td>
                 <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                 <td>@item.Tarih.FromOADateInt()</td>
