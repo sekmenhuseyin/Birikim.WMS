@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.Serialization;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Wms12m.Entity
 {
@@ -24,6 +21,7 @@ namespace Wms12m.Entity
         public string DepoID { get; set; }
         [Required]
         public string checkboxes { get; set; }
+        public string EvrakNos { get; set; }
     }
     /// <summary>
     /// siparişlerin malzemeleri

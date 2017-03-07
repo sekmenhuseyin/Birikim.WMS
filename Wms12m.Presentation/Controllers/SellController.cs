@@ -25,14 +25,18 @@ namespace Wms12m.Presentation.Controllers
             using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketID))
             {
                 string[] evraks = tbl.checkboxes.Split(',');
-                var list = from s in Dinamik.Context.SPIs
-                           join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
-                           join s3 in db.Yerlestirmes on s.MalKodu equals s3.MalKodu
-                           where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s3.TK_KAT.TK_BOL.TK_RAF.TK_KOR.TK_DEP.Depo == tbl.DepoID && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
-                           group new { s, s2 } by new { s.MalKodu, s2.MalAdi, s.Birim } into g
-                           select new frmSiparisMalzeme { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim };
+                var list = (from s in Dinamik.Context.SPIs
+                            join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
+                            where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
+                            group new { s, s2 } by new { s.MalKodu, s2.MalAdi, s.Birim } into g
+                            select new frmSiparisMalzeme { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim }).ToList();
+                //var list2 = from s in db.Yerlestirmes
+                //            join s2 in list on s.MalKodu equals s2.MalKodu
+                //            where s.TK_KAT.TK_BOL.TK_RAF.TK_KOR.TK_DEP.Depo == tbl.DepoID
+                //            select new frmSiparisMalzeme { MalKodu = s2.MalKodu, MalAdi = s2.MalAdi, Miktar = s2.Miktar, Birim = s2.Birim };
                 ViewBag.SirketID = tbl.SirketID;
                 ViewBag.DepoID = tbl.DepoID;
+                ViewBag.EvrakNos = evraks;
                 return View("Step2", list.ToList());
             }
         }
