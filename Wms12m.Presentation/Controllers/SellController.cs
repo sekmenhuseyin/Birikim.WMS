@@ -28,7 +28,8 @@ namespace Wms12m.Presentation.Controllers
                 var list = from s in Dinamik.Context.SPIs
                            join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
                            where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
-                           select new frmSiparisMalzeme { EvrakNo = s.EvrakNo, Tarih = s.Tarih, MalKodu = s.MalKodu, MalAdi = s2.MalAdi, AçıkMiktar = s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar, Birim = s.Birim, Depo = s.Depo };
+                           group new { s, s2 } by new { s.MalKodu, s2.MalAdi, s.Birim } into g
+                           select new frmSiparisMalzeme { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim };
                 return View("Step2", list.ToList());
             }
         }

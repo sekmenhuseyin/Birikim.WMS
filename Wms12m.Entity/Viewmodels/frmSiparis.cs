@@ -31,18 +31,12 @@ namespace Wms12m.Entity
     public class frmSiparisMalzeme
     {
         [Required]
-        public string EvrakNo { get; set; }
-        [Required]
-        public int Tarih { get; set; }
-        [Required]
         public string MalKodu { get; set; }
         [Required]
         public string MalAdi { get; set; }
         [Required]
-        public decimal AçıkMiktar { get; set; }
+        public decimal Miktar { get; set; }
         [Required]
         public string Birim { get; set; }
-        [Required]
-        public string Depo { get; set; }
     }
 }

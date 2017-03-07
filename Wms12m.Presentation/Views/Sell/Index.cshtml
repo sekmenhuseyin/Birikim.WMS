@@ -66,7 +66,7 @@
 <script src="~/Content/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
 <script>
-    var DeleteFunctionUrl = '@Url.Action("Delete", "Sell")';
+    var selected = "";
     $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#SirketID")[0].selectedIndex = 0;
     $('#SirketID').on('change', function () {
         $("#DepoID option").remove(); $("#liste").html("");
@@ -92,5 +92,11 @@
             success: function (data) { $("#liste").html(data); }
         });
     });
+    function toggle(id) {
+        $("#c-" + id).attr('checked', !$("#c-" + id).attr('checked'));
+        if ($("#c-" + id).attr('checked')) selected = selected + id + ",";
+        else selected = selected.replace(id + ",", "");
+        $("#checkboxes").val(selected);
+    }
 </script>
 }
