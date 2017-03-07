@@ -1,0 +1,53 @@
+﻿@model IEnumerable<frmSiparisMalzeme>
+@{
+    ViewBag.Title = "Step2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Step2</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EvrakNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MalKodu)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MalAdi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AçıkMiktar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Birim)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Depo)
+        </th>
+        <th></th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EvrakNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MalKodu)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MalAdi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AçıkMiktar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Birim)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Depo)
+        </td>
+        <td>
+        </td>
+    </tr>
+}
+</table>

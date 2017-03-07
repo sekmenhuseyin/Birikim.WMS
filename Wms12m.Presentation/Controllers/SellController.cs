@@ -20,9 +20,17 @@ namespace Wms12m.Presentation.Controllers
         /// siparişleri seçince yapılacak işlemler
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Index(frmSiparisOnay tbl)
+        public ActionResult Step2(frmSiparisOnay tbl)
         {
-            return View("Index");
+            using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketID))
+            {
+                string[] evraks = tbl.checkboxes.Split(',');
+                var list = from s in Dinamik.Context.SPIs
+                           join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
+                           where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
+                           select new frmSiparisMalzeme { EvrakNo = s.EvrakNo, Tarih = s.Tarih, MalKodu = s.MalKodu, MalAdi = s2.MalAdi, AçıkMiktar = s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar, Birim = s.Birim, Depo = s.Depo };
+                return View("Step2", list.ToList());
+            }
         }
         /// <summary>
         /// get depo names based on şirket
@@ -52,8 +60,11 @@ namespace Wms12m.Presentation.Controllers
             string depo = tmp[1]; if (depo == "0") return null;
             using (DinamikModelContext Dinamik = new DinamikModelContext(kod))
             {
-                var list = Dinamik.Context.SPIs.Where(m => m.Depo == depo && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0).GroupBy(m=> new { m.EvrakNo, m.Tarih }).Select(m => new frmSiparisler { EvrakNo = m.Key.EvrakNo, Tarih = m.Key.Tarih }).ToList();
-                return PartialView("_Siparis", list);
+                var list = Dinamik.Context.SPIs.Where(m => m.Depo == depo && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0)
+                    .GroupBy(m=> new { m.EvrakNo, m.Tarih })
+                    .Select(m => new frmSiparisler { EvrakNo = m.Key.EvrakNo, Tarih = m.Key.Tarih })
+                    .OrderByDescending(m=>m.Tarih);
+                return PartialView("_Siparis", list.ToList());
             }
         }
     }
