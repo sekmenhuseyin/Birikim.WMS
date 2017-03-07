@@ -17,6 +17,14 @@ namespace Wms12m.Presentation.Controllers
             return View("Index");
         }
         /// <summary>
+        /// siparişleri seçince yapılacak işlemler
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Index(frmSiparisOnay tbl)
+        {
+            return View("Index");
+        }
+        /// <summary>
         /// get depo names based on şirket
         /// </summary>
         [HttpPost]
@@ -44,7 +52,7 @@ namespace Wms12m.Presentation.Controllers
             string depo = tmp[1]; if (depo == "0") return null;
             using (DinamikModelContext Dinamik = new DinamikModelContext(kod))
             {
-                var list = Dinamik.Context.SPIs.Where(m => m.Depo == depo && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0).Select(m => new frmSiparisler { EvrakNo = m.EvrakNo, Tarih = m.Tarih }).ToList();
+                var list = Dinamik.Context.SPIs.Where(m => m.Depo == depo && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0).GroupBy(m=> new { m.EvrakNo, m.Tarih }).Select(m => new frmSiparisler { EvrakNo = m.Key.EvrakNo, Tarih = m.Key.Tarih }).ToList();
                 return PartialView("_Siparis", list);
             }
         }

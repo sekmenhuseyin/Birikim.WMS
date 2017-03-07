@@ -47,7 +47,7 @@
     function toggle(id) { $("#" + id).attr('checked', !$("#" + id).attr('checked')); }
     $("#submitter").click(function () {
         var sList = "";
-        $("#sample_1 input[type=checkbox]").each(function () {
+        $("#sample_3 input[type=checkbox]").each(function () {
             if (this.checked)
                 sList += $(this).attr('id').replace("c-", "") + ",";
         });

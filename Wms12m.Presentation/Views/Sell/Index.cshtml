@@ -1,6 +1,8 @@
 ﻿@{
     ViewBag.Title = "Sipariş Planlama";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")" rel="stylesheet" type="text/css" />
 }<h3 class="page-title">Sipariş Planlama</h3>
 <div class="row">
     <div class="col-md-12">
@@ -51,8 +53,7 @@
                                     <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
-                            <div class="form-group" id="liste">
-                            </div>
+                            <div class="form-group" id="liste"></div>
                         </div>
                     }
                 </div>
@@ -65,7 +66,7 @@
         var DeleteFunctionUrl = '@Url.Action("Delete", "Sell")';
         $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#SirketID")[0].selectedIndex = 0;
         $('#SirketID').on('change', function () {
-            $("#DepoID option").remove();
+            $("#DepoID option").remove(); $("#liste").html("");
             $.ajax({
                 url: "/Sell/GetDepo/" + $('#SirketID').val(),
                 type: 'POST',

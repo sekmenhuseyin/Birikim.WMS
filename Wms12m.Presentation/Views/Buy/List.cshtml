@@ -45,7 +45,7 @@
         $("#SirketID").val(s);
         $("#DepoID").val(d);
         $("#HesapKodu").val(h);
-        $("#Unvan").val(u);
+        if (u != "") $("#Unvan").val(u);
         $("#EvrakNo").val(e);
         $("#Tarih").val(t);
         $('#modalEditPage').modal('toggle');
