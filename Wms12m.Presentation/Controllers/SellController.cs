@@ -27,10 +27,26 @@ namespace Wms12m.Presentation.Controllers
                 string[] evraks = tbl.checkboxes.Split(',');
                 var list = from s in Dinamik.Context.SPIs
                            join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
-                           where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
+                           join s3 in db.Yerlestirmes on s.MalKodu equals s3.MalKodu
+                           where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s3.TK_KAT.TK_BOL.TK_RAF.TK_KOR.TK_DEP.Depo == tbl.DepoID && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
                            group new { s, s2 } by new { s.MalKodu, s2.MalAdi, s.Birim } into g
                            select new frmSiparisMalzeme { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim };
+                ViewBag.SirketID = tbl.SirketID;
+                ViewBag.DepoID = tbl.DepoID;
                 return View("Step2", list.ToList());
+            }
+        }
+        /// <summary>
+        /// malzemeleri seçince olanlar
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Step3(frmSiparisOnay tbl)
+        {
+            using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketID))
+            {
+                string[] mals = tbl.checkboxes.Split(',');
+                var list = "";
+                return View("Step3", list.ToList());
             }
         }
         /// <summary>
@@ -61,10 +77,11 @@ namespace Wms12m.Presentation.Controllers
             string depo = tmp[1]; if (depo == "0") return null;
             using (DinamikModelContext Dinamik = new DinamikModelContext(kod))
             {
-                var list = Dinamik.Context.SPIs.Where(m => m.Depo == depo && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0)
-                    .GroupBy(m=> new { m.EvrakNo, m.Tarih })
-                    .Select(m => new frmSiparisler { EvrakNo = m.Key.EvrakNo, Tarih = m.Key.Tarih })
-                    .OrderByDescending(m=>m.Tarih);
+                var list = Dinamik.Context.SPIs
+                            .Where(m => m.Depo == depo && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0)
+                            .GroupBy(m=> new { m.EvrakNo, m.Tarih })
+                            .Select(m => new frmSiparisler { EvrakNo = m.Key.EvrakNo, Tarih = m.Key.Tarih })
+                            .OrderByDescending(m=>m.Tarih);
                 return PartialView("_Siparis", list.ToList());
             }
         }

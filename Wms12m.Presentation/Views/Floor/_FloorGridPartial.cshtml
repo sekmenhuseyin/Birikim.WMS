@@ -2,26 +2,15 @@
 @if (Model.Count() > 0)
 {
     <table class="table table-striped table-bordered table-hover" id="sample_1">
-        <thead>
-            <tr>
-                <th>Kat</th>
-                <th>Sıra No</th>
-                <th>En x Boy x Derinlik</th>
-                <th>Ağırlık Kapasitesi</th>
-                <th>Özellik</th>
-                <th>Açıklama</th>
-                <th>Durum</th>
-                <th></th>
-            </tr>
-        </thead>
+        <thead><tr><th>Kat</th><th>Sıra No</th><th>En x Boy x Derinlik</th><th>Ağırlık Kapasitesi</th><th>Özellik</th><th>Açıklama</th><th>Durum</th><th></th></tr></thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
                     <td>@item.Kat</td>
                     <td>@item.SiraNo </td>
-                    <td>@item.En x @item.Boy x @item.Derinlik </td>
-                    <td>@item.AgirlikKapasite </td>
+                    <td>@item.En x @item.Boy x @item.Derinlik m<sup>3</sup></td>
+                    <td>@item.AgirlikKapasite kg</td>
                     <td>@item.ComboItemName.Name </td>
                     <td>@item.Aciklama </td>
                     <td>@(item.Aktif ? "Aktif" : "Pasif")</td>

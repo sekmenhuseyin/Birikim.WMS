@@ -59,31 +59,35 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">En</label>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     @Html.TextBoxFor(a => a.En, new { @class = "form-control input-circle", @placeholder = "En", required = "required" })
                                     <span class="field-validation-valid" data-valmsg-for="En" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
+                                <div class="col-md-1">m</div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Boy</label>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     @Html.TextBoxFor(a => a.Boy, new { @class = "form-control input-circle", @placeholder = "Boy", required = "required" })
                                     <span class="field-validation-valid" data-valmsg-for="Boy" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
+                                <div class="col-md-1">m</div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Derinlik</label>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     @Html.TextBoxFor(a => a.Derinlik, new { @class = "form-control input-circle", @placeholder = "Derinlik", required = "required" })
                                     <span class="field-validation-valid" data-valmsg-for="Derinlik" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
+                                <div class="col-md-1">m</div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Ağırlık Kapasitesi</label>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     @Html.TextBoxFor(a => a.AgirlikKapasite, new { @class = "form-control input-circle", @placeholder = "Ağırlık Kapasitesi", required = "required" })
                                     <span class="field-validation-valid" data-valmsg-for="AgirlikKapasite" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
+                                <div class="col-md-1">kg</div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Özellik</label>
@@ -196,9 +200,10 @@
     var FloorDetailUrl = '@Url.Action("FloorDetailPartial", "Floor")';
     var DeleteFunctionUrl = '@Url.Action("Delete", "Floor")';
     $(document).ready(function () {
-        $(".make-switch").bootstrapSwitch();
-        $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
-        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); $(".make-switch").val(true);</text>}
+        $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
+        @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}
+        $("#Ozellik").prepend("<option value='0'>Seçiniz !!!</option>"); $("#Ozellik")[0].selectedIndex = 0;
         $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $(".KoridorID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".KoridorID")[0].selectedIndex = 0; $(".KoridorID")[1].selectedIndex = 0;
         $(".RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".RafID")[0].selectedIndex = 0; $(".RafID")[1].selectedIndex = 0;
@@ -272,7 +277,7 @@
         CreateEdit('0');
     }
     function CreateEdit(Id) {
-        if (Id == 0) {            
+        if (Id == 0) {
             $("#ID").val("0");
             $("#Kat").val("");
             $("#Boy").val("0");

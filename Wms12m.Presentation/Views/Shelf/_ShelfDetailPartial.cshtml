@@ -70,10 +70,8 @@
 <script src="@Url.Content("~/Content/assets/pages/scripts/components-bootstrap-touchspin.min.js")" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        $(".make-switch").bootstrapSwitch();
-        $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) {
-            $(".make-switch").val(data)
-        });
-        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); $(".make-switch").val(true);</text>}
+        $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
+        @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}
     });
 </script>

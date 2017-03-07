@@ -110,9 +110,9 @@
     var DeleteFunctionUrl = '@Url.Action("Delete", "Storage")';
     var StoreListUrl = '@Url.Action("StoreList", "Corridor")';
     $(document).ready(function () {
-        $(".make-switch").bootstrapSwitch();
-        $('.make-switch').on('switchChange.bootstrapSwitch', function (e, data) { $(".make-switch").val(data) });
-        @if (@Model.Aktif == false) { <text> $('input[type=checkbox]').prop("checked", true).trigger("change"); $(".make-switch").val(true);</text>}
+        $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
+        @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
         FuncSearchBtn();
     });
