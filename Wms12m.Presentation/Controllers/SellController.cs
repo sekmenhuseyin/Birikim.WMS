@@ -36,7 +36,7 @@ namespace Wms12m.Presentation.Controllers
                 //            select new frmSiparisMalzeme { MalKodu = s2.MalKodu, MalAdi = s2.MalAdi, Miktar = s2.Miktar, Birim = s2.Birim };
                 ViewBag.SirketID = tbl.SirketID;
                 ViewBag.DepoID = tbl.DepoID;
-                ViewBag.EvrakNos = evraks;
+                ViewBag.EvrakNos = tbl.checkboxes;
                 return View("Step2", list.ToList());
             }
         }

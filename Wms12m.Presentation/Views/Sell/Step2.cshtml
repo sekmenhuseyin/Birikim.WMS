@@ -73,36 +73,12 @@
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
 <script>
     $(document).ready(function () { $('#sample_2').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); selected = ""; });
-    $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#SirketID")[0].selectedIndex = 0;
-    $('#SirketID').on('change', function () {
-        $("#DepoID option").remove(); $("#liste").html("");
-        $.ajax({
-            url: "/Sell/GetDepo/" + $('#SirketID').val(),
-            type: 'POST',
-            dataType: "json",
-            success: function (data) {
-                if (data != "") {
-                    $.each(data, function (i, item) {
-                        $('#DepoID').append($('<option>', { value: item.Value, text: item.Text }));
-                    });
-                    $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
-                }
-            }
-        });
-    });
-    $('#DepoID').on('change', function () {
-        $.ajax({
-            type: 'POST',
-            url: "/Sell/GetSiparis/" + $('#SirketID').val() + "-" + $('#DepoID').val(),
-            dataType: "html",
-            success: function (data) { $("#liste").html(data); }
-        });
-    });
     function toggle(id) {
-        $("#c-" + id).attr('checked', !$("#c-" + id).attr('checked'));
-        if ($("#c-" + id).attr('checked')) selected = selected + id + ",";
+        var id2 = replaceAll(id, " ", "_");
+        $("#c-" + id2).attr('checked', !$("#c-" + id2).attr('checked'));
+        if ($("#c-" + id2).attr('checked')) selected = selected + id + ",";
         else selected = selected.replace(id + ",", "");
         $("#checkboxes").val(selected);
     }
 </script>
-}
+}}
