@@ -1,15 +1,31 @@
 ﻿@model IEnumerable<IRS_Detay>
-<table class="table">
+@{ int ID = 0;}   
+<table class="table m-t-40">
     <tr>
         <th>@Html.DisplayNameFor(model => model.MalKodu)</th>
         <th>@Html.DisplayNameFor(model => model.Birim)</th>
         <th>@Html.DisplayNameFor(model => model.Miktar)</th>
+        <th>Hücre</th>
     </tr>
-    @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
+        ID++;
         <tr>
             <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
             <td>@Html.DisplayFor(modelItem => item.Birim)</td>
             <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
+            <td>
+                @using (Ajax.BeginForm("AddRaf", "Lists", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace }, new { @class = "form-horizontal" }))
+                {
+                    @Html.DropDownList("KatID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange="changer('ma-"+ID+"',this)" })
+                    <input type="hidden" name="MalKodu" value="@item.MalKodu" />
+                    <input type="hidden" name="MalAdi" id="ma-@ID" value="" />
+                    <input type="hidden" name="Birim" value="@item.Birim" />
+                    <input type="hidden" name="Miktar" value="@item.Miktar" />
+                    <input type="submit" value="Add" name="submit" />
+                }
+            </td>
         </tr>
     }
 </table>
+<script>function changer(id, txt) { $("#" + id).val(txt.options[txt.selectedIndex].innerHTML); };</script>

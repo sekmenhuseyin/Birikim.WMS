@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -48,7 +51,35 @@ namespace Wms12m.Presentation.Controllers
             if (id == null || id.ToString2() == "0") return null;
             int ID = id.ToInt32();
             var list = db.IRS_Detay.Where(m => m.IrsaliyeID == ID).ToList();
+            int DepoID = db.IRS.Where(m => m.ID == ID).Select(m => m.DepoID).FirstOrDefault();
+            ViewBag.KatID = new SelectList(db.GetHucreAd(DepoID).ToList(), "ID", "Ad");
             return PartialView("_RafDetails", list);
+        }
+        /// <summary>
+        /// rafa ekleme
+        /// </summary>
+        [HttpPost]
+        public void AddRaf(frmSiparisMalzeme tbl)
+        {
+            //yerleştirme tablosu
+            Yer yer = new Yer();
+            yer.KatID = tbl.KatID;
+            yer.MalKodu = tbl.MalKodu;
+            yer.Miktar = tbl.Miktar;
+            yer.Birim = tbl.Birim;
+            db.Yers.Add(yer);
+            //yerleştirme harekletler
+            Yer_Log yerlog = new Yer_Log();
+            yerlog.HucreAd = tbl.MalAdi;
+            yerlog.MalKodu = tbl.MalKodu;
+            yerlog.Miktar = tbl.Miktar;
+            yerlog.Birim = tbl.Birim;
+            yerlog.Tip = false;
+            yerlog.Kaydeden = User.LogonUserName;
+            yerlog.KayitTarihi = DateTime.Today.ToOADateInt();
+            yerlog.KayitSaati = DateTime.Now.SaatiAl();
+            db.Yer_Log.Add(yerlog);
+            db.SaveChanges();
         }
     }
 }

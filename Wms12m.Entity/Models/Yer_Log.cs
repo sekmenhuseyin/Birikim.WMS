@@ -22,5 +22,6 @@ namespace Wms12m.Entity.Models
         public bool Tip { get; set; }
         public string Kaydeden { get; set; }
         public int KayitTarihi { get; set; }
+        public int KayitSaati { get; set; }
     }
 }

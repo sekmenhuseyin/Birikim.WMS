@@ -211,6 +211,7 @@
           <Property Name="Tip" Type="bit" Nullable="false" />
           <Property Name="Kaydeden" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="KayitTarihi" Type="int" Nullable="false" />
+          <Property Name="KayitSaati" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_ComboItemName_ComboName">
           <End Role="Combo_Name" Type="Self.Combo_Name" Multiplicity="1" />
@@ -599,17 +600,17 @@
             <End Role="Yer" EntitySet="Yers" />
           </AssociationSet>
           <FunctionImport Name="GetHucreAd" ReturnType="Collection(MModel.GetHucreAd_Result)">
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+          <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetHucreKatID" ReturnType="Collection(Int32)">
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
             <Parameter Name="Kod" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SettingsGorevNo" ReturnType="Collection(String)">
-            <Parameter Name="tarih" Mode="In" Type="Int32" />
+          <Parameter Name="tarih" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SettingsIrsaliyeNo" ReturnType="Collection(String)">
-            <Parameter Name="tarih" Mode="In" Type="Int32" />
+          <Parameter Name="tarih" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -737,6 +738,7 @@
           <Property Name="Tip" Type="Boolean" Nullable="false" />
           <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="KayitTarihi" Type="Int32" Nullable="false" />
+          <Property Name="KayitSaati" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_ComboItemName_ComboName">
           <End Type="MModel.Combo_Name" Role="Combo_Name" Multiplicity="1" />
@@ -1168,6 +1170,7 @@
           <EntitySetMapping Name="Yer_Log">
             <EntityTypeMapping TypeName="MModel.Yer_Log">
               <MappingFragment StoreEntitySet="Yer_Log">
+                <ScalarProperty Name="KayitSaati" ColumnName="KayitSaati" />
                 <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
                 <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
                 <ScalarProperty Name="Tip" ColumnName="Tip" />
