@@ -1,4 +1,4 @@
-﻿@model TK_KAT
+﻿@model Kat
 @{
     ViewBag.Title = "Kat Kartı işlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -54,8 +54,8 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Kat</label>
                                     <div class="col-md-4">
-                                        @Html.TextBoxFor(a => a.Kat, new { @class = "form-control input-circle", @placeholder = "Kat", required = "required" })
-                                        <span class="field-validation-valid" data-valmsg-for="Kat" data-valmsg-replace="true" style="color:red;"></span>
+                                        @Html.TextBoxFor(a => a.KatAd, new { @class = "form-control input-circle", @placeholder = "Kat", required = "required" })
+                                        <span class="field-validation-valid" data-valmsg-for="KatAd" data-valmsg-replace="true" style="color:red;"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">

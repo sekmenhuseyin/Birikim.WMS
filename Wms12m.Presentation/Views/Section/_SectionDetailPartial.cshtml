@@ -1,9 +1,9 @@
-﻿@model TK_BOL
+﻿@model Bolum
 <div class="col-md-12">
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.Bolum + "  Bölüm Düzenle" : "Bölüm Ekle")
+                <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.BolumAd + "  Bölüm Düzenle" : "Bölüm Ekle")
             </div>
         </div>
         <div class="portlet-body form">
@@ -37,8 +37,8 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Bölüm</label>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(a => a.Bolum, new { @class = "form-control input-circle", @placeholder = "Bölüm" })
-                            <span class="field-validation-valid" data-valmsg-for="Bolum" data-valmsg-replace="true" style="color:red;"></span>
+                            @Html.TextBoxFor(a => a.BolumAd, new { @class = "form-control input-circle", @placeholder = "Bölüm" })
+                            <span class="field-validation-valid" data-valmsg-for="BolumAd" data-valmsg-replace="true" style="color:red;"></span>
                         </div>
                     </div>
                     <div class="form-group">

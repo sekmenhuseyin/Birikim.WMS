@@ -1,4 +1,4 @@
-﻿@model List<GorevListesi>
+﻿@model List<Gorev>
 <table class="table table-striped table-bordered table-hover" id="sample_1">
     <thead>
         <tr>
@@ -20,8 +20,8 @@
         @foreach (var item in Model)
         {
             <tr ondblclick="tiklama('@item.IrsaliyeID')">
-                <td>@item.TK_DEP.Depo</td>
-                <td>@item.WMS_IRS.EvrakNo</td>
+                <td>@item.Depo.Depo</td>
+                <td>@item.IRS.EvrakNo</td>
                 <td>@item.GorevNo</td>
                 <td>@item.ComboItemName.Name</td>
                 <td>@item.ComboItemName1.Name</td>

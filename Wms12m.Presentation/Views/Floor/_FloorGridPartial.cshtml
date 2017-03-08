@@ -1,4 +1,4 @@
-﻿@model List<TK_KAT>
+﻿@model List<Kat>
 @if (Model.Count() > 0)
 {
     <table class="table table-striped table-bordered table-hover" id="sample_1">
@@ -7,7 +7,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Kat</td>
+                    <td>@item.KatAd</td>
                     <td>@item.SiraNo </td>
                     <td>@item.En x @item.Boy x @item.Derinlik m<sup>3</sup></td>
                     <td>@item.AgirlikKapasite kg</td>

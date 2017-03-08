@@ -1,9 +1,9 @@
-﻿@model TK_KOR
+﻿@model Koridor
 <div class="col-md-12">
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.Koridor + "  Koridor Düzenle" : "Koridor Ekle")
+                <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.KoridorAd + "  Koridor Düzenle" : "Koridor Ekle")
             </div>
         </div>
         <div class="portlet-body form">
@@ -23,8 +23,8 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Koridor</label>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(a => a.Koridor, new { @class = "form-control input-circle", @placeholder = "Koridor", required = "required" })
-                            <span class="field-validation-valid" data-valmsg-for="Koridor" data-valmsg-replace="true" style="color:red;"></span>
+                            @Html.TextBoxFor(a => a.KoridorAd, new { @class = "form-control input-circle", @placeholder = "Koridor", required = "required" })
+                            <span class="field-validation-valid" data-valmsg-for="KoridorAd" data-valmsg-replace="true" style="color:red;"></span>
                         </div>
                     </div>
                     <div class="form-group">

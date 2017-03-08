@@ -1,9 +1,9 @@
-﻿@model TK_RAF
+﻿@model Raf
 <div class="col-md-12">
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.Raf + "  Raf Düzenle" : "Raf Ekle")
+                <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.RafAd + "  Raf Düzenle" : "Raf Ekle")
             </div>
         </div>
         <div class="portlet-body form">
@@ -30,8 +30,8 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Raf</label>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(a => a.Raf, new { @class = "form-control input-circle", @placeholder = "Raf", required = "required" })
-                            <span class="field-validation-valid" data-valmsg-for="ShelfName" data-valmsg-replace="true" style="color:red;"></span>
+                            @Html.TextBoxFor(a => a.RafAd, new { @class = "form-control input-circle", @placeholder = "Raf", required = "required" })
+                            <span class="field-validation-valid" data-valmsg-for="RafAd" data-valmsg-replace="true" style="color:red;"></span>
                         </div>
                     </div>
                     <div class="form-group">

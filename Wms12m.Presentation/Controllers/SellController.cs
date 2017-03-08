@@ -53,7 +53,7 @@ namespace Wms12m.Presentation.Controllers
                             select new frmSiparisMalzeme { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim };
                 //var list2 = from s in db.Yerlestirmes
                 //            join s2 in list on s.MalKodu equals s2.MalKodu
-                //            where s.TK_KAT.TK_BOL.TK_RAF.TK_KOR.Depo.Depo == tbl.DepoID
+                //            where s.Kat.Bolum.Raf.Koridor.Depo.Depo == tbl.DepoID
                 //            select new frmSiparisMalzeme { MalKodu = s2.MalKodu, MalAdi = s2.MalAdi, Miktar = s2.Miktar, Birim = s2.Birim };
                 ViewBag.SirketID = tbl.SirketID;
                 ViewBag.EvrakNos = tbl.EvrakNos;
