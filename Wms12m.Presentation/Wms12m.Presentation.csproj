@@ -3222,6 +3222,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BuyController.cs" />
     <Compile Include="Controllers\CombosController.cs" />
+    <Compile Include="Controllers\ListsController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\CorridorController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -3295,6 +3296,11 @@
     <Content Include="Views\Sell\_Siparis.cshtml" />
     <Content Include="Views\Sell\Step3.cshtml" />
     <Content Include="Views\Sell\Step2.cshtml" />
+    <Content Include="Views\Lists\Index.cshtml" />
+    <Content Include="Views\Lists\Siparis.cshtml" />
+    <Content Include="Views\Lists\Raf.cshtml" />
+    <Content Include="Views\Lists\_RafDetails.cshtml" />
+    <Content Include="Views\Lists\_SiparisDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

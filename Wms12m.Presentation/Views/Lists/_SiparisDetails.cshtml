@@ -1,0 +1,15 @@
+﻿@model IEnumerable<WMS_STI>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.MalKodu)</th>
+        <th>@Html.DisplayNameFor(model => model.Birim)</th>
+        <th>@Html.DisplayNameFor(model => model.Miktar)</th>
+    </tr>
+    @foreach (var item in Model) {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
+            <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+            <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
+        </tr>
+    }
+</table>
