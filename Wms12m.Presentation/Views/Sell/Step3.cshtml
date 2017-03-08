@@ -29,12 +29,12 @@
         <div class="portlet box green m-t-30">
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Sipariş Seçimi</div></div>
             <div class="portlet-body form p-30">
-                @using (Html.BeginForm("Step3", "Sell", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Approve", "Sell", FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed table-hover" id="sample_2">
-                        <thead><tr><th>MalKodu</th><th>MalAdi</th><th>Miktar</th><th>Birim</th></tr></thead>
+                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr></thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
@@ -42,15 +42,18 @@
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Birim)
+                                        <input type="hidden" name="Mal" value="@item.MalKodu#@item.Miktar#@item.Birim" />
+                                    </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                     <div class="row">
                         <div class="col-md-2 col-md-offset-10">
-                            <input type="hidden" name="checkboxes" id="checkboxes" value="" />
-                            <input type="submit" class="btn btn-primary btn-block green" value="Seç >>>" />
+                            <input type="hidden" name="SirketID" value="@ViewBag.SirketID" />
+                            <input type="submit" class="btn btn-primary btn-block green" value="Onay" />
                         </div>
                     </div>
                 }

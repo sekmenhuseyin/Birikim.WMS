@@ -54,6 +54,7 @@ namespace Wms12m.Presentation.Controllers
                 //            join s2 in list on s.MalKodu equals s2.MalKodu
                 //            where s.TK_KAT.TK_BOL.TK_RAF.TK_KOR.TK_DEP.Depo == tbl.DepoID
                 //            select new frmSiparisMalzeme { MalKodu = s2.MalKodu, MalAdi = s2.MalAdi, Miktar = s2.Miktar, Birim = s2.Birim };
+                ViewBag.SirketID = tbl.SirketID;
                 return View("Step3", list.ToList());
             }
         }

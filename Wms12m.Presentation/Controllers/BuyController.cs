@@ -32,7 +32,7 @@ namespace Wms12m.Presentation.Controllers
             string SirketKod = tmp[0];
             int DepoID = tmp[1].ToInt32();
             string HesapKodu = tmp[2];
-            var list = db.WMS_IRS.Where(m => m.SirketKod == SirketKod && m.HesapKodu == HesapKodu && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
+            var list = db.WMS_IRS.Where(m => m.SirketKod == SirketKod && m.IslemTur == false && m.HesapKodu == HesapKodu && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
             return PartialView("List", list);
         }
         /// <summary>
