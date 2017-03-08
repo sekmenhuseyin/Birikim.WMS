@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -77,7 +77,7 @@ namespace Wms12m.Presentation.Controllers
                            join s2 in Dinamik.Context.CHKs on s.Chk equals s2.HesapKodu
                            where evraks.Contains(s.EvrakNo) && mals.Contains(s.MalKodu) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
                            orderby s.Chk
-                           select new { s.EvrakNo, s.Chk, s2.HesapKodu, s.MalKodu, Miktar = s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar, s.Birim }).ToList();
+                           select new { s.EvrakNo, s.Chk, s2.Unvan1, s.MalKodu, Miktar = s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar, s.Birim }).ToList();
                 foreach (var item in list)
                 {
                     //irsaliye tablosu
@@ -87,8 +87,9 @@ namespace Wms12m.Presentation.Controllers
                         irs.SirketKod = tbl.SirketID;
                         irs.DepoID = db.TK_DEP.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
                         irs.IslemTur = true; //satış irsaliyesi
+                        irs.Tarih = DateTime.Today.ToOADateInt();
                         irs.EvrakNo = db.GetIrsaliyeNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-                        irs.HesapKodu = item.HesapKodu;
+                        irs.HesapKodu = item.Chk;
                         chk = item.Chk;
                         var op = new Irsaliye();
                         _Result = op.Operation(irs);
@@ -98,7 +99,7 @@ namespace Wms12m.Presentation.Controllers
                         grv.DepoID = irs.DepoID;
                         grv.GorevNo = db.GetGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
                         grv.GorevTipiID = ComboItems.SiparişTopla.ToInt32();
-                        grv.Bilgi = "Irs: " + irs.EvrakNo + ", Alıcı: " + item.Chk;
+                        grv.Bilgi = "Irs: " + irs.EvrakNo + ", Alıcı: " + item.Unvan1;
                         grv.IrsaliyeID = id;
                         var op3 = new Gorev();
                         _Result = op3.Operation(grv);
