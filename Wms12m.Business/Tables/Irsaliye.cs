@@ -18,7 +18,28 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(WMS_IRS tbl)
         {
-            throw new NotImplementedException();
+            _Result = new Result();
+            try
+            {
+                if (tbl.ID == 0)
+                {
+                    tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                    tbl.KayitTarih = DateTime.Today.ToOADateInt();
+                    db.WMS_IRS.Add(tbl);
+                }
+                db.SaveChanges();
+                //result
+                _Result.Id = tbl.ID;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                _Result.Id = 0;
+                _Result.Message = "İşlem Hatalı: " + ex.Message;
+                _Result.Status = false;
+            }
+            return _Result;
         }
         /// <summary>
         /// yeni ekle

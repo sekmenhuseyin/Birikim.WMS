@@ -84,5 +84,14 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetGorevNo", tarihParameter);
         }
+    
+        public virtual ObjectResult<string> GetIrsaliyeNo(Nullable<int> tarih)
+        {
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("tarih", tarih) :
+                new ObjectParameter("tarih", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetIrsaliyeNo", tarihParameter);
+        }
     }
 }

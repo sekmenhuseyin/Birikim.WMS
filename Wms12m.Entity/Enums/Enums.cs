@@ -11,7 +11,7 @@
     /// <summary>
     /// combo items
     /// </summary>
-    public enum ComboNames
+    public enum ComboItems
     {
         MalKabul = 1,
         RafaKaldır = 2,
@@ -31,7 +31,7 @@
     /// <summary>
     /// combo item names
     /// </summary>
-    public enum ComboItemNames
+    public enum Combos
     {
         GorevTipleri = 1,
         GorevDurum = 2,

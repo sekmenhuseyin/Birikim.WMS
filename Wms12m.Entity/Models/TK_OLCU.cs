@@ -14,8 +14,6 @@ namespace Wms12m.Entity.Models
     
     public partial class TK_OLCU
     {
-        public object IrsaliyeID;
-
         public int ID { get; set; }
         public string SirketKod { get; set; }
         public string MalKodu { get; set; }

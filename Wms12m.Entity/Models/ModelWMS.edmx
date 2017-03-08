@@ -419,6 +419,9 @@
         <Function Name="GetGorevNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="tarih" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetIrsaliyeNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tarih" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
@@ -609,6 +612,9 @@
             <End Role="TK_KAT" EntitySet="TK_KAT" />
           </AssociationSet>
           <FunctionImport Name="GetGorevNo" ReturnType="Collection(String)">
+          <Parameter Name="tarih" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetIrsaliyeNo" ReturnType="Collection(String)">
             <Parameter Name="tarih" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
@@ -1298,6 +1304,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetGorevNo" FunctionName="MModel.Store.GetGorevNo" />
+          <FunctionImportMapping FunctionImportName="GetIrsaliyeNo" FunctionName="MModel.Store.GetIrsaliyeNo" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

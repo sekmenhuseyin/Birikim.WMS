@@ -97,7 +97,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult New(frmIrsaliye tbl)
         {
             //check if exists
-            var tmp = db.WMS_IRS.Where(m => m.EvrakNo == tbl.EvrakNo).FirstOrDefault();
+            var tmp = db.WMS_IRS.Where(m => m.EvrakNo == tbl.EvrakNo && m.IslemTur == false).FirstOrDefault();
             if (tmp == null)
             {
                 Irsaliye tmpTable = new Irsaliye();

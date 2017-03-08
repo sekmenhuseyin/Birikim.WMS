@@ -2,6 +2,7 @@
 using System.Linq;
 using Wms12m.Entity;
 using System.Web.Mvc;
+using Wms12m.Business;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -55,7 +56,62 @@ namespace Wms12m.Presentation.Controllers
                 //            where s.TK_KAT.TK_BOL.TK_RAF.TK_KOR.TK_DEP.Depo == tbl.DepoID
                 //            select new frmSiparisMalzeme { MalKodu = s2.MalKodu, MalAdi = s2.MalAdi, Miktar = s2.Miktar, Birim = s2.Birim };
                 ViewBag.SirketID = tbl.SirketID;
+                ViewBag.EvrakNos = tbl.EvrakNos;
+                ViewBag.DepoID = tbl.DepoID;
+                ViewBag.checkboxes = tbl.checkboxes;
                 return View("Step3", list.ToList());
+            }
+        }
+        /// <summary>
+        /// sipariş onaylandı
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Approve(frmSiparisOnay tbl)
+        {
+            using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketID))
+            {
+                string[] mals = tbl.checkboxes.Split(',');
+                string[] evraks = tbl.EvrakNos.Split(',');
+                string chk = "", EvrakNo = ""; int id = 0, DepoID =0; Result _Result;
+                var list = Dinamik.Context.SPIs
+                            .Where(m => m.Depo == tbl.DepoID && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && evraks.Contains(m.EvrakNo) && mals.Contains(m.MalKodu) && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0)
+                            .Select(m => new { m.EvrakNo, m.Chk, m.MalKodu, Miktar = m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar, m.Birim }).ToList();
+                foreach (var item in list)
+                {
+                    //irsaliye tablosu
+                    if (chk != item.Chk)
+                    {
+                        DepoID = db.TK_DEP.Where(m => m.DepoKodu == tbl.SirketID).Select(m => m.ID).FirstOrDefault();
+                        EvrakNo = db.GetIrsaliyeNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+                        WMS_IRS irs = new WMS_IRS();
+                        irs.SirketKod = tbl.SirketID;
+                        irs.DepoID = DepoID;
+                        irs.IslemTur = true; //satış irsaliyesi
+                        irs.EvrakNo = EvrakNo;
+                        irs.HesapKodu = item.Chk;
+                        chk = item.Chk;
+                        var op = new Irsaliye();
+                        _Result = op.Operation(irs);
+                        id = _Result.Id;
+                    }
+                    //sti tablosu
+                    WMS_STI sti = new WMS_STI();
+                    sti.IrsaliyeID = id;
+                    sti.MalKodu = item.MalKodu;
+                    sti.Birim = item.Birim;
+                    var op2 = new Stok();
+                    _Result = op2.Operation(sti);
+                    //görev tablosu
+                    GorevListesi grv = new GorevListesi();
+                    grv.DepoID = DepoID;
+                    grv.GorevNo = db.GetGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+                    grv.GorevTipiID = ComboItems.SiparişTopla.ToInt32();
+                    grv.Bilgi = "Irs: " + EvrakNo + ", Alıcı: " + item.Chk;
+                    var op3 = new Gorev();
+                    _Result = op3.Operation(grv);
+                }
+
+                return Redirect("/Gorev");
             }
         }
         /// <summary>

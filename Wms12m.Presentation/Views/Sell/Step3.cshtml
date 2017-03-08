@@ -42,10 +42,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Birim)
-                                        <input type="hidden" name="Mal" value="@item.MalKodu#@item.Miktar#@item.Birim" />
-                                    </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                                 </tr>
                             }
                         </tbody>
@@ -53,6 +50,9 @@
                     <div class="row">
                         <div class="col-md-2 col-md-offset-10">
                             <input type="hidden" name="SirketID" value="@ViewBag.SirketID" />
+                            <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
+                            <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />
+                            <input type="hidden" name="checkboxes" value="@ViewBag.checkboxes" />
                             <input type="submit" class="btn btn-primary btn-block green" value="Onay" />
                         </div>
                     </div>
