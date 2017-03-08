@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Web;
-using System.Linq;
-using Wms12m.Entity;
-using Wms12m.Security;
-using Wms12m.Entity.Models;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
+using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Irsaliye : abstractTables<WMS_IRS>
+    public class Irsaliye : abstractTables<IR>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -16,7 +16,7 @@ namespace Wms12m.Business
         /// <summary>
         /// ekle/güncelle
         /// </summary>
-        public override Result Operation(WMS_IRS tbl)
+        public override Result Operation(IR tbl)
         {
             _Result = new Result();
             try
@@ -25,7 +25,7 @@ namespace Wms12m.Business
                 {
                     tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
                     tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    db.WMS_IRS.Add(tbl);
+                    db.IRS.Add(tbl);
                 }
                 db.SaveChanges();
                 //result
@@ -55,7 +55,7 @@ namespace Wms12m.Business
                     try
                     {
                         //add irsaliye table
-                        WMS_IRS tablo = new WMS_IRS();
+                        IR tablo = new IR();
                         tablo.SirketKod = tbl.SirketID;
                         tablo.DepoID = tbl.DepoID;
                         tablo.EvrakNo = tbl.EvrakNo;
@@ -63,11 +63,11 @@ namespace Wms12m.Business
                         tablo.Tarih = dateValue.ToOADateInt();
                         tablo.Kaydeden = Users.AppIdentity.User.LogonUserName;
                         tablo.KayitTarih = DateTime.Today.ToOADateInt();
-                        db.WMS_IRS.Add(tablo);
+                        db.IRS.Add(tablo);
                         db.SaveChanges();
                         //add görevlist table
                         string gorevno = db.GetGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-                        GorevListesi gorev = new GorevListesi();
+                        Gorev gorev = new Gorev();
                         gorev.DepoID = tbl.DepoID;
                         gorev.GorevNo = gorevno;
                         gorev.GorevTipiID = ComboItems.MalKabul.ToInt32();
@@ -77,7 +77,7 @@ namespace Wms12m.Business
                         gorev.OlusturmaSaati = DateTime.Now.SaatiAl();
                         gorev.IrsaliyeID = tablo.ID;
                         gorev.Bilgi = "Irs: " + tablo.EvrakNo + ", Tedarikçi: " + tbl.Unvan;
-                        db.GorevListesis.Add(gorev);
+                        db.Gorevs.Add(gorev);
                         db.SaveChanges();
                         dbContextTransaction.Commit();
                         //result
@@ -105,28 +105,28 @@ namespace Wms12m.Business
         /// <summary>
         /// ayrıntılar
         /// </summary>
-        public override WMS_IRS Detail(int Id)
+        public override IR Detail(int Id)
         {
             try
             {
-                return db.WMS_IRS.Where(m => m.ID == Id).FirstOrDefault();
+                return db.IRS.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new WMS_IRS();
+                return new IR();
             }
         }
         /// <summary>
         /// liste
         /// </summary>
-        public override List<WMS_IRS> GetList()
+        public override List<IR> GetList()
         {
-            return db.WMS_IRS.OrderBy(m => m.EvrakNo).ToList();
+            return db.IRS.OrderBy(m => m.EvrakNo).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<WMS_IRS> GetList(int ParentId)
+        public override List<IR> GetList(int ParentId)
         {
             return GetList();
         }
@@ -138,12 +138,12 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                WMS_IRS tbl = db.WMS_IRS.Where(m => m.ID == Id).FirstOrDefault();
+                IR tbl = db.IRS.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.GorevListesis.RemoveRange(db.GorevListesis.Where(m => m.IrsaliyeID == tbl.ID));
-                    db.WMS_STI.RemoveRange(db.WMS_STI.Where(m => m.IrsaliyeID == tbl.ID));
-                    db.WMS_IRS.Remove(tbl);
+                    db.Gorevs.RemoveRange(db.Gorevs.Where(m => m.IrsaliyeID == tbl.ID));
+                    db.IRS_Detay.RemoveRange(db.IRS_Detay.Where(m => m.IrsaliyeID == tbl.ID));
+                    db.IRS.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";

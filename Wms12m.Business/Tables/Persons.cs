@@ -1,20 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Wms12m.Entity;
-using Wms12m.Security;
 using Wms12m.Entity.Models;
-using System.Collections.Generic;
+using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Persons : abstractTables<USR01>
+    public class Persons : abstractTables<User>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
         /// <summary>
         /// giriş işlemleri
         /// </summary>
-        public Result Login(USR01 P)
+        public Result Login(User P)
         {
             _Result = new Result();
             _Result.Status = false;
@@ -23,7 +23,7 @@ namespace Wms12m.Business
             try
             {
 
-                var tbl = db.USR01.Where(a => a.Kod.ToLower() == P.Kod.ToLower() && a.Aktif == true).FirstOrDefault();
+                var tbl = db.Users.Where(a => a.Kod.ToLower() == P.Kod.ToLower() && a.Aktif == true).FirstOrDefault();
                 if(tbl!=null)
                 {
                     if (P.Sifre == CryptographyExtension.Cozumle(tbl.Sifre))
@@ -44,28 +44,28 @@ namespace Wms12m.Business
         /// <summary>
         /// bir kişinin ayrıntıları
         /// </summary>
-        public override USR01 Detail(int Id)
+        public override User Detail(int Id)
         {
             try
             {
-                return db.USR01.Where(m => m.ID == Id).FirstOrDefault();
+                return db.Users.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new USR01();
+                return new User();
             }
         }
         /// <summary>
         /// liste
         /// </summary>
-        public override List<USR01> GetList()
+        public override List<User> GetList()
         {
-            return db.USR01.OrderBy(m => m.AdSoyad).ToList();
+            return db.Users.OrderBy(m => m.AdSoyad).ToList();
         }
         /// <summary>
         /// yetkiye sahip kişiler
         /// </summary>
-        public override List<USR01> GetList(int ParentId)
+        public override List<User> GetList(int ParentId)
         {
             return GetList();
         }
@@ -77,10 +77,10 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                USR01 tbl = db.USR01.Where(m => m.ID == Id).FirstOrDefault();
+                User tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.USR01.Remove(tbl);
+                    db.Users.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
@@ -102,7 +102,7 @@ namespace Wms12m.Business
         /// <summary>
         /// ekle, güncelle
         /// </summary>
-        public override Result Operation(USR01 tbl)
+        public override Result Operation(User tbl)
         {
             throw new NotImplementedException();
         }

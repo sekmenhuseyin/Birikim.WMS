@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Web;
-using System.Linq;
-using Wms12m.Entity;
-using Wms12m.Security;
-using Wms12m.Entity.Models;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
+using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Floor : abstractTables<TK_KAT>
+    public class Floor : abstractTables<Kat>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -16,17 +16,17 @@ namespace Wms12m.Business
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
-        public override Result Operation(TK_KAT tbl)
+        public override Result Operation(Kat tbl)
         {
             _Result = new Result();
-            if (tbl.Kat == "" || tbl.BolumID == 0)
+            if (tbl.KatAd == "" || tbl.BolumID == 0)
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 _Result.Status = false;
                 return _Result;
             }
-            var kontrol = db.TK_KAT.Where(m => m.Kat == tbl.Kat && m.BolumID == tbl.BolumID && m.ID != tbl.ID).FirstOrDefault();
+            var kontrol = db.Kats.Where(m => m.KatAd == tbl.KatAd && m.BolumID == tbl.BolumID && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)
             {
                 _Result.Id = 0;
@@ -42,12 +42,12 @@ namespace Wms12m.Business
                 {
                     tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
                     tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    db.TK_KAT.Add(tbl);
+                    db.Kats.Add(tbl);
                 }
                 else
                 {
                     var tmp = Detail(tbl.ID);
-                    tmp.Kat = tbl.Kat;
+                    tmp.KatAd = tbl.KatAd;
                     tmp.En = tbl.En;
                     tmp.Boy = tbl.Boy;
                     tmp.Derinlik = tbl.Derinlik;
@@ -82,10 +82,10 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                TK_KAT tbl = db.TK_KAT.Where(m => m.ID == Id).FirstOrDefault();
+                Kat tbl = db.Kats.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.TK_KAT.Remove(tbl);
+                    db.Kats.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
@@ -107,31 +107,31 @@ namespace Wms12m.Business
         /// <summary>
         /// bir tanesinin ayrıntıları
         /// </summary>
-        public override TK_KAT Detail(int Id)
+        public override Kat Detail(int Id)
         {
             try
             {
-                return db.TK_KAT.Where(m => m.ID == Id).FirstOrDefault();
+                return db.Kats.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new TK_KAT();
+                return new Kat();
             }
 
         }
         /// <summary>
         /// tüm listesi
         /// </summary>
-        public override List<TK_KAT> GetList()
+        public override List<Kat> GetList()
         {
-            return db.TK_KAT.OrderBy(m => m.Kat).ToList();
+            return db.Kats.OrderBy(m => m.KatAd).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<TK_KAT> GetList(int ParentId)
+        public override List<Kat> GetList(int ParentId)
         {
-            return db.TK_KAT.Where(m => m.BolumID == ParentId).ToList();
+            return db.Kats.Where(m => m.BolumID == ParentId).ToList();
         }
     }
 }

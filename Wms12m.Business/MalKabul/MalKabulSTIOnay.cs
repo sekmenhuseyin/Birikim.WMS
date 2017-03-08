@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Transactions;
 using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
@@ -15,8 +14,8 @@ namespace Wms12m.Business
         public Result MalKabulOnay(string EvrakNo, string CHK, int IrsaliyeID, string GorevNo, int SirketKodu, string DepoKodu)
         {
             Result _Result = new Result();
-            List<WMS_STI> sti;
-            WMS_IRS irs;
+            List<IRS_Detay> sti;
+            IR irs;
 
             using (WMSEntities db = new WMSEntities())
             {
@@ -24,21 +23,21 @@ namespace Wms12m.Business
                 {
                     try
                     {
-                        var grv = db.GorevListesis.Where(m => (m.GorevNo == GorevNo) && (m.GorevTipiID == 1)).FirstOrDefault();
+                        var grv = db.Gorevs.Where(m => (m.GorevNo == GorevNo) && (m.GorevTipiID == 1)).FirstOrDefault();
                         if (grv != null)
                         {
                             //add new
                             grv.DurumID = ComboItems.Tamamlanan.ToInt32();
                         }
 
-                        irs = db.WMS_IRS.Where(m => m.ID == IrsaliyeID).FirstOrDefault();
+                        irs = db.IRS.Where(m => m.ID == IrsaliyeID).FirstOrDefault();
                         if (irs != null)
                         {
                             //add new
                             irs.Onay = true;
                         }
 
-                        sti = db.WMS_STI.Where(m => m.IrsaliyeID == IrsaliyeID).ToList();
+                        sti = db.IRS_Detay.Where(m => m.IrsaliyeID == IrsaliyeID).ToList();
 
                         if (sti != null)
                         {
@@ -58,7 +57,7 @@ namespace Wms12m.Business
                                             f_dst.DefaultValueSet();
                                             f_stk.DefaultValueSet();
 
-                                            f_sti.EvrakNo = sti[i].WMS_IRS.EvrakNo;
+                                            f_sti.EvrakNo = sti[i].IR.EvrakNo;
                                             f_sti.Tarih = Convert.ToInt32(DateTime.Today.ToOADate());
                                             f_sti.Chk = CHK;
                                             f_sti.KynkEvrakTip = 3;
@@ -128,7 +127,7 @@ namespace Wms12m.Business
                                             {
 
                                                 f_dst.MalKodu = sti[i].MalKodu;
-                                                f_dst.Depo = sti[i].WMS_IRS.TK_DEP.DepoKodu;
+                                                f_dst.Depo = sti[i].IR.Depo.DepoKodu;
                                                 f_dst.GirMiktar = sti[i].Miktar;
                                                 f_dst.SonGirTarih = Convert.ToInt32(DateTime.Today.ToOADate());
                                                 f_dst.SonMlySekli = -1;

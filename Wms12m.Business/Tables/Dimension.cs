@@ -1,19 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using System.Collections.Generic;
 
 namespace Wms12m.Business
 {
-    public class Dimension : abstractTables<TK_OLCU>
+    public class Dimension : abstractTables<Olcu>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
         /// <summary>
         /// ekle-kaydet
         /// </summary>
-        public override Result Operation(TK_OLCU tbl)
+        public override Result Operation(Olcu tbl)
         {
             _Result = new Result();
             if (tbl.MalKodu == "" || tbl.Birim == "" || (tbl.Boy == 0 && tbl.En == 0 && tbl.Derinlik == 0 && tbl.Agirlik == 0))
@@ -30,7 +30,7 @@ namespace Wms12m.Business
                 if (tmp == null)
                     kontrol = false;
             }
-            var tmp2 = db.TK_OLCU.Where(m => m.SirketKod == tbl.SirketKod && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.ID != tbl.ID).FirstOrDefault();
+            var tmp2 = db.Olcus.Where(m => m.SirketKod == tbl.SirketKod && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.ID != tbl.ID).FirstOrDefault();
             if (tmp2 != null)
                 kontrol = false;
             if (kontrol == false)
@@ -44,7 +44,7 @@ namespace Wms12m.Business
             {
                 if (tbl.ID == 0)
                 {
-                    db.TK_OLCU.Add(tbl);
+                    db.Olcus.Add(tbl);
                 }
                 else
                 {
@@ -78,10 +78,10 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                TK_OLCU tbl = db.TK_OLCU.Where(m => m.ID == Id).FirstOrDefault();
+                Olcu tbl = db.Olcus.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.TK_OLCU.Remove(tbl);
+                    db.Olcus.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
@@ -104,32 +104,32 @@ namespace Wms12m.Business
         /// ayrıntılar
         /// </summary>
 
-        public override TK_OLCU Detail(int Id)
+        public override Olcu Detail(int Id)
         {
             try
             {
-                return db.TK_OLCU.Where(m => m.ID == Id).FirstOrDefault();
+                return db.Olcus.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new TK_OLCU();
+                return new Olcu();
             }
         }
         /// <summary>
         /// tüm liste
         /// </summary>
-        public override List<TK_OLCU> GetList()
+        public override List<Olcu> GetList()
         {
-            return db.TK_OLCU.ToList();
+            return db.Olcus.ToList();
         }
         /// <summary>
         /// şirkete göre lsite
         /// </summary>
-        public List<TK_OLCU> GetList(string ParentId)
+        public List<Olcu> GetList(string ParentId)
         {
-            return db.TK_OLCU.Where(m=>m.SirketKod==ParentId).ToList();
+            return db.Olcus.Where(m=>m.SirketKod==ParentId).ToList();
         }
-        public override List<TK_OLCU> GetList(int ParentId)
+        public override List<Olcu> GetList(int ParentId)
         {
             return GetList();
         }

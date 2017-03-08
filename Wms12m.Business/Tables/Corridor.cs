@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Web;
-using System.Linq;
-using Wms12m.Entity;
-using Wms12m.Security;
-using Wms12m.Entity.Models;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
+using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Corridor : abstractTables<TK_KOR>
+    public class Corridor : abstractTables<Koridor>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -16,17 +16,17 @@ namespace Wms12m.Business
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
-        public override Result Operation(TK_KOR tbl)
+        public override Result Operation(Koridor tbl)
         {
             _Result = new Result();
-            if (tbl.Koridor == "" || tbl.DepoID==0)
+            if (tbl.KoridorAd == "" || tbl.DepoID==0)
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 _Result.Status = false;
                 return _Result;
             }
-            var kontrol = db.TK_KOR.Where(m => m.Koridor == tbl.Koridor && m.DepoID == tbl.DepoID && m.ID != tbl.ID).FirstOrDefault();
+            var kontrol = db.Koridors.Where(m => m.KoridorAd == tbl.KoridorAd && m.DepoID == tbl.DepoID && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)
             {
                 _Result.Id = 0;
@@ -42,12 +42,12 @@ namespace Wms12m.Business
                 {
                     tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
                     tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    db.TK_KOR.Add(tbl);
+                    db.Koridors.Add(tbl);
                 }
                 else
                 {
                     var tmp = Detail(tbl.ID);
-                    tmp.Koridor = tbl.Koridor;
+                    tmp.KoridorAd = tbl.KoridorAd;
                     tmp.DepoID = tbl.DepoID;
                     tmp.SiraNo = tbl.SiraNo;
                     tmp.Aktif = tbl.Aktif;
@@ -76,10 +76,10 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                TK_KOR tbl = db.TK_KOR.Where(m => m.ID == Id).FirstOrDefault();
+                Koridor tbl = db.Koridors.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.TK_KOR.Remove(tbl);
+                    db.Koridors.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
@@ -101,30 +101,30 @@ namespace Wms12m.Business
         /// <summary>
         /// bir tanesinin ayrıntıları
         /// </summary>
-        public override TK_KOR Detail(int Id)
+        public override Koridor Detail(int Id)
         {
             try
             {
-                return db.TK_KOR.Where(m => m.ID == Id).FirstOrDefault();
+                return db.Koridors.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new TK_KOR();
+                return new Koridor();
             }
         }
         /// <summary>
         /// tüm listesi
         /// </summary>
-        public override List<TK_KOR> GetList()
+        public override List<Koridor> GetList()
         {
-            return db.TK_KOR.OrderBy(m => m.Koridor).ToList();
+            return db.Koridors.OrderBy(m => m.KoridorAd).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<TK_KOR> GetList(int ParentId)
+        public override List<Koridor> GetList(int ParentId)
         {
-            return db.TK_KOR.Where(m => m.DepoID == ParentId).ToList();
+            return db.Koridors.Where(m => m.DepoID == ParentId).ToList();
         }
     }
 }

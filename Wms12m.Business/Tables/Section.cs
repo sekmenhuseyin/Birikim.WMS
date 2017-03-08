@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Web;
-using System.Linq;
-using Wms12m.Entity;
-using Wms12m.Security;
-using Wms12m.Entity.Models;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
+using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Section : abstractTables<TK_BOL>
+    public class Section : abstractTables<Bolum>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -16,17 +16,17 @@ namespace Wms12m.Business
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
-        public override Result Operation(TK_BOL tbl)
+        public override Result Operation(Bolum tbl)
         {
             _Result = new Result();
-            if (tbl.Bolum == "" || tbl.RafID == 0)
+            if (tbl.BolumAd == "" || tbl.RafID == 0)
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 _Result.Status = false;
                 return _Result;
             }
-            var kontrol = db.TK_BOL.Where(m => m.Bolum == tbl.Bolum && m.RafID == tbl.RafID && m.ID != tbl.ID).FirstOrDefault();
+            var kontrol = db.Bolums.Where(m => m.BolumAd == tbl.BolumAd && m.RafID == tbl.RafID && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)
             {
                 _Result.Id = 0;
@@ -42,12 +42,12 @@ namespace Wms12m.Business
                 {
                     tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
                     tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    db.TK_BOL.Add(tbl);
+                    db.Bolums.Add(tbl);
                 }
                 else
                 {
                     var tmp = Detail(tbl.ID);
-                    tmp.Bolum = tbl.Bolum;
+                    tmp.BolumAd = tbl.BolumAd;
                     tmp.RafID = tbl.RafID;
                     tmp.SiraNo = tbl.SiraNo;
                     tmp.Aktif = tbl.Aktif;
@@ -76,10 +76,10 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                TK_BOL tbl = db.TK_BOL.Where(m => m.ID == Id).FirstOrDefault();
+                Bolum tbl = db.Bolums.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.TK_BOL.Remove(tbl);
+                    db.Bolums.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
@@ -101,30 +101,30 @@ namespace Wms12m.Business
         /// <summary>
         /// bir tanesinin ayrıntıları
         /// </summary>
-        public override TK_BOL Detail(int Id)
+        public override Bolum Detail(int Id)
         {
             try
             {
-                return db.TK_BOL.Where(m => m.ID == Id).FirstOrDefault();
+                return db.Bolums.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new TK_BOL();
+                return new Bolum();
             }
         }
         /// <summary>
         /// tüm listesi
         /// </summary>
-        public override List<TK_BOL> GetList()
+        public override List<Bolum> GetList()
         {
-            return db.TK_BOL.OrderBy(m => m.Bolum).ToList();
+            return db.Bolums.OrderBy(m => m.BolumAd).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<TK_BOL> GetList(int ParentId)
+        public override List<Bolum> GetList(int ParentId)
         {
-            return db.TK_BOL.Where(m => m.RafID == ParentId).ToList();
+            return db.Bolums.Where(m => m.RafID == ParentId).ToList();
         }
     }
 }

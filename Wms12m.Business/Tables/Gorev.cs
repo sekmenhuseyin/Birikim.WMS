@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Web;
-using System.Linq;
-using Wms12m.Entity;
-using Wms12m.Security;
-using Wms12m.Entity.Models;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
+using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Gorev : abstractTables<GorevListesi>
+    public class Task : abstractTables<Gorev>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -16,7 +16,7 @@ namespace Wms12m.Business
         /// <summary>
         /// ekle/güncelle
         /// </summary>
-        public override Result Operation(GorevListesi tbl)
+        public override Result Operation(Gorev tbl)
         {
             _Result = new Result();
             try
@@ -27,7 +27,7 @@ namespace Wms12m.Business
                     tbl.OlusturmaTarihi = DateTime.Today.ToOADateInt();
                     tbl.OlusturmaSaati = DateTime.Now.SaatiAl();
                     tbl.DurumID = ComboItems.Açık.ToInt32();
-                    db.GorevListesis.Add(tbl);
+                    db.Gorevs.Add(tbl);
                 }
                 db.SaveChanges();
                 //result
@@ -52,9 +52,9 @@ namespace Wms12m.Business
             //add görevlist table
             try
             {
-                string evrakno = db.WMS_IRS.Where(m => m.ID == tbl.IrsaliyeID).Select(m => m.EvrakNo).FirstOrDefault();
+                string evrakno = db.IRS.Where(m => m.ID == tbl.IrsaliyeID).Select(m => m.EvrakNo).FirstOrDefault();
                 string gorevno = db.GetGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-                GorevListesi gorev = new GorevListesi();
+                Gorev gorev = new Gorev();
                 gorev.DepoID = tbl.DepoID;
                 gorev.GorevNo = gorevno;
                 gorev.GorevTipiID = ComboItems.MalKabul.ToInt32();
@@ -64,7 +64,7 @@ namespace Wms12m.Business
                 gorev.OlusturmaSaati = DateTime.Now.SaatiAl();
                 gorev.IrsaliyeID = tbl.IrsaliyeID;
                 gorev.Bilgi = "Irs: " + evrakno;
-                db.GorevListesis.Add(gorev);
+                db.Gorevs.Add(gorev);
                 db.SaveChanges();
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -84,7 +84,7 @@ namespace Wms12m.Business
         public Result Update(frmGorev tbl)
         {
             _Result = new Result();
-            var tmp = db.GorevListesis.Where(m => m.ID == tbl.ID).FirstOrDefault();
+            var tmp = db.Gorevs.Where(m => m.ID == tbl.ID).FirstOrDefault();
             if (tmp != null)
             {
                 try
@@ -117,7 +117,7 @@ namespace Wms12m.Business
         public Result UpdateGorevli(frmGorevli tbl)
         {
             _Result = new Result();
-            var tmp = db.GorevListesis.Where(m => m.ID == tbl.ID).FirstOrDefault();
+            var tmp = db.Gorevs.Where(m => m.ID == tbl.ID).FirstOrDefault();
             if (tmp != null)
             {
                 try
@@ -147,10 +147,10 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                GorevListesi tbl = db.GorevListesis.Where(m => m.ID == Id).FirstOrDefault();
+                Gorev tbl = db.Gorevs.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.GorevListesis.Remove(tbl);
+                    db.Gorevs.Remove(tbl);
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Id = Id;
@@ -172,28 +172,28 @@ namespace Wms12m.Business
         /// <summary>
         /// ayrıntılar
         /// </summary>
-        public override GorevListesi Detail(int Id)
+        public override Gorev Detail(int Id)
         {
             try
             {
-                return db.GorevListesis.Where(m => m.ID == Id).FirstOrDefault();
+                return db.Gorevs.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new GorevListesi();
+                return new Gorev();
             }
         }
         /// <summary>
         /// liste
         /// </summary>
-        public override List<GorevListesi> GetList()
+        public override List<Gorev> GetList()
         {
-            return db.GorevListesis.OrderBy(m => m.OlusturmaTarihi).ToList();
+            return db.Gorevs.OrderBy(m => m.OlusturmaTarihi).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<GorevListesi> GetList(int ParentId)
+        public override List<Gorev> GetList(int ParentId)
         {
             return GetList();
         }

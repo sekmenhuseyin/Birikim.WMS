@@ -1,19 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using System.Collections.Generic;
 
 namespace Wms12m.Business
 {
-    public class Stok : abstractTables<WMS_STI>
+    public class Stok : abstractTables<IRS_Detay>
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
         /// <summary>
         /// ekle/güncelle
         /// </summary>
-        public override Result Operation(WMS_STI tbl)
+        public override Result Operation(IRS_Detay tbl)
         {
             _Result = new Result();
             if (tbl.Miktar <= 0)
@@ -26,7 +26,7 @@ namespace Wms12m.Business
             try
             {
                 if (tbl.ID == 0)
-                    db.WMS_STI.Add(tbl);
+                    db.IRS_Detay.Add(tbl);
                 else
                 {
                     var tmp = Detail(tbl.ID);
@@ -65,12 +65,12 @@ namespace Wms12m.Business
             {
                 try
                 {
-                    WMS_STI tablo = new WMS_STI();
+                    IRS_Detay tablo = new IRS_Detay();
                     tablo.IrsaliyeID = tbl.IrsaliyeId;
                     tablo.MalKodu = tbl.MalKodu;
                     tablo.Birim = tbl.Birim;
                     tablo.Miktar = tbl.Miktar;
-                    db.WMS_STI.Add(tablo);
+                    db.IRS_Detay.Add(tablo);
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -93,10 +93,10 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                WMS_STI tbl = db.WMS_STI.Where(m => m.ID == Id).FirstOrDefault();
+                IRS_Detay tbl = db.IRS_Detay.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.WMS_STI.Remove(tbl);
+                    db.IRS_Detay.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
@@ -118,31 +118,31 @@ namespace Wms12m.Business
         /// <summary>
         /// ayrıntı
         /// </summary>
-        public override WMS_STI Detail(int Id)
+        public override IRS_Detay Detail(int Id)
         {
             try
             {
-                return db.WMS_STI.Where(m => m.ID == Id).FirstOrDefault();
+                return db.IRS_Detay.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new WMS_STI();
+                return new IRS_Detay();
             }
 
         }
         /// <summary>
         /// liste
         /// </summary>
-        public override List<WMS_STI> GetList()
+        public override List<IRS_Detay> GetList()
         {
-            return db.WMS_STI.OrderBy(m => m.IrsaliyeID).ToList();
+            return db.IRS_Detay.OrderBy(m => m.IrsaliyeID).ToList();
         }
         /// <summary>
         /// liste
         /// </summary>
-        public override List<WMS_STI> GetList(int ParentId)
+        public override List<IRS_Detay> GetList(int ParentId)
         {
-            return db.WMS_STI.Where(m => m.IrsaliyeID==ParentId).ToList();
+            return db.IRS_Detay.Where(m => m.IrsaliyeID==ParentId).ToList();
         }
     }
 }
