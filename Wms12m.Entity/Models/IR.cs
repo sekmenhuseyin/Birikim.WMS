@@ -12,26 +12,32 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TK_BOL
+    public partial class IR
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TK_BOL()
+        public IR()
         {
-            this.TK_KAT = new HashSet<TK_KAT>();
+            this.Gorevs = new HashSet<Gorev>();
+            this.IRS_Detay = new HashSet<IRS_Detay>();
         }
     
         public int ID { get; set; }
-        public int RafID { get; set; }
-        public string Bolum { get; set; }
-        public int SiraNo { get; set; }
-        public bool Aktif { get; set; }
+        public string SirketKod { get; set; }
+        public int DepoID { get; set; }
+        public bool IslemTur { get; set; }
+        public string EvrakNo { get; set; }
+        public string HesapKodu { get; set; }
+        public string TeslimCHK { get; set; }
+        public int Tarih { get; set; }
         public string Kaydeden { get; set; }
         public int KayitTarih { get; set; }
-        public string Degistiren { get; set; }
-        public int DegisTarih { get; set; }
+        public bool Onay { get; set; }
+        public string Unvan { get; set; }
     
-        public virtual TK_RAF TK_RAF { get; set; }
+        public virtual Depo Depo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TK_KAT> TK_KAT { get; set; }
+        public virtual ICollection<Gorev> Gorevs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<IRS_Detay> IRS_Detay { get; set; }
     }
 }

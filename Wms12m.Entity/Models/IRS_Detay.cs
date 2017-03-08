@@ -12,17 +12,17 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Yerlestirme_Hareketler
+    public partial class IRS_Detay
     {
         public int ID { get; set; }
-        public int KatID { get; set; }
+        public int IrsaliyeID { get; set; }
         public string MalKodu { get; set; }
-        public string Birim { get; set; }
         public decimal Miktar { get; set; }
-        public bool Tip { get; set; }
-        public string Kaydeden { get; set; }
-        public int KayitTarihi { get; set; }
+        public string Birim { get; set; }
+        public Nullable<decimal> MiktarOkutulan { get; set; }
+        public string KynkSiparisNo { get; set; }
+        public string MalAdi { get; set; }
     
-        public virtual TK_KAT TK_KAT { get; set; }
+        public virtual IR IR { get; set; }
     }
 }

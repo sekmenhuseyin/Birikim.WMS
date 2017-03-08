@@ -12,18 +12,15 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ComboName
+    public partial class Yer_Log
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ComboName()
-        {
-            this.ComboItemNames = new HashSet<ComboItemName>();
-        }
-    
         public int ID { get; set; }
-        public string ComboName1 { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ComboItemName> ComboItemNames { get; set; }
+        public string HucreAd { get; set; }
+        public string MalKodu { get; set; }
+        public string Birim { get; set; }
+        public decimal Miktar { get; set; }
+        public bool Tip { get; set; }
+        public string Kaydeden { get; set; }
+        public int KayitTarihi { get; set; }
     }
 }

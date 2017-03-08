@@ -12,24 +12,17 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TK_KAT
+    public partial class Koridor
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TK_KAT()
+        public Koridor()
         {
-            this.Yerlestirmes = new HashSet<Yerlestirme>();
-            this.Yerlestirme_Hareketler = new HashSet<Yerlestirme_Hareketler>();
+            this.Rafs = new HashSet<Raf>();
         }
     
         public int ID { get; set; }
-        public int BolumID { get; set; }
-        public string Kat { get; set; }
-        public decimal Boy { get; set; }
-        public decimal Derinlik { get; set; }
-        public decimal En { get; set; }
-        public decimal AgirlikKapasite { get; set; }
-        public int Ozellik { get; set; }
-        public string Aciklama { get; set; }
+        public int DepoID { get; set; }
+        public string Koridor1 { get; set; }
         public int SiraNo { get; set; }
         public bool Aktif { get; set; }
         public string Kaydeden { get; set; }
@@ -37,11 +30,8 @@ namespace Wms12m.Entity.Models
         public string Degistiren { get; set; }
         public int DegisTarih { get; set; }
     
-        public virtual TK_BOL TK_BOL { get; set; }
+        public virtual Depo Depo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Yerlestirme> Yerlestirmes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Yerlestirme_Hareketler> Yerlestirme_Hareketler { get; set; }
-        public virtual ComboItemName ComboItemName { get; set; }
+        public virtual ICollection<Raf> Rafs { get; set; }
     }
 }

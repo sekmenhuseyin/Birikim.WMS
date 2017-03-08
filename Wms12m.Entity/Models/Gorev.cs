@@ -12,7 +12,7 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GorevListesi
+    public partial class Gorev
     {
         public int ID { get; set; }
         public int DepoID { get; set; }
@@ -31,12 +31,9 @@ namespace Wms12m.Entity.Models
         public Nullable<int> BitisTarihi { get; set; }
         public Nullable<int> BitisSaati { get; set; }
     
-        public virtual USR01 USR01 { get; set; }
-        public virtual USR01 USR011 { get; set; }
-        public virtual WMS_IRS WMS_IRS { get; set; }
-        public virtual USR01 USR012 { get; set; }
-        public virtual TK_DEP TK_DEP { get; set; }
-        public virtual ComboItemName ComboItemName { get; set; }
-        public virtual ComboItemName ComboItemName1 { get; set; }
+        public virtual ComboItem_Name ComboItem_Name { get; set; }
+        public virtual ComboItem_Name ComboItem_Name1 { get; set; }
+        public virtual Depo Depo { get; set; }
+        public virtual IR IR { get; set; }
     }
 }

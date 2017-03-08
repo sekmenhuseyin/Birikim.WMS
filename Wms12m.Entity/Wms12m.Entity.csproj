@@ -55,11 +55,23 @@
     <Compile Include="Configuration\BaseConfigurationSection.cs" />
     <Compile Include="Configuration\LogConfigurationSection.cs" />
     <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Models\Bolum.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CHK.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ComboItem_Name.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Combo_Name.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DEP.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Depo.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DST.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
@@ -68,16 +80,37 @@
     <Compile Include="Models\FTD.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TK_OLCU.cs">
+    <Compile Include="Models\Gorev.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IR.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IRS_Detay.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Kat.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Koridor.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Olcu.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Raf.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TTY.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Yerlestirme.cs">
+    <Compile Include="Models\User.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Yerlestirme_Hareketler.cs">
+    <Compile Include="Models\Yer.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Yer_Log.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Viewmodels\frmGorev.cs" />
@@ -107,15 +140,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelFinsat.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\ComboItemName.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ComboName.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GorevListesi.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ModelWMS.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -130,30 +154,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelWMS.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TK_BOL.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TK_DEP.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TK_KAT.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TK_KOR.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TK_RAF.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\USR01.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\WMS_IRS.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\WMS_STI.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Viewmodels\Result.cs" />

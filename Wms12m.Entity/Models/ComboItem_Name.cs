@@ -12,14 +12,14 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ComboItemName
+    public partial class ComboItem_Name
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ComboItemName()
+        public ComboItem_Name()
         {
-            this.GorevListesis = new HashSet<GorevListesi>();
-            this.GorevListesis1 = new HashSet<GorevListesi>();
-            this.TK_KAT = new HashSet<TK_KAT>();
+            this.Gorevs = new HashSet<Gorev>();
+            this.Gorevs1 = new HashSet<Gorev>();
+            this.Kats = new HashSet<Kat>();
         }
     
         public int ID { get; set; }
@@ -27,12 +27,12 @@ namespace Wms12m.Entity.Models
         public string Name { get; set; }
         public bool Visible { get; set; }
     
-        public virtual ComboName ComboName { get; set; }
+        public virtual Combo_Name Combo_Name { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevListesi> GorevListesis { get; set; }
+        public virtual ICollection<Gorev> Gorevs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevListesi> GorevListesis1 { get; set; }
+        public virtual ICollection<Gorev> Gorevs1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TK_KAT> TK_KAT { get; set; }
+        public virtual ICollection<Kat> Kats { get; set; }
     }
 }

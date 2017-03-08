@@ -12,14 +12,18 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Yerlestirme
+    public partial class Combo_Name
     {
-        public int ID { get; set; }
-        public int KatID { get; set; }
-        public string MalKodu { get; set; }
-        public string Birim { get; set; }
-        public decimal Miktar { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Combo_Name()
+        {
+            this.ComboItem_Name = new HashSet<ComboItem_Name>();
+        }
     
-        public virtual TK_KAT TK_KAT { get; set; }
+        public int ID { get; set; }
+        public string ComboName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ComboItem_Name> ComboItem_Name { get; set; }
     }
 }

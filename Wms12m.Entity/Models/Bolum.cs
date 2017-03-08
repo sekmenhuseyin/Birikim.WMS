@@ -12,19 +12,17 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TK_DEP
+    public partial class Bolum
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TK_DEP()
+        public Bolum()
         {
-            this.WMS_IRS = new HashSet<WMS_IRS>();
-            this.TK_KOR = new HashSet<TK_KOR>();
-            this.GorevListesis = new HashSet<GorevListesi>();
+            this.Kats = new HashSet<Kat>();
         }
     
         public int ID { get; set; }
-        public string DepoKodu { get; set; }
-        public string Depo { get; set; }
+        public int RafID { get; set; }
+        public string Bolum1 { get; set; }
         public int SiraNo { get; set; }
         public bool Aktif { get; set; }
         public string Kaydeden { get; set; }
@@ -32,11 +30,8 @@ namespace Wms12m.Entity.Models
         public string Degistiren { get; set; }
         public int DegisTarih { get; set; }
     
+        public virtual Raf Raf { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WMS_IRS> WMS_IRS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TK_KOR> TK_KOR { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevListesi> GorevListesis { get; set; }
+        public virtual ICollection<Kat> Kats { get; set; }
     }
 }

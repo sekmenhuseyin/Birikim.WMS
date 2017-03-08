@@ -12,26 +12,28 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TK_RAF
+    public partial class User
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TK_RAF()
-        {
-            this.TK_BOL = new HashSet<TK_BOL>();
-        }
-    
         public int ID { get; set; }
-        public int KoridorID { get; set; }
-        public string Raf { get; set; }
-        public int SiraNo { get; set; }
+        public string Sirket { get; set; }
+        public short Tip { get; set; }
+        public string Kod { get; set; }
+        public string Sifre { get; set; }
+        public string AdSoyad { get; set; }
+        public string Email { get; set; }
+        public string RoleName { get; set; }
+        public string Tema { get; set; }
+        public bool Admin { get; set; }
         public bool Aktif { get; set; }
         public string Kaydeden { get; set; }
         public int KayitTarih { get; set; }
+        public int KayitSaat { get; set; }
+        public short KayitKaynak { get; set; }
+        public string KayitSurum { get; set; }
         public string Degistiren { get; set; }
         public int DegisTarih { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TK_BOL> TK_BOL { get; set; }
-        public virtual TK_KOR TK_KOR { get; set; }
+        public int DegisSaat { get; set; }
+        public short DegisKaynak { get; set; }
+        public string DegisSurum { get; set; }
     }
 }

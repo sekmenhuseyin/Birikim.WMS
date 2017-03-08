@@ -12,17 +12,17 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class WMS_STI
+    public partial class Olcu
     {
         public int ID { get; set; }
-        public int IrsaliyeID { get; set; }
+        public string SirketKod { get; set; }
         public string MalKodu { get; set; }
         public string Birim { get; set; }
-        public decimal Miktar { get; set; }
-        public Nullable<decimal> MiktarReal { get; set; }
+        public Nullable<decimal> En { get; set; }
+        public Nullable<decimal> Boy { get; set; }
+        public Nullable<decimal> Derinlik { get; set; }
+        public Nullable<decimal> Agirlik { get; set; }
+        public Nullable<decimal> Hacim { get; set; }
         public string MalAdi { get; set; }
-        public string KaynakSiparisNo { get; set; }
-    
-        public virtual WMS_IRS WMS_IRS { get; set; }
     }
 }
