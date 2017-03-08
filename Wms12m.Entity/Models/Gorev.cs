@@ -35,5 +35,8 @@ namespace Wms12m.Entity.Models
         public virtual ComboItem_Name ComboItem_Name1 { get; set; }
         public virtual IR IR { get; set; }
         public virtual Depo Depo { get; set; }
+        public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
+        public virtual User User2 { get; set; }
     }
 }

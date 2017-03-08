@@ -14,6 +14,14 @@ namespace Wms12m.Entity.Models
     
     public partial class User
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+            this.Gorevs = new HashSet<Gorev>();
+            this.Gorevs1 = new HashSet<Gorev>();
+            this.Gorevs2 = new HashSet<Gorev>();
+        }
+    
         public int ID { get; set; }
         public string Sirket { get; set; }
         public short Tip { get; set; }
@@ -35,5 +43,12 @@ namespace Wms12m.Entity.Models
         public int DegisSaat { get; set; }
         public short DegisKaynak { get; set; }
         public string DegisSurum { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Gorev> Gorevs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Gorev> Gorevs1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Gorev> Gorevs2 { get; set; }
     }
 }

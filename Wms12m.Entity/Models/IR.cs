@@ -19,7 +19,6 @@ namespace Wms12m.Entity.Models
         {
             this.Gorevs = new HashSet<Gorev>();
             this.IRS_Detay = new HashSet<IRS_Detay>();
-            this.IRS_Detay_Temp = new HashSet<IRS_Detay_Temp>();
         }
     
         public int ID { get; set; }
@@ -40,7 +39,5 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IRS_Detay> IRS_Detay { get; set; }
         public virtual Depo Depo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<IRS_Detay_Temp> IRS_Detay_Temp { get; set; }
     }
 }
