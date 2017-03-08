@@ -88,7 +88,7 @@ namespace Wms12m.Presentation.Controllers
                         irs.DepoID = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
                         irs.IslemTur = true; //satış irsaliyesi
                         irs.Tarih = DateTime.Today.ToOADateInt();
-                        irs.EvrakNo = db.GetIrsaliyeNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+                        irs.EvrakNo = db.SettingsIrsaliyeNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
                         irs.HesapKodu = item.Chk;
                         chk = item.Chk;
                         var op = new Irsaliye();
@@ -97,7 +97,7 @@ namespace Wms12m.Presentation.Controllers
                         //görev tablosu
                         Gorev grv = new Gorev();
                         grv.DepoID = irs.DepoID;
-                        grv.GorevNo = db.GetGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+                        grv.GorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
                         grv.GorevTipiID = ComboItems.SiparişTopla.ToInt32();
                         grv.Bilgi = "Irs: " + irs.EvrakNo + ", Alıcı: " + item.Unvan1;
                         grv.IrsaliyeID = id;

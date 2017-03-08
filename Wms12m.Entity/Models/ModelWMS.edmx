@@ -404,11 +404,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="GetGorevNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="tarih" Type="int" Mode="In" />
+        <Function Name="GetHucreAd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetIrsaliyeNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="tarih" Type="int" Mode="In" />
+        <Function Name="GetHucreKatID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DepoID" Type="int" Mode="In" />
+          <Parameter Name="Kod" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -418,6 +419,12 @@
           <Parameter Name="Description" Type="varchar" Mode="In" />
           <Parameter Name="Method" Type="varchar" Mode="In" />
           <Parameter Name="Url" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SettingsGorevNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tarih" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SettingsIrsaliyeNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tarih" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="Combo_Name" EntityType="Self.Combo_Name" Schema="dbo" store:Type="Tables" />
@@ -513,12 +520,6 @@
             <Parameter Name="Method" Mode="In" Type="String" />
             <Parameter Name="Url" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetGorevNo" ReturnType="Collection(String)">
-          <Parameter Name="tarih" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetIrsaliyeNo" ReturnType="Collection(String)">
-          <Parameter Name="tarih" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="Combo_Name" EntityType="MModel.Combo_Name" />
           <EntitySet Name="ComboItem_Name" EntityType="MModel.ComboItem_Name" />
           <EntitySet Name="Gorevs" EntityType="MModel.Gorev" />
@@ -597,6 +598,19 @@
             <End Role="Kat" EntitySet="Kats" />
             <End Role="Yer" EntitySet="Yers" />
           </AssociationSet>
+          <FunctionImport Name="GetHucreAd" ReturnType="Collection(MModel.GetHucreAd_Result)">
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetHucreKatID" ReturnType="Collection(Int32)">
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="Kod" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SettingsGorevNo" ReturnType="Collection(String)">
+            <Parameter Name="tarih" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SettingsIrsaliyeNo" ReturnType="Collection(String)">
+            <Parameter Name="tarih" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1033,6 +1047,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetHucreAd_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Ad" Nullable="false" MaxLength="403" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1048,8 +1066,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
-          <FunctionImportMapping FunctionImportName="GetGorevNo" FunctionName="MModel.Store.GetGorevNo" />
-          <FunctionImportMapping FunctionImportName="GetIrsaliyeNo" FunctionName="MModel.Store.GetIrsaliyeNo" />
           <EntitySetMapping Name="Combo_Name">
             <EntityTypeMapping TypeName="MModel.Combo_Name">
               <MappingFragment StoreEntitySet="Combo_Name">
@@ -1271,6 +1287,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetHucreAd" FunctionName="MModel.Store.GetHucreAd">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetHucreAd_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetHucreKatID" FunctionName="MModel.Store.GetHucreKatID" />
+          <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
+          <FunctionImportMapping FunctionImportName="SettingsIrsaliyeNo" FunctionName="MModel.Store.SettingsIrsaliyeNo" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

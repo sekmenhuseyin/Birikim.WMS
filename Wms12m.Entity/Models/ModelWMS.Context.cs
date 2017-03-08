@@ -76,22 +76,44 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.Logger", userNameParameter, machineParameter, ipAddressParameter, descriptionParameter, methodParameter, urlParameter);
         }
     
-        public virtual ObjectResult<string> GetGorevNo(Nullable<int> tarih)
+        public virtual ObjectResult<GetHucreAd_Result> GetHucreAd(Nullable<int> depoID)
         {
-            var tarihParameter = tarih.HasValue ?
-                new ObjectParameter("tarih", tarih) :
-                new ObjectParameter("tarih", typeof(int));
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetGorevNo", tarihParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHucreAd_Result>("WMSEntities.GetHucreAd", depoIDParameter);
         }
     
-        public virtual ObjectResult<string> GetIrsaliyeNo(Nullable<int> tarih)
+        public virtual ObjectResult<Nullable<int>> GetHucreKatID(Nullable<int> depoID, string kod)
+        {
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            var kodParameter = kod != null ?
+                new ObjectParameter("Kod", kod) :
+                new ObjectParameter("Kod", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetHucreKatID", depoIDParameter, kodParameter);
+        }
+    
+        public virtual ObjectResult<string> SettingsGorevNo(Nullable<int> tarih)
         {
             var tarihParameter = tarih.HasValue ?
                 new ObjectParameter("tarih", tarih) :
                 new ObjectParameter("tarih", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetIrsaliyeNo", tarihParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsGorevNo", tarihParameter);
+        }
+    
+        public virtual ObjectResult<string> SettingsIrsaliyeNo(Nullable<int> tarih)
+        {
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("tarih", tarih) :
+                new ObjectParameter("tarih", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsIrsaliyeNo", tarihParameter);
         }
     }
 }

@@ -66,7 +66,7 @@ namespace Wms12m.Business
                         db.IRS.Add(tablo);
                         db.SaveChanges();
                         //add görevlist table
-                        string gorevno = db.GetGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+                        string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
                         Gorev gorev = new Gorev();
                         gorev.DepoID = tbl.DepoID;
                         gorev.GorevNo = gorevno;
