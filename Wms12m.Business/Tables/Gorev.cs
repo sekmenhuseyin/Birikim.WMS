@@ -26,6 +26,7 @@ namespace Wms12m.Business
                     tbl.OlusturanID = Users.AppIdentity.User.Id;
                     tbl.OlusturmaTarihi = DateTime.Today.ToOADateInt();
                     tbl.OlusturmaSaati = DateTime.Now.SaatiAl();
+                    tbl.DurumID = ComboItems.Açık.ToInt32();
                     db.GorevListesis.Add(tbl);
                 }
                 db.SaveChanges();
@@ -56,8 +57,8 @@ namespace Wms12m.Business
                 GorevListesi gorev = new GorevListesi();
                 gorev.DepoID = tbl.DepoID;
                 gorev.GorevNo = gorevno;
-                gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
-                gorev.DurumID = ComboNames.Açık.ToInt32();
+                gorev.GorevTipiID = ComboItems.MalKabul.ToInt32();
+                gorev.DurumID = ComboItems.Açık.ToInt32();
                 gorev.OlusturanID = Users.AppIdentity.User.Id;
                 gorev.OlusturmaTarihi = DateTime.Today.ToOADateInt();
                 gorev.OlusturmaSaati = DateTime.Now.SaatiAl();
@@ -91,7 +92,7 @@ namespace Wms12m.Business
                     tmp.Aciklama = tbl.Aciklama;
                     tmp.Bilgi = tbl.Bilgi;
                     tmp.DurumID = tbl.DurumID;
-                    if (tbl.DurumID == ComboNames.Tamamlanan.ToInt32())
+                    if (tbl.DurumID == ComboItems.Tamamlanan.ToInt32())
                     {
                         tmp.BitisTarihi = DateTime.Today.ToOADateInt();
                         tmp.BitisSaati = DateTime.Now.SaatiAl();

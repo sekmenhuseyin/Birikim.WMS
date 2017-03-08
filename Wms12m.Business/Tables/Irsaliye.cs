@@ -70,8 +70,8 @@ namespace Wms12m.Business
                         GorevListesi gorev = new GorevListesi();
                         gorev.DepoID = tbl.DepoID;
                         gorev.GorevNo = gorevno;
-                        gorev.GorevTipiID = ComboNames.MalKabul.ToInt32();
-                        gorev.DurumID = ComboNames.Açık.ToInt32();
+                        gorev.GorevTipiID = ComboItems.MalKabul.ToInt32();
+                        gorev.DurumID = ComboItems.Açık.ToInt32();
                         gorev.OlusturanID = Users.AppIdentity.User.Id;
                         gorev.OlusturmaTarihi = DateTime.Today.ToOADateInt();
                         gorev.OlusturmaSaati = DateTime.Now.SaatiAl();

@@ -28,7 +28,7 @@ namespace Wms12m.Business
                         if (grv != null)
                         {
                             //add new
-                            grv.DurumID = ComboNames.Tamamlanan.ToInt32();
+                            grv.DurumID = ComboItems.Tamamlanan.ToInt32();
                         }
 
                         irs = db.WMS_IRS.Where(m => m.ID == IrsaliyeID).FirstOrDefault();
