@@ -33,7 +33,7 @@ namespace Wms12m.Entity.Models
     
         public virtual ComboItem_Name ComboItem_Name { get; set; }
         public virtual ComboItem_Name ComboItem_Name1 { get; set; }
-        public virtual Depo Depo { get; set; }
         public virtual IR IR { get; set; }
+        public virtual Depo Depo { get; set; }
     }
 }

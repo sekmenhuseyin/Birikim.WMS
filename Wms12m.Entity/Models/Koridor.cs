@@ -22,7 +22,7 @@ namespace Wms12m.Entity.Models
     
         public int ID { get; set; }
         public int DepoID { get; set; }
-        public string Koridor1 { get; set; }
+        public string KoridorAd { get; set; }
         public int SiraNo { get; set; }
         public bool Aktif { get; set; }
         public string Kaydeden { get; set; }

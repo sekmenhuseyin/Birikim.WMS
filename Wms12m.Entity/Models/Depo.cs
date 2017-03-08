@@ -24,7 +24,7 @@ namespace Wms12m.Entity.Models
     
         public int ID { get; set; }
         public string DepoKodu { get; set; }
-        public string Depo1 { get; set; }
+        public string DepoAd { get; set; }
         public int SiraNo { get; set; }
         public bool Aktif { get; set; }
         public string Kaydeden { get; set; }

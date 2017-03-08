@@ -89,6 +89,9 @@
     <Compile Include="Models\IRS_Detay.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\IRS_Detay_Temp.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Kat.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

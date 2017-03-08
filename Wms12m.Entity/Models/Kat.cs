@@ -22,7 +22,7 @@ namespace Wms12m.Entity.Models
     
         public int ID { get; set; }
         public int BolumID { get; set; }
-        public string Kat1 { get; set; }
+        public string KatAd { get; set; }
         public decimal Boy { get; set; }
         public decimal Derinlik { get; set; }
         public decimal En { get; set; }
