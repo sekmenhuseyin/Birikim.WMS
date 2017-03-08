@@ -37,12 +37,12 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@item.Depo.Depo</td>
-                                        <td>@item.IRS.EvrakNo</td>
+                                        <td>@item.Depo.DepoAd</td>
+                                        <td>@item.IR.EvrakNo</td>
                                         <td>@item.GorevNo</td>
-                                        <td>@item.ComboItemName.Name</td>
-                                        <td>@item.ComboItemName1.Name</td>
-                                        <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/GorevliAta/@item.ID')"> @{if (item.USR011 != null){ @item.USR011.AdSoyad} else {<text>Görevli Ata</text>}} </a></td>
+                                        <td>@item.ComboItem_Name.Name</td>
+                                        <td>@item.ComboItem_Name1.Name</td>
+                                        <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/GorevliAta/@item.ID')"> Görevli Ata </a></td>
                                         <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                                         <td>@{if (item.AtamaTarihi != null) { @item.AtamaTarihi.Value.FromOADateInt() } }</td>
                                         <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
