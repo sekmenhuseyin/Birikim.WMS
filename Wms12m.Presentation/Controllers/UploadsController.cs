@@ -1,12 +1,12 @@
 ﻿using Excel;
 using System;
-using System.IO;
-using System.Web;
+using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Wms12m.Entity.Models;
-using System.Collections.Generic;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -36,9 +36,9 @@ namespace Wms12m.Presentation.Controllers
             if (result.Tables.Count == 0) return Json(false, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(false, JsonRequestBehavior.AllowGet);
             //irsaliye no bul
-            var irsaliye = db.WMS_IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
+            var irsaliye = db.IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
             //sti listesi oluşturuyoruz. tüm bilgiyi tek seferde veritabanına kaydetçek
-            List<WMS_STI> liste = new List<WMS_STI>();
+            List<IRS_Detay> liste = new List<IRS_Detay>();
             //finsat işlemleri
             using (DinamikModelContext Dinamik = new DinamikModelContext(irsaliye.SirketKod))
             {
@@ -55,7 +55,7 @@ namespace Wms12m.Presentation.Controllers
                     //add new
                     try
                     {
-                        WMS_STI sti = new WMS_STI();
+                        IRS_Detay sti = new IRS_Detay();
                         sti.IrsaliyeID = IrsNo;
                         sti.MalKodu = malkodu;
                         sti.Miktar = Convert.ToDecimal(dr["Miktar"]);
@@ -73,7 +73,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     try
                     {
-                        db.WMS_STI.AddRange(liste);
+                        db.IRS_Detay.AddRange(liste);
                         db.SaveChanges();
                         dbContextTransaction.Commit();
                     }
@@ -109,7 +109,7 @@ namespace Wms12m.Presentation.Controllers
             if (result.Tables.Count == 0) return Json(false, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(false, JsonRequestBehavior.AllowGet);
             //sti listesi oluşturuyoruz. tüm bilgiyi tek seferde veritabanına kaydetçek
-            List<TK_OLCU> liste = new List<TK_OLCU>();
+            List<Olcu> liste = new List<Olcu>();
             //finsat işlemleri
             using (DinamikModelContext Dinamik = new DinamikModelContext(SirketKod))
             {
@@ -126,7 +126,7 @@ namespace Wms12m.Presentation.Controllers
                     //add new
                     try
                     {
-                        TK_OLCU sti = new TK_OLCU();
+                        Olcu sti = new Olcu();
                         sti.SirketKod = SirketKod;
                         sti.MalKodu = dr["Mal Kodu"].ToString();
                         sti.Birim = dr["Birim"].ToString();
@@ -147,7 +147,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     try
                     {
-                        db.TK_OLCU.AddRange(liste);
+                        db.Olcus.AddRange(liste);
                         db.SaveChanges();
                         dbContextTransaction.Commit();
                     }

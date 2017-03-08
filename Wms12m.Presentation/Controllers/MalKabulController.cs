@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using Wms12m.Entity;
 using Wms12m.Business;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -21,24 +20,24 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult MalKabulGridPartial(int IrsNo)
         {
-            var list = db.WMS_STI.Where(m=>m.IrsaliyeID== IrsNo).ToList();
+            var list = db.IRS_Detay.Where(m=>m.IrsaliyeID== IrsNo).ToList();
             return PartialView("_MalKabulGridPartial", list);
         }
         public PartialViewResult MalKabulDetailPartial(int id)
         {
             ViewBag.ID = id;
-            ViewBag.GorevTipiID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 1).ToList(), "ID", "ItemName");
-            ViewBag.DurumID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 2).ToList(), "ID", "ItemName");
-            ViewBag.GorevliID = new SelectList(db.USR01.ToList(), "Id", "UserName");
+            ViewBag.GorevTipiID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 1).ToList(), "ID", "ItemName");
+            ViewBag.DurumID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 2).ToList(), "ID", "ItemName");
+            ViewBag.GorevliID = new SelectList(db.Users.ToList(), "Id", "UserName");
 
-            var list = db.WMS_STI.Where(m => m.ID == id).FirstOrDefault();
+            var list = db.IRS_Detay.Where(m => m.ID == id).FirstOrDefault();
             return PartialView("_MalKabulDetailPartial", list);
         }
 
         public PartialViewResult MalKabulIcmalPartial(int IrsNo)
         {
 
-            var list = db.WMS_IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
+            var list = db.IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
             using (DinamikModelContext Dinamik = new DinamikModelContext(list.SirketKod))
             {
                 ViewBag.Unvan = Dinamik.Context.CHKs.Where(x => x.HesapKodu== list.HesapKodu).Select(m => new frmUnvan { Unvan = m.Unvan1 + " " + m.Unvan2 }).FirstOrDefault();
@@ -49,7 +48,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult New(frmMalzeme tbl)
         {
             //check if exists
-            var tmp = db.WMS_STI.Where(m => m.ID == tbl.Id).FirstOrDefault();
+            var tmp = db.IRS_Detay.Where(m => m.ID == tbl.Id).FirstOrDefault();
             if (tmp != null)
             {
                 //add new
@@ -59,7 +58,7 @@ namespace Wms12m.Presentation.Controllers
                 db.SaveChanges();
             }
 
-            var list = db.WMS_STI.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).ToList();
+            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).ToList();
             return PartialView("_MalKabulGridPartial", list);
         }
     }

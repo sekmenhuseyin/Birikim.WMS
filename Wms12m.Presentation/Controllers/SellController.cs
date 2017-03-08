@@ -53,7 +53,7 @@ namespace Wms12m.Presentation.Controllers
                             select new frmSiparisMalzeme { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim };
                 //var list2 = from s in db.Yerlestirmes
                 //            join s2 in list on s.MalKodu equals s2.MalKodu
-                //            where s.TK_KAT.TK_BOL.TK_RAF.TK_KOR.TK_DEP.Depo == tbl.DepoID
+                //            where s.TK_KAT.TK_BOL.TK_RAF.TK_KOR.Depo.Depo == tbl.DepoID
                 //            select new frmSiparisMalzeme { MalKodu = s2.MalKodu, MalAdi = s2.MalAdi, Miktar = s2.Miktar, Birim = s2.Birim };
                 ViewBag.SirketID = tbl.SirketID;
                 ViewBag.EvrakNos = tbl.EvrakNos;
@@ -83,9 +83,9 @@ namespace Wms12m.Presentation.Controllers
                     //irsaliye tablosu
                     if (chk != item.Chk)
                     {
-                        WMS_IRS irs = new WMS_IRS();
+                        IR irs = new IR();
                         irs.SirketKod = tbl.SirketID;
-                        irs.DepoID = db.TK_DEP.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
+                        irs.DepoID = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
                         irs.IslemTur = true; //satış irsaliyesi
                         irs.Tarih = DateTime.Today.ToOADateInt();
                         irs.EvrakNo = db.GetIrsaliyeNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
@@ -95,17 +95,17 @@ namespace Wms12m.Presentation.Controllers
                         _Result = op.Operation(irs);
                         id = _Result.Id;
                         //görev tablosu
-                        GorevListesi grv = new GorevListesi();
+                        Gorev grv = new Gorev();
                         grv.DepoID = irs.DepoID;
                         grv.GorevNo = db.GetGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
                         grv.GorevTipiID = ComboItems.SiparişTopla.ToInt32();
                         grv.Bilgi = "Irs: " + irs.EvrakNo + ", Alıcı: " + item.Unvan1;
                         grv.IrsaliyeID = id;
-                        var op3 = new Gorev();
+                        var op3 = new Task();
                         _Result = op3.Operation(grv);
                     }
                     //sti tablosu
-                    WMS_STI sti = new WMS_STI();
+                    IRS_Detay sti = new IRS_Detay();
                     sti.IrsaliyeID = id;
                     sti.MalKodu = item.MalKodu;
                     sti.Birim = item.Birim;

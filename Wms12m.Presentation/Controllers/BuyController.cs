@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using Wms12m.Entity;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -16,7 +15,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
+            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
             return View("Index", new frmIrsaliye());
         }
         /// <summary>
@@ -32,7 +31,7 @@ namespace Wms12m.Presentation.Controllers
             string SirketKod = tmp[0];
             int DepoID = tmp[1].ToInt32();
             string HesapKodu = tmp[2];
-            var list = db.WMS_IRS.Where(m => m.SirketKod == SirketKod && m.IslemTur == false && m.HesapKodu == HesapKodu && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
+            var list = db.IRS.Where(m => m.SirketKod == SirketKod && m.IslemTur == false && m.HesapKodu == HesapKodu && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
             return PartialView("List", list);
         }
         /// <summary>
@@ -73,10 +72,10 @@ namespace Wms12m.Presentation.Controllers
                         rowid = item.ToInt32();
                         var tbl = Dinamik.Context.SPIs.Where(m => m.ROW_ID == rowid && m.IslemTur == 0 && m.KynkEvrakTip == 63 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar)>0).FirstOrDefault();
                         //save details
-                        WMS_STI sti = new WMS_STI();
+                        IRS_Detay sti = new IRS_Detay();
                         sti.IrsaliyeID = irsaliyeID;
                         sti.Birim = tbl.Birim;
-                        sti.KaynakSiparisNo = tbl.EvrakNo;
+                        sti.KynkSiparisNo = tbl.EvrakNo;
                         sti.MalKodu = tbl.MalKodu;
                         sti.Miktar = tbl.BirimMiktar - tbl.TeslimMiktar - tbl.KapatilanMiktar;
                         Stok tmpTable = new Stok();
@@ -85,9 +84,9 @@ namespace Wms12m.Presentation.Controllers
                 }
             }
             //get list
-            var list = db.WMS_STI.Where(m => m.IrsaliyeID == irsaliyeID).ToList();
+            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == irsaliyeID).ToList();
             ViewBag.IrsaliyeId = irsaliyeID;
-            ViewBag.Onay = db.WMS_IRS.Where(m => m.ID == irsaliyeID).Select(m => m.Onay).FirstOrDefault();
+            ViewBag.Onay = db.IRS.Where(m => m.ID == irsaliyeID).Select(m => m.Onay).FirstOrDefault();
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -97,7 +96,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult New(frmIrsaliye tbl)
         {
             //check if exists
-            var tmp = db.WMS_IRS.Where(m => m.EvrakNo == tbl.EvrakNo && m.IslemTur == false).FirstOrDefault();
+            var tmp = db.IRS.Where(m => m.EvrakNo == tbl.EvrakNo && m.IslemTur == false).FirstOrDefault();
             if (tmp == null)
             {
                 Irsaliye tmpTable = new Irsaliye();
@@ -112,9 +111,9 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.Editable = tbl.Onay;
             }
             //get list
-            var list = db.WMS_STI.Where(m=>m.IrsaliyeID==tbl.Id).OrderByDescending(m=>m.ID).ToList();
+            var list = db.IRS_Detay.Where(m=>m.IrsaliyeID==tbl.Id).OrderByDescending(m=>m.ID).ToList();
             ViewBag.IrsaliyeId = tbl.Id;
-            ViewBag.Onay = db.WMS_IRS.Where(m => m.ID == tbl.Id).Select(m => m.Onay).FirstOrDefault();
+            ViewBag.Onay = db.IRS.Where(m => m.ID == tbl.Id).Select(m => m.Onay).FirstOrDefault();
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -122,9 +121,9 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult GridPartial(int ID)
         {
-            var list = db.WMS_STI.Where(m => m.IrsaliyeID == ID).OrderByDescending(m => m.ID).ToList();
+            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == ID).OrderByDescending(m => m.ID).ToList();
             ViewBag.IrsaliyeId = ID;
-            ViewBag.Onay = db.WMS_IRS.Where(m => m.ID == ID).Select(m => m.Onay).FirstOrDefault();
+            ViewBag.Onay = db.IRS.Where(m => m.ID == ID).Select(m => m.Onay).FirstOrDefault();
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -137,9 +136,9 @@ namespace Wms12m.Presentation.Controllers
             Stok tmpTable = new Stok();
             Result _Result = tmpTable.Insert(tbl);
             //get list
-            var list = db.WMS_STI.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).OrderByDescending(m => m.ID).ToList();
+            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).OrderByDescending(m => m.ID).ToList();
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
-            ViewBag.Onay = db.WMS_IRS.Where(m => m.ID == tbl.IrsaliyeId).Select(m => m.Onay).FirstOrDefault();
+            ViewBag.Onay = db.IRS.Where(m => m.ID == tbl.IrsaliyeId).Select(m => m.Onay).FirstOrDefault();
             return PartialView("_GridPartial", list);
         }
         /// <summary>

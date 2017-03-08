@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Web;
-using Wms12m.Entity;
 using System.Web.Mvc;
-using Wms12m.Business;
 using System.Web.Security;
+using Wms12m.Business;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(USR01 P)
+        public ActionResult Login(User P)
         {
             Persons _Person = new Persons();
             _Result = new Result();
@@ -28,7 +28,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     _Result = _Person.Login(P);
                     if (_Result.Id > 0)
-                        Authentication.CreateAuth((USR01)_Result.Data, false);
+                        Authentication.CreateAuth((User)_Result.Data, false);
                 }                
             }
             catch (Exception){

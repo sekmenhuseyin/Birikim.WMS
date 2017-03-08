@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 
 namespace Wms12m.Presentation.Controllers
@@ -11,7 +10,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var list = db.USR01.ToList();
+            var list = db.Users.ToList();
             return View("Index", list);
         }
 

@@ -58,7 +58,7 @@
     <Compile Include="CacheControl\CacheManager.cs" />
     <Compile Include="Extension\Extensions.cs" />
     <Compile Include="Extension\Functions.cs" />
-    <Compile Include="Tables\Gorev.cs" />
+    <Compile Include="Tables\Task.cs" />
     <Compile Include="MalKabul\MalKabulSTIOnay.cs" />
     <Compile Include="Tables\Dimension.cs" />
     <Compile Include="Tables\Stok.cs" />

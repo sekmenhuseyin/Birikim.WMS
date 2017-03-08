@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -14,7 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var list = db.TK_OLCU.OrderBy(m => m.MalKodu).ToList();
+            var list = db.Olcus.OrderBy(m => m.MalKodu).ToList();
             return View("Index", list);
         }
         /// <summary>
@@ -22,7 +22,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List(string Id)
         {
-            var list = db.TK_OLCU.OrderBy(m => m.MalKodu).ToList();
+            var list = db.Olcus.OrderBy(m => m.MalKodu).ToList();
             return PartialView("_List", list);
         }
         /// <summary>
@@ -31,7 +31,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Create()
         {
             ViewBag.SirketKod = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            return PartialView("_Create", new TK_OLCU());
+            return PartialView("_Create", new Olcu());
         }
         /// <summary>
         /// düzenleme
@@ -42,18 +42,18 @@ namespace Wms12m.Presentation.Controllers
             if (id == null) return null;
             if (id.ToString() == "0") return null;
             int tmp = id.ToInt32();
-            var tbl = db.TK_OLCU.Where(m => m.ID == tmp).FirstOrDefault();
+            var tbl = db.Olcus.Where(m => m.ID == tmp).FirstOrDefault();
             if (tbl == null) return null;
             return PartialView("_Edit", tbl);
         }
         /// <summary>
         /// yeni boyut kartı
         /// </summary>
-        public PartialViewResult Save(TK_OLCU tbl)
+        public PartialViewResult Save(Olcu tbl)
         {
             Dimension tmpTable = new Dimension();
             Result _Result = tmpTable.Operation(tbl);
-            var list = db.TK_OLCU.OrderBy(m => m.MalKodu).ToList();
+            var list = db.Olcus.OrderBy(m => m.MalKodu).ToList();
             return PartialView("_List", list);
         }
         /// <summary>

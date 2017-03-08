@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Web;
-using Wms12m.Entity;
-using Wms12m.Security;
-using System.Web.Security;
-using Wms12m.Entity.Models;
 using System.Web.Script.Serialization;
+using System.Web.Security;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
+using Wms12m.Security;
 
 namespace Wms12m
 {
     public class Authentication
     {
-        public static void CreateAuth(USR01 person, bool rememberMe)
+        public static void CreateAuth(User person, bool rememberMe)
         {
             var serializeModel = AuthIdentity(person, rememberMe);
             DateTime expiration = DateTime.Now.AddMinutes(HttpContext.Current.Session.Timeout);
@@ -37,7 +37,7 @@ namespace Wms12m
             cookie.Expires = expiration;
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
-        public static void UpdateAuth(USR01 person)
+        public static void UpdateAuth(User person)
         {
             var user = (HttpContext.Current.User as CustomPrincipal).AppIdentity.User;
             var serializeModel = AuthIdentity(person, true);
@@ -55,7 +55,7 @@ namespace Wms12m
             cookie.Expires = ticket.Expiration;
             HttpContext.Current.Response.Cookies.Set(cookie);
         }
-        private static CustomPrincipalSerializeModel AuthIdentity(USR01 person, bool isUpdate)
+        private static CustomPrincipalSerializeModel AuthIdentity(User person, bool isUpdate)
         {
             var identity = HttpContext.Current.User as CustomPrincipal;
             var serializeModel = new CustomPrincipalSerializeModel();

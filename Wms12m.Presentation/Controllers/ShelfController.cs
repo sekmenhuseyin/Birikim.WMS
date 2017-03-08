@@ -1,23 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using System.Collections.Generic;
 
 namespace Wms12m.Presentation.Controllers
 {
     public class ShelfController : RootController
     {
-        abstractTables<TK_RAF> ShelfOperation;
+        abstractTables<Raf> ShelfOperation;
         /// <summary>
         /// anasayfası
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
-            return View("Index", new TK_RAF());
+            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+            return View("Index", new Raf());
         }
         /// <summary>
         /// listesi
@@ -28,7 +28,7 @@ namespace Wms12m.Presentation.Controllers
             int StoreId = 0;
             string Locked = "";
             ShelfOperation = new Shelf();
-            List<TK_RAF> _List = new List<TK_RAF>();
+            List<Raf> _List = new List<Raf>();
             try
             {
                 if (Id.IndexOf("#") > -1)
@@ -58,15 +58,15 @@ namespace Wms12m.Presentation.Controllers
             int tmp = Convert.ToInt32(Id);
             if (tmp==0)
             {
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
-                ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
-                return PartialView("_ShelfDetailPartial", new TK_RAF());
+                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+                ViewBag.KoridorID = new SelectList(db.Koridors.Where(m => m.ID == 0).ToList(), "ID", "KoridorAd");
+                return PartialView("_ShelfDetailPartial", new Raf());
             }
             else
             {
-                var tablo = db.TK_RAF.Where(m => m.ID == tmp).FirstOrDefault();
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo", tablo.TK_KOR.DepoID);
-                ViewBag.KoridorID = new SelectList(db.TK_KOR.ToList(), "ID", "Koridor", tablo.KoridorID);
+                var tablo = db.Rafs.Where(m => m.ID == tmp).FirstOrDefault();
+                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd", tablo.Koridor.DepoID);
+                ViewBag.KoridorID = new SelectList(db.Koridors.ToList(), "ID", "KoridorAd", tablo.KoridorID);
                 return PartialView("_ShelfDetailPartial", new Shelf().Detail(tmp));
             }
         }
@@ -78,18 +78,18 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            List<TK_RAF> _List = new List<TK_RAF>();
+            List<Raf> _List = new List<Raf>();
             ShelfOperation = new Shelf();
             try
             {
                 _List = ShelfOperation.GetList().Where(a => a.KoridorID == Convert.ToInt16(id)).ToList();
                 List<SelectListItem> List = new List<SelectListItem>();
-                foreach (TK_RAF item in _List)
+                foreach (Raf item in _List)
                 {
                     List.Add(new SelectListItem
                     {
                         Selected = false,
-                        Text = item.Raf,
+                        Text = item.RafAd,
                         Value = item.ID.ToString()
                     });
                 }
@@ -112,7 +112,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// kayıt işlemleri
         /// </summary>
-        public ActionResult ShelfiOperation(TK_RAF P)
+        public ActionResult ShelfiOperation(Raf P)
         {
             ShelfOperation = new Shelf();
             Result _Result = ShelfOperation.Operation(P);

@@ -1,27 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using System.Collections.Generic;
 
 namespace Wms12m.Presentation.Controllers
 {
     public class FloorController : RootController
     {
-        abstractTables<TK_KAT> FloorOperation;
+        abstractTables<Kat> FloorOperation;
         /// <summary>
         /// anasayfası
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
-            ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
-            ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
-            ViewBag.BolumID = new SelectList(db.TK_BOL.Where(m => m.ID == 0).ToList(), "ID", "Bolum");
-            ViewBag.Ozellik = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name");
-            return View("Index", new TK_KAT());
+            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+            ViewBag.KoridorID = new SelectList(db.Koridors.Where(m => m.ID == 0).ToList(), "ID", "KoridorAd");
+            ViewBag.RafID = new SelectList(db.Rafs.Where(m => m.ID == 0).ToList(), "ID", "RafAd");
+            ViewBag.BolumID = new SelectList(db.Bolums.Where(m => m.ID == 0).ToList(), "ID", "BolumAd");
+            ViewBag.Ozellik = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name");
+            return View("Index", new Kat());
         }
         /// <summary>
         /// listesi
@@ -34,7 +34,7 @@ namespace Wms12m.Presentation.Controllers
             int SectionId = 0;
             string Locked = "";
             FloorOperation = new Floor();
-            List<TK_KAT> _List = new List<TK_KAT>();
+            List<Kat> _List = new List<Kat>();
             try
             {
                 if (Id.IndexOf("#") > -1)
@@ -66,21 +66,21 @@ namespace Wms12m.Presentation.Controllers
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
-                ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
-                ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
-                ViewBag.BolumID = new SelectList(db.TK_BOL.Where(m => m.ID == 0).ToList(), "ID", "Bolum");
-                ViewBag.Ozellik = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name");
-                return PartialView("_FloorDetailPartial", new TK_KAT());
+                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+                ViewBag.KoridorID = new SelectList(db.Koridors.Where(m => m.ID == 0).ToList(), "ID", "KoridorAd");
+                ViewBag.RafID = new SelectList(db.Rafs.Where(m => m.ID == 0).ToList(), "ID", "RafAd");
+                ViewBag.BolumID = new SelectList(db.Bolums.Where(m => m.ID == 0).ToList(), "ID", "BolumAd");
+                ViewBag.Ozellik = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name");
+                return PartialView("_FloorDetailPartial", new Kat());
             }
             else
             {
-                var tablo = db.TK_KAT.Where(m => m.ID == tmp).FirstOrDefault();
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo", tablo.TK_BOL.TK_RAF.TK_KOR.DepoID);
-                ViewBag.KoridorID = new SelectList(db.TK_KOR.ToList(), "ID", "Koridor", tablo.TK_BOL.TK_RAF.KoridorID);
-                ViewBag.RafID = new SelectList(db.TK_RAF.ToList(), "ID", "Raf", tablo.TK_BOL.RafID);
-                ViewBag.BolumID = new SelectList(db.TK_BOL.ToList(), "ID", "Bolum", tablo.BolumID);
-                ViewBag.Ozellik = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name", tablo.Ozellik);
+                var tablo = db.Kats.Where(m => m.ID == tmp).FirstOrDefault();
+                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd", tablo.Bolum.Raf.Koridor.DepoID);
+                ViewBag.KoridorID = new SelectList(db.Koridors.ToList(), "ID", "KoridorAd", tablo.Bolum.Raf.KoridorID);
+                ViewBag.RafID = new SelectList(db.Rafs.ToList(), "ID", "RafAd", tablo.Bolum.RafID);
+                ViewBag.BolumID = new SelectList(db.Bolums.ToList(), "ID", "BolumAd", tablo.BolumID);
+                ViewBag.Ozellik = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name", tablo.Ozellik);
                 return PartialView("_FloorDetailPartial", new Floor().Detail(tmp));
             }
         }
@@ -96,7 +96,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// kayıt işlemleri
         /// </summary>
-        public ActionResult FlooriOperation(TK_KAT P)
+        public ActionResult FlooriOperation(Kat P)
         {
             FloorOperation = new Floor();
             Result _Result = FloorOperation.Operation(P);

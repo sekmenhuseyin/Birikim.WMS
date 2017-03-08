@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
+using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -14,7 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var list = db.GorevListesis.OrderBy(m=>m.DurumID).OrderByDescending(m=>m.ID).ToList();
+            var list = db.Gorevs.OrderBy(m=>m.DurumID).OrderByDescending(m=>m.ID).ToList();
             return View("Index", list);
         }
         /// <summary>
@@ -22,7 +22,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult GorevGridPartial()
         {
-            var list = db.GorevListesis.OrderBy(m => m.DurumID).OrderByDescending(m => m.ID).ToList();
+            var list = db.Gorevs.OrderBy(m => m.DurumID).OrderByDescending(m => m.ID).ToList();
             return PartialView("_GorevGridPartial", list);
         }
         /// <summary>
@@ -30,9 +30,9 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult GorevDetailPartial(int id)
         {
-            var list = db.GorevListesis.Where(m => m.ID == id).FirstOrDefault();
-            ViewBag.GorevTipiID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 1).OrderBy(m => m.Name).ToList(), "ID", "Name", list.GorevTipiID);
-            ViewBag.DurumID = new SelectList(db.ComboItemNames.Where(m => m.ComboID == 2).OrderBy(m=>m.Name).ToList(), "ID", "Name", list.DurumID);
+            var list = db.Gorevs.Where(m => m.ID == id).FirstOrDefault();
+            ViewBag.GorevTipiID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 1).OrderBy(m => m.Name).ToList(), "ID", "Name", list.GorevTipiID);
+            ViewBag.DurumID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 2).OrderBy(m=>m.Name).ToList(), "ID", "Name", list.DurumID);
             return PartialView("_GorevDetailPartial", list);
         }
         /// <summary>
@@ -41,10 +41,10 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Update(frmGorev tbl)
         {
             //update
-            Gorev tmpTable = new Gorev();
+            Task tmpTable = new Task();
             Result _Result = tmpTable.Update(tbl);
             //get list
-            var list = db.GorevListesis.ToList();
+            var list = db.Gorevs.ToList();
             return PartialView("_GorevGridPartial", list);
         }
         /// <summary>
@@ -52,7 +52,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(int ID)
         {
-            Gorev tmpTable = new Gorev();
+            Task tmpTable = new Task();
             Result _Result = tmpTable.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -65,8 +65,8 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             Int32 ID = Convert.ToInt32(id);
-            var list = db.GorevListesis.Where(m=>m.ID==ID).FirstOrDefault();
-            ViewBag.GorevliID = new SelectList(db.USR01.OrderBy(m=>m.Kod).ToList(), "ID", "AdSoyad", list.GorevliID);
+            var list = db.Gorevs.Where(m=>m.ID==ID).FirstOrDefault();
+            ViewBag.GorevliID = new SelectList(db.Users.OrderBy(m=>m.Kod).ToList(), "ID", "AdSoyad", list.GorevliID);
             return PartialView("GorevliAta", list);
         }
         /// <summary>
@@ -75,7 +75,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult GorevliKaydet(frmGorevli tbl)
         {
-            Gorev tmpTable = new Gorev();
+            Task tmpTable = new Task();
             Result _Result = tmpTable.UpdateGorevli(tbl);
             return RedirectToAction("Index");
         }

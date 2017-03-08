@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Siparis()
         {
-            ViewBag.Siparis = new SelectList(db.WMS_IRS.Where(m => m.IslemTur == true && m.Onay == false).ToList(), "ID", "EvrakNo");
+            ViewBag.Siparis = new SelectList(db.IRS.Where(m => m.IslemTur == true && m.Onay == false).ToList(), "ID", "EvrakNo");
             return View("Siparis");
         }
         /// <summary>
@@ -28,7 +28,7 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "0") return null;
             int ID = id.ToInt32();
-            var list = db.WMS_STI.Where(m => m.IrsaliyeID == ID).ToList();
+            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == ID).ToList();
             return PartialView("_SiparisDetails", list);
         }
         /// <summary>
@@ -36,7 +36,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Raf()
         {
-            ViewBag.Siparis = new SelectList(db.WMS_IRS.Where(m => m.IslemTur == false && m.Onay == false).ToList(), "ID", "EvrakNo");
+            ViewBag.Siparis = new SelectList(db.IRS.Where(m => m.IslemTur == false && m.Onay == false).ToList(), "ID", "EvrakNo");
             return View("Raf");
         }
         /// <summary>
@@ -47,7 +47,7 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "0") return null;
             int ID = id.ToInt32();
-            var list = db.WMS_STI.Where(m => m.IrsaliyeID == ID).ToList();
+            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == ID).ToList();
             return PartialView("_RafDetails", list);
         }
     }

@@ -1,25 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using System.Collections.Generic;
 
 namespace Wms12m.Presentation.Controllers
 {
     public class SectionController : RootController
     {
-        abstractTables<TK_BOL> SectionOperation;
+        abstractTables<Bolum> SectionOperation;
         /// <summary>
         /// anasayfası
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
-            ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
-            ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
-            return View("Index", new TK_BOL());
+            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+            ViewBag.KoridorID = new SelectList(db.Koridors.Where(m => m.ID == 0).ToList(), "ID", "KoridorAd");
+            ViewBag.RafID = new SelectList(db.Rafs.Where(m => m.ID == 0).ToList(), "ID", "RafAd");
+            return View("Index", new Bolum());
         }
         /// <summary>
         /// listesi
@@ -31,7 +31,7 @@ namespace Wms12m.Presentation.Controllers
             int ShelfId = 0;
             string Locked = "";
             SectionOperation = new Section();
-            List<TK_BOL> _List = new List<TK_BOL>();
+            List<Bolum> _List = new List<Bolum>();
             try
             {
                 if (Id.IndexOf("#") > -1)
@@ -62,17 +62,17 @@ namespace Wms12m.Presentation.Controllers
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
-                ViewBag.KoridorID = new SelectList(db.TK_KOR.Where(m => m.ID == 0).ToList(), "ID", "Koridor");
-                ViewBag.RafID = new SelectList(db.TK_RAF.Where(m => m.ID == 0).ToList(), "ID", "Raf");
-                return PartialView("_SectionDetailPartial", new TK_BOL());
+                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+                ViewBag.KoridorID = new SelectList(db.Koridors.Where(m => m.ID == 0).ToList(), "ID", "KoridorAd");
+                ViewBag.RafID = new SelectList(db.Rafs.Where(m => m.ID == 0).ToList(), "ID", "RafAd");
+                return PartialView("_SectionDetailPartial", new Bolum());
             }
             else
             {
-                var tablo = db.TK_BOL.Where(m => m.ID == tmp).FirstOrDefault();
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo", tablo.TK_RAF.TK_KOR.DepoID);
-                ViewBag.KoridorID = new SelectList(db.TK_KOR.ToList(), "ID", "Koridor", tablo.TK_RAF.KoridorID);
-                ViewBag.RafID = new SelectList(db.TK_RAF.ToList(), "ID", "Raf", tablo.RafID);
+                var tablo = db.Bolums.Where(m => m.ID == tmp).FirstOrDefault();
+                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd", tablo.Raf.Koridor.DepoID);
+                ViewBag.KoridorID = new SelectList(db.Koridors.ToList(), "ID", "KoridorAd", tablo.Raf.KoridorID);
+                ViewBag.RafID = new SelectList(db.Rafs.ToList(), "ID", "RafAd", tablo.RafID);
                 return PartialView("_SectionDetailPartial", new Section().Detail(tmp));
             }
         }
@@ -84,18 +84,18 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            List<TK_BOL> _List = new List<TK_BOL>();
+            List<Bolum> _List = new List<Bolum>();
             SectionOperation = new Section();
             try
             {
                 _List = SectionOperation.GetList().Where(a => a.RafID == Convert.ToInt16(id)).ToList();
                 List<SelectListItem> List = new List<SelectListItem>();
-                foreach (TK_BOL item in _List)
+                foreach (Bolum item in _List)
                 {
                     List.Add(new SelectListItem
                     {
                         Selected = false,
-                        Text = item.Bolum,
+                        Text = item.BolumAd,
                         Value = item.ID.ToString()
                     });
                 }
@@ -118,7 +118,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// kayıt işlemleri
         /// </summary>
-        public ActionResult SectioniOperation(TK_BOL P)
+        public ActionResult SectioniOperation(Bolum P)
         {
             SectionOperation = new Section();
             Result _Result = SectionOperation.Operation(P);

@@ -1,23 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Wms12m.Entity;
 using System.Web.Mvc;
 using Wms12m.Business;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using System.Collections.Generic;
 
 namespace Wms12m.Presentation.Controllers
 {
     public class CorridorController : RootController
     {
-        abstractTables<TK_KOR> Operation;
+        abstractTables<Koridor> Operation;
         /// <summary>
         /// anasayfası
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
-            return View("Index", new TK_KOR());
+            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+            return View("Index", new Koridor());
         }
         /// <summary>
         /// listesi
@@ -25,7 +25,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult CorridorGridPartial(string Id)
         {
             Operation = new Corridor();
-            List<TK_KOR> _List = new List<TK_KOR>();
+            List<Koridor> _List = new List<Koridor>();
             int StoreId = 0;
             string Locked = "";
             try
@@ -45,7 +45,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception)
             {
-                return PartialView("_CorridorGridPartial", new List<TK_KOR>());
+                return PartialView("_CorridorGridPartial", new List<Koridor>());
             }
 
         }
@@ -57,13 +57,13 @@ namespace Wms12m.Presentation.Controllers
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo");
-                return PartialView("_CorridorDetailPartial", new TK_KOR());
+                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+                return PartialView("_CorridorDetailPartial", new Koridor());
             }
             else
             {
-                var tablo = db.TK_KOR.Where(m => m.ID == tmp).FirstOrDefault();
-                ViewBag.DepoID = new SelectList(db.TK_DEP.ToList(), "ID", "Depo", tablo.DepoID);
+                var tablo = db.Koridors.Where(m => m.ID == tmp).FirstOrDefault();
+                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd", tablo.DepoID);
                 return PartialView("_CorridorDetailPartial", new Corridor().Detail(tmp));
             }
         }
@@ -75,18 +75,18 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            List<TK_KOR> _List = new List<TK_KOR>();
+            List<Koridor> _List = new List<Koridor>();
             Operation = new Corridor();
             try
             {
                 _List = Operation.GetList().Where(a => a.DepoID == Convert.ToInt16(id)).ToList();
                 List<SelectListItem> List = new List<SelectListItem>();
-                foreach (TK_KOR item in _List)
+                foreach (Koridor item in _List)
                 {
                     List.Add(new SelectListItem
                     {
                         Selected = false,
-                        Text = item.Koridor,
+                        Text = item.KoridorAd,
                         Value = item.ID.ToString()
                     });
                 }
@@ -110,7 +110,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// kayıt işlemleri
         /// </summary>
-        public ActionResult CorridorOperation(TK_KOR P)
+        public ActionResult CorridorOperation(Koridor P)
         {
             Operation = new Corridor();
             Result _Result = Operation.Operation(P);
