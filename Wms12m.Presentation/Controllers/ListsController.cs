@@ -74,7 +74,7 @@ namespace Wms12m.Presentation.Controllers
             yerlog.MalKodu = tbl.MalKodu;
             yerlog.Miktar = tbl.Miktar;
             yerlog.Birim = tbl.Birim;
-            yerlog.Tip = false;
+            yerlog.GC = false;
             yerlog.Kaydeden = User.LogonUserName;
             yerlog.KayitTarihi = DateTime.Today.ToOADateInt();
             yerlog.KayitSaati = DateTime.Now.SaatiAl();
