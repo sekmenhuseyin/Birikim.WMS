@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<frmSiparisler>
+@{string tmp = ""; }
 <table class="table table-striped table-bordered table-condensed table-hover" id="sample_2" width="250">
     <thead><tr><th>Seç</th><th>Evrak No</th><th>Tarih</th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
+            tmp += item.EvrakNo.Replace(" ", "_") + ",";
             <tr style="cursor:pointer;" onclick="toggle('@item.EvrakNo', '@item.EvrakNo.Replace(" ","_")')">
                 <td width="20"><input type="checkbox" name="cb" id="c-@item.EvrakNo.Replace(" ","_")" class="form-control" disabled /></td>
                 <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
@@ -18,4 +20,8 @@
         <input type="submit" class="btn btn-primary btn-block green" value="Seç >>>" />
     </div>
 </div>
-<script>$(document).ready(function () { $('#sample_2').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); selected = ""; });</script>
+<div class="row"><input type="button" onclick="SelectAllRows()" value="Hepsini Seç" /></div>
+<script>
+    $(document).ready(function () { $('#sample_2').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); selected = ""; });
+    function SelectAllRows() { $("#checkboxes").val('@tmp'); }
+</script>

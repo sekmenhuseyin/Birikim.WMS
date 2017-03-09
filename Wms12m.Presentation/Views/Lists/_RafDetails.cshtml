@@ -17,12 +17,15 @@
             <td>
                 @using (Ajax.BeginForm("AddRaf", "Lists", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace }, new { @class = "form-horizontal" }))
                 {
-                    @Html.DropDownList("KatID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange="changer('ma-"+ID+"',this)" })
-                    <input type="hidden" name="MalKodu" value="@item.MalKodu" />
-                    <input type="hidden" name="MalAdi" id="ma-@ID" value="" />
-                    <input type="hidden" name="Birim" value="@item.Birim" />
-                    <input type="hidden" name="Miktar" value="@item.Miktar" />
-                    <input type="submit" value="Add" name="submit" />
+                    <div class="col-md-5">
+                        @Html.DropDownList("KatID", null, htmlAttributes: new { @class = "form-control input-circle col-md-5", required = "required", @onchange = "changer('ma-" + ID + "',this)" })
+                    </div><div class="col-md-5">
+                              <input type="hidden" name="MalKodu" value="@item.MalKodu" />
+                              <input type="hidden" name="MalAdi" id="ma-@ID" value="" />
+                              <input type="hidden" name="Birim" value="@item.Birim" />
+                              <input type="hidden" name="Miktar" value="@item.Miktar" />
+                              <input type="submit" value="Add" name="submit" class="btn btn-default col-md-5" />
+                    </div>
                 }
             </td>
         </tr>
