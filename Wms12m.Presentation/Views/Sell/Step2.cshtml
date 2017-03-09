@@ -38,8 +38,8 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr style="cursor:pointer;" onclick="toggle('@item.MalKodu', '@item.MalKodu.Replace(" ","_")@item.EvrakNo.Replace(" ","_")')">
-                                    <td width="20"><input type="checkbox" name="cb" id="c-@item.MalKodu.Replace(" ","_")@item.EvrakNo.Replace(" ","_")" class="form-control" disabled /></td>
+                                <tr style="cursor:pointer;" onclick="toggle('@item.ID')">
+                                    <td width="20"><input type="checkbox" name="cb" id="c-@item.ID" class="form-control" disabled /></td>
                                     <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                                     <td>@item.Tarih.FromOADateInt()</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
@@ -71,9 +71,9 @@
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
 <script>
     $(document).ready(function () { $('#sample_2').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); selected = ""; });
-    function toggle(id, what) {
-        $("#c-" + what).attr('checked', !$("#c-" + what).attr('checked'));
-        if ($("#c-" + what).attr('checked')) selected = selected + id + ",";
+    function toggle(id) {
+        $("#c-" + id).attr('checked', !$("#c-" + id).attr('checked'));
+        if ($("#c-" + id).attr('checked')) selected = selected + id + ",";
         else selected = selected.replace(id + ",", "");
         $("#checkboxes").val(selected);
     }

@@ -29,11 +29,11 @@ namespace Wms12m.Presentation.Controllers
                 var list = (from s in Dinamik.Context.SPIs
                             join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
                             where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
-                            select new frmSiparisMalzemeDetay { EvrakNo = s.EvrakNo, Tarih = s.Tarih, MalKodu = s.MalKodu, MalAdi = s2.MalAdi, Miktar = (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar), Birim = s.Birim }).ToList();
+                            select new { ID = s.ROW_ID, EvrakNo = s.EvrakNo, Tarih = s.Tarih, MalKodu = s.MalKodu, MalAdi = s2.MalAdi, Miktar = (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar), Birim = s.Birim }).ToList();
                 var list2 = db.Yers.ToList();
                 var list3 = (from s in list
                              join s2 in list2 on new { s.Birim, s.MalKodu }  equals new { s2.Birim, s2.MalKodu }
-                             select new frmSiparisMalzemeDetay { EvrakNo = s.EvrakNo, Tarih = s.Tarih, MalKodu = s.MalKodu, MalAdi = s.MalAdi, Miktar = s.Miktar, Birim = s.Birim, Stok = s2.Miktar }).ToList();
+                             select new frmSiparisMalzemeDetay { ID = s.ID, EvrakNo = s.EvrakNo, Tarih = s.Tarih, MalKodu = s.MalKodu, MalAdi = s.MalAdi, Miktar = s.Miktar, Birim = s.Birim, Stok = s2.Miktar }).ToList();
                 ViewBag.SirketID = tbl.SirketID;
                 ViewBag.DepoID = tbl.DepoID;
                 ViewBag.EvrakNos = tbl.checkboxes;
@@ -48,18 +48,23 @@ namespace Wms12m.Presentation.Controllers
         {
             using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketID))
             {
-                string[] mals = tbl.checkboxes.Split(',');
+                string[] ids = (tbl.checkboxes + "0").Split(',');
+                int[] myInts = Array.ConvertAll(ids, int.Parse);
                 string[] evraks = tbl.EvrakNos.Split(',');
-                var list = from s in Dinamik.Context.SPIs
+                var list = (from s in Dinamik.Context.SPIs
                             join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
-                            where evraks.Contains(s.EvrakNo) && mals.Contains(s.MalKodu) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
+                            where evraks.Contains(s.EvrakNo) && myInts.Contains(s.ROW_ID) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
                             group new { s, s2 } by new { s.MalKodu, s2.MalAdi, s.Birim } into g
-                            select new frmSiparisMalzeme { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim };
+                            select new frmSiparisMalzeme { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim }).ToList();
+                var list2 = db.Yers.ToList();
+                var list3 = (from s in list
+                             join s2 in list2 on new { s.Birim, s.MalKodu } equals new { s2.Birim, s2.MalKodu }
+                             select new frmSiparisMalzeme { MalKodu = s.MalKodu, MalAdi = s.MalAdi, Miktar = s.Miktar > s2.Miktar ? s2.Miktar : s.Miktar, Birim = s.Birim }).ToList();
                 ViewBag.SirketID = tbl.SirketID;
                 ViewBag.EvrakNos = tbl.EvrakNos;
                 ViewBag.DepoID = tbl.DepoID;
                 ViewBag.checkboxes = tbl.checkboxes;
-                return View("Step3", list.ToList());
+                return View("Step3", list3);
             }
         }
         /// <summary>
@@ -70,15 +75,21 @@ namespace Wms12m.Presentation.Controllers
         {
             using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketID))
             {
-                string[] mals = tbl.checkboxes.Split(',');
+                string[] ids = (tbl.checkboxes + "0").Split(',');
+                int[] myInts = Array.ConvertAll(ids, int.Parse);
                 string[] evraks = tbl.EvrakNos.Split(',');
                 string chk = ""; int id = 0; Result _Result;
                 var list = (from s in Dinamik.Context.SPIs
-                           join s2 in Dinamik.Context.CHKs on s.Chk equals s2.HesapKodu
-                           where evraks.Contains(s.EvrakNo) && mals.Contains(s.MalKodu) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
-                           orderby s.Chk
-                           select new { s.EvrakNo, s.Chk, s2.Unvan1, s.MalKodu, Miktar = s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar, s.Birim }).ToList();
-                foreach (var item in list)
+                            join s2 in Dinamik.Context.CHKs on s.Chk equals s2.HesapKodu
+                            where evraks.Contains(s.EvrakNo) && myInts.Contains(s.ROW_ID) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
+                            group new { s, s2 } by new { s.EvrakNo, s.Chk, s2.Unvan1, s.MalKodu, s.Birim } into g
+                            orderby g.Key.Chk
+                            select new { g.Key.EvrakNo, g.Key.Chk, g.Key.Unvan1, g.Key.MalKodu, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), g.Key.Birim }).ToList();
+                var list2 = db.Yers.ToList();
+                var list3 = (from s in list
+                             join s2 in list2 on new { s.Birim, s.MalKodu } equals new { s2.Birim, s2.MalKodu }
+                             select new { s.EvrakNo, s.Chk, s.Unvan1, s.MalKodu, Miktar = s.Miktar, s.Birim }).ToList();
+                foreach (var item in list3)
                 {
                     //irsaliye tablosu
                     if (chk != item.Chk)

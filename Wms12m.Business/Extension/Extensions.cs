@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
 namespace Wms12m
 {
     public static class Extensions
     {
+
+        public static string ClearSymbols(this string value)
+        {
+            return value.Replace(",", "").Replace(".", "").Replace("-", "").Replace(" ", "");
+        }
         /// <summary>
         /// Returns characters from right of specified length
         /// </summary>

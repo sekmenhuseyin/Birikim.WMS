@@ -6,8 +6,8 @@
         @foreach (var item in Model)
         {
             tmp += item.EvrakNo.Replace(" ", "_") + ",";
-            <tr style="cursor:pointer;" onclick="toggle('@item.EvrakNo', '@item.EvrakNo.Replace(" ","_")')">
-                <td width="20"><input type="checkbox" name="cb" id="c-@item.EvrakNo.Replace(" ","_")" class="form-control" disabled /></td>
+            <tr style="cursor:pointer;" onclick="toggle('@item.EvrakNo', '@item.EvrakNo.ClearSymbols()')">
+                <td width="20"><input type="checkbox" name="cb" id="c-@item.EvrakNo.ClearSymbols()" class="form-control" disabled /></td>
                 <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                 <td>@item.Tarih.FromOADateInt()</td>
             </tr>

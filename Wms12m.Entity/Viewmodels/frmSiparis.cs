@@ -39,6 +39,7 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmSiparisMalzemeDetay
     {
+        public int ID { get; set; }
         public string EvrakNo { get; set; }
         public int Tarih { get; set; }
         public string MalKodu { get; set; }
