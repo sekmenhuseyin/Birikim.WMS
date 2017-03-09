@@ -80,6 +80,7 @@ namespace Wms12m.Presentation.Controllers
                 int[] myInts = Array.ConvertAll(ids, int.Parse);
                 string[] evraks = tbl.EvrakNos.Split(',');
                 string chk = ""; int idIRS = 0, idDepo; Result _Result;
+                string evraknolar = "", alıcılar = "";
                 List<IR> irsListe = new List<IR>();
                 idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
                 //listeler
@@ -111,6 +112,8 @@ namespace Wms12m.Presentation.Controllers
                         irsListe.Add(irs);
                         //save sck
                         chk = item.Chk;
+                        evraknolar += irs.EvrakNo + ",";
+                        alıcılar += irs.Unvan + ",";
                     }
                     //sti tablosu
                     IRS_Detay sti = new IRS_Detay();
@@ -126,6 +129,7 @@ namespace Wms12m.Presentation.Controllers
                 grv.DepoID = idDepo;
                 grv.GorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
                 grv.GorevTipiID = ComboItems.SiparişTopla.ToInt32();
+                grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
                 grv.IRS = irsListe;
                 var op3 = new Task();
                 _Result = op3.Operation(grv);

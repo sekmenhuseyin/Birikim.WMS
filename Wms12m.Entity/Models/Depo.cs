@@ -17,9 +17,9 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Depo()
         {
-            this.Gorevs = new HashSet<Gorev>();
             this.IRS = new HashSet<IR>();
             this.Koridors = new HashSet<Koridor>();
+            this.Gorevs = new HashSet<Gorev>();
         }
     
         public int ID { get; set; }
@@ -33,10 +33,10 @@ namespace Wms12m.Entity.Models
         public int DegisTarih { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gorev> Gorevs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IR> IRS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Koridor> Koridors { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Gorev> Gorevs { get; set; }
     }
 }

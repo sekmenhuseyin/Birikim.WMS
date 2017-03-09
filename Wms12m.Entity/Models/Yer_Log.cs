@@ -23,5 +23,9 @@ namespace Wms12m.Entity.Models
         public string Kaydeden { get; set; }
         public int KayitTarihi { get; set; }
         public int KayitSaati { get; set; }
+        public bool GC { get; set; }
+        public Nullable<int> IrsaliyeID { get; set; }
+    
+        public virtual IR IR { get; set; }
     }
 }

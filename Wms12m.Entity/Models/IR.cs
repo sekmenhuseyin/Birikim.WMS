@@ -17,8 +17,9 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public IR()
         {
-            this.Gorevs = new HashSet<Gorev>();
             this.IRS_Detay = new HashSet<IRS_Detay>();
+            this.Gorevs = new HashSet<Gorev>();
+            this.Yer_Log = new HashSet<Yer_Log>();
             this.Gorevs1 = new HashSet<Gorev>();
         }
     
@@ -36,10 +37,12 @@ namespace Wms12m.Entity.Models
         public string Unvan { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gorev> Gorevs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IRS_Detay> IRS_Detay { get; set; }
         public virtual Depo Depo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Gorev> Gorevs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Yer_Log> Yer_Log { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorev> Gorevs1 { get; set; }
     }
