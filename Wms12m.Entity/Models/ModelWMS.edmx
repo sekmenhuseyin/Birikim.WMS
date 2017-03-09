@@ -96,6 +96,14 @@
           <Property Name="BitisTarihi" Type="int" />
           <Property Name="BitisSaati" Type="int" />
         </EntityType>
+        <EntityType Name="GorevIRS">
+          <Key>
+            <PropertyRef Name="GorevID" />
+            <PropertyRef Name="IrsaliyeID" />
+          </Key>
+          <Property Name="GorevID" Type="int" Nullable="false" />
+          <Property Name="IrsaliyeID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="IRS">
           <Key>
             <PropertyRef Name="ID" />
@@ -125,6 +133,7 @@
           <Property Name="MiktarOkutulan" Type="numeric" Precision="25" Scale="6" />
           <Property Name="KynkSiparisNo" Type="varchar" MaxLength="16" />
           <Property Name="MalAdi" Type="varchar" MaxLength="50" />
+          <Property Name="YerlestirmeDurumu" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Kat">
           <Key>
@@ -258,6 +267,30 @@
             </Principal>
             <Dependent Role="Gorev">
               <PropertyRef Name="OlusturanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevIRS_Gorev">
+          <End Role="Gorev" Type="Self.Gorev" Multiplicity="1" />
+          <End Role="GorevIRS" Type="Self.GorevIRS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gorev">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevIRS">
+              <PropertyRef Name="GorevID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevIRS_IRS">
+          <End Role="IRS" Type="Self.IRS" Multiplicity="1" />
+          <End Role="GorevIRS" Type="Self.GorevIRS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IRS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevIRS">
+              <PropertyRef Name="IrsaliyeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -434,6 +467,7 @@
           <EntitySet Name="Bolum" EntityType="Self.Bolum" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Depo" EntityType="Self.Depo" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Gorev" EntityType="Self.Gorev" Schema="wms" store:Type="Tables" />
+          <EntitySet Name="GorevIRS" EntityType="Self.GorevIRS" Schema="wms" store:Type="Tables" />
           <EntitySet Name="IRS" EntityType="Self.IRS" Schema="wms" store:Type="Tables" />
           <EntitySet Name="IRS_Detay" EntityType="Self.IRS_Detay" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Kat" EntityType="Self.Kat" Schema="wms" store:Type="Tables" />
@@ -457,6 +491,14 @@
           <AssociationSet Name="FK_Gorev_Olusturan" Association="Self.FK_Gorev_Olusturan">
             <End Role="Users" EntitySet="Users" />
             <End Role="Gorev" EntitySet="Gorev" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevIRS_Gorev" Association="Self.FK_GorevIRS_Gorev">
+            <End Role="Gorev" EntitySet="Gorev" />
+            <End Role="GorevIRS" EntitySet="GorevIRS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevIRS_IRS" Association="Self.FK_GorevIRS_IRS">
+            <End Role="IRS" EntitySet="IRS" />
+            <End Role="GorevIRS" EntitySet="GorevIRS" />
           </AssociationSet>
           <AssociationSet Name="FK_GorevListesi_ComboItemName" Association="Self.FK_GorevListesi_ComboItemName">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -612,6 +654,10 @@
           <FunctionImport Name="SettingsIrsaliyeNo" ReturnType="Collection(String)">
           <Parameter Name="tarih" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="GorevIRS" Association="MModel.GorevIRS">
+            <End Role="Gorev" EntitySet="Gorevs" />
+            <End Role="IR" EntitySet="IRS" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -665,6 +711,7 @@
           <NavigationProperty Name="User" Relationship="MModel.FK_Gorev_Atayan" FromRole="Gorev" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="MModel.FK_Gorev_Gorevli" FromRole="Gorev" ToRole="User" />
           <NavigationProperty Name="User2" Relationship="MModel.FK_Gorev_Olusturan" FromRole="Gorev" ToRole="User" />
+          <NavigationProperty Name="IRS" Relationship="MModel.GorevIRS" FromRole="Gorev" ToRole="IR" />
         </EntityType>
         <EntityType Name="IR">
           <Key>
@@ -685,6 +732,7 @@
           <NavigationProperty Name="Gorevs" Relationship="MModel.FK_GorevListesi_IRS" FromRole="IR" ToRole="Gorev" />
           <NavigationProperty Name="IRS_Detay" Relationship="MModel.FK_STI_IRS" FromRole="IR" ToRole="IRS_Detay" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_IRS_TK_DEP" FromRole="IR" ToRole="Depo" />
+          <NavigationProperty Name="Gorevs1" Relationship="MModel.GorevIRS" FromRole="IR" ToRole="Gorev" />
         </EntityType>
         <EntityType Name="IRS_Detay">
           <Key>
@@ -699,6 +747,7 @@
           <Property Name="KynkSiparisNo" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
           <Property Name="MalAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_STI_IRS" FromRole="IRS_Detay" ToRole="IR" />
+          <Property Name="YerlestirmeDurumu" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Olcu">
           <Key>
@@ -1053,6 +1102,10 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Ad" Nullable="false" MaxLength="403" />
         </ComplexType>
+        <Association Name="GorevIRS">
+          <End Type="MModel.Gorev" Role="Gorev" Multiplicity="*" />
+          <End Type="MModel.IR" Role="IR" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1129,6 +1182,7 @@
           <EntitySetMapping Name="IRS_Detay">
             <EntityTypeMapping TypeName="MModel.IRS_Detay">
               <MappingFragment StoreEntitySet="IRS_Detay">
+                <ScalarProperty Name="YerlestirmeDurumu" ColumnName="YerlestirmeDurumu" />
                 <ScalarProperty Name="MalAdi" ColumnName="MalAdi" />
                 <ScalarProperty Name="KynkSiparisNo" ColumnName="KynkSiparisNo" />
                 <ScalarProperty Name="MiktarOkutulan" ColumnName="MiktarOkutulan" />
@@ -1301,6 +1355,14 @@
           <FunctionImportMapping FunctionImportName="GetHucreKatID" FunctionName="MModel.Store.GetHucreKatID" />
           <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
           <FunctionImportMapping FunctionImportName="SettingsIrsaliyeNo" FunctionName="MModel.Store.SettingsIrsaliyeNo" />
+          <AssociationSetMapping Name="GorevIRS" TypeName="MModel.GorevIRS" StoreEntitySet="GorevIRS">
+            <EndProperty Name="IR">
+              <ScalarProperty Name="ID" ColumnName="IrsaliyeID" />
+            </EndProperty>
+            <EndProperty Name="Gorev">
+              <ScalarProperty Name="ID" ColumnName="GorevID" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
