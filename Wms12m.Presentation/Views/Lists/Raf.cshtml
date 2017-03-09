@@ -3,19 +3,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>Rafa Kaldırma</h2>
-@Html.DropDownList("Siparis", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+@Html.DropDownList("Irsaliye", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
 <div class="row" id="liste"></div>
 @section Scripts{
 <script>
-$("#Siparis").prepend("<option value='0'>Seçiniz !!!</option>");$("#Siparis")[0].selectedIndex = 0; 
-$('#Siparis').on('change', function () {
-    $("#liste").html("");
-    $.ajax({
-        url: "/Lists/GetRafDetails/" + $('#Siparis').val(),
-        type: 'POST',
-        dataType: "html",
-        success: function (data) { if (data != "") $("#liste").html(data); }
+    $("#Irsaliye").prepend("<option value='0'>Seçiniz !!!</option>"); $("#Irsaliye")[0].selectedIndex = 0;
+    $('#Irsaliye').on('change', function () {
+        $("#liste").html("");
+        $.ajax({
+            url: "/Lists/GetRafDetails/" + $('#Irsaliye').val(),
+            type: 'POST',
+            dataType: "html",
+            success: function (data) { if (data != "") $("#liste").html(data); }
+        });
     });
-});
 </script>
 }

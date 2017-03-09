@@ -3297,10 +3297,10 @@
     <Content Include="Views\Sell\Step3.cshtml" />
     <Content Include="Views\Sell\Step2.cshtml" />
     <Content Include="Views\Lists\Index.cshtml" />
-    <Content Include="Views\Lists\Siparis.cshtml" />
+    <Content Include="Views\Lists\Gorev.cshtml" />
     <Content Include="Views\Lists\Raf.cshtml" />
     <Content Include="Views\Lists\_RafDetails.cshtml" />
-    <Content Include="Views\Lists\_SiparisDetails.cshtml" />
+    <Content Include="Views\Lists\_GorevDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

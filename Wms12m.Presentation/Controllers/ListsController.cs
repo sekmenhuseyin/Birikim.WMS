@@ -18,28 +18,34 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// siparişler
         /// </summary>
-        public ActionResult Siparis()
+        public ActionResult Gorev()
         {
-            ViewBag.Siparis = new SelectList(db.IRS.Where(m => m.IslemTur == true && m.Onay == false).ToList(), "ID", "EvrakNo");
-            return View("Siparis");
+            int tmp = ComboItems.SiparişTopla.ToInt32();
+            ViewBag.Gorev = new SelectList(db.Gorevs.Where(m => m.GorevTipiID == tmp).ToList(), "ID", "GorevNo");
+            return View("Gorev");
         }
         /// <summary>
         /// siparişi seçince gelen liste
         /// </summary>
-        public PartialViewResult GetSiparisDetails()
+        public PartialViewResult GetGorevDetails()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "0") return null;
             int ID = id.ToInt32();
-            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == ID).ToList();
-            return PartialView("_SiparisDetails", list);
+            var list = (from s in db.IRS_Detay
+                        join s2 in db.IRS on s.IrsaliyeID equals s2.ID
+                        //join s3 in db.Gorevs on s2.Gorevs1 equals s3
+                        select s.MalKodu
+
+                        ).ToList();
+            return PartialView("_GorevDetails", list);
         }
         /// <summary>
         /// raf kaldırmalar
         /// </summary>
         public ActionResult Raf()
         {
-            ViewBag.Siparis = new SelectList(db.IRS.Where(m => m.IslemTur == false && m.Onay == false).ToList(), "ID", "EvrakNo");
+            ViewBag.Irsaliye = new SelectList(db.IRS.Where(m => m.IslemTur == false && m.Onay == false).ToList(), "ID", "EvrakNo");
             return View("Raf");
         }
         /// <summary>

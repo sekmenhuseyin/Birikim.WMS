@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Sipariş Toplama";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Sipariş Toplama</h2>
+@Html.DropDownList("Gorev", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+<div class="row" id="liste"></div>
+@section Scripts{
+<script>
+    $("#Gorev").prepend("<option value='0'>Seçiniz !!!</option>");$("#Gorev")[0].selectedIndex = 0; 
+    $('#Gorev').on('change', function () {
+        $("#liste").html("");
+        $.ajax({
+            url: "/Lists/GetGorevDetails/" + $('#Gorev').val(),
+            type: 'POST',
+            dataType: "html",
+            success: function (data) { if (data != "") $("#liste").html(data); }
+        });
+    });
+</script>
+}
