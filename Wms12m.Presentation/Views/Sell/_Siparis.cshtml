@@ -5,7 +5,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            tmp += item.EvrakNo.Replace(" ", "_") + ",";
+            tmp += item.EvrakNo + "#";
             <tr style="cursor:pointer;" onclick="toggle('@item.EvrakNo', '@item.EvrakNo.ClearSymbols()')">
                 <td width="20"><input type="checkbox" name="cb" id="c-@item.EvrakNo.ClearSymbols()" class="form-control" disabled /></td>
                 <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>

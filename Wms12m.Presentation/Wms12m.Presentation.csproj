@@ -3294,8 +3294,8 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Sell\Index.cshtml" />
     <Content Include="Views\Sell\_Siparis.cshtml" />
-    <Content Include="Views\Sell\Step3.cshtml" />
     <Content Include="Views\Sell\Step2.cshtml" />
+    <Content Include="Views\Sell\Step3.cshtml" />
     <Content Include="Views\Lists\Index.cshtml" />
     <Content Include="Views\Lists\Gorev.cshtml" />
     <Content Include="Views\Lists\Raf.cshtml" />

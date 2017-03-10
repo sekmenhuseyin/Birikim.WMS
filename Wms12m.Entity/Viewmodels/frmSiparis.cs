@@ -33,6 +33,7 @@ namespace Wms12m.Entity
         public decimal Miktar { get; set; }
         public string Birim { get; set; }
         public int KatID { get; set; }
+        public decimal Stok { get; set; }
     }
     /// <summary>
     /// siparişlerin malzeme detay
