@@ -116,7 +116,7 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsIrsaliyeNo", tarihParameter);
         }
     
-        public virtual ObjectResult<InsertIrsaliye_Result> InsertIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, string gorevBilgi, Nullable<int> olusturanID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu)
+        public virtual ObjectResult<InsertIrsaliye_Result> InsertIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, string gorevBilgi, Nullable<bool> irsIslemTur, Nullable<int> gorevTipiID, Nullable<int> olusturanID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu)
         {
             var sirketKodParameter = sirketKod != null ?
                 new ObjectParameter("SirketKod", sirketKod) :
@@ -138,6 +138,14 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("GorevBilgi", gorevBilgi) :
                 new ObjectParameter("GorevBilgi", typeof(string));
     
+            var irsIslemTurParameter = irsIslemTur.HasValue ?
+                new ObjectParameter("IrsIslemTur", irsIslemTur) :
+                new ObjectParameter("IrsIslemTur", typeof(bool));
+    
+            var gorevTipiIDParameter = gorevTipiID.HasValue ?
+                new ObjectParameter("GorevTipiID", gorevTipiID) :
+                new ObjectParameter("GorevTipiID", typeof(int));
+    
             var olusturanIDParameter = olusturanID.HasValue ?
                 new ObjectParameter("OlusturanID", olusturanID) :
                 new ObjectParameter("OlusturanID", typeof(int));
@@ -158,7 +166,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("HesapKodu", hesapKodu) :
                 new ObjectParameter("HesapKodu", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, gorevBilgiParameter, olusturanIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter);
         }
     }
 }

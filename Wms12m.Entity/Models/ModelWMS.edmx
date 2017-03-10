@@ -465,6 +465,8 @@
           <Parameter Name="GorevNo" Type="varchar" Mode="In" />
           <Parameter Name="IrsEvrakNo" Type="varchar" Mode="In" />
           <Parameter Name="GorevBilgi" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="IrsIslemTur" Type="bit" Mode="In" />
+          <Parameter Name="GorevTipiID" Type="int" Mode="In" />
           <Parameter Name="OlusturanID" Type="int" Mode="In" />
           <Parameter Name="Olusturan" Type="varchar" Mode="In" />
           <Parameter Name="OlusturmaTarihi" Type="int" Mode="In" />
@@ -697,6 +699,8 @@
             <Parameter Name="GorevNo" Mode="In" Type="String" />
             <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
             <Parameter Name="GorevBilgi" Mode="In" Type="String" />
+            <Parameter Name="IrsIslemTur" Mode="In" Type="Boolean" />
+            <Parameter Name="GorevTipiID" Mode="In" Type="Int32" />
             <Parameter Name="OlusturanID" Mode="In" Type="Int32" />
             <Parameter Name="Olusturan" Mode="In" Type="String" />
             <Parameter Name="OlusturmaTarihi" Mode="In" Type="Int32" />

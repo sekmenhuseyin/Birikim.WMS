@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
 using Wms12m.Entity;
@@ -95,25 +96,14 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult New(frmIrsaliye tbl)
         {
-            //check if exists
-            var tmp = db.IRS.Where(m => m.EvrakNo == tbl.EvrakNo && m.IslemTur == false).FirstOrDefault();
-            if (tmp == null)
-            {
-                Irsaliye tmpTable = new Irsaliye();
-                Result _Result = tmpTable.Insert(tbl);
-                if (_Result.Id == 0) return null;
-                tbl.Id = _Result.Id;
-                ViewBag.Editable = true;
-            }
-            else
-            {
-                tbl.Id = tmp.ID;
-                ViewBag.Editable = tbl.Onay;
-            }
+            string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+            int today = DateTime.Today.ToOADateInt();
+            int time = DateTime.Now.SaatiAl();
+            var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), User.Id, User.UserName, today, time, tbl.HesapKodu).FirstOrDefault();
             //get list
-            var list = db.IRS_Detay.Where(m=>m.IrsaliyeID==tbl.Id).OrderByDescending(m=>m.ID).ToList();
-            ViewBag.IrsaliyeId = tbl.Id;
-            ViewBag.Onay = db.IRS.Where(m => m.ID == tbl.Id).Select(m => m.Onay).FirstOrDefault();
+            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == cevap.IrsaliyeID).OrderByDescending(m => m.ID).ToList();
+            ViewBag.IrsaliyeId = cevap.IrsaliyeID;
+            ViewBag.Onay = db.IRS.Where(m => m.ID == cevap.IrsaliyeID).Select(m => m.Onay).FirstOrDefault();
             return PartialView("_GridPartial", list);
         }
         /// <summary>
