@@ -26,7 +26,9 @@
         <AssociationConnector Association="MModel.FK_TK_KAT_ComboItemName" />
         <AssociationConnector Association="MModel.FK_TK_KAT_TK_BOL" />
         <AssociationConnector Association="MModel.FK_Yerlestirme_TK_KAT" />
-        <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="5.75" PointY="5.25" />
+        <EntityTypeShape EntityType="MModel.Yer_Log" Width="1.5" PointX="3.25" PointY="12.625" />
+        <AssociationConnector Association="MModel.FK_Yer_Log_IRS" />
+        <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="6.25" PointY="5.875" />
         <AssociationConnector Association="MModel.FK_GorevListesi_ComboItemName" />
         <AssociationConnector Association="MModel.FK_GorevListesi_ComboItemName1" />
         <AssociationConnector Association="MModel.FK_Gorev_Atayan" />
@@ -35,8 +37,6 @@
         <AssociationConnector Association="MModel.FK_GorevListesi_TK_DEP" />
         <AssociationConnector Association="MModel.FK_GorevListesi_IRS" />
         <AssociationConnector Association="MModel.GorevIRS" />
-        <EntityTypeShape EntityType="MModel.Yer_Log" Width="1.5" PointX="3.25" PointY="12.625" />
-        <AssociationConnector Association="MModel.FK_Yer_Log_IRS" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

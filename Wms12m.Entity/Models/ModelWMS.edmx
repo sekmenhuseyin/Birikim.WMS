@@ -87,8 +87,8 @@
           <Property Name="OlusturanID" Type="int" Nullable="false" />
           <Property Name="OlusturmaTarihi" Type="int" Nullable="false" />
           <Property Name="OlusturmaSaati" Type="int" Nullable="false" />
-          <Property Name="Bilgi" Type="nvarchar" MaxLength="250" />
-          <Property Name="Aciklama" Type="nvarchar" MaxLength="250" />
+          <Property Name="Bilgi" Type="nvarchar(max)" />
+          <Property Name="Aciklama" Type="nvarchar(max)" />
           <Property Name="IrsaliyeID" Type="int" />
           <Property Name="GorevliID" Type="int" />
           <Property Name="AtayanID" Type="int" />
@@ -459,6 +459,18 @@
           <Parameter Name="Kod" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="InsertIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SirketKod" Type="varchar" Mode="In" />
+          <Parameter Name="DepoID" Type="int" Mode="In" />
+          <Parameter Name="GorevNo" Type="varchar" Mode="In" />
+          <Parameter Name="IrsEvrakNo" Type="varchar" Mode="In" />
+          <Parameter Name="GorevBilgi" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="OlusturanID" Type="int" Mode="In" />
+          <Parameter Name="Olusturan" Type="varchar" Mode="In" />
+          <Parameter Name="OlusturmaTarihi" Type="int" Mode="In" />
+          <Parameter Name="OlusturmaSaati" Type="int" Mode="In" />
+          <Parameter Name="HesapKodu" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="Machine" Type="varchar" Mode="In" />
@@ -641,6 +653,11 @@
           <FunctionImport Name="SettingsIrsaliyeNo" ReturnType="Collection(String)">
           <Parameter Name="tarih" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="Yer_Log" EntityType="MModel.Yer_Log" />
+          <AssociationSet Name="FK_Yer_Log_IRS" Association="MModel.FK_Yer_Log_IRS">
+            <End Role="IR" EntitySet="IRS" />
+            <End Role="Yer_Log" EntitySet="Yer_Log" />
+          </AssociationSet>
           <EntitySet Name="Gorevs" EntityType="MModel.Gorev" />
           <AssociationSet Name="FK_GorevListesi_ComboItemName" Association="MModel.FK_GorevListesi_ComboItemName">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -674,11 +691,18 @@
             <End Role="Gorev" EntitySet="Gorevs" />
             <End Role="IR" EntitySet="IRS" />
           </AssociationSet>
-          <EntitySet Name="Yer_Log" EntityType="MModel.Yer_Log" />
-          <AssociationSet Name="FK_Yer_Log_IRS" Association="MModel.FK_Yer_Log_IRS">
-            <End Role="IR" EntitySet="IRS" />
-            <End Role="Yer_Log" EntitySet="Yer_Log" />
-          </AssociationSet>
+          <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
+            <Parameter Name="SirketKod" Mode="In" Type="String" />
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="GorevNo" Mode="In" Type="String" />
+            <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
+            <Parameter Name="GorevBilgi" Mode="In" Type="String" />
+            <Parameter Name="OlusturanID" Mode="In" Type="Int32" />
+            <Parameter Name="Olusturan" Mode="In" Type="String" />
+            <Parameter Name="OlusturmaTarihi" Mode="In" Type="Int32" />
+            <Parameter Name="OlusturmaSaati" Mode="In" Type="Int32" />
+            <Parameter Name="HesapKodu" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -704,7 +728,7 @@
           <NavigationProperty Name="Kats" Relationship="MModel.FK_TK_KAT_ComboItemName" FromRole="ComboItem_Name" ToRole="Kat" />
           <NavigationProperty Name="Gorevs" Relationship="MModel.FK_GorevListesi_ComboItemName" FromRole="ComboItem_Name" ToRole="Gorev" />
           <NavigationProperty Name="Gorevs1" Relationship="MModel.FK_GorevListesi_ComboItemName1" FromRole="ComboItem_Name" ToRole="Gorev" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="IR">
           <Key>
             <PropertyRef Name="ID" />
@@ -723,9 +747,9 @@
           <Property Name="Unvan" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="IRS_Detay" Relationship="MModel.FK_STI_IRS" FromRole="IR" ToRole="IRS_Detay" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_IRS_TK_DEP" FromRole="IR" ToRole="Depo" />
+          <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_IRS" FromRole="IR" ToRole="Yer_Log" />
           <NavigationProperty Name="Gorevs" Relationship="MModel.FK_GorevListesi_IRS" FromRole="IR" ToRole="Gorev" />
           <NavigationProperty Name="Gorevs1" Relationship="MModel.GorevIRS" FromRole="IR" ToRole="Gorev" />
-          <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_IRS" FromRole="IR" ToRole="Yer_Log" />
         </EntityType>
         <EntityType Name="IRS_Detay">
           <Key>
@@ -997,6 +1021,34 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Ad" Nullable="false" MaxLength="403" />
         </ComplexType>
+        <EntityType Name="Yer_Log">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HucreAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="GC" Type="Boolean" Nullable="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarihi" Type="Int32" Nullable="false" />
+          <Property Name="KayitSaati" Type="Int32" Nullable="false" />
+          <Property Name="IrsaliyeID" Type="Int32" />
+          <NavigationProperty Name="IR" Relationship="MModel.FK_Yer_Log_IRS" FromRole="Yer_Log" ToRole="IR" />
+        </EntityType>
+        <Association Name="FK_Yer_Log_IRS">
+          <End Type="MModel.IR" Role="IR" Multiplicity="0..1" />
+          <End Type="MModel.Yer_Log" Role="Yer_Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Yer_Log">
+              <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Gorev">
           <Key>
             <PropertyRef Name="ID" />
@@ -1009,8 +1061,8 @@
           <Property Name="OlusturanID" Type="Int32" Nullable="false" />
           <Property Name="OlusturmaTarihi" Type="Int32" Nullable="false" />
           <Property Name="OlusturmaSaati" Type="Int32" Nullable="false" />
-          <Property Name="Bilgi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Aciklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Bilgi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IrsaliyeID" Type="Int32" />
           <Property Name="GorevliID" Type="Int32" />
           <Property Name="AtayanID" Type="Int32" />
@@ -1114,34 +1166,10 @@
           <End Type="MModel.Gorev" Role="Gorev" Multiplicity="*" />
           <End Type="MModel.IR" Role="IR" Multiplicity="*" />
         </Association>
-        <EntityType Name="Yer_Log">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="HucreAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
-          <Property Name="GC" Type="Boolean" Nullable="false" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarihi" Type="Int32" Nullable="false" />
-          <Property Name="KayitSaati" Type="Int32" Nullable="false" />
-          <Property Name="IrsaliyeID" Type="Int32" />
-          <NavigationProperty Name="IR" Relationship="MModel.FK_Yer_Log_IRS" FromRole="Yer_Log" ToRole="IR" />
-        </EntityType>
-        <Association Name="FK_Yer_Log_IRS">
-          <End Type="MModel.IR" Role="IR" Multiplicity="0..1" />
-          <End Type="MModel.Yer_Log" Role="Yer_Log" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="IR">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Yer_Log">
-              <PropertyRef Name="IrsaliyeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <ComplexType Name="InsertIrsaliye_Result">
+          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
+          <Property Type="Int32" Name="GorevID" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1354,6 +1382,22 @@
           <FunctionImportMapping FunctionImportName="GetHucreKatID" FunctionName="MModel.Store.GetHucreKatID" />
           <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
           <FunctionImportMapping FunctionImportName="SettingsIrsaliyeNo" FunctionName="MModel.Store.SettingsIrsaliyeNo" />
+          <EntitySetMapping Name="Yer_Log">
+            <EntityTypeMapping TypeName="MModel.Yer_Log">
+              <MappingFragment StoreEntitySet="Yer_Log">
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="KayitSaati" ColumnName="KayitSaati" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="GC" ColumnName="GC" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="HucreAd" ColumnName="HucreAd" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Gorevs">
             <EntityTypeMapping TypeName="MModel.Gorev">
               <MappingFragment StoreEntitySet="Gorev">
@@ -1384,22 +1428,14 @@
               <ScalarProperty Name="ID" ColumnName="GorevID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="Yer_Log">
-            <EntityTypeMapping TypeName="MModel.Yer_Log">
-              <MappingFragment StoreEntitySet="Yer_Log">
+          <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
                 <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="KayitSaati" ColumnName="KayitSaati" />
-                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="GC" ColumnName="GC" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="HucreAd" ColumnName="HucreAd" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

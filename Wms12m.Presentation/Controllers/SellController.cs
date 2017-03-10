@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
@@ -79,10 +78,13 @@ namespace Wms12m.Presentation.Controllers
                 string[] ids = (tbl.checkboxes + "0").Split(',');
                 int[] myInts = Array.ConvertAll(ids, int.Parse);
                 string[] evraks = tbl.EvrakNos.Split(',');
-                string chk = ""; int idIRS = 0, idDepo; Result _Result;
+                string chk = "", evrakNo = ""; Result _Result;
                 string evraknolar = "", alıcılar = "";
-                List<IR> irsListe = new List<IR>();
-                idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
+                int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
+                string GorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+                int today = DateTime.Today.ToOADateInt();
+                int time = DateTime.Now.SaatiAl();
+                InsertIrsaliye_Result cevap = new InsertIrsaliye_Result();
                 //listeler
                 var list = (from s in Dinamik.Context.SPIs
                             join s2 in Dinamik.Context.CHKs on s.Chk equals s2.HesapKodu
@@ -93,31 +95,22 @@ namespace Wms12m.Presentation.Controllers
                 var list2 = db.Yers.Where(m => m.Kat.Bolum.Raf.Koridor.DepoID == idDepo).ToList();
                 var list3 = (from s in list
                              join s2 in list2 on new { s.Birim, s.MalKodu } equals new { s2.Birim, s2.MalKodu }
-                             select new { s.EvrakNo, s.Chk, s.Unvan1, s.MalKodu, Miktar = s.Miktar, s.Birim }).ToList();
+                             select new { s.EvrakNo, s.Chk, s.Unvan1, s.MalKodu, Miktar = s.Miktar > s2.Miktar ? s2.Miktar : s.Miktar, s.Birim }).ToList();
                 foreach (var item in list3)
                 {
                     //irsaliye tablosu
                     if (chk != item.Chk)
                     {
-                        IR irs = new IR();
-                        irs.SirketKod = tbl.SirketID;
-                        irs.DepoID = idDepo;
-                        irs.IslemTur = true; //satış irsaliyesi
-                        irs.Tarih = DateTime.Today.ToOADateInt();
-                        irs.EvrakNo = db.SettingsIrsaliyeNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-                        irs.HesapKodu = item.Chk;
-                        var op = new Irsaliye();
-                        _Result = op.Operation(irs);
-                        idIRS = _Result.Id;
-                        irsListe.Add(irs);
+                        evrakNo = db.SettingsIrsaliyeNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+                        cevap = db.InsertIrsaliye(tbl.SirketID, idDepo, GorevNo, evrakNo, "", User.Id, User.UserName, today, time, item.Chk).FirstOrDefault();
                         //save sck
                         chk = item.Chk;
-                        evraknolar += irs.EvrakNo + ",";
-                        alıcılar += irs.Unvan + ",";
+                        evraknolar += evrakNo + ",";
+                        alıcılar += item.Unvan1 + ",";
                     }
                     //sti tablosu
                     IRS_Detay sti = new IRS_Detay();
-                    sti.IrsaliyeID = idIRS;
+                    sti.IrsaliyeID = cevap.IrsaliyeID.Value;
                     sti.MalKodu = item.MalKodu;
                     sti.Birim = item.Birim;
                     sti.Miktar = item.Miktar;
@@ -125,12 +118,8 @@ namespace Wms12m.Presentation.Controllers
                     _Result = op2.Operation(sti);
                 }
                 //görev tablosu
-                Gorev grv = new Gorev();
-                grv.DepoID = idDepo;
-                grv.GorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-                grv.GorevTipiID = ComboItems.SiparişTopla.ToInt32();
+                Gorev grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
                 grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
-                grv.IRS = irsListe;
                 var op3 = new Task();
                 _Result = op3.Operation(grv);
                 return Redirect("/Gorev");

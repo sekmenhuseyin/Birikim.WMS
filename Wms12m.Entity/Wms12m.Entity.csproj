@@ -86,6 +86,9 @@
     <Compile Include="Models\Gorev.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InsertIrsaliye_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IR.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

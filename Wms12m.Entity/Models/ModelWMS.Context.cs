@@ -39,8 +39,8 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Raf> Rafs { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Kat> Kats { get; set; }
-        public virtual DbSet<Gorev> Gorevs { get; set; }
         public virtual DbSet<Yer_Log> Yer_Log { get; set; }
+        public virtual DbSet<Gorev> Gorevs { get; set; }
     
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {
@@ -114,6 +114,51 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("tarih", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsIrsaliyeNo", tarihParameter);
+        }
+    
+        public virtual ObjectResult<InsertIrsaliye_Result> InsertIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, string gorevBilgi, Nullable<int> olusturanID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu)
+        {
+            var sirketKodParameter = sirketKod != null ?
+                new ObjectParameter("SirketKod", sirketKod) :
+                new ObjectParameter("SirketKod", typeof(string));
+    
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            var gorevNoParameter = gorevNo != null ?
+                new ObjectParameter("GorevNo", gorevNo) :
+                new ObjectParameter("GorevNo", typeof(string));
+    
+            var irsEvrakNoParameter = irsEvrakNo != null ?
+                new ObjectParameter("IrsEvrakNo", irsEvrakNo) :
+                new ObjectParameter("IrsEvrakNo", typeof(string));
+    
+            var gorevBilgiParameter = gorevBilgi != null ?
+                new ObjectParameter("GorevBilgi", gorevBilgi) :
+                new ObjectParameter("GorevBilgi", typeof(string));
+    
+            var olusturanIDParameter = olusturanID.HasValue ?
+                new ObjectParameter("OlusturanID", olusturanID) :
+                new ObjectParameter("OlusturanID", typeof(int));
+    
+            var olusturanParameter = olusturan != null ?
+                new ObjectParameter("Olusturan", olusturan) :
+                new ObjectParameter("Olusturan", typeof(string));
+    
+            var olusturmaTarihiParameter = olusturmaTarihi.HasValue ?
+                new ObjectParameter("OlusturmaTarihi", olusturmaTarihi) :
+                new ObjectParameter("OlusturmaTarihi", typeof(int));
+    
+            var olusturmaSaatiParameter = olusturmaSaati.HasValue ?
+                new ObjectParameter("OlusturmaSaati", olusturmaSaati) :
+                new ObjectParameter("OlusturmaSaati", typeof(int));
+    
+            var hesapKoduParameter = hesapKodu != null ?
+                new ObjectParameter("HesapKodu", hesapKodu) :
+                new ObjectParameter("HesapKodu", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, gorevBilgiParameter, olusturanIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter);
         }
     }
 }
