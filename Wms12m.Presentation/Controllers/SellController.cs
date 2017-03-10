@@ -38,6 +38,7 @@ namespace Wms12m.Presentation.Controllers
                             select new { g.Key.MalKodu, g.Key.Birim, Miktar = g.Sum(m => m.Miktar) }).ToList();
                 var list3 = (from s in list
                              join s2 in list2 on new { s.Birim, s.MalKodu } equals new { s2.Birim, s2.MalKodu }
+                             orderby s.MalKodu
                              select new frmSiparisMalzeme { MalKodu = s.MalKodu, MalAdi = s.MalAdi, Miktar = s.Miktar > s2.Miktar ? s2.Miktar : s.Miktar, Birim = s.Birim, Stok = s2.Miktar }).ToList();
                 ViewBag.SirketID = tbl.SirketID;
                 ViewBag.EvrakNos = tbl.checkboxes;
@@ -65,6 +66,7 @@ namespace Wms12m.Presentation.Controllers
                             select new { g.Key.MalKodu, g.Key.Birim, Miktar = g.Sum(m => m.Miktar) }).ToList();
                 var list3 = (from s in list
                              join s2 in list2 on new { s.Birim, s.MalKodu }  equals new { s2.Birim, s2.MalKodu }
+                             orderby s.MalKodu
                              select new frmSiparisMalzemeDetay { ID = s.ID, EvrakNo = s.EvrakNo, Tarih = s.Tarih, MalKodu = s.MalKodu, MalAdi = s.MalAdi, Miktar = s.Miktar, Birim = s.Birim, Stok = s2.Miktar }).ToList();
                 ViewBag.SirketID = tbl.SirketID;
                 ViewBag.DepoID = tbl.DepoID;
