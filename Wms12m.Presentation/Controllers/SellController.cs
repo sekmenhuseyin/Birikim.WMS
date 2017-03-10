@@ -15,6 +15,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
             return View("Index");
         }
         /// <summary>
@@ -123,21 +124,6 @@ namespace Wms12m.Presentation.Controllers
                 var op3 = new Task();
                 _Result = op3.Operation(grv);
                 return Redirect("/Gorev");
-            }
-        }
-        /// <summary>
-        /// get depo names based on şirket
-        /// </summary>
-        [HttpPost]
-        public JsonResult GetDepo()
-        {
-            var ID = Url.RequestContext.RouteData.Values["id"];
-            if (ID == null || ID.ToString2() == "0") return null;
-            //connect
-            using (DinamikModelContext Dinamik = new DinamikModelContext(ID.ToString()))
-            {
-                var list = Dinamik.Context.DEPs.Select(m => new { m.Depo, m.DepoAdi }).ToList();
-                return Json(list.Select(x => new { Value = x.Depo, Text = x.DepoAdi, Selected = 0 }), JsonRequestBehavior.AllowGet);
             }
         }
         /// <summary>
