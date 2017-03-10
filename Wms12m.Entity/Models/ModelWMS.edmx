@@ -120,6 +120,7 @@
           <Property Name="KayitTarih" Type="int" Nullable="false" />
           <Property Name="Onay" Type="bit" Nullable="false" />
           <Property Name="Unvan" Type="varchar" MaxLength="50" />
+          <Property Name="LinkEvrakNo" Type="varchar" MaxLength="16" />
         </EntityType>
         <EntityType Name="IRS_Detay">
           <Key>
@@ -213,6 +214,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RafID" Type="int" StoreGeneratedPattern="Computed" />
           <Property Name="HucreAd" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
@@ -457,6 +459,9 @@
         <Function Name="GetHucreKatID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="Kod" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetIrsDetayfromGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="GorevID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="InsertIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -707,6 +712,9 @@
             <Parameter Name="OlusturmaSaati" Mode="In" Type="Int32" />
             <Parameter Name="HesapKodu" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="GetIrsDetayfromGorev" ReturnType="Collection(MModel.GetIrsDetayfromGorev_Result)">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -754,6 +762,7 @@
           <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_IRS" FromRole="IR" ToRole="Yer_Log" />
           <NavigationProperty Name="Gorevs" Relationship="MModel.FK_GorevListesi_IRS" FromRole="IR" ToRole="Gorev" />
           <NavigationProperty Name="Gorevs1" Relationship="MModel.GorevIRS" FromRole="IR" ToRole="Gorev" />
+          <Property Name="LinkEvrakNo" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="IRS_Detay">
           <Key>
@@ -1040,6 +1049,7 @@
           <Property Name="KayitSaati" Type="Int32" Nullable="false" />
           <Property Name="IrsaliyeID" Type="Int32" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_Yer_Log_IRS" FromRole="Yer_Log" ToRole="IR" />
+          <Property Name="RafID" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <Association Name="FK_Yer_Log_IRS">
           <End Type="MModel.IR" Role="IR" Multiplicity="0..1" />
@@ -1174,6 +1184,14 @@
           <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
           <Property Type="Int32" Name="GorevID" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="GetIrsDetayfromGorev_Result">
+          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="Miktar" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Stok" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="Hucre" Nullable="false" MaxLength="403" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1210,6 +1228,7 @@
           <EntitySetMapping Name="IRS">
             <EntityTypeMapping TypeName="MModel.IR">
               <MappingFragment StoreEntitySet="IRS">
+                <ScalarProperty Name="LinkEvrakNo" ColumnName="LinkEvrakNo" />
                 <ScalarProperty Name="Unvan" ColumnName="Unvan" />
                 <ScalarProperty Name="Onay" ColumnName="Onay" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
@@ -1389,6 +1408,7 @@
           <EntitySetMapping Name="Yer_Log">
             <EntityTypeMapping TypeName="MModel.Yer_Log">
               <MappingFragment StoreEntitySet="Yer_Log">
+                <ScalarProperty Name="RafID" ColumnName="RafID" />
                 <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
                 <ScalarProperty Name="KayitSaati" ColumnName="KayitSaati" />
                 <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
@@ -1437,6 +1457,18 @@
               <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
                 <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
                 <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetIrsDetayfromGorev" FunctionName="MModel.Store.GetIrsDetayfromGorev">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetIrsDetayfromGorev_Result">
+                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Stok" ColumnName="Stok" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="Hucre" ColumnName="Hucre" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

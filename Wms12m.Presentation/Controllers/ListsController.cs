@@ -32,12 +32,7 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "0") return null;
             int ID = id.ToInt32();
-            var list = (from s in db.IRS_Detay
-                        join s2 in db.IRS on s.IrsaliyeID equals s2.ID
-                        //join s3 in db.Gorevs on s2.Gorevs1 equals s3
-                        select s.MalKodu
-
-                        ).ToList();
+            var list = db.GetIrsDetayfromGorev(ID).ToList();
             return PartialView("_GorevDetails", list);
         }
         /// <summary>

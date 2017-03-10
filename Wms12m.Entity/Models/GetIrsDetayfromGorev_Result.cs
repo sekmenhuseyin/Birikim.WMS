@@ -10,22 +10,14 @@
 namespace Wms12m.Entity.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Yer_Log
+    public partial class GetIrsDetayfromGorev_Result
     {
-        public int ID { get; set; }
-        public string HucreAd { get; set; }
+        public string GorevNo { get; set; }
         public string MalKodu { get; set; }
-        public string Birim { get; set; }
         public decimal Miktar { get; set; }
-        public bool GC { get; set; }
-        public string Kaydeden { get; set; }
-        public int KayitTarihi { get; set; }
-        public int KayitSaati { get; set; }
-        public Nullable<int> IrsaliyeID { get; set; }
-        public Nullable<int> RafID { get; set; }
-    
-        public virtual IR IR { get; set; }
+        public decimal Stok { get; set; }
+        public string Birim { get; set; }
+        public string Hucre { get; set; }
     }
 }
