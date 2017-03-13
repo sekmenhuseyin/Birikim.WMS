@@ -18,8 +18,6 @@ namespace Wms12m.Entity.Models
         public ComboItem_Name()
         {
             this.Kats = new HashSet<Kat>();
-            this.Gorevs = new HashSet<Gorev>();
-            this.Gorevs1 = new HashSet<Gorev>();
         }
     
         public int ID { get; set; }
@@ -30,9 +28,5 @@ namespace Wms12m.Entity.Models
         public virtual Combo_Name Combo_Name { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kat> Kats { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gorev> Gorevs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gorev> Gorevs1 { get; set; }
     }
 }

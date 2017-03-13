@@ -25,13 +25,15 @@ namespace Wms12m.Entity.Models
         public string KoridorAd { get; set; }
         public int SiraNo { get; set; }
         public bool Aktif { get; set; }
-        public string Kaydeden { get; set; }
+        public int Kaydeden { get; set; }
         public int KayitTarih { get; set; }
-        public string Degistiren { get; set; }
+        public int Degistiren { get; set; }
         public int DegisTarih { get; set; }
     
         public virtual Depo Depo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Raf> Rafs { get; set; }
+        public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
     }
 }

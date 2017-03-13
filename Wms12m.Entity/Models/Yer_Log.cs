@@ -21,11 +21,12 @@ namespace Wms12m.Entity.Models
         public string Birim { get; set; }
         public decimal Miktar { get; set; }
         public bool GC { get; set; }
-        public string Kaydeden { get; set; }
+        public int Kaydeden { get; set; }
         public int KayitTarihi { get; set; }
         public int KayitSaati { get; set; }
         public Nullable<int> IrsaliyeID { get; set; }
     
         public virtual IR IR { get; set; }
+        public virtual User User { get; set; }
     }
 }

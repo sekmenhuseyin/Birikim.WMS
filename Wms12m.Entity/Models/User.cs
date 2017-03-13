@@ -17,10 +17,18 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.Gorevs = new HashSet<Gorev>();
-            this.Gorevs1 = new HashSet<Gorev>();
-            this.Gorevs2 = new HashSet<Gorev>();
+            this.Bolums = new HashSet<Bolum>();
+            this.Bolums1 = new HashSet<Bolum>();
             this.Depoes = new HashSet<Depo>();
+            this.Depoes1 = new HashSet<Depo>();
+            this.IRS = new HashSet<IR>();
+            this.Kats = new HashSet<Kat>();
+            this.Kats1 = new HashSet<Kat>();
+            this.Koridors = new HashSet<Koridor>();
+            this.Koridors1 = new HashSet<Koridor>();
+            this.Rafs = new HashSet<Raf>();
+            this.Rafs1 = new HashSet<Raf>();
+            this.Yer_Log = new HashSet<Yer_Log>();
         }
     
         public int ID { get; set; }
@@ -46,12 +54,28 @@ namespace Wms12m.Entity.Models
         public string DegisSurum { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gorev> Gorevs { get; set; }
+        public virtual ICollection<Bolum> Bolums { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gorev> Gorevs1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gorev> Gorevs2 { get; set; }
+        public virtual ICollection<Bolum> Bolums1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Depo> Depoes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Depo> Depoes1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<IR> IRS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Kat> Kats { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Kat> Kats1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Koridor> Koridors { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Koridor> Koridors1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Raf> Rafs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Raf> Rafs1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Yer_Log> Yer_Log { get; set; }
     }
 }

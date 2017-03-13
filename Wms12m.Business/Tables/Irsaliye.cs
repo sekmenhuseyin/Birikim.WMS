@@ -23,7 +23,7 @@ namespace Wms12m.Business
             {
                 if (tbl.ID == 0)
                 {
-                    tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                    tbl.Kaydeden = Users.AppIdentity.User.Id;
                     tbl.KayitTarih = DateTime.Today.ToOADateInt();
                     db.IRS.Add(tbl);
                 }

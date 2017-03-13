@@ -19,10 +19,10 @@ namespace Wms12m.Entity.Models
         public string MalKodu { get; set; }
         public decimal Miktar { get; set; }
         public string Birim { get; set; }
-        public Nullable<decimal> MiktarOkutulan { get; set; }
+        public Nullable<decimal> OkutulanMiktar { get; set; }
         public string KynkSiparisNo { get; set; }
         public string MalAdi { get; set; }
-        public bool YerlestirmeDurumu { get; set; }
+        public Nullable<decimal> YerlestirmeMiktari { get; set; }
     
         public virtual IR IR { get; set; }
     }

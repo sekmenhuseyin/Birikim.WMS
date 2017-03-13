@@ -17,10 +17,9 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Depo()
         {
+            this.Gorevs = new HashSet<Gorev>();
             this.IRS = new HashSet<IR>();
             this.Koridors = new HashSet<Koridor>();
-            this.Gorevs = new HashSet<Gorev>();
-            this.Users = new HashSet<User>();
         }
     
         public int ID { get; set; }
@@ -28,18 +27,18 @@ namespace Wms12m.Entity.Models
         public string DepoAd { get; set; }
         public int SiraNo { get; set; }
         public bool Aktif { get; set; }
-        public string Kaydeden { get; set; }
+        public int Kaydeden { get; set; }
         public int KayitTarih { get; set; }
-        public string Degistiren { get; set; }
+        public int Degistiren { get; set; }
         public int DegisTarih { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Gorev> Gorevs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IR> IRS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Koridor> Koridors { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gorev> Gorevs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
     }
 }
