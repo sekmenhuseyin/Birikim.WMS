@@ -8,7 +8,7 @@ using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Floor : abstractTables<Kat>, IDisposable
+    public class Combos : abstractTables<Combo_Name>, IDisposable
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -16,49 +16,26 @@ namespace Wms12m.Business
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
-        public override Result Operation(Kat tbl)
+        public override Result Operation(Combo_Name tbl)
         {
             _Result = new Result();
-            if (tbl.KatAd == "" || tbl.BolumID == 0)
+            if (tbl.ComboName == "")
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 _Result.Status = false;
                 return _Result;
             }
-            var kontrol = db.Kats.Where(m => m.KatAd == tbl.KatAd && m.BolumID == tbl.BolumID && m.ID != tbl.ID).FirstOrDefault();
-            if (kontrol != null)
-            {
-                _Result.Id = 0;
-                _Result.Message = "Bu isim kullanılıyor";
-                _Result.Status = false;
-                return _Result;
-            }
             try
             {
-                tbl.Degistiren = Users.AppIdentity.User.LogonUserName;
-                tbl.DegisTarih = DateTime.Today.ToOADateInt();
                 if (tbl.ID == 0)
                 {
-                    tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
-                    tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    db.Kats.Add(tbl);
+                    db.Combo_Name.Add(tbl);
                 }
                 else
                 {
                     var tmp = Detail(tbl.ID);
-                    tmp.KatAd = tbl.KatAd;
-                    tmp.En = tbl.En;
-                    tmp.Boy = tbl.Boy;
-                    tmp.Derinlik = tbl.Derinlik;
-                    tmp.AgirlikKapasite = tbl.AgirlikKapasite;
-                    tmp.Ozellik = tbl.Ozellik;
-                    tmp.Aciklama = tbl.Aciklama;
-                    tmp.BolumID = tbl.BolumID;
-                    tmp.SiraNo = tbl.SiraNo;
-                    tmp.Aktif = tbl.Aktif;
-                    tmp.Degistiren = tbl.Degistiren;
-                    tmp.DegisTarih = tbl.DegisTarih;
+                    tmp.ComboName = tbl.ComboName;
                 }
                 db.SaveChanges();
                 //result
@@ -75,17 +52,17 @@ namespace Wms12m.Business
             return _Result;
         }
         /// <summary>
-        /// silme
+        /// depo silme
         /// </summary>
         public override Result Delete(int Id)
         {
             _Result = new Result();
             try
             {
-                Kat tbl = db.Kats.Where(m => m.ID == Id).FirstOrDefault();
+                Combo_Name tbl = db.Combo_Name.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.Kats.Remove(tbl);
+                    db.Combo_Name.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
@@ -105,33 +82,32 @@ namespace Wms12m.Business
             return _Result;
         }
         /// <summary>
-        /// bir tanesinin ayrıntıları
+        /// depo bilgileri
         /// </summary>
-        public override Kat Detail(int Id)
+        public override Combo_Name Detail(int Id)
         {
             try
             {
-                return db.Kats.Where(m => m.ID == Id).FirstOrDefault();
+                return db.Combo_Name.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new Kat();
+                return new Combo_Name();
             }
-
         }
         /// <summary>
-        /// tüm listesi
+        /// depo listesi
         /// </summary>
-        public override List<Kat> GetList()
+        public override List<Combo_Name> GetList()
         {
-            return db.Kats.OrderBy(m => m.KatAd).ToList();
+            return db.Combo_Name.OrderBy(m=>m.ComboName).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<Kat> GetList(int ParentId)
+        public override List<Combo_Name> GetList(int ParentId)
         {
-            return db.Kats.Where(m => m.BolumID == ParentId).ToList();
+            return GetList();
         }
         /// <summary>
         /// dispose

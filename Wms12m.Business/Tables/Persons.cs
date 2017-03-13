@@ -7,7 +7,7 @@ using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Persons : abstractTables<User>
+    public class Persons : abstractTables<User>, IDisposable
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -105,6 +105,13 @@ namespace Wms12m.Business
         public override Result Operation(User tbl)
         {
             throw new NotImplementedException();
+        }
+        /// <summary>
+        /// dispose
+        /// </summary>
+        public void Dispose()
+        {
+            db.Dispose();
         }
     }
 }

@@ -8,7 +8,7 @@ using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Section : abstractTables<Bolum>
+    public class Section : abstractTables<Bolum>, IDisposable
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -125,6 +125,13 @@ namespace Wms12m.Business
         public override List<Bolum> GetList(int ParentId)
         {
             return db.Bolums.Where(m => m.RafID == ParentId).ToList();
+        }
+        /// <summary>
+        /// dispose
+        /// </summary>
+        public void Dispose()
+        {
+            db.Dispose();
         }
     }
 }

@@ -6,7 +6,7 @@ using Wms12m.Entity.Models;
 
 namespace Wms12m.Business
 {
-    public class Dimension : abstractTables<Olcu>
+    public class Dimension : abstractTables<Olcu>, IDisposable
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -132,6 +132,13 @@ namespace Wms12m.Business
         public override List<Olcu> GetList(int ParentId)
         {
             return GetList();
+        }
+        /// <summary>
+        /// dispose
+        /// </summary>
+        public void Dispose()
+        {
+            db.Dispose();
         }
     }
 }

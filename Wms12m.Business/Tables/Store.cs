@@ -8,7 +8,7 @@ using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Store : abstractTables<Depo>
+    public class Store : abstractTables<Depo>, IDisposable
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -125,6 +125,13 @@ namespace Wms12m.Business
         public override List<Depo> GetList(int ParentId)
         {
             return GetList();
+        }
+        /// <summary>
+        /// dispose
+        /// </summary>
+        public void Dispose()
+        {
+            db.Dispose();
         }
     }
 }

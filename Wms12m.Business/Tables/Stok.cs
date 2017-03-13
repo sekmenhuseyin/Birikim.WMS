@@ -6,7 +6,7 @@ using Wms12m.Entity.Models;
 
 namespace Wms12m.Business
 {
-    public class Stok : abstractTables<IRS_Detay>
+    public class Stok : abstractTables<IRS_Detay>, IDisposable
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -143,6 +143,13 @@ namespace Wms12m.Business
         public override List<IRS_Detay> GetList(int ParentId)
         {
             return db.IRS_Detay.Where(m => m.IrsaliyeID==ParentId).ToList();
+        }
+        /// <summary>
+        /// dispose
+        /// </summary>
+        public void Dispose()
+        {
+            db.Dispose();
         }
     }
 }

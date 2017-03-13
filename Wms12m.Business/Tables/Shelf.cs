@@ -8,7 +8,7 @@ using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Shelf : abstractTables<Raf>
+    public class Shelf : abstractTables<Raf>, IDisposable
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -126,6 +126,13 @@ namespace Wms12m.Business
         public override List<Raf> GetList(int ParentId)
         {
             return db.Rafs.Where(m=>m.KoridorID==ParentId).ToList();
+        }
+        /// <summary>
+        /// dispose
+        /// </summary>
+        public void Dispose()
+        {
+            db.Dispose();
         }
     }
 }

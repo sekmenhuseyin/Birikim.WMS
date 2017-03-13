@@ -8,7 +8,7 @@ using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Task : abstractTables<Gorev>
+    public class Task : abstractTables<Gorev>, IDisposable
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -196,6 +196,13 @@ namespace Wms12m.Business
         public override List<Gorev> GetList(int ParentId)
         {
             return GetList();
+        }
+        /// <summary>
+        /// dispose
+        /// </summary>
+        public void Dispose()
+        {
+            db.Dispose();
         }
     }
 }

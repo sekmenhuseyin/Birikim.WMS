@@ -8,7 +8,7 @@ using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Irsaliye : abstractTables<IR>
+    public class Irsaliye : abstractTables<IR>, IDisposable
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -100,6 +100,13 @@ namespace Wms12m.Business
                 _Result.Status = false;
             }
             return _Result;
+        }
+        /// <summary>
+        /// dispose
+        /// </summary>
+        public void Dispose()
+        {
+            db.Dispose();
         }
     }
 }
