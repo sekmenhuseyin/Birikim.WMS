@@ -82,6 +82,14 @@
           <Property Name="Degistiren" Type="int" Nullable="false" />
           <Property Name="DegisTarih" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Depo_Users">
+          <Key>
+            <PropertyRef Name="DepoID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="DepoID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Gorev">
           <Key>
             <PropertyRef Name="ID" />
@@ -266,6 +274,30 @@
             </Principal>
             <Dependent Role="ComboItem_Name">
               <PropertyRef Name="ComboID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Depo_Users_Depo">
+          <End Role="Depo" Type="Self.Depo" Multiplicity="1" />
+          <End Role="Depo_Users" Type="Self.Depo_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Depo_Users">
+              <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Depo_Users_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Depo_Users" Type="Self.Depo_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Depo_Users">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -651,6 +683,7 @@
           <EntitySet Name="Users" EntityType="Self.Users" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Bolum" EntityType="Self.Bolum" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Depo" EntityType="Self.Depo" Schema="wms" store:Type="Tables" />
+          <EntitySet Name="Depo_Users" EntityType="Self.Depo_Users" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Gorev" EntityType="Self.Gorev" Schema="wms" store:Type="Tables" />
           <EntitySet Name="GorevIRS" EntityType="Self.GorevIRS" Schema="wms" store:Type="Tables" />
           <EntitySet Name="IRS" EntityType="Self.IRS" Schema="wms" store:Type="Tables" />
@@ -672,6 +705,14 @@
           <AssociationSet Name="FK_ComboItemName_ComboName" Association="Self.FK_ComboItemName_ComboName">
             <End Role="Combo_Name" EntitySet="Combo_Name" />
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Depo_Users_Depo" Association="Self.FK_Depo_Users_Depo">
+            <End Role="Depo" EntitySet="Depo" />
+            <End Role="Depo_Users" EntitySet="Depo_Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Depo_Users_Users" Association="Self.FK_Depo_Users_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Depo_Users" EntitySet="Depo_Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Depo_UsersDegistiren" Association="Self.FK_Depo_UsersDegistiren">
             <End Role="Users" EntitySet="Users" />
@@ -965,6 +1006,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Yer_Log" EntitySet="Yer_Log" />
           </AssociationSet>
+          <AssociationSet Name="Depo_Users" Association="MModel.Depo_Users">
+            <End Role="Depo" EntitySet="Depoes" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1043,6 +1088,7 @@
           <NavigationProperty Name="Koridors" Relationship="MModel.FK_TK_KOR_TK_DEP" FromRole="Depo" ToRole="Koridor" />
           <NavigationProperty Name="User" Relationship="MModel.FK_Depo_UsersDegistiren" FromRole="Depo" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="MModel.FK_Depo_UsersKaydeden" FromRole="Depo" ToRole="User" />
+          <NavigationProperty Name="Users" Relationship="MModel.Depo_Users" FromRole="Depo" ToRole="User" />
         </EntityType>
         <EntityType Name="Gorev">
           <Key>
@@ -1437,6 +1483,7 @@
           <NavigationProperty Name="Rafs" Relationship="MModel.FK_Raf_UsersDegistiren" FromRole="User" ToRole="Raf" />
           <NavigationProperty Name="Rafs1" Relationship="MModel.FK_Raf_UsersKaydeden" FromRole="User" ToRole="Raf" />
           <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_UsersKaydeden" FromRole="User" ToRole="Yer_Log" />
+          <NavigationProperty Name="Depoes2" Relationship="MModel.Depo_Users" FromRole="User" ToRole="Depo" />
         </EntityType>
         <Association Name="FK_Bolum_UsersDegistiren">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -1617,6 +1664,10 @@
               <PropertyRef Name="Kaydeden" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="Depo_Users">
+          <End Type="MModel.Depo" Role="Depo" Multiplicity="*" />
+          <End Type="MModel.User" Role="User" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -1907,6 +1958,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="Depo_Users" TypeName="MModel.Depo_Users" StoreEntitySet="Depo_Users">
+            <EndProperty Name="User">
+              <ScalarProperty Name="ID" ColumnName="UserID" />
+            </EndProperty>
+            <EndProperty Name="Depo">
+              <ScalarProperty Name="ID" ColumnName="DepoID" />
+            </EndProperty>
+          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
