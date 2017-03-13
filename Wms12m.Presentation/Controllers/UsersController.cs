@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -13,71 +15,45 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Users.ToList();
             return View("Index", list);
         }
-
-        // GET: Users/Details/5
-        public ActionResult Details(int id)
+        /// <summary>
+        /// ayrıntılar
+        /// </summary>
+        public PartialViewResult Details(int id)
         {
-            return View();
+            var tbl = Persons.Detail(id);
+            return PartialView("Details", tbl);
         }
-
-        // GET: Users/Create
-        public ActionResult Create()
+        /// <summary>
+        /// yeni form
+        /// </summary>
+        public PartialViewResult New()
         {
-            return View();
+            return PartialView("New", new User());
         }
-
-        // POST: Users/Create
+        /// <summary>
+        /// düzenle form
+        /// </summary>
+        public PartialViewResult Edit(int id)
+        {
+            return PartialView("Edit", Persons.Detail(id));
+        }
+        /// <summary>
+        /// kaydet
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Save(User tbl)
+        {
+            Result _Result = Persons.Operation(tbl);
+            return RedirectToAction("Index");
+        }
+        /// <summary>
+        /// sil
+        /// </summary>
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public JsonResult Delete(int Id)
         {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Users/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Users/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // POST: Users/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            Result _Result = Persons.Delete(Id);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }

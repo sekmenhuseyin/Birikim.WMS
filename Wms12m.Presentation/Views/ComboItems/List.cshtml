@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="portlet-body form">
-                        <div id="ComboGrid" style="padding:8px;">
+                        <div id="theGrid" style="padding:8px;">
                             @using (Html.BeginForm("Save", "ComboItems", FormMethod.Post, new { @class = "form-horizontal" }))
                             {
                                 @Html.AntiForgeryToken()
@@ -34,7 +34,7 @@
                                                 <td>@Html.DisplayFor(modelItem => item.Name)</td>
                                                 <td class="col-lg-3">
                                                     <a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ComboItems/Edit/@item.ID')"> Düzenle </a>
-                                                    <a class="btn btn-danger btn-circle" href="javascript:;" onclick="Delete('@item.ID','/ComboItems/Delete','StoreGrid','', '')"> Sil </a>                                                </td>
+                                                    <a class="btn btn-danger btn-circle" href="javascript:;" onclick="Delete('@item.ID','/ComboItems/Delete','theGrid','', '')"> Sil </a>                                                </td>
                                             </tr>
                                         }
                                     </tbody>

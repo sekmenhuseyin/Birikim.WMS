@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Security;
@@ -11,6 +12,75 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
+        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
+        /// <summary>
+        /// ekle, güncelle
+        /// </summary>
+        public override Result Operation(User tbl)
+        {
+            _Result = new Result();
+            if (tbl.AdSoyad == "" || tbl.Sirket == "" || tbl.Tip == 0 || tbl.Kod == "")
+            {
+                _Result.Id = 0;
+                _Result.Message = "Eksik Bilgi Girdiniz";
+                _Result.Status = false;
+                return _Result;
+            }
+            var kontrol = db.Users.Where(m => m.Sirket == tbl.Sirket && m.Tip == tbl.Tip && m.Kod == tbl.Kod && m.ID != tbl.ID).FirstOrDefault();
+            if (kontrol != null)
+            {
+                _Result.Id = 0;
+                _Result.Message = "Bu isim kullanılıyor";
+                _Result.Status = false;
+                return _Result;
+            }
+            try
+            {
+                tbl.Degistiren = Users.AppIdentity.User.LogonUserName;
+                tbl.DegisTarih = DateTime.Today.ToOADateInt();
+                tbl.DegisSaat = DateTime.Now.SaatiAl();
+                tbl.DegisKaynak = 0;
+                tbl.DegisSurum = "1.0.0";
+                if (tbl.ID == 0)
+                {
+                    tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                    tbl.KayitTarih = DateTime.Today.ToOADateInt();
+                    tbl.KayitSaat = DateTime.Now.SaatiAl();
+                    tbl.KayitKaynak = 0;
+                    tbl.KayitSurum = "1.0.0";
+                    db.Users.Add(tbl);
+                }
+                else
+                {
+                    var tmp = Detail(tbl.ID);
+                    tmp.Sirket = tbl.Sirket;
+                    tmp.Tip = tbl.Tip;
+                    tmp.Kod = tbl.Kod;
+                    tmp.AdSoyad = tbl.AdSoyad;
+                    tmp.Email = tbl.Email;
+                    tmp.RoleName = tbl.RoleName;
+                    tmp.Admin = tbl.Admin;
+                    tmp.Aktif = tbl.Aktif;
+                    tmp.Degistiren = tbl.Degistiren;
+                    tmp.DegisTarih = tbl.DegisTarih;
+                    tmp.DegisSaat = tbl.DegisSaat;
+                    tmp.DegisKaynak = tbl.DegisKaynak;
+                    tmp.DegisSurum = tbl.DegisSurum;
+                }
+                db.SaveChanges();
+                //result
+                _Result.Id = tbl.ID;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                _Result.Id = 0;
+                _Result.Message = "İşlem Hatalı: " + ex.Message;
+                _Result.Status = false;
+            }
+            return _Result;
+        }
         /// <summary>
         /// giriş işlemleri
         /// </summary>
@@ -102,13 +172,6 @@ namespace Wms12m.Business
                 _Result.Status = false;
             }
             return _Result;
-        }
-        /// <summary>
-        /// ekle, güncelle
-        /// </summary>
-        public override Result Operation(User tbl)
-        {
-            throw new NotImplementedException();
         }
         /// <summary>
         /// dispose
