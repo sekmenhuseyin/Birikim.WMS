@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="portlet-body form">
-                        @using (Ajax.BeginForm("New", "Buy", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnBegin = "$('#StoreGrid').html();", UpdateTargetId = "StoreGrid" }, new { @class = "form-horizontal" }))
+                        @using (Ajax.BeginForm("New", "Buy", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnBegin = "$('#StoreGrid').html();", UpdateTargetId = "StoreGrid", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn - default');" }, new { @class = "form-horizontal" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
@@ -133,7 +133,8 @@
             url: "/Buy/GetHesapCodes/" + $('#SirketID').val(),
             type: 'POST',
             dataType: "html",
-            success: function (data) { if (data != "") $("#hesapSelect").html(data);}
+            success: function (data) { if (data != "") $("#hesapSelect").html(data); },
+            error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
         });
     });
     function checkEnabled() {
@@ -177,7 +178,8 @@
             acceptFileTypes: /(\.|\/)(xlsx)$/i,
             dataType: 'json',
             add: function (e, data) { data.submit(); },
-            done: function (e, data) { $('#submitForm').click(); }
+            done: function (e, data) { $('#submitForm').click(); },
+            fail: function (e, data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
         });
     });
 </script>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -16,7 +15,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Index", new frmIrsaliye());
         }
         /// <summary>
@@ -32,7 +31,7 @@ namespace Wms12m.Presentation.Controllers
             string SirketKod = tmp[0];
             int DepoID = tmp[1].ToInt32();
             string HesapKodu = tmp[2];
-            var list = db.IRS.Where(m => m.SirketKod == SirketKod && m.IslemTur == false && m.HesapKodu == HesapKodu && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
+            var list = Irsaliye.GetList(SirketKod, false, HesapKodu, DepoID);
             return PartialView("List", list);
         }
         /// <summary>
@@ -79,15 +78,14 @@ namespace Wms12m.Presentation.Controllers
                         sti.KynkSiparisNo = tbl.EvrakNo;
                         sti.MalKodu = tbl.MalKodu;
                         sti.Miktar = tbl.BirimMiktar - tbl.TeslimMiktar - tbl.KapatilanMiktar;
-                        Stok tmpTable = new Stok();
-                        Result _Result = tmpTable.Operation(sti);
+                        Result _Result = Stok.Operation(sti);
                     }
                 }
             }
             //get list
-            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == irsaliyeID).ToList();
+            var list = Stok.GetList(irsaliyeID);
             ViewBag.IrsaliyeId = irsaliyeID;
-            ViewBag.Onay = db.IRS.Where(m => m.ID == irsaliyeID).Select(m => m.Onay).FirstOrDefault();
+            ViewBag.Onay = Irsaliye.GetOnay(irsaliyeID);
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -101,9 +99,9 @@ namespace Wms12m.Presentation.Controllers
             int time = DateTime.Now.SaatiAl();
             var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), User.Id, User.UserName, today, time, tbl.HesapKodu).FirstOrDefault();
             //get list
-            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == cevap.IrsaliyeID).OrderByDescending(m => m.ID).ToList();
+            var list = Stok.GetList(cevap.IrsaliyeID.Value);
             ViewBag.IrsaliyeId = cevap.IrsaliyeID;
-            ViewBag.Onay = db.IRS.Where(m => m.ID == cevap.IrsaliyeID).Select(m => m.Onay).FirstOrDefault();
+            ViewBag.Onay = Irsaliye.GetOnay(cevap.IrsaliyeID.Value);
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -111,9 +109,9 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult GridPartial(int ID)
         {
-            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == ID).OrderByDescending(m => m.ID).ToList();
+            var list = Stok.GetList(ID);
             ViewBag.IrsaliyeId = ID;
-            ViewBag.Onay = db.IRS.Where(m => m.ID == ID).Select(m => m.Onay).FirstOrDefault();
+            ViewBag.Onay = Irsaliye.GetOnay(ID);
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -123,12 +121,11 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult InsertMalzeme(frmMalzeme tbl)
         {
             //add new
-            Stok tmpTable = new Stok();
-            Result _Result = tmpTable.Insert(tbl);
+            Result _Result = Stok.Insert(tbl);
             //get list
-            var list = db.IRS_Detay.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).OrderByDescending(m => m.ID).ToList();
+            var list = Stok.GetList(tbl.IrsaliyeId);
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
-            ViewBag.Onay = db.IRS.Where(m => m.ID == tbl.IrsaliyeId).Select(m => m.Onay).FirstOrDefault();
+            ViewBag.Onay = Irsaliye.GetOnay(tbl.IrsaliyeId);
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -193,8 +190,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete1(int ID)
         {
-            Irsaliye tmpTable = new Irsaliye();
-            Result _Result = tmpTable.Delete(ID);
+            Result _Result = Irsaliye.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -202,8 +198,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete2(int ID)
         {
-            Stok tmpTable = new Stok();
-            Result _Result = tmpTable.Delete(ID);
+            Result _Result = Stok.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

@@ -57,9 +57,8 @@
             data: { 's': $("#SirketID").val(), 'id':$("#IrsNo").val(), 'ids':sList },
             type: 'POST',
             dataType: "html",
-            success: function (data) {
-                if (data != "") $("#StoreGrid").html(data);
-            }
+            success: function (data) { if (data != "") $("#StoreGrid").html(data); },
+            error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
         });
     });
 </script>

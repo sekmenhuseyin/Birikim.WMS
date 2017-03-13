@@ -70,6 +70,13 @@ namespace Wms12m.Business
             return GetList();
         }
         /// <summary>
+        /// üst tabloya ait olanları getir
+        /// </summary>
+        public List<IR> GetList(string SirketKod, bool IslemTur, string HesapKodu, int DepoID)
+        {
+            return db.IRS.Where(m => m.SirketKod == SirketKod && m.IslemTur == IslemTur && m.HesapKodu == HesapKodu && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
+        }
+        /// <summary>
         /// silme
         /// </summary>
         public override Result Delete(int Id)
@@ -100,6 +107,12 @@ namespace Wms12m.Business
                 _Result.Status = false;
             }
             return _Result;
+        }
+        /// <summary>
+        /// irsaliye onayı bul
+        /// </summary>
+        public bool GetOnay(int ID) {
+            return db.IRS.Where(m => m.ID == ID).Select(m => m.Onay).FirstOrDefault();
         }
         /// <summary>
         /// dispose

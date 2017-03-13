@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -12,7 +11,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            return View("Index", db.Combo_Name.OrderBy(m=>m.ComboName).ToList());
+            return View("Index", Combo.GetList());
         }
         /// <summary>
         /// yeni sayfası
@@ -26,21 +25,17 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Edit(int id)
         {
-            Combo_Name combo_Name = db.Combo_Name.Find(id);
-            return PartialView("Edit", combo_Name);
+            return PartialView("Edit", Combo.Detail(id));
         }
         /// <summary>
         /// kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,ComboName")] Combo_Name combo_Name)
+        public JsonResult Save([Bind(Include = "ID,ComboName")] Combo_Name tbl)
         {
             Result _Result = new Result();
             if (ModelState.IsValid)
-            {
-                db.Combo_Name.Add(combo_Name);
-                db.SaveChanges();
-            }
+                _Result = Combo.Operation(tbl);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -50,12 +45,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Delete(int id)
         {
             Result _Result = new Result();
-            Combo_Name combo_Name = db.Combo_Name.Find(id);
-            if (combo_Name != null)
-            {
-                db.Combo_Name.Remove(combo_Name);
-                db.SaveChanges();
-            }
+            _Result = Combo.Delete(id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

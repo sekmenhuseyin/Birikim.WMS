@@ -142,7 +142,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<IRS_Detay> GetList(int ParentId)
         {
-            return db.IRS_Detay.Where(m => m.IrsaliyeID==ParentId).ToList();
+            return db.IRS_Detay.Where(m => m.IrsaliyeID==ParentId).OrderByDescending(m=>m.ID).ToList();
         }
         /// <summary>
         /// dispose
