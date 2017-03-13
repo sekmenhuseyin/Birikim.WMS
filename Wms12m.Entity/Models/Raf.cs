@@ -30,10 +30,10 @@ namespace Wms12m.Entity.Models
         public int Degistiren { get; set; }
         public int DegisTarih { get; set; }
     
-        public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bolum> Bolums { get; set; }
         public virtual Koridor Koridor { get; set; }
+        public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
     }
 }

@@ -81,7 +81,10 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
     function DeleteTriger() {
         var Status = FunctionDelete(URL, deleteId);
         if (Status) {
-            PartialView(Method, DivName, JSON.stringify({ Id: extraId }));
+            if (Method == "")
+                window.location.reload();
+            else
+                PartialView(Method, DivName, JSON.stringify({ Id: extraId }));
         }
         //else {
         //    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-success");

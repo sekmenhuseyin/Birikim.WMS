@@ -35,7 +35,7 @@
                                                 <td>@Html.DisplayFor(modelItem => item.Aktif)</td>
                                                 <td>
                                                     <a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Edit/@item.ID')"> Düzenle </a>
-                                                    <a class="btn btn-danger btn-circle" href="javascript:;" onclick="Delete('@item.ID','/Users/Delete','theGrid','', '')"> Sil </a>
+                                                    <a class="btn btn-danger btn-circle" href="javascript:;" onclick="Delete('@item.ID','','theGrid','', '')"> Sil </a>
                                                 </td>
                                             </tr>
                                         }
@@ -49,3 +49,4 @@
         </div>
     </div>
 </div>
+@section Scripts{<script type="text/javascript">var DeleteFunctionUrl = '@Url.Action("Delete", "Users")';</script>}

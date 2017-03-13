@@ -30,10 +30,10 @@ namespace Wms12m.Entity.Models
         public int Degistiren { get; set; }
         public int DegisTarih { get; set; }
     
-        public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
         public virtual Raf Raf { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kat> Kats { get; set; }
+        public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
     }
 }

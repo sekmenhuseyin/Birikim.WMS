@@ -19,7 +19,7 @@ namespace Wms12m.Business
         public override Result Operation(User tbl)
         {
             _Result = new Result();
-            if (tbl.AdSoyad == "" || tbl.Sirket == "" || tbl.Tip == 0 || tbl.Kod == "")
+            if (tbl.AdSoyad == "" || tbl.Sirket == "" || tbl.Kod == "")
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
@@ -43,6 +43,9 @@ namespace Wms12m.Business
                 tbl.DegisSurum = "1.0.0";
                 if (tbl.ID == 0)
                 {
+                    tbl.Sifre = tbl.Sifre == null ? "" : tbl.Sifre;
+                    tbl.Email = tbl.Email == null ? "" : tbl.Email;
+                    tbl.Tema = tbl.Tema == null ? "" : tbl.Tema;
                     tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
                     tbl.KayitTarih = DateTime.Today.ToOADateInt();
                     tbl.KayitSaat = DateTime.Now.SaatiAl();
@@ -57,7 +60,9 @@ namespace Wms12m.Business
                     tmp.Tip = tbl.Tip;
                     tmp.Kod = tbl.Kod;
                     tmp.AdSoyad = tbl.AdSoyad;
-                    tmp.Email = tbl.Email;
+                    tmp.Sifre = tbl.Sifre == null ? "" : tbl.Sifre;
+                    tmp.Email = tbl.Email == null ? "" : tbl.Email;
+                    tmp.Tema = tbl.Tema == null ? "" : tbl.Tema;
                     tmp.RoleName = tbl.RoleName;
                     tmp.Admin = tbl.Admin;
                     tmp.Aktif = tbl.Aktif;

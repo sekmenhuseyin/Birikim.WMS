@@ -34,7 +34,7 @@
                                                 <td>@Html.DisplayFor(modelItem => item.Name)</td>
                                                 <td class="col-lg-3">
                                                     <a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ComboItems/Edit/@item.ID')"> Düzenle </a>
-                                                    <a class="btn btn-danger btn-circle" href="javascript:;" onclick="Delete('@item.ID','/ComboItems/Delete','theGrid','', '')"> Sil </a>                                                </td>
+                                                    <a class="btn btn-danger btn-circle" href="javascript:;" onclick="Delete('@item.ID','','theGrid','', '')"> Sil </a>                                                </td>
                                             </tr>
                                         }
                                     </tbody>
@@ -47,3 +47,4 @@
         </div>
     </div>
 </div>
+@section Scripts{<script type="text/javascript">var DeleteFunctionUrl = '@Url.Action("Delete", "ComboItems")';</script>}

@@ -37,7 +37,6 @@ namespace Wms12m.Entity.Models
         public string Unvan { get; set; }
         public string LinkEvrakNo { get; set; }
     
-        public virtual User User { get; set; }
         public virtual Depo Depo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorev> Gorevs { get; set; }
@@ -47,5 +46,6 @@ namespace Wms12m.Entity.Models
         public virtual ICollection<Yer_Log> Yer_Log { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorev> Gorevs1 { get; set; }
+        public virtual User User { get; set; }
     }
 }
