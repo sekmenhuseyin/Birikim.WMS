@@ -28,6 +28,8 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult New()
         {
+            ViewBag.Sirket = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            ViewBag.RoleName = new SelectList(Roles.GetList(), "RoleName", "RoleName");
             return PartialView("New", new User());
         }
         /// <summary>
@@ -35,7 +37,10 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Edit(int id)
         {
-            return PartialView("Edit", Persons.Detail(id));
+            var tbl = Persons.Detail(id);
+            ViewBag.Sirket = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad", tbl.Sirket);
+            ViewBag.RoleName = new SelectList(Roles.GetList(), "RoleName", "RoleName", tbl.RoleName);
+            return PartialView("Edit", tbl);
         }
         /// <summary>
         /// kaydet

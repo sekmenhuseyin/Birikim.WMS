@@ -21,6 +21,13 @@
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Visible" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleName" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="ID" />
@@ -640,6 +647,7 @@
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="Combo_Name" EntityType="Self.Combo_Name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboItem_Name" EntityType="Self.ComboItem_Name" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Bolum" EntityType="Self.Bolum" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Depo" EntityType="Self.Depo" Schema="wms" store:Type="Tables" />
@@ -956,6 +964,7 @@
             <End Role="Gorev" EntitySet="Gorevs" />
             <End Role="IR" EntitySet="IRS" />
           </AssociationSet>
+          <EntitySet Name="Roles" EntityType="MModel.Role" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1602,6 +1611,13 @@
           <End Type="MModel.Gorev" Role="Gorev" Multiplicity="*" />
           <End Type="MModel.IR" Role="IR" Multiplicity="*" />
         </Association>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleName" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1883,6 +1899,14 @@
               <ScalarProperty Name="ID" ColumnName="GorevID" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="MModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

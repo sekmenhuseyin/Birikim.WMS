@@ -17,6 +17,7 @@ namespace Wms12m.Presentation.Controllers
         public Floor Floor = new Floor();
         public Irsaliye Irsaliye = new Irsaliye();
         public Persons Persons = new Persons();
+        public Roles Roles = new Roles();
         public Section Section = new Section();
         public Shelf Shelf = new Shelf();
         public Stok Stok = new Stok();

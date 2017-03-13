@@ -2942,6 +2942,7 @@
     <Content Include="Views\ComboItems\List.cshtml" />
     <Content Include="Views\ComboItems\Edit.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\New.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

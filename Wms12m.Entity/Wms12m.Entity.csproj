@@ -110,6 +110,9 @@
     <Compile Include="Models\Raf.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TTY.cs">
       <DependentUpon>ModelFinsat.tt</DependentUpon>
     </Compile>
