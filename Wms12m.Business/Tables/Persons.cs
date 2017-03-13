@@ -69,6 +69,10 @@ namespace Wms12m.Business
         {
             return GetList();
         }
+        public List<User> GetList(string RoleName)
+        {
+            return db.Users.Where(m => m.RoleName == RoleName).OrderBy(m => m.AdSoyad).ToList();
+        }
         /// <summary>
         /// sil
         /// </summary>

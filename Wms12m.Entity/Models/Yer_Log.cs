@@ -15,6 +15,7 @@ namespace Wms12m.Entity.Models
     public partial class Yer_Log
     {
         public int ID { get; set; }
+        public Nullable<int> KatID { get; set; }
         public string HucreAd { get; set; }
         public string MalKodu { get; set; }
         public string Birim { get; set; }
@@ -24,7 +25,6 @@ namespace Wms12m.Entity.Models
         public int KayitTarihi { get; set; }
         public int KayitSaati { get; set; }
         public Nullable<int> IrsaliyeID { get; set; }
-        public Nullable<int> RafID { get; set; }
     
         public virtual IR IR { get; set; }
     }

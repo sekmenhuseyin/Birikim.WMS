@@ -39,8 +39,8 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Raf> Rafs { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Kat> Kats { get; set; }
-        public virtual DbSet<Yer_Log> Yer_Log { get; set; }
         public virtual DbSet<Gorev> Gorevs { get; set; }
+        public virtual DbSet<Yer_Log> Yer_Log { get; set; }
     
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {

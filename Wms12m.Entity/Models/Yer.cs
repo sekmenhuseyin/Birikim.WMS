@@ -19,6 +19,7 @@ namespace Wms12m.Entity.Models
         public string MalKodu { get; set; }
         public string Birim { get; set; }
         public decimal Miktar { get; set; }
+        public string HucreAd { get; set; }
     
         public virtual Kat Kat { get; set; }
     }
