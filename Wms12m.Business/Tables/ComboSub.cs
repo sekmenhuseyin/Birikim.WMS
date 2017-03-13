@@ -8,7 +8,7 @@ using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Combos : abstractTables<Combo_Name>, IDisposable
+    public class ComboSub : abstractTables<ComboItem_Name>, IDisposable
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
@@ -16,10 +16,10 @@ namespace Wms12m.Business
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
-        public override Result Operation(Combo_Name tbl)
+        public override Result Operation(ComboItem_Name tbl)
         {
             _Result = new Result();
-            if (tbl.ComboName == "")
+            if (tbl.Name == "" || tbl.ComboID == 0)
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
@@ -30,12 +30,14 @@ namespace Wms12m.Business
             {
                 if (tbl.ID == 0)
                 {
-                    db.Combo_Name.Add(tbl);
+                    db.ComboItem_Name.Add(tbl);
                 }
                 else
                 {
                     var tmp = Detail(tbl.ID);
-                    tmp.ComboName = tbl.ComboName;
+                    tmp.Name = tbl.Name;
+                    tmp.ComboID = tbl.ComboID;
+                    tmp.Visible = tbl.Visible;
                 }
                 db.SaveChanges();
                 //result
@@ -59,10 +61,10 @@ namespace Wms12m.Business
             _Result = new Result();
             try
             {
-                Combo_Name tbl = db.Combo_Name.Where(m => m.ID == Id).FirstOrDefault();
+                ComboItem_Name tbl = db.ComboItem_Name.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.Combo_Name.Remove(tbl);
+                    db.ComboItem_Name.Remove(tbl);
                     db.SaveChanges();
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
@@ -84,30 +86,30 @@ namespace Wms12m.Business
         /// <summary>
         /// depo bilgileri
         /// </summary>
-        public override Combo_Name Detail(int Id)
+        public override ComboItem_Name Detail(int Id)
         {
             try
             {
-                return db.Combo_Name.Where(m => m.ID == Id).FirstOrDefault();
+                return db.ComboItem_Name.Where(m => m.ID == Id).FirstOrDefault();
             }
             catch (Exception)
             {
-                return new Combo_Name();
+                return new ComboItem_Name();
             }
         }
         /// <summary>
         /// depo listesi
         /// </summary>
-        public override List<Combo_Name> GetList()
+        public override List<ComboItem_Name> GetList()
         {
-            return db.Combo_Name.OrderBy(m=>m.ComboName).ToList();
+            return db.ComboItem_Name.OrderBy(m=>m.Name).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
-        public override List<Combo_Name> GetList(int ParentId)
+        public override List<ComboItem_Name> GetList(int ParentId)
         {
-            return GetList();
+            return db.ComboItem_Name.Where(m => m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
         }
         /// <summary>
         /// dispose
