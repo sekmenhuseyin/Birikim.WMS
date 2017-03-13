@@ -14,7 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var list = db.Olcus.OrderBy(m => m.MalKodu).ToList();
+            var list = Dimension.GetList();
             return View("Index", list);
         }
         /// <summary>
@@ -22,7 +22,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List(string Id)
         {
-            var list = db.Olcus.OrderBy(m => m.MalKodu).ToList();
+            var list = Dimension.GetList();
             return PartialView("_List", list);
         }
         /// <summary>
@@ -41,8 +41,7 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             if (id.ToString() == "0") return null;
-            int tmp = id.ToInt32();
-            var tbl = db.Olcus.Where(m => m.ID == tmp).FirstOrDefault();
+            var tbl = Dimension.Detail(id.ToInt32());
             if (tbl == null) return null;
             return PartialView("_Edit", tbl);
         }
@@ -51,9 +50,8 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Save(Olcu tbl)
         {
-            Dimension tmpTable = new Dimension();
-            Result _Result = tmpTable.Operation(tbl);
-            var list = db.Olcus.OrderBy(m => m.MalKodu).ToList();
+            Result _Result = Dimension.Operation(tbl);
+            var list = Dimension.GetList();
             return PartialView("_List", list);
         }
         /// <summary>
@@ -61,8 +59,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
-             var operation = new Dimension();
-            Result _Result = operation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            Result _Result = Dimension.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

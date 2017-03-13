@@ -10,13 +10,12 @@ namespace Wms12m.Presentation.Controllers
 {
     public class CorridorController : RootController
     {
-        abstractTables<Koridor> Operation;
         /// <summary>
         /// anasayfası
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Index", new Koridor());
         }
         /// <summary>
@@ -24,7 +23,6 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult CorridorGridPartial(string Id)
         {
-            Operation = new Corridor();
             List<Koridor> _List = new List<Koridor>();
             int StoreId = 0;
             string Locked = "";
@@ -34,12 +32,12 @@ namespace Wms12m.Presentation.Controllers
                 {
                     StoreId = Convert.ToInt32(Id.Split('#')[1]);
                     Locked = Id.Split('#')[0];
-                    _List = Locked == "Locked" ? Operation.GetList(StoreId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Operation.GetList(StoreId).Where(a => a.Aktif == false).ToList() : Operation.GetList(StoreId).ToList();
+                    _List = Locked == "Locked" ? Corridor.GetList(StoreId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Corridor.GetList(StoreId).Where(a => a.Aktif == false).ToList() : Corridor.GetList(StoreId).ToList();
                 }
                 else
                 {
                     StoreId = Convert.ToInt16(Id);
-                    _List = Operation.GetList(StoreId).ToList();
+                    _List = Corridor.GetList(StoreId).ToList();
                 }
                 return PartialView("_CorridorGridPartial", _List);
             }
@@ -57,13 +55,13 @@ namespace Wms12m.Presentation.Controllers
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
-                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+                ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
                 return PartialView("_CorridorDetailPartial", new Koridor());
             }
             else
             {
-                var tablo = db.Koridors.Where(m => m.ID == tmp).FirstOrDefault();
-                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd", tablo.DepoID);
+                var tablo = Corridor.Detail(tmp);
+                ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tablo.DepoID);
                 return PartialView("_CorridorDetailPartial", new Corridor().Detail(tmp));
             }
         }
@@ -76,10 +74,9 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             List<Koridor> _List = new List<Koridor>();
-            Operation = new Corridor();
             try
             {
-                _List = Operation.GetList().Where(a => a.DepoID == Convert.ToInt16(id)).ToList();
+                _List = Corridor.GetList().Where(a => a.DepoID == Convert.ToInt16(id)).ToList();
                 List<SelectListItem> List = new List<SelectListItem>();
                 foreach (Koridor item in _List)
                 {
@@ -102,8 +99,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
-            Operation = new Corridor();
-            Result _Result = Operation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            Result _Result = Corridor.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
             
         }
@@ -112,8 +108,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult CorridorOperation(Koridor P)
         {
-            Operation = new Corridor();
-            Result _Result = Operation.Operation(P);
+            Result _Result = Corridor.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

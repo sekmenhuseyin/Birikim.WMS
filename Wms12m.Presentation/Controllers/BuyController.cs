@@ -8,7 +8,6 @@ namespace Wms12m.Presentation.Controllers
 {
     public class BuyController : RootController
     {
-
         /// <summary>
         /// irsaliye sayfası
         /// </summary>

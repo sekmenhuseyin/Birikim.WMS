@@ -120,14 +120,14 @@ namespace Wms12m.Business
         /// </summary>
         public override List<Olcu> GetList()
         {
-            return db.Olcus.ToList();
+            return db.Olcus.OrderBy(m => m.MalKodu).ToList();
         }
         /// <summary>
         /// şirkete göre lsite
         /// </summary>
         public List<Olcu> GetList(string ParentId)
         {
-            return db.Olcus.Where(m=>m.SirketKod==ParentId).ToList();
+            return db.Olcus.Where(m=>m.SirketKod==ParentId).OrderBy(m => m.MalKodu).ToList();
         }
         public override List<Olcu> GetList(int ParentId)
         {

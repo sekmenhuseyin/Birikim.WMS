@@ -188,14 +188,14 @@ namespace Wms12m.Business
         /// </summary>
         public override List<Gorev> GetList()
         {
-            return db.Gorevs.OrderBy(m => m.OlusturmaTarihi).ToList();
+            return db.Gorevs.OrderBy(m => m.DurumID).OrderByDescending(m => m.ID).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
         public override List<Gorev> GetList(int ParentId)
         {
-            return GetList();
+            return db.Gorevs.Where(m=>m.GorevTipiID==ParentId).OrderBy(m => m.DurumID).OrderByDescending(m => m.ID).ToList();
         }
         /// <summary>
         /// dispose

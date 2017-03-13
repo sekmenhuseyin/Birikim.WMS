@@ -10,17 +10,16 @@ namespace Wms12m.Presentation.Controllers
 {
     public class FloorController : RootController
     {
-        abstractTables<Kat> FloorOperation;
         /// <summary>
         /// anasayfası
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
-            ViewBag.KoridorID = new SelectList(db.Koridors.Where(m => m.ID == 0).ToList(), "ID", "KoridorAd");
-            ViewBag.RafID = new SelectList(db.Rafs.Where(m => m.ID == 0).ToList(), "ID", "RafAd");
-            ViewBag.BolumID = new SelectList(db.Bolums.Where(m => m.ID == 0).ToList(), "ID", "BolumAd");
-            ViewBag.Ozellik = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name");
+            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
+            ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
+            ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
+            ViewBag.Ozellik = new SelectList(ComboSub.GetList(Combos.Özellik.ToInt32()), "ID", "Name");
             return View("Index", new Kat());
         }
         /// <summary>
@@ -33,7 +32,6 @@ namespace Wms12m.Presentation.Controllers
             int ShelfId = 0;
             int SectionId = 0;
             string Locked = "";
-            FloorOperation = new Floor();
             List<Kat> _List = new List<Kat>();
             try
             {
@@ -44,12 +42,12 @@ namespace Wms12m.Presentation.Controllers
                     CorridorId = Convert.ToInt16(Id.Split('#')[2]);
                     ShelfId = Convert.ToInt16(Id.Split('#')[3]);
                     SectionId = Convert.ToInt16(Id.Split('#')[4]);
-                    _List = Locked == "Locked" ? FloorOperation.GetList(SectionId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? FloorOperation.GetList(SectionId).Where(a => a.Aktif ==false).ToList() : FloorOperation.GetList(SectionId).ToList();
+                    _List = Locked == "Locked" ? Floor.GetList(SectionId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Floor.GetList(SectionId).Where(a => a.Aktif ==false).ToList() : Floor.GetList(SectionId).ToList();
                     return PartialView("_FloorGridPartial", _List);
                 }
                 else
                 {
-                    _List = FloorOperation.GetList(Convert.ToInt16(Id));
+                    _List = Floor.GetList(Convert.ToInt16(Id));
                     return PartialView("_FloorGridPartial", _List);
                 }
             }
@@ -66,22 +64,22 @@ namespace Wms12m.Presentation.Controllers
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
-                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
-                ViewBag.KoridorID = new SelectList(db.Koridors.Where(m => m.ID == 0).ToList(), "ID", "KoridorAd");
-                ViewBag.RafID = new SelectList(db.Rafs.Where(m => m.ID == 0).ToList(), "ID", "RafAd");
-                ViewBag.BolumID = new SelectList(db.Bolums.Where(m => m.ID == 0).ToList(), "ID", "BolumAd");
-                ViewBag.Ozellik = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name");
+                ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+                ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
+                ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
+                ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
+                ViewBag.Ozellik = new SelectList(ComboSub.GetList(Combos.Özellik.ToInt32()), "ID", "Name");
                 return PartialView("_FloorDetailPartial", new Kat());
             }
             else
             {
-                var tablo = db.Kats.Where(m => m.ID == tmp).FirstOrDefault();
-                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd", tablo.Bolum.Raf.Koridor.DepoID);
-                ViewBag.KoridorID = new SelectList(db.Koridors.ToList(), "ID", "KoridorAd", tablo.Bolum.Raf.KoridorID);
-                ViewBag.RafID = new SelectList(db.Rafs.ToList(), "ID", "RafAd", tablo.Bolum.RafID);
-                ViewBag.BolumID = new SelectList(db.Bolums.ToList(), "ID", "BolumAd", tablo.BolumID);
-                ViewBag.Ozellik = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 3).OrderBy(m=>m.Name).ToList(), "ID", "Name", tablo.Ozellik);
-                return PartialView("_FloorDetailPartial", new Floor().Detail(tmp));
+                var tablo = Floor.Detail(tmp);
+                ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tablo.Bolum.Raf.Koridor.DepoID);
+                ViewBag.KoridorID = new SelectList(Corridor.GetList(tablo.Bolum.Raf.Koridor.DepoID), "ID", "KoridorAd", tablo.Bolum.Raf.KoridorID);
+                ViewBag.RafID = new SelectList(Shelf.GetList(tablo.Bolum.Raf.KoridorID), "ID", "RafAd", tablo.Bolum.RafID);
+                ViewBag.BolumID = new SelectList(Section.GetList(tablo.Bolum.RafID), "ID", "BolumAd", tablo.BolumID);
+                ViewBag.Ozellik = new SelectList(ComboSub.GetList(Combos.Özellik.ToInt32()), "ID", "Name", tablo.Ozellik);
+                return PartialView("_FloorDetailPartial", tablo);
             }
         }
         /// <summary>
@@ -89,8 +87,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
-            FloorOperation = new Floor();
-            Result _Result = FloorOperation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            Result _Result = Floor.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -98,8 +95,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult FlooriOperation(Kat P)
         {
-            FloorOperation = new Floor();
-            Result _Result = FloorOperation.Operation(P);
+            Result _Result = Floor.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

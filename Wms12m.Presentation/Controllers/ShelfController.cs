@@ -10,13 +10,12 @@ namespace Wms12m.Presentation.Controllers
 {
     public class ShelfController : RootController
     {
-        abstractTables<Raf> ShelfOperation;
         /// <summary>
         /// anasayfası
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Index", new Raf());
         }
         /// <summary>
@@ -27,7 +26,6 @@ namespace Wms12m.Presentation.Controllers
             int CorridorId = 0;
             int StoreId = 0;
             string Locked = "";
-            ShelfOperation = new Shelf();
             List<Raf> _List = new List<Raf>();
             try
             {
@@ -36,12 +34,12 @@ namespace Wms12m.Presentation.Controllers
                     CorridorId = Convert.ToInt16(Id.Split('#')[2]);
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
                     Locked = Id.Split('#')[0];
-                     _List = Locked == "Locked" ? ShelfOperation.GetList(CorridorId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? ShelfOperation.GetList(CorridorId).Where(a => a.Aktif == false).ToList() : ShelfOperation.GetList(CorridorId).ToList();
+                     _List = Locked == "Locked" ? Shelf.GetList(CorridorId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Shelf.GetList(CorridorId).Where(a => a.Aktif == false).ToList() : Shelf.GetList(CorridorId).ToList();
                     return PartialView("_ShelfGridPartial", _List);
                 }
                 else
                 {
-                    _List = ShelfOperation.GetList(Convert.ToInt16(Id));
+                    _List = Shelf.GetList(Convert.ToInt16(Id));
                     return PartialView("_ShelfGridPartial", _List);
                 }
             }
@@ -58,16 +56,16 @@ namespace Wms12m.Presentation.Controllers
             int tmp = Convert.ToInt32(Id);
             if (tmp==0)
             {
-                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
-                ViewBag.KoridorID = new SelectList(db.Koridors.Where(m => m.ID == 0).ToList(), "ID", "KoridorAd");
+                ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+                ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
                 return PartialView("_ShelfDetailPartial", new Raf());
             }
             else
             {
-                var tablo = db.Rafs.Where(m => m.ID == tmp).FirstOrDefault();
-                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd", tablo.Koridor.DepoID);
-                ViewBag.KoridorID = new SelectList(db.Koridors.ToList(), "ID", "KoridorAd", tablo.KoridorID);
-                return PartialView("_ShelfDetailPartial", new Shelf().Detail(tmp));
+                var tablo = Shelf.Detail(tmp);
+                ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tablo.Koridor.DepoID);
+                ViewBag.KoridorID = new SelectList(Corridor.GetList(tablo.Koridor.DepoID), "ID", "KoridorAd", tablo.KoridorID);
+                return PartialView("_ShelfDetailPartial", tablo);
             }
         }
         /// <summary>
@@ -79,10 +77,9 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             List<Raf> _List = new List<Raf>();
-            ShelfOperation = new Shelf();
             try
             {
-                _List = ShelfOperation.GetList().Where(a => a.KoridorID == Convert.ToInt16(id)).ToList();
+                _List = Shelf.GetList().Where(a => a.KoridorID == Convert.ToInt16(id)).ToList();
                 List<SelectListItem> List = new List<SelectListItem>();
                 foreach (Raf item in _List)
                 {
@@ -105,8 +102,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
-            ShelfOperation = new Shelf();
-            Result _Result = ShelfOperation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            Result _Result = Shelf.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -114,8 +110,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult ShelfiOperation(Raf P)
         {
-            ShelfOperation = new Shelf();
-            Result _Result = ShelfOperation.Operation(P);
+            Result _Result = Shelf.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

@@ -20,8 +20,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Gorev()
         {
-            int tmp = ComboItems.SiparişTopla.ToInt32();
-            ViewBag.Gorev = new SelectList(db.Gorevs.Where(m => m.GorevTipiID == tmp).ToList(), "ID", "GorevNo");
+            ViewBag.Gorev = new SelectList(Task.GetList(ComboItems.SiparişTopla.ToInt32()), "ID", "GorevNo");
             return View("Gorev");
         }
         /// <summary>

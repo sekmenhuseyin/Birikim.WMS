@@ -16,9 +16,9 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
-            ViewBag.KoridorID = new SelectList(db.Koridors.Where(m => m.ID == 0).ToList(), "ID", "KoridorAd");
-            ViewBag.RafID = new SelectList(db.Rafs.Where(m => m.ID == 0).ToList(), "ID", "RafAd");
+            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
+            ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             return View("Index", new Bolum());
         }
         /// <summary>
@@ -62,18 +62,18 @@ namespace Wms12m.Presentation.Controllers
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
-                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd");
-                ViewBag.KoridorID = new SelectList(db.Koridors.Where(m => m.ID == 0).ToList(), "ID", "KoridorAd");
-                ViewBag.RafID = new SelectList(db.Rafs.Where(m => m.ID == 0).ToList(), "ID", "RafAd");
+                ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+                ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
+                ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
                 return PartialView("_SectionDetailPartial", new Bolum());
             }
             else
             {
-                var tablo = db.Bolums.Where(m => m.ID == tmp).FirstOrDefault();
-                ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "ID", "DepoAd", tablo.Raf.Koridor.DepoID);
-                ViewBag.KoridorID = new SelectList(db.Koridors.ToList(), "ID", "KoridorAd", tablo.Raf.KoridorID);
-                ViewBag.RafID = new SelectList(db.Rafs.ToList(), "ID", "RafAd", tablo.RafID);
-                return PartialView("_SectionDetailPartial", new Section().Detail(tmp));
+                var tablo = Section.Detail(tmp);
+                ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tablo.Raf.Koridor.DepoID);
+                ViewBag.KoridorID = new SelectList(Corridor.GetList(tablo.Raf.Koridor.DepoID), "ID", "KoridorAd", tablo.Raf.KoridorID);
+                ViewBag.RafID = new SelectList(Shelf.GetList(tablo.Raf.KoridorID), "ID", "RafAd", tablo.RafID);
+                return PartialView("_SectionDetailPartial", tablo);
             }
         }
         /// <summary>
