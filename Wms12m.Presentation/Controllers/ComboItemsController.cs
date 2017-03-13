@@ -4,38 +4,44 @@ using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class CombosController : RootController
+    public class ComboItemsController : RootController
     {
         /// <summary>
         /// tüm liste
         /// </summary>
-        public ActionResult List()
+        public ActionResult Index()
         {
-            return View("List", Combo.GetList());
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            if (id.ToString() == "0") return null;
+            ViewBag.ComboID = new SelectList(Combo.GetList(), "ID", "ComboName");
+            return View("Index", ComboSub.GetList(id.ToInt32()));
         }
         /// <summary>
         /// yeni sayfası
         /// </summary>
         public PartialViewResult New()
         {
-            return PartialView("New", new Combo_Name());
+            return PartialView("New", new ComboItem_Name());
         }
         /// <summary>
         /// düzenle
         /// </summary>
         public PartialViewResult Edit(int id)
         {
-            return PartialView("Edit", Combo.Detail(id));
+            var tablo = ComboSub.Detail(id);
+            ViewBag.ComboID = new SelectList(Combo.GetList(), "ID", "ComboName", tablo.ComboID);
+            return PartialView("Edit", tablo);
         }
         /// <summary>
         /// kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save(Combo_Name tbl)
+        public JsonResult Save(ComboItem_Name tbl)
         {
             Result _Result = new Result();
             if (ModelState.IsValid)
-                _Result = Combo.Operation(tbl);
+                _Result = ComboSub.Operation(tbl);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -45,7 +51,7 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult Delete(int id)
         {
             Result _Result = new Result();
-            _Result = Combo.Delete(id);
+            _Result = ComboSub.Delete(id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

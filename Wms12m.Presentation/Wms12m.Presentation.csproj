@@ -3221,6 +3221,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BuyController.cs" />
+    <Compile Include="Controllers\ComboItemsController.cs" />
     <Compile Include="Controllers\CombosController.cs" />
     <Compile Include="Controllers\ListsController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
@@ -3303,6 +3304,8 @@
     <Content Include="Views\Lists\_GorevDetails.cshtml" />
     <Content Include="Views\Combos\Edit.cshtml" />
     <Content Include="Views\Combos\Index.cshtml" />
+    <Content Include="Views\ComboItems\List.cshtml" />
+    <Content Include="Views\ComboItems\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
