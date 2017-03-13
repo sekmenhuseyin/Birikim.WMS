@@ -15,7 +15,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// irsaliye için malzeme girişi yapar
         /// </summary>
-        public JsonResult Irsaliye(int IrsNo, HttpPostedFileBase file)
+        public JsonResult irsaliye(int IrsNo, HttpPostedFileBase file)
         {
             if (file == null || file.ContentLength == 0 || IrsNo==0) return Json(false, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku

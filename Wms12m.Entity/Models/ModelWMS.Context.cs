@@ -29,6 +29,7 @@ namespace Wms12m.Entity.Models
     
         public virtual DbSet<Combo_Name> Combo_Name { get; set; }
         public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
+        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Bolum> Bolums { get; set; }
         public virtual DbSet<Depo> Depoes { get; set; }
         public virtual DbSet<Gorev> Gorevs { get; set; }
@@ -40,7 +41,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Raf> Rafs { get; set; }
         public virtual DbSet<Yer> Yers { get; set; }
         public virtual DbSet<Yer_Log> Yer_Log { get; set; }
-        public virtual DbSet<User> Users { get; set; }
     
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {

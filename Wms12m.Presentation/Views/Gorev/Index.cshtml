@@ -28,8 +28,8 @@
                                     <th>Oluşturma Tarihi</th>
                                     <th>Atama Tarihi</th>
                                     <th>Bitirme Tarihi</th>
-                                    <th>Bilgi</th>
-                                    <th>Açıklama</th>
+                                    <th class="col-sm-1">Bilgi</th>
+                                    <th class="col-sm-1">Açıklama</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -40,8 +40,8 @@
                                         <td>@item.Depo.DepoAd</td>
                                         <td>@{if (item.IR != null ) { @item.IR.EvrakNo } }</td>
                                         <td>@item.GorevNo</td>
-                                        <td>@item.ComboItem_Name.Name</td>
                                         <td>@item.ComboItem_Name1.Name</td>
+                                        <td>@item.ComboItem_Name.Name</td>
                                         <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/GorevliAta/@item.ID')"> @{if (item.User1 != null){ @item.User1.AdSoyad} else {<text>Görevli Ata</text>}} </a></td>
                                         <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                                         <td>@{if (item.AtamaTarihi != null) { @item.AtamaTarihi.Value.FromOADateInt() } }</td>
