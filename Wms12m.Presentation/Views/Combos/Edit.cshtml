@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <div class="modal-body">@*Project Details Go Here*@
                     <h4>Düzenle</h4>
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Save", "Combos", FormMethod.Post, new { @class = "form-horizontal" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="form-horizontal">
@@ -22,7 +22,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
-                                <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" id="submitter"> Kaydet </button>
+                                <input type="submit" class="btn btn-primary pull-right" id="submitter" value="Kaydet" />
                             </div>
                         </div>
                     }
@@ -31,3 +31,4 @@
         </div>
     </div>
 </div>
+<script>$("#submitter").click(function () { $('#modalEditPage').modal('toggle'); })</script>

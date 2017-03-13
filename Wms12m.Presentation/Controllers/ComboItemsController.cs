@@ -9,13 +9,13 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// tüm liste
         /// </summary>
-        public ActionResult Index()
+        public ActionResult List()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             if (id.ToString() == "0") return null;
             ViewBag.ComboID = new SelectList(Combo.GetList(), "ID", "ComboName");
-            return View("Index", ComboSub.GetList(id.ToInt32()));
+            return View("List", ComboSub.GetList(id.ToInt32()));
         }
         /// <summary>
         /// yeni sayfası
@@ -37,12 +37,12 @@ namespace Wms12m.Presentation.Controllers
         /// kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save(ComboItem_Name tbl)
+        public ActionResult Save(ComboItem_Name tbl)
         {
             Result _Result = new Result();
             if (ModelState.IsValid)
                 _Result = ComboSub.Operation(tbl);
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+            return Redirect(Request.UrlReferrer.ToString());
         }
         /// <summary>
         /// sil

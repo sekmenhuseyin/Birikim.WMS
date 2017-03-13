@@ -9,9 +9,9 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// tüm liste
         /// </summary>
-        public ActionResult List()
+        public ActionResult Index()
         {
-            return View("List", Combo.GetList());
+            return View("Index", Combo.GetList());
         }
         /// <summary>
         /// yeni sayfası
@@ -31,12 +31,12 @@ namespace Wms12m.Presentation.Controllers
         /// kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult Save(Combo_Name tbl)
+        public ActionResult Save(Combo_Name tbl)
         {
             Result _Result = new Result();
             if (ModelState.IsValid)
                 _Result = Combo.Operation(tbl);
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Index");
         }
         /// <summary>
         /// sil
