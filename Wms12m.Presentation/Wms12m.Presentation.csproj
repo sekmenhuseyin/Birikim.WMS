@@ -3301,6 +3301,8 @@
     <Content Include="Views\Lists\Raf.cshtml" />
     <Content Include="Views\Lists\_RafDetails.cshtml" />
     <Content Include="Views\Lists\_GorevDetails.cshtml" />
+    <Content Include="Views\Combos\Edit.cshtml" />
+    <Content Include="Views\Combos\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3311,7 +3313,6 @@
   <ItemGroup>
     <Folder Include="Content\assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
     <Folder Include="Content\assets\global\plugins\jqvmap\jqvmap\data\" />
-    <Folder Include="Views\Combos\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">

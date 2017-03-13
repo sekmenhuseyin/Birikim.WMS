@@ -1,81 +1,62 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class CombosController : Controller
+    public class CombosController : RootController
     {
-        // GET: Combos
+        /// <summary>
+        /// tüm liste
+        /// </summary>
         public ActionResult Index()
         {
-            return View();
+            return View("Index", db.Combo_Name.OrderBy(m=>m.ComboName).ToList());
         }
-
-        // GET: Combos/Details/5
-        public ActionResult Details(int id)
+        /// <summary>
+        /// yeni sayfası
+        /// </summary>
+        public PartialViewResult New()
         {
-            return View();
+            return PartialView("New", new Combo_Name());
         }
-
-        // GET: Combos/Create
-        public ActionResult Create()
+        /// <summary>
+        /// düzenle
+        /// </summary>
+        public PartialViewResult Edit(int id)
         {
-            return View();
+            Combo_Name combo_Name = db.Combo_Name.Find(id);
+            return PartialView("Edit", combo_Name);
         }
-
-        // POST: Combos/Create
+        /// <summary>
+        /// kaydet
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult Save([Bind(Include = "ID,ComboName")] Combo_Name combo_Name)
+        {
+            Result _Result = new Result();
+            if (ModelState.IsValid)
+            {
+                db.Combo_Name.Add(combo_Name);
+                db.SaveChanges();
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// sil
+        /// </summary>
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public JsonResult Delete(int id)
         {
-            try
+            Result _Result = new Result();
+            Combo_Name combo_Name = db.Combo_Name.Find(id);
+            if (combo_Name != null)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                db.Combo_Name.Remove(combo_Name);
+                db.SaveChanges();
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Combos/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Combos/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // POST: Combos/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }
