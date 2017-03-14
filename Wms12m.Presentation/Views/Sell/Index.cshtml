@@ -64,6 +64,7 @@
     $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
     function changer() {
         if ($('#SirketID').val() == 0 || $('#DepoID').val() == 0) return;
+        $("#liste").html("");
         $.ajax({
             type: 'POST',
             url: "/Sell/GetSiparis/" + $('#SirketID').val() + "-" + $('#DepoID').val(),

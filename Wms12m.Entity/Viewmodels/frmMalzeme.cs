@@ -23,7 +23,7 @@ namespace Wms12m.Entity
         public string MalAdi { get; set; }
 
         [DataMember, DisplayName("Miktar"), Required(ErrorMessage = "Boş bırakmayınız"), Range(1, Int32.MaxValue)]
-        public int Miktar { get; set; }
+        public decimal Miktar { get; set; }
 
         [DataMember, DisplayName("Birim"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string Birim { get; set; }

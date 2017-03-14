@@ -6,6 +6,7 @@
         <th>Miktar</th>
         <th>Birim</th>
         <th>HucreAd</th>
+        <th>Sıra</th>
     </tr>
     @foreach (var item in Model) {
         <tr>
@@ -14,6 +15,7 @@
             <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
             <td>@Html.DisplayFor(modelItem => item.Birim)</td>
             <td>@Html.DisplayFor(modelItem => item.Yer.HucreAd)</td>
+            <td>@Html.DisplayFor(modelItem => item.Sira)</td>
         </tr>
     }
 </table>
