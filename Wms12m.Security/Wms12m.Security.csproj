@@ -49,7 +49,7 @@
     <Compile Include="Identity\PresentationIdentity.cs" />
     <Compile Include="Identity\RoleIdentity.cs" />
     <Compile Include="Identity\UserIdentity.cs" />
-    <Compile Include="Password\CryptographyExtension.cs" />
+    <Compile Include="CryptographyExtension.cs" />
     <Compile Include="Principal\CustomPrincipal.cs" />
     <Compile Include="Principal\CustomPrincipalSerializeModel.cs" />
     <Compile Include="Principal\ICustomPrincipal.cs" />

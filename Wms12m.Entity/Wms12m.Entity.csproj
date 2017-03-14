@@ -52,8 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\BaseConfigurationSection.cs" />
-    <Compile Include="Configuration\LogConfigurationSection.cs" />
+    <Compile Include="BaseConfigurationSection.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Models\Bolum.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
