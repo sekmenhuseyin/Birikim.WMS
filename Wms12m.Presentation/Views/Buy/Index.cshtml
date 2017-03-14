@@ -90,7 +90,7 @@
                         <i class="fa fa-files-o"></i>Malzeme Bilgileri
                     </div>
                     <div class="col-md-2 pull-right m-t-5">
-                        @using (Html.BeginForm("Irsaliye", "Uploads", FormMethod.Post, new { enctype = "multipart/form-data", id = "fileupload" }))
+                        @using (Html.BeginForm("irsaliye", "Uploads", FormMethod.Post, new { enctype = "multipart/form-data", id = "fileupload" }))
                         {
                             @Html.AntiForgeryToken()
                             <div class="col-md-6"><a id="btnSablon" href="~/Content/STISablon.xlsx" class="btn btn-default">Şablon İndir</a></div>

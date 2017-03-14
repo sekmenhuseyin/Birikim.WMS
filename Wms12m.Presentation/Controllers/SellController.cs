@@ -15,7 +15,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            ViewBag.DepoID = new SelectList(db.Depoes.ToList(), "DepoKodu", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
             return View("Index");
         }
         /// <summary>

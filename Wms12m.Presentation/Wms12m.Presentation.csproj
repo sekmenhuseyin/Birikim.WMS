@@ -2861,7 +2861,6 @@
     <Compile Include="Controllers\ListsController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\CorridorController.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\GorevController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -2897,7 +2896,6 @@
     <Content Include="Views\Storage\_StoreDetailPartial.cshtml" />
     <Content Include="Views\Corridor\Index.cshtml" />
     <Content Include="Views\Corridor\_CorridorGridPartial.cshtml" />
-    <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Corridor\_CorridorDetailPartial.cshtml" />
     <Content Include="Views\Shelf\Index.cshtml" />
     <Content Include="Views\Shelf\_ShelfGridPartial.cshtml" />

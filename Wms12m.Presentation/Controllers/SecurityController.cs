@@ -10,12 +10,17 @@ namespace Wms12m.Presentation.Controllers
 {
     public class SecurityController : Controller
     {
-        // GET: Security
+        /// <summary>
+        /// giriş sayfası
+        /// </summary>
         Result _Result;
         public ActionResult Login()
         {
-            return View();
+            return View("Login");
         }
+        /// <summary>
+        /// giriş işlemleri
+        /// </summary>
         [HttpPost]
         public ActionResult Login(User P)
         {
@@ -36,6 +41,9 @@ namespace Wms12m.Presentation.Controllers
             }
             return Json(new { data = (_Result.Status) }, JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// çıkış işlemleri
+        /// </summary>
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();

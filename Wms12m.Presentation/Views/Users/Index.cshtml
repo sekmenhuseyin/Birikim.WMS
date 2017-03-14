@@ -34,6 +34,8 @@
                                                 <td>@Html.DisplayFor(modelItem => item.Admin)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.Aktif)</td>
                                                 <td>
+                                                    <a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Depo/@item.ID')"> Depoya Ata </a>
+                                                    <a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Pass/@item.ID')"> Şifre Değiştir </a>
                                                     <a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Edit/@item.ID')"> Düzenle </a>
                                                     <a class="btn btn-danger btn-circle" href="javascript:;" onclick="Delete('@item.ID','','theGrid','', '')"> Sil </a>
                                                 </td>
