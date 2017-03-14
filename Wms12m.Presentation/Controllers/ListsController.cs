@@ -31,8 +31,47 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "0") return null;
             int ID = id.ToInt32();
-            var list = db.GetIrsDetayfromGorev(ID).ToList();
-            return PartialView("_GorevDetails", list);
+            //get gorev yer
+            var tablo = TaskYer.GetList(ID);
+            if (tablo.Count == 0)
+            {
+                //get gorev details
+                var gList = db.GetIrsDetayfromGorev(ID).ToList();
+                foreach (var item in gList)
+                {
+                    var tmp = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim).OrderBy(m=>m.Miktar).ToList();
+                    decimal toplam = 0, miktar = 0;
+                    if (tmp != null)
+                    {
+                        foreach (var itemyer in tmp)
+                        {
+                            if (itemyer.Miktar >= (item.Miktar - toplam))
+                            {
+                                miktar = item.Miktar.Value - toplam;
+                                toplam += item.Miktar.Value - toplam;
+                            }
+                            else
+                            {
+                                miktar = itemyer.Miktar;
+                                toplam += itemyer.Miktar;
+                            }
+                            //miktarı tabloya ekle
+                            GorevYer tbl = new GorevYer();
+                            tbl.GorevID = item.ID;
+                            tbl.YerID = itemyer.ID;
+                            tbl.MalKodu = item.MalKodu;
+                            tbl.Birim = item.Birim;
+                            tbl.Miktar = miktar;
+                            tbl.GC = true;
+                            TaskYer.Operation(tbl);
+                            //toplam yeterli miktardaysa
+                            if (toplam == item.Miktar) break;
+                        }
+                    }
+                }
+                tablo = TaskYer.GetList(ID);
+            }
+            return PartialView("_GorevDetails", tablo);
         }
         /// <summary>
         /// raf kaldırmalar

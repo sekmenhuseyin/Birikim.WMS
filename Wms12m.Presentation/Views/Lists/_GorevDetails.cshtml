@@ -1,21 +1,19 @@
-﻿@model IEnumerable<GetIrsDetayfromGorev_Result>
+﻿@model IEnumerable<GorevYer>
 <table class="table">
     <tr>
-        <th>@Html.DisplayNameFor(model => model.GorevNo)</th>
-        <th>@Html.DisplayNameFor(model => model.MalKodu)</th>
-        <th>@Html.DisplayNameFor(model => model.Miktar)</th>
-        <th>@Html.DisplayNameFor(model => model.Stok)</th>
-        <th>@Html.DisplayNameFor(model => model.Birim)</th>
-        <th>@Html.DisplayNameFor(model => model.Hucre)</th>
+        <th>GorevNo</th>
+        <th>MalKodu</th>
+        <th>Miktar</th>
+        <th>Birim</th>
+        <th>HucreAd</th>
     </tr>
     @foreach (var item in Model) {
         <tr>
-            <td>@Html.DisplayFor(modelItem => item.GorevNo)</td>
+            <td>@Html.DisplayFor(modelItem => item.Gorev.GorevNo)</td>
             <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
             <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
-            <td>@Html.DisplayFor(modelItem => item.Stok)</td>
             <td>@Html.DisplayFor(modelItem => item.Birim)</td>
-            <td>@Html.DisplayFor(modelItem => item.Hucre)</td>
+            <td>@Html.DisplayFor(modelItem => item.Yer.HucreAd)</td>
         </tr>
     }
 </table>

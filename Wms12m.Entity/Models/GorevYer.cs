@@ -10,13 +10,19 @@
 namespace Wms12m.Entity.Models
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class GetIrsDetayfromGorev_Result
+    public partial class GorevYer
     {
         public int ID { get; set; }
-        public string GorevNo { get; set; }
+        public int GorevID { get; set; }
+        public int YerID { get; set; }
         public string MalKodu { get; set; }
-        public Nullable<decimal> Miktar { get; set; }
+        public decimal Miktar { get; set; }
         public string Birim { get; set; }
+        public bool GC { get; set; }
+    
+        public virtual Gorev Gorev { get; set; }
+        public virtual Yer Yer { get; set; }
     }
 }

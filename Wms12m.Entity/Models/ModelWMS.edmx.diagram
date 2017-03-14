@@ -4,20 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="46">
-        <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="28.875" PointY="6.5" />
-        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="26" PointY="5.75" />
-        <EntityTypeShape EntityType="MModel.Bolum" Width="1.5" PointX="21.125" PointY="3.375" />
-        <EntityTypeShape EntityType="MModel.Depo" Width="1.5" PointX="9.875" PointY="5.125" />
-        <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="8.875" PointY="11.375" />
-        <EntityTypeShape EntityType="MModel.IR" Width="1.5" PointX="10.875" PointY="14.125" />
-        <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="15.375" PointY="14" />
-        <EntityTypeShape EntityType="MModel.Kat" Width="1.5" PointX="23.375" PointY="2.75" />
-        <EntityTypeShape EntityType="MModel.Koridor" Width="1.5" PointX="14.75" PointY="4.375" />
-        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="22.625" PointY="16.75" />
-        <EntityTypeShape EntityType="MModel.Raf" Width="1.5" PointX="17.875" PointY="3.875" />
-        <EntityTypeShape EntityType="MModel.Yer" Width="1.5" PointX="23.25" PointY="8.5" />
-        <EntityTypeShape EntityType="MModel.Yer_Log" Width="1.5" PointX="6.5" PointY="18.125" />
+      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="59">
+        <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="11.375" PointY="1.25" />
+        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="9.375" PointY="1.25" />
+        <EntityTypeShape EntityType="MModel.Bolum" Width="1.5" PointX="21.125" PointY="4.875" />
+        <EntityTypeShape EntityType="MModel.Depo" Width="1.5" PointX="9.875" PointY="6.625" />
+        <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="8.875" PointY="12.875" />
+        <EntityTypeShape EntityType="MModel.IR" Width="1.5" PointX="10.875" PointY="15.625" />
+        <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="15.375" PointY="15.5" />
+        <EntityTypeShape EntityType="MModel.Kat" Width="1.5" PointX="23.375" PointY="4.25" />
+        <EntityTypeShape EntityType="MModel.Koridor" Width="1.5" PointX="14.75" PointY="5.875" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="22.625" PointY="18.25" />
+        <EntityTypeShape EntityType="MModel.Raf" Width="1.5" PointX="17.875" PointY="5.375" />
+        <EntityTypeShape EntityType="MModel.Yer" Width="1.5" PointX="23.25" PointY="9.875" />
+        <EntityTypeShape EntityType="MModel.Yer_Log" Width="1.5" PointX="6.5" PointY="19.625" />
         <AssociationConnector Association="MModel.FK_ComboItemName_ComboName" />
         <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameDurum" />
         <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameOzellik" />
@@ -33,8 +33,8 @@
         <AssociationConnector Association="MModel.FK_Yerlestirme_TK_KAT" />
         <AssociationConnector Association="MModel.FK_TK_RAF_TK_KOR" />
         <AssociationConnector Association="MModel.GorevIRS" />
-        <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="20.125" PointY="16.625" />
-        <EntityTypeShape EntityType="MModel.User" Width="1.5" PointX="3.125" PointY="12" />
+        <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="20.125" PointY="18.125" />
+        <EntityTypeShape EntityType="MModel.User" Width="1.5" PointX="3.125" PointY="13.5" />
         <AssociationConnector Association="MModel.FK_Bolum_UsersDegistiren" />
         <AssociationConnector Association="MModel.FK_Bolum_UsersKaydeden" />
         <AssociationConnector Association="MModel.FK_Depo_UsersDegistiren" />
@@ -51,6 +51,9 @@
         <AssociationConnector Association="MModel.FK_Raf_UsersKaydeden" />
         <AssociationConnector Association="MModel.FK_Yer_Log_UsersKaydeden" />
         <AssociationConnector Association="MModel.Depo_Users" />
+        <EntityTypeShape EntityType="MModel.GorevYer" Width="1.5" PointX="23" PointY="13" />
+        <AssociationConnector Association="MModel.FK_GorevYer_Gorev" />
+        <AssociationConnector Association="MModel.FK_GorevYer_Yer" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

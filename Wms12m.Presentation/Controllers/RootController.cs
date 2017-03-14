@@ -23,6 +23,7 @@ namespace Wms12m.Presentation.Controllers
         public Stok Stok = new Stok();
         public Store Store = new Store();
         public Task Task = new Task();
+        public TaskYer TaskYer = new TaskYer();
         /// <summary>
         /// user için kısayol
         /// </summary>
@@ -81,6 +82,7 @@ namespace Wms12m.Presentation.Controllers
                 Stok.Dispose();
                 Store.Dispose();
                 Task.Dispose();
+                TaskYer.Dispose();
             }
             base.Dispose(disposing);
         }
