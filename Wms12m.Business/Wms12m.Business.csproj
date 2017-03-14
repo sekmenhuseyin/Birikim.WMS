@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Extensions.cs" />
     <Compile Include="Functions.cs" />
+    <Compile Include="Tables\Yerlestirme.cs" />
     <Compile Include="Tables\Roles.cs" />
     <Compile Include="Tables\ComboSub.cs" />
     <Compile Include="Tables\Combo.cs" />
