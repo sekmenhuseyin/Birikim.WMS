@@ -130,6 +130,7 @@
           <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="GC" Type="bit" Nullable="false" />
+          <Property Name="Sira" Type="int" />
         </EntityType>
         <EntityType Name="IRS">
           <Key>
@@ -673,6 +674,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetBolumSiralamaFromGorevId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="GorevID" Type="int" Mode="In" />
+          <Parameter Name="KoridorID" Type="int" Mode="In" />
+          <Parameter Name="desc" Type="bit" Mode="In" />
+        </Function>
         <Function Name="GetHucreAd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
@@ -681,6 +687,9 @@
           <Parameter Name="Kod" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetIrsDetayfromGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="GorevID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetKoridorIdFromGorevId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="GorevID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -1064,6 +1073,14 @@
             <End Role="Yer" EntitySet="Yers" />
             <End Role="GorevYer" EntitySet="GorevYers" />
           </AssociationSet>
+          <FunctionImport Name="GetBolumSiralamaFromGorevId" ReturnType="Collection(Int32)">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+            <Parameter Name="KoridorID" Mode="In" Type="Int32" />
+            <Parameter Name="desc" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="GetKoridorIdFromGorevId" ReturnType="Collection(Int32)">
+          <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1737,6 +1754,7 @@
           <Property Name="GC" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevYer_Gorev" FromRole="GorevYer" ToRole="Gorev" />
           <NavigationProperty Name="Yer" Relationship="MModel.FK_GorevYer_Yer" FromRole="GorevYer" ToRole="Yer" />
+          <Property Name="Sira" Type="Int32" />
         </EntityType>
         <Association Name="FK_GorevYer_Gorev">
           <End Type="MModel.Gorev" Role="Gorev" Multiplicity="1" />
@@ -2061,6 +2079,7 @@
           <EntitySetMapping Name="GorevYers">
             <EntityTypeMapping TypeName="MModel.GorevYer">
               <MappingFragment StoreEntitySet="GorevYer">
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
                 <ScalarProperty Name="GC" ColumnName="GC" />
                 <ScalarProperty Name="Birim" ColumnName="Birim" />
                 <ScalarProperty Name="Miktar" ColumnName="Miktar" />
@@ -2071,6 +2090,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetBolumSiralamaFromGorevId" FunctionName="MModel.Store.GetBolumSiralamaFromGorevId" />
+          <FunctionImportMapping FunctionImportName="GetKoridorIdFromGorevId" FunctionName="MModel.Store.GetKoridorIdFromGorevId" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

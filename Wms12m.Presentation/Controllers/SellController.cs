@@ -146,15 +146,10 @@ namespace Wms12m.Presentation.Controllers
                             foreach (var itemyer in tmp)
                             {
                                 if (itemyer.Miktar >= (item.Miktar - toplam))
-                                {
                                     miktar = item.Miktar.Value - toplam;
-                                    toplam += item.Miktar.Value - toplam;
-                                }
                                 else
-                                {
                                     miktar = itemyer.Miktar;
-                                    toplam += itemyer.Miktar;
-                                }
+                                toplam += miktar;
                                 //miktarı tabloya ekle
                                 GorevYer tblyer = new GorevYer();
                                 tblyer.GorevID = item.ID;

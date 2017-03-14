@@ -179,5 +179,31 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsDetayfromGorev_Result>("WMSEntities.GetIrsDetayfromGorev", gorevIDParameter);
         }
+    
+        public virtual ObjectResult<Nullable<int>> GetBolumSiralamaFromGorevId(Nullable<int> gorevID, Nullable<int> koridorID, Nullable<bool> desc)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            var koridorIDParameter = koridorID.HasValue ?
+                new ObjectParameter("KoridorID", koridorID) :
+                new ObjectParameter("KoridorID", typeof(int));
+    
+            var descParameter = desc.HasValue ?
+                new ObjectParameter("desc", desc) :
+                new ObjectParameter("desc", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetBolumSiralamaFromGorevId", gorevIDParameter, koridorIDParameter, descParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> GetKoridorIdFromGorevId(Nullable<int> gorevID)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetKoridorIdFromGorevId", gorevIDParameter);
+        }
     }
 }

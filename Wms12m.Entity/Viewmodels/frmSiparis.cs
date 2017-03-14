@@ -49,4 +49,19 @@ namespace Wms12m.Entity
         public string Birim { get; set; }
         public decimal Stok { get; set; }
     }
+    /// <summary>
+    /// sipariş toplama sırası
+    /// </summary>
+    public class frmSiparisToplama
+    {
+        public string EvrakNo { get; set; }
+        public int YerID { get; set; }
+        public string MalKodu { get; set; }
+        public decimal Miktar { get; set; }
+        public string Birim { get; set; }
+        public string Koridor { get; set; }
+        public string Raf { get; set; }
+        public string Bolum { get; set; }
+        public string Kat { get; set; }
+    }
 }

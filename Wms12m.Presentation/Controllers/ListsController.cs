@@ -18,6 +18,26 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// siparişler
         /// </summary>
+        public ActionResult Siparis()
+        {
+            ViewBag.Gorev = new SelectList(Task.GetList(ComboItems.SiparişTopla.ToInt32()), "ID", "GorevNo");
+            return View("Siparis");
+        }
+        /// <summary>
+        /// siparişi seçince gelen liste
+        /// </summary>
+        public PartialViewResult GetSiparisDetails()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null || id.ToString2() == "0") return null;
+            int ID = id.ToInt32();
+            //get gorev yer
+            var tablo = TaskYer.GetList(ID);
+            return PartialView("_SiparisDetails", tablo);
+        }
+        /// <summary>
+        /// siparişler
+        /// </summary>
         public ActionResult Gorev()
         {
             ViewBag.Gorev = new SelectList(Task.GetList(ComboItems.SiparişTopla.ToInt32()), "ID", "GorevNo");
@@ -46,15 +66,10 @@ namespace Wms12m.Presentation.Controllers
                         foreach (var itemyer in tmp)
                         {
                             if (itemyer.Miktar >= (item.Miktar - toplam))
-                            {
                                 miktar = item.Miktar.Value - toplam;
-                                toplam += item.Miktar.Value - toplam;
-                            }
                             else
-                            {
                                 miktar = itemyer.Miktar;
-                                toplam += itemyer.Miktar;
-                            }
+                            toplam += miktar;
                             //miktarı tabloya ekle
                             GorevYer tbl = new GorevYer();
                             tbl.GorevID = item.ID;
