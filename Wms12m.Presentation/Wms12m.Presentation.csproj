@@ -2864,7 +2864,6 @@
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\GorevController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MalKabulController.cs" />
     <Compile Include="Controllers\RootController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\SellController.cs" />
@@ -2913,10 +2912,6 @@
     <Content Include="Views\Gorev\Index.cshtml" />
     <Content Include="Views\Gorev\_GorevDetailPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.Null.cshtml" />
-    <Content Include="Views\MalKabul\Index.cshtml" />
-    <Content Include="Views\MalKabul\_MalKabulDetailPartial.cshtml" />
-    <Content Include="Views\MalKabul\_MalKabulGridPartial.cshtml" />
-    <Content Include="Views\MalKabul\_MalKabulIcmalPartial.cshtml" />
     <Content Include="Views\Gorev\_GorevGridPartial.cshtml" />
     <Content Include="Views\Gorev\GorevliAta.cshtml" />
     <Content Include="Views\Buy\List.cshtml" />

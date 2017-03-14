@@ -53,28 +53,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CacheControl\abstractCache.cs" />
-    <Compile Include="CacheControl\CacheControl.cs" />
-    <Compile Include="CacheControl\CacheManager.cs" />
-    <Compile Include="Extension\Extensions.cs" />
-    <Compile Include="Extension\Functions.cs" />
-    <Compile Include="Tables\Roles.cs" />
-    <Compile Include="Tables\ComboSub.cs" />
-    <Compile Include="Tables\Combo.cs" />
-    <Compile Include="Tables\Task.cs" />
-    <Compile Include="MalKabul\MalKabulSTIOnay.cs" />
-    <Compile Include="Tables\Dimension.cs" />
-    <Compile Include="Tables\Stok.cs" />
-    <Compile Include="Tables\Irsaliye.cs" />
-    <Compile Include="Tables\Logger.cs" />
-    <Compile Include="Tables\Persons.cs" />
+    <Compile Include="_Extensions.cs" />
+    <Compile Include="_Functions.cs" />
+    <Compile Include="Roles.cs" />
+    <Compile Include="ComboSub.cs" />
+    <Compile Include="Combo.cs" />
+    <Compile Include="Task.cs" />
+    <Compile Include="Dimension.cs" />
+    <Compile Include="Stok.cs" />
+    <Compile Include="Irsaliye.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Persons.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="abstract.cs" />
-    <Compile Include="Tables\Section.cs" />
-    <Compile Include="Tables\Corridor.cs" />
-    <Compile Include="Tables\Floor.cs" />
-    <Compile Include="Tables\Shelf.cs" />
-    <Compile Include="Tables\Store.cs" />
+    <Compile Include="_abstract.cs" />
+    <Compile Include="Section.cs" />
+    <Compile Include="Corridor.cs" />
+    <Compile Include="Floor.cs" />
+    <Compile Include="Shelf.cs" />
+    <Compile Include="Store.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Entity\Wms12m.Entity.csproj">
