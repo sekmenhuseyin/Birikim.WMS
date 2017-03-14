@@ -131,6 +131,45 @@ namespace Wms12m.Presentation.Controllers
                 Gorev grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
                 grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
                 db.SaveChanges();
+                //get gorev yer
+                var tablo = TaskYer.GetList(cevap.GorevID.Value);
+                if (tablo.Count == 0)
+                {
+                    //get gorev details
+                    var gList = db.GetIrsDetayfromGorev(cevap.GorevID.Value).ToList();
+                    foreach (var item in gList)
+                    {
+                        var tmp = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim).OrderBy(m => m.Miktar).ToList();
+                        decimal toplam = 0, miktar = 0;
+                        if (tmp != null)
+                        {
+                            foreach (var itemyer in tmp)
+                            {
+                                if (itemyer.Miktar >= (item.Miktar - toplam))
+                                {
+                                    miktar = item.Miktar.Value - toplam;
+                                    toplam += item.Miktar.Value - toplam;
+                                }
+                                else
+                                {
+                                    miktar = itemyer.Miktar;
+                                    toplam += itemyer.Miktar;
+                                }
+                                //miktarı tabloya ekle
+                                GorevYer tblyer = new GorevYer();
+                                tblyer.GorevID = item.ID;
+                                tblyer.YerID = itemyer.ID;
+                                tblyer.MalKodu = item.MalKodu;
+                                tblyer.Birim = item.Birim;
+                                tblyer.Miktar = miktar;
+                                tblyer.GC = true;
+                                TaskYer.Operation(tblyer);
+                                //toplam yeterli miktardaysa
+                                if (toplam == item.Miktar) break;
+                            }
+                        }
+                    }
+                }
                 return Redirect("/Gorev");
             }
         }
