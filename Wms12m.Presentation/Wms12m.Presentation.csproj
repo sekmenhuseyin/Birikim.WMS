@@ -2936,8 +2936,6 @@
     <Content Include="Views\ComboItems\Edit.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\New.cshtml" />
-    <Content Include="Views\Lists\Siparis.cshtml" />
-    <Content Include="Views\Lists\_SiparisDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

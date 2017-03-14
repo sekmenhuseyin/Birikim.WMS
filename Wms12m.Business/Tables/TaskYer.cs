@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
@@ -27,12 +25,7 @@ namespace Wms12m.Business
                 else
                 {
                     var tmp = Detail(tbl.ID);
-                    tmp.GorevID = tbl.GorevID;
-                    tmp.YerID = tbl.YerID;
-                    tmp.MalKodu = tbl.MalKodu;
-                    tmp.Miktar = tbl.Miktar;
-                    tmp.Birim = tbl.Birim;
-                    tmp.GC = tbl.GC;
+                    tmp.Sira = tbl.Sira;
                 }
                 db.SaveChanges();
                 //result
@@ -97,14 +90,14 @@ namespace Wms12m.Business
         /// </summary>
         public override List<GorevYer> GetList()
         {
-            return db.GorevYers.OrderBy(m=>m.MalKodu).ToList();
+            return db.GorevYers.OrderBy(m=>m.Sira).ThenBy(m=>m.MalKodu).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
         public override List<GorevYer> GetList(int ParentId)
         {
-            return db.GorevYers.Where(m => m.GorevID == ParentId).OrderBy(m => m.MalKodu).ToList();
+            return db.GorevYers.Where(m => m.GorevID == ParentId).OrderBy(m => m.Sira).ThenBy(m => m.MalKodu).ToList();
         }
         /// <summary>
         /// dispose

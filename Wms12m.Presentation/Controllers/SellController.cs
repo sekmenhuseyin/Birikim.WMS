@@ -165,6 +165,22 @@ namespace Wms12m.Presentation.Controllers
                         }
                     }
                 }
+                //sıralama
+                var lstKoridor = db.GetKoridorIdFromGorevId(cevap.GorevID).ToList();
+                bool asc = false; int sira = 0;
+                foreach (var item in lstKoridor)
+                {
+                    var lstBolum = db.GetBolumSiralamaFromGorevId(cevap.GorevID, item.Value, asc).ToList();
+                    foreach (var item2 in lstBolum)
+                    {
+                        var tmptblyer = new GorevYer();
+                        tmptblyer.ID = item2.Value;
+                        tmptblyer.Sira = sira;
+                        sira++;
+                        TaskYer.Operation(tmptblyer);
+                    }
+                    asc = asc == false ? true : false;
+                }
                 return Redirect("/Gorev");
             }
         }
@@ -179,14 +195,21 @@ namespace Wms12m.Presentation.Controllers
             string[] tmp = ID.ToString().Split('-');
             string kod = tmp[0]; if (kod == "0") return null;
             string depo = tmp[1]; if (depo == "0") return null;
-            using (DinamikModelContext Dinamik = new DinamikModelContext(kod))
+            try
             {
-                var list = Dinamik.Context.SPIs
-                            .Where(m => m.Depo == depo && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0)
-                            .GroupBy(m=> new { m.EvrakNo, m.Tarih })
-                            .Select(m => new frmSiparisler { EvrakNo = m.Key.EvrakNo, Tarih = m.Key.Tarih })
-                            .OrderByDescending(m=>m.Tarih);
-                return PartialView("_Siparis", list.ToList());
+                using (DinamikModelContext Dinamik = new DinamikModelContext(kod))
+                {
+                    var list = Dinamik.Context.SPIs
+                                .Where(m => m.Depo == depo && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0)
+                                .GroupBy(m=> new { m.EvrakNo, m.Tarih })
+                                .Select(m => new frmSiparisler { EvrakNo = m.Key.EvrakNo, Tarih = m.Key.Tarih })
+                                .OrderByDescending(m=>m.Tarih);
+                    return PartialView("_Siparis", list.ToList());
+                }
+            }
+            catch (Exception)
+            {
+                return PartialView("_Siparis", new frmSiparisler());
             }
         }
     }
