@@ -217,5 +217,22 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<YetkiDepo_Result>("WMSEntities.YetkiDepo", iDParameter);
         }
+    
+        public virtual int YetkiDepoSet(Nullable<int> depoID, Nullable<int> userID, Nullable<bool> ekle)
+        {
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var ekleParameter = ekle.HasValue ?
+                new ObjectParameter("Ekle", ekle) :
+                new ObjectParameter("Ekle", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.YetkiDepoSet", depoIDParameter, userIDParameter, ekleParameter);
+        }
     }
 }

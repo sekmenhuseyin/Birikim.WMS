@@ -34,7 +34,7 @@ function FunctionDelete(URL, deleteId) {
     var $Return = false;
     if (URL == "") URL = DeleteFunctionUrl;
     $.ajax({
-        url: DeleteFunctionUrl,
+        url: URL,
         type: 'POST',
         async: false,
         data: JSON.stringify({ Id: deleteId }),

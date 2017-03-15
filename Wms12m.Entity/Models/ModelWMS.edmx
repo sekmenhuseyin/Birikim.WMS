@@ -833,6 +833,11 @@
         <Function Name="YetkiDepo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
+        <Function Name="YetkiDepoSet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DepoID" Type="int" Mode="In" />
+          <Parameter Name="UserID" Type="int" Mode="In" />
+          <Parameter Name="Ekle" Type="bit" Mode="In" />
+        </Function>
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="Combo_Name" EntityType="Self.Combo_Name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboItem_Name" EntityType="Self.ComboItem_Name" Schema="dbo" store:Type="Tables" />
@@ -1245,7 +1250,12 @@
             <End Role="WebMenu" EntitySet="WebMenus" />
           </AssociationSet>
           <FunctionImport Name="YetkiDepo" ReturnType="Collection(MModel.YetkiDepo_Result)">
-            <Parameter Name="ID" Mode="In" Type="Int32" />
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="YetkiDepoSet">
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="Ekle" Mode="In" Type="Boolean" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2403,6 +2413,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="YetkiDepoSet" FunctionName="MModel.Store.YetkiDepoSet" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -54,14 +54,31 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.ID = id;
             return PartialView("Depo", tbl);
         }
+        /// <summary>
+        /// depo yetkisini kaydet
+        /// </summary>
         [HttpPost]
         public PartialViewResult DepoSet(int UserID, int DepoID)
         {
-
+            db.YetkiDepoSet(DepoID, UserID, true);
             var tbl = db.YetkiDepo(UserID).ToList();
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             ViewBag.ID = UserID;
             return PartialView("Depo", tbl);
+        }
+        /// <summary>
+        /// depo yetkisi sil
+        /// </summary>
+        public JsonResult DepoDelete(string Id)
+        {
+            string[] ids = Id.ToString().Split('-');
+            db.YetkiDepoSet(ids[1].ToInt32(), ids[0].ToInt32(), false);
+            Result _Result = new Result();
+            _Result.Id = ids[1].ToInt32();
+            _Result.Message = "İşlem Başarılı !!!";
+            _Result.Status = true;
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+
         }
         /// <summary>
         /// kaydet
