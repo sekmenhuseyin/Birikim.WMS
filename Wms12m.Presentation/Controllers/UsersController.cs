@@ -43,6 +43,27 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("Edit", tbl);
         }
         /// <summary>
+        /// depo yetkilerini ayarlar
+        /// </summary>
+        public PartialViewResult Depo()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null || id.ToString2() == "") return null;
+            var tbl = db.YetkiDepo(id.ToInt32()).ToList();
+            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.ID = id;
+            return PartialView("Depo", tbl);
+        }
+        [HttpPost]
+        public PartialViewResult DepoSet(int UserID, int DepoID)
+        {
+
+            var tbl = db.YetkiDepo(UserID).ToList();
+            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.ID = UserID;
+            return PartialView("Depo", tbl);
+        }
+        /// <summary>
         /// kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]

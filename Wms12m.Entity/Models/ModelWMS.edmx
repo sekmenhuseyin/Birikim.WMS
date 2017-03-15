@@ -830,6 +830,9 @@
         <Function Name="SettingsIrsaliyeNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="tarih" Type="int" Mode="In" />
         </Function>
+        <Function Name="YetkiDepo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="Combo_Name" EntityType="Self.Combo_Name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboItem_Name" EntityType="Self.ComboItem_Name" Schema="dbo" store:Type="Tables" />
@@ -1241,6 +1244,9 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="WebMenu" EntitySet="WebMenus" />
           </AssociationSet>
+          <FunctionImport Name="YetkiDepo" ReturnType="Collection(MModel.YetkiDepo_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2031,6 +2037,11 @@
           <End Type="MModel.Role" Role="Role" Multiplicity="*" />
           <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
         </Association>
+        <ComplexType Name="YetkiDepo_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="DepoAd" Nullable="false" MaxLength="100" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2383,6 +2394,15 @@
               <ScalarProperty Name="RoleName" ColumnName="RoleName" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="YetkiDepo" FunctionName="MModel.Store.YetkiDepo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.YetkiDepo_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
+                <ScalarProperty Name="DepoAd" ColumnName="DepoAd" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -208,5 +208,14 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetKoridorIdFromGorevId", gorevIDParameter);
         }
+    
+        public virtual ObjectResult<YetkiDepo_Result> YetkiDepo(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<YetkiDepo_Result>("WMSEntities.YetkiDepo", iDParameter);
+        }
     }
 }

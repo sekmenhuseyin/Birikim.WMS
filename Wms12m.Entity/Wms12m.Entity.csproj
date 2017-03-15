@@ -136,6 +136,9 @@
     <Compile Include="Models\Yer_Log.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\YetkiDepo_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Viewmodels\frmGorev.cs" />
     <Compile Include="Viewmodels\frmSiparis.cs" />
     <Compile Include="Viewmodels\frmIrsaliye.cs" />
