@@ -12,6 +12,9 @@ namespace Wms12m.Security
         public string LogonUserName { get; set; }
 
         [DataMember]
+        public string RoleName { get; set; }
+
+        [DataMember]
         public string FirstName { get; set; }
 
         [DataMember]

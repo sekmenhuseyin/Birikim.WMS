@@ -1,9 +1,9 @@
-﻿@model USR01
+﻿@model User
 @{
     ViewBag.Title = "Giriş Yap";
     Layout = "~/Views/Shared/_Layout.Null.cshtml";
 }<div class="login">
-    <div class="logo"><a href="/"><img src="@Url.Content("~/Content/assets/layouts/layout/img/12MLogo.png")" alt="Crew" /></a></div>
+    <div class="logo"><a href="/"><img src="@Url.Content("~/Content/assets/layouts/layout/img/logo.png")" alt="Crew" /></a></div>
     <div class="content">
         @using (Ajax.BeginForm("Login", "Security", new { }, new AjaxOptions{InsertionMode = InsertionMode.Replace,UpdateTargetId = "LoginFrom",OnSuccess = "ReturnPage"}, new { @class = "login-form" }))
         {

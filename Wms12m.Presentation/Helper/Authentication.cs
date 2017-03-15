@@ -69,6 +69,7 @@ namespace Wms12m
                 User = new UserIdentity()
                 {
                     UserName = person.Kod,
+                    RoleName = person.RoleName,
                     LogonUserName = person.AdSoyad,
                     FirstName = person.AdSoyad,
                     Id = person.ID

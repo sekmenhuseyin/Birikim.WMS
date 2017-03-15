@@ -2388,6 +2388,10 @@
     <Content Include="Content\assets\pages\css\test.min.css" />
     <Content Include="Content\assets\pages\css\timeline-old.css" />
     <Content Include="Content\assets\pages\css\timeline-old.min.css" />
+    <Content Include="Content\assets\pages\img\bg-opacity.png" />
+    <Content Include="Content\assets\pages\img\bg-white-lock.png" />
+    <Content Include="Content\assets\pages\img\bg-white.png" />
+    <Content Include="Content\assets\pages\img\inbox-nav-arrow-blue.png" />
     <Content Include="Content\assets\pages\scripts\charts-amcharts.js" />
     <Content Include="Content\assets\pages\scripts\charts-amcharts.min.js" />
     <Content Include="Content\assets\pages\scripts\charts-echarts.js" />
