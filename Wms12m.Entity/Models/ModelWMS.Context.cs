@@ -43,6 +43,9 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<GorevYer> GorevYers { get; set; }
+        public virtual DbSet<Simge> Simges { get; set; }
+        public virtual DbSet<WebMenu> WebMenus { get; set; }
+        public virtual DbSet<WebMenuSett> WebMenuSetts { get; set; }
     
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {

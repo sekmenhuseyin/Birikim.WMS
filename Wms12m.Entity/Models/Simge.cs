@@ -12,16 +12,17 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Role
+    public partial class Simge
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Role()
+        public Simge()
         {
             this.WebMenus = new HashSet<WebMenu>();
         }
     
-        public int ID { get; set; }
-        public string RoleName { get; set; }
+        public short ID { get; set; }
+        public string Ad { get; set; }
+        public string Icon { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WebMenu> WebMenus { get; set; }

@@ -12,18 +12,21 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Role
+    public partial class WebMenuSett
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Role()
+        public WebMenuSett()
         {
             this.WebMenus = new HashSet<WebMenu>();
+            this.WebMenus1 = new HashSet<WebMenu>();
         }
     
-        public int ID { get; set; }
-        public string RoleName { get; set; }
+        public byte ID { get; set; }
+        public string Ad { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WebMenu> WebMenus { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WebMenu> WebMenus1 { get; set; }
     }
 }
