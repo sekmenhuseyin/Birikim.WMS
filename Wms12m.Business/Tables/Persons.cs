@@ -19,7 +19,7 @@ namespace Wms12m.Business
         public override Result Operation(User tbl)
         {
             _Result = new Result();
-            if (tbl.AdSoyad == "" || tbl.Sirket == "" || tbl.Kod == "")
+            if (tbl.AdSoyad == "" || tbl.Sirket == "" || tbl.Kod == "" || (tbl.ID == 0 && tbl.Sifre.ToString2() == ""))
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
@@ -34,6 +34,7 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+            if (tbl.Sifre.ToString2() != "") tbl.Sifre = CryptographyExtension.Sifrele(tbl.Sifre);
             try
             {
                 tbl.Degistiren = Users.AppIdentity.User.LogonUserName;
@@ -43,9 +44,8 @@ namespace Wms12m.Business
                 tbl.DegisSurum = "1.0.0";
                 if (tbl.ID == 0)
                 {
-                    tbl.Sifre = tbl.Sifre == null ? "" : tbl.Sifre;
-                    tbl.Email = tbl.Email == null ? "" : tbl.Email;
-                    tbl.Tema = tbl.Tema == null ? "" : tbl.Tema;
+                    tbl.Email = tbl.Email.ToString2();
+                    tbl.Tema = tbl.Tema.ToString2();
                     tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
                     tbl.KayitTarih = DateTime.Today.ToOADateInt();
                     tbl.KayitSaat = DateTime.Now.SaatiAl();
@@ -60,9 +60,9 @@ namespace Wms12m.Business
                     tmp.Tip = tbl.Tip;
                     tmp.Kod = tbl.Kod;
                     tmp.AdSoyad = tbl.AdSoyad;
-                    tmp.Sifre = tbl.Sifre == null ? "" : tbl.Sifre;
-                    tmp.Email = tbl.Email == null ? "" : tbl.Email;
-                    tmp.Tema = tbl.Tema == null ? "" : tbl.Tema;
+                    tmp.Sifre = tbl.Sifre.ToString2();
+                    tmp.Email = tbl.Email.ToString2();
+                    tmp.Tema = tbl.Tema.ToString2();
                     tmp.RoleName = tbl.RoleName;
                     tmp.Admin = tbl.Admin;
                     tmp.Aktif = tbl.Aktif;
@@ -109,6 +109,42 @@ namespace Wms12m.Business
                         _Result.Data = tbl;
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                _Result.Message = "İşlem Hata !!!" + ex.Message;
+            }
+            return _Result;
+        }
+        /// <summary>
+        /// şifre değiştirme işlemleri
+        /// </summary>
+        public Result ChangePass(User P)
+        {
+            if (P.Sifre.ToString2() == "")
+            {
+                _Result.Id = 0;
+                _Result.Message = "Eksik Bilgi Girdiniz";
+                _Result.Status = false;
+                return _Result;
+            }
+            _Result = new Result();
+            _Result.Status = false;
+            _Result.Message = "İşlem Hata !!!";
+            _Result.Id = 0;
+            P.Sifre = CryptographyExtension.Sifrele(P.Sifre);
+            try
+            {
+                var tmp = Detail(P.ID);
+                tmp.Sifre = P.Sifre == null ? "" : P.Sifre;
+                tmp.Degistiren = Users.AppIdentity.User.LogonUserName;
+                tmp.DegisTarih = DateTime.Today.ToOADateInt();
+                tmp.DegisSaat = DateTime.Now.SaatiAl();
+                db.SaveChanges();
+                //result
+                _Result.Id = P.ID;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
             }
             catch (Exception ex)
             {

@@ -109,7 +109,7 @@ namespace Wms12m.Presentation.Controllers
             yerlog.Miktar = tbl.Miktar;
             yerlog.Birim = tbl.Birim;
             yerlog.GC = false;
-            yerlog.Kaydeden = User.Id;
+            yerlog.Kaydeden = vUser.Id;
             yerlog.KayitTarihi = DateTime.Today.ToOADateInt();
             yerlog.KayitSaati = DateTime.Now.SaatiAl();
             db.Yer_Log.Add(yerlog);

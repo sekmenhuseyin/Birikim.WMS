@@ -8,7 +8,7 @@
                     <h4>Depo Yetkileri</h4>
                     @using (Ajax.BeginForm("DepoSet", "Users", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "modalEditPage" }, new { @class = "form-horizontal" }))
                     {
-                         @Html.ValidationSummary(true)
+                        @Html.ValidationSummary(true)
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>

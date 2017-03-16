@@ -27,7 +27,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// user için kısayol
         /// </summary>
-        protected virtual new UserIdentity User
+        protected virtual UserIdentity vUser
         {
             get
             {
@@ -52,7 +52,7 @@ namespace Wms12m.Presentation.Controllers
                 }));
                 return;
             }
-            ViewBag.User = User.FirstName + " " + User.LastName;
+            ViewBag.User = vUser.FirstName + " " + vUser.LastName;
             base.OnActionExecuting(filterContext);
         }
         /// <summary>

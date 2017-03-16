@@ -55,6 +55,16 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("Depo", tbl);
         }
         /// <summary>
+        /// şifre değiştirme ekranı
+        /// </summary>
+        public PartialViewResult Pass()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null || id.ToString2() == "") return null;
+            ViewBag.ID = id;
+            return PartialView("Pass", new frmUserChangePass());
+        }
+        /// <summary>
         /// depo yetkisini kaydet
         /// </summary>
         [HttpPost]
@@ -88,6 +98,22 @@ namespace Wms12m.Presentation.Controllers
         {
             Result _Result = Persons.Operation(tbl);
             return RedirectToAction("Index");
+        }
+        /// <summary>
+        /// şifreyi değiştir
+        /// </summary>
+        [HttpPost]
+        public JsonResult ChangePass(frmUserChangePass tmp)
+        {
+            Result _Result = new Result();
+            if (tmp.Password==tmp.Password2)
+            {
+                User tbl = new User();
+                tbl.ID = tmp.ID;
+                tbl.Sifre = tmp.Password;
+                _Result = Persons.ChangePass(tbl);
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// sil

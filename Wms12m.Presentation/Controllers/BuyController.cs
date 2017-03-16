@@ -96,7 +96,7 @@ namespace Wms12m.Presentation.Controllers
             string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
             int today = DateTime.Today.ToOADateInt();
             int time = DateTime.Now.SaatiAl();
-            var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), User.Id, User.UserName, today, time, tbl.HesapKodu).FirstOrDefault();
+            var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), vUser.Id, vUser.UserName, today, time, tbl.HesapKodu).FirstOrDefault();
             //get list
             var list = Stok.GetList(cevap.IrsaliyeID.Value);
             ViewBag.IrsaliyeId = cevap.IrsaliyeID;

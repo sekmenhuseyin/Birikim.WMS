@@ -111,7 +111,7 @@ namespace Wms12m.Presentation.Controllers
                     if (chk != item.Chk)
                     {
                         evrakNo = db.SettingsIrsaliyeNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-                        cevap = db.InsertIrsaliye(tbl.SirketID, idDepo, GorevNo, evrakNo, "", true, ComboItems.SiparişTopla.ToInt32(), User.Id, User.UserName, today, time, item.Chk).FirstOrDefault();
+                        cevap = db.InsertIrsaliye(tbl.SirketID, idDepo, GorevNo, evrakNo, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.Id, vUser.UserName, today, time, item.Chk).FirstOrDefault();
                         //save sck
                         chk = item.Chk;
                         evraknolar += evrakNo + ",";
@@ -232,7 +232,7 @@ namespace Wms12m.Presentation.Controllers
                     return PartialView("Details", list);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return PartialView("Details", null);
             }
