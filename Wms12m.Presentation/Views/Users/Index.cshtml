@@ -34,10 +34,27 @@
                                                 <td>@Html.DisplayFor(modelItem => item.Admin)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.Aktif)</td>
                                                 <td>
-                                                    <a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Depo/@item.ID')"> Depoya Ata </a>
-                                                    <a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Pass/@item.ID')"> Şifre Değiştir </a>
-                                                    <a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Edit/@item.ID')"> Düzenle </a>
-                                                    <a class="btn btn-danger btn-circle" href="javascript:;" onclick="Delete('@item.ID','','theGrid','', '')"> Sil </a>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true" aria-expanded="false">
+                                                            İşlemler
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <li>
+                                                                <a  href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Depo/@item.ID')"> Depoya Ata </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Pass/@item.ID')"> Şifre Değiştir </a>
+                                                            </li>
+                                                            <li>                                                                
+                                                                <a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Edit/@item.ID')"><i class="fa fa-pencil"></i> Düzenle </a>
+                                                            </li>
+                                                            <li class="divider"> </li>
+                                                            <li>                                                                
+                                                                <a class="danger" href="javascript:;" onclick="Delete('@item.ID','','theGrid','', '')"><i class="fa fa-trash-o"></i> Sil </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         }

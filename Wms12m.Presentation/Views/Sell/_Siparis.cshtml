@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<frmSiparisler>
 @{string tmp = ""; }
 <table class="table table-striped table-bordered table-condensed table-hover" id="sample_2" width="250">
-    <thead><tr><th>Seç</th><th>Evrak No</th><th>Tarih</th></tr></thead>
+    <thead><tr><th>Seç</th><th>Evrak No</th><th>Tarih</th><th>Chk</th><th>Unvan</th><th>GrupKod</th><th>FaturaAdres</th><th>Açıklama</th><th>Çeşit</th><th>Miktar</th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
@@ -10,6 +10,13 @@
                 <td width="20"><input type="checkbox" name="cb" id="c-@item.EvrakNo.ClearSymbols()" class="form-control" disabled /></td>
                 <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                 <td>@item.Tarih.FromOADateInt()</td>
+                <td>@Html.DisplayFor(modelItem => item.Chk)</td>
+                <td>@Html.DisplayFor(modelItem => item.Unvan)</td>
+                <td>@Html.DisplayFor(modelItem => item.GrupKod)</td>
+                <td>@Html.DisplayFor(modelItem => item.FaturaAdres)</td>
+                <td>@Html.DisplayFor(modelItem => item.Aciklama)</td>
+                <td>@Html.DisplayFor(modelItem => item.Çeşit)</td>
+                <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
             </tr>
         }
     </tbody>

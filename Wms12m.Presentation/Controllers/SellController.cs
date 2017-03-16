@@ -14,7 +14,6 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.DepoID = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
             return View("Index");
         }
@@ -191,19 +190,19 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult GetSiparis()
         {
             var ID = Url.RequestContext.RouteData.Values["id"];
-            if (ID == null || ID.ToString2().Contains("-") == false) return null;
-            string[] tmp = ID.ToString().Split('-');
-            string kod = tmp[0]; if (kod == "0") return null;
-            string depo = tmp[1]; if (depo == "0") return null;
+            if (ID == null || ID.ToString2() == "0") return null;
+            string depo = ID.ToString();
             try
             {
-                using (DinamikModelContext Dinamik = new DinamikModelContext(kod))
+                using (DinamikModelContext Dinamik = new DinamikModelContext("33"))
                 {
-                    var list = Dinamik.Context.SPIs
-                                .Where(m => m.Depo == depo && m.KynkEvrakTip == 62 && m.SiparisDurumu == 0 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar) > 0)
-                                .GroupBy(m=> new { m.EvrakNo, m.Tarih })
-                                .Select(m => new frmSiparisler { EvrakNo = m.Key.EvrakNo, Tarih = m.Key.Tarih })
-                                .OrderByDescending(m=>m.Tarih);
+                    var list = (from s in Dinamik.Context.SPIs
+                                join s2 in Dinamik.Context.CHKs on s.Chk equals s2.HesapKodu
+                                join s3 in Dinamik.Context.MFKs on new { s.EvrakNo, s.KynkEvrakTip, s.Tarih, s.Chk } equals new { s3.EvrakNo, s3.KynkEvrakTip, Tarih = s3.EvrakTarih, Chk = s3.HesapKod }
+                                where s.Depo == depo && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
+                                group new { s, s2 } by new { s.EvrakNo, s.Tarih, s.Chk, s2.Unvan1, s2.GrupKod, s2.FaturaAdres3, s3.Aciklama } into g
+                                orderby g.Key.Chk
+                                select new frmSiparisler { EvrakNo = g.Key.EvrakNo, Tarih = g.Key.Tarih, Chk = g.Key.Chk, Unvan = g.Key.Unvan1, GrupKod = g.Key.GrupKod, FaturaAdres = g.Key.FaturaAdres3, Aciklama = g.Key.Aciklama, Çeşit = g.Count(m => m.s.MalKodu != ""), Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar) }).ToList();
                     return PartialView("_Siparis", list.ToList());
                 }
             }

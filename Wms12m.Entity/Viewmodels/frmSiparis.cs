@@ -9,6 +9,13 @@ namespace Wms12m.Entity
     {
         public string EvrakNo { get; set; }
         public int Tarih { get; set; }
+        public string Chk { get; set; }
+        public string Unvan { get; set; }
+        public string GrupKod { get; set; }
+        public string FaturaAdres { get; set; }
+        public string Aciklama { get; set; }
+        public int Çeşit { get; set; }
+        public decimal Miktar { get; set; }
     }
     /// <summary>
     /// sipariş listesi onay
