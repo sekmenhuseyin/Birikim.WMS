@@ -192,6 +192,7 @@ namespace Wms12m.Presentation.Controllers
             var ID = Url.RequestContext.RouteData.Values["id"];
             if (ID == null || ID.ToString2() == "0") return null;
             string depo = ID.ToString();
+            ViewBag.Depo = depo;
             try
             {
                 using (DinamikModelContext Dinamik = new DinamikModelContext("33"))
@@ -203,12 +204,37 @@ namespace Wms12m.Presentation.Controllers
                                 group new { s, s2 } by new { s.EvrakNo, s.Tarih, s.Chk, s2.Unvan1, s2.GrupKod, s2.FaturaAdres3, s3.Aciklama } into g
                                 orderby g.Key.Chk
                                 select new frmSiparisler { EvrakNo = g.Key.EvrakNo, Tarih = g.Key.Tarih, Chk = g.Key.Chk, Unvan = g.Key.Unvan1, GrupKod = g.Key.GrupKod, FaturaAdres = g.Key.FaturaAdres3, Aciklama = g.Key.Aciklama, Çeşit = g.Count(m => m.s.MalKodu != ""), Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar) }).ToList();
-                    return PartialView("_Siparis", list.ToList());
+                    return PartialView("_Siparis", list);
                 }
             }
             catch (Exception)
             {
                 return PartialView("_Siparis", new frmSiparisler());
+            }
+        }
+        /// <summary>
+        /// evrak noya ait mallar
+        /// </summary>
+        public PartialViewResult Details()
+        {
+            var ID = Url.RequestContext.RouteData.Values["id"];
+            if (ID == null || ID.ToString2() == "" || ID.ToString2().Contains("-") == false) return null;
+            string[] tmp = ID.ToString().Split('-');
+            string depo = tmp[0], evrak = tmp[1];
+            try
+            {
+                using (DinamikModelContext Dinamik = new DinamikModelContext("33"))
+                {
+                    var list = (from s in Dinamik.Context.SPIs
+                                join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
+                                where s.Depo == depo && s.EvrakNo == evrak && s.KynkEvrakTip == 62 && s.SiparisDurumu == 0 && (s.BirimMiktar - s.KapatilanMiktar - s.TeslimMiktar) > 0
+                                select new frmSiparisMalzeme { MalKodu = s.MalKodu, MalAdi = s2.MalAdi, Miktar = (s.BirimMiktar - s.KapatilanMiktar - s.TeslimMiktar), Birim = s.Birim }).ToList();
+                    return PartialView("Details", list);
+                }
+            }
+            catch (Exception ex)
+            {
+                return PartialView("Details", null);
             }
         }
     }
