@@ -17,6 +17,14 @@ namespace Wms12m.Presentation.Controllers
             return View("Index", list);
         }
         /// <summary>
+        /// görev ayrıntıları
+        /// </summary>
+        public PartialViewResult Details() {
+            var ID = Url.RequestContext.RouteData.Values["id"];
+            if (ID == null || ID.ToString2() == "0") return null;
+            return PartialView("Details", Task.Detail(ID.ToInt32()));
+        }
+        /// <summary>
         /// sadece listeyi gösterir
         /// </summary>
         public PartialViewResult GorevGridPartial()

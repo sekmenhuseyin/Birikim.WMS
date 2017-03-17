@@ -3,37 +3,33 @@
     <thead>
         <tr>
             <th>Depo</th>
-            <th>EvrakNo</th>
-            <th>Görev No</th>
             <th>Görev Tipi</th>
             <th>Durum</th>
             <th>Görevli</th>
             <th>Oluşturma Tarihi</th>
-            <th>Atama Tarihi</th>
             <th>Bitirme Tarihi</th>
-            <th>Bilgi</th>
-            <th>Açıklama</th>
-            <th></th>
+            <th style="width:100px;"></th>
         </tr>
     </thead>
     <tbody id="GorevFrom">
         @foreach (var item in Model)
         {
             <tr ondblclick="tiklama('@item.IrsaliyeID')">
-                <td>@item.Depo.Depo</td>
-                <td>@item.IRS.EvrakNo</td>
-                <td>@item.GorevNo</td>
-                <td>@item.ComboItemName.Name</td>
-                <td>@item.ComboItemName1.Name</td>
-                <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/GorevliAta/@item.ID')"> @{if (item.USR011 != null){ @item.USR011.AdSoyad} else {<text>Görevli Ata</text>}} </a></td>
+                <td>@item.Depo.DepoAd</td>
+                <td>@item.ComboItem_Name1.Name</td>
+                <td>@item.ComboItem_Name.Name</td>
+                <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/GorevliAta/@item.ID')"> @{if (item.User1 != null){ @item.User1.AdSoyad} else {<text>Görevli Ata</text>}} </a></td>
                 <td>@item.OlusturmaTarihi.FromOADateInt()</td>
-                <td>@{if (item.AtamaTarihi != null) { @item.AtamaTarihi.Value.FromOADateInt() } }</td>
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
-                <td>@item.Bilgi </td>
-                <td>@item.Aciklama </td>
                 <td>
-                    <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                    <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Gorev/GorevGridPartial','GorevGrid','0')"> Sil </a>
+                    <div class="btn-group">
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true" aria-expanded="false">İşlemler<i class="fa fa-angle-down"></i></button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/Details/@item.ID')"> Ayrıntlar </a></li>
+                            <li><a href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a></li>
+                            <li><a href="javascript:;" onclick="Delete('@item.ID','/Gorev/GorevGridPartial','GorevGrid','0')"> Sil </a></li>
+                        </ul>
+                    </div>
                 </td>
             </tr>
         }

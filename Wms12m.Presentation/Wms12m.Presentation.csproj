@@ -2943,6 +2943,7 @@
     <Content Include="Views\Users\Depo.cshtml" />
     <Content Include="Views\Sell\Details.cshtml" />
     <Content Include="Views\Users\Pass.cshtml" />
+    <Content Include="Views\Gorev\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
