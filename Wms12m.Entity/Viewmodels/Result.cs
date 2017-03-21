@@ -22,6 +22,16 @@ namespace Wms12m.Entity
         public string label { get; set; }
     }
     /// <summary>
+    /// json result birim
+    /// </summary>
+    public class frmBirims
+    {
+        public string Birim1 { get; set; }
+        public string Birim2 { get; set; }
+        public string Birim3 { get; set; }
+        public string Birim4 { get; set; }
+    }
+    /// <summary>
     /// datatables için bir kaç form
     /// </summary>
     public class DataTableParameters

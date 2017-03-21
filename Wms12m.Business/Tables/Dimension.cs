@@ -24,12 +24,9 @@ namespace Wms12m.Business
                 return _Result;
             }
             bool kontrol = true;
-            using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketKod))
-            {
-                var tmp = Dinamik.Context.STKs.Where(m => m.MalKodu == tbl.MalKodu && (m.Birim1 == tbl.Birim || m.Birim2 == tbl.Birim || m.Birim3 == tbl.Birim || m.Birim4 == tbl.Birim)).FirstOrDefault();
-                if (tmp == null)
-                    kontrol = false;
-            }
+            var tmp = db.Database.SqlQuery<string>("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}') AND ((Birim1 = '{2}') OR (Birim2 = '{2}') OR (Birim3 = '{2}') OR (Birim4 = '{2}'))", tbl.SirketKod, tbl.MalKodu, tbl.Birim);
+            if (tmp.ToString2() == "")
+                kontrol = false;
             var tmp2 = db.Olcus.Where(m => m.SirketKod == tbl.SirketKod && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.ID != tbl.ID).FirstOrDefault();
             if (tmp2 != null)
                 kontrol = false;
@@ -48,13 +45,13 @@ namespace Wms12m.Business
                 }
                 else
                 {
-                    var tmp = Detail(tbl.ID);
-                    tmp.MalKodu = tbl.MalKodu;
-                    tmp.Birim = tbl.Birim;
-                    tmp.En = tbl.En;
-                    tmp.Boy = tbl.Boy;
-                    tmp.Derinlik = tbl.Derinlik;
-                    tmp.Agirlik = tbl.Agirlik;
+                    var tmp3 = Detail(tbl.ID);
+                    tmp3.MalKodu = tbl.MalKodu;
+                    tmp3.Birim = tbl.Birim;
+                    tmp3.En = tbl.En;
+                    tmp3.Boy = tbl.Boy;
+                    tmp3.Derinlik = tbl.Derinlik;
+                    tmp3.Agirlik = tbl.Agirlik;
                 }
                 db.SaveChanges();
                 //result
@@ -127,7 +124,7 @@ namespace Wms12m.Business
         /// </summary>
         public List<Olcu> GetList(string ParentId)
         {
-            return db.Olcus.Where(m=>m.SirketKod==ParentId).OrderBy(m => m.MalKodu).ToList();
+            return db.Olcus.Where(m => m.SirketKod == ParentId).OrderBy(m => m.MalKodu).ToList();
         }
         public override List<Olcu> GetList(int ParentId)
         {

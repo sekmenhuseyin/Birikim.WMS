@@ -39,47 +39,43 @@ namespace Wms12m.Presentation.Controllers
             var irsaliye = db.IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
             //sti listesi oluşturuyoruz. tüm bilgiyi tek seferde veritabanına kaydetçek
             List<IRS_Detay> liste = new List<IRS_Detay>();
-            //finsat işlemleri
-            using (DinamikModelContext Dinamik = new DinamikModelContext(irsaliye.SirketKod))
+            for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
-                for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+                DataRow dr = result.Tables[0].Rows[i];
+                string tmp = dr["MalKodu"].ToString();
+                //satıcı malkodundan malkodunu getir
+                string malkodu = db.Database.SqlQuery<string>("SELECT MalKodu FROM FINSAT633.TTY WHERE (SatMalKodu = '1') AND (Chk = '2')", irsaliye.SirketKod, tmp).FirstOrDefault();
+                //kontrol
+                if (dr["Birim"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
+                if (dr["Miktar"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
+                if (malkodu == "" || malkodu == null) return Json(false, JsonRequestBehavior.AllowGet);
+                //add new
+                try
                 {
-                    DataRow dr = result.Tables[0].Rows[i];
-                    string tmp = dr["MalKodu"].ToString();
-                    //satıcı malkodundan malkodunu getir
-                    string malkodu = Dinamik.Context.TTies.Where(m => m.SatMalKodu == tmp && m.Chk == irsaliye.HesapKodu).Select(m => m.MalKodu).FirstOrDefault();
-                    //kontrol
-                    if (dr["Birim"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
-                    if (dr["Miktar"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
-                    if (malkodu == "" || malkodu == null) return Json(false, JsonRequestBehavior.AllowGet);
-                    //add new
-                    try
-                    {
-                        IRS_Detay sti = new IRS_Detay();
-                        sti.IrsaliyeID = IrsNo;
-                        sti.MalKodu = malkodu;
-                        sti.Miktar = Convert.ToDecimal(dr["Miktar"]);
-                        sti.Birim = dr["Birim"].ToString();
-                        //ekle
-                        liste.Add(sti);
-                    }
-                    catch (Exception)
-                    {
-                        return Json(false, JsonRequestBehavior.AllowGet);
-                    }
+                    IRS_Detay sti = new IRS_Detay();
+                    sti.IrsaliyeID = IrsNo;
+                    sti.MalKodu = malkodu;
+                    sti.Miktar = Convert.ToDecimal(dr["Miktar"]);
+                    sti.Birim = dr["Birim"].ToString();
+                    //ekle
+                    liste.Add(sti);
                 }
-                //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
-                using (var dbContextTransaction = db.Database.BeginTransaction())
+                catch (Exception)
                 {
-                    try
-                    {
-                        db.IRS_Detay.AddRange(liste);
-                        db.SaveChanges();
-                        dbContextTransaction.Commit();
-                    }
-                    catch (Exception){
-                        return Json(false, JsonRequestBehavior.AllowGet);
-                    }
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+            }
+            //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    db.IRS_Detay.AddRange(liste);
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception){
+                    return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }
             reader.Close();
@@ -110,51 +106,47 @@ namespace Wms12m.Presentation.Controllers
             if (result.Tables[0].Rows == null) return Json(false, JsonRequestBehavior.AllowGet);
             //sti listesi oluşturuyoruz. tüm bilgiyi tek seferde veritabanına kaydetçek
             List<Olcu> liste = new List<Olcu>();
-            //finsat işlemleri
-            using (DinamikModelContext Dinamik = new DinamikModelContext(SirketKod))
+            for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
-                for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+                DataRow dr = result.Tables[0].Rows[i];
+                //kontrol
+                if (dr["Mal Kodu"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
+                if (dr["Birim"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
+                if (dr["En"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
+                if (dr["Boy"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
+                if (dr["Derinlik"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
+                if (dr["Ağırlık"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
+                //add new
+                try
                 {
-                    DataRow dr = result.Tables[0].Rows[i];
-                    //kontrol
-                    if (dr["Mal Kodu"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
-                    if (dr["Birim"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
-                    if (dr["En"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
-                    if (dr["Boy"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
-                    if (dr["Derinlik"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
-                    if (dr["Ağırlık"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
-                    //add new
-                    try
-                    {
-                        Olcu sti = new Olcu();
-                        sti.SirketKod = SirketKod;
-                        sti.MalKodu = dr["Mal Kodu"].ToString();
-                        sti.Birim = dr["Birim"].ToString();
-                        sti.En = dr["En"].ToDecimal();
-                        sti.Boy = dr["Boy"].ToDecimal();
-                        sti.Derinlik = dr["Derinlik"].ToDecimal();
-                        sti.Agirlik = dr["Ağırlık"].ToDecimal();
-                        //ekle
-                        liste.Add(sti);
-                    }
-                    catch (Exception)
-                    {
-                        return Json(false, JsonRequestBehavior.AllowGet);
-                    }
+                    Olcu sti = new Olcu();
+                    sti.SirketKod = SirketKod;
+                    sti.MalKodu = dr["Mal Kodu"].ToString();
+                    sti.Birim = dr["Birim"].ToString();
+                    sti.En = dr["En"].ToDecimal();
+                    sti.Boy = dr["Boy"].ToDecimal();
+                    sti.Derinlik = dr["Derinlik"].ToDecimal();
+                    sti.Agirlik = dr["Ağırlık"].ToDecimal();
+                    //ekle
+                    liste.Add(sti);
                 }
-                //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
-                using (var dbContextTransaction = db.Database.BeginTransaction())
+                catch (Exception)
                 {
-                    try
-                    {
-                        db.Olcus.AddRange(liste);
-                        db.SaveChanges();
-                        dbContextTransaction.Commit();
-                    }
-                    catch (Exception)
-                    {
-                        return Json(false, JsonRequestBehavior.AllowGet);
-                    }
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+            }
+            //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    db.Olcus.AddRange(liste);
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception)
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }
             reader.Close();

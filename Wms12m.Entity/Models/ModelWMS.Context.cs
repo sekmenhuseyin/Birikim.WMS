@@ -234,5 +234,10 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.YetkiDepoSet", depoIDParameter, userIDParameter, ekleParameter);
         }
+    
+        public virtual ObjectResult<string> GetSirketDBs()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetSirketDBs");
+        }
     }
 }

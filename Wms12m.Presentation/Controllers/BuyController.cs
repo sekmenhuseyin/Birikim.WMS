@@ -42,15 +42,11 @@ namespace Wms12m.Presentation.Controllers
             if (id == null || id.ToString2() == "0") return null;
             string sirket = id.ToString().Left(2);
             string kod = id.ToString().Mid(2, 99);
-            using (DinamikModelContext Dinamik = new DinamikModelContext(sirket))
-            {
-                var list = Dinamik.Context.SPIs
-                    .Join(Dinamik.Context.CHKs, ti => ti.Chk, tc => tc.HesapKodu, (ti, tc) => new { ti = ti, tc = tc })
-                    .Join(Dinamik.Context.STKs, ts => ts.ti.MalKodu, ti => ti.MalKodu, (ts, ti) => new { ts = ts, ti = ti })
-                    .Where(m => m.ts.ti.KynkEvrakTip == 63 && m.ts.ti.SiparisDurumu == 0 && m.ts.ti.Chk == kod && m.ts.ti.BirimMiktar - m.ts.ti.TeslimMiktar - m.ts.ti.KapatilanMiktar > 0)
-                    .Select(m => new frmSiparistenGelen { ID = m.ts.ti.ROW_ID, EvrakNo = m.ts.ti.EvrakNo, Tarih = m.ts.ti.Tarih, MalAdi = m.ti.MalAdi, MalKodu = m.ti.MalKodu, AçıkMiktar = m.ts.ti.BirimMiktar - m.ts.ti.TeslimMiktar - m.ts.ti.KapatilanMiktar, Birim = m.ts.ti.Birim }).ToList();
-                return PartialView("SiparisList", list);
-            }
+            var list = db.Database.SqlQuery<frmSiparistenGelen>("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
+                                                                "FROM FINSAT6{0}.FINSAT6{0}.SPI INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
+                                                                "WHERE(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.Chk = '{1}') AND(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar > 0)", sirket, kod);
+
+            return PartialView("SiparisList", list);
         }
         /// <summary>
         /// siparişten malzeme ekler
@@ -62,23 +58,20 @@ namespace Wms12m.Presentation.Controllers
             //loop ids
             string[] tmp = ids.Split(',');
             int rowid; int irsaliyeID = id.ToInt32();
-            using (DinamikModelContext Dinamik = new DinamikModelContext(s))
+            foreach (var item in tmp)
             {
-                foreach (var item in tmp)
+                if (item != "")
                 {
-                    if (item != "")
-                    {
-                        rowid = item.ToInt32();
-                        var tbl = Dinamik.Context.SPIs.Where(m => m.ROW_ID == rowid && m.IslemTur == 0 && m.KynkEvrakTip == 63 && (m.BirimMiktar - m.TeslimMiktar - m.KapatilanMiktar)>0).FirstOrDefault();
-                        //save details
-                        IRS_Detay sti = new IRS_Detay();
-                        sti.IrsaliyeID = irsaliyeID;
-                        sti.Birim = tbl.Birim;
-                        sti.KynkSiparisNo = tbl.EvrakNo;
-                        sti.MalKodu = tbl.MalKodu;
-                        sti.Miktar = tbl.BirimMiktar - tbl.TeslimMiktar - tbl.KapatilanMiktar;
-                        Result _Result = Stok.Operation(sti);
-                    }
+                    rowid = item.ToInt32();
+                    var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>("SELECT EvrakNo, MalKodu, BirimMiktar - TeslimMiktar - KapatilanMiktar AS Miktar, Birim FROM FINSAT6{0}.FINSAT6{0}.SPI WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (BirimMiktar - TeslimMiktar - KapatilanMiktar > 0)", s, rowid).FirstOrDefault();
+                    //save details
+                    IRS_Detay sti = new IRS_Detay();
+                    sti.IrsaliyeID = irsaliyeID;
+                    sti.Birim = tbl.Birim;
+                    sti.KynkSiparisNo = tbl.EvrakNo;
+                    sti.MalKodu = tbl.MalKodu;
+                    sti.Miktar = tbl.Miktar;
+                    Result _Result = Stok.Operation(sti);
                 }
             }
             //get list
@@ -134,33 +127,24 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
-            {
-                var list = Dinamik.Context.STKs.Where(m => m.MalKodu.StartsWith(term)).Select(m => new frmJson { id = m.MalKodu, value = m.MalAdi, label = m.MalAdi }).Take(20).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
-            }
+            var list = db.Database.SqlQuery<frmJson>("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu LIKE '{1}%')", id.ToString(), term);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
         public JsonResult getMalzemebyName(string term)
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
-            {
-                var list = Dinamik.Context.STKs.Where(m => m.MalAdi.Contains(term)).Select(m => new frmJson { id = m.MalKodu, value = m.MalAdi, label = m.MalAdi }).Take(20).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
-            }
+            var list = db.Database.SqlQuery<frmJson>("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalAdi LIKE '%{1}%')", id.ToString(), term);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// malzeme koduna göre birim getirir
         /// </summary>
         [HttpPost]
-        public JsonResult getBirim(string kod,string s)
+        public JsonResult getBirim(string kod, string s)
         {
-            using (DinamikModelContext Dinamik = new DinamikModelContext(s))
-            {
-                var list = Dinamik.Context.STKs.Where(m => m.MalKodu == kod).Select(m => new { m.Birim1, m.Birim2, m.Birim3, m.Birim4 }).FirstOrDefault();
-                return Json(list, JsonRequestBehavior.AllowGet);
-            }
+            var list = db.Database.SqlQuery<frmBirims>("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", s, kod);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// anasayfadaki malzeme listesi
@@ -170,11 +154,8 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             if (id.ToString() == "0") return null;
-            using (DinamikModelContext Dinamik = new DinamikModelContext(id.ToString()))
-            {
-                var list = Dinamik.Context.CHKs.Where(m => m.HesapKodu.StartsWith("320")).Select(m => new frmHesapUnvan { HesapKodu = m.HesapKodu, Unvan = m.Unvan1 + " " + m.Unvan2 }).ToList();
-                return PartialView("_HesapGridPartial", list);
-            }
+            var list = db.Database.SqlQuery<frmHesapUnvan>("SELECT HesapKodu, Unvan1 + ' ' + Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WHERE (KartTip = 0) OR (KartTip = 1) OR (KartTip = 4)", id.ToString());
+            return PartialView("_HesapGridPartial", list);
         }
         /// <summary>
         /// yeni malzeme satırı formu

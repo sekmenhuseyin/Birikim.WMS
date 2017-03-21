@@ -801,6 +801,7 @@
         <Function Name="GetKoridorIdFromGorevId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="GorevID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetSirketDBs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="InsertIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SirketKod" Type="varchar" Mode="In" />
@@ -1257,6 +1258,7 @@
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="Ekle" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <FunctionImport Name="GetSirketDBs" ReturnType="Collection(String)" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2414,6 +2416,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="YetkiDepoSet" FunctionName="MModel.Store.YetkiDepoSet" />
+          <FunctionImportMapping FunctionImportName="GetSirketDBs" FunctionName="MModel.Store.GetSirketDBs" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

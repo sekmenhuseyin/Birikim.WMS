@@ -52,7 +52,14 @@ namespace Wms12m.Presentation.Controllers
                 }));
                 return;
             }
-            ViewBag.User = vUser.FirstName + " " + vUser.LastName;
+            try
+            {
+                ViewBag.User = vUser.FirstName + " " + vUser.LastName;
+            }
+            catch (System.Exception)
+            {
+                ViewBag.User = "";
+            }
             base.OnActionExecuting(filterContext);
         }
         /// <summary>

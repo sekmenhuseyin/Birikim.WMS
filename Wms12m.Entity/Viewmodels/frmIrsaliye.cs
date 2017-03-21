@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Runtime.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace Wms12m.Entity
 {
@@ -58,6 +58,16 @@ namespace Wms12m.Entity
         public string MalKodu { get; set; }
         public string MalAdi { get; set; }
         public decimal AçıkMiktar { get; set; }
+        public string Birim { get; set; }
+    }
+    /// <summary>
+    /// siparişten getir sayfası
+    /// </summary>
+    public class frmIrsaliyeMalzeme
+    {
+        public string EvrakNo { get; set; }
+        public string MalKodu { get; set; }
+        public decimal Miktar { get; set; }
         public string Birim { get; set; }
     }
 }
