@@ -14,7 +14,7 @@
                                 <tr>
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
+                                    <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                                 </tr>
                             }

@@ -42,8 +42,8 @@
                                     <td width="20"><input type="checkbox" name="cb" id="c-@item.MalKodu.ClearSymbols()" class="form-control" disabled /></td>
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Stok)</td>
+                                    <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                                    <td align="right">@String.Format("{0:n}", item.Stok)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                                 </tr>
                             }
