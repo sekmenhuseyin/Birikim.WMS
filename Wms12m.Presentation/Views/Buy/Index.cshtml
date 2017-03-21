@@ -89,7 +89,7 @@
                     <div class="caption">
                         <i class="fa fa-files-o"></i>Malzeme Bilgileri
                     </div>
-                    <div class="col-md-2 pull-right m-t-5">
+                    <div class="col-md-2 pull-right m-t-5 showlater">
                         @using (Html.BeginForm("irsaliye", "Uploads", FormMethod.Post, new { enctype = "multipart/form-data", id = "fileupload" }))
                         {
                             @Html.AntiForgeryToken()
@@ -99,7 +99,7 @@
                             <input type="hidden" name="IrsNo" id="IrsNo" value="0" />
                         }
                     </div>
-                    <div class="col-md-2 pull-right m-t-5">
+                    <div class="col-md-2 pull-right m-t-5 showlater">
                         <a id="btnSiparis" class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Buy/SiparisList/' + $('#SirketID').val() + $('#HesapKodu').val())"> Siparişten Getir </a>
                     </div>
                 </div>
@@ -119,10 +119,10 @@
 <script src="~/Content/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
 <script>
-    $(".import-content").hide();
+    $(".showlater").hide();
     var DeleteFunctionUrl = '@Url.Action("Delete2", "Buy")';
-    $("#SirketID").prepend("<option value='0'>Seçiniz !!!</option>");
-    $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>");
+    $("#SirketID").prepend("<option value=''>Seçiniz !!!</option>");
+    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>");
     CreateNew(); checkEnabled();
     $("#Tarih").datepicker({ todayBtn: 'true', todayHighlight: 'true', language: 'tr' });
     $('#SirketID').on('change', function () {
@@ -138,11 +138,10 @@
         });
     });
     function checkEnabled() {
-        if ($("#SirketID").val() == 0 || $("#DepoID").val() == 0 || $("#HesapKodu").val() == "" || $("#HesapKodu").val() == null) {
-            $("#btnList").hide(); $("#btnSiparis").hide(); $("#btnSablon").hide(); $("#linkUpload").hide();
-        } else {
-            $("#btnList").show(); $("#btnSiparis").show(); $("#btnSablon").show(); $("#linkUpload").show();
-        }
+        if ($("#SirketID").val() == "" || $("#DepoID").val() == "" || $("#HesapKodu").val() == "" || $("#HesapKodu").val() == null)
+            $("#btnList").hide();
+        else
+            $("#btnList").show();
     }
     function ShowHide() {
         if ($('#hesapSelect').css("display") == "none")
