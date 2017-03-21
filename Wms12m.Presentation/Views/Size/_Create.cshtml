@@ -106,7 +106,7 @@
             acceptFileTypes: /(\.|\/)(xlsx)$/i,
             dataType: 'json',
             add: function (e, data) { data.submit(); },
-            done: function (e, data) { $('#modalEditPage').modal('toggle'); }
+            done: function (e, data) { $('#modalEditPage').modal('toggle'); window.location.reload(); }
         });
     });
 </script>

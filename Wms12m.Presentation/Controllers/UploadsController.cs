@@ -65,6 +65,7 @@ namespace Wms12m.Presentation.Controllers
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }
+            reader.Close();
             //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
@@ -78,7 +79,6 @@ namespace Wms12m.Presentation.Controllers
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }
-            reader.Close();
             return Json(true, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
