@@ -1,14 +1,13 @@
 ﻿@model IEnumerable<frmSiparisler>
 @{string tmp = ""; }
-<table class="table table-striped table-bordered table-condensed table-hover" id="sample_2" width="250">
-    <thead><tr><th>Seç</th><th>Evrak No</th><th>Tarih</th><th>Chk</th><th>Unvan</th><th>GrupKod</th><th>FaturaAdres</th><th>Açıklama</th><th>Çeşit</th><th>Miktar</th></tr></thead>
+<table class="table table-condensed" id="sample_2" width="250">
+    <thead><tr><th>Evrak No</th><th>Tarih</th><th>Chk</th><th>Unvan</th><th>GrupKod</th><th>FaturaAdres</th><th>Açıklama</th><th>Çeşit</th><th>Miktar</th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
             tmp += item.EvrakNo + "#";
-            <tr style="cursor:pointer;" onclick="toggle('@item.EvrakNo', '@item.EvrakNo.ClearSymbols()')">
-                <td width="20"><input type="checkbox" name="cb" id="c-@item.EvrakNo.ClearSymbols()" class="form-control" disabled /></td>
-                <td><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Sell/Details/@item.SirketID-@ViewBag.Depo-@item.EvrakNo')">@Html.DisplayFor(modelItem => item.EvrakNo)</a></td>
+            <tr style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')" ondblclick="$('#modalEditPage').modal('toggle'); editInModal('/Sell/Details/@item.SirketID-@ViewBag.Depo-@item.EvrakNo')">
+                <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                 <td>@item.Tarih.FromOADateInt()</td>
                 <td>@Html.DisplayFor(modelItem => item.Chk)</td>
                 <td>@Html.DisplayFor(modelItem => item.Unvan)</td>
@@ -29,6 +28,30 @@
 </div>
 <div class="row"><input type="button" onclick="SelectAllRows()" value="Hepsini Seç" /></div>
 <script>
-    $(document).ready(function () { $('#sample_2').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); selected = ""; });
+    $(document).ready(function () {
+        selected = "";
+        $('#sample_2').DataTable({
+            "ordering": false,
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<br /><select style="max-width:100px;"><option value=""></option></select>')
+                        .appendTo($(column.header()))
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val() );
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+                    column.data().unique().sort().each(function (d, j) {select.append('<option value="' + d + '">' + d + '</option>')});
+                });
+            }
+        });
+    });
     function SelectAllRows() { $("#checkboxes").val('@tmp'); }
+    function toggle(row, id) {
+        $(row).toggleClass('selected');
+        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
+        else selected = selected.replace(id + "#", "");
+        $("#checkboxes").val(selected);
+    }
 </script>
