@@ -1086,6 +1086,8 @@
     <Content Include="Content\assets\global\plugins\datatables\images\back_disabled.png" />
     <Content Include="Content\assets\global\plugins\datatables\images\back_enabled.png" />
     <Content Include="Content\assets\global\plugins\datatables\images\back_enabled_hover.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\details_close.png" />
+    <Content Include="Content\assets\global\plugins\datatables\images\details_open.png" />
     <Content Include="Content\assets\global\plugins\datatables\images\forward_disabled.png" />
     <Content Include="Content\assets\global\plugins\datatables\images\forward_enabled.png" />
     <Content Include="Content\assets\global\plugins\datatables\images\forward_enabled_hover.png" />

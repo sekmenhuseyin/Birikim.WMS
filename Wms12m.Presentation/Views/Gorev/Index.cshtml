@@ -4,6 +4,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")" rel="stylesheet" type="text/css" />
+<style>
+    td.details-control {
+        background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+    }
+</style>
 }<h3 class="page-title">Görev İşlemleri</h3>
 <div class="row">
     <div class="col-md-12">
@@ -43,10 +53,7 @@
                                         <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/GorevliAta/@item.ID')"> @{if (item.User1 != null){ @item.User1.AdSoyad} else {<text>Görevli Ata</text>}} </a></td>
                                         <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                                         <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
-                                        <td>
-                                            <a href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                                            <a href="javascript:;" onclick="Delete('@item.ID','/Gorev/GorevGridPartial','GorevGrid','0')"> Sil </a>
-                                        </td>
+                                        <td><a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a></td>
                                     </tr>
                                 }
                             </tbody>
@@ -62,7 +69,71 @@
 <script src="~/Content/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
-    $(document).ready(function () { $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });
+    /* Formatting function for row details - modify as you need */
+    function format(d) {
+        // `d` is the original data object for the row
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            '<tr>' +
+            '<td>Full name:</td>' +
+            '<td>' + d.name + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Extension number:</td>' +
+            '<td>' + d.extn + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Extra info:</td>' +
+            '<td>And any further details here (images etc)...</td>' +
+            '</tr>' +
+            '</table>';
+    }
+    $(document).ready(function () {
+        $('#sample_1').DataTable({
+            "ordering": false,
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "columns": [
+                {
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                },
+                { "data": "Depo" },
+                { "data": "EvrakNo" },
+                { "data": "GorevNo" },
+                { "data": "Görevli" }
+            ],
+            initComplete: function () {
+                this.api().columns([0, 1, 2, 3, 4]).every(function () {
+                    var column = this;
+                    var select = $('<br /><select style="max-width:100px;"><option value=""></option></select>')
+                        .appendTo($(column.header()))
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
+                });
+            }
+        });
+
+        // Add event listener for opening and closing details
+        $('#sample_1 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+    });
     var GorevGridUrl = '@Url.Action("GorevGridPartial", "Gorev")';
     var GorevDetailUrl = '@Url.Action("GorevDetailPartial", "Gorev")';
     var DeleteFunctionUrl = '@Url.Action("Delete", "Gorev")';
