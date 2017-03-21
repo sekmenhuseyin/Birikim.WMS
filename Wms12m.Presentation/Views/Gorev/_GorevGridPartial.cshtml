@@ -26,14 +26,8 @@
                 <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
                 <td>
-                    <div class="btn-group">
-                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true" aria-expanded="false">İşlemler<i class="fa fa-angle-down"></i></button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/Details/@item.ID')"> Ayrıntlar </a></li>
-                            <li><a href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a></li>
-                            <li><a href="javascript:;" onclick="Delete('@item.ID','/Gorev/GorevGridPartial','GorevGrid','0')"> Sil </a></li>
-                        </ul>
-                    </div>
+                    <a href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                    <a href="javascript:;" onclick="Delete('@item.ID','/Gorev/GorevGridPartial','GorevGrid','0')"> Sil </a>
                 </td>
             </tr>
         }
