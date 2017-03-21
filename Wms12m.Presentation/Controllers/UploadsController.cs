@@ -42,9 +42,9 @@ namespace Wms12m.Presentation.Controllers
             for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
                 DataRow dr = result.Tables[0].Rows[i];
-                string tmp = dr["MalKodu"].ToString();
                 //satıcı malkodundan malkodunu getir
-                string malkodu = db.Database.SqlQuery<string>("SELECT MalKodu FROM FINSAT633.TTY WHERE (SatMalKodu = '1') AND (Chk = '2')", irsaliye.SirketKod, tmp).FirstOrDefault();
+                string malkodu = String.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.TTY WITH(NOLOCK) WHERE (SatMalKodu = '{1}') AND (Chk = '{2}')", irsaliye.SirketKod, dr["MalKodu"].ToString(), irsaliye.HesapKodu);
+                malkodu = db.Database.SqlQuery<string>(malkodu).FirstOrDefault();
                 //kontrol
                 if (dr["Birim"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
                 if (dr["Miktar"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);

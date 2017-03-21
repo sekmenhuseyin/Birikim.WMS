@@ -93,7 +93,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Özellik</label>
                                     <div class="col-md-4">
-                                        @Html.DropDownList("Ozellik", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+                                        @Html.DropDownList("Ozellik", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", min="1" })
                                         <span class="field-validation-valid" data-valmsg-for="Ozellik" data-valmsg-replace="true" style="color:red;"></span>
                                     </div>
                                 </div>
@@ -204,16 +204,14 @@
         $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
         @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}
         $("#touchspin_11").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
-        $("#Ozellik").prepend("<option value='0'>Seçiniz !!!</option>"); $("#Ozellik")[0].selectedIndex = 0;
-        $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
-        $(".KoridorID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".KoridorID")[0].selectedIndex = 0; $(".KoridorID")[1].selectedIndex = 0;
-        $(".RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".RafID")[0].selectedIndex = 0; $(".RafID")[1].selectedIndex = 0;
-        $(".BolumID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".BolumID")[0].selectedIndex = 0; $(".BolumID")[1].selectedIndex = 0;
+        $("#Ozellik").prepend("<option value=''>Seçiniz !!!</option>"); $("#Ozellik")[0].selectedIndex = 0;
+        $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
         $('#SectionListi').on('change', function () { FuncSearchBtn(); })
     });
     function getCorridor(id, what) {
         $("#" + what + " option").remove();
+        $('#FloorGrid').html("");
         if (what == "RafID") { $("#RafID option").remove(); $("#RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0; }
         $.ajax({
             url: "/Corridor/CorridorList/" + id,
@@ -232,6 +230,7 @@
     }
     function getShelf(id, what) {
         $("#" + what + " option").remove();
+        $('#FloorGrid').html("");
         $.ajax({
             url: "/Shelf/ShelfList/" + id,
             type: 'POST',
@@ -249,6 +248,7 @@
     }
     function getSection(id, what) {
         $("#" + what + " option").remove();
+        $('#FloorGrid').html("");
         $.ajax({
             url: "/Section/SectionList/" + id,
             type: 'POST',
@@ -266,10 +266,11 @@
     }
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
-        var StoreId = $(".StoreListi option:selected").val();
-        var CorridorId = $("#CorridorList option:selected").val();
-        var ShelfId = $("#ShelfListi option:selected").val();
-        var SectionId = $("#SectionListi option:selected").val();
+        var StoreId = $(".StoreListi option:selected").val(); if (StoreId == null) StoreId = 0;
+        var CorridorId = $("#CorridorList option:selected").val(); if (CorridorId == null) CorridorId = 0;
+        var ShelfId = $("#ShelfListi option:selected").val(); if (ShelfId == null) ShelfId = 0;
+        var SectionId = $("#SectionListi option:selected").val(); if (SectionId == null) SectionId = 0;
+        $('#FloorGrid').html("");
         PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId + "#" + SectionId) }));
     }
     function FloorReturn(Data) {

@@ -16,6 +16,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
             return View("Index", new Raf());
         }
         /// <summary>

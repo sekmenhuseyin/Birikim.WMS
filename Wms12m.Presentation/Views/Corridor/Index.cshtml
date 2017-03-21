@@ -115,13 +115,14 @@
         $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
         @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}
         $("#touchspin_11").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
-        $(".DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
+        $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
         $('.StoreListi').on('change', function () { FuncSearchBtn(); })
     });
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
-        var StoreId = $(".StoreListi option:selected").val();
+        var StoreId = $(".StoreListi option:selected").val(); if (StoreId == null) StoreId = 0;
+        $('#CorridorGrid').html("");
         PartialView(CorridorGridUrl, 'CorridorGrid', JSON.stringify({ Id: (Type + "#" + StoreId) }));
     }
     function CorridorReturn(Data) {
@@ -132,7 +133,7 @@
     function CreateEdit(Id) {
         if (Id == 0) {
             $("#ID").val("0");
-            $("#Koridor").val("");
+            $("#KoridorAd").val("");
         }
         else
             PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));

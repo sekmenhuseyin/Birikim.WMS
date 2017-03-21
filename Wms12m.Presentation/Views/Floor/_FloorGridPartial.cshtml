@@ -10,7 +10,7 @@
                     <td>@item.KatAd</td>
                     <td>@item.SiraNo </td>
                     <td align="right">@String.Format("{0:n}", item.En) x @String.Format("{0:n}", item.Boy) x @String.Format("{0:n}", item.Derinlik) mm<sup>3</sup></td>
-                    <td align="right">@item.AgirlikKapasite kg</td>
+                    <td align="right">@String.Format("{0:n}", item.AgirlikKapasite) kg</td>
                     <td>@item.ComboItem_Name.Name </td>
                     <td>@item.Aciklama </td>
                     <td>@(item.Aktif ? "Aktif" : "Pasif")</td>

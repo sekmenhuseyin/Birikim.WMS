@@ -42,9 +42,10 @@ namespace Wms12m.Presentation.Controllers
             if (id == null || id.ToString2() == "0") return null;
             string sirket = id.ToString().Left(2);
             string kod = id.ToString().Mid(2, 99);
-            var list = db.Database.SqlQuery<frmSiparistenGelen>("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
-                                                                "FROM FINSAT6{0}.FINSAT6{0}.SPI INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
+            string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
+                                                                "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                                                 "WHERE(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.Chk = '{1}') AND(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar > 0)", sirket, kod);
+            var list = db.Database.SqlQuery<frmSiparistenGelen>(sql).ToList();
 
             return PartialView("SiparisList", list);
         }
@@ -63,7 +64,8 @@ namespace Wms12m.Presentation.Controllers
                 if (item != "")
                 {
                     rowid = item.ToInt32();
-                    var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>("SELECT EvrakNo, MalKodu, BirimMiktar - TeslimMiktar - KapatilanMiktar AS Miktar, Birim FROM FINSAT6{0}.FINSAT6{0}.SPI WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (BirimMiktar - TeslimMiktar - KapatilanMiktar > 0)", s, rowid).FirstOrDefault();
+                    string sql = String.Format("SELECT EvrakNo, MalKodu, BirimMiktar - TeslimMiktar - KapatilanMiktar AS Miktar, Birim FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (BirimMiktar - TeslimMiktar - KapatilanMiktar > 0)", s, rowid);
+                    var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
                     //save details
                     IRS_Detay sti = new IRS_Detay();
                     sti.IrsaliyeID = irsaliyeID;
@@ -127,14 +129,16 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            var list = db.Database.SqlQuery<frmJson>("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu LIKE '{1}%')", id.ToString(), term);
+            string sql = String.Format("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu LIKE '{1}%')", id.ToString(), term);
+            var list = db.Database.SqlQuery<frmJson>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         public JsonResult getMalzemebyName(string term)
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            var list = db.Database.SqlQuery<frmJson>("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalAdi LIKE '%{1}%')", id.ToString(), term);
+            string sql = String.Format("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalAdi LIKE '%{1}%')", id.ToString(), term);
+            var list = db.Database.SqlQuery<frmJson>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -143,7 +147,8 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult getBirim(string kod, string s)
         {
-            var list = db.Database.SqlQuery<frmBirims>("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", s, kod);
+            string sql = String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", s, kod);
+            var list = db.Database.SqlQuery<frmBirims>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -154,7 +159,8 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             if (id.ToString() == "0") return null;
-            var list = db.Database.SqlQuery<frmHesapUnvan>("SELECT HesapKodu, Unvan1 + ' ' + Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WHERE (KartTip = 0) OR (KartTip = 1) OR (KartTip = 4)", id.ToString());
+            string sql = String.Format("SELECT HesapKodu, Unvan1 + ' ' + Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE (KartTip = 0) OR (KartTip = 1) OR (KartTip = 4)", id.ToString());
+            var list = db.Database.SqlQuery<frmHesapUnvan>(sql).ToList();
             return PartialView("_HesapGridPartial", list);
         }
         /// <summary>
