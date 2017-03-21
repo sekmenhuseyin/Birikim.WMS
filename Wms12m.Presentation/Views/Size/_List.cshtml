@@ -9,9 +9,9 @@
                 <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                 <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
                 <td>@Html.DisplayFor(modelItem => item.Birim)</td>
-                <td>@item.En x @item.Boy x @item.Derinlik m<sup>3</sup></td>
-                <td>@Html.DisplayFor(modelItem => item.Hacim) m<sup>3</sup></td>
-                <td>@Html.DisplayFor(modelItem => item.Agirlik) kg</td>
+                <td align="right">@String.Format("{0:n}", item.En) x @String.Format("{0:n}", item.Boy) x @String.Format("{0:n}", item.Derinlik) mm<sup>3</sup></td>
+                <td align="right">@String.Format("{0:n}", item.Hacim) mm<sup>3</sup></td>
+                <td align="right">@Html.DisplayFor(modelItem => item.Agirlik) kg</td>
                 <td>
                     <a class="btn btn-default input-circle"  href="#modalEditPage" data-toggle="modal"onclick="editInModal('/Size/Edit/@item.ID')"> Düzenle </a>
                     <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/Size/List','liste','@item.SirketKod')"> Sil </a>

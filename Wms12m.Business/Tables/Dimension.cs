@@ -24,7 +24,8 @@ namespace Wms12m.Business
                 return _Result;
             }
             bool kontrol = true;
-            var tmp = db.Database.SqlQuery<string>("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}') AND ((Birim1 = '{2}') OR (Birim2 = '{2}') OR (Birim3 = '{2}') OR (Birim4 = '{2}'))", tbl.SirketKod, tbl.MalKodu, tbl.Birim);
+            string sql = String.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}') AND ((Birim1 = '{2}') OR (Birim2 = '{2}') OR (Birim3 = '{2}') OR (Birim4 = '{2}'))", tbl.SirketKod, tbl.MalKodu, tbl.Birim);
+            var tmp = db.Database.SqlQuery<string>(sql);
             if (tmp.ToString2() == "")
                 kontrol = false;
             var tmp2 = db.Olcus.Where(m => m.SirketKod == tbl.SirketKod && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.ID != tbl.ID).FirstOrDefault();

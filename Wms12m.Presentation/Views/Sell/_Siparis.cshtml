@@ -8,7 +8,7 @@
             tmp += item.EvrakNo + "#";
             <tr style="cursor:pointer;" onclick="toggle('@item.EvrakNo', '@item.EvrakNo.ClearSymbols()')">
                 <td width="20"><input type="checkbox" name="cb" id="c-@item.EvrakNo.ClearSymbols()" class="form-control" disabled /></td>
-                <td><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Sell/Details/@ViewBag.Depo-@item.EvrakNo')">@Html.DisplayFor(modelItem => item.EvrakNo)</a></td>
+                <td><a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Sell/Details/@item.SirketID-@ViewBag.Depo-@item.EvrakNo')">@Html.DisplayFor(modelItem => item.EvrakNo)</a></td>
                 <td>@item.Tarih.FromOADateInt()</td>
                 <td>@Html.DisplayFor(modelItem => item.Chk)</td>
                 <td>@Html.DisplayFor(modelItem => item.Unvan)</td>

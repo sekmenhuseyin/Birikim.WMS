@@ -7,6 +7,7 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmSiparisler
     {
+        public string SirketID { get; set; }
         public string EvrakNo { get; set; }
         public int Tarih { get; set; }
         public string Chk { get; set; }
