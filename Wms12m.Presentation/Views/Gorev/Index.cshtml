@@ -5,14 +5,8 @@
 }@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")" rel="stylesheet" type="text/css" />
 <style>
-    td.details-control {
-        background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
-        cursor: pointer;
-    }
-
-    tr.shown td.details-control {
-        background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
-    }
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
 </style>
 }<h3 class="page-title">Görev İşlemleri</h3>
 <div class="row">
@@ -42,7 +36,10 @@
                                         <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/GorevliAta/@item.ID')"> @{if (item.User1 != null){ @item.User1.AdSoyad} else {<text>Görevli Ata</text>}} </a></td>
                                         <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                                         <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
-                                        <td><a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a></td>
+                                        <td>
+                                            <a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                                            <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','','','')"> Sil </a>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -60,27 +57,27 @@
 <script type="text/javascript">
     function newrow(id)
     {
-        return "<table id='new"+id+"'></table>";
+        return "<table style='background:transparent;' id='new"+id+"'></table>";
     }
     function format(d) {
-        var html = '';
+        var html = "";
         $.ajax({
             type: 'POST',
             url: '/Gorev/Details',
             data: { "ID": d },
             dataType: "json",
             success: function (data) {
-                html += '<tr><td>EvrakNo: ' + data.EvrakNo + '</td></tr>';
-                html += '<tr><td>Gorevli: ' + data.Gorevli + '</td></tr>';
-                html += '<tr><td>Olusturan: ' + data.Olusturan + '</td></tr>';
-                html += '<tr><td>OlusturmaTarihi: ' + data.OlusturmaTarihi + '</td></tr>';
-                html += '<tr><td>OlusturmaSaati: ' + data.OlusturmaSaati + '</td></tr>';
-                html += '<tr><td>Atayan: ' + data.Atayan + '</td></tr>';
-                html += '<tr><td>AtamaTarihi: ' + data.AtamaTarihi + '</td></tr>';
-                html += '<tr><td>BitisTarihi: ' + data.BitisTarihi + '</td></tr>';
-                html += '<tr><td>BitisSaati: ' + data.BitisSaati + '</td></tr>';
-                html += '<tr><td>Açıklama: ' + data.Aciklama + '</td></tr>';
-                html += '<tr><td>Bilgi: ' + data.Bilgi + '</td></tr>';
+                html += (data.EvrakNo === null ? "" : '<tr style="background:transparent;"><td><b>EvrakNo:</b> ' + data.EvrakNo + '</td></tr>');
+                html += (data.Gorevli === null ? "" : '<tr style="background:transparent;"><td><b>Görevli:</b> ' + data.Gorevli + '</td></tr>');
+                html += (data.Atayan === null ? "" : '<tr style="background:transparent;"><td><b>Atayan:</b> ' + data.Atayan + '</td></tr>');
+                html += (data.AtamaTarihi === null ? "" : '<tr style="background:transparent;"><td><b>Atama Tarihi:</b> ' + fromOADate(data.AtamaTarihi) + '</td></tr>');
+                html += (data.Olusturan === null ? "" : '<tr style="background:transparent;"><td><b>Oluşturan:</b> ' + data.Olusturan + '</td></tr>');
+                html += (data.OlusturmaTarihi === null ? "" : '<tr style="background:transparent;"><td><b>Oluşturma Tarihi:</b> ' + fromOADate(data.OlusturmaTarihi) + '</td></tr>');
+                html += (data.OlusturmaSaati === null ? "" : '<tr style="background:transparent;"><td><b>Oluşturma Saati:</b> ' + data.OlusturmaSaati.toString().toHHMMSS() + '</td></tr>');
+                html += (data.BitisTarihi === null ? "" : '<tr style="background:transparent;"><td><b>Bitirme Tarihi:</b> ' + fromOADate(data.BitisTarihi) + '</td></tr>');
+                html += (data.BitisSaati === null ? "" : '<tr style="background:transparent;"><td><b>Bitirme Saati:</b> ' + data.BitisSaati.toString().toHHMMSS() + '</td></tr>');
+                html += (data.Aciklama === null ? "" : '<tr style="background:transparent;"><td><b>Açıklama:</b> ' + data.Aciklama + '</td></tr>');
+                html += (data.Bilgi === null ? "" : '<tr style="background:transparent;"><td><b>Bilgi:</b> ' + data.Bilgi + '</td></tr>');
                 $('#new' + d).html(html);
             }
         });

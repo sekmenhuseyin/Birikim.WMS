@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("Update", "Gorev", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "GorevGrid", OnSuccess = "$('#CreateEdit').html('');" }, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Update", "Gorev", FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.HiddenFor(a => a.ID)
                     @Html.AntiForgeryToken()

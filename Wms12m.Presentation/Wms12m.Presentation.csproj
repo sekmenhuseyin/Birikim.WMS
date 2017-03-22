@@ -1904,6 +1904,7 @@
     <Content Include="Content\assets\global\plugins\mapplic\uk.html" />
     <Content Include="Content\assets\global\plugins\mapplic\usa.html" />
     <Content Include="Content\assets\global\plugins\mapplic\world.html" />
+    <Content Include="Content\assets\global\plugins\moment-msdate.js" />
     <Content Include="Content\assets\global\plugins\moment.min.js" />
     <Content Include="Content\assets\global\plugins\morris\morris.css" />
     <Content Include="Content\assets\global\plugins\morris\morris.js" />
@@ -2918,7 +2919,6 @@
     <Content Include="Views\Gorev\Index.cshtml" />
     <Content Include="Views\Gorev\_GorevDetailPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.Null.cshtml" />
-    <Content Include="Views\Gorev\_GorevGridPartial.cshtml" />
     <Content Include="Views\Gorev\GorevliAta.cshtml" />
     <Content Include="Views\Buy\List.cshtml" />
     <Content Include="Views\Buy\SiparisList.cshtml" />

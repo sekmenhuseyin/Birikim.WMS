@@ -187,7 +187,7 @@ namespace Wms12m.Business
         {
             return db.Gorevs
                 .Where(m => m.ID == Id)
-                .Select(m => new frmGorevJson { Olusturan = m.User2.AdSoyad, OlusturmaTarihi = m.OlusturmaTarihi, OlusturmaSaati = m.OlusturmaSaati, Bilgi = m.Bilgi, Aciklama = m.Aciklama, AtamaTarihi = m.AtamaTarihi, BitisTarihi = m.BitisTarihi, BitisSaati = m.BitisSaati, Atayan = m.User1.AdSoyad, Gorevli = m.User.AdSoyad })
+                .Select(m => new frmGorevJson { Olusturan = m.User2.AdSoyad, OlusturmaTarihi = m.OlusturmaTarihi, OlusturmaSaati = m.OlusturmaSaati, Bilgi = m.Bilgi, Aciklama = m.Aciklama, AtamaTarihi = m.AtamaTarihi, BitisTarihi = m.BitisTarihi, BitisSaati = m.BitisSaati, Atayan = m.User.AdSoyad, Gorevli = m.User1.AdSoyad })
                 .FirstOrDefault();
         }
         /// <summary>

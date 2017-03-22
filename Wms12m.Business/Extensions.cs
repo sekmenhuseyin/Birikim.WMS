@@ -225,7 +225,7 @@ namespace Wms12m
         public static string FromOADateInt(this int Deger)
         {
             try { return DateTime.FromOADate(Deger).ToShortDateString(); }
-            catch { return DateTime.Today.ToShortDateString(); }
+            catch { return ""; }
         }
         /// <summary>
         /// <para>Gelen değeri Short (Int16) türüne dönüştürür.</para>
@@ -366,6 +366,18 @@ namespace Wms12m
         public static int SaatiAl(this DateTime Deger)
         {
             return Deger.Hour * 60 * 60 + Deger.Minute * 60 + Deger.Second;
+        }
+        public static string SaatiGetir(this int Deger)
+        {
+            try
+            {
+                var now = new DateTime(2000, 1, 1);
+                return now.AddSeconds(Deger).TimeOfDay.ToString();
+            }
+            catch (Exception)
+            {
+                return "";
+            }
         }
         /// <summary>
         /// iki nesnenin birbiryle aynı olup olmadığını kontrol ediyor

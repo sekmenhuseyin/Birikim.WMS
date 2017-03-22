@@ -25,14 +25,6 @@ namespace Wms12m.Presentation.Controllers
             return Json(Task.DetailJson(ID), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// sadece listeyi gösterir
-        /// </summary>
-        public PartialViewResult GorevGridPartial()
-        {
-            var list = Task.GetList();
-            return PartialView("_GorevGridPartial", list);
-        }
-        /// <summary>
         /// görev düzenle
         /// </summary>
         public PartialViewResult GorevDetailPartial(int id)
@@ -45,14 +37,13 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// görev güncelle
         /// </summary>
-        public PartialViewResult Update(frmGorev tbl)
+        public ActionResult Update(frmGorev tbl)
         {
             //update
             Task tmpTable = new Task();
             Result _Result = tmpTable.Update(tbl);
             //get list
-            var list = Task.GetList();
-            return PartialView("_GorevGridPartial", list);
+            return RedirectToAction("Index");
         }
         /// <summary>
         /// görev sil

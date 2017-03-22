@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Net;
-using System.Web;
 using System.Globalization;
+using System.Net;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Wms12m
 {
@@ -11,14 +11,6 @@ namespace Wms12m
     /// </summary>
     public class Functions
     {
-        /// <summary>
-        /// Gelen tarihi Int32 türüne dönüştürür.
-        /// </summary>
-        public string FromOADateInt(int Deger)
-        {
-            try { return DateTime.FromOADate(Deger).ToShortDateString(); }
-            catch { return DateTime.Today.ToShortDateString(); }
-        }
         /// <summary>
         /// most used passwords
         /// </summary>
