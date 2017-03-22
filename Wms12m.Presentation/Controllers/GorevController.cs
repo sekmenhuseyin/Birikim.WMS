@@ -19,10 +19,10 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// görev ayrıntıları
         /// </summary>
-        public PartialViewResult Details() {
-            var ID = Url.RequestContext.RouteData.Values["id"];
-            if (ID == null || ID.ToString2() == "0") return null;
-            return PartialView("Details", Task.Detail(ID.ToInt32()));
+        [HttpPost]
+        public JsonResult Details(int ID)
+        {
+            return Json(Task.DetailJson(ID), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// sadece listeyi gösterir

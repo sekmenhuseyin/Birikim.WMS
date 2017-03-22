@@ -5,7 +5,9 @@ using System.Runtime.Serialization;
 
 namespace Wms12m.Entity
 {
-    //tüm tablo
+    /// <summary>
+    /// tüm tablo
+    /// </summary>
     public class frmGorev
     {
         [Key]
@@ -39,6 +41,23 @@ namespace Wms12m.Entity
         [DataMember, DisplayName("Bilgi"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string Bilgi { get; set; }
         [DataMember, DisplayName("Açıklama"), Required(ErrorMessage = "Boş bırakmayınız")]
+        public string Aciklama { get; set; }
+    }
+    /// <summary>
+    /// görev listesi
+    /// </summary>
+    public class frmGorevJson
+    {
+        public string Gorevli { get; set; }
+        public string Atayan { get; set; }
+        public string Olusturan { get; set; }
+        public string EvrakNo { get; set; }
+        public int OlusturmaTarihi { get; set; }
+        public int OlusturmaSaati { get; set; }
+        public int? AtamaTarihi { get; set; }
+        public int? BitisTarihi { get; set; }
+        public int? BitisSaati { get; set; }
+        public string Bilgi { get; set; }
         public string Aciklama { get; set; }
     }
     /// <summary>

@@ -183,19 +183,30 @@ namespace Wms12m.Business
                 return new Gorev();
             }
         }
+        public frmGorevJson DetailJson(int Id)
+        {
+            return db.Gorevs
+                .Where(m => m.ID == Id)
+                .Select(m => new frmGorevJson { Olusturan = m.User2.AdSoyad, OlusturmaTarihi = m.OlusturmaTarihi, OlusturmaSaati = m.OlusturmaSaati, Bilgi = m.Bilgi, Aciklama = m.Aciklama, AtamaTarihi = m.AtamaTarihi, BitisTarihi = m.BitisTarihi, BitisSaati = m.BitisSaati, Atayan = m.User1.AdSoyad, Gorevli = m.User.AdSoyad })
+                .FirstOrDefault();
+        }
         /// <summary>
         /// liste
         /// </summary>
         public override List<Gorev> GetList()
         {
-            return db.Gorevs.OrderBy(m => m.DurumID).OrderByDescending(m => m.ID).ToList();
+            return db.Gorevs.OrderBy(m => m.DurumID).ThenByDescending(m => m.ID).ToList();
+        }
+        public int Count()
+        {
+            return db.Gorevs.Count();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
         public override List<Gorev> GetList(int ParentId)
         {
-            return db.Gorevs.Where(m=>m.GorevTipiID==ParentId).OrderBy(m => m.DurumID).OrderByDescending(m => m.ID).ToList();
+            return db.Gorevs.Where(m=>m.GorevTipiID==ParentId).OrderBy(m => m.DurumID).ThenByDescending(m => m.ID).ToList();
         }
         /// <summary>
         /// dispose
