@@ -67,15 +67,15 @@
             data: { "ID": d },
             dataType: "json",
             success: function (data) {
-                html += (data.EvrakNo === null ? "" : '<tr style="background:transparent;"><td><b>EvrakNo:</b> ' + data.EvrakNo + '</td></tr>');
+                html += (data.EvrakNo === null ? "" : '<tr style="background:transparent;"><td><b>Evrak No:</b> ' + data.EvrakNo + '</td></tr>');
                 html += (data.Gorevli === null ? "" : '<tr style="background:transparent;"><td><b>Görevli:</b> ' + data.Gorevli + '</td></tr>');
                 html += (data.Atayan === null ? "" : '<tr style="background:transparent;"><td><b>Atayan:</b> ' + data.Atayan + '</td></tr>');
                 html += (data.AtamaTarihi === null ? "" : '<tr style="background:transparent;"><td><b>Atama Tarihi:</b> ' + fromOADate(data.AtamaTarihi) + '</td></tr>');
                 html += (data.Olusturan === null ? "" : '<tr style="background:transparent;"><td><b>Oluşturan:</b> ' + data.Olusturan + '</td></tr>');
                 html += (data.OlusturmaTarihi === null ? "" : '<tr style="background:transparent;"><td><b>Oluşturma Tarihi:</b> ' + fromOADate(data.OlusturmaTarihi) + '</td></tr>');
-                html += (data.OlusturmaSaati === null ? "" : '<tr style="background:transparent;"><td><b>Oluşturma Saati:</b> ' + data.OlusturmaSaati.toString().toHHMMSS() + '</td></tr>');
+                html += (data.OlusturmaSaati === null ? "" : '<tr style="background:transparent;"><td><b>Oluşturma Saati:</b> ' + data.OlusturmaSaati.toHHMMSS() + '</td></tr>');
                 html += (data.BitisTarihi === null ? "" : '<tr style="background:transparent;"><td><b>Bitirme Tarihi:</b> ' + fromOADate(data.BitisTarihi) + '</td></tr>');
-                html += (data.BitisSaati === null ? "" : '<tr style="background:transparent;"><td><b>Bitirme Saati:</b> ' + data.BitisSaati.toString().toHHMMSS() + '</td></tr>');
+                html += (data.BitisSaati === null ? "" : '<tr style="background:transparent;"><td><b>Bitirme Saati:</b> ' + data.BitisSaati.toHHMMSS() + '</td></tr>');
                 html += (data.Aciklama === null ? "" : '<tr style="background:transparent;"><td><b>Açıklama:</b> ' + data.Aciklama + '</td></tr>');
                 html += (data.Bilgi === null ? "" : '<tr style="background:transparent;"><td><b>Bilgi:</b> ' + data.Bilgi + '</td></tr>');
                 $('#new' + d).html(html);

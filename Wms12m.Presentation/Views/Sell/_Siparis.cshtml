@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<frmSiparisler>
 @{string tmp = ""; }
-<table class="table table-condensed" id="sample_2" width="250">
-    <thead><tr><th>Evrak No</th><th>Tarih</th><th>Chk</th><th>Unvan</th><th>GrupKod</th><th>FaturaAdres</th><th>Açıklama</th><th>Çeşit</th><th>Miktar</th></tr></thead>
+<table class="table table-striped" id="sample_2" width="250">
+    <thead><tr><th></th><th>Evrak No</th><th>Tarih</th><th>Chk</th><th>Unvan</th><th>GrupKod</th><th>FaturaAdres</th><th>Açıklama</th><th>Çeşit</th><th>Miktar</th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
             tmp += item.EvrakNo + "#";
-            <tr style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')" ondblclick="$('#modalEditPage').modal('toggle'); editInModal('/Sell/Details/@item.SirketID-@ViewBag.Depo-@item.EvrakNo')">
+            <tr data-ID="@item.SirketID-@ViewBag.Depo-@item.EvrakNo" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')" ondblclick="$('#modalEditPage').modal('toggle'); editInModal('/Sell/Details/@item.SirketID-@ViewBag.Depo-@item.EvrakNo')">
+                <td class="details-control"></td>
                 <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                 <td>@item.Tarih.FromOADateInt()</td>
                 <td>@Html.DisplayFor(modelItem => item.Chk)</td>
@@ -28,13 +29,31 @@
 </div>
 <div class="row"><input type="button" onclick="SelectAllRows()" value="Hepsini Seç" /></div>
 <script>
+    selected = "";
+    function newrow(id) {
+        return "<table style='background:transparent;' id='new" + id.replace(" ","") + "'></table>";
+    }
+    function format(d) {
+        var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr>";
+        $.ajax({
+            type: 'POST',
+            url: '/Sell/Details',
+            data: { "ID": d },
+            dataType: "json",
+            success: function (data) {
+                for (var i in data) {
+                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td><td>' + data[i].Miktar.formatMoney(2) + '</td><td>' + data[i].Birim + '</td></tr>';
+                };
+                $('#new' + d.replace(" ", "")).html(html);
+            }
+        });
+    }
     $(document).ready(function () {
-        selected = "";
-        $('#sample_2').DataTable({
+        var table = $('#sample_2').DataTable({
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             initComplete: function () {
-                this.api().columns([0,1,2,3,4,5]).every(function () {
+                this.api().columns([1,2,3,4,5,6]).every(function () {
                     var column = this;
                     var select = $('<br /><select style="max-width:100px;"><option value=""></option></select>')
                         .appendTo($(column.header()))
@@ -44,6 +63,16 @@
                         });
                     column.data().unique().sort().each(function (d, j) {select.append('<option value="' + d + '">' + d + '</option>')});
                 });
+            }
+        });
+        $('#sample_2 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            else {
+                row.child(newrow(tr.data('id'))).show();
+                format(tr.data('id'));
+                tr.addClass('shown');
             }
         });
     });
