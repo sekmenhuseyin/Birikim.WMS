@@ -2605,13 +2605,17 @@
     <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.css" />
     <Content Include="Content\assets\global\plugins\bootstrap\css\bootstrap.min.css" />
-    <Content Include="Content\Scripts\_MessageBox.js" />
-    <Content Include="Content\Scripts\_MessageBox.min.js">
-      <DependentUpon>_MessageBox.js</DependentUpon>
+    <Content Include="Content\Scripts\Functions.js" />
+    <Content Include="Content\Scripts\Functions.min.js">
+      <DependentUpon>Functions.js</DependentUpon>
     </Content>
-    <Content Include="Content\Scripts\_Operation.js" />
-    <Content Include="Content\Scripts\_Operation.min.js">
-      <DependentUpon>_Operation.js</DependentUpon>
+    <Content Include="Content\Scripts\MessageBox.js" />
+    <Content Include="Content\Scripts\MessageBox.min.js">
+      <DependentUpon>MessageBox.js</DependentUpon>
+    </Content>
+    <Content Include="Content\Scripts\Operation.js" />
+    <Content Include="Content\Scripts\Operation.min.js">
+      <DependentUpon>Operation.js</DependentUpon>
     </Content>
     <Content Include="Content\View\Login.js" />
     <Content Include="favicon.ico" />

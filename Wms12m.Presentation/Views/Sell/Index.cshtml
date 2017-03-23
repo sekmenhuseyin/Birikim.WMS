@@ -59,8 +59,8 @@
     var selected = "";
     $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
     function changer() {
-        if ($('#DepoID').val() == 0) return;
         $("#liste").html("");
+        if ($('#DepoID').val() == 0) return;
         $.ajax({
             type: 'POST',
             url: "/Sell/GetSiparis/" + $('#DepoID').val(),

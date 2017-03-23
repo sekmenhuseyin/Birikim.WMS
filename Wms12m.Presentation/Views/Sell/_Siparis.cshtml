@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-lg-12 modal-body">
         <table class="table table-striped" id="sample_2" width="250">
-            <thead><tr><th></th><th>Evrak No</th><th>Tarih</th><th>Chk</th><th>Unvan</th><th>GrupKod</th><th>FaturaAdres</th><th>Açıklama</th><th>Çeşit</th><th>Miktar</th></tr></thead>
+            <thead><tr><th></th><th>Evrak No</th><th>Tarih</th><th>Saat</th><th>Chk</th><th>Unvan</th><th>GrupKod</th><th>FaturaAdres</th><th>Açıklama</th><th>Çeşit</th><th>Miktar</th></tr></thead>
             <tbody>
                 @foreach (var item in Model)
                 {
@@ -12,6 +12,7 @@
                         <td class="details-control"></td>
                         <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                         <td>@item.Tarih.FromOADateInt()</td>
+                        <td>@item.Saat.SaatiGetir()</td>
                         <td>@Html.DisplayFor(modelItem => item.Chk)</td>
                         <td>@Html.DisplayFor(modelItem => item.Unvan)</td>
                         <td>@Html.DisplayFor(modelItem => item.GrupKod)</td>
@@ -35,7 +36,7 @@
 <script>
     selected = ""; var selectall = true;
     function newrow(id) {
-        return "<table style='background:transparent;' id='new" + id.replace(" ","") + "'></table>";
+        return "<table style='background:transparent;' id='new" + id.replaceAll(" ","") + "'></table>";
     }
     function format(d) {
         var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr>";
@@ -48,7 +49,7 @@
                 for (var i in data) {
                     html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td><td>' + data[i].Miktar.formatMoney(2) + '</td><td>' + data[i].Birim + '</td></tr>';
                 };
-                $('#new' + d.replace(" ", "")).html(html);
+                $('#new' + d.replaceAll(" ", "")).html(html);
             }
         });
     }
@@ -57,7 +58,7 @@
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             initComplete: function () {
-                this.api().columns([1,2,3,4,5,6]).every(function () {
+                this.api().columns([1,2,4,5,6,7]).every(function () {
                     var column = this;
                     var select = $('<br /><select style="max-width:100px;"><option value=""></option></select>')
                         .appendTo($(column.header()))

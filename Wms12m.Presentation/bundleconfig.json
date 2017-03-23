@@ -12,18 +12,6 @@
     ]
   },
   {
-    "outputFileName": "Content/Scripts/_MessageBox.min.js",
-    "inputFiles": [
-      "Content/Scripts/_MessageBox.js"
-    ]
-  },
-  {
-    "outputFileName": "Content/Scripts/_Operation.min.js",
-    "inputFiles": [
-      "Content/Scripts/_Operation.js"
-    ]
-  },
-  {
     "outputFileName": "Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js",
     "inputFiles": [
       "Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"
@@ -33,6 +21,24 @@
     "outputFileName": "Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css",
     "inputFiles": [
       "Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/Scripts/Functions.min.js",
+    "inputFiles": [
+      "Content/Scripts/Functions.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/Scripts/MessageBox.min.js",
+    "inputFiles": [
+      "Content/Scripts/MessageBox.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/Scripts/Operation.min.js",
+    "inputFiles": [
+      "Content/Scripts/Operation.js"
     ]
   }
 ]

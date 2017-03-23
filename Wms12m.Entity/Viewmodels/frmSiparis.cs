@@ -10,6 +10,7 @@ namespace Wms12m.Entity
         public string SirketID { get; set; }
         public string EvrakNo { get; set; }
         public int Tarih { get; set; }
+        public int Saat { get; set; }
         public string Chk { get; set; }
         public string Unvan { get; set; }
         public string GrupKod { get; set; }
