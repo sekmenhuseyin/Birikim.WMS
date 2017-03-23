@@ -9,7 +9,7 @@
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr>
-                                <th>Seç</th>
+                                <th>ID</th>
                                 <th>@Html.DisplayNameFor(model => model.EvrakNo)</th>
                                 <th>@Html.DisplayNameFor(model => model.Tarih)</th>
                                 <th>@Html.DisplayNameFor(model => model.MalKodu)</th>
@@ -21,8 +21,8 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr style="cursor:pointer;" onclick="toggle('c-@item.ID')">
-                                    <td><input type="checkbox" name="checkboxes" id="c-@item.ID" class="form-control" disabled /></td>
+                                <tr style="cursor:pointer;" onclick="toggle(this, '@item.ID')">
+                                    <td>@item.ID</td>
                                     <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                                     <td>@item.Tarih.FromOADateInt()</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
@@ -37,28 +37,53 @@
                 <div class="col-md-12">
                     <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
                     <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" id="submitter">Ekle</button>
+                    <button type="button" class="btn btn-default pull-right m-r-20" id="selector">Hepsini Seç</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    $(document).ready(function () { $('#sample_3').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });
-    function toggle(id) { $("#" + id).attr('checked', !$("#" + id).attr('checked')); }
-    $("#submitter").click(function () {
-        var sList = "";
-        $("#sample_3 input[type=checkbox]").each(function () {
-            if (this.checked)
-                sList += $(this).attr('id').replace("c-", "") + ",";
+    var selected = "";
+    $(document).ready(function () {
+        var table = $('#sample_3').DataTable({
+            "ordering": false,
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "columnDefs": [{ "targets": [0], "visible": false, "searchable": false }],
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var select = $('<br /><select style="max-width:100px;"><option value=""></option></select>')
+                        .appendTo($(column.header()))
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
+                });
+            }
         });
-        if (sList == "") return;
-        $.ajax({
-            url: "/Buy/FromSiparis",
-            data: { 's': $("#SirketID").val(), 'id':$("#IrsNo").val(), 'ids':sList },
-            type: 'POST',
-            dataType: "html",
-            success: function (data) { if (data != "") $("#StoreGrid").html(data); },
-            error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
+        $("#submitter").click(function () {
+            if (selected == "") return;
+            $.ajax({
+                url: "/Buy/FromSiparis",
+                data: { 's': $("#SirketID").val(), 'id': $("#IrsNo").val(), 'ids': selected },
+                type: 'POST',
+                dataType: "html",
+                success: function (data) { if (data != "") $("#StoreGrid").html(data); },
+                error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
+            });
+        });
+        $("#selector").click(function () {
+            selected = "";
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                this.select(); selected = selected + this.data()[0] + ",";
+            });
         });
     });
+    function toggle(row, id) {
+        $(row).toggleClass('selected');
+        if ($(row).hasClass('selected') == true) selected = selected + id + ",";
+        else selected = selected.replace(id + ",", "");
+    }
 </script>
