@@ -29,7 +29,11 @@ namespace Wms12m.Presentation.Controllers
             string[] evraknos = new string[tmp.Length], sirketids = new string[tmp.Length]; int i = 0;
             foreach (var item in tmp) { string[] tmp2 = item.Split('-'); sirketids[i] = tmp2[0]; evraknos[i] = tmp2[1]; }
             //liste getirilir
-
+            string sql = String.Format("SELECT wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar AS Stok, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar " +
+                                        "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu AND wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                        "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN('1')) " +
+                                        "GROUP BY wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar, FINSAT6{0}.FINSAT6{0}.STK.MalAdi " +
+                                        "HAVING (SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) > 0)");
             //var list = (from s in Dinamik.Context.SPIs
             //            join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
             //            where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
