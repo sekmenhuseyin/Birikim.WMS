@@ -77,8 +77,10 @@ namespace Wms12m.Presentation.Controllers
             }
             //get list
             var list = Stok.GetList(irsaliyeID);
+            var irs = Irsaliye.Detail(irsaliyeID);
             ViewBag.IrsaliyeId = irsaliyeID;
-            ViewBag.Onay = Irsaliye.GetOnay(irsaliyeID);
+            ViewBag.Onay = irs.Onay;
+            ViewBag.SirketID = irs.SirketKod;
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -95,6 +97,7 @@ namespace Wms12m.Presentation.Controllers
             var list = Stok.GetList(cevap.IrsaliyeID.Value);
             ViewBag.IrsaliyeId = cevap.IrsaliyeID;
             ViewBag.Onay = Irsaliye.GetOnay(cevap.IrsaliyeID.Value);
+            ViewBag.SirketID = tbl.SirketID;
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -103,8 +106,10 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult GridPartial(int ID)
         {
             var list = Stok.GetList(ID);
+            var irs = Irsaliye.Detail(ID);
             ViewBag.IrsaliyeId = ID;
-            ViewBag.Onay = Irsaliye.GetOnay(ID);
+            ViewBag.Onay = irs.Onay;
+            ViewBag.SirketID = irs.SirketKod;
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -117,8 +122,10 @@ namespace Wms12m.Presentation.Controllers
             Result _Result = Stok.Insert(tbl);
             //get list
             var list = Stok.GetList(tbl.IrsaliyeId);
+            var irs = Irsaliye.Detail(tbl.IrsaliyeId);
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
-            ViewBag.Onay = Irsaliye.GetOnay(tbl.IrsaliyeId);
+            ViewBag.Onay = irs.Onay;
+            ViewBag.SirketID = irs.SirketKod;
             return PartialView("_GridPartial", list);
         }
         /// <summary>
