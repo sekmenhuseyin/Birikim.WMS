@@ -2630,6 +2630,7 @@
     <Compile Include="Controllers\SellController.cs" />
     <Compile Include="Controllers\ShelfController.cs" />
     <Compile Include="Controllers\SizeController.cs" />
+    <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -2708,6 +2709,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\assets\global\plugins\jqvmap\jqvmap\data\" />
+    <Folder Include="Views\Stock\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">
