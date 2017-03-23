@@ -42,24 +42,12 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (User == null)
+            if (vUser == null)
             {
-                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
-                {
-                    controller = "Security",
-                    action = "Login",
-                    status = (int)HttpStatusCode.NotImplemented //Security Attribute koyulmalı!!!
-                }));
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Security", action = "Login" }));
                 return;
             }
-            try
-            {
-                ViewBag.User = vUser.FirstName + " " + vUser.LastName;
-            }
-            catch (System.Exception)
-            {
-                ViewBag.User = "";
-            }
+            ViewBag.User = vUser.FirstName + " " + vUser.LastName;
             base.OnActionExecuting(filterContext);
         }
         /// <summary>
