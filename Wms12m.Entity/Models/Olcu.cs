@@ -23,6 +23,5 @@ namespace Wms12m.Entity.Models
         public Nullable<decimal> Derinlik { get; set; }
         public Nullable<decimal> Agirlik { get; set; }
         public Nullable<decimal> Hacim { get; set; }
-        public string MalAdi { get; set; }
     }
 }

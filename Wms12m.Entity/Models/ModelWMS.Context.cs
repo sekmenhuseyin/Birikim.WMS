@@ -33,19 +33,19 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Depo> Depoes { get; set; }
         public virtual DbSet<Gorev> Gorevs { get; set; }
         public virtual DbSet<IR> IRS { get; set; }
-        public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
         public virtual DbSet<Kat> Kats { get; set; }
         public virtual DbSet<Koridor> Koridors { get; set; }
-        public virtual DbSet<Olcu> Olcus { get; set; }
         public virtual DbSet<Raf> Rafs { get; set; }
         public virtual DbSet<Yer> Yers { get; set; }
         public virtual DbSet<Yer_Log> Yer_Log { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<GorevYer> GorevYers { get; set; }
         public virtual DbSet<Simge> Simges { get; set; }
         public virtual DbSet<WebMenu> WebMenus { get; set; }
         public virtual DbSet<WebMenuSett> WebMenuSetts { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
+        public virtual DbSet<Olcu> Olcus { get; set; }
     
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {

@@ -21,7 +21,9 @@ namespace Wms12m.Entity.Models
         public string Birim { get; set; }
         public Nullable<decimal> OkutulanMiktar { get; set; }
         public string KynkSiparisNo { get; set; }
-        public string MalAdi { get; set; }
+        public Nullable<short> KynkSiparisSiraNo { get; set; }
+        public Nullable<int> KynkSiparisTarih { get; set; }
+        public Nullable<decimal> KynkSiparisMiktar { get; set; }
         public Nullable<decimal> YerlestirmeMiktari { get; set; }
     
         public virtual IR IR { get; set; }
