@@ -22,7 +22,14 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step2(frmSiparisOnay tbl)
         {
-            //string[] evraks = tbl.checkboxes.Split('#');
+            if (tbl.DepoID == "0" || tbl.checkboxes == "")
+                return RedirectToAction("Index");
+            //şirket id ve evrak nolar bulunur
+            string[] tmp = tbl.checkboxes.Split('#');
+            string[] evraknos = new string[tmp.Length], sirketids = new string[tmp.Length]; int i = 0;
+            foreach (var item in tmp) { string[] tmp2 = item.Split('-'); sirketids[i] = tmp2[0]; evraknos[i] = tmp2[1]; }
+            //liste getirilir
+
             //var list = (from s in Dinamik.Context.SPIs
             //            join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
             //            where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0

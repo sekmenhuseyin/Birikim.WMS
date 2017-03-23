@@ -23,7 +23,6 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmSiparisOnay
     {
-        [Required]
         public string SirketID { get; set; }
         [Required]
         public string DepoID { get; set; }
