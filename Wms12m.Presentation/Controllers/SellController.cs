@@ -22,27 +22,24 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step2(frmSiparisOnay tbl)
         {
-            //using (DinamikModelContext Dinamik = new DinamikModelContext(tbl.SirketID))
-            //{
-            //    string[] evraks = tbl.checkboxes.Split('#');
-            //    var list = (from s in Dinamik.Context.SPIs
-            //                join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
-            //                where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
-            //                group new { s, s2 } by new { s.MalKodu, s2.MalAdi, s.Birim } into g
-            //                select new { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim }).ToList();
-            //    var list2 = (from s in db.Yers
-            //                where s.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.DepoID
-            //                group s by new { s.Birim, s.MalKodu } into g
-            //                select new { g.Key.MalKodu, g.Key.Birim, Miktar = g.Sum(m => m.Miktar) }).ToList();
-            //    var list3 = (from s in list
-            //                 join s2 in list2 on new { s.Birim, s.MalKodu } equals new { s2.Birim, s2.MalKodu }
-            //                 orderby s.MalKodu
-            //                 select new frmSiparisMalzeme { MalKodu = s.MalKodu, MalAdi = s.MalAdi, Miktar = s.Miktar > s2.Miktar ? s2.Miktar : s.Miktar, Birim = s.Birim, Stok = s2.Miktar }).ToList();
-            //    ViewBag.SirketID = tbl.SirketID;
-            //    ViewBag.EvrakNos = tbl.checkboxes;
-            //    ViewBag.DepoID = tbl.DepoID;
-            //    return View("Step2", list3);
-            //}
+            //string[] evraks = tbl.checkboxes.Split('#');
+            //var list = (from s in Dinamik.Context.SPIs
+            //            join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
+            //            where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
+            //            group new { s, s2 } by new { s.MalKodu, s2.MalAdi, s.Birim } into g
+            //            select new { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim }).ToList();
+            //var list2 = (from s in db.Yers
+            //             where s.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.DepoID
+            //             group s by new { s.Birim, s.MalKodu } into g
+            //             select new { g.Key.MalKodu, g.Key.Birim, Miktar = g.Sum(m => m.Miktar) }).ToList();
+            //var list3 = (from s in list
+            //             join s2 in list2 on new { s.Birim, s.MalKodu } equals new { s2.Birim, s2.MalKodu }
+            //             orderby s.MalKodu
+            //             select new frmSiparisMalzeme { MalKodu = s.MalKodu, MalAdi = s.MalAdi, Miktar = s.Miktar > s2.Miktar ? s2.Miktar : s.Miktar, Birim = s.Birim, Stok = s2.Miktar }).ToList();
+            //ViewBag.SirketID = tbl.SirketID;
+            //ViewBag.EvrakNos = tbl.checkboxes;
+            //ViewBag.DepoID = tbl.DepoID;
+            //return View("Step2", list3);
             return View("Step2");
         }
         /// <summary>
@@ -202,9 +199,16 @@ namespace Wms12m.Presentation.Controllers
                                                                 "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.MFK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = FINSAT6{0}.FINSAT6{0}.MFK.EvrakNo AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = FINSAT6{0}.FINSAT6{0}.MFK.EvrakTarih AND FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.MFK.HesapKod AND FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = FINSAT6{0}.FINSAT6{0}.MFK.KynkEvrakTip INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                                                 "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar > 0) GROUP BY FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1, FINSAT6{0}.FINSAT6{0}.CHK.GrupKod, FINSAT6{0}.FINSAT6{0}.CHK.FaturaAdres3, FINSAT6{0}.FINSAT6{0}.MFK.Aciklama", item, ID.ToString());
             }
-            var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
             ViewBag.Depo = ID;
-            return PartialView("_Siparis", list);
+            try
+            {
+                var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
+                return PartialView("_Siparis", list);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
         /// <summary>
         /// evrak noya ait mallar

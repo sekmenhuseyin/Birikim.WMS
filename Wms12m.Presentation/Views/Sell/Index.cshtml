@@ -65,7 +65,10 @@
             type: 'POST',
             url: "/Sell/GetSiparis/" + $('#DepoID').val(),
             dataType: "html",
-            success: function (data) { $("#liste").html(data); },
+            success: function (data) {
+                if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); $('#DepoID').val(0); }
+                $("#liste").html(data);
+            },
             error: function (data) {
                 Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default");
                 $('#DepoID').val(0);

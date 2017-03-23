@@ -34,17 +34,19 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
-                    <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" id="submitter">Ekle</button>
-                    <button type="button" class="btn btn-default pull-right m-r-20" id="selector">Hepsini Seç</button>
-                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" id="submitter">Ekle</button>
+                <button type="button" class="btn btn-default pull-right m-r-20" id="selector">Hepsini Seç</button>
             </div>
         </div>
     </div>
 </div>
 <script>
-    var selected = "";
+    var selected = ""; var selectall = true;
     $(document).ready(function () {
         var table = $('#sample_3').DataTable({
             "ordering": false,
@@ -76,9 +78,18 @@
         });
         $("#selector").click(function () {
             selected = "";
-            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
-                this.select(); selected = selected + this.data()[0] + ",";
-            });
+            if (selectall == true) {
+                $("#selector").text("Seçimi İptal Et"); selectall = false;
+                table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                    this.select(); selected = selected + this.data()[0] + ",";
+                });
+            }
+            else {
+                $("#selector").text("Hepsini Seç"); selectall = true;
+                table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                    this.deselect();
+                });
+            }
         });
     });
     function toggle(row, id) {
