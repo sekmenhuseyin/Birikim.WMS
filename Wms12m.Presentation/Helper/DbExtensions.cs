@@ -9,10 +9,17 @@ namespace Wms12m
 
         public static string GetMalAdi(this string value, string SirketKodu)
         {
-            using (WMSEntities db = new WMSEntities())
+            try
             {
-                string sql = String.Format("SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.stk WHERE Malkodu='{1}'", SirketKodu, value);
-                return db.Database.SqlQuery<String>(sql).FirstOrDefault();
+                using (WMSEntities db = new WMSEntities())
+                {
+                    string sql = String.Format("SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.stk WHERE Malkodu='{1}'", SirketKodu, value);
+                    return db.Database.SqlQuery<String>(sql).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+                return "";
             }
         }
     }
