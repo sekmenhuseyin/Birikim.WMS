@@ -13,7 +13,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var list = Task.GetList();
+            var list = Task.GetList(ComboItems.Açık.ToInt32());
             return View("Index", list);
         }
         /// <summary>

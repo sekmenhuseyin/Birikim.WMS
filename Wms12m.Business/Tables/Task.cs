@@ -202,11 +202,11 @@ namespace Wms12m.Business
             return db.Gorevs.Count();
         }
         /// <summary>
-        /// üst tabloya ait olanları getir
+        /// duruma göre olanları getirir
         /// </summary>
         public override List<Gorev> GetList(int ParentId)
         {
-            return db.Gorevs.Where(m=>m.GorevTipiID==ParentId).OrderBy(m => m.DurumID).ThenByDescending(m => m.ID).ToList();
+            return db.Gorevs.Where(m=>m.DurumID==ParentId).OrderBy(m => m.ID).ToList();
         }
         /// <summary>
         /// dispose
