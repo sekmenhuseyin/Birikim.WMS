@@ -84,7 +84,7 @@
             initComplete: function () {
                 this.api().columns([0, 1, 2, 3]).every(function () {
                     var column = this;
-                    var select = $('<br /><select style="max-width:100px;"><option value=""></option></select>')
+                    var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
                         .appendTo($(column.header()))
                         .on('change', function () {
                             var val = $.fn.dataTable.util.escapeRegex($(this).val());

@@ -14,6 +14,7 @@ namespace Wms12m.Entity.Models
     public partial class GetIrsDetayfromGorev_Result
     {
         public int ID { get; set; }
+        public string SirketKod { get; set; }
         public string GorevNo { get; set; }
         public string MalKodu { get; set; }
         public Nullable<decimal> Miktar { get; set; }

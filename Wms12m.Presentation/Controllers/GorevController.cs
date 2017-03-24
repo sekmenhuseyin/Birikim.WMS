@@ -20,9 +20,10 @@ namespace Wms12m.Presentation.Controllers
         /// görev ayrıntıları
         /// </summary>
         [HttpPost]
-        public JsonResult Details(int ID)
+        public PartialViewResult Details(int ID)
         {
-            return Json(Task.DetailJson(ID), JsonRequestBehavior.AllowGet);
+            var list = db.GetIrsDetayfromGorev(ID);
+            return PartialView("Details", list);
         }
         /// <summary>
         /// görev düzenle

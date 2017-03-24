@@ -1,0 +1,3 @@
+﻿@model IEnumerable<GetIrsDetayfromGorev_Result>
+<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr>
+@foreach (var item in Model) {<tr style='background: transparent;'><td>@item.MalKodu</td><td>@item.MalKodu.GetMalAdi(item.SirketKod)</td><td>@item.Miktar</td><td>@item.Birim</td></tr>}
