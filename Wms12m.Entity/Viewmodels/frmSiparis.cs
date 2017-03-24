@@ -58,6 +58,18 @@ namespace Wms12m.Entity
         public decimal Stok { get; set; }
     }
     /// <summary>
+    /// sipariş onay formu
+    /// </summary>
+    public class frmSiparisMalzemeOnay
+    {
+        public string EvrakNo { get; set; }
+        public string Chk { get; set; }
+        public string Unvan1 { get; set; }
+        public string MalKodu { get; set; }
+        public decimal Miktar { get; set; }
+        public string Birim { get; set; }
+    }
+    /// <summary>
     /// sipariş toplama sırası
     /// </summary>
     public class frmSiparisToplama

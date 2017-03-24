@@ -10,10 +10,21 @@ namespace Wms12m
 {
     public static class Extensions
     {
-
+        /// <summary>
+        /// sembolleri sil
+        /// </summary>
         public static string ClearSymbols(this string value)
         {
             return value.Replace(",", "").Replace(".", "").Replace("-", "").Replace(" ", "");
+        }
+        /// <summary>
+        /// türkçe karakterleri sil
+        /// </summary>
+        public static string ClearNonAscii(this string value)
+        {
+            value = value.Replace("Ç", "C").Replace("Ş", "S").Replace("Ö", "O").Replace("Ü", "U").Replace("İ", "I").Replace("Ğ", "G");
+            value = value.Replace("ç", "c").Replace("ş", "s").Replace("ö", "o").Replace("ü", "u").Replace("ı", "i").Replace("ğ", "g");
+            return value;
         }
         /// <summary>
         /// Returns characters from right of specified length
