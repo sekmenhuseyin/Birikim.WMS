@@ -18,9 +18,9 @@ namespace Wms12m.Entity.Models
         public Depo()
         {
             this.Gorevs = new HashSet<Gorev>();
-            this.IRS = new HashSet<IR>();
             this.Koridors = new HashSet<Koridor>();
             this.Users = new HashSet<User>();
+            this.IRS = new HashSet<IR>();
         }
     
         public int ID { get; set; }
@@ -36,12 +36,12 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorev> Gorevs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<IR> IRS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Koridor> Koridors { get; set; }
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<IR> IRS { get; set; }
     }
 }

@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="MModel.Bolum" Width="1.5" PointX="21.125" PointY="4.875" />
         <EntityTypeShape EntityType="MModel.Depo" Width="1.5" PointX="9.875" PointY="6.625" />
         <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="8.875" PointY="11.5" />
-        <EntityTypeShape EntityType="MModel.IR" Width="1.5" PointX="9.625" PointY="17.625" />
         <EntityTypeShape EntityType="MModel.Kat" Width="1.5" PointX="23.375" PointY="4.25" />
         <EntityTypeShape EntityType="MModel.Koridor" Width="1.5" PointX="14.75" PointY="5.875" />
         <EntityTypeShape EntityType="MModel.Raf" Width="1.5" PointX="17.875" PointY="5.375" />
@@ -23,13 +22,9 @@
         <AssociationConnector Association="MModel.FK_TK_BOL_TK_RAF" />
         <AssociationConnector Association="MModel.FK_TK_KAT_TK_BOL" />
         <AssociationConnector Association="MModel.FK_GorevListesi_TK_DEP" />
-        <AssociationConnector Association="MModel.FK_IRS_TK_DEP" />
         <AssociationConnector Association="MModel.FK_TK_KOR_TK_DEP" />
-        <AssociationConnector Association="MModel.FK_GorevListesi_IRS" />
-        <AssociationConnector Association="MModel.FK_Yer_Log_IRS" />
         <AssociationConnector Association="MModel.FK_Yerlestirme_TK_KAT" />
         <AssociationConnector Association="MModel.FK_TK_RAF_TK_KOR" />
-        <AssociationConnector Association="MModel.GorevIRS" />
         <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="21.5" PointY="22.375" />
         <EntityTypeShape EntityType="MModel.GorevYer" Width="1.5" PointX="23" PointY="13" />
         <AssociationConnector Association="MModel.FK_GorevYer_Gorev" />
@@ -52,7 +47,6 @@
         <AssociationConnector Association="MModel.FK_Gorev_UsersAtayan" />
         <AssociationConnector Association="MModel.FK_Gorev_UsersGorevli" />
         <AssociationConnector Association="MModel.FK_Gorev_UsersOlusturan" />
-        <AssociationConnector Association="MModel.FK_IRS_Users" />
         <AssociationConnector Association="MModel.FK_Kat_UsersDegistiren" />
         <AssociationConnector Association="MModel.FK_Kat_UsersKaydeden" />
         <AssociationConnector Association="MModel.FK_Koridor_UsersDegistiren" />
@@ -60,8 +54,14 @@
         <AssociationConnector Association="MModel.FK_Raf_UsersDegistiren" />
         <AssociationConnector Association="MModel.FK_Raf_UsersKaydeden" />
         <AssociationConnector Association="MModel.FK_Yer_Log_UsersKaydeden" />
-        <AssociationConnector Association="MModel.FK_STI_IRS" />
         <AssociationConnector Association="MModel.Depo_Users" />
+        <EntityTypeShape EntityType="MModel.IR" Width="1.5" PointX="9.75" PointY="17.875" />
+        <AssociationConnector Association="MModel.FK_IRS_Users" />
+        <AssociationConnector Association="MModel.FK_IRS_TK_DEP" />
+        <AssociationConnector Association="MModel.FK_GorevListesi_IRS" />
+        <AssociationConnector Association="MModel.FK_STI_IRS" />
+        <AssociationConnector Association="MModel.FK_Yer_Log_IRS" />
+        <AssociationConnector Association="MModel.GorevIRS" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -3,11 +3,11 @@
 <div class="row">
     <div class="col-lg-12 modal-body">
         <table class="table table-striped" id="sample_2" width="250">
-            <thead><tr><th style="width:15px;"></th><th>Evrak No</th><th>Tarih</th><th>Saat</th><th>Chk</th><th>Unvan</th><th>GrupKod</th><th>FaturaAdres</th><th>Açıklama</th><th>Çeşit</th><th>Miktar</th><th>ID</th></tr></thead>
+            <thead><tr><th style="width:15px;"></th><th>Evrak No</th><th>Tarih</th><th>Saat</th><th>Chk</th><th>Unvan</th><th>GrupKod</th><th>FaturaAdres</th><th>Açıklama</th><th>Çeşit</th><th>Miktar</th></tr></thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    tmp += item.EvrakNo + "#";
+                    tmp += item.SirketID + "-" + item.EvrakNo + "#";
                     <tr data-ID="@item.SirketID-@ViewBag.Depo-@item.EvrakNo" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')" ondblclick="$('#modalEditPage').modal('toggle'); editInModal('/Sell/Details/@item.SirketID-@ViewBag.Depo-@item.EvrakNo')">
                         <td class="details-control"></td>
                         <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
@@ -20,7 +20,6 @@
                         <td>@Html.DisplayFor(modelItem => item.Aciklama)</td>
                         <td align="right">@String.Format("{0:n}", item.Çeşit)</td>
                         <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                        <td>@item.SirketID-@item.EvrakNo</td>
                     </tr>
                 }
             </tbody>
@@ -69,8 +68,7 @@
                         });
                     column.data().unique().sort().each(function (d, j) {select.append('<option value="' + d + '">' + d + '</option>')});
                 });
-            },
-            "columnDefs": [{ "targets": [11], "visible": false, "searchable": false }]
+            }
         });
         $('#sample_2 tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
@@ -79,18 +77,15 @@
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
         $("#selector").click(function () {
-            selected = "";
             if (selectall == true) {
+                selected = "@tmp";
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
-                table.rows().every(function (rowIdx, tableLoop, rowLoop) {
-                    this.select(); selected = selected + this.data()[1] + ",";
-                });
+                table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
             }
             else {
+                selected = "";
                 $("#selector").text("Hepsini Seç"); selectall = true;
-                table.rows().every(function (rowIdx, tableLoop, rowLoop) {
-                    this.deselect();
-                });
+                table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
             }
             $("#checkboxes").val(selected);
         });
