@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-lg-12 modal-body">
         <table class="table table-striped" id="sample_2" width="250">
-            <thead><tr><th></th><th>Evrak No</th><th>Tarih</th><th>Saat</th><th>Chk</th><th>Unvan</th><th>GrupKod</th><th>FaturaAdres</th><th>Açıklama</th><th>Çeşit</th><th>Miktar</th></tr></thead>
+            <thead><tr><th style="width:15px;"></th><th>Evrak No</th><th>Tarih</th><th>Saat</th><th>Chk</th><th>Unvan</th><th>GrupKod</th><th>FaturaAdres</th><th>Açıklama</th><th>Çeşit</th><th>Miktar</th><th>ID</th></tr></thead>
             <tbody>
                 @foreach (var item in Model)
                 {
@@ -20,6 +20,7 @@
                         <td>@Html.DisplayFor(modelItem => item.Aciklama)</td>
                         <td align="right">@String.Format("{0:n}", item.Çeşit)</td>
                         <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                        <td>@item.SirketID-@item.EvrakNo</td>
                     </tr>
                 }
             </tbody>
@@ -29,7 +30,7 @@
 <div class="row">
     <div class="col-md-2 col-md-offset-10">
         <input type="hidden" name="checkboxes" id="checkboxes" value="" />
-        <button type="button" class="btn btn-default  m-r-20" id="selector">Hepsini Seç</button>
+        <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
         <input type="submit" class="btn btn-primary green" value="İleri >>>" />
     </div>
 </div>
@@ -68,7 +69,8 @@
                         });
                     column.data().unique().sort().each(function (d, j) {select.append('<option value="' + d + '">' + d + '</option>')});
                 });
-            }
+            },
+            "columnDefs": [{ "targets": [11], "visible": false, "searchable": false }]
         });
         $('#sample_2 tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
@@ -81,7 +83,7 @@
             if (selectall == true) {
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) {
-                    this.select(); selected = selected + this.data()[0] + ",";
+                    this.select(); selected = selected + this.data()[1] + ",";
                 });
             }
             else {

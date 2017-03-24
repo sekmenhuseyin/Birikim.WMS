@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
@@ -25,33 +26,39 @@ namespace Wms12m.Presentation.Controllers
             if (tbl.DepoID == "0" || tbl.checkboxes == "")
                 return RedirectToAction("Index");
             //şirket id ve evrak nolar bulunur
+            tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             string[] tmp = tbl.checkboxes.Split('#');
-            string[] evraknos = new string[tmp.Length], sirketids = new string[tmp.Length]; int i = 0;
-            foreach (var item in tmp) { string[] tmp2 = item.Split('-'); sirketids[i] = tmp2[0]; evraknos[i] = tmp2[1]; }
+            var sirketler = new List<string>();
+            var evraklar = new List<string>();
+            int i;
+            foreach (var item in tmp)
+            {
+                string[] tmp2 = item.Split('-');
+                if (sirketler.Contains(tmp2[0]) == false) { sirketler.Add(tmp2[0]); evraklar.Add(tmp2[1]); }//eğer şirket yoksa ekle
+                else
+                {
+                    i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
+                    if (evraklar[i] != "") evraklar[i] += ",";
+                    evraklar[i] += tmp2[1];
+                }
+            }
             //liste getirilir
-            string sql = String.Format("SELECT wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar AS Stok, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar " +
-                                        "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu AND wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                        "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN('1')) " +
-                                        "GROUP BY wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar, FINSAT6{0}.FINSAT6{0}.STK.MalAdi " +
-                                        "HAVING (SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) > 0)");
-            //var list = (from s in Dinamik.Context.SPIs
-            //            join s2 in Dinamik.Context.STKs on s.MalKodu equals s2.MalKodu
-            //            where evraks.Contains(s.EvrakNo) && s.SiparisDurumu == 0 && s.KynkEvrakTip == 62 && s.Depo == tbl.DepoID && (s.BirimMiktar - s.TeslimMiktar - s.KapatilanMiktar) > 0
-            //            group new { s, s2 } by new { s.MalKodu, s2.MalAdi, s.Birim } into g
-            //            select new { MalKodu = g.Key.MalKodu, MalAdi = g.Key.MalAdi, Miktar = g.Sum(m => m.s.BirimMiktar - m.s.TeslimMiktar - m.s.KapatilanMiktar), Birim = g.Key.Birim }).ToList();
-            //var list2 = (from s in db.Yers
-            //             where s.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.DepoID
-            //             group s by new { s.Birim, s.MalKodu } into g
-            //             select new { g.Key.MalKodu, g.Key.Birim, Miktar = g.Sum(m => m.Miktar) }).ToList();
-            //var list3 = (from s in list
-            //             join s2 in list2 on new { s.Birim, s.MalKodu } equals new { s2.Birim, s2.MalKodu }
-            //             orderby s.MalKodu
-            //             select new frmSiparisMalzeme { MalKodu = s.MalKodu, MalAdi = s.MalAdi, Miktar = s.Miktar > s2.Miktar ? s2.Miktar : s.Miktar, Birim = s.Birim, Stok = s2.Miktar }).ToList();
-            //ViewBag.SirketID = tbl.SirketID;
-            //ViewBag.EvrakNos = tbl.checkboxes;
-            //ViewBag.DepoID = tbl.DepoID;
-            //return View("Step2", list3);
-            return View("Step2");
+            string sql = ""; i = 0;
+            foreach (var item in sirketler)
+            {
+                if (sql != "") sql += " UNION ";
+                sql += String.Format("SELECT wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar AS Stok, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar " +
+                                    "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu AND wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                    "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN('{1}')) " +
+                                    "GROUP BY wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar, FINSAT6{0}.FINSAT6{0}.STK.MalAdi " +
+                                    "HAVING (SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) > 0)", item, evraklar[i]);
+                i++;
+
+            }
+            var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
+            ViewBag.EvrakNos = tbl.checkboxes;
+            ViewBag.DepoID = tbl.DepoID;
+            return View("Step2", list);
         }
         /// <summary>
         /// siparişleri seçince, siparişlerdeki tüm malzemeler gelecek
