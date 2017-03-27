@@ -2701,6 +2701,7 @@
     <Content Include="Views\Users\Depo.cshtml" />
     <Content Include="Views\Users\Pass.cshtml" />
     <Content Include="Views\Gorev\Details.cshtml" />
+    <Content Include="Views\Stock\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2710,7 +2711,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\assets\global\plugins\jqvmap\jqvmap\data\" />
-    <Folder Include="Views\Stock\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">

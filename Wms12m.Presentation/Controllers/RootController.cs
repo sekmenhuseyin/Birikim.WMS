@@ -24,6 +24,7 @@ namespace Wms12m.Presentation.Controllers
         public Store Store = new Store();
         public Task Task = new Task();
         public TaskYer TaskYer = new TaskYer();
+        public Yerlestirme Yerlestirme = new Yerlestirme();
         /// <summary>
         /// user için kısayol
         /// </summary>
@@ -78,6 +79,7 @@ namespace Wms12m.Presentation.Controllers
                 Store.Dispose();
                 Task.Dispose();
                 TaskYer.Dispose();
+                Yerlestirme.Dispose();
             }
             base.Dispose(disposing);
         }

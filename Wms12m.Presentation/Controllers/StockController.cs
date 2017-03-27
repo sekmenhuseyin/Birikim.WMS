@@ -9,7 +9,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            return View("Index");
+            return View("Index", Yerlestirme.GetList());
         }
     }
 }
