@@ -39,8 +39,8 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                tmp += item.ID + "#";
-                                <tr style="cursor:pointer;" onclick="toggle(this, '@item.ID')">
+                                tmp += item.SirketID + "-" + item.ID + "#";
+                                <tr style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.ID')">
                                     <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                                     <td>@item.Tarih.FromOADateInt()</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>

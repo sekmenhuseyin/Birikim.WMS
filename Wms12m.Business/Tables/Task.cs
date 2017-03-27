@@ -206,7 +206,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<Gorev> GetList(int ParentId)
         {
-            return db.Gorevs.Where(m=>m.DurumID==ParentId).OrderBy(m => m.ID).ToList();
+            return db.Gorevs.Where(m=>m.DurumID==ParentId).OrderByDescending(m => m.ID).ToList();
         }
         /// <summary>
         /// dispose

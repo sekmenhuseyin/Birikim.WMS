@@ -39,7 +39,7 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                tmp += item.MalKodu.ClearNonAscii() + "#";
+                                tmp += item.MalKodu.ClearNonAscii() + ",";
                                 <tr style="cursor:pointer;" onclick="toggle(this,'@item.MalKodu.ClearNonAscii()')">
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
@@ -108,8 +108,8 @@
     });
     function toggle(row,id) {
         $(row).toggleClass('selected');
-        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
-        else selected = selected.replace(id + "#", "");
+        if ($(row).hasClass('selected') == true) selected = selected + id + ",";
+        else selected = selected.replace(id + ",", "");
         $("#checkboxes").val(selected);
     }
 </script>

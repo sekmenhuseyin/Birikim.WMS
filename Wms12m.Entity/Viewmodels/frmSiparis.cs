@@ -48,6 +48,7 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmSiparisMalzemeDetay
     {
+        public string SirketID { get; set; }
         public int ID { get; set; }
         public string EvrakNo { get; set; }
         public int Tarih { get; set; }
@@ -62,6 +63,7 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmSiparisMalzemeOnay
     {
+        public string SirketID { get; set; }
         public string EvrakNo { get; set; }
         public string Chk { get; set; }
         public string Unvan1 { get; set; }
