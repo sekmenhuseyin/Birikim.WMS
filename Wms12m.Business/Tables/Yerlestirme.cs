@@ -88,6 +88,18 @@ namespace Wms12m.Business
         {
             return db.Yers.Where(m => m.KatID == ParentId).OrderBy(m => m.MalKodu).ToList();
         }
+        public List<Yer> GetListFromDepo(int ParentId)
+        {
+            return db.Yers.Where(m => m.Kat.Bolum.Raf.Koridor.DepoID == ParentId).OrderBy(m => m.MalKodu).ToList();
+        }
+        public List<Yer> GetListFromKoridor(int ParentId)
+        {
+            return db.Yers.Where(m => m.Kat.Bolum.Raf.KoridorID == ParentId).OrderBy(m => m.MalKodu).ToList();
+        }
+        public List<Yer> GetListFromRaf(int ParentId)
+        {
+            return db.Yers.Where(m => m.Kat.Bolum.RafID == ParentId).OrderBy(m => m.MalKodu).ToList();
+        }
         /// <summary>
         /// dispose
         /// </summary>

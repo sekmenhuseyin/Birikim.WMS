@@ -49,7 +49,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 if (sql != "") sql += " UNION ";
                 sql += String.Format("SELECT wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar AS Stok, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar " +
-                                    "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu AND wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                    "FROM wms.Yer WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu AND wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN({1})) " +
                                     "GROUP BY wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar, FINSAT6{0}.FINSAT6{0}.STK.MalAdi " +
                                     "HAVING (SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) > 0)", item, evraklar[i]);
@@ -93,7 +93,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 if (sql != "") sql += " UNION ";
                 sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID as ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, wms.Yer.MalKodu, wms.Yer.Birim, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, wms.Yer.Miktar AS Stok " +
-                                    "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu AND wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                    "FROM wms.Yer WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu AND wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN({1})) AND(FINSAT6{0}.FINSAT6{0}.SPI.MalKodu IN ('{2}')) " +
                                     "GROUP BY wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.Tarih " +
                                     "HAVING (SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) > 0)", item, evraklar[i], malkodlari);
@@ -147,7 +147,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 if (sql != "") sql += " UNION ";
                 sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Chk, wms.Yer.MalKodu, wms.Yer.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, wms.Yer.Miktar AS Stok " +
-                                    "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu AND wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
+                                    "FROM wms.Yer WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu AND wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({1})) AND(FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({2})) " +
                                     "GROUP BY wms.Yer.MalKodu, wms.Yer.Birim, wms.Yer.Miktar, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Chk " +
                                     "HAVING (SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) > 0)", item, evraklar[i], ids[i]);
