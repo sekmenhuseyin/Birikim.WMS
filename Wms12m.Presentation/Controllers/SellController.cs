@@ -241,7 +241,7 @@ namespace Wms12m.Presentation.Controllers
                     asc = asc == false ? true : false;
                 }
             }
-            return Redirect("/Gorev");
+            return Redirect("/Tasks");
         }
         /// <summary>
         /// depo ve şirket seçince açık siparişler gelecek

@@ -32,7 +32,7 @@
                                         <td>@{if (item.IR != null ) { @item.IR.EvrakNo } }</td>
                                         <td>@item.GorevNo</td>
                                         <td>@item.ComboItem_Name1.Name</td>
-                                        <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Gorev/GorevliAta/@item.ID')"> @{if (item.User1 != null){ @item.User1.AdSoyad} else {<text>Görevli Ata</text>}} </a></td>
+                                        <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/GorevliAta/@item.ID')"> @{if (item.User1 != null){ @item.User1.AdSoyad} else {<text>Görevli Ata</text>}} </a></td>
                                         <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                                         <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
                                         <td>@item.Bilgi</td>
@@ -60,7 +60,7 @@
         var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr>";
         $.ajax({
             type: 'POST',
-            url: '/Gorev/Details',
+            url: '/Tasks/Details',
             data: { "ID": d },
             dataType: "html",
             success: function (data) {
@@ -92,9 +92,9 @@
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
     });
-    var GorevGridUrl = '@Url.Action("GorevGridPartial", "Gorev")';
-    var GorevDetailUrl = '@Url.Action("GorevDetailPartial", "Gorev")';
-    var DeleteFunctionUrl = '@Url.Action("Delete", "Gorev")';
+    var GorevGridUrl = '@Url.Action("GorevGridPartial", "Tasks")';
+    var GorevDetailUrl = '@Url.Action("GorevDetailPartial", "Tasks")';
+    var DeleteFunctionUrl = '@Url.Action("Delete", "Tasks")';
     function CreateEdit(Id) {
         PartialView(GorevDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
         $("#CreateEdit").show();

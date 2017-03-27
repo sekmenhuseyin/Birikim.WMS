@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Html.BeginForm("Update", "Gorev", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Update", "Tasks", FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.HiddenFor(a => a.ID)
                     @Html.AntiForgeryToken()

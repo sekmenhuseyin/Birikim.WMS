@@ -2623,7 +2623,7 @@
     <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\CorridorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
-    <Compile Include="Controllers\GorevController.cs" />
+    <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RootController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
@@ -2672,10 +2672,10 @@
     <Content Include="Views\Buy\_GridPartial.cshtml" />
     <Content Include="Views\Buy\_HesapGridPartial.cshtml" />
     <Content Include="Views\Buy\Index.cshtml" />
-    <Content Include="Views\Gorev\Index.cshtml" />
-    <Content Include="Views\Gorev\_GorevDetailPartial.cshtml" />
+    <Content Include="Views\Tasks\Index.cshtml" />
+    <Content Include="Views\Tasks\_GorevDetailPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.Null.cshtml" />
-    <Content Include="Views\Gorev\GorevliAta.cshtml" />
+    <Content Include="Views\Tasks\GorevliAta.cshtml" />
     <Content Include="Views\Buy\List.cshtml" />
     <Content Include="Views\Buy\SiparisList.cshtml" />
     <Content Include="Views\Size\Index.cshtml" />
@@ -2700,7 +2700,7 @@
     <Content Include="Views\Users\New.cshtml" />
     <Content Include="Views\Users\Depo.cshtml" />
     <Content Include="Views\Users\Pass.cshtml" />
-    <Content Include="Views\Gorev\Details.cshtml" />
+    <Content Include="Views\Tasks\Details.cshtml" />
     <Content Include="Views\Stock\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

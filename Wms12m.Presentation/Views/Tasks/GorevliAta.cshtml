@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <div class="modal-body">@*Project Details Go Here*@
                     <h4>Görevli Ata</h4>
-                    @using (Html.BeginForm("GorevliKaydet", "Gorev", FormMethod.Post, new { @class = "form-horizontal" }))
+                    @using (Html.BeginForm("GorevliKaydet", "Tasks", FormMethod.Post, new { @class = "form-horizontal" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

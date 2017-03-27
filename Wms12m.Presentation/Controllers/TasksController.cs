@@ -5,7 +5,7 @@ using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class GorevController : RootController
+    public class TasksController : RootController
     {
 
         /// <summary>
