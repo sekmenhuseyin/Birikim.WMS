@@ -175,7 +175,7 @@ namespace Wms12m.Presentation.Controllers
                         //save sck
                         chk = item.Chk;
                         evraknolar += evrakNo + ",";
-                        alıcılar += item.Unvan1 + ",";
+                        alıcılar += item.Unvan + ",";
                     }
                     //sti tablosu
                     IRS_Detay sti = new IRS_Detay();
