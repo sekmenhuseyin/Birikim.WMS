@@ -14,16 +14,16 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var list = Dimension.GetList();
-            return View("Index", list);
+            ViewBag.Sirket = db.GetSirketDBs().FirstOrDefault();
+            return View("Index", Dimension.GetList());
         }
         /// <summary>
         /// silme sonrası listeyi yenile
         /// </summary>
-        public PartialViewResult List(string Id)
+        public PartialViewResult List()
         {
-            var list = Dimension.GetList();
-            return PartialView("_List", list);
+            ViewBag.Sirket = db.GetSirketDBs().FirstOrDefault();
+            return PartialView("_List", Dimension.GetList());
         }
         /// <summary>
         /// yeni boyut kartı

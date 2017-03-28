@@ -12,13 +12,6 @@
                         <div class="form-horizontal">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-group">
-                                @Html.LabelFor(model => model.SirketKod, "Şirket", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("SirketKod", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
-                                    @Html.ValidationMessageFor(model => model.SirketKod, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 @Html.LabelFor(model => model.MalKodu, "Mal Kodu", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
                                     @Html.EditorFor(model => model.MalKodu, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
@@ -78,13 +71,6 @@
                     {
                         @Html.AntiForgeryToken()
                         <div class="form-group">
-                            @Html.LabelFor(model => model.SirketKod, "Şirket", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownList("SirketKod", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
-                                @Html.ValidationMessageFor(model => model.SirketKod, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <div class="col-md-4 m-t-20 col-md-offset-4"><a id="btnSablon" href="~/Content/SizeSablon.xlsx" class="btn btn-default">Şablon İndir</a></div>
                             <div class="col-md-2 m-t-20"><a id="linkUpload" class="btn btn-warning">Yükle</a></div>
                             <input id="btnUpload" type="file" name="file" />
@@ -98,8 +84,7 @@
 <script>
     $(function () {
         $('#linkUpload').click(function () {
-            if ($("#SirketKod").val() != "0")
-                $("#btnUpload").click();
+            $("#btnUpload").click();
         });
         $('#fileupload').fileupload({
             maxFileSize: 2000000,

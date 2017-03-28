@@ -84,9 +84,9 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// boyut kartı için toplu giriş yapar
         /// </summary>
-        public JsonResult Olcu(string SirketKod, HttpPostedFileBase file)
+        public JsonResult Olcu(HttpPostedFileBase file)
         {
-            if (file == null || file.ContentLength == 0 || SirketKod == "0") return Json(false, JsonRequestBehavior.AllowGet);
+            if (file == null || file.ContentLength == 0) return Json(false, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku
             Stream stream = file.InputStream;
             IExcelDataReader reader;
@@ -120,7 +120,6 @@ namespace Wms12m.Presentation.Controllers
                 try
                 {
                     Olcu sti = new Olcu();
-                    sti.SirketKod = SirketKod;
                     sti.MalKodu = dr["Mal Kodu"].ToString();
                     sti.Birim = dr["Birim"].ToString();
                     sti.En = dr["En"].ToDecimal();

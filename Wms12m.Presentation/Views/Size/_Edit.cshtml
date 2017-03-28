@@ -10,7 +10,6 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.ID)
-                        @Html.HiddenFor(m => m.SirketKod)
                         <div class="form-horizontal">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-group">

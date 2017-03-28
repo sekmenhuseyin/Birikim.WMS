@@ -38,7 +38,6 @@
         <AssociationConnector Association="MModel.WebMenuRol" />
         <EntityTypeShape EntityType="MModel.User" Width="1.5" PointX="1.875" PointY="8.375" />
         <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="13.5" PointY="16.25" />
-        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="0.75" PointY="0.75" />
         <AssociationConnector Association="MModel.FK_Bolum_UsersDegistiren" />
         <AssociationConnector Association="MModel.FK_Bolum_UsersKaydeden" />
         <AssociationConnector Association="MModel.FK_Depo_UsersDegistiren" />
@@ -62,6 +61,7 @@
         <EntityTypeShape EntityType="MModel.Yer_Log" Width="1.5" PointX="1.75" PointY="20.25" />
         <AssociationConnector Association="MModel.FK_Yer_Log_UsersKaydeden" />
         <AssociationConnector Association="MModel.FK_Yer_Log_IRS" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="0.75" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

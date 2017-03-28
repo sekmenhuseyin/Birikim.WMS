@@ -24,11 +24,12 @@ namespace Wms12m.Business
                 return _Result;
             }
             bool kontrol = true;
-            string sql = String.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}') AND ((Birim1 = '{2}') OR (Birim2 = '{2}') OR (Birim3 = '{2}') OR (Birim4 = '{2}'))", tbl.SirketKod, tbl.MalKodu, tbl.Birim);
+            string Sirket = db.GetSirketDBs().FirstOrDefault();
+            string sql = String.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}') AND ((Birim1 = '{2}') OR (Birim2 = '{2}') OR (Birim3 = '{2}') OR (Birim4 = '{2}'))", Sirket, tbl.MalKodu, tbl.Birim);
             var tmp = db.Database.SqlQuery<string>(sql);
             if (tmp.ToString2() == "")
                 kontrol = false;
-            var tmp2 = db.Olcus.Where(m => m.SirketKod == tbl.SirketKod && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.ID != tbl.ID).FirstOrDefault();
+            var tmp2 = db.Olcus.Where(m => m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.ID != tbl.ID).FirstOrDefault();
             if (tmp2 != null)
                 kontrol = false;
             if (kontrol == false)
@@ -101,7 +102,6 @@ namespace Wms12m.Business
         /// <summary>
         /// ayrıntılar
         /// </summary>
-
         public override Olcu Detail(int Id)
         {
             try
@@ -119,13 +119,6 @@ namespace Wms12m.Business
         public override List<Olcu> GetList()
         {
             return db.Olcus.OrderBy(m => m.MalKodu).ToList();
-        }
-        /// <summary>
-        /// şirkete göre lsite
-        /// </summary>
-        public List<Olcu> GetList(string ParentId)
-        {
-            return db.Olcus.Where(m => m.SirketKod == ParentId).OrderBy(m => m.MalKodu).ToList();
         }
         public override List<Olcu> GetList(int ParentId)
         {
