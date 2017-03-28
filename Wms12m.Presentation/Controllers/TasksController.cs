@@ -13,8 +13,16 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var list = Task.GetList(ComboItems.Açık.ToInt32());
-            return View("Index", list);
+            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
+            return View("Index");
+        }
+        /// <summary>
+        /// listeyi gösterir
+        /// </summary>
+        public PartialViewResult List(int Id)
+        {
+            var list = Task.GetList(Id);
+            return PartialView("List", list);
         }
         /// <summary>
         /// görev ayrıntıları
