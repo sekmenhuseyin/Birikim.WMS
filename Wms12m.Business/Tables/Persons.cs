@@ -97,8 +97,8 @@ namespace Wms12m.Business
             _Result.Id = 0;
             try
             {
-
-                var tbl = db.Users.Where(a => a.Kod.ToLower() == P.Kod.ToLower() && a.Aktif == true).FirstOrDefault();
+                P.Kod = P.Kod.Left(5).ToLower();
+                var tbl = db.Users.Where(a => a.Kod.ToLower() == P.Kod && a.Aktif == true).FirstOrDefault();
                 if(tbl!=null)
                 {
                     if (P.Sifre == CryptographyExtension.Cozumle(tbl.Sifre))
