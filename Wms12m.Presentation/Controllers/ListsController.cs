@@ -104,7 +104,7 @@ namespace Wms12m.Presentation.Controllers
             db.Yers.Add(yer);
             //yerleştirme harekletler
             Yer_Log yerlog = new Yer_Log();
-            yerlog.HucreAd = tbl.MalAdi;
+            yerlog.KatID = tbl.KatID;
             yerlog.MalKodu = tbl.MalKodu;
             yerlog.Miktar = tbl.Miktar;
             yerlog.Birim = tbl.Birim;

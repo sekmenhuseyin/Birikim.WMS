@@ -279,8 +279,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="KatID" Type="int" StoreGeneratedPattern="Computed" />
-          <Property Name="HucreAd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="KatID" Type="int" Nullable="false" />
+          <Property Name="HucreAd" Type="varchar" MaxLength="50" StoreGeneratedPattern="Computed" />
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
@@ -1076,7 +1076,6 @@
           <EntitySet Name="Koridors" EntityType="MModel.Koridor" />
           <EntitySet Name="Rafs" EntityType="MModel.Raf" />
           <EntitySet Name="Yers" EntityType="MModel.Yer" />
-          <EntitySet Name="Yer_Log" EntityType="MModel.Yer_Log" />
           <AssociationSet Name="FK_ComboItemName_ComboName" Association="MModel.FK_ComboItemName_ComboName">
             <End Role="Combo_Name" EntitySet="Combo_Name" />
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -1222,10 +1221,6 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Raf" EntitySet="Rafs" />
           </AssociationSet>
-          <AssociationSet Name="FK_Yer_Log_UsersKaydeden" Association="MModel.FK_Yer_Log_UsersKaydeden">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Yer_Log" EntitySet="Yer_Log" />
-          </AssociationSet>
           <EntitySet Name="IRS" EntityType="MModel.IR" />
           <AssociationSet Name="FK_IRS_Users" Association="MModel.FK_IRS_Users">
             <End Role="User" EntitySet="Users" />
@@ -1243,10 +1238,6 @@
             <End Role="IR" EntitySet="IRS" />
             <End Role="IRS_Detay" EntitySet="IRS_Detay" />
           </AssociationSet>
-          <AssociationSet Name="FK_Yer_Log_IRS" Association="MModel.FK_Yer_Log_IRS">
-            <End Role="IR" EntitySet="IRS" />
-            <End Role="Yer_Log" EntitySet="Yer_Log" />
-          </AssociationSet>
           <AssociationSet Name="GorevIRS" Association="MModel.GorevIRS">
             <End Role="Gorev" EntitySet="Gorevs" />
             <End Role="IR" EntitySet="IRS" />
@@ -1257,6 +1248,15 @@
           <AssociationSet Name="Depo_Users" Association="MModel.Depo_Users">
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Yer_Log" EntityType="MModel.Yer_Log" />
+          <AssociationSet Name="FK_Yer_Log_UsersKaydeden" Association="MModel.FK_Yer_Log_UsersKaydeden">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Yer_Log" EntitySet="Yer_Log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yer_Log_IRS" Association="MModel.FK_Yer_Log_IRS">
+            <End Role="IR" EntitySet="IRS" />
+            <End Role="Yer_Log" EntitySet="Yer_Log" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -1433,24 +1433,6 @@
           <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
           <NavigationProperty Name="Kat" Relationship="MModel.FK_Yerlestirme_TK_KAT" FromRole="Yer" ToRole="Kat" />
           <NavigationProperty Name="GorevYers" Relationship="MModel.FK_GorevYer_Yer" FromRole="Yer" ToRole="GorevYer" />
-        </EntityType>
-        <EntityType Name="Yer_Log">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="KatID" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="HucreAd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
-          <Property Name="GC" Type="Boolean" Nullable="false" />
-          <Property Name="Kaydeden" Type="Int32" Nullable="false" />
-          <Property Name="KayitTarihi" Type="Int32" Nullable="false" />
-          <Property Name="KayitSaati" Type="Int32" Nullable="false" />
-          <Property Name="IrsaliyeID" Type="Int32" />
-          <NavigationProperty Name="User" Relationship="MModel.FK_Yer_Log_UsersKaydeden" FromRole="Yer_Log" ToRole="User" />
-          <NavigationProperty Name="IR" Relationship="MModel.FK_Yer_Log_IRS" FromRole="Yer_Log" ToRole="IR" />
         </EntityType>
         <Association Name="FK_ComboItemName_ComboName">
           <End Type="MModel.Combo_Name" Role="Combo_Name" Multiplicity="1" />
@@ -1752,9 +1734,9 @@
           <NavigationProperty Name="Koridors1" Relationship="MModel.FK_Koridor_UsersKaydeden" FromRole="User" ToRole="Koridor" />
           <NavigationProperty Name="Rafs" Relationship="MModel.FK_Raf_UsersDegistiren" FromRole="User" ToRole="Raf" />
           <NavigationProperty Name="Rafs1" Relationship="MModel.FK_Raf_UsersKaydeden" FromRole="User" ToRole="Raf" />
-          <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_UsersKaydeden" FromRole="User" ToRole="Yer_Log" />
           <NavigationProperty Name="IRS" Relationship="MModel.FK_IRS_Users" FromRole="User" ToRole="IR" />
           <NavigationProperty Name="Depo" Relationship="MModel.Depo_Users" FromRole="User" ToRole="Depo" />
+          <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_UsersKaydeden" FromRole="User" ToRole="Yer_Log" />
         </EntityType>
         <EntityType Name="IRS_Detay">
           <Key>
@@ -1943,18 +1925,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Yer_Log_UsersKaydeden">
-          <End Type="MModel.User" Role="User" Multiplicity="1" />
-          <End Type="MModel.Yer_Log" Role="Yer_Log" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Yer_Log">
-              <PropertyRef Name="Kaydeden" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="IR">
           <Key>
             <PropertyRef Name="ID" />
@@ -1975,8 +1945,8 @@
           <NavigationProperty Name="Depo" Relationship="MModel.FK_IRS_TK_DEP" FromRole="IR" ToRole="Depo" />
           <NavigationProperty Name="Gorevs" Relationship="MModel.FK_GorevListesi_IRS" FromRole="IR" ToRole="Gorev" />
           <NavigationProperty Name="IRS_Detay" Relationship="MModel.FK_STI_IRS" FromRole="IR" ToRole="IRS_Detay" />
-          <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_IRS" FromRole="IR" ToRole="Yer_Log" />
           <NavigationProperty Name="Gorevs1" Relationship="MModel.GorevIRS" FromRole="IR" ToRole="Gorev" />
+          <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_IRS" FromRole="IR" ToRole="Yer_Log" />
         </EntityType>
         <Association Name="FK_IRS_Users">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -2026,18 +1996,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Yer_Log_IRS">
-          <End Type="MModel.IR" Role="IR" Multiplicity="0..1" />
-          <End Type="MModel.Yer_Log" Role="Yer_Log" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="IR">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Yer_Log">
-              <PropertyRef Name="IrsaliyeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="GorevIRS">
           <End Type="MModel.Gorev" Role="Gorev" Multiplicity="*" />
           <End Type="MModel.IR" Role="IR" Multiplicity="*" />
@@ -2053,6 +2011,48 @@
         <Association Name="Depo_Users">
           <End Type="MModel.Depo" Role="Depo" Multiplicity="0..1" />
           <End Type="MModel.User" Role="User" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Yer_Log">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KatID" Type="Int32" Nullable="false" />
+          <Property Name="HucreAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="GC" Type="Boolean" Nullable="false" />
+          <Property Name="Kaydeden" Type="Int32" Nullable="false" />
+          <Property Name="KayitTarihi" Type="Int32" Nullable="false" />
+          <Property Name="KayitSaati" Type="Int32" Nullable="false" />
+          <Property Name="IrsaliyeID" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="MModel.FK_Yer_Log_UsersKaydeden" FromRole="Yer_Log" ToRole="User" />
+          <NavigationProperty Name="IR" Relationship="MModel.FK_Yer_Log_IRS" FromRole="Yer_Log" ToRole="IR" />
+        </EntityType>
+        <Association Name="FK_Yer_Log_UsersKaydeden">
+          <End Type="MModel.User" Role="User" Multiplicity="1" />
+          <End Type="MModel.Yer_Log" Role="Yer_Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Yer_Log">
+              <PropertyRef Name="Kaydeden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yer_Log_IRS">
+          <End Type="MModel.IR" Role="IR" Multiplicity="0..1" />
+          <End Type="MModel.Yer_Log" Role="Yer_Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Yer_Log">
+              <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2212,23 +2212,6 @@
           <EntitySetMapping Name="Yers">
             <EntityTypeMapping TypeName="MModel.Yer">
               <MappingFragment StoreEntitySet="Yer">
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="HucreAd" ColumnName="HucreAd" />
-                <ScalarProperty Name="KatID" ColumnName="KatID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Yer_Log">
-            <EntityTypeMapping TypeName="MModel.Yer_Log">
-              <MappingFragment StoreEntitySet="Yer_Log">
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="KayitSaati" ColumnName="KayitSaati" />
-                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="GC" ColumnName="GC" />
                 <ScalarProperty Name="Miktar" ColumnName="Miktar" />
                 <ScalarProperty Name="Birim" ColumnName="Birim" />
                 <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
@@ -2419,6 +2402,23 @@
             </EndProperty>
             <Condition ColumnName="DepoID" IsNull="false" />
           </AssociationSetMapping>
+          <EntitySetMapping Name="Yer_Log">
+            <EntityTypeMapping TypeName="MModel.Yer_Log">
+              <MappingFragment StoreEntitySet="Yer_Log">
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="KayitSaati" ColumnName="KayitSaati" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="GC" ColumnName="GC" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="HucreAd" ColumnName="HucreAd" />
+                <ScalarProperty Name="KatID" ColumnName="KatID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

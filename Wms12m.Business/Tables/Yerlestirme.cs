@@ -33,7 +33,7 @@ namespace Wms12m.Business
                 {
                     db.Yers.Remove(tbl);
                     Yer_Log logs = new Yer_Log();
-                    logs.HucreAd = tbl.HucreAd;
+                    logs.KatID = tbl.KatID;
                     logs.MalKodu = tbl.MalKodu;
                     logs.Birim = tbl.Birim;
                     logs.Miktar = tbl.Miktar;
