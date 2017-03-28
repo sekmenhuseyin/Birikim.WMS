@@ -54,7 +54,6 @@
         <AssociationConnector Association="MModel.FK_Raf_UsersDegistiren" />
         <AssociationConnector Association="MModel.FK_Raf_UsersKaydeden" />
         <AssociationConnector Association="MModel.FK_Yer_Log_UsersKaydeden" />
-        <AssociationConnector Association="MModel.Depo_Users" />
         <EntityTypeShape EntityType="MModel.IR" Width="1.5" PointX="9.75" PointY="17.875" />
         <AssociationConnector Association="MModel.FK_IRS_Users" />
         <AssociationConnector Association="MModel.FK_IRS_TK_DEP" />
@@ -62,6 +61,7 @@
         <AssociationConnector Association="MModel.FK_STI_IRS" />
         <AssociationConnector Association="MModel.FK_Yer_Log_IRS" />
         <AssociationConnector Association="MModel.GorevIRS" />
+        <AssociationConnector Association="MModel.Depo_Users" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

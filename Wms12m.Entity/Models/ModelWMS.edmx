@@ -121,11 +121,10 @@
         </EntityType>
         <EntityType Name="Depo_Users">
           <Key>
-            <PropertyRef Name="DepoID" />
             <PropertyRef Name="UserID" />
           </Key>
-          <Property Name="DepoID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="DepoID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Gorev">
           <Key>
@@ -195,11 +194,11 @@
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
-          <Property Name="OkutulanMiktar" Type="numeric" Precision="25" Scale="6" />
           <Property Name="KynkSiparisNo" Type="varchar" MaxLength="16" />
           <Property Name="KynkSiparisSiraNo" Type="smallint" />
           <Property Name="KynkSiparisTarih" Type="int" />
           <Property Name="KynkSiparisMiktar" Type="numeric" Precision="25" Scale="6" />
+          <Property Name="OkutulanMiktar" Type="numeric" Precision="25" Scale="6" />
           <Property Name="YerlestirmeMiktari" Type="numeric" Precision="25" Scale="6" />
         </EntityType>
         <EntityType Name="Kat">
@@ -327,7 +326,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Depo_Users_Depo">
+        <Association Name="FK_Depo_Users_Depo_Users">
           <End Role="Depo" Type="Self.Depo" Multiplicity="1" />
           <End Role="Depo_Users" Type="Self.Depo_Users" Multiplicity="*" />
           <ReferentialConstraint>
@@ -341,7 +340,7 @@
         </Association>
         <Association Name="FK_Depo_Users_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Depo_Users" Type="Self.Depo_Users" Multiplicity="*" />
+          <End Role="Depo_Users" Type="Self.Depo_Users" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="ID" />
@@ -874,7 +873,7 @@
             <End Role="Combo_Name" EntitySet="Combo_Name" />
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
           </AssociationSet>
-          <AssociationSet Name="FK_Depo_Users_Depo" Association="Self.FK_Depo_Users_Depo">
+          <AssociationSet Name="FK_Depo_Users_Depo_Users" Association="Self.FK_Depo_Users_Depo_Users">
             <End Role="Depo" EntitySet="Depo" />
             <End Role="Depo_Users" EntitySet="Depo_Users" />
           </AssociationSet>
@@ -1227,10 +1226,6 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Yer_Log" EntitySet="Yer_Log" />
           </AssociationSet>
-          <AssociationSet Name="Depo_Users" Association="MModel.Depo_Users">
-            <End Role="Depo" EntitySet="Depoes" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
           <EntitySet Name="IRS" EntityType="MModel.IR" />
           <AssociationSet Name="FK_IRS_Users" Association="MModel.FK_IRS_Users">
             <End Role="User" EntitySet="Users" />
@@ -1257,8 +1252,12 @@
             <End Role="IR" EntitySet="IRS" />
           </AssociationSet>
           <FunctionImport Name="GetIrsDetayfromGorev" ReturnType="Collection(MModel.GetIrsDetayfromGorev_Result)">
-            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="Depo_Users" Association="MModel.Depo_Users">
+            <End Role="Depo" EntitySet="Depoes" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1328,8 +1327,8 @@
           <NavigationProperty Name="Koridors" Relationship="MModel.FK_TK_KOR_TK_DEP" FromRole="Depo" ToRole="Koridor" />
           <NavigationProperty Name="User" Relationship="MModel.FK_Depo_UsersDegistiren" FromRole="Depo" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="MModel.FK_Depo_UsersKaydeden" FromRole="Depo" ToRole="User" />
-          <NavigationProperty Name="Users" Relationship="MModel.Depo_Users" FromRole="Depo" ToRole="User" />
           <NavigationProperty Name="IRS" Relationship="MModel.FK_IRS_TK_DEP" FromRole="Depo" ToRole="IR" />
+          <NavigationProperty Name="Users" Relationship="MModel.Depo_Users" FromRole="Depo" ToRole="User" />
           </EntityType>
         <EntityType Name="Gorev">
           <Key>
@@ -1754,8 +1753,8 @@
           <NavigationProperty Name="Rafs" Relationship="MModel.FK_Raf_UsersDegistiren" FromRole="User" ToRole="Raf" />
           <NavigationProperty Name="Rafs1" Relationship="MModel.FK_Raf_UsersKaydeden" FromRole="User" ToRole="Raf" />
           <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_UsersKaydeden" FromRole="User" ToRole="Yer_Log" />
-          <NavigationProperty Name="Depoes2" Relationship="MModel.Depo_Users" FromRole="User" ToRole="Depo" />
           <NavigationProperty Name="IRS" Relationship="MModel.FK_IRS_Users" FromRole="User" ToRole="IR" />
+          <NavigationProperty Name="Depo" Relationship="MModel.Depo_Users" FromRole="User" ToRole="Depo" />
         </EntityType>
         <EntityType Name="IRS_Detay">
           <Key>
@@ -1956,10 +1955,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Depo_Users">
-          <End Type="MModel.Depo" Role="Depo" Multiplicity="*" />
-          <End Type="MModel.User" Role="User" Multiplicity="*" />
-        </Association>
         <EntityType Name="IR">
           <Key>
             <PropertyRef Name="ID" />
@@ -2055,6 +2050,10 @@
           <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
           <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
         </ComplexType>
+        <Association Name="Depo_Users">
+          <End Type="MModel.Depo" Role="Depo" Multiplicity="0..1" />
+          <End Type="MModel.User" Role="User" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2373,14 +2372,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Depo_Users" TypeName="MModel.Depo_Users" StoreEntitySet="Depo_Users">
-            <EndProperty Name="User">
-              <ScalarProperty Name="ID" ColumnName="UserID" />
-            </EndProperty>
-            <EndProperty Name="Depo">
-              <ScalarProperty Name="ID" ColumnName="DepoID" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="IRS">
             <EntityTypeMapping TypeName="MModel.IR">
               <MappingFragment StoreEntitySet="IRS">
@@ -2419,6 +2410,15 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <AssociationSetMapping Name="Depo_Users" TypeName="MModel.Depo_Users" StoreEntitySet="Depo_Users">
+            <EndProperty Name="User">
+              <ScalarProperty Name="ID" ColumnName="UserID" />
+            </EndProperty>
+            <EndProperty Name="Depo">
+              <ScalarProperty Name="ID" ColumnName="DepoID" />
+            </EndProperty>
+            <Condition ColumnName="DepoID" IsNull="false" />
+          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
