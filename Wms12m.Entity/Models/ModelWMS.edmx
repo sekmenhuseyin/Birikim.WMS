@@ -819,9 +819,9 @@
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="Machine" Type="varchar" Mode="In" />
           <Parameter Name="IpAddress" Type="varchar" Mode="In" />
-          <Parameter Name="Description" Type="varchar" Mode="In" />
-          <Parameter Name="Method" Type="varchar" Mode="In" />
-          <Parameter Name="Url" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Message" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Source" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SettingsGorevNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="tarih" Type="int" Mode="In" />
@@ -1031,14 +1031,6 @@
       <Schema Namespace="MModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="WMSEntities" annotation:LazyLoadingEnabled="true">
           <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
-          <FunctionImport Name="Logger">
-            <Parameter Name="UserName" Mode="In" Type="String" />
-            <Parameter Name="Machine" Mode="In" Type="String" />
-            <Parameter Name="IpAddress" Mode="In" Type="String" />
-            <Parameter Name="Description" Mode="In" Type="String" />
-            <Parameter Name="Method" Mode="In" Type="String" />
-            <Parameter Name="Url" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="GetHucreAd" ReturnType="Collection(MModel.GetHucreAd_Result)">
           <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1257,6 +1249,14 @@
             <End Role="Yer_Log" EntitySet="Yer_Log" />
           </AssociationSet>
           <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
+          <FunctionImport Name="Logger">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Machine" Mode="In" Type="String" />
+            <Parameter Name="IpAddress" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Message" Mode="In" Type="String" />
+            <Parameter Name="Source" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2066,7 +2066,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
           <FunctionImportMapping FunctionImportName="GetHucreAd" FunctionName="MModel.Store.GetHucreAd">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetHucreAd_Result">
@@ -2416,6 +2415,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

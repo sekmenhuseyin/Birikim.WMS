@@ -75,7 +75,8 @@ namespace Wms12m.Presentation.Controllers
                     db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
-                catch (Exception){
+                catch (Exception ex){
+                    db.Logger(vUser.UserName, Environment.MachineName, fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Uploads/irsaliye");
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -143,8 +144,9 @@ namespace Wms12m.Presentation.Controllers
                     db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    db.Logger(vUser.UserName, Environment.MachineName, fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Uploads/Olcu");
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }

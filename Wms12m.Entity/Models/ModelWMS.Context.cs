@@ -52,35 +52,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSirkets_Result>("WMSEntities.GetSirkets");
         }
     
-        public virtual int Logger(string userName, string machine, string ipAddress, string description, string method, string url)
-        {
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            var machineParameter = machine != null ?
-                new ObjectParameter("Machine", machine) :
-                new ObjectParameter("Machine", typeof(string));
-    
-            var ipAddressParameter = ipAddress != null ?
-                new ObjectParameter("IpAddress", ipAddress) :
-                new ObjectParameter("IpAddress", typeof(string));
-    
-            var descriptionParameter = description != null ?
-                new ObjectParameter("Description", description) :
-                new ObjectParameter("Description", typeof(string));
-    
-            var methodParameter = method != null ?
-                new ObjectParameter("Method", method) :
-                new ObjectParameter("Method", typeof(string));
-    
-            var urlParameter = url != null ?
-                new ObjectParameter("Url", url) :
-                new ObjectParameter("Url", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.Logger", userNameParameter, machineParameter, ipAddressParameter, descriptionParameter, methodParameter, urlParameter);
-        }
-    
         public virtual ObjectResult<GetHucreAd_Result> GetHucreAd(Nullable<int> depoID)
         {
             var depoIDParameter = depoID.HasValue ?
@@ -238,6 +209,35 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("GorevID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsDetayfromGorev_Result>("WMSEntities.GetIrsDetayfromGorev", gorevIDParameter);
+        }
+    
+        public virtual int Logger(string userName, string machine, string ipAddress, string description, string message, string source)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var machineParameter = machine != null ?
+                new ObjectParameter("Machine", machine) :
+                new ObjectParameter("Machine", typeof(string));
+    
+            var ipAddressParameter = ipAddress != null ?
+                new ObjectParameter("IpAddress", ipAddress) :
+                new ObjectParameter("IpAddress", typeof(string));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("Description", description) :
+                new ObjectParameter("Description", typeof(string));
+    
+            var messageParameter = message != null ?
+                new ObjectParameter("Message", message) :
+                new ObjectParameter("Message", typeof(string));
+    
+            var sourceParameter = source != null ?
+                new ObjectParameter("Source", source) :
+                new ObjectParameter("Source", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.Logger", userNameParameter, machineParameter, ipAddressParameter, descriptionParameter, messageParameter, sourceParameter);
         }
     }
 }
