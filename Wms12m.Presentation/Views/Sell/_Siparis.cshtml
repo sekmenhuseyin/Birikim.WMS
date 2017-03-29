@@ -49,7 +49,7 @@
             dataType: "json",
             success: function (data) {
                 for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td><td>' + data[i].Miktar.formatMoney(2) + '</td><td>' + data[i].Birim + '</td></tr>';
+                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td><td align=right>' + data[i].Miktar.formatMoney(2) + '</td><td>' + data[i].Birim + '</td></tr>';
                 };
                 $('#new' + d.replaceAll(" ", "")).html(html);
             }
@@ -57,7 +57,6 @@
     }
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
-            "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             initComplete: function () {
                 this.api().columns([1,2,4,5,6,7]).every(function () {

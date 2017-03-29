@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -17,6 +18,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List(string Id)
         {
+            ViewBag.Sirket = db.GetSirketDBs().FirstOrDefault();
             string[] ids = Id.Split('#');
             if (ids[2]!="0")
                 return PartialView("List", Yerlestirme.GetListFromRaf(ids[2].ToInt32()));
