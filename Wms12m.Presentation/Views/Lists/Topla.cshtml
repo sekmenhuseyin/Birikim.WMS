@@ -11,7 +11,7 @@
     $('#Gorev').on('change', function () {
         $("#liste").html("");
         $.ajax({
-            url: "/Lists/GetGorevDetails/" + $('#Gorev').val(),
+            url: "/Lists/GetToplaDetails/" + $('#Gorev').val(),
             type: 'POST',
             dataType: "html",
             success: function (data) { if (data != "") $("#liste").html(data); }

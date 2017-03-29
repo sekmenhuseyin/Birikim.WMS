@@ -18,15 +18,17 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// siparişler
         /// </summary>
-        public ActionResult Gorev()
+        public ActionResult Topla()
         {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            ViewBag.ID = id;
             ViewBag.Gorev = new SelectList(Task.GetListbyType(ComboItems.SiparişTopla.ToInt32()), "ID", "GorevNo");
-            return View("Gorev");
+            return View("Topla");
         }
         /// <summary>
         /// siparişi seçince gelen liste
         /// </summary>
-        public PartialViewResult GetGorevDetails()
+        public PartialViewResult GetToplaDetails()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "0") return null;
@@ -66,7 +68,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 tablo = TaskYer.GetList(ID);
             }
-            return PartialView("_GorevDetails", tablo);
+            return PartialView("_ToplaDetails", tablo);
         }
         /// <summary>
         /// raf kaldırmalar

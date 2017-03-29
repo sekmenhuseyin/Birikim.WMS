@@ -9,6 +9,7 @@ namespace Wms12m.Presentation.Controllers
 {
     public class RootController : Controller
     {
+        public Functions fn = new Functions();
         public WMSEntities db = new WMSEntities();
         public Combo Combo = new Combo();
         public ComboSub ComboSub = new ComboSub();

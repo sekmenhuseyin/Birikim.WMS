@@ -2673,10 +2673,10 @@
     <Content Include="Views\Sell\Step2.cshtml" />
     <Content Include="Views\Sell\Step3.cshtml" />
     <Content Include="Views\Lists\Index.cshtml" />
-    <Content Include="Views\Lists\Gorev.cshtml" />
+    <Content Include="Views\Lists\Topla.cshtml" />
     <Content Include="Views\Lists\Raf.cshtml" />
     <Content Include="Views\Lists\_RafDetails.cshtml" />
-    <Content Include="Views\Lists\_GorevDetails.cshtml" />
+    <Content Include="Views\Lists\_ToplaDetails.cshtml" />
     <Content Include="Views\Combos\Edit.cshtml" />
     <Content Include="Views\Combos\Index.cshtml" />
     <Content Include="Views\ComboItems\List.cshtml" />

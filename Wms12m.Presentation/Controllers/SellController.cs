@@ -177,7 +177,7 @@ namespace Wms12m.Presentation.Controllers
                     sti.IrsaliyeID = cevap.IrsaliyeID.Value;
                     sti.MalKodu = item.MalKodu;
                     sti.Birim = item.Birim;
-                    sti.Miktar = item.Miktar > item.Stok ? item.Miktar : item.Stok;
+                    sti.Miktar = item.Miktar <= item.Stok ? item.Miktar : item.Stok;
                     var op2 = new Stok();
                     _Result = op2.Operation(sti);
                 }
@@ -235,8 +235,9 @@ namespace Wms12m.Presentation.Controllers
                     }
                     asc = asc == false ? true : false;
                 }
+                return Redirect("/Lists/Topla/" + cevap.GorevID);
             }
-            return Redirect("/Lists/Gorev");
+            return RedirectToAction("Index");
         }
         /// <summary>
         /// depo ve şirket seçince açık siparişler gelecek
@@ -262,8 +263,9 @@ namespace Wms12m.Presentation.Controllers
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
                 return PartialView("_Siparis", list);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Sell/GetSiparis");
                 return null;
             }
         }
