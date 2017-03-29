@@ -235,7 +235,7 @@ namespace Wms12m
         /// </summary>
         public static string FromOADateInt(this int Deger)
         {
-            try { return DateTime.FromOADate(Deger).ToShortDateString(); }
+            try { return DateTime.FromOADate(Deger).ToString("dd.MM.yyyy"); }
             catch { return ""; }
         }
         /// <summary>

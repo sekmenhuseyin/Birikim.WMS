@@ -208,6 +208,10 @@ namespace Wms12m.Business
         {
             return db.Gorevs.Where(m=>m.DurumID==ParentId).OrderByDescending(m => m.ID).ToList();
         }
+        public List<Gorev> GetListbyType(int ParentId)
+        {
+            return db.Gorevs.Where(m => m.GorevTipiID == ParentId).OrderByDescending(m => m.ID).ToList();
+        }
         /// <summary>
         /// dispose
         /// </summary>

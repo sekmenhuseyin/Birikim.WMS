@@ -69,6 +69,7 @@ namespace Wms12m.Entity
         public string Unvan { get; set; }
         public string MalKodu { get; set; }
         public decimal Miktar { get; set; }
+        public decimal Stok { get; set; }
         public string Birim { get; set; }
     }
     /// <summary>
