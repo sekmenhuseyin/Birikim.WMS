@@ -8,7 +8,7 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
-                <td>@item.MalKodu.GetMalAdi(tmp))</td>
+                <td>@item.MalKodu.GetMalAdi(tmp)</td>
                 <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                 <td align="right">@String.Format("{0:n}", item.En) x @String.Format("{0:n}", item.Boy) x @String.Format("{0:n}", item.Derinlik) mm<sup>3</sup></td>
                 <td align="right">@String.Format("{0:n}", item.Hacim) mm<sup>3</sup></td>
