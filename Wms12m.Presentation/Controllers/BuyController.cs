@@ -105,7 +105,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                db.Logger(vUser.UserName, Environment.MachineName, fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Buy/New");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Buy/New");
                 return null;
             }
         }

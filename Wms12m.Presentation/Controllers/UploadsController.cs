@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult irsaliye(int IrsNo, HttpPostedFileBase file)
         {
-            if (file == null || file.ContentLength == 0 || IrsNo==0) return Json(false, JsonRequestBehavior.AllowGet);
+            if (file == null || file.ContentLength == 0 || IrsNo == 0) return Json(false, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku
             Stream stream = file.InputStream;
             IExcelDataReader reader;
@@ -75,8 +75,9 @@ namespace Wms12m.Presentation.Controllers
                     db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
-                catch (Exception ex){
-                    db.Logger(vUser.UserName, Environment.MachineName, fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Uploads/irsaliye");
+                catch (Exception ex)
+                {
+                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Uploads/irsaliye");
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -146,7 +147,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception ex)
                 {
-                    db.Logger(vUser.UserName, Environment.MachineName, fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Uploads/Olcu");
+                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Uploads/Olcu");
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }
