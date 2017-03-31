@@ -36,6 +36,7 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmSiparisMalzeme
     {
+        public string SirketID { get; set; }
         public string MalKodu { get; set; }
         public string MalAdi { get; set; }
         public decimal Miktar { get; set; }

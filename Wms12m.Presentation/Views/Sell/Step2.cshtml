@@ -42,7 +42,7 @@
                                 tmp += item.MalKodu + ",";
                                 <tr style="cursor:pointer;" onclick="toggle(this,'@item.MalKodu')">
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
+                                    <td>@item.MalKodu.GetMalAdi(item.SirketID)</td>
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
