@@ -66,6 +66,7 @@ namespace Wms12m.Entity
         public string SirketID { get; set; }
         public string EvrakNo { get; set; }
         public string Chk { get; set; }
+        public string TeslimChk { get; set; }
         public string Unvan { get; set; }
         public string MalKodu { get; set; }
         public decimal Miktar { get; set; }
