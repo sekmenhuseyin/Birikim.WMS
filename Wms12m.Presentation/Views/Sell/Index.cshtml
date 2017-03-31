@@ -40,9 +40,10 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Depo</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "changer()" })
+                                @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "FuncSearchBtn()" })
                                 <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
+                            <div class="col-sm-1"><button onclick="FuncSearchBtn();"><i class="fa fa-refresh" aria-hidden="true"></i></button></div>
                         </div>
                         <div class="form-group p-l-30 p-r-30" id="liste"></div>
                         <div class="form-group" id="liste2"></div>
@@ -58,7 +59,7 @@
 <script>
     var selected = "";
     $("#DepoID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
-    function changer() {
+    function FuncSearchBtn() {
         $("#liste").html("");
         if ($('#DepoID').val() == 0) return;
         $.ajax({
