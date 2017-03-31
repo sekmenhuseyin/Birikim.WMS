@@ -35,6 +35,8 @@ namespace Wms12m.Entity.Models
         public int KayitTarih { get; set; }
         public bool Onay { get; set; }
         public string LinkEvrakNo { get; set; }
+        public Nullable<short> ValorGun { get; set; }
+        public string Aciklama { get; set; }
     
         public virtual User User { get; set; }
         public virtual Depo Depo { get; set; }

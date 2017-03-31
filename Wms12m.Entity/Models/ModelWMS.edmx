@@ -179,6 +179,8 @@
           <Property Name="EvrakNo" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="HesapKodu" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="TeslimCHK" Type="varchar" MaxLength="20" />
+          <Property Name="ValorGun" Type="smallint" />
+          <Property Name="Aciklama" Type="varchar" MaxLength="120" />
           <Property Name="Tarih" Type="int" Nullable="false" />
           <Property Name="Kaydeden" Type="int" Nullable="false" />
           <Property Name="KayitTarih" Type="int" Nullable="false" />
@@ -781,6 +783,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="DeleteFromGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="GorevID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetBolumSiralamaFromGorevId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="GorevID" Type="int" Mode="In" />
           <Parameter Name="KoridorID" Type="int" Mode="In" />
@@ -1256,6 +1261,9 @@
             <Parameter Name="Description" Mode="In" Type="String" />
             <Parameter Name="Message" Mode="In" Type="String" />
             <Parameter Name="Source" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteFromGorev">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -1932,6 +1940,8 @@
           <NavigationProperty Name="IRS_Detay" Relationship="MModel.FK_STI_IRS" FromRole="IR" ToRole="IRS_Detay" />
           <NavigationProperty Name="Gorevs1" Relationship="MModel.GorevIRS" FromRole="IR" ToRole="Gorev" />
           <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_IRS" FromRole="IR" ToRole="Yer_Log" />
+          <Property Name="ValorGun" Type="Int16" />
+          <Property Name="Aciklama" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_IRS_Users">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -2340,6 +2350,8 @@
           <EntitySetMapping Name="IRS">
             <EntityTypeMapping TypeName="MModel.IR">
               <MappingFragment StoreEntitySet="IRS">
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="ValorGun" ColumnName="ValorGun" />
                 <ScalarProperty Name="LinkEvrakNo" ColumnName="LinkEvrakNo" />
                 <ScalarProperty Name="Onay" ColumnName="Onay" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
@@ -2416,6 +2428,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
+          <FunctionImportMapping FunctionImportName="DeleteFromGorev" FunctionName="MModel.Store.DeleteFromGorev" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
