@@ -72,11 +72,14 @@ namespace Wms12m.Entity
         public string TeslimChk { get; set; }
         public string Unvan { get; set; }
         public string MalKodu { get; set; }
+        public decimal BirimMiktar { get; set; }
         public decimal Miktar { get; set; }
         public decimal Stok { get; set; }
         public string Birim { get; set; }
         public string Aciklama { get; set; }
         public short ValorGun { get; set; }
+        public int Tarih { get; set; }
+        public short SiraNo { get; set; }
     }
     /// <summary>
     /// sipariş toplama sırası
