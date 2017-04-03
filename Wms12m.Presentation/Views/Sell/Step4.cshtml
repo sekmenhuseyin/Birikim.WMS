@@ -3,10 +3,9 @@
     ViewBag.Title = "Sipariş Planlama - 4. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string tmp = ViewBag.SirketID;
-}
 }@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")" rel="stylesheet" type="text/css" />
-}<h3 class="page-title">Sipariş Planlama - 3. Adım</h3>
+}<h3 class="page-title">Sipariş Planlama - 4. Adım</h3>
 <div class="row">
     <div class="col-md-12">
         <div class="mt-element-step">
@@ -36,7 +35,7 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th><th>Hücre</th><th>Stok</th><th></th></tr></thead>
+                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th><th>Hücre</th><th>Stok</th></tr></thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
@@ -58,11 +57,6 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Stok)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                                     </td>
                                 </tr>
                             }

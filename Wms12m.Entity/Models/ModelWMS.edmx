@@ -820,6 +820,8 @@
           <Parameter Name="OlusturmaTarihi" Type="int" Mode="In" />
           <Parameter Name="OlusturmaSaati" Type="int" Mode="In" />
           <Parameter Name="HesapKodu" Type="varchar" Mode="In" />
+          <Parameter Name="TeslimCHK" Type="varchar" Mode="In" />
+          <Parameter Name="ValorGun" Type="smallint" Mode="In" />
         </Function>
         <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
@@ -1050,20 +1052,6 @@
           <FunctionImport Name="SettingsIrsaliyeNo" ReturnType="Collection(String)">
           <Parameter Name="tarih" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
-            <Parameter Name="SirketKod" Mode="In" Type="String" />
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="GorevNo" Mode="In" Type="String" />
-            <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
-            <Parameter Name="GorevBilgi" Mode="In" Type="String" />
-            <Parameter Name="IrsIslemTur" Mode="In" Type="Boolean" />
-            <Parameter Name="GorevTipiID" Mode="In" Type="Int32" />
-            <Parameter Name="OlusturanID" Mode="In" Type="Int32" />
-            <Parameter Name="Olusturan" Mode="In" Type="String" />
-            <Parameter Name="OlusturmaTarihi" Mode="In" Type="Int32" />
-            <Parameter Name="OlusturmaSaati" Mode="In" Type="Int32" />
-            <Parameter Name="HesapKodu" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="Combo_Name" EntityType="MModel.Combo_Name" />
           <EntitySet Name="ComboItem_Name" EntityType="MModel.ComboItem_Name" />
           <EntitySet Name="Bolums" EntityType="MModel.Bolum" />
@@ -1266,6 +1254,22 @@
           <FunctionImport Name="DeleteFromGorev">
           <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
+            <Parameter Name="SirketKod" Mode="In" Type="String" />
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="GorevNo" Mode="In" Type="String" />
+            <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
+            <Parameter Name="GorevBilgi" Mode="In" Type="String" />
+            <Parameter Name="IrsIslemTur" Mode="In" Type="Boolean" />
+            <Parameter Name="GorevTipiID" Mode="In" Type="Int32" />
+            <Parameter Name="OlusturanID" Mode="In" Type="Int32" />
+            <Parameter Name="Olusturan" Mode="In" Type="String" />
+            <Parameter Name="OlusturmaTarihi" Mode="In" Type="Int32" />
+            <Parameter Name="OlusturmaSaati" Mode="In" Type="Int32" />
+            <Parameter Name="HesapKodu" Mode="In" Type="String" />
+            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
+            <Parameter Name="ValorGun" Mode="In" Type="Int16" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1274,10 +1278,6 @@
         <ComplexType Name="GetHucreAd_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Ad" Nullable="false" MaxLength="403" />
-        </ComplexType>
-        <ComplexType Name="InsertIrsaliye_Result">
-          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
-          <Property Type="Int32" Name="GorevID" Nullable="true" />
         </ComplexType>
         <EntityType Name="Combo_Name">
           <Key>
@@ -2064,6 +2064,10 @@
           <Property Name="Agirlik" Type="Decimal" Precision="25" Scale="6" />
           <Property Name="Hacim" Type="Decimal" Precision="38" Scale="6" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
+        <ComplexType Name="InsertIrsaliye_Result">
+          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
+          <Property Type="Int32" Name="GorevID" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2089,14 +2093,6 @@
           <FunctionImportMapping FunctionImportName="GetHucreKatID" FunctionName="MModel.Store.GetHucreKatID" />
           <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
           <FunctionImportMapping FunctionImportName="SettingsIrsaliyeNo" FunctionName="MModel.Store.SettingsIrsaliyeNo" />
-          <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Combo_Name">
             <EntityTypeMapping TypeName="MModel.Combo_Name">
               <MappingFragment StoreEntitySet="Combo_Name">
@@ -2432,6 +2428,14 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
           <FunctionImportMapping FunctionImportName="DeleteFromGorev" FunctionName="MModel.Store.DeleteFromGorev" />
+          <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

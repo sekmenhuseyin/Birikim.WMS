@@ -76,7 +76,7 @@ namespace Wms12m.Entity
         public decimal Stok { get; set; }
         public string Birim { get; set; }
         public string Aciklama { get; set; }
-        public string valorGun { get; set; }
+        public short ValorGun { get; set; }
     }
     /// <summary>
     /// sipariş toplama sırası

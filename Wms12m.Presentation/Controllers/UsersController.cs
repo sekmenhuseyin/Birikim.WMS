@@ -83,10 +83,12 @@ namespace Wms12m.Presentation.Controllers
         {
             string[] ids = Id.ToString().Split('-');
             db.YetkiDepoSet(ids[1].ToInt32(), ids[0].ToInt32(), false);
-            Result _Result = new Result();
-            _Result.Id = ids[1].ToInt32();
-            _Result.Message = "İşlem Başarılı !!!";
-            _Result.Status = true;
+            Result _Result = new Result()
+            {
+                Id = ids[1].ToInt32(),
+                Message = "İşlem Başarılı !!!",
+                Status = true
+            };
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }
@@ -108,9 +110,11 @@ namespace Wms12m.Presentation.Controllers
             Result _Result = new Result();
             if (tmp.Password==tmp.Password2)
             {
-                User tbl = new User();
-                tbl.ID = tmp.ID;
-                tbl.Sifre = tmp.Password;
+                User tbl = new User()
+                {
+                    ID = tmp.ID,
+                    Sifre = tmp.Password
+                };
                 _Result = Persons.ChangePass(tbl);
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
