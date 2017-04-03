@@ -7,7 +7,6 @@ namespace Wms12m.Presentation.Controllers
         // Anasayfa
         public ActionResult Index()
         {
-            ViewBag.user = User;
             return View("Index");
         }
     }

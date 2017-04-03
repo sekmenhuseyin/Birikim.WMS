@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 using Wms12m.Business;
 using Wms12m.Entity.Models;
@@ -49,7 +48,7 @@ namespace Wms12m.Presentation.Controllers
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Security", action = "Login" }));
                 return;
             }
-            ViewBag.User = vUser.FirstName + " " + vUser.LastName;
+            ViewBag.User = vUser.FirstName;
             base.OnActionExecuting(filterContext);
         }
         /// <summary>

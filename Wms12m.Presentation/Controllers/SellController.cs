@@ -48,17 +48,18 @@ namespace Wms12m.Presentation.Controllers
             foreach (var item in sirketler)
             {
                 if (sql != "") sql += " UNION ";
-                sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim, (SELECT SUM(Miktar) AS Expr1 FROM wms.Yer WITH (NOLOCK) WHERE (MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND (Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim)) as Stok " +
+                sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim, (SELECT SUM(Miktar) AS Expr1 FROM wms.Yer WITH (NOLOCK) WHERE (MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND (Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim)) as Stok " +
                                     "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN({2})) AND(FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN('Terminal', 'Onaylandı')) " +
                                     "AND ((SELECT SUM(Miktar) AS Expr1 FROM wms.Yer AS Yer_2 WITH(NOLOCK) WHERE(MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND(Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim)) IS NOT NULL)", item, tbl.DepoID, evraklar[i]);
                 i++;
             }
-            sql = "SELECT MalKodu, SirketID, SUM(Miktar) AS Miktar, Birim, Stok FROM (" + sql + ") AS t1 GROUP BY MalKodu, SirketID, Birim, Stok";
+            sql = "SELECT MalKodu, SUM(Miktar) AS Miktar, Birim, Stok FROM (" + sql + ") AS t1 GROUP BY MalKodu, Birim, Stok";
             //listeyi getir
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.EvrakNos = tbl.checkboxes;
             ViewBag.DepoID = tbl.DepoID;
+            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
             return View("Step2", list);
         }
         /// <summary>

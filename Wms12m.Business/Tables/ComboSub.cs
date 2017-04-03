@@ -104,12 +104,20 @@ namespace Wms12m.Business
         {
             return db.ComboItem_Name.OrderBy(m=>m.Name).ToList();
         }
+        public List<ComboItem_Name> GetList(bool visible)
+        {
+            return db.ComboItem_Name.Where(m => m.Visible == visible).OrderBy(m => m.Name).ToList();
+        }
         /// <summary>
         /// üst tabloya ait olanları getir
         /// </summary>
         public override List<ComboItem_Name> GetList(int ParentId)
         {
-            return db.ComboItem_Name.Where(m => m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
+            return db.ComboItem_Name.Where(m => m.Visible == true).Where(m => m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
+        }
+        public List<ComboItem_Name> GetList(int ParentId, bool visible)
+        {
+            return db.ComboItem_Name.Where(m => m.Visible == visible).Where(m => m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
         }
         /// <summary>
         /// dispose

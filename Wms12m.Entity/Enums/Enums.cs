@@ -26,7 +26,8 @@
         Tamamlanan = 11,
         Bobin = 12,
         KabloKanalı = 13,
-        MuhtelifKoli = 14
+        MuhtelifKoli = 14,
+        Başlamamış = 15
     }
     /// <summary>
     /// combo item names
