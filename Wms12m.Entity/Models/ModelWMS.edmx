@@ -807,6 +807,12 @@
         </Function>
         <Function Name="GetSirketDBs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetStock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DepoID" Type="int" Mode="In" />
+          <Parameter Name="MalKodu" Type="varchar" Mode="In" />
+          <Parameter Name="Birim" Type="varchar" Mode="In" />
+          <Parameter Name="includeRezerv" Type="bit" Mode="In" />
+        </Function>
         <Function Name="InsertIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SirketKod" Type="varchar" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
@@ -1269,6 +1275,12 @@
             <Parameter Name="HesapKodu" Mode="In" Type="String" />
             <Parameter Name="TeslimCHK" Mode="In" Type="String" />
             <Parameter Name="ValorGun" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="GetStock" ReturnType="Collection(Decimal)">
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="MalKodu" Mode="In" Type="String" />
+            <Parameter Name="Birim" Mode="In" Type="String" />
+            <Parameter Name="includeRezerv" Mode="In" Type="Boolean" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2436,6 +2448,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetStock" FunctionName="MModel.Store.GetStock" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
