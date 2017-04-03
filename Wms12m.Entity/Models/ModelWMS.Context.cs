@@ -196,7 +196,28 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.DeleteFromGorev", gorevIDParameter);
         }
     
-        public virtual ObjectResult<InsertIrsaliye_Result> InsertIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, string gorevBilgi, Nullable<bool> irsIslemTur, Nullable<int> gorevTipiID, Nullable<int> olusturanID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu, string teslimCHK, Nullable<short> valorGun)
+        public virtual ObjectResult<Nullable<decimal>> GetStock(Nullable<int> depoID, string malKodu, string birim, Nullable<bool> includeRezerv)
+        {
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            var malKoduParameter = malKodu != null ?
+                new ObjectParameter("MalKodu", malKodu) :
+                new ObjectParameter("MalKodu", typeof(string));
+    
+            var birimParameter = birim != null ?
+                new ObjectParameter("Birim", birim) :
+                new ObjectParameter("Birim", typeof(string));
+    
+            var includeRezervParameter = includeRezerv.HasValue ?
+                new ObjectParameter("includeRezerv", includeRezerv) :
+                new ObjectParameter("includeRezerv", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("WMSEntities.GetStock", depoIDParameter, malKoduParameter, birimParameter, includeRezervParameter);
+        }
+    
+        public virtual ObjectResult<InsertIrsaliye_Result> InsertIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, string gorevBilgi, Nullable<bool> irsIslemTur, Nullable<int> gorevTipiID, Nullable<int> olusturanID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu, string teslimCHK, Nullable<short> valorGun, string linkEvrakNo)
         {
             var sirketKodParameter = sirketKod != null ?
                 new ObjectParameter("SirketKod", sirketKod) :
@@ -254,28 +275,11 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("ValorGun", valorGun) :
                 new ObjectParameter("ValorGun", typeof(short));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter);
-        }
+            var linkEvrakNoParameter = linkEvrakNo != null ?
+                new ObjectParameter("LinkEvrakNo", linkEvrakNo) :
+                new ObjectParameter("LinkEvrakNo", typeof(string));
     
-        public virtual ObjectResult<Nullable<decimal>> GetStock(Nullable<int> depoID, string malKodu, string birim, Nullable<bool> includeRezerv)
-        {
-            var depoIDParameter = depoID.HasValue ?
-                new ObjectParameter("DepoID", depoID) :
-                new ObjectParameter("DepoID", typeof(int));
-    
-            var malKoduParameter = malKodu != null ?
-                new ObjectParameter("MalKodu", malKodu) :
-                new ObjectParameter("MalKodu", typeof(string));
-    
-            var birimParameter = birim != null ?
-                new ObjectParameter("Birim", birim) :
-                new ObjectParameter("Birim", typeof(string));
-    
-            var includeRezervParameter = includeRezerv.HasValue ?
-                new ObjectParameter("includeRezerv", includeRezerv) :
-                new ObjectParameter("includeRezerv", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("WMSEntities.GetStock", depoIDParameter, malKoduParameter, birimParameter, includeRezervParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter);
         }
     }
 }

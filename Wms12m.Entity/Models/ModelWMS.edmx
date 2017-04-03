@@ -828,6 +828,7 @@
           <Parameter Name="HesapKodu" Type="varchar" Mode="In" />
           <Parameter Name="TeslimCHK" Type="varchar" Mode="In" />
           <Parameter Name="ValorGun" Type="smallint" Mode="In" />
+          <Parameter Name="LinkEvrakNo" Type="varchar" Mode="In" />
         </Function>
         <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
@@ -1260,6 +1261,12 @@
           <FunctionImport Name="DeleteFromGorev">
           <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GetStock" ReturnType="Collection(Decimal)">
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="MalKodu" Mode="In" Type="String" />
+            <Parameter Name="Birim" Mode="In" Type="String" />
+            <Parameter Name="includeRezerv" Mode="In" Type="Boolean" />
+          </FunctionImport>
           <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
             <Parameter Name="SirketKod" Mode="In" Type="String" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
@@ -1275,12 +1282,7 @@
             <Parameter Name="HesapKodu" Mode="In" Type="String" />
             <Parameter Name="TeslimCHK" Mode="In" Type="String" />
             <Parameter Name="ValorGun" Mode="In" Type="Int16" />
-          </FunctionImport>
-          <FunctionImport Name="GetStock" ReturnType="Collection(Decimal)">
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="MalKodu" Mode="In" Type="String" />
-            <Parameter Name="Birim" Mode="In" Type="String" />
-            <Parameter Name="includeRezerv" Mode="In" Type="Boolean" />
+            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2440,6 +2442,7 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
           <FunctionImportMapping FunctionImportName="DeleteFromGorev" FunctionName="MModel.Store.DeleteFromGorev" />
+          <FunctionImportMapping FunctionImportName="GetStock" FunctionName="MModel.Store.GetStock" />
           <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
@@ -2448,7 +2451,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetStock" FunctionName="MModel.Store.GetStock" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
