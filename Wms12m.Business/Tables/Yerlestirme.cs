@@ -86,19 +86,19 @@ namespace Wms12m.Business
         /// </summary>
         public override List<Yer> GetList(int ParentId)
         {
-            return db.Yers.Where(m => m.KatID == ParentId).OrderBy(m => m.MalKodu).ToList();
+            return db.Yers.Where(m => m.KatID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
         }
         public List<Yer> GetListFromDepo(int ParentId)
         {
-            return db.Yers.Where(m => m.Kat.Bolum.Raf.Koridor.DepoID == ParentId).OrderBy(m => m.MalKodu).ToList();
+            return db.Yers.Where(m => m.Kat.Bolum.Raf.Koridor.DepoID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
         }
         public List<Yer> GetListFromKoridor(int ParentId)
         {
-            return db.Yers.Where(m => m.Kat.Bolum.Raf.KoridorID == ParentId).OrderBy(m => m.MalKodu).ToList();
+            return db.Yers.Where(m => m.Kat.Bolum.Raf.KoridorID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
         }
         public List<Yer> GetListFromRaf(int ParentId)
         {
-            return db.Yers.Where(m => m.Kat.Bolum.RafID == ParentId).OrderBy(m => m.MalKodu).ToList();
+            return db.Yers.Where(m => m.Kat.Bolum.RafID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
         }
         /// <summary>
         /// dispose

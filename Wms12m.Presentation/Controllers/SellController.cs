@@ -213,7 +213,7 @@ namespace Wms12m.Presentation.Controllers
             list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
             foreach (var item in list)
             {
-                var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.DepoID).OrderBy(m => m.Miktar).ToList();
+                var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.DepoID && m.Miktar > 0).OrderBy(m => m.Miktar).ToList();
                 decimal toplam = 0, miktar = 0;
                 if (tmpYer != null)
                 {
