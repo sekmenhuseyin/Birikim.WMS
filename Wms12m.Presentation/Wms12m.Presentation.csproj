@@ -2689,6 +2689,8 @@
     <Content Include="Views\Stock\Index.cshtml" />
     <Content Include="Views\Stock\List.cshtml" />
     <Content Include="Views\Tasks\List.cshtml" />
+    <Content Include="Views\Sell\Step4.cshtml" />
+    <Content Include="Views\Sell\Step5.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

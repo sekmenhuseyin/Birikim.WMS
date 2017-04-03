@@ -48,7 +48,8 @@ namespace Wms12m.Presentation.Controllers
             foreach (var item in sirketler)
             {
                 if (sql != "") sql += " UNION ";
-                sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim, (SELECT SUM(Miktar) AS Expr1 FROM wms.Yer WITH (NOLOCK) WHERE (MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND (Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim)) as Stok " +
+                sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim, " +
+                                    "(SELECT SUM(wms.Yer.Miktar) AS Expr1 FROM wms.Yer WITH(NOLOCK) INNER JOIN wms.Kat WITH(NOLOCK) ON wms.Yer.KatID = wms.Kat.ID INNER JOIN wms.Bolum WITH(NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf WITH(NOLOCK) ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor WITH(NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID AND wms.Raf.KoridorID = wms.Koridor.ID INNER JOIN wms.Depo WITH (NOLOCK) ON wms.Koridor.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND (wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim) AND (wms.Depo.DepoKodu = '{1}')) AS Stok " +
                                     "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN({2})) AND(FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN('Terminal', 'Onaylandı')) " +
                                     "AND ((SELECT SUM(Miktar) AS Expr1 FROM wms.Yer AS Yer_2 WITH(NOLOCK) WHERE(MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND(Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim)) IS NOT NULL)", item, tbl.DepoID, evraklar[i]);
@@ -92,7 +93,8 @@ namespace Wms12m.Presentation.Controllers
             foreach (var item in sirketler)
             {
                 if (sql != "") sql += " UNION ";
-                sql += String.Format("SELECT '{0}' AS SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim, (SELECT SUM(Miktar) AS Expr1 FROM wms.Yer WITH(NOLOCK) WHERE(MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND(Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim)) AS Stok " +
+                sql += String.Format("SELECT '{0}' AS SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim, " +
+                                    "(SELECT SUM(wms.Yer.Miktar) AS Expr1 FROM wms.Yer WITH(NOLOCK) INNER JOIN wms.Kat WITH(NOLOCK) ON wms.Yer.KatID = wms.Kat.ID INNER JOIN wms.Bolum WITH(NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf WITH(NOLOCK) ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor WITH(NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID AND wms.Raf.KoridorID = wms.Koridor.ID INNER JOIN wms.Depo WITH (NOLOCK) ON wms.Koridor.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND (wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim) AND (wms.Depo.DepoKodu = '{1}')) AS Stok " +
                                     "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND( FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.MalKodu IN ({3})) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN('Terminal', 'Onaylandı')) AND " +
                                     "((SELECT SUM(Miktar) AS Expr1 FROM wms.Yer AS Yer_2 WITH (NOLOCK) WHERE (MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND (Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim)) IS NOT NULL)", item, tbl.DepoID, evraklar[i], malkodlari);
@@ -105,10 +107,10 @@ namespace Wms12m.Presentation.Controllers
             return View("Step3", list);
         }
         /// <summary>
-        /// sipariş onaylandı
+        /// adım 4: yerleştirme kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Approve(frmSiparisOnay tbl)
+        public ActionResult Step4(frmSiparisOnay tbl)
         {
             if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
                 return RedirectToAction("Index");
@@ -144,106 +146,141 @@ namespace Wms12m.Presentation.Controllers
             foreach (var item in sirketler)
             {
                 if (sql != "") sql += " UNION ";
-                sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, (SELECT SUM(Miktar) AS Expr1 FROM wms.Yer WITH(NOLOCK) WHERE(MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND(Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim)) AS Stok " +
+                sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, " +
+                                    "(SELECT SUM(wms.Yer.Miktar) AS Expr1 FROM wms.Yer WITH(NOLOCK) INNER JOIN wms.Kat WITH(NOLOCK) ON wms.Yer.KatID = wms.Kat.ID INNER JOIN wms.Bolum WITH(NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf WITH(NOLOCK) ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor WITH(NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID AND wms.Raf.KoridorID = wms.Koridor.ID INNER JOIN wms.Depo WITH (NOLOCK) ON wms.Koridor.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND (wms.Yer.Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim) AND (wms.Depo.DepoKodu = '{1}')) AS Stok " +
                                     "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({3}))  AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı'))", item, tbl.DepoID, evraklar[i], ids[i]);
-                //sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.TeslimChk, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun, FINSAT6{0}.FINSAT6{0}.MFK.Aciklama, " +
-                //                    "(SELECT SUM(Miktar) AS Expr1 FROM wms.Yer WITH(NOLOCK) WHERE(MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AND(Birim = FINSAT6{0}.FINSAT6{0}.SPI.Birim)) AS Stok " +
-                //                    "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu INNER JOIN FINSAT6{0}.FINSAT6{0}.MFK WITH (NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = FINSAT6{0}.FINSAT6{0}.MFK.KynkEvrakTip AND FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.MFK.HesapKod AND  FINSAT6{0}.FINSAT6{0}.SPI.Tarih = FINSAT6{0}.FINSAT6{0}.MFK.EvrakTarih AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = FINSAT6{0}.FINSAT6{0}.MFK.EvrakNo " +
-                //                    "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({3}))  AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı')) " +
-                //                    "GROUP BY FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar, FINSAT6{0}.FINSAT6{0}.SPI.TeslimChk, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun, FINSAT6{0}.FINSAT6{0}.MFK.Aciklama", item, tbl.DepoID, evraklar[i], ids[i]);
                 i++;
             }
             var list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
-            if (list != null)
+            if (list == null)
+                return RedirectToAction("Index");
+            //tüm diğer başlamamış görevler silinir
+            Task.DeleteSome();
+            //variables and consts
+            int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
+            string GorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+            int today = DateTime.Today.ToOADateInt();
+            int time = DateTime.Now.SaatiAl();
+            InsertIrsaliye_Result cevap = new InsertIrsaliye_Result();
+            string evraknolar = "", alıcılar = "", chk = "", evrakNo = "";
+            Result _Result;
+            //loop the list
+            foreach (var item in list)
             {
-                //variables and consts
-                int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
-                string GorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-                int today = DateTime.Today.ToOADateInt();
-                int time = DateTime.Now.SaatiAl();
-                InsertIrsaliye_Result cevap = new InsertIrsaliye_Result();
-                string evraknolar = "", alıcılar = "", chk = "", evrakNo = "";
-                Result _Result;
-                //loop the list
-                foreach (var item in list)
+                //irsaliye tablosu
+                if (chk != item.Chk)
                 {
-                    //irsaliye tablosu
-                    if (chk != item.Chk)
-                    {
-                        evrakNo = db.SettingsIrsaliyeNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-                        cevap = db.InsertIrsaliye(item.SirketID, idDepo, GorevNo, evrakNo, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.Id, vUser.UserName, today, time, item.Chk).FirstOrDefault();
-                        //save sck
-                        chk = item.Chk;
-                        evraknolar += evrakNo + ",";
-                        alıcılar += item.Unvan + ",";
-                    }
-                    //sti tablosu
-                    IRS_Detay sti = new IRS_Detay();
-                    sti.IrsaliyeID = cevap.IrsaliyeID.Value;
-                    sti.MalKodu = item.MalKodu;
-                    sti.Birim = item.Birim;
-                    sti.Miktar = item.Miktar <= item.Stok ? item.Miktar : item.Stok;
-                    var op2 = new Stok();
-                    _Result = op2.Operation(sti);
+                    evrakNo = db.SettingsIrsaliyeNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+                    cevap = db.InsertIrsaliye(item.SirketID, idDepo, GorevNo, evrakNo, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.Id, vUser.UserName, today, time, item.Chk).FirstOrDefault();
+                    //save sck
+                    chk = item.Chk;
+                    evraknolar += evrakNo + ",";
+                    alıcılar += item.Unvan + ",";
                 }
-                //görev tablosu
-                Gorev grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
-                grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
-                db.SaveChanges();
-                //get gorev yer
-                var tablo = TaskYer.GetList(cevap.GorevID.Value);
-                if (tablo.Count == 0)
+                //sti tablosu
+                IRS_Detay sti = new IRS_Detay();
+                sti.IrsaliyeID = cevap.IrsaliyeID.Value;
+                sti.MalKodu = item.MalKodu;
+                sti.Birim = item.Birim;
+                sti.Miktar = item.Miktar <= item.Stok ? item.Miktar : item.Stok;
+                var op2 = new Stok();
+                _Result = op2.Operation(sti);
+            }
+            //görev tablosu
+            Gorev grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
+            grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
+            grv.DurumID = ComboItems.Başlamamış.ToInt32();
+            db.SaveChanges();
+            //get gorev yer
+            var tablo = TaskYer.GetList(cevap.GorevID.Value);
+            if (tablo.Count == 0)
+            {
+                //get gorev details
+                var gList = db.GetIrsDetayfromGorev(cevap.GorevID.Value).ToList();
+                foreach (var item in gList)
                 {
-                    //get gorev details
-                    var gList = db.GetIrsDetayfromGorev(cevap.GorevID.Value).ToList();
-                    foreach (var item in gList)
+                    var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim).OrderBy(m => m.Miktar).ToList();
+                    decimal toplam = 0, miktar = 0;
+                    if (tmpYer != null)
                     {
-                        var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim).OrderBy(m => m.Miktar).ToList();
-                        decimal toplam = 0, miktar = 0;
-                        if (tmpYer != null)
+                        foreach (var itemyer in tmpYer)
                         {
-                            foreach (var itemyer in tmpYer)
-                            {
-                                if (itemyer.Miktar >= (item.Miktar - toplam))
-                                    miktar = item.Miktar.Value - toplam;
-                                else
-                                    miktar = itemyer.Miktar;
-                                toplam += miktar;
-                                //miktarı tabloya ekle
-                                GorevYer tblyer = new GorevYer();
-                                tblyer.GorevID = item.ID;
-                                tblyer.YerID = itemyer.ID;
-                                tblyer.MalKodu = item.MalKodu;
-                                tblyer.Birim = item.Birim;
-                                tblyer.Miktar = miktar;
-                                tblyer.GC = true;
-                                TaskYer.Operation(tblyer);
-                                //toplam yeterli miktardaysa
-                                if (toplam == item.Miktar) break;
-                            }
+                            if (itemyer.Miktar >= (item.Miktar - toplam))
+                                miktar = item.Miktar.Value - toplam;
+                            else
+                                miktar = itemyer.Miktar;
+                            toplam += miktar;
+                            //miktarı tabloya ekle
+                            GorevYer tblyer = new GorevYer();
+                            tblyer.GorevID = item.ID;
+                            tblyer.YerID = itemyer.ID;
+                            tblyer.MalKodu = item.MalKodu;
+                            tblyer.Birim = item.Birim;
+                            tblyer.Miktar = miktar;
+                            tblyer.GC = true;
+                            TaskYer.Operation(tblyer);
+                            //toplam yeterli miktardaysa
+                            if (toplam == item.Miktar) break;
                         }
                     }
                 }
-                //sıralama
-                var lstKoridor = db.GetKoridorIdFromGorevId(cevap.GorevID).ToList();
-                bool asc = false; int sira = 0;
-                foreach (var item in lstKoridor)
-                {
-                    var lstBolum = db.GetBolumSiralamaFromGorevId(cevap.GorevID, item.Value, asc).ToList();
-                    foreach (var item2 in lstBolum)
-                    {
-                        var tmptblyer = new GorevYer();
-                        tmptblyer.ID = item2.Value;
-                        tmptblyer.Sira = sira;
-                        sira++;
-                        TaskYer.Operation(tmptblyer);
-                    }
-                    asc = asc == false ? true : false;
-                }
-                return Redirect("/Lists/Topla/" + cevap.GorevID);
             }
-            return RedirectToAction("Index");
+            //listeyi getir
+            sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, " +
+                                "(SELECT SUM(wms.Yer.Miktar) AS Expr1 FROM wms.Yer INNER JOIN wms.Kat ON wms.Yer.KatID = wms.Kat.ID INNER JOIN wms.Bolum ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor ON wms.Raf.KoridorID = wms.Koridor.ID WHERE (wms.Yer.MalKodu = wms.GorevYer.MalKodu) AND (wms.Yer.Birim = wms.GorevYer.Birim) AND (wms.Koridor.DepoID = {0})) as Stok " +
+                                "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
+                                "WHERE (wms.GorevYer.GorevID = {1})", idDepo, cevap.GorevID.Value);
+            var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
+            ViewBag.GorevID = cevap.GorevID.Value;
+            ViewBag.DepoID = idDepo;
+            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
+            return View("Step4", list2);
+        }
+        /// <summary>
+        /// rota adımlarını gör
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Step5(int GorevID, int DepoID)
+        {
+            //sıralama
+            var lstKoridor = db.GetKoridorIdFromGorevId(GorevID).ToList();
+            bool asc = false; int sira = 1;
+            foreach (var item in lstKoridor)
+            {
+                var lstBolum = db.GetBolumSiralamaFromGorevId(GorevID, item.Value, asc).ToList();
+                foreach (var item2 in lstBolum)
+                {
+                    var tmptblyer = new GorevYer();
+                    tmptblyer.ID = item2.Value;
+                    tmptblyer.Sira = sira;
+                    sira++;
+                    TaskYer.Operation(tmptblyer);
+                }
+                asc = asc == false ? true : false;
+            }
+            //listeyi getir
+            string sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim,  wms.GorevYer.Sira, " +
+                                "(SELECT SUM(wms.Yer.Miktar) AS Expr1 FROM wms.Yer INNER JOIN wms.Kat ON wms.Yer.KatID = wms.Kat.ID INNER JOIN wms.Bolum ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor ON wms.Raf.KoridorID = wms.Koridor.ID WHERE (wms.Yer.MalKodu = wms.GorevYer.MalKodu) AND (wms.Yer.Birim = wms.GorevYer.Birim) AND (wms.Koridor.DepoID = {0})) as Stok " +
+                                "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
+                                "WHERE (wms.GorevYer.GorevID = {1}) ORDER BY  wms.GorevYer.Sira", DepoID, GorevID);
+            var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
+            ViewBag.GorevID = GorevID;
+            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
+            return View("Step5");
+        }
+        /// <summary>
+        /// sipariş onaylandı
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Approve(int GorevID)
+        {
+            Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            grv.DurumID = ComboItems.Açık.ToInt32();
+            grv.OlusturmaTarihi = fn.ToOADate();
+            grv.OlusturmaSaati = fn.ToOATime();
+            db.SaveChanges();
+            return Redirect("/Taska");
         }
         /// <summary>
         /// depo ve şirket seçince açık siparişler gelecek

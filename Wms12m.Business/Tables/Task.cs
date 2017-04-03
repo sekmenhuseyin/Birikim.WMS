@@ -169,6 +169,32 @@ namespace Wms12m.Business
            }
             return _Result;
         }
+        public Result DeleteSome()
+        {
+            _Result = new Result();
+            try
+            {
+                int Id = ComboItems.Başlamamış.ToInt32();
+                var tbl = db.Gorevs.Where(m => m.DurumID == Id).ToList();
+                if (tbl == null)
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+                foreach (var item in tbl)
+                {
+                    db.DeleteFromGorev(item.ID);
+                }
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                _Result.Status = false;
+            }
+            return _Result;
+        }
         /// <summary>
         /// ayrıntılar
         /// </summary>

@@ -16,6 +16,20 @@ namespace Wms12m
         /// </summary>
         private string[] mostUsedPass = { "11111", "111111", "1111111", "12345", "123456", "1234567", "12345678", "123456789", "654321", "1qaz2wsx", "password", "iloveyou", "princess", "football", "baseball", "rockyou", "abc123", "nicole", "daniel", "babygirl", "monkey", "master", "admin", "login", "jessica", "lovely", "michael", "ashley", "winter", "summer", "qwerty", "qwertyuiop", "sifre", "welcome", "welcome1", "welcome2", "welcome01", "passw0rd", "password1", "password2", "password3", "password4", "password6", "password7", "password8", "password9", "password01", "password123" };
         /// <summary>
+        /// db için oadate oluşturur
+        /// </summary>
+        public int ToOADate()
+        {
+            return DateTime.Today.ToOADateInt();
+        }
+        /// <summary>
+        /// db için saat oluşturur
+        /// </summary>
+        public int ToOATime()
+        {
+            return DateTime.Today.ToOADateInt();
+        }
+        /// <summary>
         /// iiif in c#
         /// </summary>
         public object iif(bool expression, object truePart, object falsePart)
