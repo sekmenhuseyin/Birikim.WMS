@@ -206,16 +206,10 @@ namespace Wms12m.Presentation.Controllers
             //get gorev yer
             var tablo = TaskYer.GetList(cevap.GorevID.Value);
             //get gorev details
-            sql = ""; i = 0;
-            foreach (var item in sirketler)
-            {
-                if (sql != "") sql += " UNION ";
-                sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar " +
-                                    "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) " +
-                                    "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({3}))  AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı'))", item, tbl.DepoID, evraklar[i], ids[i]);
-                i++;
-            }
-            sql = "SELECT MalKodu, SUM(Miktar) AS Miktar, Birim FROM (" + sql + ") AS t1 GROUP BY MalKodu, Birim";
+            sql = string.Format("SELECT wms.IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, wms.IRS_Detay.Birim " +
+                                "FROM wms.IRS_Detay INNER JOIN wms.GorevIRS ON wms.IRS_Detay.IrsaliyeID = wms.GorevIRS.IrsaliyeID " +
+                                "WHERE(wms.GorevIRS.GorevID = {0}) " +
+                                "GROUP BY wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim", cevap.GorevID);
             list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
             foreach (var item in list)
             {
@@ -247,8 +241,7 @@ namespace Wms12m.Presentation.Controllers
                 }
             }
             //listeyi getir
-            sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, " +
-                                "(SELECT SUM(wms.Yer.Miktar) AS Expr1 FROM wms.Yer INNER JOIN wms.Kat ON wms.Yer.KatID = wms.Kat.ID INNER JOIN wms.Bolum ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor ON wms.Raf.KoridorID = wms.Koridor.ID WHERE (wms.Yer.MalKodu = wms.GorevYer.MalKodu) AND (wms.Yer.Birim = wms.GorevYer.Birim) AND (wms.Koridor.DepoID = {0})) as Stok " +
+            sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok " +
                                 "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
                                 "WHERE (wms.GorevYer.GorevID = {1})", idDepo, cevap.GorevID.Value);
             var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
@@ -282,8 +275,7 @@ namespace Wms12m.Presentation.Controllers
                 asc = asc == false ? true : false;
             }
             //listeyi getir
-            string sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim,  wms.GorevYer.Sira, " +
-                                "(SELECT SUM(wms.Yer.Miktar) AS Expr1 FROM wms.Yer INNER JOIN wms.Kat ON wms.Yer.KatID = wms.Kat.ID INNER JOIN wms.Bolum ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor ON wms.Raf.KoridorID = wms.Koridor.ID WHERE (wms.Yer.MalKodu = wms.GorevYer.MalKodu) AND (wms.Yer.Birim = wms.GorevYer.Birim) AND (wms.Koridor.DepoID = {0})) as Stok " +
+            string sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim,  wms.GorevYer.Sira, wms.Yer.Miktar AS Stok " +
                                 "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
                                 "WHERE (wms.GorevYer.GorevID = {1}) ORDER BY  wms.GorevYer.Sira", DepoID, GorevID);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
