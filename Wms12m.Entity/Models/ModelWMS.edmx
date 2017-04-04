@@ -814,6 +814,7 @@
           <Parameter Name="KoridorID" Type="int" Mode="In" />
           <Parameter Name="desc" Type="bit" Mode="In" />
         </Function>
+        <Function Name="GetHomeSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetHucreAd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
@@ -1316,6 +1317,7 @@
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="EvrakSeri" EntitySet="EvrakSeris" />
           </AssociationSet>
+          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2138,6 +2140,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetHomeSummary_Result">
+          <Property Type="Int32" Name="depo" Nullable="true" />
+          <Property Type="Int32" Name="kull" Nullable="true" />
+          <Property Type="Int32" Name="gorev" Nullable="true" />
+          <Property Type="Int32" Name="irs" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2518,6 +2526,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
+                <ScalarProperty Name="depo" ColumnName="depo" />
+                <ScalarProperty Name="kull" ColumnName="kull" />
+                <ScalarProperty Name="gorev" ColumnName="gorev" />
+                <ScalarProperty Name="irs" ColumnName="irs" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1,3 +1,43 @@
-﻿@{
-    ViewBag.Title = "Anasayfa";
-}<h2>Anasayfa</h2>
+﻿@model GetHomeSummary_Result
+@{
+    ViewBag.Title = "Depo Yönetim Paneli";
+}<div class="page-bar"><ul class="page-breadcrumb"><li><span>Anasayfa</span></li></ul></div>
+<h1 class="page-title">Depo Yönetim Paneli <small>Özet</small></h1>
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 red" href="#">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.depo">@Model.depo</span></div>
+                <div class="desc"> Depo Sayısı </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 green" href="#">
+            <div class="visual"><i class="fa fa-shopping-cart"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.kull">@Model.kull</span></div>
+                <div class="desc"> Kullanıcı Sayısı </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
+            <div class="visual"><i class="fa fa-comments"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.gorev">@Model.gorev</span></div>
+                <div class="desc"> Açık Görevler </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 purple" href="#">
+            <div class="visual"><i class="fa fa-globe"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.irs">@Model.irs</span></div>
+                <div class="desc"> Açık İrsaliye </div>
+            </div>
+        </a>
+    </div>
+</div>

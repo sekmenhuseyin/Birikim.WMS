@@ -1608,32 +1608,33 @@ Page content
     float: left;
     width: 100%; }
     .page-content-wrapper .page-content {
-      margin-left: 235px;
-      margin-top: 0px;
-      min-height: 600px;
-      padding: 10px 20px 10px 20px; }
-      .page-content-wrapper .page-content.no-min-height {
-        min-height: auto; }
-      .page-sidebar-fixed.page-sidebar-hover-on .page-content-wrapper .page-content {
-        margin-left: 45px; }
-      .page-sidebar-reversed .page-content-wrapper .page-content {
-        margin-left: 0 !important;
-        margin-right: 235px !important; }
-      .page-sidebar-reversed.page-sidebar-fixed.page-sidebar-hover-on .page-content-wrapper .page-content {
-        margin-left: 0;
-        margin-right: 45px; }
-      .page-sidebar-reversed.page-sidebar-closed .page-content-wrapper .page-content {
-        margin-left: 0 !important;
-        margin-right: 45px !important; }
-      .page-sidebar-closed .page-content-wrapper .page-content {
-        margin-left: 45px !important; }
-      .page-sidebar-closed.page-sidebar-hide .page-content-wrapper .page-content {
-        margin-left: 0 !important; }
-      .page-sidebar-closed.page-sidebar-reversed.page-sidebar-hide .page-content-wrapper .page-content {
-        margin-right: 0 !important; }
-      .page-full-width .page-content-wrapper .page-content {
-        margin-left: 0px !important; } }
-
+        margin-left: 235px;
+        margin-top: 0px;
+        min-height: 600px;
+        padding: 25px 20px 10px;
+    }
+    .page-content-wrapper .page-content.no-min-height {
+    min-height: auto; }
+    .page-sidebar-fixed.page-sidebar-hover-on .page-content-wrapper .page-content {
+    margin-left: 45px; }
+    .page-sidebar-reversed .page-content-wrapper .page-content {
+    margin-left: 0 !important;
+    margin-right: 235px !important; }
+    .page-sidebar-reversed.page-sidebar-fixed.page-sidebar-hover-on .page-content-wrapper .page-content {
+    margin-left: 0;
+    margin-right: 45px; }
+    .page-sidebar-reversed.page-sidebar-closed .page-content-wrapper .page-content {
+    margin-left: 0 !important;
+    margin-right: 45px !important; }
+    .page-sidebar-closed .page-content-wrapper .page-content {
+    margin-left: 45px !important; }
+    .page-sidebar-closed.page-sidebar-hide .page-content-wrapper .page-content {
+    margin-left: 0 !important; }
+    .page-sidebar-closed.page-sidebar-reversed.page-sidebar-hide .page-content-wrapper .page-content {
+    margin-right: 0 !important; }
+    .page-full-width .page-content-wrapper .page-content {
+    margin-left: 0px !important; }
+}
 @media (max-width: 991px) {
   /* 991px */
   html,

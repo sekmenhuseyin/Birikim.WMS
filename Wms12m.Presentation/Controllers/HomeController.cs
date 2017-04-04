@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -7,7 +8,8 @@ namespace Wms12m.Presentation.Controllers
         // Anasayfa
         public ActionResult Index()
         {
-            return View("Index");
+            var ozet = db.GetHomeSummary().FirstOrDefault();
+            return View("Index", ozet);
         }
     }
 }
