@@ -46,6 +46,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<IR> IRS { get; set; }
         public virtual DbSet<Yer_Log> Yer_Log { get; set; }
         public virtual DbSet<Olcu> Olcus { get; set; }
+        public virtual DbSet<EvrakSeri> EvrakSeris { get; set; }
     
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {

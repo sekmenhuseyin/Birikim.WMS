@@ -27,7 +27,10 @@
         Bobin = 12,
         KabloKanalı = 13,
         MuhtelifKoli = 14,
-        Başlamamış = 15
+        Başlamamış = 15,
+        EArşiv = 16,
+        EFatura = 17,
+        Normal = 18
     }
     /// <summary>
     /// combo item names
@@ -36,6 +39,7 @@
     {
         GorevTipleri = 1,
         GorevDurum = 2,
-        Özellik = 3
+        Özellik = 3,
+        EvrakSeriTipi = 4
     }
 }

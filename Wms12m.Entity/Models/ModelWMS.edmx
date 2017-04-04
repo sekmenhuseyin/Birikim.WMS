@@ -11,6 +11,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ComboName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Açıklama" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="ComboItem_Name">
           <Key>
@@ -126,6 +127,15 @@
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="DepoID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="EvrakSeri">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SirketKodu" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Tip" Type="int" Nullable="false" />
+          <Property Name="SeriNo" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Gorev">
           <Key>
             <PropertyRef Name="ID" />
@@ -179,13 +189,13 @@
           <Property Name="IslemTur" Type="bit" Nullable="false" />
           <Property Name="EvrakNo" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="HesapKodu" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="TeslimCHK" Type="varchar" MaxLength="20" />
-          <Property Name="ValorGun" Type="smallint" />
-          <Property Name="Aciklama" Type="varchar" MaxLength="120" />
           <Property Name="Tarih" Type="int" Nullable="false" />
           <Property Name="Kaydeden" Type="int" Nullable="false" />
           <Property Name="KayitTarih" Type="int" Nullable="false" />
           <Property Name="Onay" Type="bit" Nullable="false" />
+          <Property Name="TeslimCHK" Type="varchar" MaxLength="20" />
+          <Property Name="ValorGun" Type="smallint" />
+          <Property Name="Aciklama" Type="varchar" MaxLength="120" />
           <Property Name="LinkEvrakNo" Type="varchar" MaxLength="16" />
         </EntityType>
         <EntityType Name="IRS_Detay">
@@ -373,6 +383,18 @@
             </Principal>
             <Dependent Role="Depo">
               <PropertyRef Name="Kaydeden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EvrakSeri_ComboItem_Name">
+          <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="1" />
+          <End Role="EvrakSeri" Type="Self.EvrakSeri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EvrakSeri">
+              <PropertyRef Name="Tip" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -864,6 +886,7 @@
           <EntitySet Name="Bolum" EntityType="Self.Bolum" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Depo" EntityType="Self.Depo" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Depo_Users" EntityType="Self.Depo_Users" Schema="wms" store:Type="Tables" />
+          <EntitySet Name="EvrakSeri" EntityType="Self.EvrakSeri" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Gorev" EntityType="Self.Gorev" Schema="wms" store:Type="Tables" />
           <EntitySet Name="GorevIRS" EntityType="Self.GorevIRS" Schema="wms" store:Type="Tables" />
           <EntitySet Name="GorevYer" EntityType="Self.GorevYer" Schema="wms" store:Type="Tables" />
@@ -902,6 +925,10 @@
           <AssociationSet Name="FK_Depo_UsersKaydeden" Association="Self.FK_Depo_UsersKaydeden">
             <End Role="Users" EntitySet="Users" />
             <End Role="Depo" EntitySet="Depo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EvrakSeri_ComboItem_Name" Association="Self.FK_EvrakSeri_ComboItem_Name">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="EvrakSeri" EntitySet="EvrakSeri" />
           </AssociationSet>
           <AssociationSet Name="FK_Gorev_ComboItem_NameDurum" Association="Self.FK_Gorev_ComboItem_NameDurum">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -1284,6 +1311,11 @@
             <Parameter Name="ValorGun" Mode="In" Type="Int16" />
             <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="EvrakSeris" EntityType="MModel.EvrakSeri" />
+          <AssociationSet Name="FK_EvrakSeri_ComboItem_Name" Association="MModel.FK_EvrakSeri_ComboItem_Name">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="EvrakSeri" EntitySet="EvrakSeris" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1300,6 +1332,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ComboName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_ComboItemName_ComboName" FromRole="Combo_Name" ToRole="ComboItem_Name" />
+          <Property Name="Açıklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ComboItem_Name">
           <Key>
@@ -1313,6 +1346,7 @@
           <NavigationProperty Name="Gorevs" Relationship="MModel.FK_Gorev_ComboItem_NameDurum" FromRole="ComboItem_Name" ToRole="Gorev" />
           <NavigationProperty Name="Gorevs1" Relationship="MModel.FK_Gorev_ComboItem_NameOzellik" FromRole="ComboItem_Name" ToRole="Gorev" />
           <NavigationProperty Name="Kats" Relationship="MModel.FK_TK_KAT_ComboItemName" FromRole="ComboItem_Name" ToRole="Kat" />
+          <NavigationProperty Name="EvrakSeris" Relationship="MModel.FK_EvrakSeri_ComboItem_Name" FromRole="ComboItem_Name" ToRole="EvrakSeri" />
         </EntityType>
         <EntityType Name="Bolum">
           <Key>
@@ -2082,6 +2116,28 @@
           <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
           <Property Type="Int32" Name="GorevID" Nullable="true" />
         </ComplexType>
+        <EntityType Name="EvrakSeri">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SirketKodu" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Tip" Type="Int32" Nullable="false" />
+          <Property Name="SeriNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_EvrakSeri_ComboItem_Name" FromRole="EvrakSeri" ToRole="ComboItem_Name" />
+        </EntityType>
+        <Association Name="FK_EvrakSeri_ComboItem_Name">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.EvrakSeri" Role="EvrakSeri" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EvrakSeri">
+              <PropertyRef Name="Tip" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2110,6 +2166,7 @@
           <EntitySetMapping Name="Combo_Name">
             <EntityTypeMapping TypeName="MModel.Combo_Name">
               <MappingFragment StoreEntitySet="Combo_Name">
+                <ScalarProperty Name="Açıklama" ColumnName="Açıklama" />
                 <ScalarProperty Name="ComboName" ColumnName="ComboName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -2451,6 +2508,16 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="EvrakSeris">
+            <EntityTypeMapping TypeName="MModel.EvrakSeri">
+              <MappingFragment StoreEntitySet="EvrakSeri">
+                <ScalarProperty Name="SeriNo" ColumnName="SeriNo" />
+                <ScalarProperty Name="Tip" ColumnName="Tip" />
+                <ScalarProperty Name="SirketKodu" ColumnName="SirketKodu" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

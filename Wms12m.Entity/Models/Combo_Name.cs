@@ -22,6 +22,7 @@ namespace Wms12m.Entity.Models
     
         public int ID { get; set; }
         public string ComboName { get; set; }
+        public string Açıklama { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ComboItem_Name> ComboItem_Name { get; set; }
