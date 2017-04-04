@@ -54,16 +54,18 @@ namespace Wms12m.Business
             {
                 string evrakno = db.IRS.Where(m => m.ID == tbl.IrsaliyeID).Select(m => m.EvrakNo).FirstOrDefault();
                 string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-                Gorev gorev = new Gorev();
-                gorev.DepoID = tbl.DepoID;
-                gorev.GorevNo = gorevno;
-                gorev.GorevTipiID = ComboItems.MalKabul.ToInt32();
-                gorev.DurumID = ComboItems.Açık.ToInt32();
-                gorev.OlusturanID = Users.AppIdentity.User.Id;
-                gorev.OlusturmaTarihi = DateTime.Today.ToOADateInt();
-                gorev.OlusturmaSaati = DateTime.Now.SaatiAl();
-                gorev.IrsaliyeID = tbl.IrsaliyeID;
-                gorev.Bilgi = "Irs: " + evrakno;
+                Gorev gorev = new Gorev()
+                {
+                    DepoID = tbl.DepoID,
+                    GorevNo = gorevno,
+                    GorevTipiID = ComboItems.MalKabul.ToInt32(),
+                    DurumID = ComboItems.Açık.ToInt32(),
+                    OlusturanID = Users.AppIdentity.User.Id,
+                    OlusturmaTarihi = DateTime.Today.ToOADateInt(),
+                    OlusturmaSaati = DateTime.Now.SaatiAl(),
+                    IrsaliyeID = tbl.IrsaliyeID,
+                    Bilgi = "Irs: " + evrakno
+                };
                 db.Gorevs.Add(gorev);
                 db.SaveChanges();
                 _Result.Message = "İşlem Başarılı !!!";
@@ -159,14 +161,14 @@ namespace Wms12m.Business
                 else
                 {
                     _Result.Message = "Kayıt Yok";
-                _Result.Status = false;
+                    _Result.Status = false;
                 }
             }
             catch (Exception ex)
             {
                 _Result.Message = ex.Message + ": " + ex.InnerException.Message;
                 _Result.Status = false;
-           }
+            }
             return _Result;
         }
         public Result DeleteSome()
@@ -232,7 +234,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<Gorev> GetList(int ParentId)
         {
-            return db.Gorevs.Where(m=>m.DurumID==ParentId).OrderByDescending(m => m.ID).ToList();
+            return db.Gorevs.Where(m => m.DurumID == ParentId).OrderByDescending(m => m.ID).ToList();
         }
         public List<Gorev> GetListbyType(int ParentId)
         {

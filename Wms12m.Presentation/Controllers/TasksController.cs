@@ -59,8 +59,8 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(int ID)
         {
-            Task tmpTable = new Task();
-            Result _Result = tmpTable.Delete(ID);
+            db.DeleteFromGorev(ID);
+            Result _Result = new Result() { Status = true, Id = ID };
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>

@@ -8,7 +8,7 @@
                 @foreach (var item in Model)
                 {
                     tmp += item.SirketID + "-" + item.EvrakNo + "#";
-                    <tr data-ID="@item.SirketID-@ViewBag.Depo-@item.EvrakNo" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')" ondblclick="$('#modalEditPage').modal('toggle'); editInModal('/Sell/Details/@item.SirketID-@ViewBag.Depo-@item.EvrakNo')">
+                    <tr data-ID="@item.SirketID-@ViewBag.Depo-@item.EvrakNo" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')">
                         <td class="details-control"></td>
                         <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                         <td>@item.Tarih.FromOADateInt()</td>
