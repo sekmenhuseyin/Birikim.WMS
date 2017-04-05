@@ -1103,6 +1103,10 @@
     <Content Include="Content\assets\global\plugins\datatables\plugins\bootstrap\datatables.bootstrap.min.js">
       <DependentUpon>datatables.bootstrap.js</DependentUpon>
     </Content>
+    <Content Include="Content\assets\global\plugins\datatables\plugins\buttons\buttons.dataTables.css" />
+    <Content Include="Content\assets\global\plugins\datatables\plugins\buttons\buttons.dataTables.min.css" />
+    <Content Include="Content\assets\global\plugins\datatables\plugins\buttons\dataTables.buttons.js" />
+    <Content Include="Content\assets\global\plugins\datatables\plugins\buttons\dataTables.buttons.min.js" />
     <Content Include="Content\assets\global\plugins\dropzone\basic.min.css" />
     <Content Include="Content\assets\global\plugins\dropzone\dropzone.min.css" />
     <Content Include="Content\assets\global\plugins\dropzone\dropzone.min.js" />

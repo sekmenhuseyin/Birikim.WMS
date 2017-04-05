@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<frmSiparistenGelen>
-@{string tmp = ""; }
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
@@ -12,7 +11,6 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                tmp += item.ID + ",";
                                 <tr style="cursor:pointer;" onclick="toggle(this, '@item.ID')">
                                     <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                                     <td>@item.Tarih.FromOADateInt()</td>
@@ -68,7 +66,6 @@
         });
         $("#selector").click(function () {
             if (selectall == true) {
-                selected = "@tmp";
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
             }
