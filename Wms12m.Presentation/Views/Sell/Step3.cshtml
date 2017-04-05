@@ -41,7 +41,7 @@
         <div class="portlet box green m-t-30">
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Sipariş Seçimi</div></div>
             <div class="portlet-body form p-30">
-                @using (Html.BeginForm("Step4", "Sell", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Step4", "Sell", FormMethod.Post, new { id = "frmSiparis",  @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -51,7 +51,7 @@
                             @foreach (var item in Model)
                             {
                                 tmp += item.SirketID + "-" + item.ID + "#";
-                                <tr style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.ID')">
+                                <tr style="cursor:pointer;" class="clickable" data-id="@item.SirketID-@item.ID">
                                     <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                                     <td>@item.Tarih.FromOADateInt()</td>
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
@@ -74,7 +74,8 @@
                             <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
                             <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />
                             <input type="hidden" name="checkboxes" id="checkboxes" value="" />
-                            <input type="submit" class="btn btn-primary btn-block green" value="İleri >>>" />
+                            <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
+                            <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
                         </div>
                     </div>
                 }
@@ -87,7 +88,7 @@
 <script src="~/Content/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
 <script>
-    var selected = ""; var selectall = true;
+    var cells = [, ,]; var selected = ""; var selectall = true;
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
             "ordering": false,
@@ -105,6 +106,44 @@
                 });
             }
         });
+        $(".clickable").click(function () {
+            $(this).toggleClass('selected');
+            if ($(this).hasClass('selected') == true) selected = selected + $(this).attr("data-id") + "#";
+            else selected = selected.replace($(this).attr("data-id") + "#", "");
+            $("#checkboxes").val(selected);
+        });
+        $(".submit").click(function () {
+            var cells = [,,]; var result = false;
+            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+                var miktar = parseFloat(this.data()[4].replace(".", "").replace(",", "."));
+                var stok = parseFloat(this.data()[5].replace(".", "").replace(",", "."));
+                if (cells.length > 2) {
+                    for (var i = 2, len = cells.length; i < len; i++) {
+                        if (cells[i][0] === this.data()[2]) {
+                            cells[i][1] += miktar;
+                            result = true;
+                            break;
+                        }
+                    }
+                }
+                if (result == false) cells.push([this.data()[2], miktar, stok]);
+            });
+            result = false;
+            if (cells.length == 2) {
+                Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+                result = true;
+                return;
+            }
+            cells.forEach(function (item) {
+                if (item[1] > item[2])
+                {
+                    Modaldialog(item[0] + " için stoktan fazla sipariş var.", "Hata", "Tamam", "btn-danger");
+                    result = true;
+                    return;
+                }
+            });
+            if (result == false) $("#submit").click();
+        });
         $("#selector").click(function () {
             if (selectall == true) {
                 selected = "@tmp";
@@ -119,11 +158,5 @@
             $("#checkboxes").val(selected);
         });
     });
-    function toggle(row,id) {
-        $(row).toggleClass('selected');
-        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
-        else selected = selected.replace(id + "#", "");
-        $("#checkboxes").val(selected);
-    }
 </script>
 }

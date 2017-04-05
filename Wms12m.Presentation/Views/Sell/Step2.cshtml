@@ -72,7 +72,8 @@
                             <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
                             <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />
                             <input type="hidden" name="checkboxes" id="checkboxes" value="" />
-                            <input type="submit" class="btn btn-primary btn-block green" value="İleri >>>" />
+                            <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
+                            <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
                         </div>
                     </div>
                 }
@@ -115,6 +116,14 @@
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
             }
             $("#checkboxes").val(selected);
+        });
+        $(".submit").click(function () {
+            var result = false;
+            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+                result = true;
+            });
+            if (result == true) $("#submit").click();
+            else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
         });
     });
     function toggle(row,id) {
