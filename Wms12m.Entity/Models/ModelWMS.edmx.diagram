@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="52">
+      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="67">
         <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="24" PointY="13" />
         <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="25.875" PointY="13.25" />
         <EntityTypeShape EntityType="MModel.Bolum" Width="1.5" PointX="24.625" PointY="7.25" />

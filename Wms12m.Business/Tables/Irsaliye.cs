@@ -87,10 +87,8 @@ namespace Wms12m.Business
                 IR tbl = db.IRS.Where(m => m.ID == Id).FirstOrDefault();
                 if (tbl != null)
                 {
-                    db.Gorevs.RemoveRange(db.Gorevs.Where(m => m.IrsaliyeID == tbl.ID));
-                    db.IRS_Detay.RemoveRange(db.IRS_Detay.Where(m => m.IrsaliyeID == tbl.ID));
-                    db.IRS.Remove(tbl);
-                    db.SaveChanges();
+                    int gid = db.Gorevs.Where(m => m.IrsaliyeID == Id).Select(m => m.ID).FirstOrDefault();
+                    db.DeleteFromGorev(gid);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -103,7 +101,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                _Result.Message = ex.Message;
                 _Result.Status = false;
             }
             return _Result;
@@ -111,7 +109,8 @@ namespace Wms12m.Business
         /// <summary>
         /// irsaliye onayı bul
         /// </summary>
-        public bool GetOnay(int ID) {
+        public bool GetOnay(int ID)
+        {
             return db.IRS.Where(m => m.ID == ID).Select(m => m.Onay).FirstOrDefault();
         }
         /// <summary>

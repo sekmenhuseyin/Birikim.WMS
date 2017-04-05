@@ -28,6 +28,7 @@ namespace Wms12m.Presentation.Controllers
             if (tmp.Length != 3) return null;
             //get liste
             var list = Irsaliye.GetList(tmp[0], false, tmp[2], tmp[1].ToInt32());
+            ViewBag.id = id;
             return PartialView("List", list);
         }
         /// <summary>
