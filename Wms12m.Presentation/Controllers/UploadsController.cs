@@ -57,6 +57,10 @@ namespace Wms12m.Presentation.Controllers
                     sti.MalKodu = malkodu;
                     sti.Miktar = Convert.ToDecimal(dr["Miktar"]);
                     sti.Birim = dr["Birim"].ToString();
+                    if (dr["Kaynak Sipariş No"].ToString() != "") sti.KynkSiparisNo = dr["Kaynak Sipariş No"].ToString();
+                    if (dr["Kaynak Sipariş Sıra No"].ToString() != "") sti.KynkSiparisSiraNo = dr["Kaynak Sipariş Sıra No"].ToString().ToShort();
+                    if (dr["Kaynak Sipariş Tarih"].ToString() != "") sti.KynkSiparisTarih = dr["Kaynak Sipariş Tarih"].ToString().ToInt32();
+                    if (dr["Kaynak Sipariş Miktar"].ToString() != "") sti.KynkSiparisMiktar = dr["Kaynak Sipariş Miktar"].ToString().ToDecimal();
                     //ekle
                     liste.Add(sti);
                 }
