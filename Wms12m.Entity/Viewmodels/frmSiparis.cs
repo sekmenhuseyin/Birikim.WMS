@@ -66,6 +66,7 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmSiparisMalzemeOnay
     {
+        public string ID { get; set; }
         public string SirketID { get; set; }
         public string EvrakNo { get; set; }
         public string Chk { get; set; }

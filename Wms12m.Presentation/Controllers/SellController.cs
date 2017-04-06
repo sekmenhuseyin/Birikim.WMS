@@ -116,13 +116,14 @@ namespace Wms12m.Presentation.Controllers
             var sirketler = new List<string>();
             var evraklar = new List<string>();
             var ids = new List<string>();
+            var miktars = new List<decimal>();
             int i;
             //şirket id ve evrak nolar bulunur
             string[] tmp = tbl.EvrakNos.Split('#');
             foreach (var item in tmp)
             {
                 string[] tmp2 = item.Split('-');
-                if (sirketler.Contains(tmp2[0]) == false) { sirketler.Add(tmp2[0]); evraklar.Add("'" + tmp2[1] + "'"); ids.Add(""); }//eğer şirket yoksa ekle
+                if (sirketler.Contains(tmp2[0]) == false) { sirketler.Add(tmp2[0]); evraklar.Add("'" + tmp2[1] + "'"); ids.Add("0"); }//eğer şirket yoksa ekle
                 else
                 {
                     i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
@@ -136,15 +137,15 @@ namespace Wms12m.Presentation.Controllers
             {
                 string[] tmp2 = item.Split('-');
                 i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
-                if (ids[i] != "") ids[i] += ",";
-                ids[i] += "'" + tmp2[1] + "'";
+                ids[i] += ",'" + tmp2[1] + "'";
+                miktars.Add(tmp2[2].ToDecimal());
             }
             //sql oluştur
             string sql = ""; i = 0;
             foreach (var item in sirketler)
             {
                 if (sql != "") sql += " UNION ";
-                sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun, FINSAT6{0}.FINSAT6{0}.SPI.TeslimChk " +
+                sql += String.Format("SELECT '{0}' as SirketID, '{0}-'+CONVERT(VARCHAR(10),FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID) as ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.Birim, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.ValorGun, FINSAT6{0}.FINSAT6{0}.SPI.TeslimChk " +
                                     "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({3})) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı'))", item, tbl.DepoID, evraklar[i], ids[i]);
                 i++;
@@ -180,13 +181,14 @@ namespace Wms12m.Presentation.Controllers
                 var stokMiktari = db.GetStock(idDepo, item.MalKodu, item.Birim, true).FirstOrDefault().Value;
                 if (stokMiktari > 0)
                 {
+                    var miktar = miktars[Array.FindIndex(tmp, m => m.Contains(item.ID))];
                     //sti tablosu
                     IRS_Detay sti = new IRS_Detay()
                     {
                         IrsaliyeID = cevap.IrsaliyeID.Value,
                         MalKodu = item.MalKodu,
                         Birim = item.Birim,
-                        Miktar = item.Miktar <= stokMiktari ? item.Miktar : stokMiktari,
+                        Miktar = miktar <= stokMiktari ? miktar : stokMiktari,
                         KynkSiparisNo = item.EvrakNo,
                         KynkSiparisSiraNo = item.SiraNo,
                         KynkSiparisTarih = item.Tarih,
