@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Sipariş Planlama - 2. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string tmp = "";
 }@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")" rel="stylesheet" type="text/css" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Sell">Sipariş Planlama</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
@@ -50,7 +49,6 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                tmp += item.MalKodu + ",";
                                 <tr style="cursor:pointer;" onclick="toggle(this,'@item.MalKodu')">
                                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                                     <td>@item.MalKodu.GetMalAdi(item.SirketID)</td>
@@ -105,13 +103,15 @@
             }
         });
         $("#selector").click(function () {
+            selected = "";
             if (selectall == true) {
-                selected = "@tmp";
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
-                table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
+                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
+                    selected = selected + this.data()[0] + ",";
+                    this.select();
+                });
             }
             else {
-                selected = "";
                 $("#selector").text("Hepsini Seç"); selectall = true;
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
             }

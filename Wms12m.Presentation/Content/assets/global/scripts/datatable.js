@@ -39,28 +39,28 @@ var Datatable = function() {
                 filterApplyAction: "filter",
                 filterCancelAction: "filter_cancel",
                 resetGroupActionInputOnSuccess: true,
-                loadingMessage: 'Loading...',
+                loadingMessage: 'Yükleniyor...',
                 dataTable: {
                     "dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r><'table-responsive't><'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>", // datatable layout
                     "pageLength": 10, // default records per page
                     "language": { // language settings
                         // metronic spesific
-                        "metronicGroupActions": "_TOTAL_ records selected:  ",
-                        "metronicAjaxRequestGeneralError": "Could not complete request. Please check your internet connection",
+                        "metronicGroupActions": "_TOTAL_ kayýt seçildi:  ",
+                        "metronicAjaxRequestGeneralError": "Baðlantý hatasý",
 
                         // data tables spesific
-                        "lengthMenu": "<span class='seperator'>|</span>View _MENU_ records",
-                        "info": "<span class='seperator'>|</span>Found total _TOTAL_ records",
-                        "infoEmpty": "No records found to show",
-                        "emptyTable": "No data available in table",
-                        "zeroRecords": "No matching records found",
+                        "lengthMenu": "<span class='seperator'>|</span>_MENU_ kayda bak",
+                        "info": "<span class='seperator'>|</span>_TOTAL_ kayýt bulundu",
+                        "infoEmpty": "Kayýt yok",
+                        "emptyTable": "Kayýt yok",
+                        "zeroRecords": "Kayýt Yok",
                         "paginate": {
-                            "previous": "Prev",
-                            "next": "Next",
-                            "last": "Last",
-                            "first": "First",
-                            "page": "Page",
-                            "pageOf": "of"
+                            "previous": "Önceki",
+                            "next": "Sonraki",
+                            "last": "En Son",
+                            "first": "Ýlk",
+                            "page": "Sayfa",
+                            "pageOf": "/"
                         }
                     },
 

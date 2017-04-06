@@ -7,7 +7,7 @@
                 <div class="modal-body">@*Project Details Go Here*@
                     <h4>İrsaliye Liste</h4>
                     <table class="table table-striped table-bordered" id="sample_3">
-                        <thead><tr><th>EvrakNo</th><th>Tarih</th><th>Mal Kodu</th><th>Mal Adı</th><th>Açık Miktar</th><th>Birim</th></tr></thead>
+                        <thead><tr><th>EvrakNo</th><th>Tarih</th><th>Mal Kodu</th><th>Mal Adı</th><th>Açık Miktar</th><th>Birim</th><th>ID</th></tr></thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
@@ -18,6 +18,7 @@
                                     <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
                                     <td align="right">@String.Format("{0:n}", item.AçıkMiktar)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+                                    <td>@item.ID</td>
                                 </tr>
                             }
                         </tbody>
@@ -40,6 +41,13 @@
         var table = $('#sample_3').DataTable({
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "columnDefs": [
+                {
+                    "targets": [6],
+                    "visible": false,
+                    "searchable": false
+                }
+            ],
             initComplete: function () {
                 this.api().columns().every(function () {
                     var column = this;
@@ -65,12 +73,15 @@
             });
         });
         $("#selector").click(function () {
+            selected = "";
             if (selectall == true) {
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
-                table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
+                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
+                    selected = selected + this.data()[6] + ",";
+                    this.select();
+                });
             }
             else {
-                selected = "";
                 $("#selector").text("Hepsini Seç"); selectall = true;
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
             }
