@@ -57,13 +57,15 @@ namespace Wms12m.Presentation.Controllers
         {
             if (s == null || id == null || ids == null) return null;
             //loop ids
-            string[] tmp = ids.Split(',');
+            string[] tmp = ids.Split('#');
             int rowid; int irsaliyeID = id.ToInt32();
             foreach (var item in tmp)
             {
                 if (item != "")
                 {
-                    rowid = item.ToInt32();
+                    var tmp2 = item.Split('-');
+                    rowid = tmp2[0].ToInt32();
+                    decimal mktr = tmp2[1].ToDecimal();
                     string sql = String.Format("SELECT EvrakNo, Tarih, SiraNo, MalKodu, BirimMiktar, (BirimMiktar - TeslimMiktar - KapatilanMiktar) AS Miktar, Birim FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0)", s, rowid);
                     var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
                     //save details
@@ -75,7 +77,7 @@ namespace Wms12m.Presentation.Controllers
                     sti.KynkSiparisSiraNo = tbl.SiraNo;
                     sti.KynkSiparisTarih = tbl.Tarih;
                     sti.MalKodu = tbl.MalKodu;
-                    sti.Miktar = tbl.Miktar;
+                    sti.Miktar = mktr > 0 ? mktr : tbl.Miktar;
                     Result _Result = Stok.Operation(sti);
                 }
             }
