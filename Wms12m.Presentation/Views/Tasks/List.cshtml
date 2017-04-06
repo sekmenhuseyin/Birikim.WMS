@@ -5,7 +5,7 @@
         @foreach (var item in Model)
         {
             <tr data-ID="@item.ID">
-                <td class="details-control"></td>
+                <td style="width:20px!important;" class="details-control"></td>
                 <td>@item.Depo.DepoAd</td>
                 <td>@{if (item.IR != null ) { @item.IR.EvrakNo } }</td>
                 <td>@item.GorevNo</td>
