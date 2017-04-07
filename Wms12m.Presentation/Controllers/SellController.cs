@@ -249,7 +249,13 @@ namespace Wms12m.Presentation.Controllers
             var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = cevap.GorevID.Value;
             ViewBag.DepoID = idDepo;
-            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
+            var listsirk = db.GetSirketDBs();
+            List<string> liste = new List<string>();
+            foreach (var item in listsirk)
+            {
+                liste.Add(item);
+            }
+            ViewBag.Sirket = liste;
             return View("Step4", list2);
         }
         /// <summary>

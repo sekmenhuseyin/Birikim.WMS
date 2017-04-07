@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace Wms12m.Presentation.Controllers
@@ -16,11 +16,18 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// listeyi yeniler
         /// </summary>
+        [HttpPost]
         public PartialViewResult List(string Id)
         {
-            ViewBag.Sirket = db.GetSirketDBs().FirstOrDefault();
+            var list = db.GetSirketDBs();
+            List<string> liste = new List<string>();
+            foreach (var item in list)
+            {
+                liste.Add(item);
+            }
+            ViewBag.Sirket = liste;
             string[] ids = Id.Split('#');
-            if (ids[2]!="0")
+            if (ids[2] != "0")
                 return PartialView("List", Yerlestirme.GetListFromRaf(ids[2].ToInt32()));
             else if (ids[1] != "0")
                 return PartialView("List", Yerlestirme.GetListFromKoridor(ids[1].ToInt32()));

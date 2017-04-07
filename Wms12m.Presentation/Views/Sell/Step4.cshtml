@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Sipariş Planlama - 4. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string tmp = ViewBag.SirketID;
+    List<string> Sirket = ViewBag.Sirket;
 }@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")" rel="stylesheet" type="text/css" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Sell">Sipariş Planlama</a><i class="fa fa-circle"></i></li><li><span>4. Adım</span></li></ul></div>
@@ -50,9 +50,11 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
+                                string tmp = item.MalKodu.GetMalAdi(Sirket[0]);
+                                if (tmp == null) { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
                                 <tr>
                                     <td>@item.MalKodu</td>
-                                    <td>@item.MalKodu.GetMalAdi(tmp)</td>
+                                    <td>@tmp</td>
                                     <td>@item.HucreAd</td>
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok)</td>
