@@ -841,6 +841,7 @@
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="GorevNo" Type="varchar" Mode="In" />
           <Parameter Name="IrsEvrakNo" Type="varchar" Mode="In" />
+          <Parameter Name="IrsTarih" Type="int" Mode="In" />
           <Parameter Name="GorevBilgi" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="IrsIslemTur" Type="bit" Mode="In" />
           <Parameter Name="GorevTipiID" Type="int" Mode="In" />
@@ -1295,11 +1296,18 @@
             <Parameter Name="Birim" Mode="In" Type="String" />
             <Parameter Name="includeRezerv" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <EntitySet Name="EvrakSeris" EntityType="MModel.EvrakSeri" />
+          <AssociationSet Name="FK_EvrakSeri_ComboItem_Name" Association="MModel.FK_EvrakSeri_ComboItem_Name">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="EvrakSeri" EntitySet="EvrakSeris" />
+          </AssociationSet>
+          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)" />
           <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
             <Parameter Name="SirketKod" Mode="In" Type="String" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
             <Parameter Name="GorevNo" Mode="In" Type="String" />
             <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
+            <Parameter Name="IrsTarih" Mode="In" Type="Int32" />
             <Parameter Name="GorevBilgi" Mode="In" Type="String" />
             <Parameter Name="IrsIslemTur" Mode="In" Type="Boolean" />
             <Parameter Name="GorevTipiID" Mode="In" Type="Int32" />
@@ -1312,12 +1320,6 @@
             <Parameter Name="ValorGun" Mode="In" Type="Int16" />
             <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="EvrakSeris" EntityType="MModel.EvrakSeri" />
-          <AssociationSet Name="FK_EvrakSeri_ComboItem_Name" Association="MModel.FK_EvrakSeri_ComboItem_Name">
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="EvrakSeri" EntitySet="EvrakSeris" />
-          </AssociationSet>
-          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2114,10 +2116,6 @@
           <Property Name="Agirlik" Type="Decimal" Precision="25" Scale="6" />
           <Property Name="Hacim" Type="Decimal" Precision="38" Scale="6" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
-        <ComplexType Name="InsertIrsaliye_Result">
-          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
-          <Property Type="Int32" Name="GorevID" Nullable="true" />
-        </ComplexType>
         <EntityType Name="EvrakSeri">
           <Key>
             <PropertyRef Name="ID" />
@@ -2145,6 +2143,11 @@
           <Property Type="Int32" Name="kull" Nullable="true" />
           <Property Type="Int32" Name="gorev" Nullable="true" />
           <Property Type="Int32" Name="irs" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="InsertIrsaliye_Result">
+          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
+          <Property Type="Int32" Name="GorevID" Nullable="true" />
+          <Property Type="Boolean" Name="Onay" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2508,14 +2511,6 @@
           <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
           <FunctionImportMapping FunctionImportName="DeleteFromGorev" FunctionName="MModel.Store.DeleteFromGorev" />
           <FunctionImportMapping FunctionImportName="GetStock" FunctionName="MModel.Store.GetStock" />
-          <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="EvrakSeris">
             <EntityTypeMapping TypeName="MModel.EvrakSeri">
               <MappingFragment StoreEntitySet="EvrakSeri">
@@ -2533,6 +2528,15 @@
                 <ScalarProperty Name="kull" ColumnName="kull" />
                 <ScalarProperty Name="gorev" ColumnName="gorev" />
                 <ScalarProperty Name="irs" ColumnName="irs" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

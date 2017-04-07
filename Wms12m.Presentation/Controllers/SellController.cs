@@ -157,10 +157,10 @@ namespace Wms12m.Presentation.Controllers
             //tüm diğer başlamamış görevler silinir
             Task.DeleteSome();
             //variables and consts
+            int today = fn.ToOADate(), time = fn.ToOATime(), valorgun = 0;
             int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
-            string GorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+            string GorevNo = db.SettingsGorevNo(today).FirstOrDefault();
             string evraknolar = "", alıcılar = "", chk = "", teslimchk = "", evrakNo = "";
-            int today = DateTime.Today.ToOADateInt(), time = DateTime.Now.SaatiAl(), valorgun = 0;
             InsertIrsaliye_Result cevap = new InsertIrsaliye_Result();
             Result _Result;
             //loop the list
@@ -169,8 +169,8 @@ namespace Wms12m.Presentation.Controllers
                 //irsaliye tablosu
                 if (chk != item.Chk || valorgun != item.ValorGun || teslimchk != item.TeslimChk)
                 {
-                    evrakNo = db.SettingsIrsaliyeNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-                    cevap = db.InsertIrsaliye(item.SirketID, idDepo, GorevNo, evrakNo, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.Id, vUser.UserName, today, time, item.Chk, item.TeslimChk, item.ValorGun, item.EvrakNo).FirstOrDefault();
+                    evrakNo = db.SettingsIrsaliyeNo(today).FirstOrDefault();
+                    cevap = db.InsertIrsaliye(item.SirketID, idDepo, GorevNo, evrakNo, today, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.Id, vUser.UserName, today, time, item.Chk, item.TeslimChk, item.ValorGun, item.EvrakNo).FirstOrDefault();
                     //save sck
                     chk = item.Chk;
                     valorgun = item.ValorGun;
@@ -203,7 +203,6 @@ namespace Wms12m.Presentation.Controllers
             //görev tablosu için tekrar yeni ve sade bir liste lazım
             Gorev grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
             grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
-            grv.DurumID = ComboItems.Başlamamış.ToInt32();
             db.SaveChanges();
             //get gorev yer
             var tablo = TaskYer.GetList(cevap.GorevID.Value);
@@ -288,7 +287,13 @@ namespace Wms12m.Presentation.Controllers
                                 "WHERE (wms.GorevYer.GorevID = {1}) ORDER BY  wms.GorevYer.Sira", DepoID, GorevID);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             ViewBag.GorevID = GorevID;
-            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
+            var listsirk = db.GetSirketDBs();
+            List<string> liste = new List<string>();
+            foreach (var item in listsirk)
+            {
+                liste.Add(item);
+            }
+            ViewBag.Sirket = liste;
             return View("Step5", list);
         }
         /// <summary>

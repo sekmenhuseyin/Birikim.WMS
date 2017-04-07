@@ -218,7 +218,12 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("WMSEntities.GetStock", depoIDParameter, malKoduParameter, birimParameter, includeRezervParameter);
         }
     
-        public virtual ObjectResult<InsertIrsaliye_Result> InsertIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, string gorevBilgi, Nullable<bool> irsIslemTur, Nullable<int> gorevTipiID, Nullable<int> olusturanID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu, string teslimCHK, Nullable<short> valorGun, string linkEvrakNo)
+        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary");
+        }
+    
+        public virtual ObjectResult<InsertIrsaliye_Result> InsertIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, Nullable<int> irsTarih, string gorevBilgi, Nullable<bool> irsIslemTur, Nullable<int> gorevTipiID, Nullable<int> olusturanID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu, string teslimCHK, Nullable<short> valorGun, string linkEvrakNo)
         {
             var sirketKodParameter = sirketKod != null ?
                 new ObjectParameter("SirketKod", sirketKod) :
@@ -235,6 +240,10 @@ namespace Wms12m.Entity.Models
             var irsEvrakNoParameter = irsEvrakNo != null ?
                 new ObjectParameter("IrsEvrakNo", irsEvrakNo) :
                 new ObjectParameter("IrsEvrakNo", typeof(string));
+    
+            var irsTarihParameter = irsTarih.HasValue ?
+                new ObjectParameter("IrsTarih", irsTarih) :
+                new ObjectParameter("IrsTarih", typeof(int));
     
             var gorevBilgiParameter = gorevBilgi != null ?
                 new ObjectParameter("GorevBilgi", gorevBilgi) :
@@ -280,12 +289,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("LinkEvrakNo", linkEvrakNo) :
                 new ObjectParameter("LinkEvrakNo", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter);
-        }
-    
-        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, irsTarihParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter);
         }
     }
 }

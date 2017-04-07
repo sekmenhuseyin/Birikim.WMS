@@ -15,5 +15,6 @@ namespace Wms12m.Entity.Models
     {
         public Nullable<int> IrsaliyeID { get; set; }
         public Nullable<int> GorevID { get; set; }
+        public Nullable<bool> Onay { get; set; }
     }
 }

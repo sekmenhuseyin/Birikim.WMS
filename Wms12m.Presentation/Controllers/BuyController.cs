@@ -95,16 +95,29 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult New(frmIrsaliye tbl)
         {
+            bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih); if (kontrol1 == false) return null;
+            int tarih = tmpTarih.ToOADateInt();
+            var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID).FirstOrDefault();
+            //var olanı göster
+            if (kontrol2 != null)
+            {
+                var list = Stok.GetList(kontrol2.ID);
+                ViewBag.IrsaliyeId = kontrol2.ID;
+                ViewBag.Onay = kontrol2.Onay;
+                ViewBag.SirketID = tbl.SirketID;
+                return PartialView("_GridPartial", list);
+            }
+            //yeni kayıt
             string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-            int today = DateTime.Today.ToOADateInt();
-            int time = DateTime.Now.SaatiAl();
+            int today = fn.ToOADate();
+            int time = fn.ToOATime();
             try
             {
-                var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), vUser.Id, vUser.UserName, today, time, tbl.HesapKodu, "", 0, "").FirstOrDefault();
+                var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, tarih, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), vUser.Id, vUser.UserName, today, time, tbl.HesapKodu, "", 0, "").FirstOrDefault();
                 //get list
                 var list = Stok.GetList(cevap.IrsaliyeID.Value);
                 ViewBag.IrsaliyeId = cevap.IrsaliyeID;
-                ViewBag.Onay = Irsaliye.GetOnay(cevap.IrsaliyeID.Value);
+                ViewBag.Onay = cevap.Onay.Value;
                 ViewBag.SirketID = tbl.SirketID;
                 return PartialView("_GridPartial", list);
 
@@ -135,6 +148,14 @@ namespace Wms12m.Presentation.Controllers
         {
             //add new
             Result _Result = Stok.Insert(tbl);
+            var grv = db.Gorevs.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).FirstOrDefault();
+            if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
+            {
+                grv.DurumID = ComboItems.Açık.ToInt32();
+                grv.OlusturmaTarihi = fn.ToOADate();
+                grv.OlusturmaSaati = fn.ToOATime();
+                db.SaveChanges();
+            }
             //get list
             var list = Stok.GetList(tbl.IrsaliyeId);
             var irs = Irsaliye.Detail(tbl.IrsaliyeId);
