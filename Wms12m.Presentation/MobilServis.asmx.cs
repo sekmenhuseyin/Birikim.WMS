@@ -88,7 +88,7 @@ namespace Wms12m
             if (gorevtipi == ComboItems.Paketle.ToInt32())
                 sql = string.Format("SELECT GRV.ID, wms.GorevIRS.IrsaliyeID, CONVERT(VARCHAR(10), CONVERT(Datetime, GRV.OlusturmaTarihi - 2), 104) AS OlusturmaTarihi, 'Irs: '+wms.IRS.EvrakNo+', Tedarikçi: '+wms.IRS.HesapKodu as Bilgi, GRV.Aciklama, GRV.GorevNo, wms.IRS.EvrakNo, wms.Depo.DepoKodu, Users_1.Kod AS Atayan, usr.Users.Kod AS Gorevli, ComboItem_Name.Name AS Durum " +
                                     "FROM wms.Gorev AS GRV WITH(nolock) INNER JOIN wms.Depo WITH(nolock) ON GRV.DepoID = wms.Depo.ID INNER JOIN ComboItem_Name WITH(nolock) ON GRV.DurumID = ComboItem_Name.ID INNER JOIN wms.GorevIRS WITH(nolock) ON GRV.ID = wms.GorevIRS.GorevID INNER JOIN wms.IRS WITH(nolock) ON wms.GorevIRS.IrsaliyeID = wms.IRS.ID AND wms.GorevIRS.IrsaliyeID = wms.IRS.ID AND wms.GorevIRS.IrsaliyeID = wms.IRS.ID LEFT OUTER JOIN usr.Users WITH(nolock) ON GRV.GorevliID = usr.Users.ID LEFT OUTER JOIN usr.Users AS Users_1 WITH(nolock) ON GRV.AtayanID = Users_1.ID " +
-                                    "WHERE (wms.Depo.ID = {3}) and GRV.GorevTipiID = {0} AND case when ({1}>0) then case when (GRV.GorevliID = {1}) then 1 else 0 end else 1 end = 1 AND  case when ({2}>0) then case when (GRV.DurumID = {2}) then 1 else 0 end else 0 end =1", gorevtipi, gorevli, durum, DepoID);
+                                    "WHERE (wms.IRS.Onay = 0) AND (wms.Depo.ID = {3}) and GRV.GorevTipiID = {0} AND case when ({1}>0) then case when (GRV.GorevliID = {1}) then 1 else 0 end else 1 end = 1 AND  case when ({2}>0) then case when (GRV.DurumID = {2}) then 1 else 0 end else 0 end =1", gorevtipi, gorevli, durum, DepoID);
             else
                 sql = string.Format("SELECT GRV.ID, GRV.IrsaliyeID, CONVERT(VARCHAR(10), CONVERT(Datetime, GRV.OlusturmaTarihi - 2), 104) AS OlusturmaTarihi, GRV.Bilgi, GRV.Aciklama, GRV.GorevNo, wms.IRS.EvrakNo, wms.Depo.DepoKodu, Users_1.Kod AS Atayan, usr.Users.Kod AS Gorevli, ComboItem_Name.[Name] AS Durum " +
                                     "FROM wms.Gorev AS GRV WITH (nolock) INNER JOIN wms.Depo WITH (nolock) ON GRV.DepoID = wms.Depo.ID INNER JOIN ComboItem_Name WITH (nolock) ON GRV.DurumID = ComboItem_Name.ID LEFT OUTER JOIN usr.Users WITH (nolock) ON GRV.GorevliID = usr.Users.ID LEFT OUTER JOIN usr.Users AS Users_1 WITH (nolock) ON GRV.AtayanID = Users_1.ID LEFT OUTER JOIN wms.IRS WITH (nolock) ON GRV.IrsaliyeID = wms.IRS.ID " +
@@ -132,10 +132,11 @@ namespace Wms12m
             }
             else if (mGorev.GorevTipiID == ComboItems.Paketle.ToInt32())
             {
-                sql = string.Format("SELECT ID, {1} as irsID, MalKodu, Miktar, Birim, ISNULL(OkutulanMiktar, 0) AS OkutulanMiktar, ISNULL(YerlestirmeMiktari, 0) AS YerlestirmeMiktari, " +
+                sql = string.Format("SELECT wms.IRS_Detay.ID, {1} as irsID, MalKodu, Miktar, Birim, ISNULL(OkutulanMiktar, 0) AS OkutulanMiktar, ISNULL(YerlestirmeMiktari, 0) AS YerlestirmeMiktari, " +
                                     "ISNULL((SELECT TOP(1) HucreAd FROM wms.Yer_Log WITH(NOLOCK) WHERE(MalKodu = wms.IRS_Detay.MalKodu) AND(IrsaliyeID = {1})),'') AS Raf, " +
                                     "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi " +
-                                    "FROM wms.IRS_Detay WITH (nolock) WHERE (IrsaliyeID = {1})", mGorev.IR.SirketKod, irsaliyeID);
+                                    "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID " +
+                                    "WHERE (IrsaliyeID = {1}) AND (wms.IRS.Onay = 0)", mGorev.IR.SirketKod, irsaliyeID);
                 if (devamMi == true)
                     if (mGorev.GorevTipiID == 1)
                         sql += " AND (Miktar > ISNULL(OkutulanMiktar,0))";
