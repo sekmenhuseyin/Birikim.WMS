@@ -14,14 +14,14 @@ namespace WMSMobil
     {
         MobilServis Servis = new MobilServis();
         bool glbTip;
-        int GorevID;
+        int GorevID, IrsaliyeID;
         string FocusPanelName = "";
         int Sayac = 0;
         List<PanelEx> PanelVeriList = new List<PanelEx>();
         /// <summary>
         /// form load
         /// </summary>
-        public MalzemeIslemleri(int id, bool tip, int gorevtip)
+        public MalzemeIslemleri(int grvId, int irsID, bool tip, int gorevtip)
         {
             InitializeComponent();
             glbTip = tip;
@@ -67,13 +67,14 @@ namespace WMSMobil
             //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             try
             {
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(id, tip));
-                Ayarlar.SeciliGorev = Servis.GetIrsaliye(id);
+                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, irsID, tip));
+                Ayarlar.SeciliGorev = Servis.GetIrsaliye(grvId);
                 txtUnvan.Text = Ayarlar.SeciliGorev.Unvan;
                 txtHesapKodu.Text = Ayarlar.SeciliGorev.HesapKodu;
                 txtEvrakno.Text = Ayarlar.SeciliGorev.EvrakNo;
                 txtEvrakno.Tag = Ayarlar.SeciliGorev.ID;
-                GorevID = id;
+                GorevID = grvId;
+                IrsaliyeID = irsID;
                 STIGetir();
             }
             catch (Exception ex)
@@ -441,7 +442,7 @@ namespace WMSMobil
                 Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID);
             if (Sonuc.Status)
             {
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, glbTip));
+                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, IrsaliyeID, glbTip));
                 if (Ayarlar.STIKalemler.Count == 0) this.Close();
                 STIGetir();
                 txtBarkod.Text = "";

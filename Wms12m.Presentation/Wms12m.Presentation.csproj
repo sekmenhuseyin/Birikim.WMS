@@ -2446,14 +2446,20 @@
       <DependentUpon>Operation.js</DependentUpon>
     </Content>
     <Content Include="Content\View\Login.js" />
-    <Content Include="favicon.ico" />
+    <Content Include="favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\assets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="MobilServis.asmx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="robots.txt" />
-    <Content Include="humans.txt" />
+    <Content Include="robots.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="humans.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\assets\global\plugins\bootstrap-markdown\less\bootstrap-markdown.less" />
     <Content Include="Content\assets\global\plugins\bootstrap-markdown\package.json" />
     <Content Include="Content\assets\global\plugins\bootstrap-multiselect\less\bootstrap-multiselect.less" />

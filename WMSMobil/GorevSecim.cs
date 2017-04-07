@@ -15,8 +15,7 @@ namespace WMSMobil
         List<PanelGrv> PanelVeriList = new List<PanelGrv>();
         MobilServis Servis = new MobilServis();
         Control focusPanel = new Control();
-        string FocusPanelName = "";
-        int Sayac = 0;
+        int Sayac = 0, GorevID = 0, IrsaliyeID = 0;
         bool aktif;
         /// <summary>
         /// form load
@@ -82,8 +81,9 @@ namespace WMSMobil
             if (aktif == false)
             {
                 focusPanel = (sender as TextBox).Parent;
-                focusPanel.Tag = ((PanelGrv)focusPanel).ID;
-                FocusPanelName = focusPanel.Name;
+                string[] tmp = focusPanel.Tag.ToString().Split('-');
+                GorevID = tmp[0].ToInt32();
+                IrsaliyeID = tmp[1].ToInt32();
                 foreach (var itemPanel in PanelVeriList)
                 {
                     foreach (Control item in itemPanel.Controls)
@@ -99,14 +99,6 @@ namespace WMSMobil
         private void btnListele_Click(object sender, EventArgs e)
         {
             Ayarlar.Gorevler = new List<Tip_GOREV>(Servis.GetGorevList(cmbGorevli.SelectedValue.ToInt32(), cmbDurum.SelectedValue.ToInt32(), Ayarlar.MenuTip.ToInt32(), Ayarlar.Kullanici.DepoID));
-            GorevListeleri();
-            aktif = false;            
-        }
-        /// <summary>
-        /// listeyi yeniler
-        /// </summary>
-        void GorevListeleri()
-        {
             Sayac = 0;
             //listeyi temizle
             foreach (PanelGrv rmvItem in PanelVeriList){panelOrta.Controls.Remove(rmvItem);}
@@ -168,8 +160,7 @@ namespace WMSMobil
                 panelSatir.Name = Sayac.ToString();
                 panelSatir.Size = new Size(370, 22);
                 panelSatir.Location = new Point(1, (Sayac * 18));
-                panelSatir.ID = grvItem.ID;
-                panelSatir.IrsaliyeID = grvItem.IrsaliyeID;
+                panelSatir.Tag = grvItem.ID + "-" + grvItem.IrsaliyeID;
                 panelSatir.Controls.Add(tGorevNo);
                 panelSatir.Controls.Add(tBilgi);
                 panelSatir.Controls.Add(tKayitTarihi);
@@ -179,14 +170,15 @@ namespace WMSMobil
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
             }
+            aktif = false;            
         }
         /// <summary>
         /// düzenle tuşuna basınca
         /// </summary>
         private void btnDuzenle_Click(object sender, EventArgs e)
         {
-            if (focusPanel.Tag.ToString2() == "" || focusPanel.Tag.ToString2() == "0") return;
-            MalzemeIslemleri frm = new MalzemeIslemleri(focusPanel.Tag.ToInt32(), false, Ayarlar.MenuTip.ToInt32());
+            if (GorevID.ToString2() == "0") return;
+            MalzemeIslemleri frm = new MalzemeIslemleri(GorevID, IrsaliyeID, false, Ayarlar.MenuTip.ToInt32());
             frm.ShowDialog();        
         }
         /// <summary>
@@ -194,8 +186,8 @@ namespace WMSMobil
         /// </summary>
         private void btnIslemYap_Click(object sender, EventArgs e)
         {
-            if (focusPanel.Tag.ToString2() == "" || focusPanel.Tag.ToString2() == "0") return;
-            MalzemeIslemleri frm = new MalzemeIslemleri(focusPanel.Tag.ToInt32(), true, Ayarlar.MenuTip.ToInt32());
+            if (GorevID == 0) return;
+            MalzemeIslemleri frm = new MalzemeIslemleri(GorevID, IrsaliyeID, true, Ayarlar.MenuTip.ToInt32());
             frm.ShowDialog();
         }
         /// <summary>
@@ -207,11 +199,11 @@ namespace WMSMobil
             try
             {
                 if (Ayarlar.MenuTip == MenuType.MalKabul)
-                    sonuc = Servis.MalKabul_GoreviTamamla(focusPanel.Tag.ToInt32(), Ayarlar.Kullanici.ID);
+                    sonuc = Servis.MalKabul_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
-                    sonuc = Servis.RafaKaldir_GoreviTamamla(focusPanel.Tag.ToInt32(), Ayarlar.Kullanici.ID);
+                    sonuc = Servis.RafaKaldir_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
                 else if (Ayarlar.MenuTip == MenuType.SiparisToplama)
-                    sonuc = Servis.SiparisTopla_GoreviTamamla(focusPanel.Tag.ToInt32(), Ayarlar.Kullanici.ID);
+                    sonuc = Servis.SiparisTopla_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
             }
             catch (Exception ex)
             {
