@@ -14,11 +14,86 @@ namespace Wms12m.Business
         WMSEntities db = new WMSEntities();
         CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
-        /// burada yok
+        /// stok ekleme
         /// </summary>
-        public override Result Operation(Yer tbl)
+        public Result Insert(Yer tbl, int IrsID, int KullID)
         {
-            return new Result();
+            _Result = new Result();
+            db.Yers.Add(tbl);
+            Yer_Log yerLog = new Yer_Log()
+            {
+                KatID = tbl.KatID,
+                MalKodu = tbl.MalKodu,
+                Birim = tbl.Birim,
+                Miktar = tbl.Miktar,
+                GC = false,
+                IrsaliyeID = IrsID,
+                KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
+                KayitSaati = DateTime.Now.SaatiAl(),
+                Kaydeden = KullID
+            };
+            db.Yer_Log.Add(yerLog);
+            db.SaveChanges();
+            return _Result;
+        }
+        /// <summary>
+        /// stok güncelleme
+        /// </summary>
+        public Result Update(Yer tbl, int IrsID, int KullID, bool gc)
+        {
+            _Result = new Result();
+            var log = Detail(tbl.ID);
+            log.Miktar = tbl.Miktar;
+            Yer_Log yerLog = new Yer_Log()
+            {
+                KatID = tbl.KatID,
+                MalKodu = tbl.MalKodu,
+                Birim = tbl.Birim,
+                Miktar = tbl.Miktar,
+                GC = gc,
+                IrsaliyeID = IrsID,
+                KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
+                KayitSaati = DateTime.Now.SaatiAl(),
+                Kaydeden = KullID
+            };
+            db.Yer_Log.Add(yerLog);
+            db.SaveChanges();
+            return _Result;
+        }
+        /// <summary>
+        /// stok çıkarma
+        /// </summary>
+        public Result Remove(Yer tbl, int IrsID, int KullID)
+        {
+            _Result = new Result();
+            var tmp = Detail(tbl.ID);
+            if (tmp.Miktar == tbl.Miktar)
+                db.Yers.Remove(tbl);
+            else if (tmp.Miktar < tbl.Miktar)
+            {
+                _Result.Message = "Hatalı Kayıt !";
+                _Result.Status = false;
+                return _Result;
+            }
+            else
+                tmp.Miktar -= tbl.Miktar;
+            Yer_Log logs = new Yer_Log()
+            {
+                HucreAd = tbl.HucreAd,
+                MalKodu = tbl.MalKodu,
+                Birim = tbl.Birim,
+                Miktar = tbl.Miktar,
+                GC = true,
+                Kaydeden = KullID,
+                KayitTarihi = DateTime.Today.ToOADateInt(),
+                KayitSaati = DateTime.Now.SaatiAl()
+            };
+            db.Yer_Log.Add(logs);
+            db.SaveChanges();
+            _Result.Id = tbl.ID;
+            _Result.Message = "İşlem Başarılı !!!";
+            _Result.Status = true;
+            return _Result;
         }
         /// <summary>
         /// depo silme
@@ -60,6 +135,45 @@ namespace Wms12m.Business
             }
             return _Result;
         }
+        public Result Delete(int Id, int KullID)
+        {
+            _Result = new Result();
+            try
+            {
+                Yer tbl = db.Yers.Where(m => m.ID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.Yers.Remove(tbl);
+                    Yer_Log logs = new Yer_Log()
+                    {
+                        HucreAd = tbl.HucreAd,
+                        MalKodu = tbl.MalKodu,
+                        Birim = tbl.Birim,
+                        Miktar = tbl.Miktar,
+                        GC = true,
+                        Kaydeden = KullID,
+                        KayitTarihi = DateTime.Today.ToOADateInt(),
+                        KayitSaati = DateTime.Now.SaatiAl()
+                    };
+                    db.Yer_Log.Add(logs);
+                    db.SaveChanges();
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                _Result.Status = false;
+            }
+            return _Result;
+        }
         /// <summary>
         /// depo bilgileri
         /// </summary>
@@ -68,6 +182,20 @@ namespace Wms12m.Business
             try
             {
                 return db.Yers.Where(m => m.ID == Id).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return new Yer();
+            }
+        }
+        /// <summary>
+        /// aynısından daha önce yüklenmiş mi kontrol eder
+        /// </summary>
+        public Yer Detail(int KatID, string MalKodu, string Birim)
+        {
+            try
+            {
+                return db.Yers.Where(m => m.KatID == KatID && m.MalKodu == MalKodu && m.Birim == Birim).FirstOrDefault();
             }
             catch (Exception)
             {
@@ -99,6 +227,13 @@ namespace Wms12m.Business
         public List<Yer> GetListFromRaf(int ParentId)
         {
             return db.Yers.Where(m => m.Kat.Bolum.RafID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
+        }
+        /// <summary>
+        /// burada yok
+        /// </summary>
+        public override Result Operation(Yer tbl)
+        {
+            return new Result();
         }
         /// <summary>
         /// dispose

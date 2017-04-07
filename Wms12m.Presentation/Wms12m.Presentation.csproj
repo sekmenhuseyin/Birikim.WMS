@@ -46,6 +46,9 @@
     <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs2309.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevHelper">
+      <HintPath>Lib\DevHelper.dll</HintPath>
+    </Reference>
     <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
       <Private>True</Private>
@@ -78,6 +81,9 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OnikimCore">
+      <HintPath>Lib\OnikimCore.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -95,6 +101,9 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="TumFaturaKayit">
+      <HintPath>Lib\TumFaturaKayit.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -2440,6 +2449,9 @@
     <Content Include="favicon.ico" />
     <Content Include="Content\assets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="MobilServis.asmx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
     <Content Include="Content\assets\global\plugins\bootstrap-markdown\less\bootstrap-markdown.less" />
@@ -2631,6 +2643,11 @@
     <Compile Include="Helper\Client.cs" />
     <Compile Include="Helper\DbExtensions.cs" />
     <Compile Include="Helper\WebViewPageBase.cs" />
+    <Compile Include="MobilServis.asmx.cs">
+      <DependentUpon>MobilServis.asmx</DependentUpon>
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

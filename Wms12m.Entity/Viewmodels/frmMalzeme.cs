@@ -50,4 +50,26 @@ namespace Wms12m.Entity
         //açık miktar
         public string miktar { get; set; }
     }
+    /// <summary>
+    /// mal kabul kayıt
+    /// </summary>
+    public class frmMalKabul
+    {
+        public int ID { get; set; }
+        public decimal OkutulanMiktar { get; set; }
+    }
+    /// <summary>
+    /// rafa yerleştir formu
+    /// </summary>
+    public class frmYerlesme
+    {
+        public int GorevID { get; set; }
+        public int IrsID { get; set; }
+        public int IrsDetayID { get; set; }
+        public int DepoID { get; set; }
+        public string MalKodu { get; set; }
+        public string Birim { get; set; }
+        public decimal Miktar { get; set; }
+        public string RafNo { get; set; }
+    }
 }

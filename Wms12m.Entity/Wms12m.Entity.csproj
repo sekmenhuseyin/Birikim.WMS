@@ -154,6 +154,8 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Viewmodels\Result.cs" />
+    <Compile Include="Viewmodels\FinsatTypes.cs" />
+    <Compile Include="Viewmodels\MobileTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

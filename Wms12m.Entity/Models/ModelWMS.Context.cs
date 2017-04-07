@@ -291,5 +291,63 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, irsTarihParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter);
         }
+    
+        public virtual int TerminalFinishGorev(Nullable<int> gorevID, Nullable<int> irsaliyeID, string yeniGorevNo, Nullable<int> bitisTarihi, Nullable<int> bitisSaati, Nullable<int> kullaniciID, string linkEvrakNo, Nullable<int> görevTipiID, Nullable<int> yeniGorevTipiID)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            var irsaliyeIDParameter = irsaliyeID.HasValue ?
+                new ObjectParameter("IrsaliyeID", irsaliyeID) :
+                new ObjectParameter("IrsaliyeID", typeof(int));
+    
+            var yeniGorevNoParameter = yeniGorevNo != null ?
+                new ObjectParameter("YeniGorevNo", yeniGorevNo) :
+                new ObjectParameter("YeniGorevNo", typeof(string));
+    
+            var bitisTarihiParameter = bitisTarihi.HasValue ?
+                new ObjectParameter("BitisTarihi", bitisTarihi) :
+                new ObjectParameter("BitisTarihi", typeof(int));
+    
+            var bitisSaatiParameter = bitisSaati.HasValue ?
+                new ObjectParameter("BitisSaati", bitisSaati) :
+                new ObjectParameter("BitisSaati", typeof(int));
+    
+            var kullaniciIDParameter = kullaniciID.HasValue ?
+                new ObjectParameter("KullaniciID", kullaniciID) :
+                new ObjectParameter("KullaniciID", typeof(int));
+    
+            var linkEvrakNoParameter = linkEvrakNo != null ?
+                new ObjectParameter("LinkEvrakNo", linkEvrakNo) :
+                new ObjectParameter("LinkEvrakNo", typeof(string));
+    
+            var görevTipiIDParameter = görevTipiID.HasValue ?
+                new ObjectParameter("GörevTipiID", görevTipiID) :
+                new ObjectParameter("GörevTipiID", typeof(int));
+    
+            var yeniGorevTipiIDParameter = yeniGorevTipiID.HasValue ?
+                new ObjectParameter("YeniGorevTipiID", yeniGorevTipiID) :
+                new ObjectParameter("YeniGorevTipiID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.TerminalFinishGorev", gorevIDParameter, irsaliyeIDParameter, yeniGorevNoParameter, bitisTarihiParameter, bitisSaatiParameter, kullaniciIDParameter, linkEvrakNoParameter, görevTipiIDParameter, yeniGorevTipiIDParameter);
+        }
+    
+        public virtual int TerminalRaftanIndir(Nullable<int> irsID, Nullable<int> katID, Nullable<decimal> miktar)
+        {
+            var irsIDParameter = irsID.HasValue ?
+                new ObjectParameter("irsID", irsID) :
+                new ObjectParameter("irsID", typeof(int));
+    
+            var katIDParameter = katID.HasValue ?
+                new ObjectParameter("KatID", katID) :
+                new ObjectParameter("KatID", typeof(int));
+    
+            var miktarParameter = miktar.HasValue ?
+                new ObjectParameter("Miktar", miktar) :
+                new ObjectParameter("Miktar", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.TerminalRaftanIndir", irsIDParameter, katIDParameter, miktarParameter);
+        }
     }
 }

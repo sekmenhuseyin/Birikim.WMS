@@ -868,6 +868,22 @@
         <Function Name="SettingsIrsaliyeNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="tarih" Type="int" Mode="In" />
         </Function>
+        <Function Name="TerminalFinishGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="GorevID" Type="int" Mode="In" />
+          <Parameter Name="IrsaliyeID" Type="int" Mode="In" />
+          <Parameter Name="YeniGorevNo" Type="varchar" Mode="In" />
+          <Parameter Name="BitisTarihi" Type="int" Mode="In" />
+          <Parameter Name="BitisSaati" Type="int" Mode="In" />
+          <Parameter Name="KullaniciID" Type="int" Mode="In" />
+          <Parameter Name="LinkEvrakNo" Type="varchar" Mode="In" />
+          <Parameter Name="GörevTipiID" Type="int" Mode="In" />
+          <Parameter Name="YeniGorevTipiID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="TerminalRaftanIndir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="irsID" Type="int" Mode="In" />
+          <Parameter Name="KatID" Type="int" Mode="In" />
+          <Parameter Name="Miktar" Type="numeric" Mode="In" />
+        </Function>
         <Function Name="YetkiDepo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -1319,6 +1335,22 @@
             <Parameter Name="TeslimCHK" Mode="In" Type="String" />
             <Parameter Name="ValorGun" Mode="In" Type="Int16" />
             <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="TerminalFinishGorev">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
+            <Parameter Name="YeniGorevNo" Mode="In" Type="String" />
+            <Parameter Name="BitisTarihi" Mode="In" Type="Int32" />
+            <Parameter Name="BitisSaati" Mode="In" Type="Int32" />
+            <Parameter Name="KullaniciID" Mode="In" Type="Int32" />
+            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
+            <Parameter Name="GörevTipiID" Mode="In" Type="Int32" />
+            <Parameter Name="YeniGorevTipiID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TerminalRaftanIndir">
+            <Parameter Name="irsID" Mode="In" Type="Int32" />
+            <Parameter Name="KatID" Mode="In" Type="Int32" />
+            <Parameter Name="Miktar" Mode="In" Type="Decimal" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2540,6 +2572,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
+          <FunctionImportMapping FunctionImportName="TerminalRaftanIndir" FunctionName="MModel.Store.TerminalRaftanIndir" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
