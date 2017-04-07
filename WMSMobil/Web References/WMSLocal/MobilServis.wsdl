@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.12mbilgisayar.com/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.12mbilgisayar.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.12mbilgisayar.com/">
+      <s:element name="LoginKontrol">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sifre" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginKontrolResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoginKontrolResult" type="tns:Login" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Login">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Kod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AdSoyad" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DepoKodu" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DepoID" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetGorevOzet">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGorevOzetResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGorevOzetResult" type="tns:ArrayOfGorevOzet" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfGorevOzet">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="GorevOzet" nillable="true" type="tns:GorevOzet" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="GorevOzet">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ad" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Sayi" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetIrsaliyeList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetIrsaliyeListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetIrsaliyeListResult" type="tns:ArrayOfTip_IRS" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTip_IRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Tip_IRS" nillable="true" type="tns:Tip_IRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Tip_IRS">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="EvrakNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="HesapKodu" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TeslimCHK" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DepoID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Kaydeden" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Tarih" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SirketKod" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Unvan" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetIrsaliye">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetIrsaliyeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetIrsaliyeResult" type="tns:Tip_IRS" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGorevList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="gorevli" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="durum" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="gorevtipi" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="DepoID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGorevListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGorevListResult" type="tns:ArrayOfTip_GOREV" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTip_GOREV">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Tip_GOREV" nillable="true" type="tns:Tip_GOREV" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Tip_GOREV">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IrsaliyeID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="EvrakNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Bilgi" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Atayan" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DepoID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OlusturmaTarihi" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Gorevli" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Aciklama" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GorevNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Durum" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetUsers">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetUsersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUsersResult" type="tns:ArrayOfKullanicilar" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfKullanicilar">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Kullanicilar" nillable="true" type="tns:Kullanicilar" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Kullanicilar">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Kod" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetDurums">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetDurumsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDurumsResult" type="tns:ArrayOfDurum" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfDurum">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Durum" nillable="true" type="tns:Durum" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Durum">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetMalzemes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="devamMi" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMalzemesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMalzemesResult" type="tns:ArrayOfTip_STI" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTip_STI">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Tip_STI" nillable="true" type="tns:Tip_STI" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Tip_STI">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="irsID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SiraNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Kaydeden" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AktarimDurumu" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="OkutulanMiktar" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="YerlestirmeMiktari" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Raf" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="Mal_Kabul">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StiList" type="tns:ArrayOfFrmMalKabul" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfFrmMalKabul">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="frmMalKabul" nillable="true" type="tns:frmMalKabul" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="frmMalKabul">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OkutulanMiktar" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="Mal_KabulResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Mal_KabulResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Result">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Status" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Data" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="MalKabul_GoreviTamamla">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MalKabul_GoreviTamamlaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MalKabul_GoreviTamamlaResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rafa_Kaldir">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="YerlestirmeList" type="tns:ArrayOfFrmYerlesme" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfFrmYerlesme">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="frmYerlesme" nillable="true" type="tns:frmYerlesme" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="frmYerlesme">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IrsID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="IrsDetayID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DepoID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="MalKodu" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="RafNo" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="Rafa_KaldirResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Rafa_KaldirResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RafaKaldir_GoreviTamamla">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RafaKaldir_GoreviTamamlaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RafaKaldir_GoreviTamamlaResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Siparis_Topla">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="YerlestirmeList" type="tns:ArrayOfFrmYerlesme" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Siparis_ToplaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Siparis_ToplaResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SiparisTopla_GoreviTamamla">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SiparisTopla_GoreviTamamlaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SiparisTopla_GoreviTamamlaResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="LoginKontrolSoapIn">
+    <wsdl:part name="parameters" element="tns:LoginKontrol" />
+  </wsdl:message>
+  <wsdl:message name="LoginKontrolSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginKontrolResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGorevOzetSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGorevOzet" />
+  </wsdl:message>
+  <wsdl:message name="GetGorevOzetSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGorevOzetResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetIrsaliyeListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetIrsaliyeList" />
+  </wsdl:message>
+  <wsdl:message name="GetIrsaliyeListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetIrsaliyeListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetIrsaliyeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetIrsaliye" />
+  </wsdl:message>
+  <wsdl:message name="GetIrsaliyeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetIrsaliyeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGorevListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGorevList" />
+  </wsdl:message>
+  <wsdl:message name="GetGorevListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGorevListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUsersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUsers" />
+  </wsdl:message>
+  <wsdl:message name="GetUsersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDurumsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDurums" />
+  </wsdl:message>
+  <wsdl:message name="GetDurumsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDurumsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMalzemesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMalzemes" />
+  </wsdl:message>
+  <wsdl:message name="GetMalzemesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMalzemesResponse" />
+  </wsdl:message>
+  <wsdl:message name="Mal_KabulSoapIn">
+    <wsdl:part name="parameters" element="tns:Mal_Kabul" />
+  </wsdl:message>
+  <wsdl:message name="Mal_KabulSoapOut">
+    <wsdl:part name="parameters" element="tns:Mal_KabulResponse" />
+  </wsdl:message>
+  <wsdl:message name="MalKabul_GoreviTamamlaSoapIn">
+    <wsdl:part name="parameters" element="tns:MalKabul_GoreviTamamla" />
+  </wsdl:message>
+  <wsdl:message name="MalKabul_GoreviTamamlaSoapOut">
+    <wsdl:part name="parameters" element="tns:MalKabul_GoreviTamamlaResponse" />
+  </wsdl:message>
+  <wsdl:message name="Rafa_KaldirSoapIn">
+    <wsdl:part name="parameters" element="tns:Rafa_Kaldir" />
+  </wsdl:message>
+  <wsdl:message name="Rafa_KaldirSoapOut">
+    <wsdl:part name="parameters" element="tns:Rafa_KaldirResponse" />
+  </wsdl:message>
+  <wsdl:message name="RafaKaldir_GoreviTamamlaSoapIn">
+    <wsdl:part name="parameters" element="tns:RafaKaldir_GoreviTamamla" />
+  </wsdl:message>
+  <wsdl:message name="RafaKaldir_GoreviTamamlaSoapOut">
+    <wsdl:part name="parameters" element="tns:RafaKaldir_GoreviTamamlaResponse" />
+  </wsdl:message>
+  <wsdl:message name="Siparis_ToplaSoapIn">
+    <wsdl:part name="parameters" element="tns:Siparis_Topla" />
+  </wsdl:message>
+  <wsdl:message name="Siparis_ToplaSoapOut">
+    <wsdl:part name="parameters" element="tns:Siparis_ToplaResponse" />
+  </wsdl:message>
+  <wsdl:message name="SiparisTopla_GoreviTamamlaSoapIn">
+    <wsdl:part name="parameters" element="tns:SiparisTopla_GoreviTamamla" />
+  </wsdl:message>
+  <wsdl:message name="SiparisTopla_GoreviTamamlaSoapOut">
+    <wsdl:part name="parameters" element="tns:SiparisTopla_GoreviTamamlaResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MobilServisSoap">
+    <wsdl:operation name="LoginKontrol">
+      <wsdl:input message="tns:LoginKontrolSoapIn" />
+      <wsdl:output message="tns:LoginKontrolSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGorevOzet">
+      <wsdl:input message="tns:GetGorevOzetSoapIn" />
+      <wsdl:output message="tns:GetGorevOzetSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetIrsaliyeList">
+      <wsdl:input message="tns:GetIrsaliyeListSoapIn" />
+      <wsdl:output message="tns:GetIrsaliyeListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetIrsaliye">
+      <wsdl:input message="tns:GetIrsaliyeSoapIn" />
+      <wsdl:output message="tns:GetIrsaliyeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGorevList">
+      <wsdl:input message="tns:GetGorevListSoapIn" />
+      <wsdl:output message="tns:GetGorevListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <wsdl:input message="tns:GetUsersSoapIn" />
+      <wsdl:output message="tns:GetUsersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDurums">
+      <wsdl:input message="tns:GetDurumsSoapIn" />
+      <wsdl:output message="tns:GetDurumsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMalzemes">
+      <wsdl:input message="tns:GetMalzemesSoapIn" />
+      <wsdl:output message="tns:GetMalzemesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Mal_Kabul">
+      <wsdl:input message="tns:Mal_KabulSoapIn" />
+      <wsdl:output message="tns:Mal_KabulSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MalKabul_GoreviTamamla">
+      <wsdl:input message="tns:MalKabul_GoreviTamamlaSoapIn" />
+      <wsdl:output message="tns:MalKabul_GoreviTamamlaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rafa_Kaldir">
+      <wsdl:input message="tns:Rafa_KaldirSoapIn" />
+      <wsdl:output message="tns:Rafa_KaldirSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RafaKaldir_GoreviTamamla">
+      <wsdl:input message="tns:RafaKaldir_GoreviTamamlaSoapIn" />
+      <wsdl:output message="tns:RafaKaldir_GoreviTamamlaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Siparis_Topla">
+      <wsdl:input message="tns:Siparis_ToplaSoapIn" />
+      <wsdl:output message="tns:Siparis_ToplaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SiparisTopla_GoreviTamamla">
+      <wsdl:input message="tns:SiparisTopla_GoreviTamamlaSoapIn" />
+      <wsdl:output message="tns:SiparisTopla_GoreviTamamlaSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MobilServisSoap" type="tns:MobilServisSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="LoginKontrol">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/LoginKontrol" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGorevOzet">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/GetGorevOzet" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIrsaliyeList">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/GetIrsaliyeList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIrsaliye">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/GetIrsaliye" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGorevList">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/GetGorevList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/GetUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDurums">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/GetDurums" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMalzemes">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/GetMalzemes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Mal_Kabul">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/Mal_Kabul" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MalKabul_GoreviTamamla">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/MalKabul_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rafa_Kaldir">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/Rafa_Kaldir" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RafaKaldir_GoreviTamamla">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/RafaKaldir_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Siparis_Topla">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/Siparis_Topla" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SiparisTopla_GoreviTamamla">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/SiparisTopla_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MobilServisSoap12" type="tns:MobilServisSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="LoginKontrol">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/LoginKontrol" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGorevOzet">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetGorevOzet" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIrsaliyeList">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetIrsaliyeList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIrsaliye">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetIrsaliye" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGorevList">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetGorevList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsers">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetUsers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDurums">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetDurums" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMalzemes">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetMalzemes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Mal_Kabul">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/Mal_Kabul" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MalKabul_GoreviTamamla">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/MalKabul_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rafa_Kaldir">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/Rafa_Kaldir" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RafaKaldir_GoreviTamamla">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/RafaKaldir_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Siparis_Topla">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/Siparis_Topla" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SiparisTopla_GoreviTamamla">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/SiparisTopla_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MobilServis">
+    <wsdl:port name="MobilServisSoap" binding="tns:MobilServisSoap">
+      <soap:address location="http://localhost:3841/MobilServis.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MobilServisSoap12" binding="tns:MobilServisSoap12">
+      <soap12:address location="http://localhost:3841/MobilServis.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
