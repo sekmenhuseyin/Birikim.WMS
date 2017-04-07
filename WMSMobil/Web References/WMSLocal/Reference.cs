@@ -326,6 +326,50 @@ namespace WMSMobil.WMSLocal {
             object[] results = this.EndInvoke(asyncResult);
             return ((Result)(results[0]));
         }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/Paketle", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result Paketle(frmMalKabul[] StiList) {
+            object[] results = this.Invoke("Paketle", new object[] {
+                        StiList});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginPaketle(frmMalKabul[] StiList, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("Paketle", new object[] {
+                        StiList}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndPaketle(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/Paketle_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result Paketle_GoreviTamamla(int GorevID, int IrsaliyeID, int kulID) {
+            object[] results = this.Invoke("Paketle_GoreviTamamla", new object[] {
+                        GorevID,
+                        IrsaliyeID,
+                        kulID});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginPaketle_GoreviTamamla(int GorevID, int IrsaliyeID, int kulID, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("Paketle_GoreviTamamla", new object[] {
+                        GorevID,
+                        IrsaliyeID,
+                        kulID}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndPaketle_GoreviTamamla(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
     }
     
     /// <remarks/>

@@ -19,7 +19,7 @@
         KabloSiparişi = 4,
         İrsaliyeKes = 5,
         Paketle = 6,
-        SevkiyatıGerçekleştir = 7,
+        Sevkiyat = 7,
         KontrolSayım = 8,
         Açık = 9,
         Durdurulan = 10,

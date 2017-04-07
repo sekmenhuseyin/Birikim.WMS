@@ -204,6 +204,8 @@ namespace WMSMobil
                     sonuc = Servis.RafaKaldir_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
                 else if (Ayarlar.MenuTip == MenuType.SiparisToplama)
                     sonuc = Servis.SiparisTopla_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
+                else if (Ayarlar.MenuTip == MenuType.Paketle)
+                    sonuc = Servis.Paketle_GoreviTamamla(GorevID, IrsaliyeID, Ayarlar.Kullanici.ID);
             }
             catch (Exception ex)
             {

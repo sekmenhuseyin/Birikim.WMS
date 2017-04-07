@@ -336,6 +336,36 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="Paketle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StiList" type="tns:ArrayOfFrmMalKabul" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PaketleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PaketleResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Paketle_GoreviTamamla">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="IrsaliyeID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Paketle_GoreviTamamlaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Paketle_GoreviTamamlaResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LoginKontrolSoapIn">
@@ -422,6 +452,18 @@
   <wsdl:message name="SiparisTopla_GoreviTamamlaSoapOut">
     <wsdl:part name="parameters" element="tns:SiparisTopla_GoreviTamamlaResponse" />
   </wsdl:message>
+  <wsdl:message name="PaketleSoapIn">
+    <wsdl:part name="parameters" element="tns:Paketle" />
+  </wsdl:message>
+  <wsdl:message name="PaketleSoapOut">
+    <wsdl:part name="parameters" element="tns:PaketleResponse" />
+  </wsdl:message>
+  <wsdl:message name="Paketle_GoreviTamamlaSoapIn">
+    <wsdl:part name="parameters" element="tns:Paketle_GoreviTamamla" />
+  </wsdl:message>
+  <wsdl:message name="Paketle_GoreviTamamlaSoapOut">
+    <wsdl:part name="parameters" element="tns:Paketle_GoreviTamamlaResponse" />
+  </wsdl:message>
   <wsdl:portType name="MobilServisSoap">
     <wsdl:operation name="LoginKontrol">
       <wsdl:input message="tns:LoginKontrolSoapIn" />
@@ -478,6 +520,14 @@
     <wsdl:operation name="SiparisTopla_GoreviTamamla">
       <wsdl:input message="tns:SiparisTopla_GoreviTamamlaSoapIn" />
       <wsdl:output message="tns:SiparisTopla_GoreviTamamlaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Paketle">
+      <wsdl:input message="tns:PaketleSoapIn" />
+      <wsdl:output message="tns:PaketleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Paketle_GoreviTamamla">
+      <wsdl:input message="tns:Paketle_GoreviTamamlaSoapIn" />
+      <wsdl:output message="tns:Paketle_GoreviTamamlaSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="MobilServisSoap" type="tns:MobilServisSoap">
@@ -608,6 +658,24 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="Paketle">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/Paketle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Paketle_GoreviTamamla">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/Paketle_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="MobilServisSoap12" type="tns:MobilServisSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -730,6 +798,24 @@
     </wsdl:operation>
     <wsdl:operation name="SiparisTopla_GoreviTamamla">
       <soap12:operation soapAction="http://www.12mbilgisayar.com/SiparisTopla_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Paketle">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/Paketle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Paketle_GoreviTamamla">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/Paketle_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
