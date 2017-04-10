@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -117,14 +118,14 @@ namespace Wms12m.Presentation.Controllers
                 //get list
                 var list = Stok.GetList(cevap.IrsaliyeID.Value);
                 ViewBag.IrsaliyeId = cevap.IrsaliyeID;
-                ViewBag.Onay = cevap.Onay.Value;
+                ViewBag.Onay = true;
                 ViewBag.SirketID = tbl.SirketID;
                 return PartialView("_GridPartial", list);
 
             }
             catch (Exception ex)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Buy/New");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, "", "Buy/New");
                 return null;
             }
         }
@@ -172,16 +173,30 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             string sql = String.Format("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu LIKE '{1}%')", id.ToString(), term);
-            var list = db.Database.SqlQuery<frmJson>(sql).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
+            }
         }
         public JsonResult getMalzemebyName(string term)
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             string sql = String.Format("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalAdi LIKE '%{1}%')", id.ToString(), term);
-            var list = db.Database.SqlQuery<frmJson>(sql).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
+            }
         }
         /// <summary>
         /// malzeme koduna göre birim getirir
@@ -190,8 +205,16 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult getBirim(string kod, string s)
         {
             string sql = String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", s, kod);
-            var list = db.Database.SqlQuery<frmBirims>(sql).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var list = db.Database.SqlQuery<frmBirims>(sql).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new List<frmBirims>(), JsonRequestBehavior.AllowGet);
+            }
+
         }
         /// <summary>
         /// anasayfadaki malzeme listesi
