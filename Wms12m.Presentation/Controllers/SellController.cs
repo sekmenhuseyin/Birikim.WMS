@@ -73,7 +73,7 @@ namespace Wms12m.Presentation.Controllers
             var evraklar = new List<string>();
             int i;
             //şirket id ve evrak nolar bulunur
-            string malkodlari = "'" + (tbl.checkboxes + "0").Replace(",", "','") + "'";
+            string malkodlari = "'" + (tbl.checkboxes + "0").Replace("#", "','") + "'";
             string[] tmp = tbl.EvrakNos.Split('#');
             foreach (var item in tmp)
             {

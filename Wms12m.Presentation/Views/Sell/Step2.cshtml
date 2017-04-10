@@ -107,7 +107,7 @@
             if (selectall == true) {
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
                 table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
-                    selected = selected + this.data()[0] + ",";
+                    selected = selected + this.data()[0] + "#";
                     this.select();
                 });
             }
@@ -128,8 +128,8 @@
     });
     function toggle(row,id) {
         $(row).toggleClass('selected');
-        if ($(row).hasClass('selected') == true) selected = selected + id + ",";
-        else selected = selected.replace(id + ",", "");
+        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
+        else selected = selected.replace(id + "#", "");
         $("#checkboxes").val(selected);
     }
 </script>
