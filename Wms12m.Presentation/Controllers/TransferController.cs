@@ -32,6 +32,14 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.CikisDepo = ids[2];
             return PartialView("_Stock", list);
         }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Step2(frmTransferMalzemeApprove tbl)
+        {
+            if (tbl.SirketID == "" || tbl.GirisDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
+                return RedirectToAction("Index");
+            return View("Step2");
+        }
         /// <summary>
         /// transfer onaylama
         /// </summary>

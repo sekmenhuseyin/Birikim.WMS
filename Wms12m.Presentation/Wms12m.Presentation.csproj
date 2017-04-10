@@ -2713,6 +2713,7 @@
     <Content Include="Views\Transfer\Index.cshtml" />
     <Content Include="Views\Transfer\Approve.cshtml" />
     <Content Include="Views\Transfer\_Stock.cshtml" />
+    <Content Include="Views\Transfer\Step2.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

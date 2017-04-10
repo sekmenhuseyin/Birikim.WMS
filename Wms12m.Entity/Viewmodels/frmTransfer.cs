@@ -18,4 +18,14 @@
         public decimal Depo2GerekenMiktar { get; set; }
         public decimal Depo2Miktar { get; set; }
     }
+    /// <summary>
+    /// transfer sayfa 1 onay list
+    /// </summary>
+    public class frmTransferMalzemeApprove
+    {
+        public string checkboxes { get; set; }
+        public string SirketID { get; set; }
+        public string GirisDepo { get; set; }
+        public string CikisDepo { get; set; }
+    }
 }
