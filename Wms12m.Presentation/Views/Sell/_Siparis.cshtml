@@ -6,7 +6,7 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr data-ID="@item.SirketID-@ViewBag.Depo-@item.EvrakNo" style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')">
+                    <tr style="cursor:pointer;" onclick="toggle(this, '@item.SirketID-@item.EvrakNo')">
                         <td style="width:20px!important;" class="details-control"></td>
                         <td>@Html.DisplayFor(modelItem => item.EvrakNo)</td>
                         <td>@item.Tarih.FromOADateInt()</td>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -19,21 +20,26 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult List(string Id)
         {
+            //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
-            foreach (var item in list)
-            {
-                liste.Add(item);
-            }
+            foreach (var item in list) { liste.Add(item); }
             ViewBag.Sirket = liste;
+            //id'ye göre liste döner
             string[] ids = Id.Split('#');
-            if (ids[2] != "0")
-                return PartialView("List", Yerlestirme.GetListFromRaf(ids[2].ToInt32()));
-            else if (ids[1] != "0")
-                return PartialView("List", Yerlestirme.GetListFromKoridor(ids[1].ToInt32()));
-            else if (ids[0] != "0")
-                return PartialView("List", Yerlestirme.GetListFromDepo(ids[0].ToInt32()));
-            return null;
+            try
+            {
+                if (ids[2] != "0") //bir raftaki malzemeler
+                    return PartialView("List", Yerlestirme.GetListFromRaf(ids[2].ToInt32()));
+                else if (ids[1] != "0") //bir koridora ait malzemeler
+                    return PartialView("List", Yerlestirme.GetListFromKoridor(ids[1].ToInt32()));
+                else// if (ids[0] != "0") //tüm depoya ait malzemeler: burada timeout verebilir
+                    return PartialView("List", Yerlestirme.GetListFromDepo(ids[0].ToInt32()));
+            }
+            catch (System.Exception)
+            {
+                return PartialView("List", new List<Yer>());
+            }
         }
     }
 }

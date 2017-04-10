@@ -1,0 +1,99 @@
+﻿@model IEnumerable<frmTransferMalzemeler>
+@{ string[] list; list = new string[Model.Count()]; int x = 0; }
+<div class="row">
+    <div class="col-lg-12 modal-body">
+        <table class="table table-striped table-bordered table-condensed" id="sample_2" width="250">
+            <thead>
+                <tr>
+                    <th>Mal Kodu</th>
+                    <th>Mal Adı</th>
+                    <th>Birim</th>
+                    <th>@ViewBag.GirisDepo<br />Stok Miktar</th>
+                    <th>@ViewBag.GirisDepo<br />Kritik Miktar</th>
+                    <th>@ViewBag.GirisDepo<br />Gereken Miktar</th>
+                    <th>@ViewBag.GirisDepo<br />Alım Siparişi</th>
+                    <th>@ViewBag.GirisDepo<br />Satış Siparişi</th>
+                    <th>@ViewBag.CikisDepo<br />Stok Miktar</th>
+                    <th>@ViewBag.CikisDepo<br />Kritik Miktar</th>
+                    <th>@ViewBag.CikisDepo<br />Gereken Miktar</th>
+                    <th>@ViewBag.CikisDepo<br />Miktar</th>
+                    <th>rowID</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    list[x] = item.Depo2Miktar.ToString();
+                    <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
+                        <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MalAdi)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+                        <td align="right">@String.Format("{0:n}", item.Depo1StokMiktar)</td>
+                        <td align="right">@String.Format("{0:n}", item.Depo1KritikMiktar)</td>
+                        <td align="right">@String.Format("{0:n}", item.Depo1GerekenMiktar)</td>
+                        <td align="right">@String.Format("{0:n}", item.AlSiparis)</td>
+                        <td align="right">@String.Format("{0:n}", item.SatSiparis)</td>
+                        <td align="right">@String.Format("{0:n}", item.Depo2StokMiktar)</td>
+                        <td align="right">@String.Format("{0:n}", item.Depo2KritikMiktar)</td>
+                        <td align="right">@String.Format("{0:n}", item.Depo2GerekenMiktar)</td>
+                        <td align="right" ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Depo2Miktar', '@x')">@String.Format("{0:n}", item.Depo2Miktar)</td>
+                        <td>@x</td>
+                    </tr>
+                    x++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-1 col-md-offset-9">
+        <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
+    </div>
+    <div class="col-md-2">
+        <input type="hidden" name="checkboxes" id="checkboxes" value="" />
+        <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
+        <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
+    </div>
+</div>
+<script>
+    var selectall = true; var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
+    $(document).ready(function () {
+        var table = $('#sample_2').DataTable({
+            ordering: false,
+            "columnDefs": [{ "targets": [12], "visible": false, "searchable": false }],
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
+        $(".submit").click(function () {
+            var selected = "";
+            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+                var miktar = parseFloat(list[this.data()[12]]);
+                selected = selected + this.data()[0] + "#" + miktar + "#";
+            });
+            $("#checkboxes").val(selected);
+            if (selected == "") {
+                Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+                return;
+            }
+            else
+                $("#submit").click();
+        });
+        $("#selector").click(function () {
+            if (selectall == true) {
+                $("#selector").text("Seçimi İptal Et"); selectall = false;
+                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
+            }
+            else {
+                $("#selector").text("Hepsini Seç"); selectall = true;
+                table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
+            }
+        });
+    });
+    function ChangeMiktar(td, mal, miktar, id) {
+        var yeni = prompt(mal + " için yeni miktarı giriniz", miktar);
+        if (yeni == null || yeni == undefined) return;
+        yeni = yeni.replace(",", ".");
+        yeni = parseFloat(yeni);
+        list[id] = yeni;
+        $(td).html(yeni.formatMoney(2));
+    }
+</script>

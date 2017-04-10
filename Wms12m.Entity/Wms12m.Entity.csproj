@@ -129,6 +129,7 @@
     <Compile Include="Models\YetkiDepo_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Viewmodels\frmTransfer.cs" />
     <Compile Include="Viewmodels\frmUsers.cs" />
     <Compile Include="Viewmodels\frmGorev.cs" />
     <Compile Include="Viewmodels\frmSiparis.cs" />
