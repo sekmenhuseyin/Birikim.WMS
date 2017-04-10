@@ -2446,20 +2446,12 @@
       <DependentUpon>Operation.js</DependentUpon>
     </Content>
     <Content Include="Content\View\Login.js" />
-    <Content Include="favicon.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="favicon.ico" />
     <Content Include="Content\assets\global\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="MobilServis.asmx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="robots.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="humans.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="MobilServis.asmx" />
+    <Content Include="robots.txt" />
+    <Content Include="humans.txt" />
     <Content Include="Content\assets\global\plugins\bootstrap-markdown\less\bootstrap-markdown.less" />
     <Content Include="Content\assets\global\plugins\bootstrap-markdown\package.json" />
     <Content Include="Content\assets\global\plugins\bootstrap-multiselect\less\bootstrap-multiselect.less" />
@@ -2653,7 +2645,6 @@
     <Compile Include="MobilServis.asmx.cs">
       <DependentUpon>MobilServis.asmx</DependentUpon>
       <SubType>Component</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -2720,6 +2711,7 @@
     <Content Include="Views\Sell\Step4.cshtml" />
     <Content Include="Views\Sell\Step5.cshtml" />
     <Content Include="Views\Transfer\Index.cshtml" />
+    <Content Include="Views\Transfer\Approve.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
