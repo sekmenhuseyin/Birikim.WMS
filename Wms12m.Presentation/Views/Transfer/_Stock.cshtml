@@ -67,11 +67,11 @@
             var selected = "";
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
                 var miktar = parseFloat(list[this.data()[12]]);
-                selected = selected + this.data()[0] + "#" + miktar + "#";
+                if (miktar > 0) selected = selected + this.data()[0] + "#" + miktar + "#";
             });
             $("#checkboxes").val(selected);
             if (selected == "") {
-                Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+                Modaldialog("Lütfen malzeme seçin", "Hata", "Tamam", "btn-danger");
                 return;
             }
             else

@@ -28,4 +28,12 @@
         public string GirisDepo { get; set; }
         public string CikisDepo { get; set; }
     }
+    /// <summary>
+    /// genel bir şey
+    /// </summary>
+    public class frmMalKoduMiktar
+    {
+        public string MalKodu { get; set; }
+        public decimal Miktar { get; set; }
+    }
 }

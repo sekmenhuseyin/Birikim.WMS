@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 
@@ -12,7 +13,8 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            ViewBag.DepoID = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
+            ViewBag.GirisDepoID = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
+            ViewBag.CikisDepoID = ViewBag.GirisDepoID;
             return View("Index");
         }
         /// <summary>
@@ -38,6 +40,24 @@ namespace Wms12m.Presentation.Controllers
         {
             if (tbl.SirketID == "" || tbl.GirisDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
+            tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
+            string[] tmp = tbl.checkboxes.Split('#');
+            var mallar = new List<frmMalKoduMiktar>();
+            bool ilki = true; int sayi = 0;
+            foreach (var item in tmp)
+            {
+                if (ilki == true)
+                {
+                    mallar.Add(new frmMalKoduMiktar() { MalKodu = item, Miktar = 0 });
+                    ilki = false;
+                }
+                else
+                {
+                    mallar[sayi].Miktar = item.ToDecimal();
+                    sayi++;
+                    ilki = true;
+                }
+            }
             return View("Step2");
         }
         /// <summary>
