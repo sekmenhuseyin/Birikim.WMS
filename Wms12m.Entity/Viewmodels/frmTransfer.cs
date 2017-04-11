@@ -27,6 +27,7 @@
         public string SirketID { get; set; }
         public string GirisDepo { get; set; }
         public string CikisDepo { get; set; }
+        public string AraDepo { get; set; }
     }
     /// <summary>
     /// genel bir şey
