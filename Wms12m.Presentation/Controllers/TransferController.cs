@@ -70,6 +70,7 @@ namespace Wms12m.Presentation.Controllers
                                         "FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) STK LEFT join FINSAT6{0}.FINSAT6{0}.DST(NOLOCK) DST ON STK.MalKodu = DST.MalKodu and DST.Depo = '{1}' LEFT JOIN FINSAT6{0}.FINSAT6{0}.DST(NOLOCK) DST2 ON STK.MalKodu = DST2.MalKodu AND DST2.Depo = '{2}' LEFT JOIN(SELECT MalKodu, SUM(Miktar-TeslimMiktar) Miktar FROM  FINSAT6{0}.FINSAT6{0}.DTF(NOLOCK) WHERE GirDepo = '{1}' AND Durum = 0 GROUP BY MalKodu) DTF ON DTF.MalKodu = STK.MalKodu " +
                                         "WHERE((ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)) - ISNULL(DST.KritikStok, 0)) < 0 AND (STK.MalKodu IN ({3}))  order by DST.MalKodu asc", tbl.SirketID, tbl.GirisDepo, tbl.CikisDepo, malkodlari);
             var list = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
+            ViewBag.AraDepo = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
             ViewBag.SirketID = tbl.SirketID;
             ViewBag.GirisDepo = tbl.GirisDepo;
             ViewBag.CikisDepo = tbl.CikisDepo;

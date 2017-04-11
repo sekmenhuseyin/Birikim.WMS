@@ -36,7 +36,14 @@
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
-                    <div class="form-body">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Ara Depo</label>
+                        <div class="col-md-4">
+                            @Html.DropDownList("AraDepo", null, htmlAttributes: new { @class = "form-control input-circle DepoID", required = "required" })
+                            <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
+                        </div>
+                    </div>
+                   <div class="form-body">
                         <div class="form-group p-l-30 p-r-30" id="liste">
                             <div class="row">
                                 <div class="col-lg-12 modal-body">
@@ -86,8 +93,7 @@
                                     <input type="hidden" name="SirketID" id="SirketID" value="@ViewBag.SirketID" />
                                     <input type="hidden" name="GirisDepo" id="GirisDepo" value="@ViewBag.GirisDepo" />
                                     <input type="hidden" name="CikisDepo" id="CikisDepo" value="@ViewBag.CikisDepo" />
-                                    <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
-                                    <input type="button" class="btn btn-primary btn-block green submit" value="Onay" />
+                                    <input type="submit" class="btn btn-primary btn-block green" value="Onay" />
                                 </div>
                             </div>
                         </div>
