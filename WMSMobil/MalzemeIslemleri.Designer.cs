@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MalzemeIslemleri));
             this.panelUst = new System.Windows.Forms.Panel();
             this.btnUygula = new System.Windows.Forms.Button();
             this.txtRafBarkod = new System.Windows.Forms.TextBox();
@@ -295,6 +296,7 @@
             this.Controls.Add(this.panelAlt);
             this.Controls.Add(this.panelOrta);
             this.Controls.Add(this.panelUst);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "MalzemeIslemleri";
             this.Text = "MalKabul";

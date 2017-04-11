@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GorevSecim));
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnListele = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
@@ -223,6 +224,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelOrta);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GorevSecim";
             this.Text = "MalKabul";
             this.panel2.ResumeLayout(false);

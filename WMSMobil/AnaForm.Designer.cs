@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnaForm));
             this.btnMalKabul = new System.Windows.Forms.Button();
             this.btnRafaKaldirma = new System.Windows.Forms.Button();
             this.lblMalKabul = new System.Windows.Forms.Label();
@@ -226,6 +227,7 @@
             this.Controls.Add(this.btnSiparisToplama);
             this.Controls.Add(this.btnRafaKaldirma);
             this.Controls.Add(this.btnMalKabul);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AnaForm";
             this.Text = "Ana Form";
             this.Activated += new System.EventHandler(this.AnaForm_Activated);

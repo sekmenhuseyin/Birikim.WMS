@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GirisForm));
             this.txtKullaniciAdi = new System.Windows.Forms.TextBox();
             this.txtParola = new System.Windows.Forms.TextBox();
             this.btnGiris = new System.Windows.Forms.Button();
@@ -95,7 +96,7 @@
             this.label4.Location = new System.Drawing.Point(0, 278);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(240, 16);
-            this.label4.Text = "Versiyon : 170407";
+            this.label4.Text = "Versiyon : 170411";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel1
@@ -120,6 +121,7 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(240, 294);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GirisForm";
             this.Text = "Giriş Ekranı";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.GirisForm_Closing);
