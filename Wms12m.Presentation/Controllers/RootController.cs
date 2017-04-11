@@ -25,6 +25,7 @@ namespace Wms12m.Presentation.Controllers
         public Task Task = new Task();
         public TaskYer TaskYer = new TaskYer();
         public Yerlestirme Yerlestirme = new Yerlestirme();
+        public Transfers Transfers = new Transfers();
         /// <summary>
         /// user için kısayol
         /// </summary>
@@ -80,6 +81,7 @@ namespace Wms12m.Presentation.Controllers
                 Task.Dispose();
                 TaskYer.Dispose();
                 Yerlestirme.Dispose();
+                Transfers.Dispose();
             }
             base.Dispose(disposing);
         }
