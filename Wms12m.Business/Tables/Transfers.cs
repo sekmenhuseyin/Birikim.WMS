@@ -32,6 +32,7 @@ namespace Wms12m.Business
                 else
                 {
                     var tmp = Detail(tbl.ID);
+                    tmp.Onay = tbl.Onay;
                 }
                 db.SaveChanges();
                 //result

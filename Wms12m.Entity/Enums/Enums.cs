@@ -30,7 +30,8 @@
         Başlamamış = 15,
         EArşiv = 16,
         EFatura = 17,
-        Normal = 18
+        Normal = 18,
+        Transfer = 19
     }
     /// <summary>
     /// combo item names

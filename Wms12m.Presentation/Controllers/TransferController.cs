@@ -19,6 +19,15 @@ namespace Wms12m.Presentation.Controllers
             return View("Index");
         }
         /// <summary>
+        /// transfere ait mallar
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult Details(int ID)
+        {
+            var list = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
+            return PartialView("_Details", list);
+        }
+        /// <summary>
         /// ilk sayfada seçtiklerini gösterip onaylatan bir sayfa
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
@@ -65,14 +74,6 @@ namespace Wms12m.Presentation.Controllers
             return RedirectToAction("List");
         }
         /// <summary>
-        /// onay bekleyen transfer lsitesi
-        /// </summary>
-        public ActionResult List()
-        {
-            var list = Transfers.GetList(false);
-            return View("List", list);
-        }
-        /// <summary>
         /// planlamadaki 1. adımdaki malzeme listesi
         /// </summary>
         public PartialViewResult Stock(string Id)
@@ -90,13 +91,26 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_Stock", list);
         }
         /// <summary>
-        /// transfere ait mallar
+        /// onay bekleyen transfer lsitesi
         /// </summary>
-        [HttpPost]
-        public PartialViewResult Details(int ID)
+        public ActionResult List()
         {
-            var list = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
-            return PartialView("_Details", list);
+            var list = Transfers.GetList(false);
+            return View("List", list);
+        }
+        /// <summary>
+        /// bekleyen transferi onayla
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Approve(int ID)
+        {
+            var tbl = Transfers.Detail(ID);
+            tbl.Onay = true;
+            Transfers.Operation(tbl);
+            string GorevNo = db.SettingsGorevNo(fn.ToOADate()).FirstOrDefault();
+            var gorev = new Gorev() { GorevTipiID = ComboItems.Transfer.ToInt32(), DepoID = tbl.GirisDepoID, GorevNo = GorevNo, DurumID = ComboItems.Açık.ToInt32(), Bilgi = "Giriş: " + tbl.Depo.DepoAd + ", Çıkış: " + tbl.Depo1.DepoAd };
+            Task.Operation(gorev);
+            return RedirectToAction("List");
         }
     }
 }
