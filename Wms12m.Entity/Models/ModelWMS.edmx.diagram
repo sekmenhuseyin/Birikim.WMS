@@ -8,8 +8,8 @@
         <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="23.625" PointY="10.5" />
         <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="25.5" PointY="10.75" />
         <EntityTypeShape EntityType="MModel.Bolum" Width="1.5" PointX="24.25" PointY="3.5" />
-        <EntityTypeShape EntityType="MModel.Depo" Width="1.5" PointX="14.625" PointY="7.125" />
-        <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="14.625" PointY="11.625" />
+        <EntityTypeShape EntityType="MModel.Depo" Width="1.5" PointX="14.625" PointY="6.75" />
+        <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="14.625" PointY="12.375" />
         <EntityTypeShape EntityType="MModel.Kat" Width="1.5" PointX="26.5" PointY="2.75" />
         <EntityTypeShape EntityType="MModel.Koridor" Width="1.5" PointX="18" PointY="4.875" />
         <EntityTypeShape EntityType="MModel.Raf" Width="1.5" PointX="21" PointY="4.125" />
@@ -64,12 +64,14 @@
         <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="4.25" PointY="19.5" />
         <EntityTypeShape EntityType="MModel.EvrakSeri" Width="1.5" PointX="20.5" PointY="13.125" />
         <AssociationConnector Association="MModel.FK_EvrakSeri_ComboItem_Name" />
-        <EntityTypeShape EntityType="MModel.Transfer" Width="1.5" PointX="12.125" PointY="5.75" />
+        <EntityTypeShape EntityType="MModel.Transfer" Width="1.5" PointX="9.75" PointY="5.5" />
+        <EntityTypeShape EntityType="MModel.Transfer_Detay" Width="1.5" PointX="7.125" PointY="5.75" />
         <AssociationConnector Association="MModel.FK_Transfer_Users" />
         <AssociationConnector Association="MModel.FK_Transfer_Users1" />
         <AssociationConnector Association="MModel.FK_Transfer_Depo" />
         <AssociationConnector Association="MModel.FK_Transfer_Depo1" />
         <AssociationConnector Association="MModel.FK_Transfer_Depo2" />
+        <AssociationConnector Association="MModel.FK_Transfer_Detay_Transfer" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

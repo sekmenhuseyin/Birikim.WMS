@@ -14,12 +14,17 @@ namespace Wms12m.Entity.Models
     
     public partial class Transfer
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Transfer()
+        {
+            this.Transfer_Detay = new HashSet<Transfer_Detay>();
+        }
+    
         public int ID { get; set; }
         public string SirketKod { get; set; }
         public int GirisDepoID { get; set; }
         public int CikisDepoID { get; set; }
         public int AraDepoID { get; set; }
-        public string Malzemeler { get; set; }
         public int OlusturanID { get; set; }
         public int OlusturmaTarihi { get; set; }
         public int OlusturmaSaati { get; set; }
@@ -33,5 +38,7 @@ namespace Wms12m.Entity.Models
         public virtual Depo Depo { get; set; }
         public virtual Depo Depo1 { get; set; }
         public virtual Depo Depo2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transfer_Detay> Transfer_Detay { get; set; }
     }
 }

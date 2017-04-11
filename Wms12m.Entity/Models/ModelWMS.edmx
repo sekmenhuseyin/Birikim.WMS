@@ -279,12 +279,11 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SirketKod" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="GirisDepoID" Type="int" Nullable="false" />
           <Property Name="CikisDepoID" Type="int" Nullable="false" />
           <Property Name="AraDepoID" Type="int" Nullable="false" />
-          <Property Name="Malzemeler" Type="nvarchar(max)" Nullable="false" />
           <Property Name="OlusturanID" Type="int" Nullable="false" />
           <Property Name="OlusturmaTarihi" Type="int" Nullable="false" />
           <Property Name="OlusturmaSaati" Type="int" Nullable="false" />
@@ -292,6 +291,16 @@
           <Property Name="OnaylayanID" Type="int" />
           <Property Name="OnaylamaTarihi" Type="int" />
           <Property Name="OnaylamaSaati" Type="int" />
+        </EntityType>
+        <EntityType Name="Transfer_Detay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransferID" Type="int" Nullable="false" />
+          <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
         </EntityType>
         <EntityType Name="Yer">
           <Key>
@@ -752,6 +761,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Transfer_Detay_Transfer">
+          <End Role="Transfer" Type="Self.Transfer" Multiplicity="1" />
+          <End Role="Transfer_Detay" Type="Self.Transfer_Detay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transfer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transfer_Detay">
+              <PropertyRef Name="TransferID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Transfer_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
@@ -993,6 +1014,7 @@
           <EntitySet Name="Olcu" EntityType="Self.Olcu" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Raf" EntityType="Self.Raf" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Transfer" EntityType="Self.Transfer" Schema="wms" store:Type="Tables" />
+          <EntitySet Name="Transfer_Detay" EntityType="Self.Transfer_Detay" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Yer" EntityType="Self.Yer" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Yer_Log" EntityType="Self.Yer_Log" Schema="wms" store:Type="Tables" />
           <AssociationSet Name="FK_Bolum_UsersDegistiren" Association="Self.FK_Bolum_UsersDegistiren">
@@ -1138,6 +1160,10 @@
           <AssociationSet Name="FK_Transfer_Depo2" Association="Self.FK_Transfer_Depo2">
             <End Role="Depo" EntitySet="Depo" />
             <End Role="Transfer" EntitySet="Transfer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transfer_Detay_Transfer" Association="Self.FK_Transfer_Detay_Transfer">
+            <End Role="Transfer" EntitySet="Transfer" />
+            <End Role="Transfer_Detay" EntitySet="Transfer_Detay" />
           </AssociationSet>
           <AssociationSet Name="FK_Transfer_Users" Association="Self.FK_Transfer_Users">
             <End Role="Users" EntitySet="Users" />
@@ -1452,6 +1478,7 @@
             <Parameter Name="Miktar" Mode="In" Type="Decimal" />
           </FunctionImport>
           <EntitySet Name="Transfers" EntityType="MModel.Transfer" />
+          <EntitySet Name="Transfer_Detay" EntityType="MModel.Transfer_Detay" />
           <AssociationSet Name="FK_Transfer_Users" Association="MModel.FK_Transfer_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="Transfer" EntitySet="Transfers" />
@@ -1471,6 +1498,10 @@
           <AssociationSet Name="FK_Transfer_Depo2" Association="MModel.FK_Transfer_Depo2">
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="Transfer" EntitySet="Transfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transfer_Detay_Transfer" Association="MModel.FK_Transfer_Detay_Transfer">
+            <End Role="Transfer" EntitySet="Transfers" />
+            <End Role="Transfer_Detay" EntitySet="Transfer_Detay" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -1955,7 +1986,7 @@
           <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_UsersKaydeden" FromRole="User" ToRole="Yer_Log" />
           <NavigationProperty Name="Transfers" Relationship="MModel.FK_Transfer_Users" FromRole="User" ToRole="Transfer" />
           <NavigationProperty Name="Transfers1" Relationship="MModel.FK_Transfer_Users1" FromRole="User" ToRole="Transfer" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="IRS_Detay">
           <Key>
             <PropertyRef Name="ID" />
@@ -2310,12 +2341,11 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SirketKod" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="GirisDepoID" Type="Int32" Nullable="false" />
           <Property Name="CikisDepoID" Type="Int32" Nullable="false" />
           <Property Name="AraDepoID" Type="Int32" Nullable="false" />
-          <Property Name="Malzemeler" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="OlusturanID" Type="Int32" Nullable="false" />
           <Property Name="OlusturmaTarihi" Type="Int32" Nullable="false" />
           <Property Name="OlusturmaSaati" Type="Int32" Nullable="false" />
@@ -2328,6 +2358,18 @@
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Transfer_Depo" FromRole="Transfer" ToRole="Depo" />
           <NavigationProperty Name="Depo1" Relationship="MModel.FK_Transfer_Depo1" FromRole="Transfer" ToRole="Depo" />
           <NavigationProperty Name="Depo2" Relationship="MModel.FK_Transfer_Depo2" FromRole="Transfer" ToRole="Depo" />
+          <NavigationProperty Name="Transfer_Detay" Relationship="MModel.FK_Transfer_Detay_Transfer" FromRole="Transfer" ToRole="Transfer_Detay" />
+        </EntityType>
+        <EntityType Name="Transfer_Detay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransferID" Type="Int32" Nullable="false" />
+          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Transfer" Relationship="MModel.FK_Transfer_Detay_Transfer" FromRole="Transfer_Detay" ToRole="Transfer" />
         </EntityType>
         <Association Name="FK_Transfer_Users">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -2386,6 +2428,18 @@
             </Principal>
             <Dependent Role="Transfer">
               <PropertyRef Name="AraDepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transfer_Detay_Transfer">
+          <End Type="MModel.Transfer" Role="Transfer" Multiplicity="1" />
+          <End Type="MModel.Transfer_Detay" Role="Transfer_Detay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transfer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transfer_Detay">
+              <PropertyRef Name="TransferID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2792,11 +2846,21 @@
                 <ScalarProperty Name="OlusturmaSaati" ColumnName="OlusturmaSaati" />
                 <ScalarProperty Name="OlusturmaTarihi" ColumnName="OlusturmaTarihi" />
                 <ScalarProperty Name="OlusturanID" ColumnName="OlusturanID" />
-                <ScalarProperty Name="Malzemeler" ColumnName="Malzemeler" />
                 <ScalarProperty Name="AraDepoID" ColumnName="AraDepoID" />
                 <ScalarProperty Name="CikisDepoID" ColumnName="CikisDepoID" />
                 <ScalarProperty Name="GirisDepoID" ColumnName="GirisDepoID" />
                 <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transfer_Detay">
+            <EntityTypeMapping TypeName="MModel.Transfer_Detay">
+              <MappingFragment StoreEntitySet="Transfer_Detay">
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="TransferID" ColumnName="TransferID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
