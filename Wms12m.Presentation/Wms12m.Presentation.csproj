@@ -2714,6 +2714,7 @@
     <Content Include="Views\Transfer\_Stock.cshtml" />
     <Content Include="Views\Transfer\List.cshtml" />
     <Content Include="Views\Transfer\_Details.cshtml" />
+    <Content Include="Views\Stock\History.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

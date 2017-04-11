@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -40,6 +42,15 @@ namespace Wms12m.Presentation.Controllers
             {
                 return PartialView("List", new List<Yer>());
             }
+        }
+        /// <summary>
+        /// mal hareketleri
+        /// </summary>
+        public ActionResult History()
+        {
+            var list = db.Yer_Log.GroupBy(m => m.MalKodu).Select(m => new frmMalKoduMiktar { MalKodu = m.Key, Birim = "", Miktar = 0 }).ToList();
+            ViewBag.MalKodu = new SelectList(list, "MalKodu", "MalKodu");
+            return View("History");
         }
     }
 }
