@@ -47,6 +47,26 @@ namespace Wms12m.Business
             }
             return _Result;
         }
+        public Result AddDetay(Transfer_Detay tbl)
+        {
+            _Result = new Result();
+            try
+            {
+                db.Transfer_Detay.Add(tbl);
+                db.SaveChanges();
+                //result
+                _Result.Id = tbl.ID;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                _Result.Id = 0;
+                _Result.Message = "İşlem Hatalı: " + ex.Message;
+                _Result.Status = false;
+            }
+            return _Result;
+        }
         /// <summary>
         /// delete
         /// </summary>
