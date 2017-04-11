@@ -112,6 +112,17 @@ namespace Wms12m.Business
                 return new Depo();
             }
         }
+        public Depo Detail(string Kod)
+        {
+            try
+            {
+                return db.Depoes.Where(m => m.DepoKodu == Kod).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return new Depo();
+            }
+        }
         /// <summary>
         /// depo listesi
         /// </summary>

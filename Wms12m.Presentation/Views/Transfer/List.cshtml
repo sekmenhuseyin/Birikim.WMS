@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Transfer>
+@{
     ViewBag.Title = "Transfer Onaylama";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
@@ -16,7 +17,29 @@
             <div class="portlet-body form">
                 <div class="form-horizontal">
                     <div class="form-body">
-                        <div id="Grid" class="p-30"></div>
+                        <table class="table">
+                            <tr>
+                                <th>SirketKod</th>
+                                <th>Giriş Depo</th>
+                                <th>Ara Depo</th>
+                                <th>Çıkı Depo</th>
+                                <th>Malzemeler</th>
+                                <th>Onay</th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.SirketKod</td>
+                                    <td>@item.GirisDepoID</td>
+                                    <td>@item.AraDepoID</td>
+                                    <td>@item.CikisDepoID</td>
+                                    <td>@item.Malzemeler</td>
+                                    <td>@item.Onay</td>
+                                </tr>
+                            }
+
+                        </table>
                     </div>
                 </div>
             </div>

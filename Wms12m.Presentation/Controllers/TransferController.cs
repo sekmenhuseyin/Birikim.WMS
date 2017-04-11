@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -105,11 +106,18 @@ namespace Wms12m.Presentation.Controllers
                     ilki = true;
                 }
             }
-            return View("Approve");
+            int aDepoID = Store.Detail(tbl.AraDepo).ID;
+            int cDepoID = Store.Detail(tbl.CikisDepo).ID;
+            int gDepoID = Store.Detail(tbl.GirisDepo).ID;
+            Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID, CikisDepoID = cDepoID, AraDepoID = aDepoID, Malzemeler = tbl.checkboxes });
+            return RedirectToAction("List");
         }
+        /// <summary>
+        /// onay bekleyen transfer lsitesi
+        /// </summary>
         public ActionResult List()
         {
-            return View("List");
+            return View("List", Transfers.GetList(false));
         }
     }
 }
