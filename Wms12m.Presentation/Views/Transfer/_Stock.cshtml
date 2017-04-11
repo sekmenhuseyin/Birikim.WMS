@@ -67,7 +67,7 @@
             var selected = "";
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
                 var miktar = parseFloat(list[this.data()[12]]);
-                if (miktar > 0) selected = selected + this.data()[0] + "#" + miktar + "#";
+                if (miktar > 0) selected = selected + this.data()[0] + "#" + this.data()[2] + "#" + miktar + "#";
             });
             $("#checkboxes").val(selected);
             if (selected == "") {

@@ -35,6 +35,7 @@
     public class frmMalKoduMiktar
     {
         public string MalKodu { get; set; }
+        public string Birim { get; set; }
         public decimal Miktar { get; set; }
     }
 }

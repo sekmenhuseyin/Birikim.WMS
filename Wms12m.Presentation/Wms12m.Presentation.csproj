@@ -2711,7 +2711,6 @@
     <Content Include="Views\Sell\Step4.cshtml" />
     <Content Include="Views\Sell\Step5.cshtml" />
     <Content Include="Views\Transfer\Index.cshtml" />
-    <Content Include="Views\Transfer\Approve.cshtml" />
     <Content Include="Views\Transfer\_Stock.cshtml" />
     <Content Include="Views\Transfer\Step2.cshtml" />
     <Content Include="Views\Transfer\List.cshtml" />
