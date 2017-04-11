@@ -84,7 +84,7 @@ namespace Wms12m
         [WebMethod]
         public List<Tip_GOREV> GetGorevList(int gorevli, int durum, int gorevtipi, int DepoID)
         {
-            string sql = string.Format("SELECT GRV.ID, GRV.IrsaliyeID, CONVERT(VARCHAR(10), CONVERT(Datetime, GRV.OlusturmaTarihi - 2), 104) AS OlusturmaTarihi, GRV.Bilgi, GRV.Aciklama, GRV.GorevNo, wms.IRS.EvrakNo, wms.Depo.DepoKodu, Users_1.Kod AS Atayan, usr.Users.Kod AS Gorevli, ComboItem_Name.[Name] AS Durum " +
+            string sql = string.Format("SELECT GRV.ID, ISNULL(GRV.IrsaliyeID, 0), CONVERT(VARCHAR(10), CONVERT(Datetime, GRV.OlusturmaTarihi - 2), 104) AS OlusturmaTarihi, GRV.Bilgi, GRV.Aciklama, GRV.GorevNo, ISNULL(wms.IRS.EvrakNo, ''), wms.Depo.DepoKodu, Users_1.Kod AS Atayan, usr.Users.Kod AS Gorevli, ComboItem_Name.[Name] AS Durum " +
                                     "FROM wms.Gorev AS GRV WITH (nolock) INNER JOIN wms.Depo WITH (nolock) ON GRV.DepoID = wms.Depo.ID INNER JOIN ComboItem_Name WITH (nolock) ON GRV.DurumID = ComboItem_Name.ID LEFT OUTER JOIN usr.Users WITH (nolock) ON GRV.GorevliID = usr.Users.ID LEFT OUTER JOIN usr.Users AS Users_1 WITH (nolock) ON GRV.AtayanID = Users_1.ID LEFT OUTER JOIN wms.IRS WITH (nolock) ON GRV.IrsaliyeID = wms.IRS.ID " +
                                     "WHERE (wms.Depo.ID = {3}) and case when ({0}>0) then case when (GRV.GorevTipiID = {0}) then 1 else 0 end else 0 end =1 AND case when ({1}>0) then case when (GRV.GorevliID = {1}) then 1 else 0 end else 1 end = 1 AND  case when ({2}>0) then case when (GRV.DurumID = {2}) then 1 else 0 end else 0 end =1", gorevtipi, gorevli, durum, DepoID);
             return db.Database.SqlQuery<Tip_GOREV>(sql).ToList();

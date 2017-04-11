@@ -43,6 +43,8 @@
             this.lblSevkiyat = new System.Windows.Forms.Label();
             this.lblPaketleme = new System.Windows.Forms.Label();
             this.lblKontrolluSayim = new System.Windows.Forms.Label();
+            this.lblTransfer = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnMalKabul
@@ -77,7 +79,7 @@
             this.lblMalKabul.Location = new System.Drawing.Point(43, 51);
             this.lblMalKabul.Name = "lblMalKabul";
             this.lblMalKabul.Size = new System.Drawing.Size(32, 16);
-            this.lblMalKabul.Tag = "1";
+            this.lblMalKabul.Tag = "";
             this.lblMalKabul.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnSiparisToplama
@@ -148,7 +150,7 @@
             this.lblRafKaldirma.Location = new System.Drawing.Point(164, 51);
             this.lblRafKaldirma.Name = "lblRafKaldirma";
             this.lblRafKaldirma.Size = new System.Drawing.Size(32, 16);
-            this.lblRafKaldirma.Tag = "1";
+            this.lblRafKaldirma.Tag = "";
             this.lblRafKaldirma.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblSiparisToplama
@@ -159,7 +161,7 @@
             this.lblSiparisToplama.Location = new System.Drawing.Point(43, 121);
             this.lblSiparisToplama.Name = "lblSiparisToplama";
             this.lblSiparisToplama.Size = new System.Drawing.Size(32, 16);
-            this.lblSiparisToplama.Tag = "1";
+            this.lblSiparisToplama.Tag = "";
             this.lblSiparisToplama.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblKabloSiparisi
@@ -170,7 +172,7 @@
             this.lblKabloSiparisi.Location = new System.Drawing.Point(164, 121);
             this.lblKabloSiparisi.Name = "lblKabloSiparisi";
             this.lblKabloSiparisi.Size = new System.Drawing.Size(32, 16);
-            this.lblKabloSiparisi.Tag = "1";
+            this.lblKabloSiparisi.Tag = "";
             this.lblKabloSiparisi.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblSevkiyat
@@ -181,7 +183,7 @@
             this.lblSevkiyat.Location = new System.Drawing.Point(164, 190);
             this.lblSevkiyat.Name = "lblSevkiyat";
             this.lblSevkiyat.Size = new System.Drawing.Size(32, 16);
-            this.lblSevkiyat.Tag = "1";
+            this.lblSevkiyat.Tag = "";
             this.lblSevkiyat.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblPaketleme
@@ -192,7 +194,7 @@
             this.lblPaketleme.Location = new System.Drawing.Point(43, 190);
             this.lblPaketleme.Name = "lblPaketleme";
             this.lblPaketleme.Size = new System.Drawing.Size(32, 16);
-            this.lblPaketleme.Tag = "1";
+            this.lblPaketleme.Tag = "";
             this.lblPaketleme.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblKontrolluSayim
@@ -203,8 +205,31 @@
             this.lblKontrolluSayim.Location = new System.Drawing.Point(43, 259);
             this.lblKontrolluSayim.Name = "lblKontrolluSayim";
             this.lblKontrolluSayim.Size = new System.Drawing.Size(32, 16);
-            this.lblKontrolluSayim.Tag = "1";
+            this.lblKontrolluSayim.Tag = "";
             this.lblKontrolluSayim.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lblTransfer
+            // 
+            this.lblTransfer.BackColor = System.Drawing.Color.Olive;
+            this.lblTransfer.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.lblTransfer.ForeColor = System.Drawing.Color.White;
+            this.lblTransfer.Location = new System.Drawing.Point(163, 259);
+            this.lblTransfer.Name = "lblTransfer";
+            this.lblTransfer.Size = new System.Drawing.Size(32, 16);
+            this.lblTransfer.Tag = "";
+            this.lblTransfer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Olive;
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(122, 222);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(115, 56);
+            this.button1.TabIndex = 8;
+            this.button1.Tag = "19";
+            this.button1.Text = "Transfer";
+            this.button1.Click += new System.EventHandler(this.btns_Click);
             // 
             // AnaForm
             // 
@@ -213,6 +238,8 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(240, 302);
+            this.Controls.Add(this.lblTransfer);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblKontrolluSayim);
             this.Controls.Add(this.lblSevkiyat);
             this.Controls.Add(this.lblPaketleme);
@@ -252,6 +279,8 @@
         private System.Windows.Forms.Label lblSevkiyat;
         private System.Windows.Forms.Label lblPaketleme;
         private System.Windows.Forms.Label lblKontrolluSayim;
+        private System.Windows.Forms.Label lblTransfer;
+        private System.Windows.Forms.Button button1;
     }
 }
 
