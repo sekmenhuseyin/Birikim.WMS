@@ -2706,7 +2706,7 @@
     <Content Include="Views\Users\Pass.cshtml" />
     <Content Include="Views\Tasks\Details.cshtml" />
     <Content Include="Views\Stock\Index.cshtml" />
-    <Content Include="Views\Stock\List.cshtml" />
+    <Content Include="Views\Stock\_List.cshtml" />
     <Content Include="Views\Tasks\List.cshtml" />
     <Content Include="Views\Sell\Step4.cshtml" />
     <Content Include="Views\Sell\Step5.cshtml" />
@@ -2715,6 +2715,7 @@
     <Content Include="Views\Transfer\List.cshtml" />
     <Content Include="Views\Transfer\_Details.cshtml" />
     <Content Include="Views\Stock\History.cshtml" />
+    <Content Include="Views\Stock\_Movements.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

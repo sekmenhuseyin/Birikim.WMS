@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Yer_Log>
+@{ List<string> Sirket = ViewBag.Sirket; }
+<table class="table">
+<tr><th>Hücre Adı</th><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th>Miktar</th><th>Girdi-Çıktı</th></tr>
+@foreach (var item in Model) {
+    string tmp = item.MalKodu.GetMalAdi(Sirket[0]);
+    if (tmp == null) { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.HucreAd)</td>
+        <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
+        <td>@tmp</td>
+        <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+        <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
+        <td>@Html.DisplayFor(modelItem => item.GC)</td>
+    </tr>
+}
+</table>

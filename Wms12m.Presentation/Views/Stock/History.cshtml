@@ -20,7 +20,7 @@
                             <div class="form-group">
                                 <div class="col-sm-3 control-label">Malzeme</div>
                                 <div class="col-sm-4">
-                                    @Html.DropDownList("MalKodu", null, htmlAttributes: new { @class = "form-control StoreListi input-circle" })
+                                    @Html.DropDownList("MalKodu", null, htmlAttributes: new { @class = "form-control StoreListi input-circle", @onchange= "FuncSearchBtn()" })
                                 </div>
                             </div>
                             <div id="Grid" class="p-30"></div>
@@ -38,12 +38,8 @@
 <script type="text/javascript">
     $("#MalKodu").prepend("<option value=''>Seçiniz !!!</option>"); $("#MalKodu")[0].selectedIndex = 0;
     function FuncSearchBtn() {
-        var Type = $("input[type='radio'][name='Locked']:checked").val();
-        var StoreId = $("#DepoID option:selected").val(); if (StoreId == null) StoreId = 0;
-        var CorridorId = $("#KoridorID option:selected").val(); if (CorridorId == null) CorridorId = 0;
-        var ShelfId = $("#RafID option:selected").val(); if (ShelfId == null) ShelfId = 0;
         $('#Grid').html("");
-        PartialView('/Stock/List', 'Grid', JSON.stringify({ Id: (StoreId + "#" + CorridorId + "#" + ShelfId) }));
+        PartialView('/Stock/Movements', 'Grid', JSON.stringify({ Id: $("#MalKodu").val() }));
     }
 </script>
 }
