@@ -32,6 +32,8 @@ namespace Wms12m.Entity.Models
             this.Rafs1 = new HashSet<Raf>();
             this.IRS = new HashSet<IR>();
             this.Yer_Log = new HashSet<Yer_Log>();
+            this.Transfers = new HashSet<Transfer>();
+            this.Transfers1 = new HashSet<Transfer>();
         }
     
         public int ID { get; set; }
@@ -87,5 +89,9 @@ namespace Wms12m.Entity.Models
         public virtual Depo Depo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Yer_Log> Yer_Log { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transfer> Transfers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transfer> Transfers1 { get; set; }
     }
 }

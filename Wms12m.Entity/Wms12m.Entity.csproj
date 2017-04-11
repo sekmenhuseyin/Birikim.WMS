@@ -111,6 +111,9 @@
     <Compile Include="Models\Simge.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Transfer.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
