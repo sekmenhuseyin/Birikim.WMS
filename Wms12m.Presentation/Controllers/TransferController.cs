@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
@@ -66,6 +65,14 @@ namespace Wms12m.Presentation.Controllers
             return RedirectToAction("List");
         }
         /// <summary>
+        /// onay bekleyen transfer lsitesi
+        /// </summary>
+        public ActionResult List()
+        {
+            var list = Transfers.GetList(false);
+            return View("List", list);
+        }
+        /// <summary>
         /// planlamadaki 1. adımdaki malzeme listesi
         /// </summary>
         public PartialViewResult Stock(string Id)
@@ -83,12 +90,13 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_Stock", list);
         }
         /// <summary>
-        /// onay bekleyen transfer lsitesi
+        /// transfere ait mallar
         /// </summary>
-        public ActionResult List()
+        [HttpPost]
+        public PartialViewResult Details(int ID)
         {
-            var list = Transfers.GetList(false);
-            return View("List", list);
+            var list = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
+            return PartialView("_Details", list);
         }
     }
 }

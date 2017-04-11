@@ -1,0 +1,10 @@
+﻿@model IEnumerable<frmMalKoduMiktar>
+<tr><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th>Miktar</th></tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
+        <td>@item.MalKodu.GetMalAdi("33")</td>
+        <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+        <td>@Html.DisplayFor(modelItem => item.Miktar)</td>
+    </tr>
+}
