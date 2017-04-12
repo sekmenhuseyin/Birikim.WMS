@@ -64,15 +64,15 @@
         <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="4.25" PointY="19.5" />
         <EntityTypeShape EntityType="MModel.EvrakSeri" Width="1.5" PointX="22" PointY="13.125" />
         <AssociationConnector Association="MModel.FK_EvrakSeri_ComboItem_Name" />
-        <EntityTypeShape EntityType="MModel.Transfer" Width="1.5" PointX="4" PointY="9" />
         <EntityTypeShape EntityType="MModel.Transfer_Detay" Width="1.5" PointX="5.875" PointY="10" />
+        <EntityTypeShape EntityType="MModel.Transfer" Width="1.5" PointX="4" PointY="9.25" />
         <AssociationConnector Association="MModel.FK_Transfer_Users" />
         <AssociationConnector Association="MModel.FK_Transfer_Users1" />
         <AssociationConnector Association="MModel.FK_Transfer_Depo" />
         <AssociationConnector Association="MModel.FK_Transfer_Depo1" />
         <AssociationConnector Association="MModel.FK_Transfer_Depo2" />
-        <AssociationConnector Association="MModel.FK_Transfer_Detay_Transfer" />
         <AssociationConnector Association="MModel.FK_Transfer_Gorev" />
+        <AssociationConnector Association="MModel.FK_Transfer_Detay_Transfer" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

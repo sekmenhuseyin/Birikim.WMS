@@ -21,6 +21,7 @@ namespace Wms12m.Entity.Models
         }
     
         public int ID { get; set; }
+        public int GorevID { get; set; }
         public string SirketKod { get; set; }
         public int GirisDepoID { get; set; }
         public int CikisDepoID { get; set; }
@@ -32,15 +33,14 @@ namespace Wms12m.Entity.Models
         public Nullable<int> OnaylayanID { get; set; }
         public Nullable<int> OnaylamaTarihi { get; set; }
         public Nullable<int> OnaylamaSaati { get; set; }
-        public Nullable<int> GorevID { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }
         public virtual Depo Depo { get; set; }
         public virtual Depo Depo1 { get; set; }
         public virtual Depo Depo2 { get; set; }
+        public virtual Gorev Gorev { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transfer_Detay> Transfer_Detay { get; set; }
-        public virtual Gorev Gorev { get; set; }
     }
 }

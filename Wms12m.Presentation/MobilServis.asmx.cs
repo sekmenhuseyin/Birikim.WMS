@@ -69,8 +69,8 @@ namespace Wms12m
         public Tip_IRS GetIrsaliye(int GorevID)
         {
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
-            if (mGorev.IsNull())
-                return null;
+            if (mGorev.IsNull() || mGorev.IR == null)
+                return new Tip_IRS();
             string sql = string.Format(@"SELECT IRS.ID, IRS.EvrakNo, Depo.DepoKodu AS DepoID, IRS.HesapKodu, CONVERT(VARCHAR(10), CONVERT(Datetime, IRS.Tarih - 2), 104) AS Tarih, IRS.TeslimCHK,
                                         (SELECT Kod FROM usr.Users WITH (nolock) WHERE (ID = IRS.Kaydeden)) AS Kaydeden,
                                         (SELECT Unvan1 + ' ' + Unvan2 AS Expr1 FROM FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) WHERE (HesapKodu = IRS.HesapKodu)) AS Unvan

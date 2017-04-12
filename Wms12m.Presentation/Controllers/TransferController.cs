@@ -37,9 +37,18 @@ namespace Wms12m.Presentation.Controllers
                 return RedirectToAction("Index");
             //add to list
             int aDepoID = Store.Detail(tbl.AraDepo).ID;
-            int cDepoID = Store.Detail(tbl.CikisDepo).ID;
-            int gDepoID = Store.Detail(tbl.GirisDepo).ID;
-            var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID, CikisDepoID = cDepoID, AraDepoID = aDepoID });
+            var cDepoID = Store.Detail(tbl.CikisDepo);
+            var gDepoID = Store.Detail(tbl.GirisDepo);
+            //tüm diğer başlamamış görevler silinir
+            Task.DeleteSome();
+            //yeni bir görev eklenir
+            string GorevNo = db.SettingsGorevNo(fn.ToOADate()).FirstOrDefault();
+            var gorev = new Gorev() { GorevTipiID = ComboItems.Transfer.ToInt32(), DepoID = gDepoID.ID, GorevNo = GorevNo, DurumID = ComboItems.Başlamamış.ToInt32(), Bilgi = "Giriş: " + gDepoID.DepoAd + ", Çıkış: " + cDepoID.DepoAd };
+            var sonuc = Task.Operation(gorev);
+            if (sonuc.Status == false)
+                return RedirectToAction("Index");
+            //yeni transfer eklenir
+            sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = sonuc.Id });
             if (sonuc.Status == false)
                 return RedirectToAction("Index");
             //find detays
@@ -104,16 +113,13 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Approve(int ID)
         {
-            //get transfer details
+            //get and set transfer details
             var tbl = Transfers.Detail(ID);
-            //set gorev
-            string GorevNo = db.SettingsGorevNo(fn.ToOADate()).FirstOrDefault();
-            var gorev = new Gorev() { GorevTipiID = ComboItems.Transfer.ToInt32(), DepoID = tbl.GirisDepoID, GorevNo = GorevNo, DurumID = ComboItems.Açık.ToInt32(), Bilgi = "Giriş: " + tbl.Depo.DepoAd + ", Çıkış: " + tbl.Depo1.DepoAd };
-            var sonuc = Task.Operation(gorev);
-            //update transfer
             tbl.Onay = true;
-            tbl.GorevID = sonuc.Id;
             Transfers.Operation(tbl);
+            var tbl2 = db.Gorevs.Where(m => m.ID == tbl.GorevID).FirstOrDefault();
+            tbl2.DurumID = ComboItems.Açık.ToInt32();
+            db.SaveChanges();
             //return
             return RedirectToAction("List");
         }
