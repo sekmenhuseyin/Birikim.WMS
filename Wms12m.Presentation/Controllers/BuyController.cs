@@ -68,19 +68,36 @@ namespace Wms12m.Presentation.Controllers
                     rowid = tmp2[0].ToInt32();
                     decimal mktr = tmp2[1].ToDecimal();
                     string sql = String.Format("SELECT EvrakNo, Tarih, SiraNo, MalKodu, BirimMiktar, (BirimMiktar - TeslimMiktar - KapatilanMiktar) AS Miktar, Birim FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0)", s, rowid);
-                    var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
-                    //save details
-                    IRS_Detay sti = new IRS_Detay();
-                    sti.IrsaliyeID = irsaliyeID;
-                    sti.Birim = tbl.Birim;
-                    sti.KynkSiparisMiktar = tbl.BirimMiktar;
-                    sti.KynkSiparisNo = tbl.EvrakNo;
-                    sti.KynkSiparisSiraNo = tbl.SiraNo;
-                    sti.KynkSiparisTarih = tbl.Tarih;
-                    sti.MalKodu = tbl.MalKodu;
-                    sti.Miktar = mktr > 0 ? mktr : tbl.Miktar;
-                    Result _Result = Stok.Operation(sti);
+                    try
+                    {
+                        var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
+                        //save details
+                        IRS_Detay sti = new IRS_Detay()
+                        {
+                            IrsaliyeID = irsaliyeID,
+                            Birim = tbl.Birim,
+                            KynkSiparisMiktar = tbl.BirimMiktar,
+                            KynkSiparisNo = tbl.EvrakNo,
+                            KynkSiparisSiraNo = tbl.SiraNo,
+                            KynkSiparisTarih = tbl.Tarih,
+                            MalKodu = tbl.MalKodu,
+                            Miktar = mktr > 0 ? mktr : tbl.Miktar
+                        };
+                        Result _Result = Stok.Operation(sti);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
+            }
+            //set aktif
+            var grv = db.Gorevs.Where(m => m.IrsaliyeID == irsaliyeID).FirstOrDefault();
+            if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
+            {
+                grv.DurumID = ComboItems.Açık.ToInt32();
+                grv.OlusturmaTarihi = fn.ToOADate();
+                grv.OlusturmaSaati = fn.ToOATime();
+                db.SaveChanges();
             }
             //get list
             var list = Stok.GetList(irsaliyeID);
@@ -118,7 +135,7 @@ namespace Wms12m.Presentation.Controllers
                 //get list
                 var list = Stok.GetList(cevap.IrsaliyeID.Value);
                 ViewBag.IrsaliyeId = cevap.IrsaliyeID;
-                ViewBag.Onay = true;
+                ViewBag.Onay = false;
                 ViewBag.SirketID = tbl.SirketID;
                 return PartialView("_GridPartial", list);
 
@@ -149,6 +166,7 @@ namespace Wms12m.Presentation.Controllers
         {
             //add new
             Result _Result = Stok.Insert(tbl);
+            //set aktif
             var grv = db.Gorevs.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).FirstOrDefault();
             if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
             {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
@@ -51,6 +52,46 @@ namespace Wms12m.Presentation.Controllers
         {
             if (tbl.SirketID == "" || tbl.GirisDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
+            //liste oluştur
+            tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
+            string[] tmp = tbl.checkboxes.Split('#');
+            string malkodlari = ""; int sira = 0;
+            var mallar = new Transfer_Detay();
+            var mallistesi = new List<Transfer_Detay>();
+            foreach (var item in tmp)
+            {
+                if (sira == 0)
+                {
+                    //malkodunu ve transfer id ekle
+                    mallar.MalKodu = item;
+                    if (malkodlari != "") malkodlari += ",";
+                    malkodlari += "'" + item + "'";
+                    sira++;
+                }
+                else if (sira == 1)
+                {
+                    //birim ekle
+                    mallar.Birim = item;
+                    sira++;
+                }
+                else
+                {
+                    //miktar ekle
+                    mallar.Miktar = item.ToDecimal();
+                    mallistesi.Add(mallar);
+                    mallar = new Transfer_Detay();
+                    sira = 0;
+                }
+            }
+            //stok kontrol
+            var varmi = false;
+            foreach (var item in mallistesi)
+            {
+                var sayi = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Miktar > 0 && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.GirisDepo).FirstOrDefault();
+                if (sayi != null) { varmi = true; break; }
+            }
+            if (varmi == false)
+                return RedirectToAction("Index");
             //add to list
             int aDepoID = Store.Detail(tbl.AraDepo).ID;
             var cDepoID = Store.Detail(tbl.CikisDepo);
@@ -68,64 +109,39 @@ namespace Wms12m.Presentation.Controllers
             if (sonuc.Status == false)
                 return RedirectToAction("Index");
             //find detays
-            tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
-            string[] tmp = tbl.checkboxes.Split('#');
-            string malkodlari = ""; int sira = 0;
-            var mallar = new Transfer_Detay();
-            foreach (var item in tmp)
+            foreach (var item in mallistesi)
             {
-                if (sira == 0)
+                //stok kontrol
+                var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.GirisDepo && m.Miktar > 0).OrderBy(m => m.Miktar).ToList();
+                decimal toplam = 0, miktar = 0;
+                if (tmpYer != null)
                 {
-                    //malkodunu ve transfer id ekle
-                    mallar.TransferID = sonuc.Id;
-                    mallar.MalKodu = item;
-                    if (malkodlari != "") malkodlari += ",";
-                    malkodlari += "'" + item + "'";
-                    sira++;
-                }
-                else if (sira == 1)
-                {
-                    //birim ekle
-                    mallar.Birim = item;
-                    sira++;
-                }
-                else
-                {
-                    //miktar ekle
-                    mallar.Miktar = item.ToDecimal();
-                    //stok kontrol
-                    var tmpYer = db.Yers.Where(m => m.MalKodu == mallar.MalKodu && m.Birim == mallar.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.GirisDepo && m.Miktar > 0).OrderBy(m => m.Miktar).ToList();
-                    decimal toplam = 0, miktar = 0;
-                    if (tmpYer != null)
+                    foreach (var itemyer in tmpYer)
                     {
-                        foreach (var itemyer in tmpYer)
+                        if (itemyer.Miktar >= (item.Miktar - toplam))
+                            miktar = item.Miktar - toplam;
+                        else
+                            miktar = itemyer.Miktar;
+                        toplam += miktar;
+                        //miktarı tabloya ekle
+                        GorevYer tblyer = new GorevYer()
                         {
-                            if (itemyer.Miktar >= (mallar.Miktar - toplam))
-                                miktar = mallar.Miktar - toplam;
-                            else
-                                miktar = itemyer.Miktar;
-                            toplam += miktar;
-                            //miktarı tabloya ekle
-                            GorevYer tblyer = new GorevYer()
-                            {
-                                GorevID = cevap.GorevID.Value,
-                                YerID = itemyer.ID,
-                                MalKodu = mallar.MalKodu,
-                                Birim = mallar.Birim,
-                                Miktar = miktar,
-                                GC = true
-                            };
-                            TaskYer.Operation(tblyer);
-                            //toplam yeterli miktardaysa
-                            if (toplam == mallar.Miktar) break;
-                        }
+                            GorevID = cevap.GorevID.Value,
+                            YerID = itemyer.ID,
+                            MalKodu = item.MalKodu,
+                            Birim = item.Birim,
+                            Miktar = miktar,
+                            GC = true
+                        };
+                        TaskYer.Operation(tblyer);
+                        //toplam yeterli miktardaysa
+                        if (toplam == item.Miktar) break;
                     }
-                    mallar.Miktar = toplam;
+                    item.Miktar = toplam;
+                    item.TransferID = cevap.IrsaliyeID.Value;
                     //hepsi eklenince detayı db'ye ekle
-                    Transfers.AddDetay(mallar);
-                    Stok.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = mallar.MalKodu, Miktar = mallar.Miktar, Birim = mallar.Birim });
-                    mallar = new Transfer_Detay();
-                    sira = 0;
+                    Transfers.AddDetay(item);
+                    Stok.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim });
                 }
             }
             //return

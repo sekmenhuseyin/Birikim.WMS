@@ -251,7 +251,7 @@ namespace Wms12m
                     //irs detay tablosu güncellenir
                     var irsdetay = new Stok();
                     var tmp = irsdetay.Detail(item.IrsDetayID);
-                    if (tmp.Miktar >= ((tmp.YerlestirmeMiktari != null ? tmp.YerlestirmeMiktari : 0) + item.Miktar))
+                    if (tmp.Miktar >= ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
                     {
                         if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
                         else tmp.YerlestirmeMiktari += item.Miktar;
@@ -313,7 +313,7 @@ namespace Wms12m
                     if (tmp2 != null)
                     {
                         var x = db.GorevYers.Where(m => m.YerID == tmp2.ID && m.GorevID == item.GorevID && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
-                        if (tmp2.Miktar >= item.Miktar && item.Miktar <= (x.Miktar - (x.YerlestirmeMiktari != null ? x.YerlestirmeMiktari : 0)))
+                        if (tmp2.Miktar >= item.Miktar && item.Miktar <= (x.Miktar - (x.YerlestirmeMiktari ?? 0)))
                         {
                             tmp2.Miktar -= item.Miktar;
                             stok.Update(tmp2, item.IrsID, kulID, true);
@@ -415,7 +415,7 @@ namespace Wms12m
             foreach (var item in StiList)
             {
                 var tmp = stok.Detail(item.ID);
-                if (tmp.Miktar >= ((tmp.OkutulanMiktar != null ? tmp.OkutulanMiktar : 0) + item.OkutulanMiktar))
+                if (tmp.Miktar >= ((tmp.OkutulanMiktar ?? 0) + item.OkutulanMiktar))
                 {
                     if (tmp.OkutulanMiktar == null) tmp.OkutulanMiktar = item.OkutulanMiktar;
                     else tmp.OkutulanMiktar += item.OkutulanMiktar;
