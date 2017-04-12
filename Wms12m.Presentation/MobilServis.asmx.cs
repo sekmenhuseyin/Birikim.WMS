@@ -118,12 +118,12 @@ namespace Wms12m
             if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.Transfer.ToInt32())
             {
                 string sqltmp = ""; if (devamMi == true) sqltmp += "AND wms.GorevYer.Miktar>ISNULL(wms.GorevYer.YerlestirmeMiktari,0) ";
-                string SirketKod = mGorev.IR != null ? mGorev.IR.SirketKod : mGorev
+                string SirketKod = mGorev.IR != null ? mGorev.IR.SirketKod : mGorev.Transfers.FirstOrDefault().SirketKod;
                 sql = string.Format("SELECT wms.GorevYer.ID, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.HucreAd AS Raf, ISNULL(wms.GorevYer.YerlestirmeMiktari,0) as YerlestirmeMiktari, " +
                                     "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.GorevYer.MalKodu)),'') AS MalAdi " +
                                     "FROM wms.GorevYer WITH(nolock) INNER JOIN wms.Yer WITH(nolock) ON wms.GorevYer.YerID = wms.Yer.ID " +
                                     "WHERE (wms.GorevYer.GorevID = {1}) {2}" +
-                                    "ORDER BY wms.GorevYer.Sira", mGorev.IR.SirketKod, GorevID, sqltmp);
+                                    "ORDER BY wms.GorevYer.Sira", SirketKod, GorevID, sqltmp);
             }
             else
             {

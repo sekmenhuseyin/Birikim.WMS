@@ -104,12 +104,17 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Approve(int ID)
         {
+            //get transfer details
             var tbl = Transfers.Detail(ID);
-            tbl.Onay = true;
-            Transfers.Operation(tbl);
+            //set gorev
             string GorevNo = db.SettingsGorevNo(fn.ToOADate()).FirstOrDefault();
             var gorev = new Gorev() { GorevTipiID = ComboItems.Transfer.ToInt32(), DepoID = tbl.GirisDepoID, GorevNo = GorevNo, DurumID = ComboItems.Açık.ToInt32(), Bilgi = "Giriş: " + tbl.Depo.DepoAd + ", Çıkış: " + tbl.Depo1.DepoAd };
-            Task.Operation(gorev);
+            var sonuc = Task.Operation(gorev);
+            //update transfer
+            tbl.Onay = true;
+            tbl.GorevID = sonuc.Id;
+            Transfers.Operation(tbl);
+            //return
             return RedirectToAction("List");
         }
     }

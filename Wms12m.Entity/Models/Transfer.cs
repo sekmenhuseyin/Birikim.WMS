@@ -32,6 +32,7 @@ namespace Wms12m.Entity.Models
         public Nullable<int> OnaylayanID { get; set; }
         public Nullable<int> OnaylamaTarihi { get; set; }
         public Nullable<int> OnaylamaSaati { get; set; }
+        public Nullable<int> GorevID { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }
@@ -40,5 +41,6 @@ namespace Wms12m.Entity.Models
         public virtual Depo Depo2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transfer_Detay> Transfer_Detay { get; set; }
+        public virtual Gorev Gorev { get; set; }
     }
 }

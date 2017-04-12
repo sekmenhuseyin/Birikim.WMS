@@ -280,6 +280,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GorevID" Type="int" />
           <Property Name="SirketKod" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="GirisDepoID" Type="int" Nullable="false" />
           <Property Name="CikisDepoID" Type="int" Nullable="false" />
@@ -773,6 +774,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Transfer_Gorev">
+          <End Role="Gorev" Type="Self.Gorev" Multiplicity="0..1" />
+          <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gorev">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transfer">
+              <PropertyRef Name="GorevID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Transfer_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
@@ -1165,6 +1178,10 @@
             <End Role="Transfer" EntitySet="Transfer" />
             <End Role="Transfer_Detay" EntitySet="Transfer_Detay" />
           </AssociationSet>
+          <AssociationSet Name="FK_Transfer_Gorev" Association="Self.FK_Transfer_Gorev">
+            <End Role="Gorev" EntitySet="Gorev" />
+            <End Role="Transfer" EntitySet="Transfer" />
+          </AssociationSet>
           <AssociationSet Name="FK_Transfer_Users" Association="Self.FK_Transfer_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Transfer" EntitySet="Transfer" />
@@ -1503,6 +1520,10 @@
             <End Role="Transfer" EntitySet="Transfers" />
             <End Role="Transfer_Detay" EntitySet="Transfer_Detay" />
           </AssociationSet>
+          <AssociationSet Name="FK_Transfer_Gorev" Association="MModel.FK_Transfer_Gorev">
+            <End Role="Gorev" EntitySet="Gorevs" />
+            <End Role="Transfer" EntitySet="Transfers" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1605,6 +1626,7 @@
           <NavigationProperty Name="User2" Relationship="MModel.FK_Gorev_UsersOlusturan" FromRole="Gorev" ToRole="User" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_GorevListesi_IRS" FromRole="Gorev" ToRole="IR" />
           <NavigationProperty Name="IRS" Relationship="MModel.GorevIRS" FromRole="Gorev" ToRole="IR" />
+          <NavigationProperty Name="Transfers" Relationship="MModel.FK_Transfer_Gorev" FromRole="Gorev" ToRole="Transfer" />
           </EntityType>
         <EntityType Name="Kat">
           <Key>
@@ -2359,6 +2381,8 @@
           <NavigationProperty Name="Depo1" Relationship="MModel.FK_Transfer_Depo1" FromRole="Transfer" ToRole="Depo" />
           <NavigationProperty Name="Depo2" Relationship="MModel.FK_Transfer_Depo2" FromRole="Transfer" ToRole="Depo" />
           <NavigationProperty Name="Transfer_Detay" Relationship="MModel.FK_Transfer_Detay_Transfer" FromRole="Transfer" ToRole="Transfer_Detay" />
+          <Property Name="GorevID" Type="Int32" />
+          <NavigationProperty Name="Gorev" Relationship="MModel.FK_Transfer_Gorev" FromRole="Transfer" ToRole="Gorev" />
         </EntityType>
         <EntityType Name="Transfer_Detay">
           <Key>
@@ -2440,6 +2464,18 @@
             </Principal>
             <Dependent Role="Transfer_Detay">
               <PropertyRef Name="TransferID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transfer_Gorev">
+          <End Type="MModel.Gorev" Role="Gorev" Multiplicity="0..1" />
+          <End Type="MModel.Transfer" Role="Transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gorev">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Transfer">
+              <PropertyRef Name="GorevID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2839,6 +2875,7 @@
           <EntitySetMapping Name="Transfers">
             <EntityTypeMapping TypeName="MModel.Transfer">
               <MappingFragment StoreEntitySet="Transfer">
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
                 <ScalarProperty Name="OnaylamaSaati" ColumnName="OnaylamaSaati" />
                 <ScalarProperty Name="OnaylamaTarihi" ColumnName="OnaylamaTarihi" />
                 <ScalarProperty Name="OnaylayanID" ColumnName="OnaylayanID" />
