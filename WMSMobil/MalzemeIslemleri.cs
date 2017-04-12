@@ -76,7 +76,7 @@ namespace WMSMobil
             //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             try
             {
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, irsID, tip));
+                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, tip));
                 Ayarlar.SeciliGorev = Servis.GetIrsaliye(grvId);
                 txtUnvan.Text = Ayarlar.SeciliGorev.Unvan;
                 txtHesapKodu.Text = Ayarlar.SeciliGorev.HesapKodu;
@@ -455,7 +455,7 @@ namespace WMSMobil
                 Sonuc = Servis.Transfer(YerList.ToArray(), Ayarlar.Kullanici.ID);
             if (Sonuc.Status)
             {
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, IrsaliyeID, glbTip));
+                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, glbTip));
                 if (Ayarlar.STIKalemler.Count == 0) this.Close();
                 STIGetir();
                 txtBarkod.Text = "";

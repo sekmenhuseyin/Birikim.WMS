@@ -175,19 +175,17 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/GetMalzemes", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Tip_STI[] GetMalzemes(int GorevID, int irsaliyeID, bool devamMi) {
+        public Tip_STI[] GetMalzemes(int GorevID, bool devamMi) {
             object[] results = this.Invoke("GetMalzemes", new object[] {
                         GorevID,
-                        irsaliyeID,
                         devamMi});
             return ((Tip_STI[])(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetMalzemes(int GorevID, int irsaliyeID, bool devamMi, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetMalzemes(int GorevID, bool devamMi, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetMalzemes", new object[] {
                         GorevID,
-                        irsaliyeID,
                         devamMi}, callback, asyncState);
         }
         

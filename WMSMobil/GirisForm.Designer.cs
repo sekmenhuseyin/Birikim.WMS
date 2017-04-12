@@ -47,6 +47,7 @@
             this.txtKullaniciAdi.Name = "txtKullaniciAdi";
             this.txtKullaniciAdi.Size = new System.Drawing.Size(194, 21);
             this.txtKullaniciAdi.TabIndex = 0;
+            this.txtKullaniciAdi.GotFocus += new System.EventHandler(this.txt_GotFocus);
             this.txtKullaniciAdi.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_KeyPress);
             // 
             // txtParola
@@ -58,6 +59,7 @@
             this.txtParola.PasswordChar = '*';
             this.txtParola.Size = new System.Drawing.Size(194, 21);
             this.txtParola.TabIndex = 1;
+            this.txtParola.GotFocus += new System.EventHandler(this.txt_GotFocus);
             this.txtParola.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_KeyPress);
             // 
             // btnGiris
@@ -96,7 +98,7 @@
             this.label4.Location = new System.Drawing.Point(0, 278);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(240, 16);
-            this.label4.Text = "Versiyon : 170411";
+            this.label4.Text = "Versiyon : 170412";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel1

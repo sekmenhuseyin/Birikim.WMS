@@ -57,5 +57,12 @@ namespace WMSMobil
         {
             Servis.Dispose();
         }
+        /// <summary>
+        /// textbox focusta selectall yap
+        /// </summary>
+        private void txt_GotFocus(object sender, EventArgs e)
+        {
+            ((TextBox)sender).SelectAll();
+        }
     }
 }
