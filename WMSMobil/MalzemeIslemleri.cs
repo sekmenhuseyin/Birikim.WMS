@@ -447,12 +447,10 @@ namespace WMSMobil
                 Sonuc = Servis.Mal_Kabul(StiList.ToArray());
             else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
                 Sonuc = Servis.Rafa_Kaldir(YerList.ToArray(), Ayarlar.Kullanici.ID);
-            else if (Ayarlar.MenuTip == MenuType.SiparisToplama)
+            else if (Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.Transfer)
                 Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID);
             else if (Ayarlar.MenuTip == MenuType.Paketle)
                 Sonuc = Servis.Paketle(StiList.ToArray());
-            else if (Ayarlar.MenuTip == MenuType.Transfer)
-                Sonuc = Servis.Transfer(YerList.ToArray(), Ayarlar.Kullanici.ID);
             if (Sonuc.Status)
             {
                 Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, glbTip));

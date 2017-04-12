@@ -19,13 +19,29 @@ namespace Wms12m.Presentation.Controllers
             return View("Index");
         }
         /// <summary>
-        /// transfere ait mallar
+        /// planlamadaki 1. adımdaki malzeme listesi
         /// </summary>
-        [HttpPost]
-        public PartialViewResult Details(int ID)
+        public PartialViewResult Stock(string Id)
         {
-            var list = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
-            return PartialView("_Details", list);
+            string[] ids = Id.Split('#');
+            ViewBag.SirketID = ids[0];
+            ViewBag.GirisDepo = ids[1];
+            ViewBag.CikisDepo = ids[2];
+            string sql = string.Format("SELECT STK.MalKodu, STK.MalAdi, STK.Birim1 as Birim, " +
+                                        "(ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)) as Depo1StokMiktar, ISNULL(DST.KritikStok, 0) as Depo1KritikMiktar, ((ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)) - ISNULL(DST.KritikStok, 0)) as Depo1GerekenMiktar, ISNULL(DST.AlSiparis, 0) as AlSiparis, ISNULL(DST.SatSiparis, 0) as SatSiparis, " +
+                                        "(ISNULL(DST2.DvrMiktar, 0) + ISNULL(DST2.GirMiktar, 0) - ISNULL(DST2.CikMiktar, 0)) - (SELECT isnull(SUM(Miktar - TeslimMiktar), 0) Miktar FROM  FINSAT6{0}.FINSAT6{0}.DTF(NOLOCK) WHERE CikDepo = '{2}' AND Durum = 0 and MalKodu = DST2.MalKodu) as Depo2StokMiktar, isnull(DST2.KritikStok, 0) as Depo2KritikMiktar, ((ISNULL(DST2.DvrMiktar, 0) + ISNULL(DST2.GirMiktar, 0) - ISNULL(DST2.CikMiktar, 0)) - isnull(DST2.KritikStok, 0)) as Depo2GerekenMiktar, CAST(0 AS DECIMAL) Depo2Miktar " +
+                                        "FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) STK LEFT join FINSAT6{0}.FINSAT6{0}.DST(NOLOCK) DST ON STK.MalKodu = DST.MalKodu and DST.Depo = '{1}' LEFT JOIN FINSAT6{0}.FINSAT6{0}.DST(NOLOCK) DST2 ON STK.MalKodu = DST2.MalKodu AND DST2.Depo = '{2}' LEFT JOIN(SELECT MalKodu, SUM(Miktar-TeslimMiktar) Miktar FROM  FINSAT6{0}.FINSAT6{0}.DTF(NOLOCK) WHERE GirDepo = '{1}' AND Durum = 0 GROUP BY MalKodu) DTF ON DTF.MalKodu = STK.MalKodu " +
+                                        "WHERE ((ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)) - ISNULL(DST.KritikStok, 0)) < 0  order by DST.MalKodu asc", ids[0], ids[1], ids[2]);
+            try
+            {
+                var list = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
+                return PartialView("_Stock", list);
+            }
+            catch (System.Exception)
+            {
+                return PartialView("_Stock", new frmTransferMalzemeler());
+            }
+
         }
         /// <summary>
         /// ilk sayfada seçtiklerini gösterip onaylatan bir sayfa
@@ -42,14 +58,13 @@ namespace Wms12m.Presentation.Controllers
             //tüm diğer başlamamış görevler silinir
             Task.DeleteSome();
             //yeni bir görev eklenir
-            string GorevNo = db.SettingsGorevNo(fn.ToOADate()).FirstOrDefault();
-            var gorev = new Gorev() { GorevTipiID = ComboItems.Transfer.ToInt32(), DepoID = gDepoID.ID, GorevNo = GorevNo, DurumID = ComboItems.Başlamamış.ToInt32(), Bilgi = "Giriş: " + gDepoID.DepoAd + ", Çıkış: " + cDepoID.DepoAd };
-            var sonuc = Task.Operation(gorev);
-            if (sonuc.Status == false)
-                return RedirectToAction("Index");
+            int today = fn.ToOADate(), time = fn.ToOATime();
+            int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.GirisDepo).Select(m => m.ID).FirstOrDefault();
+            string GorevNo = db.SettingsGorevNo(today).FirstOrDefault();
+            string evrakNo = db.SettingsIrsaliyeNo(today).FirstOrDefault();
+            var cevap = db.InsertIrsaliye(tbl.SirketID, idDepo, GorevNo, evrakNo, today, "", true, ComboItems.Transfer.ToInt32(), vUser.Id, vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
             //yeni transfer eklenir
-            int GorevID = sonuc.Id;
-            sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = GorevID });
+            var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
             if (sonuc.Status == false)
                 return RedirectToAction("Index");
             //find detays
@@ -93,7 +108,7 @@ namespace Wms12m.Presentation.Controllers
                             //miktarı tabloya ekle
                             GorevYer tblyer = new GorevYer()
                             {
-                                GorevID = GorevID,
+                                GorevID = cevap.GorevID.Value,
                                 YerID = itemyer.ID,
                                 MalKodu = mallar.MalKodu,
                                 Birim = mallar.Birim,
@@ -108,6 +123,7 @@ namespace Wms12m.Presentation.Controllers
                     mallar.Miktar = toplam;
                     //hepsi eklenince detayı db'ye ekle
                     Transfers.AddDetay(mallar);
+                    Stok.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = mallar.MalKodu, Miktar = mallar.Miktar, Birim = mallar.Birim });
                     mallar = new Transfer_Detay();
                     sira = 0;
                 }
@@ -116,29 +132,21 @@ namespace Wms12m.Presentation.Controllers
             return RedirectToAction("List");
         }
         /// <summary>
-        /// planlamadaki 1. adımdaki malzeme listesi
-        /// </summary>
-        public PartialViewResult Stock(string Id)
-        {
-            string[] ids = Id.Split('#');
-            string sql = string.Format("SELECT STK.MalKodu, STK.MalAdi, STK.Birim1 as Birim, " +
-                                        "(ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)) as Depo1StokMiktar, ISNULL(DST.KritikStok, 0) as Depo1KritikMiktar, ((ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)) - ISNULL(DST.KritikStok, 0)) as Depo1GerekenMiktar, ISNULL(DST.AlSiparis, 0) as AlSiparis, ISNULL(DST.SatSiparis, 0) as SatSiparis, " +
-                                        "(ISNULL(DST2.DvrMiktar, 0) + ISNULL(DST2.GirMiktar, 0) - ISNULL(DST2.CikMiktar, 0)) - (SELECT isnull(SUM(Miktar - TeslimMiktar), 0) Miktar FROM  FINSAT6{0}.FINSAT6{0}.DTF(NOLOCK) WHERE CikDepo = '{2}' AND Durum = 0 and MalKodu = DST2.MalKodu) as Depo2StokMiktar, isnull(DST2.KritikStok, 0) as Depo2KritikMiktar, ((ISNULL(DST2.DvrMiktar, 0) + ISNULL(DST2.GirMiktar, 0) - ISNULL(DST2.CikMiktar, 0)) - isnull(DST2.KritikStok, 0)) as Depo2GerekenMiktar, CAST(0 AS DECIMAL) Depo2Miktar " +
-                                        "FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) STK LEFT join FINSAT6{0}.FINSAT6{0}.DST(NOLOCK) DST ON STK.MalKodu = DST.MalKodu and DST.Depo = '{1}' LEFT JOIN FINSAT6{0}.FINSAT6{0}.DST(NOLOCK) DST2 ON STK.MalKodu = DST2.MalKodu AND DST2.Depo = '{2}' LEFT JOIN(SELECT MalKodu, SUM(Miktar-TeslimMiktar) Miktar FROM  FINSAT6{0}.FINSAT6{0}.DTF(NOLOCK) WHERE GirDepo = '{1}' AND Durum = 0 GROUP BY MalKodu) DTF ON DTF.MalKodu = STK.MalKodu " +
-                                        "WHERE((ISNULL(DST.DvrMiktar, 0) + ISNULL(DST.GirMiktar, 0) - ISNULL(DST.CikMiktar, 0)) - ISNULL(DST.KritikStok, 0)) < 0  order by DST.MalKodu asc", ids[0], ids[1], ids[2]);
-            var list = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
-            ViewBag.SirketID = ids[0];
-            ViewBag.GirisDepo = ids[1];
-            ViewBag.CikisDepo = ids[2];
-            return PartialView("_Stock", list);
-        }
-        /// <summary>
         /// onay bekleyen transfer lsitesi
         /// </summary>
         public ActionResult List()
         {
             var list = Transfers.GetList(false);
             return View("List", list);
+        }
+        /// <summary>
+        /// transfere ait mallar
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult Details(int ID)
+        {
+            var list = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
+            return PartialView("_Details", list);
         }
         /// <summary>
         /// bekleyen transferi onayla

@@ -464,38 +464,6 @@ namespace Wms12m
 
         }
         /// <summary>
-        /// raftan indir
-        /// </summary>
-        [WebMethod]
-        public Result Transfer(List<frmYerlesme> YerlestirmeList, int kulID)
-        {
-            int ID = 0;
-            foreach (var item in YerlestirmeList)
-            {
-                if (ID == 0) ID = db.Transfers.Where(m => m.GorevID == item.GorevID).Select(m => m.ID).FirstOrDefault();
-                //hücre adından kat id bulunur
-                var kat = db.GetHucreKatID(item.DepoID, item.RafNo).FirstOrDefault();
-                if (kat != null)
-                {
-                    //yerleştirme kaydı yapılır
-                    var stok = new Yerlestirme();
-                    var tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
-                    if (tmp2 != null)
-                    {
-                        var x = db.GorevYers.Where(m => m.YerID == tmp2.ID && m.GorevID == item.GorevID && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
-                        if (tmp2.Miktar >= item.Miktar && item.Miktar <= (x.Miktar - (x.YerlestirmeMiktari != null ? x.YerlestirmeMiktari : 0)))
-                        {
-                            tmp2.Miktar -= item.Miktar;
-                            stok.Update(tmp2, ID, kulID, true);
-                            //raftan indirdiğini kaydet
-                            db.TerminalRaftanIndir(ID, kat, item.Miktar);
-                        }
-                    }
-                }
-            }
-            return new Result(true);
-        }
-        /// <summary>
         /// sipariş toplama görevi tamamlma
         /// </summary>
         [WebMethod]

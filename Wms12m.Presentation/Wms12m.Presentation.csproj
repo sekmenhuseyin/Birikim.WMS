@@ -2706,7 +2706,7 @@
     <Content Include="Views\Users\Pass.cshtml" />
     <Content Include="Views\Tasks\Details.cshtml" />
     <Content Include="Views\Stock\Index.cshtml" />
-    <Content Include="Views\Stock\_List.cshtml" />
+    <Content Include="Views\Stock\List.cshtml" />
     <Content Include="Views\Tasks\List.cshtml" />
     <Content Include="Views\Sell\Step4.cshtml" />
     <Content Include="Views\Sell\Step5.cshtml" />
