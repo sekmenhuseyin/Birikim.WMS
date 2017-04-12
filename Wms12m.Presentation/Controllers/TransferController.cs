@@ -48,7 +48,8 @@ namespace Wms12m.Presentation.Controllers
             if (sonuc.Status == false)
                 return RedirectToAction("Index");
             //yeni transfer eklenir
-            sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = sonuc.Id });
+            int GorevID = sonuc.Id;
+            sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = GorevID });
             if (sonuc.Status == false)
                 return RedirectToAction("Index");
             //find detays
@@ -60,6 +61,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 if (sira == 0)
                 {
+                    //malkodunu ve transfer id ekle
                     mallar.TransferID = sonuc.Id;
                     mallar.MalKodu = item;
                     if (malkodlari != "") malkodlari += ",";
@@ -68,12 +70,43 @@ namespace Wms12m.Presentation.Controllers
                 }
                 else if (sira == 1)
                 {
+                    //birim ekle
                     mallar.Birim = item;
                     sira++;
                 }
                 else
                 {
+                    //miktar ekle
                     mallar.Miktar = item.ToDecimal();
+                    //stok kontrol
+                    var tmpYer = db.Yers.Where(m => m.MalKodu == mallar.MalKodu && m.Birim == mallar.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.GirisDepo && m.Miktar > 0).OrderBy(m => m.Miktar).ToList();
+                    decimal toplam = 0, miktar = 0;
+                    if (tmpYer != null)
+                    {
+                        foreach (var itemyer in tmpYer)
+                        {
+                            if (itemyer.Miktar >= (mallar.Miktar - toplam))
+                                miktar = mallar.Miktar - toplam;
+                            else
+                                miktar = itemyer.Miktar;
+                            toplam += miktar;
+                            //miktarı tabloya ekle
+                            GorevYer tblyer = new GorevYer()
+                            {
+                                GorevID = GorevID,
+                                YerID = itemyer.ID,
+                                MalKodu = mallar.MalKodu,
+                                Birim = mallar.Birim,
+                                Miktar = miktar,
+                                GC = true
+                            };
+                            TaskYer.Operation(tblyer);
+                            //toplam yeterli miktardaysa
+                            if (toplam == mallar.Miktar) break;
+                        }
+                    }
+                    mallar.Miktar = toplam;
+                    //hepsi eklenince detayı db'ye ekle
                     Transfers.AddDetay(mallar);
                     mallar = new Transfer_Detay();
                     sira = 0;

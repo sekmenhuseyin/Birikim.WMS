@@ -183,7 +183,7 @@ namespace WMSMobil
         {
             if (GorevID.ToString2() == "0") return;
             MalzemeIslemleri frm = new MalzemeIslemleri(GorevID, IrsaliyeID, false, Ayarlar.MenuTip.ToInt32());
-            frm.ShowDialog();        
+            frm.Show();        
         }
         /// <summary>
         /// işlem yapa basınca
@@ -192,7 +192,7 @@ namespace WMSMobil
         {
             if (GorevID == 0) return;
             MalzemeIslemleri frm = new MalzemeIslemleri(GorevID, IrsaliyeID, true, Ayarlar.MenuTip.ToInt32());
-            frm.ShowDialog();
+            frm.Show();
         }
         /// <summary>
         /// linke aktara basınca

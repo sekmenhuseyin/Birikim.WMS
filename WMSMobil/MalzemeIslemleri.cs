@@ -160,7 +160,7 @@ namespace WMSMobil
                     tMiktar.Text = stiItem.Miktar.ToDecimal().ToString("N2");
                     tMiktar.Tag = stiItem.Miktar.ToDecimal();
                 }
-                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip==MenuType.SiparisToplama)
+                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip==MenuType.SiparisToplama || Ayarlar.MenuTip==MenuType.Transfer)
                 {
 
                     tRaf.Font = font;
@@ -218,7 +218,7 @@ namespace WMSMobil
                     panelSatir.Size = new Size(400, 22);
                     panelSatir.Controls.Add(tMiktarOkutulan);
                 }
-                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip==MenuType.SiparisToplama)
+                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.Transfer)
                 {
                     panelSatir.Size = new Size(550, 22);
                     panelSatir.Controls.Add(tRaf);
@@ -272,7 +272,7 @@ namespace WMSMobil
                             item.BackColor = Color.DarkOrange;
                     }
                 }
-                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip==MenuType.SiparisToplama)
+                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.Transfer)
                 {
                     if (itemPanel.Controls[0].Text == mal)
                     {
@@ -295,7 +295,7 @@ namespace WMSMobil
                     }
                 }
             }
-            if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama)
+            if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.Transfer)
             {
                 if (raf_var)
                     return;
@@ -425,7 +425,7 @@ namespace WMSMobil
                     sti.ID = itemPanel.Controls[0].Tag.ToInt32();
                     StiList.Add(sti);
                 }
-                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama)
+                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.Transfer)
                 {
                     if (itemPanel.Controls[6].Text.ToDecimal() > 0)
                     {
@@ -451,7 +451,7 @@ namespace WMSMobil
                 Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID);
             else if (Ayarlar.MenuTip == MenuType.Paketle)
                 Sonuc = Servis.Paketle(StiList.ToArray());
-            else if (Ayarlar.MenuTip == MenuType.Paketle)
+            else if (Ayarlar.MenuTip == MenuType.Transfer)
                 Sonuc = Servis.Transfer(YerList.ToArray(), Ayarlar.Kullanici.ID);
             if (Sonuc.Status)
             {
