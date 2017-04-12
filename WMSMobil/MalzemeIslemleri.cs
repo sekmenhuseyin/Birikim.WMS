@@ -61,6 +61,15 @@ namespace WMSMobil
                 label6.Visible = false;
                 label12.Visible = false;
             }
+            else if (gorevtip == 19)
+            {
+                this.Text = "Transfer";
+                label5.Text = "Raf";
+                txtRafBarkod.Visible = true;
+                label7.Visible = true;
+                label6.Visible = true;
+                label12.Visible = true;
+            }
             //Barkod = new Barcode2();
             //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
             //Barkod.EnableScanner = true;
@@ -442,6 +451,8 @@ namespace WMSMobil
                 Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID);
             else if (Ayarlar.MenuTip == MenuType.Paketle)
                 Sonuc = Servis.Paketle(StiList.ToArray());
+            else if (Ayarlar.MenuTip == MenuType.Paketle)
+                Sonuc = Servis.Transfer(YerList.ToArray(), Ayarlar.Kullanici.ID);
             if (Sonuc.Status)
             {
                 Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, IrsaliyeID, glbTip));

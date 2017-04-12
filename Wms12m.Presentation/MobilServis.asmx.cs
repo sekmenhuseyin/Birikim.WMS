@@ -115,7 +115,7 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return null;
             string sql;
-            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32())
+            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.Transfer.ToInt32())
             {
                 string sqltmp = ""; if (devamMi == true) sqltmp += "AND wms.GorevYer.Miktar>ISNULL(wms.GorevYer.YerlestirmeMiktari,0) ";
                 sql = string.Format("SELECT wms.GorevYer.ID, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.HucreAd AS Raf, ISNULL(wms.GorevYer.YerlestirmeMiktari,0) as YerlestirmeMiktari, " +
@@ -461,6 +461,72 @@ namespace Wms12m
             }
             return new Result(true);
 
+        }
+        /// <summary>
+        /// transfer kaydet
+        /// </summary>
+        [WebMethod]
+        public Result Transfer(List<frmYerlesme> YerlestirmeList, int kulID)
+        {
+            //foreach (var item in YerlestirmeList)
+            //{
+            //    //hücre adından kat id bulunur
+            //    var kat = db.GetHucreKatID(item.DepoID, item.RafNo).FirstOrDefault();
+            //    if (kat != null)
+            //    {
+            //        //yerleştirme kaydı yapılır
+            //        var stok = new Yerlestirme();
+            //        var tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
+            //        if (tmp2 != null)
+            //        {
+            //            var x = db.GorevYers.Where(m => m.YerID == tmp2.ID && m.GorevID == item.GorevID && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
+            //            if (tmp2.Miktar >= item.Miktar && item.Miktar <= (x.Miktar - (x.YerlestirmeMiktari != null ? x.YerlestirmeMiktari : 0)))
+            //            {
+            //                tmp2.Miktar -= item.Miktar;
+            //                stok.Update(tmp2, item.IrsID, kulID, true);
+            //                //raftan indirdiğini kaydet
+            //                db.TerminalRaftanIndir(item.IrsID, kat, item.Miktar);
+            //            }
+            //        }
+            //    }
+            //}
+            return new Result(true);
+        }
+        /// <summary>
+        /// sipariş toplama görevi tamamlma
+        /// </summary>
+        [WebMethod]
+        public Result Transfer_GoreviTamamla(int GorevID, int kulID)
+        {
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return new Result(false, "İrsaliye bulunamadı !");
+            //var tmpYer = mGorev.GorevYers.Where(m => m.YerlestirmeMiktari < m.Miktar).FirstOrDefault();
+            //if (tmpYer.IsNotNull())
+            //    return new Result(false, "İşlem bitmemiş !");
+            ////kaydeden bulunur
+            //string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
+            //int seritipi = ComboItems.EArşiv.ToInt32();
+            ////liste getirilir
+            //string sql = string.Format("SELECT wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, ISNULL(wms.IRS.ValorGun,0) as ValorGun, wms.IRS.EvrakNo " +
+            //                            "FROM wms.GorevIRS INNER JOIN wms.IRS ON wms.GorevIRS.IrsaliyeID = wms.IRS.ID " +
+            //                            "WHERE (wms.GorevIRS.GorevID = {0}) " +
+            //                            "GROUP BY wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, wms.IRS.ValorGun, wms.IRS.EvrakNo", mGorev.ID);
+            //var list = db.Database.SqlQuery<STIMax>(sql).ToList();
+            //int tarih = DateTime.Today.ToOADateInt(), saat = DateTime.Now.SaatiAl();
+            //foreach (var item in list)
+            //{
+            //    string evrakserino = db.EvrakSeris.Where(m => m.SirketKodu == item.SirketKod && m.Tip == seritipi).Select(m => m.SeriNo).FirstOrDefault();
+            //    //listedeki her eleman için döngü yapılır
+            //    var sonuc = SiparisToplamaToLink(item.SirketKod, item.IrsaliyeID, mGorev.Depo.DepoKodu, evrakserino, item.Tarih, item.HesapKodu, kaydeden);
+            //    if (sonuc.Status == true)
+            //    {
+            //        string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
+            //        var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, item.EvrakNo, item.Tarih, "Irs: " + item.EvrakNo + " Alıcı: " + item.HesapKodu.GetUnvan(item.SirketKod), true, ComboItems.Paketle.ToInt32(), kulID, kaydeden, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "").FirstOrDefault();
+            //    }
+            //}
+            //db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, saat, kulID, "", ComboItems.SiparişTopla.ToInt32(), 0);
+            return new Result(true);
         }
         /// <summary>
         /// dispose override

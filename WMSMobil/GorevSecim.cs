@@ -46,6 +46,10 @@ namespace WMSMobil
                         this.Text = "Paketle";
                         btnLinkeAktar.Text = "Görevi Sonlandır";
                         break;
+                    case MenuType.Transfer:
+                        this.Text = "Transfer";
+                        btnLinkeAktar.Text = "Linke Aktar";
+                        break;
                     default:
                         break;
                 }
@@ -206,6 +210,8 @@ namespace WMSMobil
                     sonuc = Servis.SiparisTopla_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
                 else if (Ayarlar.MenuTip == MenuType.Paketle)
                     sonuc = Servis.Paketle_GoreviTamamla(GorevID, IrsaliyeID, Ayarlar.Kullanici.ID);
+                else if (Ayarlar.MenuTip == MenuType.Transfer)
+                    sonuc = Servis.Transfer_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
             }
             catch (Exception ex)
             {
