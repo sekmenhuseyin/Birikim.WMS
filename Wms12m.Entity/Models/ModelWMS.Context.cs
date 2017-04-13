@@ -220,11 +220,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("WMSEntities.GetStock", depoIDParameter, malKoduParameter, birimParameter, includeRezervParameter);
         }
     
-        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary");
-        }
-    
         public virtual ObjectResult<InsertIrsaliye_Result> InsertIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, Nullable<int> irsTarih, string gorevBilgi, Nullable<bool> irsIslemTur, Nullable<int> gorevTipiID, Nullable<int> olusturanID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu, string teslimCHK, Nullable<short> valorGun, string linkEvrakNo)
         {
             var sirketKodParameter = sirketKod != null ?
@@ -350,6 +345,11 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Miktar", typeof(decimal));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.TerminalRaftanIndir", irsIDParameter, katIDParameter, miktarParameter);
+        }
+    
+        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary");
         }
     }
 }

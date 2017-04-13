@@ -1459,7 +1459,6 @@
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="EvrakSeri" EntitySet="EvrakSeris" />
           </AssociationSet>
-          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)" />
           <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
             <Parameter Name="SirketKod" Mode="In" Type="String" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
@@ -1524,6 +1523,7 @@
             <End Role="Transfer" EntitySet="Transfers" />
             <End Role="Transfer_Detay" EntitySet="Transfer_Detay" />
           </AssociationSet>
+          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2348,12 +2348,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetHomeSummary_Result">
-          <Property Type="Int32" Name="depo" Nullable="true" />
-          <Property Type="Int32" Name="kull" Nullable="true" />
-          <Property Type="Int32" Name="gorev" Nullable="true" />
-          <Property Type="Int32" Name="irs" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="InsertIrsaliye_Result">
           <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
           <Property Type="Int32" Name="GorevID" Nullable="true" />
@@ -2479,6 +2473,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetHomeSummary_Result">
+          <Property Type="Int32" Name="depo" Nullable="true" />
+          <Property Type="Int32" Name="kull" Nullable="true" />
+          <Property Type="Int32" Name="gorev" Nullable="true" />
+          <Property Type="Int32" Name="irs" Nullable="true" />
+          <Property Type="Int32" Name="transfer" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2851,16 +2852,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
-                <ScalarProperty Name="depo" ColumnName="depo" />
-                <ScalarProperty Name="kull" ColumnName="kull" />
-                <ScalarProperty Name="gorev" ColumnName="gorev" />
-                <ScalarProperty Name="irs" ColumnName="irs" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
@@ -2902,6 +2893,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
+                <ScalarProperty Name="depo" ColumnName="depo" />
+                <ScalarProperty Name="kull" ColumnName="kull" />
+                <ScalarProperty Name="gorev" ColumnName="gorev" />
+                <ScalarProperty Name="irs" ColumnName="irs" />
+                <ScalarProperty Name="transfer" ColumnName="transfer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
