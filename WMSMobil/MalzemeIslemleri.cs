@@ -61,6 +61,15 @@ namespace WMSMobil
                 label6.Visible = false;
                 label12.Visible = false;
             }
+            else if (gorevtip == 7)
+            {
+                this.Text = "Seckiyat";
+                label5.Text = "Okutulan Miktar";
+                txtRafBarkod.Visible = false;
+                label7.Visible = false;
+                label6.Visible = false;
+                label12.Visible = false;
+            }
             else if (gorevtip == 19)
             {
                 this.Text = "Transfer";
@@ -145,7 +154,7 @@ namespace WMSMobil
                 TextBox tYerlestirmeMiktari = new TextBox();
                 TextBox tMiktarOkutulan = new TextBox();
                 TextBox tIslemMiktar = new TextBox();
-                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle)
+                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 {
 
                     tMiktarOkutulan.Font = font;
@@ -213,7 +222,7 @@ namespace WMSMobil
                 panelSatir.Controls.Add(tMalAdi);
                 panelSatir.Controls.Add(tMiktar);
                 panelSatir.Controls.Add(tBirim);
-                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle)
+                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 {
                     panelSatir.Size = new Size(400, 22);
                     panelSatir.Controls.Add(tMiktarOkutulan);
@@ -270,7 +279,7 @@ namespace WMSMobil
             foreach (var itemPanel in PanelVeriList)
             {
                 //mal kabul ise malın bulunduğu satırdaki miktarı bir artırıyor, bir de satırı turuncuya boyuyor
-                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle)
+                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 {
                     if (itemPanel.Controls[0].Text == mal)
                     {
@@ -426,7 +435,7 @@ namespace WMSMobil
                 var sti = new frmMalKabul();
                 var yer = new frmYerlesme();
 
-                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle)
+                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 {
                     sti.OkutulanMiktar = itemPanel.Controls[4].Text.ToDecimal();
                     sti.ID = itemPanel.Controls[0].Tag.ToInt32();

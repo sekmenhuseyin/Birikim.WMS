@@ -63,7 +63,7 @@
             // 
             this.btnRafaKaldirma.BackColor = System.Drawing.Color.DarkOrange;
             this.btnRafaKaldirma.ForeColor = System.Drawing.Color.White;
-            this.btnRafaKaldirma.Location = new System.Drawing.Point(123, 14);
+            this.btnRafaKaldirma.Location = new System.Drawing.Point(122, 14);
             this.btnRafaKaldirma.Name = "btnRafaKaldirma";
             this.btnRafaKaldirma.Size = new System.Drawing.Size(115, 56);
             this.btnRafaKaldirma.TabIndex = 0;
@@ -98,7 +98,7 @@
             // 
             this.btnKabloSiparisi.BackColor = System.Drawing.Color.Green;
             this.btnKabloSiparisi.ForeColor = System.Drawing.Color.White;
-            this.btnKabloSiparisi.Location = new System.Drawing.Point(123, 84);
+            this.btnKabloSiparisi.Location = new System.Drawing.Point(122, 153);
             this.btnKabloSiparisi.Name = "btnKabloSiparisi";
             this.btnKabloSiparisi.Size = new System.Drawing.Size(115, 56);
             this.btnKabloSiparisi.TabIndex = 0;
@@ -110,7 +110,7 @@
             // 
             this.btnPaketleme.BackColor = System.Drawing.Color.Goldenrod;
             this.btnPaketleme.ForeColor = System.Drawing.Color.White;
-            this.btnPaketleme.Location = new System.Drawing.Point(2, 153);
+            this.btnPaketleme.Location = new System.Drawing.Point(122, 84);
             this.btnPaketleme.Name = "btnPaketleme";
             this.btnPaketleme.Size = new System.Drawing.Size(115, 56);
             this.btnPaketleme.TabIndex = 0;
@@ -122,7 +122,7 @@
             // 
             this.btnSevkiyat.BackColor = System.Drawing.Color.Sienna;
             this.btnSevkiyat.ForeColor = System.Drawing.Color.White;
-            this.btnSevkiyat.Location = new System.Drawing.Point(123, 153);
+            this.btnSevkiyat.Location = new System.Drawing.Point(2, 153);
             this.btnSevkiyat.Name = "btnSevkiyat";
             this.btnSevkiyat.Size = new System.Drawing.Size(115, 56);
             this.btnSevkiyat.TabIndex = 0;
@@ -147,7 +147,7 @@
             this.lblRafKaldirma.BackColor = System.Drawing.Color.DarkOrange;
             this.lblRafKaldirma.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblRafKaldirma.ForeColor = System.Drawing.Color.White;
-            this.lblRafKaldirma.Location = new System.Drawing.Point(164, 51);
+            this.lblRafKaldirma.Location = new System.Drawing.Point(163, 51);
             this.lblRafKaldirma.Name = "lblRafKaldirma";
             this.lblRafKaldirma.Size = new System.Drawing.Size(32, 16);
             this.lblRafKaldirma.Tag = "";
@@ -169,7 +169,7 @@
             this.lblKabloSiparisi.BackColor = System.Drawing.Color.Green;
             this.lblKabloSiparisi.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblKabloSiparisi.ForeColor = System.Drawing.Color.White;
-            this.lblKabloSiparisi.Location = new System.Drawing.Point(164, 121);
+            this.lblKabloSiparisi.Location = new System.Drawing.Point(163, 190);
             this.lblKabloSiparisi.Name = "lblKabloSiparisi";
             this.lblKabloSiparisi.Size = new System.Drawing.Size(32, 16);
             this.lblKabloSiparisi.Tag = "";
@@ -180,7 +180,7 @@
             this.lblSevkiyat.BackColor = System.Drawing.Color.Sienna;
             this.lblSevkiyat.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblSevkiyat.ForeColor = System.Drawing.Color.White;
-            this.lblSevkiyat.Location = new System.Drawing.Point(164, 190);
+            this.lblSevkiyat.Location = new System.Drawing.Point(43, 190);
             this.lblSevkiyat.Name = "lblSevkiyat";
             this.lblSevkiyat.Size = new System.Drawing.Size(32, 16);
             this.lblSevkiyat.Tag = "";
@@ -191,7 +191,7 @@
             this.lblPaketleme.BackColor = System.Drawing.Color.Goldenrod;
             this.lblPaketleme.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblPaketleme.ForeColor = System.Drawing.Color.White;
-            this.lblPaketleme.Location = new System.Drawing.Point(43, 190);
+            this.lblPaketleme.Location = new System.Drawing.Point(163, 121);
             this.lblPaketleme.Name = "lblPaketleme";
             this.lblPaketleme.Size = new System.Drawing.Size(32, 16);
             this.lblPaketleme.Tag = "";
@@ -255,6 +255,7 @@
             this.Controls.Add(this.btnRafaKaldirma);
             this.Controls.Add(this.btnMalKabul);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "AnaForm";
             this.Text = "Ana Form";
             this.Activated += new System.EventHandler(this.AnaForm_Activated);

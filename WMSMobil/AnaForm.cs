@@ -49,7 +49,7 @@ namespace WMSMobil
             Button button = sender as Button;
             Ayarlar.MenuTipSet = button.Tag.ToInt32();
             GorevSecim frm = new GorevSecim();
-            frm.Show();
+            frm.ShowDialog();
         }
         /// <summary>
         /// dispose and exit
