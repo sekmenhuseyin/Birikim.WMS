@@ -19,7 +19,9 @@ namespace Wms12m.Business
         public Result Insert(Yer tbl, int IrsID, int KullID)
         {
             _Result = new Result();
+            //stok
             db.Yers.Add(tbl);
+            //log
             Yer_Log yerLog = new Yer_Log()
             {
                 KatID = tbl.KatID,
@@ -33,7 +35,9 @@ namespace Wms12m.Business
                 Kaydeden = KullID
             };
             db.Yer_Log.Add(yerLog);
+            //save
             db.SaveChanges();
+            //exit
             return _Result;
         }
         /// <summary>
@@ -42,8 +46,7 @@ namespace Wms12m.Business
         public Result Update(Yer tbl, int IrsID, int KullID, bool gc)
         {
             _Result = new Result();
-            var log = Detail(tbl.ID);
-            log.Miktar = tbl.Miktar;
+            //log
             Yer_Log yerLog = new Yer_Log()
             {
                 KatID = tbl.KatID,
@@ -57,7 +60,15 @@ namespace Wms12m.Business
                 Kaydeden = KullID
             };
             db.Yer_Log.Add(yerLog);
+            //stok
+            var log = Detail(tbl.ID);
+            if (gc == false)//false=girdi(+), true=çıktı(-)
+                log.Miktar += tbl.Miktar;
+            else
+                log.Miktar -= tbl.Miktar;
+            //save
             db.SaveChanges();
+            //exit
             return _Result;
         }
         /// <summary>
@@ -107,15 +118,17 @@ namespace Wms12m.Business
                 if (tbl != null)
                 {
                     db.Yers.Remove(tbl);
-                    Yer_Log logs = new Yer_Log();
-                    logs.KatID = tbl.KatID;
-                    logs.MalKodu = tbl.MalKodu;
-                    logs.Birim = tbl.Birim;
-                    logs.Miktar = tbl.Miktar;
-                    logs.GC = true;
-                    logs.Kaydeden = Users.AppIdentity.User.Id;
-                    logs.KayitTarihi = DateTime.Today.ToOADateInt();
-                    logs.KayitSaati = DateTime.Now.ToOaTime();
+                    Yer_Log logs = new Yer_Log()
+                    {
+                        KatID = tbl.KatID,
+                        MalKodu = tbl.MalKodu,
+                        Birim = tbl.Birim,
+                        Miktar = tbl.Miktar,
+                        GC = true,
+                        Kaydeden = Users.AppIdentity.User.Id,
+                        KayitTarihi = DateTime.Today.ToOADateInt(),
+                        KayitSaati = DateTime.Now.ToOaTime()
+                    };
                     db.Yer_Log.Add(logs);
                     db.SaveChanges();
                     _Result.Id = Id;

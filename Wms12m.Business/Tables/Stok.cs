@@ -34,6 +34,7 @@ namespace Wms12m.Business
                     tmp.MalKodu = tbl.MalKodu;
                     tmp.Birim = tbl.Birim;
                     tmp.Miktar = tbl.Miktar;
+                    if (tbl.YerlestirmeMiktari != null) tmp.YerlestirmeMiktari = tbl.YerlestirmeMiktari;
                 }
                 db.SaveChanges();
                 //result
@@ -55,7 +56,7 @@ namespace Wms12m.Business
         public Result Insert(frmMalzeme tbl)
         {
             _Result = new Result();
-            if (tbl.Miktar<=0)
+            if (tbl.Miktar <= 0)
             {
                 _Result.Message = "Miktar hatalı";
                 _Result.Status = false;
@@ -65,11 +66,13 @@ namespace Wms12m.Business
             {
                 try
                 {
-                    IRS_Detay tablo = new IRS_Detay();
-                    tablo.IrsaliyeID = tbl.IrsaliyeId;
-                    tablo.MalKodu = tbl.MalKodu;
-                    tablo.Birim = tbl.Birim;
-                    tablo.Miktar = tbl.Miktar;
+                    IRS_Detay tablo = new IRS_Detay()
+                    {
+                        IrsaliyeID = tbl.IrsaliyeId,
+                        MalKodu = tbl.MalKodu,
+                        Birim = tbl.Birim,
+                        Miktar = tbl.Miktar
+                    };
                     db.IRS_Detay.Add(tablo);
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";
@@ -142,7 +145,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<IRS_Detay> GetList(int ParentId)
         {
-            return db.IRS_Detay.Where(m => m.IrsaliyeID==ParentId).OrderByDescending(m=>m.ID).ToList();
+            return db.IRS_Detay.Where(m => m.IrsaliyeID == ParentId).OrderByDescending(m => m.ID).ToList();
         }
         /// <summary>
         /// dispose

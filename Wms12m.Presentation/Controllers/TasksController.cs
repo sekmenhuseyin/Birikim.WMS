@@ -59,8 +59,17 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(int ID)
         {
-            db.DeleteFromGorev(ID);
-            Result _Result = new Result() { Status = true, Id = ID };
+            Result _Result = new Result();
+            try
+            {
+                db.DeleteFromGorev(ID);
+                _Result.Status = true; _Result.Id = ID;
+            }
+            catch (Exception ex)
+            {
+                _Result.Status = false;
+                _Result.Message = ex.Message;
+            }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>

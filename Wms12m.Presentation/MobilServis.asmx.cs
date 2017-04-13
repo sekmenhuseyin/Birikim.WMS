@@ -128,7 +128,7 @@ namespace Wms12m
             else
             {
                 sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0) AS YerlestirmeMiktari, " +
-                                    "ISNULL((SELECT TOP (1) wms.Yer_Log.HucreAd FROM wms.Yer_Log WITH(NOLOCK) INNER JOIN wms.Kat WITH(NOLOCK) ON wms.Yer_Log.ID = wms.Kat.ID INNER JOIN wms.Bolum WITH(NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf WITH(NOLOCK) ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor WITH(NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID WHERE (wms.Yer_Log.MalKodu = wms.IRS_Detay.MalKodu) AND (wms.Yer_Log.IrsaliyeID = {1}) AND (wms.Koridor.DepoID = wms.IRS.DepoID)),'') AS Raf, " +
+                                    "ISNULL((SELECT TOP (1) wms.Yer_Log.HucreAd FROM wms.Yer_Log WITH(NOLOCK) INNER JOIN wms.Kat WITH(NOLOCK) ON wms.Yer_Log.KatID = wms.Kat.ID INNER JOIN wms.Bolum WITH(NOLOCK) ON wms.Kat.BolumID = wms.Bolum.ID INNER JOIN wms.Raf WITH(NOLOCK) ON wms.Bolum.RafID = wms.Raf.ID INNER JOIN wms.Koridor WITH(NOLOCK) ON wms.Raf.KoridorID = wms.Koridor.ID WHERE (wms.Yer_Log.MalKodu = wms.IRS_Detay.MalKodu) AND (wms.Yer_Log.IrsaliyeID = {1}) AND (wms.Koridor.DepoID = wms.IRS.DepoID)),'') AS Raf, " +
                                     "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi " +
                                     "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID " +
                                     "WHERE (IrsaliyeID = {1})", mGorev.IR.SirketKod, mGorev.IR.ID);
@@ -273,7 +273,7 @@ namespace Wms12m
                         }
                         else
                         {
-                            tmp2.Miktar += item.Miktar;
+                            tmp2.Miktar = item.Miktar;
                             stok.Update(tmp2, item.IrsID, kulID, false);
                         }
                     }
@@ -316,7 +316,7 @@ namespace Wms12m
                         var x = db.GorevYers.Where(m => m.YerID == tmp2.ID && m.GorevID == item.GorevID && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
                         if (tmp2.Miktar >= item.Miktar && item.Miktar <= (x.Miktar - (x.YerlestirmeMiktari ?? 0)))
                         {
-                            tmp2.Miktar -= item.Miktar;
+                            tmp2.Miktar = item.Miktar;
                             stok.Update(tmp2, item.IrsID, kulID, true);
                             //raftan indirdiğini kaydet
                             db.TerminalRaftanIndir(item.IrsID, kat, item.Miktar);
