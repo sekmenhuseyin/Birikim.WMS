@@ -484,7 +484,7 @@ namespace Wms12m
             string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
             string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.SaatiAl(), kulID, "", ComboItems.Transfer.ToInt32(), 0);
-            db.InsertIrsaliye(transfer.SirketKod, transfer.CikisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, mGorev.Bilgi, true, ComboItems.MalKabul.ToInt32(), kulID, kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
+            db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, mGorev.Bilgi, true, ComboItems.MalKabul.ToInt32(), kulID, kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
             return new Result(true);
         }
         /// <summary>

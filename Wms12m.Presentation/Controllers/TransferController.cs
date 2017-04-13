@@ -87,7 +87,7 @@ namespace Wms12m.Presentation.Controllers
             var varmi = false;
             foreach (var item in mallistesi)
             {
-                var sayi = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Miktar > 0 && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.GirisDepo).FirstOrDefault();
+                var sayi = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Miktar > 0 && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo).FirstOrDefault();
                 if (sayi != null) { varmi = true; break; }
             }
             if (varmi == false)
@@ -100,7 +100,7 @@ namespace Wms12m.Presentation.Controllers
             Task.DeleteSome();
             //yeni bir görev eklenir
             int today = fn.ToOADate(), time = fn.ToOATime();
-            int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.GirisDepo).Select(m => m.ID).FirstOrDefault();
+            int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.CikisDepo).Select(m => m.ID).FirstOrDefault();
             string GorevNo = db.SettingsGorevNo(today).FirstOrDefault();
             string evrakNo = db.SettingsIrsaliyeNo(today).FirstOrDefault();
             var cevap = db.InsertIrsaliye(tbl.SirketID, idDepo, GorevNo, evrakNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.Transfer.ToInt32(), vUser.Id, vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
@@ -112,7 +112,7 @@ namespace Wms12m.Presentation.Controllers
             foreach (var item in mallistesi)
             {
                 //stok kontrol
-                var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.GirisDepo && m.Miktar > 0).OrderBy(m => m.Miktar).ToList();
+                var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo && m.Miktar > 0).OrderBy(m => m.Miktar).ToList();
                 decimal toplam = 0, miktar = 0;
                 if (tmpYer != null)
                 {
@@ -138,7 +138,7 @@ namespace Wms12m.Presentation.Controllers
                         if (toplam == item.Miktar) break;
                     }
                     item.Miktar = toplam;
-                    item.TransferID = cevap.IrsaliyeID.Value;
+                    item.TransferID = sonuc.Id;
                     //hepsi eklenince detayı db'ye ekle
                     Transfers.AddDetay(item);
                     Stok.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim });
