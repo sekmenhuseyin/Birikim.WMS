@@ -103,7 +103,7 @@ namespace Wms12m.Presentation.Controllers
             int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.GirisDepo).Select(m => m.ID).FirstOrDefault();
             string GorevNo = db.SettingsGorevNo(today).FirstOrDefault();
             string evrakNo = db.SettingsIrsaliyeNo(today).FirstOrDefault();
-            var cevap = db.InsertIrsaliye(tbl.SirketID, idDepo, GorevNo, evrakNo, today, "", true, ComboItems.Transfer.ToInt32(), vUser.Id, vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
+            var cevap = db.InsertIrsaliye(tbl.SirketID, idDepo, GorevNo, evrakNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.Transfer.ToInt32(), vUser.Id, vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
             //yeni transfer eklenir
             var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
             if (sonuc.Status == false)

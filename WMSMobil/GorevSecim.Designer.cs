@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GorevSecim));
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnListele = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.cmbDurum = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -53,7 +52,6 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.Controls.Add(this.btnListele);
             this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.cmbDurum);
             this.panel2.Controls.Add(this.label1);
@@ -62,32 +60,20 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(240, 50);
             // 
-            // btnListele
-            // 
-            this.btnListele.BackColor = System.Drawing.Color.SkyBlue;
-            this.btnListele.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular);
-            this.btnListele.ForeColor = System.Drawing.Color.Black;
-            this.btnListele.Location = new System.Drawing.Point(186, 3);
-            this.btnListele.Name = "btnListele";
-            this.btnListele.Size = new System.Drawing.Size(52, 41);
-            this.btnListele.TabIndex = 5;
-            this.btnListele.Text = "Listele";
-            this.btnListele.Click += new System.EventHandler(this.btnListele_Click);
-            // 
             // label9
             // 
             this.label9.BackColor = System.Drawing.Color.CadetBlue;
             this.label9.ForeColor = System.Drawing.SystemColors.Window;
-            this.label9.Location = new System.Drawing.Point(92, 3);
+            this.label9.Location = new System.Drawing.Point(125, 3);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(90, 18);
+            this.label9.Size = new System.Drawing.Size(112, 18);
             this.label9.Text = "Durum";
             // 
             // cmbDurum
             // 
-            this.cmbDurum.Location = new System.Drawing.Point(92, 22);
+            this.cmbDurum.Location = new System.Drawing.Point(125, 22);
             this.cmbDurum.Name = "cmbDurum";
-            this.cmbDurum.Size = new System.Drawing.Size(90, 22);
+            this.cmbDurum.Size = new System.Drawing.Size(112, 22);
             this.cmbDurum.TabIndex = 1;
             this.cmbDurum.SelectedIndexChanged += new System.EventHandler(this.btnListele_Click);
             // 
@@ -97,14 +83,14 @@
             this.label1.ForeColor = System.Drawing.SystemColors.Window;
             this.label1.Location = new System.Drawing.Point(0, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 18);
+            this.label1.Size = new System.Drawing.Size(119, 18);
             this.label1.Text = "Görevli";
             // 
             // cmbGorevli
             // 
             this.cmbGorevli.Location = new System.Drawing.Point(0, 22);
             this.cmbGorevli.Name = "cmbGorevli";
-            this.cmbGorevli.Size = new System.Drawing.Size(90, 22);
+            this.cmbGorevli.Size = new System.Drawing.Size(119, 22);
             this.cmbGorevli.TabIndex = 1;
             this.cmbGorevli.SelectedIndexChanged += new System.EventHandler(this.btnListele_Click);
             // 
@@ -225,6 +211,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelOrta);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "GorevSecim";
             this.Text = "MalKabul";
             this.panel2.ResumeLayout(false);
@@ -237,7 +224,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button btnListele;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cmbDurum;
         private System.Windows.Forms.Label label1;

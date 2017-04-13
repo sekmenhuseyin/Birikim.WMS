@@ -94,6 +94,7 @@
             this.txtRafBarkod.Size = new System.Drawing.Size(92, 21);
             this.txtRafBarkod.TabIndex = 1;
             this.txtRafBarkod.Visible = false;
+            this.txtRafBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
             // txtBarkod
             // 
@@ -101,6 +102,7 @@
             this.txtBarkod.Name = "txtBarkod";
             this.txtBarkod.Size = new System.Drawing.Size(92, 21);
             this.txtBarkod.TabIndex = 0;
+            this.txtBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
             // label7
             // 

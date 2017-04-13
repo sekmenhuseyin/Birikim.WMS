@@ -245,6 +245,13 @@ namespace WMSMobil
                 itemSecili.BackColor = Color.DarkOrange;
         }
         /// <summary>
+        /// textbox focusta selectall yap
+        /// </summary>
+        private void txt_GotFocus(object sender, EventArgs e)
+        {
+            ((TextBox)sender).SelectAll();
+        }
+        /// <summary>
         /// bir tane okur, malın bulunduğu satırda omiktarı bir arttırır
         /// </summary>
         private void btnUygula_Click(object sender, EventArgs e)
