@@ -113,17 +113,31 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult New(frmIrsaliye tbl)
         {
-            bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih); if (kontrol1 == false) return null;
+            bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
+            if (kontrol1 == false)
+            {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
+                return null;
+            }
             int tarih = tmpTarih.ToOADateInt();
             var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID).FirstOrDefault();
             //var olanı göster
             if (kontrol2 != null)
             {
-                var list = Stok.GetList(kontrol2.ID);
-                ViewBag.IrsaliyeId = kontrol2.ID;
-                ViewBag.Onay = kontrol2.Onay;
-                ViewBag.SirketID = tbl.SirketID;
-                return PartialView("_GridPartial", list);
+                try
+                {
+                    var list = Stok.GetList(kontrol2.ID);
+                    ViewBag.IrsaliyeId = kontrol2.ID;
+                    ViewBag.Onay = kontrol2.Onay;
+                    ViewBag.SirketID = tbl.SirketID;
+                    return PartialView("_GridPartial", list);
+                }
+                catch (Exception ex)
+                {
+                    string inner = ex.InnerException != null ? ex.InnerException.Message : "";
+                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, inner, "Buy/New-varolan");
+                    return null;
+                }
             }
             //yeni kayıt
             string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
@@ -142,7 +156,8 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, "", "Buy/New");
+                string inner = ex.InnerException != null ? ex.InnerException.Message : "";
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, inner, "Buy/New-yeni");
                 return null;
             }
         }
