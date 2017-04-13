@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMSMobil", "WMSMobil\WMSMobil.csproj", "{B1C950EC-BD62-44B2-8AD1-17BC7637879F}"
 EndProject
+Project("{B900F1C2-3D47-4FEC-85B3-04AAF18C3634}") = "WMSMobilSetup", "WMSMobilSetup\WMSMobilSetup.vddproj", "{AE85869F-D6F5-450D-AD53-5242C3232F21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -11,8 +13,10 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B1C950EC-BD62-44B2-8AD1-17BC7637879F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B1C950EC-BD62-44B2-8AD1-17BC7637879F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1C950EC-BD62-44B2-8AD1-17BC7637879F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{B1C950EC-BD62-44B2-8AD1-17BC7637879F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE85869F-D6F5-450D-AD53-5242C3232F21}.Debug|Any CPU.ActiveCfg = Debug
+		{AE85869F-D6F5-450D-AD53-5242C3232F21}.Debug|Any CPU.Build.0 = Debug
+		{AE85869F-D6F5-450D-AD53-5242C3232F21}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
