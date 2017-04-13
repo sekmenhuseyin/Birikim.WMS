@@ -25,7 +25,7 @@ namespace Wms12m.Business
                 {
                     tbl.OlusturanID = Users.AppIdentity.User.Id;
                     tbl.OlusturmaTarihi = DateTime.Today.ToOADateInt();
-                    tbl.OlusturmaSaati = DateTime.Now.SaatiAl();
+                    tbl.OlusturmaSaati = DateTime.Now.ToOaTime();
                     tbl.DurumID = ComboItems.Açık.ToInt32();
                     db.Gorevs.Add(tbl);
                 }
@@ -62,7 +62,7 @@ namespace Wms12m.Business
                     DurumID = ComboItems.Açık.ToInt32(),
                     OlusturanID = Users.AppIdentity.User.Id,
                     OlusturmaTarihi = DateTime.Today.ToOADateInt(),
-                    OlusturmaSaati = DateTime.Now.SaatiAl(),
+                    OlusturmaSaati = DateTime.Now.ToOaTime(),
                     IrsaliyeID = tbl.IrsaliyeID,
                     Bilgi = "Irs: " + evrakno
                 };
@@ -97,7 +97,7 @@ namespace Wms12m.Business
                     if (tbl.DurumID == ComboItems.Tamamlanan.ToInt32())
                     {
                         tmp.BitisTarihi = DateTime.Today.ToOADateInt();
-                        tmp.BitisSaati = DateTime.Now.SaatiAl();
+                        tmp.BitisSaati = DateTime.Now.ToOaTime();
                     }
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";

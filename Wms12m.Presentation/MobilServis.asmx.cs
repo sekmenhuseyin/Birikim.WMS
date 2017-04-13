@@ -176,7 +176,7 @@ namespace Wms12m
             if (sonuc.Status == true)
             {
                 string gorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
-                db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.SaatiAl(), kulID, "", ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32());
+                db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kulID, "", ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32());
                 return new Result(true);
             }
             else
@@ -293,7 +293,7 @@ namespace Wms12m
             var list = mGorev.IR.IRS_Detay.Where(m => m.YerlestirmeMiktari != m.Miktar).FirstOrDefault();
             if (list.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
-            db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", DateTime.Today.ToOADateInt(), DateTime.Now.SaatiAl(), kulID, "", ComboItems.RafaKaldır.ToInt32(), 0);
+            db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kulID, "", ComboItems.RafaKaldır.ToInt32(), 0);
             return new Result(true);
         }
         /// <summary>
@@ -347,7 +347,7 @@ namespace Wms12m
                                         "WHERE (wms.GorevIRS.GorevID = {0}) " +
                                         "GROUP BY wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, wms.IRS.ValorGun, wms.IRS.EvrakNo", mGorev.ID);
             var list = db.Database.SqlQuery<STIMax>(sql).ToList();
-            int tarih = DateTime.Today.ToOADateInt(), saat = DateTime.Now.SaatiAl();
+            int tarih = DateTime.Today.ToOADateInt(), saat = DateTime.Now.ToOaTime();
             foreach (var item in list)
             {
                 string evrakserino = db.EvrakSeris.Where(m => m.SirketKodu == item.SirketKod && m.Tip == seritipi).Select(m => m.SeriNo).FirstOrDefault();
@@ -368,7 +368,7 @@ namespace Wms12m
             //evrak no getir
             var ftrKayit = new FaturaKayit(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, sirketKodu);
             string evrkno = ftrKayit.EvrakNo_Getir(EvrakSeriNo);
-            int saat = DateTime.Now.SaatiAl();
+            int saat = DateTime.Now.ToOaTime();
             //listeyi dön
             string sql = String.Format("SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo,KynkSiparisTarih, KynkSiparisSiraNo  FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
             var list = db.Database.SqlQuery<STIMax>(sql).ToList();
@@ -447,7 +447,7 @@ namespace Wms12m
                 return new Result(false, "İşlem bitmemiş !");
             int tarih = DateTime.Today.ToOADateInt();
             string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
-            db.TerminalFinishGorev(GorevID, IrsaliyeID, gorevNo, tarih, DateTime.Now.SaatiAl(), kulID, "", ComboItems.Paketle.ToInt32(), ComboItems.Sevkiyat.ToInt32());
+            db.TerminalFinishGorev(GorevID, IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), kulID, "", ComboItems.Paketle.ToInt32(), ComboItems.Sevkiyat.ToInt32());
             //change gorev details
             mIrsaliye.Onay = true;
             db.SaveChanges();
@@ -479,11 +479,11 @@ namespace Wms12m
                 return new Result(false, "İşlem bitmemiş !");
             //görev bitir
             int tarih = DateTime.Today.ToOADateInt();
-            int saat = DateTime.Now.SaatiAl();
+            int saat = DateTime.Now.ToOaTime();
             var transfer = mGorev.Transfers.FirstOrDefault();
             string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
             string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
-            db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.SaatiAl(), kulID, "", ComboItems.Transfer.ToInt32(), 0);
+            db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kulID, "", ComboItems.Transfer.ToInt32(), 0);
             db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, mGorev.Bilgi, true, ComboItems.MalKabul.ToInt32(), kulID, kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
             return new Result(true);
         }

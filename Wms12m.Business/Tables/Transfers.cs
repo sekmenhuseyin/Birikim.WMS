@@ -26,7 +26,7 @@ namespace Wms12m.Business
                     tbl.Onay = false;
                     tbl.OlusturanID = Users.AppIdentity.User.Id;
                     tbl.OlusturmaTarihi = DateTime.Today.ToOADateInt();
-                    tbl.OlusturmaSaati = DateTime.Now.SaatiAl();
+                    tbl.OlusturmaSaati = DateTime.Now.ToOaTime();
                     db.Transfers.Add(tbl);
                 }
                 else

@@ -374,11 +374,11 @@ namespace Wms12m
         /// <summary>
         /// DateTime tipindeki saat kısmını alıp int olarak saat değeri üretir.
         /// </summary>
-        public static int SaatiAl(this DateTime Deger)
+        public static int ToOaTime(this DateTime Deger)
         {
             return Deger.Hour * 60 * 60 + Deger.Minute * 60 + Deger.Second;
         }
-        public static string SaatiGetir(this int Deger)
+        public static string FromOaTime(this int Deger)
         {
             try
             {

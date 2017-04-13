@@ -55,16 +55,9 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// hareketler alt sayfa
         /// </summary>
-
         [HttpPost]
         public PartialViewResult Movements(string Id)
         {
-            //dbler tempe aktarılıyor
-            var tlist = db.GetSirketDBs();
-            List<string> liste = new List<string>();
-            foreach (var item in tlist) { liste.Add(item); }
-            ViewBag.Sirket = liste;
-            //return
             var list = db.Yer_Log.Where(m => m.MalKodu == Id).OrderBy(m => m.KayitTarihi).ToList();
             return PartialView("_Movements", list);
         }

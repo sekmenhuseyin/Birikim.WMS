@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Controllers
                 var gList = db.GetIrsDetayfromGorev(ID).ToList();
                 foreach (var item in gList)
                 {
-                    var tmp = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim).OrderBy(m=>m.Miktar).ToList();
+                    var tmp = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim).OrderBy(m => m.Miktar).ToList();
                     decimal toplam = 0, miktar = 0;
                     if (tmp != null)
                     {
@@ -113,7 +113,7 @@ namespace Wms12m.Presentation.Controllers
             yerlog.GC = false;
             yerlog.Kaydeden = vUser.Id;
             yerlog.KayitTarihi = DateTime.Today.ToOADateInt();
-            yerlog.KayitSaati = DateTime.Now.SaatiAl();
+            yerlog.KayitSaati = DateTime.Now.ToOaTime();
             db.Yer_Log.Add(yerlog);
             db.SaveChanges();
         }

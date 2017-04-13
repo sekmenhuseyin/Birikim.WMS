@@ -39,7 +39,7 @@ namespace Wms12m.Business
             {
                 tbl.Degistiren = Users.AppIdentity.User.LogonUserName;
                 tbl.DegisTarih = DateTime.Today.ToOADateInt();
-                tbl.DegisSaat = DateTime.Now.SaatiAl();
+                tbl.DegisSaat = DateTime.Now.ToOaTime();
                 tbl.DegisKaynak = 0;
                 tbl.DegisSurum = "1.0.0";
                 if (tbl.ID == 0)
@@ -48,7 +48,7 @@ namespace Wms12m.Business
                     tbl.Tema = tbl.Tema.ToString2();
                     tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
                     tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    tbl.KayitSaat = DateTime.Now.SaatiAl();
+                    tbl.KayitSaat = DateTime.Now.ToOaTime();
                     tbl.KayitKaynak = 0;
                     tbl.KayitSurum = "1.0.0";
                     db.Users.Add(tbl);
@@ -99,7 +99,7 @@ namespace Wms12m.Business
             {
                 P.Kod = P.Kod.Left(5).ToLower();
                 var tbl = db.Users.Where(a => a.Kod.ToLower() == P.Kod && a.Aktif == true).FirstOrDefault();
-                if(tbl!=null)
+                if (tbl != null)
                 {
                     if (P.Sifre == CryptographyExtension.Cozumle(tbl.Sifre))
                     {
@@ -139,7 +139,7 @@ namespace Wms12m.Business
                 tmp.Sifre = P.Sifre == null ? "" : P.Sifre;
                 tmp.Degistiren = Users.AppIdentity.User.LogonUserName;
                 tmp.DegisTarih = DateTime.Today.ToOADateInt();
-                tmp.DegisSaat = DateTime.Now.SaatiAl();
+                tmp.DegisSaat = DateTime.Now.ToOaTime();
                 db.SaveChanges();
                 //result
                 _Result.Id = P.ID;

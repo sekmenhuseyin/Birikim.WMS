@@ -29,7 +29,7 @@ namespace Wms12m.Business
                 GC = false,
                 IrsaliyeID = IrsID,
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
-                KayitSaati = DateTime.Now.SaatiAl(),
+                KayitSaati = DateTime.Now.ToOaTime(),
                 Kaydeden = KullID
             };
             db.Yer_Log.Add(yerLog);
@@ -53,7 +53,7 @@ namespace Wms12m.Business
                 GC = gc,
                 IrsaliyeID = IrsID,
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
-                KayitSaati = DateTime.Now.SaatiAl(),
+                KayitSaati = DateTime.Now.ToOaTime(),
                 Kaydeden = KullID
             };
             db.Yer_Log.Add(yerLog);
@@ -86,7 +86,7 @@ namespace Wms12m.Business
                 GC = true,
                 Kaydeden = KullID,
                 KayitTarihi = DateTime.Today.ToOADateInt(),
-                KayitSaati = DateTime.Now.SaatiAl()
+                KayitSaati = DateTime.Now.ToOaTime()
             };
             db.Yer_Log.Add(logs);
             db.SaveChanges();
@@ -115,7 +115,7 @@ namespace Wms12m.Business
                     logs.GC = true;
                     logs.Kaydeden = Users.AppIdentity.User.Id;
                     logs.KayitTarihi = DateTime.Today.ToOADateInt();
-                    logs.KayitSaati = DateTime.Now.SaatiAl();
+                    logs.KayitSaati = DateTime.Now.ToOaTime();
                     db.Yer_Log.Add(logs);
                     db.SaveChanges();
                     _Result.Id = Id;
@@ -153,7 +153,7 @@ namespace Wms12m.Business
                         GC = true,
                         Kaydeden = KullID,
                         KayitTarihi = DateTime.Today.ToOADateInt(),
-                        KayitSaati = DateTime.Now.SaatiAl()
+                        KayitSaati = DateTime.Now.ToOaTime()
                     };
                     db.Yer_Log.Add(logs);
                     db.SaveChanges();
@@ -207,7 +207,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<Yer> GetList()
         {
-            return db.Yers.OrderBy(m=>m.MalKodu).ToList();
+            return db.Yers.OrderBy(m => m.MalKodu).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
