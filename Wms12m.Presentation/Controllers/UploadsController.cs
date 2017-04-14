@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -52,11 +53,13 @@ namespace Wms12m.Presentation.Controllers
                 //add new
                 try
                 {
-                    IRS_Detay sti = new IRS_Detay();
-                    sti.IrsaliyeID = IrsNo;
-                    sti.MalKodu = malkodu;
-                    sti.Miktar = Convert.ToDecimal(dr["Miktar"]);
-                    sti.Birim = dr["Birim"].ToString();
+                    IRS_Detay sti = new IRS_Detay()
+                    {
+                        IrsaliyeID = IrsNo,
+                        MalKodu = malkodu,
+                        Miktar = Convert.ToDecimal(dr["Miktar"]),
+                        Birim = dr["Birim"].ToString()
+                    };
                     if (dr["Kaynak Sipariş No"].ToString() != "") sti.KynkSiparisNo = dr["Kaynak Sipariş No"].ToString();
                     if (dr["Kaynak Sipariş Sıra No"].ToString() != "") sti.KynkSiparisSiraNo = dr["Kaynak Sipariş Sıra No"].ToString().ToShort();
                     if (dr["Kaynak Sipariş Tarih"].ToString() != "") sti.KynkSiparisTarih = dr["Kaynak Sipariş Tarih"].ToString().ToInt32();
@@ -92,7 +95,8 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Olcu(HttpPostedFileBase file)
         {
-            if (file == null || file.ContentLength == 0) return Json(false, JsonRequestBehavior.AllowGet);
+            var _Result = new Result(false, "Hatalı Kayıt !");
+            if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku
             Stream stream = file.InputStream;
             IExcelDataReader reader;
@@ -102,61 +106,65 @@ namespace Wms12m.Presentation.Controllers
             else if (file.FileName.EndsWith(".xlsx"))
                 reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
             else
-                return Json(false, JsonRequestBehavior.AllowGet);
+                return Json(_Result, JsonRequestBehavior.AllowGet);
             //ilk satır başlık
             reader.IsFirstRowAsColumnNames = true;
             //exceldeki bilgileri datasete aktar
             DataSet result = reader.AsDataSet();
-            //kontorl
-            if (result.Tables.Count == 0) return Json(false, JsonRequestBehavior.AllowGet);
-            if (result.Tables[0].Rows == null) return Json(false, JsonRequestBehavior.AllowGet);
-            //sti listesi oluşturuyoruz. tüm bilgiyi tek seferde veritabanına kaydetçek
-            List<Olcu> liste = new List<Olcu>();
+            //kontrol
+            if (result.Tables.Count == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
+            if (result.Tables[0].Rows == null) return Json(_Result, JsonRequestBehavior.AllowGet);
+            //her satırı tek tek kaydet
+            int basarili = 0, hatali = 0; string hatalilar = "";
             for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
                 DataRow dr = result.Tables[0].Rows[i];
                 //kontrol
-                if (dr["Mal Kodu"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
-                if (dr["Birim"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
-                if (dr["En"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
-                if (dr["Boy"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
-                if (dr["Derinlik"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
-                if (dr["Ağırlık"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
-                //add new
                 try
                 {
-                    Olcu sti = new Olcu();
-                    sti.MalKodu = dr["Mal Kodu"].ToString();
-                    sti.Birim = dr["Birim"].ToString();
-                    sti.En = dr["En"].ToDecimal();
-                    sti.Boy = dr["Boy"].ToDecimal();
-                    sti.Derinlik = dr["Derinlik"].ToDecimal();
-                    sti.Agirlik = dr["Ağırlık"].ToDecimal();
-                    //ekle
-                    liste.Add(sti);
+                    if (dr["Mal Kodu"].ToString() != "" && dr["Birim"].ToString() != "" && dr["En"].ToString2().IsNumeric() != false && dr["Boy"].ToString2().IsNumeric() != false && dr["Derinlik"].ToString2().IsNumeric() != false && dr["Ağırlık"].ToString2().IsNumeric() != false)
+                    {
+                        //add new
+                        Olcu sti = new Olcu()
+                        {
+                            MalKodu = dr["Mal Kodu"].ToString(),
+                            Birim = dr["Birim"].ToString(),
+                            En = dr["En"].ToDecimal(),
+                            Boy = dr["Boy"].ToDecimal(),
+                            Derinlik = dr["Derinlik"].ToDecimal(),
+                            Agirlik = dr["Ağırlık"].ToDecimal()
+                        };
+                        //ekle
+                        db.Olcus.Add(sti);
+                        db.SaveChanges();
+                        basarili++;
+                    }
+                    else
+                    {
+                        hatali++;
+                        if (hatalilar != "") hatalilar += ", ";
+                        hatalilar += i;
+                    }
                 }
                 catch (Exception)
                 {
-                    return Json(false, JsonRequestBehavior.AllowGet);
-                }
-            }
-            //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
-            using (var dbContextTransaction = db.Database.BeginTransaction())
-            {
-                try
-                {
-                    db.Olcus.AddRange(liste);
-                    db.SaveChanges();
-                    dbContextTransaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Uploads/Olcu");
-                    return Json(false, JsonRequestBehavior.AllowGet);
+                    hatali++;
+                    if (hatalilar != "") hatalilar += ", ";
+                    hatalilar += i;
                 }
             }
             reader.Close();
-            return Json(true, JsonRequestBehavior.AllowGet);
+            if (basarili > 0)
+                _Result.Message = basarili + " kart eklendi";
+            else
+                _Result.Message = "";
+            if(basarili>0 && hatali>0)
+                _Result.Message += ", ";
+            if (hatali > 0)
+                _Result.Message += hatali + " kart hata verdi. Hatalı satırlar: \n" + hatalilar;
+            else
+                _Result.Status = true;
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }

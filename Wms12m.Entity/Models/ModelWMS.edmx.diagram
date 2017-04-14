@@ -61,7 +61,6 @@
         <EntityTypeShape EntityType="MModel.Yer_Log" Width="1.5" PointX="1" PointY="13.25" />
         <AssociationConnector Association="MModel.FK_Yer_Log_UsersKaydeden" />
         <AssociationConnector Association="MModel.FK_Yer_Log_IRS" />
-        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="5.75" PointY="19.375" />
         <EntityTypeShape EntityType="MModel.EvrakSeri" Width="1.5" PointX="23.5" PointY="13" />
         <AssociationConnector Association="MModel.FK_EvrakSeri_ComboItem_Name" />
         <EntityTypeShape EntityType="MModel.Transfer_Detay" Width="1.5" PointX="7.375" PointY="9.875" />
@@ -74,6 +73,8 @@
         <AssociationConnector Association="MModel.FK_Transfer_Gorev" />
         <AssociationConnector Association="MModel.FK_Transfer_Detay_Transfer" />
         <AssociationConnector Association="MModel.FK_Yer_Log_Kat" />
+        <EntityTypeShape EntityType="MModel.Ayarlar" Width="1.5" PointX="3.375" PointY="20.5" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="5.375" PointY="20.5" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

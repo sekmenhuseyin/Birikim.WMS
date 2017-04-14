@@ -45,10 +45,11 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
         public virtual DbSet<IR> IRS { get; set; }
         public virtual DbSet<Yer_Log> Yer_Log { get; set; }
-        public virtual DbSet<Olcu> Olcus { get; set; }
         public virtual DbSet<EvrakSeri> EvrakSeris { get; set; }
         public virtual DbSet<Transfer_Detay> Transfer_Detay { get; set; }
         public virtual DbSet<Transfer> Transfers { get; set; }
+        public virtual DbSet<Ayarlar> Ayarlars { get; set; }
+        public virtual DbSet<Olcu> Olcus { get; set; }
     
         public virtual ObjectResult<GetSirkets_Result> GetSirkets()
         {

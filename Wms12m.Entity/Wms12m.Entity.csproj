@@ -54,6 +54,9 @@
   <ItemGroup>
     <Compile Include="BaseConfigurationSection.cs" />
     <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Models\Ayarlar.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Bolum.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

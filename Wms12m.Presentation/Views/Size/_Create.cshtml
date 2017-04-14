@@ -68,7 +68,7 @@
             <div class="col-lg-6">
                 <div class="modal-body">
                     <h4>Toplu Boyut Girişi</h4>
-                    @using (Html.BeginForm("Olcu", "Uploads", FormMethod.Post, new { enctype = "multipart/form-data", id = "fileupload" }))
+                    @using (Ajax.BeginForm("Olcu", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="form-group">
@@ -92,7 +92,20 @@
             acceptFileTypes: /(\.|\/)(xlsx)$/i,
             dataType: 'json',
             add: function (e, data) { data.submit(); },
-            done: function (e, data) { $('#modalEditPage').modal('toggle'); window.location.reload(); }
+            done: function (e, data) {
+                if (data.result.Status == false)
+                    Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
+                else
+                    $('#modalEditPage').modal('toggle');
+                //listeyi yenile
+                $.ajax({
+                    url: "/Size/List",
+                    type: 'POST',
+                    dataType: "html",
+                    success: function (data) { if (data != "") $("#liste").html(data); },
+                    error: function (data) { Modaldialog("Lütfen Sayfayı Yenileyin", "Hata", "Tamam", "btn-default"); }
+                });
+            }
         });
     });
 </script>
