@@ -27,14 +27,17 @@ namespace Wms12m.Business
                 return _Result;
             }
             bool kontrol = true;
-            string Sirket = db.GetSirketDBs().FirstOrDefault();
-            string sql = String.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}') AND ((Birim1 = '{2}') OR (Birim2 = '{2}') OR (Birim3 = '{2}') OR (Birim4 = '{2}'))", Sirket, tbl.MalKodu, tbl.Birim);
-            var tmp = db.Database.SqlQuery<string>(sql);
-            if (tmp.ToString2() == "")
-                kontrol = false;
             var tmp2 = db.Olcus.Where(m => m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.ID != tbl.ID).FirstOrDefault();
             if (tmp2 != null)
                 kontrol = false;
+            else
+            {
+                string Sirket = db.GetSirketDBs().FirstOrDefault();
+                string sql = String.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}') AND ((Birim1 = '{2}') OR (Birim2 = '{2}') OR (Birim3 = '{2}') OR (Birim4 = '{2}'))", Sirket, tbl.MalKodu, tbl.Birim);
+                var tmp = db.Database.SqlQuery<string>(sql);
+                if (tmp.ToString2() == "")
+                    kontrol = false;
+            }
             if (kontrol == false)
             {
                 _Result.Id = 0;

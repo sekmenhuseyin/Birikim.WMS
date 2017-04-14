@@ -69,5 +69,26 @@
 <script>
     $(document).ready(function () { $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });
     var DeleteFunctionUrl = '@Url.Action("Delete", "Size")';
+    function ClearPoints() {
+        $("#Boy").val($("#Boy").val().replace(".", ","));
+        $("#En").val($("#En").val().replace(".", ","));
+        $("#Derinlik").val($("#Derinlik").val().replace(".", ","));
+        $("#Agirlik").val($("#Agirlik").val().replace(".", ","));
+    }
+    function getresult(data) {
+        if (data.Status == false)
+            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        else
+        {
+            $('#modalEditPage').modal('toggle');
+            $.ajax({
+                url: "/Size/List",
+                type: 'POST',
+                dataType: "html",
+                success: function (data) { if (data != "") $("#liste").html(data); },
+                error: function (data) { Modaldialog("Lütfen Sayfayı Yenileyin", "Hata", "Tamam", "btn-default"); }
+            });
+        }
+    };
 </script>
 }

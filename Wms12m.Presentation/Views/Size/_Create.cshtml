@@ -6,7 +6,7 @@
             <div class="col-lg-6">
                 <div class="modal-body">@*Project Details Go Here*@
                     <h4>Yeni Boyut Girişi</h4>
-                    @using (Ajax.BeginForm("Save", "Size", new AjaxOptions { UpdateTargetId = "liste" }, htmlAttributes: new { @class = "form", id = "frmNewSize", role = "form" }))
+                    @using (Ajax.BeginForm("Save", "Size", new AjaxOptions { OnSuccess = "getresult", HttpMethod = "post" }, htmlAttributes: new { @class = "form", id = "frmNewSize", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="form-horizontal">
@@ -28,7 +28,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.En, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
-                                    @Html.EditorFor(model => model.En, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.EditorFor(model => model.En, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @onBlur = "ClearPoints()" } })
                                     @Html.ValidationMessageFor(model => model.En, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1">mm</div>
@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Boy, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
-                                    @Html.EditorFor(model => model.Boy, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.EditorFor(model => model.Boy, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @onBlur = "ClearPoints()" } })
                                     @Html.ValidationMessageFor(model => model.Boy, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1">mm</div>
@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Derinlik, "Derinlik", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
-                                    @Html.EditorFor(model => model.Derinlik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.EditorFor(model => model.Derinlik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @onBlur = "ClearPoints()" } })
                                     @Html.ValidationMessageFor(model => model.Derinlik, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1">mm</div>
@@ -52,17 +52,18 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Agirlik, "Ağırlık", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
-                                    @Html.EditorFor(model => model.Agirlik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.EditorFor(model => model.Agirlik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @onBlur = "ClearPoints()" } })
                                     @Html.ValidationMessageFor(model => model.Agirlik, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1">kg</div>
                             </div>
-                            <div class="form-group"><input type="submit" class="hide" value="Ekle" /></div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                                <input type="submit" class="btn btn-primary pull-right" value="Ekle" />
+                            </div>
                         </div>
                     }
                 </div>
-                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
-                <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" id="submitter" onclick="$('#frmNewSize').submit()">Ekle</button>
             </div>
             <div class="col-lg-6">
                 <div class="modal-body">

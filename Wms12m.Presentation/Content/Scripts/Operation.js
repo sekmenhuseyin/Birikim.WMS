@@ -23,7 +23,7 @@ function PartialView(Url, Div, Id) {
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             if (data == "") {
-                alert("Hata Oluştu !!!");
+                Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
             } else {
                 $('#' + Div).html("");
                 $('#' + Div).html(data);

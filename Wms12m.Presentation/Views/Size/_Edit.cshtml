@@ -15,21 +15,21 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.MalKodu, "Mal Kodu", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.MalKodu, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.EditorFor(model => model.MalKodu, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", disabled = "disabled" } })
                                     @Html.ValidationMessageFor(model => model.MalKodu, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Birim, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Birim, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.EditorFor(model => model.Birim, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", disabled = "disabled" } })
                                     @Html.ValidationMessageFor(model => model.Birim, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.En, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
-                                    @Html.EditorFor(model => model.En, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.EditorFor(model => model.En, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @onBlur = "ClearPoints()" } })
                                     @Html.ValidationMessageFor(model => model.En, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1">mm</div>
@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Boy, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
-                                    @Html.EditorFor(model => model.Boy, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.EditorFor(model => model.Boy, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @onBlur = "ClearPoints()" } })
                                     @Html.ValidationMessageFor(model => model.Boy, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1">mm</div>
@@ -45,7 +45,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Derinlik, "Derinlik", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
-                                    @Html.EditorFor(model => model.Derinlik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.EditorFor(model => model.Derinlik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @onBlur = "ClearPoints()" } })
                                     @Html.ValidationMessageFor(model => model.Derinlik, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1">mm</div>
@@ -53,7 +53,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Agirlik, "Ağırlık", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
-                                    @Html.EditorFor(model => model.Agirlik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
+                                    @Html.EditorFor(model => model.Agirlik, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @onBlur = "ClearPoints()" } })
                                     @Html.ValidationMessageFor(model => model.Agirlik, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-md-1">kg</div>

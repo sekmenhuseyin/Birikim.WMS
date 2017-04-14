@@ -55,15 +55,11 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// yeni boyut kartı
         /// </summary>
-        public PartialViewResult Save(Olcu tbl)
+        [HttpPost]
+        public JsonResult Save(Olcu tbl)
         {
             Result _Result = Dimension.Operation(tbl);
-            //dbler tempe aktarılıyor
-            var list = db.GetSirketDBs();
-            List<string> liste = new List<string>();
-            foreach (var item in list) { liste.Add(item); }
-            ViewBag.Sirket = liste;
-            return PartialView("_List", Dimension.GetList());
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// silme

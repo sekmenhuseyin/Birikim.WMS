@@ -8,7 +8,7 @@
             if (malkod.Contains(item.MalKodu) == false)
             {
                 tmp = item.MalKodu.GetMalAdi(Sirket[0]);
-                if (tmp == null) { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
+                if (tmp == null || tmp == "") { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
                 malkod.Add(item.MalKodu);
                 malad.Add(tmp);
             }
