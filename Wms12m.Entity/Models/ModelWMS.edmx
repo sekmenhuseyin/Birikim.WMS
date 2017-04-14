@@ -894,6 +894,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Yer_Log_Kat">
+          <End Role="Kat" Type="Self.Kat" Multiplicity="1" />
+          <End Role="Yer_Log" Type="Self.Yer_Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Yer_Log">
+              <PropertyRef Name="KatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Yer_Log_UsersKaydeden">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Yer_Log" Type="Self.Yer_Log" Multiplicity="*" />
@@ -1218,6 +1230,10 @@
             <End Role="IRS" EntitySet="IRS" />
             <End Role="Yer_Log" EntitySet="Yer_Log" />
           </AssociationSet>
+          <AssociationSet Name="FK_Yer_Log_Kat" Association="Self.FK_Yer_Log_Kat">
+            <End Role="Kat" EntitySet="Kat" />
+            <End Role="Yer_Log" EntitySet="Yer_Log" />
+          </AssociationSet>
           <AssociationSet Name="FK_Yer_Log_UsersKaydeden" Association="Self.FK_Yer_Log_UsersKaydeden">
             <End Role="Users" EntitySet="Users" />
             <End Role="Yer_Log" EntitySet="Yer_Log" />
@@ -1524,6 +1540,10 @@
             <End Role="Transfer_Detay" EntitySet="Transfer_Detay" />
           </AssociationSet>
           <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)" />
+          <AssociationSet Name="FK_Yer_Log_Kat" Association="MModel.FK_Yer_Log_Kat">
+            <End Role="Kat" EntitySet="Kats" />
+            <End Role="Yer_Log" EntitySet="Yer_Log" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1652,6 +1672,7 @@
           <NavigationProperty Name="Yers" Relationship="MModel.FK_Yerlestirme_TK_KAT" FromRole="Kat" ToRole="Yer" />
           <NavigationProperty Name="User" Relationship="MModel.FK_Kat_UsersDegistiren" FromRole="Kat" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="MModel.FK_Kat_UsersKaydeden" FromRole="Kat" ToRole="User" />
+          <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_Kat" FromRole="Kat" ToRole="Yer_Log" />
           </EntityType>
         <EntityType Name="Koridor">
           <Key>
@@ -2288,6 +2309,7 @@
           <Property Name="IrsaliyeID" Type="Int32" />
           <NavigationProperty Name="User" Relationship="MModel.FK_Yer_Log_UsersKaydeden" FromRole="Yer_Log" ToRole="User" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_Yer_Log_IRS" FromRole="Yer_Log" ToRole="IR" />
+          <NavigationProperty Name="Kat" Relationship="MModel.FK_Yer_Log_Kat" FromRole="Yer_Log" ToRole="Kat" />
         </EntityType>
         <Association Name="FK_Yer_Log_UsersKaydeden">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -2480,6 +2502,18 @@
           <Property Type="Int32" Name="irs" Nullable="true" />
           <Property Type="Int32" Name="transfer" Nullable="true" />
         </ComplexType>
+        <Association Name="FK_Yer_Log_Kat">
+          <End Type="MModel.Kat" Role="Kat" Multiplicity="1" />
+          <End Type="MModel.Yer_Log" Role="Yer_Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Yer_Log">
+              <PropertyRef Name="KatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

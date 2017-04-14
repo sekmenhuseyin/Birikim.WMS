@@ -28,5 +28,6 @@ namespace Wms12m.Entity.Models
     
         public virtual User User { get; set; }
         public virtual IR IR { get; set; }
+        public virtual Kat Kat { get; set; }
     }
 }

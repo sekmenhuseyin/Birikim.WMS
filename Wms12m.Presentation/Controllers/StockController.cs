@@ -51,6 +51,7 @@ namespace Wms12m.Presentation.Controllers
         {
             var list = db.Yer_Log.GroupBy(m => m.MalKodu).Select(m => new frmMalKoduMiktar { MalKodu = m.Key, Birim = "", Miktar = 0 }).ToList();
             ViewBag.MalKodu = new SelectList(list, "MalKodu", "MalKodu");
+            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("History");
         }
         /// <summary>
@@ -59,7 +60,11 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult Movements(string Id)
         {
-            var list = db.Yer_Log.Where(m => m.MalKodu == Id).OrderBy(m => m.KayitTarihi).ToList();
+            if (Id.Contains("#") == false) return null;
+            var ids = Id.Split('#');
+            var depoID = ids[1].ToInt32();
+            string kod = ids[0];
+            var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.Kat.Bolum.Raf.Koridor.DepoID == depoID).OrderBy(m => m.KayitTarihi).ToList();
             return PartialView("_Movements", list);
         }
     }

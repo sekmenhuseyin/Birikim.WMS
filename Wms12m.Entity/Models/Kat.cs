@@ -18,6 +18,7 @@ namespace Wms12m.Entity.Models
         public Kat()
         {
             this.Yers = new HashSet<Yer>();
+            this.Yer_Log = new HashSet<Yer_Log>();
         }
     
         public int ID { get; set; }
@@ -42,5 +43,7 @@ namespace Wms12m.Entity.Models
         public virtual ICollection<Yer> Yers { get; set; }
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Yer_Log> Yer_Log { get; set; }
     }
 }
