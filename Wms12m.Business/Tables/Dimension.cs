@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
+using Wms12m.Security;
 
 namespace Wms12m.Business
 {
@@ -10,6 +12,7 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
+        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle-kaydet
         /// </summary>
@@ -63,6 +66,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Dimension/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -94,7 +98,8 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Dimension/Delete");
+                _Result.Message = ex.Message;
                 _Result.Status = false;
             }
             return _Result;
@@ -108,8 +113,9 @@ namespace Wms12m.Business
             {
                 return db.Olcus.Where(m => m.ID == Id).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Dimension/Detail");
                 return new Olcu();
             }
         }

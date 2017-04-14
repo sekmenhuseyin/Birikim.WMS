@@ -334,7 +334,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, "", "Sell/GetSiparis");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Sell/GetSiparis");
                 return null;
             }
         }

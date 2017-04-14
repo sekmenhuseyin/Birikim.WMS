@@ -67,6 +67,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Tasks/Delete");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }

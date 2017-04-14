@@ -62,6 +62,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Store/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -93,7 +94,8 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Store/Delete");
+                _Result.Message = ex.Message;
                 _Result.Status = false;
             }
             return _Result;
@@ -107,8 +109,9 @@ namespace Wms12m.Business
             {
                 return db.Depoes.Where(m => m.ID == Id).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Store/Detail");
                 return new Depo();
             }
         }
@@ -118,8 +121,9 @@ namespace Wms12m.Business
             {
                 return db.Depoes.Where(m => m.DepoKodu == Kod).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Store/Detail");
                 return new Depo();
             }
         }
@@ -128,7 +132,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<Depo> GetList()
         {
-            return db.Depoes.OrderBy(m=>m.DepoAd).ToList();
+            return db.Depoes.OrderBy(m => m.DepoAd).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir

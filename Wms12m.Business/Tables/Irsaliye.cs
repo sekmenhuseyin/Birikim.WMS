@@ -35,6 +35,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Irsaliye/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -50,8 +51,9 @@ namespace Wms12m.Business
             {
                 return db.IRS.Where(m => m.ID == Id).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Irsaliye/Detail");
                 return new IR();
             }
         }
@@ -101,6 +103,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Irsaliye/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }

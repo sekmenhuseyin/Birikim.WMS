@@ -19,7 +19,7 @@ namespace Wms12m.Business
         public override Result Operation(Koridor tbl)
         {
             _Result = new Result();
-            if (tbl.KoridorAd == "" || tbl.DepoID==0)
+            if (tbl.KoridorAd == "" || tbl.DepoID == 0)
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
@@ -62,6 +62,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Corridor/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -93,7 +94,8 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Corridor/Delete");
+                _Result.Message = ex.Message;
                 _Result.Status = false;
             }
             return _Result;
@@ -107,8 +109,9 @@ namespace Wms12m.Business
             {
                 return db.Koridors.Where(m => m.ID == Id).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Corridor/DEtail");
                 return new Koridor();
             }
         }

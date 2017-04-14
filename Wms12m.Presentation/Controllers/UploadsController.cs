@@ -81,7 +81,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception ex)
                 {
-                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Uploads/irsaliye");
+                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Uploads/irsaliye");
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -151,7 +151,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception ex)
                 {
-                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException.Message, "Uploads/Olcu");
+                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Uploads/Olcu");
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }

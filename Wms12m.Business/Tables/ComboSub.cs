@@ -47,6 +47,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "ComboSub/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -78,7 +79,8 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "ComboSub/Delete");
+                _Result.Message = ex.Message;
                 _Result.Status = false;
             }
             return _Result;
@@ -92,8 +94,9 @@ namespace Wms12m.Business
             {
                 return db.ComboItem_Name.Where(m => m.ID == Id).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "ComboSub/Detail");
                 return new ComboItem_Name();
             }
         }
@@ -102,7 +105,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<ComboItem_Name> GetList()
         {
-            return db.ComboItem_Name.OrderBy(m=>m.Name).ToList();
+            return db.ComboItem_Name.OrderBy(m => m.Name).ToList();
         }
         public List<ComboItem_Name> GetList(bool visible)
         {

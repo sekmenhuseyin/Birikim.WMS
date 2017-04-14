@@ -38,8 +38,9 @@ namespace Wms12m.Presentation.Controllers
                 else// if (ids[0] != "0") //tüm depoya ait malzemeler: burada timeout verebilir
                     return PartialView("List", Yerlestirme.GetListFromDepo(ids[0].ToInt32()));
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Stock/List");
                 return PartialView("_List", new List<Yer>());
             }
         }

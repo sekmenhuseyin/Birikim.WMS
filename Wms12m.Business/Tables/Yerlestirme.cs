@@ -143,7 +143,8 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Yerlestirme/Delete");
+                _Result.Message = ex.Message;
                 _Result.Status = false;
             }
             return _Result;
@@ -182,7 +183,8 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Yerlestirme/Delete");
+                _Result.Message = ex.Message;
                 _Result.Status = false;
             }
             return _Result;
@@ -196,8 +198,9 @@ namespace Wms12m.Business
             {
                 return db.Yers.Where(m => m.ID == Id).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Yerlestirme/Detail");
                 return new Yer();
             }
         }

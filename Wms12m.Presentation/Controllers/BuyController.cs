@@ -47,7 +47,6 @@ namespace Wms12m.Presentation.Controllers
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                         "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Chk = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar > 0)", tmp[0], depo, tmp[2]);
             var list = db.Database.SqlQuery<frmSiparistenGelen>(sql).ToList();
-
             return PartialView("SiparisList", list);
         }
         /// <summary>
@@ -85,8 +84,9 @@ namespace Wms12m.Presentation.Controllers
                         };
                         Result _Result = Stok.Operation(sti);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/FromSiparis");
                     }
                 }
             }
@@ -134,8 +134,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception ex)
                 {
-                    string inner = ex.InnerException != null ? ex.InnerException.Message : "";
-                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, inner, "Buy/New-varolan");
+                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/New-varolan");
                     return null;
                 }
             }
@@ -156,8 +155,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                string inner = ex.InnerException != null ? ex.InnerException.Message : "";
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, inner, "Buy/New-yeni");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/New-yeni");
                 return null;
             }
         }
@@ -211,8 +209,9 @@ namespace Wms12m.Presentation.Controllers
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/getMalzemebyCode");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -226,8 +225,9 @@ namespace Wms12m.Presentation.Controllers
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/getMalzemebyName");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -243,8 +243,9 @@ namespace Wms12m.Presentation.Controllers
                 var list = db.Database.SqlQuery<frmBirims>(sql).ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/getBirim");
                 return Json(new List<frmBirims>(), JsonRequestBehavior.AllowGet);
             }
 

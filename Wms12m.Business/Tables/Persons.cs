@@ -80,6 +80,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Persons/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -91,10 +92,12 @@ namespace Wms12m.Business
         /// </summary>
         public Result Login(User P)
         {
-            _Result = new Result();
-            _Result.Status = false;
-            _Result.Message = "İşlem Hata !!!";
-            _Result.Id = 0;
+            _Result = new Result()
+            {
+                Status = false,
+                Message = "İşlem Hata !!!",
+                Id = 0
+            };
             try
             {
                 P.Kod = P.Kod.Left(5).ToLower();
@@ -112,6 +115,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Persons/Login");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
             return _Result;
@@ -128,15 +132,17 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
-            _Result = new Result();
-            _Result.Status = false;
-            _Result.Message = "İşlem Hata !!!";
-            _Result.Id = 0;
+            _Result = new Result()
+            {
+                Status = false,
+                Message = "İşlem Hata !!!",
+                Id = 0
+            };
             P.Sifre = CryptographyExtension.Sifrele(P.Sifre);
             try
             {
                 var tmp = Detail(P.ID);
-                tmp.Sifre = P.Sifre == null ? "" : P.Sifre;
+                tmp.Sifre = P.Sifre ?? "";
                 tmp.Degistiren = Users.AppIdentity.User.LogonUserName;
                 tmp.DegisTarih = DateTime.Today.ToOADateInt();
                 tmp.DegisSaat = DateTime.Now.ToOaTime();
@@ -148,6 +154,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Persons/ChangePass");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
             return _Result;
@@ -161,8 +168,9 @@ namespace Wms12m.Business
             {
                 return db.Users.Where(m => m.ID == Id).FirstOrDefault();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Persons/Detail");
                 return new User();
             }
         }
@@ -209,7 +217,8 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                _Result.Message = ex.Message + ": " + ex.InnerException.Message;
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Persons/Delete");
+                _Result.Message = ex.Message;
                 _Result.Status = false;
             }
             return _Result;
