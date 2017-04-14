@@ -1,12 +1,21 @@
 ﻿@model IEnumerable<Yer>
-@{ List<string> Sirket = ViewBag.Sirket; }
+@{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); }
 <table class="table table-striped table-bordered" id="sample_1">
     <thead><tr><th>Yer</th><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th class="text-right">Miktar</th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
-            string tmp = item.MalKodu.GetMalAdi(Sirket[0]);
-            if (tmp == null) { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
+            if (malkod.Contains(item.MalKodu) == false)
+            {
+                tmp = item.MalKodu.GetMalAdi(Sirket[0]);
+                if (tmp == null) { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
+                malkod.Add(item.MalKodu);
+                malad.Add(tmp);
+            }
+            else
+            {
+                tmp = malad[malkod.IndexOf(item.MalKodu)];
+            }
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.HucreAd)</td>
                 <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>

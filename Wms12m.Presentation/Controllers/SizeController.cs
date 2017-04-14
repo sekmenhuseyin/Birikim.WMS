@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Wms12m.Business;
 using Wms12m.Entity;
@@ -14,7 +14,11 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            ViewBag.Sirket = db.GetSirketDBs().FirstOrDefault();
+            //dbler tempe aktarılıyor
+            var list = db.GetSirketDBs();
+            List<string> liste = new List<string>();
+            foreach (var item in list) { liste.Add(item); }
+            ViewBag.Sirket = liste;
             return View("Index", Dimension.GetList());
         }
         /// <summary>
@@ -22,7 +26,11 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List()
         {
-            ViewBag.Sirket = db.GetSirketDBs().FirstOrDefault();
+            //dbler tempe aktarılıyor
+            var list = db.GetSirketDBs();
+            List<string> liste = new List<string>();
+            foreach (var item in list) { liste.Add(item); }
+            ViewBag.Sirket = liste;
             return PartialView("_List", Dimension.GetList());
         }
         /// <summary>
@@ -30,7 +38,6 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Create()
         {
-            ViewBag.SirketKod = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_Create", new Olcu());
         }
         /// <summary>
@@ -51,8 +58,12 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Save(Olcu tbl)
         {
             Result _Result = Dimension.Operation(tbl);
-            var list = Dimension.GetList();
-            return PartialView("_List", list);
+            //dbler tempe aktarılıyor
+            var list = db.GetSirketDBs();
+            List<string> liste = new List<string>();
+            foreach (var item in list) { liste.Add(item); }
+            ViewBag.Sirket = liste;
+            return PartialView("_List", Dimension.GetList());
         }
         /// <summary>
         /// silme
