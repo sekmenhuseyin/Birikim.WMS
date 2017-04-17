@@ -333,6 +333,12 @@ namespace WMSMobil
         {            
             string mal = txtBarkod.Text;
             string raf = txtRafBarkod.Text;
+            //if (mal=="")
+            //{
+            //    Mesaj.Hata("Malkodu okutun");
+            //    txtBarkod.Focus();
+            //    return;
+            //}
             bool mal_var = false;
             bool raf_var = false;
             Tip_STI temp_sti = new Tip_STI();
@@ -551,6 +557,7 @@ namespace WMSMobil
         {
             try
             {
+                Servis.Dispose();
                 Barkod.EnableScanner = false;
                 Barkod.Dispose();
             }
