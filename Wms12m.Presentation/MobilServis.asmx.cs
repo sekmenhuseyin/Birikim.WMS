@@ -207,9 +207,12 @@ namespace Wms12m
             DevHelper.Ayarlar.SirketKodu = sirketKodu;
             string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
             List<STIBase> STIBaseList = new List<STIBase>();
-            string sql = String.Format("SELECT IRS.EvrakNo, IRSD.IrsaliyeID, IRSD.MalKodu, (SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK(NOLOCK) WHERE MalKodu=IRSD.MalKodu) as MalAdi, IRSD.Miktar, IRSD.Birim, ISNULL(IRSD.OkutulanMiktar, 0) AS OkutulanMiktar, D.DepoKodu, IRS.HesapKodu, IRS.Tarih, ISNULL(IRSD.KynkSiparisNo, '') AS SiparisNo,  ISNULL(IRSD.KynkSiparisSiraNo,0) as KynkSiparisSiraNo, ISNULL(IRSD.KynkSiparisTarih,0) as KynkSiparisTarih, ISNULL(IRSD.KynkSiparisMiktar,0) as KynkSiparisMiktar " +
-                                        "FROM wms.IRS_Detay AS IRSD WITH (NOLOCK) LEFT OUTER JOIN wms.IRS AS IRS WITH (NOLOCK) ON IRSD.IrsaliyeID = IRS.ID LEFT OUTER JOIN wms.Depo AS D WITH (NOLOCK) ON IRS.DepoID = D.ID " +
-                                        "WHERE IrsaliyeID={1}", sirketKodu, irsID);
+            string sql = String.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, IRS_Detay.Miktar, IRS_Detay.Birim, ISNULL(IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, ISNULL(IRS_Detay.KynkSiparisNo, '') AS SiparisNo, "+
+                                        "(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = IRS_Detay.MalKodu)) AS MalAdi," +
+                                        "ISNULL(IRS_Detay.KynkSiparisSiraNo, 0) AS KynkSiparisSiraNo, ISNULL(IRS_Detay.KynkSiparisTarih, 0) AS KynkSiparisTarih, ISNULL(IRS_Detay.KynkSiparisMiktar, 0) AS KynkSiparisMiktar, " +
+                                        "FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat AS Fiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5 " +
+                                        "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) RIGHT OUTER JOIN wms.Depo WITH(NOLOCK) INNER JOIN wms.IRS WITH(NOLOCK) ON wms.Depo.ID = wms.IRS.DepoID INNER JOIN wms.IRS_Detay WITH(NOLOCK) ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = wms.IRS.HesapKodu AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = wms.IRS_Detay.KynkSiparisTarih AND FINSAT6{0}.FINSAT6{0}.SPI.SiraNo = wms.IRS_Detay.KynkSiparisSiraNo AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = wms.IRS_Detay.KynkSiparisNo " +
+                                        "WHERE (IRS_Detay.IrsaliyeID = {1})", sirketKodu, irsID);
             var STList = db.Database.SqlQuery<STIMax>(sql).ToList();
             foreach (STIMax stItem in STList)
             {
@@ -234,6 +237,13 @@ namespace Wms12m
                     sti.KaynakSiparisTarih = stItem.KynkSiparisTarih;
                     sti.SiparisSiraNo = stItem.KynkSiparisSiraNo;
                     sti.SiparisMiktar = stItem.KynkSiparisMiktar;
+                    sti.Fiyat = stItem.Fiyat;
+                    sti.KdvOran = stItem.KdvOran;
+                    sti.IskontoOran1 = stItem.IskontoOran1;
+                    sti.IskontoOran2 = stItem.IskontoOran2;
+                    sti.IskontoOran3 = stItem.IskontoOran3;
+                    sti.IskontoOran4 = stItem.IskontoOran4;
+                    sti.IskontoOran5 = stItem.IskontoOran5;
                 }
                 else
                 {
@@ -246,7 +256,17 @@ namespace Wms12m
                 STIBaseList.Add(sti);
             }
             Irsaliye_Islemleri IrsIslem = new Irsaliye_Islemleri(sirketKodu);
-            var Sonuc = IrsIslem.Irsaliye_Kayit(-1, STIBaseList);
+            var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
+            try
+            {
+                Sonuc = IrsIslem.Irsaliye_Kayit(-1, STIBaseList);
+
+            }
+            catch (Exception ex)
+            {
+                Sonuc.Basarili = false;
+                Sonuc.Hata = ex;
+            }
             //sonuç döner
             if (Sonuc.Hata.IsNull())
             {
@@ -502,8 +522,45 @@ namespace Wms12m
             string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
             string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kulID, "", ComboItems.Transfer.ToInt32(), 0);
-            db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, mGorev.Bilgi, true, ComboItems.MalKabul.ToInt32(), kulID, kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
+            db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, mGorev.Bilgi, true, ComboItems.Transfer.ToInt32(), kulID, kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
             return new Result(true);
+        }
+        private Result TransferToLink(string sirketKodu, string kaydeden)
+        {
+            DevHelper.Ayarlar.SetConStr(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
+            DevHelper.Ayarlar.SirketKodu = sirketKodu;
+            List<DepTran> DepTranList = new List<DepTran>();
+            List<DepTranOptinal> DepTranOptinalList = new List<DepTranOptinal>();
+            Genel_Islemler GI = new Genel_Islemler(sirketKodu);
+            string evrakNo = GI.EvrakNo_Getir(7200);
+
+            DepTran dep = new DepTran()
+            {
+                EvrakNo = evrakNo,
+
+                Tarih = DateTime.Today,
+                MalKodu = "0200000000321011", 
+                Miktar = 10,
+                Birim = "ADET",
+                GirisDepo = "00 DP",
+                CikisDepo = "02 DP",
+                Kaydeden = kaydeden,
+                KayitSurum = "9.01.028",
+                KayitKaynak = 74
+            };
+            DepTranList.Add(dep);
+            DepTranOptinalList.Add(new DepTranOptinal() { Chk = "120 01 01 A0010" });
+
+            Stok_Islemleri StokIslem = new Stok_Islemleri(sirketKodu);
+            OnikimCore.GunesCore.IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7200, DepTranList, DepTranOptinalList);
+            //return
+            var _Result = new Result()
+            {
+                Status = Sonuc.Basarili,
+                Message = Sonuc.Hata.Message,
+                Data = Sonuc.Veri
+            };
+            return _Result;
         }
         /// <summary>
         /// dispose override

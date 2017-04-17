@@ -39,11 +39,16 @@
         public decimal KynkSiparisMiktar { get; set; }
         public decimal TeslimMiktar { get; set; }
         public decimal KapatilanMiktar { get; set; }
-        public decimal Fiyat { get; set; }
         public decimal KDV { get; set; }
         public string FytListeNo { get; set; }
-        public float IskontoOran1 { get; set; }
         public decimal ToplamIskonto { get; set; }
+        public float? IskontoOran5 { get; set; }
+        public float? IskontoOran4 { get; set; }
+        public float? IskontoOran3 { get; set; }
+        public float? IskontoOran2 { get; set; }
+        public float? IskontoOran1 { get; set; }
+        public float? KdvOran { get; set; }
+        public decimal? Fiyat { get; set; }
     }
 
 
