@@ -1,6 +1,6 @@
 ﻿namespace WMSMobil
 {
-    partial class MalzemeIslemleri
+    partial class frmxOps
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MalzemeIslemleri));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmxOps));
             this.panelUst = new System.Windows.Forms.Panel();
             this.btnUygula = new System.Windows.Forms.Button();
             this.txtRafBarkod = new System.Windows.Forms.TextBox();
@@ -302,6 +302,7 @@
             this.KeyPreview = true;
             this.Name = "MalzemeIslemleri";
             this.Text = "MalKabul";
+            this.Closing += new System.ComponentModel.CancelEventHandler(this.MalzemeIslemleri_Closing);
             this.panelUst.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
             this.panelAlt.ResumeLayout(false);

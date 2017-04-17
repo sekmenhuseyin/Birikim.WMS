@@ -28,7 +28,7 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         public MobilServis() {
-            this.Url = "http://localhost:3841/MobilServis.asmx";
+            this.Url = "http://testserver:9080/MobilServis.asmx";
         }
         
         /// <remarks/>
@@ -193,6 +193,26 @@ namespace WMSMobil.WMSLocal {
         public Tip_STI[] EndGetMalzemes(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((Tip_STI[])(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/GetMalzemeFromBarcode", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetMalzemeFromBarcode(string barkod) {
+            object[] results = this.Invoke("GetMalzemeFromBarcode", new object[] {
+                        barkod});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetMalzemeFromBarcode(string barkod, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetMalzemeFromBarcode", new object[] {
+                        barkod}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public string EndGetMalzemeFromBarcode(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((string)(results[0]));
         }
         
         /// <remarks/>

@@ -210,6 +210,20 @@
           <s:element minOccurs="0" maxOccurs="1" name="Raf" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetMalzemeFromBarcode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="barkod" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMalzemeFromBarcodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMalzemeFromBarcodeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="Mal_Kabul">
         <s:complexType>
           <s:sequence>
@@ -430,6 +444,12 @@
   <wsdl:message name="GetMalzemesSoapOut">
     <wsdl:part name="parameters" element="tns:GetMalzemesResponse" />
   </wsdl:message>
+  <wsdl:message name="GetMalzemeFromBarcodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMalzemeFromBarcode" />
+  </wsdl:message>
+  <wsdl:message name="GetMalzemeFromBarcodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMalzemeFromBarcodeResponse" />
+  </wsdl:message>
   <wsdl:message name="Mal_KabulSoapIn">
     <wsdl:part name="parameters" element="tns:Mal_Kabul" />
   </wsdl:message>
@@ -516,6 +536,10 @@
     <wsdl:operation name="GetMalzemes">
       <wsdl:input message="tns:GetMalzemesSoapIn" />
       <wsdl:output message="tns:GetMalzemesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMalzemeFromBarcode">
+      <wsdl:input message="tns:GetMalzemeFromBarcodeSoapIn" />
+      <wsdl:output message="tns:GetMalzemeFromBarcodeSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Mal_Kabul">
       <wsdl:input message="tns:Mal_KabulSoapIn" />
@@ -621,6 +645,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetMalzemes">
       <soap:operation soapAction="http://www.12mbilgisayar.com/GetMalzemes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMalzemeFromBarcode">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/GetMalzemeFromBarcode" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -784,6 +817,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetMalzemeFromBarcode">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetMalzemeFromBarcode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Mal_Kabul">
       <soap12:operation soapAction="http://www.12mbilgisayar.com/Mal_Kabul" style="document" />
       <wsdl:input>
@@ -868,10 +910,10 @@
   </wsdl:binding>
   <wsdl:service name="MobilServis">
     <wsdl:port name="MobilServisSoap" binding="tns:MobilServisSoap">
-      <soap:address location="http://localhost:3841/MobilServis.asmx" />
+      <soap:address location="http://testserver:9080/MobilServis.asmx" />
     </wsdl:port>
     <wsdl:port name="MobilServisSoap12" binding="tns:MobilServisSoap12">
-      <soap12:address location="http://localhost:3841/MobilServis.asmx" />
+      <soap12:address location="http://testserver:9080/MobilServis.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

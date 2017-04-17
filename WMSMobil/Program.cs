@@ -13,7 +13,7 @@ namespace WMSMobil
         [MTAThread]
         static void Main()
         {
-            Application.Run(new GirisForm());
+            Application.Run(new frmLogin());
         }
     }
 }

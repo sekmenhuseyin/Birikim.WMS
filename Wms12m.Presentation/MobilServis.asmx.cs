@@ -145,6 +145,20 @@ namespace Wms12m
             return db.Database.SqlQuery<Tip_STI>(sql).ToList();
         }
         /// <summary>
+        /// malzemeyi barkoda göre bulur
+        /// </summary>
+        [WebMethod]
+        public string GetMalzemeFromBarcode(string barkod)
+        {
+            string sql = "''";
+            var dbs = db.GetSirketDBs();
+            foreach (var item in dbs)
+            {
+                sql = string.Format("ISNULL((SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (BarKod2 = '{1}') OR (BarKod1 = '{1}'))," + sql + ")", item, barkod);
+            }
+            return db.Database.SqlQuery<string>(sql).FirstOrDefault();
+        }
+        /// <summary>
         /// mal kabul kayıt işlemleri
         /// </summary>
         [WebMethod]

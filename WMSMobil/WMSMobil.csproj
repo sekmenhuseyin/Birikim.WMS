@@ -49,28 +49,30 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
+    <Reference Include="Symbol.Barcode2.DesignCF35, Version=2.5.0.5, Culture=neutral, PublicKeyToken=68ec8db391f150ca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Symbol.Barcode2.DesignCF35.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Services" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnaForm.cs">
+    <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AnaForm.Designer.cs">
-      <DependentUpon>AnaForm.cs</DependentUpon>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="GirisForm.cs">
+    <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GirisForm.Designer.cs">
-      <DependentUpon>GirisForm.cs</DependentUpon>
+    <Compile Include="frmLogin.Designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\Ayarlar.cs" />
     <Compile Include="Helper\Extensions.cs" />
@@ -78,34 +80,34 @@
     <Compile Include="Helper\Tipler.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GorevSecim.cs">
+    <Compile Include="frmTasks.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GorevSecim.Designer.cs">
-      <DependentUpon>GorevSecim.cs</DependentUpon>
+    <Compile Include="frmTasks.Designer.cs">
+      <DependentUpon>frmTasks.cs</DependentUpon>
     </Compile>
-    <Compile Include="MalzemeIslemleri.cs">
+    <Compile Include="frmxOps.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MalzemeIslemleri.Designer.cs">
-      <DependentUpon>MalzemeIslemleri.cs</DependentUpon>
+    <Compile Include="frmxOps.Designer.cs">
+      <DependentUpon>frmxOps.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AnaForm.resx">
-      <DependentUpon>AnaForm.cs</DependentUpon>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GirisForm.resx">
-      <DependentUpon>GirisForm.cs</DependentUpon>
+    <EmbeddedResource Include="frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GorevSecim.resx">
-      <DependentUpon>GorevSecim.cs</DependentUpon>
+    <EmbeddedResource Include="frmTasks.resx">
+      <DependentUpon>frmTasks.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MalzemeIslemleri.resx">
-      <DependentUpon>MalzemeIslemleri.cs</DependentUpon>
+    <EmbeddedResource Include="frmxOps.resx">
+      <DependentUpon>frmxOps.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -127,10 +129,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:3841/MobilServis.asmx">
+    <WebReferenceUrl Include="http://testserver:9080/MobilServis.asmx">
       <UrlBehavior>Static</UrlBehavior>
       <RelPath>Web References\WMSLocal\</RelPath>
-      <UpdateFromURL>http://localhost:3841/MobilServis.asmx</UpdateFromURL>
+      <UpdateFromURL>http://testserver:9080/MobilServis.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

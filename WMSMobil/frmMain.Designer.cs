@@ -1,6 +1,6 @@
 ﻿namespace WMSMobil
 {
-    partial class AnaForm
+    partial class frmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnaForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.btnMalKabul = new System.Windows.Forms.Button();
             this.btnRafaKaldirma = new System.Windows.Forms.Button();
             this.lblMalKabul = new System.Windows.Forms.Label();

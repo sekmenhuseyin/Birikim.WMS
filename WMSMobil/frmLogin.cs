@@ -10,13 +10,13 @@ using WMSMobil.WMSLocal;
 
 namespace WMSMobil
 {
-    public partial class GirisForm : Form
+    public partial class frmLogin : Form
     {
         MobilServis Servis = new MobilServis();
         /// <summary>
         /// load
         /// </summary>
-        public GirisForm()
+        public frmLogin()
         {
             InitializeComponent();
         }
@@ -44,7 +44,7 @@ namespace WMSMobil
             if (login.IsNotNull())
             {
                 Ayarlar.Kullanici = login;
-                AnaForm anaForm = new AnaForm();
+                frmMain anaForm = new frmMain();
                 anaForm.ShowDialog();
             }
             else

@@ -11,13 +11,13 @@ using WMSMobil.WMSLocal;
 
 namespace WMSMobil
 {
-    public partial class AnaForm : Form
+    public partial class frmMain : Form
     {
         MobilServis Servis = new MobilServis();
         /// <summary>
         /// form load
         /// </summary>
-        public AnaForm()
+        public frmMain()
         {
             InitializeComponent();
         }
@@ -48,7 +48,7 @@ namespace WMSMobil
         {
             Button button = sender as Button;
             Ayarlar.MenuTipSet = button.Tag.ToInt32();
-            GorevSecim frm = new GorevSecim();
+            frmTasks frm = new frmTasks();
             frm.ShowDialog();
         }
         /// <summary>

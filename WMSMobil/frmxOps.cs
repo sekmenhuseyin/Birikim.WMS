@@ -7,12 +7,14 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using WMSMobil.WMSLocal;
+using Symbol.Barcode2.Design;
 
 namespace WMSMobil
 {
-    public partial class MalzemeIslemleri : Form
+    public partial class frmxOps : Form
     {
         MobilServis Servis = new MobilServis();
+        private Barcode2 Barkod;
         bool glbTip;
         int GorevID, IrsaliyeID;
         string FocusPanelName = "";
@@ -21,9 +23,27 @@ namespace WMSMobil
         /// <summary>
         /// form load
         /// </summary>
-        public MalzemeIslemleri(int grvId, int irsID, bool tip, int gorevtip)
+        public frmxOps(int grvId, int irsID, bool tip, int gorevtip)
         {
             InitializeComponent();
+            try
+            {
+                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, tip));
+                Ayarlar.SeciliGorev = Servis.GetIrsaliye(grvId);
+                txtUnvan.Text = Ayarlar.SeciliGorev.Unvan;
+                txtHesapKodu.Text = Ayarlar.SeciliGorev.HesapKodu;
+                txtEvrakno.Text = Ayarlar.SeciliGorev.EvrakNo;
+                txtEvrakno.Tag = Ayarlar.SeciliGorev.ID;
+                GorevID = grvId;
+                IrsaliyeID = irsID;
+                STIGetir();
+            }
+            catch (Exception ex)
+            {
+                Mesaj.Hata(ex);
+                this.Close();
+            }
+            //gizle göster
             glbTip = tip;
             label1.Visible = true;
             label2.Visible = true;
@@ -91,26 +111,60 @@ namespace WMSMobil
                 label6.Visible = true;
                 label12.Visible = true;
             }
-            //Barkod = new Barcode2();
-            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            //Barkod.EnableScanner = true;
-            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
-            try
+            //barkod
+            Barkod = new Barcode2();
+            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            Barkod.EnableScanner = true;
+            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            //end
+            txtBarkod.Focus();
+        }
+        /// <summary>
+        /// barkod okursa
+        /// </summary>
+        public delegate void MethodInvoker();
+        void Barkod_OnScan(Symbol.Barcode2.ScanDataCollection scanDataCollection)
+        {
+            this.Invoke((MethodInvoker)delegate()
             {
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, tip));
-                Ayarlar.SeciliGorev = Servis.GetIrsaliye(grvId);
-                txtUnvan.Text = Ayarlar.SeciliGorev.Unvan;
-                txtHesapKodu.Text = Ayarlar.SeciliGorev.HesapKodu;
-                txtEvrakno.Text = Ayarlar.SeciliGorev.EvrakNo;
-                txtEvrakno.Tag = Ayarlar.SeciliGorev.ID;
-                GorevID = grvId;
-                IrsaliyeID = irsID;
-                STIGetir();
-            }
-            catch (Exception ex)
-            {
-                Mesaj.Hata(ex);
-            }
+                try
+                {
+                    bool focuslandi = false;
+                    foreach (Control cont in panelUst.Controls)
+                    {
+                        if (cont.Focused)
+                        {
+                            //eğer odaklanana yer barkod ise barkoda göre malkodunu getir
+                            if (cont.Name == txtBarkod.Name)
+                            {
+                                focuslandi = true;
+                                txtBarkod.Text = Servis.GetMalzemeFromBarcode(scanDataCollection.GetFirst.Text);
+                                txtRafBarkod.Focus();
+                            }
+                            //eğer raf ise direk yaz
+                            else if (cont.Name == txtRafBarkod.Name)
+                            {
+                                focuslandi = true;
+                                txtRafBarkod.Text = scanDataCollection.GetFirst.Text;
+                                //rafı da okutursa yerleştir düğmesine bas
+                                btnUygula_Click(Barkod, null);
+                                //sonra tekrar malkoduna odaklan
+                                txtBarkod.Focus();
+                            }
+                        }
+                    }
+                    //eğer hiç bir yere odaklanmamışsa
+                    if (!focuslandi)
+                    {
+                        Mesaj.Uyari("Lütfen önce bir yazı kutusuna tıklayın!");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Mesaj.Hata(ex);
+                }
+            });
         }
         /// <summary>
         /// irsaliye detaylarını getir
@@ -489,6 +543,18 @@ namespace WMSMobil
             }
             else
                 Mesaj.Uyari(Sonuc.Message);
+        }
+        /// <summary>
+        /// form kapanırken dispose yap
+        /// </summary>
+        private void MalzemeIslemleri_Closing(object sender, CancelEventArgs e)
+        {
+            try
+            {
+                Barkod.EnableScanner = false;
+                Barkod.Dispose();
+            }
+            catch { }
         }
     }
 }

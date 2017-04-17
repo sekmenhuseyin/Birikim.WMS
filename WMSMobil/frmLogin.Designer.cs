@@ -1,6 +1,6 @@
 ﻿namespace WMSMobil
 {
-    partial class GirisForm
+    partial class frmLogin
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GirisForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLogin));
             this.txtKullaniciAdi = new System.Windows.Forms.TextBox();
             this.txtParola = new System.Windows.Forms.TextBox();
             this.btnGiris = new System.Windows.Forms.Button();

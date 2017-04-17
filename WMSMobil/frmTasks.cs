@@ -10,7 +10,7 @@ using WMSMobil.WMSLocal;
 
 namespace WMSMobil
 {
-    public partial class GorevSecim : Form
+    public partial class frmTasks : Form
     {
         List<PanelGrv> PanelVeriList = new List<PanelGrv>();
         MobilServis Servis = new MobilServis();
@@ -20,7 +20,7 @@ namespace WMSMobil
         /// <summary>
         /// form load
         /// </summary>
-        public GorevSecim()
+        public frmTasks()
         {            
             InitializeComponent();
             try
@@ -182,7 +182,7 @@ namespace WMSMobil
         private void btnDuzenle_Click(object sender, EventArgs e)
         {
             if (GorevID.ToString2() == "0") return;
-            MalzemeIslemleri frm = new MalzemeIslemleri(GorevID, IrsaliyeID, false, Ayarlar.MenuTip.ToInt32());
+            frmxOps frm = new frmxOps(GorevID, IrsaliyeID, false, Ayarlar.MenuTip.ToInt32());
             frm.ShowDialog();        
         }
         /// <summary>
@@ -191,7 +191,7 @@ namespace WMSMobil
         private void btnIslemYap_Click(object sender, EventArgs e)
         {
             if (GorevID == 0) return;
-            MalzemeIslemleri frm = new MalzemeIslemleri(GorevID, IrsaliyeID, true, Ayarlar.MenuTip.ToInt32());
+            frmxOps frm = new frmxOps(GorevID, IrsaliyeID, true, Ayarlar.MenuTip.ToInt32());
             frm.ShowDialog();
         }
         /// <summary>
