@@ -25,6 +25,12 @@ namespace WMSMobil
         {
             InitializeComponent();
             glbTip = tip;
+            label1.Visible = true;
+            label2.Visible = true;
+            label3.Visible = true;
+            txtUnvan.Visible = true;
+            txtHesapKodu.Visible = true;
+            txtEvrakno.Visible = true;
             if (gorevtip == 1)
             {
                 this.Text = "Mal Kabulü";
@@ -51,6 +57,12 @@ namespace WMSMobil
                 label7.Visible = true;
                 label6.Visible = true;
                 label12.Visible = true;
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
             }
             else if (gorevtip == 6)
             {
