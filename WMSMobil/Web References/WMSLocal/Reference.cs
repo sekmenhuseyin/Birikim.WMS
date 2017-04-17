@@ -390,23 +390,45 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/Transfer_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Result Transfer_GoreviTamamla(int GorevID, int kulID) {
-            object[] results = this.Invoke("Transfer_GoreviTamamla", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/TransferCikis_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result TransferCikis_GoreviTamamla(int GorevID, int kulID) {
+            object[] results = this.Invoke("TransferCikis_GoreviTamamla", new object[] {
                         GorevID,
                         kulID});
             return ((Result)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginTransfer_GoreviTamamla(int GorevID, int kulID, System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("Transfer_GoreviTamamla", new object[] {
+        public System.IAsyncResult BeginTransferCikis_GoreviTamamla(int GorevID, int kulID, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("TransferCikis_GoreviTamamla", new object[] {
                         GorevID,
                         kulID}, callback, asyncState);
         }
         
         /// <remarks/>
-        public Result EndTransfer_GoreviTamamla(System.IAsyncResult asyncResult) {
+        public Result EndTransferCikis_GoreviTamamla(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/TransferGiris_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result TransferGiris_GoreviTamamla(int GorevID, int kulID) {
+            object[] results = this.Invoke("TransferGiris_GoreviTamamla", new object[] {
+                        GorevID,
+                        kulID});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginTransferGiris_GoreviTamamla(int GorevID, int kulID, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("TransferGiris_GoreviTamamla", new object[] {
+                        GorevID,
+                        kulID}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndTransferGiris_GoreviTamamla(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((Result)(results[0]));
         }

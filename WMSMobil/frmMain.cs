@@ -27,7 +27,7 @@ namespace WMSMobil
         /// </summary>
         private void AnaForm_Activated(object sender, EventArgs e)
         {
-            lblMalKabul.Text = ""; lblRafKaldirma.Text = ""; lblSiparisToplama.Text = ""; lblKabloSiparisi.Text = ""; lblPaketleme.Text = ""; lblSevkiyat.Text = ""; lblKontrolluSayim.Text = ""; lblTransfer.Text = "";
+            lblMalKabul.Text = ""; lblRafKaldirma.Text = ""; lblSiparisToplama.Text = ""; lblKabloSiparisi.Text = ""; lblPaketleme.Text = ""; lblSevkiyat.Text = ""; lblTransferIn.Text = ""; lblTransferOut.Text = "";
             var tbl = Servis.GetGorevOzet(Ayarlar.Kullanici.DepoID).ToList();
             foreach (var item in tbl)
             {
@@ -37,8 +37,8 @@ namespace WMSMobil
                 else if (item.ID == 4) { lblKabloSiparisi.Text = "[" + item.Sayi.ToString() + "]"; }
                 else if (item.ID == 6) { lblPaketleme.Text = "[" + item.Sayi.ToString() + "]"; }
                 else if (item.ID == 7) { lblSevkiyat.Text = "[" + item.Sayi.ToString() + "]"; }
-                else if (item.ID == 8) { lblKontrolluSayim.Text = "[" + item.Sayi.ToString() + "]"; }
-                else if (item.ID == 19) { lblTransfer.Text = "[" + item.Sayi.ToString() + "]"; }
+                else if (item.ID == 19) { lblTransferOut.Text = "[" + item.Sayi.ToString() + "]"; }
+                else if (item.ID == 20) { lblTransferIn.Text = "[" + item.Sayi.ToString() + "]"; }
             }
         }
         /// <summary>

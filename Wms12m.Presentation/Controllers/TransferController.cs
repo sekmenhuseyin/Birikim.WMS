@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -38,9 +39,10 @@ namespace Wms12m.Presentation.Controllers
                 var list = db.Database.SqlQuery<frmTransferMalzemeler>(sql).ToList();
                 return PartialView("_Stock", list);
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
-                return PartialView("_Stock", new frmTransferMalzemeler());
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Transfer/Stock");
+                return PartialView("_Stock", new List<frmTransferMalzemeler>());
             }
 
         }
@@ -103,7 +105,7 @@ namespace Wms12m.Presentation.Controllers
             int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.CikisDepo).Select(m => m.ID).FirstOrDefault();
             string GorevNo = db.SettingsGorevNo(today).FirstOrDefault();
             string evrakNo = db.SettingsIrsaliyeNo(today).FirstOrDefault();
-            var cevap = db.InsertIrsaliye(tbl.SirketID, idDepo, GorevNo, evrakNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.Transfer.ToInt32(), vUser.Id, vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
+            var cevap = db.InsertIrsaliye(tbl.SirketID, idDepo, GorevNo, evrakNo, today, "Giriş: " + tbl.GirisDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.Id, vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
             //yeni transfer eklenir
             var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
             if (sonuc.Status == false)

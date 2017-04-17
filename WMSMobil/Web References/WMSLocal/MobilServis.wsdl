@@ -379,7 +379,7 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="Transfer_GoreviTamamla">
+      <s:element name="TransferCikis_GoreviTamamla">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
@@ -387,10 +387,25 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="Transfer_GoreviTamamlaResponse">
+      <s:element name="TransferCikis_GoreviTamamlaResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="Transfer_GoreviTamamlaResult" type="tns:Result" />
+            <s:element minOccurs="0" maxOccurs="1" name="TransferCikis_GoreviTamamlaResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TransferGiris_GoreviTamamla">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TransferGiris_GoreviTamamlaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TransferGiris_GoreviTamamlaResult" type="tns:Result" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -498,11 +513,17 @@
   <wsdl:message name="Paketle_GoreviTamamlaSoapOut">
     <wsdl:part name="parameters" element="tns:Paketle_GoreviTamamlaResponse" />
   </wsdl:message>
-  <wsdl:message name="Transfer_GoreviTamamlaSoapIn">
-    <wsdl:part name="parameters" element="tns:Transfer_GoreviTamamla" />
+  <wsdl:message name="TransferCikis_GoreviTamamlaSoapIn">
+    <wsdl:part name="parameters" element="tns:TransferCikis_GoreviTamamla" />
   </wsdl:message>
-  <wsdl:message name="Transfer_GoreviTamamlaSoapOut">
-    <wsdl:part name="parameters" element="tns:Transfer_GoreviTamamlaResponse" />
+  <wsdl:message name="TransferCikis_GoreviTamamlaSoapOut">
+    <wsdl:part name="parameters" element="tns:TransferCikis_GoreviTamamlaResponse" />
+  </wsdl:message>
+  <wsdl:message name="TransferGiris_GoreviTamamlaSoapIn">
+    <wsdl:part name="parameters" element="tns:TransferGiris_GoreviTamamla" />
+  </wsdl:message>
+  <wsdl:message name="TransferGiris_GoreviTamamlaSoapOut">
+    <wsdl:part name="parameters" element="tns:TransferGiris_GoreviTamamlaResponse" />
   </wsdl:message>
   <wsdl:portType name="MobilServisSoap">
     <wsdl:operation name="LoginKontrol">
@@ -573,9 +594,13 @@
       <wsdl:input message="tns:Paketle_GoreviTamamlaSoapIn" />
       <wsdl:output message="tns:Paketle_GoreviTamamlaSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="Transfer_GoreviTamamla">
-      <wsdl:input message="tns:Transfer_GoreviTamamlaSoapIn" />
-      <wsdl:output message="tns:Transfer_GoreviTamamlaSoapOut" />
+    <wsdl:operation name="TransferCikis_GoreviTamamla">
+      <wsdl:input message="tns:TransferCikis_GoreviTamamlaSoapIn" />
+      <wsdl:output message="tns:TransferCikis_GoreviTamamlaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TransferGiris_GoreviTamamla">
+      <wsdl:input message="tns:TransferGiris_GoreviTamamlaSoapIn" />
+      <wsdl:output message="tns:TransferGiris_GoreviTamamlaSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="MobilServisSoap" type="tns:MobilServisSoap">
@@ -733,8 +758,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Transfer_GoreviTamamla">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/Transfer_GoreviTamamla" style="document" />
+    <wsdl:operation name="TransferCikis_GoreviTamamla">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/TransferCikis_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TransferGiris_GoreviTamamla">
+      <soap:operation soapAction="http://www.12mbilgisayar.com/TransferGiris_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -898,8 +932,17 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Transfer_GoreviTamamla">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/Transfer_GoreviTamamla" style="document" />
+    <wsdl:operation name="TransferCikis_GoreviTamamla">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/TransferCikis_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TransferGiris_GoreviTamamla">
+      <soap12:operation soapAction="http://www.12mbilgisayar.com/TransferGiris_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

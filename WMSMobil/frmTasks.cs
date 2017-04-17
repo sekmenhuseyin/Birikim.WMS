@@ -46,17 +46,17 @@ namespace WMSMobil
                         this.Text = "Paketle";
                         btnLinkeAktar.Text = "Görevi Sonlandır";
                         break;
-                    case MenuType.Transfer:
+                    case MenuType.TransferÇıkış:
+                        this.Text = "Transfer";
+                        btnLinkeAktar.Text = "Linke Aktar";
+                        break;
+                    case MenuType.TransferGiriş:
                         this.Text = "Transfer";
                         btnLinkeAktar.Text = "Linke Aktar";
                         break;
                     default:
                         break;
                 }
-                //Barkod = new Barcode2();
-                //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-                //Barkod.EnableScanner = true;
-                //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
                 aktif = true;
                 //görevliler
                 Ayarlar.Gorevliler = new List<Kullanicilar>(Servis.GetUsers());
@@ -210,8 +210,10 @@ namespace WMSMobil
                     sonuc = Servis.SiparisTopla_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
                 else if (Ayarlar.MenuTip == MenuType.Paketle)
                     sonuc = Servis.Paketle_GoreviTamamla(GorevID, IrsaliyeID, Ayarlar.Kullanici.ID);
-                else if (Ayarlar.MenuTip == MenuType.Transfer)
-                    sonuc = Servis.Transfer_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
+                else if (Ayarlar.MenuTip == MenuType.TransferÇıkış)
+                    sonuc = Servis.TransferCikis_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
+                else if (Ayarlar.MenuTip == MenuType.TransferGiriş)
+                    sonuc = Servis.TransferGiris_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
             }
             catch (Exception ex)
             {

@@ -36,15 +36,15 @@
             this.btnKabloSiparisi = new System.Windows.Forms.Button();
             this.btnPaketleme = new System.Windows.Forms.Button();
             this.btnSevkiyat = new System.Windows.Forms.Button();
-            this.btnKontrolluSayim = new System.Windows.Forms.Button();
+            this.btnTransferIn = new System.Windows.Forms.Button();
             this.lblRafKaldirma = new System.Windows.Forms.Label();
             this.lblSiparisToplama = new System.Windows.Forms.Label();
             this.lblKabloSiparisi = new System.Windows.Forms.Label();
             this.lblSevkiyat = new System.Windows.Forms.Label();
             this.lblPaketleme = new System.Windows.Forms.Label();
-            this.lblKontrolluSayim = new System.Windows.Forms.Label();
-            this.lblTransfer = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.lblTransferIn = new System.Windows.Forms.Label();
+            this.lblTransferOut = new System.Windows.Forms.Label();
+            this.btnTransferOut = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnMalKabul
@@ -130,17 +130,17 @@
             this.btnSevkiyat.Text = "Sevkiyat";
             this.btnSevkiyat.Click += new System.EventHandler(this.btns_Click);
             // 
-            // btnKontrolluSayim
+            // btnTransferIn
             // 
-            this.btnKontrolluSayim.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnKontrolluSayim.ForeColor = System.Drawing.Color.White;
-            this.btnKontrolluSayim.Location = new System.Drawing.Point(2, 222);
-            this.btnKontrolluSayim.Name = "btnKontrolluSayim";
-            this.btnKontrolluSayim.Size = new System.Drawing.Size(115, 56);
-            this.btnKontrolluSayim.TabIndex = 0;
-            this.btnKontrolluSayim.Tag = "8";
-            this.btnKontrolluSayim.Text = "Kontrollü Sayım";
-            this.btnKontrolluSayim.Click += new System.EventHandler(this.btns_Click);
+            this.btnTransferIn.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnTransferIn.ForeColor = System.Drawing.Color.White;
+            this.btnTransferIn.Location = new System.Drawing.Point(2, 222);
+            this.btnTransferIn.Name = "btnTransferIn";
+            this.btnTransferIn.Size = new System.Drawing.Size(115, 56);
+            this.btnTransferIn.TabIndex = 0;
+            this.btnTransferIn.Tag = "20";
+            this.btnTransferIn.Text = "Transfer Giriş";
+            this.btnTransferIn.Click += new System.EventHandler(this.btns_Click);
             // 
             // lblRafKaldirma
             // 
@@ -197,50 +197,50 @@
             this.lblPaketleme.Tag = "";
             this.lblPaketleme.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // lblKontrolluSayim
+            // lblTransferIn
             // 
-            this.lblKontrolluSayim.BackColor = System.Drawing.Color.SteelBlue;
-            this.lblKontrolluSayim.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.lblKontrolluSayim.ForeColor = System.Drawing.Color.White;
-            this.lblKontrolluSayim.Location = new System.Drawing.Point(43, 259);
-            this.lblKontrolluSayim.Name = "lblKontrolluSayim";
-            this.lblKontrolluSayim.Size = new System.Drawing.Size(32, 16);
-            this.lblKontrolluSayim.Tag = "";
-            this.lblKontrolluSayim.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblTransferIn.BackColor = System.Drawing.Color.SteelBlue;
+            this.lblTransferIn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.lblTransferIn.ForeColor = System.Drawing.Color.White;
+            this.lblTransferIn.Location = new System.Drawing.Point(43, 259);
+            this.lblTransferIn.Name = "lblTransferIn";
+            this.lblTransferIn.Size = new System.Drawing.Size(32, 16);
+            this.lblTransferIn.Tag = "";
+            this.lblTransferIn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // lblTransfer
+            // lblTransferOut
             // 
-            this.lblTransfer.BackColor = System.Drawing.Color.Olive;
-            this.lblTransfer.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.lblTransfer.ForeColor = System.Drawing.Color.White;
-            this.lblTransfer.Location = new System.Drawing.Point(163, 259);
-            this.lblTransfer.Name = "lblTransfer";
-            this.lblTransfer.Size = new System.Drawing.Size(32, 16);
-            this.lblTransfer.Tag = "";
-            this.lblTransfer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblTransferOut.BackColor = System.Drawing.Color.Olive;
+            this.lblTransferOut.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.lblTransferOut.ForeColor = System.Drawing.Color.White;
+            this.lblTransferOut.Location = new System.Drawing.Point(163, 259);
+            this.lblTransferOut.Name = "lblTransferOut";
+            this.lblTransferOut.Size = new System.Drawing.Size(32, 16);
+            this.lblTransferOut.Tag = "";
+            this.lblTransferOut.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // button1
+            // btnTransferOut
             // 
-            this.button1.BackColor = System.Drawing.Color.Olive;
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(122, 222);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(115, 56);
-            this.button1.TabIndex = 8;
-            this.button1.Tag = "19";
-            this.button1.Text = "Transfer";
-            this.button1.Click += new System.EventHandler(this.btns_Click);
+            this.btnTransferOut.BackColor = System.Drawing.Color.Olive;
+            this.btnTransferOut.ForeColor = System.Drawing.Color.White;
+            this.btnTransferOut.Location = new System.Drawing.Point(122, 222);
+            this.btnTransferOut.Name = "btnTransferOut";
+            this.btnTransferOut.Size = new System.Drawing.Size(115, 56);
+            this.btnTransferOut.TabIndex = 8;
+            this.btnTransferOut.Tag = "19";
+            this.btnTransferOut.Text = "Transfer Çıkış";
+            this.btnTransferOut.Click += new System.EventHandler(this.btns_Click);
             // 
-            // AnaForm
+            // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(240, 302);
-            this.Controls.Add(this.lblTransfer);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.lblKontrolluSayim);
+            this.Controls.Add(this.lblTransferOut);
+            this.Controls.Add(this.btnTransferOut);
+            this.Controls.Add(this.lblTransferIn);
             this.Controls.Add(this.lblSevkiyat);
             this.Controls.Add(this.lblPaketleme);
             this.Controls.Add(this.lblKabloSiparisi);
@@ -248,7 +248,7 @@
             this.Controls.Add(this.lblRafKaldirma);
             this.Controls.Add(this.lblMalKabul);
             this.Controls.Add(this.btnSevkiyat);
-            this.Controls.Add(this.btnKontrolluSayim);
+            this.Controls.Add(this.btnTransferIn);
             this.Controls.Add(this.btnKabloSiparisi);
             this.Controls.Add(this.btnPaketleme);
             this.Controls.Add(this.btnSiparisToplama);
@@ -256,7 +256,7 @@
             this.Controls.Add(this.btnMalKabul);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Name = "AnaForm";
+            this.Name = "frmMain";
             this.Text = "Ana Form";
             this.Activated += new System.EventHandler(this.AnaForm_Activated);
             this.Closing += new System.ComponentModel.CancelEventHandler(this.AnaForm_Closing);
@@ -273,15 +273,15 @@
         private System.Windows.Forms.Button btnKabloSiparisi;
         private System.Windows.Forms.Button btnPaketleme;
         private System.Windows.Forms.Button btnSevkiyat;
-        private System.Windows.Forms.Button btnKontrolluSayim;
+        private System.Windows.Forms.Button btnTransferIn;
         private System.Windows.Forms.Label lblRafKaldirma;
         private System.Windows.Forms.Label lblSiparisToplama;
         private System.Windows.Forms.Label lblKabloSiparisi;
         private System.Windows.Forms.Label lblSevkiyat;
         private System.Windows.Forms.Label lblPaketleme;
-        private System.Windows.Forms.Label lblKontrolluSayim;
-        private System.Windows.Forms.Label lblTransfer;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label lblTransferIn;
+        private System.Windows.Forms.Label lblTransferOut;
+        private System.Windows.Forms.Button btnTransferOut;
     }
 }
 

@@ -31,7 +31,8 @@
         EArşiv = 16,
         EFatura = 17,
         Normal = 18,
-        Transfer = 19
+        TransferÇıkış = 19,
+        TransferGiriş = 20
     }
     /// <summary>
     /// combo item names

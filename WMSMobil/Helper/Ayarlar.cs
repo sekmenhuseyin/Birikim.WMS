@@ -9,7 +9,7 @@ namespace WMSMobil
 
     public enum MenuType
     {
-        None = 0, MalKabul = 1, RafaYerlestirme = 2, SiparisToplama = 3, KabloSiparis = 4, Paketle = 6, Sevkiyat = 7, KontrollüSayım = 8, Transfer = 19
+        None = 0, MalKabul = 1, RafaYerlestirme = 2, SiparisToplama = 3, KabloSiparis = 4, Paketle = 6, Sevkiyat = 7, KontrollüSayım = 8, TransferÇıkış = 19, TransferGiriş = 20
     }
 
     public class Ayarlar
@@ -45,8 +45,10 @@ namespace WMSMobil
                     Ayarlar.menuTip = MenuType.Sevkiyat;
                 else if (value == 8)
                     Ayarlar.menuTip = MenuType.KontrollüSayım;
-                else
-                    Ayarlar.menuTip = MenuType.Transfer;
+                else if (value == 19)
+                    Ayarlar.menuTip = MenuType.TransferÇıkış;
+                else// if (value == 20)
+                    Ayarlar.menuTip = MenuType.TransferGiriş;
             }
         }
 

@@ -115,7 +115,7 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return null;
             string sql;
-            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.Transfer.ToInt32())
+            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferGiriş.ToInt32())
             {
                 var dbs = db.GetSirketDBs(); sql = "''";
                 foreach (var item in dbs)
@@ -187,7 +187,8 @@ namespace Wms12m
         [WebMethod]
         public Result MalKabul_GoreviTamamla(int GorevID, int kulID)
         {
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            int tipID = ComboItems.MalKabul.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             var sonuc = MalKabulToLink(mGorev.IR.SirketKod, mGorev.IR.ID, kulID);
@@ -207,7 +208,7 @@ namespace Wms12m
             DevHelper.Ayarlar.SirketKodu = sirketKodu;
             string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
             List<STIBase> STIBaseList = new List<STIBase>();
-            string sql = String.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, IRS_Detay.Miktar, IRS_Detay.Birim, ISNULL(IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, ISNULL(IRS_Detay.KynkSiparisNo, '') AS SiparisNo, "+
+            string sql = String.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, IRS_Detay.Miktar, IRS_Detay.Birim, ISNULL(IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, ISNULL(IRS_Detay.KynkSiparisNo, '') AS SiparisNo, " +
                                         "(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = IRS_Detay.MalKodu)) AS MalAdi," +
                                         "ISNULL(IRS_Detay.KynkSiparisSiraNo, 0) AS KynkSiparisSiraNo, ISNULL(IRS_Detay.KynkSiparisTarih, 0) AS KynkSiparisTarih, ISNULL(IRS_Detay.KynkSiparisMiktar, 0) AS KynkSiparisMiktar, " +
                                         "FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat AS Fiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5 " +
@@ -325,7 +326,8 @@ namespace Wms12m
         [WebMethod]
         public Result RafaKaldir_GoreviTamamla(int GorevID, int kulID)
         {
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            int tipID = ComboItems.RafaKaldır.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             var list = mGorev.IR.IRS_Detay.Where(m => m.YerlestirmeMiktari != m.Miktar).FirstOrDefault();
@@ -370,7 +372,8 @@ namespace Wms12m
         [WebMethod]
         public Result SiparisTopla_GoreviTamamla(int GorevID, int kulID)
         {
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            int tipID = ComboItems.SiparişTopla.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             var tmpYer = mGorev.GorevYers.Where(m => m.YerlestirmeMiktari < m.Miktar).FirstOrDefault();
@@ -476,7 +479,8 @@ namespace Wms12m
         [WebMethod]
         public Result Paketle_GoreviTamamla(int GorevID, int IrsaliyeID, int kulID)
         {
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            int tipID = ComboItems.Paketle.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             var mIrsaliye = db.IRS.Where(m => m.ID == IrsaliyeID).FirstOrDefault();
@@ -506,12 +510,13 @@ namespace Wms12m
         /// sipariş toplama görevi tamamlma
         /// </summary>
         [WebMethod]
-        public Result Transfer_GoreviTamamla(int GorevID, int kulID)
+        public Result TransferCikis_GoreviTamamla(int GorevID, int kulID)
         {
             //kontrols
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            int tipID = ComboItems.TransferÇıkış.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Transfer bulunamadı !");
             var tmpYer = mGorev.GorevYers.Where(m => m.YerlestirmeMiktari < m.Miktar).FirstOrDefault();
             if (tmpYer.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
@@ -521,38 +526,63 @@ namespace Wms12m
             var transfer = mGorev.Transfers.FirstOrDefault();
             string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
             string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
-            db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kulID, "", ComboItems.Transfer.ToInt32(), 0);
-            db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, mGorev.Bilgi, true, ComboItems.Transfer.ToInt32(), kulID, kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
-            return new Result(true);
-        }
-        private Result TransferToLink(string sirketKodu, string kaydeden)
-        {
-            DevHelper.Ayarlar.SetConStr(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
-            DevHelper.Ayarlar.SirketKodu = sirketKodu;
-            List<DepTran> DepTranList = new List<DepTran>();
-            List<DepTranOptinal> DepTranOptinalList = new List<DepTranOptinal>();
-            Genel_Islemler GI = new Genel_Islemler(sirketKodu);
-            string evrakNo = GI.EvrakNo_Getir(7200);
-
-            DepTran dep = new DepTran()
+            var sonuc = TransferToLink(mGorev.Transfers.FirstOrDefault().ID, false, kaydeden);
+            if (sonuc.Status == true)
             {
-                EvrakNo = evrakNo,
-
-                Tarih = DateTime.Today,
-                MalKodu = "0200000000321011", 
-                Miktar = 10,
-                Birim = "ADET",
-                GirisDepo = "00 DP",
-                CikisDepo = "02 DP",
-                Kaydeden = kaydeden,
-                KayitSurum = "9.01.028",
-                KayitKaynak = 74
-            };
-            DepTranList.Add(dep);
-            DepTranOptinalList.Add(new DepTranOptinal() { Chk = "120 01 01 A0010" });
-
-            Stok_Islemleri StokIslem = new Stok_Islemleri(sirketKodu);
-            OnikimCore.GunesCore.IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7200, DepTranList, DepTranOptinalList);
+                db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kulID, "", ComboItems.TransferÇıkış.ToInt32(), 0);
+                db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, mGorev.Bilgi, true, ComboItems.TransferGiriş.ToInt32(), kulID, kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
+            }
+            return sonuc;
+        }
+        [WebMethod]
+        public Result TransferGiris_GoreviTamamla(int GorevID, int kulID)
+        {
+            //kontrols
+            int tipID = ComboItems.TransferGiriş.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return new Result(false, "Transfer bulunamadı !");
+            var tmpYer = mGorev.GorevYers.Where(m => m.YerlestirmeMiktari < m.Miktar).FirstOrDefault();
+            if (tmpYer.IsNotNull())
+                return new Result(false, "İşlem bitmemiş !");
+            //görev bitir
+            int tarih = DateTime.Today.ToOADateInt();
+            string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
+            var sonuc = TransferToLink(mGorev.Transfers.FirstOrDefault().ID, true, kaydeden);
+            if (sonuc.Status == true)
+                db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kulID, "", ComboItems.TransferGiriş.ToInt32(), 0);
+            return sonuc;
+        }
+        private Result TransferToLink(int transferID, bool GirisMi, string kaydeden)
+        {
+            var transfer = db.Transfers.Where(m => m.ID == transferID).FirstOrDefault();
+            //settings
+            DevHelper.Ayarlar.SetConStr(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
+            DevHelper.Ayarlar.SirketKodu = transfer.SirketKod;
+            Genel_Islemler GI = new Genel_Islemler(transfer.SirketKod);
+            string evrakNo = GI.EvrakNo_Getir(7200);
+            //add to list
+            List<DepTran> DepTranList = new List<DepTran>();
+            foreach (var item in transfer.Transfer_Detay)
+            {
+                DepTran dep = new DepTran()
+                {
+                    EvrakNo = evrakNo,
+                    Tarih = DateTime.Today,
+                    MalKodu = item.MalKodu,
+                    Miktar = item.Miktar,
+                    Birim = item.Birim,
+                    GirisDepo = GirisMi == true ? transfer.Depo.DepoKodu : transfer.Depo2.DepoKodu,
+                    CikisDepo = GirisMi == true ? transfer.Depo2.DepoKodu : transfer.Depo1.DepoKodu,
+                    Kaydeden = kaydeden,
+                    KayitSurum = "9.01.028",
+                    KayitKaynak = 74
+                };
+                DepTranList.Add(dep);
+            }
+            //save 2 db
+            Stok_Islemleri StokIslem = new Stok_Islemleri(transfer.SirketKod);
+            OnikimCore.GunesCore.IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7200, DepTranList);
             //return
             var _Result = new Result()
             {

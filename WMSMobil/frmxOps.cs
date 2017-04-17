@@ -102,7 +102,7 @@ namespace WMSMobil
                 label6.Visible = false;
                 label12.Visible = false;
             }
-            else if (gorevtip == 19)
+            else// if (gorevtip == 19)
             {
                 this.Text = "Transfer";
                 label5.Text = "Raf";
@@ -235,7 +235,7 @@ namespace WMSMobil
                     tMiktar.Text = stiItem.Miktar.ToDecimal().ToString("N2");
                     tMiktar.Tag = stiItem.Miktar.ToDecimal();
                 }
-                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip==MenuType.SiparisToplama || Ayarlar.MenuTip==MenuType.Transfer)
+                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 {
 
                     tRaf.Font = font;
@@ -293,7 +293,7 @@ namespace WMSMobil
                     panelSatir.Size = new Size(400, 22);
                     panelSatir.Controls.Add(tMiktarOkutulan);
                 }
-                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.Transfer)
+                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 {
                     panelSatir.Size = new Size(550, 22);
                     panelSatir.Controls.Add(tRaf);
@@ -360,7 +360,7 @@ namespace WMSMobil
                             item.BackColor = Color.DarkOrange;
                     }
                 }
-                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.Transfer)
+                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 {
                     if (itemPanel.Controls[0].Text == mal)
                     {
@@ -383,7 +383,7 @@ namespace WMSMobil
                     }
                 }
             }
-            if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.Transfer)
+            if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
             {
                 if (raf_var)
                     return;
@@ -513,7 +513,7 @@ namespace WMSMobil
                     sti.ID = itemPanel.Controls[0].Tag.ToInt32();
                     StiList.Add(sti);
                 }
-                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.Transfer)
+                else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 {
                     if (itemPanel.Controls[6].Text.ToDecimal() > 0)
                     {
@@ -535,7 +535,7 @@ namespace WMSMobil
                 Sonuc = Servis.Mal_Kabul(StiList.ToArray());
             else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
                 Sonuc = Servis.Rafa_Kaldir(YerList.ToArray(), Ayarlar.Kullanici.ID);
-            else if (Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.Transfer)
+            else if (Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID);
             else if (Ayarlar.MenuTip == MenuType.Paketle)
                 Sonuc = Servis.Paketle(StiList.ToArray());
