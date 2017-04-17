@@ -1,4 +1,5 @@
 ﻿12M Yazılım Proje ve Yönetim Danışmanlık Ltd. Şti.
+Ömer Berkli
 /* TEAM */
 Hüseyin Sekmenoğlu
 Derviş Akdeniz
