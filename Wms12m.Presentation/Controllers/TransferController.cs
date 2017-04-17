@@ -52,7 +52,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult PlanOnay(frmTransferMalzemeApprove tbl)
         {
-            if (tbl.SirketID == "" || tbl.GirisDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
+            if (tbl.SirketID == "" || tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
             //liste oluştur
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);

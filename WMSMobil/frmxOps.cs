@@ -110,12 +110,14 @@ namespace WMSMobil
                 label7.Visible = true;
                 label6.Visible = true;
                 label12.Visible = true;
+                label1.Visible = false;
+                txtUnvan.Visible = false;
             }
             //barkod
-            //Barkod = new Barcode2();
-            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            //Barkod.EnableScanner = true;
-            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            Barkod = new Barcode2();
+            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            Barkod.EnableScanner = true;
+            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             //end
             txtBarkod.Focus();
         }
