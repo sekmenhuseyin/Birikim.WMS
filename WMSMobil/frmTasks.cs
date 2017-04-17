@@ -227,5 +227,12 @@ namespace WMSMobil
             else
                 Mesaj.Uyari(sonuc.Message);
         }
+        /// <summary>
+        /// dispose
+        /// </summary>
+        private void frmTasks_Closing(object sender, CancelEventArgs e)
+        {
+            Servis.Dispose();
+        }
     }
 }

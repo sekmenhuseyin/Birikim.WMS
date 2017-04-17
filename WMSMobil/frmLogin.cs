@@ -56,6 +56,7 @@ namespace WMSMobil
         private void GirisForm_Closing(object sender, CancelEventArgs e)
         {
             Servis.Dispose();
+            Application.Exit();
         }
         /// <summary>
         /// textbox focusta selectall yap

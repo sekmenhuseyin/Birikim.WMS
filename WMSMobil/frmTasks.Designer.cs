@@ -201,7 +201,7 @@
             this.btnIslemYap.Text = "Devam Et";
             this.btnIslemYap.Click += new System.EventHandler(this.btnIslemYap_Click);
             // 
-            // GorevSecim
+            // frmTasks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -212,8 +212,9 @@
             this.Controls.Add(this.panelOrta);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Name = "GorevSecim";
+            this.Name = "frmTasks";
             this.Text = "MalKabul";
+            this.Closing += new System.ComponentModel.CancelEventHandler(this.frmTasks_Closing);
             this.panel2.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
