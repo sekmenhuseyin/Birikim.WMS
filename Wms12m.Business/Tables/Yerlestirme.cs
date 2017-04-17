@@ -43,7 +43,7 @@ namespace Wms12m.Business
         /// <summary>
         /// stok güncelleme
         /// </summary>
-        public Result Update(Yer tbl, int IrsID, int KullID, bool gc)
+        public Result Update(Yer tbl, int IrsID, int KullID, bool gc, decimal miktar)
         {
             _Result = new Result();
             //log
@@ -53,7 +53,7 @@ namespace Wms12m.Business
                 MalKodu = tbl.MalKodu,
                 Birim = tbl.Birim,
                 Miktar = tbl.Miktar,
-                GC = gc,
+                GC = gc,//false=girdi(+), true=çıktı(-)
                 IrsaliyeID = IrsID,
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
                 KayitSaati = DateTime.Now.ToOaTime(),
@@ -62,10 +62,7 @@ namespace Wms12m.Business
             db.Yer_Log.Add(yerLog);
             //stok
             var log = Detail(tbl.ID);
-            if (gc == false)//false=girdi(+), true=çıktı(-)
-                log.Miktar += tbl.Miktar;
-            else
-                log.Miktar -= tbl.Miktar;
+            log.Miktar = tbl.Miktar;
             //save
             db.SaveChanges();
             //exit

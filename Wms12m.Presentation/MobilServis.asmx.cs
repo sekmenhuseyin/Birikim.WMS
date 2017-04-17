@@ -312,8 +312,8 @@ namespace Wms12m
                         }
                         else
                         {
-                            tmp2.Miktar = item.Miktar;
-                            stok.Update(tmp2, item.IrsID, kulID, false);
+                            tmp2.Miktar += item.Miktar;
+                            stok.Update(tmp2, item.IrsID, kulID, false, item.Miktar);
                         }
                     }
                 }
@@ -356,8 +356,8 @@ namespace Wms12m
                         var x = db.GorevYers.Where(m => m.YerID == tmp2.ID && m.GorevID == item.GorevID && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
                         if (tmp2.Miktar >= item.Miktar && item.Miktar <= (x.Miktar - (x.YerlestirmeMiktari ?? 0)))
                         {
-                            tmp2.Miktar = item.Miktar;
-                            stok.Update(tmp2, item.IrsID, kulID, true);
+                            tmp2.Miktar -= item.Miktar;
+                            stok.Update(tmp2, item.IrsID, kulID, true, item.Miktar);
                             //raftan indirdiğini kaydet
                             db.TerminalRaftanIndir(item.IrsID, kat, item.Miktar);
                         }
