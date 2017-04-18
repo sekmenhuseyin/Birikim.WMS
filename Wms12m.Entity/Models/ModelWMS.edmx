@@ -215,6 +215,7 @@
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="KynkSiparisID" Type="int" />
           <Property Name="KynkSiparisNo" Type="varchar" MaxLength="16" />
           <Property Name="KynkSiparisSiraNo" Type="smallint" />
           <Property Name="KynkSiparisTarih" Type="int" />
@@ -2056,6 +2057,7 @@
           <Property Name="KynkSiparisMiktar" Type="Decimal" Precision="25" Scale="6" />
           <Property Name="YerlestirmeMiktari" Type="Decimal" Precision="25" Scale="6" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_STI_IRS" FromRole="IRS_Detay" ToRole="IR" />
+          <Property Name="KynkSiparisID" Type="Int32" />
         </EntityType>
         <Association Name="FK_Bolum_UsersDegistiren">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -2797,6 +2799,7 @@
           <EntitySetMapping Name="IRS_Detay">
             <EntityTypeMapping TypeName="MModel.IRS_Detay">
               <MappingFragment StoreEntitySet="IRS_Detay">
+                <ScalarProperty Name="KynkSiparisID" ColumnName="KynkSiparisID" />
                 <ScalarProperty Name="YerlestirmeMiktari" ColumnName="YerlestirmeMiktari" />
                 <ScalarProperty Name="KynkSiparisMiktar" ColumnName="KynkSiparisMiktar" />
                 <ScalarProperty Name="KynkSiparisTarih" ColumnName="KynkSiparisTarih" />

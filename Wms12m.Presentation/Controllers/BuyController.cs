@@ -45,7 +45,8 @@ namespace Wms12m.Presentation.Controllers
             //get list
             string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
-                                        "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Chk = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar > 0)", tmp[0], depo, tmp[2]);
+                                        "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Chk = '{2}') " +
+                                        "AND FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID NOT IN (SELECT ISNULL(KynkSiparisID,0) FROM wms.IRS_Detay GROUP BY ISNULL(KynkSiparisID,0))", tmp[0], depo, tmp[2]);
             var list = db.Database.SqlQuery<frmSiparistenGelen>(sql).ToList();
             return PartialView("SiparisList", list);
         }
@@ -56,43 +57,76 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult FromSiparis(string s, string id, string ids)
         {
             if (s == null || id == null || ids == null) return null;
-            //loop ids
+            int irsaliyeID = id.ToInt32(), eklenen = 0, sira = 0;
+            //split ids into rows
+            ids = ids.Left(ids.Length - 1);
             string[] tmp = ids.Split('#');
-            int rowid, irsaliyeID = id.ToInt32(), eklenen = 0;
+            var satir = new IRS_Detay();
+            var tbl = new List<IRS_Detay>();
+            foreach (var item in tmp)
+            {
+                if (sira == 0)
+                {
+                    //evrak no ekle
+                    satir.KynkSiparisNo = item;
+                    sira++;
+                }
+                else if (sira == 1)
+                {
+                    //malkodu ekle
+                    satir.MalKodu = item;
+                    sira++;
+                }
+                else if (sira == 2)
+                {
+                    //birim ekle
+                    satir.Birim = item;
+                    sira++;
+                }
+                else if (sira == 3)
+                {
+                    //row id ekle
+                    satir.KynkSiparisID = item.ToInt32();
+                    sira++;
+                }
+                else
+                {
+                    //miktar ekle
+                    satir.Miktar = item.ToDecimal();
+                    tbl.Add(satir);
+                    satir = new IRS_Detay();
+                    sira = 0;
+                }
+            }
             //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
             var irs = Irsaliye.Detail(irsaliyeID);
             if (irs.Onay == false)
             {
-                foreach (var item in tmp)
+                foreach (var item in tbl)
                 {
-                    if (item != "")
+                    string sql = String.Format("SELECT EvrakNo, Tarih, SiraNo, MalKodu, BirimMiktar, (BirimMiktar - TeslimMiktar - KapatilanMiktar) AS Miktar, Birim FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0) AND (MalKodu = '{2}') AND (Birim = '{3}') AND (EvrakNo = '{4}')", s, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo);
+                    try
                     {
-                        var tmp2 = item.Split('-');
-                        rowid = tmp2[0].ToInt32();
-                        decimal mktr = tmp2[1].ToDecimal();
-                        string sql = String.Format("SELECT EvrakNo, Tarih, SiraNo, MalKodu, BirimMiktar, (BirimMiktar - TeslimMiktar - KapatilanMiktar) AS Miktar, Birim FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0)", s, rowid);
-                        try
+                        var tempTbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
+                        //save details
+                        IRS_Detay sti = new IRS_Detay()
                         {
-                            var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
-                            //save details
-                            IRS_Detay sti = new IRS_Detay()
-                            {
-                                IrsaliyeID = irsaliyeID,
-                                Birim = tbl.Birim,
-                                KynkSiparisMiktar = tbl.BirimMiktar,
-                                KynkSiparisNo = tbl.EvrakNo,
-                                KynkSiparisSiraNo = tbl.SiraNo,
-                                KynkSiparisTarih = tbl.Tarih,
-                                MalKodu = tbl.MalKodu,
-                                Miktar = mktr > 0 ? mktr : tbl.Miktar
-                            };
-                            Result _Result = Stok.Operation(sti);
-                            eklenen++;
-                        }
-                        catch (Exception ex)
-                        {
-                            db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/FromSiparis");
-                        }
+                            IrsaliyeID = irsaliyeID,
+                            Birim = tempTbl.Birim,
+                            KynkSiparisMiktar = tempTbl.BirimMiktar,
+                            KynkSiparisID = item.KynkSiparisID,
+                            KynkSiparisNo = tempTbl.EvrakNo,
+                            KynkSiparisSiraNo = tempTbl.SiraNo,
+                            KynkSiparisTarih = tempTbl.Tarih,
+                            MalKodu = tempTbl.MalKodu,
+                            Miktar = item.Miktar > 0 ? item.Miktar : tempTbl.Miktar
+                        };
+                        Result _Result = Stok.Operation(sti);
+                        eklenen++;
+                    }
+                    catch (Exception ex)
+                    {
+                        db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/FromSiparis");
                     }
                 }
                 if (eklenen > 0)

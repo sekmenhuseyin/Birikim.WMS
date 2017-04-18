@@ -61,7 +61,7 @@
         });
         $("#submitter").click(function () {
             var selected = "";
-            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) { selected = selected + this.data()[6] + "-" + list[this.data()[7]] + "#"; });
+            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) { selected = selected + this.data()[0] + "#" + this.data()[2] + "#" + this.data()[5] + "#" + this.data()[6] + "#" + list[this.data()[7]] + "#"; });
             if (selected == "") return;
             $.ajax({
                 url: "/Buy/FromSiparis",

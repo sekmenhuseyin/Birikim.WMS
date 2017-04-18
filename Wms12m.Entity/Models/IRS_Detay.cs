@@ -25,6 +25,7 @@ namespace Wms12m.Entity.Models
         public Nullable<int> KynkSiparisTarih { get; set; }
         public Nullable<decimal> KynkSiparisMiktar { get; set; }
         public Nullable<decimal> YerlestirmeMiktari { get; set; }
+        public Nullable<int> KynkSiparisID { get; set; }
     
         public virtual IR IR { get; set; }
     }
