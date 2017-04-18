@@ -335,12 +335,12 @@ namespace WMSMobil
         {            
             string mal = txtBarkod.Text;
             string raf = txtRafBarkod.Text;
-            //if (mal=="")
-            //{
-            //    Mesaj.Hata("Malkodu okutun");
-            //    txtBarkod.Focus();
-            //    return;
-            //}
+            if (mal == "")
+            {
+                Mesaj.Hata(null, "Malkodu okutun");
+                txtBarkod.Focus();
+                return;
+            }
             bool mal_var = false;
             bool raf_var = false;
             Tip_STI temp_sti = new Tip_STI();
@@ -539,7 +539,7 @@ namespace WMSMobil
                 Sonuc = Servis.Rafa_Kaldir(YerList.ToArray(), Ayarlar.Kullanici.ID);
             else if (Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID);
-            else if (Ayarlar.MenuTip == MenuType.Paketle)
+            else if (Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 Sonuc = Servis.Paketle(StiList.ToArray());
             if (Sonuc.Status)
             {

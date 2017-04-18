@@ -214,6 +214,8 @@ namespace WMSMobil
                     sonuc = Servis.SiparisTopla_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
                 else if (Ayarlar.MenuTip == MenuType.Paketle)
                     sonuc = Servis.Paketle_GoreviTamamla(GorevID, IrsaliyeID, Ayarlar.Kullanici.ID);
+                else if (Ayarlar.MenuTip == MenuType.Sevkiyat)
+                    sonuc = Servis.Sevkiyat_GoreviTamamla(GorevID, IrsaliyeID, Ayarlar.Kullanici.ID);
                 else if (Ayarlar.MenuTip == MenuType.TransferÇıkış)
                     sonuc = Servis.TransferCikis_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
                 else if (Ayarlar.MenuTip == MenuType.TransferGiriş)
