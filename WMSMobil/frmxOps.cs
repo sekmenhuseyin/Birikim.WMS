@@ -118,10 +118,10 @@ namespace WMSMobil
                 txtEvrakno.Visible = false;
             }
             //barkod
-            //Barkod = new Barcode2();
-            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            //Barkod.EnableScanner = true;
-            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            Barkod = new Barcode2();
+            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            Barkod.EnableScanner = true;
+            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             //end
             txtBarkod.Focus();
         }
@@ -333,7 +333,7 @@ namespace WMSMobil
             ((TextBox)sender).SelectAll();
         }
         /// <summary>
-        /// bir tane okur, malın bulunduğu satırda omiktarı bir arttırır
+        /// bir tane okur, malın bulunduğu satırda miktarı bir arttırır
         /// </summary>
         private void btnUygula_Click(object sender, EventArgs e)
         {            

@@ -150,12 +150,14 @@ namespace Wms12m
         [WebMethod]
         public string GetMalzemeFromBarcode(string barkod)
         {
-            string sql = "''";
+            string sql = "";
             var dbs = db.GetSirketDBs();
             foreach (var item in dbs)
             {
-                sql = string.Format("ISNULL((SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (BarKod2 = '{1}') OR (BarKod1 = '{1}'))," + sql + ")", item, barkod);
+                if (sql != "") sql += " UNION ";
+                sql += string.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (BarKod1 = '{1}') OR (BarKod2 = '{1}')", item, barkod);
             }
+            sql = "SELECT MalKodu from ("+sql+") as t where Malkodu is not null";
             return db.Database.SqlQuery<string>(sql).FirstOrDefault();
         }
         /// <summary>

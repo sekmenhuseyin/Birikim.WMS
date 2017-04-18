@@ -997,10 +997,10 @@
   </wsdl:binding>
   <wsdl:service name="MobilServis">
     <wsdl:port name="MobilServisSoap" binding="tns:MobilServisSoap">
-      <soap:address location="http://localhost:3841/MobilServis.asmx" />
+      <soap:address location="http://testserver:9080/MobilServis.asmx" />
     </wsdl:port>
     <wsdl:port name="MobilServisSoap12" binding="tns:MobilServisSoap12">
-      <soap12:address location="http://localhost:3841/MobilServis.asmx" />
+      <soap12:address location="http://testserver:9080/MobilServis.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

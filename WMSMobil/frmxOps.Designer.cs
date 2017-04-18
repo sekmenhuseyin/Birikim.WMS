@@ -80,9 +80,9 @@
             // 
             this.btnUygula.BackColor = System.Drawing.Color.SkyBlue;
             this.btnUygula.ForeColor = System.Drawing.Color.Black;
-            this.btnUygula.Location = new System.Drawing.Point(169, 3);
+            this.btnUygula.Location = new System.Drawing.Point(170, 2);
             this.btnUygula.Name = "btnUygula";
-            this.btnUygula.Size = new System.Drawing.Size(68, 37);
+            this.btnUygula.Size = new System.Drawing.Size(68, 41);
             this.btnUygula.TabIndex = 2;
             this.btnUygula.Text = "Uygula";
             this.btnUygula.Click += new System.EventHandler(this.btnUygula_Click);
@@ -91,7 +91,7 @@
             // 
             this.txtRafBarkod.Location = new System.Drawing.Point(74, 22);
             this.txtRafBarkod.Name = "txtRafBarkod";
-            this.txtRafBarkod.Size = new System.Drawing.Size(92, 21);
+            this.txtRafBarkod.Size = new System.Drawing.Size(95, 21);
             this.txtRafBarkod.TabIndex = 1;
             this.txtRafBarkod.Visible = false;
             this.txtRafBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
@@ -100,7 +100,7 @@
             // 
             this.txtBarkod.Location = new System.Drawing.Point(74, 2);
             this.txtBarkod.Name = "txtBarkod";
-            this.txtBarkod.Size = new System.Drawing.Size(92, 21);
+            this.txtBarkod.Size = new System.Drawing.Size(95, 21);
             this.txtBarkod.TabIndex = 0;
             this.txtBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
@@ -111,7 +111,7 @@
             this.label7.ForeColor = System.Drawing.SystemColors.Window;
             this.label7.Location = new System.Drawing.Point(3, 24);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(70, 19);
+            this.label7.Size = new System.Drawing.Size(70, 17);
             this.label7.Text = "Raf Okut";
             this.label7.Visible = false;
             // 
@@ -120,9 +120,9 @@
             this.label4.BackColor = System.Drawing.Color.CadetBlue;
             this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.SystemColors.Window;
-            this.label4.Location = new System.Drawing.Point(3, 3);
+            this.label4.Location = new System.Drawing.Point(3, 4);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(70, 19);
+            this.label4.Size = new System.Drawing.Size(70, 17);
             this.label4.Text = "Mal Okut";
             // 
             // panel2
@@ -144,7 +144,7 @@
             this.txtHesapKodu.Location = new System.Drawing.Point(74, 67);
             this.txtHesapKodu.Name = "txtHesapKodu";
             this.txtHesapKodu.ReadOnly = true;
-            this.txtHesapKodu.Size = new System.Drawing.Size(55, 21);
+            this.txtHesapKodu.Size = new System.Drawing.Size(54, 21);
             this.txtHesapKodu.TabIndex = 4;
             // 
             // txtUnvan
@@ -160,9 +160,9 @@
             this.label3.BackColor = System.Drawing.Color.Teal;
             this.label3.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.SystemColors.Window;
-            this.label3.Location = new System.Drawing.Point(130, 67);
+            this.label3.Location = new System.Drawing.Point(129, 67);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(50, 21);
+            this.label3.Size = new System.Drawing.Size(51, 21);
             this.label3.Text = "EvrakNo";
             // 
             // label2
@@ -289,7 +289,7 @@
             this.btnKaydet.Text = "Kaydet";
             this.btnKaydet.Click += new System.EventHandler(this.btnKaydet_Click);
             // 
-            // MalzemeIslemleri
+            // frmxOps
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -300,7 +300,7 @@
             this.Controls.Add(this.panelUst);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Name = "MalzemeIslemleri";
+            this.Name = "frmxOps";
             this.Text = "MalKabul";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MalzemeIslemleri_Closing);
             this.panelUst.ResumeLayout(false);
