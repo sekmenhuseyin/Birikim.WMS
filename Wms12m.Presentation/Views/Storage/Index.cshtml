@@ -27,7 +27,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Depo Kodu</label>
                                     <div class="col-md-4">
-                                        @Html.TextBoxFor(a => a.DepoKodu, new { @class = "form-control input-circle", @placeholder = "Depo Kodu", required = "required" })
+                                        @Html.TextBoxFor(a => a.DepoKodu, new { @class = "form-control input-circle", @placeholder = "Depo Kodu", required = "required", @maxlength = "5" })
                                         <span class="field-validation-valid" data-valmsg-for="StoreCode" data-valmsg-replace="true" style="color:red;"></span>
                                     </div>
                                 </div>

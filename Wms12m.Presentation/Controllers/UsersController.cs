@@ -70,7 +70,10 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult DepoSet(int UserID, int DepoID)
         {
-            db.YetkiDepoSet(DepoID, UserID, true);
+            try
+            {
+                db.YetkiDepoSet(DepoID, UserID, true);
+            } catch (System.Exception) { }
             var tbl = db.YetkiDepo(UserID).ToList();
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             ViewBag.ID = UserID;

@@ -513,7 +513,7 @@ namespace Wms12m
 
         }
         /// <summary>
-        /// sipariş toplama görevi tamamlma
+        /// transfer görevleri tamamlma
         /// </summary>
         [WebMethod]
         public Result TransferCikis_GoreviTamamla(int GorevID, int kulID)
@@ -539,6 +539,7 @@ namespace Wms12m
                 var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, mGorev.Bilgi, true, ComboItems.TransferGiriş.ToInt32(), kulID, kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
                 //yeni görev id'yi yaz
                 transfer.GorevID = cevap.GorevID.Value;
+                mGorev.IR.DepoID = transfer.GirisDepoID;
                 db.SaveChanges();
             }
             return sonuc;

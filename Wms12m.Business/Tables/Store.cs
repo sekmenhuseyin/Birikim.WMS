@@ -26,6 +26,13 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+            if (tbl.DepoAd.Length > 100 || tbl.DepoKodu.Length > 5)
+            {
+                _Result.Id = 0;
+                _Result.Message = "Daha kısa isimler yazın";
+                _Result.Status = false;
+                return _Result;
+            }
             var kontrol = db.Depoes.Where(m => (m.DepoAd == tbl.DepoAd && m.ID != tbl.ID) || (m.DepoKodu == tbl.DepoKodu && m.ID != tbl.ID)).FirstOrDefault();
             if (kontrol != null)
             {

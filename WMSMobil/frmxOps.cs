@@ -111,7 +111,11 @@ namespace WMSMobil
                 label6.Visible = true;
                 label12.Visible = true;
                 label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
                 txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
             }
             //barkod
             //Barkod = new Barcode2();
@@ -535,9 +539,9 @@ namespace WMSMobil
 
             if (Ayarlar.MenuTip == MenuType.MalKabul)
                 Sonuc = Servis.Mal_Kabul(StiList.ToArray());
-            else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
+            else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 Sonuc = Servis.Rafa_Kaldir(YerList.ToArray(), Ayarlar.Kullanici.ID);
-            else if (Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
+            else if (Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış)
                 Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID);
             else if (Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 Sonuc = Servis.Paketle(StiList.ToArray());
