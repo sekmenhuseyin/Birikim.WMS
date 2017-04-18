@@ -49,13 +49,13 @@
                                                     <td>@item.Onay</td>
                                                     <td>@item.User.AdSoyad</td>
                                                     <td>
-                                                        <a href="javascript:" class="btn btn-danger input-circle" onclick="Delete()">Sil</a>
-                                                        @using (Html.BeginForm("Approve", "Transfer", FormMethod.Post, new { @class = "form-horizontal" }))
+                                                        @using (Html.BeginForm("Approve", "Transfer", FormMethod.Post, new { @class = "form-horizontal pull-left" }))
                                                         {
                                                             @Html.AntiForgeryToken()
                                                             <input type="hidden" name="ID" value="@item.ID" />
                                                             <input type="submit" value="Onay" class="btn btn-default input-circle" />
                                                         }
+                                                        <a href="javascript:" class="btn btn-danger input-circle pull-left" onclick="Delete()">Sil</a>
                                                     </td>
                                                 </tr>
                                             }

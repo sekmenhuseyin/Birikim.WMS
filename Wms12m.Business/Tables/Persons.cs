@@ -19,14 +19,14 @@ namespace Wms12m.Business
         public override Result Operation(User tbl)
         {
             _Result = new Result();
-            if (tbl.AdSoyad == "" || tbl.Sirket == "" || tbl.Kod == "" || (tbl.ID == 0 && tbl.Sifre.ToString2() == ""))
+            if (tbl.AdSoyad == "" || tbl.Kod == "" || (tbl.ID != 0 && tbl.Sifre.ToString2() == ""))
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 _Result.Status = false;
                 return _Result;
             }
-            var kontrol = db.Users.Where(m => m.Sirket == tbl.Sirket && m.Tip == tbl.Tip && m.Kod == tbl.Kod && m.ID != tbl.ID).FirstOrDefault();
+            var kontrol = db.Users.Where(m => m.Kod == tbl.Kod && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)
             {
                 _Result.Id = 0;
@@ -37,16 +37,18 @@ namespace Wms12m.Business
             if (tbl.Sifre.ToString2() != "") tbl.Sifre = CryptographyExtension.Sifrele(tbl.Sifre);
             try
             {
-                tbl.Degistiren = Users.AppIdentity.User.LogonUserName;
+                tbl.Degistiren = Users.AppIdentity.User.UserName;
                 tbl.DegisTarih = DateTime.Today.ToOADateInt();
                 tbl.DegisSaat = DateTime.Now.ToOaTime();
                 tbl.DegisKaynak = 0;
                 tbl.DegisSurum = "1.0.0";
                 if (tbl.ID == 0)
                 {
+                    tbl.Sirket = "";
+                    tbl.Sifre = "";
                     tbl.Email = tbl.Email.ToString2();
                     tbl.Tema = tbl.Tema.ToString2();
-                    tbl.Kaydeden = Users.AppIdentity.User.LogonUserName;
+                    tbl.Kaydeden = Users.AppIdentity.User.UserName;
                     tbl.KayitTarih = DateTime.Today.ToOADateInt();
                     tbl.KayitSaat = DateTime.Now.ToOaTime();
                     tbl.KayitKaynak = 0;
@@ -56,8 +58,8 @@ namespace Wms12m.Business
                 else
                 {
                     var tmp = Detail(tbl.ID);
-                    tmp.Sirket = tbl.Sirket;
-                    tmp.Tip = tbl.Tip;
+                    tmp.Sirket = "";
+                    tmp.Tip = 0;
                     tmp.Kod = tbl.Kod;
                     tmp.AdSoyad = tbl.AdSoyad;
                     tmp.Sifre = tbl.Sifre.ToString2();
@@ -143,7 +145,7 @@ namespace Wms12m.Business
             {
                 var tmp = Detail(P.ID);
                 tmp.Sifre = P.Sifre ?? "";
-                tmp.Degistiren = Users.AppIdentity.User.LogonUserName;
+                tmp.Degistiren = Users.AppIdentity.User.UserName;
                 tmp.DegisTarih = DateTime.Today.ToOADateInt();
                 tmp.DegisSaat = DateTime.Now.ToOaTime();
                 db.SaveChanges();

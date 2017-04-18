@@ -115,7 +115,7 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return null;
             string sql;
-            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferGiriş.ToInt32())
+            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32())
             {
                 var dbs = db.GetSirketDBs(); sql = "''";
                 foreach (var item in dbs)
@@ -532,11 +532,14 @@ namespace Wms12m
             var transfer = mGorev.Transfers.FirstOrDefault();
             string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
             string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
-            var sonuc = TransferToLink(mGorev.Transfers.FirstOrDefault().ID, false, kaydeden);
+            var sonuc = TransferToLink(transfer.ID, false, kaydeden);
             if (sonuc.Status == true)
             {
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kulID, "", ComboItems.TransferÇıkış.ToInt32(), 0);
-                db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, mGorev.Bilgi, true, ComboItems.TransferGiriş.ToInt32(), kulID, kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
+                var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, mGorev.Bilgi, true, ComboItems.TransferGiriş.ToInt32(), kulID, kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
+                //yeni görev id'yi yaz
+                transfer.GorevID = cevap.GorevID.Value;
+                db.SaveChanges();
             }
             return sonuc;
         }
@@ -593,7 +596,7 @@ namespace Wms12m
             var _Result = new Result()
             {
                 Status = Sonuc.Basarili,
-                Message = Sonuc.Hata.Message,
+                Message = Sonuc.Hata != null ? Sonuc.Hata.Message : "",
                 Data = Sonuc.Veri
             };
             return _Result;
