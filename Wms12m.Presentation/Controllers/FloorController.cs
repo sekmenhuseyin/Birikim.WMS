@@ -16,11 +16,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
-            ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
-            ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
-            ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
-            ViewBag.Ozellik = new SelectList(ComboSub.GetList(Combos.Özellik.ToInt32()), "ID", "Name");
-            return View("Index", new Kat());
+            return View("Index");
         }
         /// <summary>
         /// listesi
@@ -42,7 +38,7 @@ namespace Wms12m.Presentation.Controllers
                     CorridorId = Convert.ToInt16(Id.Split('#')[2]);
                     ShelfId = Convert.ToInt16(Id.Split('#')[3]);
                     SectionId = Convert.ToInt16(Id.Split('#')[4]);
-                    _List = Locked == "Locked" ? Floor.GetList(SectionId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Floor.GetList(SectionId).Where(a => a.Aktif ==false).ToList() : Floor.GetList(SectionId).ToList();
+                    _List = Locked == "Locked" ? Floor.GetList(SectionId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Floor.GetList(SectionId).Where(a => a.Aktif == false).ToList() : Floor.GetList(SectionId).ToList();
                     return PartialView("_FloorGridPartial", _List);
                 }
                 else

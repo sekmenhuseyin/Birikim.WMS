@@ -125,7 +125,9 @@
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
         $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
-        @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}
+        @if (Model.Aktif == false) { <text>$(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true);</text> }
+        @if (Model.ID == 0) { <text>$("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0; $("#Ozellik").prepend("<option value=''>Seçiniz !!!</option>"); $("#Ozellik")[0].selectedIndex = 0;</text> }
         $("#touchspin_11").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
+        CreateEdit('0');
     });
 </script>
