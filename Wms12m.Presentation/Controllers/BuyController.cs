@@ -59,49 +59,53 @@ namespace Wms12m.Presentation.Controllers
             //loop ids
             string[] tmp = ids.Split('#');
             int rowid; int irsaliyeID = id.ToInt32();
-            foreach (var item in tmp)
+            //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
+            var irs = Irsaliye.Detail(irsaliyeID);
+            if (irs.Onay == false)
             {
-                if (item != "")
+                foreach (var item in tmp)
                 {
-                    var tmp2 = item.Split('-');
-                    rowid = tmp2[0].ToInt32();
-                    decimal mktr = tmp2[1].ToDecimal();
-                    string sql = String.Format("SELECT EvrakNo, Tarih, SiraNo, MalKodu, BirimMiktar, (BirimMiktar - TeslimMiktar - KapatilanMiktar) AS Miktar, Birim FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0)", s, rowid);
-                    try
+                    if (item != "")
                     {
-                        var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
-                        //save details
-                        IRS_Detay sti = new IRS_Detay()
+                        var tmp2 = item.Split('-');
+                        rowid = tmp2[0].ToInt32();
+                        decimal mktr = tmp2[1].ToDecimal();
+                        string sql = String.Format("SELECT EvrakNo, Tarih, SiraNo, MalKodu, BirimMiktar, (BirimMiktar - TeslimMiktar - KapatilanMiktar) AS Miktar, Birim FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0)", s, rowid);
+                        try
                         {
-                            IrsaliyeID = irsaliyeID,
-                            Birim = tbl.Birim,
-                            KynkSiparisMiktar = tbl.BirimMiktar,
-                            KynkSiparisNo = tbl.EvrakNo,
-                            KynkSiparisSiraNo = tbl.SiraNo,
-                            KynkSiparisTarih = tbl.Tarih,
-                            MalKodu = tbl.MalKodu,
-                            Miktar = mktr > 0 ? mktr : tbl.Miktar
-                        };
-                        Result _Result = Stok.Operation(sti);
-                    }
-                    catch (Exception ex)
-                    {
-                        db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/FromSiparis");
+                            var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
+                            //save details
+                            IRS_Detay sti = new IRS_Detay()
+                            {
+                                IrsaliyeID = irsaliyeID,
+                                Birim = tbl.Birim,
+                                KynkSiparisMiktar = tbl.BirimMiktar,
+                                KynkSiparisNo = tbl.EvrakNo,
+                                KynkSiparisSiraNo = tbl.SiraNo,
+                                KynkSiparisTarih = tbl.Tarih,
+                                MalKodu = tbl.MalKodu,
+                                Miktar = mktr > 0 ? mktr : tbl.Miktar
+                            };
+                            Result _Result = Stok.Operation(sti);
+                        }
+                        catch (Exception ex)
+                        {
+                            db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/FromSiparis");
+                        }
                     }
                 }
-            }
-            //set aktif
-            var grv = db.Gorevs.Where(m => m.IrsaliyeID == irsaliyeID).FirstOrDefault();
-            if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
-            {
-                grv.DurumID = ComboItems.Açık.ToInt32();
-                grv.OlusturmaTarihi = fn.ToOADate();
-                grv.OlusturmaSaati = fn.ToOATime();
-                db.SaveChanges();
+                //set aktif
+                var grv = db.Gorevs.Where(m => m.IrsaliyeID == irsaliyeID).FirstOrDefault();
+                if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
+                {
+                    grv.DurumID = ComboItems.Açık.ToInt32();
+                    grv.OlusturmaTarihi = fn.ToOADate();
+                    grv.OlusturmaSaati = fn.ToOATime();
+                    db.SaveChanges();
+                }
             }
             //get list
             var list = Stok.GetList(irsaliyeID);
-            var irs = Irsaliye.Detail(irsaliyeID);
             ViewBag.IrsaliyeId = irsaliyeID;
             ViewBag.Onay = irs.Onay;
             ViewBag.SirketID = irs.SirketKod;
@@ -177,20 +181,24 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult InsertMalzeme(frmMalzeme tbl)
         {
-            //add new
-            Result _Result = Stok.Insert(tbl);
-            //set aktif
-            var grv = db.Gorevs.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).FirstOrDefault();
-            if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
+            //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
+            var irs = Irsaliye.Detail(tbl.IrsaliyeId);
+            if (irs.Onay == false)
             {
-                grv.DurumID = ComboItems.Açık.ToInt32();
-                grv.OlusturmaTarihi = fn.ToOADate();
-                grv.OlusturmaSaati = fn.ToOATime();
-                db.SaveChanges();
+                //add new
+                Result _Result = Stok.Insert(tbl);
+                //set aktif
+                var grv = db.Gorevs.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).FirstOrDefault();
+                if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
+                {
+                    grv.DurumID = ComboItems.Açık.ToInt32();
+                    grv.OlusturmaTarihi = fn.ToOADate();
+                    grv.OlusturmaSaati = fn.ToOATime();
+                    db.SaveChanges();
+                }
             }
             //get list
             var list = Stok.GetList(tbl.IrsaliyeId);
-            var irs = Irsaliye.Detail(tbl.IrsaliyeId);
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
             ViewBag.Onay = irs.Onay;
             ViewBag.SirketID = irs.SirketKod;

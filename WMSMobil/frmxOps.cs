@@ -95,7 +95,7 @@ namespace WMSMobil
             }
             else if (gorevtip == 7)
             {
-                this.Text = "Seckiyat";
+                this.Text = "Sevkiyat";
                 label5.Text = "Okutulan Miktar";
                 txtRafBarkod.Visible = false;
                 label7.Visible = false;

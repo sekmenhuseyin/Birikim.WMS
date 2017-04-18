@@ -52,7 +52,7 @@ namespace Wms12m.Business
                 KatID = tbl.KatID,
                 MalKodu = tbl.MalKodu,
                 Birim = tbl.Birim,
-                Miktar = tbl.Miktar,
+                Miktar = miktar,
                 GC = gc,//false=girdi(+), true=çıktı(-)
                 IrsaliyeID = IrsID,
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),

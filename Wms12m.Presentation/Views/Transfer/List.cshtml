@@ -49,6 +49,7 @@
                                                     <td>@item.Onay</td>
                                                     <td>@item.User.AdSoyad</td>
                                                     <td>
+                                                        <a href="javascript:" class="btn btn-danger input-circle" onclick="Delete()">Sil</a>
                                                         @using (Html.BeginForm("Approve", "Transfer", FormMethod.Post, new { @class = "form-horizontal" }))
                                                         {
                                                             @Html.AntiForgeryToken()

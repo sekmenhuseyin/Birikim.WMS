@@ -98,7 +98,7 @@
             this.label4.Location = new System.Drawing.Point(0, 278);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(240, 16);
-            this.label4.Text = "Versiyon : 170417";
+            this.label4.Text = "Versiyon : 170418";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel1
@@ -116,7 +116,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(240, 294);
             // 
-            // GirisForm
+            // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -124,7 +124,7 @@
             this.ClientSize = new System.Drawing.Size(240, 294);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "GirisForm";
+            this.Name = "frmLogin";
             this.Text = "Giriş Ekranı";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.GirisForm_Closing);
             this.panel1.ResumeLayout(false);

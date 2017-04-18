@@ -46,6 +46,10 @@ namespace WMSMobil
                         this.Text = "Paketle";
                         btnLinkeAktar.Text = "Görevi Sonlandır";
                         break;
+                    case MenuType.Sevkiyat:
+                        this.Text = "Sevkiyat";
+                        btnLinkeAktar.Text = "Görevi Sonlandır";
+                        break;
                     case MenuType.TransferÇıkış:
                         this.Text = "Transfer";
                         btnLinkeAktar.Text = "Linke Aktar";

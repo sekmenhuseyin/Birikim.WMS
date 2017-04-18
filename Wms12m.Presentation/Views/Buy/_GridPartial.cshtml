@@ -28,7 +28,7 @@
     </table>
 }
 <script>
-    $(".showlater").show();
+    @{if (ViewBag.Onay == false) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
     $("#IrsNo").val('@ViewBag.IrsaliyeId');
     $("#MalKodu").focus();
     $("#MalKodu").autocomplete({
