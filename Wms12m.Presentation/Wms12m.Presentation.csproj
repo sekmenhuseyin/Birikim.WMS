@@ -2729,6 +2729,8 @@
     <Content Include="Views\Transfer\Summary.cshtml" />
     <Content Include="Views\Stock\Cable.cshtml" />
     <Content Include="Views\Stock\CableList.cshtml" />
+    <Content Include="Views\Cable\Index.cshtml" />
+    <Content Include="Views\Cable\_Siparis.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2738,7 +2740,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\assets\global\plugins\jqvmap\jqvmap\data\" />
-    <Folder Include="Views\Cable\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">
