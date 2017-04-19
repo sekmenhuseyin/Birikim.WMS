@@ -1,0 +1,37 @@
+﻿@model IEnumerable<kblstok>
+<table class="table table-striped table-bordered" id="sample_1">
+    <thead>
+        <tr>
+            <th>marka</th>
+            <th>cins</th>
+            <th>kesit</th>
+            <th>miktar</th>
+            <th>renk</th>
+            <th>makara</th>
+            <th>rezerve</th>
+            <th>satici</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.marka</td>
+                <td>@item.cins</td>
+                <td>@item.kesit</td>
+                <td>@item.miktar</td>
+                <td>@item.renk</td>
+                <td>@item.makara</td>
+                <td>@item.rezerve</td>
+                <td>@item.satici</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
+    });
+</script>

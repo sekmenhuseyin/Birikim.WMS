@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
+using Wms12m.Entity.Mysql;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -41,7 +42,7 @@ namespace Wms12m.Presentation.Controllers
             catch (System.Exception ex)
             {
                 db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Stock/List");
-                return PartialView("_List", new List<Yer>());
+                return PartialView("List", new List<Yer>());
             }
         }
         /// <summary>
@@ -51,6 +52,17 @@ namespace Wms12m.Presentation.Controllers
         {
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Cable");
+        }
+        /// <summary>
+        /// kablo stoğunu getirir
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult CableList(int Id)
+        {
+            KabloEntities dbx = new KabloEntities();
+            var depo = dbx.depoes.Where(m => m.id == Id).Select(m => m.depo1).FirstOrDefault();
+            var list = dbx.kblstoks.Where(m => m.depo == depo).ToList();
+            return PartialView("CableList", list);
         }
         /// <summary>
         /// mal hareketleri

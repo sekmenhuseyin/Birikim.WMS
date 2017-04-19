@@ -20,7 +20,7 @@
                             <div class="form-group">
                                 <div class="col-sm-3 control-label">Depo</div>
                                 <div class="col-sm-4">
-                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle", @onchange = "getCorridor(this.value);" })
+                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle", @onchange = "FuncSearchBtn();" })
                                 </div>
                             </div>
                             <div id="Grid" class="p-30"></div>
