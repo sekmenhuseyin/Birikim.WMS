@@ -121,6 +121,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DepoKodu" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="DepoAd" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="KabloDepoID" Type="int" />
           <Property Name="SiraNo" Type="int" Nullable="false" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
           <Property Name="Kaydeden" Type="int" Nullable="false" />
@@ -1627,6 +1628,7 @@
           <NavigationProperty Name="Transfers" Relationship="MModel.FK_Transfer_Depo" FromRole="Depo" ToRole="Transfer" />
           <NavigationProperty Name="Transfers1" Relationship="MModel.FK_Transfer_Depo1" FromRole="Depo" ToRole="Transfer" />
           <NavigationProperty Name="Transfers2" Relationship="MModel.FK_Transfer_Depo2" FromRole="Depo" ToRole="Transfer" />
+          <Property Name="KabloDepoID" Type="Int32" />
           </EntityType>
         <EntityType Name="Gorev">
           <Key>
@@ -2596,6 +2598,7 @@
           <EntitySetMapping Name="Depoes">
             <EntityTypeMapping TypeName="MModel.Depo">
               <MappingFragment StoreEntitySet="Depo">
+                <ScalarProperty Name="KabloDepoID" ColumnName="KabloDepoID" />
                 <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
                 <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />

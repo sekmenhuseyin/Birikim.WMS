@@ -127,6 +127,32 @@
           <Property Name="sure" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="deger" Type="time" Precision="0" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.kablo.kblstok' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="kblstok">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="marka" />
+            <PropertyRef Name="cins" />
+            <PropertyRef Name="kesit" />
+            <PropertyRef Name="depo" />
+            <PropertyRef Name="renk" />
+            <PropertyRef Name="makara" />
+            <PropertyRef Name="rezerve" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="marka" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="cins" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="kesit" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="miktar" Type="decimal" Precision="33" Scale="0" />
+          <Property Name="depo" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="renk" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="makara" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="rezerve" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="satici" Type="varchar" MaxLength="40" />
+          <Property Name="sure" Type="time" Precision="0" />
+          <Property Name="tarih" Type="datetime" Precision="0" />
+        </EntityType>
         <EntityContainer Name="KabloModelStoreContainer">
           <EntitySet Name="cins" EntityType="Self.cins" Schema="kablo" store:Type="Tables" />
           <EntitySet Name="depo" EntityType="Self.depo" Schema="kablo" store:Type="Tables" />
@@ -141,6 +167,22 @@
           <EntitySet Name="rezerve_onay" EntityType="Self.rezerve_onay" Schema="kablo" store:Type="Tables" />
           <EntitySet Name="stok" EntityType="Self.stok" Schema="kablo" store:Type="Tables" />
           <EntitySet Name="sure" EntityType="Self.sure" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="kblstok" EntityType="Self.kblstok" store:Type="Views" store:Schema="kablo">
+            <DefiningQuery>SELECT
+`kblstok`.`id`, 
+`kblstok`.`marka`, 
+`kblstok`.`cins`, 
+`kblstok`.`kesit`, 
+`kblstok`.`miktar`, 
+`kblstok`.`depo`, 
+`kblstok`.`renk`, 
+`kblstok`.`makara`, 
+`kblstok`.`rezerve`, 
+`kblstok`.`satici`, 
+`kblstok`.`sure`, 
+`kblstok`.`tarih`
+FROM `kblstok` AS `kblstok`</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -160,6 +202,7 @@
           <EntitySet Name="rezerve_onay" EntityType="KabloModel.rezerve_onay" />
           <EntitySet Name="stoks" EntityType="KabloModel.stok" />
           <EntitySet Name="sures" EntityType="KabloModel.sure" />
+          <EntitySet Name="kblstoks" EntityType="KabloModel.kblstok" />
         </EntityContainer>
         <EntityType Name="cin">
           <Key>
@@ -283,7 +326,31 @@
           <Property Name="sure1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="deger" Type="Time" Nullable="false" />
         </EntityType>
-      </Schema>
+        <EntityType Name="kblstok">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="marka" />
+            <PropertyRef Name="cins" />
+            <PropertyRef Name="kesit" />
+            <PropertyRef Name="depo" />
+            <PropertyRef Name="renk" />
+            <PropertyRef Name="makara" />
+            <PropertyRef Name="rezerve" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="marka" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="cins" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="kesit" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="miktar" Type="Decimal" />
+          <Property Name="depo" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="renk" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="makara" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="rezerve" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="satici" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="sure" Type="Time" />
+          <Property Name="tarih" Type="DateTime" />
+        </EntityType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -420,6 +487,24 @@
               <MappingFragment StoreEntitySet="sure">
                 <ScalarProperty Name="deger" ColumnName="deger" />
                 <ScalarProperty Name="sure1" ColumnName="sure" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kblstoks">
+            <EntityTypeMapping TypeName="KabloModel.kblstok">
+              <MappingFragment StoreEntitySet="kblstok">
+                <ScalarProperty Name="tarih" ColumnName="tarih" />
+                <ScalarProperty Name="sure" ColumnName="sure" />
+                <ScalarProperty Name="satici" ColumnName="satici" />
+                <ScalarProperty Name="rezerve" ColumnName="rezerve" />
+                <ScalarProperty Name="makara" ColumnName="makara" />
+                <ScalarProperty Name="renk" ColumnName="renk" />
+                <ScalarProperty Name="depo" ColumnName="depo" />
+                <ScalarProperty Name="miktar" ColumnName="miktar" />
+                <ScalarProperty Name="kesit" ColumnName="kesit" />
+                <ScalarProperty Name="cins" ColumnName="cins" />
+                <ScalarProperty Name="marka" ColumnName="marka" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

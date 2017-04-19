@@ -7,21 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wms12m.Entity.Models
+namespace Wms12m.Entity.Mysql
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class rezerve_onay
+    public partial class kblstok
     {
         public int id { get; set; }
-        public int sid { get; set; }
         public string marka { get; set; }
-        public string kesit { get; set; }
         public string cins { get; set; }
-        public double rmiktar { get; set; }
+        public string kesit { get; set; }
+        public Nullable<decimal> miktar { get; set; }
+        public string depo { get; set; }
+        public string renk { get; set; }
+        public string makara { get; set; }
+        public string rezerve { get; set; }
         public string satici { get; set; }
-        public string onay { get; set; }
-        public System.DateTime tarih { get; set; }
+        public Nullable<System.TimeSpan> sure { get; set; }
+        public Nullable<System.DateTime> tarih { get; set; }
     }
 }

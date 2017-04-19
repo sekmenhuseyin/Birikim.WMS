@@ -7,14 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wms12m.Entity.Models
+namespace Wms12m.Entity.Mysql
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class renk
+    public partial class makara
     {
         public int id { get; set; }
-        public string renk1 { get; set; }
+        public string makara1 { get; set; }
     }
 }

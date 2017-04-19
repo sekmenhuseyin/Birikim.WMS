@@ -7,17 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wms12m.Entity.Models
+namespace Wms12m.Entity.Mysql
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class hareket
+    public partial class cin
     {
-        public int mid { get; set; }
         public int id { get; set; }
-        public decimal miktar { get; set; }
-        public string musteri { get; set; }
-        public System.DateTime tarih { get; set; }
+        public string cins { get; set; }
     }
 }

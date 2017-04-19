@@ -56,6 +56,7 @@ namespace Wms12m.Business
                     var tmp = Detail(tbl.ID);
                     tmp.DepoAd = tbl.DepoAd;
                     tmp.DepoKodu = tbl.DepoKodu;
+                    tmp.KabloDepoID = tbl.KabloDepoID;
                     tmp.SiraNo = tbl.SiraNo;
                     tmp.Aktif = tbl.Aktif;
                     tmp.Degistiren = tbl.Degistiren;

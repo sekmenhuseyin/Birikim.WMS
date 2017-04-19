@@ -7,14 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wms12m.Entity.Models
+namespace Wms12m.Entity.Mysql
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class kesit
+    public partial class index
     {
         public int id { get; set; }
-        public string kesit1 { get; set; }
+        public string cins { get; set; }
+        public string kesit { get; set; }
+        public double agirlik { get; set; }
     }
 }

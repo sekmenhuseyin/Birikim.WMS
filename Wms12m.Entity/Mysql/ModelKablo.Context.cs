@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wms12m.Entity.Models
+namespace Wms12m.Entity.Mysql
 {
     using System;
     using System.Data.Entity;
@@ -38,5 +38,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<rezerve_onay> rezerve_onay { get; set; }
         public virtual DbSet<stok> stoks { get; set; }
         public virtual DbSet<sure> sures { get; set; }
+        public virtual DbSet<kblstok> kblstoks { get; set; }
     }
 }

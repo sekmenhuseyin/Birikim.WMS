@@ -7,15 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wms12m.Entity.Models
+namespace Wms12m.Entity.Mysql
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class sure
+    public partial class kesit
     {
         public int id { get; set; }
-        public string sure1 { get; set; }
-        public System.TimeSpan deger { get; set; }
+        public string kesit1 { get; set; }
     }
 }

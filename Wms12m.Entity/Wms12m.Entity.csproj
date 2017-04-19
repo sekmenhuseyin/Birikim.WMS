@@ -72,9 +72,6 @@
     <Compile Include="Models\Bolum.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\cin.cs">
-      <DependentUpon>ModelKablo.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ComboItem_Name.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -82,13 +79,10 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Depo.cs">
-      <DependentUpon>ModelKablo.tt</DependentUpon>
+      <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EvrakSeri.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\fiyat.cs">
-      <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetHomeSummary_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
@@ -105,12 +99,6 @@
     <Compile Include="Models\GorevYer.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\hareket.cs">
-      <DependentUpon>ModelKablo.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\index.cs">
-      <DependentUpon>ModelKablo.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\InsertIrsaliye_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -123,32 +111,50 @@
     <Compile Include="Models\Kat.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\kesit.cs">
-      <DependentUpon>ModelKablo.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\kesit_kop.cs">
-      <DependentUpon>ModelKablo.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Koridor.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\makara.cs">
+    <Compile Include="Mysql\cin.cs">
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\marka.cs">
+    <Compile Include="Mysql\depo.cs">
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelKablo.Context.cs">
+    <Compile Include="Mysql\fiyat.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\hareket.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\index.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\kblstok.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\kesit.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\kesit_kop.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\makara.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\marka.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\ModelKablo.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelKablo.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelKablo.cs">
+    <Compile Include="Mysql\ModelKablo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModelKablo.Designer.cs">
+    <Compile Include="Mysql\ModelKablo.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelKablo.edmx</DependentUpon>
@@ -159,23 +165,11 @@
     <Compile Include="Models\Raf.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\renk.cs">
-      <DependentUpon>ModelKablo.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\rezerve_onay.cs">
-      <DependentUpon>ModelKablo.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Role.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Simge.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\stok.cs">
-      <DependentUpon>ModelKablo.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sure.cs">
-      <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Transfer.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
@@ -200,6 +194,18 @@
     </Compile>
     <Compile Include="Models\YetkiDepo_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\renk.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\rezerve_onay.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\stok.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Mysql\sure.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
     <Compile Include="Viewmodels\frmTransfer.cs" />
     <Compile Include="Viewmodels\frmUsers.cs" />
@@ -238,11 +244,11 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelWMS.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EntityDeploy Include="Models\ModelKablo.edmx">
+    <EntityDeploy Include="Mysql\ModelKablo.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelKablo.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Models\ModelKablo.edmx.diagram">
+    <None Include="Mysql\ModelKablo.edmx.diagram">
       <DependentUpon>ModelKablo.edmx</DependentUpon>
     </None>
     <None Include="Models\ModelWMS.edmx.diagram">
@@ -251,12 +257,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models\ModelKablo.Context.tt">
+    <Content Include="Mysql\ModelKablo.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelKablo.edmx</DependentUpon>
       <LastGenOutput>ModelKablo.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\ModelKablo.tt">
+    <Content Include="Mysql\ModelKablo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelKablo.edmx</DependentUpon>
       <LastGenOutput>ModelKablo.cs</LastGenOutput>

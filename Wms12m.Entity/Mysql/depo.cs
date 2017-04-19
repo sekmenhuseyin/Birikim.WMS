@@ -7,18 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wms12m.Entity.Models
+namespace Wms12m.Entity.Mysql
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class fiyat
+    public partial class depo
     {
-        public string sid { get; set; }
-        public string tumka { get; set; }
-        public string nexans { get; set; }
-        public string oznur { get; set; }
-        public string vatan { get; set; }
-        public string hes { get; set; }
+        public int id { get; set; }
+        public string depo1 { get; set; }
     }
 }

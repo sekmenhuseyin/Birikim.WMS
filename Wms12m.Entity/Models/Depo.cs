@@ -12,9 +12,46 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class depo
+    public partial class Depo
     {
-        public int id { get; set; }
-        public string depo1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Depo()
+        {
+            this.Gorevs = new HashSet<Gorev>();
+            this.Koridors = new HashSet<Koridor>();
+            this.IRS = new HashSet<IR>();
+            this.Users = new HashSet<User>();
+            this.Transfers = new HashSet<Transfer>();
+            this.Transfers1 = new HashSet<Transfer>();
+            this.Transfers2 = new HashSet<Transfer>();
+        }
+    
+        public int ID { get; set; }
+        public string DepoKodu { get; set; }
+        public string DepoAd { get; set; }
+        public int SiraNo { get; set; }
+        public bool Aktif { get; set; }
+        public int Kaydeden { get; set; }
+        public int KayitTarih { get; set; }
+        public int Degistiren { get; set; }
+        public int DegisTarih { get; set; }
+        public Nullable<int> KabloDepoID { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Gorev> Gorevs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Koridor> Koridors { get; set; }
+        public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<IR> IRS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transfer> Transfers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transfer> Transfers1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Transfer> Transfers2 { get; set; }
     }
 }
