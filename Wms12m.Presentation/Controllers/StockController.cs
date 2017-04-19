@@ -59,10 +59,12 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult CableList(int Id)
         {
-            KabloEntities dbx = new KabloEntities();
-            var depo = dbx.depoes.Where(m => m.id == Id).Select(m => m.depo1).FirstOrDefault();
-            var list = dbx.kblstoks.Where(m => m.depo == depo).ToList();
-            return PartialView("CableList", list);
+            using (KabloEntities dbx = new KabloEntities())
+            {
+                var depo = dbx.depoes.Where(m => m.id == Id).Select(m => m.depo1).FirstOrDefault();
+                var list = dbx.kblstoks.Where(m => m.depo == depo).ToList();
+                return PartialView("CableList", list);
+            }
         }
         /// <summary>
         /// mal hareketleri
