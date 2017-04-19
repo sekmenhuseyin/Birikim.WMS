@@ -143,19 +143,19 @@ namespace WMSMobil
                             //eğer odaklanana yer barkod ise barkoda göre malkodunu getir
                             if (cont.Name == txtBarkod.Name)
                             {
-                                focuslandi = true;
                                 txtBarkod.Text = Servis.GetMalzemeFromBarcode(scanDataCollection.GetFirst.Text);
                                 txtRafBarkod.Focus();
+                                focuslandi = true;
                             }
                             //eğer raf ise direk yaz
                             else if (cont.Name == txtRafBarkod.Name)
                             {
-                                focuslandi = true;
                                 txtRafBarkod.Text = scanDataCollection.GetFirst.Text;
                                 //rafı da okutursa yerleştir düğmesine bas
                                 btnUygula_Click(Barkod, null);
                                 //sonra tekrar malkoduna odaklan
                                 txtBarkod.Focus();
+                                focuslandi = true;
                             }
                         }
                     }
