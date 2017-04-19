@@ -12,9 +12,16 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class depo
+    public partial class rezerve_onay
     {
         public int id { get; set; }
-        public string depo1 { get; set; }
+        public int sid { get; set; }
+        public string marka { get; set; }
+        public string kesit { get; set; }
+        public string cins { get; set; }
+        public double rmiktar { get; set; }
+        public string satici { get; set; }
+        public string onay { get; set; }
+        public System.DateTime tarih { get; set; }
     }
 }

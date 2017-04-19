@@ -12,9 +12,12 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class depo
+    public partial class hareket
     {
+        public int mid { get; set; }
         public int id { get; set; }
-        public string depo1 { get; set; }
+        public decimal miktar { get; set; }
+        public string musteri { get; set; }
+        public System.DateTime tarih { get; set; }
     }
 }

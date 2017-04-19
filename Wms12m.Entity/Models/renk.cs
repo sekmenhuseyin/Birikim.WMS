@@ -12,9 +12,9 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class depo
+    public partial class renk
     {
         public int id { get; set; }
-        public string depo1 { get; set; }
+        public string renk1 { get; set; }
     }
 }

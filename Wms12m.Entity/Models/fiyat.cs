@@ -12,9 +12,13 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class depo
+    public partial class fiyat
     {
-        public int id { get; set; }
-        public string depo1 { get; set; }
+        public string sid { get; set; }
+        public string tumka { get; set; }
+        public string nexans { get; set; }
+        public string oznur { get; set; }
+        public string vatan { get; set; }
+        public string hes { get; set; }
     }
 }

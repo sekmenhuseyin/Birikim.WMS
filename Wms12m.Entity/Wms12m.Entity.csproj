@@ -39,10 +39,16 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MySQL\Connector.NET 6.9\Assemblies\v4.5\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.Entity.6.9.9\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MySQL\Connector.NET 6.9\Assemblies\v4.5\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MySQL\Connector.NET 6.9\Assemblies\v4.5\MySql.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -66,6 +72,9 @@
     <Compile Include="Models\Bolum.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\cin.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ComboItem_Name.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -73,10 +82,13 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Depo.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
+      <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EvrakSeri.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fiyat.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetHomeSummary_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
@@ -93,6 +105,12 @@
     <Compile Include="Models\GorevYer.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\hareket.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\index.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InsertIrsaliye_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -105,8 +123,35 @@
     <Compile Include="Models\Kat.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\kesit.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\kesit_kop.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Koridor.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\makara.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\marka.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelKablo.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelKablo.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelKablo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelKablo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelKablo.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Olcu.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
@@ -114,11 +159,23 @@
     <Compile Include="Models\Raf.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\renk.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\rezerve_onay.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Role.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Simge.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\stok.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sure.cs">
+      <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Transfer.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
@@ -181,12 +238,29 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelWMS.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <EntityDeploy Include="Models\ModelKablo.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelKablo.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\ModelKablo.edmx.diagram">
+      <DependentUpon>ModelKablo.edmx</DependentUpon>
+    </None>
     <None Include="Models\ModelWMS.edmx.diagram">
       <DependentUpon>ModelWMS.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Models\ModelKablo.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelKablo.edmx</DependentUpon>
+      <LastGenOutput>ModelKablo.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ModelKablo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelKablo.edmx</DependentUpon>
+      <LastGenOutput>ModelKablo.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\ModelWMS.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelWMS.edmx</DependentUpon>

@@ -1,0 +1,450 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="KabloModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cins">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cins" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="depo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="depo" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="fiyat">
+          <Key>
+            <PropertyRef Name="sid" />
+          </Key>
+          <Property Name="sid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="tumka" Type="varchar" MaxLength="10" />
+          <Property Name="nexans" Type="varchar" MaxLength="10" />
+          <Property Name="oznur" Type="varchar" MaxLength="10" />
+          <Property Name="vatan" Type="varchar" MaxLength="10" />
+          <Property Name="hes" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="hareket">
+          <Key>
+            <PropertyRef Name="mid" />
+          </Key>
+          <Property Name="mid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="miktar" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="musteri" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="tarih" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="index">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cins" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="kesit" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="agirlik" Type="double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kesit">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kesit" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kesit_kop">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kesit" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="makara">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="makara" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="marka">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="marka" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="renk">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="renk" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="rezerve_onay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sid" Type="int" Nullable="false" />
+          <Property Name="marka" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="kesit" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="cins" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="rmiktar" Type="double" Nullable="false" />
+          <Property Name="satici" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="onay" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="tarih" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="stok">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sid" Type="int" Nullable="false" />
+          <Property Name="marka" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="cins" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="kesit" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="miktar" Type="decimal" Precision="8" Scale="0" Nullable="false" />
+          <Property Name="depo" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="renk" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="makara" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="tip" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="rezerve" Type="varchar" MaxLength="2" />
+          <Property Name="satici" Type="varchar" MaxLength="40" />
+          <Property Name="musteri" Type="varchar" MaxLength="40" />
+          <Property Name="rmiktar" Type="decimal" Precision="8" Scale="0" />
+          <Property Name="sure" Type="time" Precision="0" />
+          <Property Name="tarih" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="sure">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sure" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="deger" Type="time" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="KabloModelStoreContainer">
+          <EntitySet Name="cins" EntityType="Self.cins" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="depo" EntityType="Self.depo" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="fiyat" EntityType="Self.fiyat" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="hareket" EntityType="Self.hareket" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="index" EntityType="Self.index" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="kesit" EntityType="Self.kesit" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="kesit_kop" EntityType="Self.kesit_kop" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="makara" EntityType="Self.makara" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="marka" EntityType="Self.marka" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="renk" EntityType="Self.renk" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="rezerve_onay" EntityType="Self.rezerve_onay" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="stok" EntityType="Self.stok" Schema="kablo" store:Type="Tables" />
+          <EntitySet Name="sure" EntityType="Self.sure" Schema="kablo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KabloModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="KabloEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="cins" EntityType="KabloModel.cin" />
+          <EntitySet Name="depoes" EntityType="KabloModel.depo" />
+          <EntitySet Name="fiyats" EntityType="KabloModel.fiyat" />
+          <EntitySet Name="harekets" EntityType="KabloModel.hareket" />
+          <EntitySet Name="indices" EntityType="KabloModel.index" />
+          <EntitySet Name="kesits" EntityType="KabloModel.kesit" />
+          <EntitySet Name="kesit_kop" EntityType="KabloModel.kesit_kop" />
+          <EntitySet Name="makaras" EntityType="KabloModel.makara" />
+          <EntitySet Name="markas" EntityType="KabloModel.marka" />
+          <EntitySet Name="renks" EntityType="KabloModel.renk" />
+          <EntitySet Name="rezerve_onay" EntityType="KabloModel.rezerve_onay" />
+          <EntitySet Name="stoks" EntityType="KabloModel.stok" />
+          <EntitySet Name="sures" EntityType="KabloModel.sure" />
+        </EntityContainer>
+        <EntityType Name="cin">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cins" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="depo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="depo1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fiyat">
+          <Key>
+            <PropertyRef Name="sid" />
+          </Key>
+          <Property Name="sid" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="tumka" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="nexans" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="oznur" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="vatan" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="hes" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="hareket">
+          <Key>
+            <PropertyRef Name="mid" />
+          </Key>
+          <Property Name="mid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="miktar" Type="Decimal" Nullable="false" />
+          <Property Name="musteri" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="tarih" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="index">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cins" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="kesit" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="agirlik" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="kesit">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kesit1" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="kesit_kop">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kesit" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="makara">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="makara1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="marka">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="marka1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="renk">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="renk1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="rezerve_onay">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sid" Type="Int32" Nullable="false" />
+          <Property Name="marka" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="kesit" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="cins" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="rmiktar" Type="Double" Nullable="false" />
+          <Property Name="satici" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="onay" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="tarih" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="stok">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sid" Type="Int32" Nullable="false" />
+          <Property Name="marka" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="cins" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="kesit" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="miktar" Type="Decimal" Nullable="false" />
+          <Property Name="depo" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="renk" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="makara" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="tip" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="rezerve" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="satici" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="musteri" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="rmiktar" Type="Decimal" />
+          <Property Name="sure" Type="Time" />
+          <Property Name="tarih" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="sure">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sure1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="deger" Type="Time" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KabloModelStoreContainer" CdmEntityContainer="KabloEntities" >
+          <EntitySetMapping Name="cins">
+            <EntityTypeMapping TypeName="KabloModel.cin">
+              <MappingFragment StoreEntitySet="cins">
+                <ScalarProperty Name="cins" ColumnName="cins" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="depoes">
+            <EntityTypeMapping TypeName="KabloModel.depo">
+              <MappingFragment StoreEntitySet="depo">
+                <ScalarProperty Name="depo1" ColumnName="depo" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fiyats">
+            <EntityTypeMapping TypeName="KabloModel.fiyat">
+              <MappingFragment StoreEntitySet="fiyat">
+                <ScalarProperty Name="hes" ColumnName="hes" />
+                <ScalarProperty Name="vatan" ColumnName="vatan" />
+                <ScalarProperty Name="oznur" ColumnName="oznur" />
+                <ScalarProperty Name="nexans" ColumnName="nexans" />
+                <ScalarProperty Name="tumka" ColumnName="tumka" />
+                <ScalarProperty Name="sid" ColumnName="sid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="harekets">
+            <EntityTypeMapping TypeName="KabloModel.hareket">
+              <MappingFragment StoreEntitySet="hareket">
+                <ScalarProperty Name="tarih" ColumnName="tarih" />
+                <ScalarProperty Name="musteri" ColumnName="musteri" />
+                <ScalarProperty Name="miktar" ColumnName="miktar" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="indices">
+            <EntityTypeMapping TypeName="KabloModel.index">
+              <MappingFragment StoreEntitySet="index">
+                <ScalarProperty Name="agirlik" ColumnName="agirlik" />
+                <ScalarProperty Name="kesit" ColumnName="kesit" />
+                <ScalarProperty Name="cins" ColumnName="cins" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kesits">
+            <EntityTypeMapping TypeName="KabloModel.kesit">
+              <MappingFragment StoreEntitySet="kesit">
+                <ScalarProperty Name="kesit1" ColumnName="kesit" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kesit_kop">
+            <EntityTypeMapping TypeName="KabloModel.kesit_kop">
+              <MappingFragment StoreEntitySet="kesit_kop">
+                <ScalarProperty Name="kesit" ColumnName="kesit" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="makaras">
+            <EntityTypeMapping TypeName="KabloModel.makara">
+              <MappingFragment StoreEntitySet="makara">
+                <ScalarProperty Name="makara1" ColumnName="makara" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="markas">
+            <EntityTypeMapping TypeName="KabloModel.marka">
+              <MappingFragment StoreEntitySet="marka">
+                <ScalarProperty Name="marka1" ColumnName="marka" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="renks">
+            <EntityTypeMapping TypeName="KabloModel.renk">
+              <MappingFragment StoreEntitySet="renk">
+                <ScalarProperty Name="renk1" ColumnName="renk" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rezerve_onay">
+            <EntityTypeMapping TypeName="KabloModel.rezerve_onay">
+              <MappingFragment StoreEntitySet="rezerve_onay">
+                <ScalarProperty Name="tarih" ColumnName="tarih" />
+                <ScalarProperty Name="onay" ColumnName="onay" />
+                <ScalarProperty Name="satici" ColumnName="satici" />
+                <ScalarProperty Name="rmiktar" ColumnName="rmiktar" />
+                <ScalarProperty Name="cins" ColumnName="cins" />
+                <ScalarProperty Name="kesit" ColumnName="kesit" />
+                <ScalarProperty Name="marka" ColumnName="marka" />
+                <ScalarProperty Name="sid" ColumnName="sid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stoks">
+            <EntityTypeMapping TypeName="KabloModel.stok">
+              <MappingFragment StoreEntitySet="stok">
+                <ScalarProperty Name="tarih" ColumnName="tarih" />
+                <ScalarProperty Name="sure" ColumnName="sure" />
+                <ScalarProperty Name="rmiktar" ColumnName="rmiktar" />
+                <ScalarProperty Name="musteri" ColumnName="musteri" />
+                <ScalarProperty Name="satici" ColumnName="satici" />
+                <ScalarProperty Name="rezerve" ColumnName="rezerve" />
+                <ScalarProperty Name="tip" ColumnName="tip" />
+                <ScalarProperty Name="makara" ColumnName="makara" />
+                <ScalarProperty Name="renk" ColumnName="renk" />
+                <ScalarProperty Name="depo" ColumnName="depo" />
+                <ScalarProperty Name="miktar" ColumnName="miktar" />
+                <ScalarProperty Name="kesit" ColumnName="kesit" />
+                <ScalarProperty Name="cins" ColumnName="cins" />
+                <ScalarProperty Name="marka" ColumnName="marka" />
+                <ScalarProperty Name="sid" ColumnName="sid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sures">
+            <EntityTypeMapping TypeName="KabloModel.sure">
+              <MappingFragment StoreEntitySet="sure">
+                <ScalarProperty Name="deger" ColumnName="deger" />
+                <ScalarProperty Name="sure1" ColumnName="sure" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

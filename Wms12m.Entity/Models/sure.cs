@@ -12,9 +12,10 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class depo
+    public partial class sure
     {
         public int id { get; set; }
-        public string depo1 { get; set; }
+        public string sure1 { get; set; }
+        public System.TimeSpan deger { get; set; }
     }
 }
