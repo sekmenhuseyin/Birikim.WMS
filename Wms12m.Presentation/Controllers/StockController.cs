@@ -45,6 +45,14 @@ namespace Wms12m.Presentation.Controllers
             }
         }
         /// <summary>
+        /// kablo stok ana sayfası
+        /// </summary>
+        public ActionResult Cable()
+        {
+            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            return View("Cable");
+        }
+        /// <summary>
         /// mal hareketleri
         /// </summary>
         public ActionResult History()
