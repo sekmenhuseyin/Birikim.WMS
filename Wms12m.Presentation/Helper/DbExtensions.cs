@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
+using Wms12m.Entity.Mysql;
 
 namespace Wms12m
 {
@@ -45,10 +47,30 @@ namespace Wms12m
         /// <summary>
         /// malkoduna göre kablo stoğunu getirir
         /// </summary>
-        public static string GetKabloStok(this string value, string SirketKodu)
+        public static decimal GetKabloStok(this string value, string SirketKodu, string depokodu)
         {
-
-            return "1";
+            string sql = string.Format("select MalAdi4, Nesne2, Nesne3, Kod15 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE MalKodu='{1}'", SirketKodu, value);
+            var satir = new frmCableStk();
+            decimal sonuc = 0; int DepoID;
+            //get stk details
+            using (WMSEntities db = new WMSEntities())
+            {
+                satir = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
+                DepoID = db.Depoes.Where(m => m.DepoKodu == depokodu).Select(m => m.KabloDepoID).FirstOrDefault().Value;
+            }
+            if (satir == null) return sonuc;
+            //get stok
+            using (KabloEntities dbx = new KabloEntities())
+            {
+                string DepoAd = dbx.depoes.Where(m => m.id == DepoID).Select(m => m.depo1).FirstOrDefault();
+                var stok = dbx.kblstoks.Where(m => m.marka == satir.MalAdi4 && m.cins == satir.Nesne3 && m.kesit == satir.Nesne2 && m.depo == DepoAd);
+                if (satir.Kod15 != "")
+                    stok = stok.Where(m => m.renk == satir.Kod15);
+                var tmp = stok.Select(m => m.miktar).FirstOrDefault();
+                if (tmp != null)
+                    sonuc = tmp.Value;
+            }
+            return sonuc;
         }
     }
 }
