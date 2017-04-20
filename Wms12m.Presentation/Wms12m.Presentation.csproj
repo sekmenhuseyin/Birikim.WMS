@@ -2732,6 +2732,7 @@
     <Content Include="Views\Cable\Index.cshtml" />
     <Content Include="Views\Cable\_Siparis.cshtml" />
     <Content Include="Views\Cable\Step2.cshtml" />
+    <Content Include="Views\Cable\Step3.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

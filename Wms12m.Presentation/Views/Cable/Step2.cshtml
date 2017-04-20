@@ -3,7 +3,7 @@
     ViewBag.Title = "Sipariş Planlama - 2. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string[] list; list = new string[Model.Count()]; int x = 0;
-    string DepoID = ViewBag.DepoID;
+    int DepoID = ViewBag.KabloDepoID;
 }@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")" rel="stylesheet" type="text/css" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Cable">Sipariş Planlama</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
@@ -127,9 +127,11 @@
             $("#checkboxes").val(selected);
         });
         $(".submit").click(function () {
-            var result = false;
+            var selected = ""; var cells = [, ,]; var result = true;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-                result = true;
+                var stok = this.data()[5];
+                if (stok == "0,00")
+                    result = false;
             });
             if (result == true) $("#submit").click();
             else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");

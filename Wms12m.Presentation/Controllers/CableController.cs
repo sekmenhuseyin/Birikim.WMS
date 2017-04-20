@@ -57,7 +57,14 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             ViewBag.EvrakNos = tbl.checkboxes;
             ViewBag.DepoID = tbl.DepoID;
+            ViewBag.KabloDepoID = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.KabloDepoID).FirstOrDefault().Value;
             return View("Step2", list);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Step3(frmSiparisOnay tbl)
+        {
+            return View("Step3");
         }
         /// <summary>
         /// depo ve şirket seçince açık siparişler gelecek
