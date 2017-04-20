@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
 using Wms12m.Entity;
+using Wms12m.Entity.Mysql;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -110,13 +111,23 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Database.SqlQuery<frmCableStk>(sql).ToList();
             if (list == null)
                 return RedirectToAction("Index");
+            //get kablodepoid
+            var KabloDepoID = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.KabloDepoID).FirstOrDefault().Value;
             //mysql için yeni sorgu
             sql = "";
             foreach (var item in list)
             {
-                sql = "SELECT id, sid, marka, cins, kesit, miktar, depo, renk, makara, tip, rmiktar FROM kblStok WHERE(marka = '1') AND(cins = '2') AND(kesit = '3') AND(depo = '4') AND(renk = '5')";
+                if (sql != "") sql += " OR ";
+                sql += string.Format("((marka = '{0}') AND (cins = '{1}') AND (kesit = '{2}')", item.MalAdi4, item.Nesne3, item.Nesne2);
+                if (item.Kod15.Trim() != "") sql += " AND (renk = '" + item.Kod15 + "')";
+                sql += ")";
             }
-            return View("Step3");
+            sql = "SELECT kblstok.id, marka, cins, kesit, miktar, kblStok.depo, renk, makara, rezerve, satici, sure, tarih FROM kblStok INNER JOIN depo ON kblStok.depo = depo.depo WHERE depo.id = " + KabloDepoID + " AND (" + sql + ")";
+            using (KabloEntities dbx = new KabloEntities())
+            {
+                var listx = dbx.Database.SqlQuery<kblstok>(sql).ToList();
+                return View("Step3", listx);
+            }
         }
         /// <summary>
         /// depo ve şirket seçince açık siparişler gelecek

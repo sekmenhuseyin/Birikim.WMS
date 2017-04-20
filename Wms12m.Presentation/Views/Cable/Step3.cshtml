@@ -1,8 +1,27 @@
-﻿
+﻿@model IEnumerable<kblstok>
 @{
     ViewBag.Title = "Step3";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Step3</h2>
+<table class="table">
+    <tr>
+        <td>marka</td>
+        <td>cins</td>
+        <td>kesit</td>
+        <td>miktar</td>
+        <td>renk</td>
+        <td>makara</td>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>@item.marka</td>
+        <td>@item.cins</td>
+        <td>@item.kesit</td>
+        <td>@item.miktar</td>
+        <td>@item.renk</td>
+        <td>@item.makara</td>
+    </tr>
+}
 
+</table>
