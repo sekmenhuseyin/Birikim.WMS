@@ -60,10 +60,62 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.KabloDepoID = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.KabloDepoID).FirstOrDefault().Value;
             return View("Step2", list);
         }
-
+        /// <summary>
+        /// siparişler içi kablo makara listesi gelecek
+        /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step3(frmSiparisOnay tbl)
         {
+            if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
+                return RedirectToAction("Index");
+            tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
+            var sirketler = new List<string>();
+            var evraklar = new List<string>();
+            var ids = new List<string>();
+            int i;
+            //şirket id ve evrak nolar bulunur
+            string[] tmp = tbl.EvrakNos.Split('#');
+            foreach (var item in tmp)
+            {
+                string[] tmp2 = item.Split('-');
+                if (sirketler.Contains(tmp2[0]) == false) { sirketler.Add(tmp2[0]); evraklar.Add("'" + tmp2[1] + "'"); ids.Add("0"); }//eğer şirket yoksa ekle
+                else
+                {
+                    i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
+                    if (evraklar[i] != "") evraklar[i] += ",";
+                    evraklar[i] += "'" + tmp2[1] + "'";
+                }
+            }
+            //id bulunur
+            tmp = tbl.checkboxes.Split('#');
+            foreach (var item in tmp)
+            {
+                string[] tmp2 = item.Split('-');
+                i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
+                ids[i] += ",'" + tmp2[1] + "'";
+            }
+            //sql oluştur
+            string sql = ""; i = 0;
+            foreach (var item in sirketler)
+            {
+                if (ids[i] != "0")
+                {
+                    if (sql != "") sql += " UNION ";
+                    sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Nesne3, FINSAT6{0}.FINSAT6{0}.STK.Kod15, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar " +
+                                        "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                        "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({3})) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı')) ", item, tbl.DepoID, evraklar[i], ids[i]);
+                }
+                i++;
+            }
+            var list = db.Database.SqlQuery<frmCableStk>(sql).ToList();
+            if (list == null)
+                return RedirectToAction("Index");
+            //mysql için yeni sorgu
+            sql = "";
+            foreach (var item in list)
+            {
+                sql = "SELECT id, sid, marka, cins, kesit, miktar, depo, renk, makara, tip, rmiktar FROM kblStok WHERE(marka = '1') AND(cins = '2') AND(kesit = '3') AND(depo = '4') AND(renk = '5')";
+            }
             return View("Step3");
         }
         /// <summary>
