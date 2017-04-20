@@ -64,9 +64,9 @@ namespace Wms12m
             {
                 string DepoAd = dbx.depoes.Where(m => m.id == DepoID).Select(m => m.depo1).FirstOrDefault();
                 var stok = dbx.kblstoks.Where(m => m.marka == satir.MalAdi4 && m.cins == satir.Nesne3 && m.kesit == satir.Nesne2 && m.depo == DepoAd);
-                if (satir.Kod15 != "")
+                if (satir.Kod15.Trim() != "")
                     stok = stok.Where(m => m.renk == satir.Kod15);
-                var tmp = stok.Select(m => m.miktar).FirstOrDefault();
+                var tmp = stok.Select(m => m.miktar).Sum();
                 if (tmp != null)
                     sonuc = tmp.Value;
             }

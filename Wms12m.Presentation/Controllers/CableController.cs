@@ -52,6 +52,7 @@ namespace Wms12m.Presentation.Controllers
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN({2})) AND(FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN('Terminal', 'Onaylandı'))", item, tbl.DepoID, evraklar[i]);
                 i++;
             }
+            sql += " ORDER BY SPI.MalKodu";
             //listeyi getir
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             ViewBag.EvrakNos = tbl.checkboxes;
