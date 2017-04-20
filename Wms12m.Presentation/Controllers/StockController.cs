@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -65,6 +66,18 @@ namespace Wms12m.Presentation.Controllers
                 var depo = dbx.depoes.Where(m => m.id == kblDepoID).Select(m => m.depo1).FirstOrDefault();
                 var list = dbx.kblstoks.Where(m => m.depo == depo).ToList();
                 return PartialView("CableList", list);
+            }
+        }
+        /// <summary>
+        /// evrak noya ait mallar
+        /// </summary>
+        [HttpPost]
+        public JsonResult CableMovements(int ID)
+        {
+            using (KabloEntities dbx = new KabloEntities())
+            {
+                var list = dbx.harekets.Where(m => m.id == ID).OrderBy(m => m.tarih).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
             }
         }
         /// <summary>
