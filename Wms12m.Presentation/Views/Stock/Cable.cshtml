@@ -38,8 +38,9 @@
 <script type="text/javascript">
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
     function FuncSearchBtn() {
-        var StoreId = $("#DepoID option:selected").val(); if (StoreId == null) StoreId = 0;
+        var StoreId = $("#DepoID option:selected").val(); if (StoreId == null || StoreId == 0) StoreId = 0;
         $('#Grid').html("");
+        if (StoreId == 0) return;
         PartialView('/Stock/CableList', 'Grid', JSON.stringify({ Id: (StoreId) }));
     }
 </script>

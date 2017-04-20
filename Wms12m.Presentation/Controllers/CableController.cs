@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
@@ -15,6 +16,47 @@ namespace Wms12m.Presentation.Controllers
         {
             ViewBag.DepoID = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
             return View("Index");
+        }
+        /// <summary>
+        /// seçili malzemeler gruplanmış olarak gelecek
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Step2(frmSiparisOnay tbl)
+        {
+            if (tbl.DepoID == "0" || tbl.checkboxes.ToString2() == "")
+                return RedirectToAction("Index");
+            //şirket id ve evrak nolar bulunur
+            tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
+            string[] tmp = tbl.checkboxes.Split('#');
+            var sirketler = new List<string>();
+            var evraklar = new List<string>();
+            int i;
+            foreach (var item in tmp)
+            {
+                string[] tmp2 = item.Split('-');
+                if (sirketler.Contains(tmp2[0]) == false) { sirketler.Add(tmp2[0]); evraklar.Add("'" + tmp2[1] + "'"); }//eğer şirket yoksa ekle
+                else
+                {
+                    i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
+                    if (evraklar[i] != "") evraklar[i] += ",";
+                    evraklar[i] += "'" + tmp2[1] + "'";
+                }
+            }
+            //sql oluştur
+            string sql = ""; i = 0;
+            foreach (var item in sirketler)
+            {
+                if (sql != "") sql += " UNION ";
+                sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
+                                    "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                    "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND(FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND(FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN({2})) AND(FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN('Terminal', 'Onaylandı'))", item, tbl.DepoID, evraklar[i]);
+                i++;
+            }
+            //listeyi getir
+            var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
+            ViewBag.EvrakNos = tbl.checkboxes;
+            ViewBag.DepoID = tbl.DepoID;
+            return View("Step2", list);
         }
         /// <summary>
         /// depo ve şirket seçince açık siparişler gelecek

@@ -53,6 +53,7 @@
         $("#KoridorID option").remove();
         $("#RafID option").remove();
         $('#Grid').html("");
+        if (id == "" || id == null) return;
         $.ajax({
             url: "/Corridor/CorridorList/" + id,
             type: 'POST',

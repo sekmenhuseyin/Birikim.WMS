@@ -42,5 +42,13 @@ namespace Wms12m
                 return "";
             }
         }
+        /// <summary>
+        /// malkoduna göre kablo stoğunu getirir
+        /// </summary>
+        public static string GetKabloStok(this string value, string SirketKodu)
+        {
+
+            return "1";
+        }
     }
 }

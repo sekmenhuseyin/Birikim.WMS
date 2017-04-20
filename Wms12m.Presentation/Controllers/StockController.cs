@@ -61,7 +61,8 @@ namespace Wms12m.Presentation.Controllers
         {
             using (KabloEntities dbx = new KabloEntities())
             {
-                var depo = dbx.depoes.Where(m => m.id == Id).Select(m => m.depo1).FirstOrDefault();
+                var kblDepoID = Store.Detail(Id).KabloDepoID;
+                var depo = dbx.depoes.Where(m => m.id == kblDepoID).Select(m => m.depo1).FirstOrDefault();
                 var list = dbx.kblstoks.Where(m => m.depo == depo).ToList();
                 return PartialView("CableList", list);
             }
