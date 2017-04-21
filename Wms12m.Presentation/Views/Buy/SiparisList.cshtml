@@ -45,7 +45,7 @@
         var table = $('#sample_3').DataTable({
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [6], "visible": false, "searchable": false }, { "targets": [7], "visible": false, "searchable": false }],
+            "columnDefs": [{ "targets": [6,7], "visible": false, "searchable": false }],
             initComplete: function () {
                 this.api().columns().every(function () {
                     var column = this;
