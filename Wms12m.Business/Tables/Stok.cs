@@ -26,19 +26,20 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+            //set details
+            if (tbl.ID == 0)
+                db.IRS_Detay.Add(tbl);
+            else
+            {
+                var tmp = Detail(tbl.ID);
+                tmp.IrsaliyeID = tbl.IrsaliyeID;
+                tmp.MalKodu = tbl.MalKodu;
+                tmp.Birim = tbl.Birim;
+                tmp.Miktar = tbl.Miktar;
+                if (tbl.YerlestirmeMiktari != null) tmp.YerlestirmeMiktari = tbl.YerlestirmeMiktari;
+            }
             try
             {
-                if (tbl.ID == 0)
-                    db.IRS_Detay.Add(tbl);
-                else
-                {
-                    var tmp = Detail(tbl.ID);
-                    tmp.IrsaliyeID = tbl.IrsaliyeID;
-                    tmp.MalKodu = tbl.MalKodu;
-                    tmp.Birim = tbl.Birim;
-                    tmp.Miktar = tbl.Miktar;
-                    if (tbl.YerlestirmeMiktari != null) tmp.YerlestirmeMiktari = tbl.YerlestirmeMiktari;
-                }
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
@@ -47,7 +48,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Stok/Operation");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Stok/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -85,7 +86,7 @@ namespace Wms12m.Business
                 }
                 catch (Exception ex)
                 {
-                    db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Stok/Insert");
+                    db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Stok/Insert");
                     _Result.Message = ex.Message;
                     _Result.Status = false;
                     _Result.Id = 0;
@@ -118,7 +119,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Stok/Delete");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Stok/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -135,7 +136,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Stok/Detail");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Stok/Detail");
                 return new IRS_Detay();
             }
 

@@ -41,27 +41,28 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+            //set details
+            tbl.Degistiren = Users.AppIdentity.User.Id;
+            tbl.DegisTarih = DateTime.Today.ToOADateInt();
+            if (tbl.ID == 0)
+            {
+                tbl.Kaydeden = Users.AppIdentity.User.Id;
+                tbl.KayitTarih = DateTime.Today.ToOADateInt();
+                db.Depoes.Add(tbl);
+            }
+            else
+            {
+                var tmp = Detail(tbl.ID);
+                tmp.DepoAd = tbl.DepoAd;
+                tmp.DepoKodu = tbl.DepoKodu;
+                tmp.KabloDepoID = tbl.KabloDepoID;
+                tmp.SiraNo = tbl.SiraNo;
+                tmp.Aktif = tbl.Aktif;
+                tmp.Degistiren = tbl.Degistiren;
+                tmp.DegisTarih = tbl.DegisTarih;
+            }
             try
             {
-                tbl.Degistiren = Users.AppIdentity.User.Id;
-                tbl.DegisTarih = DateTime.Today.ToOADateInt();
-                if (tbl.ID == 0)
-                {
-                    tbl.Kaydeden = Users.AppIdentity.User.Id;
-                    tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    db.Depoes.Add(tbl);
-                }
-                else
-                {
-                    var tmp = Detail(tbl.ID);
-                    tmp.DepoAd = tbl.DepoAd;
-                    tmp.DepoKodu = tbl.DepoKodu;
-                    tmp.KabloDepoID = tbl.KabloDepoID;
-                    tmp.SiraNo = tbl.SiraNo;
-                    tmp.Aktif = tbl.Aktif;
-                    tmp.Degistiren = tbl.Degistiren;
-                    tmp.DegisTarih = tbl.DegisTarih;
-                }
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
@@ -70,7 +71,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Store/Operation");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Store/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -102,7 +103,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Store/Delete");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Store/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -119,7 +120,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Store/Detail");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Store/Detail");
                 return new Depo();
             }
         }
@@ -131,7 +132,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Store/Detail");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Store/Detail");
                 return new Depo();
             }
         }
@@ -141,6 +142,13 @@ namespace Wms12m.Business
         public override List<Depo> GetList()
         {
             return db.Depoes.OrderBy(m => m.DepoAd).ToList();
+        }
+        /// <summary>
+        /// kablo siparişi için liste
+        /// </summary>
+        public List<Depo> GetListCable()
+        {
+            return db.Depoes.Where(m=>m.KabloDepoID != null).OrderBy(m => m.DepoAd).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir

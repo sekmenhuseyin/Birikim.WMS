@@ -41,7 +41,7 @@ namespace Wms12m
                 }
                 catch (Exception ex)
                 {
-                    db.Logger(userID, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "WebService/Login");
+                    db.Logger(userID, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Login");
                     return null;
                 }
             return null;

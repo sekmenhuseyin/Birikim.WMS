@@ -19,17 +19,17 @@ namespace Wms12m.Business
         public override Result Operation(GorevYer tbl)
         {
             _Result = new Result();
+            if (tbl.ID == 0)
+            {
+                db.GorevYers.Add(tbl);
+            }
+            else
+            {
+                var tmp = Detail(tbl.ID);
+                tmp.Sira = tbl.Sira;
+            }
             try
             {
-                if (tbl.ID == 0)
-                {
-                    db.GorevYers.Add(tbl);
-                }
-                else
-                {
-                    var tmp = Detail(tbl.ID);
-                    tmp.Sira = tbl.Sira;
-                }
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
@@ -38,7 +38,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "TaskYer/Operation");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "TaskYer/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -70,7 +70,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "TaskYer/Delete");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "TaskYer/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -87,7 +87,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "TaskYer/Detail");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "TaskYer/Detail");
                 return new GorevYer();
             }
         }

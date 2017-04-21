@@ -19,21 +19,22 @@ namespace Wms12m.Business
         public override Result Operation(Transfer tbl)
         {
             _Result = new Result();
+            //set details
+            if (tbl.ID == 0)
+            {
+                tbl.Onay = false;
+                tbl.OlusturanID = Users.AppIdentity.User.Id;
+                tbl.OlusturmaTarihi = DateTime.Today.ToOADateInt();
+                tbl.OlusturmaSaati = DateTime.Now.ToOaTime();
+                db.Transfers.Add(tbl);
+            }
+            else
+            {
+                var tmp = Detail(tbl.ID);
+                tmp.Onay = tbl.Onay;
+            }
             try
             {
-                if (tbl.ID == 0)
-                {
-                    tbl.Onay = false;
-                    tbl.OlusturanID = Users.AppIdentity.User.Id;
-                    tbl.OlusturmaTarihi = DateTime.Today.ToOADateInt();
-                    tbl.OlusturmaSaati = DateTime.Now.ToOaTime();
-                    db.Transfers.Add(tbl);
-                }
-                else
-                {
-                    var tmp = Detail(tbl.ID);
-                    tmp.Onay = tbl.Onay;
-                }
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
@@ -42,7 +43,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Transfers/Operation");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Transfers/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -63,7 +64,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Transfers/AddDetay");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Transfers/AddDetay");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -95,7 +96,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Transfers/Delete");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Transfers/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }

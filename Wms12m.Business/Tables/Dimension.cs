@@ -34,22 +34,23 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+            //set details
+            if (tbl.ID == 0)
+            {
+                db.Olcus.Add(tbl);
+            }
+            else
+            {
+                var tmp3 = Detail(tbl.ID);
+                tmp3.MalKodu = tbl.MalKodu;
+                tmp3.Birim = tbl.Birim;
+                tmp3.En = tbl.En;
+                tmp3.Boy = tbl.Boy;
+                tmp3.Derinlik = tbl.Derinlik;
+                tmp3.Agirlik = tbl.Agirlik;
+            }
             try
             {
-                if (tbl.ID == 0)
-                {
-                    db.Olcus.Add(tbl);
-                }
-                else
-                {
-                    var tmp3 = Detail(tbl.ID);
-                    tmp3.MalKodu = tbl.MalKodu;
-                    tmp3.Birim = tbl.Birim;
-                    tmp3.En = tbl.En;
-                    tmp3.Boy = tbl.Boy;
-                    tmp3.Derinlik = tbl.Derinlik;
-                    tmp3.Agirlik = tbl.Agirlik;
-                }
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
@@ -58,7 +59,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Dimension/Operation");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Dimension/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -90,7 +91,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Dimension/Delete");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Dimension/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -107,7 +108,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Dimension/Detail");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Dimension/Detail");
                 return new Olcu();
             }
         }

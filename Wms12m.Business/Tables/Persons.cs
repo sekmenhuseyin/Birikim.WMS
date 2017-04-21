@@ -35,45 +35,46 @@ namespace Wms12m.Business
                 return _Result;
             }
             if (tbl.Sifre.ToString2() != "") tbl.Sifre = CryptographyExtension.Sifrele(tbl.Sifre);
+            //set details
+            tbl.Degistiren = Users.AppIdentity.User.UserName;
+            tbl.DegisTarih = DateTime.Today.ToOADateInt();
+            tbl.DegisSaat = DateTime.Now.ToOaTime();
+            tbl.DegisKaynak = 0;
+            tbl.DegisSurum = "1.0.0";
+            if (tbl.ID == 0)
+            {
+                tbl.Sirket = "";
+                tbl.Sifre = "";
+                tbl.Email = tbl.Email.ToString2();
+                tbl.Tema = tbl.Tema.ToString2();
+                tbl.Kaydeden = Users.AppIdentity.User.UserName;
+                tbl.KayitTarih = DateTime.Today.ToOADateInt();
+                tbl.KayitSaat = DateTime.Now.ToOaTime();
+                tbl.KayitKaynak = 0;
+                tbl.KayitSurum = "1.0.0";
+                db.Users.Add(tbl);
+            }
+            else
+            {
+                var tmp = Detail(tbl.ID);
+                tmp.Sirket = "";
+                tmp.Tip = 0;
+                tmp.Kod = tbl.Kod;
+                tmp.AdSoyad = tbl.AdSoyad;
+                tmp.Sifre = tbl.Sifre.ToString2();
+                tmp.Email = tbl.Email.ToString2();
+                tmp.Tema = tbl.Tema.ToString2();
+                tmp.RoleName = tbl.RoleName;
+                tmp.Admin = tbl.Admin;
+                tmp.Aktif = tbl.Aktif;
+                tmp.Degistiren = tbl.Degistiren;
+                tmp.DegisTarih = tbl.DegisTarih;
+                tmp.DegisSaat = tbl.DegisSaat;
+                tmp.DegisKaynak = tbl.DegisKaynak;
+                tmp.DegisSurum = tbl.DegisSurum;
+            }
             try
             {
-                tbl.Degistiren = Users.AppIdentity.User.UserName;
-                tbl.DegisTarih = DateTime.Today.ToOADateInt();
-                tbl.DegisSaat = DateTime.Now.ToOaTime();
-                tbl.DegisKaynak = 0;
-                tbl.DegisSurum = "1.0.0";
-                if (tbl.ID == 0)
-                {
-                    tbl.Sirket = "";
-                    tbl.Sifre = "";
-                    tbl.Email = tbl.Email.ToString2();
-                    tbl.Tema = tbl.Tema.ToString2();
-                    tbl.Kaydeden = Users.AppIdentity.User.UserName;
-                    tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    tbl.KayitSaat = DateTime.Now.ToOaTime();
-                    tbl.KayitKaynak = 0;
-                    tbl.KayitSurum = "1.0.0";
-                    db.Users.Add(tbl);
-                }
-                else
-                {
-                    var tmp = Detail(tbl.ID);
-                    tmp.Sirket = "";
-                    tmp.Tip = 0;
-                    tmp.Kod = tbl.Kod;
-                    tmp.AdSoyad = tbl.AdSoyad;
-                    tmp.Sifre = tbl.Sifre.ToString2();
-                    tmp.Email = tbl.Email.ToString2();
-                    tmp.Tema = tbl.Tema.ToString2();
-                    tmp.RoleName = tbl.RoleName;
-                    tmp.Admin = tbl.Admin;
-                    tmp.Aktif = tbl.Aktif;
-                    tmp.Degistiren = tbl.Degistiren;
-                    tmp.DegisTarih = tbl.DegisTarih;
-                    tmp.DegisSaat = tbl.DegisSaat;
-                    tmp.DegisKaynak = tbl.DegisKaynak;
-                    tmp.DegisSurum = tbl.DegisSurum;
-                }
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
@@ -82,7 +83,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Persons/Operation");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Persons/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -117,7 +118,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Persons/Login");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Persons/Login");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
             return _Result;
@@ -156,7 +157,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Persons/ChangePass");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Persons/ChangePass");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
             return _Result;
@@ -172,7 +173,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Persons/Detail");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Persons/Detail");
                 return new User();
             }
         }
@@ -219,7 +220,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Persons/Delete");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Persons/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }

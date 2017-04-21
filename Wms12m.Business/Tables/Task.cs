@@ -19,16 +19,16 @@ namespace Wms12m.Business
         public override Result Operation(Gorev tbl)
         {
             _Result = new Result();
+            if (tbl.ID == 0)
+            {
+                tbl.OlusturanID = Users.AppIdentity.User.Id;
+                tbl.OlusturmaTarihi = DateTime.Today.ToOADateInt();
+                tbl.OlusturmaSaati = DateTime.Now.ToOaTime();
+                tbl.DurumID = ComboItems.Açık.ToInt32();
+                db.Gorevs.Add(tbl);
+            }
             try
             {
-                if (tbl.ID == 0)
-                {
-                    tbl.OlusturanID = Users.AppIdentity.User.Id;
-                    tbl.OlusturmaTarihi = DateTime.Today.ToOADateInt();
-                    tbl.OlusturmaSaati = DateTime.Now.ToOaTime();
-                    tbl.DurumID = ComboItems.Açık.ToInt32();
-                    db.Gorevs.Add(tbl);
-                }
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
@@ -37,7 +37,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Task/Operation");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Task/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -75,7 +75,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Task/Insert");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Task/Insert");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
                 _Result.Id = 0;
@@ -108,7 +108,7 @@ namespace Wms12m.Business
                 }
                 catch (Exception ex)
                 {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Task/Update");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Task/Update");
                     _Result.Message = ex.Message;
                     _Result.Status = false;
                     _Result.Id = 0;
@@ -137,7 +137,7 @@ namespace Wms12m.Business
                 }
                 catch (Exception ex)
                 {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Task/UpdateGorevli");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Task/UpdateGorevli");
                     _Result.Message = ex.Message;
                     _Result.Status = false;
                     _Result.Id = 0;
@@ -170,7 +170,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Task/Delete");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Task/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -197,7 +197,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Task/DeleteSome");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Task/DeleteSome");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -214,7 +214,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Task/Detail");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Task/Detail");
                 return new Gorev();
             }
         }

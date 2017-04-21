@@ -42,7 +42,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (System.Exception ex)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Stock/List");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Stock/List");
                 return PartialView("List", new List<Yer>());
             }
         }

@@ -207,6 +207,7 @@
     <Compile Include="Mysql\sure.cs">
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Viewmodels\frmCables.cs" />
     <Compile Include="Viewmodels\frmTransfer.cs" />
     <Compile Include="Viewmodels\frmUsers.cs" />
     <Compile Include="Viewmodels\frmGorev.cs" />

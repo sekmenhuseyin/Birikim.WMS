@@ -26,19 +26,20 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+            //set details
+            if (tbl.ID == 0)
+            {
+                db.ComboItem_Name.Add(tbl);
+            }
+            else
+            {
+                var tmp = Detail(tbl.ID);
+                tmp.Name = tbl.Name;
+                tmp.ComboID = tbl.ComboID;
+                tmp.Visible = tbl.Visible;
+            }
             try
             {
-                if (tbl.ID == 0)
-                {
-                    db.ComboItem_Name.Add(tbl);
-                }
-                else
-                {
-                    var tmp = Detail(tbl.ID);
-                    tmp.Name = tbl.Name;
-                    tmp.ComboID = tbl.ComboID;
-                    tmp.Visible = tbl.Visible;
-                }
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
@@ -47,7 +48,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "ComboSub/Operation");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "ComboSub/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -79,7 +80,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "ComboSub/Delete");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "ComboSub/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -96,7 +97,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "ComboSub/Detail");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "ComboSub/Detail");
                 return new ComboItem_Name();
             }
         }

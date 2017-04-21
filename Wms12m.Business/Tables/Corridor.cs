@@ -34,26 +34,27 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+            //set details
+            tbl.Degistiren = Users.AppIdentity.User.Id;
+            tbl.DegisTarih = DateTime.Today.ToOADateInt();
+            if (tbl.ID == 0)
+            {
+                tbl.Kaydeden = Users.AppIdentity.User.Id;
+                tbl.KayitTarih = DateTime.Today.ToOADateInt();
+                db.Koridors.Add(tbl);
+            }
+            else
+            {
+                var tmp = Detail(tbl.ID);
+                tmp.KoridorAd = tbl.KoridorAd;
+                tmp.DepoID = tbl.DepoID;
+                tmp.SiraNo = tbl.SiraNo;
+                tmp.Aktif = tbl.Aktif;
+                tmp.Degistiren = tbl.Degistiren;
+                tmp.DegisTarih = tbl.DegisTarih;
+            }
             try
             {
-                tbl.Degistiren = Users.AppIdentity.User.Id;
-                tbl.DegisTarih = DateTime.Today.ToOADateInt();
-                if (tbl.ID == 0)
-                {
-                    tbl.Kaydeden = Users.AppIdentity.User.Id;
-                    tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    db.Koridors.Add(tbl);
-                }
-                else
-                {
-                    var tmp = Detail(tbl.ID);
-                    tmp.KoridorAd = tbl.KoridorAd;
-                    tmp.DepoID = tbl.DepoID;
-                    tmp.SiraNo = tbl.SiraNo;
-                    tmp.Aktif = tbl.Aktif;
-                    tmp.Degistiren = tbl.Degistiren;
-                    tmp.DegisTarih = tbl.DegisTarih;
-                }
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
@@ -62,7 +63,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Corridor/Operation");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Corridor/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -94,7 +95,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Corridor/Delete");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Corridor/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -111,7 +112,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Corridor/DEtail");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Corridor/DEtail");
                 return new Koridor();
             }
         }

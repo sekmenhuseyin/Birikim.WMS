@@ -72,16 +72,4 @@ namespace Wms12m.Entity
         public decimal Miktar { get; set; }
         public string RafNo { get; set; }
     }
-    /// <summary>
-    /// kablo siparişi için stk sütunları
-    /// </summary>
-    public class frmCableStk
-    {
-        public string MalAdi4 { get; set; }//marka
-        public string Nesne2 { get; set; }//kesit
-        public string Nesne3 { get; set; }//cins
-        public string Kod15 { get; set; }//renk
-        public decimal Miktar { get; set; }
-    }
-
 }

@@ -34,32 +34,33 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+            //set details
+            tbl.Degistiren = Users.AppIdentity.User.Id;
+            tbl.DegisTarih = DateTime.Today.ToOADateInt();
+            if (tbl.ID == 0)
+            {
+                tbl.Kaydeden = Users.AppIdentity.User.Id;
+                tbl.KayitTarih = DateTime.Today.ToOADateInt();
+                db.Kats.Add(tbl);
+            }
+            else
+            {
+                var tmp = Detail(tbl.ID);
+                tmp.KatAd = tbl.KatAd;
+                tmp.En = tbl.En;
+                tmp.Boy = tbl.Boy;
+                tmp.Derinlik = tbl.Derinlik;
+                tmp.AgirlikKapasite = tbl.AgirlikKapasite;
+                tmp.Ozellik = tbl.Ozellik;
+                tmp.Aciklama = tbl.Aciklama;
+                tmp.BolumID = tbl.BolumID;
+                tmp.SiraNo = tbl.SiraNo;
+                tmp.Aktif = tbl.Aktif;
+                tmp.Degistiren = tbl.Degistiren;
+                tmp.DegisTarih = tbl.DegisTarih;
+            }
             try
             {
-                tbl.Degistiren = Users.AppIdentity.User.Id;
-                tbl.DegisTarih = DateTime.Today.ToOADateInt();
-                if (tbl.ID == 0)
-                {
-                    tbl.Kaydeden = Users.AppIdentity.User.Id;
-                    tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    db.Kats.Add(tbl);
-                }
-                else
-                {
-                    var tmp = Detail(tbl.ID);
-                    tmp.KatAd = tbl.KatAd;
-                    tmp.En = tbl.En;
-                    tmp.Boy = tbl.Boy;
-                    tmp.Derinlik = tbl.Derinlik;
-                    tmp.AgirlikKapasite = tbl.AgirlikKapasite;
-                    tmp.Ozellik = tbl.Ozellik;
-                    tmp.Aciklama = tbl.Aciklama;
-                    tmp.BolumID = tbl.BolumID;
-                    tmp.SiraNo = tbl.SiraNo;
-                    tmp.Aktif = tbl.Aktif;
-                    tmp.Degistiren = tbl.Degistiren;
-                    tmp.DegisTarih = tbl.DegisTarih;
-                }
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
@@ -68,7 +69,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Floor/Operation");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Floor/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -100,7 +101,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Floor/Delete");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Floor/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -117,7 +118,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Floor/Detail");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Floor/Detail");
                 return new Kat();
             }
 

@@ -34,26 +34,27 @@ namespace Wms12m.Business
                 _Result.Status = false;
                 return _Result;
             }
+            //set details
+            tbl.Degistiren = Users.AppIdentity.User.Id;
+            tbl.DegisTarih = DateTime.Today.ToOADateInt();
+            if (tbl.ID == 0)
+            {
+                tbl.Kaydeden = Users.AppIdentity.User.Id;
+                tbl.KayitTarih = DateTime.Today.ToOADateInt();
+                db.Bolums.Add(tbl);
+            }
+            else
+            {
+                var tmp = Detail(tbl.ID);
+                tmp.BolumAd = tbl.BolumAd;
+                tmp.RafID = tbl.RafID;
+                tmp.SiraNo = tbl.SiraNo;
+                tmp.Aktif = tbl.Aktif;
+                tmp.Degistiren = tbl.Degistiren;
+                tmp.DegisTarih = tbl.DegisTarih;
+            }
             try
             {
-                tbl.Degistiren = Users.AppIdentity.User.Id;
-                tbl.DegisTarih = DateTime.Today.ToOADateInt();
-                if (tbl.ID == 0)
-                {
-                    tbl.Kaydeden = Users.AppIdentity.User.Id;
-                    tbl.KayitTarih = DateTime.Today.ToOADateInt();
-                    db.Bolums.Add(tbl);
-                }
-                else
-                {
-                    var tmp = Detail(tbl.ID);
-                    tmp.BolumAd = tbl.BolumAd;
-                    tmp.RafID = tbl.RafID;
-                    tmp.SiraNo = tbl.SiraNo;
-                    tmp.Aktif = tbl.Aktif;
-                    tmp.Degistiren = tbl.Degistiren;
-                    tmp.DegisTarih = tbl.DegisTarih;
-                }
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
@@ -62,7 +63,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Section/Operation");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Section/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -94,7 +95,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Section/Delete");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Section/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -111,7 +112,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Section/Detail");
+                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Section/Detail");
                 return new Bolum();
             }
         }

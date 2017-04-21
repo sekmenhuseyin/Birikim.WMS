@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Transfer/Stock");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Transfer/Stock");
                 return PartialView("_Stock", new List<frmTransferMalzemeler>());
             }
 

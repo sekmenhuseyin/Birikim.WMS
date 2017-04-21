@@ -126,7 +126,7 @@ namespace Wms12m.Presentation.Controllers
                     }
                     catch (Exception ex)
                     {
-                        db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/FromSiparis");
+                        db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Buy/FromSiparis");
                     }
                 }
                 if (eklenen > 0)
@@ -176,7 +176,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception ex)
                 {
-                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/New-varolan");
+                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Buy/New-varolan");
                     return null;
                 }
             }
@@ -197,7 +197,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/New-yeni");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Buy/New-yeni");
                 return null;
             }
         }
@@ -257,7 +257,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/getMalzemebyCode");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Buy/getMalzemebyCode");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -273,7 +273,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/getMalzemebyName");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Buy/getMalzemebyName");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -291,7 +291,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, ex.InnerException != null ? ex.InnerException.Message : "", "Buy/getBirim");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Buy/getBirim");
                 return Json(new List<frmBirims>(), JsonRequestBehavior.AllowGet);
             }
 

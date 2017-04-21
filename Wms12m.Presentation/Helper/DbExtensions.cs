@@ -49,7 +49,7 @@ namespace Wms12m
         /// </summary>
         public static decimal GetKabloStok(this string value, string SirketKodu, int KabloDepoID)
         {
-            string sql = string.Format("select MalAdi4, Nesne2, Nesne3, Kod15 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE MalKodu='{1}'", SirketKodu, value);
+            string sql = string.Format("select MalAdi4, Nesne2, Kod15 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE MalKodu='{1}'", SirketKodu, value);
             var satir = new frmCableStk();
             decimal sonuc = 0;
             //get stk details
@@ -62,9 +62,7 @@ namespace Wms12m
             using (KabloEntities dbx = new KabloEntities())
             {
                 string DepoAd = dbx.depoes.Where(m => m.id == KabloDepoID).Select(m => m.depo1).FirstOrDefault();
-                var stok = dbx.kblstoks.Where(m => m.marka == satir.MalAdi4 && m.cins == satir.Nesne3 && m.kesit == satir.Nesne2 && m.depo == DepoAd);
-                if (satir.Kod15.Trim() != "")
-                    stok = stok.Where(m => m.renk == satir.Kod15);
+                var stok = dbx.kblstoks.Where(m => m.marka == satir.MalAdi4 && m.cins == satir.Nesne2 && m.kesit == satir.Kod15 && m.depo == DepoAd);
                 var tmp = stok.Select(m => m.miktar).Sum();
                 if (tmp != null)
                     sonuc = tmp.Value;
