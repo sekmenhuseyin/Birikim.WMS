@@ -123,6 +123,8 @@ namespace Wms12m.Presentation.Controllers
                                     "WHERE depo.id = {0} AND (marka = '{1}') AND (cins = '{2}') AND (kesit = '{3}')", KabloDepoID, item.MalAdi4, item.Nesne2, item.Kod15, item.ROW_ID, item.SiraNo, item.EvrakNo, item.MalKodu, item.Miktar.ToInt32(), item.SirketID);
             }
             //exec sql
+            ViewBag.EvrakNos = tbl.EvrakNos;
+            ViewBag.DepoID = tbl.DepoID;
             using (KabloEntities dbx = new KabloEntities())
             {
                 var listx = dbx.Database.SqlQuery<frmCableSiparis>(sql).ToList();
@@ -135,6 +137,38 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step4(frmSiparisOnay tbl)
         {
+            if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
+                return RedirectToAction("Index");
+            tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
+            var sirketler = new List<string>();
+            var evraklar = new List<string>();
+            var rowids = new List<string>();
+            var ids = new List<string>();
+            var miktars = new List<decimal>();
+            int i;
+            //şirket id ve evrak nolar bulunur
+            string[] tmp = tbl.EvrakNos.Split('#');
+            foreach (var item in tmp)
+            {
+                string[] tmp2 = item.Split('-');
+                if (sirketler.Contains(tmp2[0]) == false) { sirketler.Add(tmp2[0]); evraklar.Add("'" + tmp2[1] + "'"); ids.Add("0"); rowids.Add("0"); }//eğer şirket yoksa ekle
+                else
+                {
+                    i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
+                    if (evraklar[i] != "") evraklar[i] += ",";
+                    evraklar[i] += "'" + tmp2[1] + "'";
+                }
+            }
+            //id bulunur
+            tmp = tbl.checkboxes.Split('#');
+            foreach (var item in tmp)
+            {
+                string[] tmp2 = item.Split('-');
+                i = sirketler.FindIndex(m => m.Contains(tmp2[0]));
+                ids[i] += ",'" + tmp2[1] + "'";
+                rowids[i] += ",'" + tmp2[2] + "'";
+                miktars.Add(tmp2[2].Replace(".", ",").ToDecimal());
+            }
             return View("Step4");
         }
         /// <summary>

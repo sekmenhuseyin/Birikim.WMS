@@ -119,7 +119,8 @@
         $(".submit").click(function () {
             var selected = ""; var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-                selected = selected + this.data()[10] + "#";
+                var miktar = parseFloat(list[this.data()[11]]);
+                selected = selected + this.data()[10] + "-" + miktar + "#";
                 result = true;
             });
             $("#checkboxes").val(selected);
