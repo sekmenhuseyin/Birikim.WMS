@@ -118,7 +118,7 @@ namespace Wms12m.Presentation.Controllers
             foreach (var item in list)
             {
                 if (sql != "") sql += " OR ";
-                sql += string.Format("((marka = '{0}') AND (cins = '{1}') AND (kesit = '{2}')", item.MalAdi4, item.Nesne3, item.Nesne2);
+                sql += string.Format("((marka = '{0}') AND (cins = '{1}') AND (kesit = '{2}') AND (miktar > {3}) AND (miktar < {4})", item.MalAdi4, item.Nesne3, item.Nesne2, (item.Miktar * 85 / 100).ToInt32(), (item.Miktar * 140 / 100).ToInt32());
                 if (item.Kod15.Trim() != "") sql += " AND (renk = '" + item.Kod15 + "')";
                 sql += ")";
             }
