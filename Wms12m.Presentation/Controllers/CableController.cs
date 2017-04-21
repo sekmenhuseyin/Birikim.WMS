@@ -102,7 +102,7 @@ namespace Wms12m.Presentation.Controllers
                 if (ids[i] != "0")
                 {
                     if (sql != "") sql += " UNION ";
-                    sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar " +
+                    sql += String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.SiraNo, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15, (FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                                         "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo IN ({2})) AND (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID IN ({3})) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı')) ", item, tbl.DepoID, evraklar[i], ids[i]);
                 }
@@ -118,9 +118,9 @@ namespace Wms12m.Presentation.Controllers
             foreach (var item in list)
             {
                 if (sql != "") sql += " UNION ";
-                sql += string.Format("SELECT kblstok.id, marka, cins, kesit, miktar as stok, kblStok.depo, renk, makara, rezerve, satici, sure, tarih, {4} as ROW_ID, {5} as SiraNo, '{6}' as EvrakNo, '{7}' as MalKodu, {8} as miktar " +
+                sql += string.Format("SELECT kblstok.id, marka, cins, kesit, miktar as stok, kblStok.depo, renk, makara, rezerve, satici, sure, tarih, {4} as ROW_ID, {5} as SiraNo, '{6}' as EvrakNo, '{7}' as MalKodu, {8} as miktar, '{9}' as SirketID " +
                                     "FROM kblStok INNER JOIN depo ON kblStok.depo = depo.depo " +
-                                    "WHERE depo.id = {0} AND (marka = '{1}') AND (cins = '{2}') AND (kesit = '{3}')", KabloDepoID, item.MalAdi4, item.Nesne2, item.Kod15, item.ROW_ID, item.SiraNo, item.EvrakNo, item.MalKodu, item.Miktar.ToInt32());
+                                    "WHERE depo.id = {0} AND (marka = '{1}') AND (cins = '{2}') AND (kesit = '{3}')", KabloDepoID, item.MalAdi4, item.Nesne2, item.Kod15, item.ROW_ID, item.SiraNo, item.EvrakNo, item.MalKodu, item.Miktar.ToInt32(), item.SirketID);
             }
             //exec sql
             using (KabloEntities dbx = new KabloEntities())
@@ -128,6 +128,14 @@ namespace Wms12m.Presentation.Controllers
                 var listx = dbx.Database.SqlQuery<frmCableSiparis>(sql).ToList();
                 return View("Step3", listx);
             }
+        }
+        /// <summary>
+        /// siparişler son adım
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Step4(frmSiparisOnay tbl)
+        {
+            return View("Step4");
         }
         /// <summary>
         /// depo ve şirket seçince açık siparişler gelecek

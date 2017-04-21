@@ -398,8 +398,13 @@ namespace Wms12m
                 var sonuc = SiparisToplamaToLink(item.SirketKod, item.IrsaliyeID, mGorev.Depo.DepoKodu, evrakserino, item.Tarih, item.HesapKodu, kaydeden);
                 if (sonuc.Status == true)
                 {
+                    //update irsaliye
+                    var irs = db.IRS.Where(m => m.ID == item.IrsaliyeID).FirstOrDefault();
+                    irs.EvrakNo = sonuc.Message;
+                    db.SaveChanges();
+                    //yeni görev
                     string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
-                    var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, item.EvrakNo, item.Tarih, "Irs: " + item.EvrakNo + " Alıcı: " + item.HesapKodu.GetUnvan(item.SirketKod), true, ComboItems.Paketle.ToInt32(), kulID, kaydeden, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "").FirstOrDefault();
+                    var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, sonuc.Message, item.Tarih, "Irs: " + sonuc.Message + " Alıcı: " + item.HesapKodu.GetUnvan(item.SirketKod), true, ComboItems.Paketle.ToInt32(), kulID, kaydeden, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "").FirstOrDefault();
                 }
             }
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, saat, kulID, "", ComboItems.SiparişTopla.ToInt32(), 0);
@@ -428,21 +433,14 @@ namespace Wms12m
                     finsat.Kaydeden = kaydeden;
                     finsat.KayitSurum = "9.01.028";
                     finsat.KayitKaynak = 74;
-                    finsat.KayitTarih = Tarih;
-                    finsat.KayitSaat = saat;
-                    finsat.Degistiren = kaydeden;
-                    finsat.DegisSurum = "9.01.028";
-                    finsat.DegisKaynak = 74;
-                    finsat.DegisTarih = Tarih;
-                    finsat.DegisSaat = saat;
                     STIBaseList.Add(finsat);
                 }
             }
             //finsat işlemleri
             try
             {
-                ftrKayit.FaturaKaydet(STIBaseList, EvrakSeriNo);
-                return new Result(true);
+                var sonuc=ftrKayit.FaturaKaydet(STIBaseList, EvrakSeriNo);
+                return new Result(true, sonuc.Mesaj);
             }
             catch (Exception ex)
             {

@@ -77,7 +77,7 @@
                                     <td>@item.makara</td>
                                     <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Miktar', '@x')" align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.stok)</td>
-                                    <td>@item.ROW_ID-@item.id</td>
+                                    <td>@item.SirketID-@item.ROW_ID-@item.id</td>
                                     <td>@x</td>
                                 </tr>
                                 x++;
@@ -117,39 +117,13 @@
             "columnDefs": [{ "targets": [10,11], "visible": false, "searchable": false }]
         });
         $(".submit").click(function () {
-            var selected = ""; var cells = [,,]; var result = false;
+            var selected = ""; var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-                var miktar = parseFloat(list[this.data()[8]]);
-                var stok = parseFloat(this.data()[5].replace(".", "").replace(",", "."));
-                selected = selected + this.data()[7] + "-" + miktar + "#";
-                //aynı  malları grupla
-                if (cells.length > 2) {
-                    for (var i = 2, len = cells.length; i < len; i++) {
-                        if (cells[i][0] === this.data()[2]) {
-                            cells[i][1] += miktar;
-                            result = true;
-                            break;
-                        }
-                    }
-                }
-                if (result == false) cells.push([this.data()[2], miktar, stok]);
-            });
-            result = false;
-            if (cells.length == 2) {
-                Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+                selected = selected + this.data()[10] + "#";
                 result = true;
-                return;
-            }
-            cells.forEach(function (item) {
-                if (item[1] > item[2])
-                {
-                    Modaldialog(item[0] + " için stoktan fazla sipariş var.", "Hata", "Tamam", "btn-danger");
-                    result = true;
-                    return;
-                }
             });
             $("#checkboxes").val(selected);
-            if (result == false) $("#submit").click();
+            if (result == true) $("#submit").click();
         });
         $("#selector").click(function () {
             if (selectall == true) {

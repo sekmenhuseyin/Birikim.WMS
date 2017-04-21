@@ -5,6 +5,7 @@
     /// </summary>
     public class frmCableStk
     {
+        public string SirketID { get; set; }
         public int ROW_ID { get; set; }
         public short SiraNo { get; set; }
         public string EvrakNo { get; set; }
@@ -20,6 +21,7 @@
     /// </summary>
     public class frmCableSiparis
     {
+        public string SirketID { get; set; }
         public int ROW_ID { get; set; }
         public short SiraNo { get; set; }
         public string EvrakNo { get; set; }
