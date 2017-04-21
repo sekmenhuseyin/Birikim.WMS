@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Html.BeginForm("PlanOnay", "Transfer", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Summary", "Transfer", FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)

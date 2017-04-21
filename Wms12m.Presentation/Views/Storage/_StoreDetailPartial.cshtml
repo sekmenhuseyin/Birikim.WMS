@@ -62,7 +62,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#KabloDepoID").prepend("<option value=''>Seçiniz !!!</option>"); @if (Model.Aktif == false) {<text> $("#KabloDepoID")[0].selectedIndex = 0; </text>}
+        $("#KabloDepoID").prepend("<option value=''>Seçiniz !!!</option>"); @if (Model.KabloDepoID == null) {<text> $("#KabloDepoID")[0].selectedIndex = 0; </text>}
         $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
         $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
         @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}

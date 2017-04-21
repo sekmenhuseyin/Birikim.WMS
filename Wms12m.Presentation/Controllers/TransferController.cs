@@ -50,7 +50,7 @@ namespace Wms12m.Presentation.Controllers
         /// ilk sayfada seçtiklerini gösterip onaylatan bir sayfa
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult PlanOnay(frmTransferMalzemeApprove tbl)
+        public ActionResult Summary(frmTransferMalzemeApprove tbl)
         {
             if (tbl.SirketID == "" || tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
@@ -135,27 +135,35 @@ namespace Wms12m.Presentation.Controllers
                             Miktar = miktar,
                             GC = true
                         };
-                        TaskYer.Operation(tblyer);
+                        if (miktar > 0) TaskYer.Operation(tblyer);
                         //toplam yeterli miktardaysa
                         if (toplam == item.Miktar) break;
                     }
                     item.Miktar = toplam;
                     item.TransferID = sonuc.Id;
                     //hepsi eklenince detayı db'ye ekle
-                    Transfers.AddDetay(item);
-                    Stok.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim });
+                    if (item.Miktar > 0) Transfers.AddDetay(item);
+                    if (item.Miktar > 0) Stok.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim });
                 }
             }
             //return
-            return RedirectToAction("List");
+            var list = db.Transfers.Where(m => m.ID == sonuc.Id).FirstOrDefault();
+            return View("Summary", list);
         }
         /// <summary>
         /// onay bekleyen transfer lsitesi
         /// </summary>
         public ActionResult List()
         {
-            var list = Transfers.GetList(false);
-            return View("List", list);
+            return View("List");
+        }
+        /// <summary>
+        /// onay bekleyen transfer lsitesi
+        /// </summary>
+        public PartialViewResult ListDetail(bool Id)
+        {
+            var list = Transfers.GetList(Id);
+            return PartialView("_List", list);
         }
         /// <summary>
         /// transfere ait mallar
@@ -181,6 +189,25 @@ namespace Wms12m.Presentation.Controllers
             db.SaveChanges();
             //return
             return RedirectToAction("List");
+        }
+        /// <summary>
+        /// görev sil
+        /// </summary>
+        public JsonResult Delete(int ID)
+        {
+            Result _Result = new Result();
+            try
+            {
+                db.DeleteFromGorev(ID);
+                _Result.Status = true; _Result.Id = ID;
+            }
+            catch (Exception ex)
+            {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Tasks/Delete");
+                _Result.Status = false;
+                _Result.Message = ex.Message;
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }
