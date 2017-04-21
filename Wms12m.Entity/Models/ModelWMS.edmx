@@ -940,37 +940,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="DeleteFromGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="GetSirketDBs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Machine" Type="varchar" Mode="In" />
+          <Parameter Name="IpAddress" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Message" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Source" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MenuGetirici" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WebSiteTipiID" Type="tinyint" Mode="In" />
+          <Parameter Name="MenuYeriID" Type="tinyint" Mode="In" />
+          <Parameter Name="RoleName" Type="varchar" Mode="In" />
+          <Parameter Name="UstMenuID" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="DeleteFromGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetBolumSiralamaFromGorevId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="GetBolumSiralamaFromGorevId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
           <Parameter Name="KoridorID" Type="int" Mode="In" />
           <Parameter Name="desc" Type="bit" Mode="In" />
         </Function>
-        <Function Name="GetHomeSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetHucreAd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="GetHomeSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms" />
+        <Function Name="GetHucreAd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetHucreKatID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="GetHucreKatID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="Kod" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="GetIrsDetayfromGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="GetIrsDetayfromGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetKoridorIdFromGorevId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="GetKoridorIdFromGorevId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetSirketDBs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetStock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="GetStock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="MalKodu" Type="varchar" Mode="In" />
           <Parameter Name="Birim" Type="varchar" Mode="In" />
           <Parameter Name="includeRezerv" Type="bit" Mode="In" />
         </Function>
-        <Function Name="InsertIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="InsertIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="SirketKod" Type="varchar" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="GorevNo" Type="varchar" Mode="In" />
@@ -988,21 +1002,13 @@
           <Parameter Name="ValorGun" Type="smallint" Mode="In" />
           <Parameter Name="LinkEvrakNo" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="UserName" Type="varchar" Mode="In" />
-          <Parameter Name="Machine" Type="varchar" Mode="In" />
-          <Parameter Name="IpAddress" Type="varchar" Mode="In" />
-          <Parameter Name="Description" Type="varchar(max)" Mode="In" />
-          <Parameter Name="Message" Type="varchar(max)" Mode="In" />
-          <Parameter Name="Source" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="SettingsGorevNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="SettingsGorevNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="tarih" Type="int" Mode="In" />
         </Function>
-        <Function Name="SettingsIrsaliyeNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="SettingsIrsaliyeNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="tarih" Type="int" Mode="In" />
         </Function>
-        <Function Name="TerminalFinishGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="TerminalFinishGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
           <Parameter Name="IrsaliyeID" Type="int" Mode="In" />
           <Parameter Name="YeniGorevNo" Type="varchar" Mode="In" />
@@ -1013,15 +1019,15 @@
           <Parameter Name="GörevTipiID" Type="int" Mode="In" />
           <Parameter Name="YeniGorevTipiID" Type="int" Mode="In" />
         </Function>
-        <Function Name="TerminalRaftanIndir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="TerminalRaftanIndir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="irsID" Type="int" Mode="In" />
           <Parameter Name="KatID" Type="int" Mode="In" />
           <Parameter Name="Miktar" Type="numeric" Mode="In" />
         </Function>
-        <Function Name="YetkiDepo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="YetkiDepo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
-        <Function Name="YetkiDepoSet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="YetkiDepoSet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="Ekle" Type="bit" Mode="In" />
@@ -1259,20 +1265,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="MModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="WMSEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
-          <FunctionImport Name="GetHucreAd" ReturnType="Collection(MModel.GetHucreAd_Result)">
-          <Parameter Name="DepoID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetHucreKatID" ReturnType="Collection(Int32)">
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="Kod" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="SettingsGorevNo" ReturnType="Collection(String)">
-          <Parameter Name="tarih" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SettingsIrsaliyeNo" ReturnType="Collection(String)">
-          <Parameter Name="tarih" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="Combo_Name" EntityType="MModel.Combo_Name" />
           <EntitySet Name="ComboItem_Name" EntityType="MModel.ComboItem_Name" />
           <EntitySet Name="Bolums" EntityType="MModel.Bolum" />
@@ -1332,14 +1324,6 @@
             <End Role="Yer" EntitySet="Yers" />
             <End Role="GorevYer" EntitySet="GorevYers" />
           </AssociationSet>
-          <FunctionImport Name="GetBolumSiralamaFromGorevId" ReturnType="Collection(Int32)">
-            <Parameter Name="GorevID" Mode="In" Type="Int32" />
-            <Parameter Name="KoridorID" Mode="In" Type="Int32" />
-            <Parameter Name="desc" Mode="In" Type="Boolean" />
-          </FunctionImport>
-          <FunctionImport Name="GetKoridorIdFromGorevId" ReturnType="Collection(Int32)">
-          <Parameter Name="GorevID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="Simges" EntityType="MModel.Simge" />
           <EntitySet Name="WebMenus" EntityType="MModel.WebMenu" />
           <EntitySet Name="WebMenuSetts" EntityType="MModel.WebMenuSett" />
@@ -1363,15 +1347,6 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="WebMenu" EntitySet="WebMenus" />
           </AssociationSet>
-          <FunctionImport Name="YetkiDepo" ReturnType="Collection(MModel.YetkiDepo_Result)">
-          <Parameter Name="ID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="YetkiDepoSet">
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
-            <Parameter Name="Ekle" Mode="In" Type="Boolean" />
-          </FunctionImport>
-          <FunctionImport Name="GetSirketDBs" ReturnType="Collection(String)" />
           <EntitySet Name="Users" EntityType="MModel.User" />
           <EntitySet Name="IRS_Detay" EntityType="MModel.IRS_Detay" />
           <AssociationSet Name="FK_Bolum_UsersDegistiren" Association="MModel.FK_Bolum_UsersDegistiren">
@@ -1447,9 +1422,6 @@
             <End Role="Gorev" EntitySet="Gorevs" />
             <End Role="IR" EntitySet="IRS" />
           </AssociationSet>
-          <FunctionImport Name="GetIrsDetayfromGorev" ReturnType="Collection(MModel.GetIrsDetayfromGorev_Result)">
-          <Parameter Name="GorevID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <AssociationSet Name="Depo_Users" Association="MModel.Depo_Users">
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="User" EntitySet="Users" />
@@ -1463,62 +1435,11 @@
             <End Role="IR" EntitySet="IRS" />
             <End Role="Yer_Log" EntitySet="Yer_Log" />
           </AssociationSet>
-          <FunctionImport Name="Logger">
-            <Parameter Name="UserName" Mode="In" Type="String" />
-            <Parameter Name="Machine" Mode="In" Type="String" />
-            <Parameter Name="IpAddress" Mode="In" Type="String" />
-            <Parameter Name="Description" Mode="In" Type="String" />
-            <Parameter Name="Message" Mode="In" Type="String" />
-            <Parameter Name="Source" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="DeleteFromGorev">
-          <Parameter Name="GorevID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="GetStock" ReturnType="Collection(Decimal)">
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="MalKodu" Mode="In" Type="String" />
-            <Parameter Name="Birim" Mode="In" Type="String" />
-            <Parameter Name="includeRezerv" Mode="In" Type="Boolean" />
-          </FunctionImport>
           <EntitySet Name="EvrakSeris" EntityType="MModel.EvrakSeri" />
           <AssociationSet Name="FK_EvrakSeri_ComboItem_Name" Association="MModel.FK_EvrakSeri_ComboItem_Name">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="EvrakSeri" EntitySet="EvrakSeris" />
           </AssociationSet>
-          <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
-            <Parameter Name="SirketKod" Mode="In" Type="String" />
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="GorevNo" Mode="In" Type="String" />
-            <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
-            <Parameter Name="IrsTarih" Mode="In" Type="Int32" />
-            <Parameter Name="GorevBilgi" Mode="In" Type="String" />
-            <Parameter Name="IrsIslemTur" Mode="In" Type="Boolean" />
-            <Parameter Name="GorevTipiID" Mode="In" Type="Int32" />
-            <Parameter Name="OlusturanID" Mode="In" Type="Int32" />
-            <Parameter Name="Olusturan" Mode="In" Type="String" />
-            <Parameter Name="OlusturmaTarihi" Mode="In" Type="Int32" />
-            <Parameter Name="OlusturmaSaati" Mode="In" Type="Int32" />
-            <Parameter Name="HesapKodu" Mode="In" Type="String" />
-            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
-            <Parameter Name="ValorGun" Mode="In" Type="Int16" />
-            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="TerminalFinishGorev">
-            <Parameter Name="GorevID" Mode="In" Type="Int32" />
-            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
-            <Parameter Name="YeniGorevNo" Mode="In" Type="String" />
-            <Parameter Name="BitisTarihi" Mode="In" Type="Int32" />
-            <Parameter Name="BitisSaati" Mode="In" Type="Int32" />
-            <Parameter Name="KullaniciID" Mode="In" Type="Int32" />
-            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
-            <Parameter Name="GörevTipiID" Mode="In" Type="Int32" />
-            <Parameter Name="YeniGorevTipiID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="TerminalRaftanIndir">
-            <Parameter Name="irsID" Mode="In" Type="Int32" />
-            <Parameter Name="KatID" Mode="In" Type="Int32" />
-            <Parameter Name="Miktar" Mode="In" Type="Decimal" />
-          </FunctionImport>
           <EntitySet Name="Transfer_Detay" EntityType="MModel.Transfer_Detay" />
           <EntitySet Name="Transfers" EntityType="MModel.Transfer" />
           <AssociationSet Name="FK_Transfer_Users" Association="MModel.FK_Transfer_Users">
@@ -1549,22 +1470,105 @@
             <End Role="Transfer" EntitySet="Transfers" />
             <End Role="Transfer_Detay" EntitySet="Transfer_Detay" />
           </AssociationSet>
-          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)" />
           <AssociationSet Name="FK_Yer_Log_Kat" Association="MModel.FK_Yer_Log_Kat">
             <End Role="Kat" EntitySet="Kats" />
             <End Role="Yer_Log" EntitySet="Yer_Log" />
           </AssociationSet>
           <EntitySet Name="Ayarlars" EntityType="MModel.Ayarlar" />
           <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
+          <FunctionImport Name="DeleteFromGorev">
+          <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetBolumSiralamaFromGorevId" ReturnType="Collection(Int32)">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+            <Parameter Name="KoridorID" Mode="In" Type="Int32" />
+            <Parameter Name="desc" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)" />
+          <FunctionImport Name="GetHucreAd" ReturnType="Collection(MModel.GetHucreAd_Result)">
+          <Parameter Name="DepoID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetHucreKatID" ReturnType="Collection(Int32)">
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="Kod" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetIrsDetayfromGorev" ReturnType="Collection(MModel.GetIrsDetayfromGorev_Result)">
+          <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetKoridorIdFromGorevId" ReturnType="Collection(Int32)">
+          <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetStock" ReturnType="Collection(Decimal)">
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="MalKodu" Mode="In" Type="String" />
+            <Parameter Name="Birim" Mode="In" Type="String" />
+            <Parameter Name="includeRezerv" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
+            <Parameter Name="SirketKod" Mode="In" Type="String" />
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="GorevNo" Mode="In" Type="String" />
+            <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
+            <Parameter Name="IrsTarih" Mode="In" Type="Int32" />
+            <Parameter Name="GorevBilgi" Mode="In" Type="String" />
+            <Parameter Name="IrsIslemTur" Mode="In" Type="Boolean" />
+            <Parameter Name="GorevTipiID" Mode="In" Type="Int32" />
+            <Parameter Name="OlusturanID" Mode="In" Type="Int32" />
+            <Parameter Name="Olusturan" Mode="In" Type="String" />
+            <Parameter Name="OlusturmaTarihi" Mode="In" Type="Int32" />
+            <Parameter Name="OlusturmaSaati" Mode="In" Type="Int32" />
+            <Parameter Name="HesapKodu" Mode="In" Type="String" />
+            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
+            <Parameter Name="ValorGun" Mode="In" Type="Int16" />
+            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SettingsGorevNo" ReturnType="Collection(String)">
+          <Parameter Name="tarih" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SettingsIrsaliyeNo" ReturnType="Collection(String)">
+          <Parameter Name="tarih" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TerminalFinishGorev">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
+            <Parameter Name="YeniGorevNo" Mode="In" Type="String" />
+            <Parameter Name="BitisTarihi" Mode="In" Type="Int32" />
+            <Parameter Name="BitisSaati" Mode="In" Type="Int32" />
+            <Parameter Name="KullaniciID" Mode="In" Type="Int32" />
+            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
+            <Parameter Name="GörevTipiID" Mode="In" Type="Int32" />
+            <Parameter Name="YeniGorevTipiID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TerminalRaftanIndir">
+            <Parameter Name="irsID" Mode="In" Type="Int32" />
+            <Parameter Name="KatID" Mode="In" Type="Int32" />
+            <Parameter Name="Miktar" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="YetkiDepo" ReturnType="Collection(MModel.YetkiDepo_Result)">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="YetkiDepoSet">
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="Ekle" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="GetSirketDBs" ReturnType="Collection(String)" />
+          <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
+          <FunctionImport Name="Logger">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Machine" Mode="In" Type="String" />
+            <Parameter Name="IpAddress" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Message" Mode="In" Type="String" />
+            <Parameter Name="Source" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MenuGetirici" ReturnType="Collection(MModel.MenuGetirici_Result)">
+            <Parameter Name="WebSiteTipiID" Mode="In" Type="Byte" />
+            <Parameter Name="MenuYeriID" Mode="In" Type="Byte" />
+            <Parameter Name="RoleName" Mode="In" Type="String" />
+            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
+          </FunctionImport>
           </EntityContainer>
-        <ComplexType Name="GetSirkets_Result">
-          <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="Ad" Nullable="false" MaxLength="55" />
-        </ComplexType>
-        <ComplexType Name="GetHucreAd_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Ad" Nullable="false" MaxLength="403" />
-        </ComplexType>
         <EntityType Name="Combo_Name">
           <Key>
             <PropertyRef Name="ID" />
@@ -1994,11 +1998,6 @@
           <End Type="MModel.Role" Role="Role" Multiplicity="*" />
           <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
         </Association>
-        <ComplexType Name="YetkiDepo_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="DepoAd" Nullable="false" MaxLength="100" />
-        </ComplexType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="ID" />
@@ -2294,14 +2293,6 @@
           <End Type="MModel.Gorev" Role="Gorev" Multiplicity="*" />
           <End Type="MModel.IR" Role="IR" Multiplicity="*" />
         </Association>
-        <ComplexType Name="GetIrsDetayfromGorev_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-        </ComplexType>
         <Association Name="Depo_Users">
           <End Type="MModel.Depo" Role="Depo" Multiplicity="0..1" />
           <End Type="MModel.User" Role="User" Multiplicity="*" />
@@ -2371,11 +2362,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="InsertIrsaliye_Result">
-          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
-          <Property Type="Int32" Name="GorevID" Nullable="true" />
-          <Property Type="Boolean" Name="Onay" Nullable="true" />
-        </ComplexType>
         <EntityType Name="Transfer_Detay">
           <Key>
             <PropertyRef Name="ID" />
@@ -2496,13 +2482,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetHomeSummary_Result">
-          <Property Type="Int32" Name="depo" Nullable="true" />
-          <Property Type="Int32" Name="kull" Nullable="true" />
-          <Property Type="Int32" Name="gorev" Nullable="true" />
-          <Property Type="Int32" Name="irs" Nullable="true" />
-          <Property Type="Int32" Name="transfer" Nullable="true" />
-        </ComplexType>
         <Association Name="FK_Yer_Log_Kat">
           <End Type="MModel.Kat" Role="Kat" Multiplicity="1" />
           <End Type="MModel.Yer_Log" Role="Yer_Log" Multiplicity="*" />
@@ -2536,31 +2515,52 @@
           <Property Name="Agirlik" Type="Decimal" Precision="25" Scale="6" />
           <Property Name="Hacim" Type="Decimal" Precision="38" Scale="6" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
+        <ComplexType Name="GetHomeSummary_Result">
+          <Property Type="Int32" Name="depo" Nullable="true" />
+          <Property Type="Int32" Name="kull" Nullable="true" />
+          <Property Type="Int32" Name="gorev" Nullable="true" />
+          <Property Type="Int32" Name="irs" Nullable="true" />
+          <Property Type="Int32" Name="transfer" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetHucreAd_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Ad" Nullable="false" MaxLength="403" />
+        </ComplexType>
+        <ComplexType Name="GetIrsDetayfromGorev_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
+        </ComplexType>
+        <ComplexType Name="InsertIrsaliye_Result">
+          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
+          <Property Type="Int32" Name="GorevID" Nullable="true" />
+          <Property Type="Boolean" Name="Onay" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="YetkiDepo_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="DepoAd" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="GetSirkets_Result">
+          <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Ad" Nullable="false" MaxLength="55" />
+        </ComplexType>
+        <ComplexType Name="MenuGetirici_Result">
+          <Property Type="Int16" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Ad" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Icon" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="AltmenuCount" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MModelStoreContainer" CdmEntityContainer="WMSEntities">
-          <FunctionImportMapping FunctionImportName="GetSirkets" FunctionName="MModel.Store.GetSirkets">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetSirkets_Result">
-                <ScalarProperty Name="Kod" ColumnName="Kod" />
-                <ScalarProperty Name="Ad" ColumnName="Ad" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetHucreAd" FunctionName="MModel.Store.GetHucreAd">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetHucreAd_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Ad" ColumnName="Ad" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetHucreKatID" FunctionName="MModel.Store.GetHucreKatID" />
-          <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
-          <FunctionImportMapping FunctionImportName="SettingsIrsaliyeNo" FunctionName="MModel.Store.SettingsIrsaliyeNo" />
           <EntitySetMapping Name="Combo_Name">
             <EntityTypeMapping TypeName="MModel.Combo_Name">
               <MappingFragment StoreEntitySet="Combo_Name">
@@ -2719,8 +2719,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetBolumSiralamaFromGorevId" FunctionName="MModel.Store.GetBolumSiralamaFromGorevId" />
-          <FunctionImportMapping FunctionImportName="GetKoridorIdFromGorevId" FunctionName="MModel.Store.GetKoridorIdFromGorevId" />
           <EntitySetMapping Name="Simges">
             <EntityTypeMapping TypeName="MModel.Simge">
               <MappingFragment StoreEntitySet="Simge">
@@ -2761,17 +2759,6 @@
               <ScalarProperty Name="RoleName" ColumnName="RoleName" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="YetkiDepo" FunctionName="MModel.Store.YetkiDepo">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.YetkiDepo_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
-                <ScalarProperty Name="DepoAd" ColumnName="DepoAd" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="YetkiDepoSet" FunctionName="MModel.Store.YetkiDepoSet" />
-          <FunctionImportMapping FunctionImportName="GetSirketDBs" FunctionName="MModel.Store.GetSirketDBs" />
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="MModel.User">
               <MappingFragment StoreEntitySet="Users">
@@ -2845,18 +2832,6 @@
               <ScalarProperty Name="ID" ColumnName="GorevID" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="GetIrsDetayfromGorev" FunctionName="MModel.Store.GetIrsDetayfromGorev">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetIrsDetayfromGorev_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
-                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <AssociationSetMapping Name="Depo_Users" TypeName="MModel.Depo_Users" StoreEntitySet="Depo_Users">
             <EndProperty Name="User">
               <ScalarProperty Name="ID" ColumnName="UserID" />
@@ -2883,9 +2858,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
-          <FunctionImportMapping FunctionImportName="DeleteFromGorev" FunctionName="MModel.Store.DeleteFromGorev" />
-          <FunctionImportMapping FunctionImportName="GetStock" FunctionName="MModel.Store.GetStock" />
           <EntitySetMapping Name="EvrakSeris">
             <EntityTypeMapping TypeName="MModel.EvrakSeri">
               <MappingFragment StoreEntitySet="EvrakSeri">
@@ -2896,17 +2868,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-                <ScalarProperty Name="Onay" ColumnName="Onay" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
-          <FunctionImportMapping FunctionImportName="TerminalRaftanIndir" FunctionName="MModel.Store.TerminalRaftanIndir" />
           <EntitySetMapping Name="Transfer_Detay">
             <EntityTypeMapping TypeName="MModel.Transfer_Detay">
               <MappingFragment StoreEntitySet="Transfer_Detay">
@@ -2937,17 +2898,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
-                <ScalarProperty Name="depo" ColumnName="depo" />
-                <ScalarProperty Name="kull" ColumnName="kull" />
-                <ScalarProperty Name="gorev" ColumnName="gorev" />
-                <ScalarProperty Name="irs" ColumnName="irs" />
-                <ScalarProperty Name="transfer" ColumnName="transfer" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Ayarlars">
             <EntityTypeMapping TypeName="MModel.Ayarlar">
               <MappingFragment StoreEntitySet="Ayarlar">
@@ -2971,6 +2921,86 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteFromGorev" FunctionName="MModel.Store.DeleteFromGorev" />
+          <FunctionImportMapping FunctionImportName="GetBolumSiralamaFromGorevId" FunctionName="MModel.Store.GetBolumSiralamaFromGorevId" />
+          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
+                <ScalarProperty Name="depo" ColumnName="depo" />
+                <ScalarProperty Name="kull" ColumnName="kull" />
+                <ScalarProperty Name="gorev" ColumnName="gorev" />
+                <ScalarProperty Name="irs" ColumnName="irs" />
+                <ScalarProperty Name="transfer" ColumnName="transfer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetHucreAd" FunctionName="MModel.Store.GetHucreAd">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetHucreAd_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetHucreKatID" FunctionName="MModel.Store.GetHucreKatID" />
+          <FunctionImportMapping FunctionImportName="GetIrsDetayfromGorev" FunctionName="MModel.Store.GetIrsDetayfromGorev">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetIrsDetayfromGorev_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
+                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetKoridorIdFromGorevId" FunctionName="MModel.Store.GetKoridorIdFromGorevId" />
+          <FunctionImportMapping FunctionImportName="GetStock" FunctionName="MModel.Store.GetStock" />
+          <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
+          <FunctionImportMapping FunctionImportName="SettingsIrsaliyeNo" FunctionName="MModel.Store.SettingsIrsaliyeNo" />
+          <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
+          <FunctionImportMapping FunctionImportName="TerminalRaftanIndir" FunctionName="MModel.Store.TerminalRaftanIndir" />
+          <FunctionImportMapping FunctionImportName="YetkiDepo" FunctionName="MModel.Store.YetkiDepo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.YetkiDepo_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
+                <ScalarProperty Name="DepoAd" ColumnName="DepoAd" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="YetkiDepoSet" FunctionName="MModel.Store.YetkiDepoSet" />
+          <FunctionImportMapping FunctionImportName="GetSirketDBs" FunctionName="MModel.Store.GetSirketDBs" />
+          <FunctionImportMapping FunctionImportName="GetSirkets" FunctionName="MModel.Store.GetSirkets">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetSirkets_Result">
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
+          <FunctionImportMapping FunctionImportName="MenuGetirici" FunctionName="MModel.Store.MenuGetirici">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.MenuGetirici_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="AltmenuCount" ColumnName="AltmenuCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -93,6 +93,9 @@
     <Compile Include="Models\GetIrsDetayfromGorev_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetSirkets_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Gorev.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -112,6 +115,9 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Koridor.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MenuGetirici_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Mysql\cin.cs">
@@ -214,9 +220,6 @@
     <Compile Include="Viewmodels\frmSiparis.cs" />
     <Compile Include="Viewmodels\frmIrsaliye.cs" />
     <Compile Include="Viewmodels\frmMalzeme.cs" />
-    <Compile Include="Models\GetSirkets_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ModelWMS.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

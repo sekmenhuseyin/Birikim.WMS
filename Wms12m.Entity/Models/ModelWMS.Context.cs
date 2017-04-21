@@ -51,9 +51,35 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Ayarlar> Ayarlars { get; set; }
         public virtual DbSet<Olcu> Olcus { get; set; }
     
-        public virtual ObjectResult<GetSirkets_Result> GetSirkets()
+        public virtual int DeleteFromGorev(Nullable<int> gorevID)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSirkets_Result>("WMSEntities.GetSirkets");
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.DeleteFromGorev", gorevIDParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> GetBolumSiralamaFromGorevId(Nullable<int> gorevID, Nullable<int> koridorID, Nullable<bool> desc)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            var koridorIDParameter = koridorID.HasValue ?
+                new ObjectParameter("KoridorID", koridorID) :
+                new ObjectParameter("KoridorID", typeof(int));
+    
+            var descParameter = desc.HasValue ?
+                new ObjectParameter("desc", desc) :
+                new ObjectParameter("desc", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetBolumSiralamaFromGorevId", gorevIDParameter, koridorIDParameter, descParameter);
+        }
+    
+        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary");
         }
     
         public virtual ObjectResult<GetHucreAd_Result> GetHucreAd(Nullable<int> depoID)
@@ -78,81 +104,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetHucreKatID", depoIDParameter, kodParameter);
         }
     
-        public virtual ObjectResult<string> SettingsGorevNo(Nullable<int> tarih)
-        {
-            var tarihParameter = tarih.HasValue ?
-                new ObjectParameter("tarih", tarih) :
-                new ObjectParameter("tarih", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsGorevNo", tarihParameter);
-        }
-    
-        public virtual ObjectResult<string> SettingsIrsaliyeNo(Nullable<int> tarih)
-        {
-            var tarihParameter = tarih.HasValue ?
-                new ObjectParameter("tarih", tarih) :
-                new ObjectParameter("tarih", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsIrsaliyeNo", tarihParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> GetBolumSiralamaFromGorevId(Nullable<int> gorevID, Nullable<int> koridorID, Nullable<bool> desc)
-        {
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("GorevID", gorevID) :
-                new ObjectParameter("GorevID", typeof(int));
-    
-            var koridorIDParameter = koridorID.HasValue ?
-                new ObjectParameter("KoridorID", koridorID) :
-                new ObjectParameter("KoridorID", typeof(int));
-    
-            var descParameter = desc.HasValue ?
-                new ObjectParameter("desc", desc) :
-                new ObjectParameter("desc", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetBolumSiralamaFromGorevId", gorevIDParameter, koridorIDParameter, descParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<int>> GetKoridorIdFromGorevId(Nullable<int> gorevID)
-        {
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("GorevID", gorevID) :
-                new ObjectParameter("GorevID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetKoridorIdFromGorevId", gorevIDParameter);
-        }
-    
-        public virtual ObjectResult<YetkiDepo_Result> YetkiDepo(Nullable<int> iD)
-        {
-            var iDParameter = iD.HasValue ?
-                new ObjectParameter("ID", iD) :
-                new ObjectParameter("ID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<YetkiDepo_Result>("WMSEntities.YetkiDepo", iDParameter);
-        }
-    
-        public virtual int YetkiDepoSet(Nullable<int> depoID, Nullable<int> userID, Nullable<bool> ekle)
-        {
-            var depoIDParameter = depoID.HasValue ?
-                new ObjectParameter("DepoID", depoID) :
-                new ObjectParameter("DepoID", typeof(int));
-    
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("UserID", userID) :
-                new ObjectParameter("UserID", typeof(int));
-    
-            var ekleParameter = ekle.HasValue ?
-                new ObjectParameter("Ekle", ekle) :
-                new ObjectParameter("Ekle", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.YetkiDepoSet", depoIDParameter, userIDParameter, ekleParameter);
-        }
-    
-        public virtual ObjectResult<string> GetSirketDBs()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetSirketDBs");
-        }
-    
         public virtual ObjectResult<GetIrsDetayfromGorev_Result> GetIrsDetayfromGorev(Nullable<int> gorevID)
         {
             var gorevIDParameter = gorevID.HasValue ?
@@ -162,42 +113,13 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsDetayfromGorev_Result>("WMSEntities.GetIrsDetayfromGorev", gorevIDParameter);
         }
     
-        public virtual int Logger(string userName, string machine, string ipAddress, string description, string message, string source)
-        {
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            var machineParameter = machine != null ?
-                new ObjectParameter("Machine", machine) :
-                new ObjectParameter("Machine", typeof(string));
-    
-            var ipAddressParameter = ipAddress != null ?
-                new ObjectParameter("IpAddress", ipAddress) :
-                new ObjectParameter("IpAddress", typeof(string));
-    
-            var descriptionParameter = description != null ?
-                new ObjectParameter("Description", description) :
-                new ObjectParameter("Description", typeof(string));
-    
-            var messageParameter = message != null ?
-                new ObjectParameter("Message", message) :
-                new ObjectParameter("Message", typeof(string));
-    
-            var sourceParameter = source != null ?
-                new ObjectParameter("Source", source) :
-                new ObjectParameter("Source", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.Logger", userNameParameter, machineParameter, ipAddressParameter, descriptionParameter, messageParameter, sourceParameter);
-        }
-    
-        public virtual int DeleteFromGorev(Nullable<int> gorevID)
+        public virtual ObjectResult<Nullable<int>> GetKoridorIdFromGorevId(Nullable<int> gorevID)
         {
             var gorevIDParameter = gorevID.HasValue ?
                 new ObjectParameter("GorevID", gorevID) :
                 new ObjectParameter("GorevID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.DeleteFromGorev", gorevIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetKoridorIdFromGorevId", gorevIDParameter);
         }
     
         public virtual ObjectResult<Nullable<decimal>> GetStock(Nullable<int> depoID, string malKodu, string birim, Nullable<bool> includeRezerv)
@@ -290,6 +212,24 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, irsTarihParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter);
         }
     
+        public virtual ObjectResult<string> SettingsGorevNo(Nullable<int> tarih)
+        {
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("tarih", tarih) :
+                new ObjectParameter("tarih", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsGorevNo", tarihParameter);
+        }
+    
+        public virtual ObjectResult<string> SettingsIrsaliyeNo(Nullable<int> tarih)
+        {
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("tarih", tarih) :
+                new ObjectParameter("tarih", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsIrsaliyeNo", tarihParameter);
+        }
+    
         public virtual int TerminalFinishGorev(Nullable<int> gorevID, Nullable<int> irsaliyeID, string yeniGorevNo, Nullable<int> bitisTarihi, Nullable<int> bitisSaati, Nullable<int> kullaniciID, string linkEvrakNo, Nullable<int> görevTipiID, Nullable<int> yeniGorevTipiID)
         {
             var gorevIDParameter = gorevID.HasValue ?
@@ -348,9 +288,90 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.TerminalRaftanIndir", irsIDParameter, katIDParameter, miktarParameter);
         }
     
-        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary()
+        public virtual ObjectResult<YetkiDepo_Result> YetkiDepo(Nullable<int> iD)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary");
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<YetkiDepo_Result>("WMSEntities.YetkiDepo", iDParameter);
+        }
+    
+        public virtual int YetkiDepoSet(Nullable<int> depoID, Nullable<int> userID, Nullable<bool> ekle)
+        {
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var ekleParameter = ekle.HasValue ?
+                new ObjectParameter("Ekle", ekle) :
+                new ObjectParameter("Ekle", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.YetkiDepoSet", depoIDParameter, userIDParameter, ekleParameter);
+        }
+    
+        public virtual ObjectResult<string> GetSirketDBs()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetSirketDBs");
+        }
+    
+        public virtual ObjectResult<GetSirkets_Result> GetSirkets()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetSirkets_Result>("WMSEntities.GetSirkets");
+        }
+    
+        public virtual int Logger(string userName, string machine, string ipAddress, string description, string message, string source)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var machineParameter = machine != null ?
+                new ObjectParameter("Machine", machine) :
+                new ObjectParameter("Machine", typeof(string));
+    
+            var ipAddressParameter = ipAddress != null ?
+                new ObjectParameter("IpAddress", ipAddress) :
+                new ObjectParameter("IpAddress", typeof(string));
+    
+            var descriptionParameter = description != null ?
+                new ObjectParameter("Description", description) :
+                new ObjectParameter("Description", typeof(string));
+    
+            var messageParameter = message != null ?
+                new ObjectParameter("Message", message) :
+                new ObjectParameter("Message", typeof(string));
+    
+            var sourceParameter = source != null ?
+                new ObjectParameter("Source", source) :
+                new ObjectParameter("Source", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.Logger", userNameParameter, machineParameter, ipAddressParameter, descriptionParameter, messageParameter, sourceParameter);
+        }
+    
+        public virtual ObjectResult<MenuGetirici_Result> MenuGetirici(Nullable<byte> webSiteTipiID, Nullable<byte> menuYeriID, string roleName, Nullable<short> ustMenuID)
+        {
+            var webSiteTipiIDParameter = webSiteTipiID.HasValue ?
+                new ObjectParameter("WebSiteTipiID", webSiteTipiID) :
+                new ObjectParameter("WebSiteTipiID", typeof(byte));
+    
+            var menuYeriIDParameter = menuYeriID.HasValue ?
+                new ObjectParameter("MenuYeriID", menuYeriID) :
+                new ObjectParameter("MenuYeriID", typeof(byte));
+    
+            var roleNameParameter = roleName != null ?
+                new ObjectParameter("RoleName", roleName) :
+                new ObjectParameter("RoleName", typeof(string));
+    
+            var ustMenuIDParameter = ustMenuID.HasValue ?
+                new ObjectParameter("UstMenuID", ustMenuID) :
+                new ObjectParameter("UstMenuID", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MenuGetirici_Result>("WMSEntities.MenuGetirici", webSiteTipiIDParameter, menuYeriIDParameter, roleNameParameter, ustMenuIDParameter);
         }
     }
 }
