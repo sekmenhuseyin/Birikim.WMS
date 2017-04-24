@@ -102,6 +102,21 @@ namespace WMSMobil
                 label6.Visible = false;
                 label12.Visible = false;
             }
+            else if (gorevtip == 8)
+            {
+                this.Text = "Kontrollü Sayım";
+                label5.Text = "Okutulan Miktar";
+                txtRafBarkod.Visible = true;
+                label7.Visible = true;
+                label6.Visible = true;
+                label12.Visible = true;
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                txtUnvan.Visible = false;
+                txtHesapKodu.Visible = false;
+                txtEvrakno.Visible = false;
+            }
             else// if (gorevtip == 19)
             {
                 this.Text = "Transfer";

@@ -58,6 +58,10 @@ namespace WMSMobil
                         this.Text = "Transfer";
                         btnLinkeAktar.Text = "Linke Aktar";
                         break;
+                    case MenuType.KontrollüSayım:
+                        this.Text = "Kontrollü Sayım";
+                        btnLinkeAktar.Text = "Görevi Sonlandır";
+                        break;
                     default:
                         break;
                 }

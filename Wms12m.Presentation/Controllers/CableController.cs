@@ -212,8 +212,8 @@ namespace Wms12m.Presentation.Controllers
                     alıcılar += item.Unvan + ",";
                 }
                 //get stok
-                var stokMiktari = db.GetStock(idDepo, item.MalKodu, item.Birim, true).FirstOrDefault().Value;
-                if (stokMiktari > 0)
+                var stokMiktari = db.GetStock(idDepo, item.MalKodu, item.Birim, true).FirstOrDefault();
+                if (stokMiktari != null)
                 {
                     var miktar = miktars[Array.FindIndex(tmp, m => m.Contains(item.ID))];
                     var rowid = rowids[Array.FindIndex(tmp, m => m.Contains(item.ID))];
@@ -223,7 +223,7 @@ namespace Wms12m.Presentation.Controllers
                         IrsaliyeID = cevap.IrsaliyeID.Value,
                         MalKodu = item.MalKodu,
                         Birim = item.Birim,
-                        Miktar = miktar <= stokMiktari ? miktar : stokMiktari,
+                        Miktar = miktar <= stokMiktari.Value ? miktar : stokMiktari.Value,
                         KynkSiparisID = rowid.ToInt32(),
                         KynkSiparisNo = item.EvrakNo,
                         KynkSiparisSiraNo = item.SiraNo,
@@ -338,33 +338,6 @@ namespace Wms12m.Presentation.Controllers
             Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
             {
-                //kablo hareketlere kaydet
-                using (KabloEntities dbx = new KabloEntities())
-                {
-                    //önce depo adını bul
-                    string depo = dbx.depoes.Where(m => m.id == grv.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
-                    foreach (var item in grv.IRS)
-                    {
-                        foreach (var item2 in item.IRS_Detay)
-                        {
-                            //istenen stk bilgilerini bul
-                            string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
-                                                  "FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) " +
-                                                  "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')", item.SirketKod, item2.MalKodu);
-                            var stk = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
-                            //makarayı bul
-                            var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.MalAdi4 && m.cins == stk.Nesne2 && m.kesit == stk.Kod15 && m.id == item2.KynkSiparisID).FirstOrDefault();
-                            //yeni hareket ekle
-                            hareket tbl = new hareket();
-                            tbl.id = kablo.id;
-                            tbl.miktar = item2.Miktar;
-                            tbl.musteri = item.HesapKodu.GetUnvan(item.SirketKod).Left(40);
-                            tbl.tarih = DateTime.Now;
-                            dbx.harekets.Add(tbl);
-                            dbx.SaveChanges();
-                        }
-                    }
-                }
                 //görevi aç
                 grv.DurumID = ComboItems.Açık.ToInt32();
                 grv.OlusturmaTarihi = fn.ToOADate();

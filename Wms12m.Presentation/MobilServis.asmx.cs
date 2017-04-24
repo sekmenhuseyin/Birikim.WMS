@@ -339,13 +339,10 @@ namespace Wms12m
                 return new Result(false, "İşlem bitmemiş !");
             //görevi tamamla
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kulID, "", ComboItems.RafaKaldır.ToInt32(), 0);
-            //get all malkods from gorev
-            string sql = "SELECT ''''+wms.IRS_Detay.MalKodu+''',' FROM wms.GorevIRS INNER JOIN wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID WHERE(wms.GorevIRS.GorevID = " + GorevID + ") FOR XML PATH('')";
-            var malkodlari = db.Database.SqlQuery<string>(sql).FirstOrDefault();
-            //get stk details from all malkods
-            sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
-                                "FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) " +
-                                "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu IN ({1}'0')) AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')", mGorev.IR.SirketKod, malkodlari);
+            //get stk details from all mals
+            string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15, wms.IRS_Detay.Miktar " +
+                                        "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                        "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", mGorev.IR.SirketKod, mGorev.IrsaliyeID);
             var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
             using (KabloEntities dbx = new KabloEntities())
             {
@@ -362,11 +359,8 @@ namespace Wms12m
                     tbl.sid = sid;
                     tbl.depo = depo;
                     tbl.renk = "";
-                    tbl.makara = "KAPALI";
                     tbl.tip = "";
-                    tbl.rezerve = "0";
-                    tbl.rmiktar = 0;
-                    tbl.sure = new TimeSpan();
+                    tbl.miktar = item.Miktar;
                     dbx.stoks.Add(tbl);
                     dbx.SaveChanges();
                 }
@@ -443,6 +437,33 @@ namespace Wms12m
                 }
             }
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, saat, kulID, "", ComboItems.SiparişTopla.ToInt32(), 0);
+            //kablo hareketlere kaydet
+            using (KabloEntities dbx = new KabloEntities())
+            {
+                //önce depo adını bul
+                string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
+                foreach (var item in mGorev.IRS)
+                {
+                    foreach (var item2 in item.IRS_Detay)
+                    {
+                        //istenen stk bilgilerini bul
+                        sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
+                                              "FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) " +
+                                              "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')", item.SirketKod, item2.MalKodu);
+                        var stk = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
+                        //makarayı bul
+                        var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.MalAdi4 && m.cins == stk.Nesne2 && m.kesit == stk.Kod15 && m.id == item2.KynkSiparisID).FirstOrDefault();
+                        //yeni hareket ekle
+                        hareket tbl = new hareket();
+                        tbl.id = kablo.id;
+                        tbl.miktar = item2.Miktar;
+                        tbl.musteri = item.HesapKodu.GetUnvan(item.SirketKod).Left(40);
+                        tbl.tarih = DateTime.Now;
+                        dbx.harekets.Add(tbl);
+                        dbx.SaveChanges();
+                    }
+                }
+            }
             return new Result(true);
         }
         private Result SiparisToplamaToLink(string sirketKodu, int irsID, string DepoKodu, string EvrakSeriNo, int Tarih, string CHK, string kaydeden)

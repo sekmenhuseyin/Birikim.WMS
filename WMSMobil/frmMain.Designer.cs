@@ -33,14 +33,12 @@
             this.btnRafaKaldirma = new System.Windows.Forms.Button();
             this.lblMalKabul = new System.Windows.Forms.Label();
             this.btnSiparisToplama = new System.Windows.Forms.Button();
-            this.btnKabloSiparisi = new System.Windows.Forms.Button();
+            this.btnSayim = new System.Windows.Forms.Button();
             this.btnPaketleme = new System.Windows.Forms.Button();
-            this.btnSevkiyat = new System.Windows.Forms.Button();
             this.btnTransferIn = new System.Windows.Forms.Button();
             this.lblRafKaldirma = new System.Windows.Forms.Label();
             this.lblSiparisToplama = new System.Windows.Forms.Label();
-            this.lblKabloSiparisi = new System.Windows.Forms.Label();
-            this.lblSevkiyat = new System.Windows.Forms.Label();
+            this.lblSayim = new System.Windows.Forms.Label();
             this.lblPaketleme = new System.Windows.Forms.Label();
             this.lblTransferIn = new System.Windows.Forms.Label();
             this.lblTransferOut = new System.Windows.Forms.Label();
@@ -94,17 +92,17 @@
             this.btnSiparisToplama.Text = "Sipariş Toplama";
             this.btnSiparisToplama.Click += new System.EventHandler(this.btns_Click);
             // 
-            // btnKabloSiparisi
+            // btnSayim
             // 
-            this.btnKabloSiparisi.BackColor = System.Drawing.Color.Green;
-            this.btnKabloSiparisi.ForeColor = System.Drawing.Color.White;
-            this.btnKabloSiparisi.Location = new System.Drawing.Point(122, 153);
-            this.btnKabloSiparisi.Name = "btnKabloSiparisi";
-            this.btnKabloSiparisi.Size = new System.Drawing.Size(115, 56);
-            this.btnKabloSiparisi.TabIndex = 0;
-            this.btnKabloSiparisi.Tag = "4";
-            this.btnKabloSiparisi.Text = "Kablo Siparişi";
-            this.btnKabloSiparisi.Click += new System.EventHandler(this.btns_Click);
+            this.btnSayim.BackColor = System.Drawing.Color.Green;
+            this.btnSayim.ForeColor = System.Drawing.Color.White;
+            this.btnSayim.Location = new System.Drawing.Point(3, 224);
+            this.btnSayim.Name = "btnSayim";
+            this.btnSayim.Size = new System.Drawing.Size(234, 56);
+            this.btnSayim.TabIndex = 0;
+            this.btnSayim.Tag = "8";
+            this.btnSayim.Text = "Kontrollü Sayım";
+            this.btnSayim.Click += new System.EventHandler(this.btns_Click);
             // 
             // btnPaketleme
             // 
@@ -118,23 +116,11 @@
             this.btnPaketleme.Text = "Paketleme";
             this.btnPaketleme.Click += new System.EventHandler(this.btns_Click);
             // 
-            // btnSevkiyat
-            // 
-            this.btnSevkiyat.BackColor = System.Drawing.Color.Sienna;
-            this.btnSevkiyat.ForeColor = System.Drawing.Color.White;
-            this.btnSevkiyat.Location = new System.Drawing.Point(2, 153);
-            this.btnSevkiyat.Name = "btnSevkiyat";
-            this.btnSevkiyat.Size = new System.Drawing.Size(115, 56);
-            this.btnSevkiyat.TabIndex = 0;
-            this.btnSevkiyat.Tag = "7";
-            this.btnSevkiyat.Text = "Sevkiyat";
-            this.btnSevkiyat.Click += new System.EventHandler(this.btns_Click);
-            // 
             // btnTransferIn
             // 
             this.btnTransferIn.BackColor = System.Drawing.Color.SteelBlue;
             this.btnTransferIn.ForeColor = System.Drawing.Color.White;
-            this.btnTransferIn.Location = new System.Drawing.Point(2, 222);
+            this.btnTransferIn.Location = new System.Drawing.Point(3, 153);
             this.btnTransferIn.Name = "btnTransferIn";
             this.btnTransferIn.Size = new System.Drawing.Size(115, 56);
             this.btnTransferIn.TabIndex = 0;
@@ -164,27 +150,16 @@
             this.lblSiparisToplama.Tag = "";
             this.lblSiparisToplama.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // lblKabloSiparisi
+            // lblSayim
             // 
-            this.lblKabloSiparisi.BackColor = System.Drawing.Color.Green;
-            this.lblKabloSiparisi.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.lblKabloSiparisi.ForeColor = System.Drawing.Color.White;
-            this.lblKabloSiparisi.Location = new System.Drawing.Point(163, 190);
-            this.lblKabloSiparisi.Name = "lblKabloSiparisi";
-            this.lblKabloSiparisi.Size = new System.Drawing.Size(32, 16);
-            this.lblKabloSiparisi.Tag = "";
-            this.lblKabloSiparisi.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lblSevkiyat
-            // 
-            this.lblSevkiyat.BackColor = System.Drawing.Color.Sienna;
-            this.lblSevkiyat.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.lblSevkiyat.ForeColor = System.Drawing.Color.White;
-            this.lblSevkiyat.Location = new System.Drawing.Point(43, 190);
-            this.lblSevkiyat.Name = "lblSevkiyat";
-            this.lblSevkiyat.Size = new System.Drawing.Size(32, 16);
-            this.lblSevkiyat.Tag = "";
-            this.lblSevkiyat.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblSayim.BackColor = System.Drawing.Color.Green;
+            this.lblSayim.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.lblSayim.ForeColor = System.Drawing.Color.White;
+            this.lblSayim.Location = new System.Drawing.Point(104, 261);
+            this.lblSayim.Name = "lblSayim";
+            this.lblSayim.Size = new System.Drawing.Size(32, 16);
+            this.lblSayim.Tag = "";
+            this.lblSayim.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblPaketleme
             // 
@@ -202,7 +177,7 @@
             this.lblTransferIn.BackColor = System.Drawing.Color.SteelBlue;
             this.lblTransferIn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblTransferIn.ForeColor = System.Drawing.Color.White;
-            this.lblTransferIn.Location = new System.Drawing.Point(43, 259);
+            this.lblTransferIn.Location = new System.Drawing.Point(44, 190);
             this.lblTransferIn.Name = "lblTransferIn";
             this.lblTransferIn.Size = new System.Drawing.Size(32, 16);
             this.lblTransferIn.Tag = "";
@@ -213,7 +188,7 @@
             this.lblTransferOut.BackColor = System.Drawing.Color.Olive;
             this.lblTransferOut.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblTransferOut.ForeColor = System.Drawing.Color.White;
-            this.lblTransferOut.Location = new System.Drawing.Point(163, 259);
+            this.lblTransferOut.Location = new System.Drawing.Point(164, 190);
             this.lblTransferOut.Name = "lblTransferOut";
             this.lblTransferOut.Size = new System.Drawing.Size(32, 16);
             this.lblTransferOut.Tag = "";
@@ -223,7 +198,7 @@
             // 
             this.btnTransferOut.BackColor = System.Drawing.Color.Olive;
             this.btnTransferOut.ForeColor = System.Drawing.Color.White;
-            this.btnTransferOut.Location = new System.Drawing.Point(122, 222);
+            this.btnTransferOut.Location = new System.Drawing.Point(123, 153);
             this.btnTransferOut.Name = "btnTransferOut";
             this.btnTransferOut.Size = new System.Drawing.Size(115, 56);
             this.btnTransferOut.TabIndex = 8;
@@ -241,15 +216,13 @@
             this.Controls.Add(this.lblTransferOut);
             this.Controls.Add(this.btnTransferOut);
             this.Controls.Add(this.lblTransferIn);
-            this.Controls.Add(this.lblSevkiyat);
             this.Controls.Add(this.lblPaketleme);
-            this.Controls.Add(this.lblKabloSiparisi);
+            this.Controls.Add(this.lblSayim);
             this.Controls.Add(this.lblSiparisToplama);
             this.Controls.Add(this.lblRafKaldirma);
             this.Controls.Add(this.lblMalKabul);
-            this.Controls.Add(this.btnSevkiyat);
             this.Controls.Add(this.btnTransferIn);
-            this.Controls.Add(this.btnKabloSiparisi);
+            this.Controls.Add(this.btnSayim);
             this.Controls.Add(this.btnPaketleme);
             this.Controls.Add(this.btnSiparisToplama);
             this.Controls.Add(this.btnRafaKaldirma);
@@ -270,14 +243,12 @@
         private System.Windows.Forms.Button btnRafaKaldirma;
         private System.Windows.Forms.Label lblMalKabul;
         private System.Windows.Forms.Button btnSiparisToplama;
-        private System.Windows.Forms.Button btnKabloSiparisi;
+        private System.Windows.Forms.Button btnSayim;
         private System.Windows.Forms.Button btnPaketleme;
-        private System.Windows.Forms.Button btnSevkiyat;
         private System.Windows.Forms.Button btnTransferIn;
         private System.Windows.Forms.Label lblRafKaldirma;
         private System.Windows.Forms.Label lblSiparisToplama;
-        private System.Windows.Forms.Label lblKabloSiparisi;
-        private System.Windows.Forms.Label lblSevkiyat;
+        private System.Windows.Forms.Label lblSayim;
         private System.Windows.Forms.Label lblPaketleme;
         private System.Windows.Forms.Label lblTransferIn;
         private System.Windows.Forms.Label lblTransferOut;
