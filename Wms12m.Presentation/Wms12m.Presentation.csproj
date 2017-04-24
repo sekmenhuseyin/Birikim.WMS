@@ -403,6 +403,7 @@
     <Content Include="Views\Cable\Step4.cshtml" />
     <Content Include="Views\Cable\Step5.cshtml" />
     <Content Include="Views\Stock\ManualPlacement.cshtml" />
+    <Content Include="Views\Menu\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -410,9 +411,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Menu\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">
       <Project>{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}</Project>

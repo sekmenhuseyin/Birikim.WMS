@@ -57,6 +57,7 @@
     }
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
+            "pagingType": "full_numbers",
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "columnDefs": [{ "targets": [11], "visible": false, "searchable": false }],

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Wms12m.Entity.Models.WebMenu>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Ad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sira)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Url)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Aktif)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ComboItem_Name.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ComboItem_Name1.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Simge.Ad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WebMenu2.Ad)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sira)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Url)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Aktif)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ComboItem_Name.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ComboItem_Name1.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Simge.Ad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WebMenu2.Ad)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
