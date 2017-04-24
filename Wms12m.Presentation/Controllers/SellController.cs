@@ -304,11 +304,13 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Approve(int GorevID)
         {
+            //görevi aç
             Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             grv.DurumID = ComboItems.Açık.ToInt32();
             grv.OlusturmaTarihi = fn.ToOADate();
             grv.OlusturmaSaati = fn.ToOATime();
             db.SaveChanges();
+            //görevlere git
             return Redirect("/Tasks");
         }
         /// <summary>
