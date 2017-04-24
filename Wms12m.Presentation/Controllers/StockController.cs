@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -102,6 +101,14 @@ namespace Wms12m.Presentation.Controllers
             string kod = ids[0];
             var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.Kat.Bolum.Raf.Koridor.DepoID == depoID).OrderBy(m => m.KayitTarihi).ToList();
             return PartialView("_Movements", list);
+        }
+        /// <summary>
+        /// manual yerleştir
+        /// </summary>
+        public ActionResult ManualPlacement()
+        {
+            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            return View("ManualPlacement");
         }
     }
 }

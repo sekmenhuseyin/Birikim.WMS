@@ -401,6 +401,7 @@
     <Content Include="Views\Transfer\_List.cshtml" />
     <Content Include="Views\Cable\Step4.cshtml" />
     <Content Include="Views\Cable\Step5.cshtml" />
+    <Content Include="Views\Stock\ManualPlacement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
