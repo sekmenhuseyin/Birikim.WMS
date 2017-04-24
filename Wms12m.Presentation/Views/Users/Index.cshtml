@@ -24,12 +24,11 @@
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary(true)
                                 <table class="table table-striped table-bordered table-hover" id="sample_1">
-                                    <thead><tr><th>Sirket</th><th>Kod</th><th>AdSoyad</th><th>Admin</th><th>Aktif</th><th></th></tr></thead>
+                                    <thead><tr><th>Kullanıcı Adı</th><th>Ad Soyad</th><th>Yönetici</th><th>Aktif</th><th></th></tr></thead>
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
                                             <tr>
-                                                <td>@Html.DisplayFor(modelItem => item.Sirket)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.Kod)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.AdSoyad)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.Admin)</td>
