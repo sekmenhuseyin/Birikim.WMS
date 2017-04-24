@@ -44,7 +44,7 @@ namespace Wms12m.Entity
         public string HucreAd { get; set; }
         public int KatID { get; set; }
         public int Sira { get; set; }
-        public decimal IrsaliyeDetay { get; set; }
+        public decimal Stok { get; set; }
     }
     /// <summary>
     /// siparişlerin malzeme detay
@@ -59,7 +59,7 @@ namespace Wms12m.Entity
         public string MalAdi { get; set; }
         public decimal Miktar { get; set; }
         public string Birim { get; set; }
-        public decimal IrsaliyeDetay { get; set; }
+        public decimal Stok { get; set; }
     }
     /// <summary>
     /// sipariş onay formu
@@ -75,7 +75,7 @@ namespace Wms12m.Entity
         public string MalKodu { get; set; }
         public decimal BirimMiktar { get; set; }
         public decimal Miktar { get; set; }
-        public decimal IrsaliyeDetay { get; set; }
+        public decimal Stok { get; set; }
         public string Birim { get; set; }
         public string Aciklama { get; set; }
         public short ValorGun { get; set; }

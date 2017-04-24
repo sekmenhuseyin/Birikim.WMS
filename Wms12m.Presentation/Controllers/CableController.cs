@@ -123,6 +123,7 @@ namespace Wms12m.Presentation.Controllers
                                     "FROM kblStok INNER JOIN depo ON kblStok.depo = depo.depo " +
                                     "WHERE depo.id = {0} AND (marka = '{1}') AND (cins = '{2}') AND (kesit = '{3}')", KabloDepoID, item.MalAdi4, item.Nesne2, item.Kod15, item.ROW_ID, item.SiraNo, item.EvrakNo, item.MalKodu, item.Miktar.ToInt32(), item.SirketID);
             }
+            sql += " ORDER BY MalKodu";
             //exec sql
             ViewBag.EvrakNos = tbl.EvrakNos;
             ViewBag.DepoID = tbl.DepoID;
