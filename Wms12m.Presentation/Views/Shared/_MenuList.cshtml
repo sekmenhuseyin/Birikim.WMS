@@ -1,44 +1,30 @@
-﻿<div class="page-sidebar navbar-collapse collapse">
-    <ul class="page-sidebar-menu page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
-        <li class="sidebar-toggler-wrapper hide"><div class="sidebar-toggler"><span></span></div></li>
-        <li class="nav-item"><a href="@Url.Action("Index","Home")" class="nav-link"><i class="icon-home"></i><span class="title"> Yönetim Paneli</span></a></li>
-        <li class="nav-item">
-            <a href="javascript:;" class="nav-link nav-toggle"><i class="icon-home"></i><span class="title"> Depo İşlemleri</span><span class="arrow"></span></a>
-            <ul class="sub-menu">
-                <li><a href="@Url.Action("Index", "Storage")"><i class="icon-home"></i> Depo Kartı Düzenle</a></li>
-                <li><a href="@Url.Action("Index", "Corridor")"><i class="icon-home"></i> Koridor Kartı Düzenle</a></li>
-                <li><a href="@Url.Action("Index", "Shelf")"><i class="icon-home"></i> Raf Kartı Düzenle</a></li>
-                <li><a href="@Url.Action("Index", "Section")"><i class="icon-home"></i> Bölüm Kartı Düzenle</a></li>
-                <li><a href="@Url.Action("Index", "Floor")"><i class="icon-home"></i> Kat Kartı Düzenle</a></li>
-                <li><a href="@Url.Action("Index", "Size")"><i class="icon-home"></i> Boyut Kartı Düzenle</a></li>
-            </ul>
+﻿@model IEnumerable<MenuGetirici_Result>
+<ul class="@if (ViewBag.ustMenu == 0) {<text>page-sidebar-menu page-header-fixed</text>} else { <text>sub-menu</text> }">@{
+if (ViewBag.ustMenu == 0) {<text><li class="sidebar-toggler-wrapper hide"><div class="sidebar-toggler"><span></span></div></li></text>}
+foreach (var item in Model)
+{
+    //eğer alt menusu varsa
+    if (item.AltmenuCount > 0)
+    {
+        <li class="nav-item@{ if (item.ID==ViewBag.aktifNo) { <text> active</text> }}">
+            <a href="javascript:;" class="nav-link nav-toggle">@if (item.Icon != null) { <i class="@item.Icon"></i>}<span class="title"> @item.Ad</span><span class="arrow"></span></a>
+            @{Html.RenderAction("Menu", "Home", new { area = "", mYeri = ComboItems.SolMenü, mUstNo = item.ID, url = Request.Url.AbsoluteUri });}@* alt menuleri listele *@
         </li>
-        <li class="nav-item">
-            <a href="javascript:;" class="nav-link nav-toggle"><i class="icon-home"></i><span class="title"> Görevler</span><span class="arrow"></span></a>
-            <ul class="sub-menu">
-                <li><a href="@Url.Action("Index", "Tasks")"><i class="icon-home"></i> Görev Listesi</a></li>
-                <li><a href="@Url.Action("Index", "Buy")"><i class="icon-home"></i> Mal Kabul</a></li>
-                <li><a href="@Url.Action("Index", "Sell")"><i class="icon-home"></i> Genel Sipariş</a></li>
-                <li><a href="@Url.Action("Index", "Cable")"><i class="icon-home"></i> Kablo Siparişi</a></li>
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a href="javascript:;" class="nav-link nav-toggle"><i class="icon-home"></i><span class="title"> Stok</span><span class="arrow"></span></a>
-            <ul class="sub-menu">
-                <li><a href="@Url.Action("Index", "Stock")"><i class="icon-home"></i> Stok</a></li>
-                <li><a href="@Url.Action("History", "Stock")"><i class="icon-home"></i> Stok Hareketleri</a></li>
-                <li><a href="@Url.Action("Cable", "Stock")"><i class="icon-home"></i> Kablo Stok</a></li>
-                <li><a href="@Url.Action("ManualPlacement", "Stock")"><i class="icon-home"></i> Elle Yerleştir</a></li>
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a href="javascript:;" class="nav-link nav-toggle"><i class="icon-home"></i><span class="title"> Transfer</span><span class="arrow"></span></a>
-            <ul class="sub-menu">
-                <li><a href="@Url.Action("Index", "Transfer")"><i class="icon-home"></i> Transfer Planlama</a></li>
-                <li><a href="@Url.Action("List", "Transfer")"><i class="icon-home"></i> Bekleyen Transferler</a></li>
-            </ul>
-        </li>
-        <li class="nav-item"><a href="@Url.Action("Index","Users")" class="nav-link"><i class="icon-home"></i><span class="title"> Kullanıcılar</span></a></li>
-        <li class="nav-item"><a href="@Url.Action("Index","Menu")" class="nav-link"><i class="icon-home"></i><span class="title"> Menu</span></a></li>
-    </ul>
-</div>
+    }
+    //divider ise
+    else if (item.Url == null)
+    {
+        <li class="divider"></li>
+    }
+    //menu listesi bağlığı ise
+    else if (item.UstMenuID == 0)
+    {
+        <li class="nav-item@{ if(item.ID==ViewBag.aktifNo) { <text> active</text> }}"><a href="@item.Url" class="nav-link"><i class="@item.Icon"></i><span class="title"> @item.Ad</span></a></li>
+    }
+    //normal menu ise
+    else
+    {
+        <li class="@{ if(item.ID==ViewBag.aktifNo) { <text> active</text> }}"><a href="@item.Url" class="nav-link"><i class="@item.Icon"></i> @item.Ad</a></li>
+    }
+}
+}

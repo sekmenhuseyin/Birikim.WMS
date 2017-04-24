@@ -17,6 +17,7 @@ namespace Wms12m.Entity.Models
         public string Ad { get; set; }
         public string Url { get; set; }
         public string Icon { get; set; }
+        public Nullable<short> UstMenuID { get; set; }
         public Nullable<int> AltmenuCount { get; set; }
     }
 }

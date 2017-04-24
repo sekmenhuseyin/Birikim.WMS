@@ -44,7 +44,10 @@ namespace Wms12m.Presentation.Controllers
             if (ModelState.IsValid)
             {
                 try { db.MenuRolEkle(tablo.MenuNo, tablo.RolNo); }
-                catch (Exception) { }
+                catch (Exception ex)
+                {
+                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Menu/SavePermission");
+                }
             }
             var mn = db.WebMenus.Where(m => m.ID == tablo.MenuNo).FirstOrDefault();
             if (mn.UstMenuID == null)

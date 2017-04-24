@@ -13,6 +13,7 @@ namespace Wms12m.Entity.Models
     
     public partial class MenuRolGetir_Result
     {
+        public int ID { get; set; }
         public string RoleName { get; set; }
         public string Perm { get; set; }
     }

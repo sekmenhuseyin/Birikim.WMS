@@ -29,10 +29,10 @@
 									<div id="permTree" class="p-40"></div>
 								</div>
 								<div class="row form-group">
-									<input type="hidden" name="MenuNo" value="@ViewBag.MenuNo" />
+									<input type="hidden" name="MenuNo" value="@ViewBag.MenuID" />
 									<input type="hidden" name="RolNo" id="RolNo" value="" />
 									<div class="col-md-offset-1 col-md-1">@Html.ActionLink("<<< Geri Dön", "Index")</div>
-									<div class="col-md-offset-6 col-md-4"><input type="submit" value="Oluştur" class="btn btn-default" /></div>
+									<div class="col-md-offset-6 col-md-4"><input type="button" onclick="frmSubmit();" value="Kaydet" class="btn btn-primary" /></div>
 								</div>
 							</div>
 						}
@@ -62,7 +62,7 @@ $(document).ready(function () {
 			'data': [{
 				"text": "Hepsini Seç", "state": { "opened": true },
 				"children": [@foreach (var item in Model) {
-					<text> { "text": "@item.RoleName", "id": "tree@{@item.RoleName}", "state": { @if(@item.Perm!=null){<text>"selected": true</text>} } },</text>
+					<text> { "text": "@item.RoleName", "id": "tree@{@item.ID}", "state": { @if(@item.Perm!=null){<text>"selected": true</text>} } },</text>
 				}]
 			}]
 		},

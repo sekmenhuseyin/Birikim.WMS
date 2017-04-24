@@ -943,9 +943,16 @@
           <Parameter Name="Message" Type="varchar(max)" Mode="In" />
           <Parameter Name="Source" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="MenuFindAktif" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WebSiteTipiNo" Type="int" Mode="In" />
+          <Parameter Name="MenuYeriNo" Type="int" Mode="In" />
+          <Parameter Name="RoleName" Type="varchar" Mode="In" />
+          <Parameter Name="UstMenuID" Type="smallint" Mode="In" />
+          <Parameter Name="url" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="MenuGetirici" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="WebSiteTipiID" Type="tinyint" Mode="In" />
-          <Parameter Name="MenuYeriID" Type="tinyint" Mode="In" />
+          <Parameter Name="WebSiteTipiID" Type="int" Mode="In" />
+          <Parameter Name="MenuYeriID" Type="int" Mode="In" />
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
           <Parameter Name="UstMenuID" Type="smallint" Mode="In" />
         </Function>
@@ -1489,12 +1496,6 @@
             <Parameter Name="Message" Mode="In" Type="String" />
             <Parameter Name="Source" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="MenuGetirici" ReturnType="Collection(MModel.MenuGetirici_Result)">
-            <Parameter Name="WebSiteTipiID" Mode="In" Type="Byte" />
-            <Parameter Name="MenuYeriID" Mode="In" Type="Byte" />
-            <Parameter Name="RoleName" Mode="In" Type="String" />
-            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
-          </FunctionImport>
           <FunctionImport Name="MenuRolEkle">
             <Parameter Name="MenuID" Mode="In" Type="Int16" />
             <Parameter Name="RolNo" Mode="In" Type="String" />
@@ -1575,13 +1576,26 @@
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="Ekle" Mode="In" Type="Boolean" />
           </FunctionImport>
-          <FunctionImport Name="MenuRolGetir" ReturnType="Collection(MModel.MenuRolGetir_Result)">
-          <Parameter Name="MenuNo" Mode="In" Type="Int16" />
-          </FunctionImport>
           <FunctionImport Name="MenuSiralayici">
             <Parameter Name="WebSiteTipiNo" Mode="In" Type="Int32" />
             <Parameter Name="MenuYeriNo" Mode="In" Type="Int32" />
             <Parameter Name="UstMenuNo" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="MenuRolGetir" ReturnType="Collection(MModel.MenuRolGetir_Result)">
+          <Parameter Name="MenuNo" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="MenuGetirici" ReturnType="Collection(MModel.MenuGetirici_Result)">
+            <Parameter Name="WebSiteTipiID" Mode="In" Type="Int32" />
+            <Parameter Name="MenuYeriID" Mode="In" Type="Int32" />
+            <Parameter Name="RoleName" Mode="In" Type="String" />
+            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="MenuFindAktif" ReturnType="Collection(Int16)">
+            <Parameter Name="WebSiteTipiNo" Mode="In" Type="Int32" />
+            <Parameter Name="MenuYeriNo" Mode="In" Type="Int32" />
+            <Parameter Name="RoleName" Mode="In" Type="String" />
+            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
+            <Parameter Name="url" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="Combo_Name">
@@ -2527,13 +2541,6 @@
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="Ad" Nullable="false" MaxLength="55" />
         </ComplexType>
-        <ComplexType Name="MenuGetirici_Result">
-          <Property Type="Int16" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Ad" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Icon" Nullable="true" MaxLength="150" />
-          <Property Type="Int32" Name="AltmenuCount" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="GetHomeSummary_Result">
           <Property Type="Int32" Name="depo" Nullable="true" />
           <Property Type="Int32" Name="kull" Nullable="true" />
@@ -2564,8 +2571,17 @@
           <Property Type="String" Name="DepoAd" Nullable="false" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="MenuRolGetir_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="RoleName" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Perm" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="MenuGetirici_Result">
+          <Property Type="Int16" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Ad" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Icon" Nullable="true" MaxLength="150" />
+          <Property Type="Int16" Name="UstMenuID" Nullable="true" />
+          <Property Type="Int32" Name="AltmenuCount" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2935,17 +2951,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
-          <FunctionImportMapping FunctionImportName="MenuGetirici" FunctionName="MModel.Store.MenuGetirici">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.MenuGetirici_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Ad" ColumnName="Ad" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="AltmenuCount" ColumnName="AltmenuCount" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="MenuRolEkle" FunctionName="MModel.Store.MenuRolEkle" />
           <FunctionImportMapping FunctionImportName="DeleteFromGorev" FunctionName="MModel.Store.DeleteFromGorev" />
           <FunctionImportMapping FunctionImportName="GetBolumSiralamaFromGorevId" FunctionName="MModel.Store.GetBolumSiralamaFromGorevId" />
@@ -3006,15 +3011,29 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="YetkiDepoSet" FunctionName="MModel.Store.YetkiDepoSet" />
+          <FunctionImportMapping FunctionImportName="MenuSiralayici" FunctionName="MModel.Store.MenuSiralayici" />
           <FunctionImportMapping FunctionImportName="MenuRolGetir" FunctionName="MModel.Store.MenuRolGetir">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.MenuRolGetir_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="Perm" ColumnName="Perm" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="MenuSiralayici" FunctionName="MModel.Store.MenuSiralayici" />
+          <FunctionImportMapping FunctionImportName="MenuGetirici" FunctionName="MModel.Store.MenuGetirici">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.MenuGetirici_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="UstMenuID" ColumnName="UstMenuID" />
+                <ScalarProperty Name="AltmenuCount" ColumnName="AltmenuCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MenuFindAktif" FunctionName="MModel.Store.MenuFindAktif" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

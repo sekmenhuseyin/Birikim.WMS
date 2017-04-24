@@ -35,7 +35,9 @@
     <div class="clearfix"> </div>
     <div class="page-container">
         <div class="page-sidebar-wrapper">
-            @Html.Partial("_MenuList")
+            <div class="page-sidebar navbar-collapse collapse">
+                @{Html.RenderAction("Menu", "Home", new { area = "", mYeri = ComboItems.SolMenü.ToInt32(), mUstNo = 0, url = Request.Url.AbsoluteUri }); }@*---------------------------------------Sidebar---------------------------------------*@
+            </div>
         </div>
         <div class="page-content-wrapper">
             <div class="page-content">
