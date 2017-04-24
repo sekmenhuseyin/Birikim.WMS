@@ -121,7 +121,7 @@ namespace Wms12m.Presentation.Controllers
                             MalKodu = tempTbl.MalKodu,
                             Miktar = item.Miktar > 0 ? item.Miktar : tempTbl.Miktar
                         };
-                        Result _Result = Stok.Operation(sti);
+                        Result _Result = IrsaliyeDetay.Operation(sti);
                         eklenen++;
                     }
                     catch (Exception ex)
@@ -143,7 +143,7 @@ namespace Wms12m.Presentation.Controllers
                 }
             }
             //get list
-            var list = Stok.GetList(irsaliyeID);
+            var list = IrsaliyeDetay.GetList(irsaliyeID);
             ViewBag.IrsaliyeId = irsaliyeID;
             ViewBag.Onay = irs.Onay;
             ViewBag.SirketID = irs.SirketKod;
@@ -168,7 +168,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 try
                 {
-                    var list = Stok.GetList(kontrol2.ID);
+                    var list = IrsaliyeDetay.GetList(kontrol2.ID);
                     ViewBag.IrsaliyeId = kontrol2.ID;
                     ViewBag.Onay = kontrol2.Onay;
                     ViewBag.SirketID = tbl.SirketID;
@@ -188,7 +188,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, tarih, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), vUser.Id, vUser.UserName, today, time, tbl.HesapKodu, "", 0, "").FirstOrDefault();
                 //get list
-                var list = Stok.GetList(cevap.IrsaliyeID.Value);
+                var list = IrsaliyeDetay.GetList(cevap.IrsaliyeID.Value);
                 ViewBag.IrsaliyeId = cevap.IrsaliyeID;
                 ViewBag.Onay = false;
                 ViewBag.SirketID = tbl.SirketID;
@@ -206,7 +206,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult GridPartial(int ID)
         {
-            var list = Stok.GetList(ID);
+            var list = IrsaliyeDetay.GetList(ID);
             var irs = Irsaliye.Detail(ID);
             ViewBag.IrsaliyeId = ID;
             ViewBag.Onay = irs.Onay;
@@ -224,7 +224,7 @@ namespace Wms12m.Presentation.Controllers
             if (irs.Onay == false)
             {
                 //add new
-                Result _Result = Stok.Insert(tbl);
+                Result _Result = IrsaliyeDetay.Insert(tbl);
                 //set aktif
                 var grv = db.Gorevs.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).FirstOrDefault();
                 if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
@@ -236,7 +236,7 @@ namespace Wms12m.Presentation.Controllers
                 }
             }
             //get list
-            var list = Stok.GetList(tbl.IrsaliyeId);
+            var list = IrsaliyeDetay.GetList(tbl.IrsaliyeId);
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
             ViewBag.Onay = irs.Onay;
             ViewBag.SirketID = irs.SirketKod;
@@ -329,7 +329,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete2(int ID)
         {
-            Result _Result = Stok.Delete(ID);
+            Result _Result = IrsaliyeDetay.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

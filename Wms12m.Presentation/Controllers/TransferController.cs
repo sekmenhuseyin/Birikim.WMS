@@ -143,7 +143,7 @@ namespace Wms12m.Presentation.Controllers
                     item.TransferID = sonuc.Id;
                     //hepsi eklenince detayı db'ye ekle
                     if (item.Miktar > 0) Transfers.AddDetay(item);
-                    if (item.Miktar > 0) Stok.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim });
+                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim });
                 }
             }
             //return

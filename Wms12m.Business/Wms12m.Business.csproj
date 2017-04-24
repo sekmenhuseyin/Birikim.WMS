@@ -63,7 +63,7 @@
     <Compile Include="Tables\Combo.cs" />
     <Compile Include="Tables\Task.cs" />
     <Compile Include="Tables\Dimension.cs" />
-    <Compile Include="Tables\Stok.cs" />
+    <Compile Include="Tables\IrsaliyeDetay.cs" />
     <Compile Include="Tables\Irsaliye.cs" />
     <Compile Include="Tables\Persons.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

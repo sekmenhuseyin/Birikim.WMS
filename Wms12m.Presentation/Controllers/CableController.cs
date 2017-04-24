@@ -227,7 +227,7 @@ namespace Wms12m.Presentation.Controllers
                         KynkSiparisTarih = item.Tarih,
                         KynkSiparisMiktar = item.BirimMiktar
                     };
-                    var op2 = new Stok();
+                    var op2 = new IrsaliyeDetay();
                     _Result = op2.Operation(sti);
 
                 }
@@ -272,7 +272,7 @@ namespace Wms12m.Presentation.Controllers
                 }
             }
             //listeyi getir
-            sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok " +
+            sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.Miktar AS IrsaliyeDetay " +
                                 "FROM wms.GorevYer INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
                                 "WHERE (wms.GorevYer.GorevID = {1})", idDepo, cevap.GorevID.Value);
             var list2 = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();

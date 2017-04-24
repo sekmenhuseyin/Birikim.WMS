@@ -20,7 +20,7 @@ namespace Wms12m.Presentation.Controllers
         public Roles Roles = new Roles();
         public Section Section = new Section();
         public Shelf Shelf = new Shelf();
-        public Stok Stok = new Stok();
+        public IrsaliyeDetay IrsaliyeDetay = new IrsaliyeDetay();
         public Store Store = new Store();
         public Task Task = new Task();
         public TaskYer TaskYer = new TaskYer();
@@ -76,7 +76,7 @@ namespace Wms12m.Presentation.Controllers
                 Persons.Dispose();
                 Section.Dispose();
                 Shelf.Dispose();
-                Stok.Dispose();
+                IrsaliyeDetay.Dispose();
                 Store.Dispose();
                 Task.Dispose();
                 TaskYer.Dispose();

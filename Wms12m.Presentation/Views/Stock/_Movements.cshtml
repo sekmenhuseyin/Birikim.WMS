@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Yer_Log>
 @{decimal i = 0;}
 <table class="table">
-<tr><th>Girdi-Çıktı</th><th>Tarih</th><th>Saat</th><th>Hücre Adı</th><th>Mal Kodu</th><th>Birim</th><th class="text-right">Miktar</th><th class="text-right">Stok</th></tr>
+<tr><th>Girdi-Çıktı</th><th>Tarih</th><th>Saat</th><th>Hücre Adı</th><th>Mal Kodu</th><th>Birim</th><th class="text-right">Miktar</th><th class="text-right">IrsaliyeDetay</th></tr>
 @foreach (var item in Model) {
     <tr>
         <td>@if (item.GC == true) { i = i - item.Miktar; <text>Çıktı</text> }else{ i = i + item.Miktar; <text>Girdi</text> }</td>

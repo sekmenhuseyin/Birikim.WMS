@@ -166,7 +166,7 @@ namespace Wms12m
         [WebMethod]
         public Result Mal_Kabul(List<frmMalKabul> StiList)
         {
-            var stok = new Stok();
+            var stok = new IrsaliyeDetay();
             foreach (var item in StiList)
             {
                 var tmp = stok.Detail(item.ID);
@@ -291,7 +291,7 @@ namespace Wms12m
                 if (kat != null)
                 {
                     //irs detay tablosu güncellenir
-                    var irsdetay = new Stok();
+                    var irsdetay = new IrsaliyeDetay();
                     var tmp = irsdetay.Detail(item.IrsDetayID);
                     if (tmp.Miktar >= ((tmp.YerlestirmeMiktari ?? 0) + item.Miktar))
                     {
@@ -453,7 +453,7 @@ namespace Wms12m
         [WebMethod]
         public Result Paketle(List<frmMalKabul> StiList)
         {
-            var stok = new Stok();
+            var stok = new IrsaliyeDetay();
             foreach (var item in StiList)
             {
                 var tmp = stok.Detail(item.ID);
