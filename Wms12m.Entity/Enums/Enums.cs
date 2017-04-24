@@ -32,7 +32,13 @@
         EFatura = 17,
         Normal = 18,
         TransferÇıkış = 19,
-        TransferGiriş = 20
+        TransferGiriş = 20,
+        WMS = 21,
+        EnÜstMenü = 22,
+        ÜstMenü = 23,
+        SolMenü = 24,
+        SağMenü = 25,
+        FooterMenü = 26
     }
     /// <summary>
     /// combo item names
@@ -42,6 +48,8 @@
         GorevTipleri = 1,
         GorevDurum = 2,
         Özellik = 3,
-        EvrakSeriTipi = 4
+        EvrakSeriTipi = 4,
+        SiteTipi = 5,
+        MenuYeri = 6
     }
 }

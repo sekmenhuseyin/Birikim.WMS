@@ -22,8 +22,8 @@ namespace Wms12m.Entity.Models
         }
     
         public short ID { get; set; }
-        public byte SiteTipiID { get; set; }
-        public byte MenuYeriID { get; set; }
+        public int SiteTipiID { get; set; }
+        public int MenuYeriID { get; set; }
         public string Ad { get; set; }
         public byte Sira { get; set; }
         public string Url { get; set; }
@@ -31,12 +31,12 @@ namespace Wms12m.Entity.Models
         public Nullable<short> UstMenuID { get; set; }
         public bool Aktif { get; set; }
     
+        public virtual ComboItem_Name ComboItem_Name { get; set; }
+        public virtual ComboItem_Name ComboItem_Name1 { get; set; }
         public virtual Simge Simge { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WebMenu> WebMenu1 { get; set; }
         public virtual WebMenu WebMenu2 { get; set; }
-        public virtual WebMenuSett WebMenuSett { get; set; }
-        public virtual WebMenuSett WebMenuSett1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Role> Roles { get; set; }
     }

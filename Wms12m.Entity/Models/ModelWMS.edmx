@@ -35,8 +35,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SiteTipiID" Type="tinyint" Nullable="false" />
-          <Property Name="MenuYeriID" Type="tinyint" Nullable="false" />
+          <Property Name="SiteTipiID" Type="int" Nullable="false" />
+          <Property Name="MenuYeriID" Type="int" Nullable="false" />
           <Property Name="Ad" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Sira" Type="tinyint" Nullable="false" />
           <Property Name="Url" Type="varchar" MaxLength="100" />
@@ -51,13 +51,6 @@
           </Key>
           <Property Name="MenuID" Type="smallint" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
-        </EntityType>
-        <EntityType Name="WebMenuSetts">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Ad" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -820,6 +813,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WebMenu_MenuYeri">
+          <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="1" />
+          <End Role="WebMenu" Type="Self.WebMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu">
+              <PropertyRef Name="MenuYeriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WebMenu_Simge">
           <End Role="Simge" Type="Self.Simge" Multiplicity="0..1" />
           <End Role="WebMenu" Type="Self.WebMenu" Multiplicity="*" />
@@ -832,6 +837,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WebMenu_SiteTipi">
+          <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="1" />
+          <End Role="WebMenu" Type="Self.WebMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu">
+              <PropertyRef Name="SiteTipiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WebMenu_WebMenu">
           <End Role="WebMenu" Type="Self.WebMenu" Multiplicity="0..1" />
           <End Role="WebMenu1" Type="Self.WebMenu" Multiplicity="*" />
@@ -841,30 +858,6 @@
             </Principal>
             <Dependent Role="WebMenu1">
               <PropertyRef Name="UstMenuID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WebMenu_WebMenuSetts">
-          <End Role="WebMenuSetts" Type="Self.WebMenuSetts" Multiplicity="1" />
-          <End Role="WebMenu" Type="Self.WebMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WebMenuSetts">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu">
-              <PropertyRef Name="SiteTipiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WebMenu_WebMenuSetts1">
-          <End Role="WebMenuSetts" Type="Self.WebMenuSetts" Multiplicity="1" />
-          <End Role="WebMenu" Type="Self.WebMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WebMenuSetts">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu">
-              <PropertyRef Name="MenuYeriID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -956,6 +949,18 @@
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
           <Parameter Name="UstMenuID" Type="smallint" Mode="In" />
         </Function>
+        <Function Name="MenuRolEkle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MenuID" Type="smallint" Mode="In" />
+          <Parameter Name="RolNo" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="MenuRolGetir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MenuNo" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="MenuSiralayici" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WebSiteTipiNo" Type="int" Mode="In" />
+          <Parameter Name="MenuYeriNo" Type="int" Mode="In" />
+          <Parameter Name="UstMenuNo" Type="smallint" Mode="In" />
+        </Function>
         <Function Name="DeleteFromGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
         </Function>
@@ -1038,7 +1043,6 @@
           <EntitySet Name="Simge" EntityType="Self.Simge" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenu" EntityType="Self.WebMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenuRol" EntityType="Self.WebMenuRol" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="WebMenuSetts" EntityType="Self.WebMenuSetts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Ayarlar" EntityType="Self.Ayarlar" Schema="wms" store:Type="Tables" />
@@ -1219,21 +1223,21 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Transfer" EntitySet="Transfer" />
           </AssociationSet>
+          <AssociationSet Name="FK_WebMenu_MenuYeri" Association="Self.FK_WebMenu_MenuYeri">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="WebMenu" EntitySet="WebMenu" />
+          </AssociationSet>
           <AssociationSet Name="FK_WebMenu_Simge" Association="Self.FK_WebMenu_Simge">
             <End Role="Simge" EntitySet="Simge" />
+            <End Role="WebMenu" EntitySet="WebMenu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebMenu_SiteTipi" Association="Self.FK_WebMenu_SiteTipi">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="WebMenu" EntitySet="WebMenu" />
           </AssociationSet>
           <AssociationSet Name="FK_WebMenu_WebMenu" Association="Self.FK_WebMenu_WebMenu">
             <End Role="WebMenu" EntitySet="WebMenu" />
             <End Role="WebMenu1" EntitySet="WebMenu" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WebMenu_WebMenuSetts" Association="Self.FK_WebMenu_WebMenuSetts">
-            <End Role="WebMenuSetts" EntitySet="WebMenuSetts" />
-            <End Role="WebMenu" EntitySet="WebMenu" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WebMenu_WebMenuSetts1" Association="Self.FK_WebMenu_WebMenuSetts1">
-            <End Role="WebMenuSetts" EntitySet="WebMenuSetts" />
-            <End Role="WebMenu" EntitySet="WebMenu" />
           </AssociationSet>
           <AssociationSet Name="FK_WebMenuRol_Roles" Association="Self.FK_WebMenuRol_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -1325,28 +1329,6 @@
             <End Role="GorevYer" EntitySet="GorevYers" />
           </AssociationSet>
           <EntitySet Name="Simges" EntityType="MModel.Simge" />
-          <EntitySet Name="WebMenus" EntityType="MModel.WebMenu" />
-          <EntitySet Name="WebMenuSetts" EntityType="MModel.WebMenuSett" />
-          <AssociationSet Name="FK_WebMenu_Simge" Association="MModel.FK_WebMenu_Simge">
-            <End Role="Simge" EntitySet="Simges" />
-            <End Role="WebMenu" EntitySet="WebMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WebMenu_WebMenu" Association="MModel.FK_WebMenu_WebMenu">
-            <End Role="WebMenu" EntitySet="WebMenus" />
-            <End Role="WebMenu1" EntitySet="WebMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WebMenu_WebMenuSetts" Association="MModel.FK_WebMenu_WebMenuSetts">
-            <End Role="WebMenuSett" EntitySet="WebMenuSetts" />
-            <End Role="WebMenu" EntitySet="WebMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WebMenu_WebMenuSetts1" Association="MModel.FK_WebMenu_WebMenuSetts1">
-            <End Role="WebMenuSett" EntitySet="WebMenuSetts" />
-            <End Role="WebMenu" EntitySet="WebMenus" />
-          </AssociationSet>
-          <AssociationSet Name="WebMenuRol" Association="MModel.WebMenuRol">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="WebMenu" EntitySet="WebMenus" />
-          </AssociationSet>
           <EntitySet Name="Users" EntityType="MModel.User" />
           <EntitySet Name="IRS_Detay" EntityType="MModel.IRS_Detay" />
           <AssociationSet Name="FK_Bolum_UsersDegistiren" Association="MModel.FK_Bolum_UsersDegistiren">
@@ -1476,6 +1458,47 @@
           </AssociationSet>
           <EntitySet Name="Ayarlars" EntityType="MModel.Ayarlar" />
           <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
+          <EntitySet Name="WebMenus" EntityType="MModel.WebMenu" />
+          <AssociationSet Name="FK_WebMenu_MenuYeri" Association="MModel.FK_WebMenu_MenuYeri">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="WebMenu" EntitySet="WebMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebMenu_SiteTipi" Association="MModel.FK_WebMenu_SiteTipi">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="WebMenu" EntitySet="WebMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebMenu_Simge" Association="MModel.FK_WebMenu_Simge">
+            <End Role="Simge" EntitySet="Simges" />
+            <End Role="WebMenu" EntitySet="WebMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebMenu_WebMenu" Association="MModel.FK_WebMenu_WebMenu">
+            <End Role="WebMenu" EntitySet="WebMenus" />
+            <End Role="WebMenu1" EntitySet="WebMenus" />
+          </AssociationSet>
+          <AssociationSet Name="WebMenuRol" Association="MModel.WebMenuRol">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="WebMenu" EntitySet="WebMenus" />
+          </AssociationSet>
+          <FunctionImport Name="GetSirketDBs" ReturnType="Collection(String)" />
+          <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
+          <FunctionImport Name="Logger">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Machine" Mode="In" Type="String" />
+            <Parameter Name="IpAddress" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Message" Mode="In" Type="String" />
+            <Parameter Name="Source" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MenuGetirici" ReturnType="Collection(MModel.MenuGetirici_Result)">
+            <Parameter Name="WebSiteTipiID" Mode="In" Type="Byte" />
+            <Parameter Name="MenuYeriID" Mode="In" Type="Byte" />
+            <Parameter Name="RoleName" Mode="In" Type="String" />
+            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="MenuRolEkle">
+            <Parameter Name="MenuID" Mode="In" Type="Int16" />
+            <Parameter Name="RolNo" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="DeleteFromGorev">
           <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1552,21 +1575,13 @@
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="Ekle" Mode="In" Type="Boolean" />
           </FunctionImport>
-          <FunctionImport Name="GetSirketDBs" ReturnType="Collection(String)" />
-          <FunctionImport Name="GetSirkets" ReturnType="Collection(MModel.GetSirkets_Result)" />
-          <FunctionImport Name="Logger">
-            <Parameter Name="UserName" Mode="In" Type="String" />
-            <Parameter Name="Machine" Mode="In" Type="String" />
-            <Parameter Name="IpAddress" Mode="In" Type="String" />
-            <Parameter Name="Description" Mode="In" Type="String" />
-            <Parameter Name="Message" Mode="In" Type="String" />
-            <Parameter Name="Source" Mode="In" Type="String" />
+          <FunctionImport Name="MenuRolGetir" ReturnType="Collection(MModel.MenuRolGetir_Result)">
+          <Parameter Name="MenuNo" Mode="In" Type="Int16" />
           </FunctionImport>
-          <FunctionImport Name="MenuGetirici" ReturnType="Collection(MModel.MenuGetirici_Result)">
-            <Parameter Name="WebSiteTipiID" Mode="In" Type="Byte" />
-            <Parameter Name="MenuYeriID" Mode="In" Type="Byte" />
-            <Parameter Name="RoleName" Mode="In" Type="String" />
-            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
+          <FunctionImport Name="MenuSiralayici">
+            <Parameter Name="WebSiteTipiNo" Mode="In" Type="Int32" />
+            <Parameter Name="MenuYeriNo" Mode="In" Type="Int32" />
+            <Parameter Name="UstMenuNo" Mode="In" Type="Int16" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="Combo_Name">
@@ -1591,7 +1606,9 @@
           <NavigationProperty Name="Gorevs1" Relationship="MModel.FK_Gorev_ComboItem_NameOzellik" FromRole="ComboItem_Name" ToRole="Gorev" />
           <NavigationProperty Name="Kats" Relationship="MModel.FK_TK_KAT_ComboItemName" FromRole="ComboItem_Name" ToRole="Kat" />
           <NavigationProperty Name="EvrakSeris" Relationship="MModel.FK_EvrakSeri_ComboItem_Name" FromRole="ComboItem_Name" ToRole="EvrakSeri" />
-        </EntityType>
+          <NavigationProperty Name="WebMenus" Relationship="MModel.FK_WebMenu_MenuYeri" FromRole="ComboItem_Name" ToRole="WebMenu" />
+          <NavigationProperty Name="WebMenus1" Relationship="MModel.FK_WebMenu_SiteTipi" FromRole="ComboItem_Name" ToRole="WebMenu" />
+          </EntityType>
         <EntityType Name="Bolum">
           <Key>
             <PropertyRef Name="ID" />
@@ -1917,87 +1934,6 @@
           <Property Name="Icon" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="WebMenus" Relationship="MModel.FK_WebMenu_Simge" FromRole="Simge" ToRole="WebMenu" />
         </EntityType>
-        <EntityType Name="WebMenu">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SiteTipiID" Type="Byte" Nullable="false" />
-          <Property Name="MenuYeriID" Type="Byte" Nullable="false" />
-          <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Sira" Type="Byte" Nullable="false" />
-          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="SimgeID" Type="Int16" />
-          <Property Name="UstMenuID" Type="Int16" />
-          <Property Name="Aktif" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Simge" Relationship="MModel.FK_WebMenu_Simge" FromRole="WebMenu" ToRole="Simge" />
-          <NavigationProperty Name="WebMenu1" Relationship="MModel.FK_WebMenu_WebMenu" FromRole="WebMenu" ToRole="WebMenu1" />
-          <NavigationProperty Name="WebMenu2" Relationship="MModel.FK_WebMenu_WebMenu" FromRole="WebMenu1" ToRole="WebMenu" />
-          <NavigationProperty Name="WebMenuSett" Relationship="MModel.FK_WebMenu_WebMenuSetts" FromRole="WebMenu" ToRole="WebMenuSett" />
-          <NavigationProperty Name="WebMenuSett1" Relationship="MModel.FK_WebMenu_WebMenuSetts1" FromRole="WebMenu" ToRole="WebMenuSett" />
-          <NavigationProperty Name="Roles" Relationship="MModel.WebMenuRol" FromRole="WebMenu" ToRole="Role" />
-        </EntityType>
-        <EntityType Name="WebMenuSett">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="WebMenus" Relationship="MModel.FK_WebMenu_WebMenuSetts" FromRole="WebMenuSett" ToRole="WebMenu" />
-          <NavigationProperty Name="WebMenus1" Relationship="MModel.FK_WebMenu_WebMenuSetts1" FromRole="WebMenuSett" ToRole="WebMenu" />
-        </EntityType>
-        <Association Name="FK_WebMenu_Simge">
-          <End Type="MModel.Simge" Role="Simge" Multiplicity="0..1" />
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Simge">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu">
-              <PropertyRef Name="SimgeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WebMenu_WebMenu">
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="0..1" />
-          <End Type="MModel.WebMenu" Role="WebMenu1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WebMenu">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu1">
-              <PropertyRef Name="UstMenuID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WebMenu_WebMenuSetts">
-          <End Type="MModel.WebMenuSett" Role="WebMenuSett" Multiplicity="1" />
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WebMenuSett">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu">
-              <PropertyRef Name="SiteTipiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WebMenu_WebMenuSetts1">
-          <End Type="MModel.WebMenuSett" Role="WebMenuSett" Multiplicity="1" />
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WebMenuSett">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu">
-              <PropertyRef Name="MenuYeriID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="WebMenuRol">
-          <End Type="MModel.Role" Role="Role" Multiplicity="*" />
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
-        </Association>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="ID" />
@@ -2515,6 +2451,89 @@
           <Property Name="Agirlik" Type="Decimal" Precision="25" Scale="6" />
           <Property Name="Hacim" Type="Decimal" Precision="38" Scale="6" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
+        <EntityType Name="WebMenu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteTipiID" Type="Int32" Nullable="false" />
+          <Property Name="MenuYeriID" Type="Int32" Nullable="false" />
+          <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sira" Type="Byte" Nullable="false" />
+          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SimgeID" Type="Int16" />
+          <Property Name="UstMenuID" Type="Int16" />
+          <Property Name="Aktif" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_WebMenu_MenuYeri" FromRole="WebMenu" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="ComboItem_Name1" Relationship="MModel.FK_WebMenu_SiteTipi" FromRole="WebMenu" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="Simge" Relationship="MModel.FK_WebMenu_Simge" FromRole="WebMenu" ToRole="Simge" />
+          <NavigationProperty Name="WebMenu1" Relationship="MModel.FK_WebMenu_WebMenu" FromRole="WebMenu" ToRole="WebMenu1" />
+          <NavigationProperty Name="WebMenu2" Relationship="MModel.FK_WebMenu_WebMenu" FromRole="WebMenu1" ToRole="WebMenu" />
+          <NavigationProperty Name="Roles" Relationship="MModel.WebMenuRol" FromRole="WebMenu" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_WebMenu_MenuYeri">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu">
+              <PropertyRef Name="MenuYeriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WebMenu_SiteTipi">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu">
+              <PropertyRef Name="SiteTipiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WebMenu_Simge">
+          <End Type="MModel.Simge" Role="Simge" Multiplicity="0..1" />
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simge">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu">
+              <PropertyRef Name="SimgeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WebMenu_WebMenu">
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="0..1" />
+          <End Type="MModel.WebMenu" Role="WebMenu1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebMenu">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu1">
+              <PropertyRef Name="UstMenuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="WebMenuRol">
+          <End Type="MModel.Role" Role="Role" Multiplicity="*" />
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
+        </Association>
+        <ComplexType Name="GetSirkets_Result">
+          <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Ad" Nullable="false" MaxLength="55" />
+        </ComplexType>
+        <ComplexType Name="MenuGetirici_Result">
+          <Property Type="Int16" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Ad" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Icon" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="AltmenuCount" Nullable="true" />
+        </ComplexType>
         <ComplexType Name="GetHomeSummary_Result">
           <Property Type="Int32" Name="depo" Nullable="true" />
           <Property Type="Int32" Name="kull" Nullable="true" />
@@ -2544,16 +2563,9 @@
           <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
           <Property Type="String" Name="DepoAd" Nullable="false" MaxLength="100" />
         </ComplexType>
-        <ComplexType Name="GetSirkets_Result">
-          <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="Ad" Nullable="false" MaxLength="55" />
-        </ComplexType>
-        <ComplexType Name="MenuGetirici_Result">
-          <Property Type="Int16" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Ad" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Icon" Nullable="true" MaxLength="150" />
-          <Property Type="Int32" Name="AltmenuCount" Nullable="true" />
+        <ComplexType Name="MenuRolGetir_Result">
+          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Perm" Nullable="true" MaxLength="20" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2728,37 +2740,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WebMenus">
-            <EntityTypeMapping TypeName="MModel.WebMenu">
-              <MappingFragment StoreEntitySet="WebMenu">
-                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
-                <ScalarProperty Name="UstMenuID" ColumnName="UstMenuID" />
-                <ScalarProperty Name="SimgeID" ColumnName="SimgeID" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Sira" ColumnName="Sira" />
-                <ScalarProperty Name="Ad" ColumnName="Ad" />
-                <ScalarProperty Name="MenuYeriID" ColumnName="MenuYeriID" />
-                <ScalarProperty Name="SiteTipiID" ColumnName="SiteTipiID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WebMenuSetts">
-            <EntityTypeMapping TypeName="MModel.WebMenuSett">
-              <MappingFragment StoreEntitySet="WebMenuSetts">
-                <ScalarProperty Name="Ad" ColumnName="Ad" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="WebMenuRol" TypeName="MModel.WebMenuRol" StoreEntitySet="WebMenuRol">
-            <EndProperty Name="WebMenu">
-              <ScalarProperty Name="ID" ColumnName="MenuID" />
-            </EndProperty>
-            <EndProperty Name="Role">
-              <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="MModel.User">
               <MappingFragment StoreEntitySet="Users">
@@ -2921,6 +2902,51 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="WebMenus">
+            <EntityTypeMapping TypeName="MModel.WebMenu">
+              <MappingFragment StoreEntitySet="WebMenu">
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+                <ScalarProperty Name="UstMenuID" ColumnName="UstMenuID" />
+                <ScalarProperty Name="SimgeID" ColumnName="SimgeID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="MenuYeriID" ColumnName="MenuYeriID" />
+                <ScalarProperty Name="SiteTipiID" ColumnName="SiteTipiID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="WebMenuRol" TypeName="MModel.WebMenuRol" StoreEntitySet="WebMenuRol">
+            <EndProperty Name="WebMenu">
+              <ScalarProperty Name="ID" ColumnName="MenuID" />
+            </EndProperty>
+            <EndProperty Name="Role">
+              <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="GetSirketDBs" FunctionName="MModel.Store.GetSirketDBs" />
+          <FunctionImportMapping FunctionImportName="GetSirkets" FunctionName="MModel.Store.GetSirkets">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetSirkets_Result">
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
+          <FunctionImportMapping FunctionImportName="MenuGetirici" FunctionName="MModel.Store.MenuGetirici">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.MenuGetirici_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="AltmenuCount" ColumnName="AltmenuCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MenuRolEkle" FunctionName="MModel.Store.MenuRolEkle" />
           <FunctionImportMapping FunctionImportName="DeleteFromGorev" FunctionName="MModel.Store.DeleteFromGorev" />
           <FunctionImportMapping FunctionImportName="GetBolumSiralamaFromGorevId" FunctionName="MModel.Store.GetBolumSiralamaFromGorevId" />
           <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
@@ -2980,27 +3006,15 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="YetkiDepoSet" FunctionName="MModel.Store.YetkiDepoSet" />
-          <FunctionImportMapping FunctionImportName="GetSirketDBs" FunctionName="MModel.Store.GetSirketDBs" />
-          <FunctionImportMapping FunctionImportName="GetSirkets" FunctionName="MModel.Store.GetSirkets">
+          <FunctionImportMapping FunctionImportName="MenuRolGetir" FunctionName="MModel.Store.MenuRolGetir">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetSirkets_Result">
-                <ScalarProperty Name="Kod" ColumnName="Kod" />
-                <ScalarProperty Name="Ad" ColumnName="Ad" />
+              <ComplexTypeMapping TypeName="MModel.MenuRolGetir_Result">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Perm" ColumnName="Perm" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
-          <FunctionImportMapping FunctionImportName="MenuGetirici" FunctionName="MModel.Store.MenuGetirici">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.MenuGetirici_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Ad" ColumnName="Ad" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="AltmenuCount" ColumnName="AltmenuCount" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MenuSiralayici" FunctionName="MModel.Store.MenuSiralayici" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
