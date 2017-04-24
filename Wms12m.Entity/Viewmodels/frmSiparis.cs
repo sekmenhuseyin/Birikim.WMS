@@ -81,6 +81,9 @@ namespace Wms12m.Entity
         public short ValorGun { get; set; }
         public int Tarih { get; set; }
         public short SiraNo { get; set; }
+        public string MalAdi4 { get; set; }//marka
+        public string Nesne2 { get; set; }//cins
+        public string Kod15 { get; set; }//kesit
     }
     /// <summary>
     /// sipariş toplama sırası
