@@ -356,7 +356,7 @@
     <Content Include="Views\Tasks\_GorevDetailPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.Null.cshtml" />
     <Content Include="Views\Tasks\GorevliAta.cshtml" />
-    <Content Include="Views\Buy\List.cshtml" />
+    <Content Include="Views\Menu\New.cshtml" />
     <Content Include="Views\Buy\SiparisList.cshtml" />
     <Content Include="Views\Size\Index.cshtml" />
     <Content Include="Views\Size\_Create.cshtml" />
@@ -404,6 +404,8 @@
     <Content Include="Views\Cable\Step5.cshtml" />
     <Content Include="Views\Stock\ManualPlacement.cshtml" />
     <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\Buy\List.cshtml" />
+    <Content Include="Views\Menu\Permission.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

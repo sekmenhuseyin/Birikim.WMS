@@ -1,0 +1,62 @@
+﻿@model IEnumerable<MenuRolGetir_Result>
+<div class="modal-content">
+	<div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="modal-body">@*Project Details Go Here*@
+					<h4>Yetkiler</h4>
+					@using (Html.BeginForm("Permission", "Menu", FormMethod.Post, new { @class = "form", id="frmPermission", role = "form" }))
+					{
+						@Html.AntiForgeryToken()
+						<div class="form-horizontal">
+							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+							<div class="form-group">
+								<div id="permTree" class="m-b-10"></div>
+							</div>
+							<div class="form-group">
+								<input type="hidden" name="MenuNo" value="@ViewBag.MenuNo" />
+								<input type="hidden" name="RolNo" id="RolNo" value="" />
+								<div class="col-md-2"><button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button></div>
+								<div class="col-md-offset-2 col-md-8"><input type="submit" value="Oluştur" class="btn btn-default" /></div>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function frmSubmit()
+	{
+		$('#RolNo').val($('#permTree').jstree(true).get_bottom_selected());
+		$('#RolNo').val($('#RolNo').val().replace(/_anchor/gi, "").replace(/tree/gi, ""));
+		$('#frmPermission').submit();
+	}
+	$(document).ready(function () {
+		"use strict";
+		$('#permTree').jstree({
+			'plugins': ["wholerow", "checkbox", "types"],
+			'core': {
+				"themes": {
+					"responsive": false
+				},
+				'data': [{
+					"text": "Hepsini Seç", "state": { "opened": true },
+					"children": [@foreach (var item in Model) {
+						<text> { "text": "@item.RoleName", "id": "tree@{@item.RoleName}", "state": { @if(@item.Perm!=null){<text>"selected": true</text>} } },</text>
+					}]
+				}]
+			},
+			"types": {
+				"default": {
+					"icon": "fa fa-folder text-primary fa-lg"
+				},
+				"file": {
+					"icon": "fa fa-file text-success fa-lg"
+				}
+			}
+		});
+	});
+</script>

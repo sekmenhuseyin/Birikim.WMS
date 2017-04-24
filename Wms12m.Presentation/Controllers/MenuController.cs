@@ -28,11 +28,12 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// seçili menüye ait yetkileri listeler
         /// </summary>
-        public ActionResult Permission(short id)
+        [HttpPost]
+        public PartialViewResult GetPermission(short id)
         {
             ViewBag.MenuID = id;
             var yetki = db.MenuRolGetir(id);
-            return View("Permission", yetki);
+            return PartialView("Permission", yetki);
         }
         /// <summary>
         /// seçili menüye yeni yetki ekle
@@ -55,19 +56,20 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// create menu form page
         /// </summary>
-        public ActionResult Create()
+        [HttpPost]
+        public PartialViewResult New()
         {
-            ViewBag.WebSiteTipiID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 5), "ID", "Name");
+            ViewBag.SiteTipiID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 5), "ID", "Name");
             ViewBag.MenuYeriID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 6), "ID", "Name");
-            ViewBag.UstMenuID = new SelectList(db.WebMenus.Select(m => new { m.ID, Ad = m.ComboItem_Name.Name + ", " + m.Ad }).OrderBy(m => m.Ad), "ID", "Ad");
+            ViewBag.UstMenuID = new SelectList(db.WebMenus.Select(m => new { m.ID, Ad = m.ComboItem_Name1.Name + ", " + m.ComboItem_Name.Name + ", " + m.Ad }).OrderBy(m => m.Ad), "ID", "Ad");
             ViewBag.SimgeID = new SelectList(db.Simges.Select(m => new { m.ID, m.Icon }).OrderBy(m => m.Icon), "ID", "Icon");
-            return View();
+            return PartialView("New");
         }
         /// <summary>
         /// creates menu
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,WebSiteTipiID,MenuYeriID,DilAnaID,Url,SimgeID,UstMenuID,Aktif")] WebMenu webMenu)
+        public ActionResult Create([Bind(Include = "ID,SiteTipiID,MenuYeriID,Ad,Url,SimgeID,UstMenuID,Aktif")] WebMenu webMenu)
         {
             if (ModelState.IsValid)
             {
@@ -82,22 +84,26 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// edit menu page
         /// </summary>
-        public ActionResult Edit(short id)
+        [HttpPost]
+        public PartialViewResult Editor()
         {
-            WebMenu webMenu = db.WebMenus.Find(id);
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null || id.ToString2() == "") return null;
+            //find menu
+            WebMenu webMenu = db.WebMenus.Find(id.ToShort());
             if (webMenu == null)
-                return RedirectToAction("Index");
-            ViewBag.WebSiteTipiID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 5), "ID", "Name", webMenu.ComboItem_Name);
-            ViewBag.MenuYeriID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 6), "ID", "Name", webMenu.ComboItem_Name1);
-            ViewBag.UstMenuID = new SelectList(db.WebMenus.Select(m => new { m.ID, Ad = m.ComboItem_Name.Name + ", " + m.Ad }).OrderBy(m => m.Ad), "ID", "Ad", webMenu.UstMenuID);
+                return null;
+            ViewBag.SiteTipiID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 5), "ID", "Name", webMenu.SiteTipiID);
+            ViewBag.MenuYeriID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 6), "ID", "Name", webMenu.MenuYeriID);
+            ViewBag.UstMenuID = new SelectList(db.WebMenus.Select(m => new { m.ID, Ad = m.ComboItem_Name1.Name + ", " + m.ComboItem_Name.Name + ", " + m.Ad }).OrderBy(m => m.Ad), "ID", "Ad", webMenu.UstMenuID);
             ViewBag.SimgeID = new SelectList(db.Simges.Select(m => new { m.ID, m.Icon }).OrderBy(m => m.Icon), "ID", "Icon", webMenu.SimgeID);
-            return View(webMenu);
+            return PartialView("New", webMenu);
         }
         /// <summary>
         /// edits menu
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,WebSiteTipiID,MenuYeriID,DilAnaID,Sira,Url,SimgeID,UstMenuID,Aktif")] WebMenu webMenu)
+        public ActionResult Edit([Bind(Include = "ID,SiteTipiID,MenuYeriID,Ad,Sira,Url,SimgeID,UstMenuID,Aktif")] WebMenu webMenu)
         {
             if (ModelState.IsValid)
             {
