@@ -9,6 +9,7 @@ using TumFaturaKayit;
 using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
+using Wms12m.Entity.Mysql;
 
 namespace Wms12m
 {
@@ -328,6 +329,7 @@ namespace Wms12m
         [WebMethod]
         public Result RafaKaldir_GoreviTamamla(int GorevID, int kulID)
         {
+            //kontrol
             int tipID = ComboItems.RafaKaldır.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID).FirstOrDefault();
             if (mGorev.IsNull())
@@ -335,7 +337,40 @@ namespace Wms12m
             var list = mGorev.IR.IRS_Detay.Where(m => m.YerlestirmeMiktari != m.Miktar).FirstOrDefault();
             if (list.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
+            //görevi tamamla
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kulID, "", ComboItems.RafaKaldır.ToInt32(), 0);
+            //get all malkods from gorev
+            string sql = "SELECT ''''+wms.IRS_Detay.MalKodu+''',' FROM wms.GorevIRS INNER JOIN wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID WHERE(wms.GorevIRS.GorevID = " + GorevID + ") FOR XML PATH('')";
+            var malkodlari = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            //get stk details from all malkods
+            sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
+                                "FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) " +
+                                "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu IN ({1}'0')) AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')", mGorev.IR.SirketKod, malkodlari);
+            var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
+            using (KabloEntities dbx = new KabloEntities())
+            {
+                string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
+                foreach (var item in stks)
+                {
+                    //sid bul
+                    int sid = dbx.indices.Where(m => m.cins == item.Nesne2 && m.kesit == item.Kod15).Select(m => m.id).FirstOrDefault();
+                    //stoğa kaydet
+                    stok tbl = new stok();
+                    tbl.marka = item.MalAdi4;
+                    tbl.cins = item.Nesne2;
+                    tbl.kesit = item.Kod15;
+                    tbl.sid = sid;
+                    tbl.depo = depo;
+                    tbl.renk = "";
+                    tbl.makara = "KAPALI";
+                    tbl.tip = "";
+                    tbl.rezerve = "0";
+                    tbl.rmiktar = 0;
+                    tbl.sure = new TimeSpan();
+                    dbx.stoks.Add(tbl);
+                    dbx.SaveChanges();
+                }
+            }
             return new Result(true);
         }
         /// <summary>

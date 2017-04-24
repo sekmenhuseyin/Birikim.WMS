@@ -350,7 +350,7 @@ namespace Wms12m.Presentation.Controllers
                             //istenen stk bilgilerini bul
                             string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
                                                   "FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) " +
-                                                  "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", item.SirketKod, item2.MalKodu);
+                                                  "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')", item.SirketKod, item2.MalKodu);
                             var stk = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
                             //makarayı bul
                             var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.MalAdi4 && m.cins == stk.Nesne2 && m.kesit == stk.Kod15 && m.id == item2.KynkSiparisID).FirstOrDefault();
