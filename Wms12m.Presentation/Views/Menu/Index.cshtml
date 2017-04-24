@@ -3,8 +3,6 @@
     ViewBag.Title = "Menu";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var counter = 0;
-}@section Styles {
-<link href="~/Content/assets/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Menu</span></li></ul></div>
 <h1 class="page-title">Menu</h1>
 <div class="row">
@@ -42,9 +40,9 @@
                                         <td>@Html.DisplayFor(modelItem => item.Ad)</td>
                                         <td><i class="material-icons">@Html.DisplayFor(modelItem => item.Simge.Icon)</i></td>
                                         <td>
-                                            <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Menu/GetPermission/@item.ID')"> Yetkiler </a>
+                                            <a class="btn btn-default input-circle" href="/Menu/Permission/@item.ID"> Yetkiler </a>
                                             <a class="btn btn-default input-circle" href="/Menu/SubMenu/@item.ID"> Altmenu </a>
-                                             <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Menu/Editor/@item.ID')"> Düzenle </a>
+                                            <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Menu/Editor/@item.ID')"> Düzenle </a>
                                         </td>
                                     </tr>
                                 }
@@ -56,4 +54,3 @@
         </div>
     </div>
 </div>
-@section Scripts{<script src="~/Content/assets/global/plugins/jstree/dist/jstree.min.js"></script>}

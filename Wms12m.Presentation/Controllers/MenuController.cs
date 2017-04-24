@@ -28,12 +28,11 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// seçili menüye ait yetkileri listeler
         /// </summary>
-        [HttpPost]
-        public PartialViewResult GetPermission(short id)
+        public ActionResult Permission(short id)
         {
             ViewBag.MenuID = id;
             var yetki = db.MenuRolGetir(id);
-            return PartialView("Permission", yetki);
+            return View("Permission", yetki);
         }
         /// <summary>
         /// seçili menüye yeni yetki ekle
