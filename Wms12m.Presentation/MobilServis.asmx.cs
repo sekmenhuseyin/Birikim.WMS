@@ -158,7 +158,7 @@ namespace Wms12m
                 if (sql != "") sql += " UNION ";
                 sql += string.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (BarKod1 = '{1}') OR (BarKod2 = '{1}')", item, barkod);
             }
-            sql = "SELECT MalKodu from ("+sql+") as t where Malkodu is not null";
+            sql = "SELECT MalKodu from (" + sql + ") as t where Malkodu is not null";
             return db.Database.SqlQuery<string>(sql).FirstOrDefault();
         }
         /// <summary>
@@ -337,8 +337,6 @@ namespace Wms12m
             var list = mGorev.IR.IRS_Detay.Where(m => m.YerlestirmeMiktari != m.Miktar).FirstOrDefault();
             if (list.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
-            //görevi tamamla
-            db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kulID, "", ComboItems.RafaKaldır.ToInt32(), 0);
             //get stk details from all mals
             string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15, wms.IRS_Detay.Miktar " +
                                         "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
@@ -352,19 +350,28 @@ namespace Wms12m
                     //sid bul
                     int sid = dbx.indices.Where(m => m.cins == item.Nesne2 && m.kesit == item.Kod15).Select(m => m.id).FirstOrDefault();
                     //stoğa kaydet
-                    stok tbl = new stok();
-                    tbl.marka = item.MalAdi4;
-                    tbl.cins = item.Nesne2;
-                    tbl.kesit = item.Kod15;
-                    tbl.sid = sid;
-                    tbl.depo = depo;
-                    tbl.renk = "";
-                    tbl.tip = "";
-                    tbl.miktar = item.Miktar;
+                    stok tbl = new stok()
+                    {
+                        marka = item.MalAdi4,
+                        cins = item.Nesne2,
+                        kesit = item.Kod15,
+                        sid = sid,
+                        depo = depo,
+                        renk = "",
+                        makara = "KAPALI",
+                        rezerve = "0",
+                        sure = new TimeSpan(),
+                        tarih = DateTime.Now,
+                        tip = "",
+                        rmiktar = 0,
+                        miktar = item.Miktar
+                    };
                     dbx.stoks.Add(tbl);
                     dbx.SaveChanges();
                 }
             }
+            //görevi tamamla
+            db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kulID, "", ComboItems.RafaKaldır.ToInt32(), 0);
             return new Result(true);
         }
         /// <summary>
@@ -454,11 +461,13 @@ namespace Wms12m
                         //makarayı bul
                         var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.MalAdi4 && m.cins == stk.Nesne2 && m.kesit == stk.Kod15 && m.id == item2.KynkSiparisID).FirstOrDefault();
                         //yeni hareket ekle
-                        hareket tbl = new hareket();
-                        tbl.id = kablo.id;
-                        tbl.miktar = item2.Miktar;
-                        tbl.musteri = item.HesapKodu.GetUnvan(item.SirketKod).Left(40);
-                        tbl.tarih = DateTime.Now;
+                        hareket tbl = new hareket()
+                        {
+                            id = kablo.id,
+                            miktar = item2.Miktar,
+                            musteri = item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
+                            tarih = DateTime.Now
+                        };
                         dbx.harekets.Add(tbl);
                         dbx.SaveChanges();
                     }
@@ -495,7 +504,7 @@ namespace Wms12m
             //finsat işlemleri
             try
             {
-                var sonuc=ftrKayit.FaturaKaydet(STIBaseList, EvrakSeriNo);
+                var sonuc = ftrKayit.FaturaKaydet(STIBaseList, EvrakSeriNo);
                 return new Result(true, sonuc.Mesaj);
             }
             catch (Exception ex)
