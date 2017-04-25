@@ -40,4 +40,20 @@
     }
 </div>
 <div class="copyright">@DateTime.Today.Year &copy; <a href="http://www.12mconsulting.com.tr/" title="12M Consulting" target="_blank">12M Consulting</a></div>
-@section scripts {<script type="text/javascript">var Link = '@Url.Action("Index", "Home")';</script><script src="~/Content/assets/pages/scripts/login.min.js"></script>}
+@section scripts {<script type="text/javascript">
+    $('#Kod').focus();
+    $('.login-form input').keypress(function (e) {
+        if (e.which == 13) {
+            if ($('.login-form').validate().form()) {
+                $('.login-form').submit(); //form validation success, call ajax form submit
+            }
+            return false;
+        }
+    });
+    function ReturnPage(data) {
+        if (data.data)
+            window.location.href = '@Url.Action("Index", "Home")';
+        else
+            Modaldialog('Lütfen bilgilerinizi kontrol edin', 'Login İşlemi', 'Kapat', 'btn-warning');
+    }
+</script>}

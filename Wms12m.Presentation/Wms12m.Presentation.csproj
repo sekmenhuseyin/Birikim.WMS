@@ -267,10 +267,6 @@
     <Content Include="Content\assets\pages\img\bg-white-lock.png" />
     <Content Include="Content\assets\pages\img\bg-white.png" />
     <Content Include="Content\assets\pages\img\inbox-nav-arrow-blue.png" />
-    <Content Include="Content\assets\pages\scripts\login.js" />
-    <Content Include="Content\assets\pages\scripts\login.min.js">
-      <DependentUpon>login.js</DependentUpon>
-    </Content>
     <Content Include="Content\Scripts\Functions.js" />
     <Content Include="Content\Scripts\Functions.min.js">
       <DependentUpon>Functions.js</DependentUpon>
