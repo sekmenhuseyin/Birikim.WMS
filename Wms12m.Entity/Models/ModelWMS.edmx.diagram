@@ -24,7 +24,7 @@
         <AssociationConnector Association="MModel.FK_TK_KOR_TK_DEP" />
         <AssociationConnector Association="MModel.FK_Yerlestirme_TK_KAT" />
         <AssociationConnector Association="MModel.FK_TK_RAF_TK_KOR" />
-        <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="34.75" PointY="13.875" />
+        <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="31.25" PointY="20.625" />
         <EntityTypeShape EntityType="MModel.GorevYer" Width="1.5" PointX="26.625" PointY="14.625" />
         <AssociationConnector Association="MModel.FK_GorevYer_Gorev" />
         <AssociationConnector Association="MModel.FK_GorevYer_Yer" />
@@ -66,14 +66,19 @@
         <AssociationConnector Association="MModel.FK_Transfer_Gorev" />
         <AssociationConnector Association="MModel.FK_Transfer_Detay_Transfer" />
         <AssociationConnector Association="MModel.FK_Yer_Log_Kat" />
-        <EntityTypeShape EntityType="MModel.Ayarlar" Width="1.5" PointX="3.375" PointY="20.5" />
-        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="5.375" PointY="20.5" />
+        <EntityTypeShape EntityType="MModel.Ayarlar" Width="1.5" PointX="33.125" PointY="20.625" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="35.125" PointY="20.625" />
         <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="31.875" PointY="10.875" />
         <AssociationConnector Association="MModel.FK_WebMenu_MenuYeri" />
         <AssociationConnector Association="MModel.FK_WebMenu_SiteTipi" />
         <AssociationConnector Association="MModel.FK_WebMenu_Simge" />
         <AssociationConnector Association="MModel.FK_WebMenu_WebMenu" />
         <AssociationConnector Association="MModel.WebMenuRol" />
+        <AssociationConnector Association="MModel.FK_Users_Roles" />
+        <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="34.5" PointY="24.375" />
+        <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="31.125" PointY="23.625" />
+        <AssociationConnector Association="MModel.FK_RolePerm_Perm" />
+        <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

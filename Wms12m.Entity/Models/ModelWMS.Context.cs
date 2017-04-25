@@ -49,6 +49,8 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Ayarlar> Ayarlars { get; set; }
         public virtual DbSet<Olcu> Olcus { get; set; }
         public virtual DbSet<WebMenu> WebMenus { get; set; }
+        public virtual DbSet<Perm> Perms { get; set; }
+        public virtual DbSet<RolePerm> RolePerms { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

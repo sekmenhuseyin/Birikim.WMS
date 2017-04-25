@@ -12,23 +12,22 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Role
+    public partial class Perm
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Role()
+        public Perm()
         {
-            this.WebMenus = new HashSet<WebMenu>();
-            this.Users = new HashSet<User>();
             this.RolePerms = new HashSet<RolePerm>();
         }
     
         public int ID { get; set; }
-        public string RoleName { get; set; }
+        public string PermName { get; set; }
+        public bool Active { get; set; }
+        public short Type { get; set; }
+        public short AppType { get; set; }
+        public string Group { get; set; }
+        public Nullable<System.DateTime> RecordDate { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WebMenu> WebMenus { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RolePerm> RolePerms { get; set; }
     }
