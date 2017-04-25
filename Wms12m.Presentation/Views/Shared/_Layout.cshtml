@@ -24,7 +24,11 @@
                     <li class="dropdown dropdown-user">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><span class="username username-hide-on-mobile">@ViewBag.User</span><i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu dropdown-menu-default">
-                            <li><a href="@Url.Action("LogOut", "Security")"><i class="icon-user"></i> Çıkış</a></li>
+                            <li><a href="@Url.Action("Index", "MyAccount")"><i class="icon-user"></i> Hesabım</a></li>
+                            <li><a href="@Url.Action("Index", "Calendar")"><i class="icon-calendar"></i> Takvim</a></li>
+                            <li><a href="@Url.Action("Index", "Inbox")"><i class="icon-envelope-open"></i> Mesaj</a></li>
+                            <li class="divider"> </li>
+                            <li><a href="@Url.Action("LogOut", "Security")"><i class="icon-key"></i> Çıkış</a></li>
                         </ul>
                     </li>
 
