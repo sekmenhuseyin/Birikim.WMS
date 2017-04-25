@@ -419,9 +419,13 @@ namespace Wms12m
                 return new Result(false, "İşlem bitmemiş !");
             //kaydeden bulunur
             string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
-            int seritipi = ComboItems.EArşiv.ToInt32();
+            //efatura kullanıcısı mı bul
+            bool efatKullanici = false;
+            string sql = "SELECT EFatKullanici FROM FINSAT633.CHK WHERE(HesapKodu = '1')";
+            var tmp = db.Database.SqlQuery<short>(sql).FirstOrDefault();
+            if (tmp == 1) efatKullanici = true;
             //liste getirilir
-            string sql = string.Format("SELECT wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, ISNULL(wms.IRS.ValorGun,0) as ValorGun, wms.IRS.EvrakNo " +
+            sql = string.Format("SELECT wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, ISNULL(wms.IRS.ValorGun,0) as ValorGun, wms.IRS.EvrakNo " +
                                         "FROM wms.GorevIRS INNER JOIN wms.IRS ON wms.GorevIRS.IrsaliyeID = wms.IRS.ID " +
                                         "WHERE (wms.GorevIRS.GorevID = {0}) " +
                                         "GROUP BY wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, wms.IRS.ValorGun, wms.IRS.EvrakNo", mGorev.ID);
@@ -429,9 +433,8 @@ namespace Wms12m
             int tarih = DateTime.Today.ToOADateInt(), saat = DateTime.Now.ToOaTime();
             foreach (var item in list)
             {
-                string evrakserino = db.EvrakSeris.Where(m => m.SirketKodu == item.SirketKod && m.Tip == seritipi).Select(m => m.SeriNo).FirstOrDefault();
                 //listedeki her eleman için döngü yapılır
-                var sonuc = SiparisToplamaToLink(item.SirketKod, item.IrsaliyeID, mGorev.Depo.DepoKodu, evrakserino, item.Tarih, item.HesapKodu, kaydeden);
+                var sonuc = SiparisToplamaToLink(item.SirketKod, item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kaydeden);
                 if (sonuc.Status == true)
                 {
                     //update irsaliye
@@ -475,12 +478,12 @@ namespace Wms12m
             }
             return new Result(true);
         }
-        private Result SiparisToplamaToLink(string sirketKodu, int irsID, string DepoKodu, string EvrakSeriNo, int Tarih, string CHK, string kaydeden)
+        private Result SiparisToplamaToLink(string sirketKodu, int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden)
         {
             var STIBaseList = new List<ParamSti>();
             //evrak no getir
             var ftrKayit = new FaturaKayit(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, sirketKodu);
-            string evrkno = ftrKayit.EvrakNo_Getir(EvrakSeriNo);
+            var evrkno = ftrKayit.EvrakNo_Getir(efatKullanici,3,2017);//TODO: seriler user dan gelecek bir şekilde
             int saat = DateTime.Now.ToOaTime();
             //listeyi dön
             string sql = String.Format("SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo,KynkSiparisTarih, KynkSiparisSiraNo  FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
@@ -493,7 +496,8 @@ namespace Wms12m
                 if (finsat != null)
                 {
                     finsat.Miktar = item.Miktar;
-                    finsat.EvrakNo = evrkno;
+                    finsat.EvrakNo = evrkno[0].EvrakNo;
+                    finsat.KaynakIrsEvrakNo = evrkno[1].EvrakNo;
                     finsat.Tarih = Tarih;
                     finsat.Kaydeden = kaydeden;
                     finsat.KayitSurum = "9.01.028";
@@ -504,7 +508,7 @@ namespace Wms12m
             //finsat işlemleri
             try
             {
-                var sonuc = ftrKayit.FaturaKaydet(STIBaseList, EvrakSeriNo);
+                var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, 3, 2017);//TODO: seriler user dan gelecek bir şekilde
                 return new Result(true, sonuc.Mesaj);
             }
             catch (Exception ex)
