@@ -305,6 +305,7 @@
     <Compile Include="Controllers\ListsController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
+    <Compile Include="Controllers\PermsController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\CorridorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
@@ -416,6 +417,9 @@
     <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Views\Buy\List.cshtml" />
     <Content Include="Views\Menu\Permission.cshtml" />
+    <Content Include="Views\Perms\Create.cshtml" />
+    <Content Include="Views\Perms\Edit.cshtml" />
+    <Content Include="Views\Perms\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

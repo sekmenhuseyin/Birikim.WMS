@@ -71,7 +71,7 @@ namespace Wms12m.Presentation.Controllers
         /// creates menu
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,SiteTipiID,MenuYeriID,Ad,Url,SimgeID,UstMenuID,Aktif")] WebMenu webMenu)
+        public ActionResult Create([Bind(Include = "SiteTipiID,MenuYeriID,Ad,Url,SimgeID,UstMenuID,Aktif")] WebMenu webMenu)
         {
             if (ModelState.IsValid)
             {

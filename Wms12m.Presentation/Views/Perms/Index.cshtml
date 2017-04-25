@@ -1,0 +1,38 @@
+﻿@model IEnumerable<RolePerm>
+@{
+    ViewBag.Title = "Yetkiler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Yetkiler</h2>
+<p>@Html.ActionLink("Create New", "Create")</p>
+<table class="table">
+    <thead><tr><th>RoleName</th><th>PermName</th><th>Reading</th><th>Writing</th><th>Updating</th><th>Deleting</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PermName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reading)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Writing)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Updating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deleting)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
