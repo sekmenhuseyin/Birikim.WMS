@@ -76,5 +76,12 @@
 		</div>
 	</div>
 </div>
-<script>function Iconize(sel) { $("#divIcon").removeClass(); $("#divIcon").addClass(sel.options[sel.selectedIndex].text); }</script>
-@{ if (Model == null) { <text><script>$("#SiteTipiID").prepend("<option value=''></option>"); $("#SiteTipiID")[0].selectedIndex = 0; $("#MenuYeriID").prepend("<option value=''></option>"); $("#MenuYeriID")[0].selectedIndex = 0; $("#UstMenuID").prepend("<option value=''></option>"); $("#UstMenuID")[0].selectedIndex = 0; $("#SimgeID").prepend("<option value=''></option>"); $("#SimgeID")[0].selectedIndex = 0;</script></text> } }
+<script>
+	$("#SiteTipiID").prepend("<option value=''></option>"); $("#MenuYeriID").prepend("<option value=''></option>"); $("#UstMenuID").prepend("<option value=''></option>"); $("#SimgeID").prepend("<option value=''></option>");
+	function Iconize(sel) { $("#divIcon").removeClass(); $("#divIcon").addClass(sel.options[sel.selectedIndex].text); }
+	@{
+		if (Model == null) { <text>$("#SiteTipiID")[0].selectedIndex = 0; $("#MenuYeriID")[0].selectedIndex = 0; $("#UstMenuID")[0].selectedIndex = 0; $("#SimgeID")[0].selectedIndex = 0;</text> }
+		else if (Model.UstMenuID == null) { <text>$("#UstMenuID")[0].selectedIndex = 0;</text> }
+		else if (Model.SimgeID == null) { <text>$("#SimgeID")[0].selectedIndex = 0;</text> }
+	}
+</script>

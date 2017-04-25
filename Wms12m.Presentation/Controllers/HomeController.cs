@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 
 namespace Wms12m.Presentation.Controllers
@@ -23,8 +22,12 @@ namespace Wms12m.Presentation.Controllers
         [ChildActionOnly]
         public PartialViewResult Menu(byte mYeri, short mUstNo, string url)
         {
-            var uri = new Uri(Request.Url.AbsoluteUri);
-            url = url.Replace(uri.Scheme + "://" + uri.Host + "/", ""); if (url == "") url = "/";
+            for (int i = 0; i < 3; i++)
+            {
+                var ind = url.IndexOf("/");
+                url = url.Right(url.Length - ind - 1);
+            }
+            url = "/" + url;
             ViewBag.ustMenu = mUstNo;
             ViewBag.aktifNo = db.MenuFindAktif(ComboItems.WMS.ToInt32(), mYeri, "Admin", mUstNo, url).FirstOrDefault();
             var tablo = db.MenuGetirici(ComboItems.WMS.ToInt32(), mYeri, "Admin", mUstNo).ToList();

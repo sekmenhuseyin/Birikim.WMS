@@ -184,9 +184,13 @@
     <Content Include="Content\assets\global\img\syncfusion-icons-white.png" />
     <Content Include="Content\assets\global\img\syncfusion-icons.png" />
     <Content Include="Content\assets\global\scripts\app.js" />
-    <Content Include="Content\assets\global\scripts\app.min.js" />
+    <Content Include="Content\assets\global\scripts\app.min.js">
+      <DependentUpon>app.js</DependentUpon>
+    </Content>
     <Content Include="Content\assets\global\scripts\datatable.js" />
-    <Content Include="Content\assets\global\scripts\datatable.min.js" />
+    <Content Include="Content\assets\global\scripts\datatable.min.js">
+      <DependentUpon>datatable.js</DependentUpon>
+    </Content>
     <Content Include="Content\assets\layouts\global\scripts\cookie-consent.js" />
     <Content Include="Content\assets\layouts\global\scripts\cookie-consent.min.js" />
     <Content Include="Content\assets\layouts\global\scripts\hor-timeline.js" />
@@ -252,7 +256,9 @@
     <Content Include="Content\assets\layouts\layout\img\sidebar_toggler_icon_light.png" />
     <Content Include="Content\assets\layouts\layout\img\sidebar_toggler_icon_light2.png" />
     <Content Include="Content\assets\layouts\layout\scripts\layout.js" />
-    <Content Include="Content\assets\layouts\layout\scripts\layout.min.js" />
+    <Content Include="Content\assets\layouts\layout\scripts\layout.min.js">
+      <DependentUpon>layout.js</DependentUpon>
+    </Content>
     <Content Include="Content\assets\pages\css\login-4.css" />
     <Content Include="Content\assets\pages\css\login-4.min.css" />
     <Content Include="Content\assets\pages\img\bg-opacity.png" />

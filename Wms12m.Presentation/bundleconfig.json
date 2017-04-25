@@ -40,5 +40,23 @@
     "inputFiles": [
       "Content/Scripts/Operation.js"
     ]
+  },
+  {
+    "outputFileName": "Content/assets/global/scripts/app.min.js",
+    "inputFiles": [
+      "Content/assets/global/scripts/app.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/assets/global/scripts/datatable.min.js",
+    "inputFiles": [
+      "Content/assets/global/scripts/datatable.js"
+    ]
+  },
+  {
+    "outputFileName": "Content/assets/layouts/layout/scripts/layout.min.js",
+    "inputFiles": [
+      "Content/assets/layouts/layout/scripts/layout.js"
+    ]
   }
 ]

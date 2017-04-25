@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<MenuGetirici_Result>
+@{ var ilkbittimi = false; }
 <ul class="@if (ViewBag.ustMenu == 0) {<text>page-sidebar-menu page-header-fixed</text>} else { <text>sub-menu</text> }">@{
 if (ViewBag.ustMenu == 0) {<text><li class="sidebar-toggler-wrapper hide"><div class="sidebar-toggler"><span></span></div></li></text>}
 foreach (var item in Model)
@@ -6,8 +7,13 @@ foreach (var item in Model)
     //eğer alt menusu varsa
     if (item.AltmenuCount > 0)
     {
-        <li class="nav-item@{ if (item.ID==ViewBag.aktifNo) { <text> active</text> }}">
-            <a href="javascript:;" class="nav-link nav-toggle">@if (item.Icon != null) { <i class="@item.Icon"></i>}<span class="title"> @item.Ad</span><span class="arrow"></span></a>
+        <li class="nav-item@{ if (item.ID == ViewBag.aktifNo) { <text> active</text> }}@{ if (ilkbittimi == false) { <text> start</text> }}">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                @if (item.Icon != null) {<i class="@item.Icon"></i>}
+                <span class="title">@item.Ad</span>
+                @if (item.ID == ViewBag.aktifNo) {<span class="selected"></span>}
+                <span class="arrow"></span>
+            </a>
             @{Html.RenderAction("Menu", "Home", new { area = "", mYeri = ComboItems.SolMenü, mUstNo = item.ID, url = Request.Url.AbsoluteUri });}@* alt menuleri listele *@
         </li>
     }
@@ -19,12 +25,25 @@ foreach (var item in Model)
     //menu listesi bağlığı ise
     else if (item.UstMenuID == 0)
     {
-        <li class="nav-item@{ if(item.ID==ViewBag.aktifNo) { <text> active</text> }}"><a href="@item.Url" class="nav-link"><i class="@item.Icon"></i><span class="title"> @item.Ad</span></a></li>
+        <li class="nav-item@{ if(item.ID==ViewBag.aktifNo) { <text> active</text> }}">
+            <a href="@item.Url" class="nav-link">
+                <i class="@item.Icon"></i>
+                <span class="title">@item.Ad</span>
+                @if (item.ID == ViewBag.aktifNo) {<span class="selected"></span>}
+            </a>
+        </li>
     }
     //normal menu ise
     else
     {
-        <li class="@{ if(item.ID==ViewBag.aktifNo) { <text> active</text> }}"><a href="@item.Url" class="nav-link"><i class="@item.Icon"></i> @item.Ad</a></li>
+        <li class="@{ if(item.ID==ViewBag.aktifNo) { <text> active</text> }}">
+            <a href="@item.Url" class="nav-link">
+                @if (item.Icon != null) {<i class="@item.Icon"></i>}
+                @item.Ad
+                @if (item.ID == ViewBag.aktifNo) {<span class="selected"></span>}
+            </a>
+        </li>
     }
+    ilkbittimi=true;
 }
 } </ul>
