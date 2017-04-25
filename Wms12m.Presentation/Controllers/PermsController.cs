@@ -8,9 +8,12 @@ namespace Wms12m.Presentation.Controllers
 {
     public class PermsController : RootController
     {
-        // GET: Perms
+        /// <summary>
+        /// Yetkiler
+        /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm("Perms", PermTypes.Reading) == false) return Redirect("/");
             var rolePerms = db.RolePerms.Include(r => r.Perm).Include(r => r.Role);
             return View(rolePerms.ToList());
         }
@@ -18,6 +21,7 @@ namespace Wms12m.Presentation.Controllers
         // GET: Perms/Create
         public ActionResult Create()
         {
+            if (CheckPerm("Perms", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName");
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName");
             return View();
@@ -29,6 +33,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (CheckPerm("Perms", PermTypes.Writing) == false) return Redirect("/");
                 try
                 {
                     rolePerm.RecordDate = DateTime.Now;
@@ -55,6 +60,7 @@ namespace Wms12m.Presentation.Controllers
             RolePerm rolePerm = db.RolePerms.Where(m=>m.ID==id).FirstOrDefault();
             if (rolePerm == null)
                 return RedirectToAction("Index");
+            if (CheckPerm("Perms", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName", rolePerm.PermName);
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName", rolePerm.RoleName);
             return View(rolePerm);
@@ -66,6 +72,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (CheckPerm("Perms", PermTypes.Writing) == false) return Redirect("/");
                 try
                 {
                     var tbl= db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();

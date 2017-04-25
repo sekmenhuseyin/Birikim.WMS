@@ -14,6 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm("Size", PermTypes.Reading) == false) return Redirect("/");
             //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
@@ -26,6 +27,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List()
         {
+            if (CheckPerm("Size", PermTypes.Reading) == false) return null;
             //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
@@ -38,6 +40,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Create()
         {
+            if (CheckPerm("Size", PermTypes.Reading) == false) return null;
             return PartialView("_Create", new Olcu());
         }
         /// <summary>
@@ -48,6 +51,7 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             if (id.ToString() == "0") return null;
+            if (CheckPerm("Size", PermTypes.Reading) == false) return null;
             var tbl = Dimension.Detail(id.ToInt32());
             if (tbl == null) return null;
             return PartialView("_Edit", tbl);
@@ -58,6 +62,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult Save(Olcu tbl)
         {
+            if (CheckPerm("Size", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Dimension.Operation(tbl);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -66,6 +71,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
+            if (CheckPerm("Size", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Dimension.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

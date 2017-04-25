@@ -11,6 +11,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm("Combos", PermTypes.Reading) == false) return Redirect("/");
             return View("Index", Combo.GetList());
         }
         /// <summary>
@@ -18,6 +19,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult New()
         {
+            if (CheckPerm("Combos", PermTypes.Reading) == false) return null;
             return PartialView("New", new Combo_Name());
         }
         /// <summary>
@@ -25,6 +27,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Edit(int id)
         {
+            if (CheckPerm("Combos", PermTypes.Reading) == false) return null;
             return PartialView("Edit", Combo.Detail(id));
         }
         /// <summary>
@@ -33,6 +36,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Save(Combo_Name tbl)
         {
+            if (CheckPerm("Combos", PermTypes.Writing) == false) return Redirect("/");
             Result _Result = new Result();
             if (ModelState.IsValid)
                 _Result = Combo.Operation(tbl);
@@ -44,8 +48,8 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult Delete(int id)
         {
-            Result _Result = new Result();
-            _Result = Combo.Delete(id);
+            if (CheckPerm("Combos", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Result _Result = Combo.Delete(id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

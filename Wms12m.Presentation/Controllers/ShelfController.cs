@@ -15,6 +15,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm("Shelf", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
             return View("Index", new Raf());
@@ -24,6 +25,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult ShelfGridPartial(string Id)
         {
+            if (CheckPerm("Shelf", PermTypes.Reading) == false) return Redirect("/");
             int CorridorId = 0;
             int StoreId = 0;
             string Locked = "";
@@ -54,6 +56,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult ShelfDetailPartial(string Id)
         {
+            if (CheckPerm("Shelf", PermTypes.Reading) == false) return null;
             int tmp = Convert.ToInt32(Id);
             if (tmp==0)
             {
@@ -77,6 +80,7 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
+            if (CheckPerm("Shelf", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             List<Raf> _List = new List<Raf>();
             try
             {
@@ -103,14 +107,16 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
+            if (CheckPerm("Shelf", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Shelf.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// kayıt işlemleri
         /// </summary>
-        public ActionResult ShelfiOperation(Raf P)
+        public JsonResult ShelfiOperation(Raf P)
         {
+            if (CheckPerm("Shelf", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Shelf.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

@@ -26,9 +26,9 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step2(frmSiparisOnay tbl)
         {
-            if (CheckPerm("Cable", PermTypes.Reading) == false) return Redirect("/");
             if (tbl.DepoID == "0" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
+            if (CheckPerm("Cable", PermTypes.Reading) == false) return Redirect("/");
             //şirket id ve evrak nolar bulunur
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             string[] tmp = tbl.checkboxes.Split('#');
@@ -70,9 +70,9 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step3(frmSiparisOnay tbl)
         {
-            if (CheckPerm("Cable", PermTypes.Reading) == false) return Redirect("/");
             if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
                 return RedirectToAction("Index");
+            if (CheckPerm("Cable", PermTypes.Reading) == false) return Redirect("/");
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             var sirketler = new List<string>();
             var evraklar = new List<string>();
@@ -142,9 +142,9 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step4(frmSiparisOnay tbl)
         {
-            if (CheckPerm("Cable", PermTypes.Writing) == false) return Redirect("/");
             if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
                 return RedirectToAction("Index");
+            if (CheckPerm("Cable", PermTypes.Writing) == false) return Redirect("/");
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             var sirketler = new List<string>();
             var evraklar = new List<string>();
@@ -359,8 +359,8 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult GetSiparis(string DepoID)
         {
-            if (CheckPerm("Cable", PermTypes.Reading) == false) return null;
             if (DepoID == "0") return null;
+            if (CheckPerm("Cable", PermTypes.Reading) == false) return null;
             string sql = "";
             var item = db.GetSirketDBs().FirstOrDefault();
             sql = String.Format("SELECT '{0}' as SirketID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.CHK.GrupKod, FINSAT6{0}.FINSAT6{0}.CHK.FaturaAdres3 AS FaturaAdres, FINSAT6{0}.FINSAT6{0}.MFK.Aciklama, COUNT(FINSAT6{0}.FINSAT6{0}.SPI.MalKodu) AS Çeşit, SUM(FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar) AS Miktar, MIN(FINSAT6{0}.FINSAT6{0}.SPI.KayitSaat) as Saat " +

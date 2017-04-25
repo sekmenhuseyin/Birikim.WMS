@@ -15,14 +15,16 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm("Floor", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Index");
         }
         /// <summary>
         /// listesi
         /// </summary>
-        public ActionResult FloorGridPartial(string Id)
+        public PartialViewResult FloorGridPartial(string Id)
         {
+            if (CheckPerm("Floor", PermTypes.Reading) == false) return null;
             int CorridorId = 0;
             int StoreId = 0;
             int ShelfId = 0;
@@ -55,8 +57,9 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// düzenle
         /// </summary>
-        public ActionResult FloorDetailPartial(string Id)
+        public PartialViewResult FloorDetailPartial(string Id)
         {
+            if (CheckPerm("Floor", PermTypes.Reading) == false) return null;
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
@@ -83,14 +86,16 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
+            if (CheckPerm("Floor", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Floor.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// kayıt işlemleri
         /// </summary>
-        public ActionResult FlooriOperation(Kat P)
+        public JsonResult FlooriOperation(Kat P)
         {
+            if (CheckPerm("Floor", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Floor.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

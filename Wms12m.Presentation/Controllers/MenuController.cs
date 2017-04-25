@@ -14,6 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm("Menu", PermTypes.Reading) == false) return Redirect("/");
             var webMenus = db.WebMenus.Where(m => m.UstMenuID == null).OrderBy(m => m.MenuYeriID).ThenBy(m => m.Sira);
             return View("Index", webMenus.ToList());
         }
@@ -22,6 +23,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult SubMenu(short? id)
         {
+            if (CheckPerm("Menu", PermTypes.Reading) == false) return Redirect("/");
             var webMenus = db.WebMenus.Where(m => m.UstMenuID == id).OrderBy(m => m.MenuYeriID).ThenBy(m => m.Sira);
             return View("Index", webMenus.ToList());
         }
@@ -30,6 +32,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Permission(short id)
         {
+            if (CheckPerm("Menu", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.MenuID = id;
             var yetki = db.MenuRolGetir(id);
             return View("Permission", yetki);
@@ -40,9 +43,9 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Permission(mdlCreateMenuPermission tablo)
         {
-
             if (ModelState.IsValid)
             {
+                if (CheckPerm("Menu", PermTypes.Writing) == false) return Redirect("/");
                 try { db.MenuRolEkle(tablo.MenuNo, tablo.RolNo); }
                 catch (Exception ex)
                 {
@@ -61,6 +64,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult New()
         {
+            if (CheckPerm("Menu", PermTypes.Reading) == false) return null;
             ViewBag.SiteTipiID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 5), "ID", "Name");
             ViewBag.MenuYeriID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 6), "ID", "Name");
             ViewBag.UstMenuID = new SelectList(db.WebMenus.Select(m => new { m.ID, Ad = m.ComboItem_Name1.Name + ", " + m.ComboItem_Name.Name + ", " + m.Ad }).OrderBy(m => m.Ad), "ID", "Ad");
@@ -75,6 +79,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (CheckPerm("Menu", PermTypes.Writing) == false) return Redirect("/");
                 var sira = db.WebMenus.Where(m => m.MenuYeriID == webMenu.MenuYeriID && m.UstMenuID == webMenu.UstMenuID).OrderByDescending(m => m.Sira).Select(m => m.Sira).FirstOrDefault();
                 webMenu.Sira = Convert.ToByte(sira + 1);
                 db.WebMenus.Add(webMenu);
@@ -95,6 +100,7 @@ namespace Wms12m.Presentation.Controllers
             WebMenu webMenu = db.WebMenus.Find(id.ToShort());
             if (webMenu == null)
                 return null;
+            if (CheckPerm("Menu", PermTypes.Reading) == false) return null;
             ViewBag.SiteTipiID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 5), "ID", "Name", webMenu.SiteTipiID);
             ViewBag.MenuYeriID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 6), "ID", "Name", webMenu.MenuYeriID);
             ViewBag.UstMenuID = new SelectList(db.WebMenus.Select(m => new { m.ID, Ad = m.ComboItem_Name1.Name + ", " + m.ComboItem_Name.Name + ", " + m.Ad }).OrderBy(m => m.Ad), "ID", "Ad", webMenu.UstMenuID);
@@ -109,6 +115,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (CheckPerm("Menu", PermTypes.Writing) == false) return Redirect("/");
                 db.Entry(webMenu).State = EntityState.Modified;
                 db.SaveChanges();
                 db.MenuSiralayici(webMenu.SiteTipiID, webMenu.MenuYeriID, webMenu.UstMenuID);
@@ -125,6 +132,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (CheckPerm("Menu", PermTypes.Writing) == false) return Redirect("/");
                 //find needed two rows
                 var current = db.WebMenus.Where(m => m.ID == id).FirstOrDefault();
                 byte newSira; byte oldSira = current.Sira;

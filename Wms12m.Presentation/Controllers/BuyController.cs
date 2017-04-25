@@ -24,11 +24,12 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List()
         {
-            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "0,0,") return null;
             string[] tmp = id.ToString().Split(',');
             if (tmp.Length != 3) return null;
+            //kontrol
+            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
             //get liste
             var list = Irsaliye.GetList(tmp[0], false, tmp[2], tmp[1].ToInt32());
             ViewBag.id = id;
@@ -39,13 +40,14 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult SiparisList()
         {
-            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "0,0,") return null;
             string[] tmp = id.ToString().Split(',');
             if (tmp.Length != 3) return null;
-            string depo = Store.Detail(tmp[1].ToInt32()).DepoKodu;
+            //kontrol
+            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
             //get list
+            string depo = Store.Detail(tmp[1].ToInt32()).DepoKodu;
             string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                         "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Chk = '{2}') " +
@@ -59,8 +61,8 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult FromSiparis(string s, string id, string ids)
         {
-            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
             if (s == null || id == null || ids == null) return null;
+            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
             int irsaliyeID = id.ToInt32(), eklenen = 0, sira = 0;
             //split ids into rows
             ids = ids.Left(ids.Length - 1);
@@ -159,7 +161,6 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult New(frmIrsaliye tbl)
         {
-            if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
             bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
             if (kontrol1 == false)
             {
@@ -185,6 +186,8 @@ namespace Wms12m.Presentation.Controllers
                     return null;
                 }
             }
+            //kontrol
+            if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
             //yeni kayıt
             string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
             int today = fn.ToOADate();
