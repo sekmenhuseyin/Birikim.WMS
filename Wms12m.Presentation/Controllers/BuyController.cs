@@ -14,6 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm("Buy", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Index", new frmIrsaliye());
@@ -23,6 +24,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List()
         {
+            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "0,0,") return null;
             string[] tmp = id.ToString().Split(',');
@@ -37,6 +39,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult SiparisList()
         {
+            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "0,0,") return null;
             string[] tmp = id.ToString().Split(',');
@@ -56,6 +59,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult FromSiparis(string s, string id, string ids)
         {
+            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
             if (s == null || id == null || ids == null) return null;
             int irsaliyeID = id.ToInt32(), eklenen = 0, sira = 0;
             //split ids into rows
@@ -155,6 +159,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult New(frmIrsaliye tbl)
         {
+            if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
             bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
             if (kontrol1 == false)
             {
@@ -206,6 +211,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult GridPartial(int ID)
         {
+            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
             var list = IrsaliyeDetay.GetList(ID);
             var irs = Irsaliye.Detail(ID);
             ViewBag.IrsaliyeId = ID;
@@ -219,6 +225,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult InsertMalzeme(frmMalzeme tbl)
         {
+            if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
             //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
             var irs = Irsaliye.Detail(tbl.IrsaliyeId);
             if (irs.Onay == false)
@@ -313,6 +320,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult NewMalzemeForm(int id)
         {
+            if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
             ViewBag.IrsaliyeId = id;
             return PartialView("_GridNewPartial", new frmMalzeme());
         }
@@ -321,6 +329,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete1(int ID)
         {
+            if (CheckPerm("Buy", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Irsaliye.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -329,6 +338,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete2(int ID)
         {
+            if (CheckPerm("Buy", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = IrsaliyeDetay.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

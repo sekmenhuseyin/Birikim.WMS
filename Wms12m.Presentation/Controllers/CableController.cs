@@ -16,6 +16,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm("Cable", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetListCable(), "DepoKodu", "DepoAd");
             return View("Index");
         }
@@ -25,6 +26,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step2(frmSiparisOnay tbl)
         {
+            if (CheckPerm("Cable", PermTypes.Reading) == false) return Redirect("/");
             if (tbl.DepoID == "0" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
             //şirket id ve evrak nolar bulunur
@@ -68,6 +70,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step3(frmSiparisOnay tbl)
         {
+            if (CheckPerm("Cable", PermTypes.Reading) == false) return Redirect("/");
             if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
                 return RedirectToAction("Index");
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
@@ -139,6 +142,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step4(frmSiparisOnay tbl)
         {
+            if (CheckPerm("Cable", PermTypes.Writing) == false) return Redirect("/");
             if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
                 return RedirectToAction("Index");
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
@@ -296,6 +300,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step5(int GorevID, int DepoID)
         {
+            if (CheckPerm("Cable", PermTypes.Writing) == false) return Redirect("/");
             //sıralama
             var lstKoridor = db.GetKoridorIdFromGorevId(GorevID).ToList();
             bool asc = false; int sira = 1;
@@ -335,6 +340,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Approve(int GorevID)
         {
+            if (CheckPerm("Cable", PermTypes.Writing) == false) return Redirect("/");
             Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
             {
@@ -353,6 +359,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult GetSiparis(string DepoID)
         {
+            if (CheckPerm("Cable", PermTypes.Reading) == false) return null;
             if (DepoID == "0") return null;
             string sql = "";
             var item = db.GetSirketDBs().FirstOrDefault();
@@ -378,6 +385,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult Details(string ID)
         {
+            if (CheckPerm("Cable", PermTypes.Reading) == false) return null;
             string[] tmp = ID.Split('-');
             string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +

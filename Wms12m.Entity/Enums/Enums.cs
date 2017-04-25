@@ -52,4 +52,14 @@
         SiteTipi = 5,
         MenuYeri = 6
     }
+    /// <summary>
+    /// permission types
+    /// </summary>
+    public enum PermTypes
+    {
+        Reading,
+        Writing,
+        Updating,
+        Deleting
+    }
 }

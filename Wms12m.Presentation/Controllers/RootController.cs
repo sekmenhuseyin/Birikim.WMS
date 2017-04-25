@@ -26,6 +26,13 @@ namespace Wms12m.Presentation.Controllers
         public TaskYer TaskYer = new TaskYer();
         public Yerlestirme Yerlestirme = new Yerlestirme();
         public Transfers Transfers = new Transfers();
+
+        public bool CheckPerm(string control, PermTypes permtype)
+        {
+            var sql = "SELECT " + permtype.ToString() + " FROM usr.RolePerm WHERE (RoleName = '" + vUser.RoleName + "') AND (PermName = '" + control + "')";
+            var sonuc=db.Database.SqlQuery<bool>(sql).FirstOrDefaultAsync();
+            return sonuc.Result;
+        }
         /// <summary>
         /// user için kısayol
         /// </summary>
