@@ -12,7 +12,7 @@ namespace Wms12m
     {
         public static void CreateAuth(User person, bool rememberMe)
         {
-            var serializeModel = AuthIdentity(person, rememberMe);
+            var serializeModel = AuthIdentity(person, false);
             DateTime expiration = DateTime.Now.AddMinutes(HttpContext.Current.Session.Timeout);
             if (rememberMe)
             {

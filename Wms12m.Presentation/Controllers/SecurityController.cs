@@ -36,7 +36,11 @@ namespace Wms12m.Presentation.Controllers
                         Authentication.CreateAuth((User)_Result.Data, RememberMe == "on" ? true : false);
                 }                
             }
-            catch (Exception){
+            catch (Exception ex){
+                using (var db = new WMSEntities())
+                {
+                    db.Logger(P.Kod, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Security/Login");
+                }
                 return null;
             }
             return Json(new { data = (_Result.Status) }, JsonRequestBehavior.AllowGet);
