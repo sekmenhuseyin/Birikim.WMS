@@ -22,7 +22,7 @@ namespace Wms12m.Presentation.Controllers
         /// giriş işlemleri
         /// </summary>
         [HttpPost]
-        public ActionResult Login(User P)
+        public ActionResult Login(User P, string RememberMe)
         {
             Persons _Person = new Persons();
             _Result = new Result();
@@ -33,7 +33,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     _Result = _Person.Login(P);
                     if (_Result.Id > 0)
-                        Authentication.CreateAuth((User)_Result.Data, false);
+                        Authentication.CreateAuth((User)_Result.Data, RememberMe == "on" ? true : false);
                 }                
             }
             catch (Exception){

@@ -29,8 +29,8 @@ namespace Wms12m.Presentation.Controllers
             }
             url = "/" + url;
             ViewBag.ustMenu = mUstNo;
-            ViewBag.aktifNo = db.MenuFindAktif(ComboItems.WMS.ToInt32(), mYeri, "Admin", mUstNo, url).FirstOrDefault();
-            var tablo = db.MenuGetirici(ComboItems.WMS.ToInt32(), mYeri, "Admin", mUstNo).ToList();
+            ViewBag.aktifNo = db.MenuFindAktif(ComboItems.WMS.ToInt32(), mYeri, vUser.RoleName, mUstNo, url).FirstOrDefault();
+            var tablo = db.MenuGetirici(ComboItems.WMS.ToInt32(), mYeri, vUser.RoleName, mUstNo).ToList();
             return PartialView("../Shared/_MenuList", tablo);
         }
     }

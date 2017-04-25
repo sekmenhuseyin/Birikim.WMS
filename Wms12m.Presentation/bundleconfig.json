@@ -58,5 +58,17 @@
     "inputFiles": [
       "Content/assets/layouts/layout/scripts/layout.js"
     ]
+  },
+  {
+    "outputFileName": "Content/assets/pages/css/login.min.css",
+    "inputFiles": [
+      "Content/assets/pages/css/login.css"
+    ]
+  },
+  {
+    "outputFileName": "Content/assets/pages/scripts/login.min.js",
+    "inputFiles": [
+      "Content/assets/pages/scripts/login.js"
+    ]
   }
 ]

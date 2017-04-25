@@ -259,12 +259,18 @@
     <Content Include="Content\assets\layouts\layout\scripts\layout.min.js">
       <DependentUpon>layout.js</DependentUpon>
     </Content>
-    <Content Include="Content\assets\pages\css\login-4.css" />
-    <Content Include="Content\assets\pages\css\login-4.min.css" />
+    <Content Include="Content\assets\pages\css\login.css" />
+    <Content Include="Content\assets\pages\css\login.min.css">
+      <DependentUpon>login.css</DependentUpon>
+    </Content>
     <Content Include="Content\assets\pages\img\bg-opacity.png" />
     <Content Include="Content\assets\pages\img\bg-white-lock.png" />
     <Content Include="Content\assets\pages\img\bg-white.png" />
     <Content Include="Content\assets\pages\img\inbox-nav-arrow-blue.png" />
+    <Content Include="Content\assets\pages\scripts\login.js" />
+    <Content Include="Content\assets\pages\scripts\login.min.js">
+      <DependentUpon>login.js</DependentUpon>
+    </Content>
     <Content Include="Content\Scripts\Functions.js" />
     <Content Include="Content\Scripts\Functions.min.js">
       <DependentUpon>Functions.js</DependentUpon>
@@ -277,7 +283,6 @@
     <Content Include="Content\Scripts\Operation.min.js">
       <DependentUpon>Operation.js</DependentUpon>
     </Content>
-    <Content Include="Content\View\Login.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="MobilServis.asmx" />

@@ -22,7 +22,6 @@ namespace Wms12m
             {
                 expiration = DateTime.Now.AddHours(1);
             }
-            expiration = DateTime.MaxValue;
             var serializer = new JavaScriptSerializer();
             string userData = serializer.Serialize(serializeModel);
             var authTicket = new FormsAuthenticationTicket(1,
