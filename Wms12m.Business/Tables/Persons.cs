@@ -19,7 +19,7 @@ namespace Wms12m.Business
         public override Result Operation(User tbl)
         {
             _Result = new Result();
-            if (tbl.AdSoyad == "" || tbl.Kod == "" || (tbl.ID != 0 && tbl.Sifre.ToString2() == ""))
+            if (tbl.AdSoyad == "" || tbl.Kod == "" || (tbl.ID == 0 && tbl.Sifre.ToString2() == ""))
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
@@ -44,7 +44,6 @@ namespace Wms12m.Business
             if (tbl.ID == 0)
             {
                 tbl.Sirket = "";
-                tbl.Sifre = "";
                 tbl.Email = tbl.Email.ToString2();
                 tbl.Tema = tbl.Tema.ToString2();
                 tbl.Kaydeden = Users.AppIdentity.User.UserName;
@@ -61,7 +60,6 @@ namespace Wms12m.Business
                 tmp.Tip = 0;
                 tmp.Kod = tbl.Kod;
                 tmp.AdSoyad = tbl.AdSoyad;
-                tmp.Sifre = tbl.Sifre.ToString2();
                 tmp.Email = tbl.Email.ToString2();
                 tmp.Tema = tbl.Tema.ToString2();
                 tmp.RoleName = tbl.RoleName;
