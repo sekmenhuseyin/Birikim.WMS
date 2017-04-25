@@ -29,13 +29,19 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                rolePerm.RecordDate = DateTime.Now;
-                rolePerm.RecordUser = vUser.UserName;
-                rolePerm.ModifiedDate = DateTime.Now;
-                rolePerm.ModifiedUser = vUser.UserName;
-                db.RolePerms.Add(rolePerm);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    rolePerm.RecordDate = DateTime.Now;
+                    rolePerm.RecordUser = vUser.UserName;
+                    rolePerm.ModifiedDate = DateTime.Now;
+                    rolePerm.ModifiedUser = vUser.UserName;
+                    db.RolePerms.Add(rolePerm);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                }
+                    return RedirectToAction("Index");
             }
 
             ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName", rolePerm.PermName);
@@ -60,16 +66,22 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                var tbl= db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
-                tbl.RoleName = rolePerm.RoleName;
-                tbl.PermName = rolePerm.PermName;
-                tbl.Reading = rolePerm.Reading;
-                tbl.Writing = rolePerm.Writing;
-                tbl.Updating = rolePerm.Updating;
-                tbl.Deleting = rolePerm.Deleting;
-                tbl.ModifiedDate = DateTime.Now;
-                tbl.ModifiedUser = vUser.UserName;
-                db.SaveChanges();
+                try
+                {
+                    var tbl= db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
+                    tbl.RoleName = rolePerm.RoleName;
+                    tbl.PermName = rolePerm.PermName;
+                    tbl.Reading = rolePerm.Reading;
+                    tbl.Writing = rolePerm.Writing;
+                    tbl.Updating = rolePerm.Updating;
+                    tbl.Deleting = rolePerm.Deleting;
+                    tbl.ModifiedDate = DateTime.Now;
+                    tbl.ModifiedUser = vUser.UserName;
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                }
                 return RedirectToAction("Index");
             }
             ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName", rolePerm.PermName);

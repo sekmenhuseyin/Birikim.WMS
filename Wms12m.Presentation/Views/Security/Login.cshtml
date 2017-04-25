@@ -52,7 +52,10 @@
     });
     function ReturnPage(data) {
         if (data.data)
+        {
             window.location.href = '@Url.Action("Index", "Home")';
+            $("#div_loading").show();
+        }
         else
             Modaldialog('Lütfen bilgilerinizi kontrol edin', 'Login İşlemi', 'Kapat', 'btn-warning');
     }

@@ -35,7 +35,7 @@
             @Html.LabelFor(model => model.Reading, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.Reading)
+                    <input class="check-box form-control" data-val="true" data-val-required="The Reading field is required." id="Reading" name="Reading" type="checkbox" value="true">
                     @Html.ValidationMessageFor(model => model.Reading, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -45,7 +45,7 @@
             @Html.LabelFor(model => model.Writing, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.Writing)
+                    <input class="check-box form-control" data-val="true" data-val-required="The Writing field is required." id="Writing" name="Writing" type="checkbox" value="true">
                     @Html.ValidationMessageFor(model => model.Writing, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -55,7 +55,7 @@
             @Html.LabelFor(model => model.Updating, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.Updating)
+                    <input class="check-box form-control" data-val="true" data-val-required="The Updating field is required." id="Updating" name="Updating" type="checkbox" value="true">
                     @Html.ValidationMessageFor(model => model.Updating, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -65,7 +65,7 @@
             @Html.LabelFor(model => model.Deleting, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.Deleting)
+                    <input class="check-box form-control" data-val="true" data-val-required="The Deleting field is required." id="Deleting" name="Deleting" type="checkbox" value="true">
                     @Html.ValidationMessageFor(model => model.Deleting, "", new { @class = "text-danger" })
                 </div>
             </div>
