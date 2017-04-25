@@ -1,7 +1,13 @@
-﻿12M Yazılım Proje ve Yönetim Danışmanlık Ltd. Şti.
-Ömer Berkli
-/* TEAM */
+﻿/* TEAM */
 Hüseyin Sekmenoğlu
 Derviş Akdeniz
 Fatih Bingöl
 Gizem Altıntaş
+/* THANKS */
+12M Yazılım Proje ve Yönetim Danışmanlık Ltd. Şti.
+Ömer Berkli
+/* SITE */
+Name: WMS - Depo Yönetim Paneli
+Language: Turkish
+Web: http://www.12mconsulting.com.tr/
+Last update: 2017/04/25

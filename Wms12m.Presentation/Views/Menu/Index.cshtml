@@ -35,13 +35,13 @@
                                             @Html.DisplayFor(modelItem => item.Sira)
                                             @Html.ActionLink("⤋", "Move", new { id = item.ID, moveUp = false })
                                         </td>
-                                        <td>@Html.DisplayFor(modelItem => item.Url)</td>
+                                        <td>@{if (item.WebMenu1.Count == 0) {@Html.DisplayFor(modelItem => item.Url)}}</td>
                                         <td>@Html.DisplayFor(modelItem => item.Aktif)</td>
                                         <td>@Html.DisplayFor(modelItem => item.Ad)</td>
-                                        <td><i class="material-icons">@Html.DisplayFor(modelItem => item.Simge.Icon)</i></td>
-                                        <td>
+                                        <td><i class="@Html.DisplayFor(modelItem => item.Simge.Icon)"> </i> @Html.DisplayFor(modelItem => item.Simge.Icon)</td>
+                                        <td align="right">
+                                            @{if (item.WebMenu1.Count > 0) { <text><a class="btn btn-default input-circle" href="/Menu/SubMenu/@item.ID"> Altmenu </a></text> } }
                                             <a class="btn btn-default input-circle" href="/Menu/Permission/@item.ID"> Yetkiler </a>
-                                            <a class="btn btn-default input-circle" href="/Menu/SubMenu/@item.ID"> Altmenu </a>
                                             <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Menu/Editor/@item.ID')"> Düzenle </a>
                                         </td>
                                     </tr>
