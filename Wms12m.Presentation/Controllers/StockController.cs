@@ -14,6 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Index");
         }
@@ -23,6 +24,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult List(string Id)
         {
+            if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
             //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
@@ -50,6 +52,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Cable()
         {
+            if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Cable");
         }
@@ -59,6 +62,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult CableList(int Id)
         {
+            if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
             using (KabloEntities dbx = new KabloEntities())
             {
                 var kblDepoID = Store.Detail(Id).KabloDepoID;
@@ -73,6 +77,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult CableMovements(int ID)
         {
+            if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
             using (KabloEntities dbx = new KabloEntities())
             {
                 var list = dbx.harekets.Where(m => m.id == ID).OrderBy(m => m.tarih).ToList();
@@ -84,6 +89,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult History()
         {
+            if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
             var list = db.Yer_Log.GroupBy(m => m.MalKodu).Select(m => new frmMalKoduMiktar { MalKodu = m.Key, Birim = "", Miktar = 0 }).ToList();
             ViewBag.MalKodu = new SelectList(list, "MalKodu", "MalKodu");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
@@ -95,6 +101,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult Movements(string Id)
         {
+            if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
             if (Id.Contains("#") == false) return null;
             var ids = Id.Split('#');
             var depoID = ids[1].ToInt32();
@@ -107,6 +114,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult ManualPlacement()
         {
+            if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("ManualPlacement");
         }

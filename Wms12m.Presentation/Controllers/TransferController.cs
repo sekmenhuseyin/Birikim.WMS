@@ -14,6 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm("Transfer", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.GirisDepo = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
             ViewBag.CikisDepo = ViewBag.GirisDepo;
@@ -25,6 +26,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Stock(string Id)
         {
+            if (CheckPerm("Transfer", PermTypes.Reading) == false) return null;
             string[] ids = Id.Split('#');
             ViewBag.SirketID = ids[0];
             ViewBag.GirisDepo = ids[1];
@@ -52,6 +54,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Summary(frmTransferMalzemeApprove tbl)
         {
+            if (CheckPerm("Transfer", PermTypes.Writing) == false) return Redirect("/");
             if (tbl.SirketID == "" || tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
             //liste oluştur
@@ -155,6 +158,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult List()
         {
+            if (CheckPerm("Transfer", PermTypes.Reading) == false) return Redirect("/");
             return View("List");
         }
         /// <summary>
@@ -162,6 +166,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult ListDetail(bool Id)
         {
+            if (CheckPerm("Transfer", PermTypes.Reading) == false) return null;
             var list = Transfers.GetList(Id);
             return PartialView("_List", list);
         }
@@ -171,6 +176,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult Details(int ID)
         {
+            if (CheckPerm("Transfer", PermTypes.Reading) == false) return null;
             var list = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
             return PartialView("_Details", list);
         }
@@ -180,6 +186,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Approve(int ID)
         {
+            if (CheckPerm("Transfer", PermTypes.Writing) == false) return Redirect("/");
             //get and set transfer details
             var tbl = Transfers.Detail(ID);
             tbl.Onay = true;
@@ -195,6 +202,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(int ID)
         {
+            if (CheckPerm("Transfer", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result();
             try
             {

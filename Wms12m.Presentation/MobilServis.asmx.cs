@@ -419,13 +419,8 @@ namespace Wms12m
                 return new Result(false, "İşlem bitmemiş !");
             //kaydeden bulunur
             string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
-            //efatura kullanıcısı mı bul
-            bool efatKullanici = false;
-            string sql = "SELECT EFatKullanici FROM FINSAT633.CHK WHERE(HesapKodu = '1')";
-            var tmp = db.Database.SqlQuery<short>(sql).FirstOrDefault();
-            if (tmp == 1) efatKullanici = true;
             //liste getirilir
-            sql = string.Format("SELECT wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, ISNULL(wms.IRS.ValorGun,0) as ValorGun, wms.IRS.EvrakNo " +
+            string sql = string.Format("SELECT wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, ISNULL(wms.IRS.ValorGun,0) as ValorGun, wms.IRS.EvrakNo " +
                                         "FROM wms.GorevIRS INNER JOIN wms.IRS ON wms.GorevIRS.IrsaliyeID = wms.IRS.ID " +
                                         "WHERE (wms.GorevIRS.GorevID = {0}) " +
                                         "GROUP BY wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, wms.IRS.ValorGun, wms.IRS.EvrakNo", mGorev.ID);
@@ -433,6 +428,11 @@ namespace Wms12m
             int tarih = DateTime.Today.ToOADateInt(), saat = DateTime.Now.ToOaTime();
             foreach (var item in list)
             {
+                //efatura kullanıcısı mı bul
+                sql = string.Format("SELECT EFatKullanici FROM FINSAT6{0}.FINSAT6{0}.CHK WHERE (HesapKodu = '{1}')", item.SirketKod, item.HesapKodu);
+                var tmp = db.Database.SqlQuery<short>(sql).FirstOrDefault();
+                bool efatKullanici = false;
+                if (tmp == 1) efatKullanici = true;
                 //listedeki her eleman için döngü yapılır
                 var sonuc = SiparisToplamaToLink(item.SirketKod, item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kaydeden);
                 if (sonuc.Status == true)

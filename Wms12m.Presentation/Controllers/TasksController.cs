@@ -13,6 +13,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm("Tasks", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
             return View("Index");
         }
@@ -21,6 +22,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List(int Id)
         {
+            if (CheckPerm("Tasks", PermTypes.Reading) == false) return null;
             var list = Task.GetList(Id);
             return PartialView("List", list);
         }
@@ -30,6 +32,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult Details(int ID)
         {
+            if (CheckPerm("Tasks", PermTypes.Reading) == false) return null;
             var list = db.GetIrsDetayfromGorev(ID);
             return PartialView("Details", list);
         }
@@ -38,6 +41,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult GorevDetailPartial(int id)
         {
+            if (CheckPerm("Tasks", PermTypes.Reading) == false) return null;
             var list = Task.Detail(id);
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GorevTipleri.ToInt32()), "ID", "Name", list.GorevTipiID);
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name", list.DurumID);
@@ -48,6 +52,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Update(frmGorev tbl)
         {
+            if (CheckPerm("Tasks", PermTypes.Writing) == false) return Redirect("/");
             //update
             Task tmpTable = new Task();
             Result _Result = tmpTable.Update(tbl);
@@ -59,6 +64,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(int ID)
         {
+            if (CheckPerm("Tasks", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result();
             try
             {
@@ -79,6 +85,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult GorevliAta()
         {
+            if (CheckPerm("Tasks", PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             Int32 ID = Convert.ToInt32(id);
@@ -92,6 +99,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult GorevliKaydet(frmGorevli tbl)
         {
+            if (CheckPerm("Tasks", PermTypes.Writing) == false) return Redirect("/");
             Task tmpTable = new Task();
             Result _Result = tmpTable.UpdateGorevli(tbl);
             return RedirectToAction("Index");
