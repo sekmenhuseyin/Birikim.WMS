@@ -387,17 +387,19 @@ namespace Wms12m
                 if (kat != null)
                 {
                     //yerleştirme kaydı yapılır
-                    var stok = new Yerlestirme();
-                    var tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
+                    var yerlestirme = new Yerlestirme();
+                    var tmp2 = yerlestirme.Detail(kat.Value, item.MalKodu, item.Birim);
                     if (tmp2 != null)
                     {
-                        var x = db.GorevYers.Where(m => m.YerID == tmp2.ID && m.GorevID == item.GorevID && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
-                        if (tmp2.Miktar >= item.Miktar && item.Miktar <= (x.Miktar - (x.YerlestirmeMiktari ?? 0)))
+                        var grvYer = db.GorevYers.Where(m => m.YerID == tmp2.ID && m.GorevID == item.GorevID && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
+                        if (tmp2.Miktar >= item.Miktar && item.Miktar <= (grvYer.Miktar - (grvYer.YerlestirmeMiktari ?? 0)))
                         {
-                            tmp2.Miktar -= item.Miktar;
-                            stok.Update(tmp2, item.IrsID, kulID, true, item.Miktar);
                             //raftan indirdiğini kaydet
-                            db.TerminalRaftanIndir(item.IrsID, kat, item.Miktar);
+                            grvYer.YerlestirmeMiktari = (grvYer.YerlestirmeMiktari ?? 0) + item.Miktar;
+                            db.SaveChanges();
+                            //yerlestirme tablosuna kaydet
+                            tmp2.Miktar -= item.Miktar;
+                            yerlestirme.Update(tmp2, item.IrsID, kulID, true, item.Miktar);
                         }
                     }
                 }
@@ -461,18 +463,24 @@ namespace Wms12m
                                               "FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) " +
                                               "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')", item.SirketKod, item2.MalKodu);
                         var stk = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
-                        //makarayı bul
-                        var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.MalAdi4 && m.cins == stk.Nesne2 && m.kesit == stk.Kod15 && m.id == item2.KynkSiparisID).FirstOrDefault();
-                        //yeni hareket ekle
-                        hareket tbl = new hareket()
+                        if (stk != null)
                         {
-                            id = kablo.id,
-                            miktar = item2.Miktar,
-                            musteri = item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
-                            tarih = DateTime.Now
-                        };
-                        dbx.harekets.Add(tbl);
-                        dbx.SaveChanges();
+                            //makarayı bul
+                            var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.MalAdi4 && m.cins == stk.Nesne2 && m.kesit == stk.Kod15 && m.id == item2.KynkSiparisID).FirstOrDefault();
+                            //kabloya açık yap
+                            if (kablo.miktar != item2.Miktar)
+                                kablo.makara = "AÇIK";
+                            //yeni hareket ekle
+                            hareket tbl = new hareket()
+                            {
+                                id = kablo.id,
+                                miktar = item2.Miktar,
+                                musteri = item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
+                                tarih = DateTime.Now
+                            };
+                            dbx.harekets.Add(tbl);
+                            dbx.SaveChanges();
+                        }
                     }
                 }
             }
@@ -509,7 +517,7 @@ namespace Wms12m
             try
             {
                 var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, 3, 2017);//TODO: seriler user dan gelecek bir şekilde
-                return new Result(true, sonuc.Mesaj);
+                return new Result(sonuc.Basarili, sonuc.Mesaj);
             }
             catch (Exception ex)
             {

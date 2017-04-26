@@ -1098,11 +1098,6 @@
           <Parameter Name="GörevTipiID" Type="int" Mode="In" />
           <Parameter Name="YeniGorevTipiID" Type="int" Mode="In" />
         </Function>
-        <Function Name="TerminalRaftanIndir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="irsID" Type="int" Mode="In" />
-          <Parameter Name="KatID" Type="int" Mode="In" />
-          <Parameter Name="Miktar" Type="numeric" Mode="In" />
-        </Function>
         <Function Name="YetkiDepo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="ID" Type="int" Mode="In" />
         </Function>
@@ -1643,11 +1638,6 @@
             <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
             <Parameter Name="GörevTipiID" Mode="In" Type="Int32" />
             <Parameter Name="YeniGorevTipiID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="TerminalRaftanIndir">
-            <Parameter Name="irsID" Mode="In" Type="Int32" />
-            <Parameter Name="KatID" Mode="In" Type="Int32" />
-            <Parameter Name="Miktar" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="YetkiDepo" ReturnType="Collection(MModel.YetkiDepo_Result)">
           <Parameter Name="ID" Mode="In" Type="Int32" />
@@ -3168,7 +3158,6 @@
           <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
           <FunctionImportMapping FunctionImportName="SettingsIrsaliyeNo" FunctionName="MModel.Store.SettingsIrsaliyeNo" />
           <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
-          <FunctionImportMapping FunctionImportName="TerminalRaftanIndir" FunctionName="MModel.Store.TerminalRaftanIndir" />
           <FunctionImportMapping FunctionImportName="YetkiDepo" FunctionName="MModel.Store.YetkiDepo">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.YetkiDepo_Result">

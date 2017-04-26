@@ -324,23 +324,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.TerminalFinishGorev", gorevIDParameter, irsaliyeIDParameter, yeniGorevNoParameter, bitisTarihiParameter, bitisSaatiParameter, kullaniciIDParameter, linkEvrakNoParameter, görevTipiIDParameter, yeniGorevTipiIDParameter);
         }
     
-        public virtual int TerminalRaftanIndir(Nullable<int> irsID, Nullable<int> katID, Nullable<decimal> miktar)
-        {
-            var irsIDParameter = irsID.HasValue ?
-                new ObjectParameter("irsID", irsID) :
-                new ObjectParameter("irsID", typeof(int));
-    
-            var katIDParameter = katID.HasValue ?
-                new ObjectParameter("KatID", katID) :
-                new ObjectParameter("KatID", typeof(int));
-    
-            var miktarParameter = miktar.HasValue ?
-                new ObjectParameter("Miktar", miktar) :
-                new ObjectParameter("Miktar", typeof(decimal));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.TerminalRaftanIndir", irsIDParameter, katIDParameter, miktarParameter);
-        }
-    
         public virtual ObjectResult<YetkiDepo_Result> YetkiDepo(Nullable<int> iD)
         {
             var iDParameter = iD.HasValue ?
