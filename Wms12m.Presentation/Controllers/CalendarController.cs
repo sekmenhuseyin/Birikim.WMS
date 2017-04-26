@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class CalendarController : Controller
+    public class CalendarController : RootController
     {
         // GET: Calendar
         public ActionResult Index()

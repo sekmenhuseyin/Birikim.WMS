@@ -140,22 +140,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\ajaxloader.gif" />
-    <Content Include="Content\assets\apps\css\inbox.css" />
-    <Content Include="Content\assets\apps\css\inbox.min.css" />
-    <Content Include="Content\assets\apps\css\ticket.css" />
-    <Content Include="Content\assets\apps\css\ticket.min.css" />
-    <Content Include="Content\assets\apps\css\todo-2.css" />
-    <Content Include="Content\assets\apps\css\todo-2.min.css" />
-    <Content Include="Content\assets\apps\css\todo.css" />
-    <Content Include="Content\assets\apps\css\todo.min.css" />
-    <Content Include="Content\assets\apps\scripts\calendar.js" />
-    <Content Include="Content\assets\apps\scripts\calendar.min.js" />
-    <Content Include="Content\assets\apps\scripts\inbox.js" />
-    <Content Include="Content\assets\apps\scripts\inbox.min.js" />
-    <Content Include="Content\assets\apps\scripts\todo-2.js" />
-    <Content Include="Content\assets\apps\scripts\todo-2.min.js" />
-    <Content Include="Content\assets\apps\scripts\todo.js" />
-    <Content Include="Content\assets\apps\scripts\todo.min.js" />
     <Content Include="Content\assets\global\css\components-md.css" />
     <Content Include="Content\assets\global\css\components-md.min.css" />
     <Content Include="Content\assets\global\css\plugins-md.css" />
