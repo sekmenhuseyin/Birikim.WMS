@@ -25,7 +25,6 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult FloorGridPartial(string Id)
         {
             if (CheckPerm("Floor", PermTypes.Reading) == false) return null;
-            int CorridorId = 0;
             int StoreId = 0;
             int ShelfId = 0;
             int SectionId = 0;
@@ -37,9 +36,8 @@ namespace Wms12m.Presentation.Controllers
                 {
                     Locked = Id.Split('#')[0];
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
-                    CorridorId = Convert.ToInt16(Id.Split('#')[2]);
-                    ShelfId = Convert.ToInt16(Id.Split('#')[3]);
-                    SectionId = Convert.ToInt16(Id.Split('#')[4]);
+                    ShelfId = Convert.ToInt16(Id.Split('#')[2]);
+                    SectionId = Convert.ToInt16(Id.Split('#')[3]);
                     _List = Locked == "Locked" ? Floor.GetList(SectionId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Floor.GetList(SectionId).Where(a => a.Aktif == false).ToList() : Floor.GetList(SectionId).ToList();
                     return PartialView("_FloorGridPartial", _List);
                 }

@@ -28,7 +28,6 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult SectionGridPartial(string Id)
         {
             if (CheckPerm("Section", PermTypes.Reading) == false) return null;
-            int CorridorId = 0;
             int StoreId = 0;
             int ShelfId = 0;
             string Locked = "";
@@ -40,8 +39,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     Locked = Id.Split('#')[0];
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
-                    CorridorId = Convert.ToInt16(Id.Split('#')[2]);
-                    ShelfId = Convert.ToInt16(Id.Split('#')[3]);
+                    ShelfId = Convert.ToInt16(Id.Split('#')[2]);
                     _List = Locked == "Locked" ? SectionOperation.GetList(ShelfId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? SectionOperation.GetList(ShelfId).Where(a => a.Aktif ==false).ToList() : SectionOperation.GetList(ShelfId).ToList();
                     return PartialView("_SectionGridPartial", _List);
                 }

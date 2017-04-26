@@ -36,13 +36,7 @@
                                     <div class="row">
                                         <div class="col-sm-4">Depo</div>
                                         <div class="col-sm-8">
-                                            @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle DepoID", @onchange = "getCorridor(this.value,'CorridorList');" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">Koridor</div>
-                                        <div class="col-sm-8">
-                                            <select id="CorridorList" class="form-control input-circle KoridorID" onchange="getShelf(this.value, 'ShelfListi');"></select>
+                                            @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle DepoID", @onchange = "getShelf(this.value,'ShelfListi');" })
                                         </div>
                                     </div>
                                     <div class="row">
@@ -87,30 +81,11 @@
         $('#SectionListi').on('change', function () { FuncSearchBtn(); })
         InsertRefresh();
     });
-    function getCorridor(id, what) {
-        $("#" + what + " option").remove();
-        $('#FloorGrid').html("");
-        if (what == "RafID") { $("#RafID option").remove(); $("#RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0; }
-        $.ajax({
-            url: "/Corridor/CorridorList/" + id,
-            type: 'POST',
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data != "") {
-                    $.each(data, function (i, item) {
-                        $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
-                    });
-                    $("#" + what).prepend("<option value='0'>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
-                }
-            }
-        });
-    }
     function getShelf(id, what) {
         $("#" + what + " option").remove();
-        $('#FloorGrid').html("");
+        if (what == "ShelfListi") $('#FloorGrid').html("");
         $.ajax({
-            url: "/Shelf/ShelfList/" + id,
+            url: "/Shelf/ShelfList2/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -126,7 +101,7 @@
     }
     function getSection(id, what) {
         $("#" + what + " option").remove();
-        $('#FloorGrid').html("");
+        if (what == "SectionListi") $('#FloorGrid').html("");
         $.ajax({
             url: "/Section/SectionList/" + id,
             type: 'POST',
@@ -145,11 +120,10 @@
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
         var StoreId = $(".StoreListi option:selected").val(); if (StoreId == null) StoreId = 0;
-        var CorridorId = $("#CorridorList option:selected").val(); if (CorridorId == null) CorridorId = 0;
         var ShelfId = $("#ShelfListi option:selected").val(); if (ShelfId == null) ShelfId = 0;
         var SectionId = $("#SectionListi option:selected").val(); if (SectionId == null) SectionId = 0;
         $('#FloorGrid').html("");
-        PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId + "#" + ShelfId + "#" + SectionId) }));
+        PartialView(FloorGridUrl, 'FloorGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + ShelfId + "#" + SectionId) }));
     }
     function FloorReturn(Data) {
         FuncSearchBtn();
