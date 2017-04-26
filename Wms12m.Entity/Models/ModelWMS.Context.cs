@@ -421,5 +421,26 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<short>>("WMSEntities.MenuFindAktif", webSiteTipiNoParameter, menuYeriNoParameter, roleNameParameter, ustMenuIDParameter, urlParameter);
         }
+    
+        public virtual ObjectResult<Nullable<bool>> GetPermissionFor(string roleName, string permName, string group, string perm)
+        {
+            var roleNameParameter = roleName != null ?
+                new ObjectParameter("RoleName", roleName) :
+                new ObjectParameter("RoleName", typeof(string));
+    
+            var permNameParameter = permName != null ?
+                new ObjectParameter("PermName", permName) :
+                new ObjectParameter("PermName", typeof(string));
+    
+            var groupParameter = group != null ?
+                new ObjectParameter("Group", group) :
+                new ObjectParameter("Group", typeof(string));
+    
+            var permParameter = perm != null ?
+                new ObjectParameter("Perm", perm) :
+                new ObjectParameter("Perm", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("WMSEntities.GetPermissionFor", roleNameParameter, permNameParameter, groupParameter, permParameter);
+        }
     }
 }

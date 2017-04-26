@@ -1000,6 +1000,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetPermissionFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RoleName" Type="varchar" Mode="In" />
+          <Parameter Name="PermName" Type="varchar" Mode="In" />
+          <Parameter Name="Group" Type="varchar" Mode="In" />
+          <Parameter Name="Perm" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetSirketDBs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1682,6 +1688,12 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="RolePerm" EntitySet="RolePerms" />
           </AssociationSet>
+          <FunctionImport Name="GetPermissionFor" ReturnType="Collection(Boolean)">
+            <Parameter Name="RoleName" Mode="In" Type="String" />
+            <Parameter Name="PermName" Mode="In" Type="String" />
+            <Parameter Name="Group" Mode="In" Type="String" />
+            <Parameter Name="Perm" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Combo_Name">
           <Key>
@@ -3221,6 +3233,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetPermissionFor" FunctionName="MModel.Store.GetPermissionFor" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

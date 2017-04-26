@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Wms12m.Business;
 using Wms12m.Entity.Models;
@@ -27,11 +28,10 @@ namespace Wms12m.Presentation.Controllers
         public Yerlestirme Yerlestirme = new Yerlestirme();
         public Transfers Transfers = new Transfers();
 
-        public bool CheckPerm(string control, PermTypes permtype)
+        public bool CheckPerm(string permName, PermTypes permtype)
         {
-            var sql = "SELECT " + permtype.ToString() + " FROM usr.RolePerm WHERE (RoleName = '" + vUser.RoleName + "') AND (PermName = '" + control + "')";
-            var sonuc=db.Database.SqlQuery<bool>(sql).FirstOrDefaultAsync();
-            return sonuc.Result;
+            var sonuc = db.GetPermissionFor(vUser.RoleName, permName, "WMS", permtype.ToString()).FirstOrDefault().Value;
+            return sonuc;
         }
         /// <summary>
         /// user için kısayol
