@@ -76,7 +76,7 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            if (CheckPerm("Corridor", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Corridor", PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             List<Koridor> _List = new List<Koridor>();
             try
             {

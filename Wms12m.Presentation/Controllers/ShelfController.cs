@@ -73,18 +73,48 @@ namespace Wms12m.Presentation.Controllers
             }
         }
         /// <summary>
-        /// listesi
+        /// koridora ait raf listesi
         /// </summary>
         [HttpPost]
         public JsonResult ShelfList()
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            if (CheckPerm("Shelf", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Shelf", PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             List<Raf> _List = new List<Raf>();
             try
             {
                 _List = Shelf.GetList().Where(a => a.KoridorID == Convert.ToInt16(id)).ToList();
+                List<SelectListItem> List = new List<SelectListItem>();
+                foreach (Raf item in _List)
+                {
+                    List.Add(new SelectListItem
+                    {
+                        Selected = false,
+                        Text = item.RafAd,
+                        Value = item.ID.ToString()
+                    });
+                }
+                return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(_List, JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// depoya ait raf listesi
+        /// </summary>
+        [HttpPost]
+        public JsonResult ShelfList2()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            if (CheckPerm("Shelf", PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            List<Raf> _List = new List<Raf>();
+            try
+            {
+                _List = Shelf.GetList().Where(a => a.Koridor.DepoID == Convert.ToInt16(id)).ToList();
                 List<SelectListItem> List = new List<SelectListItem>();
                 foreach (Raf item in _List)
                 {
