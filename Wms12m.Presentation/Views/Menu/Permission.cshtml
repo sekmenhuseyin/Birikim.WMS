@@ -15,9 +15,6 @@
 						<div class="caption">
 							<i class="fa fa-gift"></i>Yetkiler
 						</div>
-						<div class="col-md-2 pull-right m-t-5">
-							<a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Menu/New')"> Yeni </a>
-						</div>
 					</div>
 					<div class="portlet-body form">
 						@using (Html.BeginForm("Permission", "Menu", FormMethod.Post, new { @class = "form", id = "frmPermission", role = "form" }))
@@ -31,7 +28,7 @@
 								<div class="row form-group">
 									<input type="hidden" name="MenuNo" value="@ViewBag.MenuID" />
 									<input type="hidden" name="RolNo" id="RolNo" value="" />
-									<div class="col-md-offset-1 col-md-1">@Html.ActionLink("<<< Geri Dön", "Index")</div>
+									<div class="col-md-offset-1 col-md-1"><button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button></div>
 									<div class="col-md-offset-6 col-md-4"><input type="button" onclick="frmSubmit();" value="Kaydet" class="btn btn-primary" /></div>
 								</div>
 							</div>

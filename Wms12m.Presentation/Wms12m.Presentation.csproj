@@ -401,8 +401,7 @@
     <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Views\Buy\List.cshtml" />
     <Content Include="Views\Menu\Permission.cshtml" />
-    <Content Include="Views\Perms\Create.cshtml" />
-    <Content Include="Views\Perms\Edit.cshtml" />
+    <Content Include="Views\Perms\Editor.cshtml" />
     <Content Include="Views\Perms\Index.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\Inbox\Index.cshtml" />

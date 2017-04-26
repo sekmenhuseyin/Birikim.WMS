@@ -15,7 +15,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Perms", PermTypes.Reading) == false) return Redirect("/");
             var rolePerms = db.RolePerms.Include(r => r.Perm).Include(r => r.Role);
-            return View(rolePerms.ToList());
+            return View("Index", rolePerms.ToList());
         }
 
         // GET: Perms/Create
@@ -24,7 +24,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Perms", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName");
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName");
-            return View();
+            return View("Editor");
         }
 
         // POST: Perms/Create
@@ -42,16 +42,9 @@ namespace Wms12m.Presentation.Controllers
                     rolePerm.ModifiedUser = vUser.UserName;
                     db.RolePerms.Add(rolePerm);
                     db.SaveChanges();
-                }
-                catch (Exception)
-                {
-                }
-                    return RedirectToAction("Index");
+                }catch (Exception){}
             }
-
-            ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName", rolePerm.PermName);
-            ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName", rolePerm.RoleName);
-            return View(rolePerm);
+            return RedirectToAction("Index");
         }
 
         // GET: Perms/Edit/5
@@ -63,7 +56,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Perms", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName", rolePerm.PermName);
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName", rolePerm.RoleName);
-            return View(rolePerm);
+            return View("Editor", rolePerm);
         }
 
         // POST: Perms/Edit/5
@@ -85,15 +78,9 @@ namespace Wms12m.Presentation.Controllers
                     tbl.ModifiedDate = DateTime.Now;
                     tbl.ModifiedUser = vUser.UserName;
                     db.SaveChanges();
-                }
-                catch (Exception)
-                {
-                }
-                return RedirectToAction("Index");
+                }catch (Exception){}
             }
-            ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName", rolePerm.PermName);
-            ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName", rolePerm.RoleName);
-            return View(rolePerm);
+            return RedirectToAction("Index");
         }
     }
 }

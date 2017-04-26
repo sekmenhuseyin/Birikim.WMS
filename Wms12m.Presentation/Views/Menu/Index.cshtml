@@ -3,7 +3,7 @@
     ViewBag.Title = "Menu";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var counter = 0;
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Menu</span></li></ul></div>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li>@{if (ViewBag.Sub == true) { <text><li><a href="/Menu">Menu</a><i class="fa fa-circle"></i></li><li><span>Alt Menu</span></li></text> } else { <text><li><span>Menu</span></li></text> } }</ul></div>
 <h1 class="page-title">Menu</h1>
 <div class="row">
     <div class="col-md-12">

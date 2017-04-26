@@ -16,6 +16,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Menu", PermTypes.Reading) == false) return Redirect("/");
             var webMenus = db.WebMenus.Where(m => m.UstMenuID == null).OrderBy(m => m.MenuYeriID).ThenBy(m => m.Sira);
+            ViewBag.Sub = false;
             return View("Index", webMenus.ToList());
         }
         /// <summary>
@@ -25,6 +26,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Menu", PermTypes.Reading) == false) return Redirect("/");
             var webMenus = db.WebMenus.Where(m => m.UstMenuID == id).OrderBy(m => m.MenuYeriID).ThenBy(m => m.Sira);
+            ViewBag.Sub = true;
             return View("Index", webMenus.ToList());
         }
         /// <summary>
