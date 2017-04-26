@@ -99,13 +99,7 @@
                                     <div class="row">
                                         <div class="col-sm-4">Depo</div>
                                         <div class="col-sm-8">
-                                            @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle DepoID", required = "required", @onchange = "getCorridor(this.value,'CorridorList');" })
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">Koridor</div>
-                                        <div class="col-sm-8">
-                                            <select id="CorridorList" class="form-control input-circle"></select>
+                                            @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle DepoID", required = "required", @onchange = "FuncSearchBtn();" })
                                         </div>
                                     </div>
                                 </div>
@@ -134,11 +128,9 @@
         @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}
         $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
-        $('#CorridorList').on('change', function () { FuncSearchBtn(); })
     });
     function getCorridor(id, what) {
         $("#" + what + " option").remove();
-        $('#ShelfGrid').html("");
         $.ajax({
             url: "/Corridor/CorridorList/" + id,
             type: 'POST',
@@ -157,9 +149,8 @@
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
         var StoreId = $(".StoreListi option:selected").val(); if (StoreId == null) StoreId = 0;
-        var CorridorId = $("#CorridorList option:selected").val(); if (CorridorId == null) CorridorId = 0;       
         $('#ShelfGrid').html("");
-        PartialView(ShelfGridUrl, 'ShelfGrid', JSON.stringify({ Id: (Type + "#" + StoreId + "#" + CorridorId) }));
+        PartialView(ShelfGridUrl, 'ShelfGrid', JSON.stringify({ Id: (Type + "#" + StoreId) }));
     }
     function ShelfReturn(Data) {
         FuncSearchBtn();

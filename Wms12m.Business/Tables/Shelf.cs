@@ -131,6 +131,10 @@ namespace Wms12m.Business
         {
             return db.Rafs.Where(m => m.KoridorID == ParentId).ToList();
         }
+        public List<Raf> GetListByDepo(int DepoID)
+        {
+            return db.Rafs.Where(m => m.Koridor.DepoID == DepoID).ToList();
+        }
         /// <summary>
         /// dispose
         /// </summary>

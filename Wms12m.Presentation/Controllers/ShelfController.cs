@@ -26,7 +26,6 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult ShelfGridPartial(string Id)
         {
             if (CheckPerm("Shelf", PermTypes.Reading) == false) return Redirect("/");
-            int CorridorId = 0;
             int StoreId = 0;
             string Locked = "";
             List<Raf> _List = new List<Raf>();
@@ -34,15 +33,14 @@ namespace Wms12m.Presentation.Controllers
             {
                 if (Id.IndexOf("#") > -1)
                 {
-                    CorridorId = Convert.ToInt16(Id.Split('#')[2]);
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
                     Locked = Id.Split('#')[0];
-                     _List = Locked == "Locked" ? Shelf.GetList(CorridorId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Shelf.GetList(CorridorId).Where(a => a.Aktif == false).ToList() : Shelf.GetList(CorridorId).ToList();
+                     _List = Locked == "Locked" ? Shelf.GetListByDepo(StoreId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Shelf.GetListByDepo(StoreId).Where(a => a.Aktif == false).ToList() : Shelf.GetListByDepo(StoreId).ToList();
                     return PartialView("_ShelfGridPartial", _List);
                 }
                 else
                 {
-                    _List = Shelf.GetList(Convert.ToInt16(Id));
+                    _List = Shelf.GetListByDepo(Convert.ToInt16(Id));
                     return PartialView("_ShelfGridPartial", _List);
                 }
             }
