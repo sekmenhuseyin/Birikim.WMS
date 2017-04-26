@@ -10,6 +10,7 @@
         public short SiraNo { get; set; }
         public string EvrakNo { get; set; }
         public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
         public string MalAdi4 { get; set; }//marka
         public string Nesne2 { get; set; }//cins
         public string Kod15 { get; set; }//kesit
@@ -27,6 +28,7 @@
         public string EvrakNo { get; set; }
         public int id { get; set; }
         public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
         public decimal Miktar { get; set; }
         public decimal stok { get; set; }
         public string marka { get; set; }
