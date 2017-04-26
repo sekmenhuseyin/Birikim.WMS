@@ -80,6 +80,36 @@ namespace Wms12m.Presentation.Controllers
             }
         }
         /// <summary>
+        /// bölüme ait kat listesi
+        /// </summary>
+        [HttpPost]
+        public JsonResult FloorList()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            if (CheckPerm("Floor", PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            List<Kat> _List = new List<Kat>();
+            try
+            {
+                _List = Floor.GetList().Where(a => a.BolumID == Convert.ToInt16(id)).ToList();
+                List<SelectListItem> List = new List<SelectListItem>();
+                foreach (Kat item in _List)
+                {
+                    List.Add(new SelectListItem
+                    {
+                        Selected = false,
+                        Text = item.KatAd,
+                        Value = item.ID.ToString()
+                    });
+                }
+                return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(_List, JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
         /// sil
         /// </summary>
         public JsonResult Delete(string Id)

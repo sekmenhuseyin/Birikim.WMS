@@ -18,22 +18,37 @@
                             <div class="form-group">
                                 <div class="col-sm-3 control-label">Depo</div>
                                 <div class="col-sm-4">
-                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle", @onchange = "getCorridor(this.value);" })
+                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", @onchange = "getShelf(this.value);" })
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-3 control-label">Koridor</div>
-                                <div class="col-sm-4">
-                                    <select id="KoridorID" class="form-control input-circle" onchange="getShelf(this.value);"></select>
+                                <label class="col-md-3 control-label">Raf</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("RafID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "getSection(this.value);" })
+                                    <span class="field-validation-valid" data-valmsg-for="ShelfList" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-3 control-label">Raf</div>
-                                <div class="col-sm-4">
-                                    <select id="RafID" class="form-control input-circle" onchange="FuncSearchBtn();"></select>
+                                <label class="col-md-3 control-label">Bölüm</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("BolumID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "getFloor(this.value);" })
+                                    <span class="field-validation-valid" data-valmsg-for="ShelfList" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
-                            <div id="Grid" class="p-30"></div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Kat</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("KatID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+                                    <span class="field-validation-valid" data-valmsg-for="KatAd" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Mal Kodu</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.MalKodu, new { @class = "form-control input-circle", @placeholder = "Mal Kodu", required = "required" })
+                                    <span class="field-validation-valid" data-valmsg-for="Mal Kodu" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -42,5 +57,61 @@
     </div>
 </div>
 @section Scripts{
-
+<script>
+    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+    function getShelf(id) {
+        $("#RafID option").remove();
+        $("#BolumID option").remove();
+        $("#KatID option").remove();
+        $.ajax({
+            url: "/Shelf/ShelfList2/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#RafID').append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0;
+                }
+            }
+        });
+    }
+    function getSection(id) {
+        $("#BolumID option").remove();
+        $("#KatID option").remove();
+        $.ajax({
+            url: "/Section/SectionList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#BolumID').append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#BolumID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#BolumID")[0].selectedIndex = 0;
+                }
+            }
+        });
+    }
+    function getFloor(id) {
+        $("#KatID option").remove();
+        $.ajax({
+            url: "/Floor/FloorList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#KatID').append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#KatID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#KatID")[0].selectedIndex = 0;
+                }
+            }
+        });
+    }
+</script>
 }

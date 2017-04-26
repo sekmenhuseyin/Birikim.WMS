@@ -114,6 +114,10 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
+            ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
+            ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
+            ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
             return View("ManualPlacement");
         }
     }
