@@ -243,13 +243,10 @@
     <Content Include="Content\assets\layouts\layout\scripts\layout.min.js">
       <DependentUpon>layout.js</DependentUpon>
     </Content>
-    <Content Include="Content\assets\pages\css\login.css" />
-    <Content Include="Content\assets\pages\css\login.min.css">
-      <DependentUpon>login.css</DependentUpon>
-    </Content>
     <Content Include="Content\assets\pages\img\bg-opacity.png" />
     <Content Include="Content\assets\pages\img\bg-white-lock.png" />
     <Content Include="Content\assets\pages\img\bg-white.png" />
+    <Content Include="Content\assets\pages\img\bg.jpg" />
     <Content Include="Content\assets\pages\img\inbox-nav-arrow-blue.png" />
     <Content Include="Content\Scripts\Functions.js" />
     <Content Include="Content\Scripts\Functions.min.js">
