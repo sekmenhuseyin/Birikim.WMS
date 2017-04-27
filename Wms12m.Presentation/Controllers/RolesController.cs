@@ -47,8 +47,14 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(role).State = EntityState.Modified;
-                db.SaveChanges();
+                try
+                {
+                    db.Entry(role).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch (System.Exception)
+                {
+                }
             }
             return RedirectToAction("Index");
         }
@@ -56,9 +62,15 @@ namespace Wms12m.Presentation.Controllers
         // GET: Roles/Delete/5
         public ActionResult Delete(string id)
         {
-            Role role = db.Roles.Find(id);
-            db.Roles.Remove(role);
-            db.SaveChanges();
+            try
+            {
+                Role role = db.Roles.Find(id);
+                db.Roles.Remove(role);
+                db.SaveChanges();
+            }
+            catch (System.Exception)
+            {
+            }
             return RedirectToAction("Index");
         }
     }
