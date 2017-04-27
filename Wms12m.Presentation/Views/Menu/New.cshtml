@@ -14,14 +14,14 @@
 						<div class="form-horizontal">
 							@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 							<div class="form-group">
-								@Html.LabelFor(model => model.SiteTipiID, "SiteTipiID", htmlAttributes: new { @class = "control-label col-md-2" })
+								@Html.LabelFor(model => model.SiteTipiID, "Site Tipi", htmlAttributes: new { @class = "control-label col-md-2" })
 								<div class="col-md-10">
 									@Html.DropDownList("SiteTipiID", null, htmlAttributes: new { @class = "form-control", required = "required" })
 									@Html.ValidationMessageFor(model => model.SiteTipiID, "", new { @class = "text-danger" })
 								</div>
 							</div>
 							<div class="form-group">
-								@Html.LabelFor(model => model.MenuYeriID, "MenuYeriID", htmlAttributes: new { @class = "control-label col-md-2" })
+								@Html.LabelFor(model => model.MenuYeriID, "Menu Yeri", htmlAttributes: new { @class = "control-label col-md-2" })
 								<div class="col-md-10">
 									@Html.DropDownList("MenuYeriID", null, htmlAttributes: new { @class = "form-control", required = "required" })
 									@Html.ValidationMessageFor(model => model.MenuYeriID, "", new { @class = "text-danger" })
@@ -35,14 +35,14 @@
 								</div>
 							</div>
 							<div class="form-group">
-								@Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-2" })
+								@Html.LabelFor(model => model.Url, "URL", htmlAttributes: new { @class = "control-label col-md-2" })
 								<div class="col-md-10">
 									@Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control" } })
 									@Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
 								</div>
 							</div>
 							<div class="form-group">
-								@Html.LabelFor(model => model.SimgeID, "SimgeID", htmlAttributes: new { @class = "control-label col-md-2" })
+								@Html.LabelFor(model => model.SimgeID, "Simge", htmlAttributes: new { @class = "control-label col-md-2" })
 								<div class="col-md-1"><i class="" id="divIcon"> </i></div>
 								<div class="col-md-9">									
 									@Html.DropDownList("SimgeID", null, htmlAttributes: new { @class = "form-control", onchange = "Iconize(this);" })
@@ -50,7 +50,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								@Html.LabelFor(model => model.UstMenuID, "UstMenuID", htmlAttributes: new { @class = "control-label col-md-2" })
+								@Html.LabelFor(model => model.UstMenuID, "Üst Menü", htmlAttributes: new { @class = "control-label col-md-2" })
 								<div class="col-md-10">
 									@Html.DropDownList("UstMenuID", null, htmlAttributes: new { @class = "form-control" })
 									@Html.ValidationMessageFor(model => model.UstMenuID, "", new { @class = "text-danger" })

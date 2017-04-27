@@ -71,6 +71,14 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("Pass", new frmUserChangePass());
         }
         /// <summary>
+        /// kişiye yetki atama sayfası
+        /// </summary>
+        public PartialViewResult Perm()
+        {
+
+            return PartialView("Perm", new frmUserChangePass());
+        }
+        /// <summary>
         /// depo yetkisini kaydet
         /// </summary>
         [HttpPost]
