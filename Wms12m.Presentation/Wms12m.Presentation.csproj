@@ -398,7 +398,7 @@
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\Inbox\Index.cshtml" />
     <Content Include="Views\MyAccount\Index.cshtml" />
-    <Content Include="Views\Roles\Editor.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Users\Perm.cshtml" />
     <None Include="Web.Debug.config">

@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Controllers
         // GET: Roles/Create
         public ActionResult Create()
         {
-            return View("Editor");
+            return View("Create", new Role());
         }
 
         // POST: Roles/Create
@@ -28,33 +28,6 @@ namespace Wms12m.Presentation.Controllers
             {
                 db.Roles.Add(role);
                 db.SaveChanges();
-            }
-            return RedirectToAction("Index");
-        }
-
-        // GET: Roles/Edit/5
-        public ActionResult Edit(string id)
-        {
-            Role role = db.Roles.Find(id);
-            if (role == null)
-                return RedirectToAction("Index");
-            return View("Editor", role);
-        }
-
-        // POST: Roles/Edit/5
-        [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,RoleName")] Role role)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    db.Entry(role).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-                catch (System.Exception)
-                {
-                }
             }
             return RedirectToAction("Index");
         }
