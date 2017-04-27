@@ -2,8 +2,7 @@
 @{
 	ViewBag.Title = "Yetkiler";
 	Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles {
-	<link href="~/Content/assets/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+}@section Styles {<link href="~/Content/assets/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Menu">Menu</a><i class="fa fa-circle"></i></li><li><span>Yetkiler</span></li></ul></div>
 <h1 class="page-title">Yetkiler</h1>
 <div class="row">
@@ -39,39 +38,38 @@
 		</div>
 	</div>
 </div>
-@section Scripts{
-<script src="~/Content/assets/global/plugins/jstree/dist/jstree.min.js"></script>
+@section Scripts{<script src="~/Content/assets/global/plugins/jstree/dist/jstree.min.js"></script>
 <script>
-function frmSubmit()
-{
-	$('#RolNo').val($('#permTree').jstree(true).get_bottom_selected());
-	$('#RolNo').val($('#RolNo').val().replace(/_anchor/gi, "").replace(/tree/gi, ""));
-	$('#frmPermission').submit();
-}
-$(document).ready(function () {
-	"use strict";
-	$('#permTree').jstree({
-		'plugins': ["wholerow", "checkbox", "types"],
-		'core': {
-			"themes": {
-				"responsive": false
-			},
-			'data': [{
-				"text": "Hepsini Seç", "state": { "opened": true },
-				"children": [@foreach (var item in Model) {
-					<text> { "text": "@item.RoleName", "id": "tree@{@item.ID}", "state": { @if(@item.Perm!=null){<text>"selected": true</text>} } },</text>
-				}]
-			}]
-		},
-		"types": {
-			"default": {
-				"icon": "fa fa-folder text-primary fa-lg"
-			},
-			"file": {
-				"icon": "fa fa-file text-success fa-lg"
-			}
-		}
-	});
-});
+    function frmSubmit()
+    {
+	    $('#RolNo').val($('#permTree').jstree(true).get_bottom_selected());
+	    $('#RolNo').val($('#RolNo').val().replace(/_anchor/gi, "").replace(/tree/gi, ""));
+	    $('#frmPermission').submit();
+    }
+    $(document).ready(function () {
+	    "use strict";
+	    $('#permTree').jstree({
+		    'plugins': ["wholerow", "checkbox", "types"],
+		    'core': {
+			    "themes": {
+				    "responsive": false
+			    },
+			    'data': [{
+				    "text": "Hepsini Seç", "state": { "opened": true },
+				    "children": [@foreach (var item in Model) {
+					    <text> { "text": "@item.RoleName", "id": "tree@{@item.ID}", "state": { @if(@item.Perm!=null){<text>"selected": true</text>} } },</text>
+				    }]
+			    }]
+		    },
+		    "types": {
+			    "default": {
+				    "icon": "fa fa-folder text-primary fa-lg"
+			    },
+			    "file": {
+				    "icon": "fa fa-file text-success fa-lg"
+			    }
+		    }
+	    });
+    });
 </script>
 }
