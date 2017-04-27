@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Entity.Mysql;
@@ -34,7 +35,9 @@ namespace Wms12m.Presentation.Controllers
             string[] ids = Id.Split('#');
             try
             {
-                if (ids[1] != "0") //bir raftaki ait malzemeler
+                if (ids[2] != "0" && ids[2].ToString2() != "") //bir raftaki ait malzemeler
+                    return PartialView("List", Yerlestirme.GetList(ids[2].ToInt32()));
+                else if(ids[1] != "0" && ids[1].ToString2() != "") //bir raftaki ait malzemeler
                     return PartialView("List", Yerlestirme.GetListFromRaf(ids[1].ToInt32()));
                 else// if (ids[0] != "0") //tüm depoya ait malzemeler: burada timeout verebilir
                     return PartialView("List", Yerlestirme.GetListFromDepo(ids[0].ToInt32()));
@@ -118,7 +121,37 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
             ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
-            return View("ManualPlacement");
+            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
+            return View("ManualPlacement", new Yer());
+        }
+        /// <summary>
+        /// manual yerleştir
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult ManualPlacement(Yer tbl)
+        {
+            if (CheckPerm("Stock", PermTypes.Writing) == false) return Json(false, JsonRequestBehavior.AllowGet);
+            //yerleştirme kaydı yapılır
+            var stok = new Yerlestirme();
+            var tmp2 = stok.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+            if (tmp2 == null)
+            {
+                tmp2 = new Yer()
+                {
+                    KatID = tbl.KatID,
+                    MalKodu = tbl.MalKodu,
+                    Birim = tbl.Birim,
+                    Miktar = tbl.Miktar
+                };
+                stok.Insert(tmp2, 0, vUser.Id);
+            }
+            else
+            {
+                tmp2.Miktar += tbl.Miktar;
+                stok.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
+            }
+            //return
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }

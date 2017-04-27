@@ -28,12 +28,12 @@ namespace Wms12m.Business
                 MalKodu = tbl.MalKodu,
                 Birim = tbl.Birim,
                 Miktar = tbl.Miktar,
-                GC = false,
-                IrsaliyeID = IrsID,
+                GC = false,//false=girdi(+), true=çıktı(-)
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
                 KayitSaati = DateTime.Now.ToOaTime(),
                 Kaydeden = KullID
             };
+            if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
             db.Yer_Log.Add(yerLog);
             //save
             db.SaveChanges();
@@ -54,11 +54,11 @@ namespace Wms12m.Business
                 Birim = tbl.Birim,
                 Miktar = miktar,
                 GC = gc,//false=girdi(+), true=çıktı(-)
-                IrsaliyeID = IrsID,
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
                 KayitSaati = DateTime.Now.ToOaTime(),
                 Kaydeden = KullID
             };
+            if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
             db.Yer_Log.Add(yerLog);
             //stok
             var log = Detail(tbl.ID);

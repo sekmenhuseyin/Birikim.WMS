@@ -66,7 +66,7 @@
         var StoreId = $("#DepoID option:selected").val(); if (StoreId == null) StoreId = 0;
         var ShelfId = $("#RafID option:selected").val(); if (ShelfId == null) ShelfId = 0;
         $('#Grid').html("");
-        PartialView('/Stock/List', 'Grid', JSON.stringify({ Id: (StoreId + "#" + ShelfId) }));
+        PartialView('/Stock/List', 'Grid', JSON.stringify({ Id: (StoreId + "#" + ShelfId + "#0") }));
     }
 </script>
 }
