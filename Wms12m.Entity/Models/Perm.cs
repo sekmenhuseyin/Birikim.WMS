@@ -18,6 +18,7 @@ namespace Wms12m.Entity.Models
         public Perm()
         {
             this.RolePerms = new HashSet<RolePerm>();
+            this.UserPerms = new HashSet<UserPerm>();
         }
     
         public int ID { get; set; }
@@ -30,5 +31,7 @@ namespace Wms12m.Entity.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RolePerm> RolePerms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserPerm> UserPerms { get; set; }
     }
 }

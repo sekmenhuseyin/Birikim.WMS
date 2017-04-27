@@ -141,7 +141,7 @@
                     $.each(data, function (i, item) {
                         $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
                     });
-                    $("#" + what).prepend("<option value='0'>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
+                    $("#" + what).prepend("<option value=''>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
                 }
             }
         });

@@ -66,8 +66,8 @@
         <AssociationConnector Association="MModel.FK_Transfer_Gorev" />
         <AssociationConnector Association="MModel.FK_Transfer_Detay_Transfer" />
         <AssociationConnector Association="MModel.FK_Yer_Log_Kat" />
-        <EntityTypeShape EntityType="MModel.Ayarlar" Width="1.5" PointX="33.125" PointY="20.625" />
-        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="35.125" PointY="20.625" />
+        <EntityTypeShape EntityType="MModel.Ayarlar" Width="1.5" PointX="34" PointY="16.375" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="36" PointY="16.375" />
         <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="31.875" PointY="10.875" />
         <AssociationConnector Association="MModel.FK_WebMenu_MenuYeri" />
         <AssociationConnector Association="MModel.FK_WebMenu_SiteTipi" />
@@ -75,11 +75,13 @@
         <AssociationConnector Association="MModel.FK_WebMenu_WebMenu" />
         <AssociationConnector Association="MModel.WebMenuRol" />
         <AssociationConnector Association="MModel.FK_Users_Roles" />
-        <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="34.5" PointY="24.375" />
-        <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="31.125" PointY="23.625" />
+        <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="36.625" PointY="20.5" />
+        <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="33.75" PointY="20.25" />
         <AssociationConnector Association="MModel.FK_RolePerm_Perm" />
         <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
         <AssociationConnector Association="MModel.FK_Users_Users" />
+        <EntityTypeShape EntityType="MModel.UserPerm" Width="1.5" PointX="38.875" PointY="20.25" />
+        <AssociationConnector Association="MModel.FK_Perm_UserPerm2" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

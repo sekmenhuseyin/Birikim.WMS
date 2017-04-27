@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
@@ -51,9 +52,11 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Depo()
         {
+            //kontrol
             if (CheckPerm("Users", PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
+            //return
             var tbl = db.YetkiDepo(id.ToInt32()).ToList();
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             ViewBag.ID = id;
@@ -75,8 +78,72 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Perm()
         {
-
-            return PartialView("Perm", new frmUserChangePass());
+            //kontrol
+            if (CheckPerm("Users", PermTypes.Reading) == false) return null;
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null || id.ToString2() == "") return null;
+            //return
+            int ID = id.ToInt32();
+            var username = db.Users.Where(m => m.ID == ID).Select(m => m.Kod).FirstOrDefault();
+            var list = db.UserPerms.Where(m => m.UserName == username).ToList();
+            ViewBag.PermName = new SelectList(db.Perms.ToList(), "PermName", "PermName");
+            ViewBag.ID = ID;
+            ViewBag.username = username;
+            return PartialView("Perm", list);
+        }
+        /// <summary>
+        /// yetkileri kaydet
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult SavePerm(UserPerm tbl)
+        {
+            if (CheckPerm("Users", PermTypes.Writing) == false) return null;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    tbl.ModifiedDate = DateTime.Now;
+                    tbl.ModifiedUser = vUser.UserName;
+                    tbl.RecordDate = DateTime.Now;
+                    tbl.RecordUser = vUser.UserName;
+                    db.UserPerms.Add(tbl);
+                    db.SaveChanges();
+                }catch (System.Exception){}
+            }
+            //return
+            var list = db.UserPerms.Where(m => m.UserName == tbl.UserName).ToList();
+            ViewBag.PermName = new SelectList(db.Perms.ToList(), "PermName", "PermName");
+            ViewBag.ID = db.Users.Where(m => m.Kod == tbl.UserName).Select(m => m.ID).FirstOrDefault();
+            ViewBag.username = tbl.UserName;
+            return PartialView("Perm", list);
+        }
+        /// <summary>
+        /// yetkileri kaydet
+        /// </summary>
+        [HttpPost]
+        public JsonResult DeletePerm(string Id)
+        {
+            if (CheckPerm("Users", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            string[] ids = Id.ToString().Split('#');
+            string pname = ids[0], uname = ids[1];
+            try
+            {
+                var tbl = db.UserPerms.Where(m => m.PermName == pname && m.UserName == uname).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.UserPerms.Remove(tbl);
+                    db.SaveChanges();
+                }
+            }
+            catch (System.Exception) { }
+            //return
+            Result _Result = new Result()
+            {
+                Id = 1,
+                Message = "İşlem Başarılı !!!",
+                Status = true
+            };
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// depo yetkisini kaydet

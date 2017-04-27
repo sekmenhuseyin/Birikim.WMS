@@ -114,7 +114,7 @@
                     $.each(data, function (i, item) {
                         $('#RafID').append($('<option>', { value: item.Value, text: item.Text }));
                     });
-                    $("#RafID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0;
+                    $("#RafID").prepend("<option value=''>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0;
                 }
             }
         });
@@ -133,7 +133,7 @@
                     $.each(data, function (i, item) {
                         $('#BolumID').append($('<option>', { value: item.Value, text: item.Text }));
                     });
-                    $("#BolumID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#BolumID")[0].selectedIndex = 0;
+                    $("#BolumID").prepend("<option value=''>Seçiniz !!!</option>"); $("#BolumID")[0].selectedIndex = 0;
                 }
             }
         });
@@ -151,7 +151,7 @@
                     $.each(data, function (i, item) {
                         $('#KatID').append($('<option>', { value: item.Value, text: item.Text }));
                     });
-                    $("#KatID").prepend("<option value='0'>Seçiniz !!!</option>"); $("#KatID")[0].selectedIndex = 0;
+                    $("#KatID").prepend("<option value=''>Seçiniz !!!</option>"); $("#KatID")[0].selectedIndex = 0;
                 }
             }
         });

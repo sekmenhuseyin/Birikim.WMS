@@ -88,6 +88,22 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserPerm">
+          <Key>
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="PermName" />
+          </Key>
+          <Property Name="UserName" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="PermName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Reading" Type="bit" Nullable="false" />
+          <Property Name="Writing" Type="bit" Nullable="false" />
+          <Property Name="Updating" Type="bit" Nullable="false" />
+          <Property Name="Deleting" Type="bit" Nullable="false" />
+          <Property Name="RecordDate" Type="smalldatetime" />
+          <Property Name="RecordUser" Type="varchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="smalldatetime" />
+          <Property Name="ModifiedUser" Type="varchar" MaxLength="20" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="ID" />
@@ -662,6 +678,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Perm_UserPerm2">
+          <End Role="Perm" Type="Self.Perm" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserPerm" Type="Self.UserPerm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perm">
+              <PropertyRef Name="PermName" />
+            </Principal>
+            <Dependent Role="UserPerm">
+              <PropertyRef Name="PermName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Raf_UsersDegistiren">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Raf" Type="Self.Raf" Multiplicity="*" />
@@ -1134,6 +1164,7 @@
           <EntitySet Name="Perm" EntityType="Self.Perm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="RolePerm" EntityType="Self.RolePerm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="usr" store:Type="Tables" />
+          <EntitySet Name="UserPerm" EntityType="Self.UserPerm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Ayarlar" EntityType="Self.Ayarlar" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Bolum" EntityType="Self.Bolum" Schema="wms" store:Type="Tables" />
@@ -1252,6 +1283,10 @@
           <AssociationSet Name="FK_Koridor_UsersKaydeden" Association="Self.FK_Koridor_UsersKaydeden">
             <End Role="Users" EntitySet="Users" />
             <End Role="Koridor" EntitySet="Koridor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Perm_UserPerm2" Association="Self.FK_Perm_UserPerm2">
+            <End Role="Perm" EntitySet="Perm" />
+            <End Role="UserPerm" EntitySet="UserPerm" />
           </AssociationSet>
           <AssociationSet Name="FK_Raf_UsersDegistiren" Association="Self.FK_Raf_UsersDegistiren">
             <End Role="Users" EntitySet="Users" />
@@ -1716,6 +1751,11 @@
             <Parameter Name="Group" Mode="In" Type="String" />
             <Parameter Name="Perm" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="UserPerms" EntityType="MModel.UserPerm" />
+          <AssociationSet Name="FK_Perm_UserPerm2" Association="MModel.FK_Perm_UserPerm2">
+            <End Role="Perm" EntitySet="Perms" />
+            <End Role="UserPerm" EntitySet="UserPerms" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Combo_Name">
           <Key>
@@ -2731,6 +2771,7 @@
           <Property Name="Group" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="RecordDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="RolePerms" Relationship="MModel.FK_RolePerm_Perm" FromRole="Perm" ToRole="RolePerm" />
+          <NavigationProperty Name="UserPerms" Relationship="MModel.FK_Perm_UserPerm2" FromRole="Perm" ToRole="UserPerm" />
         </EntityType>
         <EntityType Name="RolePerm">
           <Key>
@@ -2786,6 +2827,37 @@
             </Principal>
             <Dependent Role="User1">
               <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserPerm">
+          <Key>
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="PermName" />
+          </Key>
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PermName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Reading" Type="Boolean" Nullable="false" />
+          <Property Name="Writing" Type="Boolean" Nullable="false" />
+          <Property Name="Updating" Type="Boolean" Nullable="false" />
+          <Property Name="Deleting" Type="Boolean" Nullable="false" />
+          <Property Name="RecordDate" Type="DateTime" Precision="0" />
+          <Property Name="RecordUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="ModifiedUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Perm" Relationship="MModel.FK_Perm_UserPerm2" FromRole="UserPerm" ToRole="Perm" />
+        </EntityType>
+        <Association Name="FK_Perm_UserPerm2">
+          <End Type="MModel.Perm" Role="Perm" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MModel.UserPerm" Role="UserPerm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perm">
+              <PropertyRef Name="PermName" />
+            </Principal>
+            <Dependent Role="UserPerm">
+              <PropertyRef Name="PermName" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3270,6 +3342,22 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetPermissionFor" FunctionName="MModel.Store.GetPermissionFor" />
+          <EntitySetMapping Name="UserPerms">
+            <EntityTypeMapping TypeName="MModel.UserPerm">
+              <MappingFragment StoreEntitySet="UserPerm">
+                <ScalarProperty Name="ModifiedUser" ColumnName="ModifiedUser" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="RecordUser" ColumnName="RecordUser" />
+                <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
+                <ScalarProperty Name="Deleting" ColumnName="Deleting" />
+                <ScalarProperty Name="Updating" ColumnName="Updating" />
+                <ScalarProperty Name="Writing" ColumnName="Writing" />
+                <ScalarProperty Name="Reading" ColumnName="Reading" />
+                <ScalarProperty Name="PermName" ColumnName="PermName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
