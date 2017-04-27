@@ -79,6 +79,7 @@
         <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="31.125" PointY="23.625" />
         <AssociationConnector Association="MModel.FK_RolePerm_Perm" />
         <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
+        <AssociationConnector Association="MModel.FK_Users_Users" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

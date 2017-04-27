@@ -30,7 +30,7 @@ namespace Wms12m.Presentation.Controllers
 
         public bool CheckPerm(string permName, PermTypes permtype)
         {
-            var sonuc = db.GetPermissionFor(vUser.RoleName, permName, "WMS", permtype.ToString()).FirstOrDefault().Value;
+            var sonuc = db.GetPermissionFor(vUser.Id, vUser.RoleName, permName, "WMS", permtype.ToString()).FirstOrDefault().Value;
             return sonuc;
         }
         /// <summary>

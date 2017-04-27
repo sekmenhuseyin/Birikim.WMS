@@ -422,8 +422,12 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<short>>("WMSEntities.MenuFindAktif", webSiteTipiNoParameter, menuYeriNoParameter, roleNameParameter, ustMenuIDParameter, urlParameter);
         }
     
-        public virtual ObjectResult<Nullable<bool>> GetPermissionFor(string roleName, string permName, string group, string perm)
+        public virtual ObjectResult<Nullable<bool>> GetPermissionFor(Nullable<int> userID, string roleName, string permName, string group, string perm)
         {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
             var roleNameParameter = roleName != null ?
                 new ObjectParameter("RoleName", roleName) :
                 new ObjectParameter("RoleName", typeof(string));
@@ -440,7 +444,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Perm", perm) :
                 new ObjectParameter("Perm", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("WMSEntities.GetPermissionFor", roleNameParameter, permNameParameter, groupParameter, permParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("WMSEntities.GetPermissionFor", userIDParameter, roleNameParameter, permNameParameter, groupParameter, permParameter);
         }
     }
 }

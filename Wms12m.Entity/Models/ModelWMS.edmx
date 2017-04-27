@@ -880,6 +880,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Users1" Type="Self.Users" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WebMenu_MenuYeri">
           <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="1" />
           <End Role="WebMenu" Type="Self.WebMenu" Multiplicity="*" />
@@ -1001,6 +1013,7 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="GetPermissionFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
           <Parameter Name="PermName" Type="varchar" Mode="In" />
           <Parameter Name="Group" Type="varchar" Mode="In" />
@@ -1311,6 +1324,10 @@
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Users" Association="Self.FK_Users_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_WebMenu_MenuYeri" Association="Self.FK_WebMenu_MenuYeri">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -1688,7 +1705,12 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="RolePerm" EntitySet="RolePerms" />
           </AssociationSet>
+          <AssociationSet Name="FK_Users_Users" Association="MModel.FK_Users_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="User1" EntitySet="Users" />
+          </AssociationSet>
           <FunctionImport Name="GetPermissionFor" ReturnType="Collection(Boolean)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="RoleName" Mode="In" Type="String" />
             <Parameter Name="PermName" Mode="In" Type="String" />
             <Parameter Name="Group" Mode="In" Type="String" />
@@ -2091,6 +2113,8 @@
           <NavigationProperty Name="Transfers" Relationship="MModel.FK_Transfer_Users" FromRole="User" ToRole="Transfer" />
           <NavigationProperty Name="Transfers1" Relationship="MModel.FK_Transfer_Users1" FromRole="User" ToRole="Transfer" />
           <NavigationProperty Name="Role" Relationship="MModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Users1" Relationship="MModel.FK_Users_Users" FromRole="User" ToRole="User1" />
+          <NavigationProperty Name="User1" Relationship="MModel.FK_Users_Users" FromRole="User1" ToRole="User" />
           </EntityType>
         <EntityType Name="IRS_Detay">
           <Key>
@@ -2750,6 +2774,18 @@
             </Principal>
             <Dependent Role="RolePerm">
               <PropertyRef Name="RoleName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Users">
+          <End Type="MModel.User" Role="User" Multiplicity="1" />
+          <End Type="MModel.User" Role="User1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="User1">
+              <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
