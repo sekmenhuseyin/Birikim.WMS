@@ -10,13 +10,14 @@ namespace Wms12m.Presentation.Controllers
         // GET: Roles
         public ActionResult Index()
         {
-            return View(db.Roles.ToList());
+            var list = db.Roles.Where(m => m.RoleName != "").ToList();
+            return View("Index", list);
         }
 
         // GET: Roles/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Editor");
         }
 
         // POST: Roles/Create
@@ -27,10 +28,8 @@ namespace Wms12m.Presentation.Controllers
             {
                 db.Roles.Add(role);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
-            return View(role);
+            return RedirectToAction("Index");
         }
 
         // GET: Roles/Edit/5
@@ -38,10 +37,8 @@ namespace Wms12m.Presentation.Controllers
         {
             Role role = db.Roles.Find(id);
             if (role == null)
-            {
-                return HttpNotFound();
-            }
-            return View(role);
+                return RedirectToAction("Index");
+            return View("Editor", role);
         }
 
         // POST: Roles/Edit/5
@@ -52,9 +49,8 @@ namespace Wms12m.Presentation.Controllers
             {
                 db.Entry(role).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(role);
+            return RedirectToAction("Index");
         }
 
         // GET: Roles/Delete/5

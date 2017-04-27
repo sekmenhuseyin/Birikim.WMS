@@ -14,7 +14,6 @@
                         @using (Html.BeginForm(Model == null ? "Create" : "Edit", "Perms", FormMethod.Post, new { @class = "form-horizontal" }))
                         {
                             @Html.AntiForgeryToken()
-
                             <div class="form-horizontal">
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 <div class="form-group">
