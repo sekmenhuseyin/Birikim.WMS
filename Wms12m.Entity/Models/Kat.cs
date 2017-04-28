@@ -28,7 +28,7 @@ namespace Wms12m.Entity.Models
         public decimal Derinlik { get; set; }
         public decimal En { get; set; }
         public decimal AgirlikKapasite { get; set; }
-        public int Ozellik { get; set; }
+        public int OzellikID { get; set; }
         public string Aciklama { get; set; }
         public int SiraNo { get; set; }
         public bool Aktif { get; set; }
@@ -37,6 +37,7 @@ namespace Wms12m.Entity.Models
         public string Degistiren { get; set; }
         public int DegisTarih { get; set; }
     
+        public virtual ComboItem_Name ComboItem_Name { get; set; }
         public virtual Bolum Bolum { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Yer> Yers { get; set; }

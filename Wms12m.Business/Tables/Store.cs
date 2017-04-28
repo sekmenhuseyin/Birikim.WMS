@@ -28,7 +28,7 @@ namespace Wms12m.Business
             //uzun mu
             if (tbl.DepoAd.Length > 100 || tbl.DepoKodu.Length > 5)
             {
-                _Result.Message = "Daha kısa isimler yazın";
+                _Result.Message = "Daha kısa isim yazın";
                 return _Result;
             }
             //daha önce yazılmış mı

@@ -25,6 +25,12 @@ namespace Wms12m.Business
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 return _Result;
             }
+            //uzun mu
+            if (tbl.KoridorAd.Length > 100)
+            {
+                _Result.Message = "Daha kısa isim yazın";
+                return _Result;
+            }
             //daha önce yazılmış mı
             var kontrol = db.Koridors.Where(m => m.KoridorAd == tbl.KoridorAd && m.DepoID == tbl.DepoID && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)

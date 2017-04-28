@@ -25,6 +25,12 @@ namespace Wms12m.Business
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 return _Result;
             }
+            //uzun mu
+            if (tbl.KatAd.Length > 100)
+            {
+                _Result.Message = "Daha kısa isim yazın";
+                return _Result;
+            }
             //daha önce yazılmış mı
             var kontrol = db.Kats.Where(m => m.KatAd == tbl.KatAd && m.BolumID == tbl.BolumID && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)
@@ -59,7 +65,7 @@ namespace Wms12m.Business
                 tmp.Boy = tbl.Boy;
                 tmp.Derinlik = tbl.Derinlik;
                 tmp.AgirlikKapasite = tbl.AgirlikKapasite;
-                tmp.Ozellik = tbl.Ozellik;
+                tmp.OzellikID = tbl.OzellikID;
                 tmp.Aciklama = tbl.Aciklama;
                 tmp.BolumID = tbl.BolumID;
                 tmp.SiraNo = tbl.SiraNo;

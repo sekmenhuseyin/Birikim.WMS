@@ -25,6 +25,12 @@ namespace Wms12m.Business
                 _Result.Message = "Eksik Bilgi Girdiniz";
                 return _Result;
             }
+            //uzun mu
+            if (tbl.RafAd.Length > 100)
+            {
+                _Result.Message = "Daha kısa isim yazın";
+                return _Result;
+            }
             //daha önce yazılmış mı
             var kontrol = db.Rafs.Where(m => m.RafAd == tbl.RafAd && m.KoridorID == tbl.KoridorID && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)

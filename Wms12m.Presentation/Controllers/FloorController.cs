@@ -65,7 +65,7 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
                 ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
                 ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
-                ViewBag.Ozellik = new SelectList(ComboSub.GetList(Combos.Özellik.ToInt32()), "ID", "Name");
+                ViewBag.OzellikID = new SelectList(ComboSub.GetList(Combos.Özellik.ToInt32()), "ID", "Name");
                 return PartialView("_FloorDetailPartial", new Kat());
             }
             else
@@ -75,7 +75,7 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.KoridorID = new SelectList(Corridor.GetList(tablo.Bolum.Raf.Koridor.DepoID), "ID", "KoridorAd", tablo.Bolum.Raf.KoridorID);
                 ViewBag.RafID = new SelectList(Shelf.GetList(tablo.Bolum.Raf.KoridorID), "ID", "RafAd", tablo.Bolum.RafID);
                 ViewBag.BolumID = new SelectList(Section.GetList(tablo.Bolum.RafID), "ID", "BolumAd", tablo.BolumID);
-                ViewBag.Ozellik = new SelectList(ComboSub.GetList(Combos.Özellik.ToInt32()), "ID", "Name", tablo.Ozellik);
+                ViewBag.OzellikID = new SelectList(ComboSub.GetList(Combos.Özellik.ToInt32()), "ID", "Name", tablo.OzellikID);
                 return PartialView("_FloorDetailPartial", tablo);
             }
         }
