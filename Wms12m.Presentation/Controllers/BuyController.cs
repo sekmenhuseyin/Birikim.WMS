@@ -62,7 +62,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult FromSiparis(string s, string id, string ids)
         {
             if (s == null || id == null || ids == null) return null;
-            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
             int irsaliyeID = id.ToInt32(), eklenen = 0, sira = 0;
             //split ids into rows
             ids = ids.Left(ids.Length - 1);
@@ -188,13 +188,18 @@ namespace Wms12m.Presentation.Controllers
             }
             //kontrol
             if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
+            //yeni kayıtta evrak no spide olmayacak kontrolü
+            string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3)", tbl.SirketID, tbl.EvrakNo);
+            var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            if (sti != null)
+                return null;
             //yeni kayıt
             string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
             int today = fn.ToOADate();
             int time = fn.ToOATime();
             try
             {
-                var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, tarih, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), vUser.Id, vUser.UserName, today, time, tbl.HesapKodu, "", 0, "").FirstOrDefault();
+                var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, tarih, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), vUser.UserName, today, time, tbl.HesapKodu, "", 0, "").FirstOrDefault();
                 //get list
                 var list = IrsaliyeDetay.GetList(cevap.IrsaliyeID.Value);
                 ViewBag.IrsaliyeId = cevap.IrsaliyeID;

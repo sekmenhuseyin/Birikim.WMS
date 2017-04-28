@@ -196,75 +196,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("WMSEntities.GetStock", depoIDParameter, malKoduParameter, birimParameter, includeRezervParameter);
         }
     
-        public virtual ObjectResult<InsertIrsaliye_Result> InsertIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, Nullable<int> irsTarih, string gorevBilgi, Nullable<bool> irsIslemTur, Nullable<int> gorevTipiID, Nullable<int> olusturanID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu, string teslimCHK, Nullable<short> valorGun, string linkEvrakNo)
-        {
-            var sirketKodParameter = sirketKod != null ?
-                new ObjectParameter("SirketKod", sirketKod) :
-                new ObjectParameter("SirketKod", typeof(string));
-    
-            var depoIDParameter = depoID.HasValue ?
-                new ObjectParameter("DepoID", depoID) :
-                new ObjectParameter("DepoID", typeof(int));
-    
-            var gorevNoParameter = gorevNo != null ?
-                new ObjectParameter("GorevNo", gorevNo) :
-                new ObjectParameter("GorevNo", typeof(string));
-    
-            var irsEvrakNoParameter = irsEvrakNo != null ?
-                new ObjectParameter("IrsEvrakNo", irsEvrakNo) :
-                new ObjectParameter("IrsEvrakNo", typeof(string));
-    
-            var irsTarihParameter = irsTarih.HasValue ?
-                new ObjectParameter("IrsTarih", irsTarih) :
-                new ObjectParameter("IrsTarih", typeof(int));
-    
-            var gorevBilgiParameter = gorevBilgi != null ?
-                new ObjectParameter("GorevBilgi", gorevBilgi) :
-                new ObjectParameter("GorevBilgi", typeof(string));
-    
-            var irsIslemTurParameter = irsIslemTur.HasValue ?
-                new ObjectParameter("IrsIslemTur", irsIslemTur) :
-                new ObjectParameter("IrsIslemTur", typeof(bool));
-    
-            var gorevTipiIDParameter = gorevTipiID.HasValue ?
-                new ObjectParameter("GorevTipiID", gorevTipiID) :
-                new ObjectParameter("GorevTipiID", typeof(int));
-    
-            var olusturanIDParameter = olusturanID.HasValue ?
-                new ObjectParameter("OlusturanID", olusturanID) :
-                new ObjectParameter("OlusturanID", typeof(int));
-    
-            var olusturanParameter = olusturan != null ?
-                new ObjectParameter("Olusturan", olusturan) :
-                new ObjectParameter("Olusturan", typeof(string));
-    
-            var olusturmaTarihiParameter = olusturmaTarihi.HasValue ?
-                new ObjectParameter("OlusturmaTarihi", olusturmaTarihi) :
-                new ObjectParameter("OlusturmaTarihi", typeof(int));
-    
-            var olusturmaSaatiParameter = olusturmaSaati.HasValue ?
-                new ObjectParameter("OlusturmaSaati", olusturmaSaati) :
-                new ObjectParameter("OlusturmaSaati", typeof(int));
-    
-            var hesapKoduParameter = hesapKodu != null ?
-                new ObjectParameter("HesapKodu", hesapKodu) :
-                new ObjectParameter("HesapKodu", typeof(string));
-    
-            var teslimCHKParameter = teslimCHK != null ?
-                new ObjectParameter("TeslimCHK", teslimCHK) :
-                new ObjectParameter("TeslimCHK", typeof(string));
-    
-            var valorGunParameter = valorGun.HasValue ?
-                new ObjectParameter("ValorGun", valorGun) :
-                new ObjectParameter("ValorGun", typeof(short));
-    
-            var linkEvrakNoParameter = linkEvrakNo != null ?
-                new ObjectParameter("LinkEvrakNo", linkEvrakNo) :
-                new ObjectParameter("LinkEvrakNo", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, irsTarihParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter);
-        }
-    
         public virtual ObjectResult<string> SettingsGorevNo(Nullable<int> tarih)
         {
             var tarihParameter = tarih.HasValue ?
@@ -283,7 +214,7 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsIrsaliyeNo", tarihParameter);
         }
     
-        public virtual int TerminalFinishGorev(Nullable<int> gorevID, Nullable<int> irsaliyeID, string yeniGorevNo, Nullable<int> bitisTarihi, Nullable<int> bitisSaati, Nullable<int> kullaniciID, string linkEvrakNo, Nullable<int> görevTipiID, Nullable<int> yeniGorevTipiID)
+        public virtual int TerminalFinishGorev(Nullable<int> gorevID, Nullable<int> irsaliyeID, string yeniGorevNo, Nullable<int> bitisTarihi, Nullable<int> bitisSaati, string kullanici, string linkEvrakNo, Nullable<int> görevTipiID, Nullable<int> yeniGorevTipiID)
         {
             var gorevIDParameter = gorevID.HasValue ?
                 new ObjectParameter("GorevID", gorevID) :
@@ -305,9 +236,9 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("BitisSaati", bitisSaati) :
                 new ObjectParameter("BitisSaati", typeof(int));
     
-            var kullaniciIDParameter = kullaniciID.HasValue ?
-                new ObjectParameter("KullaniciID", kullaniciID) :
-                new ObjectParameter("KullaniciID", typeof(int));
+            var kullaniciParameter = kullanici != null ?
+                new ObjectParameter("Kullanici", kullanici) :
+                new ObjectParameter("Kullanici", typeof(string));
     
             var linkEvrakNoParameter = linkEvrakNo != null ?
                 new ObjectParameter("LinkEvrakNo", linkEvrakNo) :
@@ -321,7 +252,7 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("YeniGorevTipiID", yeniGorevTipiID) :
                 new ObjectParameter("YeniGorevTipiID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.TerminalFinishGorev", gorevIDParameter, irsaliyeIDParameter, yeniGorevNoParameter, bitisTarihiParameter, bitisSaatiParameter, kullaniciIDParameter, linkEvrakNoParameter, görevTipiIDParameter, yeniGorevTipiIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.TerminalFinishGorev", gorevIDParameter, irsaliyeIDParameter, yeniGorevNoParameter, bitisTarihiParameter, bitisSaatiParameter, kullaniciParameter, linkEvrakNoParameter, görevTipiIDParameter, yeniGorevTipiIDParameter);
         }
     
         public virtual ObjectResult<YetkiDepo_Result> YetkiDepo(Nullable<int> iD)
@@ -445,6 +376,71 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Perm", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("WMSEntities.GetPermissionFor", userIDParameter, roleNameParameter, permNameParameter, groupParameter, permParameter);
+        }
+    
+        public virtual ObjectResult<InsertIrsaliye_Result> InsertIrsaliye(string sirketKod, Nullable<int> depoID, string gorevNo, string irsEvrakNo, Nullable<int> irsTarih, string gorevBilgi, Nullable<bool> irsIslemTur, Nullable<int> gorevTipiID, string olusturan, Nullable<int> olusturmaTarihi, Nullable<int> olusturmaSaati, string hesapKodu, string teslimCHK, Nullable<short> valorGun, string linkEvrakNo)
+        {
+            var sirketKodParameter = sirketKod != null ?
+                new ObjectParameter("SirketKod", sirketKod) :
+                new ObjectParameter("SirketKod", typeof(string));
+    
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            var gorevNoParameter = gorevNo != null ?
+                new ObjectParameter("GorevNo", gorevNo) :
+                new ObjectParameter("GorevNo", typeof(string));
+    
+            var irsEvrakNoParameter = irsEvrakNo != null ?
+                new ObjectParameter("IrsEvrakNo", irsEvrakNo) :
+                new ObjectParameter("IrsEvrakNo", typeof(string));
+    
+            var irsTarihParameter = irsTarih.HasValue ?
+                new ObjectParameter("IrsTarih", irsTarih) :
+                new ObjectParameter("IrsTarih", typeof(int));
+    
+            var gorevBilgiParameter = gorevBilgi != null ?
+                new ObjectParameter("GorevBilgi", gorevBilgi) :
+                new ObjectParameter("GorevBilgi", typeof(string));
+    
+            var irsIslemTurParameter = irsIslemTur.HasValue ?
+                new ObjectParameter("IrsIslemTur", irsIslemTur) :
+                new ObjectParameter("IrsIslemTur", typeof(bool));
+    
+            var gorevTipiIDParameter = gorevTipiID.HasValue ?
+                new ObjectParameter("GorevTipiID", gorevTipiID) :
+                new ObjectParameter("GorevTipiID", typeof(int));
+    
+            var olusturanParameter = olusturan != null ?
+                new ObjectParameter("Olusturan", olusturan) :
+                new ObjectParameter("Olusturan", typeof(string));
+    
+            var olusturmaTarihiParameter = olusturmaTarihi.HasValue ?
+                new ObjectParameter("OlusturmaTarihi", olusturmaTarihi) :
+                new ObjectParameter("OlusturmaTarihi", typeof(int));
+    
+            var olusturmaSaatiParameter = olusturmaSaati.HasValue ?
+                new ObjectParameter("OlusturmaSaati", olusturmaSaati) :
+                new ObjectParameter("OlusturmaSaati", typeof(int));
+    
+            var hesapKoduParameter = hesapKodu != null ?
+                new ObjectParameter("HesapKodu", hesapKodu) :
+                new ObjectParameter("HesapKodu", typeof(string));
+    
+            var teslimCHKParameter = teslimCHK != null ?
+                new ObjectParameter("TeslimCHK", teslimCHK) :
+                new ObjectParameter("TeslimCHK", typeof(string));
+    
+            var valorGunParameter = valorGun.HasValue ?
+                new ObjectParameter("ValorGun", valorGun) :
+                new ObjectParameter("ValorGun", typeof(short));
+    
+            var linkEvrakNoParameter = linkEvrakNo != null ?
+                new ObjectParameter("LinkEvrakNo", linkEvrakNo) :
+                new ObjectParameter("LinkEvrakNo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, irsTarihParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter);
         }
     }
 }

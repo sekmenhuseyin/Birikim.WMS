@@ -207,7 +207,7 @@ namespace Wms12m.Presentation.Controllers
                 if (chk != item.Chk || valorgun != item.ValorGun || teslimchk != item.TeslimChk)
                 {
                     evrakNo = db.SettingsIrsaliyeNo(today).FirstOrDefault();
-                    cevap = db.InsertIrsaliye(item.SirketID, idDepo, GorevNo, evrakNo, today, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.Id, vUser.UserName, today, time, item.Chk, item.TeslimChk, item.ValorGun, item.EvrakNo).FirstOrDefault();
+                    cevap = db.InsertIrsaliye(item.SirketID, idDepo, GorevNo, evrakNo, today, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.UserName, today, time, item.Chk, item.TeslimChk, item.ValorGun, item.EvrakNo).FirstOrDefault();
                     //save sck
                     chk = item.Chk;
                     valorgun = item.ValorGun;

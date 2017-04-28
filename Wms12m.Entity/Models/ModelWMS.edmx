@@ -895,7 +895,6 @@
           <Parameter Name="GorevBilgi" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="IrsIslemTur" Type="bit" Mode="In" />
           <Parameter Name="GorevTipiID" Type="int" Mode="In" />
-          <Parameter Name="OlusturanID" Type="int" Mode="In" />
           <Parameter Name="Olusturan" Type="varchar" Mode="In" />
           <Parameter Name="OlusturmaTarihi" Type="int" Mode="In" />
           <Parameter Name="OlusturmaSaati" Type="int" Mode="In" />
@@ -916,7 +915,7 @@
           <Parameter Name="YeniGorevNo" Type="varchar" Mode="In" />
           <Parameter Name="BitisTarihi" Type="int" Mode="In" />
           <Parameter Name="BitisSaati" Type="int" Mode="In" />
-          <Parameter Name="KullaniciID" Type="int" Mode="In" />
+          <Parameter Name="Kullanici" Type="varchar" Mode="In" />
           <Parameter Name="LinkEvrakNo" Type="varchar" Mode="In" />
           <Parameter Name="GörevTipiID" Type="int" Mode="In" />
           <Parameter Name="YeniGorevTipiID" Type="int" Mode="In" />
@@ -1153,24 +1152,6 @@
             <Parameter Name="Birim" Mode="In" Type="String" />
             <Parameter Name="includeRezerv" Mode="In" Type="Boolean" />
           </FunctionImport>
-          <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
-            <Parameter Name="SirketKod" Mode="In" Type="String" />
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="GorevNo" Mode="In" Type="String" />
-            <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
-            <Parameter Name="IrsTarih" Mode="In" Type="Int32" />
-            <Parameter Name="GorevBilgi" Mode="In" Type="String" />
-            <Parameter Name="IrsIslemTur" Mode="In" Type="Boolean" />
-            <Parameter Name="GorevTipiID" Mode="In" Type="Int32" />
-            <Parameter Name="OlusturanID" Mode="In" Type="Int32" />
-            <Parameter Name="Olusturan" Mode="In" Type="String" />
-            <Parameter Name="OlusturmaTarihi" Mode="In" Type="Int32" />
-            <Parameter Name="OlusturmaSaati" Mode="In" Type="Int32" />
-            <Parameter Name="HesapKodu" Mode="In" Type="String" />
-            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
-            <Parameter Name="ValorGun" Mode="In" Type="Int16" />
-            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="SettingsGorevNo" ReturnType="Collection(String)">
           <Parameter Name="tarih" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1183,7 +1164,7 @@
             <Parameter Name="YeniGorevNo" Mode="In" Type="String" />
             <Parameter Name="BitisTarihi" Mode="In" Type="Int32" />
             <Parameter Name="BitisSaati" Mode="In" Type="Int32" />
-            <Parameter Name="KullaniciID" Mode="In" Type="Int32" />
+            <Parameter Name="Kullanici" Mode="In" Type="String" />
             <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
             <Parameter Name="GörevTipiID" Mode="In" Type="Int32" />
             <Parameter Name="YeniGorevTipiID" Mode="In" Type="Int32" />
@@ -1384,6 +1365,23 @@
             <End Role="Gorev" EntitySet="Gorevs" />
             <End Role="IR" EntitySet="IRS" />
           </AssociationSet>
+          <FunctionImport Name="InsertIrsaliye" ReturnType="Collection(MModel.InsertIrsaliye_Result)">
+            <Parameter Name="SirketKod" Mode="In" Type="String" />
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="GorevNo" Mode="In" Type="String" />
+            <Parameter Name="IrsEvrakNo" Mode="In" Type="String" />
+            <Parameter Name="IrsTarih" Mode="In" Type="Int32" />
+            <Parameter Name="GorevBilgi" Mode="In" Type="String" />
+            <Parameter Name="IrsIslemTur" Mode="In" Type="Boolean" />
+            <Parameter Name="GorevTipiID" Mode="In" Type="Int32" />
+            <Parameter Name="Olusturan" Mode="In" Type="String" />
+            <Parameter Name="OlusturmaTarihi" Mode="In" Type="Int32" />
+            <Parameter Name="OlusturmaSaati" Mode="In" Type="Int32" />
+            <Parameter Name="HesapKodu" Mode="In" Type="String" />
+            <Parameter Name="TeslimCHK" Mode="In" Type="String" />
+            <Parameter Name="ValorGun" Mode="In" Type="Int16" />
+            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1407,11 +1405,6 @@
           <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
           <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
           <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-        </ComplexType>
-        <ComplexType Name="InsertIrsaliye_Result">
-          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
-          <Property Type="Int32" Name="GorevID" Nullable="true" />
-          <Property Type="Boolean" Name="Onay" Nullable="true" />
         </ComplexType>
         <ComplexType Name="YetkiDepo_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2227,6 +2220,11 @@
           <End Type="MModel.Gorev" Role="Gorev" Multiplicity="*" />
           <End Type="MModel.IR" Role="IR" Multiplicity="*" />
         </Association>
+        <ComplexType Name="InsertIrsaliye_Result">
+          <Property Type="Int32" Name="IrsaliyeID" Nullable="true" />
+          <Property Type="Int32" Name="GorevID" Nullable="true" />
+          <Property Type="Boolean" Name="Onay" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2280,15 +2278,6 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetKoridorIdFromGorevId" FunctionName="MModel.Store.GetKoridorIdFromGorevId" />
           <FunctionImportMapping FunctionImportName="GetStock" FunctionName="MModel.Store.GetStock" />
-          <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-                <ScalarProperty Name="Onay" ColumnName="Onay" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
           <FunctionImportMapping FunctionImportName="SettingsIrsaliyeNo" FunctionName="MModel.Store.SettingsIrsaliyeNo" />
           <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
@@ -2713,6 +2702,15 @@
               <ScalarProperty Name="ID" ColumnName="GorevID" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="InsertIrsaliye" FunctionName="MModel.Store.InsertIrsaliye">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.InsertIrsaliye_Result">
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="Onay" ColumnName="Onay" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
