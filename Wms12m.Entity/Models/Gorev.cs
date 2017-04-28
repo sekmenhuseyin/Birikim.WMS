@@ -18,8 +18,8 @@ namespace Wms12m.Entity.Models
         public Gorev()
         {
             this.GorevYers = new HashSet<GorevYer>();
-            this.IRS = new HashSet<IR>();
             this.Transfers = new HashSet<Transfer>();
+            this.IRS = new HashSet<IR>();
         }
     
         public int ID { get; set; }
@@ -27,14 +27,14 @@ namespace Wms12m.Entity.Models
         public string GorevNo { get; set; }
         public int GorevTipiID { get; set; }
         public int DurumID { get; set; }
-        public int OlusturanID { get; set; }
+        public string Olusturan { get; set; }
         public int OlusturmaTarihi { get; set; }
         public int OlusturmaSaati { get; set; }
         public string Bilgi { get; set; }
         public string Aciklama { get; set; }
         public Nullable<int> IrsaliyeID { get; set; }
-        public Nullable<int> GorevliID { get; set; }
-        public Nullable<int> AtayanID { get; set; }
+        public string Gorevli { get; set; }
+        public string Atayan { get; set; }
         public Nullable<int> AtamaTarihi { get; set; }
         public Nullable<int> BitisTarihi { get; set; }
         public Nullable<int> BitisSaati { get; set; }
@@ -42,15 +42,12 @@ namespace Wms12m.Entity.Models
         public virtual ComboItem_Name ComboItem_Name { get; set; }
         public virtual ComboItem_Name ComboItem_Name1 { get; set; }
         public virtual Depo Depo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GorevYer> GorevYers { get; set; }
-        public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
-        public virtual User User2 { get; set; }
         public virtual IR IR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<IR> IRS { get; set; }
+        public virtual ICollection<GorevYer> GorevYers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transfer> Transfers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<IR> IRS { get; set; }
     }
 }

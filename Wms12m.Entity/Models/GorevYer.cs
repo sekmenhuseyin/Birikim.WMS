@@ -19,10 +19,10 @@ namespace Wms12m.Entity.Models
         public int YerID { get; set; }
         public string MalKodu { get; set; }
         public decimal Miktar { get; set; }
+        public Nullable<decimal> YerlestirmeMiktari { get; set; }
         public string Birim { get; set; }
         public bool GC { get; set; }
         public Nullable<int> Sira { get; set; }
-        public Nullable<decimal> YerlestirmeMiktari { get; set; }
     
         public virtual Gorev Gorev { get; set; }
         public virtual Yer Yer { get; set; }

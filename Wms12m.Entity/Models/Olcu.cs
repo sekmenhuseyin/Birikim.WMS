@@ -22,5 +22,9 @@ namespace Wms12m.Entity.Models
         public Nullable<decimal> Derinlik { get; set; }
         public Nullable<decimal> Agirlik { get; set; }
         public Nullable<decimal> Hacim { get; set; }
+        public string Kaydeden { get; set; }
+        public int KayitTarih { get; set; }
+        public string Degistiren { get; set; }
+        public int DegisTarih { get; set; }
     }
 }

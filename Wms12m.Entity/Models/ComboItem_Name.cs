@@ -19,8 +19,6 @@ namespace Wms12m.Entity.Models
         {
             this.Gorevs = new HashSet<Gorev>();
             this.Gorevs1 = new HashSet<Gorev>();
-            this.Kats = new HashSet<Kat>();
-            this.EvrakSeris = new HashSet<EvrakSeri>();
             this.WebMenus = new HashSet<WebMenu>();
             this.WebMenus1 = new HashSet<WebMenu>();
         }
@@ -35,10 +33,6 @@ namespace Wms12m.Entity.Models
         public virtual ICollection<Gorev> Gorevs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorev> Gorevs1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Kat> Kats { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EvrakSeri> EvrakSeris { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WebMenu> WebMenus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

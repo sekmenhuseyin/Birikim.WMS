@@ -26,16 +26,11 @@ namespace Wms12m.Entity.Models
         public int GirisDepoID { get; set; }
         public int CikisDepoID { get; set; }
         public int AraDepoID { get; set; }
-        public int OlusturanID { get; set; }
-        public int OlusturmaTarihi { get; set; }
-        public int OlusturmaSaati { get; set; }
         public bool Onay { get; set; }
-        public Nullable<int> OnaylayanID { get; set; }
+        public string Onaylayan { get; set; }
         public Nullable<int> OnaylamaTarihi { get; set; }
         public Nullable<int> OnaylamaSaati { get; set; }
     
-        public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
         public virtual Depo Depo { get; set; }
         public virtual Depo Depo1 { get; set; }
         public virtual Depo Depo2 { get; set; }
