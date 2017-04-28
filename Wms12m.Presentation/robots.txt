@@ -1,6 +1,4 @@
 ﻿User-agent: *
-Disallow: /Error/
 Disallow: /bin/
+Disallow: /Content/
 Disallow: /Views/
-# The sitemap must be an absolute URL
-# sitemap: http://mysite.com/sitemap.xml

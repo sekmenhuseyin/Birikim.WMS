@@ -309,7 +309,6 @@
     <Compile Include="Helper\Authentication.cs" />
     <Compile Include="Helper\Client.cs" />
     <Compile Include="Helper\DbExtensions.cs" />
-    <Compile Include="Helper\WebViewPageBase.cs" />
     <Compile Include="MobilServis.asmx.cs">
       <DependentUpon>MobilServis.asmx</DependentUpon>
       <SubType>Component</SubType>

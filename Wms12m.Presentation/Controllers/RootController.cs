@@ -27,7 +27,9 @@ namespace Wms12m.Presentation.Controllers
         public TaskYer TaskYer = new TaskYer();
         public Yerlestirme Yerlestirme = new Yerlestirme();
         public Transfers Transfers = new Transfers();
-
+        /// <summary>
+        /// her bir sayfa için yetki kontrolü yapar
+        /// </summary>
         public bool CheckPerm(string permName, PermTypes permtype)
         {
             var sonuc = db.GetPermissionFor(vUser.Id, vUser.RoleName, permName, "WMS", permtype.ToString()).FirstOrDefault().Value;
