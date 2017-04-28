@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
 using Wms12m.Entity;
@@ -15,12 +16,8 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             if (CheckPerm("Size", PermTypes.Reading) == false) return Redirect("/");
-            //dbler tempe aktarılıyor
-            var list = db.GetSirketDBs();
-            List<string> liste = new List<string>();
-            foreach (var item in list) { liste.Add(item); }
-            ViewBag.Sirket = liste;
-            return View("Index", Dimension.GetList());
+            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
+            return View("Index", new Olcu());
         }
         /// <summary>
         /// silme sonrası listeyi yenile
@@ -41,19 +38,19 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Create()
         {
             if (CheckPerm("Size", PermTypes.Reading) == false) return null;
+            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
             return PartialView("_Create", new Olcu());
         }
         /// <summary>
         /// düzenleme
         /// </summary>
-        public PartialViewResult Edit()
+        public PartialViewResult Edit(int id)
         {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null) return null;
-            if (id.ToString() == "0") return null;
+            if (id == 0) return null;
             if (CheckPerm("Size", PermTypes.Reading) == false) return null;
-            var tbl = Dimension.Detail(id.ToInt32());
+            var tbl = Dimension.Detail(id);
             if (tbl == null) return null;
+            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
             return PartialView("_Edit", tbl);
         }
         /// <summary>

@@ -177,8 +177,14 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Details(int ID)
         {
             if (CheckPerm("Transfer", PermTypes.Reading) == false) return null;
-            var list = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
-            return PartialView("_Details", list);
+            //dbler tempe aktarılıyor
+            var list = db.GetSirketDBs();
+            List<string> liste = new List<string>();
+            foreach (var item in list) { liste.Add(item); }
+            ViewBag.Sirket = liste;
+            //return
+            var result = db.Transfer_Detay.Where(m => m.TransferID == ID).Select(m => new frmMalKoduMiktar { MalKodu = m.MalKodu, Miktar = m.Miktar, Birim = m.Birim }).ToList();
+            return PartialView("_Details", result);
         }
         /// <summary>
         /// bekleyen transferi onayla

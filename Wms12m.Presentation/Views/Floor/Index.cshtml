@@ -37,7 +37,7 @@
                                     <div class="row">
                                         <div class="col-sm-4">Depo</div>
                                         <div class="col-sm-8">
-                                            @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle DepoID", @onchange = "getShelf(this.value,'ShelfListi');" })
+                                            @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle DepoID", @onchange = "getShelf(this.value,'ShelfListi', 'SectionListi');" })
                                         </div>
                                     </div>
                                     <div class="row">
@@ -81,8 +81,9 @@
         $('#SectionListi').on('change', function () { FuncSearchBtn(); })
         InsertRefresh();
     });
-    function getShelf(id, what) {
+    function getShelf(id, what, what2) {
         $("#" + what + " option").remove();
+        $("#" + what2 + " option").remove();
         if (what == "ShelfListi") $('#FloorGrid').html("");
         $.ajax({
             url: "/Shelf/ShelfList2/" + id,

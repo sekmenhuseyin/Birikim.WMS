@@ -25,7 +25,7 @@
                 <td align="right">@String.Format("{0:n}", item.Hacim) mm<sup>3</sup></td>
                 <td align="right">@Html.DisplayFor(modelItem => item.Agirlik) kg</td>
                 <td>
-                    <a class="btn btn-default input-circle"  href="#modalEditPage" data-toggle="modal"onclick="editInModal('/Size/Edit/@item.ID')"> Düzenle </a>
+                    <a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
                     <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/Size/List','liste','')"> Sil </a>
                 </td>
             </tr>
