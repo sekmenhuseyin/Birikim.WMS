@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Html.BeginForm("Update", "Tasks", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("Update", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "FuncSearchBtn()", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn - default');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.HiddenFor(a => a.ID)
                     @Html.AntiForgeryToken()

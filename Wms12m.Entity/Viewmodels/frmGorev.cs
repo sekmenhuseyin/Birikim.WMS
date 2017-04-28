@@ -65,6 +65,6 @@ namespace Wms12m.Entity
     public class frmGorevli
     {
         public int ID { get; set; }
-        public string GorevliID { get; set; }
+        public string Gorevli { get; set; }
     }
 }

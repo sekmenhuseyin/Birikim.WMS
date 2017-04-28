@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <div class="modal-body">@*Project Details Go Here*@
                     <h4>Görevli Ata</h4>
-                    @using (Html.BeginForm("GorevliKaydet", "Tasks", FormMethod.Post, new { @class = "form-horizontal" }))
+                    @using (Ajax.BeginForm("GorevliKaydet", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "FuncSearchBtn()", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn - default');" }, new { @class = "form-horizontal", id = "frmNew" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -19,11 +19,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-5">
-                                <input type="submit" value="Kaydet" class="btn btn-primary btn-block" />
-                            </div>
-                            <div class="col-md-5">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                                <button type="button" class="btn btn-primary pull-right" id="submitter">Kaydet</button>
                             </div>
                         </div>
                     }
@@ -31,4 +29,11 @@
             </div>
         </div>
     </div>
-</div>@if (Model.Gorevli == null) { <text> <script>$("#Gorevli").prepend("<option value=''>Seçiniz !!!</option>"); $("#Gorevli")[0].selectedIndex = 0; </script></text>}
+</div>
+<script>
+    $("#Gorevli").prepend("<option value=''>Seçiniz !!!</option>"); @if (Model.Gorevli == null) { <text>$("#Gorevli")[0].selectedIndex = 0;</text>}
+    $("#submitter").click(function () {
+        $("#frmNew").submit();
+        $('#modalEditPage').modal('toggle');
+    });
+</script>

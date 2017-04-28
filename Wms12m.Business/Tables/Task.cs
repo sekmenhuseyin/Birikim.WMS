@@ -127,7 +127,7 @@ namespace Wms12m.Business
             {
                 try
                 {
-                    tmp.Gorevli = tbl.GorevliID;
+                    tmp.Gorevli = tbl.Gorevli;
                     tmp.Atayan = Users.AppIdentity.User.UserName;
                     tmp.AtamaTarihi = DateTime.Today.ToOADateInt();
                     db.SaveChanges();

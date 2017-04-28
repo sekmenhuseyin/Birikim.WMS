@@ -319,8 +319,10 @@ namespace Wms12m
                             stok.Update(tmp2, item.IrsID, kulID, false, item.Miktar);
                         }
                     }
+                    ///////////////////TODO:warning
                 }
             }
+            ///////////////////TODO:warning
             return new Result(true);
         }
         /// <summary>
