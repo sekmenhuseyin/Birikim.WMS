@@ -18,21 +18,29 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Raf tbl)
         {
-            _Result = new Result();
+            _Result = new Result(false, 0);
+            //boş mu
             if (tbl.RafAd == "" || tbl.KoridorID == 0)
             {
-                _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
-                _Result.Status = false;
                 return _Result;
             }
+            //daha önce yazılmış mı
             var kontrol = db.Rafs.Where(m => m.RafAd == tbl.RafAd && m.KoridorID == tbl.KoridorID && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)
             {
-                _Result.Id = 0;
                 _Result.Message = "Bu isim kullanılıyor";
-                _Result.Status = false;
                 return _Result;
+            }
+            //pasif yapmadan önce içinin boş olması lazım
+            if (tbl.ID > 0 && tbl.Aktif == false)
+            {
+                var kontrol2 = db.Yers.Where(m => m.Miktar > 0 && m.Kat.Bolum.RafID == tbl.ID).FirstOrDefault();
+                if (kontrol2 != null)
+                {
+                    _Result.Message = "Bu yer kullanılırken pasif yapılamaz";
+                    return _Result;
+                }
             }
             //set details
             tbl.Degistiren = Users.AppIdentity.User.Id;

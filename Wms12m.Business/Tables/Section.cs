@@ -18,21 +18,29 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Bolum tbl)
         {
-            _Result = new Result();
+            _Result = new Result(false, 0);
+            //boş mu
             if (tbl.BolumAd == "" || tbl.RafID == 0)
             {
-                _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
-                _Result.Status = false;
                 return _Result;
             }
+            //daha önce yazılmış mı
             var kontrol = db.Bolums.Where(m => m.BolumAd == tbl.BolumAd && m.RafID == tbl.RafID && m.ID != tbl.ID).FirstOrDefault();
             if (kontrol != null)
             {
-                _Result.Id = 0;
                 _Result.Message = "Bu isim kullanılıyor";
-                _Result.Status = false;
                 return _Result;
+            }
+            //pasif yapmadan önce içinin boş olması lazım
+            if (tbl.ID > 0 && tbl.Aktif == false)
+            {
+                var kontrol2 = db.Yers.Where(m => m.Miktar > 0 && m.Kat.BolumID == tbl.ID).FirstOrDefault();
+                if (kontrol2 != null)
+                {
+                    _Result.Message = "Bu yer kullanılırken pasif yapılamaz";
+                    return _Result;
+                }
             }
             //set details
             tbl.Degistiren = Users.AppIdentity.User.Id;
