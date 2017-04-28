@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">Bölüm</label>
                         <div class="col-md-4">
-                            @Html.TextBoxFor(a => a.BolumAd, new { @class = "form-control input-circle", @placeholder = "Bölüm", required = "required" })
+                            @Html.TextBoxFor(a => a.BolumAd, new { @class = "form-control input-circle", @placeholder = "Bölüm", required = "required", @maxlength = "100" })
                             <span class="field-validation-valid" data-valmsg-for="BolumAd" data-valmsg-replace="true" style="color:red;"></span>
                         </div>
                     </div>
