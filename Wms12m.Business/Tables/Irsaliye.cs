@@ -21,8 +21,6 @@ namespace Wms12m.Business
             _Result = new Result();
             if (tbl.ID == 0)
             {
-                tbl.Kaydeden = Users.AppIdentity.User.Id;
-                tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.IRS.Add(tbl);
             }
             try

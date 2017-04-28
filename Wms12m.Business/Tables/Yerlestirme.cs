@@ -31,7 +31,7 @@ namespace Wms12m.Business
                 GC = false,//false=girdi(+), true=çıktı(-)
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
                 KayitSaati = DateTime.Now.ToOaTime(),
-                Kaydeden = KullID
+                Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault()
             };
             if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
             db.Yer_Log.Add(yerLog);
@@ -56,7 +56,7 @@ namespace Wms12m.Business
                 GC = gc,//false=girdi(+), true=çıktı(-)
                 KayitTarihi = DateTime.Today.ToOADate().ToInt32(),
                 KayitSaati = DateTime.Now.ToOaTime(),
-                Kaydeden = KullID
+                Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault()
             };
             if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
             db.Yer_Log.Add(yerLog);
@@ -92,7 +92,7 @@ namespace Wms12m.Business
                 Birim = tbl.Birim,
                 Miktar = tbl.Miktar,
                 GC = true,
-                Kaydeden = KullID,
+                Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault(),
                 KayitTarihi = DateTime.Today.ToOADateInt(),
                 KayitSaati = DateTime.Now.ToOaTime()
             };
@@ -122,7 +122,7 @@ namespace Wms12m.Business
                         Birim = tbl.Birim,
                         Miktar = tbl.Miktar,
                         GC = true,
-                        Kaydeden = Users.AppIdentity.User.Id,
+                        Kaydeden = Users.AppIdentity.User.UserName,
                         KayitTarihi = DateTime.Today.ToOADateInt(),
                         KayitSaati = DateTime.Now.ToOaTime()
                     };
@@ -162,7 +162,7 @@ namespace Wms12m.Business
                         Birim = tbl.Birim,
                         Miktar = tbl.Miktar,
                         GC = true,
-                        Kaydeden = KullID,
+                        Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault(),
                         KayitTarihi = DateTime.Today.ToOADateInt(),
                         KayitSaati = DateTime.Now.ToOaTime()
                     };

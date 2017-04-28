@@ -90,7 +90,7 @@ namespace Wms12m.Presentation.Controllers
             if (id == null) return null;
             Int32 ID = Convert.ToInt32(id);
             var list = Task.Detail(ID);
-            ViewBag.GorevliID = new SelectList(Persons.GetList(), "ID", "AdSoyad", list.GorevliID);
+            ViewBag.GorevliID = new SelectList(Persons.GetList(), "Kod", "AdSoyad", list.Gorevli);
             return PartialView("GorevliAta", list);
         }
         /// <summary>

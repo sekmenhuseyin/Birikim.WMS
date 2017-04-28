@@ -43,11 +43,11 @@ namespace Wms12m.Business
                 }
             }
             //set details
-            tbl.Degistiren = Users.AppIdentity.User.Id;
+            tbl.Degistiren = Users.AppIdentity.User.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             if (tbl.ID == 0)
             {
-                tbl.Kaydeden = Users.AppIdentity.User.Id;
+                tbl.Kaydeden = Users.AppIdentity.User.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Kats.Add(tbl);
             }

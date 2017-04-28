@@ -21,7 +21,7 @@ namespace Wms12m.Business
             _Result = new Result();
             if (tbl.ID == 0)
             {
-                tbl.OlusturanID = Users.AppIdentity.User.Id;
+                tbl.Olusturan = Users.AppIdentity.User.UserName;
                 tbl.OlusturmaTarihi = DateTime.Today.ToOADateInt();
                 tbl.OlusturmaSaati = DateTime.Now.ToOaTime();
                 tbl.DurumID = ComboItems.Açık.ToInt32();
@@ -61,7 +61,7 @@ namespace Wms12m.Business
                     GorevNo = gorevno,
                     GorevTipiID = ComboItems.MalKabul.ToInt32(),
                     DurumID = ComboItems.Açık.ToInt32(),
-                    OlusturanID = Users.AppIdentity.User.Id,
+                    Olusturan = Users.AppIdentity.User.UserName,
                     OlusturmaTarihi = DateTime.Today.ToOADateInt(),
                     OlusturmaSaati = DateTime.Now.ToOaTime(),
                     IrsaliyeID = tbl.IrsaliyeID,
@@ -108,7 +108,7 @@ namespace Wms12m.Business
                 }
                 catch (Exception ex)
                 {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Task/Update");
+                    db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Task/Update");
                     _Result.Message = ex.Message;
                     _Result.Status = false;
                     _Result.Id = 0;
@@ -127,8 +127,8 @@ namespace Wms12m.Business
             {
                 try
                 {
-                    tmp.GorevliID = tbl.GorevliID;
-                    tmp.AtayanID = Users.AppIdentity.User.Id;
+                    tmp.Gorevli = tbl.GorevliID;
+                    tmp.Atayan = Users.AppIdentity.User.UserName;
                     tmp.AtamaTarihi = DateTime.Today.ToOADateInt();
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";
@@ -137,7 +137,7 @@ namespace Wms12m.Business
                 }
                 catch (Exception ex)
                 {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Task/UpdateGorevli");
+                    db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Task/UpdateGorevli");
                     _Result.Message = ex.Message;
                     _Result.Status = false;
                     _Result.Id = 0;
@@ -222,7 +222,7 @@ namespace Wms12m.Business
         {
             return db.Gorevs
                 .Where(m => m.ID == Id)
-                .Select(m => new frmGorevJson { Olusturan = m.User2.AdSoyad, OlusturmaTarihi = m.OlusturmaTarihi, OlusturmaSaati = m.OlusturmaSaati, Bilgi = m.Bilgi, Aciklama = m.Aciklama, AtamaTarihi = m.AtamaTarihi, BitisTarihi = m.BitisTarihi, BitisSaati = m.BitisSaati, Atayan = m.User.AdSoyad, Gorevli = m.User1.AdSoyad })
+                .Select(m => new frmGorevJson { Olusturan = m.Olusturan, OlusturmaTarihi = m.OlusturmaTarihi, OlusturmaSaati = m.OlusturmaSaati, Bilgi = m.Bilgi, Aciklama = m.Aciklama, AtamaTarihi = m.AtamaTarihi, BitisTarihi = m.BitisTarihi, BitisSaati = m.BitisSaati, Atayan = m.Atayan, Gorevli = m.Gorevli })
                 .FirstOrDefault();
         }
         /// <summary>
