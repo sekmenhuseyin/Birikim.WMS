@@ -9,13 +9,21 @@ namespace Wms12m.Presentation.Controllers
     public class UsersController : RootController
     {
         /// <summary>
-        /// kullanıcılar
+        /// kullanıcı sayfası
         /// </summary>
         public ActionResult Index()
         {
             if (CheckPerm("Users", PermTypes.Reading) == false) return Redirect("/");
+            return View("Index");
+        }
+        /// <summary>
+        /// kullanıcılar
+        /// </summary>
+        public PartialViewResult List()
+        {
+            if (CheckPerm("Users", PermTypes.Reading) == false) return null;
             var list = db.Users.ToList();
-            return View("Index", list);
+            return PartialView("List", list);
         }
         /// <summary>
         /// ayrıntılar
