@@ -70,5 +70,11 @@
     "inputFiles": [
       "Content/assets/pages/scripts/login.js"
     ]
+  },
+  {
+    "outputFileName": "Content/assets/pages/css/login-4.min.css",
+    "inputFiles": [
+      "Content/assets/pages/css/login-4.css"
+    ]
   }
 ]

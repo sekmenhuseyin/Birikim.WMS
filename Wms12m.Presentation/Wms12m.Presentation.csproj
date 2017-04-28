@@ -243,6 +243,10 @@
     <Content Include="Content\assets\layouts\layout\scripts\layout.min.js">
       <DependentUpon>layout.js</DependentUpon>
     </Content>
+    <Content Include="Content\assets\pages\css\login-4.css" />
+    <Content Include="Content\assets\pages\css\login-4.min.css">
+      <DependentUpon>login-4.css</DependentUpon>
+    </Content>
     <Content Include="Content\assets\pages\img\bg-opacity.png" />
     <Content Include="Content\assets\pages\img\bg-white-lock.png" />
     <Content Include="Content\assets\pages\img\bg-white.png" />

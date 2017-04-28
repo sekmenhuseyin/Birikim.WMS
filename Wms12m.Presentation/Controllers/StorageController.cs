@@ -19,7 +19,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Storage", PermTypes.Reading) == false) return Redirect("/");
             using (KabloEntities dbx = new KabloEntities())
             {
-                ViewBag.KabloDepoID = new SelectList(dbx.depoes.ToList(), "id", "depo1");
+                ViewBag.KabloDepoID = new SelectList(dbx.depoes.OrderBy(m => m.depo1).ToList(), "id", "depo1");
             }
             return View("Index", new Depo());
         }
@@ -42,7 +42,7 @@ namespace Wms12m.Presentation.Controllers
             var item = Convert.ToInt16(Id == "" ? "0" : Id) > 0 ? Store.Detail(Convert.ToInt16(Id)) : new Depo() { Aktif = false };
             using (KabloEntities dbx = new KabloEntities())
             {
-                ViewBag.KabloDepoID = new SelectList(dbx.depoes.ToList(), "id", "depo1", item.KabloDepoID);
+                ViewBag.KabloDepoID = new SelectList(dbx.depoes.OrderBy(m => m.depo1).ToList(), "id", "depo1", item.KabloDepoID);
             }
             return PartialView("_StoreDetailPartial", item);
         }
