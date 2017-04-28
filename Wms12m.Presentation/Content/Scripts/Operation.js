@@ -44,24 +44,8 @@ function FunctionDelete(URL, deleteId) {
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             if (data.Id == 0) {
-                if (data.Message == "Depo") {
-                    Modaldialog("Bu depoya kayıtlı koridor bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-danger");
-                }
-                else if (data.Message == "Koridor") {
-                    Modaldialog("Bu koridora kayıtlı raf bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-danger");
-                }
-                else if (data.Message == "Raf") {
-                    Modaldialog("Bu rafa kayıtlı bölüm bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-danger");
-                }
-                else if (data.Message == "Bölüm") {
-                    Modaldialog("Bu bölüme kayıtlı kat bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-danger");
-                }
-                else if (data.Message == "Kat") {
-                    Modaldialog("Bu kata kayıtlı ölçü bilgisi bulunmaktadır. Silme işlemi gerçekleştirilemedi.", "Hata", "Tamam", "btn-danger");
-                }
-                else {
-                    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
-                }
+                if (data.Message == "") data.Message = "Hata oluştu";
+                Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
             }
         }
     }).done(function (data) {

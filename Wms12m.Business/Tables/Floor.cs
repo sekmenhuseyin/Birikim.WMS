@@ -89,23 +89,31 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Delete(int Id)
         {
-            _Result = new Result();
-            try
+            _Result = new Result(false, 0);
+            //kaydı bul
+            Kat tbl = db.Kats.Where(m => m.ID == Id).FirstOrDefault();
+            if (tbl != null)
             {
-                Kat tbl = db.Kats.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
+                if (tbl.Yers.FirstOrDefault() == null)
                     db.Kats.Remove(tbl);
-                    db.SaveChanges();
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
                 else
                 {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
+                    _Result.Message = "Buraya ait mal var";
+                    return _Result;
                 }
+            }
+            else
+            {
+                _Result.Message = "Kayıt Yok";
+                _Result.Status = false;
+            }
+            //sil
+            try
+            {
+                db.SaveChanges();
+                _Result.Id = Id;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
             }
             catch (Exception ex)
             {

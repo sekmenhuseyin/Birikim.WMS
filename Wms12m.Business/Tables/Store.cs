@@ -90,29 +90,36 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Delete(int Id)
         {
-            _Result = new Result();
-            try
+            _Result = new Result(false, 0);
+            //kaydı bul
+            var tbl = db.Depoes.Where(m => m.ID == Id).FirstOrDefault();
+            if (tbl != null)
             {
-                Depo tbl = db.Depoes.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
+                if (tbl.Koridors.FirstOrDefault() == null)
                     db.Depoes.Remove(tbl);
-                    db.SaveChanges();
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
                 else
                 {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
+                    _Result.Message = "Buraya ait koridor var";
+                    return _Result;
                 }
+            }
+            else
+            {
+                _Result.Message = "Kayıt Yok";
+                return _Result;
+            }
+            //sil
+            try
+            {
+                db.SaveChanges();
+                _Result.Id = Id;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
             }
             catch (Exception ex)
             {
                 db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Store/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -155,7 +162,7 @@ namespace Wms12m.Business
         /// </summary>
         public List<Depo> GetListCable()
         {
-            return db.Depoes.Where(m=>m.KabloDepoID != null).OrderBy(m => m.DepoAd).ToList();
+            return db.Depoes.Where(m => m.KabloDepoID != null).OrderBy(m => m.DepoAd).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
