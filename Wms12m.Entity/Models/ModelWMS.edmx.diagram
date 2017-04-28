@@ -19,7 +19,6 @@
         <EntityTypeShape EntityType="MModel.Depo" Width="1.5" PointX="15.75" PointY="7" />
         <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="4.25" PointY="3" />
         <EntityTypeShape EntityType="MModel.GorevYer" Width="1.5" PointX="3.5" PointY="23.75" />
-        <EntityTypeShape EntityType="MModel.IR" Width="1.5" PointX="5" PointY="15" />
         <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="4.875" PointY="19.875" />
         <EntityTypeShape EntityType="MModel.Koridor" Width="1.5" PointX="16.75" PointY="13.5" />
         <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="13.75" PointY="0.75" />
@@ -42,27 +41,28 @@
         <AssociationConnector Association="MModel.FK_Users_Users" />
         <AssociationConnector Association="MModel.FK_Bolum_Raf" />
         <AssociationConnector Association="MModel.FK_Gorev_Depo" />
-        <AssociationConnector Association="MModel.FK_IRS_Depo" />
         <AssociationConnector Association="MModel.FK_Koridor_Depo" />
         <AssociationConnector Association="MModel.FK_Transfer_Depo" />
         <AssociationConnector Association="MModel.FK_Transfer_Depo1" />
         <AssociationConnector Association="MModel.FK_Transfer_Depo2" />
-        <AssociationConnector Association="MModel.FK_GorevListesi_IRS" />
         <AssociationConnector Association="MModel.FK_GorevYer_Gorev" />
         <AssociationConnector Association="MModel.FK_Transfer_Gorev" />
         <AssociationConnector Association="MModel.FK_GorevYer_Yer" />
-        <AssociationConnector Association="MModel.FK_IRS_Detay_IRS" />
-        <AssociationConnector Association="MModel.FK_Yer_Log_IRS" />
         <AssociationConnector Association="MModel.FK_Raf_Koridor" />
         <AssociationConnector Association="MModel.FK_Transfer_Detay_Transfer" />
         <AssociationConnector Association="MModel.WebMenuRol" />
         <AssociationConnector Association="MModel.Depo_Users" />
-        <AssociationConnector Association="MModel.GorevIRS" />
         <EntityTypeShape EntityType="MModel.Kat" Width="1.5" PointX="14" PointY="21.25" />
         <AssociationConnector Association="MModel.FK_Kat_ComboItem_Name" />
         <AssociationConnector Association="MModel.FK_Kat_Bolum" />
         <AssociationConnector Association="MModel.FK_Yer_Kat" />
         <AssociationConnector Association="MModel.FK_Yer_Log_Kat" />
+        <EntityTypeShape EntityType="MModel.IR" Width="1.5" PointX="5.125" PointY="14.875" />
+        <AssociationConnector Association="MModel.FK_IRS_Depo" />
+        <AssociationConnector Association="MModel.FK_GorevListesi_IRS" />
+        <AssociationConnector Association="MModel.FK_IRS_Detay_IRS" />
+        <AssociationConnector Association="MModel.FK_Yer_Log_IRS" />
+        <AssociationConnector Association="MModel.GorevIRS" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
