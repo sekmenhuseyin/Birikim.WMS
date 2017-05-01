@@ -101,6 +101,7 @@
             <s:element minOccurs="1" maxOccurs="1" name="durum" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="gorevtipi" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="DepoID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>

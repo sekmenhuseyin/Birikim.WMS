@@ -113,22 +113,24 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/GetGorevList", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Tip_GOREV[] GetGorevList(int gorevli, int durum, int gorevtipi, int DepoID) {
+        public Tip_GOREV[] GetGorevList(int gorevli, int durum, int gorevtipi, int DepoID, int KullID) {
             object[] results = this.Invoke("GetGorevList", new object[] {
                         gorevli,
                         durum,
                         gorevtipi,
-                        DepoID});
+                        DepoID,
+                        KullID});
             return ((Tip_GOREV[])(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetGorevList(int gorevli, int durum, int gorevtipi, int DepoID, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetGorevList(int gorevli, int durum, int gorevtipi, int DepoID, int KullID, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetGorevList", new object[] {
                         gorevli,
                         durum,
                         gorevtipi,
-                        DepoID}, callback, asyncState);
+                        DepoID,
+                        KullID}, callback, asyncState);
         }
         
         /// <remarks/>
