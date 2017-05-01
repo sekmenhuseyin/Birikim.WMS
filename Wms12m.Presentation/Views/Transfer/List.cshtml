@@ -1,8 +1,8 @@
 ﻿@{
     ViewBag.Title = "Transfer Onaylama";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="~/Content/assets/global/plugins/datatables/css/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+}@section Styles{<link href="~/Content/assets/global/plugins/datatables/css/dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
 <style>
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
@@ -35,8 +35,8 @@
     </div>
 </div>
 @section Scripts{<script src="~/Content/assets/global/scripts/datatable.js" type="text/javascript"></script>
-<script src="~/Content/assets/global/plugins/datatables/js/jquery.datatables.min.js" type="text/javascript"></script>
-<script src="~/Content/assets/global/plugins/datatables/js/datatables.bootstrap.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/datatables/dataTables.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js" type="text/javascript"></script>
 <script>
     var DeleteFunctionUrl = '@Url.Action("Delete", "Transfer")';
     FuncSearchBtn();
