@@ -233,6 +233,17 @@ namespace Wms12m
         /// <summary>
         /// <para>Gelen Int formatındaki tarihi normal formata dönüştürür.</para>
         /// </summary>
+        public static DateTime FromOaDate(this int value)
+        {
+            try
+            {
+                return DateTime.FromOADate(value).Date;
+            }
+            catch (Exception)
+            {
+                return DateTime.Today.Date;
+            }
+        }
         public static string FromOADateInt(this int Deger)
         {
             try { return DateTime.FromOADate(Deger).ToString("dd.MM.yyyy"); }

@@ -1,0 +1,179 @@
+﻿@model List<ChartGunlukSatisAnalizi>
+<style>
+    .gs_tarih .dx-dropdowneditor-icon {
+        color: #44b6ae;
+    }
+
+        .gs_tarih .dx-dropdowneditor-icon:before {
+            color: #44b6ae;
+        }
+</style>
+<div class="col-md-12">
+    <!-- BEGIN CHART PORTLET-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-bar-chart font-green-haze"></i>
+                        <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Analizi <span style="color:#8888a7;">3D PİE CHART</span></span>
+                    </div>
+                    <div class="gsp_tarih" style="float:left; width:200px; margin-left:60px;"></div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"> </a>
+                        <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+                        <a href="javascript:;" class="reload"> </a>
+                        <a href="javascript:;" class="fullscreen"> </a>
+                        <a href="javascript:;" class="remove"> </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div id="chart_7" class="chart" style="height: 400px;"> </div>
+                    @*<div class="well margin-top-20">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="text-left">Top Radius:</label>
+                                <input class="chart_7_chart_input" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01" />
+                            </div>
+                            <div class="col-sm-3">
+                                <label class="text-left">Angle:</label>
+                                <input class="chart_7_chart_input" data-property="angle" type="range" min="0" max="89" value="30" step="1" />
+                            </div>
+                            <div class="col-sm-3">
+                                <label class="text-left">Depth:</label>
+                                <input class="chart_7_chart_input" data-property="depth3D" type="range" min="1" max="120" value="40" step="1" />
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END CHART PORTLET-->
+</div>
+@*<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <link href="~/Content/dx.light.css" rel="stylesheet" />
+    <link href="~/Content/dx.common.css" rel="stylesheet" />
+    <script src="~/Scripts/dx.web.debug.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/amcharts.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/pie.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/radar.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/serial.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/themes/light.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/themes/patterns.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/themes/chalk.js"></script>
+    <script src="~/Content/global/plugins/amcharts/ammap/ammap.js"></script>
+    <script src="~/Content/global/plugins/amcharts/ammap/maps/js/worldLow.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amstockcharts/amstock.js"></script>*@
+
+<script>
+    $(document).ready(function (e) {
+        var x = '@ViewBag.Tarih'.substr(0, 10);
+        var arr = x.split(".");
+        arr[1] = (parseInt(arr[1]) - 1).toString();
+        var f_tarih= new Date(arr[2],arr[1],arr[0]);
+
+        var model = @Html.Raw(Json.Encode(Model));
+      
+        var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
+        for (var i = 0; i < model.length; i++) {
+            $.extend(model[i],{
+                color: color[i%color.length]
+            });
+        }
+        
+        $(".gsp_tarih").dxDateBox({
+            dataType: 'date',
+            formatString: 'dd/MM/yyyy',
+            value:f_tarih,
+            onValueChanged: function (e) {
+                var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+                var GunlukSatisUrl = "/Home/PartialGunlukSatisPie";
+                PartialView(GunlukSatisUrl, 'gunluk_satis_pie', JSON.stringify({ tarih: oaDate }));
+            }
+        });
+        var ChartsAmcharts = function () {
+            var initChartSample7 = function () {
+                var chart = AmCharts.makeChart("chart_7", {
+                    "type": "pie",
+                    "theme": "light",
+
+                    "fontFamily": 'Open Sans',
+
+                    "color": '#888',
+
+                    //"dataProvider": [{
+                    //    "Unvan": "Lithuania",
+                    //    "GenelTutar": 260
+                    //}, {
+                    //    "Unvan": "Ireland",
+                    //    "GenelTutar": 201
+                    //}, {
+                    //    "Unvan": "Germany",
+                    //    "GenelTutar": 65
+                    //}, {
+                    //    "Unvan": "Australia",
+                    //    "GenelTutar": 39
+                    //}, {
+                    //    "Unvan": "UK",
+                    //    "GenelTutar": 19
+                    //}, {
+                    //    "Unvan": "Latvia",
+                    //    "GenelTutar": 10
+                    //}],
+                    "valueField": "GenelTutar",
+                    "titleField": "Unvan",
+                    "outlineAlpha": 0.4,
+                    "depth3D": 30,
+                    "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                    "colorField": "color",
+                    "angle": 30,
+                    "exportConfig": {
+                        menuItems: [{
+                            icon: '/lib/3/images/export.png',
+                            format: 'png'
+                        }]
+                    }
+                });
+                chart.dataProvider = model;
+                chart.validateData();
+                chart.animateAgain();
+                jQuery('.chart_7_chart_input').off().on('input change', function () {
+                    var property = jQuery(this).data('property');
+                    var target = chart;
+                    var value = Number(this.value);
+                    chart.startDuration = 0;
+
+                    if (property == 'innerRadius') {
+                        value += "%";
+                    }
+
+                    target[property] = value;
+                    chart.validateNow();
+                });
+
+                $('#chart_7').closest('.portlet').find('.fullscreen').click(function () {
+                    chart.invalidateSize();
+                });
+            }
+
+
+            return {
+                //main function to initiate the module
+
+                init: function () {
+                    initChartSample7();
+
+                }
+
+            };
+        }();
+        jQuery(document).ready(function () {
+            ChartsAmcharts.init();
+        });
+
+    });
+
+</script>
