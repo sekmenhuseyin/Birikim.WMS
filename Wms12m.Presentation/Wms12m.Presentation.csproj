@@ -419,6 +419,7 @@
     <Content Include="Views\Home\_PartialGunlukSatısAnaliziYearToDayPie.cshtml" />
     <Content Include="Views\Home\_PartialLokasyonSatis.cshtml" />
     <Content Include="Views\Home\_PartialUrunGrubuSatis.cshtml" />
+    <Content Include="Views\Stock\ManualMovement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

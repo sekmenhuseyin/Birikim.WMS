@@ -166,7 +166,8 @@ namespace Wms12m.Presentation.Controllers
             if (kontrol1 == false)
             {
                 db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
-                return null;
+                ViewBag.message = "Tarih yanlış";
+                return PartialView("_GridPartial", new List<IRS_Detay>());
             }
             int tarih = tmpTarih.ToOADateInt();
             var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID).FirstOrDefault();
@@ -193,7 +194,10 @@ namespace Wms12m.Presentation.Controllers
             string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3)", tbl.SirketID, tbl.EvrakNo);
             var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
             if (sti != null)
-                return null;
+            {
+                ViewBag.message = "Bu evrak no kullanılıyor";
+                return PartialView("_GridPartial", new List<IRS_Detay>());
+            }
             //yeni kayıt
             string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
             int today = fn.ToOADate();

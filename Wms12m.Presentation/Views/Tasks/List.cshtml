@@ -1,6 +1,6 @@
 ﻿@model List<Gorev>
 <table class="table table-striped table-bordered" id="sample_1">
-    <thead><tr><th></th><th>Depo</th><th>EvrakNo</th><th>Görev No</th><th>Görev Tipi</th><th>Görevli</th><th>Oluşturma Tarihi</th><th>Bitirme Tarihi</th><th>Bilgi</th><th></th></tr></thead>
+    <thead><tr><th></th><th>Depo</th><th>EvrakNo</th><th>Görev No</th><th>Görev Tipi</th><th>Görevli</th><th>Oluşturma Tarihi</th><th>Bitirme Tarihi</th><th>Bilgi</th></tr></thead>
     <tbody id="GorevFrom">
         @foreach (var item in Model)
         {
@@ -14,10 +14,6 @@
                 <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
                 <td>@item.Bilgi</td>
-                <td>
-                    <a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                    <button class="btn btn-danger input-circle" onclick="Delete('@item.ID', '/Tasks/List', 'GorevGrid', '@ViewBag.id')">Sil</button>
-                </td>
             </tr>
         }
     </tbody>
