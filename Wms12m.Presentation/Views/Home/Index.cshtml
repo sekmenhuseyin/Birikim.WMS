@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Depo Yönetim Paneli";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><span>Anasayfa</span></li></ul></div>
 <h1 class="page-title">Depo Yönetim Paneli</h1>
 <div class="row">
@@ -42,5 +43,25 @@
         </a>
     </div>
 </div>
-@section Scripts{<script src="~/Content/assets/global/plugins/counterup/jquery.waypoints.min.js"></script>
-<script src="~/Content/assets/global/plugins/counterup/jquery.counterup.min.js"></script>}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row" id="gunluk_satis"></div>
+        <div class="row" id="gunluk_satis_pie"></div>
+        <div class="row" id="gunluk_satis_yeartoday"></div>
+        <div class="row" id="gunluk_satis_yeartoda_pie"></div>
+        <div class="row" id="aylik_satis_bar" style="margin-top:40px;"></div>
+        <div class="row" id="aylik_satis_chk_bar" style="margin-top:40px;"></div>
+        <div class="row" id="urun_grubu_satis" style="margin-top:40px;"></div>
+        <div class="row" id="lokasyon_satis" style="margin-top:40px;"></div>
+        <div class="row" id="bakiye_risk" style="margin-top:40px;"></div>
+        <div class="row" id="bekleyen_siparis_urun_grubu" style="margin-top:40px;"></div>
+        <div class="row" id="bekleyen_siparis_urun_grubu_miktar" style="margin-top:40px;"></div>
+    </div>
+</div>
+<div id="box-content" style="display:none"></div>
+
+@section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="~/Content/assets/global/plugins/counterup/jquery.waypoints.min.js"></script>
+<script src="~/Content/assets/global/plugins/counterup/jquery.counterup.min.js"></script>
+}

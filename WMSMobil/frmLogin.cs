@@ -41,18 +41,26 @@ namespace WMSMobil
                 return;
             }
             this.Enabled = false;
-            Login login = Servis.LoginKontrol(txtKullaniciAdi.Text.Trim().Left(5), txtParola.Text.Trim());
-            if (login.IsNotNull())
+            try
             {
-                Ayarlar.Kullanici = login;
-                frmMain anaForm = new frmMain();
-                this.Enabled = true;
-                anaForm.ShowDialog();
+                Login login = Servis.LoginKontrol(txtKullaniciAdi.Text.Trim().Left(5), txtParola.Text.Trim());
+                if (login.IsNotNull())
+                {
+                    Ayarlar.Kullanici = login;
+                    frmMain anaForm = new frmMain();
+                    this.Enabled = true;
+                    anaForm.ShowDialog();
+                }
+                else
+                {
+                    this.Enabled = true;
+                    Mesaj.Uyari("Kullanıcı adı veya parola hatalı");
+                }
             }
-            else
+            catch (Exception)
             {
                 this.Enabled = true;
-                Mesaj.Uyari("Kullanıcı adı veya parola hatalı");
+                Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
             }
         }
         /// <summary>
