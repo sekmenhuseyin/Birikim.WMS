@@ -142,8 +142,10 @@
     <Content Include="Content\ajaxloader.gif" />
     <Content Include="Content\assets\global\css\components-md.css" />
     <Content Include="Content\assets\global\css\components-md.min.css" />
+    <Content Include="Content\assets\global\css\components.css" />
     <Content Include="Content\assets\global\css\plugins-md.css" />
     <Content Include="Content\assets\global\css\plugins-md.min.css" />
+    <Content Include="Content\assets\global\css\plugins.css" />
     <Content Include="Content\assets\global\img\accordion-plusminus.png" />
     <Content Include="Content\assets\global\img\ajax-loading.gif" />
     <Content Include="Content\assets\global\img\ajax-modal-loading.gif" />

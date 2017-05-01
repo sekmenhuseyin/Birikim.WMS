@@ -12,18 +12,6 @@
     ]
   },
   {
-    "outputFileName": "Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js",
-    "inputFiles": [
-      "Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"
-    ]
-  },
-  {
-    "outputFileName": "Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css",
-    "inputFiles": [
-      "Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css"
-    ]
-  },
-  {
     "outputFileName": "Content/Scripts/Functions.min.js",
     "inputFiles": [
       "Content/Scripts/Functions.js"
