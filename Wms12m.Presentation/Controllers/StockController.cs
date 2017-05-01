@@ -37,14 +37,14 @@ namespace Wms12m.Presentation.Controllers
             {
                 if (ids[2] != "0" && ids[2].ToString2() != "") //bir raftaki ait malzemeler
                     return PartialView("List", Yerlestirme.GetList(ids[2].ToInt32()));
-                else if(ids[1] != "0" && ids[1].ToString2() != "") //bir raftaki ait malzemeler
+                else if (ids[1] != "0" && ids[1].ToString2() != "") //bir raftaki ait malzemeler
                     return PartialView("List", Yerlestirme.GetListFromRaf(ids[1].ToInt32()));
                 else// if (ids[0] != "0") //tüm depoya ait malzemeler: burada timeout verebilir
                     return PartialView("List", Yerlestirme.GetListFromDepo(ids[0].ToInt32()));
             }
             catch (System.Exception ex)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Stock/List");
+                Logger(ex, "Stock/List");
                 return PartialView("List", new List<Yer>());
             }
         }

@@ -75,7 +75,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 var grvNo = db.SettingsGorevNo(fn.ToOADate()).FirstOrDefault();
                 var tbl = new Gorev() { DepoID = DepoID, GorevNo = grvNo, GorevTipiID = sayim, DurumID = açık };
-                _Result = Task.Operation(tbl);                
+                _Result = Task.Operation(tbl);
             }
             else
                 _Result = new Result(false, "Bu görev zaten var");
@@ -107,7 +107,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Tasks/Delete");
+                Logger(ex, "Tasks/Delete");
                 _Result.Status = false;
                 _Result.Message = ex.Message;
             }

@@ -84,7 +84,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception ex)
                 {
-                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Uploads/irsaliye");
+                    Logger(ex, "Uploads/irsaliye");
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -158,7 +158,7 @@ namespace Wms12m.Presentation.Controllers
                 _Result.Message = basarili + " kart eklendi";
             else
                 _Result.Message = "";
-            if(basarili>0 && hatali>0)
+            if (basarili > 0 && hatali > 0)
                 _Result.Message += ", ";
             if (hatali > 0)
                 _Result.Message += hatali + " kart hata verdi. Hatalı satırlar: \n" + hatalilar;

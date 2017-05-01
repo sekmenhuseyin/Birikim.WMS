@@ -51,7 +51,7 @@ namespace Wms12m.Presentation.Controllers
                 try { db.MenuRolEkle(tablo.MenuNo, tablo.RolNo); }
                 catch (Exception ex)
                 {
-                    db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Menu/SavePermission");
+                    Logger(ex, "Menu/SavePermission");
                 }
             }
             var mn = db.WebMenus.Where(m => m.ID == tablo.MenuNo).FirstOrDefault();

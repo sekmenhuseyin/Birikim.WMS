@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Wms12m.Business;
@@ -27,6 +28,19 @@ namespace Wms12m.Presentation.Controllers
         public TaskYer TaskYer = new TaskYer();
         public Yerlestirme Yerlestirme = new Yerlestirme();
         public Transfers Transfers = new Transfers();
+        /// <summary>
+        /// hata kaydını tek yerden kontrol etmek için
+        /// </summary>
+        public void Logger(Exception ex, string page)
+        {
+            string inner = "";
+            if(ex.InnerException!=null)
+            {
+                inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+            }
+            db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, inner, page);
+        }
         /// <summary>
         /// her bir sayfa için yetki kontrolü yapar
         /// </summary>
