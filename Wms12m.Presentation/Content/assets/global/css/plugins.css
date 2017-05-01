@@ -126,11 +126,11 @@ Bootstrap Daterangepicker
 .daterangepicker .ranges {
   width: 170px; }
   .daterangepicker .ranges ul > li.active {
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    -ms-border-radius: 2px;
-    -o-border-radius: 2px;
-    border-radius: 2px; }
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px; }
 
 .daterangepicker .ranges .btn {
   margin-top: 10px; }
@@ -227,25 +227,25 @@ Bootstrap Markdown
 .md-input {
   padding: 5px !important;
   border-bottom: 0 !important;
-  -webkit-border-radius: 0 0 2px 2px;
-  -moz-border-radius: 0 0 2px 2px;
-  -ms-border-radius: 0 0 2px 2px;
-  -o-border-radius: 0 0 2px 2px;
-  border-radius: 0 0 2px 2px; }
+  -webkit-border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  -ms-border-radius: 0 0 4px 4px;
+  -o-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px; }
 
 .md-editor {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -o-border-radius: 2px;
-  border-radius: 2px; }
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px; }
   .md-editor .btn-toolbar {
     margin-left: 0px;
-    -webkit-border-radius: 2px 2px 0 0;
-    -moz-border-radius: 2px 2px 0 0;
-    -ms-border-radius: 2px 2px 0 0;
-    -o-border-radius: 2px 2px 0 0;
-    border-radius: 2px 2px 0 0; }
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -ms-border-radius: 4px 4px 0 0;
+    -o-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0; }
     .md-editor .btn-toolbar .btn-group .btn-sm.btn {
       padding-bottom: 3px; }
     .md-editor .btn-toolbar .btn-group .btn-primary {
@@ -292,30 +292,6 @@ Bootstrap Modal
   overflow: hidden !important;
   z-index: 10051;
   overflow-y: scroll !important; }
-
-.modal {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -o-border-radius: 2px;
-  border-radius: 2px;
-  border: 0 !important; }
-  .modal .modal-body {
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    -ms-border-radius: 2px;
-    -o-border-radius: 2px;
-    border-radius: 2px;
-    border: 0; }
-  .modal .modal-title {
-    font-weight: 400; }
-  .modal .modal-footer {
-    border: 0 !important; }
-
-.modal-backdrop,
-.modal-backdrop.fade.in {
-  opacity: 0.2 ;
-  filter: alpha(opacity=20) ; }
 
 /***
 Bootstrap Select
@@ -609,24 +585,24 @@ Error state for WYSIWYG Editors
 ***/
 .note-editor {
   border: 1px solid #c2cad8;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -o-border-radius: 2px;
-  border-radius: 2px; }
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px; }
   .note-editor .note-toolbar {
     border-bottom: 1px solid #c2cad8;
-    -webkit-border-radius: 2px 2px 0 0;
-    -moz-border-radius: 2px 2px 0 0;
-    -ms-border-radius: 2px 2px 0 0;
-    -o-border-radius: 2px 2px 0 0;
-    border-radius: 2px 2px 0 0; }
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -ms-border-radius: 4px 4px 0 0;
+    -o-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0; }
   .note-editor .note-statusbar {
-    -webkit-border-radius: 0 0 2px 2px;
-    -moz-border-radius: 0 0 2px 2px;
-    -ms-border-radius: 0 0 2px 2px;
-    -o-border-radius: 0 0 2px 2px;
-    border-radius: 0 0 2px 2px; }
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    -ms-border-radius: 0 0 4px 4px;
+    -o-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px; }
     .note-editor .note-statusbar .note-resizebar {
       border-top: 1px solid #c2cad8; }
   .note-editor.note-frame.fullscreen {
@@ -855,23 +831,23 @@ Bootbox
 CKEditor css changes
 ***/
 .cke {
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -o-border-radius: 2px;
-  border-radius: 2px; }
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px; }
   .cke .cke-top {
-    -webkit-border-radius: 2px 2px 0 0;
-    -moz-border-radius: 2px 2px 0 0;
-    -ms-border-radius: 2px 2px 0 0;
-    -o-border-radius: 2px 2px 0 0;
-    border-radius: 2px 2px 0 0; }
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -ms-border-radius: 4px 4px 0 0;
+    -o-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0; }
   .cke .cke-bottom {
-    -webkit-border-radius: 0 0 2px 2px;
-    -moz-border-radius: 0 0 2px 2px;
-    -ms-border-radius: 0 0 2px 2px;
-    -o-border-radius: 0 0 2px 2px;
-    border-radius: 0 0 2px 2px; }
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    -ms-border-radius: 0 0 4px 4px;
+    -o-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px; }
 
 .cke_bottom,
 .cke_inner,
@@ -1203,7 +1179,8 @@ table.dataTable.fixedHeader-floating {
 /***
 Responsive Datatables
 ***/
-.table.dataTable.dt-responsive .table.dataTable.responsive {
+.table.dataTable.dt-responsive
+.table.dataTable.responsive {
   width: 100%; }
 
 table.dataTable.dtr-column > tbody > tr > td.control,
@@ -1320,10 +1297,10 @@ FuelUX Spinners
   padding-top: 0px; }
   .page-style-rounded .spinner-buttons.btn-group-vertical .btn.spinner-up {
     border-radius: 0;
-    border-top-right-radius: 2px !important; }
+    border-top-right-radius: 4px !important; }
   .page-style-rounded .spinner-buttons.btn-group-vertical .btn.spinner-down {
     border-radius: 0;
-    border-bottom-right-radius: 2px; }
+    border-bottom-right-radius: 4px; }
 
 /***
 Fullcalendar
@@ -1366,11 +1343,11 @@ Fullcalendar
   color: #fff;
   top: -48px;
   outline: none !important;
-  -webkit-border-radius: 2px 2px 0 0;
-  -moz-border-radius: 2px 2px 0 0;
-  -ms-border-radius: 2px 2px 0 0;
-  -o-border-radius: 2px 2px 0 0;
-  border-radius: 2px 2px 0 0; }
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  -ms-border-radius: 4px 4px 0 0;
+  -o-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0; }
 
 .portlet.calendar .fc-toolbar {
   margin-bottom: 0px; }
@@ -1521,9 +1498,6 @@ Fullcalendar
 
 .portlet.calendar .mobile .fc-content {
   margin-top: 53px; }
-
-.portlet.calendar.light .fc-button {
-  top: -47px; }
 
 /***
 Google Maps
@@ -2043,11 +2017,11 @@ Morris Charts
   margin-left: -20px;
   margin-bottom: -15px; }
   .portlet-body-morris-fit > svg {
-    -webkit-border-radius: 0 0 2px 2px;
-    -moz-border-radius: 0 0 2px 2px;
-    -ms-border-radius: 0 0 2px 2px;
-    -o-border-radius: 0 0 2px 2px;
-    border-radius: 0 0 2px 2px; }
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    -ms-border-radius: 0 0 4px 4px;
+    -o-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px; }
 
 .morris-hover.morris-default-style .morris-hover-row-label {
   text-align: left;
@@ -2170,7 +2144,8 @@ pre[class*="language-"] {
   line-height: 1;
   -webkit-font-smoothing: antialiased; }
 
-.socicon-btn:empty .socicon:empty {
+.socicon-btn:empty
+.socicon:empty {
   width: 1em; }
 
 .socicon-btn {

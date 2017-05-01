@@ -78,6 +78,7 @@ Login page
 .login .content .form-actions {
   clear: both;
   border: 0px;
+  border-bottom: 1px solid #eee;
   padding: 25px 30px 25px 30px;
   margin-left: -30px;
   margin-right: -30px; }
@@ -146,8 +147,7 @@ Login page
   color: #8290a3; }
 
 .login .content .rememberme {
-    margin-left: 8px;
-}
+  margin-left: 8px; }
 
 .login .content .create-account {
   margin: 0 -40px -30px -40px;

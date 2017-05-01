@@ -11,7 +11,7 @@ var App = function() {
 
     var resizeHandlers = [];
 
-    var assetsPath = '/Content/assets/';
+    var assetsPath = '../assets/';
 
     var globalImgPath = 'global/img/';
 
@@ -1013,7 +1013,7 @@ var App = function() {
 
 }();
 
-//<!-- END THEME LAYOUT SCRIPTS -->
+<!-- END THEME LAYOUT SCRIPTS -->
 
 jQuery(document).ready(function() {    
    App.init(); // init metronic core componets
