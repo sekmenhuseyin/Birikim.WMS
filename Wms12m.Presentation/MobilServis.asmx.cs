@@ -36,16 +36,20 @@ namespace Wms12m
             var result = person.Login(user);
             //check result
             if (result.Id > 0)
-                try
-                {
-                    return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, DepoKodu = m.Depo.DepoKodu, DepoID = m.Depo.ID }).FirstOrDefault();
-                }
-                catch (Exception ex)
-                {
-                    db.Logger(userID, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Login");
-                    return null;
-                }
-            return null;
+            {
+                if (db.Users.Where(m=>m.ID==result.Id).FirstOrDefault().Depo==null)
+                    return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok" };
+                else
+                    try
+                    {
+                        return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, DepoKodu = m.Depo.DepoKodu, DepoID = m.Depo.ID }).FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        db.Logger(userID, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Login");
+                    }
+            }
+            return new Login() { ID = 0, AdSoyad = "Hatalı Kullanıcı adı ve şifre"  };
         }
         /// <summary>
         /// depoya ait görev özetini getirir

@@ -44,7 +44,7 @@ namespace WMSMobil
             try
             {
                 Login login = Servis.LoginKontrol(txtKullaniciAdi.Text.Trim().Left(5), txtParola.Text.Trim());
-                if (login.IsNotNull())
+                if (login.ID != 0)
                 {
                     Ayarlar.Kullanici = login;
                     frmMain anaForm = new frmMain();
@@ -54,7 +54,7 @@ namespace WMSMobil
                 else
                 {
                     this.Enabled = true;
-                    Mesaj.Uyari("Kullanıcı adı veya parola hatalı");
+                    Mesaj.Uyari(login.AdSoyad);
                 }
             }
             catch (Exception)
