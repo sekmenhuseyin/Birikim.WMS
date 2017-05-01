@@ -34,7 +34,7 @@
                                     @Html.LabelFor(model => model.Reading, "Okuma", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-offset-1 col-md-8">
                                         <div class="checkbox">
-                                            @Html.EditorFor(model => model.Reading)
+                                            @Html.CheckBoxFor(model => model.Reading, new { @class = "check-box form-control" })
                                             @Html.ValidationMessageFor(model => model.Reading, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -43,7 +43,7 @@
                                     @Html.LabelFor(model => model.Writing, "Yazma", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-offset-1 col-md-8">
                                         <div class="checkbox">
-                                            @Html.EditorFor(model => model.Writing)
+                                            @Html.CheckBoxFor(model => model.Writing, new { @class = "check-box form-control" })
                                             @Html.ValidationMessageFor(model => model.Writing, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -52,7 +52,7 @@
                                     @Html.LabelFor(model => model.Updating, "Değiştirme", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-offset-1 col-md-8">
                                         <div class="checkbox">
-                                            @Html.EditorFor(model => model.Updating)
+                                            @Html.CheckBoxFor(model => model.Updating, new { @class = "check-box form-control" })
                                             @Html.ValidationMessageFor(model => model.Updating, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -61,12 +61,12 @@
                                     @Html.LabelFor(model => model.Deleting, "Silme", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-offset-1 col-md-8">
                                         <div class="checkbox">
-                                            @Html.EditorFor(model => model.Deleting)
+                                            @Html.CheckBoxFor(model => model.Deleting, new { @class = "check-box form-control" })
                                             @Html.ValidationMessageFor(model => model.Deleting, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group m-t-40">
                                     <div class="col-md-4">
                                         <button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
                                     </div>
@@ -82,3 +82,4 @@
         </div>
     </div>
 </div>
+@{ if (Model != null) { @section Scripts{<script>$("#RoleName").attr("disabled", true); $("#PermName").attr("disabled", true);</script>}}}

@@ -238,6 +238,26 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/MalKabul_GorevKontrol", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result MalKabul_GorevKontrol(int GorevID) {
+            object[] results = this.Invoke("MalKabul_GorevKontrol", new object[] {
+                        GorevID});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginMalKabul_GorevKontrol(int GorevID, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("MalKabul_GorevKontrol", new object[] {
+                        GorevID}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndMalKabul_GorevKontrol(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/MalKabul_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result MalKabul_GoreviTamamla(int GorevID, int kulID) {
             object[] results = this.Invoke("MalKabul_GoreviTamamla", new object[] {

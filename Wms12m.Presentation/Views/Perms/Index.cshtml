@@ -24,7 +24,13 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr><td>@item.RoleName</td><td>@item.PermName</td><td>@item.Reading</td><td>@item.Writing</td><td>@item.Updating</td><td>@item.Deleting</td><td>@Html.ActionLink("Düzenle", "Edit", new { id = item.ID }, new { @class = "btn btn-default input-circle" })</td></tr>
+                                <tr>
+                                    <td>@item.RoleName</td><td>@item.PermName</td><td>@item.Reading</td><td>@item.Writing</td><td>@item.Updating</td><td>@item.Deleting</td>
+                                    <td>
+                                        @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }, new { @class = "btn btn-default input-circle" })
+                                        @Html.ActionLink("Sil", "Delete", new { id = item.ID }, new { @class = "btn btn-danger input-circle" })
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>

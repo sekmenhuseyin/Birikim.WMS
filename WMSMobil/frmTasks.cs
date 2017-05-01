@@ -211,7 +211,13 @@ namespace WMSMobil
             try
             {
                 if (Ayarlar.MenuTip == MenuType.MalKabul)
-                    sonuc = Servis.MalKabul_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
+                {
+                    sonuc = Servis.MalKabul_GorevKontrol(GorevID);
+                    if (sonuc.Status == false && sonuc.Id == -1)
+                        if (Mesaj.Soru("Okunan mal miktarları tutarsız. Yine de devam etmek istiyor musunuz?") == DialogResult.Yes)
+                            sonuc.Status = true;
+                    if (sonuc.Status == true) sonuc = Servis.MalKabul_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
+                }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
                     sonuc = Servis.RafaKaldir_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
                 else if (Ayarlar.MenuTip == MenuType.SiparisToplama)

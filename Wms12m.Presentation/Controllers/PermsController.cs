@@ -17,8 +17,9 @@ namespace Wms12m.Presentation.Controllers
             var rolePerms = db.RolePerms.Include(r => r.Perm).Include(r => r.Role);
             return View("Index", rolePerms.ToList());
         }
-
-        // GET: Perms/Create
+        /// <summary>
+        /// yetki oluşturma sayfası
+        /// </summary>
         public ActionResult Create()
         {
             if (CheckPerm("Perms", PermTypes.Reading) == false) return Redirect("/");
@@ -26,8 +27,9 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName");
             return View("Editor");
         }
-
-        // POST: Perms/Create
+        /// <summary>
+        /// yetki oluştur
+        /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,RoleName,PermName,Reading,Writing,Updating,Deleting")] RolePerm rolePerm)
         {
@@ -46,8 +48,9 @@ namespace Wms12m.Presentation.Controllers
             }
             return RedirectToAction("Index");
         }
-
-        // GET: Perms/Edit/5
+        /// <summary>
+        /// yetki düzenleme sayfası
+        /// </summary>
         public ActionResult Edit(int id)
         {
             RolePerm rolePerm = db.RolePerms.Where(m=>m.ID==id).FirstOrDefault();
@@ -58,8 +61,9 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName", rolePerm.RoleName);
             return View("Editor", rolePerm);
         }
-
-        // POST: Perms/Edit/5
+        /// <summary>
+        /// yetki düzenleme kaydet
+        /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,RoleName,PermName,Reading,Writing,Updating,Deleting")] RolePerm rolePerm)
         {
@@ -79,6 +83,23 @@ namespace Wms12m.Presentation.Controllers
                     tbl.ModifiedUser = vUser.UserName;
                     db.SaveChanges();
                 }catch (Exception){}
+            }
+            return RedirectToAction("Index");
+        }
+        /// <summary>
+        /// Yetki sil
+        /// </summary>
+        public ActionResult Delete(int id)
+        {
+            if (CheckPerm("Perms", PermTypes.Deleting) == false) return Redirect("/");
+            var satir = db.RolePerms.Where(m => m.ID == id).FirstOrDefault();
+            try
+            {
+                db.RolePerms.Remove(satir);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
             }
             return RedirectToAction("Index");
         }

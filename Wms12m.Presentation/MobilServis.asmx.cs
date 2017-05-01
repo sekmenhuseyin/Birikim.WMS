@@ -196,6 +196,21 @@ namespace Wms12m
             }
         }
         /// <summary>
+        /// mal kabul için miktar kontrol
+        /// </summary>
+        [WebMethod]
+        public Result MalKabul_GorevKontrol(int GorevID)
+        {
+            int tipID = ComboItems.MalKabul.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return new Result(false, "İrsaliye bulunamadı !");
+            var list = mGorev.IR.IRS_Detay.Where(m => m.YerlestirmeMiktari != m.Miktar).FirstOrDefault();
+            if (list.IsNotNull())
+                return new Result(false, -1, "İşlem bitmemiş !");
+            return new Result(true);
+        }
+        /// <summary>
         /// mal kabul onay
         /// </summary>
         [WebMethod]
