@@ -1,7 +1,4 @@
-﻿
-
-@model List<ChartBekleyenSiparisUrunGrubu>
-
+﻿@model List<ChartBekleyenSiparisUrunGrubu>
 <style>
     .bas_tarih .dx-dropdowneditor-icon {
         color: #44b6ae;
@@ -32,13 +29,11 @@
     }
 </style>
 <div class="col-md-12">
-    <!-- BEGIN CHART PORTLET-->
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
                 <i class="icon-bar-chart font-green-haze"></i>
                 <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D CHART</span></span>
-                @*<span class="caption-helper">3d cylinder chart</span>*@
             </div>
             <div class="tools" style="float:right;margin-left:20px;">
                 <a href="javascript:;" class="collapse"> </a>
@@ -53,62 +48,20 @@
         <div class="portlet-body">
             <div id="chart_7_mik" class="chart" style="height: 400px;"> </div>
             <div class="well margin-top-20">
-                @*<div class="row">
-                        <div class="col-sm-3">
-                            <label class="text-left">Top Radius:</label>
-                            <input class="chart_7_chart_input" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01" />
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="text-left">Angle:</label>
-                            <input class="chart_7_chart_input" data-property="angle" type="range" min="0" max="89" value="30" step="1" />
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="text-left">Depth:</label>
-                            <input class="chart_7_chart_input" data-property="depth3D" type="range" min="1" max="120" value="40" step="1" />
-                        </div>
-                    </div>*@
             </div>
         </div>
     </div>
-    <!-- END CHART PORTLET-->
 </div>
-@*<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <link href="~/Content/dx.light.css" rel="stylesheet" />
-    <link href="~/Content/dx.common.css" rel="stylesheet" />
-    <script src="~/Scripts/dx.web.debug.js"></script>
-    <script src="~/Scripts/moment.min.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/amcharts.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/pie.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/radar.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/serial.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/themes/light.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/themes/patterns.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/themes/chalk.js"></script>
-    <script src="~/Content/global/plugins/amcharts/ammap/ammap.js"></script>
-    <script src="~/Content/global/plugins/amcharts/ammap/maps/js/worldLow.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amstockcharts/amstock.js"></script>*@
-
 <script>
     $(document).ready(function (e) {
         var x = '@ViewBag.MiktarTutar';
-        
         var tip = x=="Miktar"?true:false;
-        @*var arr = x.split(".");
-        arr[1] = (parseInt(arr[1]) - 1).toString();
-        var f_tarih= new Date(arr[2],arr[1],arr[0]);
-
-        var xx = '@ViewBag.BitTarih'.substr(0, 10);
-        var arr2 = xx.split(".");
-        arr2[1] = (parseInt(arr2[1]) - 1).toString();
-        var f_tarih2= new Date(arr2[2],arr2[1],arr2[0]);*@
         var model = @Html.Raw(Json.Encode(Model));
         $(".cbox_MiktarTutar").dxSwitch({
             onText: 'Miktar',
             offText: 'Tutar',
             value:tip,
             onValueChanged: function(data) {
-                //$(".cbox_MiktarTutar").dxSwitch("instance").option("value",tip);
                 if(data.value!=tip){
                 var BekleyenSiparisUrunGrubuMik = "/Home/PartialBekleyenSiparisUrunGrubuMiktar";
                 PartialView(BekleyenSiparisUrunGrubuMik, 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar:data.value }));
@@ -122,30 +75,6 @@
                 color: color[i%color.length]
             });
         }
-        console.log(model);
-        //$(".bas_tarih").dxDateBox({
-        //    dataType: 'date',
-        //    formatString: 'dd/MM/yyyy',
-        //    value:f_tarih,
-        //    onValueChanged: function (e) {
-        //        var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-        //        var BekSipUrunGrubuUrl = "/Home/PartialBekleyenSiparisUrunGrubu";
-        //        var bitTarih = Math.ceil(($(".bit_tarih").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-        //        PartialView(BekSipUrunGrubuUrl, 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: oaDate, bittarih:bitTarih, chk:'33' }));
-        //    }
-        //});
-
-        //$(".bit_tarih").dxDateBox({
-        //    dataType: 'date',
-        //    formatString: 'dd/MM/yyyy',
-        //    value:f_tarih2,
-        //    onValueChanged: function (e) {
-        //        var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-        //        var BekSipUrunGrubuUrl = "/Home/PartialBekleyenSiparisUrunGrubu";
-        //        var basTarih = Math.ceil(($(".bas_tarih").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-        //        PartialView(BekSipUrunGrubuUrl, 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: basTarih, bittarih:oaDate, chk:'33' }));
-        //    }
-        //});
         var ChartsAmchartsMik = function () {
 
             var initChartSample7Mik = function () {
