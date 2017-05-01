@@ -405,6 +405,18 @@
     <Content Include="Views\Users\Perm.cshtml" />
     <Content Include="Views\Tasks\New.cshtml" />
     <Content Include="Views\Users\List.cshtml" />
+    <Content Include="Views\Home\_PartialAylikSatis.cshtml" />
+    <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
+    <Content Include="Views\Home\_PartialAylikSatisCHKAnaliziBar.cshtml" />
+    <Content Include="Views\Home\_PartialBakiyeRiskAnalizi.cshtml" />
+    <Content Include="Views\Home\_PartialBekleyenSiparisUrunGrubu.cshtml" />
+    <Content Include="Views\Home\_PartialBekleyenSiparisUrunGrubuMiktar.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukSatis.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukSatisPie.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukSatısAnaliziYearToDay.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukSatısAnaliziYearToDayPie.cshtml" />
+    <Content Include="Views\Home\_PartialLokasyonSatis.cshtml" />
+    <Content Include="Views\Home\_PartialUrunGrubuSatis.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -412,7 +424,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\assets\global\plugins\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">
       <Project>{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}</Project>

@@ -3,6 +3,8 @@
     ViewBag.Title = "Depo Yönetim Paneli";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
+<link href="~/Content/assets/global/plugins/devextreme/css/dx.light.min.css" rel="stylesheet" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><span>Anasayfa</span></li></ul></div>
 <h1 class="page-title">Depo Yönetim Paneli</h1>
 <div class="row">
@@ -44,24 +46,52 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="row" id="gunluk_satis"></div>
-        <div class="row" id="gunluk_satis_pie"></div>
-        <div class="row" id="gunluk_satis_yeartoday"></div>
-        <div class="row" id="gunluk_satis_yeartoda_pie"></div>
-        <div class="row" id="aylik_satis_bar" style="margin-top:40px;"></div>
-        <div class="row" id="aylik_satis_chk_bar" style="margin-top:40px;"></div>
-        <div class="row" id="urun_grubu_satis" style="margin-top:40px;"></div>
-        <div class="row" id="lokasyon_satis" style="margin-top:40px;"></div>
-        <div class="row" id="bakiye_risk" style="margin-top:40px;"></div>
-        <div class="row" id="bekleyen_siparis_urun_grubu" style="margin-top:40px;"></div>
-        <div class="row" id="bekleyen_siparis_urun_grubu_miktar" style="margin-top:40px;"></div>
-    </div>
-</div>
+<div class="row m-t-40" id="gunluk_satis"></div>
+<div class="row m-t-40" id="gunluk_satis_pie"></div>
+<div class="row m-t-40" id="gunluk_satis_yeartoday"></div>
+<div class="row m-t-40" id="gunluk_satis_yeartoda_pie"></div>
+<div class="row m-t-40" id="aylik_satis_bar"></div>
+<div class="row m-t-40" id="aylik_satis_chk_bar"></div>
+<div class="row m-t-40" id="urun_grubu_satis"></div>
+<div class="row m-t-40" id="lokasyon_satis"></div>
+<div class="row m-t-40" id="bakiye_risk"></div>
+<div class="row m-t-40" id="bekleyen_siparis_urun_grubu"></div>
+<div class="row m-t-40" id="bekleyen_siparis_urun_grubu_miktar"></div>
 <div id="box-content" style="display:none"></div>
 
 @section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="~/Content/assets/global/plugins/counterup/jquery.waypoints.min.js"></script>
 <script src="~/Content/assets/global/plugins/counterup/jquery.counterup.min.js"></script>
+<script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
+<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+<script src="~/Content/assets/global/plugins/morris/morris.min.js"></script>
+<script>
+    $(document).ready(function (e) {
+        var dateVal = new Date();
+        dateVal.setHours(0, 0, 0);
+        var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+        var GunlukSatisUrl = "/Home/PartialGunlukSatis";
+        var GunlukSatisPieUrl = "/Home/PartialGunlukSatisPie";
+        var GunlukSatisYearToDayUrl = "/Home/PartialGunlukSatisYearToDay";
+        var GunlukSatisYearToDayPieUrl = "/Home/PartialGunlukSatisYearToDayPie";
+        var AylikSatisBarUrl = "/Home/PartialAylikSatisAnaliziBar";
+        var AylikSatisCHKBarUrl = "/Home/PartialAylikSatisCHKAnaliziBar";
+        var UrunGrubuSatisUrl = "/Home/PartialUrunGrubuSatis";
+        var LokasyonbazliSatisUrl = "/Home/PartialLokasyonSatis";
+        var BakiyeRiskAnaliziUrl = "/Home/PartialBakiyeRiskAnalizi";
+        var BekleyenSiparisUrunGrubu = "/Home/PartialBekleyenSiparisUrunGrubu";
+        var BekleyenSiparisUrunGrubuMik = "/Home/PartialBekleyenSiparisUrunGrubuMiktar";
+        PartialView(GunlukSatisUrl, 'gunluk_satis', JSON.stringify({ tarih: oaDate }));
+        PartialView(GunlukSatisPieUrl, 'gunluk_satis_pie', JSON.stringify({ tarih: oaDate }));
+        PartialView(GunlukSatisYearToDayUrl, 'gunluk_satis_yeartoday', JSON.stringify({ tarih: oaDate }));
+        PartialView(GunlukSatisYearToDayPieUrl, 'gunluk_satis_yeartoda_pie', JSON.stringify({ tarih: oaDate }));
+        PartialView(AylikSatisBarUrl, 'aylik_satis_bar');
+        PartialView(AylikSatisCHKBarUrl, 'aylik_satis_chk_bar');
+        PartialView(UrunGrubuSatisUrl, 'urun_grubu_satis', JSON.stringify({ tarih: dateVal.getMonth() + 1 }));
+        PartialView(LokasyonbazliSatisUrl, 'lokasyon_satis', JSON.stringify({ tarih: dateVal.getMonth() + 1 }));
+        PartialView(BakiyeRiskAnaliziUrl, 'bakiye_risk');
+        PartialView(BekleyenSiparisUrunGrubu, 'bekleyen_siparis_urun_grubu', JSON.stringify({ chk: '33' }));
+        PartialView(BekleyenSiparisUrunGrubuMik, 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: true }));
+    });
+</script>
 }
