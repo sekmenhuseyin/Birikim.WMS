@@ -81,6 +81,9 @@
     <Compile Include="Models\Depo.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetGorevlis_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetHomeSummary_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

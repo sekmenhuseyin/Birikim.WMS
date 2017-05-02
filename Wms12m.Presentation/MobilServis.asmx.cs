@@ -105,9 +105,9 @@ namespace Wms12m
         /// bir şirkete ait kullanıcıları getirir
         /// </summary>
         [WebMethod]
-        public List<Kullanicilar> GetUsers()
+        public List<GetGorevlis_Result> GetUsers(int DepoID)
         {
-            return db.Users.Select(m => new Kullanicilar { ID = m.ID, Kod = m.Kod }).ToList();
+            return db.GetGorevlis(DepoID).ToList();
         }
         /// <summary>
         /// durumları listeler

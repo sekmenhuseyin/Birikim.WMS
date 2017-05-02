@@ -417,5 +417,14 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertIrsaliye_Result>("WMSEntities.InsertIrsaliye", sirketKodParameter, depoIDParameter, gorevNoParameter, irsEvrakNoParameter, irsTarihParameter, gorevBilgiParameter, irsIslemTurParameter, gorevTipiIDParameter, olusturanParameter, olusturmaTarihiParameter, olusturmaSaatiParameter, hesapKoduParameter, teslimCHKParameter, valorGunParameter, linkEvrakNoParameter);
         }
+    
+        public virtual ObjectResult<GetGorevlis_Result> GetGorevlis(Nullable<int> depoID)
+        {
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetGorevlis_Result>("WMSEntities.GetGorevlis", depoIDParameter);
+        }
     }
 }

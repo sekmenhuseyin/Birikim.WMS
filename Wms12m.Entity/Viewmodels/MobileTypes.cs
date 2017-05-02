@@ -6,11 +6,6 @@
         public string Name { get; set; }
     }
 
-    public class Kullanicilar
-    {
-        public int ID { get; set; }
-        public string Kod { get; set; }
-    }
     public class GorevOzet
     {
         public int ID { get; set; }
