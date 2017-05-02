@@ -56,21 +56,6 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("Edit", tbl);
         }
         /// <summary>
-        /// depo yetkilerini ayarlar
-        /// </summary>
-        public PartialViewResult Depo()
-        {
-            //kontrol
-            if (CheckPerm("Users", PermTypes.Reading) == false) return null;
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null || id.ToString2() == "") return null;
-            //return
-            var tbl = db.YetkiDepo(id.ToInt32()).ToList();
-            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
-            ViewBag.ID = id;
-            return PartialView("Depo", tbl);
-        }
-        /// <summary>
         /// şifre değiştirme ekranı
         /// </summary>
         public PartialViewResult Pass()
@@ -152,39 +137,6 @@ namespace Wms12m.Presentation.Controllers
                 Status = true
             };
             return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// depo yetkisini kaydet
-        /// </summary>
-        [HttpPost]
-        public PartialViewResult DepoSet(int UserID, int DepoID)
-        {
-            if (CheckPerm("Users", PermTypes.Writing) == false) return null;
-            try
-            {
-                db.YetkiDepoSet(DepoID, UserID, true);
-            } catch (System.Exception) { }
-            var tbl = db.YetkiDepo(UserID).ToList();
-            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
-            ViewBag.ID = UserID;
-            return PartialView("Depo", tbl);
-        }
-        /// <summary>
-        /// depo yetkisi sil
-        /// </summary>
-        public JsonResult DepoDelete(string Id)
-        {
-            if (CheckPerm("Users", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            string[] ids = Id.ToString().Split('-');
-            db.YetkiDepoSet(ids[1].ToInt32(), ids[0].ToInt32(), false);
-            Result _Result = new Result()
-            {
-                Id = ids[1].ToInt32(),
-                Message = "İşlem Başarılı !!!",
-                Status = true
-            };
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-
         }
         /// <summary>
         /// kaydet

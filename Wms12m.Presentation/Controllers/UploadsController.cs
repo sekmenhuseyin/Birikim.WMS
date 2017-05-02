@@ -92,6 +92,9 @@ namespace Wms12m.Presentation.Controllers
                     db.IRS_Detay.AddRange(liste);
                     db.SaveChanges();
                     dbContextTransaction.Commit();
+                    var gorev = db.Gorevs.Where(m => m.IrsaliyeID == IrsNo).FirstOrDefault();
+                    gorev.DurumID = ComboItems.Açık.ToInt32();
+                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {

@@ -305,6 +305,7 @@
     <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
+    <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -369,7 +370,7 @@
     <Content Include="Views\ComboItems\Edit.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\New.cshtml" />
-    <Content Include="Views\Users\Depo.cshtml" />
+    <Content Include="Views\Terminal\Depo.cshtml" />
     <Content Include="Views\Users\Pass.cshtml" />
     <Content Include="Views\Tasks\Details.cshtml" />
     <Content Include="Views\Stock\Index.cshtml" />
@@ -420,6 +421,9 @@
     <Content Include="Views\Home\_PartialLokasyonSatis.cshtml" />
     <Content Include="Views\Home\_PartialUrunGrubuSatis.cshtml" />
     <Content Include="Views\Stock\ManualMovement.cshtml" />
+    <Content Include="Views\Terminal\Index.cshtml" />
+    <Content Include="Views\Terminal\List.cshtml" />
+    <Content Include="Views\Terminal\New.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

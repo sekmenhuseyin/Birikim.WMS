@@ -1,0 +1,27 @@
+﻿@model IEnumerable<UserDetail>
+<table class="table table-striped table-bordered table-hover" id="sample_1">
+    <thead><tr><th>Kullanıcı Adı</th><th>Ad Soyad</th><th>Depo</th><th>Fatura Evrak Seri</th><th>Transfer Çıkış Evrak Seri</th><th>Transfer Giriş Evrak Seri</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.User.Kod</td>
+                <td>@item.User.AdSoyad</td>
+                <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Terminal/Depo/@item.UserID')"> @item.Depo.DepoAd </a></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#sample_1').DataTable({
+            "pagingType": "full_numbers",
+            "ordering": false,
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
+    });
+</script>
