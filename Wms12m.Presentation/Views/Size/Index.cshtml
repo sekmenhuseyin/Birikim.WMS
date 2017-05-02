@@ -211,7 +211,7 @@
             done: function (e, data) {
                 if (data.result.Status == false)
                     Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
-                //listeyi yenile
+                else//listeyi yenile
                 RefreshPage()
             }
         });

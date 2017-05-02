@@ -167,13 +167,6 @@
           <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="DegisTarih" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Depo_Users">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="int" Nullable="false" />
-          <Property Name="DepoID" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Gorev">
           <Key>
             <PropertyRef Name="ID" />
@@ -341,6 +334,16 @@
           <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
         </EntityType>
+        <EntityType Name="UserDetails">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="DepoID" Type="int" Nullable="false" />
+          <Property Name="SiparisSeri" Type="varchar" MaxLength="50" />
+          <Property Name="TransferInSeri" Type="varchar" MaxLength="50" />
+          <Property Name="TransferOutSeri" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Yer">
           <Key>
             <PropertyRef Name="ID" />
@@ -394,24 +397,24 @@
         </Association>
         <Association Name="FK_Depo_Users_Depo">
           <End Role="Depo" Type="Self.Depo" Multiplicity="1" />
-          <End Role="Depo_Users" Type="Self.Depo_Users" Multiplicity="*" />
+          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Depo">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Depo_Users">
+            <Dependent Role="UserDetails">
               <PropertyRef Name="DepoID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Depo_Users_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Depo_Users" Type="Self.Depo_Users" Multiplicity="0..1" />
+          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Depo_Users">
+            <Dependent Role="UserDetails">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -942,7 +945,6 @@
           <EntitySet Name="Ayarlar" EntityType="Self.Ayarlar" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Bolum" EntityType="Self.Bolum" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Depo" EntityType="Self.Depo" Schema="wms" store:Type="Tables" />
-          <EntitySet Name="Depo_Users" EntityType="Self.Depo_Users" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Gorev" EntityType="Self.Gorev" Schema="wms" store:Type="Tables" />
           <EntitySet Name="GorevIRS" EntityType="Self.GorevIRS" Schema="wms" store:Type="Tables" />
           <EntitySet Name="GorevYer" EntityType="Self.GorevYer" Schema="wms" store:Type="Tables" />
@@ -954,6 +956,7 @@
           <EntitySet Name="Raf" EntityType="Self.Raf" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Transfer" EntityType="Self.Transfer" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Transfer_Detay" EntityType="Self.Transfer_Detay" Schema="wms" store:Type="Tables" />
+          <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Yer" EntityType="Self.Yer" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Yer_Log" EntityType="Self.Yer_Log" Schema="wms" store:Type="Tables" />
           <AssociationSet Name="FK_Bolum_Raf" Association="Self.FK_Bolum_Raf">
@@ -966,11 +969,11 @@
           </AssociationSet>
           <AssociationSet Name="FK_Depo_Users_Depo" Association="Self.FK_Depo_Users_Depo">
             <End Role="Depo" EntitySet="Depo" />
-            <End Role="Depo_Users" EntitySet="Depo_Users" />
+            <End Role="UserDetails" EntitySet="UserDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_Depo_Users_Users" Association="Self.FK_Depo_Users_Users">
             <End Role="Users" EntitySet="Users" />
-            <End Role="Depo_Users" EntitySet="Depo_Users" />
+            <End Role="UserDetails" EntitySet="UserDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_Gorev_ComboItem_NameDurum" Association="Self.FK_Gorev_ComboItem_NameDurum">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -1323,10 +1326,6 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="WebMenu" EntitySet="WebMenus" />
           </AssociationSet>
-          <AssociationSet Name="Depo_Users" Association="MModel.Depo_Users">
-            <End Role="Depo" EntitySet="Depoes" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
           <EntitySet Name="Kats" EntityType="MModel.Kat" />
           <AssociationSet Name="FK_Kat_ComboItem_Name" Association="MModel.FK_Kat_ComboItem_Name">
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
@@ -1382,6 +1381,15 @@
             <Parameter Name="ValorGun" Mode="In" Type="Int16" />
             <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
+          <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Depo_Users_Depo" Association="MModel.FK_Depo_Users_Depo">
+            <End Role="Depo" EntitySet="Depoes" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1565,7 +1573,7 @@
           <NavigationProperty Name="Role" Relationship="MModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Users1" Relationship="MModel.FK_Users_Users" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User1" Relationship="MModel.FK_Users_Users" FromRole="User1" ToRole="User" />
-          <NavigationProperty Name="Depo" Relationship="MModel.Depo_Users" FromRole="User" ToRole="Depo" />
+          <NavigationProperty Name="UserDetail" Relationship="MModel.FK_Depo_Users_Users" FromRole="User" ToRole="UserDetail" />
         </EntityType>
         <EntityType Name="Ayarlar">
           <Key>
@@ -1610,8 +1618,8 @@
           <NavigationProperty Name="Transfers" Relationship="MModel.FK_Transfer_Depo" FromRole="Depo" ToRole="Transfer" />
           <NavigationProperty Name="Transfers1" Relationship="MModel.FK_Transfer_Depo1" FromRole="Depo" ToRole="Transfer" />
           <NavigationProperty Name="Transfers2" Relationship="MModel.FK_Transfer_Depo2" FromRole="Depo" ToRole="Transfer" />
-          <NavigationProperty Name="Users" Relationship="MModel.Depo_Users" FromRole="Depo" ToRole="User" />
           <NavigationProperty Name="IRS" Relationship="MModel.FK_IRS_Depo" FromRole="Depo" ToRole="IR" />
+          <NavigationProperty Name="UserDetails" Relationship="MModel.FK_Depo_Users_Depo" FromRole="Depo" ToRole="UserDetail" />
         </EntityType>
         <EntityType Name="Gorev">
           <Key>
@@ -2070,10 +2078,6 @@
           <End Type="MModel.Role" Role="Role" Multiplicity="*" />
           <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
         </Association>
-        <Association Name="Depo_Users">
-          <End Type="MModel.Depo" Role="Depo" Multiplicity="0..1" />
-          <End Type="MModel.User" Role="User" Multiplicity="*" />
-        </Association>
         <EntityType Name="Kat">
           <Key>
             <PropertyRef Name="ID" />
@@ -2225,6 +2229,42 @@
           <Property Type="Int32" Name="GorevID" Nullable="true" />
           <Property Type="Boolean" Name="Onay" Nullable="true" />
         </ComplexType>
+        <EntityType Name="UserDetail">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="DepoID" Type="Int32" Nullable="false" />
+          <Property Name="SiparisSeri" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TransferInSeri" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TransferOutSeri" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
+          <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
+        </EntityType>
+        <Association Name="FK_Depo_Users_Users">
+          <End Type="MModel.User" Role="User" Multiplicity="1" />
+          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Depo_Users_Depo">
+          <End Type="MModel.Depo" Role="Depo" Multiplicity="1" />
+          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2646,15 +2686,6 @@
               <ScalarProperty Name="RoleName" ColumnName="RoleName" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="Depo_Users" TypeName="MModel.Depo_Users" StoreEntitySet="Depo_Users">
-            <EndProperty Name="User">
-              <ScalarProperty Name="ID" ColumnName="UserID" />
-            </EndProperty>
-            <EndProperty Name="Depo">
-              <ScalarProperty Name="ID" ColumnName="DepoID" />
-            </EndProperty>
-            <Condition ColumnName="DepoID" IsNull="false" />
-          </AssociationSetMapping>
           <EntitySetMapping Name="Kats">
             <EntityTypeMapping TypeName="MModel.Kat">
               <MappingFragment StoreEntitySet="Kat">
@@ -2711,6 +2742,17 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="UserDetails">
+            <EntityTypeMapping TypeName="MModel.UserDetail">
+              <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
+                <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
+                <ScalarProperty Name="SiparisSeri" ColumnName="SiparisSeri" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

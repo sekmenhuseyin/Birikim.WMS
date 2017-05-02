@@ -18,7 +18,8 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult irsaliye(int IrsNo, HttpPostedFileBase file)
         {
-            if (file == null || file.ContentLength == 0 || IrsNo == 0) return Json(false, JsonRequestBehavior.AllowGet);
+            Result _result = new Result(false, 0, "Hatalı dosya");
+            if (file == null || file.ContentLength == 0 || IrsNo == 0) return Json(_result, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku
             Stream stream = file.InputStream;
             IExcelDataReader reader;
@@ -28,14 +29,14 @@ namespace Wms12m.Presentation.Controllers
             else if (file.FileName.EndsWith(".xlsx"))
                 reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
             else
-                return Json(false, JsonRequestBehavior.AllowGet);
+                return Json(_result, JsonRequestBehavior.AllowGet);
             //ilk satır başlık
             reader.IsFirstRowAsColumnNames = true;
             //exceldeki bilgileri datasete aktar
             DataSet result = reader.AsDataSet();
-            //kontorl
-            if (result.Tables.Count == 0) return Json(false, JsonRequestBehavior.AllowGet);
-            if (result.Tables[0].Rows == null) return Json(false, JsonRequestBehavior.AllowGet);
+            //kontrol
+            if (result.Tables.Count == 0) return Json(_result, JsonRequestBehavior.AllowGet);
+            if (result.Tables[0].Rows == null) return Json(_result, JsonRequestBehavior.AllowGet);
             //irsaliye no bul
             var irsaliye = db.IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
             //sti listesi oluşturuyoruz. tüm bilgiyi tek seferde veritabanına kaydetçek
@@ -43,13 +44,22 @@ namespace Wms12m.Presentation.Controllers
             for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
                 DataRow dr = result.Tables[0].Rows[i];
+                //kontrol
+                try
+                {
+                    if (dr["Birim"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
+                    if (dr["Miktar"].ToString2().IsNumeric() == false) return Json(_result, JsonRequestBehavior.AllowGet);
+                    if (dr["MalKodu"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    return Json(_result, JsonRequestBehavior.AllowGet);
+                }
                 //satıcı malkodundan malkodunu getir
                 string malkodu = String.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.TTY WITH(NOLOCK) WHERE (SatMalKodu = '{1}') AND (Chk = '{2}')", irsaliye.SirketKod, dr["MalKodu"].ToString(), irsaliye.HesapKodu);
                 malkodu = db.Database.SqlQuery<string>(malkodu).FirstOrDefault();
-                //kontrol
-                if (dr["Birim"].ToString() == "") return Json(false, JsonRequestBehavior.AllowGet);
-                if (dr["Miktar"].ToString2().IsNumeric() == false) return Json(false, JsonRequestBehavior.AllowGet);
-                if (malkodu == "" || malkodu == null) return Json(false, JsonRequestBehavior.AllowGet);
+                _result.Message = "Mal kodu yanlış";
+                if (malkodu == "" || malkodu == null) return Json(_result, JsonRequestBehavior.AllowGet);
                 //add new
                 try
                 {
@@ -69,7 +79,8 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception)
                 {
-                    return Json(false, JsonRequestBehavior.AllowGet);
+                    _result.Message = "Hatalı satırlar var";
+                    return Json(_result, JsonRequestBehavior.AllowGet);
                 }
             }
             reader.Close();
@@ -85,10 +96,13 @@ namespace Wms12m.Presentation.Controllers
                 catch (Exception ex)
                 {
                     Logger(ex, "Uploads/irsaliye");
-                    return Json(false, JsonRequestBehavior.AllowGet);
+                    _result.Message = "Hatalı satırlar var";
+                    return Json(_result, JsonRequestBehavior.AllowGet);
                 }
             }
-            return Json(true, JsonRequestBehavior.AllowGet);
+            _result.Id = 1;
+            _result.Status = true;
+            return Json(_result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// boyut kartı için toplu giriş yapar

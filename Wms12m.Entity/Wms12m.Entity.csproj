@@ -147,6 +147,9 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserDetail.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserPerm.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

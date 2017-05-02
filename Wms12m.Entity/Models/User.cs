@@ -39,6 +39,6 @@ namespace Wms12m.Entity.Models
         public virtual Role Role { get; set; }
         public virtual User Users1 { get; set; }
         public virtual User User1 { get; set; }
-        public virtual Depo Depo { get; set; }
+        public virtual UserDetail UserDetail { get; set; }
     }
 }

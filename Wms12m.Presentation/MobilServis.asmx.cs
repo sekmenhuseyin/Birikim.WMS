@@ -16,7 +16,7 @@ namespace Wms12m
     /// <summary>
     /// Summary description for Service1
     /// </summary>
-    [WebService(Namespace = "http://www.12mbilgisayar.com/")]
+    [WebService(Namespace = "http://www.12mconsulting.com.tr/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ToolboxItem(false)]
     public class MobilServis : WebService, IDisposable
@@ -37,12 +37,12 @@ namespace Wms12m
             //check result
             if (result.Id > 0)
             {
-                if (db.Users.Where(m=>m.ID==result.Id).FirstOrDefault().Depo==null)
+                if (db.Users.Where(m=>m.ID==result.Id).FirstOrDefault().UserDetail == null)
                     return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok" };
                 else
                     try
                     {
-                        return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, DepoKodu = m.Depo.DepoKodu, DepoID = m.Depo.ID }).FirstOrDefault();
+                        return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, DepoKodu = m.UserDetail.Depo.DepoKodu, DepoID = m.UserDetail.Depo.ID }).FirstOrDefault();
                     }
                     catch (Exception ex)
                     {

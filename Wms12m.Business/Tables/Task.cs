@@ -239,13 +239,13 @@ namespace Wms12m.Business
         /// <summary>
         /// duruma göre olanları getirir
         /// </summary>
-        public override List<Gorev> GetList(int ParentId)
+        public override List<Gorev> GetList(int DurumID)
         {
-            return db.Gorevs.Where(m => m.DurumID == ParentId).OrderByDescending(m => m.ID).ToList();
+            return db.Gorevs.Where(m => m.DurumID == DurumID).OrderByDescending(m => m.ID).ToList();
         }
-        public List<Gorev> GetListbyType(int ParentId)
+        public List<Gorev> GetList(int DurumID, int DepoID)
         {
-            return db.Gorevs.Where(m => m.GorevTipiID == ParentId).OrderByDescending(m => m.ID).ToList();
+            return db.Gorevs.Where(m => m.DurumID == DurumID && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
         }
         /// <summary>
         /// dispose

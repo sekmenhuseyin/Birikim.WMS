@@ -88,16 +88,16 @@
                     <div class="caption">
                         <i class="fa fa-files-o"></i>Malzeme Bilgileri
                     </div>
-                    <div class="col-md-2 pull-right m-t-5 showlater">
-                        @using (Html.BeginForm("irsaliye", "Uploads", FormMethod.Post, new { enctype = "multipart/form-data", id = "fileupload" }))
+                    <div class="col-md-1 pull-right m-t-5 showlater">
+                        @using (Ajax.BeginForm("irsaliye", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
-                            <div class="col-md-6"><a id="btnSablon" href="~/Content/STISablon.xlsx" class="btn btn-default">Şablon İndir</a></div>
-                            <div class="col-md-6"><a id="linkUpload" class="btn btn-warning">Yükle</a></div>
+                            <a id="linkUpload" class="btn btn-warning">Yükle</a>
                             <input id="btnUpload" type="file" name="file" />
                             <input type="hidden" name="IrsNo" id="IrsNo" value="0" />
                         }
                     </div>
+                    <div class="col-md-1 pull-right m-t-5 showlater"><a id="btnSablon" href="~/Content/STISablon.xlsx" class="btn btn-default">Şablon İndir</a></div>
                     <div class="col-md-2 pull-right m-t-5 showlater">
                         <a id="btnSiparis" class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Buy/SiparisList/' + $('#SirketID').val() + ',' + $('#DepoID').val() + ',' + $('#HesapKodu').val())"> Siparişten Getir </a>
                     </div>
@@ -185,7 +185,12 @@
             acceptFileTypes: /(\.|\/)(xlsx)$/i,
             dataType: 'json',
             add: function (e, data) { data.submit(); },
-            done: function (e, data) { $('#submitForm').click(); },
+            done: function (e, data) {
+                if (data.result.Status == false)
+                    Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
+                else
+                    $('#submitForm').click();
+            },
             fail: function (e, data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
         });
     });

@@ -51,6 +51,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Yer_Log> Yer_Log { get; set; }
         public virtual DbSet<Kat> Kats { get; set; }
         public virtual DbSet<IR> IRS { get; set; }
+        public virtual DbSet<UserDetail> UserDetails { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

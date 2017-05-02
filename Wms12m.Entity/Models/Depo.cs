@@ -22,8 +22,8 @@ namespace Wms12m.Entity.Models
             this.Transfers = new HashSet<Transfer>();
             this.Transfers1 = new HashSet<Transfer>();
             this.Transfers2 = new HashSet<Transfer>();
-            this.Users = new HashSet<User>();
             this.IRS = new HashSet<IR>();
+            this.UserDetails = new HashSet<UserDetail>();
         }
     
         public int ID { get; set; }
@@ -48,8 +48,8 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transfer> Transfers2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IR> IRS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserDetail> UserDetails { get; set; }
     }
 }
