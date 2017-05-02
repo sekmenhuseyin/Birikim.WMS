@@ -58,5 +58,15 @@ namespace Wms12m.Presentation.Controllers
             Result _Result = PersonPerms.Operation(tbl);
             return RedirectToAction("Index");
         }
+        /// <summary>
+        /// sil
+        /// </summary>
+        [HttpPost]
+        public JsonResult Delete(int Id)
+        {
+            if (CheckPerm("Users", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Result _Result = PersonPerms.Delete(Id);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
