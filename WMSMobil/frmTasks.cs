@@ -67,8 +67,8 @@ namespace WMSMobil
                 }
                 aktif = true;
                 //görevliler
-                Ayarlar.Gorevliler = new List<Kullanicilar>(Servis.GetUsers());
-                Ayarlar.Gorevliler.Add(new Kullanicilar { ID = 0, Kod = " Tümü" });
+                Ayarlar.Gorevliler = new List<GetGorevlis_Result>(Servis.GetUsers(Ayarlar.Kullanici.DepoID));
+                Ayarlar.Gorevliler.Add(new GetGorevlis_Result { ID = 0, Kod = " Tümü" });
                 cmbGorevli.ValueMember = "ID";
                 cmbGorevli.DisplayMember = "Kod";
                 cmbGorevli.DataSource = Ayarlar.Gorevliler.OrderBy(o => o.Kod).ToList();

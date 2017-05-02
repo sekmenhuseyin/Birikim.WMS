@@ -87,8 +87,8 @@ namespace WMSMobil
             set { Ayarlar.gSeciliGorev = value; }
         }
 
-        static List<Kullanicilar> gGorevliler;
-        public static List<Kullanicilar> Gorevliler
+        static List<GetGorevlis_Result> gGorevliler;
+        public static List<GetGorevlis_Result> Gorevliler
         {
             get { return Ayarlar.gGorevliler; }
             set { Ayarlar.gGorevliler = value; }

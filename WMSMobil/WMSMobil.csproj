@@ -150,10 +150,10 @@
     <None Include="Web References\WMSLocal\Durum.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WMSLocal\GorevOzet.datasource">
+    <None Include="Web References\WMSLocal\GetGorevlis_Result.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WMSLocal\Kullanicilar.datasource">
+    <None Include="Web References\WMSLocal\GorevOzet.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\WMSLocal\Login.datasource">

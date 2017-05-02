@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.12mbilgisayar.com/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.12mbilgisayar.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.12mconsulting.com.tr/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://www.12mconsulting.com.tr/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <s:schema elementFormDefault="qualified" targetNamespace="http://www.12mbilgisayar.com/">
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.12mconsulting.com.tr/">
       <s:element name="LoginKontrol">
         <s:complexType>
           <s:sequence>
@@ -133,21 +133,25 @@
         </s:sequence>
       </s:complexType>
       <s:element name="GetUsers">
-        <s:complexType />
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DepoID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
       </s:element>
       <s:element name="GetUsersResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetUsersResult" type="tns:ArrayOfKullanicilar" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetUsersResult" type="tns:ArrayOfGetGorevlis_Result" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="ArrayOfKullanicilar">
+      <s:complexType name="ArrayOfGetGorevlis_Result">
         <s:sequence>
-          <s:element minOccurs="0" maxOccurs="unbounded" name="Kullanicilar" nillable="true" type="tns:Kullanicilar" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="GetGorevlis_Result" nillable="true" type="tns:GetGorevlis_Result" />
         </s:sequence>
       </s:complexType>
-      <s:complexType name="Kullanicilar">
+      <s:complexType name="GetGorevlis_Result">
         <s:sequence>
           <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Kod" type="s:string" />
@@ -657,7 +661,7 @@
   <wsdl:binding name="MobilServisSoap" type="tns:MobilServisSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="LoginKontrol">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/LoginKontrol" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/LoginKontrol" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -666,7 +670,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetGorevOzet">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/GetGorevOzet" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetGorevOzet" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -675,7 +679,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetIrsaliyeList">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/GetIrsaliyeList" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliyeList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -684,7 +688,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetIrsaliye">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/GetIrsaliye" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliye" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -693,7 +697,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetGorevList">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/GetGorevList" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetGorevList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -702,7 +706,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetUsers">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/GetUsers" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetUsers" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -711,7 +715,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetDurums">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/GetDurums" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetDurums" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -720,7 +724,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetMalzemes">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/GetMalzemes" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetMalzemes" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -729,7 +733,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetMalzemeFromBarcode">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/GetMalzemeFromBarcode" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetMalzemeFromBarcode" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -738,7 +742,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Mal_Kabul">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/Mal_Kabul" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/Mal_Kabul" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -747,7 +751,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="MalKabul_GorevKontrol">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/MalKabul_GorevKontrol" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/MalKabul_GorevKontrol" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -756,7 +760,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="MalKabul_GoreviTamamla">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/MalKabul_GoreviTamamla" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/MalKabul_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -765,7 +769,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Rafa_Kaldir">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/Rafa_Kaldir" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/Rafa_Kaldir" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -774,7 +778,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="RafaKaldir_GoreviTamamla">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/RafaKaldir_GoreviTamamla" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/RafaKaldir_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -783,7 +787,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Siparis_Topla">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/Siparis_Topla" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/Siparis_Topla" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -792,7 +796,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SiparisTopla_GoreviTamamla">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/SiparisTopla_GoreviTamamla" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/SiparisTopla_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -801,7 +805,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Paketle">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/Paketle" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/Paketle" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -810,7 +814,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Paketle_GoreviTamamla">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/Paketle_GoreviTamamla" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/Paketle_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -819,7 +823,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Sevkiyat_GoreviTamamla">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/Sevkiyat_GoreviTamamla" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/Sevkiyat_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -828,7 +832,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="TransferCikis_GoreviTamamla">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/TransferCikis_GoreviTamamla" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/TransferCikis_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -837,7 +841,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="TransferGiris_GoreviTamamla">
-      <soap:operation soapAction="http://www.12mbilgisayar.com/TransferGiris_GoreviTamamla" style="document" />
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/TransferGiris_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -849,7 +853,7 @@
   <wsdl:binding name="MobilServisSoap12" type="tns:MobilServisSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="LoginKontrol">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/LoginKontrol" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/LoginKontrol" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -858,7 +862,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetGorevOzet">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetGorevOzet" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetGorevOzet" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -867,7 +871,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetIrsaliyeList">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetIrsaliyeList" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliyeList" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -876,7 +880,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetIrsaliye">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetIrsaliye" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliye" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -885,7 +889,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetGorevList">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetGorevList" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetGorevList" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -894,7 +898,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetUsers">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetUsers" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetUsers" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -903,7 +907,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetDurums">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetDurums" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetDurums" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -912,7 +916,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetMalzemes">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetMalzemes" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetMalzemes" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -921,7 +925,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="GetMalzemeFromBarcode">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/GetMalzemeFromBarcode" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetMalzemeFromBarcode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -930,7 +934,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Mal_Kabul">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/Mal_Kabul" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/Mal_Kabul" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -939,7 +943,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="MalKabul_GorevKontrol">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/MalKabul_GorevKontrol" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/MalKabul_GorevKontrol" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -948,7 +952,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="MalKabul_GoreviTamamla">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/MalKabul_GoreviTamamla" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/MalKabul_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -957,7 +961,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Rafa_Kaldir">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/Rafa_Kaldir" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/Rafa_Kaldir" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -966,7 +970,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="RafaKaldir_GoreviTamamla">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/RafaKaldir_GoreviTamamla" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/RafaKaldir_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -975,7 +979,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Siparis_Topla">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/Siparis_Topla" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/Siparis_Topla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -984,7 +988,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SiparisTopla_GoreviTamamla">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/SiparisTopla_GoreviTamamla" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/SiparisTopla_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -993,7 +997,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Paketle">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/Paketle" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/Paketle" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1002,7 +1006,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Paketle_GoreviTamamla">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/Paketle_GoreviTamamla" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/Paketle_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1011,7 +1015,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="Sevkiyat_GoreviTamamla">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/Sevkiyat_GoreviTamamla" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/Sevkiyat_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1020,7 +1024,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="TransferCikis_GoreviTamamla">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/TransferCikis_GoreviTamamla" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/TransferCikis_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1029,7 +1033,7 @@
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="TransferGiris_GoreviTamamla">
-      <soap12:operation soapAction="http://www.12mbilgisayar.com/TransferGiris_GoreviTamamla" style="document" />
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/TransferGiris_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -23,7 +23,7 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="MobilServisSoap", Namespace="http://www.12mbilgisayar.com/")]
+    [System.Web.Services.WebServiceBindingAttribute(Name="MobilServisSoap", Namespace="http://www.12mconsulting.com.tr/")]
     public partial class MobilServis : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         /// <remarks/>
@@ -32,7 +32,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/LoginKontrol", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/LoginKontrol", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Login LoginKontrol(string userID, string sifre) {
             object[] results = this.Invoke("LoginKontrol", new object[] {
                         userID,
@@ -54,7 +54,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/GetGorevOzet", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetGorevOzet", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public GorevOzet[] GetGorevOzet(int ID) {
             object[] results = this.Invoke("GetGorevOzet", new object[] {
                         ID});
@@ -74,7 +74,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/GetIrsaliyeList", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetIrsaliyeList", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Tip_IRS[] GetIrsaliyeList() {
             object[] results = this.Invoke("GetIrsaliyeList", new object[0]);
             return ((Tip_IRS[])(results[0]));
@@ -92,7 +92,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/GetIrsaliye", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetIrsaliye", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Tip_IRS GetIrsaliye(int GorevID) {
             object[] results = this.Invoke("GetIrsaliye", new object[] {
                         GorevID});
@@ -112,7 +112,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/GetGorevList", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetGorevList", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Tip_GOREV[] GetGorevList(int gorevli, int durum, int gorevtipi, int DepoID, int KullID) {
             object[] results = this.Invoke("GetGorevList", new object[] {
                         gorevli,
@@ -140,25 +140,27 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/GetUsers", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Kullanicilar[] GetUsers() {
-            object[] results = this.Invoke("GetUsers", new object[0]);
-            return ((Kullanicilar[])(results[0]));
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetUsers", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public GetGorevlis_Result[] GetUsers(int DepoID) {
+            object[] results = this.Invoke("GetUsers", new object[] {
+                        DepoID});
+            return ((GetGorevlis_Result[])(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetUsers(System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("GetUsers", new object[0], callback, asyncState);
+        public System.IAsyncResult BeginGetUsers(int DepoID, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetUsers", new object[] {
+                        DepoID}, callback, asyncState);
         }
         
         /// <remarks/>
-        public Kullanicilar[] EndGetUsers(System.IAsyncResult asyncResult) {
+        public GetGorevlis_Result[] EndGetUsers(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
-            return ((Kullanicilar[])(results[0]));
+            return ((GetGorevlis_Result[])(results[0]));
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/GetDurums", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetDurums", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Durum[] GetDurums() {
             object[] results = this.Invoke("GetDurums", new object[0]);
             return ((Durum[])(results[0]));
@@ -176,7 +178,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/GetMalzemes", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetMalzemes", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Tip_STI[] GetMalzemes(int GorevID, bool devamMi) {
             object[] results = this.Invoke("GetMalzemes", new object[] {
                         GorevID,
@@ -198,7 +200,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/GetMalzemeFromBarcode", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetMalzemeFromBarcode", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string GetMalzemeFromBarcode(string barkod) {
             object[] results = this.Invoke("GetMalzemeFromBarcode", new object[] {
                         barkod});
@@ -218,7 +220,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/Mal_Kabul", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Mal_Kabul", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result Mal_Kabul(frmMalKabul[] StiList) {
             object[] results = this.Invoke("Mal_Kabul", new object[] {
                         StiList});
@@ -238,7 +240,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/MalKabul_GorevKontrol", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/MalKabul_GorevKontrol", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result MalKabul_GorevKontrol(int GorevID) {
             object[] results = this.Invoke("MalKabul_GorevKontrol", new object[] {
                         GorevID});
@@ -258,7 +260,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/MalKabul_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/MalKabul_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result MalKabul_GoreviTamamla(int GorevID, int kulID) {
             object[] results = this.Invoke("MalKabul_GoreviTamamla", new object[] {
                         GorevID,
@@ -280,7 +282,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/Rafa_Kaldir", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Rafa_Kaldir", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result Rafa_Kaldir(frmYerlesme[] YerlestirmeList, int kulID) {
             object[] results = this.Invoke("Rafa_Kaldir", new object[] {
                         YerlestirmeList,
@@ -302,7 +304,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/RafaKaldir_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/RafaKaldir_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result RafaKaldir_GoreviTamamla(int GorevID, int kulID) {
             object[] results = this.Invoke("RafaKaldir_GoreviTamamla", new object[] {
                         GorevID,
@@ -324,7 +326,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/Siparis_Topla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Siparis_Topla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result Siparis_Topla(frmYerlesme[] YerlestirmeList, int kulID) {
             object[] results = this.Invoke("Siparis_Topla", new object[] {
                         YerlestirmeList,
@@ -346,7 +348,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/SiparisTopla_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/SiparisTopla_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result SiparisTopla_GoreviTamamla(int GorevID, int kulID) {
             object[] results = this.Invoke("SiparisTopla_GoreviTamamla", new object[] {
                         GorevID,
@@ -368,7 +370,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/Paketle", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Paketle", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result Paketle(frmMalKabul[] StiList) {
             object[] results = this.Invoke("Paketle", new object[] {
                         StiList});
@@ -388,7 +390,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/Paketle_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Paketle_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result Paketle_GoreviTamamla(int GorevID, int IrsaliyeID, int kulID) {
             object[] results = this.Invoke("Paketle_GoreviTamamla", new object[] {
                         GorevID,
@@ -412,7 +414,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/Sevkiyat_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Sevkiyat_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result Sevkiyat_GoreviTamamla(int GorevID, int IrsaliyeID, int kulID) {
             object[] results = this.Invoke("Sevkiyat_GoreviTamamla", new object[] {
                         GorevID,
@@ -436,7 +438,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/TransferCikis_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/TransferCikis_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result TransferCikis_GoreviTamamla(int GorevID, int kulID) {
             object[] results = this.Invoke("TransferCikis_GoreviTamamla", new object[] {
                         GorevID,
@@ -458,7 +460,7 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mbilgisayar.com/TransferGiris_GoreviTamamla", RequestNamespace="http://www.12mbilgisayar.com/", ResponseNamespace="http://www.12mbilgisayar.com/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/TransferGiris_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result TransferGiris_GoreviTamamla(int GorevID, int kulID) {
             object[] results = this.Invoke("TransferGiris_GoreviTamamla", new object[] {
                         GorevID,
@@ -483,7 +485,7 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mbilgisayar.com/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
     public partial class Login {
         
         private int idField;
@@ -550,7 +552,7 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mbilgisayar.com/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
     public partial class frmYerlesme {
         
         private int gorevIDField;
@@ -653,7 +655,7 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mbilgisayar.com/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
     public partial class Result {
         
         private int idField;
@@ -708,7 +710,7 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mbilgisayar.com/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
     public partial class frmMalKabul {
         
         private int idField;
@@ -739,7 +741,7 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mbilgisayar.com/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
     public partial class Tip_STI {
         
         private int idField;
@@ -902,7 +904,7 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mbilgisayar.com/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
     public partial class Durum {
         
         private int idField;
@@ -933,8 +935,8 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mbilgisayar.com/")]
-    public partial class Kullanicilar {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
+    public partial class GetGorevlis_Result {
         
         private int idField;
         
@@ -964,7 +966,7 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mbilgisayar.com/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
     public partial class Tip_GOREV {
         
         private int idField;
@@ -1103,7 +1105,7 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mbilgisayar.com/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
     public partial class Tip_IRS {
         
         private int idField;
@@ -1218,7 +1220,7 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mbilgisayar.com/")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
     public partial class GorevOzet {
         
         private int idField;
