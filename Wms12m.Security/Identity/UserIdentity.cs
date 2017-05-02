@@ -32,7 +32,8 @@ namespace Wms12m.Security
         [DataMember]
         public bool Gender { get; set; }
 
-
+        [DataMember]
+        public int? DepoId { get; set; }
     }
 
 }

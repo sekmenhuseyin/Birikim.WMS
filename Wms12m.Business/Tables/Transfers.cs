@@ -121,9 +121,12 @@ namespace Wms12m.Business
         {
             return GetList();
         }
-        public List<Transfer> GetList(bool onay)
+        public List<Transfer> GetList(bool onay, int? DepoId)
         {
-            return db.Transfers.Where(m => m.Onay == onay).ToList();
+            if (DepoId == null)
+                return db.Transfers.Where(m => m.Onay == onay).ToList();
+            else
+                return db.Transfers.Where(m => m.Onay == onay && m.CikisDepoID == DepoId).ToList();
         }
         /// <summary>
         /// dispose

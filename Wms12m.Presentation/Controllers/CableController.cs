@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             if (CheckPerm("Cable", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.DepoID = new SelectList(Store.GetListCable(), "DepoKodu", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetListCable(vUser.DepoId), "DepoKodu", "DepoAd");
             return View("Index");
         }
         /// <summary>

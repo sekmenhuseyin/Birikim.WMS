@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             if (CheckPerm("Sell", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.DepoID = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
             return View("Index");
         }
         /// <summary>

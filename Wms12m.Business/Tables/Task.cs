@@ -243,9 +243,12 @@ namespace Wms12m.Business
         {
             return db.Gorevs.Where(m => m.DurumID == DurumID).OrderByDescending(m => m.ID).ToList();
         }
-        public List<Gorev> GetList(int DurumID, int DepoID)
+        public List<Gorev> GetList(int DurumID, int? DepoID)
         {
-            return db.Gorevs.Where(m => m.DurumID == DurumID && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
+            if (DepoID != null)
+                return db.Gorevs.Where(m => m.DurumID == DurumID && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
+            else
+                return db.Gorevs.Where(m => m.DurumID == DurumID).OrderByDescending(m => m.ID).ToList();
         }
         /// <summary>
         /// dispose

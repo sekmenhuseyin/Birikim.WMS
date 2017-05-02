@@ -160,9 +160,12 @@ namespace Wms12m.Business
         /// <summary>
         /// kablo siparişi için liste
         /// </summary>
-        public List<Depo> GetListCable()
+        public List<Depo> GetListCable(int? Id)
         {
-            return db.Depoes.Where(m => m.KabloDepoID != null).OrderBy(m => m.DepoAd).ToList();
+            if (Id == null)
+                return db.Depoes.Where(m => m.KabloDepoID != null).OrderBy(m => m.DepoAd).ToList();
+            else
+                return db.Depoes.Where(m => m.KabloDepoID != null && m.ID == Id).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir
@@ -170,6 +173,13 @@ namespace Wms12m.Business
         public override List<Depo> GetList(int ParentId)
         {
             return GetList();
+        }
+        public List<Depo> GetList(int? Id)
+        {
+            if (Id == null)
+                return GetList();
+            else
+                return db.Depoes.Where(m => m.ID == Id).ToList();
         }
         /// <summary>
         /// dispose

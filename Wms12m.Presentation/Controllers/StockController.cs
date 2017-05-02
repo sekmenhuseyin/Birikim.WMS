@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("Index");
         }
         /// <summary>
@@ -54,7 +54,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Cable()
         {
             if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.DepoID = new SelectList(Store.GetListCable(), "ID", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetListCable(vUser.DepoId), "ID", "DepoAd");
             return View("Cable");
         }
         /// <summary>
@@ -93,7 +93,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
             var list = db.Yer_Log.GroupBy(m => m.MalKodu).Select(m => new frmMalKoduMiktar { MalKodu = m.Key, Birim = "", Miktar = 0 }).ToList();
             ViewBag.MalKodu = new SelectList(list, "MalKodu", "MalKodu");
-            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("History");
         }
         /// <summary>
@@ -116,7 +116,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult ManualPlacement()
         {
             if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
@@ -159,7 +159,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult ManualMovement()
         {
             if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");

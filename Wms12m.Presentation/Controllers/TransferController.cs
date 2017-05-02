@@ -16,9 +16,9 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Transfer", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            ViewBag.GirisDepo = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
-            ViewBag.CikisDepo = ViewBag.GirisDepo;
-            ViewBag.AraDepo = ViewBag.GirisDepo;
+            ViewBag.GirisDepo = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
+            ViewBag.CikisDepo = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
+            ViewBag.AraDepo = ViewBag.CikisDepo;
             return View("Index");
         }
         /// <summary>
@@ -167,7 +167,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult ListDetail(bool Id)
         {
             if (CheckPerm("Transfer", PermTypes.Reading) == false) return null;
-            var list = Transfers.GetList(Id);
+            var list = Transfers.GetList(Id, vUser.DepoId);
             return PartialView("_List", list);
         }
         /// <summary>

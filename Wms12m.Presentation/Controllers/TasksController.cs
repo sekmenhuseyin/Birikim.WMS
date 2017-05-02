@@ -25,7 +25,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult List(int Id)
         {
             if (CheckPerm("Tasks", PermTypes.Reading) == false) return null;
-            var list = Task.GetList(Id);
+            var list = Task.GetList(Id,vUser.DepoId);
             return PartialView("List", list);
         }
         /// <summary>

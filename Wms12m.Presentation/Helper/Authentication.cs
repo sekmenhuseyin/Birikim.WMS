@@ -82,6 +82,7 @@ namespace Wms12m
                     Operation = isUpdate ? identity.AppIdentity.Action.Operation : string.Empty
                 }
             };
+            if (person.UserDetail != null) serializeModel.AppIdentity.User.DepoId = person.UserDetail.DepoID;
             return serializeModel;
         }
     }
