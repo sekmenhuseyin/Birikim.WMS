@@ -193,6 +193,10 @@ namespace Wms12m.Business
         {
             return db.Users.Where(m => m.RoleName == RoleName).OrderBy(m => m.AdSoyad).ToList();
         }
+        public List<User> GetListWithoutTerminal()
+        {
+            return db.Users.Where(m=>m.UserDetail == null).OrderBy(m => m.AdSoyad).ToList();
+        }
         /// <summary>
         /// sil
         /// </summary>

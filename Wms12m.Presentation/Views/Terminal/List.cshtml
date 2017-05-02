@@ -7,11 +7,14 @@
             <tr>
                 <td>@item.User.Kod</td>
                 <td>@item.User.AdSoyad</td>
-                <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Terminal/Depo/@item.UserID')"> @item.Depo.DepoAd </a></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>@item.Depo.DepoAd</td>
+                <td>@item.SiparisSeri</td>
+                <td>@item.TransferOutSeri</td>
+                <td>@item.TransferInSeri</td>
+                <td>
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Edit/@item.UserID')"> Düzenle </a>
+                    <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.UserID','','','')"> Sil </a>
+                </td>
             </tr>
         }
     </tbody>

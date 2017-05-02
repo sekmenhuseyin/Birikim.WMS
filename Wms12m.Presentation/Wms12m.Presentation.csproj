@@ -370,7 +370,6 @@
     <Content Include="Views\ComboItems\Edit.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\New.cshtml" />
-    <Content Include="Views\Terminal\Depo.cshtml" />
     <Content Include="Views\Users\Pass.cshtml" />
     <Content Include="Views\Tasks\Details.cshtml" />
     <Content Include="Views\Stock\Index.cshtml" />
@@ -423,7 +422,7 @@
     <Content Include="Views\Stock\ManualMovement.cshtml" />
     <Content Include="Views\Terminal\Index.cshtml" />
     <Content Include="Views\Terminal\List.cshtml" />
-    <Content Include="Views\Terminal\New.cshtml" />
+    <Content Include="Views\Terminal\Editor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

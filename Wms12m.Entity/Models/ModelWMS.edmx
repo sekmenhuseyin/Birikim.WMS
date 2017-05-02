@@ -923,14 +923,6 @@
           <Parameter Name="GörevTipiID" Type="int" Mode="In" />
           <Parameter Name="YeniGorevTipiID" Type="int" Mode="In" />
         </Function>
-        <Function Name="YetkiDepo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="ID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="YetkiDepoSet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="DepoID" Type="int" Mode="In" />
-          <Parameter Name="UserID" Type="int" Mode="In" />
-          <Parameter Name="Ekle" Type="bit" Mode="In" />
-        </Function>
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="Combo_Name" EntityType="Self.Combo_Name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboItem_Name" EntityType="Self.ComboItem_Name" Schema="dbo" store:Type="Tables" />
@@ -1172,14 +1164,6 @@
             <Parameter Name="GörevTipiID" Mode="In" Type="Int32" />
             <Parameter Name="YeniGorevTipiID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="YetkiDepo" ReturnType="Collection(MModel.YetkiDepo_Result)">
-          <Parameter Name="ID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="YetkiDepoSet">
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
-            <Parameter Name="Ekle" Mode="In" Type="Boolean" />
-          </FunctionImport>
           <FunctionImport Name="MenuSiralayici">
             <Parameter Name="WebSiteTipiNo" Mode="In" Type="Int32" />
             <Parameter Name="MenuYeriNo" Mode="In" Type="Int32" />
@@ -1413,11 +1397,6 @@
           <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
           <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
           <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
-        </ComplexType>
-        <ComplexType Name="YetkiDepo_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="DepoKodu" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="DepoAd" Nullable="false" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="MenuRolGetir_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2321,16 +2300,6 @@
           <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
           <FunctionImportMapping FunctionImportName="SettingsIrsaliyeNo" FunctionName="MModel.Store.SettingsIrsaliyeNo" />
           <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
-          <FunctionImportMapping FunctionImportName="YetkiDepo" FunctionName="MModel.Store.YetkiDepo">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.YetkiDepo_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="DepoKodu" ColumnName="DepoKodu" />
-                <ScalarProperty Name="DepoAd" ColumnName="DepoAd" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="YetkiDepoSet" FunctionName="MModel.Store.YetkiDepoSet" />
           <FunctionImportMapping FunctionImportName="MenuSiralayici" FunctionName="MModel.Store.MenuSiralayici" />
           <FunctionImportMapping FunctionImportName="MenuRolGetir" FunctionName="MModel.Store.MenuRolGetir">
             <ResultMapping>

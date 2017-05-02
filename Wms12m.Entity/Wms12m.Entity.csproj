@@ -162,9 +162,6 @@
     <Compile Include="Models\Yer_Log.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\YetkiDepo_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Mysql\cin.cs">
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
