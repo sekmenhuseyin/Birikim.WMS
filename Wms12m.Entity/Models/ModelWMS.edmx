@@ -340,9 +340,9 @@
           </Key>
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="DepoID" Type="int" Nullable="false" />
-          <Property Name="SiparisSeri" Type="varchar" MaxLength="50" />
-          <Property Name="TransferInSeri" Type="varchar" MaxLength="50" />
-          <Property Name="TransferOutSeri" Type="varchar" MaxLength="50" />
+          <Property Name="SatisSeri" Type="int" Nullable="false" />
+          <Property Name="TransferInSeri" Type="int" Nullable="false" />
+          <Property Name="TransferOutSeri" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Yer">
           <Key>
@@ -2214,9 +2214,9 @@
           </Key>
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="DepoID" Type="Int32" Nullable="false" />
-          <Property Name="SiparisSeri" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TransferInSeri" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TransferOutSeri" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SatisSeri" Type="Int32" Nullable="false" />
+          <Property Name="TransferInSeri" Type="Int32" Nullable="false" />
+          <Property Name="TransferOutSeri" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
         </EntityType>
@@ -2716,7 +2716,7 @@
               <MappingFragment StoreEntitySet="UserDetails">
                 <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
                 <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
-                <ScalarProperty Name="SiparisSeri" ColumnName="SiparisSeri" />
+                <ScalarProperty Name="SatisSeri" ColumnName="SatisSeri" />
                 <ScalarProperty Name="DepoID" ColumnName="DepoID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>

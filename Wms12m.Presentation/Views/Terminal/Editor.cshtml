@@ -14,35 +14,35 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                     @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.DepoID, "Depo", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.DepoID, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                     @Html.ValidationMessageFor(model => model.DepoID, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
-                                @Html.LabelFor(model => model.SiparisSeri, "SiparisSeri", htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.SatisSeri, "SatisSeri", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.SiparisSeri, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.SiparisSeri, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.SatisSeri, new { htmlAttributes = new { @class = "form-control touchspin", min = "1", max = "199" } })
+                                    @Html.ValidationMessageFor(model => model.SatisSeri, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.TransferInSeri, "TransferInSeri", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.TransferInSeri, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.TransferInSeri, new { htmlAttributes = new { @class = "form-control touchspin", min = "1", max = "199" } })
                                     @Html.ValidationMessageFor(model => model.TransferInSeri, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.TransferOutSeri, "TransferOutSeri", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.TransferOutSeri, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.TransferOutSeri, new { htmlAttributes = new { @class = "form-control touchspin", min = "1", max = "199" } })
                                     @Html.ValidationMessageFor(model => model.TransferOutSeri, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -57,4 +57,7 @@
         </div>
     </div>
 </div>
-<script>$("#submitter").click(function () { $('#modalEditPage').modal('toggle'); })</script>
+<script>
+    $("#submitter").click(function () { $('#modalEditPage').modal('toggle'); })
+    $(".touchspin").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
+</script>

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -20,7 +21,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult List()
         {
             if (CheckPerm("Users", PermTypes.Reading) == false) return null;
-            var list = db.UserDetails.ToList();
+            var list = PersonPerms.GetList();
             return PartialView("List", list);
         }
         /// <summary>
@@ -41,12 +42,21 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
             if (CheckPerm("Users", PermTypes.Reading) == false) return null;
-            int UserID = id.ToInt32();
             //return
-            var tbl = db.UserDetails.Where(m => m.UserID == UserID).FirstOrDefault();
+            var tbl = PersonPerms.Detail(id.ToInt32());
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tbl.DepoID);
-            ViewBag.ID = UserID;
+            ViewBag.UserID = new SelectList(db.Users.Where(m => m.ID == tbl.UserID).ToList(), "ID", "AdSoyad");
             return PartialView("Editor", tbl);
+        }
+        /// <summary>
+        /// kaydet
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Save(UserDetail tbl)
+        {
+            if (CheckPerm("Users", PermTypes.Writing) == false) return Redirect("/");
+            Result _Result = PersonPerms.Operation(tbl);
+            return RedirectToAction("Index");
         }
     }
 }

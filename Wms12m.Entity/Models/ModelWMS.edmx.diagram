@@ -62,10 +62,10 @@
         <AssociationConnector Association="MModel.FK_IRS_Detay_IRS" />
         <AssociationConnector Association="MModel.FK_Yer_Log_IRS" />
         <AssociationConnector Association="MModel.GorevIRS" />
-        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="20.25" PointY="6.875" />
+        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="20.125" PointY="6.75" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
