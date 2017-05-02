@@ -32,6 +32,8 @@
             "pagingType": "full_numbers",
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            dom: 'Bfrtip',
+            buttons: [ 'copy', 'excel', 'pdf', 'print' ],
             initComplete: function () {
                 this.api().columns([0, 1, 2]).every(function () {
                     var column = this;
