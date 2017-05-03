@@ -19,7 +19,7 @@ namespace Wms12m.Business
         public override Result Operation(UserDetail tbl)
         {
             _Result = new Result();
-            if (tbl.UserID == 0 || tbl.DepoID == 0 || tbl.SatisSeri < 1 || tbl.SatisSeri > 199 || tbl.TransferInSeri < 1 || tbl.TransferInSeri > 199 || tbl.TransferOutSeri < 1 || tbl.TransferOutSeri > 199)
+            if (tbl.UserID == 0 || tbl.DepoID == 0 || tbl.IrsaliyeSeri < 1 || tbl.IrsaliyeSeri > 199 || tbl.SatisSeri < 1 || tbl.SatisSeri > 199 || tbl.TransferInSeri < 1 || tbl.TransferInSeri > 199 || tbl.TransferOutSeri < 1 || tbl.TransferOutSeri > 199)
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
@@ -32,6 +32,7 @@ namespace Wms12m.Business
             else
             {
                 tmp.DepoID = tbl.DepoID;
+                tmp.IrsaliyeSeri = tbl.IrsaliyeSeri;
                 tmp.SatisSeri = tbl.SatisSeri;
                 tmp.TransferInSeri = tbl.TransferInSeri;
                 tmp.TransferOutSeri = tbl.TransferOutSeri;

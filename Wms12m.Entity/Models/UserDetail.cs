@@ -19,6 +19,7 @@ namespace Wms12m.Entity.Models
         public int SatisSeri { get; set; }
         public int TransferInSeri { get; set; }
         public int TransferOutSeri { get; set; }
+        public int IrsaliyeSeri { get; set; }
     
         public virtual User User { get; set; }
         public virtual Depo Depo { get; set; }
