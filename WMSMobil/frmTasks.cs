@@ -252,5 +252,12 @@ namespace WMSMobil
         {
             Servis.Dispose();
         }
+        /// <summary>
+        /// geri
+        /// </summary>
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

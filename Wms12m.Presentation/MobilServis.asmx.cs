@@ -178,26 +178,25 @@ namespace Wms12m
         [WebMethod]
         public Result Mal_Kabul(List<frmMalKabul> StiList, int GorevID)
         {
-            int tipID = ComboItems.MalKabul.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             var stok = new IrsaliyeDetay();
-            foreach (var item in StiList)
-            {
-                var tmp = stok.Detail(item.ID);
-                if (tmp.OkutulanMiktar == null) tmp.OkutulanMiktar = item.OkutulanMiktar;
-                else tmp.OkutulanMiktar = item.OkutulanMiktar;
-                stok.Operation(tmp);
-            }
             try
             {
+                foreach (var item in StiList)
+                {
+                    var tmp = stok.Detail(item.ID);
+                    tmp.OkutulanMiktar = item.OkutulanMiktar;
+                    stok.Operation(tmp);
+                }
                 return new Result(true);
             }
             catch (Exception ex)
             {
-                return new Result(false, ex.Message);
+                db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Mal_Kabul");
+                return new Result(false, "Bir hata oldu");
             }
         }
         /// <summary>
@@ -326,7 +325,7 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //loop
-            Result _result = new Result(false);
+            Result _result = new Result(true);
             foreach (var item in YerlestirmeList)
             {
                 //hücre adından kat id bulunur
@@ -361,11 +360,12 @@ namespace Wms12m
                             stok.Update(tmp2, item.IrsID, kulID, false, item.Miktar);
                         }
                     }
-                    _result.Message = item.MalKodu + " için fazla mal yazılmış";
+                    else
+                        _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
                 }
-                _result.Message = item.RafNo + " adlı yer bulunamadı";
+                else
+                    _result = new Result(false, item.RafNo + " adlı yer bulunamadı");
             }
-            if (_result.Message == "") _result.Status = true;
             return _result;
         }
         /// <summary>
@@ -434,6 +434,7 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //loop
+            Result _result = new Result(true);
             foreach (var item in YerlestirmeList)
             {
                 //hücre adından kat id bulunur
@@ -455,10 +456,16 @@ namespace Wms12m
                             tmp2.Miktar -= item.Miktar;
                             yerlestirme.Update(tmp2, item.IrsID, kulID, true, item.Miktar);
                         }
+                        else
+                            _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
                     }
+                    else
+                        _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
                 }
+                else
+                    _result = new Result(false, "İrsaliye bulunamadı !");
             }
-            return new Result(true);
+            return _result;
         }
         /// <summary>
         /// sipariş toplama görevi tamamlma
@@ -586,31 +593,33 @@ namespace Wms12m
         public Result Paketle(List<frmMalKabul> StiList, int GorevID)
         {
             //kontrol
-            int tipID = ComboItems.Paketle.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //loop
+            Result _result = new Result(true);
             var stok = new IrsaliyeDetay();
-            foreach (var item in StiList)
-            {
-                var tmp = stok.Detail(item.ID);
-                if (tmp.Miktar >= ((tmp.OkutulanMiktar ?? 0) + item.OkutulanMiktar))
-                {
-                    if (tmp.OkutulanMiktar == null) tmp.OkutulanMiktar = item.OkutulanMiktar;
-                    else tmp.OkutulanMiktar += item.OkutulanMiktar;
-                    stok.Operation(tmp);
-                }
-            }
             try
             {
-                return new Result(true);
+                foreach (var item in StiList)
+                {
+                    var tmp = stok.Detail(item.ID);
+                    if (tmp.Miktar >= item.OkutulanMiktar)
+                    {
+                        tmp.OkutulanMiktar = item.OkutulanMiktar;
+                        stok.Operation(tmp);
+                    }
+                    else
+                        _result = new Result(false, tmp.MalKodu + " için fazla mal yazılmış");
+                }
             }
             catch (Exception ex)
             {
-                return new Result(false, ex.Message);
+                db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Paketle");
+                return new Result(false, "Bir hata oldu");
             }
+            return _result;
         }
         /// <summary>
         /// paketle görevini tamamla

@@ -42,8 +42,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnLinkeAktar = new System.Windows.Forms.Button();
-            this.btnDuzenle = new System.Windows.Forms.Button();
             this.btnIslemYap = new System.Windows.Forms.Button();
+            this.btnBack = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panelOrta.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -158,8 +158,8 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnBack);
             this.panel1.Controls.Add(this.btnLinkeAktar);
-            this.panel1.Controls.Add(this.btnDuzenle);
             this.panel1.Controls.Add(this.btnIslemYap);
             this.panel1.Location = new System.Drawing.Point(0, 264);
             this.panel1.Name = "panel1";
@@ -177,29 +177,29 @@
             this.btnLinkeAktar.Text = "Linke Aktar";
             this.btnLinkeAktar.Click += new System.EventHandler(this.btnLinkeAktar_Click);
             // 
-            // btnDuzenle
-            // 
-            this.btnDuzenle.BackColor = System.Drawing.Color.SkyBlue;
-            this.btnDuzenle.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
-            this.btnDuzenle.ForeColor = System.Drawing.Color.Black;
-            this.btnDuzenle.Location = new System.Drawing.Point(74, 4);
-            this.btnDuzenle.Name = "btnDuzenle";
-            this.btnDuzenle.Size = new System.Drawing.Size(65, 22);
-            this.btnDuzenle.TabIndex = 0;
-            this.btnDuzenle.Text = "Tüm Liste";
-            this.btnDuzenle.Click += new System.EventHandler(this.btnDuzenle_Click);
-            // 
             // btnIslemYap
             // 
             this.btnIslemYap.BackColor = System.Drawing.Color.SkyBlue;
             this.btnIslemYap.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
             this.btnIslemYap.ForeColor = System.Drawing.Color.Black;
-            this.btnIslemYap.Location = new System.Drawing.Point(3, 4);
+            this.btnIslemYap.Location = new System.Drawing.Point(68, 5);
             this.btnIslemYap.Name = "btnIslemYap";
-            this.btnIslemYap.Size = new System.Drawing.Size(68, 22);
+            this.btnIslemYap.Size = new System.Drawing.Size(68, 21);
             this.btnIslemYap.TabIndex = 0;
-            this.btnIslemYap.Text = "Devam Et";
+            this.btnIslemYap.Text = "İşlem Yap";
             this.btnIslemYap.Click += new System.EventHandler(this.btnIslemYap_Click);
+            // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.SkyBlue;
+            this.btnBack.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
+            this.btnBack.ForeColor = System.Drawing.Color.Black;
+            this.btnBack.Location = new System.Drawing.Point(3, 5);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(63, 21);
+            this.btnBack.TabIndex = 2;
+            this.btnBack.Text = "<<  Geri";
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // frmTasks
             // 
@@ -234,11 +234,11 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnDuzenle;
         private System.Windows.Forms.Button btnIslemYap;
         private System.Windows.Forms.Button btnLinkeAktar;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnBack;
 
     }
 }

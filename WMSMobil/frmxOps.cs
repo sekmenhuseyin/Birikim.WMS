@@ -133,10 +133,10 @@ namespace WMSMobil
                 txtEvrakno.Visible = false;
             }
             //barkod
-            //Barkod = new Barcode2();
-            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            //Barkod.EnableScanner = true;
-            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            Barkod = new Barcode2();
+            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            Barkod.EnableScanner = true;
+            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             //end
             txtBarkod.Focus();
         }
@@ -159,7 +159,9 @@ namespace WMSMobil
                             if (cont.Name == txtBarkod.Name)
                             {
                                 txtBarkod.Text = Servis.GetMalzemeFromBarcode(scanDataCollection.GetFirst.Text);
-                                txtRafBarkod.Focus();
+                                //raf varsa rafa odaklan yoksa uygula
+                                if (txtRafBarkod.Visible == true) txtRafBarkod.Focus();
+                                else btnUygula_Click(Barkod, null);
                                 focuslandi = true;
                             }
                             //eğer raf ise direk yaz
@@ -168,8 +170,6 @@ namespace WMSMobil
                                 txtRafBarkod.Text = scanDataCollection.GetFirst.Text;
                                 //rafı da okutursa yerleştir düğmesine bas
                                 btnUygula_Click(Barkod, null);
-                                //sonra tekrar malkoduna odaklan
-                                txtBarkod.Focus();
                                 focuslandi = true;
                             }
                         }
@@ -585,6 +585,13 @@ namespace WMSMobil
                 Barkod.Dispose();
             }
             catch { }
+        }
+        /// <summary>
+        /// geri
+        /// </summary>
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

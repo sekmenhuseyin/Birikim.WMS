@@ -51,6 +51,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.panelAlt = new System.Windows.Forms.Panel();
+            this.btnBack = new System.Windows.Forms.Button();
             this.btnKaydet = new System.Windows.Forms.Button();
             this.panelUst.SuspendLayout();
             this.panelOrta.SuspendLayout();
@@ -60,9 +61,9 @@
             // panelUst
             // 
             this.panelUst.BackColor = System.Drawing.Color.Transparent;
-            this.panelUst.Controls.Add(this.btnUygula);
             this.panelUst.Controls.Add(this.txtRafBarkod);
             this.panelUst.Controls.Add(this.txtBarkod);
+            this.panelUst.Controls.Add(this.btnUygula);
             this.panelUst.Controls.Add(this.label7);
             this.panelUst.Controls.Add(this.label4);
             this.panelUst.Controls.Add(this.panel2);
@@ -85,13 +86,14 @@
             this.btnUygula.Size = new System.Drawing.Size(68, 41);
             this.btnUygula.TabIndex = 2;
             this.btnUygula.Text = "Uygula";
+            this.btnUygula.Visible = false;
             this.btnUygula.Click += new System.EventHandler(this.btnUygula_Click);
             // 
             // txtRafBarkod
             // 
-            this.txtRafBarkod.Location = new System.Drawing.Point(74, 22);
+            this.txtRafBarkod.Location = new System.Drawing.Point(74, 24);
             this.txtRafBarkod.Name = "txtRafBarkod";
-            this.txtRafBarkod.Size = new System.Drawing.Size(95, 21);
+            this.txtRafBarkod.Size = new System.Drawing.Size(165, 21);
             this.txtRafBarkod.TabIndex = 1;
             this.txtRafBarkod.Visible = false;
             this.txtRafBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
@@ -100,7 +102,7 @@
             // 
             this.txtBarkod.Location = new System.Drawing.Point(74, 2);
             this.txtBarkod.Name = "txtBarkod";
-            this.txtBarkod.Size = new System.Drawing.Size(95, 21);
+            this.txtBarkod.Size = new System.Drawing.Size(165, 21);
             this.txtBarkod.TabIndex = 0;
             this.txtBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
@@ -111,7 +113,7 @@
             this.label7.ForeColor = System.Drawing.SystemColors.Window;
             this.label7.Location = new System.Drawing.Point(3, 24);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(70, 17);
+            this.label7.Size = new System.Drawing.Size(70, 21);
             this.label7.Text = "Raf Okut";
             this.label7.Visible = false;
             // 
@@ -120,9 +122,9 @@
             this.label4.BackColor = System.Drawing.Color.CadetBlue;
             this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.SystemColors.Window;
-            this.label4.Location = new System.Drawing.Point(3, 4);
+            this.label4.Location = new System.Drawing.Point(3, 2);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(70, 17);
+            this.label4.Size = new System.Drawing.Size(70, 21);
             this.label4.Text = "Mal Okut";
             // 
             // panel2
@@ -133,7 +135,7 @@
             // 
             // txtEvrakno
             // 
-            this.txtEvrakno.Location = new System.Drawing.Point(181, 67);
+            this.txtEvrakno.Location = new System.Drawing.Point(181, 68);
             this.txtEvrakno.Name = "txtEvrakno";
             this.txtEvrakno.ReadOnly = true;
             this.txtEvrakno.Size = new System.Drawing.Size(58, 21);
@@ -141,7 +143,7 @@
             // 
             // txtHesapKodu
             // 
-            this.txtHesapKodu.Location = new System.Drawing.Point(74, 67);
+            this.txtHesapKodu.Location = new System.Drawing.Point(74, 68);
             this.txtHesapKodu.Name = "txtHesapKodu";
             this.txtHesapKodu.ReadOnly = true;
             this.txtHesapKodu.Size = new System.Drawing.Size(54, 21);
@@ -149,7 +151,7 @@
             // 
             // txtUnvan
             // 
-            this.txtUnvan.Location = new System.Drawing.Point(74, 44);
+            this.txtUnvan.Location = new System.Drawing.Point(74, 46);
             this.txtUnvan.Name = "txtUnvan";
             this.txtUnvan.ReadOnly = true;
             this.txtUnvan.Size = new System.Drawing.Size(165, 21);
@@ -160,7 +162,7 @@
             this.label3.BackColor = System.Drawing.Color.Teal;
             this.label3.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.SystemColors.Window;
-            this.label3.Location = new System.Drawing.Point(129, 67);
+            this.label3.Location = new System.Drawing.Point(129, 68);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 21);
             this.label3.Text = "EvrakNo";
@@ -170,7 +172,7 @@
             this.label2.BackColor = System.Drawing.Color.Teal;
             this.label2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label2.ForeColor = System.Drawing.SystemColors.Window;
-            this.label2.Location = new System.Drawing.Point(3, 67);
+            this.label2.Location = new System.Drawing.Point(3, 68);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 21);
             this.label2.Text = "HesapKodu";
@@ -180,7 +182,7 @@
             this.label1.BackColor = System.Drawing.Color.Teal;
             this.label1.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.SystemColors.Window;
-            this.label1.Location = new System.Drawing.Point(3, 44);
+            this.label1.Location = new System.Drawing.Point(3, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 21);
             this.label1.Text = "Unvan";
@@ -272,19 +274,32 @@
             // panelAlt
             // 
             this.panelAlt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.panelAlt.Controls.Add(this.btnBack);
             this.panelAlt.Controls.Add(this.btnKaydet);
             this.panelAlt.Location = new System.Drawing.Point(0, 248);
             this.panelAlt.Name = "panelAlt";
             this.panelAlt.Size = new System.Drawing.Size(240, 46);
+            // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.SkyBlue;
+            this.btnBack.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
+            this.btnBack.ForeColor = System.Drawing.Color.Black;
+            this.btnBack.Location = new System.Drawing.Point(3, 12);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(70, 23);
+            this.btnBack.TabIndex = 1;
+            this.btnBack.Text = "<<  Geri";
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // btnKaydet
             // 
             this.btnKaydet.BackColor = System.Drawing.Color.SteelBlue;
             this.btnKaydet.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
             this.btnKaydet.ForeColor = System.Drawing.Color.White;
-            this.btnKaydet.Location = new System.Drawing.Point(3, 7);
+            this.btnKaydet.Location = new System.Drawing.Point(74, 7);
             this.btnKaydet.Name = "btnKaydet";
-            this.btnKaydet.Size = new System.Drawing.Size(234, 33);
+            this.btnKaydet.Size = new System.Drawing.Size(165, 33);
             this.btnKaydet.TabIndex = 0;
             this.btnKaydet.Text = "Kaydet";
             this.btnKaydet.Click += new System.EventHandler(this.btnKaydet_Click);
@@ -335,5 +350,6 @@
         private System.Windows.Forms.TextBox txtRafBarkod;
         private System.Windows.Forms.Label label7;
         public System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button btnBack;
     }
 }
