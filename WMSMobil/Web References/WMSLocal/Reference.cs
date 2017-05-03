@@ -221,16 +221,18 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Mal_Kabul", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Result Mal_Kabul(frmMalKabul[] StiList) {
+        public Result Mal_Kabul(frmMalKabul[] StiList, int GorevID) {
             object[] results = this.Invoke("Mal_Kabul", new object[] {
-                        StiList});
+                        StiList,
+                        GorevID});
             return ((Result)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginMal_Kabul(frmMalKabul[] StiList, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginMal_Kabul(frmMalKabul[] StiList, int GorevID, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("Mal_Kabul", new object[] {
-                        StiList}, callback, asyncState);
+                        StiList,
+                        GorevID}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -283,18 +285,20 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Rafa_Kaldir", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Result Rafa_Kaldir(frmYerlesme[] YerlestirmeList, int kulID) {
+        public Result Rafa_Kaldir(frmYerlesme[] YerlestirmeList, int kulID, int GorevID) {
             object[] results = this.Invoke("Rafa_Kaldir", new object[] {
                         YerlestirmeList,
-                        kulID});
+                        kulID,
+                        GorevID});
             return ((Result)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginRafa_Kaldir(frmYerlesme[] YerlestirmeList, int kulID, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginRafa_Kaldir(frmYerlesme[] YerlestirmeList, int kulID, int GorevID, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("Rafa_Kaldir", new object[] {
                         YerlestirmeList,
-                        kulID}, callback, asyncState);
+                        kulID,
+                        GorevID}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -327,18 +331,20 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Siparis_Topla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Result Siparis_Topla(frmYerlesme[] YerlestirmeList, int kulID) {
+        public Result Siparis_Topla(frmYerlesme[] YerlestirmeList, int kulID, int GorevID) {
             object[] results = this.Invoke("Siparis_Topla", new object[] {
                         YerlestirmeList,
-                        kulID});
+                        kulID,
+                        GorevID});
             return ((Result)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginSiparis_Topla(frmYerlesme[] YerlestirmeList, int kulID, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginSiparis_Topla(frmYerlesme[] YerlestirmeList, int kulID, int GorevID, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("Siparis_Topla", new object[] {
                         YerlestirmeList,
-                        kulID}, callback, asyncState);
+                        kulID,
+                        GorevID}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -371,16 +377,18 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Paketle", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Result Paketle(frmMalKabul[] StiList) {
+        public Result Paketle(frmMalKabul[] StiList, int GorevID) {
             object[] results = this.Invoke("Paketle", new object[] {
-                        StiList});
+                        StiList,
+                        GorevID});
             return ((Result)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginPaketle(frmMalKabul[] StiList, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginPaketle(frmMalKabul[] StiList, int GorevID, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("Paketle", new object[] {
-                        StiList}, callback, asyncState);
+                        StiList,
+                        GorevID}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -768,6 +776,8 @@ namespace WMSMobil.WMSLocal {
         
         private decimal yerlestirmeMiktariField;
         
+        private System.Nullable<decimal> yerMiktarField;
+        
         private string rafField;
         
         /// <remarks/>
@@ -887,6 +897,17 @@ namespace WMSMobil.WMSLocal {
             }
             set {
                 this.yerlestirmeMiktariField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<decimal> YerMiktar {
+            get {
+                return this.yerMiktarField;
+            }
+            set {
+                this.yerMiktarField = value;
             }
         }
         

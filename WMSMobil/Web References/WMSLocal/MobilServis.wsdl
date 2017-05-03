@@ -212,6 +212,7 @@
           <s:element minOccurs="1" maxOccurs="1" name="AktarimDurumu" type="s:boolean" />
           <s:element minOccurs="1" maxOccurs="1" name="OkutulanMiktar" type="s:decimal" />
           <s:element minOccurs="1" maxOccurs="1" name="YerlestirmeMiktari" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="YerMiktar" nillable="true" type="s:decimal" />
           <s:element minOccurs="0" maxOccurs="1" name="Raf" type="s:string" />
         </s:sequence>
       </s:complexType>
@@ -233,6 +234,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="StiList" type="tns:ArrayOfFrmMalKabul" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -296,6 +298,7 @@
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="YerlestirmeList" type="tns:ArrayOfFrmYerlesme" />
             <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -343,6 +346,7 @@
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="YerlestirmeList" type="tns:ArrayOfFrmYerlesme" />
             <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -372,6 +376,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="StiList" type="tns:ArrayOfFrmMalKabul" />
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>

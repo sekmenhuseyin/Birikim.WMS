@@ -14,6 +14,7 @@
         public bool AktarimDurumu { get; set; }
         public decimal OkutulanMiktar { get; set; }
         public decimal YerlestirmeMiktari { get; set; }
+        public decimal? YerMiktar { get; set; }
         public string Raf { get; set; }
     }
 

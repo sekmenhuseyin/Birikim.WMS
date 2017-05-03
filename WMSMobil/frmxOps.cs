@@ -206,7 +206,7 @@ namespace WMSMobil
                 Font font = new Font("Tahoma", 8, FontStyle.Regular);
                 PanelEx panelSatir = new PanelEx();
                 panelSatir.Name = Sayac.ToString();
-                panelSatir.Location = new Point(1, (Sayac * 21));
+                panelSatir.Location = new Point(0, (Sayac * 21));
 
                 TextBox tMalKodu = new TextBox();
                 tMalKodu.Font = font;
@@ -253,8 +253,6 @@ namespace WMSMobil
                     tMiktarOkutulan.BackColor = Color.FromArgb(206, 223, 239);
                     tMiktarOkutulan.Text = stiItem != null ? stiItem.OkutulanMiktar.ToDecimal().ToString("N2") : "0";
                     panelSatir.OkutulanMiktar = stiItem.OkutulanMiktar.ToDecimal();
-                    tMiktar.Text = stiItem.Miktar.ToDecimal().ToString("N2");
-                    tMiktar.Tag = stiItem.Miktar.ToDecimal();
                 }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 {
@@ -269,6 +267,8 @@ namespace WMSMobil
                     tRaf.Text = stiItem.Raf != null ? stiItem.Raf : "";
                     panelSatir.Raf = stiItem.Raf != null ? stiItem.Raf : "";
 
+                    string yermiktar = stiItem.YerMiktar.ToDecimal().ToString("N2");
+                    if (yermiktar == "0,00") yermiktar = stiItem.YerlestirmeMiktari.ToDecimal().ToString("N2");
                     tYerlestirmeMiktari.Font = font;
                     tYerlestirmeMiktari.Width = 105;
                     tYerlestirmeMiktari.Location = new Point(377, 0);
@@ -277,7 +277,7 @@ namespace WMSMobil
                     tYerlestirmeMiktari.Name = "txtYerlestirmeMiktari";
                     tYerlestirmeMiktari.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                     tYerlestirmeMiktari.BackColor = Color.FromArgb(206, 223, 239);
-                    tYerlestirmeMiktari.Text = stiItem.YerlestirmeMiktari.ToDecimal().ToString("N2");
+                    tYerlestirmeMiktari.Text = yermiktar;
                     panelSatir.YerlestirmeMiktari = stiItem.YerlestirmeMiktari.ToDecimal();
 
                     tIslemMiktar.Font = font;
@@ -290,17 +290,20 @@ namespace WMSMobil
                     tIslemMiktar.BackColor = Color.FromArgb(206, 223, 239);
                     tIslemMiktar.Text = "0";
                     panelSatir.IslemMiktar = 0;
-                    tMiktar.Text = stiItem.Miktar.ToDecimal().ToString("N2");
-                    tMiktar.Tag = stiItem.Miktar.ToDecimal();
                 }
+                //renkler
                 tMalKodu.BackColor = Color.FromArgb(206, 223, 239);
                 tMiktar.BackColor = Color.FromArgb(206, 223, 239);
                 tBirim.BackColor = Color.FromArgb(206, 223, 239);
                 tMalAdi.BackColor = Color.FromArgb(206, 223, 239);
+                //yazı ve tag
                 tMalKodu.Text = stiItem.MalKodu;
                 tBirim.Text = stiItem.Birim;
                 tMalAdi.Text = stiItem.MalAdi;
                 tMalKodu.Tag = stiItem.ID.ToInt32();
+                tMiktar.Text = stiItem.Miktar.ToDecimal().ToString("N2");
+                tMiktar.Tag = stiItem.Miktar.ToDecimal();
+                //ekle
                 panelSatir.MalAdi = stiItem.MalAdi;
                 panelSatir.MalKodu = stiItem.MalKodu;
                 panelSatir.Miktar = stiItem.Miktar;
@@ -553,23 +556,22 @@ namespace WMSMobil
             }
 
             if (Ayarlar.MenuTip == MenuType.MalKabul)
-                Sonuc = Servis.Mal_Kabul(StiList.ToArray());
+                Sonuc = Servis.Mal_Kabul(StiList.ToArray(), GorevID);
             else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.TransferGiriş)
-                Sonuc = Servis.Rafa_Kaldir(YerList.ToArray(), Ayarlar.Kullanici.ID);
+                Sonuc = Servis.Rafa_Kaldir(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID);
             else if (Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış)
-                Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID);
+                Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID);
             else if (Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
-                Sonuc = Servis.Paketle(StiList.ToArray());
-            if (Sonuc.Status)
-            {
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, glbTip));
-                if (Ayarlar.STIKalemler.Count == 0) this.Close();
-                STIGetir();
-                txtBarkod.Text = "";
-                txtRafBarkod.Text = "";
-            }
-            else
+                Sonuc = Servis.Paketle(StiList.ToArray(), GorevID);
+            //sonuç işlemleri
+            if (Sonuc.Status == false)
                 Mesaj.Uyari(Sonuc.Message);
+            //sayfayı yenile
+            Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, glbTip));
+            if (Ayarlar.STIKalemler.Count == 0) this.Close();
+            STIGetir();
+            txtBarkod.Text = "";
+            txtRafBarkod.Text = "";
         }
         /// <summary>
         /// form kapanırken dispose yap
