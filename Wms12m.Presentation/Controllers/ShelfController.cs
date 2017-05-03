@@ -17,7 +17,6 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Shelf", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
-            ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
             return View("Index", new Raf());
         }
         /// <summary>
@@ -35,7 +34,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
                     Locked = Id.Split('#')[0];
-                     _List = Locked == "Locked" ? Shelf.GetListByDepo(StoreId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Shelf.GetListByDepo(StoreId).Where(a => a.Aktif == false).ToList() : Shelf.GetListByDepo(StoreId).ToList();
+                    _List = Locked == "Locked" ? Shelf.GetListByDepo(StoreId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Shelf.GetListByDepo(StoreId).Where(a => a.Aktif == false).ToList() : Shelf.GetListByDepo(StoreId).ToList();
                     return PartialView("_ShelfGridPartial", _List);
                 }
                 else
@@ -56,17 +55,15 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Shelf", PermTypes.Reading) == false) return null;
             int tmp = Convert.ToInt32(Id);
-            if (tmp==0)
+            if (tmp == 0)
             {
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
-                ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
                 return PartialView("_ShelfDetailPartial", new Raf());
             }
             else
             {
                 var tablo = Shelf.Detail(tmp);
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tablo.Koridor.DepoID);
-                ViewBag.KoridorID = new SelectList(Corridor.GetList(tablo.Koridor.DepoID), "ID", "KoridorAd", tablo.KoridorID);
                 return PartialView("_ShelfDetailPartial", tablo);
             }
         }

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
-using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Entity.Mysql;
 
@@ -134,7 +133,6 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
-            ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
             ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
@@ -149,8 +147,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Stock", PermTypes.Writing) == false) return Json(false, JsonRequestBehavior.AllowGet);
             //yerleştirme kaydı yapılır
-            var stok = new Yerlestirme();
-            var tmp2 = stok.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+            var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
             if (tmp2 == null)
             {
                 tmp2 = new Yer()
@@ -160,12 +157,12 @@ namespace Wms12m.Presentation.Controllers
                     Birim = tbl.Birim,
                     Miktar = tbl.Miktar
                 };
-                stok.Insert(tmp2, 0, vUser.Id);
+                Yerlestirme.Insert(tmp2, 0, vUser.Id);
             }
             else
             {
                 tmp2.Miktar += tbl.Miktar;
-                stok.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
+                Yerlestirme.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
             }
             //return
             return Json(true, JsonRequestBehavior.AllowGet);
@@ -177,20 +174,57 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
-            ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
             ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
             return View("ManualMovement", new Yer());
         }
         /// <summary>
-        /// 
+        /// elle yer değiştirmeyi kaydet
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult ManualMovement(Yer tbl)
+        {
+            if (CheckPerm("Stock", PermTypes.Writing) == false) return Json(false, JsonRequestBehavior.AllowGet);
+            //ilk yerden düşür
+            var ilk = Yerlestirme.Detail(tbl.ID);
+            ilk.Miktar -= tbl.Miktar;
+            Yerlestirme.Update(ilk, 0, vUser.Id, true, tbl.Miktar);
+            //yeni eyer ekle
+            var yeni = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == ilk.MalKodu && m.Birim == ilk.Birim).FirstOrDefault();
+            if (yeni == null)
+            {
+                yeni = new Yer()
+                {
+                    KatID = tbl.KatID,
+                    MalKodu = ilk.MalKodu,
+                    Birim = ilk.Birim,
+                    Miktar = tbl.Miktar
+                };
+                Yerlestirme.Insert(yeni, 0, vUser.Id);
+            }
+            else
+            {
+                yeni.Miktar += tbl.Miktar;
+                Yerlestirme.Update(yeni, 0, vUser.Id, false, tbl.Miktar);
+            }
+            //return
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// elle yerleştirmede yeni yeri belirle
         /// </summary>
         [HttpPost]
         public PartialViewResult ManualNewPlace(int Id)
         {
             if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
-            return PartialView("ManualNewPlace");
+            var tbl = Yerlestirme.Detail(Id);
+            ViewBag.RafID = new SelectList(Shelf.GetListByDepo(tbl.DepoID.Value), "ID", "RafAd");
+            ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
+            ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
+            ViewBag.Miktar = tbl.Miktar;
+            ViewBag.Id = Id;
+            return PartialView("ManualNewPlace", new Yer());
         }
     }
 }

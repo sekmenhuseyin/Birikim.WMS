@@ -62,7 +62,6 @@ namespace Wms12m.Presentation.Controllers
             if (tmp == 0)
             {
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
-                ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
                 ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
                 ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
                 ViewBag.OzellikID = new SelectList(ComboSub.GetList(Combos.Özellik.ToInt32()), "ID", "Name");
@@ -72,7 +71,6 @@ namespace Wms12m.Presentation.Controllers
             {
                 var tablo = Floor.Detail(tmp);
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tablo.Bolum.Raf.Koridor.DepoID);
-                ViewBag.KoridorID = new SelectList(Corridor.GetList(tablo.Bolum.Raf.Koridor.DepoID), "ID", "KoridorAd", tablo.Bolum.Raf.KoridorID);
                 ViewBag.RafID = new SelectList(Shelf.GetList(tablo.Bolum.Raf.KoridorID), "ID", "RafAd", tablo.Bolum.RafID);
                 ViewBag.BolumID = new SelectList(Section.GetList(tablo.Bolum.RafID), "ID", "BolumAd", tablo.BolumID);
                 ViewBag.OzellikID = new SelectList(ComboSub.GetList(Combos.Özellik.ToInt32()), "ID", "Name", tablo.OzellikID);

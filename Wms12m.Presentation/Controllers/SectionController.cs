@@ -18,7 +18,6 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Section", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
-            ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             return View("Index", new Bolum());
         }
@@ -40,7 +39,7 @@ namespace Wms12m.Presentation.Controllers
                     Locked = Id.Split('#')[0];
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
                     ShelfId = Convert.ToInt16(Id.Split('#')[2]);
-                    _List = Locked == "Locked" ? SectionOperation.GetList(ShelfId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? SectionOperation.GetList(ShelfId).Where(a => a.Aktif ==false).ToList() : SectionOperation.GetList(ShelfId).ToList();
+                    _List = Locked == "Locked" ? SectionOperation.GetList(ShelfId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? SectionOperation.GetList(ShelfId).Where(a => a.Aktif == false).ToList() : SectionOperation.GetList(ShelfId).ToList();
                     return PartialView("_SectionGridPartial", _List);
                 }
                 else
@@ -64,7 +63,6 @@ namespace Wms12m.Presentation.Controllers
             if (tmp == 0)
             {
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
-                ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
                 ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
                 return PartialView("_SectionDetailPartial", new Bolum());
             }
@@ -72,7 +70,6 @@ namespace Wms12m.Presentation.Controllers
             {
                 var tablo = Section.Detail(tmp);
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tablo.Raf.Koridor.DepoID);
-                ViewBag.KoridorID = new SelectList(Corridor.GetList(tablo.Raf.Koridor.DepoID), "ID", "KoridorAd", tablo.Raf.KoridorID);
                 ViewBag.RafID = new SelectList(Shelf.GetList(tablo.Raf.KoridorID), "ID", "RafAd", tablo.RafID);
                 return PartialView("_SectionDetailPartial", tablo);
             }

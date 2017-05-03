@@ -423,6 +423,7 @@
     <Content Include="Views\Terminal\Index.cshtml" />
     <Content Include="Views\Terminal\List.cshtml" />
     <Content Include="Views\Terminal\Editor.cshtml" />
+    <Content Include="Views\Stock\ManualNewPlace.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
