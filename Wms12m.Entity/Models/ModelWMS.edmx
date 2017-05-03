@@ -351,6 +351,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="KatID" Type="int" Nullable="false" />
+          <Property Name="DepoID" Type="int" StoreGeneratedPattern="Computed" />
           <Property Name="HucreAd" Type="varchar" MaxLength="50" StoreGeneratedPattern="Computed" />
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
@@ -362,6 +363,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="KatID" Type="int" Nullable="false" />
+          <Property Name="DepoID" Type="int" StoreGeneratedPattern="Computed" />
           <Property Name="HucreAd" Type="varchar" MaxLength="50" StoreGeneratedPattern="Computed" />
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
@@ -1761,6 +1763,7 @@
           <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
           <NavigationProperty Name="GorevYers" Relationship="MModel.FK_GorevYer_Yer" FromRole="Yer" ToRole="GorevYer" />
           <NavigationProperty Name="Kat" Relationship="MModel.FK_Yer_Kat" FromRole="Yer" ToRole="Kat" />
+          <Property Name="DepoID" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Yer_Log">
           <Key>
@@ -1779,6 +1782,7 @@
           <Property Name="IrsaliyeID" Type="Int32" />
           <NavigationProperty Name="Kat" Relationship="MModel.FK_Yer_Log_Kat" FromRole="Yer_Log" ToRole="Kat" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_Yer_Log_IRS" FromRole="Yer_Log" ToRole="IR" />
+          <Property Name="DepoID" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <Association Name="FK_ComboItemName_ComboName">
           <End Type="MModel.Combo_Name" Role="Combo_Name" Multiplicity="1" />
@@ -2633,6 +2637,7 @@
           <EntitySetMapping Name="Yers">
             <EntityTypeMapping TypeName="MModel.Yer">
               <MappingFragment StoreEntitySet="Yer">
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
                 <ScalarProperty Name="Miktar" ColumnName="Miktar" />
                 <ScalarProperty Name="Birim" ColumnName="Birim" />
                 <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
@@ -2645,6 +2650,7 @@
           <EntitySetMapping Name="Yer_Log">
             <EntityTypeMapping TypeName="MModel.Yer_Log">
               <MappingFragment StoreEntitySet="Yer_Log">
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
                 <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
                 <ScalarProperty Name="KayitSaati" ColumnName="KayitSaati" />
                 <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />

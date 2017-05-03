@@ -33,10 +33,14 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Sirket = liste;
             //id'ye göre liste döner
             string[] ids = Id.Split('#');
+            ViewBag.Manual = false;
             try
             {
-                if (ids[2] != "0" && ids[2].ToString2() != "") //bir raftaki ait malzemeler
+                if (ids[2] != "0" && ids[2].ToString2() != "") //bir kattaki ait malzemeler
+                {
+                    ViewBag.Manual = true;
                     return PartialView("List", Yerlestirme.GetList(ids[2].ToInt32()));
+                }
                 else if (ids[1] != "0" && ids[1].ToString2() != "") //bir raftaki ait malzemeler
                     return PartialView("List", Yerlestirme.GetListFromRaf(ids[1].ToInt32()));
                 else// if (ids[0] != "0") //tüm depoya ait malzemeler: burada timeout verebilir
@@ -165,6 +169,15 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
             ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
             return View("ManualMovement", new Yer());
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult ManualNewPlace(int Id)
+        {
+            if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
+            return PartialView("ManualNewPlace");
         }
     }
 }

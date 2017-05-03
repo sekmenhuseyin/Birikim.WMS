@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Yer>
-@{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); }
+@{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); bool ellemi = ViewBag.Manual; }
 <table class="table table-striped table-bordered" id="sample_1">
-    <thead><tr><th>Yer</th><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th class="text-right">Miktar</th></tr></thead>
+    <thead><tr><th>Yer</th><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th class="text-right">Miktar</th>@{if (ellemi == true) { <th></th> } }</tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
@@ -22,6 +22,7 @@
                 <td>@tmp</td>
                 <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                 <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                @{if (ellemi == true) { <td><a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Stock/ManualNewPlace/@item.ID')"> Değiştir </a></td> } }
             </tr>
         }
     </tbody>

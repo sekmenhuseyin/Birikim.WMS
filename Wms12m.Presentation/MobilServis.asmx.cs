@@ -146,8 +146,8 @@ namespace Wms12m
                 sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
                                     "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi " +
                                     "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS.ID = wms.Yer_Log.IrsaliyeID " +
-                                    "WHERE (wms.IRS_Detay.IrsaliyeID = {1}) " +
-                                    "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.IR.ID);
+                                    "WHERE (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.Yer_Log.DepoID = {2} OR wms.Yer_Log.DepoID IS NULL) " +
+                                    "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.IR.ID, mGorev.DepoID);
                 if (devamMi == true)
                     if (mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevkiyat.ToInt32())
                         sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(OkutulanMiktar,0))";
@@ -205,9 +205,8 @@ namespace Wms12m
         [WebMethod]
         public Result MalKabul_GorevKontrol(int GorevID)
         {
-            int tipID = ComboItems.MalKabul.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             var list = mGorev.IR.IRS_Detay.Where(m => m.IrsaliyeID == mGorev.IrsaliyeID && (m.OkutulanMiktar != m.Miktar || m.OkutulanMiktar == null)).FirstOrDefault();
@@ -221,9 +220,8 @@ namespace Wms12m
         [WebMethod]
         public Result MalKabul_GoreviTamamla(int GorevID, int kulID)
         {
-            int tipID = ComboItems.MalKabul.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             var sonuc = MalKabulToLink(mGorev.IR.SirketKod, mGorev.IR.ID, kulID);
@@ -319,9 +317,8 @@ namespace Wms12m
         public Result Rafa_Kaldir(List<frmYerlesme> YerlestirmeList, int kulID, int GorevID)
         {
             //kontrol
-            int tipID = ComboItems.RafaKaldır.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //loop
@@ -375,9 +372,8 @@ namespace Wms12m
         public Result RafaKaldir_GoreviTamamla(int GorevID, int kulID)
         {
             //kontrol
-            int tipID = ComboItems.RafaKaldır.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             var list = mGorev.IR.IRS_Detay.Where(m => m.IrsaliyeID == mGorev.IrsaliyeID && (m.YerlestirmeMiktari != m.Miktar || m.YerlestirmeMiktari == null)).FirstOrDefault();
@@ -428,9 +424,8 @@ namespace Wms12m
         public Result Siparis_Topla(List<frmYerlesme> YerlestirmeList, int kulID, int GorevID)
         {
             //kontrol
-            int tipID = ComboItems.SiparişTopla.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //loop
@@ -473,9 +468,8 @@ namespace Wms12m
         [WebMethod]
         public Result SiparisTopla_GoreviTamamla(int GorevID, int kulID)
         {
-            int tipID = ComboItems.SiparişTopla.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             var tmpYer = mGorev.GorevYers.Where(m => m.GorevID == mGorev.ID && (m.YerlestirmeMiktari < m.Miktar || m.YerlestirmeMiktari == null)).FirstOrDefault();
@@ -627,9 +621,8 @@ namespace Wms12m
         [WebMethod]
         public Result Paketle_GoreviTamamla(int GorevID, int IrsaliyeID, int kulID)
         {
-            int tipID = ComboItems.Paketle.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             var mIrsaliye = db.IRS.Where(m => m.ID == IrsaliyeID).FirstOrDefault();
@@ -649,9 +642,8 @@ namespace Wms12m
         [WebMethod]
         public Result Sevkiyat_GoreviTamamla(int GorevID, int IrsaliyeID, int kulID)
         {
-            int tipID = ComboItems.Sevkiyat.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             int tarih = DateTime.Today.ToOADateInt();
@@ -667,9 +659,8 @@ namespace Wms12m
         public Result TransferCikis_GoreviTamamla(int GorevID, int kulID)
         {
             //kontrols
-            int tipID = ComboItems.TransferÇıkış.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "Transfer bulunamadı !");
             var tmpYer = mGorev.GorevYers.Where(m => m.GorevID == mGorev.ID && (m.YerlestirmeMiktari < m.Miktar || m.YerlestirmeMiktari == null)).FirstOrDefault();
@@ -697,9 +688,8 @@ namespace Wms12m
         public Result TransferGiris_GoreviTamamla(int GorevID, int kulID)
         {
             //kontrols
-            int tipID = ComboItems.TransferGiriş.ToInt32();
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "Transfer bulunamadı !");
             var tmpYer = mGorev.IR.IRS_Detay.Where(m => m.IrsaliyeID == mGorev.IrsaliyeID && (m.YerlestirmeMiktari < m.Miktar || m.YerlestirmeMiktari == null)).FirstOrDefault();
