@@ -1432,7 +1432,7 @@ DataTable.Api.registerPlural( 'buttons().processing()', 'button().processing()',
 	}
 
 	return this.each( function ( set ) {
-		set.inst.processing( set.node, flag );
+		//set.inst.processing( set.node, flag );
 	} );
 } );
 
