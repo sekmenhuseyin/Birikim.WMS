@@ -498,6 +498,30 @@ namespace WMSMobil.WMSLocal {
             object[] results = this.EndInvoke(asyncResult);
             return ((Result)(results[0]));
         }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Kontrollu_Say", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result Kontrollu_Say(frmYerlesme[] StiList, int GorevID, int kulID) {
+            object[] results = this.Invoke("Kontrollu_Say", new object[] {
+                        StiList,
+                        GorevID,
+                        kulID});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginKontrollu_Say(frmYerlesme[] StiList, int GorevID, int kulID, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("Kontrollu_Say", new object[] {
+                        StiList,
+                        GorevID,
+                        kulID}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndKontrollu_Say(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
     }
     
     /// <remarks/>

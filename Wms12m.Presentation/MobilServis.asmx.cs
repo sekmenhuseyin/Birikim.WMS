@@ -127,14 +127,14 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return null;
             string sql;
-            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32())
+            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())
             {
                 var dbs = db.GetSirketDBs(); sql = "''";
                 foreach (var item in dbs)
                 {
                     sql = string.Format("ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.GorevYer.MalKodu))," + sql + ")", item);
                 }
-                string sqltmp = ""; if (devamMi == true) sqltmp += "AND wms.GorevYer.Miktar>ISNULL(wms.GorevYer.YerlestirmeMiktari,0) ";
+                string sqltmp = ""; if (devamMi == true && mGorev.GorevTipiID != ComboItems.KontrolSayım.ToInt32()) sqltmp += "AND wms.GorevYer.Miktar>ISNULL(wms.GorevYer.YerlestirmeMiktari,0) ";
                 sql = string.Format("SELECT wms.GorevYer.ID, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.HucreAd AS Raf, ISNULL(wms.GorevYer.YerlestirmeMiktari,0) as YerlestirmeMiktari, " +
                                     sql + " AS MalAdi " +
                                     "FROM wms.GorevYer WITH(nolock) INNER JOIN wms.Yer WITH(nolock) ON wms.GorevYer.YerID = wms.Yer.ID " +
@@ -182,22 +182,23 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
-            var stok = new IrsaliyeDetay();
-            try
+            using (var stok = new IrsaliyeDetay())
             {
                 foreach (var item in StiList)
                 {
                     var tmp = stok.Detail(item.ID);
                     tmp.OkutulanMiktar = item.OkutulanMiktar;
-                    stok.Operation(tmp);
+                    try
+                    {
+                        stok.Operation(tmp);
+                    }
+                    catch (Exception ex)
+                    {
+                        db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Mal_Kabul");
+                    }
                 }
-                return new Result(true);
             }
-            catch (Exception ex)
-            {
-                db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Mal_Kabul");
-                return new Result(false, "Bir hata oldu");
-            }
+            return new Result(true);
         }
         /// <summary>
         /// mal kabul için miktar kontrol
@@ -497,11 +498,11 @@ namespace Wms12m
                 {
                     //update irsaliye
                     var irs = db.IRS.Where(m => m.ID == item.IrsaliyeID).FirstOrDefault();
-                    irs.EvrakNo = sonuc.Message;
+                    irs.EvrakNo = sonuc.Message.Substring(sonuc.Message.IndexOf(",") + 1);
                     db.SaveChanges();
                     //yeni görev
                     string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
-                    var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, sonuc.Message, item.Tarih, "Irs: " + sonuc.Message + " Alıcı: " + item.HesapKodu.GetUnvan(item.SirketKod), true, ComboItems.Paketle.ToInt32(), kaydeden, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "").FirstOrDefault();
+                    var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, irs.EvrakNo, item.Tarih, "Irs: " + irs.EvrakNo + " Alıcı: " + item.HesapKodu.GetUnvan(item.SirketKod), true, ComboItems.Paketle.ToInt32(), kaydeden, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "").FirstOrDefault();
                 }
             }
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, saat, kaydeden, "", ComboItems.SiparişTopla.ToInt32(), 0);
@@ -740,6 +741,55 @@ namespace Wms12m
                 Data = Sonuc.Veri
             };
             return _Result;
+        }
+        /// <summary>
+        /// kontrollü sayımda satırları kaydet
+        /// </summary>
+        [WebMethod]
+        public Result Kontrollu_Say(List<frmYerlesme> StiList, int GorevID, int kulID)
+        {
+            int durumID = ComboItems.Açık.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return new Result(false, "İrsaliye bulunamadı !");
+            //loop the list
+            foreach (var item in StiList)
+            {
+                //görev yer tablosu
+                GorevYer tbl2;
+                if (item.IrsDetayID == 0)
+                {
+                    var katID = db.GetHucreKatID(mGorev.DepoID, item.RafNo).FirstOrDefault();
+                    if (katID != null)
+                    {
+                        var yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu).FirstOrDefault();
+                        if(yert == null)
+                        {
+                            yert = new Yer() { KatID = katID.Value, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = 0 };
+                            db.Yers.Add(yert);
+                            db.SaveChanges();
+                        }
+                        tbl2 = new GorevYer() { GorevID = GorevID, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = item.Miktar, YerlestirmeMiktari = item.Miktar, GC = false, YerID = yert.ID };
+                        db.GorevYers.Add(tbl2);
+                    }
+                }
+                else
+                {
+                    tbl2 = db.GorevYers.Where(m => m.ID == item.IrsDetayID).FirstOrDefault();
+                    tbl2.Miktar = item.Miktar;
+                    tbl2.YerlestirmeMiktari = item.Miktar;
+                }
+                //kaydetme işlemleri
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Mal_Kabul");
+                }
+            }
+            return new Result(true);
         }
         /// <summary>
         /// dispose override

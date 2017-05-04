@@ -58,5 +58,13 @@ namespace WMSMobil
             Servis.Dispose();
             Application.Exit();
         }
+        /// <summary>
+        /// kapat
+        /// </summary>
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+            this.Close();
+        }
     }
 }

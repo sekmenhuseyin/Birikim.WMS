@@ -36,6 +36,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnBack = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,13 +99,14 @@
             this.label4.Location = new System.Drawing.Point(0, 278);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(240, 16);
-            this.label4.Text = "Versiyon : 170503";
+            this.label4.Text = "Versiyon : 170504";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.Color.SkyBlue;
+            this.panel1.Controls.Add(this.btnBack);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label3);
@@ -115,6 +117,18 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(240, 294);
+            // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.Firebrick;
+            this.btnBack.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.btnBack.ForeColor = System.Drawing.Color.White;
+            this.btnBack.Location = new System.Drawing.Point(167, 3);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(70, 23);
+            this.btnBack.TabIndex = 3;
+            this.btnBack.Text = "Kapat";
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // frmLogin
             // 
@@ -141,6 +155,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnBack;
 
     }
 }

@@ -16,7 +16,7 @@ namespace WMSMobil
         MobilServis Servis = new MobilServis();
         private Barcode2 Barkod;
         bool glbTip;
-        int GorevID, IrsaliyeID;
+        int GorevID, IrsaliyeID, GorevTip;
         string FocusPanelName = "";
         int Sayac = 0;
         List<PanelEx> PanelVeriList = new List<PanelEx>();
@@ -45,6 +45,7 @@ namespace WMSMobil
             }
             //gizle göster
             glbTip = tip;
+            GorevTip=gorevtip;
             label1.Visible = true;
             label2.Visible = true;
             label3.Visible = true;
@@ -105,19 +106,24 @@ namespace WMSMobil
             else if (gorevtip == 8)
             {
                 this.Text = "Kontrollü Sayım";
-                label5.Text = "Okutulan Miktar";
+                label5.Text = "Raf";
+                label6.Text = "Okutulan Miktar";
                 txtRafBarkod.Visible = true;
                 label7.Visible = true;
                 label6.Visible = true;
-                label12.Visible = true;
+                label12.Visible = false;
                 label1.Visible = false;
                 label2.Visible = false;
                 label3.Visible = false;
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
+                //kutucukları yer değiştir
+                int top1 = txtBarkod.Top; int top2 = txtRafBarkod.Top;
+                label7.Top = top1; txtRafBarkod.Top = top1;
+                label4.Top = top2; txtBarkod.Top = top2;
             }
-            else// if (gorevtip == 19)
+            else// if (gorevtip == 19 || gorevtip == 20)
             {
                 this.Text = "Transfer";
                 label5.Text = "Raf";
@@ -160,7 +166,7 @@ namespace WMSMobil
                             {
                                 txtBarkod.Text = Servis.GetMalzemeFromBarcode(scanDataCollection.GetFirst.Text);
                                 //raf varsa rafa odaklan yoksa uygula
-                                if (txtRafBarkod.Visible == true) txtRafBarkod.Focus();
+                                if (txtRafBarkod.Visible == true && GorevTip != 8) txtRafBarkod.Focus();
                                 else btnUygula_Click(Barkod, null);
                                 focuslandi = true;
                             }
@@ -169,7 +175,8 @@ namespace WMSMobil
                             {
                                 txtRafBarkod.Text = scanDataCollection.GetFirst.Text;
                                 //rafı da okutursa yerleştir düğmesine bas
-                                btnUygula_Click(Barkod, null);
+                                if (GorevTip == 8) txtBarkod.Focus();
+                                else btnUygula_Click(Barkod, null);
                                 focuslandi = true;
                             }
                         }
@@ -243,7 +250,6 @@ namespace WMSMobil
                 TextBox tIslemMiktar = new TextBox();
                 if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 {
-
                     tMiktarOkutulan.Font = font;
                     tMiktarOkutulan.Width = 92;
                     tMiktarOkutulan.Location = new Point(284, 0);
@@ -254,9 +260,30 @@ namespace WMSMobil
                     tMiktarOkutulan.Text = stiItem != null ? stiItem.OkutulanMiktar.ToDecimal().ToString("N2") : "0";
                     panelSatir.OkutulanMiktar = stiItem.OkutulanMiktar.ToDecimal();
                 }
+                else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
+                {
+                    tRaf.Font = font;
+                    tRaf.Width = 92;
+                    tRaf.Location = new Point(284, 0);
+                    tRaf.ReadOnly = true;
+                    tRaf.Name = "txtRaf";
+                    tRaf.GotFocus += new EventHandler(TextBoxlar_GotFocus);
+                    tRaf.BackColor = Color.FromArgb(206, 223, 239);
+                    tRaf.Text = stiItem.Raf != null ? stiItem.Raf : "";
+                    panelSatir.Raf = stiItem.Raf != null ? stiItem.Raf : "";
+                    
+                    tMiktarOkutulan.Font = font;
+                    tMiktarOkutulan.Width = 105;
+                    tMiktarOkutulan.Location = new Point(377, 0);
+                    tMiktarOkutulan.ReadOnly = false;
+                    tMiktarOkutulan.Name = "txtOkutulanMiktar";
+                    tMiktarOkutulan.GotFocus += new EventHandler(TextBoxlar_GotFocus);
+                    tMiktarOkutulan.BackColor = Color.FromArgb(206, 223, 239);
+                    tMiktarOkutulan.Text = stiItem != null ? stiItem.YerlestirmeMiktari.ToDecimal().ToString("N2") : "0";
+                    panelSatir.OkutulanMiktar = stiItem.YerlestirmeMiktari.ToDecimal();
+                }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 {
-
                     tRaf.Font = font;
                     tRaf.Width = 92;
                     tRaf.Location = new Point(284, 0);
@@ -317,6 +344,12 @@ namespace WMSMobil
                     panelSatir.Size = new Size(400, 22);
                     panelSatir.Controls.Add(tMiktarOkutulan);
                 }
+                else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
+                {
+                    panelSatir.Size = new Size(500, 22);
+                    panelSatir.Controls.Add(tRaf);
+                    panelSatir.Controls.Add(tMiktarOkutulan);
+                }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 {
                     panelSatir.Size = new Size(550, 22);
@@ -375,13 +408,28 @@ namespace WMSMobil
             foreach (var itemPanel in PanelVeriList)
             {
                 //mal kabul ise malın bulunduğu satırdaki miktarı bir artırıyor, bir de satırı turuncuya boyuyor
-                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
+                if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat || Ayarlar.MenuTip == MenuType.KontrollüSayım)
                 {
                     if (itemPanel.Controls[0].Text == mal)
                     {
-                        itemPanel.Controls[4].Text = (itemPanel.Controls[4].Text.ToDecimal() + 1).ToString();
-                        foreach (Control item in itemPanel.Controls)
-                            item.BackColor = Color.DarkOrange;
+                        //eğer kontrollü sayım ise rafı da doğru olmalı ki sayıyı arttırsın
+                        if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
+                        {
+                            if (itemPanel.Controls[4].Text == raf)
+                            {
+                                raf_var = true;
+                                itemPanel.Controls[4].Text = raf;
+                                itemPanel.Controls[5].Text = (itemPanel.Controls[5].Text.ToDecimal() + 1).ToString();
+                                foreach (Control item in itemPanel.Controls)
+                                    item.BackColor = Color.DarkOrange;
+                            }
+                        }//diğer görevlerde sadece sayıyı arttır
+                        else
+                        {
+                            itemPanel.Controls[4].Text = (itemPanel.Controls[4].Text.ToDecimal() + 1).ToString();
+                            foreach (Control item in itemPanel.Controls)
+                                item.BackColor = Color.DarkOrange;
+                        }
                     }
                 }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
@@ -396,7 +444,7 @@ namespace WMSMobil
                         temp_sti.Birim = itemPanel.Controls[3].Text;
                         temp_sti.MalAdi = itemPanel.Controls[1].Text;
                         temp_sti.ID = itemPanel.Controls[0].Tag.ToInt32();
-                        if (((itemPanel.Controls[4].Text == "") || (itemPanel.Controls[4].Text == raf)))
+                        if (itemPanel.Controls[4].Text == "" || itemPanel.Controls[4].Text == raf)
                         {
                             raf_var = true;
                             itemPanel.Controls[4].Text = raf;
@@ -405,8 +453,100 @@ namespace WMSMobil
                                 item.BackColor = Color.DarkOrange;
                         }
                     }
-                }
+                }//end of if else
+            }//end of foreach
+            //kontorllü sayımda sadece satır ekle
+            if (Ayarlar.MenuTip == MenuType.KontrollüSayım && raf_var == false)
+            {
+                Sayac++;
+                panelOrta.AutoScrollPosition = new Point(0, 0);
+
+                Font font = new Font("Tahoma", 8, FontStyle.Regular);
+                PanelEx panelSatir = new PanelEx();
+                panelSatir.Name = Sayac.ToString();
+                panelSatir.Size = new Size(500, 22);
+                panelSatir.Location = new Point(1, (Sayac * 21));
+
+                TextBox tMalKodu = new TextBox();
+                tMalKodu.Font = font;
+                tMalKodu.Width = 60;
+                tMalKodu.Location = new Point(3, 0);
+                tMalKodu.ReadOnly = true;
+                tMalKodu.Name = "txtMalKodu";
+                tMalKodu.GotFocus += new EventHandler(TextBoxlar_GotFocus);
+
+                TextBox tMiktar = new TextBox();
+                tMiktar.Font = font;
+                tMiktar.Width = 65;
+                tMiktar.Location = new Point(145, 0);
+                tMiktar.TextAlign = HorizontalAlignment.Right;
+                tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
+
+                TextBox tBirim = new TextBox();
+                tBirim.Font = font;
+                tBirim.Width = 72;
+                tBirim.Location = new Point(211, 0);
+                tBirim.ReadOnly = true;
+                tBirim.GotFocus += new EventHandler(TextBoxlar_GotFocus);
+
+                TextBox tMalAdi = new TextBox();
+                tMalAdi.Font = font;
+                tMalAdi.Width = 80;
+                tMalAdi.Location = new Point(64, 0);
+                tMalAdi.ReadOnly = true;
+                tMalAdi.GotFocus += new EventHandler(TextBoxlar_GotFocus);
+
+                TextBox tRaf = new TextBox();
+                tRaf.Font = font;
+                tRaf.Width = 92;
+                tRaf.Location = new Point(284, 0);
+                tRaf.ReadOnly = true;
+                tRaf.Name = "txtRaf";
+                tRaf.GotFocus += new EventHandler(TextBoxlar_GotFocus);
+
+                TextBox tYerlestirmeMiktari = new TextBox();
+                tYerlestirmeMiktari.Font = font;
+                tYerlestirmeMiktari.Width = 105;
+                tYerlestirmeMiktari.Location = new Point(377, 0);
+                tYerlestirmeMiktari.ReadOnly = true;
+                tYerlestirmeMiktari.Visible = true;
+                tYerlestirmeMiktari.Name = "txtYerlestirmeMiktari";
+                tYerlestirmeMiktari.GotFocus += new EventHandler(TextBoxlar_GotFocus);
+
+                tMalKodu.BackColor = Color.DarkOrange;
+                tMiktar.BackColor = Color.DarkOrange;
+                tBirim.BackColor = Color.DarkOrange;
+                tMalAdi.BackColor = Color.DarkOrange;
+                tRaf.BackColor = Color.DarkOrange;
+                tYerlestirmeMiktari.BackColor = Color.DarkOrange;
+
+                tMiktar.Text = "0";
+                tMalKodu.Text = mal;
+                tBirim.Text = "ADET";
+                tMalAdi.Text = "";
+                tRaf.Text = raf;
+                tYerlestirmeMiktari.Text = "1";
+
+                tMalKodu.Tag = "0";
+
+                panelSatir.MalAdi = "";
+                panelSatir.MalKodu = mal;
+                panelSatir.Miktar = 0;
+                panelSatir.Birim = "ADET";
+                panelSatir.YerlestirmeMiktari = 1;
+                panelSatir.Raf = raf;
+
+                panelSatir.Controls.Add(tMalKodu);
+                panelSatir.Controls.Add(tMalAdi);
+                panelSatir.Controls.Add(tMiktar);
+                panelSatir.Controls.Add(tBirim);
+                panelSatir.Controls.Add(tRaf);
+                panelSatir.Controls.Add(tYerlestirmeMiktari);
+
+                panelOrta.Controls.Add(panelSatir);
+                PanelVeriList.Add(panelSatir);
             }
+            //bunlarda da aynı maldan yeni raf ekle
             if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
             {
                 if (raf_var)
@@ -530,12 +670,26 @@ namespace WMSMobil
             {
                 var sti = new frmMalKabul();
                 var yer = new frmYerlesme();
-
                 if (Ayarlar.MenuTip == MenuType.MalKabul || Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 {
                     sti.OkutulanMiktar = itemPanel.Controls[4].Text.ToDecimal();
                     sti.ID = itemPanel.Controls[0].Tag.ToInt32();
                     StiList.Add(sti);
+                }
+                else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
+                {
+                    if (itemPanel.Controls[5].Text.ToDecimal() > 0)
+                    {
+                        yer.MalKodu = itemPanel.Controls[0].Text;
+                        yer.Miktar = itemPanel.Controls[5].Text.ToDecimal();
+                        yer.Birim = itemPanel.Controls[3].Text;
+                        yer.DepoID = Ayarlar.Kullanici.DepoID;
+                        yer.IrsDetayID = itemPanel.Controls[0].Tag.ToInt32();
+                        yer.IrsID = txtEvrakno.Tag.ToInt32();
+                        yer.RafNo = itemPanel.Controls[4].Text;
+                        yer.GorevID = GorevID;
+                        YerList.Add(yer);
+                    }
                 }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 {
@@ -554,7 +708,7 @@ namespace WMSMobil
                 }
 
             }
-
+            //servise gönder
             if (Ayarlar.MenuTip == MenuType.MalKabul)
                 Sonuc = Servis.Mal_Kabul(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID);
             else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.TransferGiriş)
@@ -563,6 +717,8 @@ namespace WMSMobil
                 Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID);
             else if (Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
                 Sonuc = Servis.Paketle(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID);
+            else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
+                Sonuc = Servis.Kontrollu_Say(YerList.ToArray(), GorevID, Ayarlar.Kullanici.ID);
             //sonuç işlemleri
             if (Sonuc.Status == false)
                 Mesaj.Uyari(Sonuc.Message);

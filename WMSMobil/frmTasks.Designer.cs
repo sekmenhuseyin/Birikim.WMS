@@ -41,9 +41,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnBack = new System.Windows.Forms.Button();
             this.btnLinkeAktar = new System.Windows.Forms.Button();
             this.btnIslemYap = new System.Windows.Forms.Button();
-            this.btnBack = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panelOrta.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -83,14 +83,14 @@
             this.label1.ForeColor = System.Drawing.SystemColors.Window;
             this.label1.Location = new System.Drawing.Point(0, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 18);
+            this.label1.Size = new System.Drawing.Size(122, 18);
             this.label1.Text = "Görevli";
             // 
             // cmbGorevli
             // 
             this.cmbGorevli.Location = new System.Drawing.Point(0, 22);
             this.cmbGorevli.Name = "cmbGorevli";
-            this.cmbGorevli.Size = new System.Drawing.Size(119, 22);
+            this.cmbGorevli.Size = new System.Drawing.Size(122, 22);
             this.cmbGorevli.TabIndex = 1;
             this.cmbGorevli.SelectedIndexChanged += new System.EventHandler(this.btnListele_Click);
             // 
@@ -165,6 +165,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(240, 30);
             // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.Firebrick;
+            this.btnBack.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.btnBack.ForeColor = System.Drawing.Color.White;
+            this.btnBack.Location = new System.Drawing.Point(3, 5);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(63, 21);
+            this.btnBack.TabIndex = 2;
+            this.btnBack.Text = "<<  Geri";
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
             // btnLinkeAktar
             // 
             this.btnLinkeAktar.BackColor = System.Drawing.Color.SteelBlue;
@@ -182,24 +194,12 @@
             this.btnIslemYap.BackColor = System.Drawing.Color.SkyBlue;
             this.btnIslemYap.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
             this.btnIslemYap.ForeColor = System.Drawing.Color.Black;
-            this.btnIslemYap.Location = new System.Drawing.Point(68, 5);
+            this.btnIslemYap.Location = new System.Drawing.Point(70, 5);
             this.btnIslemYap.Name = "btnIslemYap";
             this.btnIslemYap.Size = new System.Drawing.Size(68, 21);
             this.btnIslemYap.TabIndex = 0;
             this.btnIslemYap.Text = "İşlem Yap";
             this.btnIslemYap.Click += new System.EventHandler(this.btnIslemYap_Click);
-            // 
-            // btnBack
-            // 
-            this.btnBack.BackColor = System.Drawing.Color.SkyBlue;
-            this.btnBack.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
-            this.btnBack.ForeColor = System.Drawing.Color.Black;
-            this.btnBack.Location = new System.Drawing.Point(3, 5);
-            this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(63, 21);
-            this.btnBack.TabIndex = 2;
-            this.btnBack.Text = "<<  Geri";
-            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // frmTasks
             // 

@@ -9,7 +9,7 @@ namespace WMSMobil
     public static class Mesaj
     {
         private const string basariMesaj = "İşlem başarılı bir şekilde gerçekleştirildi.";
-        private const string hataMesaj = "Hata!! İşlem gerçekleştirilemedi!!!";
+        private const string hataMesaj = "Hata! İşlem gerçekleştirilemedi.";
         /// <summary>
         /// hata mesajı normal
         /// </summary>
