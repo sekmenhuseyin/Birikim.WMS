@@ -340,8 +340,9 @@
           </Key>
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="DepoID" Type="int" Nullable="false" />
-          <Property Name="IrsaliyeSeri" Type="int" Nullable="false" />
-          <Property Name="SatisSeri" Type="int" Nullable="false" />
+          <Property Name="AlimIrsaliyeSeri" Type="int" Nullable="false" />
+          <Property Name="SatisIrsaliyeSeri" Type="int" Nullable="false" />
+          <Property Name="SatisFaturaSeri" Type="int" Nullable="false" />
           <Property Name="TransferInSeri" Type="int" Nullable="false" />
           <Property Name="TransferOutSeri" Type="int" Nullable="false" />
         </EntityType>
@@ -1371,6 +1372,9 @@
             <Parameter Name="ValorGun" Mode="In" Type="Int16" />
             <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="GetGorevlis" ReturnType="Collection(MModel.GetGorevlis_Result)">
+          <Parameter Name="DepoID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
           <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
             <End Role="User" EntitySet="Users" />
@@ -1380,9 +1384,6 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
-          <FunctionImport Name="GetGorevlis" ReturnType="Collection(MModel.GetGorevlis_Result)">
-          <Parameter Name="DepoID" Mode="In" Type="Int32" />
-          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2219,18 +2220,23 @@
           <Property Type="Int32" Name="GorevID" Nullable="true" />
           <Property Type="Boolean" Name="Onay" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="GetGorevlis_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Kod" Nullable="false" MaxLength="5" />
+        </ComplexType>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="UserID" />
           </Key>
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="DepoID" Type="Int32" Nullable="false" />
-          <Property Name="SatisSeri" Type="Int32" Nullable="false" />
+          <Property Name="AlimIrsaliyeSeri" Type="Int32" Nullable="false" />
+          <Property Name="SatisIrsaliyeSeri" Type="Int32" Nullable="false" />
+          <Property Name="SatisFaturaSeri" Type="Int32" Nullable="false" />
           <Property Name="TransferInSeri" Type="Int32" Nullable="false" />
           <Property Name="TransferOutSeri" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
-          <Property Name="IrsaliyeSeri" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_Depo_Users_Users">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -2256,10 +2262,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetGorevlis_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Kod" Nullable="false" MaxLength="5" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2729,18 +2731,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="UserDetails">
-            <EntityTypeMapping TypeName="MModel.UserDetail">
-              <MappingFragment StoreEntitySet="UserDetails">
-                <ScalarProperty Name="IrsaliyeSeri" ColumnName="IrsaliyeSeri" />
-                <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
-                <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
-                <ScalarProperty Name="SatisSeri" ColumnName="SatisSeri" />
-                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetGorevlis" FunctionName="MModel.Store.GetGorevlis">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetGorevlis_Result">
@@ -2749,6 +2739,19 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="UserDetails">
+            <EntityTypeMapping TypeName="MModel.UserDetail">
+              <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
+                <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
+                <ScalarProperty Name="SatisFaturaSeri" ColumnName="SatisFaturaSeri" />
+                <ScalarProperty Name="SatisIrsaliyeSeri" ColumnName="SatisIrsaliyeSeri" />
+                <ScalarProperty Name="AlimIrsaliyeSeri" ColumnName="AlimIrsaliyeSeri" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

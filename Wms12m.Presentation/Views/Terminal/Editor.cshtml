@@ -26,17 +26,24 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                @Html.LabelFor(model => model.IrsaliyeSeri, "İrsaliye Seri No", htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.AlimIrsaliyeSeri, "Alım İrsaliye Seri No", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-5">
-                                    @Html.EditorFor(model => model.IrsaliyeSeri, new { htmlAttributes = new { @class = "form-control touchspin", min = "1", max = "199", required = "required" } })
-                                    @Html.ValidationMessageFor(model => model.IrsaliyeSeri, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.AlimIrsaliyeSeri, new { htmlAttributes = new { @class = "form-control touchspin", min = "1", max = "199", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.AlimIrsaliyeSeri, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
-                                @Html.LabelFor(model => model.SatisSeri, "Fatura Evrak Seri", htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.SatisIrsaliyeSeri, "Satış İrsaliye Seri No", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-5">
-                                    @Html.EditorFor(model => model.SatisSeri, new { htmlAttributes = new { @class = "form-control touchspin", min = "1", max = "199", required = "required" } })
-                                    @Html.ValidationMessageFor(model => model.SatisSeri, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.SatisIrsaliyeSeri, new { htmlAttributes = new { @class = "form-control touchspin", min = "1", max = "199", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.SatisIrsaliyeSeri, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SatisFaturaSeri, "Satış Fatura Evrak Seri", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-5">
+                                    @Html.EditorFor(model => model.SatisFaturaSeri, new { htmlAttributes = new { @class = "form-control touchspin", min = "1", max = "199", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.SatisFaturaSeri, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
@@ -66,7 +73,7 @@
 </div>
 <script>
     $("#submitter").click(function () {
-        if ($('#IrsaliyeSeri').val() > 0 && $('#SatisSeri').val() > 0 && $('#TransferInSeri').val() > 0 && $('#TransferOutSeri').val() > 0) {
+        if ($('#AlimIrsaliyeSeri').val() > 0 && $('#SatisIrsaliyeSeri').val() > 0 && $('#SatisFaturaSeri').val() > 0 && $('#TransferInSeri').val() > 0 && $('#TransferOutSeri').val() > 0) {
             $('#frmNew').submit();
             $('#modalEditPage').modal('toggle');
         }

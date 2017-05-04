@@ -16,10 +16,11 @@ namespace Wms12m.Entity.Models
     {
         public int UserID { get; set; }
         public int DepoID { get; set; }
-        public int SatisSeri { get; set; }
+        public int AlimIrsaliyeSeri { get; set; }
+        public int SatisIrsaliyeSeri { get; set; }
+        public int SatisFaturaSeri { get; set; }
         public int TransferInSeri { get; set; }
         public int TransferOutSeri { get; set; }
-        public int IrsaliyeSeri { get; set; }
     
         public virtual User User { get; set; }
         public virtual Depo Depo { get; set; }
