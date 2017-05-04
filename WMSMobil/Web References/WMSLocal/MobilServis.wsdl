@@ -30,6 +30,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -182,6 +183,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="devamMi" type="s:boolean" />
           </s:sequence>
         </s:complexType>
@@ -235,6 +237,7 @@
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="StiList" type="tns:ArrayOfFrmMalKabul" />
             <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -268,6 +271,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -377,6 +381,7 @@
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="StiList" type="tns:ArrayOfFrmMalKabul" />
             <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>

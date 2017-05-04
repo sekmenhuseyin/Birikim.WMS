@@ -55,16 +55,18 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetGorevOzet", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public GorevOzet[] GetGorevOzet(int ID) {
+        public GorevOzet[] GetGorevOzet(int ID, int kulID) {
             object[] results = this.Invoke("GetGorevOzet", new object[] {
-                        ID});
+                        ID,
+                        kulID});
             return ((GorevOzet[])(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetGorevOzet(int ID, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetGorevOzet(int ID, int kulID, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetGorevOzet", new object[] {
-                        ID}, callback, asyncState);
+                        ID,
+                        kulID}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -179,17 +181,19 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetMalzemes", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Tip_STI[] GetMalzemes(int GorevID, bool devamMi) {
+        public Tip_STI[] GetMalzemes(int GorevID, int kulID, bool devamMi) {
             object[] results = this.Invoke("GetMalzemes", new object[] {
                         GorevID,
+                        kulID,
                         devamMi});
             return ((Tip_STI[])(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetMalzemes(int GorevID, bool devamMi, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetMalzemes(int GorevID, int kulID, bool devamMi, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetMalzemes", new object[] {
                         GorevID,
+                        kulID,
                         devamMi}, callback, asyncState);
         }
         
@@ -221,18 +225,20 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Mal_Kabul", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Result Mal_Kabul(frmMalKabul[] StiList, int GorevID) {
+        public Result Mal_Kabul(frmMalKabul[] StiList, int GorevID, int kulID) {
             object[] results = this.Invoke("Mal_Kabul", new object[] {
                         StiList,
-                        GorevID});
+                        GorevID,
+                        kulID});
             return ((Result)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginMal_Kabul(frmMalKabul[] StiList, int GorevID, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginMal_Kabul(frmMalKabul[] StiList, int GorevID, int kulID, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("Mal_Kabul", new object[] {
                         StiList,
-                        GorevID}, callback, asyncState);
+                        GorevID,
+                        kulID}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -243,16 +249,18 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/MalKabul_GorevKontrol", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Result MalKabul_GorevKontrol(int GorevID) {
+        public Result MalKabul_GorevKontrol(int GorevID, int kulID) {
             object[] results = this.Invoke("MalKabul_GorevKontrol", new object[] {
-                        GorevID});
+                        GorevID,
+                        kulID});
             return ((Result)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginMalKabul_GorevKontrol(int GorevID, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginMalKabul_GorevKontrol(int GorevID, int kulID, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("MalKabul_GorevKontrol", new object[] {
-                        GorevID}, callback, asyncState);
+                        GorevID,
+                        kulID}, callback, asyncState);
         }
         
         /// <remarks/>
@@ -377,18 +385,20 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Paketle", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Result Paketle(frmMalKabul[] StiList, int GorevID) {
+        public Result Paketle(frmMalKabul[] StiList, int GorevID, int kulID) {
             object[] results = this.Invoke("Paketle", new object[] {
                         StiList,
-                        GorevID});
+                        GorevID,
+                        kulID});
             return ((Result)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginPaketle(frmMalKabul[] StiList, int GorevID, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginPaketle(frmMalKabul[] StiList, int GorevID, int kulID, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("Paketle", new object[] {
                         StiList,
-                        GorevID}, callback, asyncState);
+                        GorevID,
+                        kulID}, callback, asyncState);
         }
         
         /// <remarks/>

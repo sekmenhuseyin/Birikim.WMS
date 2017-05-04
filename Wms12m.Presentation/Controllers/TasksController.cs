@@ -73,9 +73,16 @@ namespace Wms12m.Presentation.Controllers
             var grv = db.Gorevs.Where(m => m.DepoID == DepoID && m.GorevTipiID == sayim && m.DurumID == açık).FirstOrDefault();
             if (grv == null)
             {
-                var grvNo = db.SettingsGorevNo(fn.ToOADate()).FirstOrDefault();
-                var tbl = new Gorev() { DepoID = DepoID, GorevNo = grvNo, GorevTipiID = sayim, DurumID = açık };
-                _Result = Task.Operation(tbl);
+                int tarih = fn.ToOADate();
+                var grvNo = db.SettingsGorevNo(tarih).FirstOrDefault();
+                var irsNo = db.SettingsIrsaliyeNo(tarih).FirstOrDefault();
+                var sirketkodu = db.GetSirketDBs().FirstOrDefault();
+                var depo = Store.Detail(DepoID).DepoKodu;
+                var cevap = db.InsertIrsaliye(sirketkodu, DepoID, grvNo, irsNo, tarih, depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "").FirstOrDefault();
+                grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
+                grv.DurumID = açık;
+                db.SaveChanges();
+                _Result = new Result(true);
             }
             else
                 _Result = new Result(false, "Bu görev zaten var");

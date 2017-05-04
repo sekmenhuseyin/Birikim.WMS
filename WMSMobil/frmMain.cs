@@ -28,7 +28,7 @@ namespace WMSMobil
         private void AnaForm_Activated(object sender, EventArgs e)
         {
             lblMalKabul.Text = ""; lblRafKaldirma.Text = ""; lblSiparisToplama.Text = ""; lblSayim.Text = ""; lblPaketleme.Text = ""; lblTransferIn.Text = ""; lblTransferOut.Text = "";
-            var tbl = Servis.GetGorevOzet(Ayarlar.Kullanici.DepoID).ToList();
+            var tbl = Servis.GetGorevOzet(Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID).ToList();
             foreach (var item in tbl)
             {
                 if (item.ID == 1) { lblMalKabul.Text = "[" + item.Sayi.ToString() + "]"; }

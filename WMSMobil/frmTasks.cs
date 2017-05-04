@@ -212,7 +212,7 @@ namespace WMSMobil
             {
                 if (Ayarlar.MenuTip == MenuType.MalKabul)
                 {
-                    sonuc = Servis.MalKabul_GorevKontrol(GorevID);
+                    sonuc = Servis.MalKabul_GorevKontrol(GorevID, Ayarlar.Kullanici.ID);
                     if (sonuc.Status == false && sonuc.Id == -1)
                         if (Mesaj.Soru("Okunan mal miktarları tutarsız. Yine de devam etmek istiyor musunuz?") == DialogResult.Yes)
                             sonuc.Status = true;

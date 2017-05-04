@@ -28,7 +28,7 @@ namespace WMSMobil
             InitializeComponent();
             try
             {
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, tip));
+                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip));
                 Ayarlar.SeciliGorev = Servis.GetIrsaliye(grvId);
                 txtUnvan.Text = Ayarlar.SeciliGorev.Unvan;
                 txtHesapKodu.Text = Ayarlar.SeciliGorev.HesapKodu;
@@ -556,18 +556,18 @@ namespace WMSMobil
             }
 
             if (Ayarlar.MenuTip == MenuType.MalKabul)
-                Sonuc = Servis.Mal_Kabul(StiList.ToArray(), GorevID);
+                Sonuc = Servis.Mal_Kabul(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID);
             else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 Sonuc = Servis.Rafa_Kaldir(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID);
             else if (Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış)
                 Sonuc = Servis.Siparis_Topla(YerList.ToArray(), Ayarlar.Kullanici.ID, GorevID);
             else if (Ayarlar.MenuTip == MenuType.Paketle || Ayarlar.MenuTip == MenuType.Sevkiyat)
-                Sonuc = Servis.Paketle(StiList.ToArray(), GorevID);
+                Sonuc = Servis.Paketle(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID);
             //sonuç işlemleri
             if (Sonuc.Status == false)
                 Mesaj.Uyari(Sonuc.Message);
             //sayfayı yenile
-            Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, glbTip));
+            Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, Ayarlar.Kullanici.ID, glbTip));
             if (Ayarlar.STIKalemler.Count == 0) this.Close();
             STIGetir();
             txtBarkod.Text = "";

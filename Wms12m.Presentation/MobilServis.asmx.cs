@@ -55,7 +55,7 @@ namespace Wms12m
         /// depoya ait görev özetini getirir
         /// </summary>
         [WebMethod]
-        public List<GorevOzet> GetGorevOzet(int ID)
+        public List<GorevOzet> GetGorevOzet(int ID, int kulID)
         {
             return db.Gorevs.Where(m => m.DepoID == ID && m.DurumID == 9).GroupBy(m => new { m.ComboItem_Name1.Name, m.ComboItem_Name1.ID }).Select(m => new GorevOzet { ID = m.Key.ID, Ad = m.Key.Name, Sayi = m.Count(n => n.ID > 0) }).ToList();
         }
@@ -121,7 +121,7 @@ namespace Wms12m
         /// malzemeleri getir
         /// </summary>
         [WebMethod]
-        public List<Tip_STI> GetMalzemes(int GorevID, bool devamMi)
+        public List<Tip_STI> GetMalzemes(int GorevID, int kulID, bool devamMi)
         {
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull())
@@ -176,7 +176,7 @@ namespace Wms12m
         /// mal kabul kayıt işlemleri
         /// </summary>
         [WebMethod]
-        public Result Mal_Kabul(List<frmMalKabul> StiList, int GorevID)
+        public Result Mal_Kabul(List<frmMalKabul> StiList, int GorevID, int kulID)
         {
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
@@ -203,7 +203,7 @@ namespace Wms12m
         /// mal kabul için miktar kontrol
         /// </summary>
         [WebMethod]
-        public Result MalKabul_GorevKontrol(int GorevID)
+        public Result MalKabul_GorevKontrol(int GorevID, int kulID)
         {
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
@@ -584,7 +584,7 @@ namespace Wms12m
         /// mal kabul kayıt işlemleri
         /// </summary>
         [WebMethod]
-        public Result Paketle(List<frmMalKabul> StiList, int GorevID)
+        public Result Paketle(List<frmMalKabul> StiList, int GorevID, int kulID)
         {
             //kontrol
             int durumID = ComboItems.Açık.ToInt32();
