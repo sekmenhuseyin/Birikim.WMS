@@ -146,7 +146,7 @@ namespace Wms12m
                 sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
                                     "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi " +
                                     "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS.ID = wms.Yer_Log.IrsaliyeID " +
-                                    "WHERE (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.Yer_Log.DepoID = {2} OR wms.Yer_Log.DepoID IS NULL) " +
+                                    "WHERE (wms.IRS_Detay.IrsaliyeID = {1}) " +
                                     "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.IR.ID, mGorev.DepoID);
                 if (devamMi == true)
                     if (mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevkiyat.ToInt32())
@@ -248,7 +248,7 @@ namespace Wms12m
                                         "ISNULL(IRS_Detay.KynkSiparisSiraNo, 0) AS KynkSiparisSiraNo, ISNULL(IRS_Detay.KynkSiparisTarih, 0) AS KynkSiparisTarih, ISNULL(IRS_Detay.KynkSiparisMiktar, 0) AS KynkSiparisMiktar, " +
                                         "FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat AS Fiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5 " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) RIGHT OUTER JOIN wms.Depo WITH(NOLOCK) INNER JOIN wms.IRS WITH(NOLOCK) ON wms.Depo.ID = wms.IRS.DepoID INNER JOIN wms.IRS_Detay WITH(NOLOCK) ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = wms.IRS.HesapKodu AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = wms.IRS_Detay.KynkSiparisTarih AND FINSAT6{0}.FINSAT6{0}.SPI.SiraNo = wms.IRS_Detay.KynkSiparisSiraNo AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = wms.IRS_Detay.KynkSiparisNo " +
-                                        "WHERE (IRS_Detay.IrsaliyeID = {1}) AND (IRS_Detay.OkutulanMiktar IS NOT NULL)", sirketKodu, irsID);
+                                        "WHERE (IRS_Detay.IrsaliyeID = {1}) AND (IRS_Detay.OkutulanMiktar IS NOT NULL) AND (IRS_Detay.OkutulanMiktar > 0)", sirketKodu, irsID);
             var STList = db.Database.SqlQuery<STIMax>(sql).ToList();
             foreach (STIMax stItem in STList)
             {
@@ -676,8 +676,10 @@ namespace Wms12m
             var sonuc = TransferToLink(transfer, false, kaydeden);
             if (sonuc.Status == true)
             {
+                var araDepo = db.Depoes.Where(m => m.ID == transfer.AraDepoID).Select(m => m.DepoKodu).FirstOrDefault();
+                var girisDepo = db.Depoes.Where(m => m.ID == transfer.GirisDepoID).Select(m => m.DepoKodu).FirstOrDefault();
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kaydeden, "", ComboItems.TransferÇıkış.ToInt32(), 0);
-                var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, mGorev.Bilgi, true, ComboItems.TransferGiriş.ToInt32(), kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
+                var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, mGorev.IR.EvrakNo, tarih, "Giriş: " + girisDepo + ", Çıkış: " + araDepo, true, ComboItems.TransferGiriş.ToInt32(), kaydeden, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
                 //yeni görev id'yi yaz
                 transfer.GorevID = cevap.GorevID.Value;
                 mGorev.IR.DepoID = transfer.GirisDepoID;
