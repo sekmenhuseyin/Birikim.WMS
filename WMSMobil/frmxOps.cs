@@ -722,6 +722,8 @@ namespace WMSMobil
             //sonuç işlemleri
             if (Sonuc.Status == false)
                 Mesaj.Uyari(Sonuc.Message);
+            else
+                Mesaj.Basari("Kayıt tamamlandı");
             //sayfayı yenile
             Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, Ayarlar.Kullanici.ID, glbTip));
             if (Ayarlar.STIKalemler.Count == 0) this.Close();
