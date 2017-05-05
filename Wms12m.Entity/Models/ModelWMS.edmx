@@ -340,7 +340,6 @@
           </Key>
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="DepoID" Type="int" Nullable="false" />
-          <Property Name="AlimIrsaliyeSeri" Type="int" Nullable="false" />
           <Property Name="SatisIrsaliyeSeri" Type="int" Nullable="false" />
           <Property Name="SatisFaturaSeri" Type="int" Nullable="false" />
           <Property Name="TransferInSeri" Type="int" Nullable="false" />
@@ -2230,7 +2229,6 @@
           </Key>
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="DepoID" Type="Int32" Nullable="false" />
-          <Property Name="AlimIrsaliyeSeri" Type="Int32" Nullable="false" />
           <Property Name="SatisIrsaliyeSeri" Type="Int32" Nullable="false" />
           <Property Name="SatisFaturaSeri" Type="Int32" Nullable="false" />
           <Property Name="TransferInSeri" Type="Int32" Nullable="false" />
@@ -2746,7 +2744,6 @@
                 <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
                 <ScalarProperty Name="SatisFaturaSeri" ColumnName="SatisFaturaSeri" />
                 <ScalarProperty Name="SatisIrsaliyeSeri" ColumnName="SatisIrsaliyeSeri" />
-                <ScalarProperty Name="AlimIrsaliyeSeri" ColumnName="AlimIrsaliyeSeri" />
                 <ScalarProperty Name="DepoID" ColumnName="DepoID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>

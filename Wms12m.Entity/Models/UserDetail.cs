@@ -16,7 +16,6 @@ namespace Wms12m.Entity.Models
     {
         public int UserID { get; set; }
         public int DepoID { get; set; }
-        public int AlimIrsaliyeSeri { get; set; }
         public int SatisIrsaliyeSeri { get; set; }
         public int SatisFaturaSeri { get; set; }
         public int TransferInSeri { get; set; }
