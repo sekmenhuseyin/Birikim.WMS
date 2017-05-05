@@ -495,7 +495,7 @@ namespace Wms12m
                                         "FROM SOLAR6.DBO.SIR(NOLOCK) INNER JOIN SOLAR6.DBO.SDK(NOLOCK) ON SIR.Kod = SDK.SirketKod AND SDK.Tip = 1 " +
                                         "WHERE SDK.Kod = '{0}' ORDER BY Tarih DESC)" +
                                     ",Year(GETDATE())) as Yil", item.SirketKod);
-                string yil = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+                int yil = db.Database.SqlQuery<int>(sql).FirstOrDefault();
                 //efatura kullanıcısı mı bul
                 sql = string.Format("SELECT EFatKullanici FROM FINSAT6{0}.FINSAT6{0}.CHK WHERE (HesapKodu = '{1}')", item.SirketKod, item.HesapKodu);
                 var tmp = db.Database.SqlQuery<short>(sql).FirstOrDefault();
@@ -552,12 +552,12 @@ namespace Wms12m
             }
             return new Result(true);
         }
-        private Result SiparisToplamaToLink(string sirketKodu, int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden, int IrsaliyeSeri, int FaturaSeri, string yil)
+        private Result SiparisToplamaToLink(string sirketKodu, int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden, int IrsaliyeSeri, int FaturaSeri, int yil)
         {
             var STIBaseList = new List<ParamSti>();
             //evrak no getir
             var ftrKayit = new FaturaKayit(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, sirketKodu);
-            var evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil.ToInt32());//TODO: seriler user dan gelecek bir şekilde
+            var evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil);
             int saat = DateTime.Now.ToOaTime();
             //listeyi dön
             string sql = String.Format("SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo,KynkSiparisTarih, KynkSiparisSiraNo  FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
@@ -582,7 +582,7 @@ namespace Wms12m
             //finsat işlemleri
             try
             {
-                var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil.ToInt32());//TODO: seriler user dan gelecek bir şekilde
+                var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil);
                 return new Result(sonuc.Basarili, evrkno[1].EvrakNo);
             }
             catch (Exception ex)
