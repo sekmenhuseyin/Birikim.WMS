@@ -166,7 +166,7 @@ namespace WMSMobil
                             {
                                 txtBarkod.Text = Servis.GetMalzemeFromBarcode(scanDataCollection.GetFirst.Text);
                                 //raf varsa rafa odaklan yoksa uygula
-                                if (txtRafBarkod.Visible == true && GorevTip != 8) txtRafBarkod.Focus();
+                                if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "" && GorevTip != 8) txtRafBarkod.Focus();
                                 else btnUygula_Click(Barkod, null);
                                 focuslandi = true;
                             }
