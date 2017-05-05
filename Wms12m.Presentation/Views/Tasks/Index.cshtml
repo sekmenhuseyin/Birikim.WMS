@@ -42,6 +42,7 @@
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#GorevGrid').html("");
+        DuzenleIptal();
         setTimeout(PartialView('/Tasks/List', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val() })), 500);
     }
     function newrow(id) { return "<table style='background:transparent;' id='new"+id+"'></table>"; }
@@ -56,6 +57,16 @@
                $('#new' + d).html(data);
             }
         });
+    }
+    var GorevGridUrl = '@Url.Action("GorevGridPartial", "Tasks")';
+    var GorevDetailUrl = '@Url.Action("GorevDetailPartial", "Tasks")';
+    function CreateEdit(Id) {
+        PartialView(GorevDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+        $("#CreateEdit").show();
+    }
+    function DuzenleIptal() {
+        $('#CreateEdit').html('');
+        $("#CreateEdit").hide();
     }
 </script>
 }

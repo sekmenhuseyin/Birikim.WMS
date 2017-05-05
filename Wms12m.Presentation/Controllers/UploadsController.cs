@@ -92,9 +92,6 @@ namespace Wms12m.Presentation.Controllers
                     db.IRS_Detay.AddRange(liste);
                     db.SaveChanges();
                     dbContextTransaction.Commit();
-                    var gorev = db.Gorevs.Where(m => m.IrsaliyeID == IrsNo).FirstOrDefault();
-                    gorev.DurumID = ComboItems.Açık.ToInt32();
-                    db.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -103,6 +100,11 @@ namespace Wms12m.Presentation.Controllers
                     return Json(_result, JsonRequestBehavior.AllowGet);
                 }
             }
+            //update görev
+            var gorev = db.Gorevs.Where(m => m.IrsaliyeID == IrsNo).FirstOrDefault();
+            gorev.DurumID = ComboItems.Açık.ToInt32();
+            db.SaveChanges();
+            //return
             _result.Id = 1;
             _result.Status = true;
             return Json(_result, JsonRequestBehavior.AllowGet);
