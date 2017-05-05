@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Gorev Listesi";
+    ViewBag.Title = "Kontrollü Sayım";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -7,15 +7,18 @@
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
 </style>
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görev Listesi</span></li></ul></div>
-<h1 class="page-title">Görev Listesi</h1>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Tasks">Görev Listesi</a><i class="fa fa-circle"></i></li><li><span>Kontrollü Sayım</span></li></ul></div>
+<h1 class="page-title">Kontrollü Sayım</h1>
 <div class="row">
     <div class="col-md-12">
         <div id="CreateEdit"></div>
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Görev Listesi
+                    <i class="fa fa-gift"></i>Kontrollü Sayım
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/New')"> Yeni Ekle </a>
                 </div>
             </div>
             <div class="portlet-body form">
@@ -42,7 +45,7 @@
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#GorevGrid').html("");
-        setTimeout(PartialView('/Tasks/List', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val() })), 500);
+        setTimeout(PartialView('/Tasks/SayimList', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val() })), 500);
     }
     function newrow(id) { return "<table style='background:transparent;' id='new"+id+"'></table>"; }
     function format(d) {

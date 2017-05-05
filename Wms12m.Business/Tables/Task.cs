@@ -251,6 +251,13 @@ namespace Wms12m.Business
                 return db.Gorevs.Where(m => m.DurumID == DurumID).OrderByDescending(m => m.ID).ToList();
         }
         /// <summary>
+        /// görev tipi ve duruma göre listeler
+        /// </summary>
+        public List<Gorev> GetList(int TipID, int DurumID)
+        {
+            return db.Gorevs.Where(m => m.DurumID == DurumID && m.GorevTipiID == TipID).OrderByDescending(m => m.ID).ToList();
+        }
+        /// <summary>
         /// dispose
         /// </summary>
         public void Dispose()

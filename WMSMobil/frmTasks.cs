@@ -230,6 +230,8 @@ namespace WMSMobil
                     sonuc = Servis.TransferCikis_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
                 else if (Ayarlar.MenuTip == MenuType.TransferGiriş)
                     sonuc = Servis.TransferGiris_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
+                else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
+                    sonuc.Message = "Bu görevi buradan sonlandıramazsınız.";
             }
             catch (Exception ex)
             {
