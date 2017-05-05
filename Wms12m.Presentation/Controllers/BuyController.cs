@@ -161,7 +161,11 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult New(frmIrsaliye tbl)
         {
-            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Buy", PermTypes.Reading) == false)
+            {
+                ViewBag.message = "Burası için izniniz yok";
+                return PartialView("_GridPartial", new List<IRS_Detay>());
+            }
             bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
             if (kontrol1 == false)
             {
@@ -170,7 +174,7 @@ namespace Wms12m.Presentation.Controllers
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
             int tarih = tmpTarih.ToOADateInt();
-            var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID).FirstOrDefault();
+            var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID & m.HesapKodu == tbl.HesapKodu).FirstOrDefault();
             //var olanı göster
             if (kontrol2 != null)
             {
@@ -191,7 +195,7 @@ namespace Wms12m.Presentation.Controllers
             //kontrol
             if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
             //yeni kayıtta evrak no spide olmayacak kontrolü
-            string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3)", tbl.SirketID, tbl.EvrakNo);
+            string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = {2})", tbl.SirketID, tbl.EvrakNo, tbl.HesapKodu);
             var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
             if (sti != null)
             {
