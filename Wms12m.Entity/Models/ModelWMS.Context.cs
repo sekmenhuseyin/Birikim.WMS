@@ -443,5 +443,7 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.UpdateIrsaliye", irsIDParameter, evrakNoParameter, linkEvrakNoParameter);
         }
+
+        public System.Data.Entity.DbSet<Wms12m.Entity.frmSiparisMalzemeDetay> frmSiparisMalzemeDetays { get; set; }
     }
 }

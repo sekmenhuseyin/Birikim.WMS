@@ -172,8 +172,14 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Tasks", PermTypes.Reading) == false) return Redirect("/");
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-
-            return View("CountFark");
+            string sql = string.Format("SELECT MalKodu, Birim, Miktar, Stok FROM (" +
+                                            "SELECT wms.GorevYer.MalKodu, wms.GorevYer.Birim, SUM(wms.GorevYer.Miktar) AS Miktar, " +
+                                            "(SELECT SUM(Miktar) AS Expr1 FROM wms.Yer WITH(NOLOCK) WHERE (DepoID = wms.Gorev.DepoID) AND (MalKodu = wms.GorevYer.MalKodu) AND (Birim = wms.GorevYer.Birim)) AS Stok " +
+                                            "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID " +
+                                            "WHERE (wms.Gorev.ID = {0}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
+                                        ") AS t WHERE (Stok <> Miktar)", id);
+            var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
+            return View("CountFark", list);
         }
     }
 }
