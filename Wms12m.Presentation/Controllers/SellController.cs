@@ -168,7 +168,7 @@ namespace Wms12m.Presentation.Controllers
             int today = fn.ToOADate(), time = fn.ToOATime(), valorgun = 0;
             int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
             string GorevNo = db.SettingsGorevNo(today).FirstOrDefault();
-            string evraknolar = "", alıcılar = "", chk = "", teslimchk = "", evrakNo = "";
+            string alıcılar = "", chk = "", teslimchk = "", evrakNo = "";
             InsertIrsaliye_Result cevap = new InsertIrsaliye_Result();
             Result _Result;
             //loop the list
@@ -183,7 +183,6 @@ namespace Wms12m.Presentation.Controllers
                     chk = item.Chk;
                     valorgun = item.ValorGun;
                     teslimchk = item.TeslimChk;
-                    evraknolar += evrakNo + ",";
                     alıcılar += item.Unvan + ",";
                 }
                 //get stok
@@ -210,7 +209,7 @@ namespace Wms12m.Presentation.Controllers
             }
             //görev tablosu için tekrar yeni ve sade bir liste lazım
             Gorev grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
-            grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
+            grv.Bilgi = "Alıcılar: " + alıcılar;
             db.SaveChanges();
             //get gorev details
             sql = string.Format("SELECT wms.IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, wms.IRS_Detay.Birim " +

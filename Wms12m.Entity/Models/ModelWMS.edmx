@@ -929,6 +929,11 @@
           <Parameter Name="GörevTipiID" Type="int" Mode="In" />
           <Parameter Name="YeniGorevTipiID" Type="int" Mode="In" />
         </Function>
+        <Function Name="UpdateIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="IrsID" Type="int" Mode="In" />
+          <Parameter Name="EvrakNo" Type="varchar" Mode="In" />
+          <Parameter Name="LinkEvrakNo" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="Combo_Name" EntityType="Self.Combo_Name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboItem_Name" EntityType="Self.ComboItem_Name" Schema="dbo" store:Type="Tables" />
@@ -1383,6 +1388,11 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
+          <FunctionImport Name="UpdateIrsaliye">
+            <Parameter Name="IrsID" Mode="In" Type="Int32" />
+            <Parameter Name="EvrakNo" Mode="In" Type="String" />
+            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2749,6 +2759,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="UpdateIrsaliye" FunctionName="MModel.Store.UpdateIrsaliye" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

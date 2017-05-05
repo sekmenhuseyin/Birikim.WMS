@@ -426,5 +426,22 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetGorevlis_Result>("WMSEntities.GetGorevlis", depoIDParameter);
         }
+    
+        public virtual int UpdateIrsaliye(Nullable<int> irsID, string evrakNo, string linkEvrakNo)
+        {
+            var irsIDParameter = irsID.HasValue ?
+                new ObjectParameter("IrsID", irsID) :
+                new ObjectParameter("IrsID", typeof(int));
+    
+            var evrakNoParameter = evrakNo != null ?
+                new ObjectParameter("EvrakNo", evrakNo) :
+                new ObjectParameter("EvrakNo", typeof(string));
+    
+            var linkEvrakNoParameter = linkEvrakNo != null ?
+                new ObjectParameter("LinkEvrakNo", linkEvrakNo) :
+                new ObjectParameter("LinkEvrakNo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.UpdateIrsaliye", irsIDParameter, evrakNoParameter, linkEvrakNoParameter);
+        }
     }
 }

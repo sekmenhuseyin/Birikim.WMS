@@ -178,6 +178,11 @@ namespace Wms12m.Presentation.Controllers
             //var olanı göster
             if (kontrol2 != null)
             {
+                if (kontrol2.DepoID != tbl.DepoID)
+                {
+                    ViewBag.message = "Bu evrak no kullanılıyor";
+                    return PartialView("_GridPartial", new List<IRS_Detay>());
+                }
                 try
                 {
                     var list = IrsaliyeDetay.GetList(kontrol2.ID);
