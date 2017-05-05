@@ -26,9 +26,17 @@ namespace WMSMobil
         public frmxOps(int grvId, int irsID, bool tip, int gorevtip)
         {
             InitializeComponent();
+            glbTip = tip;
+            GorevTip=gorevtip;
             try
             {
                 Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip));
+                if (Ayarlar.STIKalemler.Count == 0)
+                    if (Mesaj.Soru("Bu görevin işleri bitmiş. Tüm listeye bakmak istiyor musunuz?") == DialogResult.Yes)
+                    {
+                        glbTip = false;
+                        Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, false));
+                    }
                 Ayarlar.SeciliGorev = Servis.GetIrsaliye(grvId);
                 txtUnvan.Text = Ayarlar.SeciliGorev.Unvan;
                 txtHesapKodu.Text = Ayarlar.SeciliGorev.HesapKodu;
@@ -44,8 +52,6 @@ namespace WMSMobil
                 this.Close();
             }
             //gizle göster
-            glbTip = tip;
-            GorevTip=gorevtip;
             label1.Visible = true;
             label2.Visible = true;
             label3.Visible = true;
