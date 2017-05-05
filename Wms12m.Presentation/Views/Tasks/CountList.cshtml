@@ -8,7 +8,18 @@
                 <td>@item.Depo.DepoAd</td>
                 <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
-                <td><a class="btn btn-default pull-right input-circle" href="/Tasks/CountFark/@item.ID"> Fark </a></td>
+                <td>
+                    @if (item.DurumID == ComboItems.Açık.ToInt32())
+                    {
+                        using (Ajax.BeginForm("SaveCount", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "FuncSearchBtn()", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn - default');" }, new { }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <input type="submit" class="btn btn-primary pull-right input-circle" value="Onay" />
+                        }
+                        <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/CountFark/@item.ID')"> Fark </a>
+                    }
+                </td>
             </tr>
         }
     </tbody>
@@ -19,12 +30,6 @@
             "pagingType": "full_numbers", 
             "ordering": true,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
-        });
-        $('#sample_1 tbody').on('click', 'td.details-control', function () {
-            var tr = $(this).closest('tr');
-            var row = table.row(tr);
-            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-            else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
     });
 </script>

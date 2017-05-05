@@ -167,9 +167,9 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// kontrollü sayima ait fark sayfası
         /// </summary>
-        public ActionResult CountFark()
+        public PartialViewResult CountFark()
         {
-            if (CheckPerm("Tasks", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Tasks", PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             string sql = string.Format("SELECT MalKodu, Birim, Miktar, Stok FROM (" +
@@ -179,7 +179,7 @@ namespace Wms12m.Presentation.Controllers
                                             "WHERE (wms.Gorev.ID = {0}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
                                         ") AS t WHERE (Stok <> Miktar)", id);
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
-            return View("CountFark", list);
+            return PartialView("CountFark", list);
         }
     }
 }
