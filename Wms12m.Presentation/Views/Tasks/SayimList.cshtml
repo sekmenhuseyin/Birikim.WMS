@@ -8,7 +8,7 @@
                 <td>@item.Depo.DepoAd</td>
                 <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
-                <td>Fark</td>
+                <td><a class="btn btn-default pull-right input-circle" href="/Tasks/SayimFark/@item.ID"> Fark </a></td>
             </tr>
         }
     </tbody>

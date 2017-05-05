@@ -111,7 +111,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Sayim()
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Tasks", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
             return View("Sayim");
         }
@@ -121,7 +121,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult SayimList(string Id)
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Tasks", PermTypes.Reading) == false) return null;
             //id'ye göre liste döner
             var list = Task.GetList(ComboItems.KontrolSayım.ToInt32(), Id.ToInt32());
             return PartialView("SayimList", list);
@@ -164,6 +164,17 @@ namespace Wms12m.Presentation.Controllers
             else
                 _Result = new Result(false, "Bu görev zaten var");
             return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// kontrollü sayima ait fark sayfası
+        /// </summary>
+        public ActionResult SayimFark()
+        {
+            if (CheckPerm("Tasks", PermTypes.Reading) == false) return Redirect("/");
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+
+            return View("SayimFark");
         }
     }
 }
