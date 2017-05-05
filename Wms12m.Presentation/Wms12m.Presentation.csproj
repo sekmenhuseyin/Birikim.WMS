@@ -405,7 +405,7 @@
     <Content Include="Views\Roles\Create.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Users\Perm.cshtml" />
-    <Content Include="Views\Tasks\New.cshtml" />
+    <Content Include="Views\Tasks\CountNew.cshtml" />
     <Content Include="Views\Users\List.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatis.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
@@ -424,8 +424,9 @@
     <Content Include="Views\Terminal\List.cshtml" />
     <Content Include="Views\Terminal\Editor.cshtml" />
     <Content Include="Views\Stock\ManualNewPlace.cshtml" />
-    <Content Include="Views\Tasks\Sayim.cshtml" />
-    <Content Include="Views\Tasks\SayimList.cshtml" />
+    <Content Include="Views\Tasks\Count.cshtml" />
+    <Content Include="Views\Tasks\CountList.cshtml" />
+    <Content Include="Views\Tasks\CountFark.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

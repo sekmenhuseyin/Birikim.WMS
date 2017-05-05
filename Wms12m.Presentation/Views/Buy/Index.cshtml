@@ -140,10 +140,10 @@
     function disableAll() {
         $('#hesapSelect').hide();
         $("#hesapSelect").html("");
-        $("#SirketID").attr("readonly", true);
-        $("#DepoID").attr("readonly", true);
-        $("#EvrakNo").attr("readonly", true);
-        $("#Tarih").attr("readonly", true);
+        $("#SirketID").prop("disabled", true);
+        $("#DepoID").prop("disabled", true);
+        $("#EvrakNo").prop("disabled", true);
+        $("#Tarih").prop("disabled", true);
    }
     function checkEnabled() {
         if ($("#SirketID").val() == "" || $("#DepoID").val() == "" || $("#HesapKodu").val() == "" || $("#HesapKodu").val() == null)
@@ -170,10 +170,10 @@
         $("#EvrakNo").val('');
         $("#Tarih").val('@DateTime.Now.ToShortDateString()');
         $("#StoreGrid").html('');
-        $("#SirketID").attr("readonly", false);
-        $("#DepoID").attr("readonly", false);
-        $("#EvrakNo").attr("readonly", false);
-        $("#Tarih").attr("readonly", false);
+        $("#SirketID").prop("disabled", false);
+        $("#DepoID").prop("disabled", false);
+        $("#EvrakNo").prop("disabled", false);
+        $("#Tarih").prop("disabled", false);
     }
     $(function () {
         $('#linkUpload').click(function () {

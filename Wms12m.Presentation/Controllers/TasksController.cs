@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
 using Wms12m.Entity;
-using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -25,7 +24,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult List(int Id)
         {
             if (CheckPerm("Tasks", PermTypes.Reading) == false) return null;
-            var list = Task.GetList(Id,vUser.DepoId);
+            var list = Task.GetList(Id, vUser.DepoId);
             return PartialView("List", list);
         }
         /// <summary>
@@ -109,22 +108,22 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// kontrollü sayin sayfası
         /// </summary>
-        public ActionResult Sayim()
+        public ActionResult Count()
         {
             if (CheckPerm("Tasks", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
-            return View("Sayim");
+            return View("Count");
         }
         /// <summary>
         /// listeyi yeniler
         /// </summary>
         [HttpPost]
-        public PartialViewResult SayimList(string Id)
+        public PartialViewResult CountList(string Id)
         {
             if (CheckPerm("Tasks", PermTypes.Reading) == false) return null;
             //id'ye göre liste döner
             var list = Task.GetList(ComboItems.KontrolSayım.ToInt32(), Id.ToInt32());
-            return PartialView("SayimList", list);
+            return PartialView("CountList", list);
         }
         /// <summary>
         /// yeni kontrollü sayım görevi ekle
@@ -134,7 +133,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Tasks", PermTypes.Reading) == false) return null;
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
-            return PartialView("New");
+            return PartialView("CountNew");
         }
         /// <summary>
         /// yeni görevi kaydeder
@@ -168,13 +167,13 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// kontrollü sayima ait fark sayfası
         /// </summary>
-        public ActionResult SayimFark()
+        public ActionResult CountFark()
         {
             if (CheckPerm("Tasks", PermTypes.Reading) == false) return Redirect("/");
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
 
-            return View("SayimFark");
+            return View("CountFark");
         }
     }
 }

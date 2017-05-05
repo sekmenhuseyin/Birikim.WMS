@@ -45,7 +45,7 @@
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#GorevGrid').html("");
-        setTimeout(PartialView('/Tasks/SayimList', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val() })), 500);
+        setTimeout(PartialView('/Tasks/CountList', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val() })), 500);
     }
     function newrow(id) { return "<table style='background:transparent;' id='new"+id+"'></table>"; }
     function format(d) {

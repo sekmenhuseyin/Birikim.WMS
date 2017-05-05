@@ -53,6 +53,13 @@
                                 @Html.TextBoxFor(a => a.MalKodu, new { @class = "form-control input-circle", @placeholder = "Mal Kodu", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="MalKodu" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Mal Adı</label>
+                            <div class="col-md-4">
+                                <input class="form-control input-circle" id="MalAdi" name="MalAdi" type="text" readonly="readonly">
+                                <span class="field-validation-valid" data-valmsg-for="MalKodu" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
                             <div class="col-md-4" id="MalAdi"></div>
                         </div>
                         <div class="form-group">
@@ -165,7 +172,7 @@
         minLength: 2,
         select: function (event, ui) {
             getBirims(ui.item.id);
-            $("#MalAdi").html(ui.item.value);
+            $("#MalAdi").val(ui.item.value);
         }
     });
     function getBirims(id) {
