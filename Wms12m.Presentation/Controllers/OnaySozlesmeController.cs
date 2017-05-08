@@ -7,61 +7,59 @@ namespace Wms12m.Presentation.Controllers
 {
     public class OnaySozlesmeController : RootController
     {
-        public ActionResult SozlesmeOnayGM()
+        public ActionResult GM()
         {
 
             return View();
         }
-        public PartialViewResult ListGM()
+        [HttpPost]
+        public PartialViewResult PartialGM()
         {
             List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SP_SozlesmeOnay]", "17")).ToList();
-            return PartialView("ListGM", list);
+            return PartialView("_PartialGM", list);
         }
 
         [HttpPost]
-        public PartialViewResult Details(string ListeNo)
+        public PartialViewResult DetailsGM(string ListeNo)
         {
-            // var list = db.GetIrsDetayfromGorev(ID);
             var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
-            return PartialView("Details", list);
+            return PartialView("_DetailsGM", list);
         }
         //--------------------------------------------------------------------------------------------------------------
-        public ActionResult SozlesmeOnaySM()
+        public ActionResult SM()
         {
 
             return View();
         }
-        public PartialViewResult ListSM()
+        public PartialViewResult PartialSM()
         {
             List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SP_SozlesmeOnaySM]", "17")).ToList();
-            return PartialView("ListSM", list);
+            return PartialView("_PartialSM", list);
         }
 
         [HttpPost]
         public PartialViewResult DetailsSM(string ListeNo)
         {
-            // var list = db.GetIrsDetayfromGorev(ID);
             var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
-            return PartialView("DetailsSM", list);
+            return PartialView("_DetailsSM", list);
         }
         //---------------------------------------------------------------------------------------------------------------------
-        public ActionResult SozlesmeOnaySPGMY()
+        public ActionResult SPGMY()
         {
 
             return View();
         }
-        public PartialViewResult ListSPGMY()
+        public PartialViewResult PartialSPGMY()
         {
             List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SP_SozlesmeOnaySPGMY]", "17")).ToList();
-            return PartialView("ListSM", list);
+            return PartialView("_PartialSM", list);
         }
 
         [HttpPost]
         public PartialViewResult DetailsSPMY(string ListeNo)
         {
-            // var list = db.GetIrsDetayfromGorev(ID);
             var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
-            return PartialView("DetailsSPGMY", list);
+            return PartialView("_DetailsSPGMY", list);
         }
     }
 }

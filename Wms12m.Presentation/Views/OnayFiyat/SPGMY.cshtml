@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Fiyat Onay SM";
+    ViewBag.Title = "Fiyat Onay SPGMY";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -7,6 +7,7 @@
 <div class="form-horizontal">
     <div class="form-body">
         <div class="row">
+
             <label class="col-sm-1" style="width:50%;">
                 <input type="checkbox" name="Locked" value="Koleksiyon" /> Koleksiyon ve Kaliteye Göre Onaylama
             </label>
@@ -41,12 +42,13 @@
     <script>
 
             $(document).ready(function (e) {
-                var GunlukSatisUrl = "/OnayFiyat/PartialFiyatOnayListSM";
+
+                var GunlukSatisUrl = "/OnayFiyat/PartialSPGMY";
                     PartialView(GunlukSatisUrl, 'gunluk_satis');
             });
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
-            var GunlukSatisUrl = "/OnayFiyat/PartialFiyatOnayListSM";
+            var GunlukSatisUrl = "/OnayFiyat/PartialSPGMY";
             PartialView(GunlukSatisUrl, 'gunluk_satis', JSON.stringify({ Durum: Type }));
         }
 

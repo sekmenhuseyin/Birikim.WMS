@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "MIGMY Risk Onay";
+    ViewBag.Title = "Çek Onay SPGMY";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 }@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
@@ -20,9 +20,11 @@
     <script>
 
             $(document).ready(function (e) {
-                var GunlukSatisUrl = "/OnayRisk/PartialMIGMYOnay";
+
+                var GunlukSatisUrl = "/OnayCek/PartialSPGMY";
                 PartialView(GunlukSatisUrl, 'gunluk_satis');
             });
+
 
     </script>
 }

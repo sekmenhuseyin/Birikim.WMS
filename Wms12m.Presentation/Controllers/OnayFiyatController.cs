@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 
@@ -8,43 +7,43 @@ namespace Wms12m.Presentation.Controllers
     public class OnayFiyatController : RootController
     {
         // GET: FiyatOnay
-        public ActionResult FiyatOnayListGM()
+        public ActionResult GM()
         {
             return View();
         }
 
-        public PartialViewResult PartialFiyatOnayListGM()
+        public PartialViewResult PartialGM()
         {
 
 
-            List<FiyatOnayGMSelect> KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[dbo].[FiyatOnayListGM]", "17")).ToList();
-            return PartialView("_PartialFiyatOnayListGM", KOD);
+            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[dbo].[FiyatOnayListGM]", "17")).ToList();
+            return PartialView("_PartialGM", KOD);
         }
 
-        public ActionResult FiyatOnayListSPGMY()
+        public ActionResult SPGMY()
         {
             return View();
         }
 
-        public PartialViewResult PartialFiyatOnayListSPGMY()
+        public PartialViewResult PartialSPGMY()
         {
 
 
-            List<FiyatOnayGMSelect> KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[dbo].[FiyatOnayListSPGMY]", "17")).ToList();
-            return PartialView("_PartialFiyatOnayListSPGMY", KOD);
+            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[dbo].[FiyatOnayListSPGMY]", "17")).ToList();
+            return PartialView("_PartialSPGMY", KOD);
         }
 
-        public ActionResult FiyatOnayListSM()
+        public ActionResult SM()
         {
             return View();
         }
 
-        public PartialViewResult PartialFiyatOnayListSM()
+        public PartialViewResult PartialSM()
         {
 
 
-            List<FiyatOnayGMSelect> KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[dbo].[FiyatOnayList]", "17")).ToList();
-            return PartialView("_PartialFiyatOnayListSM", KOD);
+            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[dbo].[FiyatOnayList]", "17")).ToList();
+            return PartialView("_PartialSM", KOD);
         }
     }
 }

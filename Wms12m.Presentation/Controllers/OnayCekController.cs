@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 
@@ -7,37 +6,36 @@ namespace Wms12m.Presentation.Controllers
 {
     public class OnayCekController : RootController
     {
-        public ActionResult CekOnaySPGMY()
+        public ActionResult SPGMY()
+        {
+            return View();
+        }
+        public PartialViewResult PartialSPGMY()
+        {
+            var KOD = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[CekOnaySPGMY]", "17")).ToList();
+            return PartialView("_PartialSPGMY", KOD);
+        }
+
+        public ActionResult MIGMY()
         {
 
             return View();
         }
-        public PartialViewResult PartialCekOnaySPGMY()
+        public PartialViewResult PartialMIGMY()
         {
-            List<CekOnaySelect> KOD = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[CekOnaySPGMY]", "17")).ToList();
-            return PartialView("_PartialCekOnaySPGMY", KOD);
+            var KOD = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[CekOnayMIGMY]", "17")).ToList();
+            return PartialView("_PartialMIGMY", KOD);
         }
 
-        public ActionResult CekOnayMIGMY()
-        {
-
-            return View();
-        }
-        public PartialViewResult PartialCekOnayMIGMY()
-        {
-            List<CekOnaySelect> KOD = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[CekOnayMIGMY]", "17")).ToList();
-            return PartialView("_PartialCekOnayMIGMY", KOD);
-        }
-
-        public ActionResult CekOnayGM()
+        public ActionResult GM()
         {
 
             return View();
         }
-        public PartialViewResult PartialCekOnayGM()
+        public PartialViewResult PartialGM()
         {
-            List<CekOnaySelect> KOD = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[CekOnayGM]", "17")).ToList();
-            return PartialView("_PartialCekOnayGM", KOD);
+            var KOD = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[CekOnayGM]", "17")).ToList();
+            return PartialView("_PartialGM", KOD);
         }
     }
 }

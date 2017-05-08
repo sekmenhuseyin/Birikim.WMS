@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 
@@ -13,7 +12,7 @@ namespace Wms12m.Presentation.Controllers
             return View();
         }
 
-        public PartialViewResult PartialStokOnay(string Durum)
+        public PartialViewResult List(string Durum)
         {
             int param = 1;
             if (Durum == "Tumu") { param = 0; }
@@ -26,8 +25,8 @@ namespace Wms12m.Presentation.Controllers
             else
             if (Durum == "Red") { param = 4; }
 
-            List<StokOnaySelect> KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[StokOnaySelect] {1}", "17", param)).ToList();
-            return PartialView("_PartialStokOnay", KOD);
+            var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[StokOnaySelect] {1}", "17", param)).ToList();
+            return PartialView("List", KOD);
         }
     }
 }

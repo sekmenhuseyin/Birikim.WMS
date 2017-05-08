@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "SPGMY Sipariş Onay";
+    ViewBag.Title = "GM Sipariş Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -46,10 +46,11 @@
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
 
     <script>
-
             $(document).ready(function (e) {
-                var GunlukSatisUrl = "/OnaySiparis/PartialSPGMYOnay";
+
+                var GunlukSatisUrl = "/OnaySiparis/PartialGM";
                 PartialView(GunlukSatisUrl, 'gunluk_satis');
             });
+
     </script>
 }

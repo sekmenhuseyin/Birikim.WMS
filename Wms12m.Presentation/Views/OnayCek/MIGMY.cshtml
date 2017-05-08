@@ -1,11 +1,10 @@
 ﻿@{
-    ViewBag.Title = "SM Risk Onay";
+    ViewBag.Title = "Çek Onay MIGMY";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 }@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")" rel="stylesheet" type="text/css" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li></li></ul></div>
-
 
 <div class="row" id="gunluk_satis">
 </div>
@@ -20,11 +19,12 @@
 
     <script>
 
-        $(document).ready(function (e) {
-            var GunlukSatisUrl = "/OnayRisk/PartialSMOnay";
-            PartialView(GunlukSatisUrl, 'gunluk_satis');
-        });
+            $(document).ready(function (e) {
 
+                var GunlukSatisUrl = "/OnayCek/PartialMIGMY";
+                PartialView(GunlukSatisUrl, 'gunluk_satis');
+
+            });
 
     </script>
 }

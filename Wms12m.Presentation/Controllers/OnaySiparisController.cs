@@ -1,31 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 namespace Wms12m.Presentation.Controllers
 {
     public class OnaySiparisController : RootController
     {
-        public ActionResult SMOnay()
+        public ActionResult SM()
         {
 
             return View();
         }
-        public PartialViewResult PartialSMOnay()
+        public PartialViewResult PartialSM()
         {
-            List<SMSiparisOnaySelect> KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListSM]", "33")).ToList();
-            return PartialView("_PartialSMSiparisOnay", KOD);
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListSM]", "33")).ToList();
+            return PartialView("_PartialSM", KOD);
         }
 
-        public ActionResult SPGMYOnay()
+        public ActionResult SPGMY()
         {
 
             return View();
         }
-        public PartialViewResult PartialSPGMYOnay()
+        public PartialViewResult PartialSPGMY()
         {
-            List<SMSiparisOnaySelect> KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListSPGMY]", "33")).ToList();
-            return PartialView("_PartialSPGMYSiparisOnay", KOD);
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListSPGMY]", "33")).ToList();
+            return PartialView("_PartialSPGMY", KOD);
         }
 
         public ActionResult GMOnay()
@@ -33,10 +32,10 @@ namespace Wms12m.Presentation.Controllers
 
             return View();
         }
-        public PartialViewResult PartialGMOnay()
+        public PartialViewResult PartialGM()
         {
-            List<SMSiparisOnaySelect> KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListGM]", "33")).ToList();
-            return PartialView("_PartialGMSiparisOnay", KOD);
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListGM]", "33")).ToList();
+            return PartialView("_PartialGM", KOD);
         }
 
     }
