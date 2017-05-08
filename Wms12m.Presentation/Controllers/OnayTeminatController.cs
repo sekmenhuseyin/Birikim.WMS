@@ -5,9 +5,9 @@ using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class TeminatController : RootController
+    public class OnayTeminatController : RootController
     {
-        public ActionResult TeminatOnay()
+        public ActionResult Index()
         {
 
             return View();

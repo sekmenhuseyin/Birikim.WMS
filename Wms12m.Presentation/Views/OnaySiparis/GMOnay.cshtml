@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "SPGMY Sipariş Onay";
+    ViewBag.Title = "GM Sipariş Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -46,22 +46,11 @@
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
 
     <script>
-
-            @*var SiparisOnayUpdateURL = '@Url.Action("SiparisOnayUpdate", "SiparisOnay")';*@
             $(document).ready(function (e) {
 
-                //var BoxUrl = "/Home/PartialBox";
-                var GunlukSatisUrl = "/SiparisOnay/PartialSPGMYOnay";
-                //console.log("deneme");
+                var GunlukSatisUrl = "/OnaySiparis/PartialGMOnay";
                 PartialView(GunlukSatisUrl, 'gunluk_satis');
-
-                //PartialView(BoxUrl, 'box-content');
             });
-
-            //function UpdateSiparisOnay() {
-
-            //    PartialView(SiparisOnayUpdateURL, 'gunluk_satis'));
-            //}
 
     </script>
 }

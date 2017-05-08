@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "GM Sipariş Onay";
+    ViewBag.Title = "SPGMY Sipariş Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -47,21 +47,9 @@
 
     <script>
 
-            @*var SiparisOnayUpdateURL = '@Url.Action("SiparisOnayUpdate", "SiparisOnay")';*@
             $(document).ready(function (e) {
-
-                //var BoxUrl = "/Home/PartialBox";
-                var GunlukSatisUrl = "/SiparisOnay/PartialGMOnay";
-                //console.log("deneme");
+                var GunlukSatisUrl = "/OnaySiparis/PartialGMYOnay";
                 PartialView(GunlukSatisUrl, 'gunluk_satis');
-
-                //PartialView(BoxUrl, 'box-content');
             });
-
-            //function UpdateSiparisOnay() {
-
-            //    PartialView(SiparisOnayUpdateURL, 'gunluk_satis'));
-            //}
-
     </script>
 }

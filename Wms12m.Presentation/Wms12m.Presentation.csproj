@@ -312,7 +312,7 @@
     <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
-    <Compile Include="Controllers\TeminatController.cs" />
+    <Compile Include="Controllers\OnayTeminatController.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
@@ -487,12 +487,12 @@
     <Content Include="Views\OnayRisk\_PartialMIGMYRiskOnay.cshtml" />
     <Content Include="Views\OnayRisk\_PartialSMRiskOnay.cshtml" />
     <Content Include="Views\OnayRisk\_PartialSPGMYRiskOnay.cshtml" />
-    <Content Include="Views\OnaySiparis\SiparisGMOnay.cshtml" />
+    <Content Include="Views\OnaySiparis\GMOnay.cshtml" />
     <Content Include="Views\OnaySiparis\SMOnay.cshtml" />
-    <Content Include="Views\OnaySiparis\SPGMYOnay.cshtml" />
+    <Content Include="Views\OnaySiparis\GMYOnay.cshtml" />
     <Content Include="Views\OnaySiparis\_PartialGMSiparisOnay.cshtml" />
     <Content Include="Views\OnaySiparis\_PartialSMSiparisOnay.cshtml" />
-    <Content Include="Views\OnaySiparis\_PartialSPGMYSiparisOnay.cshtml" />
+    <Content Include="Views\OnaySiparis\_PartialGMYSiparisOnay.cshtml" />
     <Content Include="Views\OnaySozlesme\Details.cshtml" />
     <Content Include="Views\OnaySozlesme\DetailsSM.cshtml" />
     <Content Include="Views\OnaySozlesme\DetailsSPMY.cshtml" />
@@ -504,8 +504,8 @@
     <Content Include="Views\OnaySozlesme\SozlesmeOnaySPGMY.cshtml" />
     <Content Include="Views\OnayStok\Index.cshtml" />
     <Content Include="Views\OnayStok\_PartialStokOnay.cshtml" />
-    <Content Include="Views\Teminat\TeminatOnay.cshtml" />
-    <Content Include="Views\Teminat\_PartialTeminatOnay.cshtml" />
+    <Content Include="Views\OnayTeminat\Index.cshtml" />
+    <Content Include="Views\OnayTeminat\_PartialTeminatOnay.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
