@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity.Models;
 
@@ -15,9 +14,9 @@ namespace Wms12m.Presentation.Controllers
         }
 
         // GET: Roles/Create
-        public ActionResult Create()
+        public PartialViewResult New()
         {
-            return View("Create", new Role());
+            return PartialView("Create", new Role());
         }
 
         // POST: Roles/Create
