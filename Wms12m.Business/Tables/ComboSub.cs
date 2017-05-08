@@ -12,6 +12,7 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
+        Helpers helper = new Helpers();
         CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
@@ -48,7 +49,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "ComboSub/Operation");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/ComboSub/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -80,7 +81,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "ComboSub/Delete");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/ComboSub/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -97,7 +98,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "ComboSub/Detail");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/ComboSub/Detail");
                 return new ComboItem_Name();
             }
         }

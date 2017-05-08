@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Extensions.cs" />
     <Compile Include="Functions.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Tables\PersonPerms.cs" />
     <Compile Include="Tables\TaskYer.cs" />
     <Compile Include="Tables\Transfers.cs" />

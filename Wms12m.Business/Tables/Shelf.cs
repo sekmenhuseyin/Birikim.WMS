@@ -12,6 +12,7 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
+        Helpers helper = new Helpers();
         CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
@@ -77,7 +78,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Shelf/Operation");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Shelf/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -117,7 +118,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Shelf/Delete");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Shelf/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -134,7 +135,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Shelf/Detail");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Shelf/Detail");
                 return new Raf();
             }
 

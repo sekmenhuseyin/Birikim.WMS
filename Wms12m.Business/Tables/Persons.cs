@@ -12,6 +12,7 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
+        Helpers helper = new Helpers();
         CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle, güncelle
@@ -81,7 +82,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Persons/Operation");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -116,7 +117,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Persons/Login");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Login");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
             return _Result;
@@ -155,7 +156,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Persons/ChangePass");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/ChangePass");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
             return _Result;
@@ -171,7 +172,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Persons/Detail");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Detail");
                 return new User();
             }
         }
@@ -222,7 +223,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Persons/Delete");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }

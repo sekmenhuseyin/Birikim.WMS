@@ -12,6 +12,7 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
+        Helpers helper = new Helpers();
         CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle/güncelle
@@ -48,7 +49,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "IrsaliyeDetay/Operation");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -86,7 +87,7 @@ namespace Wms12m.Business
                 }
                 catch (Exception ex)
                 {
-                    db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "IrsaliyeDetay/Insert");
+                    helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Insert");
                     _Result.Message = ex.Message;
                     _Result.Status = false;
                     _Result.Id = 0;
@@ -119,7 +120,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "IrsaliyeDetay/Delete");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -136,7 +137,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "IrsaliyeDetay/Detail");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Detail");
                 return new IRS_Detay();
             }
 

@@ -12,6 +12,7 @@ namespace Wms12m.Business
     {
         Result _Result;
         WMSEntities db = new WMSEntities();
+        Helpers helper = new Helpers();
         CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle-kaydet
@@ -62,7 +63,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Dimension/Operation");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Dimension/Operation");
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
             }
             return _Result;
@@ -92,7 +93,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Dimension/Delete");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Dimension/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -109,7 +110,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                db.Logger(Users.AppIdentity.User.UserName, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Dimension/Detail");
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Dimension/Detail");
                 return new Olcu();
             }
         }
