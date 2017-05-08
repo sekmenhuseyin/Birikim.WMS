@@ -40,29 +40,15 @@
 
     <script>
 
-            @*var SiparisOnayUpdateURL = '@Url.Action("SiparisOnayUpdate", "SiparisOnay")';*@
             $(document).ready(function (e) {
-
-
-                    //var BoxUrl = "/Home/PartialBox";
-                var GunlukSatisUrl = "/FiyatOnay/PartialFiyatOnayListSM";
-                    //console.log("deneme");
+                var GunlukSatisUrl = "/OnayFiyat/PartialFiyatOnayListSM";
                     PartialView(GunlukSatisUrl, 'gunluk_satis');
-
-            //    $('[name="Locked"]').click(function () { FuncSearchBtn(); });
-              //  FuncSearchBtn();
-                //PartialView(BoxUrl, 'box-content');
             });
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
-            var GunlukSatisUrl = "/FiyatOnay/PartialFiyatOnayListSM";
-            //console.log("deneme");
+            var GunlukSatisUrl = "/OnayFiyat/PartialFiyatOnayListSM";
             PartialView(GunlukSatisUrl, 'gunluk_satis', JSON.stringify({ Durum: Type }));
         }
-            //function UpdateSiparisOnay() {
-
-            //    PartialView(SiparisOnayUpdateURL, 'gunluk_satis'));
-            //}
 
     </script>
 }

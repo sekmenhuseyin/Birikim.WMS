@@ -53,7 +53,7 @@
         $(".btn-listele").dxButton({
             onClick: function() {
                 var gun = $(".gun-sayisi").dxNumberBox("instance").option("value");
-                var OdemeYapmayanMusterilerRaporuUrl = "/Rapor/PartialOdemeYapmayanMusteriler";
+                var OdemeYapmayanMusterilerRaporuUrl = "/Raports/PartialOdemeYapmayanMusteriler";
                 PartialView(OdemeYapmayanMusterilerRaporuUrl, 'odeme-yapmayanlar-grid', JSON.stringify({ gunsayisi: gun }));
             }
         });

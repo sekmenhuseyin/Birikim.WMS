@@ -58,7 +58,7 @@
         $(".btn-listele").dxButton({
             onClick: function() {
                 var gun = $(".gun-sayisi").dxNumberBox("instance").option("value");
-                var SatilmayanUrunRaporuUrl = "/Rapor/PartialSatilmayanUrunler";
+                var SatilmayanUrunRaporuUrl = "/Raports/PartialSatilmayanUrunler";
                 PartialView(SatilmayanUrunRaporuUrl, 'satilmayan-urunler-grid', JSON.stringify({ gunsayisi: gun }));
             }
         });

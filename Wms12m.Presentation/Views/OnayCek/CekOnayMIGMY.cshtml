@@ -19,21 +19,12 @@
 
     <script>
 
-            @*var SiparisOnayUpdateURL = '@Url.Action("SiparisOnayUpdate", "SiparisOnay")';*@
             $(document).ready(function (e) {
 
-                //var BoxUrl = "/Home/PartialBox";
-                var GunlukSatisUrl = "/CekOnay/PartialCekOnayMIGMY";
-                //console.log("deneme");
+                var GunlukSatisUrl = "/OnayCek/PartialCekOnayMIGMY";
                 PartialView(GunlukSatisUrl, 'gunluk_satis');
 
-                //PartialView(BoxUrl, 'box-content');
             });
-
-            //function UpdateSiparisOnay() {
-
-            //    PartialView(SiparisOnayUpdateURL, 'gunluk_satis'));
-            //}
 
     </script>
 }

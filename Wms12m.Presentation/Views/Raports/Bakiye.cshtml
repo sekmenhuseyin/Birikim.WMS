@@ -1,6 +1,6 @@
 ﻿@model List<RaporCHKSelect>
 @{
-    ViewBag.Title = "ToplamRiskBakiyesi";
+    ViewBag.Title = "Bakiye";
 }
 <style>
     .dx-datagrid-headers .dx-row {
@@ -16,44 +16,44 @@
     .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
         color: white;
     }
-
-    .dx-lookup {
-        margin: 0;
-        height: 29px;
-    }
 </style>
 <div class="row control-content">
-    <div style="float:left; padding-left:15px;">
+    <div style="float:left;padding-left:15px;">
         <table>
-
             <tr style="padding:8px;">
-                <td style="width:120px;"><span></span></td>
-                <td style="width:300px;"><div style="width:200px;text-align:center;color:#1e5799;font-weight:bold;">Başlangıç</div></td>
-                <td style="width:300px;"><div style="width:200px;text-align:center;color:#1e5799;font-weight:bold;">Bitiş</div></td>
+                <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Bakiye</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
+                <td style="width:240px;"><div class="bakiye" style="float:left;width:90%;"></div></td>
+                <td style="width:240px;"></td>
             </tr>
             <tr style="height:10px"><td colspan="6"></td></tr>
             <tr style="padding:8px;">
+                <td style="width:120px;"><span></span></td>
+                <td style="width:240px;"><div style="width:200px;text-align:center;color:#1e5799;font-weight:bold;">Başlangıç</div></td>
+                <td style="width:240px;"><div style="width:200px;text-align:center;color:#1e5799;font-weight:bold;">Bitiş</div></td>
+            </tr>
+            <tr style="height:10px"><td colspan="6"></td></tr>
+            <tr style="padding:8px;height:36px;">
                 <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Hesap Kodu</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
-                <td style="width:300px;"><div class="chk-bas-select" style="float:left;width:90%;height:29px;"></div></td>
-                <td style="width:300px;"><div class="chk-bit-select" style="float:left;width:90%;height:29px;"></div></td>
+                <td style="width:240px;height:36px;"><div class="chk-bas-select" style="float:left;width:90%;height:100%;"></div></td>
+                <td style="width:240px;height:36px;"><div class="chk-bit-select" style="float:left;width:90%;height:100%;"></div></td>
             </tr>
             <tr style="height:10px"><td colspan="6"></td></tr>
             <tr style="padding:8px;">
                 <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Tarih</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
-                <td style="width:300px;"><div class="tarih-bas-date" style="float:left;width:90%;"></div></td>
-                <td style="width:300px;"><div class="tarih-bit-date" style="float:left;width:90%;"></div></td>
+                <td style="width:240px;"><div class="tarih-bas-date" style="float:left;width:90%;"></div></td>
+                <td style="width:240px;"><div class="tarih-bit-date" style="float:left;width:90%;"></div></td>
             </tr>
             <tr style="height:5px"><td colspan="6"></td></tr>
             <tr style="padding:8px;">
                 <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Vade Tarihi</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
-                <td style="width:300px;"><div class="vade-bas-date" style="float:left;width:90%;"></div></td>
-                <td style="width:300px;"><div class="vade-bit-date" style="float:left;width:90%;"></div></td>
+                <td style="width:240px;"><div class="vade-bas-date" style="float:left;width:90%;"></div></td>
+                <td style="width:240px;"><div class="vade-bit-date" style="float:left;width:90%;"></div></td>
             </tr>
         </table>
     </div>
     <div class="btn-listele" style="float:left;right:20px;margin-left:15px; color:white; text-align:center; font-weight:bold; background-color:#1e5799; width:100px;height:40px;">Listele</div>
 </div>
-<div id="risk-bakiye-grid" style="margin-top:20px;margin-left:10px;"></div>
+<div id="bakiye-grid" style="margin-top:20px;"></div>
 @section Scripts{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
 <link href="~/Content/dx.light.css" rel="stylesheet" />
@@ -69,12 +69,19 @@
         var basVadeTarih = 36526;
         var bitTarih = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
         var bitVadeTarih = 44196;
-        var chk_bas="",chk_bit="ZZZZZZZZZZ";
+        var chk_bas = "",chk_bit ="ZZZZZZZZZZ";
+        $(".bakiye").dxNumberBox({
+            value: 1,
+            min: 1,
+            placeholder: 'Gün sayısı girin'
+        });
+
+
         $(".btn-listele").dxButton({
             onClick: function() {
-
-                var ToplamRiskBakiyesiRaporuUrl = "/Rapor/PartialToplamRiskBakiyesi";
-                PartialView(ToplamRiskBakiyesiRaporuUrl, 'risk-bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit }));
+                var bakiye = $(".bakiye").dxNumberBox("instance").option("value");
+                var BakiyeRaporuUrl = "/Raports/PartialBakiye";
+                PartialView(BakiyeRaporuUrl, 'bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit, bakiye:bakiye }));
             }
         });
         $(".tarih-bas-date").dxDateBox({
@@ -82,7 +89,7 @@
             formatString: 'dd/MM/yyyy',
             value: '01/01/2000',
             onValueChanged: function (e) {
-                basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+                 basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
             }
         });
         $(".tarih-bit-date").dxDateBox({
@@ -119,9 +126,8 @@
             onValueChanged: function (e) {
                 chk_bas = e.value;
             },
-
             itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({"text-align":"left", "border-bottom":"1px solid #1e5799"});
+                itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
                 if(itemIndex>0)
                 {
                     itemElement.css({ "margin-top":"-40px" });
@@ -142,9 +148,8 @@
             onValueChanged: function (e) {
                 chk_bit = e.value;
             },
-
             itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({"text-align":"left", "border-bottom":"1px solid #1e5799"});
+                itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
                 if(itemIndex>0)
                 {
                     itemElement.css({ "margin-top":"-40px" });
@@ -158,6 +163,7 @@
     });
 </script>
     }
+
 
 
 

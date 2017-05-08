@@ -48,28 +48,17 @@
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
 
     <script>
+        $(document).ready(function (e) {
 
-            @*var SiparisOnayUpdateURL = '@Url.Action("SiparisOnayUpdate", "SiparisOnay")';*@
-            $(document).ready(function (e) {
-
-                //var BoxUrl = "/Home/PartialBox";
-          
-                $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
-                $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
-                $('[name="Locked"]').click(function () { FuncSearchBtn(); });
-                FuncSearchBtn();
-                //PartialView(BoxUrl, 'box-content');
-            });
+            $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
+            $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
+            $('[name="Locked"]').click(function () { FuncSearchBtn(); });
+            FuncSearchBtn();
+        });
         function FuncSearchBtn() {
             var Type = $("input[type='radio'][name='Locked']:checked").val();
-            var GunlukSatisUrl = "/StokOnay/PartialStokOnay";
-            //console.log("deneme");
+            var GunlukSatisUrl = "/OnayStok/PartialStokOnay";
             PartialView(GunlukSatisUrl, 'gunluk_satis', JSON.stringify({ Durum: Type }));
         }
-            //function UpdateSiparisOnay() {
-
-            //    PartialView(SiparisOnayUpdateURL, 'gunluk_satis'));
-            //}
-
     </script>
 }

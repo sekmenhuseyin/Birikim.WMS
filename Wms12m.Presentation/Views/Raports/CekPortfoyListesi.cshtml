@@ -60,7 +60,7 @@
         $(".btn-listele").dxButton({
             onClick: function() {
 
-                var CekPortfoyRaporuUrl = "/Rapor/PartialCekPortfoyListesi";
+                var CekPortfoyRaporuUrl = "/Raports/PartialCekPortfoyListesi";
                 PartialView(CekPortfoyRaporuUrl, 'cek-portfoy-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih}));
             }
         });

@@ -17,15 +17,15 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_PartialSMSiparisOnay", KOD);
         }
 
-        public ActionResult GMYOnay()
+        public ActionResult SPGMYOnay()
         {
 
             return View();
         }
-        public PartialViewResult PartialGMYOnay()
+        public PartialViewResult PartialSPGMYOnay()
         {
             List<SMSiparisOnaySelect> KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListSPGMY]", "33")).ToList();
-            return PartialView("_PartialGMYSiparisOnay", KOD);
+            return PartialView("_PartialSPGMYSiparisOnay", KOD);
         }
 
         public ActionResult GMOnay()
