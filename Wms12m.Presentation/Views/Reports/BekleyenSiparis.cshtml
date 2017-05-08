@@ -1,7 +1,8 @@
 ﻿
 @{
-    ViewBag.Title = "CekPortfoyListesi";
+    ViewBag.Title = "BekleyenSiparis";
 }
+
 <style>
     .dx-datagrid-headers .dx-row {
         color: white;
@@ -18,31 +19,31 @@
     }
 </style>
 <div class="row control-content">
-    <div style="float:left;padding-left:15px;">
+    <div style="float:left;padding:15px;">
         <table>
 
-            <tr style="padding:8px;">
+            <tr style="padding:15px;">
                 <td style="width:120px;"><span></span></td>
                 <td style="width:200px;"><div style="width:200px;text-align:center;color:#1e5799;font-weight:bold;">Başlangıç</div></td>
                 <td style="width:200px;"><div style="width:200px;text-align:center;color:#1e5799;font-weight:bold;">Bitiş</div></td>
             </tr>
             <tr style="height:10px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;">
+            <tr style="padding:15px;">
                 <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Tarih</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
                 <td style="width:200px;"><div class="tarih-bas-date" style="float:left;width:90%;"></div></td>
                 <td style="width:200px;"><div class="tarih-bit-date" style="float:left;width:90%;"></div></td>
             </tr>
             <tr style="height:5px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Vade Tarihi</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
-                <td style="width:200px;"><div class="vade-bas-date" style="float:left;width:90%;"></div></td>
-                <td style="width:200px;"><div class="vade-bit-date" style="float:left;width:90%;"></div></td>
+            <tr style="padding:15px;">
+                <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Teslim Tarihi</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
+                <td style="width:200px;"><div class="teslim-bas-date" style="float:left;width:90%;"></div></td>
+                <td style="width:200px;"><div class="teslim-bit-date" style="float:left;width:90%;"></div></td>
             </tr>
         </table>
     </div>
-    <div class="btn-listele" style="float:left;right:20px;margin-left:15px; color:white; text-align:center; font-weight:bold; background-color:#1e5799; width:100px;height:40px;">Listele</div>
+    <div class="btn-listele" style="float:left;right:20px;margin:15px; color:white; text-align:center; font-weight:bold; background-color:#1e5799; width:100px;height:40px;">Listele</div>
 </div>
-<div id="cek-portfoy-grid" style="margin-top:20px;left:10px;"></div>
+<div id="bekleyen-siparis-grid" style="margin-top:10px;"></div>
 @section Scripts{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
 <link href="~/Content/dx.light.css" rel="stylesheet" />
@@ -54,19 +55,19 @@
         var dateVal = new Date();
         dateVal.setHours(0, 0, 0);
         var basTarih = 36526;
-        var basVadeTarih = 36526;
-        var bitTarih = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-        var bitVadeTarih = 44196;
+        var basTeslimTarih = 36526;
+        var bitTarih = 44196;
+        var bitTeslimTarih = bitTarih;
         $(".btn-listele").dxButton({
             onClick: function() {
 
-                var CekPortfoyRaporuUrl = "/Raports/PartialCekPortfoyListesi";
-                PartialView(CekPortfoyRaporuUrl, 'cek-portfoy-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih}));
+                var BekleyeSiparisRaporuUrl = "/Reports/PartialBekleyenSiparis";
+                PartialView(BekleyeSiparisRaporuUrl, 'bekleyen-siparis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basteslimtarih: basTeslimTarih, bitteslimtarih: bitTeslimTarih }));
             }
         });
         $(".tarih-bas-date").dxDateBox({
             dataType: 'date',
-            formatString: 'dd/MM/yyyy',
+            displayFormat: 'dd/MM/yyyy',
             value: '01/01/2000',
             onValueChanged: function (e) {
                 basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
@@ -74,35 +75,30 @@
         });
         $(".tarih-bit-date").dxDateBox({
             dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            value: dateVal,
+            displayFormat: 'dd/MM/yyyy',
+            value: '12/31/2020',
             onValueChanged: function (e) {
                 bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
             }
         });
-        $(".vade-bas-date").dxDateBox({
+        $(".teslim-bas-date").dxDateBox({
             dataType: 'date',
-            formatString: 'dd/MM/yyyy',
+            displayFormat: 'dd/MM/yyyy',
             value: '01/01/2000',
             onValueChanged: function (e) {
-                basVadeTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+                basTeslimTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
             }
         });
-        $(".vade-bit-date").dxDateBox({
+        $(".teslim-bit-date").dxDateBox({
             dataType: 'date',
-            formatString: 'dd/MM/yyyy',
+            displayFormat: 'dd/MM/yyyy',
             value: '12/31/2020',
             onValueChanged: function (e) {
-                bitVadeTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+                bitTeslimTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
             }
         });
     });
 </script>
     }
-
-
-
-
-
 
 

@@ -4,7 +4,7 @@ using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class RaportsController : RootController
+    public class ReportsController : RootController
     {
         public ActionResult Stok()
         {
