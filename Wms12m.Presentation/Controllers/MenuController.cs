@@ -25,9 +25,11 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult SubMenu(short? id)
         {
             if (CheckPerm("Menu", PermTypes.Reading) == false) return Redirect("/");
-            var webMenus = db.WebMenus.Where(m => m.UstMenuID == id).OrderBy(m => m.MenuYeriID).ThenBy(m => m.Sira);
+            var webMenus = db.WebMenus.Where(m => m.UstMenuID == id).OrderBy(m => m.MenuYeriID).ThenBy(m => m.Sira).ToList();
+            var menu = db.WebMenus.Where(m => m.ID == id).FirstOrDefault();
+            ViewBag.id = menu.UstMenuID;
             ViewBag.Sub = true;
-            return View("Index", webMenus.ToList());
+            return View("Index", webMenus);
         }
         /// <summary>
         /// seçili menüye ait yetkileri listeler

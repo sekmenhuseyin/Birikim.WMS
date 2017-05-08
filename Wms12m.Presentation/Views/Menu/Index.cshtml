@@ -54,4 +54,4 @@
         </div>
     </div>
 </div>
-@{if (ViewBag.Sub == true){<div class="col-md-2"><button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button></div>}}
+@{if (ViewBag.Sub == true) {<div class="col-md-2"><a class="btn btn-default btn-block" href="@{if (ViewBag.id == null) {<text>/Menu</text>} else {<text>/Menu/SubMenu/@ViewBag.id</text>}}"><<< Geri</a></div>}}

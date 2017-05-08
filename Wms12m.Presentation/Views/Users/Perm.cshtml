@@ -15,10 +15,10 @@
                             <tbody>
                                 <tr>
                                     <td>@Html.DropDownList("PermName", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })</td>
-                                    <td>@Html.EditorFor(model => model.FirstOrDefault().Reading)</td>
-                                    <td>@Html.EditorFor(model => model.FirstOrDefault().Writing)</td>
-                                    <td>@Html.EditorFor(model => model.FirstOrDefault().Updating)</td>
-                                    <td>@Html.EditorFor(model => model.FirstOrDefault().Deleting)</td>
+                                    <td>@Html.CheckBoxFor(model => model.FirstOrDefault().Reading, new { @class = "check-box form-control" })</td>
+                                    <td>@Html.CheckBoxFor(model => model.FirstOrDefault().Writing, new { @class = "check-box form-control" })</td>
+                                    <td>@Html.CheckBoxFor(model => model.FirstOrDefault().Updating, new { @class = "check-box form-control" })</td>
+                                    <td>@Html.CheckBoxFor(model => model.FirstOrDefault().Deleting, new { @class = "check-box form-control" })</td>
                                     <td><input type="submit" value="Ekle" class="btn btn-primary btn-circle" /></td>
                                 </tr>
                                 @foreach (var item in Model)

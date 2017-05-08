@@ -60,7 +60,7 @@
 								@Html.LabelFor(model => model.Aktif, htmlAttributes: new { @class = "control-label col-md-2" })
 								<div class="col-md-10">
 									<div class="checkbox">
-										@Html.EditorFor(model => model.Aktif)
+                                        @Html.CheckBoxFor(model => model.Aktif, new { @class = "check-box form-control" })
 										@Html.ValidationMessageFor(model => model.Aktif, "", new { @class = "text-danger" })
 									</div>
 								</div>
