@@ -181,5 +181,27 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             return PartialView("CountFark", list);
         }
+        /// <summary>
+        /// sayım fişi kaydeder
+        /// </summary>
+        [HttpPost]
+        public JsonResult CreateSayimFish(int GorevID)
+        {
+            if (CheckPerm("Tasks", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Result _Result;
+                _Result = new Result(true);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// sayım fark fişi kaydeder
+        /// </summary>
+        [HttpPost]
+        public JsonResult CreateFarkFish(int GorevID)
+        {
+            if (CheckPerm("Tasks", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Result _Result;
+            _Result = new Result(true);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
