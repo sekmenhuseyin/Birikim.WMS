@@ -2,235 +2,235 @@
 
 namespace Wms12m.Entity
 {
-    public class RaporVadesiGelmemisCekler
+    public class CekOnaySelect
     {
         public string EvrakNo { get; set; }
-        public string CHK { get; set; }
+        public string Veren { get; set; }
         public string Unvan { get; set; }
-        public string Tutar { get; set; }
-        public string Tarih { get; set; }
-        public string VadeTarih { get; set; }
-        public string VerildigiYer { get; set; }
-        public string VerildigiYerUnvan { get; set; }
-        public string CekiDuzenleyen { get; set; }
+        public string Borclu { get; set; }
+        public string BorcluUnvan { get; set; }
+        public string VadeTarihi { get; set; }
+        public decimal? Tutar { get; set; }
+        public int VadeTarih { get; set; }
+        public decimal BaglantiTutar { get; set; }
+        public DateTime? BaglantininOrtalamaVadesi { get; set; }
+
     }
-    public class RaporCekPortfoyListesi
-    {
-        public string Evrakno { get; set; }
-        public string Tarih { get; set; }
-        public string CHK { get; set; }
-        public string Unvan { get; set; }
-        public string CekiDuzenleyen { get; set; }
-        public string Tutar { get; set; }
-        public string VadeTarih { get; set; }
-        public string SonPozisyon { get; set; }
-        public string VerildigiYer { get; set; }
-        public string VerildigiYerUnvan { get; set; }
-    }
-    public class RaporCHKSelect
-    {
-        public string HesapKodu { get; set; }
-        public string Unvan { get; set; }
-    }
-    public class RaporDepoSelect
-    {
-        public string Depo { get; set; }
-        public string DepoAdi { get; set; }
-    }
-    public class RaporGetKod
-    {
-        public string Kod { get; set; }
-        public string Tip { get; set; }
-    }
-    public class RaporGunlukSatis
-    {
-        public string Chk { get; set; }
-        public string Unvan { get; set; }
-        public string MalKodu { get; set; }
-        public string MalAdi { get; set; }
-        public string IslemTarihi { get; set; }
-        public string EvrakNo { get; set; }
-        public string Birim { get; set; }
-        public decimal BirimMiktar { get; set; }
-        public string NetBirimFiyat { get; set; }
-        public string NetTutar { get; set; }
-        public string KDV { get; set; }
-        public string GenelToplam { get; set; }
-    }
-    public class RaporOdemeYapmayanMusteriler
-    {
-        public string HesapKodu { get; set; }
-        public string Unvan1 { get; set; }
-        public string Bakiye { get; set; }
-        public string SonTahsilatTutari { get; set; }
-        public string SonTahsilatTarihi { get; set; }
-    }
-    public class RaporPozisyonCekSenet
+    public class FiyatOnayGMSelect
     {
         public int ID { get; set; }
-        public string ITEMNAME { get; set; }
-    }
-    public class RaporSatilmayanUrunler
-    {
+        public string FiyatListNum { get; set; }
         public string MalKodu { get; set; }
         public string MalAdi { get; set; }
-        public string Birim { get; set; }
-        public Nullable<decimal> StokMiktar { get; set; }
-        public decimal KritikStok { get; set; }
-        public string SonFaturaNo { get; set; }
-        public string SonFaturaTarihi { get; set; }
-        public decimal SonSatisMiktari { get; set; }
-        public string SonSatisMiktariBirim { get; set; }
+        public string HesapKodu { get; set; }
+        public int BasTarih { get; set; }
+        public int BitTarih { get; set; }
+        public string Unvan { get; set; }
+        public decimal SatisFiyat1 { get; set; }
+        public string SatisFiyat1Birim { get; set; }
+        public int SatisFiyat1BirimInt { get; set; }
+        public decimal DovizSatisFiyat1 { get; set; }
+        public string DovizSF1Birim { get; set; }
+        public int DovizSF1BirimInt { get; set; }
+        public string DovizCinsi { get; set; }
+        public int ROW_ID { get; set; }
+        public bool Onay { get; set; }
+        public string Durum { get; set; }
     }
-    public class RaporStok
+    public class RiskTanim
     {
+        public int ID { get; set; }
+        public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+        public decimal SahsiCekLimiti { get; set; }
+        public decimal MusteriCekLimiti { get; set; }
+        public bool? SMOnay { get; set; }
+        public string SMOnaylayan { get; set; }
+        public DateTime? SMOnayTarih { get; set; }
+        public bool? SPGMYOnay { get; set; }
+        public string SPGMYOnaylayan { get; set; }
+        public DateTime? SPGMYOnayTarih { get; set; }
+        public bool? MIGMYOnay { get; set; }
+        public string MIGMYOnaylayan { get; set; }
+        public DateTime? MIGMYOnayTarih { get; set; }
+        public bool? GMOnay { get; set; }
+        public string GMOnaylayan { get; set; }
+        public DateTime? GMOnayTarih { get; set; }
+        public short? OnayTip { get; set; }
+        public bool? Durum { get; set; }
+    }
+    public class SozlesmeOnaySelect
+    {
+        public string ListeNo { get; set; }
+        public string ListeAdi { get; set; }
+        public int BasTarih { get; set; }
+        public int BasSaat { get; set; }
+        public int BitTarih { get; set; }
+        public int BitSaat { get; set; }
+        public short MusUygSekli { get; set; }
+        public short MusKodGrup { get; set; }
+        public string MusteriKod { get; set; }
+        public short MalUygSekli { get; set; }
+        public short MalKodGrup { get; set; }
+        public string MalKod { get; set; }
+        public string SiraNo { get; set; }
+        public Single Oran { get; set; }
+        public Single Oran1 { get; set; }
+        public Single Oran2 { get; set; }
+        public Single Oran3 { get; set; }
+        public Single Oran4 { get; set; }
+        public Single Oran5 { get; set; }
+        public decimal MikAralik1 { get; set; }
+        public Single MikYuzde1 { get; set; }
+        public decimal MikAralik2 { get; set; }
+        public Single MikYuzde2 { get; set; }
+        public decimal MikAralik3 { get; set; }
+        public Single MikYuzde3 { get; set; }
+        public decimal MikAralik4 { get; set; }
+        public Single MikYuzde4 { get; set; }
+        public decimal MikAralik5 { get; set; }
+        public Single MikYuzde5 { get; set; }
+        public decimal MikAralik6 { get; set; }
+        public Single MikYuzde6 { get; set; }
+        public decimal MikAralik7 { get; set; }
+        public Single MikYuzde7 { get; set; }
+        public decimal MikAralik8 { get; set; }
+        public Single MikYuzde8 { get; set; }
+        public decimal TutarAralik1 { get; set; }
+        public Single TutarYuzde1 { get; set; }
+        public decimal TutarAralik2 { get; set; }
+        public Single TutarYuzde2 { get; set; }
+        public decimal TutarAralik3 { get; set; }
+        public Single TutarYuzde3 { get; set; }
+        public decimal TutarAralik4 { get; set; }
+        public Single TutarYuzde4 { get; set; }
+        public decimal TutarAralik5 { get; set; }
+        public Single TutarYuzde5 { get; set; }
+        public decimal TutarAralik6 { get; set; }
+        public Single TutarYuzde6 { get; set; }
+        public decimal TutarAralik7 { get; set; }
+        public Single TutarYuzde7 { get; set; }
+        public decimal TutarAralik8 { get; set; }
+        public Single TutarYuzde8 { get; set; }
+        public decimal OdemeAralik1 { get; set; }
+        public Single OdemeYuzde1 { get; set; }
+        public decimal OdemeAralik2 { get; set; }
+        public Single OdemeYuzde2 { get; set; }
+        public decimal OdemeAralik3 { get; set; }
+        public Single OdemeYuzde3 { get; set; }
+        public decimal OdemeAralik4 { get; set; }
+        public Single OdemeYuzde4 { get; set; }
+        public decimal OdemeAralik5 { get; set; }
+        public Single OdemeYuzde5 { get; set; }
+        public decimal OdemeAralik6 { get; set; }
+        public Single OdemeYuzde6 { get; set; }
+        public decimal OdemeAralik7 { get; set; }
+        public Single OdemeYuzde7 { get; set; }
+        public decimal OdemeAralik8 { get; set; }
+        public Single OdemeYuzde8 { get; set; }
+        public short KayitTuru { get; set; }
+        public string GuvenlikKod { get; set; }
+        public string Kaydeden { get; set; }
+        public int KayitTarih { get; set; }
+        public int KayitSaat { get; set; }
+        public short KayitKaynak { get; set; }
+        public string KayitSurum { get; set; }
+        public string Degistiren { get; set; }
+        public int DegisTarih { get; set; }
+        public int DegisSaat { get; set; }
+        public short DegisKaynak { get; set; }
+        public string DegisSurum { get; set; }
+        public short CheckSum { get; set; }
+        public string Aciklama { get; set; }
+        public string BaglantiKodu { get; set; }
+        public string Kod3 { get; set; }
+        public string Kod4 { get; set; }
+        public string Kod5 { get; set; }
+        public string Kod6 { get; set; }
+        public string Kod7 { get; set; }
+        public string Kod8 { get; set; }
+        public string Kod9 { get; set; }
+        public string Kod10 { get; set; }
+        public decimal BaglantiTutar { get; set; }
+        public decimal Kod12 { get; set; }
+        public int? DevirTarih { get; set; }
+        public decimal? DevirTutar { get; set; }
+        public short OnayTip { get; set; }
+        public bool? SatisMuduruOnay { get; set; }
+        public bool? FinansmanMuduruOnay { get; set; }
+        public bool? GenelMudurOnay { get; set; }
+        public string OnaylayanSatisMuduru { get; set; }
+        public DateTime? OnayTarihSatisMuduru { get; set; }
+        public string OnaylayanFinansmanMuduru { get; set; }
+        public DateTime? OnayTarihFinansmanMuduru { get; set; }
+        public string OnaylayanGenelMudur { get; set; }
+        public DateTime? OnayTarihGenelMudur { get; set; }
+        public decimal? CekTutari { get; set; }
+        public DateTime? CekOrtalamaVadeTarih { get; set; }
+        public decimal? NakitTutari { get; set; }
+        public string BaglantiParaCinsi { get; set; }
+        public bool AktifPasif { get; set; }
+        public int? VadeTarihi { get; set; }
+        public int? ValorGun { get; set; }
+        public int Row_ID { get; set; }
+        public byte[] timestamp { get; set; }
+        public decimal? Bakiye { get; set; }
+        public decimal? ToplamBakiye { get; set; }
+        public decimal? KrediLimiti { get; set; }
+        public string AlinanBordroOrtalamaVade { get; set; }
+        public decimal? AlinanBordro { get; set; }
+        public string OrtalamaVade { get; set; }
+        public decimal? BekleyenSiparisTutar { get; set; }
+    }
+    public class BaglantiDetaySelect1
+    {
+        public string Kod10 { get; set; }
+        public string MalKodGrup { get; set; }
+        public string MalKod { get; set; }
+        public string MalAdi { get; set; }
+        public Single Oran1 { get; set; }
+        public Single Oran2 { get; set; }
+        public Single Oran3 { get; set; }
+        public Single Oran4 { get; set; }
+        public Single Oran5 { get; set; }
+    }
+    public class StokOnaySelect
+    {
+        public bool? Onay { get; set; }
         public string MalKodu { get; set; }
         public string MalAdi { get; set; }
-        public string DepoKodu { get; set; }
-        public string DepoAdi { get; set; }
-        public Nullable<decimal> Birim1StokMiktar { get; set; }
+        public string MalAdi2 { get; set; }
         public string Birim1 { get; set; }
-        public Nullable<double> Birim2StokMiktar { get; set; }
         public string Birim2 { get; set; }
-        public string SatMalKodu { get; set; }
-        public string StokAdresi { get; set; }
-        public string OnayliTedarikci { get; set; }
-        public string OnayliTedarikciUnvan { get; set; }
-    }
-    public class RaporStokKodCase
-    {
-        public string MalKodu { get; set; }
-        public string MalAdi { get; set; }
         public string GrupKod { get; set; }
         public string TipKod { get; set; }
         public string OzelKod { get; set; }
         public string Kod1 { get; set; }
         public string Kod2 { get; set; }
         public string Kod3 { get; set; }
-        public decimal GirMiktar { get; set; }
-        public decimal CikMiktar { get; set; }
-        public decimal StokMiktar { get; set; }
-        public string Birim1 { get; set; }
-        public Nullable<decimal> StokMiktarBirim2 { get; set; }
-        public string Birim2 { get; set; }
-        public Nullable<decimal> StokMiktarBirim3 { get; set; }
-        public string Birim3 { get; set; }
+        public string Kod4 { get; set; }
+        public string Kod8 { get; set; }
+        public double KatSayi2 { get; set; }
+        public double KatSayi3 { get; set; }
+        public short Operator2 { get; set; }
+        public short Operator3 { get; set; }
+        public int? AktifPasif { get; set; }
     }
-    public class RaporToplamRiskBakiyesi
+    public class TeminatOnaySelect
     {
-        public string HesapKodu { get; set; }
-        public string Ünvan { get; set; }
-        public string Borç { get; set; }
-        public string Alacak { get; set; }
-        public string Bakiye { get; set; }
-        public string ToplamBakiye { get; set; }
-    }
-    public class RaporBakiye
-    {
-        public string HesapKodu { get; set; }
-        public string Unvan { get; set; }
-        public decimal Borc { get; set; }
-        public decimal Alacak { get; set; }
-        public decimal Bakiye { get; set; }
-    }
-    public class RaporBekleyenSiparis
-    {
-        public string Chk { get; set; }
-        public string Unvan { get; set; }
-        public string Tarih { get; set; }
-        public string EvrakNo { get; set; }
-        public string GrupKod { get; set; }
-        public string MalKodu { get; set; }
-        public string MalAdi { get; set; }
-        public decimal Miktar { get; set; }
-        public decimal AnaMiktar { get; set; }
-        public string Birim { get; set; }
-        public string AnaBirim { get; set; }
-        public decimal SevkedilenMiktar { get; set; }
-        public Nullable<decimal> KalanMiktar { get; set; }
-        public string KalanBirim { get; set; }
-        public Nullable<double> KalanAnaMiktar { get; set; }
-        public string KalanAnaBirim { get; set; }
-        public string NetFiyat2 { get; set; }
-        public string Tutar { get; set; }
-        public string ToplamIskonto { get; set; }
-        public string KDV { get; set; }
-        public Nullable<decimal> KalanBirimMiktar { get; set; }
-        public string KDVSizTutar { get; set; }
-        public string KDVliTutar { get; set; }
-        public Nullable<double> StokMiktar { get; set; }
-        public string StokBirim { get; set; }
-        public Nullable<decimal> StokAnaMiktar { get; set; }
-        public string StokAnaBirim { get; set; }
-        public string TeslimTarih { get; set; }
-        public string TeslimTarihDurum { get; set; }
-        public string SatisTemsilcisi { get; set; }
-    }
-    public class RaporCekListesi
-    {
-        public string EvrakNo { get; set; }
-        public string Tarih { get; set; }
-        public string Chk { get; set; }
-        public string Unvan1 { get; set; }
-        public string Tutar { get; set; }
-        public string VadeTarih { get; set; }
-        public string KayitTarih { get; set; }
-        public string Pozisyon { get; set; }
-        public string BorcluUnvan1 { get; set; }
-        public string SonPozisyon { get; set; }
-        public string VerildigiYer { get; set; }
-        public string VerildigiYerUnvan { get; set; }
-    }
-    public class RaporCariEkstre
-    {
+        public bool? Onay { get; set; }
         public int ID { get; set; }
-        public string EvrakNo { get; set; }
-        public string Tarih { get; set; }
-        public string IslemTip { get; set; }
-        public string VadeTarih { get; set; }
-        public Nullable<decimal> Borc { get; set; }
-        public Nullable<decimal> Alacak { get; set; }
-        public Nullable<decimal> BorcBakiye { get; set; }
-        public Nullable<decimal> AlacakBakiye { get; set; }
-        public string Borc2 { get; set; }
-        public string Alacak2 { get; set; }
-        public string BorcBakiye2 { get; set; }
-        public string AlacakBakiye2 { get; set; }
-    }
-    public class ChartUrunGrubuSatisAnalizi
-    {
-        public string GrupKod { get; set; }
-        public decimal Yil2016 { get; set; }
-        public decimal Yil2017 { get; set; }
-        public decimal Toplam { get; set; }
-    }
-    public class ChartGunlukSatisAnalizi
-    {
-        public string Chk { get; set; }
-        public string Unvan { get; set; }
-        public Nullable<decimal> GenelTutar { get; set; }
-    }
-    public class ChartBekleyenSiparisUrunGrubu
-    {
-        public string GrupKod { get; set; }
-        public Nullable<decimal> KalanMiktar { get; set; }
-    }
-    public class ChartBakiyeRiskAnalizi
-    {
         public string HesapKodu { get; set; }
         public string Unvan { get; set; }
-        public decimal Borc { get; set; }
-        public decimal Alacak { get; set; }
-        public decimal Bakiye { get; set; }
+        public string AltBayi { get; set; }
+        public string Cins { get; set; }
+        public decimal Tutar { get; set; }
+        public bool SureliSuresiz { get; set; }
+        public DateTime Tarih { get; set; }
+        public DateTime? VadeTarih { get; set; }
+        public decimal TeminatTutar { get; set; }
     }
-    public class ChartAylikSatisAnalizi
-    {
-        public string Ay { get; set; }
-        public Nullable<decimal> Yil2015 { get; set; }
-        public Nullable<decimal> Yil2016 { get; set; }
-        public Nullable<decimal> Yil2017 { get; set; }
-    }
-    public class GMSiparisOnaySelect
+    public class SMSiparisOnaySelect
     {
 
         public bool? Onay { get; set; }

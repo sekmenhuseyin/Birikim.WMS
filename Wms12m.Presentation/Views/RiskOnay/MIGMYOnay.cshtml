@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "MIGMY Risk Onay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+}@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")" rel="stylesheet" type="text/css" />
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li></li></ul></div>
+
+<div class="row" id="gunluk_satis">
+</div>
+
+<div id="box-content" style="display:none">
+
+</div>
+@section Scripts{
+    <script src="~/Content/assets/global/scripts/datatable.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+
+    <script>
+
+            @*var SiparisOnayUpdateURL = '@Url.Action("SiparisOnayUpdate", "SiparisOnay")';*@
+            $(document).ready(function (e) {
+
+                //var BoxUrl = "/Home/PartialBox";
+                var GunlukSatisUrl = "/RiskOnay/PartialMIGMYOnay";
+                //console.log("deneme");
+                PartialView(GunlukSatisUrl, 'gunluk_satis');
+
+                //PartialView(BoxUrl, 'box-content');
+            });
+
+            //function UpdateSiparisOnay() {
+
+            //    PartialView(SiparisOnayUpdateURL, 'gunluk_satis'));
+            //}
+
+    </script>
+}

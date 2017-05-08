@@ -20,4 +20,12 @@
         public string DepoKodu { get; set; }
         public int DepoID { get; set; }
     }
+    /// <summary>
+    /// menülerin yetki oluşturma formu
+    /// </summary>
+    public class mdlCreateMenuPermission
+    {
+        public short MenuNo { get; set; }
+        public string RolNo { get; set; }
+    }
 }

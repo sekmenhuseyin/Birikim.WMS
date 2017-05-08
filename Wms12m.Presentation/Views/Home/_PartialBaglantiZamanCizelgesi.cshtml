@@ -1,0 +1,269 @@
+﻿@model List<ChartBaglantiZaman>
+<div class="col-md-12">
+    <!-- BEGIN CHART PORTLET-->
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-bar-chart font-green-haze"></i>
+                <span class="caption-subject bold uppercase font-green-haze"> Bağlantı Zaman Çizelgesi <span style="color:#8888a7;">STACK CHART</span></span>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"> </a>
+                <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+                <a href="javascript:;" class="reload"> </a>
+                <a href="javascript:;" class="fullscreen"> </a>
+                <a href="javascript:;" class="remove"> </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div id="chart_12" class="chart" style="height: 400px;"> </div>
+            @*<div class="well margin-top-20">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="text-left">Top Radius:</label>
+                            <input class="chart_5_chart_input" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01" />
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="text-left">Angle:</label>
+                            <input class="chart_5_chart_input" data-property="angle" type="range" min="0" max="89" value="30" step="1" />
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="text-left">Depth:</label>
+                            <input class="chart_5_chart_input" data-property="depth3D" type="range" min="1" max="120" value="40" step="1" />
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+    <!-- END CHART PORTLET-->
+</div>
+@*<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <link href="~/Content/dx.light.css" rel="stylesheet" />
+    <link href="~/Content/dx.common.css" rel="stylesheet" />
+    <script src="~/Scripts/dx.web.debug.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/amcharts.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/pie.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/radar.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/serial.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/themes/light.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/themes/patterns.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amcharts/themes/chalk.js"></script>
+    <script src="~/Content/global/plugins/amcharts/ammap/ammap.js"></script>
+    <script src="~/Content/global/plugins/amcharts/ammap/maps/js/worldLow.js"></script>
+    <script src="~/Content/global/plugins/amcharts/amstockcharts/amstock.js"></script>*@
+
+<script>
+    $(document).ready(function (e) {
+
+        var model = @Html.Raw(Json.Encode(Model));
+        var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
+        for (var i = 0; i < model.length; i++) {
+            $.extend(model[i],{
+                color: color[i%color.length]
+            });
+        }
+        if(model.length==1 && model[0].GenelTutar==null)
+        {
+            model = @Html.Raw(Json.Encode(null));
+        }
+
+        var ChartsAmcharts = function () {
+
+            var initChartSample12 = function() {
+                var chartData = [];
+                generateChartData();
+
+                function generateChartData() {
+                    var firstDate = new Date(2012, 0, 1);
+                    firstDate.setDate(firstDate.getDate() - 500);
+                    firstDate.setHours(0, 0, 0, 0);
+
+                    for (var i = 0; i < 500; i++) {
+                        var newDate = new Date(firstDate);
+                        newDate.setDate(newDate.getDate() + i);
+
+                        var a = Math.round(Math.random() * (40 + i)) + 100 + i;
+                        var b = Math.round(Math.random() * 100000000);
+
+                        chartData.push({
+                            date: newDate,
+                            value: a,
+                            volume: b
+                        });
+                    }
+                    console.log(chartData);
+                }
+
+                var chart = AmCharts.makeChart("chart_12", {
+                    type: "stock",
+                    "theme": "light",
+                    pathToImages: App.getGlobalPluginsPath() + "amcharts/amcharts/images/",
+                    "fontFamily": 'Open Sans',
+            
+                    "color":    '#888',
+                    dataSets: [{
+                        color: "#b0de09",
+                        fieldMappings: [{
+                            fromField: "value",
+                            toField: "value"
+                        }, {
+                            fromField: "volume",
+                            toField: "volume"
+                        }],
+                        dataProvider: chartData,
+                        categoryField: "date",
+                        // EVENTS
+                        stockEvents: [{
+                            date: new Date(2010, 8, 19),
+                            type: "sign",
+                            backgroundColor: "#85CDE6",
+                            graph: "g1",
+                            text: "S",
+                            description: "This is description of an event"
+                        }, {
+                            date: new Date(2010, 10, 19),
+                            type: "flag",
+                            backgroundColor: "#FFFFFF",
+                            backgroundAlpha: 0.5,
+                            graph: "g1",
+                            text: "F",
+                            description: "Some longerntext can alson be added"
+                        }, {
+                            date: new Date(2010, 11, 10),
+                            showOnAxis: true,
+                            backgroundColor: "#85CDE6",
+                            type: "pin",
+                            text: "X",
+                            graph: "g1",
+                            description: "This is description of an event"
+                        }, {
+                            date: new Date(2010, 11, 26),
+                            showOnAxis: true,
+                            backgroundColor: "#85CDE6",
+                            type: "pin",
+                            text: "Z",
+                            graph: "g1",
+                            description: "This is description of an event"
+                        }, {
+                            date: new Date(2011, 0, 3),
+                            type: "sign",
+                            backgroundColor: "#85CDE6",
+                            graph: "g1",
+                            text: "U",
+                            description: "This is description of an event"
+                        }, {
+                            date: new Date(2011, 1, 6),
+                            type: "sign",
+                            graph: "g1",
+                            text: "D",
+                            description: "This is description of an event"
+                        }, {
+                            date: new Date(2011, 3, 5),
+                            type: "sign",
+                            graph: "g1",
+                            text: "L",
+                            description: "This is description of an event"
+                        }, {
+                            date: new Date(2011, 3, 5),
+                            type: "sign",
+                            graph: "g1",
+                            text: "R",
+                            description: "This is description of an event"
+                        }, {
+                            date: new Date(2011, 5, 15),
+                            type: "arrowUp",
+                            backgroundColor: "#00CC00",
+                            graph: "g1",
+                            description: "This is description of an event"
+                        }, {
+                            date: new Date(2011, 6, 25),
+                            type: "arrowDown",
+                            backgroundColor: "#CC0000",
+                            graph: "g1",
+                            description: "This is description of an event"
+                        }, {
+                            date: new Date(2011, 8, 1),
+                            type: "text",
+                            graph: "g1",
+                            text: "Longer text can\nalso be displayed",
+                            description: "This is description of an event"
+                        }]
+                    }],
+
+
+                    panels: [{
+                        title: "Value",
+                        percentHeight: 70,
+
+                        stockGraphs: [{
+                            id: "g1",
+                            valueField: "value"
+                        }],
+
+                        stockLegend: {
+                            valueTextRegular: " ",
+                            markerType: "none"
+                        }
+                    }],
+
+                    chartScrollbarSettings: {
+                        graph: "g1"
+                    },
+
+                    chartCursorSettings: {
+                        valueBalloonsEnabled: true,
+                        graphBulletSize: 1,
+                        valueLineBalloonEnabled:true,
+                        valueLineEnabled:true,
+                        valueLineAlpha:0.5
+                    },
+
+                    periodSelector: {
+                        periods: [{
+                            period: "DD",
+                            count: 10,
+                            label: "10 days"
+                        }, {
+                            period: "MM",
+                            count: 1,
+                            label: "1 month"
+                        }, {
+                            period: "YYYY",
+                            count: 1,
+                            label: "1 year"
+                        }, {
+                            period: "YTD",
+                            label: "YTD"
+                        }, {
+                            period: "MAX",
+                            label: "MAX"
+                        }]
+                    },
+
+                    panelsSettings: {
+                        usePrefixes: true
+                    }
+                });
+
+                $('#chart_12').closest('.portlet').find('.fullscreen').click(function() {
+                    chart.invalidateSize();
+                });
+            }
+
+            return {
+                init: function () {
+                    initChartSample12();
+                }
+            };
+        }();
+
+        jQuery(document).ready(function () {
+            ChartsAmcharts.init();
+        });
+    });
+
+</script>
+
+

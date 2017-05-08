@@ -1,0 +1,172 @@
+﻿@model List<RaporCHKSelect>
+@{
+    ViewBag.Title = "Bakiye";
+}
+<style>
+    .dx-datagrid-headers .dx-row {
+        color: white;
+        border-bottom: 1px solid #D2D2D2;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
+        background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
+    }
+
+    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
+        color: white;
+    }
+</style>
+<div class="row control-content">
+    <div style="float:left;padding-left:15px;">
+        <table>
+            <tr style="padding:8px;">
+                <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Bakiye</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
+                <td style="width:240px;"><div class="bakiye" style="float:left;width:90%;"></div></td>
+                <td style="width:240px;"></td>
+            </tr>
+            <tr style="height:10px"><td colspan="6"></td></tr>
+            <tr style="padding:8px;">
+                <td style="width:120px;"><span></span></td>
+                <td style="width:240px;"><div style="width:200px;text-align:center;color:#1e5799;font-weight:bold;">Başlangıç</div></td>
+                <td style="width:240px;"><div style="width:200px;text-align:center;color:#1e5799;font-weight:bold;">Bitiş</div></td>
+            </tr>
+            <tr style="height:10px"><td colspan="6"></td></tr>
+            <tr style="padding:8px;height:36px;">
+                <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Hesap Kodu</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
+                <td style="width:240px;height:36px;"><div class="chk-bas-select" style="float:left;width:90%;height:100%;"></div></td>
+                <td style="width:240px;height:36px;"><div class="chk-bit-select" style="float:left;width:90%;height:100%;"></div></td>
+            </tr>
+            <tr style="height:10px"><td colspan="6"></td></tr>
+            <tr style="padding:8px;">
+                <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Tarih</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
+                <td style="width:240px;"><div class="tarih-bas-date" style="float:left;width:90%;"></div></td>
+                <td style="width:240px;"><div class="tarih-bit-date" style="float:left;width:90%;"></div></td>
+            </tr>
+            <tr style="height:5px"><td colspan="6"></td></tr>
+            <tr style="padding:8px;">
+                <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Vade Tarihi</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
+                <td style="width:240px;"><div class="vade-bas-date" style="float:left;width:90%;"></div></td>
+                <td style="width:240px;"><div class="vade-bit-date" style="float:left;width:90%;"></div></td>
+            </tr>
+        </table>
+    </div>
+    <div class="btn-listele" style="float:left;right:20px;margin-left:15px; color:white; text-align:center; font-weight:bold; background-color:#1e5799; width:100px;height:40px;">Listele</div>
+</div>
+<div id="bakiye-grid" style="margin-top:20px;"></div>
+@section Scripts{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+<link href="~/Content/dx.light.css" rel="stylesheet" />
+<link href="~/Content/dx.common.css" rel="stylesheet" />
+<script src="~/Scripts/dx.web.debug.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var model = @Html.Raw(Json.Encode(Model));
+        var dateVal = new Date();
+        dateVal.setHours(0, 0, 0);
+        var basTarih = 36526;
+        var basVadeTarih = 36526;
+        var bitTarih = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+        var bitVadeTarih = 44196;
+        var chk_bas = "",chk_bit ="ZZZZZZZZZZ";
+        $(".bakiye").dxNumberBox({
+            value: 1,
+            min: 1,
+            placeholder: 'Gün sayısı girin'
+        });
+
+
+        $(".btn-listele").dxButton({
+            onClick: function() {
+                var bakiye = $(".bakiye").dxNumberBox("instance").option("value");
+                var BakiyeRaporuUrl = "/Rapor/PartialBakiye";
+                PartialView(BakiyeRaporuUrl, 'bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit, bakiye:bakiye }));
+            }
+        });
+        $(".tarih-bas-date").dxDateBox({
+            dataType: 'date',
+            formatString: 'dd/MM/yyyy',
+            value: '01/01/2000',
+            onValueChanged: function (e) {
+                 basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+            }
+        });
+        $(".tarih-bit-date").dxDateBox({
+            dataType: 'date',
+            formatString: 'dd/MM/yyyy',
+            value: dateVal,
+            onValueChanged: function (e) {
+                bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+            }
+        });
+        $(".vade-bas-date").dxDateBox({
+            dataType: 'date',
+            formatString: 'dd/MM/yyyy',
+            value: '01/01/2000',
+            onValueChanged: function (e) {
+                basVadeTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+            }
+        });
+        $(".vade-bit-date").dxDateBox({
+            dataType: 'date',
+            formatString: 'dd/MM/yyyy',
+            value: '12/31/2020',
+            onValueChanged: function (e) {
+                bitVadeTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+            }
+        });
+        $(".chk-bas-select").dxLookup({
+            dataSource: model,
+            searchEnabled: true,
+            pageLoadMode:"nextButton",
+            searchExpr: ["HesapKodu", "Unvan"],
+            valueExpr: 'HesapKodu',
+            displayExpr: 'Unvan',
+            onValueChanged: function (e) {
+                chk_bas = e.value;
+            },
+            itemTemplate: function (itemData, itemIndex, itemElement) {
+                itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+                if(itemIndex>0)
+                {
+                    itemElement.css({ "margin-top":"-40px" });
+                }
+                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+                itemElement.append(rightBlock);
+            }
+        });
+        $(".chk-bit-select").dxLookup({
+            dataSource: model,
+            searchEnabled: true,
+            pageLoadMode:"nextButton",
+            searchExpr: ["HesapKodu", "Unvan"],
+            valueExpr: 'HesapKodu',
+            displayExpr: 'Unvan',
+            onValueChanged: function (e) {
+                chk_bit = e.value;
+            },
+            itemTemplate: function (itemData, itemIndex, itemElement) {
+                itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+                if(itemIndex>0)
+                {
+                    itemElement.css({ "margin-top":"-40px" });
+                }
+                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+                itemElement.append(rightBlock);
+            }
+        });
+    });
+</script>
+    }
+
+
+
+
+
+
+

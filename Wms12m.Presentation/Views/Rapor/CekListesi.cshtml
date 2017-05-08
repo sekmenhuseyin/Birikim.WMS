@@ -1,0 +1,138 @@
+﻿@model List<RaporPozisyonCekSenet>
+@{
+    ViewBag.Title = "CekListesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .dx-datagrid-headers .dx-row {
+        color: white;
+        border-bottom: 1px solid #D2D2D2;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
+        background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
+    }
+
+    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
+        color: white;
+    }
+</style>
+<div class="control-content row">
+    <div style="float:left;">
+        <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
+            <table>
+                <tr style="padding:8px;">
+                    <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Pozisyon</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
+                    <td style="width:200px;"><div class="pozisyon-select" style="float:left;width:90%;"></div></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
+            <table>
+                <tr style="padding:8px;">
+                    <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Vade Ay</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
+                    <td style="width:200px;"><div class="ay-select" style="float:left;width:90%;"></div></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
+            <table>
+                <tr style="padding:8px;">
+                    <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Vade Yıl</div><div style="width:10%;float:left;right:0;color:#1e5799;font-weight:bold;">:</div></td>
+                    <td style="width:200px;"><div class="yil-select" style="float:left;width:90%;"></div></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
+            <table>
+                <tr style="padding:8px;">
+                    <td style="width:120px;"></td>
+                    <td style="width:200px;"><span class="btn-listele" style="float:right;margin-right:20px; color:white; text-align:center; font-weight:bold; background-color:#1e5799; width:100px;height:40px;">Listele</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    @*<div class="btn-listele" style="float:left;right:20px; color:white; text-align:center; font-weight:bold; background-color:#1e5799; width:100px;height:40px;">Listele</div>*@
+</div>
+<div class="row" style="margin-top:20px;">
+    <div id="cek-listesi-grid"></div>
+</div>
+@section Scripts{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+<link href="~/Content/dx.light.css" rel="stylesheet" />
+<link href="~/Content/dx.common.css" rel="stylesheet" />
+<script src="~/Scripts/dx.web.debug.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var model = @Html.Raw(Json.Encode(Model));
+        var ay, yil, pozisyon;
+        var aylar = [
+{ id: 1, ay: "Ocak" },
+{ id: 2, ay: "Şubat" },
+{ id: 3, ay: "Mart" },
+{ id: 4, ay: "Nisan" },
+{ id: 5, ay: "Mayıs" },
+{ id: 6, ay: "Haziran" },
+{ id: 7, ay: "Temmuz" },
+{ id: 8, ay: "Ağustos" },
+{ id: 9, ay: "Eylül" },
+{ id: 10, ay: "Ekim" },
+{ id: 11, ay: "Kasım" },
+{ id: 12, ay: "Aralik" }
+        ];
+        var yillar = [
+{ yil: 2016 },
+{ yil: 2017 },
+{ yil: 2018 },
+        ];
+        $(".btn-listele").dxButton({
+            onClick: function() {
+
+                var CekListesiRaporuUrl = "/Rapor/PartialCekListesi";
+                PartialView(CekListesiRaporuUrl, 'cek-listesi-grid', JSON.stringify({ pozisyon: pozisyon, ay: ay, yil:yil }));
+            }
+        });
+        $(".pozisyon-select").dxSelectBox({
+            dataSource: model,
+            valueExpr: 'ID',
+            displayExpr: 'ITEMNAME',
+            searchEnabled: true,
+            //value: f_tarih,
+            onValueChanged: function (e) {
+                pozisyon = e.value;
+            }
+        });
+        $(".ay-select").dxSelectBox({
+            dataSource: aylar,
+            valueExpr: 'id',
+            displayExpr: 'ay',
+            searchEnabled: true,
+            //value: f_tarih,
+            onValueChanged: function (e) {
+                ay = e.value;
+            }
+        });
+        $(".yil-select").dxSelectBox({
+            dataSource: yillar,
+            valueExpr: 'yil',
+            displayExpr: 'yil',
+            searchEnabled: true,
+            //value: f_tarih,
+            onValueChanged: function (e) {
+                yil = e.value;
+            }
+        });
+
+    });
+</script>
+    }
+
+
+
+
+
+
+
+

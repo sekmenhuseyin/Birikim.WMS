@@ -1,0 +1,103 @@
+﻿@model List<RaporCHKSelect>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "CariEkstre";
+}
+<style>
+    .dx-lookup {
+        margin: 0;
+        height: 29px;
+    }
+
+    .dx-datagrid-headers .dx-row {
+        color: white;
+        border-bottom: 1px solid #D2D2D2;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
+        background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
+    }
+
+    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
+        color: white;
+    }
+</style>
+<div class="row control-content">
+    @*<table>
+            <tr style="padding:8px;">
+                <td style="width:120px;"><div style="width:90%;float:left;color:#1e5799;font-weight:bold;">Hesap Kodu</div><div style="width:10%;float:left;right:0;color:#2fc1d8;font-weight:bold;">:</div></td>
+                <td style="width:300px;"><div class="chk-select" style="float:left;width:90%;"></div></td>
+                <td style="width:200px; text-align:center;"><div class="btn-listele" style="background-color: #1e5799;height: 100%;width: 70%;color: white;font-weight: bold;">Listele</div></td>
+            </tr>
+        </table>*@
+    <div class="row col-md-10">
+        <div class="col-xs-12 col-sm-12 col-md-2" style="margin-top:10px;">
+            <span style="line-height:36px;height:36px;width:90%;color:#1e5799;font-weight:bold;">Hesap Kodu</span><span style="line-height:36px;height:36px;width:10%;right:0;color:#2fc1d8;font-weight:bold;">:</span>
+        </div>
+        <div class="col-xs-7 col-sm-7 col-md-4" style="margin-top:10px;line-height:36px;height:36px;padding:4px;margin-left:10px;">
+            <div class="chk-select" style="width:90%;height:29px;"></div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-2" style="margin-top:10px;">
+            <div class="btn-listele" style="background-color: #1e5799;height: 36px;width: 70%;color: white;font-weight: bold;">Listele</div>
+        </div>
+    </div>
+
+</div>
+<div id="cari-extre-grid" style="margin-top:20px;"></div>
+@section Scripts{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <link href="~/Content/dx.light.css" rel="stylesheet" />
+    <link href="~/Content/dx.common.css" rel="stylesheet" />
+    <script src="~/Scripts/dx.web.debug.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            var model = @Html.Raw(Json.Encode(Model));
+            var chk = "";
+
+            $(".chk-select").dxLookup({
+                dataSource: model,
+                searchEnabled: true,
+                pageLoadMode:"nextButton",
+                searchExpr: ["HesapKodu", "Unvan"],
+                valueExpr: 'HesapKodu',
+                displayExpr: 'Unvan',
+
+                onValueChanged: function (e) {
+                    chk = e.value;
+                },
+
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+                    if(itemIndex>0)
+                    {
+                        itemElement.css({ "margin-top":"-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
+
+
+            $(".btn-listele").dxButton({
+                onClick: function() {
+                    if(chk!="")
+                    {
+                        var CariExtreRaporuUrl = "/Rapor/PartialCariEkstre";
+                        PartialView(CariExtreRaporuUrl, 'cari-extre-grid', JSON.stringify({ chk: chk }));
+                    }
+                    else{
+                        Modaldialog("HesapKodu seçin!", "CariExtre", "Tamam", "Guncel");
+                    }
+                }
+            });
+
+        });
+    </script>
+}
+
+

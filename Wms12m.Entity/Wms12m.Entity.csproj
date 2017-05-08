@@ -224,6 +224,7 @@
     </Compile>
     <Compile Include="Viewmodels\frmCables.cs" />
     <Compile Include="Viewmodels\frmTransfer.cs" />
+    <Compile Include="Viewmodels\Raports.cs" />
     <Compile Include="Viewmodels\frmUsers.cs" />
     <Compile Include="Viewmodels\frmGorev.cs" />
     <Compile Include="Viewmodels\frmSiparis.cs" />
@@ -245,8 +246,7 @@
       <DependentUpon>ModelWMS.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Viewmodels\Menus.cs" />
-    <Compile Include="Viewmodels\Raports.cs" />
+    <Compile Include="Viewmodels\Charts.cs" />
     <Compile Include="Viewmodels\Result.cs" />
     <Compile Include="Viewmodels\FinsatTypes.cs" />
     <Compile Include="Viewmodels\MobileTypes.cs" />
