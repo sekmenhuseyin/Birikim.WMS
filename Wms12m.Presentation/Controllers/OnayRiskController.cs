@@ -5,7 +5,7 @@ using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class RiskOnayController : RootController
+    public class OnayRiskController : RootController
     {
 
         public ActionResult SMOnay()

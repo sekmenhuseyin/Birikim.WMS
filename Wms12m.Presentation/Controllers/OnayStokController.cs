@@ -5,7 +5,7 @@ using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class StokOnayController : RootController
+    public class OnayStokController : RootController
     {
         // GET: StokOnay
         public ActionResult Index()

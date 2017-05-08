@@ -5,7 +5,7 @@ using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class FiyatOnayController : RootController
+    public class OnayFiyatController : RootController
     {
         // GET: FiyatOnay
         public ActionResult FiyatOnayListGM()

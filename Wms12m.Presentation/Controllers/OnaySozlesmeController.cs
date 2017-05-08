@@ -5,7 +5,7 @@ using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class SozlesmeOnayController : RootController
+    public class OnaySozlesmeController : RootController
     {
         public ActionResult SozlesmeOnayGM()
         {

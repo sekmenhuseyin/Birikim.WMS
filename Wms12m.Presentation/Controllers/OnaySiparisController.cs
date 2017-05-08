@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using Wms12m.Entity;
 namespace Wms12m.Presentation.Controllers
 {
-    public class SiparisOnayController : RootController
+    public class OnaySiparisController : RootController
     {
         //public ActionResult Stok()
         //{

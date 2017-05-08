@@ -5,7 +5,7 @@ using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class CekOnayController : RootController
+    public class OnayCekController : RootController
     {
         public ActionResult CekOnaySPGMY()
         {
