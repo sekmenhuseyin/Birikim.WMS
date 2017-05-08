@@ -208,7 +208,7 @@ namespace Wms12m.Presentation.Controllers
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
             //yeni kayıt
-            string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+            string gorevno = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), tbl.DepoID).FirstOrDefault();
             int today = fn.ToOADate();
             int time = fn.ToOATime();
             try

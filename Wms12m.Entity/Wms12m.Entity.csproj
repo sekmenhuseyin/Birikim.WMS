@@ -66,9 +66,6 @@
   <ItemGroup>
     <Compile Include="BaseConfigurationSection.cs" />
     <Compile Include="Enums\Enums.cs" />
-    <Compile Include="Models\Ayarlar.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Bolum.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -97,6 +94,9 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Gorev.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GorevNo.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GorevYer.cs">

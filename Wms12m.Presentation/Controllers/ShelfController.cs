@@ -17,6 +17,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Shelf", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
             return View("Index", new Raf());
         }
         /// <summary>
@@ -58,12 +59,14 @@ namespace Wms12m.Presentation.Controllers
             if (tmp == 0)
             {
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+                ViewBag.KoridorID = new SelectList(Corridor.GetList(0), "ID", "KoridorAd");
                 return PartialView("_ShelfDetailPartial", new Raf());
             }
             else
             {
                 var tablo = Shelf.Detail(tmp);
                 ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tablo.Koridor.DepoID);
+                ViewBag.KoridorID = new SelectList(Corridor.GetList(tablo.Koridor.DepoID), "ID", "KoridorAd", tablo.KoridorID);
                 return PartialView("_ShelfDetailPartial", tablo);
             }
         }

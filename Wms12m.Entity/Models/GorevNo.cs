@@ -12,10 +12,12 @@ namespace Wms12m.Entity.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Ayarlar
+    public partial class GorevNo
     {
         public int Tarih { get; set; }
-        public int GorevNo { get; set; }
-        public int IrsaliyeNo { get; set; }
+        public int DepoID { get; set; }
+        public int No { get; set; }
+    
+        public virtual Depo Depo { get; set; }
     }
 }

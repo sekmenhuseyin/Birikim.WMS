@@ -228,7 +228,7 @@ namespace Wms12m
             var sonuc = MalKabulToLink(mGorev.IR.SirketKod, mGorev.IR.ID, kulID);
             if (sonuc.Status == true)
             {
-                string gorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt()).FirstOrDefault();
+                string gorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), mGorev.DepoID).FirstOrDefault();
                 var kull = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
                 //finish
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32());
@@ -483,7 +483,9 @@ namespace Wms12m
                 return new Result(false, "İşlem bitmemiş !");
             //kaydeden bulunur
             var kull = db.Users.Where(m => m.ID == kulID).FirstOrDefault();
-            if (kull.UserDetail.SatisFaturaSeri < 1 || kull.UserDetail.SatisFaturaSeri >199 || kull.UserDetail.SatisIrsaliyeSeri < 1 || kull.UserDetail.SatisIrsaliyeSeri > 199)
+            if (kull.UserDetail.SatisFaturaSeri == null || kull.UserDetail.SatisIrsaliyeSeri == null)
+                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
+            if (kull.UserDetail.SatisFaturaSeri.Value < 1 || kull.UserDetail.SatisFaturaSeri.Value > 199 || kull.UserDetail.SatisIrsaliyeSeri.Value < 1 || kull.UserDetail.SatisIrsaliyeSeri.Value > 199)
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
             //liste getirilir
             string sql = string.Format("SELECT wms.IRS.SirketKod, wms.GorevIRS.IrsaliyeID, wms.IRS.Tarih, wms.IRS.HesapKodu, wms.IRS.TeslimCHK, ISNULL(wms.IRS.ValorGun,0) as ValorGun, wms.IRS.EvrakNo " +
@@ -507,7 +509,7 @@ namespace Wms12m
                 bool efatKullanici = false;
                 if (tmp == 1) efatKullanici = true;
                 //listedeki her eleman için döngü yapılır
-                var sonuc = SiparisToplamaToLink(item.SirketKod, item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.SatisIrsaliyeSeri, kull.UserDetail.SatisFaturaSeri, yil);
+                var sonuc = SiparisToplamaToLink(item.SirketKod, item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.SatisIrsaliyeSeri.Value, kull.UserDetail.SatisFaturaSeri.Value, yil);
                 if (sonuc.Status == true)
                 {
                     //update irsaliye
@@ -515,7 +517,7 @@ namespace Wms12m
                     string fatNo = sonuc.Message.Substring(sonuc.Message.IndexOf(",") + 1);
                     db.UpdateIrsaliye(item.IrsaliyeID, irsNo, fatNo);
                     //yeni görev
-                    string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
+                    string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
                     var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, irsNo, item.Tarih, "Irs: " + irsNo + " Alıcı: " + item.HesapKodu.GetUnvan(item.SirketKod), true, ComboItems.Paketle.ToInt32(), kull.Kod, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "").FirstOrDefault();
                 }
                 else
@@ -655,7 +657,7 @@ namespace Wms12m
             if (list.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
             int tarih = DateTime.Today.ToOADateInt();
-            string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
+            string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
             var kull = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), kull, "", ComboItems.Paketle.ToInt32(), ComboItems.Sevkiyat.ToInt32());
             return new Result(true);
@@ -693,14 +695,16 @@ namespace Wms12m
                 return new Result(false, "İşlem bitmemiş !");
             //kullanıcı kontrol
             var kull = db.Users.Where(m => m.ID == kulID).FirstOrDefault();
-            if (kull.UserDetail.TransferOutSeri < 1 || kull.UserDetail.TransferOutSeri > 199)
+            if (kull.UserDetail.TransferOutSeri == null)
+                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
+            if (kull.UserDetail.TransferOutSeri.Value < 1 || kull.UserDetail.TransferOutSeri.Value > 199)
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
             //aktar
             int tarih = DateTime.Today.ToOADateInt();
             int saat = DateTime.Now.ToOaTime();
             var transfer = mGorev.Transfers.FirstOrDefault();
-            string gorevNo = db.SettingsGorevNo(tarih).FirstOrDefault();
-            var sonuc = TransferToLink(transfer, false, kull.Kod, kull.UserDetail.TransferOutSeri);
+            string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
+            var sonuc = TransferToLink(transfer, false, kull.Kod, kull.UserDetail.TransferOutSeri.Value);
             if (sonuc.Status == true)
             {
                 //finish
@@ -709,8 +713,7 @@ namespace Wms12m
                 var araDepo = db.Depoes.Where(m => m.ID == transfer.AraDepoID).Select(m => m.DepoKodu).FirstOrDefault();
                 var girisDepo = db.Depoes.Where(m => m.ID == transfer.GirisDepoID).Select(m => m.DepoKodu).FirstOrDefault();
                 //add new irsaliye for giriş
-                string evrakNo = db.SettingsIrsaliyeNo(tarih).FirstOrDefault();
-                var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, evrakNo, tarih, "Giriş: " + girisDepo + ", Çıkış: " + araDepo, true, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
+                var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, gorevNo, tarih, "Giriş: " + girisDepo + ", Çıkış: " + araDepo, true, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
                 //insert irs_detay
                 foreach (var item in mGorev.IR.IRS_Detay)
                 {
@@ -738,12 +741,14 @@ namespace Wms12m
                 return new Result(false, "İşlem bitmemiş !");
             //kullanıcı kontrol
             var kull = db.Users.Where(m => m.ID == kulID).FirstOrDefault();
-            if (kull.UserDetail.TransferOutSeri < 1 || kull.UserDetail.TransferOutSeri > 199)
+            if (kull.UserDetail.TransferInSeri == null)
+                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
+            if (kull.UserDetail.TransferInSeri < 1 || kull.UserDetail.TransferInSeri > 199)
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
             //aktar
             //görev bitir
             int tarih = DateTime.Today.ToOADateInt();
-            var sonuc = TransferToLink(mGorev.Transfers.FirstOrDefault(), true, kull.Kod, kull.UserDetail.TransferInSeri);
+            var sonuc = TransferToLink(mGorev.Transfers.FirstOrDefault(), true, kull.Kod, kull.UserDetail.TransferInSeri.Value);
             if (sonuc.Status == true)
             {
                 //update irsaliye

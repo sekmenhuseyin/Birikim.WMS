@@ -36,7 +36,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<UserPerm> UserPerms { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Ayarlar> Ayarlars { get; set; }
         public virtual DbSet<Bolum> Bolums { get; set; }
         public virtual DbSet<Depo> Depoes { get; set; }
         public virtual DbSet<Gorev> Gorevs { get; set; }
@@ -52,6 +51,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Kat> Kats { get; set; }
         public virtual DbSet<IR> IRS { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
+        public virtual DbSet<GorevNo> GorevNoes { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
@@ -195,24 +195,6 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("includeRezerv", typeof(bool));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("WMSEntities.GetStock", depoIDParameter, malKoduParameter, birimParameter, includeRezervParameter);
-        }
-    
-        public virtual ObjectResult<string> SettingsGorevNo(Nullable<int> tarih)
-        {
-            var tarihParameter = tarih.HasValue ?
-                new ObjectParameter("tarih", tarih) :
-                new ObjectParameter("tarih", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsGorevNo", tarihParameter);
-        }
-    
-        public virtual ObjectResult<string> SettingsIrsaliyeNo(Nullable<int> tarih)
-        {
-            var tarihParameter = tarih.HasValue ?
-                new ObjectParameter("tarih", tarih) :
-                new ObjectParameter("tarih", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsIrsaliyeNo", tarihParameter);
         }
     
         public virtual int TerminalFinishGorev(Nullable<int> gorevID, Nullable<int> irsaliyeID, string yeniGorevNo, Nullable<int> bitisTarihi, Nullable<int> bitisSaati, string kullanici, string linkEvrakNo, Nullable<int> görevTipiID, Nullable<int> yeniGorevTipiID)
@@ -443,7 +425,18 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.UpdateIrsaliye", irsIDParameter, evrakNoParameter, linkEvrakNoParameter);
         }
-
-        public System.Data.Entity.DbSet<Wms12m.Entity.frmSiparisMalzemeDetay> frmSiparisMalzemeDetays { get; set; }
+    
+        public virtual ObjectResult<string> SettingsGorevNo(Nullable<int> tarih, Nullable<int> depoID)
+        {
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("tarih", tarih) :
+                new ObjectParameter("tarih", typeof(int));
+    
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsGorevNo", tarihParameter, depoIDParameter);
+        }
     }
 }

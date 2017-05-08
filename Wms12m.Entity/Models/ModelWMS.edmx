@@ -109,6 +109,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Sirket" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="Tip" Type="smallint" Nullable="false" />
           <Property Name="Kod" Type="varchar" MaxLength="5" Nullable="false" />
@@ -129,14 +130,6 @@
           <Property Name="DegisSaat" Type="int" Nullable="false" />
           <Property Name="DegisKaynak" Type="smallint" Nullable="false" />
           <Property Name="DegisSurum" Type="varchar" MaxLength="12" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Ayarlar">
-          <Key>
-            <PropertyRef Name="Tarih" />
-          </Key>
-          <Property Name="Tarih" Type="int" Nullable="false" />
-          <Property Name="GorevNo" Type="int" Nullable="false" />
-          <Property Name="IrsaliyeNo" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Bolum">
           <Key>
@@ -195,6 +188,14 @@
           </Key>
           <Property Name="GorevID" Type="int" Nullable="false" />
           <Property Name="IrsaliyeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GorevNo">
+          <Key>
+            <PropertyRef Name="Tarih" />
+          </Key>
+          <Property Name="Tarih" Type="int" Nullable="false" />
+          <Property Name="DepoID" Type="int" Nullable="false" />
+          <Property Name="No" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="GorevYer">
           <Key>
@@ -340,10 +341,10 @@
           </Key>
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="DepoID" Type="int" Nullable="false" />
-          <Property Name="SatisIrsaliyeSeri" Type="int" Nullable="false" />
-          <Property Name="SatisFaturaSeri" Type="int" Nullable="false" />
-          <Property Name="TransferInSeri" Type="int" Nullable="false" />
-          <Property Name="TransferOutSeri" Type="int" Nullable="false" />
+          <Property Name="SatisIrsaliyeSeri" Type="int" />
+          <Property Name="SatisFaturaSeri" Type="int" />
+          <Property Name="TransferInSeri" Type="int" />
+          <Property Name="TransferOutSeri" Type="int" />
         </EntityType>
         <EntityType Name="Yer">
           <Key>
@@ -491,6 +492,18 @@
             </Principal>
             <Dependent Role="Gorev">
               <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevNo_Depo">
+          <End Role="Depo" Type="Self.Depo" Multiplicity="1" />
+          <End Role="GorevNo" Type="Self.GorevNo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevNo">
+              <PropertyRef Name="DepoID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -914,9 +927,7 @@
         </Function>
         <Function Name="SettingsGorevNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="tarih" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SettingsIrsaliyeNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="tarih" Type="int" Mode="In" />
+          <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
         <Function Name="TerminalFinishGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
@@ -945,11 +956,11 @@
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="usr" store:Type="Tables" />
           <EntitySet Name="UserPerm" EntityType="Self.UserPerm" Schema="usr" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="usr" store:Type="Tables" />
-          <EntitySet Name="Ayarlar" EntityType="Self.Ayarlar" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Bolum" EntityType="Self.Bolum" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Depo" EntityType="Self.Depo" Schema="wms" store:Type="Tables" />
           <EntitySet Name="Gorev" EntityType="Self.Gorev" Schema="wms" store:Type="Tables" />
           <EntitySet Name="GorevIRS" EntityType="Self.GorevIRS" Schema="wms" store:Type="Tables" />
+          <EntitySet Name="GorevNo" EntityType="Self.GorevNo" Schema="wms" store:Type="Tables" />
           <EntitySet Name="GorevYer" EntityType="Self.GorevYer" Schema="wms" store:Type="Tables" />
           <EntitySet Name="IRS" EntityType="Self.IRS" Schema="wms" store:Type="Tables" />
           <EntitySet Name="IRS_Detay" EntityType="Self.IRS_Detay" Schema="wms" store:Type="Tables" />
@@ -1001,6 +1012,10 @@
           <AssociationSet Name="FK_GorevListesi_IRS" Association="Self.FK_GorevListesi_IRS">
             <End Role="IRS" EntitySet="IRS" />
             <End Role="Gorev" EntitySet="Gorev" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevNo_Depo" Association="Self.FK_GorevNo_Depo">
+            <End Role="Depo" EntitySet="Depo" />
+            <End Role="GorevNo" EntitySet="GorevNo" />
           </AssociationSet>
           <AssociationSet Name="FK_GorevYer_Gorev" Association="Self.FK_GorevYer_Gorev">
             <End Role="Gorev" EntitySet="Gorev" />
@@ -1158,12 +1173,6 @@
             <Parameter Name="Birim" Mode="In" Type="String" />
             <Parameter Name="includeRezerv" Mode="In" Type="Boolean" />
           </FunctionImport>
-          <FunctionImport Name="SettingsGorevNo" ReturnType="Collection(String)">
-          <Parameter Name="tarih" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="SettingsIrsaliyeNo" ReturnType="Collection(String)">
-          <Parameter Name="tarih" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="TerminalFinishGorev">
             <Parameter Name="GorevID" Mode="In" Type="Int32" />
             <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
@@ -1212,7 +1221,6 @@
           <EntitySet Name="Roles" EntityType="MModel.Role" />
           <EntitySet Name="UserPerms" EntityType="MModel.UserPerm" />
           <EntitySet Name="Users" EntityType="MModel.User" />
-          <EntitySet Name="Ayarlars" EntityType="MModel.Ayarlar" />
           <EntitySet Name="Bolums" EntityType="MModel.Bolum" />
           <EntitySet Name="Depoes" EntityType="MModel.Depo" />
           <EntitySet Name="Gorevs" EntityType="MModel.Gorev" />
@@ -1379,6 +1387,11 @@
           <FunctionImport Name="GetGorevlis" ReturnType="Collection(MModel.GetGorevlis_Result)">
           <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="UpdateIrsaliye">
+            <Parameter Name="IrsID" Mode="In" Type="Int32" />
+            <Parameter Name="EvrakNo" Mode="In" Type="String" />
+            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
           <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
             <End Role="User" EntitySet="Users" />
@@ -1388,10 +1401,14 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
-          <FunctionImport Name="UpdateIrsaliye">
-            <Parameter Name="IrsID" Mode="In" Type="Int32" />
-            <Parameter Name="EvrakNo" Mode="In" Type="String" />
-            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
+          <EntitySet Name="GorevNoes" EntityType="MModel.GorevNo" />
+          <AssociationSet Name="FK_GorevNo_Depo" Association="MModel.FK_GorevNo_Depo">
+            <End Role="Depo" EntitySet="Depoes" />
+            <End Role="GorevNo" EntitySet="GorevNoes" />
+          </AssociationSet>
+          <FunctionImport Name="SettingsGorevNo" ReturnType="Collection(String)">
+            <Parameter Name="tarih" Mode="In" Type="Int32" />
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -1571,15 +1588,8 @@
           <NavigationProperty Name="Role" Relationship="MModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Users1" Relationship="MModel.FK_Users_Users" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User1" Relationship="MModel.FK_Users_Users" FromRole="User1" ToRole="User" />
+          <Property Name="Guid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="UserDetail" Relationship="MModel.FK_Depo_Users_Users" FromRole="User" ToRole="UserDetail" />
-        </EntityType>
-        <EntityType Name="Ayarlar">
-          <Key>
-            <PropertyRef Name="Tarih" />
-          </Key>
-          <Property Name="Tarih" Type="Int32" Nullable="false" />
-          <Property Name="GorevNo" Type="Int32" Nullable="false" />
-          <Property Name="IrsaliyeNo" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Bolum">
           <Key>
@@ -1618,6 +1628,7 @@
           <NavigationProperty Name="Transfers2" Relationship="MModel.FK_Transfer_Depo2" FromRole="Depo" ToRole="Transfer" />
           <NavigationProperty Name="IRS" Relationship="MModel.FK_IRS_Depo" FromRole="Depo" ToRole="IR" />
           <NavigationProperty Name="UserDetails" Relationship="MModel.FK_Depo_Users_Depo" FromRole="Depo" ToRole="UserDetail" />
+          <NavigationProperty Name="GorevNoes" Relationship="MModel.FK_GorevNo_Depo" FromRole="Depo" ToRole="GorevNo" />
         </EntityType>
         <EntityType Name="Gorev">
           <Key>
@@ -2239,10 +2250,10 @@
           </Key>
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="DepoID" Type="Int32" Nullable="false" />
-          <Property Name="SatisIrsaliyeSeri" Type="Int32" Nullable="false" />
-          <Property Name="SatisFaturaSeri" Type="Int32" Nullable="false" />
-          <Property Name="TransferInSeri" Type="Int32" Nullable="false" />
-          <Property Name="TransferOutSeri" Type="Int32" Nullable="false" />
+          <Property Name="SatisIrsaliyeSeri" Type="Int32" />
+          <Property Name="SatisFaturaSeri" Type="Int32" />
+          <Property Name="TransferInSeri" Type="Int32" />
+          <Property Name="TransferOutSeri" Type="Int32" />
           <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
         </EntityType>
@@ -2266,6 +2277,27 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="UserDetail">
+              <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GorevNo">
+          <Key>
+            <PropertyRef Name="Tarih" />
+          </Key>
+          <Property Name="Tarih" Type="Int32" Nullable="false" />
+          <Property Name="DepoID" Type="Int32" Nullable="false" />
+          <Property Name="No" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Depo" Relationship="MModel.FK_GorevNo_Depo" FromRole="GorevNo" ToRole="Depo" />
+        </EntityType>
+        <Association Name="FK_GorevNo_Depo">
+          <End Type="MModel.Depo" Role="Depo" Multiplicity="1" />
+          <End Type="MModel.GorevNo" Role="GorevNo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevNo">
               <PropertyRef Name="DepoID" />
             </Dependent>
           </ReferentialConstraint>
@@ -2323,8 +2355,6 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetKoridorIdFromGorevId" FunctionName="MModel.Store.GetKoridorIdFromGorevId" />
           <FunctionImportMapping FunctionImportName="GetStock" FunctionName="MModel.Store.GetStock" />
-          <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
-          <FunctionImportMapping FunctionImportName="SettingsIrsaliyeNo" FunctionName="MModel.Store.SettingsIrsaliyeNo" />
           <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
           <FunctionImportMapping FunctionImportName="MenuSiralayici" FunctionName="MModel.Store.MenuSiralayici" />
           <FunctionImportMapping FunctionImportName="MenuRolGetir" FunctionName="MModel.Store.MenuRolGetir">
@@ -2450,6 +2480,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="MModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
                 <ScalarProperty Name="DegisSurum" ColumnName="DegisSurum" />
                 <ScalarProperty Name="DegisKaynak" ColumnName="DegisKaynak" />
                 <ScalarProperty Name="DegisSaat" ColumnName="DegisSaat" />
@@ -2471,15 +2502,6 @@
                 <ScalarProperty Name="Tip" ColumnName="Tip" />
                 <ScalarProperty Name="Sirket" ColumnName="Sirket" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Ayarlars">
-            <EntityTypeMapping TypeName="MModel.Ayarlar">
-              <MappingFragment StoreEntitySet="Ayarlar">
-                <ScalarProperty Name="IrsaliyeNo" ColumnName="IrsaliyeNo" />
-                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2747,6 +2769,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdateIrsaliye" FunctionName="MModel.Store.UpdateIrsaliye" />
           <EntitySetMapping Name="UserDetails">
             <EntityTypeMapping TypeName="MModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetails">
@@ -2759,7 +2782,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="UpdateIrsaliye" FunctionName="MModel.Store.UpdateIrsaliye" />
+          <EntitySetMapping Name="GorevNoes">
+            <EntityTypeMapping TypeName="MModel.GorevNo">
+              <MappingFragment StoreEntitySet="GorevNo">
+                <ScalarProperty Name="No" ColumnName="No" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

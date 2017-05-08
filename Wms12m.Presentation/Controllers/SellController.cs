@@ -167,8 +167,8 @@ namespace Wms12m.Presentation.Controllers
             //variables and consts
             int today = fn.ToOADate(), time = fn.ToOATime(), valorgun = 0;
             int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
-            string GorevNo = db.SettingsGorevNo(today).FirstOrDefault();
-            string alıcılar = "", chk = "", teslimchk = "", evrakNo = "";
+            string GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
+            string alıcılar = "", chk = "", teslimchk = "";
             InsertIrsaliye_Result cevap = new InsertIrsaliye_Result();
             Result _Result;
             //loop the list
@@ -177,8 +177,7 @@ namespace Wms12m.Presentation.Controllers
                 //irsaliye tablosu
                 if (chk != item.Chk || valorgun != item.ValorGun || teslimchk != item.TeslimChk)
                 {
-                    evrakNo = db.SettingsIrsaliyeNo(today).FirstOrDefault();
-                    cevap = db.InsertIrsaliye(item.SirketID, idDepo, GorevNo, evrakNo, today, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.UserName, today, time, item.Chk, item.TeslimChk, item.ValorGun, item.EvrakNo).FirstOrDefault();
+                    cevap = db.InsertIrsaliye(item.SirketID, idDepo, GorevNo, GorevNo, today, "", true, ComboItems.SiparişTopla.ToInt32(), vUser.UserName, today, time, item.Chk, item.TeslimChk, item.ValorGun, item.EvrakNo).FirstOrDefault();
                     //save sck
                     chk = item.Chk;
                     valorgun = item.ValorGun;
