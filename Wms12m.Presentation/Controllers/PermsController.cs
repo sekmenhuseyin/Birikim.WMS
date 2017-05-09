@@ -25,30 +25,8 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName");
             var list = db.GetRolePermsFor("").ToList();
-            ViewBag.title = "Ekle";
+            ViewBag.başlık = "Ekle";
             return View("Editor", list);
-        }
-        /// <summary>
-        /// yetki oluştur
-        /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,RoleName,PermName,Reading,Writing,Updating,Deleting")] RolePerm rolePerm)
-        {
-            if (ModelState.IsValid)
-            {
-                if (CheckPerm("Grup Yetkileri", PermTypes.Writing) == false) return Redirect("/");
-                try
-                {
-                    rolePerm.RecordDate = DateTime.Now;
-                    rolePerm.RecordUser = vUser.UserName;
-                    rolePerm.ModifiedDate = DateTime.Now;
-                    rolePerm.ModifiedUser = vUser.UserName;
-                    db.RolePerms.Add(rolePerm);
-                    db.SaveChanges();
-                }
-                catch (Exception) { }
-            }
-            return RedirectToAction("Index");
         }
         /// <summary>
         /// yetki düzenleme sayfası
@@ -62,6 +40,54 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName", rolePerm.PermName);
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName", rolePerm.RoleName);
             return View("Edit", rolePerm);
+        }
+        /// <summary>
+        /// yetki oluştur
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public void Save([Bind(Include = "ID,RoleName,PermName,Reading,Writing,Updating,Deleting")] RolePerm rolePerm)
+        {
+            if (ModelState.IsValid)
+            {
+                if (CheckPerm("Grup Yetkileri", PermTypes.Writing) == true)
+                {
+                    var tbl = db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
+
+                    try
+                    {
+                        rolePerm.RecordDate = DateTime.Now;
+                        rolePerm.RecordUser = vUser.UserName;
+                        rolePerm.ModifiedDate = DateTime.Now;
+                        rolePerm.ModifiedUser = vUser.UserName;
+                        db.RolePerms.Add(rolePerm);
+                        db.SaveChanges();
+                    }
+                    catch (Exception) { }
+                }
+            }
+        }
+        /// <summary>
+        /// yetki oluştur
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public void Create([Bind(Include = "ID,RoleName,PermName,Reading,Writing,Updating,Deleting")] RolePerm rolePerm)
+        {
+            if (ModelState.IsValid)
+            {
+                if (CheckPerm("Grup Yetkileri", PermTypes.Writing) == true)
+                {
+                    try
+                    {
+                        rolePerm.RecordDate = DateTime.Now;
+                        rolePerm.RecordUser = vUser.UserName;
+                        rolePerm.ModifiedDate = DateTime.Now;
+                        rolePerm.ModifiedUser = vUser.UserName;
+                        db.RolePerms.Add(rolePerm);
+                        db.SaveChanges();
+                    }
+                    catch (Exception) { }
+                }
+            }
         }
         /// <summary>
         /// yetki düzenleme kaydet

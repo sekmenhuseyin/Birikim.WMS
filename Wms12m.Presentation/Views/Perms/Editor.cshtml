@@ -1,29 +1,39 @@
 ﻿@model IEnumerable<GetRolePermsFor_Result>
 @{
-	ViewBag.Title = "Yetki " + (Model == null ? "Ekle" : "Düzenle");
+	ViewBag.Title = "Yetki " + ViewBag.başlık;
 	Layout = "~/Views/Shared/_Layout.cshtml";
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Perms">Yetki</a><i class="fa fa-circle"></i></li><li><span>@ViewBag.title</span></li></ul></div>
-<h1 class="page-title">Yetki @ViewBag.title</h1>
+	int i = 0;
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Perms">Yetki</a><i class="fa fa-circle"></i></li><li><span>@ViewBag.başlık</span></li></ul></div>
+<h1 class="page-title">Yetki @ViewBag.başlık</h1>
 <div class="row">
 	<div class="col-md-12">
 		<div class="portlet box green m-t-30">
-			<div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Yetki @ViewBag.title</div></div>
+			<div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Yetki @ViewBag.başlık</div></div>
 			<div class="portlet-body form p-30">
 				<div class="row">
 					<div class=" col-md-offset-2 col-md-4">
-						@Html.DropDownList("RoleName", null, htmlAttributes: new { @class = "form-control" })
+						@Html.DropDownList("RoleName", null, htmlAttributes: new { @class = "form-control", @onchange = "RoleNameChanger(this)" })
 						<table class="table table-striped">
-							<thead><tr><th>Yetki Adı</th><th>Okuma</th><th>Yazma</th><th>Değiştirme</th><th>Silme</th></tr></thead>
+							<thead><tr><th><div class="col-md-4">Yetki Adı</div><div class="col-md-2">Okuma</div><div class="col-md-2">Yazma</div><div class="col-md-2">Değiştirme</div><div class="col-md-2">Silme</div></th></tr></thead>
 							<tbody>
 								@foreach (var item in Model)
 								{
 									<tr>
-										<td><input class="form-control input-circle" id="PermName" name="PermName" type="text" readonly value="@item.PermName"></td>
-										<td><input class="check-box form-control" id="Reading" name="Reading" type="checkbox" value="@item.Reading"></td>
-										<td><input class="check-box form-control" id="Writing" name="Writing" type="checkbox" value="@item.Writing"></td>
-										<td><input class="check-box form-control" id="Updating" name="Updating" type="checkbox" value="@item.Updating"></td>
-										<td><input class="check-box form-control" id="Deleting" name="Deleting" type="checkbox" value="@item.Deleting"></td>
+										<td>
+											@using (Ajax.BeginForm("Create", "Perms", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace }, new { @class = "form-horizontal", id = "frm" + i }))
+											{
+												@Html.AntiForgeryToken()
+												<input name="ID" type="hidden" value="@item.ID" />
+												<input name="RoleName" class="RoleName" type="hidden" value="" required />
+												<div class="col-md-4"><input class="form-control input-circle" name="PermName" type="text" readonly value="@item.PermName" required></div>
+												<div class="col-md-2"><input class="check-box form-control" name="Reading" type="checkbox" value="@item.Reading"></div>
+												<div class="col-md-2"><input class="check-box form-control" name="Writing" type="checkbox" value="@item.Writing"></div>
+												<div class="col-md-2"><input class="check-box form-control" name="Updating" type="checkbox" value="@item.Updating"></div>
+												<div class="col-md-2"><input class="check-box form-control" name="Deleting" type="checkbox" value="@item.Deleting"></div>
+											}
+										</td>
 									</tr>
+									i++;
 								}
 							</tbody>
 						</table>
@@ -32,7 +42,7 @@
 								<button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
 							</div>
 							<div class="col-md-offset-2 col-md-6">
-								<input type="submit" value="Kaydet" class="btn btn-default btn-block btn-primary" />
+								<button class="btn btn-primary btn-block" onclick="submit()">Kaydet</button>
 							</div>
 						</div>
 					</div>
@@ -41,3 +51,13 @@
 		</div>
 	</div>
 </div>
+<script>
+	function RoleNameChanger(t) { $(".RoleName").val(t.value) }
+	function submit()
+	{
+		@for (int j = 0; j < i; j++)
+		{
+			<text>$("#frm@{@j}").submit();</text>
+		}
+	}
+</script>
