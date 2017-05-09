@@ -506,6 +506,7 @@
     <Content Include="Views\OnayStok\List.cshtml" />
     <Content Include="Views\OnayTeminat\Index.cshtml" />
     <Content Include="Views\OnayTeminat\List.cshtml" />
+    <Content Include="Views\Roles\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -13,7 +14,12 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Roles.Where(m => m.RoleName != "").ToList();
             return View("Index", list);
         }
-
+        public PartialViewResult List()
+        {
+            if (CheckPerm("Gruplar", PermTypes.Reading) == false) return null;
+            var list = db.Roles.Where(m => m.RoleName != "").ToList();
+            return PartialView("List", list);
+        }
         // GET: Roles/Create
         public PartialViewResult New()
         {
@@ -35,19 +41,20 @@ namespace Wms12m.Presentation.Controllers
         }
 
         // GET: Roles/Delete/5
-        public ActionResult Delete(string id)
+        public JsonResult Delete(string id)
         {
-            if (CheckPerm("Gruplar", PermTypes.Deleting) == false) return Redirect("/");
+            if (CheckPerm("Gruplar", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             try
             {
                 Role role = db.Roles.Find(id);
                 db.Roles.Remove(role);
                 db.SaveChanges();
+                return Json(new Result(true, 1, ""), JsonRequestBehavior.AllowGet);
             }
             catch (System.Exception)
             {
+                return Json(new Result(false, "Bu yetki kullanılıyor"), JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("Index");
         }
     }
 }
