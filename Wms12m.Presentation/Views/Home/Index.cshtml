@@ -59,50 +59,50 @@
 <div class="row m-t-40" id="bekleyen_siparis_urun_grubu_miktar"></div>
 <div id="box-content" style="display:none"></div>
 
-@section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="~/Content/assets/global/plugins/counterup/jquery.waypoints.min.js"></script>
+@section Scripts{<script src="~/Content/assets/global/plugins/counterup/jquery.waypoints.min.js"></script>
 <script src="~/Content/assets/global/plugins/counterup/jquery.counterup.min.js"></script>
-<script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
-<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-<script src="~/Content/assets/global/plugins/morris/morris.min.js"></script>
-<script src="~/Content/assets/global/plugins/amcharts/amcharts/amcharts.js"></script>
-<script src="~/Content/assets/global/plugins/amcharts/amcharts/pie.js"></script>
-<script src="~/Content/assets/global/plugins/amcharts/amcharts/radar.js"></script>
-<script src="~/Content/assets/global/plugins/amcharts/amcharts/serial.js"></script>
-<script src="~/Content/assets/global/plugins/amcharts/amcharts/themes/light.js"></script>
-<script src="~/Content/assets/global/plugins/amcharts/ammap/ammap.js"></script>
-<script src="~/Content/assets/global/plugins/amcharts/ammap/maps/js/worldLow.js"></script>
-<script src="~/Content/assets/global/plugins/amcharts/amstockcharts/amstock.js"></script>
-<script src="~/Content/assets/global/plugins/raphael.min.js"></script>
-<script src="~/Content/assets/global/plugins/echarts/echarts.js"></script>
-<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
-<script src="~/Content/assets/pages/scripts/components-bootstrap-switch.js"></script>
-<script>
-        $(document).ready(function (e) {
-            var dateVal = new Date();
-            dateVal.setHours(0, 0, 0);
-            var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ tarih: oaDate }));
-            @*
-            PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ tarih: oaDate }));
-            PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ tarih: oaDate }));
-            PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoda_pie', JSON.stringify({ tarih: oaDate }));
-            PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar');
-            PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar');
-            PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ tarih: dateVal.getMonth() + 1 }));
-            PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ tarih: dateVal.getMonth() + 1 }));
-            PartialView("/Home/PartialBakiyeRiskAnalizi", 'bakiye_risk');
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ chk: '33' }));
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: true }));
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar: true }));
-            PartialView("/Home/PartialBaglantiUrunGrubu", 'baglanti-urun-grubu');
-            PartialView("/Home/PartialBaglantiUrunGrubuPie", 'baglanti-urun-grubu-pie');
-            PartialView("/Home/PartialGunlukMDFUretimi", 'gunluk-mdf-uretim');
-            PartialView("/Home/PartialGunlukMDFUretimiPie", 'gunluk-mdf-uretim-pie');
-            PartialView("/Home/PartialBaglantiZamanCizelgesi", 'baglanti-zaman-cizelgesi');
-            PartialView("/Home/PartialBolgeBazliSatisAnalizi", 'bolge-bazli-satis-analizi', JSON.stringify({ ay: 0, kriter:"Tümü" }));
-            PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge-bazli-satis-analizi-pie', JSON.stringify({ ay: 0, kriter: "Tümü" }));
-            *@
+@*
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
+    <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+    <script src="~/Content/assets/global/plugins/morris/morris.min.js"></script>
+    <script src="~/Content/assets/global/plugins/amcharts/amcharts/amcharts.js"></script>
+    <script src="~/Content/assets/global/plugins/amcharts/amcharts/pie.js"></script>
+    <script src="~/Content/assets/global/plugins/amcharts/amcharts/radar.js"></script>
+    <script src="~/Content/assets/global/plugins/amcharts/amcharts/serial.js"></script>
+    <script src="~/Content/assets/global/plugins/amcharts/amcharts/themes/light.js"></script>
+    <script src="~/Content/assets/global/plugins/amcharts/ammap/ammap.js"></script>
+    <script src="~/Content/assets/global/plugins/amcharts/ammap/maps/js/worldLow.js"></script>
+    <script src="~/Content/assets/global/plugins/amcharts/amstockcharts/amstock.js"></script>
+    <script src="~/Content/assets/global/plugins/raphael.min.js"></script>
+    <script src="~/Content/assets/global/plugins/echarts/echarts.js"></script>
+    <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <script src="~/Content/assets/pages/scripts/components-bootstrap-switch.js"></script>
+    <script>
+            $(document).ready(function (e) {
+                var dateVal = new Date();
+                dateVal.setHours(0, 0, 0);
+                var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+                PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ tarih: oaDate }));
+                PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ tarih: oaDate }));
+                PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ tarih: oaDate }));
+                PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoda_pie', JSON.stringify({ tarih: oaDate }));
+                PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar');
+                PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar');
+                PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ tarih: dateVal.getMonth() + 1 }));
+                PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ tarih: dateVal.getMonth() + 1 }));
+                PartialView("/Home/PartialBakiyeRiskAnalizi", 'bakiye_risk');
+                PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ chk: '33' }));
+                PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: true }));
+                PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar: true }));
+                PartialView("/Home/PartialBaglantiUrunGrubu", 'baglanti-urun-grubu');
+                PartialView("/Home/PartialBaglantiUrunGrubuPie", 'baglanti-urun-grubu-pie');
+                PartialView("/Home/PartialGunlukMDFUretimi", 'gunluk-mdf-uretim');
+                PartialView("/Home/PartialGunlukMDFUretimiPie", 'gunluk-mdf-uretim-pie');
+                PartialView("/Home/PartialBaglantiZamanCizelgesi", 'baglanti-zaman-cizelgesi');
+                PartialView("/Home/PartialBolgeBazliSatisAnalizi", 'bolge-bazli-satis-analizi', JSON.stringify({ ay: 0, kriter:"Tümü" }));
+                PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge-bazli-satis-analizi-pie', JSON.stringify({ ay: 0, kriter: "Tümü" }));
         });
     </script>
+*@
 }

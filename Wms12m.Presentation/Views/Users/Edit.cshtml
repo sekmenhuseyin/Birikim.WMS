@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <div class="modal-body">@*Project Details Go Here*@
                     <h4>Düzenle</h4>
-                    @using (Html.BeginForm("Save", "Users", FormMethod.Post, new { @class = "form-horizontal" }))
+                    @using (Ajax.BeginForm("Save", "Users", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "modalEditPage", OnSuccess = "$('#modalEditPage').modal('toggle');", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn - default');" }, new { @class = "form-horizontal" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.ID)
@@ -15,21 +15,21 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.AdSoyad, "Ad Soyad", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.AdSoyad, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.AdSoyad, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
                                     @Html.ValidationMessageFor(model => model.AdSoyad, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @type = "email" } })
                                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Kod, "Kullanıcı Adı", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Kod, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.EditorFor(model => model.Kod, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
                                     @Html.ValidationMessageFor(model => model.Kod, "", new { @class = "text-danger" })
                                 </div>
                             </div>
