@@ -83,7 +83,7 @@
                             <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />
                             <input type="hidden" name="checkboxes" id="checkboxes" value="" />
                             <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
-                            <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" />
+                            @{if (ViewBag.Yetki == true) { <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" /> } }
                         </div>
                     </div>
                 }

@@ -36,6 +36,7 @@ namespace Wms12m.Business
                 return _Result;
             }
             if (tbl.Sifre.ToString2() != "") tbl.Sifre = CryptographyExtension.Sifrele(tbl.Sifre);
+            tbl.Kod = tbl.Kod.Left(5);
             //set details
             tbl.Degistiren = Users.AppIdentity.User.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();

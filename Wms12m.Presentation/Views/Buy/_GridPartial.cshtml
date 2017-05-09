@@ -19,16 +19,15 @@ else
                         <td>@item.MalKodu.GetMalAdi(tmp)</td>
                         <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                         <td>@item.Birim</td>
-                        <td>@{if (ViewBag.Onay == false) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/Buy/GridPartial','StoreGrid','@ViewBag.IrsaliyeId', '')"> Sil </a>}}</td>
+                        <td>@if (ViewBag.Onay == false) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/Buy/GridPartial','StoreGrid','@ViewBag.IrsaliyeId', '')"> Sil </a>}</td>
                     </tr>
                 }
             </tbody>
         </table>
     }
-    <script>disableAll()</script>
-}
 <script>
-    @{if (ViewBag.Onay == false) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
+    disableAll()
+    @{if (ViewBag.Onay == false && ViewBag.Yetki == true) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
     $("#IrsNo").val('@ViewBag.IrsaliyeId');
     $("#MalKodu").focus();
     $("#MalKodu").autocomplete({
@@ -70,3 +69,4 @@ else
         });
     }
 </script>
+}

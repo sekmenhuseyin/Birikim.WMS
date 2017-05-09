@@ -105,7 +105,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<Role> GetList()
         {
-            return db.Roles.OrderBy(m => m.RoleName).ToList();
+            return db.Roles.Where(m => m.RoleName != "").OrderBy(m => m.RoleName).ToList();
         }
         /// <summary>
         /// üst tabloya ait olanları getir

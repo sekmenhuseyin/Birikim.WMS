@@ -106,6 +106,7 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             ViewBag.EvrakNos = tbl.EvrakNos;
             ViewBag.DepoID = tbl.DepoID;
+            ViewBag.Yetki = CheckPerm("Genel Sipariş", PermTypes.Writing);
             return View("Step3", list);
         }
         /// <summary>

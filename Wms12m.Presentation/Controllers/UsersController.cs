@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -14,6 +15,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             if (CheckPerm("Kullanıcılar", PermTypes.Reading) == false) return Redirect("/");
+            ViewBag.Yetki = CheckPerm("Kullanıcılar", PermTypes.Writing);
             return View("Index");
         }
         /// <summary>
@@ -22,7 +24,12 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult List()
         {
             if (CheckPerm("Kullanıcılar", PermTypes.Reading) == false) return null;
-            var list = db.Users.ToList();
+            List<User> list;
+            if (vUser.Id == 1)
+                list = db.Users.ToList();
+            else
+                list = db.Users.Where(m => m.ID > 1).ToList();
+            ViewBag.Yetki = CheckPerm("Kullanıcılar", PermTypes.Writing);
             return PartialView("List", list);
         }
         /// <summary>
@@ -101,7 +108,8 @@ namespace Wms12m.Presentation.Controllers
                     tbl.RecordUser = vUser.UserName;
                     db.UserPerms.Add(tbl);
                     db.SaveChanges();
-                }catch (System.Exception){}
+                }
+                catch (System.Exception) { }
             }
             //return
             var list = db.UserPerms.Where(m => m.UserName == tbl.UserName).ToList();
@@ -156,7 +164,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result();
-            if (tmp.Password==tmp.Password2)
+            if (tmp.Password == tmp.Password2)
             {
                 User tbl = new User()
                 {

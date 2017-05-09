@@ -130,6 +130,7 @@ namespace Wms12m.Presentation.Controllers
             //exec sql
             ViewBag.EvrakNos = tbl.EvrakNos;
             ViewBag.DepoID = tbl.DepoID;
+            ViewBag.Yetki = CheckPerm("Kablo Siparişi", PermTypes.Writing);
             using (KabloEntities dbx = new KabloEntities())
             {
                 var listx = dbx.Database.SqlQuery<frmCableSiparis>(sql).ToList();

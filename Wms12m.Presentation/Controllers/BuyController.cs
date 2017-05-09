@@ -153,6 +153,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.IrsaliyeId = irsaliyeID;
             ViewBag.Onay = irs.Onay;
             ViewBag.SirketID = irs.SirketKod;
+            ViewBag.Yetki = true;
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -189,6 +190,7 @@ namespace Wms12m.Presentation.Controllers
                     ViewBag.IrsaliyeId = kontrol2.ID;
                     ViewBag.Onay = kontrol2.Onay;
                     ViewBag.SirketID = tbl.SirketID;
+                    ViewBag.Yetki = CheckPerm("Mal Kabul", PermTypes.Writing);
                     return PartialView("_GridPartial", list);
                 }
                 catch (Exception ex)
@@ -239,6 +241,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.IrsaliyeId = ID;
             ViewBag.Onay = irs.Onay;
             ViewBag.SirketID = irs.SirketKod;
+            ViewBag.Yetki = CheckPerm("Mal Kabul", PermTypes.Writing);
             return PartialView("_GridPartial", list);
         }
         /// <summary>
@@ -269,6 +272,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
             ViewBag.Onay = irs.Onay;
             ViewBag.SirketID = irs.SirketKod;
+            ViewBag.Yetki = true;
             return PartialView("_GridPartial", list);
         }
         /// <summary>
