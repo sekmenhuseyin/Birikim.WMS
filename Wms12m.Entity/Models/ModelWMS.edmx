@@ -842,6 +842,9 @@
           <Parameter Name="Group" Type="varchar" Mode="In" />
           <Parameter Name="Perm" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GetRolePermsFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RoleName" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetSirketDBs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1409,6 +1412,9 @@
           <FunctionImport Name="SettingsGorevNo" ReturnType="Collection(String)">
             <Parameter Name="tarih" Mode="In" Type="Int32" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetRolePermsFor" ReturnType="Collection(MModel.GetRolePermsFor_Result)">
+            <Parameter Name="RoleName" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2302,6 +2308,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetRolePermsFor_Result">
+          <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="Reading" Nullable="false" />
+          <Property Type="Boolean" Name="Writing" Nullable="false" />
+          <Property Type="Boolean" Name="Updating" Nullable="false" />
+          <Property Type="Boolean" Name="Deleting" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2792,6 +2805,17 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
+          <FunctionImportMapping FunctionImportName="GetRolePermsFor" FunctionName="MModel.Store.GetRolePermsFor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetRolePermsFor_Result">
+                <ScalarProperty Name="PermName" ColumnName="PermName" />
+                <ScalarProperty Name="Reading" ColumnName="Reading" />
+                <ScalarProperty Name="Writing" ColumnName="Writing" />
+                <ScalarProperty Name="Updating" ColumnName="Updating" />
+                <ScalarProperty Name="Deleting" ColumnName="Deleting" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

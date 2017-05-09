@@ -438,5 +438,14 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsGorevNo", tarihParameter, depoIDParameter);
         }
+    
+        public virtual ObjectResult<GetRolePermsFor_Result> GetRolePermsFor(string roleName)
+        {
+            var roleNameParameter = roleName != null ?
+                new ObjectParameter("RoleName", roleName) :
+                new ObjectParameter("RoleName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetRolePermsFor_Result>("WMSEntities.GetRolePermsFor", roleNameParameter);
+        }
     }
 }

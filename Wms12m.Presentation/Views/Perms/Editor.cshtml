@@ -1,121 +1,43 @@
-﻿@model IEnumerable<RolePerm>
+﻿@model IEnumerable<GetRolePermsFor_Result>
 @{
 	ViewBag.Title = "Yetki " + (Model == null ? "Ekle" : "Düzenle");
 	Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles {<link href="~/Content/assets/global/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Perms">Yetki</a><i class="fa fa-circle"></i></li><li><span>@{if (Model == null) { <text>Ekle</text> } else { <text>Düzenle</text> } }</span></li></ul></div>
-<h1 class="page-title">Yetki @{if (Model == null) { <text>Ekle</text> } else { <text>Düzenle</text> } }</h1>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Perms">Yetki</a><i class="fa fa-circle"></i></li><li><span>@ViewBag.title</span></li></ul></div>
+<h1 class="page-title">Yetki @ViewBag.title</h1>
 <div class="row">
 	<div class="col-md-12">
 		<div class="portlet box green m-t-30">
-			<div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Yetki @{if (Model == null) { <text>Ekle</text> } else { <text>Düzenle</text> } }</div></div>
+			<div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Yetki @ViewBag.title</div></div>
 			<div class="portlet-body form p-30">
 				<div class="row">
 					<div class=" col-md-offset-2 col-md-4">
-						@using (Html.BeginForm(Model == null ? "Create" : "Edit", "Perms", FormMethod.Post, new { @class = "form-horizontal" }))
-						{
-							@Html.AntiForgeryToken()
-							<div class="form-horizontal">
-								@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-								<div class="form-group">
-									@Html.LabelFor(model => model.RoleName, "Rol", htmlAttributes: new { @class = "control-label col-md-2" })
-									<div class="col-md-10">
-										@Html.DropDownList("RoleName", null, htmlAttributes: new { @class = "form-control" })
-										@Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
-									</div>
-								</div>
-								<div class="form-group">
-									@Html.LabelFor(model => model.PermName, "Yetki", htmlAttributes: new { @class = "control-label col-md-2" })
-									<div class="col-md-10">
-										@Html.DropDownList("PermName", null, htmlAttributes: new { @class = "form-control" })
-										@Html.ValidationMessageFor(model => model.PermName, "", new { @class = "text-danger" })
-									</div>
-								</div>
-								<div class="form-group">
-									@Html.LabelFor(model => model.Reading, "Okuma", htmlAttributes: new { @class = "control-label col-md-2" })
-									<div class="col-md-offset-1 col-md-8">
-										<div class="checkbox">
-											@Html.CheckBoxFor(model => model.Reading, new { @class = "check-box form-control" })
-											@Html.ValidationMessageFor(model => model.Reading, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									@Html.LabelFor(model => model.Writing, "Yazma", htmlAttributes: new { @class = "control-label col-md-2" })
-									<div class="col-md-offset-1 col-md-8">
-										<div class="checkbox">
-											@Html.CheckBoxFor(model => model.Writing, new { @class = "check-box form-control" })
-											@Html.ValidationMessageFor(model => model.Writing, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									@Html.LabelFor(model => model.Updating, "Değiştirme", htmlAttributes: new { @class = "control-label col-md-2" })
-									<div class="col-md-offset-1 col-md-8">
-										<div class="checkbox">
-											@Html.CheckBoxFor(model => model.Updating, new { @class = "check-box form-control" })
-											@Html.ValidationMessageFor(model => model.Updating, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									@Html.LabelFor(model => model.Deleting, "Silme", htmlAttributes: new { @class = "control-label col-md-2" })
-									<div class="col-md-offset-1 col-md-8">
-										<div class="checkbox">
-											@Html.CheckBoxFor(model => model.Deleting, new { @class = "check-box form-control" })
-											@Html.ValidationMessageFor(model => model.Deleting, "", new { @class = "text-danger" })
-										</div>
-									</div>
-								</div>
-								<div class="form-group m-t-40">
-									<div class="col-md-4">
-										<button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
-									</div>
-									<div class="col-md-offset-2 col-md-6">
-										<input type="submit" value="Kaydet" class="btn btn-default btn-block btn-primary" />
-									</div>
-								</div>
+						@Html.DropDownList("RoleName", null, htmlAttributes: new { @class = "form-control" })
+						<table class="table table-striped">
+							<thead><tr><th>Yetki Adı</th><th>Okuma</th><th>Yazma</th><th>Değiştirme</th><th>Silme</th></tr></thead>
+							<tbody>
+								@foreach (var item in Model)
+								{
+									<tr>
+										<td><input class="form-control input-circle" id="PermName" name="PermName" type="text" readonly value="@item.PermName"></td>
+										<td><input class="check-box form-control" id="Reading" name="Reading" type="checkbox" value="@item.Reading"></td>
+										<td><input class="check-box form-control" id="Writing" name="Writing" type="checkbox" value="@item.Writing"></td>
+										<td><input class="check-box form-control" id="Updating" name="Updating" type="checkbox" value="@item.Updating"></td>
+										<td><input class="check-box form-control" id="Deleting" name="Deleting" type="checkbox" value="@item.Deleting"></td>
+									</tr>
+								}
+							</tbody>
+						</table>
+						<div class="form-group m-t-40">
+							<div class="col-md-4">
+								<button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
 							</div>
-						}
+							<div class="col-md-offset-2 col-md-6">
+								<input type="submit" value="Kaydet" class="btn btn-default btn-block btn-primary" />
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-@section Scripts{<script src="~/Content/assets/global/plugins/jstree/dist/jstree.min.js"></script>
-@{ if (Model != null) {<script>$("#RoleName").attr("disabled", true); $("#PermName").attr("disabled", true);</script>}}
-<script>
-	function frmSubmit()
-	{
-		$('#RolNo').val($('#permTree').jstree(true).get_bottom_selected());
-		$('#RolNo').val($('#RolNo').val().replace(/_anchor/gi, "").replace(/tree/gi, ""));
-		$('#frmPermission').submit();
-	}
-	$(document).ready(function () {
-		"use strict";
-		$('#permTree').jstree({
-			'plugins': ["wholerow", "checkbox", "types"],
-			'core': {
-				"themes": {
-					"responsive": false
-				},
-				'data': [{
-					"text": "Hepsini Seç", "state": { "opened": true },
-					"children": [@foreach (var item in Model) {
-						<text> { "text": "@item.RoleName", "id": "tree@{@item.ID}", "state": { @if(@item.Perm!=null){<text>"selected": true</text>} } },</text>
-					}]
-				}]
-			},
-			"types": {
-				"default": {
-					"icon": "fa fa-folder text-primary fa-lg"
-				},
-				"file": {
-					"icon": "fa fa-file text-success fa-lg"
-				}
-			}
-		});
-	});
-</script>
-}

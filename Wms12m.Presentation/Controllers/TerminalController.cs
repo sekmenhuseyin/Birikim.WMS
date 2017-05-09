@@ -12,7 +12,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Terminal Yetkileri", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Terminal Yetkilendirme", PermTypes.Reading) == false) return Redirect("/");
             return View("Index");
         }
         /// <summary>
@@ -20,7 +20,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List()
         {
-            if (CheckPerm("Terminal Yetkileri", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Terminal Yetkilendirme", PermTypes.Reading) == false) return null;
             var list = PersonPerms.GetList();
             return PartialView("List", list);
         }
@@ -29,7 +29,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult New()
         {
-            if (CheckPerm("Terminal Yetkileri", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Terminal Yetkilendirme", PermTypes.Reading) == false) return null;
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             ViewBag.UserID = new SelectList(Persons.GetListWithoutTerminal(), "ID", "AdSoyad");
             return PartialView("Editor", new UserDetail());
@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
-            if (CheckPerm("Terminal Yetkileri", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Terminal Yetkilendirme", PermTypes.Reading) == false) return null;
             //return
             var tbl = PersonPerms.Detail(id.ToInt32());
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd", tbl.DepoID);
@@ -54,7 +54,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Save(UserDetail tbl)
         {
-            if (CheckPerm("Terminal Yetkileri", PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm("Terminal Yetkilendirme", PermTypes.Writing) == false) return Redirect("/");
             Result _Result = PersonPerms.Operation(tbl);
             return RedirectToAction("Index");
         }
@@ -64,7 +64,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult Delete(int Id)
         {
-            if (CheckPerm("Terminal Yetkileri", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Terminal Yetkilendirme", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = PersonPerms.Delete(Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
