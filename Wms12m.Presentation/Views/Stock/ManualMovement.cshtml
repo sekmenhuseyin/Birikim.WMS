@@ -126,7 +126,7 @@
     }
     function FuncSearchBtn() {
         $('#FloorGrid').html("");
-        PartialView("/Stock/List", 'FloorGrid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val()) }));
+        PartialView("/Stock/List", 'FloorGrid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#true") }));
     }
 </script>
 }

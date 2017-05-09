@@ -47,22 +47,31 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public void Save([Bind(Include = "ID,RoleName,PermName,Reading,Writing,Updating,Deleting")] RolePerm rolePerm)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && rolePerm.RoleName != "" && rolePerm.PermName != "")
             {
                 if (CheckPerm("Grup Yetkileri", PermTypes.Writing) == true)
                 {
                     var tbl = db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
-
-                    try
+                    if (tbl != null)
+                    {
+                        tbl.Reading = rolePerm.Reading;
+                        tbl.Writing = rolePerm.Writing;
+                        tbl.Updating = rolePerm.Updating;
+                        tbl.Deleting = rolePerm.Deleting;
+                        tbl.ModifiedDate = DateTime.Now;
+                        tbl.ModifiedUser = vUser.UserName;
+                    }
+                    else
                     {
                         rolePerm.RecordDate = DateTime.Now;
                         rolePerm.RecordUser = vUser.UserName;
                         rolePerm.ModifiedDate = DateTime.Now;
                         rolePerm.ModifiedUser = vUser.UserName;
                         db.RolePerms.Add(rolePerm);
-                        db.SaveChanges();
                     }
-                    catch (Exception) { }
+                    if (tbl != null || rolePerm.Reading != false || rolePerm.Writing != false || rolePerm.Updating != false || rolePerm.Deleting != false)
+                        try { db.SaveChanges(); }
+                        catch (Exception ex) { Logger(ex, "Perms/Save"); }
                 }
             }
         }

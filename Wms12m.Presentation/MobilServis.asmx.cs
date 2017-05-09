@@ -513,8 +513,8 @@ namespace Wms12m
                 if (sonuc.Status == true)
                 {
                     //update irsaliye
-                    string irsNo = sonuc.Message.Left(sonuc.Message.IndexOf(","));
-                    string fatNo = sonuc.Message.Substring(sonuc.Message.IndexOf(",") + 1);
+                    string fatNo = sonuc.Message.Left(sonuc.Message.IndexOf(","));
+                    string irsNo = sonuc.Message.Substring(sonuc.Message.IndexOf(",") + 1);
                     db.UpdateIrsaliye(item.IrsaliyeID, irsNo, fatNo);
                     //yeni görev
                     string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
@@ -817,7 +817,7 @@ namespace Wms12m
                     if (katID != null)
                     {
                         var yert = db.Yers.Where(m => m.KatID == katID && m.MalKodu == item.MalKodu).FirstOrDefault();
-                        if(yert == null)
+                        if (yert == null)
                         {
                             yert = new Yer() { KatID = katID.Value, MalKodu = item.MalKodu, Birim = item.Birim, Miktar = 0 };
                             db.Yers.Add(yert);

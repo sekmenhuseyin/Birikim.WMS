@@ -221,6 +221,7 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.IrsaliyeId = cevap.IrsaliyeID;
                 ViewBag.Onay = false;
                 ViewBag.SirketID = tbl.SirketID;
+                ViewBag.Yetki = CheckPerm("Mal Kabul", PermTypes.Writing);
                 return PartialView("_GridPartial", list);
 
             }

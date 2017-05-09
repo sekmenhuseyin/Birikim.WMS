@@ -32,12 +32,12 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Sirket = liste;
             //id'ye göre liste döner
             string[] ids = Id.Split('#');
-            ViewBag.Manual = false;
+            string url = Request.Url.AbsoluteUri;
             try
             {
                 if (ids[2] != "0" && ids[2].ToString2() != "") //bir kattaki ait malzemeler
                 {
-                    ViewBag.Manual = true;
+                    ViewBag.Manual = ids[3].ToBool();
                     return PartialView("List", Yerlestirme.GetList(ids[2].ToInt32()));
                 }
                 else if (ids[1] != "0" && ids[1].ToString2() != "") //bir raftaki ait malzemeler

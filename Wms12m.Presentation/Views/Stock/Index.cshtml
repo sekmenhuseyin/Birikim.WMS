@@ -28,7 +28,19 @@
                             <div class="form-group">
                                 <div class="col-sm-3 control-label">Raf</div>
                                 <div class="col-sm-4">
-                                    <select id="RafID" class="form-control input-circle" onchange="FuncSearchBtn();"></select>
+                                    <select id="RafID" class="form-control input-circle" onchange="getSection(this.value);"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">Bölüm</div>
+                                <div class="col-sm-4">
+                                    <select id="BolumID" class="form-control input-circle" onchange="getFloor(this.value);"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">Kat</div>
+                                <div class="col-sm-4">
+                                    <select id="KatID" class="form-control input-circle" onchange="FuncSearchBtn();"></select>
                                 </div>
                             </div>
                             <div id="Grid" class="p-30"></div>
@@ -53,8 +65,10 @@
 <script type="text/javascript">
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
     function getShelf(id) {
-        $("#RafID option").remove();
         $('#Grid').html("");
+        $("#RafID option").remove();
+        $("#BolumID option").remove();
+        $("#KatID option").remove();
         $.ajax({
             url: "/Shelf/ShelfList2/" + id,
             type: 'POST',
@@ -66,16 +80,50 @@
                         $('#RafID').append($('<option>', { value: item.Value, text: item.Text }));
                     });
                     $("#RafID").prepend("<option value=''>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0;
-                    FuncSearchBtn()
+                }
+            }
+        });
+    }
+    function getSection(id) {
+        $('#Grid').html("");
+        $("#BolumID option").remove();
+        $("#KatID option").remove();
+        $.ajax({
+            url: "/Section/SectionList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#BolumID').append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#BolumID").prepend("<option value=''>Seçiniz !!!</option>"); $("#BolumID")[0].selectedIndex = 0;
+                }
+            }
+        });
+    }
+    function getFloor(id) {
+        $('#Grid').html("");
+        $("#KatID option").remove();
+        $.ajax({
+            url: "/Floor/FloorList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#KatID').append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#KatID").prepend("<option value=''>Seçiniz !!!</option>"); $("#KatID")[0].selectedIndex = 0;
                 }
             }
         });
     }
     function FuncSearchBtn() {
-        var StoreId = $("#DepoID option:selected").val(); if (StoreId == null) StoreId = 0;
-        var ShelfId = $("#RafID option:selected").val(); if (ShelfId == null) ShelfId = 0;
         $('#Grid').html("");
-        PartialView('/Stock/List', 'Grid', JSON.stringify({ Id: (StoreId + "#" + ShelfId + "#0") }));
+        PartialView("/Stock/List", 'Grid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
     }
 </script>
 }
