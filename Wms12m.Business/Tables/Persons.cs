@@ -13,6 +13,7 @@ namespace Wms12m.Business
         Result _Result;
         WMSEntities db = new WMSEntities();
         Helpers helper = new Helpers();
+        Functions fn = new Functions();
         CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle, güncelle
@@ -24,6 +25,13 @@ namespace Wms12m.Business
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
+                _Result.Status = false;
+                return _Result;
+            }
+            if (fn.isEmail(tbl.Email) == false)
+            {
+                _Result.Id = 0;
+                _Result.Message = "Geçersiz bir email adresi yazdınız";
                 _Result.Status = false;
                 return _Result;
             }
