@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -45,7 +46,7 @@ namespace Wms12m.Presentation.Controllers
         /// yetki oluştur
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public void Save([Bind(Include = "ID,RoleName,PermName,Reading,Writing,Updating,Deleting")] RolePerm rolePerm)
+        public void Save([Bind(Include = "ID,RoleName,PermName,Reading,Writing,Updating,Deleting")] frmRolePerms rolePerm)
         {
             if (ModelState.IsValid && rolePerm.RoleName != "" && rolePerm.PermName != "")
             {
@@ -54,22 +55,31 @@ namespace Wms12m.Presentation.Controllers
                     var tbl = db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
                     if (tbl != null)
                     {
-                        tbl.Reading = rolePerm.Reading;
-                        tbl.Writing = rolePerm.Writing;
-                        tbl.Updating = rolePerm.Updating;
-                        tbl.Deleting = rolePerm.Deleting;
+                        tbl.Reading = rolePerm.Reading == "on" ? true : false;
+                        tbl.Writing = rolePerm.Writing == "on" ? true : false;
+                        tbl.Updating = rolePerm.Updating == "on" ? true : false;
+                        tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
                         tbl.ModifiedDate = DateTime.Now;
                         tbl.ModifiedUser = vUser.UserName;
                     }
                     else
                     {
-                        rolePerm.RecordDate = DateTime.Now;
-                        rolePerm.RecordUser = vUser.UserName;
-                        rolePerm.ModifiedDate = DateTime.Now;
-                        rolePerm.ModifiedUser = vUser.UserName;
-                        db.RolePerms.Add(rolePerm);
+                        tbl = new RolePerm()
+                        {
+                            PermName = rolePerm.PermName,
+                            RoleName = rolePerm.RoleName,
+                            Reading = rolePerm.Reading == "on" ? true : false,
+                            Writing = rolePerm.Writing == "on" ? true : false,
+                            Updating = rolePerm.Updating == "on" ? true : false,
+                            Deleting = rolePerm.Deleting == "on" ? true : false,
+                            RecordDate = DateTime.Now,
+                            RecordUser = vUser.UserName,
+                            ModifiedDate = DateTime.Now,
+                            ModifiedUser = vUser.UserName
+                        };
+                        db.RolePerms.Add(tbl);
                     }
-                    if (tbl != null || rolePerm.Reading != false || rolePerm.Writing != false || rolePerm.Updating != false || rolePerm.Deleting != false)
+                    if (tbl.Reading != false || tbl.Writing != false || tbl.Updating != false || tbl.Deleting != false || tbl.ID > 0)
                         try { db.SaveChanges(); }
                         catch (Exception ex) { Logger(ex, "Perms/Save"); }
                 }

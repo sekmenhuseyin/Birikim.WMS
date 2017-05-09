@@ -28,4 +28,17 @@
         public short MenuNo { get; set; }
         public string RolNo { get; set; }
     }
+    /// <summary>
+    /// RolePerms
+    /// </summary>
+    public partial class frmRolePerms
+    {
+        public int ID { get; set; }
+        public string PermName { get; set; }
+        public string RoleName { get; set; }
+        public string Reading { get; set; }
+        public string Writing { get; set; }
+        public string Updating { get; set; }
+        public string Deleting { get; set; }
+    }
 }

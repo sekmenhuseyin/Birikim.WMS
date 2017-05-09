@@ -20,7 +20,7 @@
 								{
 									<tr>
 										<td>
-											@using (Ajax.BeginForm("Save", "Perms", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace }, new { @class = "form-horizontal", id = "frm" + i }))
+											@using (Ajax.BeginForm("Save", "Perms", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
 											{
 												@Html.AntiForgeryToken()
 												<input name="ID" type="hidden" value="@item.ID" />
@@ -52,6 +52,7 @@
 	</div>
 </div>
 <script>
+	var biten = 0;
 	function RoleNameChanger(t) { $(".RoleName").val(t.value) }
 	function submit()
 	{
@@ -64,5 +65,11 @@
 		{
 			<text>$("#frm@{@j}").submit();</text>
 		}
+	}
+	function finished()
+	{
+		biten++;
+		if (biten == @i)
+			window.history.back();
 	}
 </script>
