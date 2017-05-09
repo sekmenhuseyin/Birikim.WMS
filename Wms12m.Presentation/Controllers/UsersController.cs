@@ -13,7 +13,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Users", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Kullanıcılar", PermTypes.Reading) == false) return Redirect("/");
             return View("Index");
         }
         /// <summary>
@@ -21,7 +21,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List()
         {
-            if (CheckPerm("Users", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Kullanıcılar", PermTypes.Reading) == false) return null;
             var list = db.Users.ToList();
             return PartialView("List", list);
         }
@@ -30,7 +30,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Details(int id)
         {
-            if (CheckPerm("Users", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Kullanıcılar", PermTypes.Reading) == false) return null;
             var tbl = Persons.Detail(id);
             return PartialView("Details", tbl);
         }
@@ -39,7 +39,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult New()
         {
-            if (CheckPerm("Users", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Kullanıcılar", PermTypes.Reading) == false) return null;
             ViewBag.Sirket = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.RoleName = new SelectList(Roles.GetList(), "RoleName", "RoleName");
             return PartialView("New", new User());
@@ -49,7 +49,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Edit(int id)
         {
-            if (CheckPerm("Users", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Kullanıcılar", PermTypes.Reading) == false) return null;
             var tbl = Persons.Detail(id);
             ViewBag.Sirket = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad", tbl.Sirket);
             ViewBag.RoleName = new SelectList(Roles.GetList(), "RoleName", "RoleName", tbl.RoleName);
@@ -60,7 +60,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Pass()
         {
-            if (CheckPerm("Users", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Kullanıcılar", PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
             ViewBag.ID = id;
@@ -72,7 +72,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Perm()
         {
             //kontrol
-            if (CheckPerm("Users", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Kullanıcılar", PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
             //return
@@ -90,7 +90,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult SavePerm(UserPerm tbl)
         {
-            if (CheckPerm("Users", PermTypes.Writing) == false) return null;
+            if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false) return null;
             if (ModelState.IsValid)
             {
                 try
@@ -116,7 +116,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult DeletePerm(string Id)
         {
-            if (CheckPerm("Users", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Kullanıcılar", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             string[] ids = Id.ToString().Split('#');
             string pname = ids[0], uname = ids[1];
             try
@@ -144,7 +144,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Save(User tbl)
         {
-            if (CheckPerm("Users", PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false) return Redirect("/");
             Result _Result = Persons.Operation(tbl);
             return RedirectToAction("Index");
         }
@@ -154,7 +154,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult ChangePass(frmUserChangePass tmp)
         {
-            if (CheckPerm("Users", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result();
             if (tmp.Password==tmp.Password2)
             {
@@ -173,7 +173,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult Delete(int Id)
         {
-            if (CheckPerm("Users", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Kullanıcılar", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Delete(Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

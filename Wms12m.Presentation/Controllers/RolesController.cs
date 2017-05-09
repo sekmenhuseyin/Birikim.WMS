@@ -9,6 +9,7 @@ namespace Wms12m.Presentation.Controllers
         // GET: Roles
         public ActionResult Index()
         {
+            if (CheckPerm("Gruplar", PermTypes.Reading) == false) return Redirect("/");
             var list = db.Roles.Where(m => m.RoleName != "").ToList();
             return View("Index", list);
         }
@@ -16,6 +17,7 @@ namespace Wms12m.Presentation.Controllers
         // GET: Roles/Create
         public PartialViewResult New()
         {
+            if (CheckPerm("Gruplar", PermTypes.Reading) == false) return null;
             return PartialView("Create", new Role());
         }
 
@@ -23,6 +25,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,RoleName")] Role role)
         {
+            if (CheckPerm("Gruplar", PermTypes.Writing) == false) return Redirect("/");
             if (ModelState.IsValid)
             {
                 db.Roles.Add(role);
@@ -34,6 +37,7 @@ namespace Wms12m.Presentation.Controllers
         // GET: Roles/Delete/5
         public ActionResult Delete(string id)
         {
+            if (CheckPerm("Gruplar", PermTypes.Deleting) == false) return Redirect("/");
             try
             {
                 Role role = db.Roles.Find(id);

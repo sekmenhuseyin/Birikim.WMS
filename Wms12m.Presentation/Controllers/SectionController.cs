@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Section", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Bölüm Kartı", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             return View("Index", new Bolum());
@@ -26,7 +26,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult SectionGridPartial(string Id)
         {
-            if (CheckPerm("Section", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Bölüm Kartı", PermTypes.Reading) == false) return null;
             int StoreId = 0;
             int ShelfId = 0;
             string Locked = "";
@@ -58,7 +58,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult SectionDetailPartial(string Id)
         {
-            if (CheckPerm("Section", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Bölüm Kartı", PermTypes.Reading) == false) return null;
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
@@ -82,7 +82,7 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            if (CheckPerm("Section", PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Bölüm Kartı", PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             List<Bolum> _List = new List<Bolum>();
             SectionOperation = new Section();
             try
@@ -110,7 +110,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
-            if (CheckPerm("Section", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Bölüm Kartı", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             SectionOperation = new Section();
             Result _Result = SectionOperation.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
@@ -120,7 +120,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult SectioniOperation(Bolum P)
         {
-            if (CheckPerm("Section", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Bölüm Kartı", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             SectionOperation = new Section();
             Result _Result = SectionOperation.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);

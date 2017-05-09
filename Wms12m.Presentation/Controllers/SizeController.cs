@@ -15,7 +15,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Size", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Boyut Kartı", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
             return View("Index", new Olcu());
         }
@@ -24,7 +24,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List()
         {
-            if (CheckPerm("Size", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Boyut Kartı", PermTypes.Reading) == false) return null;
             //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
@@ -37,7 +37,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Create()
         {
-            if (CheckPerm("Size", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Boyut Kartı", PermTypes.Reading) == false) return null;
             ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
             return PartialView("_Create", new Olcu());
         }
@@ -47,7 +47,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Edit(int id)
         {
             if (id == 0) return null;
-            if (CheckPerm("Size", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Boyut Kartı", PermTypes.Reading) == false) return null;
             var tbl = Dimension.Detail(id);
             if (tbl == null) return null;
             ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
@@ -59,7 +59,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult Save(Olcu tbl)
         {
-            if (CheckPerm("Size", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Boyut Kartı", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Dimension.Operation(tbl);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -68,7 +68,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
-            if (CheckPerm("Size", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Boyut Kartı", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Dimension.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

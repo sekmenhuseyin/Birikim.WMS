@@ -20,7 +20,7 @@ namespace Wms12m.Business
         public override Result Operation(UserDetail tbl)
         {
             _Result = new Result();
-            if (tbl.UserID == 0 || tbl.DepoID == 0 || tbl.SatisIrsaliyeSeri < 1 || tbl.SatisIrsaliyeSeri > 199 || tbl.SatisFaturaSeri < 1 || tbl.SatisFaturaSeri > 199 || tbl.TransferInSeri < 1 || tbl.TransferInSeri > 199 || tbl.TransferOutSeri < 1 || tbl.TransferOutSeri > 199)
+            if (tbl.UserID == 0 || tbl.DepoID == 0)
             {
                 _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";

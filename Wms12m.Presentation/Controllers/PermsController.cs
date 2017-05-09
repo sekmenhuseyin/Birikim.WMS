@@ -13,7 +13,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Perms", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return Redirect("/");
             var rolePerms = db.RolePerms.Include(r => r.Perm).Include(r => r.Role);
             return View("Index", rolePerms.ToList());
         }
@@ -22,7 +22,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Create()
         {
-            if (CheckPerm("Perms", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName");
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName");
             return View("Editor");
@@ -35,7 +35,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (CheckPerm("Perms", PermTypes.Writing) == false) return Redirect("/");
+                if (CheckPerm("Grup Yetkileri", PermTypes.Writing) == false) return Redirect("/");
                 try
                 {
                     rolePerm.RecordDate = DateTime.Now;
@@ -56,7 +56,7 @@ namespace Wms12m.Presentation.Controllers
             RolePerm rolePerm = db.RolePerms.Where(m=>m.ID==id).FirstOrDefault();
             if (rolePerm == null)
                 return RedirectToAction("Index");
-            if (CheckPerm("Perms", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName", rolePerm.PermName);
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName", rolePerm.RoleName);
             return View("Editor", rolePerm);
@@ -69,7 +69,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (CheckPerm("Perms", PermTypes.Writing) == false) return Redirect("/");
+                if (CheckPerm("Grup Yetkileri", PermTypes.Writing) == false) return Redirect("/");
                 try
                 {
                     var tbl= db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
@@ -91,7 +91,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Delete(int id)
         {
-            if (CheckPerm("Perms", PermTypes.Deleting) == false) return Redirect("/");
+            if (CheckPerm("Grup Yetkileri", PermTypes.Deleting) == false) return Redirect("/");
             var satir = db.RolePerms.Where(m => m.ID == id).FirstOrDefault();
             try
             {

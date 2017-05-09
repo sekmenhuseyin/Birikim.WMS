@@ -14,7 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("Index");
         }
@@ -24,7 +24,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult List(string Id)
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
             //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
@@ -56,7 +56,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Cable()
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetListCable(vUser.DepoId), "ID", "DepoAd");
             return View("Cable");
         }
@@ -66,7 +66,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult CableList(int Id)
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
             using (KabloEntities dbx = new KabloEntities())
             {
                 var kblDepoID = Store.Detail(Id).KabloDepoID;
@@ -81,7 +81,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult CableMovements(int ID)
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
             using (KabloEntities dbx = new KabloEntities())
             {
                 var list = dbx.harekets.Where(m => m.id == ID).OrderBy(m => m.tarih).ToList();
@@ -93,7 +93,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult History()
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
             return View("History");
@@ -104,7 +104,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult Movements(string Id)
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
             if (Id.Contains("#") == false) return null;
             var ids = Id.Split('#');
             var depoID = ids[1].ToInt32();
@@ -131,7 +131,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult ManualPlacement()
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
@@ -145,7 +145,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult ManualPlacement(Yer tbl)
         {
-            if (CheckPerm("Stock", PermTypes.Writing) == false) return Json(false, JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(false, JsonRequestBehavior.AllowGet);
             //yerleştirme kaydı yapılır
             var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
             if (tmp2 == null)
@@ -172,7 +172,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult ManualMovement()
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
@@ -185,7 +185,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult ManualMovement(Yer tbl)
         {
-            if (CheckPerm("Stock", PermTypes.Writing) == false) return Json(false, JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(false, JsonRequestBehavior.AllowGet);
             //ilk yerden düşür
             var ilk = Yerlestirme.Detail(tbl.ID);
             ilk.Miktar -= tbl.Miktar;
@@ -217,7 +217,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult ManualNewPlace(int Id)
         {
-            if (CheckPerm("Stock", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
             var tbl = Yerlestirme.Detail(Id);
             ViewBag.RafID = new SelectList(Shelf.GetListByDepo(tbl.DepoID.Value), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");

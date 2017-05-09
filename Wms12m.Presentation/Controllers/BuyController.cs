@@ -14,7 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Buy", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Mal Kabul", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("Index", new frmIrsaliye());
@@ -29,7 +29,7 @@ namespace Wms12m.Presentation.Controllers
             string[] tmp = id.ToString().Split(',');
             if (tmp.Length != 3) return null;
             //kontrol
-            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Mal Kabul", PermTypes.Reading) == false) return null;
             //get liste
             var list = Irsaliye.GetList(tmp[0], false, tmp[2], tmp[1].ToInt32());
             ViewBag.id = id;
@@ -45,7 +45,7 @@ namespace Wms12m.Presentation.Controllers
             string[] tmp = id.ToString().Split(',');
             if (tmp.Length != 3) return null;
             //kontrol
-            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Mal Kabul", PermTypes.Reading) == false) return null;
             //get list
             string depo = Store.Detail(tmp[1].ToInt32()).DepoKodu;
             string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
@@ -62,7 +62,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult FromSiparis(string s, string id, string ids)
         {
             if (s == null || id == null || ids == null) return null;
-            if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
+            if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return null;
             int irsaliyeID = id.ToInt32(), eklenen = 0, sira = 0;
             //split ids into rows
             ids = ids.Left(ids.Length - 1);
@@ -161,7 +161,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult New(frmIrsaliye tbl)
         {
-            if (CheckPerm("Buy", PermTypes.Reading) == false)
+            if (CheckPerm("Mal Kabul", PermTypes.Reading) == false)
             {
                 ViewBag.message = "Burası için izniniz yok";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
@@ -198,7 +198,7 @@ namespace Wms12m.Presentation.Controllers
                 }
             }
             //kontrol
-            if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
+            if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return null;
             //yeni kayıtta evrak no spide olmayacak kontrolü
             string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = {2})", tbl.SirketID, tbl.EvrakNo, tbl.HesapKodu);
             var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
@@ -233,7 +233,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult GridPartial(int ID)
         {
-            if (CheckPerm("Buy", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Mal Kabul", PermTypes.Reading) == false) return null;
             var list = IrsaliyeDetay.GetList(ID);
             var irs = Irsaliye.Detail(ID);
             ViewBag.IrsaliyeId = ID;
@@ -247,7 +247,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public PartialViewResult InsertMalzeme(frmMalzeme tbl)
         {
-            if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
+            if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return null;
             //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
             var irs = Irsaliye.Detail(tbl.IrsaliyeId);
             if (irs.Onay == false)
@@ -342,7 +342,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult NewMalzemeForm(int id)
         {
-            if (CheckPerm("Buy", PermTypes.Writing) == false) return null;
+            if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return null;
             ViewBag.IrsaliyeId = id;
             return PartialView("_GridNewPartial", new frmMalzeme());
         }
@@ -351,7 +351,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete1(int ID)
         {
-            if (CheckPerm("Buy", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Mal Kabul", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Irsaliye.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -360,7 +360,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Delete2(int ID)
         {
-            if (CheckPerm("Buy", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Mal Kabul", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = IrsaliyeDetay.Delete(ID);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
