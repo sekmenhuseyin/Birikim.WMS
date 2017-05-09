@@ -23,9 +23,9 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Create()
         {
             if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName");
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName");
-            return View("Create");
+            var list = db.RolePerms.ToList();
+            return View("Create", list);
         }
         /// <summary>
         /// yetki oluştur
