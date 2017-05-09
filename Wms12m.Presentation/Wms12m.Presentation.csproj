@@ -390,7 +390,7 @@
     <Content Include="Views\Transfer\List.cshtml" />
     <Content Include="Views\Transfer\_Details.cshtml" />
     <Content Include="Views\Stock\History.cshtml" />
-    <Content Include="Views\Stock\_Movements.cshtml" />
+    <Content Include="Views\Stock\HistoryList.cshtml" />
     <Content Include="Views\Transfer\Summary.cshtml" />
     <Content Include="Views\Stock\Cable.cshtml" />
     <Content Include="Views\Stock\CableList.cshtml" />
@@ -508,6 +508,7 @@
     <Content Include="Views\OnayTeminat\List.cshtml" />
     <Content Include="Views\Roles\List.cshtml" />
     <Content Include="Views\Perms\Editor.cshtml" />
+    <Content Include="Views\Stock\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

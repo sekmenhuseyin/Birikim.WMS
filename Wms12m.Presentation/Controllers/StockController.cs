@@ -102,7 +102,7 @@ namespace Wms12m.Presentation.Controllers
         /// hareketler alt sayfa
         /// </summary>
         [HttpPost]
-        public PartialViewResult Movements(string Id)
+        public PartialViewResult HistoryList(string Id)
         {
             if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
             if (Id.Contains("#") == false) return null;
@@ -124,7 +124,7 @@ namespace Wms12m.Presentation.Controllers
             //return
             var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.Kat.Bolum.Raf.Koridor.DepoID == depoID).OrderBy(m => m.KayitTarihi).ToList();
             ViewBag.Stok = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
-            return PartialView("_Movements", list);
+            return PartialView("HistoryList", list);
         }
         /// <summary>
         /// manual yerleştir
@@ -225,6 +225,21 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Miktar = tbl.Miktar;
             ViewBag.Id = Id;
             return PartialView("ManualNewPlace", new Yer());
+        }
+        /// <summary>
+        /// elle yerleştirmede yeni yeri belirle
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult Details()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null || id.ToString2() == "") return null;
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
+            //listeyi getir
+            var list = Irsaliye.Detail(id.ToInt32());
+            if (list == null)
+                return null;
+            return PartialView("Details", list);
         }
     }
 }

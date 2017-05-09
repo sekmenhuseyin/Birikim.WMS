@@ -6,6 +6,11 @@
         <input class="form-control input-circle text-right" id="Stok" name="Stok" disabled="disabled" type="text" value="@String.Format("{0:n}", ViewBag.Stok)">
     </div>
 </div>
+<div class="form-group">
+    <div class="col-sm-4 col-sm-offset-3">
+        <button class="btn btn-default btn-block btn-circle" type="button" onclick="FuncSearchBtn()">Yenile <i class="icon-refresh"></i></button>
+    </div>
+</div>
 <div class="p-30">
     <table class="table table-striped table-bordered" id="sample_1">
         <thead><tr><th>Girdi-Çıktı</th><th>Tarih</th><th>Saat</th><th>Evrak No</th><th>Hücre Adı</th><th>Mal Kodu</th><th>Birim</th><th>Miktar</th><th class="text-right">Stok</th></tr></thead>
@@ -15,7 +20,7 @@
                     <td>@if (item.GC == true) { i = i - item.Miktar; <text>Çıktı</text> }else{ i = i + item.Miktar; <text>Girdi</text> }</td>
                     <td>@item.KayitTarihi.FromOADateInt()</td>
                     <td>@item.KayitSaati.FromOaTime()</td>
-                    <td>@if (item.IR != null) { @item.IR.EvrakNo }</td>
+                    <td>@if (item.IR != null) {<a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Stock/Details/@item.IR.ID')"> @item.IR.EvrakNo </a>}</td>
                     <td>@Html.DisplayFor(modelItem => item.HucreAd)</td>
                     <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
