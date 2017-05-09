@@ -1,6 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
-using System;
 using System.Web.Mvc;
 using Wms12m.Entity.Models;
 
@@ -25,7 +25,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName");
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName");
-            return View("Editor");
+            return View("Create");
         }
         /// <summary>
         /// yetki oluştur
@@ -44,7 +44,8 @@ namespace Wms12m.Presentation.Controllers
                     rolePerm.ModifiedUser = vUser.UserName;
                     db.RolePerms.Add(rolePerm);
                     db.SaveChanges();
-                }catch (Exception){}
+                }
+                catch (Exception) { }
             }
             return RedirectToAction("Index");
         }
@@ -53,13 +54,13 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Edit(int id)
         {
-            RolePerm rolePerm = db.RolePerms.Where(m=>m.ID==id).FirstOrDefault();
+            RolePerm rolePerm = db.RolePerms.Where(m => m.ID == id).FirstOrDefault();
             if (rolePerm == null)
                 return RedirectToAction("Index");
             if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.PermName = new SelectList(db.Perms, "PermName", "PermName", rolePerm.PermName);
             ViewBag.RoleName = new SelectList(db.Roles, "RoleName", "RoleName", rolePerm.RoleName);
-            return View("Editor", rolePerm);
+            return View("Edit", rolePerm);
         }
         /// <summary>
         /// yetki düzenleme kaydet
@@ -72,7 +73,7 @@ namespace Wms12m.Presentation.Controllers
                 if (CheckPerm("Grup Yetkileri", PermTypes.Writing) == false) return Redirect("/");
                 try
                 {
-                    var tbl= db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
+                    var tbl = db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
                     tbl.RoleName = rolePerm.RoleName;
                     tbl.PermName = rolePerm.PermName;
                     tbl.Reading = rolePerm.Reading;
@@ -82,7 +83,8 @@ namespace Wms12m.Presentation.Controllers
                     tbl.ModifiedDate = DateTime.Now;
                     tbl.ModifiedUser = vUser.UserName;
                     db.SaveChanges();
-                }catch (Exception){}
+                }
+                catch (Exception) { }
             }
             return RedirectToAction("Index");
         }

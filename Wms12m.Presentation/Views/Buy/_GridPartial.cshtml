@@ -25,48 +25,48 @@ else
             </tbody>
         </table>
     }
-<script>
-    disableAll()
-    @{if (ViewBag.Onay == false && ViewBag.Yetki == true) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
-    $("#IrsNo").val('@ViewBag.IrsaliyeId');
-    $("#MalKodu").focus();
-    $("#MalKodu").autocomplete({
-        source: "/Buy/getMalzemebyCode/" + $("#SirketID").val(),
-        minLength: 2,
-        select: function (event, ui) {
-            getBirims(ui.item.id);
-            $("#MalAdi").val(ui.item.value);
-        }
-    });
-    $("#MalAdi").autocomplete({
-        source: "/Buy/getMalzemebyName/" + $("#SirketID").val(),
-        minLength: 2,
-        select: function (event, ui) {
-            getBirims(ui.item.id);
-            $("#MalAdi").val(ui.item.value);
-        }
-    });
-    function getBirims(id)
-    {
-        $("#Birim option").remove();
-        $.ajax({
-            url: "/Buy/getBirim" ,
-            type: 'POST',
-            data: JSON.stringify({ kod: id,s:$("#SirketID").val() }),
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            success: function (data) {
-                if (data != "") {
-                    if (data[0].Birim1.replace(" ", "") != "") { $('#Birim').append($('<option>', { value: data[0].Birim1, text: data[0].Birim1 })); }
-                    if (data[0].Birim2.replace(" ", "") != "") { $('#Birim').append($('<option>', { value: data[0].Birim2, text: data[0].Birim2 })); }
-                    if (data[0].Birim3.replace(" ", "") != "") { $('#Birim').append($('<option>', { value: data[0].Birim3, text: data[0].Birim3 })); }
-                    if (data[0].Birim4.replace(" ", "") != "") { $('#Birim').append($('<option>', { value: data[0].Birim4, text: data[0].Birim4 })); }
-                }
-                $("#MalKodu").val(id);
-                $("#Miktar").focus();
-                $("#Miktar").select();
+    <script>
+        disableAll()
+        @{if (ViewBag.Onay == false && ViewBag.Yetki == true) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
+        $("#IrsNo").val('@ViewBag.IrsaliyeId');
+        $("#MalKodu").focus();
+        $("#MalKodu").autocomplete({
+            source: "/Buy/getMalzemebyCode/" + $("#SirketID").val(),
+            minLength: 2,
+            select: function (event, ui) {
+                getBirims(ui.item.id);
+                $("#MalAdi").val(ui.item.value);
             }
         });
-    }
-</script>
+        $("#MalAdi").autocomplete({
+            source: "/Buy/getMalzemebyName/" + $("#SirketID").val(),
+            minLength: 2,
+            select: function (event, ui) {
+                getBirims(ui.item.id);
+                $("#MalAdi").val(ui.item.value);
+            }
+        });
+        function getBirims(id)
+        {
+            $("#Birim option").remove();
+            $.ajax({
+                url: "/Buy/getBirim" ,
+                type: 'POST',
+                data: JSON.stringify({ kod: id,s:$("#SirketID").val() }),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data != "") {
+                        if (data[0].Birim1.replace(" ", "") != "") { $('#Birim').append($('<option>', { value: data[0].Birim1, text: data[0].Birim1 })); }
+                        if (data[0].Birim2.replace(" ", "") != "") { $('#Birim').append($('<option>', { value: data[0].Birim2, text: data[0].Birim2 })); }
+                        if (data[0].Birim3.replace(" ", "") != "") { $('#Birim').append($('<option>', { value: data[0].Birim3, text: data[0].Birim3 })); }
+                        if (data[0].Birim4.replace(" ", "") != "") { $('#Birim').append($('<option>', { value: data[0].Birim4, text: data[0].Birim4 })); }
+                    }
+                    $("#MalKodu").val(id);
+                    $("#Miktar").focus();
+                    $("#Miktar").select();
+                }
+            });
+        }
+    </script>
 }

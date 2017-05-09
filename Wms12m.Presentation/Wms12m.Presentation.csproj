@@ -405,7 +405,7 @@
     <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Views\Buy\List.cshtml" />
     <Content Include="Views\Menu\Permission.cshtml" />
-    <Content Include="Views\Perms\Editor.cshtml" />
+    <Content Include="Views\Perms\Edit.cshtml" />
     <Content Include="Views\Perms\Index.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\Inbox\Index.cshtml" />
@@ -507,6 +507,7 @@
     <Content Include="Views\OnayTeminat\Index.cshtml" />
     <Content Include="Views\OnayTeminat\List.cshtml" />
     <Content Include="Views\Roles\List.cshtml" />
+    <Content Include="Views\Perms\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

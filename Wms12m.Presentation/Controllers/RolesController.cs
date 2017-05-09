@@ -7,27 +7,35 @@ namespace Wms12m.Presentation.Controllers
 {
     public class RolesController : RootController
     {
-        // GET: Roles
+        /// <summary>
+        /// rol sayfası
+        /// </summary>
         public ActionResult Index()
         {
             if (CheckPerm("Gruplar", PermTypes.Reading) == false) return Redirect("/");
             var list = db.Roles.Where(m => m.RoleName != "").ToList();
             return View("Index", list);
         }
+        /// <summary>
+        /// rol listesini güncelle
+        /// </summary>
         public PartialViewResult List()
         {
             if (CheckPerm("Gruplar", PermTypes.Reading) == false) return null;
             var list = db.Roles.Where(m => m.RoleName != "").ToList();
             return PartialView("List", list);
         }
-        // GET: Roles/Create
+        /// <summary>
+        /// yeni rol sayfası
+        /// </summary>
         public PartialViewResult New()
         {
             if (CheckPerm("Gruplar", PermTypes.Reading) == false) return null;
             return PartialView("Create", new Role());
         }
-
-        // POST: Roles/Create
+        /// <summary>
+        /// yeni rolü kaydet
+        /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,RoleName")] Role role)
         {
@@ -39,8 +47,9 @@ namespace Wms12m.Presentation.Controllers
             }
             return RedirectToAction("Index");
         }
-
-        // GET: Roles/Delete/5
+        /// <summary>
+        /// rol sil
+        /// </summary>
         public JsonResult Delete(string id)
         {
             if (CheckPerm("Gruplar", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
