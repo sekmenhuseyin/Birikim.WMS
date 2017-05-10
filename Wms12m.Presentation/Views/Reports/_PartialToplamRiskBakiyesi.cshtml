@@ -3,7 +3,74 @@
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
 }
-<div class="stk-rapor-grid">
+
+<div class="col-md-12" style="width:100%;">
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+    <div class="portlet box green">
+
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>Toplam Risk Bakiyesi
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Export Data </a>
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Temizle </a>
+            </div>
+
+        </div>
+
+        <div class="portlet-body">
+
+
+            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <thead>
+                    <tr>
+                        <th>Hesap Kodu</th>
+                        <th>Ünvan</th>
+                        <th>Borç</th>
+                        <th>Alacak</th>
+                        <th>Bakiye</th>
+                        <th>Toplam Bakiye</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+
+                            <td>@item.HesapKodu</td>
+                            <td>@item.Ünvan</td>
+                            <td align="right">@item.Borç.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.Alacak.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.ToDecimal().ToOnFormat()</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+</div>
+<script>
+        $(document).ready(function () {
+        //Globalize.locale('tr');
+            var model =  @Html.Raw(serializer.Serialize(Model));
+            console.log(model);
+            $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+    });
+
+</script>
+@*<div class="stk-rapor-grid">
 
 </div>
 
@@ -108,7 +175,7 @@
             //},
         }).dxDataGrid("instance");
     }
-</script>
+</script>*@
 
 
 

@@ -3,10 +3,95 @@
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
 }
+
+<div class="col-md-12" style="width:100%;">
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+    <div class="portlet box green">
+
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>Cari Ekstre
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Export Data </a>
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Temizle </a>
+            </div>
+
+        </div>
+
+        <div class="portlet-body">
+
+
+            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <thead>
+                    <tr>
+                        <th>Mal Kodu</th>
+                        <th>Mal Adı</th>
+                        <th>Grup Kodu</th>
+                        <th>Tip Kodu</th>
+                        <th>Özel Kodu</th>
+                        <th>Kod - 1</th>
+                        <th>Kod - 2</th>
+                        <th>Kod - 3</th>
+                        <th>Giriş Miktarı</th>
+                        <th>Çıkış Miktarı</th>
+                        <th>Stok Miktar</th>
+                        <th>Stok Miktar Birim</th>
+                        <th>Birim 2</th>
+                        <th>Stok Birim Miktar 3</th>
+                        <th>Birim 3</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+                            
+                            <td>@item.MalKodu</td>
+                            <td>@item.MalAdi</td>
+                            <td>@item.GrupKod</td>
+                            <td>@item.TipKod</td>
+                            <td>@item.OzelKod</td>
+                            <td>@item.Kod1</td>
+                            <td>@item.Kod2</td>
+                            <td>@item.Kod3</td>
+                            <td align="right">@item.GirMiktar.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.CikMiktar.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.StokMiktarBirim2.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.Birim2</td>
+                            <td align="right">@item.StokMiktarBirim3.ToDecimal().ToOnFormat()</td>
+                            <td>@item.Birim3</td>
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+</div>
+<script>
+        $(document).ready(function () {
+        //Globalize.locale('tr');
+            var model =  @Html.Raw(serializer.Serialize(Model));
+            console.log(model);
+            $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+    });
+
+</script>
 @*<div class="exp-excel">
         <span>Excel</span>
     </div>*@
-<div class="stk-rapor-grid">
+@*<div class="stk-rapor-grid">
 
 </div>
 
@@ -170,5 +255,5 @@
             //},
         }).dxDataGrid("instance");
     }
-</script>
+</script>*@
 

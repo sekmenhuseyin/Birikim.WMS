@@ -3,7 +3,84 @@
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
 }
-<div class="stk-rapor-grid">
+
+<div class="col-md-12" style="width:100%;">
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+    <div class="portlet box green">
+
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>Günlük Satış Raporu
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Export Data </a>
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Temizle </a>
+            </div>
+
+        </div>
+
+        <div class="portlet-body">
+
+
+            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <thead>
+                    <tr>
+                        <th>Hesap Kodu</th>
+                        <th>Ünvan</th>
+                        <th>Mal Kodu</th>
+                        <th>Mal Adı</th>
+                        <th>İşlem Tarihi</th>
+                        <th>Evrak No</th>
+                        <th>Birim</th>
+                        <th>Birim Miktar</th>
+                        <th>Net Birim Fiyat</th>
+                        <th>Net Tutar</th>
+                        <th>KDV</th>
+                        <th>Genel Toplam</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+                            
+                            <td>@item.Chk</td>
+                            <td>@item.Unvan</td>
+                            <td>@item.MalKodu</td>
+                            <td>@item.MalAdi</td>
+                            <td>@item.IslemTarihi</td>
+                            <td>@item.EvrakNo</td>
+                            <td>@item.Birim</td>
+                            <td align="right">@item.BirimMiktar.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.NetBirimFiyat.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.NetTutar.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.KDV.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.GenelToplam.ToDecimal().ToOnFormat()</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+</div>
+<script>
+        $(document).ready(function () {
+        //Globalize.locale('tr');
+            var model =  @Html.Raw(serializer.Serialize(Model));
+            console.log(model);
+            $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+    });
+
+</script>
+@*<div class="stk-rapor-grid">
 
 </div>
 
@@ -119,7 +196,7 @@
             //},
         }).dxDataGrid("instance");
     }
-</script>
+</script>*@
 
 
 

@@ -3,7 +3,7 @@
     ViewBag.Title = "BekleyenSiparis";
 }
 
-<style>
+@*<style>
     .dx-datagrid-headers .dx-row {
         color: white;
         border-bottom: 1px solid #D2D2D2;
@@ -17,7 +17,7 @@
     .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
         color: white;
     }
-</style>
+</style>*@
 <div class="row control-content">
     <div style="float:left;padding:15px;">
         <table>
@@ -50,6 +50,9 @@
 <link href="~/Content/dx.common.css" rel="stylesheet" />
 <script src="~/Scripts/dx.web.debug.js"></script>
 <script src="~/Scripts/moment.min.js"></script>
+<script src="~/Content/assets/global/scripts/datatable.js"></script>
+<script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
 <script>
     $(document).ready(function () {
         var dateVal = new Date();

@@ -43,13 +43,12 @@
                     @foreach (var item in Model)
             {
                         <tr>
-                            <td></td>
-                            <td>@item.HesapKodu</td>
+                            <td> </td>
+                            <td>@item.HesapKodu</td>@*<Td align="right">@String.Format("{0:n}", item.En)*@
                             <td>@item.Unvan</td>
-                            <td>@item.Borc</td>
-                            <td>@item.Alacak</td>
-                            <td>@item.Bakiye</td>>
-                            <td></td>
+                            <td align="right">@item.Borc.ToOnFormat()</td>
+                            <td align="right">@item.Alacak.ToOnFormat()</td>
+                            <td align="right">@item.Bakiye.ToOnFormat()</td>
 
                         </tr>
                     }
@@ -60,6 +59,16 @@
     </div>
     <!-- END EXAMPLE TABLE PORTLET-->
 </div>
+
+<script>
+        $(document).ready(function () {
+        //Globalize.locale('tr');
+            var model =  @Html.Raw(serializer.Serialize(Model));
+            console.log(model);
+            $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+    });
+
+</script>
 
 
 @*<div class="stk-rapor-grid">

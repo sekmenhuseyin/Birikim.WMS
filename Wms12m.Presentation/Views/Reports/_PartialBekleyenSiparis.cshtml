@@ -10,7 +10,7 @@
 
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>Bakiye
+                <i class="fa fa-gift"></i>Bekleyen Sipariş
             </div>
             <div class="col-md-1 pull-right m-t-5">
                 <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
@@ -65,7 +65,7 @@
                     @foreach (var item in Model)
             {
                         <tr>
-                            <td></td>
+                            @*<td align="right">@String.Format("{0:n}", item.Borc)</td>*@
                             <td>@item.Chk</td>
                             <td>@item.Unvan</td>
                             <td>@item.Tarih</td>
@@ -73,24 +73,24 @@
                             <td>@item.GrupKod</td>
                             <td>@item.MalKodu</td>
                             <td>@item.MalAdi</td>
-                            <td>@item.Miktar</td>
+                            <td align="right">@item.Miktar.ToDecimal().ToOnFormat()</td>
                             <td>@item.Birim</td>
-                            <td>@item.AnaMiktar</td>
+                            <td align="right">@item.AnaMiktar.ToDecimal().ToOnFormat()</td>
                             <td>@item.AnaBirim</td>
-                            <td>@item.SevkedilenMiktar</td>
-                            <td>@item.KalanMiktar</td>
+                            <td align="right">@item.SevkedilenMiktar.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.KalanMiktar.ToDecimal().ToOnFormat()</td>
                             <td>@item.KalanAnaBirim</td>
-                            <td>@item.NetFiyat2</td>
-                            <td>@item.Tutar</td>
+                            <td align="right">@item.NetFiyat2.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
                             <td>@item.ToplamIskonto</td>
                             <td>@item.KDV</td>
                             <td>@item.KalanBirimMiktar</td>
                             <td>@item.KalanAnaBirim</td>
-                            <td>@item.KDVSizTutar</td>
-                            <td>@item.KDVliTutar</td>
-                            <td>@item.StokMiktar</td>
+                            <td align="right">@item.KDVSizTutar.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.KDVliTutar.ToDecimal().ToOnFormat()</td>
+                            <td align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
                             <td>@item.StokBirim</td>
-                            <td>@item.StokAnaMiktar</td>
+                            <td align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
                             <td>@item.StokAnaBirim</td>
                             <td>@item.TeslimTarih</td>
                             <td>@item.TeslimTarihDurum</td>
@@ -104,6 +104,15 @@
     </div>
     <!-- END EXAMPLE TABLE PORTLET-->
 </div>
+<script>
+        $(document).ready(function () {
+        //Globalize.locale('tr');
+            var model =  @Html.Raw(serializer.Serialize(Model));
+            console.log(model);
+            $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+    });
+
+</script>
 @*<div class="stk-rapor-grid">
 
 </div>
