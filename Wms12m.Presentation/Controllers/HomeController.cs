@@ -50,8 +50,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 tarih2 = tarih.Value.FromOaDate().Date;
             }
-            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_GunlukSatisAnalizi] @Tarih = {1}", "33", tarih)).ToList();
-
+            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_GunlukSatisAnalizi] @Tarih = {1}", "01", tarih)).ToList();
 
             ViewBag.Tarih = tarih2;
             return PartialView("_PartialGunlukSatis", GSA);
@@ -68,7 +67,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 tarih2 = tarih.Value.FromOaDate().Date;
             }
-            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_GunlukSatisAnalizi] @Tarih = {1}", "33", tarih)).ToList();
+            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_GunlukSatisAnalizi] @Tarih = {1}", "01", tarih)).ToList();
 
 
             ViewBag.Tarih = tarih2;
@@ -77,14 +76,14 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukSatisYearToDay(int? tarih)
         {
-            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", "33", tarih)).ToList();
+            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", "01", tarih)).ToList();
             return PartialView("_PartialGunlukSatısAnaliziYearToDay", GSA);
         }
 
         public PartialViewResult PartialGunlukSatisYearToDayPie(int? tarih)
         {
 
-            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", "33", tarih)).ToList();
+            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", "01", tarih)).ToList();
             return PartialView("_PartialGunlukSatısAnaliziYearToDayPie", GSA);
         }
 
@@ -136,7 +135,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialAylikSatisAnaliziBar()
         {
-            var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_Aylik_SatisAnalizi]", "33")).ToList();
+            var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_Aylik_SatisAnalizi]", "01")).ToList();
             return PartialView("_PartialAylikSatisAnaliziBar", ASA);
         }
 
@@ -153,7 +152,7 @@ namespace Wms12m.Presentation.Controllers
                 chk2 = chk;
             }
 
-            var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_Aylik_SatisAnalizi_CHK] @chk='{1}'", "33", chk)).ToList();
+            var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[dbo].[DB_Aylik_SatisAnalizi_CHK] @chk='{1}'", "01", chk)).ToList();
             ViewBag.CHK = chk2;
             return PartialView("_PartialAylikSatisCHKAnaliziBar", ASA);
         }
