@@ -2,32 +2,27 @@
 @{
 	int i = 0;
 }
-<div class="form-group p-40">
 <div class="row">
-	<div class="col-md-4">Yetki Adı</div><div class="col-md-2">Okuma</div><div class="col-md-2">Yazma</div><div class="col-md-2">Değiştirme</div><div class="col-md-2">Silme</div>
+	<div class="col-md-4 bold">Yetki Adı</div><div class="col-md-2 text-center bold">Okuma</div><div class="col-md-2 text-center bold">Yazma</div><div class="col-md-2 text-center bold">Değiştirme</div><div class="col-md-2 text-center bold">Silme</div>
 </div>
-	<div class="row">
-		@foreach (var item in Model)
+<div class="row m-t-10">
+	@foreach (var item in Model)
+	{
+		using (Ajax.BeginForm("Save", "Perms", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
 		{
-			using (Ajax.BeginForm("Save", "Perms", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
-			{
-				@Html.AntiForgeryToken()
-				<input name="ID" type="hidden" value="@item.ID" />
-				<input name="RoleName" class="RoleName" type="hidden" value="@ViewBag.RoleName" required />
-				<div class="col-md-4"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
-				<div class="col-md-2"><input class="check-box form-control" name="Reading" type="checkbox" value="@item.Reading.ToBool()"></div>
-				<div class="col-md-2"><input class="check-box form-control" name="Writing" type="checkbox" value="@item.Writing.ToBool()"></div>
-				<div class="col-md-2"><input class="check-box form-control" name="Updating" type="checkbox" value="@item.Updating.ToBool()"></div>
-				<div class="col-md-2"><input class="check-box form-control" name="Deleting" type="checkbox" value="@item.Deleting.ToBool()"></div>}
-			i++;
-		}
-	</div>
+			@Html.AntiForgeryToken()
+			<input name="ID" type="hidden" value="@item.ID" />
+			<input name="RoleName" class="RoleName" type="hidden" value="@ViewBag.RoleName" required />
+			<div class="col-md-4"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
+			<div class="col-md-2"><input class="check-box form-control" name="Reading" type="checkbox"@{if(item.Reading==true){<text> checked="checked"</text>}}></div>
+			<div class="col-md-2"><input class="check-box form-control" name="Writing" type="checkbox"@{if(item.Writing == true){<text> checked="checked"</text>}}></div>
+			<div class="col-md-2"><input class="check-box form-control" name="Updating" type="checkbox"@{if(item.Updating == true){<text> checked="checked"</text>}}></div>
+			<div class="col-md-2"><input class="check-box form-control" name="Deleting" type="checkbox"@{if(item.Deleting == true){<text> checked="checked"</text>}}></div>}
+		i++;
+	}
 </div>
-<div class="form-group m-t-40">
-	<div class="col-md-4">
-		<button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
-	</div>
-	<div class="col-md-offset-2 col-md-6">
+<div class="row m-t-30">
+	<div class="col-md-offset-8 col-md-4">
 		<button class="btn btn-primary btn-block" onclick="submit()">Kaydet</button>
 	</div>
 </div>
