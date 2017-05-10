@@ -38,11 +38,17 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_PartialGM", KOD);
         }
 
-        public bool SiparisOnayGM(string EvrakNo, string Kaydeden,int OnayTip, bool OnaylandiMi) {
+        public bool SiparisOnay(string EvrakNo, string Kaydeden,int OnayTip, bool OnaylandiMi) {
 
             bool Result = true;
+            
 
-            var KOD = db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SP_SiparisOnay]","17",EvrakNo,vUser.UserName,3, 1));
+            if (OnayTip == 3 && OnaylandiMi == true)//GMOnay
+            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SP_SiparisOnay]", "17", EvrakNo, vUser.UserName, 3, 1)); }
+            if (OnayTip == 2 && OnaylandiMi == true)//SPGMYOnay
+            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SP_SiparisOnay]", "17", EvrakNo, vUser.UserName, 2, 1)); }
+            if (OnayTip == 1 && OnaylandiMi == true)//SMOnay
+            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SP_SiparisOnay]", "17", EvrakNo, vUser.UserName, 1, 1)); }
 
             return Result;
         }
