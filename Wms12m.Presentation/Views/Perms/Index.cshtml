@@ -16,14 +16,16 @@
             </div>
             <div class="portlet-body form">
                 <div class="form-horizontal">
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-2" for="RoleName">Grup İsmi</label>
-                            <div class="col-md-10">
-                                @Html.DropDownList("RoleName", null, htmlAttributes: new { @class = "form-control", @onchange = "FuncSearchBtn();" })
+                    <div class="form-body row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <div class="form-group">
+                                <label class="control-label col-md-2 bold" for="RoleName">Grup İsmi</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("RoleName", null, htmlAttributes: new { @class = "form-control", @onchange = "FuncSearchBtn();" })
+                                </div>
                             </div>
+                            <div id="theGrid" class="form-group"></div>
                         </div>
-                        <div id="theGrid" class="p-40"></div>
                     </div>
                 </div>
             </div>
@@ -33,6 +35,7 @@
 @section Scripts{<script>
     function FuncSearchBtn() {
         $('#theGrid').html("");
-        PartialView("/Perms/List", 'theGrid', JSON.stringify({ Id: $("#RoleName").val() }));
+        if ($("#RoleName").val() != "")
+            PartialView("/Perms/List", 'theGrid', JSON.stringify({ Id: $("#RoleName").val() }));
     }
 </script>}
