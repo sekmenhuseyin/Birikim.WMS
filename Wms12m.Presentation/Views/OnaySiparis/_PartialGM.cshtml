@@ -5,12 +5,7 @@
     serializer.MaxJsonLength = Int32.MaxValue;
 }
 
-<style>
 
-    .highlight {
-        background-color: red;
-    }
-</style>
 <div class="col-md-12" style="width:100%;">
     <!-- BEGIN EXAMPLE TABLE PORTLET-->
     <div class="portlet box green">
@@ -120,10 +115,10 @@
 
             $('#GMOnayla').click(function (e) {
 
-                var evrakNo = $(".selected").find("td").first().text();
+                var evrakno = $(".selected").find("td").first().text();
                 //console.log(a);
-                var SiparisGMOnaylamaURL = "/OnaySiparis/PartialGM";
-                PartialView(SiparisGMOnaylamaURL, 'cek-listesi-grid', JSON.stringify({ evrakNo: evrakNo, durum: 1, onaytip: 3 }));
+                var SiparisGMOnaylamaURL = "/OnaySiparis/SiparisOnayGM";
+                PartialView(SiparisGMOnaylamaURL, 'cek-listesi-grid', JSON.stringify({ evrakno: evrakno, durum: 1, onaytip: 3 }));
 
                 var result = false;
                 table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
@@ -133,9 +128,6 @@
                 else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
             });
 
-            $("#sample_1 tr").click(function () {
-                $(this).toggleClass("highlight");
-            });
 
 
     });
