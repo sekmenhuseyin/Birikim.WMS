@@ -12,7 +12,7 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult PartialSM()
         {
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListSM]", "33")).ToList();
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListSM]", "17")).ToList();
             return PartialView("_PartialSM", KOD);
         }
 
@@ -23,19 +23,28 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult PartialSPGMY()
         {
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListSPGMY]", "33")).ToList();
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListSPGMY]", "17")).ToList();
             return PartialView("_PartialSPGMY", KOD);
         }
 
-        public ActionResult GMOnay()
+        public ActionResult GM()
         {
 
             return View();
         }
         public PartialViewResult PartialGM()
         {
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListGM]", "33")).ToList();
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SiparisOnayListGM]", "17")).ToList();
             return PartialView("_PartialGM", KOD);
+        }
+
+        public bool SiparisOnayGM(string EvrakNo, string Kaydeden,int OnayTip, bool OnaylandiMi) {
+
+            bool Result = true;
+
+            var KOD = db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SP_SiparisOnay]","17",EvrakNo,vUser.UserName,3, 1));
+
+            return Result;
         }
 
     }

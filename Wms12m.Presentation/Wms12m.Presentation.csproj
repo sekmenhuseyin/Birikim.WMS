@@ -34,7 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs816D.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs9F96.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,7 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs816D.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs9F96.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevHelper">
@@ -276,6 +276,29 @@
     <None Include="Content\STISablon.xlsx" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\_PartialAylikSatis.cshtml" />
+    <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
+    <Content Include="Views\Home\_PartialAylikSatisCHKAnaliziBar.cshtml" />
+    <Content Include="Views\Home\_PartialBaglantiUrunGrubu.cshtml" />
+    <Content Include="Views\Home\_PartialBaglantiUrunGrubuPie.cshtml" />
+    <Content Include="Views\Home\_PartialBaglantiZamanCizelgesi.cshtml" />
+    <Content Include="Views\Home\_PartialBakiyeRiskAnalizi.cshtml" />
+    <Content Include="Views\Home\_PartialBekleyenSiparisUrunGrubu.cshtml" />
+    <Content Include="Views\Home\_PartialBekleyenSiparisUrunGrubuMiktar.cshtml" />
+    <Content Include="Views\Home\_PartialBekleyenSiparisUrunGrubuMiktarPie.cshtml" />
+    <Content Include="Views\Home\_PartialBolgeBazliSatisAnalizi.cshtml" />
+    <Content Include="Views\Home\_PartialBolgeBazliSatisAnaliziPie.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukMDFUretim.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukMDFUretimPie.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukSatis.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukSatisAnaliziDoubleKriter.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukSatisAnaliziDoubleKriterPie.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukSatisPie.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukSatısAnaliziYearToDay.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukSatısAnaliziYearToDayPie.cshtml" />
+    <Content Include="Views\Home\_PartialLokasyonSatis.cshtml" />
+    <Content Include="Views\Home\_PartialUrunGrubuSatis.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -337,7 +360,6 @@
     <Content Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_MenuList.cshtml" />
     <Content Include="Views\Storage\Index.cshtml" />
     <Content Include="Views\Storage\_StoreGridPartial.cshtml" />
@@ -414,18 +436,6 @@
     <Content Include="Views\Users\Perm.cshtml" />
     <Content Include="Views\Tasks\CountNew.cshtml" />
     <Content Include="Views\Users\List.cshtml" />
-    <Content Include="Views\Home\_PartialAylikSatis.cshtml" />
-    <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
-    <Content Include="Views\Home\_PartialAylikSatisCHKAnaliziBar.cshtml" />
-    <Content Include="Views\Home\_PartialBakiyeRiskAnalizi.cshtml" />
-    <Content Include="Views\Home\_PartialBekleyenSiparisUrunGrubu.cshtml" />
-    <Content Include="Views\Home\_PartialBekleyenSiparisUrunGrubuMiktar.cshtml" />
-    <Content Include="Views\Home\_PartialGunlukSatis.cshtml" />
-    <Content Include="Views\Home\_PartialGunlukSatisPie.cshtml" />
-    <Content Include="Views\Home\_PartialGunlukSatısAnaliziYearToDay.cshtml" />
-    <Content Include="Views\Home\_PartialGunlukSatısAnaliziYearToDayPie.cshtml" />
-    <Content Include="Views\Home\_PartialLokasyonSatis.cshtml" />
-    <Content Include="Views\Home\_PartialUrunGrubuSatis.cshtml" />
     <Content Include="Views\Stock\ManualMovement.cshtml" />
     <Content Include="Views\Terminal\Index.cshtml" />
     <Content Include="Views\Terminal\List.cshtml" />
@@ -434,16 +444,6 @@
     <Content Include="Views\Tasks\Count.cshtml" />
     <Content Include="Views\Tasks\CountList.cshtml" />
     <Content Include="Views\Tasks\CountFark.cshtml" />
-    <Content Include="Views\Home\_PartialBaglantiUrunGrubu.cshtml" />
-    <Content Include="Views\Home\_PartialBaglantiUrunGrubuPie.cshtml" />
-    <Content Include="Views\Home\_PartialBaglantiZamanCizelgesi.cshtml" />
-    <Content Include="Views\Home\_PartialBekleyenSiparisUrunGrubuMiktarPie.cshtml" />
-    <Content Include="Views\Home\_PartialBolgeBazliSatisAnalizi.cshtml" />
-    <Content Include="Views\Home\_PartialBolgeBazliSatisAnaliziPie.cshtml" />
-    <Content Include="Views\Home\_PartialGunlukMDFUretim.cshtml" />
-    <Content Include="Views\Home\_PartialGunlukMDFUretimPie.cshtml" />
-    <Content Include="Views\Home\_PartialGunlukSatisAnaliziDoubleKriter.cshtml" />
-    <Content Include="Views\Home\_PartialGunlukSatisAnaliziDoubleKriterPie.cshtml" />
     <Content Include="Views\OnayCek\GM.cshtml" />
     <Content Include="Views\OnayCek\MIGMY.cshtml" />
     <Content Include="Views\OnayCek\SPGMY.cshtml" />
