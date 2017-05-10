@@ -1,11 +1,11 @@
 ﻿
 @model List<ChartUrunGrubuSatisAnalizi>
 <style>
-    .as_urungrup_tarih .dx-dropdowneditor-icon {
+    .ls_tarih_kriter .dx-dropdowneditor-icon {
         color: #44b6ae;
     }
 
-        .as_urungrup_tarih .dx-dropdowneditor-icon:before {
+        .ls_tarih_kriter .dx-dropdowneditor-icon:before {
             color: #44b6ae;
         }
 
@@ -48,9 +48,10 @@
         <div class="portlet-title">
             <div class="caption">
                 <i class="icon-layers font-green"></i>
-                <span class="caption-subject font-green bold uppercase">Ürün Grubu Satış Analizi</span>
+                <span class="caption-subject font-green bold uppercase">Lokasyon Bazlı Satış Analizi Kriter</span>
             </div>
-            <div class="as_urungrup_tarih" style="float:left; width:200px; margin-left:60px;"></div>
+            <div style="float:left;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Tarih </span></div> <div class="ls_tarih_kriter" style="float:right; width:130px; margin-left:10px;"></div></div>
+            <div style="float:left;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kriter </span></div> <div class="slct_aylik_lokasyon-kriter" style="float:left;width:130px; margin-left:10px;"></div></div>
             <div class="actions">
                 <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
                     <i class="icon-cloud-upload"></i>
@@ -64,18 +65,18 @@
             </div>
         </div>
         <div class="portlet-body">
-            <div id="echarts_bar_urungrubu" style="height:500px;"></div>
+            <div id="echarts_bar_lokasyon_kriter" style="height:500px;"></div>
         </div>
     </div>
 </div>
 @*<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<link href="~/Content/dx.light.css" rel="stylesheet" />
-<link href="~/Content/dx.common.css" rel="stylesheet" />
-<script src="~/Content/global/plugins/morris/morris.min.js"></script>
-<script src="~/Content/global/plugins/morris/raphael-min.js"></script>
-<script src="~/Scripts/dx.web.debug.js"></script>
-<script src="~/Scripts/moment.min.js"></script>*@
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <link href="~/Content/dx.light.css" rel="stylesheet" />
+    <link href="~/Content/dx.common.css" rel="stylesheet" />
+    <script src="~/Content/global/plugins/morris/morris.min.js"></script>
+    <script src="~/Content/global/plugins/morris/raphael-min.js"></script>
+    <script src="~/Scripts/dx.web.debug.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>*@
 <script>
     $(document).ready(function (e) {
         var f_tarih = @ViewBag.Tarih;
@@ -94,14 +95,14 @@
       { id: 12, state: "Aralik 2016-2017"},
       // ...
         ];
-        $(".as_urungrup_tarih").dxSelectBox({
+        $(".ls_tarih_kriter").dxSelectBox({
             dataSource: states,
             valueExpr: 'id',
             displayExpr: 'state',
             value:f_tarih,
             onValueChanged: function (e) {
-                var UrunGrubuSatisUrl = "/Home/PartialUrunGrubuSatis";
-                PartialView(UrunGrubuSatisUrl, 'urun_grubu_satis', JSON.stringify({ tarih: e.value }));
+                var LokasyonbazliSatisKriterUrl = "/Home/PartialLokasyonSatisKriter";
+                PartialView(LokasyonbazliSatisKriterUrl, 'lokasyon_satis_kriter', JSON.stringify({ tarih: e.value, kriter:kriter_value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));
@@ -120,6 +121,26 @@
                 color: color[i]
             });
         }
+
+        var kriter_value= @Html.Raw(Json.Encode(ViewBag.Kriter));
+        var doviz = [
+{ state: "TL"},
+{ state: "Döviz"},
+{ state: "Birim" },
+        ];
+
+        $(".slct_aylik_lokasyon-kriter").dxSelectBox({
+            dataSource: doviz,
+            valueExpr: 'state',
+            displayExpr: 'state',
+            value: kriter_value,
+            onValueChanged: function (e) {
+                kriter_value=e.value;
+                var LokasyonbazliSatisKriterUrl = "/Home/PartialLokasyonSatisKriter";
+                PartialView(LokasyonbazliSatisKriterUrl, 'lokasyon_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter:kriter_value }));
+            }
+        });
+
         require.config({
             paths: {
                 echarts: '/content/assets/global/plugins/echarts'
@@ -150,7 +171,7 @@
             ],
             function(ec) {
                 //--- BAR ---
-                var myChart = ec.init(document.getElementById('echarts_bar_urungrubu'));
+                var myChart = ec.init(document.getElementById('echarts_bar_lokasyon_kriter'));
                 myChart.setOption({
                     tooltip: {
                         trigger: 'axis'
@@ -232,5 +253,8 @@
         //$(".as_tarih").dxSelectBox("instance").option({value:f_tarih});
     });
 </script>
+
+
+
 
 

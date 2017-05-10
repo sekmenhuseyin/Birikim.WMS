@@ -96,9 +96,9 @@
 <script>
     $(document).ready(function (e) {
         var x = '@ViewBag.MiktarTutar';
-        var tip = x=="Miktar"?true:false;
+        var tip2 = x=="Miktar"?true:false;
         $(".make-switch-pie").bootstrapSwitch();
-        $('.make-switch-pie').bootstrapSwitch('state', tip);
+        $('.make-switch-pie').bootstrapSwitch('state', tip2);
         $('.make-switch-pie').on('switchChange.bootstrapSwitch', function (event, state) {
             var BekleyenSiparisUrunGrubuMikPie = "/Home/PartialBekleyenSiparisUrunGrubuMiktarPie";
             PartialView(BekleyenSiparisUrunGrubuMikPie, 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar:state}));
@@ -108,10 +108,10 @@
         //$(".cbox_MiktarTutar").dxSwitch({
         //    onText: 'Miktar',
         //    offText: 'Tutar',
-        //    value:tip,
+        //    value:tip2,
         //    onValueChanged: function(data) {
-        //        //$(".cbox_MiktarTutar").dxSwitch("instance").option("value",tip);
-        //        if(data.value!=tip){
+        //        //$(".cbox_MiktarTutar").dxSwitch("instance").option("value",tip2);
+        //        if(data.value!=tip2){
         //        var BekleyenSiparisUrunGrubuMik = "/Home/PartialBekleyenSiparisUrunGrubuMiktar";
         //        PartialView(BekleyenSiparisUrunGrubuMik, 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar:data.value }));
 

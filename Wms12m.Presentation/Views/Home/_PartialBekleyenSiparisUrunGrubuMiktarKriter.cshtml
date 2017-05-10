@@ -37,7 +37,7 @@
         <div class="portlet-title">
             <div class="caption">
                 <i class="icon-bar-chart font-green-haze"></i>
-                <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D CHART</span></span>
+                <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu Kriter <span style="color:#8888a7;">3D CHART</span></span>
                 @*<span class="caption-helper">3d cylinder chart</span>*@
             </div>
             <div class="tools" style="float:right;margin-left:20px;">
@@ -49,13 +49,15 @@
             </div>
             @*<div class="cbox_MiktarTutar" style="float:left;width:80px;margin-left:20px;line-height:36px;color:red;"></div>*@
             @*<div class="form-group" style="float:left; ">*@
-                <div style="float:left;width:80px;margin-left:20px;">
-                    <input type="checkbox" class="make-switch" name="Miktar" data-on-text="&nbsp;Miktar&nbsp;" data-off-text="&nbsp;Tutar&nbsp;">
-                </div>
+
+            <div style="float:left;width:80px;margin-left:20px;">
+                <input type="checkbox" class="make-switch" name="Miktar" data-on-text="&nbsp;Miktar&nbsp;" data-off-text="&nbsp;Tutar&nbsp;">
+            </div>
+            <div class="kriter_durum" style="float:left;margin-left: 80px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kriter </span></div> <div class="slct_bekleyen_siparis_kriter" style="float:left;width:130px; margin-left:10px;"></div></div>
             @*</div>*@
         </div>
         <div class="portlet-body">
-            <div id="chart_7_mik" class="chart" style="height: 400px;"> </div>
+            <div id="chart_7_mik_kriter" class="chart" style="height: 400px;"> </div>
             <div class="well margin-top-20">
                 @*<div class="row">
                         <div class="col-sm-3">
@@ -96,25 +98,44 @@
 <script>
     $(document).ready(function (e) {
         var x = '@ViewBag.MiktarTutar';
-        var tip1 = x=="Miktar"?true:false;
+        if(x=="Tutar")
+        {
+            $(".kriter_durum").show();
+        }
+        else{
+            $(".kriter_durum").hide();
+        }
+        var tip3 = x=="Miktar"?true:false;
         $(".make-switch").bootstrapSwitch();
-        $('.make-switch').bootstrapSwitch('state', tip1);
+        $('.make-switch').bootstrapSwitch('state', tip3);
         $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) {
-            var BekleyenSiparisUrunGrubuMik = "/Home/PartialBekleyenSiparisUrunGrubuMiktar";
-            PartialView(BekleyenSiparisUrunGrubuMik, 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar:state}));
+            if(state!=tip3){
+                if(state==false)
+                {
+                    $(".kriter_durum").show();
+                    var BekleyenSiparisUrunGrubuMikKriter = "/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter";
+                    PartialView(BekleyenSiparisUrunGrubuMikKriter, 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ miktarTutar: state , kriter:kriter_value}));
+                }
+                else{
+                    $(".kriter_durum").hide();
+                    var BekleyenSiparisUrunGrubuMikKriter = "/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter";
+                    PartialView(BekleyenSiparisUrunGrubuMikKriter, 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ miktarTutar: state , kriter:""}));
+                }
+            }
+
         });
 
         var model = @Html.Raw(Json.Encode(Model));
         //$(".cbox_MiktarTutar").dxSwitch({
         //    onText: 'Miktar',
         //    offText: 'Tutar',
-        //    value:tip1,
+        //    value:tip3,
         //    onValueChanged: function(data) {
-        //        //$(".cbox_MiktarTutar").dxSwitch("instance").option("value",tip1);
-        //        if(data.value!=tip1){
+        //        //$(".cbox_MiktarTutar").dxSwitch("instance").option("value",tip3);
+        //        if(data.value!=tip3){
         //        var BekleyenSiparisUrunGrubuMik = "/Home/PartialBekleyenSiparisUrunGrubuMiktar";
         //        PartialView(BekleyenSiparisUrunGrubuMik, 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar:data.value }));
-                
+
         //        }
         //    }
         //});
@@ -124,12 +145,30 @@
                 color: color[i%color.length]
             });
         }
-        console.log(model);
-    
+
+        var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter))==""? "TL":@Html.Raw(Json.Encode(ViewBag.Kriter));
+        var doviz = [
+{ state: "TL"},
+{ state: "Döviz"},
+{ state: "Birim" },
+        ];
+
+        $(".slct_bekleyen_siparis_kriter").dxSelectBox({
+            dataSource: doviz,
+            valueExpr: 'state',
+            displayExpr: 'state',
+            value: kriter_value,
+            onValueChanged: function (e) {
+                kriter_value=e.value;
+                var BekleyenSiparisUrunGrubuMikKriter = "/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter";
+                PartialView(BekleyenSiparisUrunGrubuMikKriter, 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ miktarTutar: false , kriter:kriter_value}));
+            }
+        });
+
         var ChartsAmchartsMik = function () {
 
             var initChartSample7Mik = function () {
-                var chart = AmCharts.makeChart("chart_7_mik", {
+                var chart = AmCharts.makeChart("chart_7_mik_kriter", {
                     "theme": "light",
                     "type": "serial",
                     "startDuration": 2,
@@ -218,4 +257,3 @@
     });
 
 </script>
-
