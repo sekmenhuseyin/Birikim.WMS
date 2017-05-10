@@ -152,7 +152,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Save(User tbl)
         {
-            if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false || tbl.ID == 1) return Redirect("/");
             Result _Result = Persons.Operation(tbl);
             return RedirectToAction("Index");
         }
@@ -162,7 +162,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult ChangePass(frmUserChangePass tmp)
         {
-            if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false || tmp.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result();
             if (tmp.Password == tmp.Password2)
             {
@@ -181,7 +181,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult Delete(int Id)
         {
-            if (CheckPerm("Kullanıcılar", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Kullanıcılar", PermTypes.Deleting) == false || Id == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Delete(Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

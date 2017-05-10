@@ -1,0 +1,49 @@
+﻿@model IEnumerable<GetRolePermsFor_Result>
+@{
+	int i = 0;
+}
+<div class="form-group p-40">
+<div class="row">
+	<div class="col-md-4">Yetki Adı</div><div class="col-md-2">Okuma</div><div class="col-md-2">Yazma</div><div class="col-md-2">Değiştirme</div><div class="col-md-2">Silme</div>
+</div>
+	<div class="row">
+		@foreach (var item in Model)
+		{
+			using (Ajax.BeginForm("Save", "Perms", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
+			{
+				@Html.AntiForgeryToken()
+				<input name="ID" type="hidden" value="@item.ID" />
+				<input name="RoleName" class="RoleName" type="hidden" value="@ViewBag.RoleName" required />
+				<div class="col-md-4"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
+				<div class="col-md-2"><input class="check-box form-control" name="Reading" type="checkbox" value="@item.Reading.ToBool()"></div>
+				<div class="col-md-2"><input class="check-box form-control" name="Writing" type="checkbox" value="@item.Writing.ToBool()"></div>
+				<div class="col-md-2"><input class="check-box form-control" name="Updating" type="checkbox" value="@item.Updating.ToBool()"></div>
+				<div class="col-md-2"><input class="check-box form-control" name="Deleting" type="checkbox" value="@item.Deleting.ToBool()"></div>}
+			i++;
+		}
+	</div>
+</div>
+<div class="form-group m-t-40">
+	<div class="col-md-4">
+		<button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
+	</div>
+	<div class="col-md-offset-2 col-md-6">
+		<button class="btn btn-primary btn-block" onclick="submit()">Kaydet</button>
+	</div>
+</div>
+<script>
+	var biten = 0;
+	function submit()
+	{
+		@for (int j = 0; j < i; j++)
+		{
+			<text>$("#frm@{@j}").submit();</text>
+		}
+	}
+	function finished()
+	{
+		biten++;
+		if (biten == @i)
+			Modaldialog('Kaydedildi', 'Başarı', 'Tamam', 'btn - default');
+	}
+</script>
