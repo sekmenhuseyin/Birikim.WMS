@@ -93,49 +93,33 @@
     var dateVal = new Date();
     dateVal.setHours(0, 0, 0);
     var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-    $('#bekleyen_siparis_urun_grubu_miktar').html("");
-    $.ajax({
-        url: "/Home/PartialBekleyenSiparisUrunGrubuMiktar",
-        type: 'POST',
-        data: JSON.stringify({ miktarTutar: true }),
-        dataType: "html",
-        contentType: 'application/json; charset=utf-8',
-        success: function (data) {
-            if (data == "") {
-                Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
-            } else {
-                $('#bekleyen_siparis_urun_grubu_miktar').html(data);
-            }
-        }
-    });
-
-    //PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ tarih: oaDate }));
-    //PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ tarih: oaDate }));
-    //PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ tarih: oaDate }));
-    //PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie', JSON.stringify({ tarih: oaDate }));
-    //PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: "Tümü", islemtip: 0, tarih: oaDate }));
-    //PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ kod: "Tümü", islemtip: 0, tarih: oaDate }));
-    //PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar');
-    //PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar');
-    //PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: "Tümü", islemtip: 0, doviz: "TL" }));
-    //PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ tarih: dateVal.getMonth() + 1 }));
-    //PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ tarih: dateVal.getMonth() + 1, kriter: "TL" }));
-    //PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ tarih: dateVal.getMonth() + 1 }));
-    //PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ tarih: dateVal.getMonth() + 1, kriter: "TL" }));
-    //PartialView("/Home/PartialBakiyeRiskAnalizi", 'bakiye_risk');
-    //PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ chk: '33' }));
-        //PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: true }));
-        //PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar: true }));
-        //PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ miktarTutar: true, kriter: "TL" }));
-        //PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie", 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ miktarTutar: true, kiter: "TL" }));
-    //PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ kod: "Tümü", doviz: "TL" }));
-    //PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: "Tümü", tarih: dateVal.getMonth() + 1 }));
-    //PartialView("/Home/PartialBaglantiUrunGrubu", 'baglanti-urun-grubu');
-    //PartialView("/Home/PartialBaglantiUrunGrubuPie", 'baglanti-urun-grubu-pie');
-    //PartialView("/Home/PartialGunlukMDFUretimi", 'gunluk-mdf-uretim');
-    //PartialView("/Home/PartialGunlukMDFUretimiPie", 'gunluk-mdf-uretim-pie');
-    //PartialView("/Home/PartialBaglantiZamanCizelgesi", 'baglanti-zaman-cizelgesi');
-    //PartialView("/Home/PartialBolgeBazliSatisAnalizi", 'bolge-bazli-satis-analizi', JSON.stringify({ ay: 0, kriter:"Tümü" }));
-    //PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge-bazli-satis-analizi-pie', JSON.stringify({ ay: 0, kriter: "Tümü" }));
+    PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ tarih: oaDate }));
+    PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ tarih: oaDate }));
+    PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ tarih: oaDate }));
+    PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie', JSON.stringify({ tarih: oaDate }));
+    PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: "Tümü", islemtip: 0, tarih: oaDate }));
+    PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ kod: "Tümü", islemtip: 0, tarih: oaDate }));
+    PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar');
+    PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar');
+    PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: "Tümü", islemtip: 0, doviz: "TL" }));
+    PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ tarih: dateVal.getMonth() + 1 }));
+    PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ tarih: dateVal.getMonth() + 1, kriter: "TL" }));
+    PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ tarih: dateVal.getMonth() + 1 }));
+    PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ tarih: dateVal.getMonth() + 1, kriter: "TL" }));
+    PartialView("/Home/PartialBakiyeRiskAnalizi", 'bakiye_risk');
+    PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ chk: '33' }));
+    PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: true }));
+    PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar: true }));
+    PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ miktarTutar: true, kriter: "TL" }));
+    PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie", 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ miktarTutar: true, kiter: "TL" }));
+    PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ kod: "Tümü", doviz: "TL" }));
+    PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ kod: "Tümü", tarih: dateVal.getMonth() + 1 }));
+    PartialView("/Home/PartialBaglantiUrunGrubu", 'baglanti-urun-grubu');
+    PartialView("/Home/PartialBaglantiUrunGrubuPie", 'baglanti-urun-grubu-pie');
+    PartialView("/Home/PartialGunlukMDFUretimi", 'gunluk-mdf-uretim');
+    PartialView("/Home/PartialGunlukMDFUretimiPie", 'gunluk-mdf-uretim-pie');
+    PartialView("/Home/PartialBaglantiZamanCizelgesi", 'baglanti-zaman-cizelgesi');
+    PartialView("/Home/PartialBolgeBazliSatisAnalizi", 'bolge-bazli-satis-analizi', JSON.stringify({ ay: 0, kriter: "Tümü" }));
+    PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge-bazli-satis-analizi-pie', JSON.stringify({ ay: 0, kriter: "Tümü" }));
 </script>
 }
