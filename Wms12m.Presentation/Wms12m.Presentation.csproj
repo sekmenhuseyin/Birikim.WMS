@@ -515,6 +515,8 @@
     <Content Include="Views\Home\_PartialLokasyonSatisKriter.cshtml" />
     <Content Include="Views\Home\_PartialSatisTemsilcisi_AylikSatisAnalizi.cshtml" />
     <Content Include="Views\Home\_PartialUrunGrubuSatisKriter.cshtml" />
+    <Content Include="Views\Menu\Permissions.cshtml" />
+    <Content Include="Views\Menu\PermissionsList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
