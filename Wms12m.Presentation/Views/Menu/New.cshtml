@@ -43,7 +43,7 @@
 							</div>
 							<div class="form-group">
 								@Html.LabelFor(model => model.SimgeID, "Simge", htmlAttributes: new { @class = "control-label col-md-2" })
-								<div class="col-md-1"><i class="" id="divIcon"> </i></div>
+								<div class="col-md-1"><i class="icon-@ViewBag.Simge" id="divIcon"> </i></div>
 								<div class="col-md-9">									
 									@Html.DropDownList("SimgeID", null, htmlAttributes: new { @class = "form-control", onchange = "Iconize(this);" })
 									@Html.ValidationMessageFor(model => model.SimgeID, "", new { @class = "text-danger" })
@@ -80,8 +80,9 @@
 	$("#SiteTipiID").prepend("<option value=''></option>"); $("#MenuYeriID").prepend("<option value=''></option>"); $("#UstMenuID").prepend("<option value=''></option>"); $("#SimgeID").prepend("<option value=''></option>");
 	function Iconize(sel) { $("#divIcon").removeClass(); $("#divIcon").addClass(sel.options[sel.selectedIndex].text); }
 	@{
-		if (Model == null) { <text>$("#SiteTipiID")[0].selectedIndex = 0; $("#MenuYeriID")[0].selectedIndex = 0; $("#UstMenuID")[0].selectedIndex = 0; $("#SimgeID")[0].selectedIndex = 0;</text> }
-		else if (Model.UstMenuID == null) { <text>$("#UstMenuID")[0].selectedIndex = 0;</text> }
-		else if (Model.SimgeID == null) { <text>$("#SimgeID")[0].selectedIndex = 0;</text> }
+		if (Model.SiteTipiID == 0) { <text>$("#SiteTipiID")[0].selectedIndex = 0;</text> }
+		if (Model.MenuYeriID == 0) { <text>$("#MenuYeriID")[0].selectedIndex = 0;</text> }
+		if (Model.UstMenuID == null) { <text>$("#UstMenuID")[0].selectedIndex = 0;</text> }
+		if (Model.SimgeID == null) { <text>$("#SimgeID")[0].selectedIndex = 0;</text> }
 	}
 </script>
