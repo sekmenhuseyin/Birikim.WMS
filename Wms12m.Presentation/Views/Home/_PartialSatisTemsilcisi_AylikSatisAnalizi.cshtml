@@ -91,7 +91,7 @@
         ];
 
         $.ajax({
-            url: window.location.origin + "/Home/AylikSatisAnaliziKodTipDovizKriter",
+            url: window.location.origin + "/Home/AylikSatisAnaliziKodTipDovizKriter()",
             data: {},
             type: "post",
             success: function (data)
@@ -111,8 +111,7 @@
                 });
 
 
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
 
         $(".slct_satis_temsilcisi_aylar").dxSelectBox({

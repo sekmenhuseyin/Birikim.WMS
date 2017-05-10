@@ -154,5 +154,37 @@ namespace Wms12m.Presentation.Controllers
             }
             return Redirect(Request.UrlReferrer.ToString());
         }
+        /// <summary>
+        /// Yetkiler
+        /// </summary>
+        public ActionResult Permissions()
+        {
+            if (CheckPerm("Menu", PermTypes.Reading) == false) return Redirect("/");
+            ViewBag.MenuID = new SelectList(db.WebMenus.Select(m => new { m.ID, Ad = m.ComboItem_Name1.Name + ", " + m.ComboItem_Name.Name + ", " + (m.UstMenuID > 0 ? (m.WebMenu2.UstMenuID > 0 ? m.WebMenu2.WebMenu2.Ad + ", " : "") + m.WebMenu2.Ad + ", " : "") + m.Ad }).OrderBy(m => m.Ad), "ID", "Ad");
+            return View("Permissions");
+        }
+        /// <summary>
+        /// yetki oluşturma sayfası
+        /// </summary>
+        public PartialViewResult PermissionsList(string id)
+        {
+            if (CheckPerm("Menu", PermTypes.Reading) == false) return null;
+            var list = db.GetRolePermsFor(id).ToList();
+            ViewBag.RoleName = id;
+            return PartialView("PermissionsList", list);
+        }
+        /// <summary>
+        /// yetki oluştur
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public void Save(mdlCreateMenuPermission tablo)
+        {
+            if (ModelState.IsValid)
+            {
+                if (CheckPerm("Menu", PermTypes.Writing) == true)
+                    try { db.MenuRolEkle(tablo.MenuNo, tablo.RolNo); }
+                    catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
+            }
+        }
     }
 }

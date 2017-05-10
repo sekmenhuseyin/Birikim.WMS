@@ -113,14 +113,12 @@
             type: "post",
             success: function (data)
             {
-                console.log($.parseJSON(data));
                 $(".slct_double-kriter_pie").dxSelectBox({
                     dataSource: $.parseJSON(data),
                     valueExpr: 'Kriter',
                     displayExpr: 'Kriter',
                     value: kriter_value,
                     onValueChanged: function (e) {
-                        console.log("zzzz");
                         if(e.value!=kriter_value){
                             kriter_value=e.value;
                             var GunlukSatisDoubleKriterPieUrl = "/Home/PartialGunlukSatisDoubleKriterPie";
@@ -130,8 +128,7 @@
                 });
 
 
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
 
         $(".slct_islemtip_pie").dxSelectBox({

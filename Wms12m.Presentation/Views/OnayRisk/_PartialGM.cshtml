@@ -1,14 +1,10 @@
-﻿
-@model List<RiskTanim>
+﻿@model List<RiskTanim>
 @{
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
 }
-
 <div class="col-md-12" style="width:100%;">
-    <!-- BEGIN EXAMPLE TABLE PORTLET-->
     <div class="portlet box green">
-
         <div class="portlet-title">
             <div class="caption">
                 <i class="fa fa-gift"></i>Risk Onay SM
@@ -99,15 +95,10 @@
 
         </div>
     </div>
-    <!-- END EXAMPLE TABLE PORTLET-->
 </div>
-
 <script>
-        $(document).ready(function () {
-        //Globalize.locale('tr');
-            var model =  @Html.Raw(serializer.Serialize(Model));
-            console.log(model);
-            $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+    $(document).ready(function () {
+        var model =  @Html.Raw(serializer.Serialize(Model));
+        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
     });
-
 </script>

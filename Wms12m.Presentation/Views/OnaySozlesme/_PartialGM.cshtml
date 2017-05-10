@@ -1,20 +1,15 @@
-﻿
-@model List<SozlesmeOnaySelect>
+﻿@model List<SozlesmeOnaySelect>
 @{
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
 }
-
 <div class="col-md-12" style="width:100%;">
-    <!-- BEGIN EXAMPLE TABLE PORTLET-->
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
                 <i class="fa fa-gift"></i>Sözleşme Onay GM
             </div>
-
         </div>
-
         <div class="portlet-body">
             <div class="table-toolbar">
                 <div class="row">
@@ -80,7 +75,6 @@
                     @foreach (var item in Model)
                     {
                         <tr data-ID="@item.ListeNo">
-                            @* <td style="width:20px!important;" class="details-control"></td>*@
                             <td style="width:20px!important;" class="details-control"></td>
                            
                             <td>@item.ListeNo</td>   
@@ -109,12 +103,10 @@
 
         </div>
     </div>
-    <!-- END EXAMPLE TABLE PORTLET-->
 </div>
 
 <script>
         $(document).ready(function () {
-        //Globalize.locale('tr');
             var table = $('#sample_1').DataTable({
                 "ordering": false,
                 "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -137,12 +129,5 @@
                 if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
                 else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
             });
-
-
-
-          //  var model =  @Html.Raw(serializer.Serialize(Model));
-          //  console.log(model);
-          //  $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
     });
-
 </script>

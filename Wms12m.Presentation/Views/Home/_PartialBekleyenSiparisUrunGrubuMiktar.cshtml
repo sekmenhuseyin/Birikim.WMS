@@ -32,13 +32,11 @@
     }
 </style>
 <div class="col-md-12">
-    <!-- BEGIN CHART PORTLET-->
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
                 <i class="icon-bar-chart font-green-haze"></i>
                 <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D CHART</span></span>
-                @*<span class="caption-helper">3d cylinder chart</span>*@
             </div>
             <div class="tools" style="float:right;margin-left:20px;">
                 <a href="javascript:;" class="collapse"> </a>
@@ -47,36 +45,17 @@
                 <a href="javascript:;" class="fullscreen"> </a>
                 <a href="javascript:;" class="remove"> </a>
             </div>
-            @*<div class="cbox_MiktarTutar" style="float:left;width:80px;margin-left:20px;line-height:36px;color:red;"></div>*@
-            @*<div class="form-group" style="float:left; ">*@
                 <div style="float:left;width:80px;margin-left:20px;">
                     <input type="checkbox" class="make-switch" name="Miktar" data-on-text="&nbsp;Miktar&nbsp;" data-off-text="&nbsp;Tutar&nbsp;">
                 </div>
-            @*</div>*@
         </div>
         <div class="portlet-body">
             <div id="chart_7_mik" class="chart" style="height: 400px;"> </div>
             <div class="well margin-top-20">
-                @*<div class="row">
-                        <div class="col-sm-3">
-                            <label class="text-left">Top Radius:</label>
-                            <input class="chart_7_chart_input" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01" />
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="text-left">Angle:</label>
-                            <input class="chart_7_chart_input" data-property="angle" type="range" min="0" max="89" value="30" step="1" />
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="text-left">Depth:</label>
-                            <input class="chart_7_chart_input" data-property="depth3D" type="range" min="1" max="120" value="40" step="1" />
-                        </div>
-                    </div>*@
             </div>
         </div>
     </div>
-    <!-- END CHART PORTLET-->
 </div>
-
 <script>
     $(document).ready(function (e) {
         var x = '@ViewBag.MiktarTutar';
@@ -95,8 +74,6 @@
                 color: color[i%color.length]
             });
         }
-        console.log(model);
-    
         var ChartsAmchartsMik = function () {
 
             var initChartSample7Mik = function () {
@@ -109,7 +86,6 @@
 
                     "color": '#888',
 
-                    //"dataProvider": list,
                     "valueAxes": [{
                         "position": "left",
                         "axisAlpha": 0,

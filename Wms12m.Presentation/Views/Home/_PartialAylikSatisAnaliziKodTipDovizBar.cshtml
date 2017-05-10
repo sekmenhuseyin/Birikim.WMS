@@ -109,17 +109,16 @@
 
         $.ajax({
             url: window.location.origin + "/Home/AylikSatisAnaliziKodTipDovizKriter",
+            data: {},
             type: "post",
             success: function (data)
             {
-                console.log($.parseJSON(data));
                 $(".slct_aylik_kriter_kod").dxSelectBox({
                     dataSource: $.parseJSON(data),
                     valueExpr: 'Kriter',
                     displayExpr: 'Kriter',
                     value: kriter_value,
                     onValueChanged: function (e) {
-                        console.log("zzzz");
                         if(e.value!=kriter_value){
                             kriter_value=e.value;
                             var PartialAylikSatisAnaliziKodTipDovizBar = "/Home/PartialAylikSatisAnaliziKodTipDovizBar";
@@ -129,8 +128,7 @@
                 });
 
 
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
 
         $(".slct_aylik_kriter_islemtip").dxSelectBox({

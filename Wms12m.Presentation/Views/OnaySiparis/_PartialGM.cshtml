@@ -1,15 +1,10 @@
-﻿
-@model List<SMSiparisOnaySelect>
+﻿@model List<SMSiparisOnaySelect>
 @{
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
 }
-
-
 <div class="col-md-12" style="width:100%;">
-    <!-- BEGIN EXAMPLE TABLE PORTLET-->
     <div class="portlet box green">
-
         <div class="portlet-title">
             <div class="caption">
                 <i class="fa fa-gift"></i>Sipariş Onay GM
@@ -93,30 +88,17 @@
 
             </div>
     </div>
-    <!-- END EXAMPLE TABLE PORTLET-->
 </div>
 <div class="row">
     <input type="hidden" name="checkboxes" id="checkboxes" value="" />
 </div>
 <script>
         $(document).ready(function () {
-        //Globalize.locale('tr');
             var model =  @Html.Raw(serializer.Serialize(Model));
-            console.log(model);
             $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
-
-            //$(".btn-listele").dxButton({
-            //    onClick: function () {
-
-            //        var CekListesiRaporuUrl = "/Rapor/PartialCekListesi";
-            //        PartialView(CekListesiRaporuUrl, 'cek-listesi-grid', JSON.stringify({ pozisyon: pozisyon, ay: ay, yil: yil }));
-            //    }
-            //});
-
             $('#GMOnayla').click(function (e) {
 
                 var evrakno = $(".selected").find("td").first().text();
-                //console.log(a);
                 var SiparisGMOnaylamaURL = "/OnaySiparis/SiparisOnayGM";
                 PartialView(SiparisGMOnaylamaURL, 'cek-listesi-grid', JSON.stringify({ evrakno: evrakno, durum: 1, onaytip: 3 }));
 
@@ -128,16 +110,11 @@
                 else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
             });
 
-
-
     });
-
     function toggle(row, id) {
         $(row).toggleClass('selected');
         if ($(row).hasClass('selected') == true) selected = selected + id + "#";
         else selected = selected.replace(id + "#", "");
         $("#checkboxes").val(selected);
     }
-
-
 </script>
