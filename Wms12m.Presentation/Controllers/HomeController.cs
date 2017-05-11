@@ -42,7 +42,8 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult PartialGunlukSatis(int? tarih)
         {
-            var tarih2 = DateTime.Today.Date;
+            //var deneme =  db.MultipleResults(string.Format("[FINSAT6{0}].[dbo].[FaturaOnayDetay] @EvrakNo='{1}'",17, "VAS000000791")).With<FaturaDetayGenel>().With<FaturaDetaySTI>().With<FaturaDetayFTD>().Execute(); 
+             var tarih2 = DateTime.Today.Date;
             if (tarih == null)
             {
                 tarih = DateTime.Today.ToOADate().ToInt32();

@@ -309,6 +309,7 @@
     <Compile Include="Controllers\BuyController.cs" />
     <Compile Include="Controllers\CableController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\FaturaOnayController.cs" />
     <Compile Include="Controllers\OnayCekController.cs" />
     <Compile Include="Controllers\ComboItemsController.cs" />
     <Compile Include="Controllers\CombosController.cs" />
@@ -517,6 +518,7 @@
     <Content Include="Views\Home\_PartialUrunGrubuSatisKriter.cshtml" />
     <Content Include="Views\Menu\Permissions.cshtml" />
     <Content Include="Views\Menu\PermissionsList.cshtml" />
+    <Content Include="Views\FaturaOnay\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
