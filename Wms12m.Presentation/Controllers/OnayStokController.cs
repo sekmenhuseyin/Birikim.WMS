@@ -25,7 +25,7 @@ namespace Wms12m.Presentation.Controllers
             else
             if (Durum == "Red") { param = 4; }
 
-            var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[StokOnaySelect] {1}", "17", param)).ToList();
+            var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[wms].[StokOnaySelect] {1}", "01", param)).ToList();
             return PartialView("List", KOD);
         }
     }

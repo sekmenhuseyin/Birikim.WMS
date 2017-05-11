@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="68">
         <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="17.75" PointY="1.375" />
-        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="18" PointY="3.625" />
+        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="17.875" PointY="3.625" />
         <EntityTypeShape EntityType="MModel.Simge" Width="1.5" PointX="25.375" PointY="4.25" />
         <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="23" PointY="3.125" />
         <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="28.5" PointY="9.375" />
@@ -64,7 +64,7 @@
         <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="20.25" PointY="6.625" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
-        <EntityTypeShape EntityType="MModel.GorevNo" Width="1.5" PointX="17.5" PointY="8.625" />
+        <EntityTypeShape EntityType="MModel.GorevNo" Width="1.5" PointX="6.25" PointY="5.875" />
         <AssociationConnector Association="MModel.FK_GorevNo_Depo" />
         </Diagram>
     </edmx:Diagrams>

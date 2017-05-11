@@ -15,14 +15,14 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult PartialGM()
         {
-            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SP_SozlesmeOnay]", "17")).ToList();
+            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", "01")).ToList();
             return PartialView("_PartialGM", list);
         }
 
         [HttpPost]
         public PartialViewResult DetailsGM(string ListeNo)
         {
-            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "01", ListeNo)).ToList();
             return PartialView("_DetailsGM", list);
         }
         //--------------------------------------------------------------------------------------------------------------
@@ -33,14 +33,14 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult PartialSM()
         {
-            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SP_SozlesmeOnaySM]", "17")).ToList();
+            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySM]", "01")).ToList();
             return PartialView("_PartialSM", list);
         }
 
         [HttpPost]
         public PartialViewResult DetailsSM(string ListeNo)
         {
-            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "01", ListeNo)).ToList();
             return PartialView("_DetailsSM", list);
         }
         //---------------------------------------------------------------------------------------------------------------------
@@ -51,14 +51,14 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult PartialSPGMY()
         {
-            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[SP_SozlesmeOnaySPGMY]", "17")).ToList();
+            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySPGMY]", "01")).ToList();
             return PartialView("_PartialSM", list);
         }
 
         [HttpPost]
         public PartialViewResult DetailsSPMY(string ListeNo)
         {
-            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "01", ListeNo)).ToList();
             return PartialView("_DetailsSPGMY", list);
         }
     }

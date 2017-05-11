@@ -13,7 +13,7 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult List()
         {
-            var KOD = db.Database.SqlQuery<TeminatOnaySelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnayList]", "17")).ToList();
+            var KOD = db.Database.SqlQuery<TeminatOnaySelect>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", "01")).ToList();
             return PartialView("List", KOD);
         }
     }

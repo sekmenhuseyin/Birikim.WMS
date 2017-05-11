@@ -14,7 +14,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.RoleName = new SelectList(db.Roles.ToList(), "RoleName", "RoleName");
+            ViewBag.RoleName = new SelectList(db.Roles.Where(m => m.RoleName != "").ToList(), "RoleName", "RoleName");
             return View("Index");
         }
         /// <summary>

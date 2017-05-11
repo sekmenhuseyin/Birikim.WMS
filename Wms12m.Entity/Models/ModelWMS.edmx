@@ -192,6 +192,7 @@
         <EntityType Name="GorevNo">
           <Key>
             <PropertyRef Name="Tarih" />
+            <PropertyRef Name="DepoID" />
           </Key>
           <Property Name="Tarih" Type="int" Nullable="false" />
           <Property Name="DepoID" Type="int" Nullable="false" />
@@ -1382,11 +1383,6 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
-          <EntitySet Name="GorevNoes" EntityType="MModel.GorevNo" />
-          <AssociationSet Name="FK_GorevNo_Depo" Association="MModel.FK_GorevNo_Depo">
-            <End Role="Depo" EntitySet="Depoes" />
-            <End Role="GorevNo" EntitySet="GorevNoes" />
-          </AssociationSet>
           <FunctionImport Name="SettingsGorevNo" ReturnType="Collection(String)">
             <Parameter Name="tarih" Mode="In" Type="Int32" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
@@ -1420,8 +1416,13 @@
             <Parameter Name="UstMenuNo" Mode="In" Type="Int16" />
           </FunctionImport>
           <FunctionImport Name="GetMenuRolesFor" ReturnType="Collection(MModel.GetMenuRolesFor_Result)">
-            <Parameter Name="MenuID" Mode="In" Type="Int32" />
+          <Parameter Name="MenuID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="GorevNoes" EntityType="MModel.GorevNo" />
+          <AssociationSet Name="FK_GorevNo_Depo" Association="MModel.FK_GorevNo_Depo">
+            <End Role="Depo" EntitySet="Depoes" />
+            <End Role="GorevNo" EntitySet="GorevNoes" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2280,27 +2281,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="GorevNo">
-          <Key>
-            <PropertyRef Name="Tarih" />
-          </Key>
-          <Property Name="Tarih" Type="Int32" Nullable="false" />
-          <Property Name="DepoID" Type="Int32" Nullable="false" />
-          <Property Name="No" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Depo" Relationship="MModel.FK_GorevNo_Depo" FromRole="GorevNo" ToRole="Depo" />
-        </EntityType>
-        <Association Name="FK_GorevNo_Depo">
-          <End Type="MModel.Depo" Role="Depo" Multiplicity="1" />
-          <End Type="MModel.GorevNo" Role="GorevNo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Depo">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevNo">
-              <PropertyRef Name="DepoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="GetRolePermsFor_Result">
           <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2327,6 +2307,28 @@
           <Property Type="String" Name="RoleName" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="MenuID" Nullable="false" MaxLength="8" />
         </ComplexType>
+        <EntityType Name="GorevNo">
+          <Key>
+            <PropertyRef Name="Tarih" />
+            <PropertyRef Name="DepoID" />
+          </Key>
+          <Property Name="Tarih" Type="Int32" Nullable="false" />
+          <Property Name="DepoID" Type="Int32" Nullable="false" />
+          <Property Name="No" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Depo" Relationship="MModel.FK_GorevNo_Depo" FromRole="GorevNo" ToRole="Depo" />
+        </EntityType>
+        <Association Name="FK_GorevNo_Depo">
+          <End Type="MModel.Depo" Role="Depo" Multiplicity="1" />
+          <End Type="MModel.GorevNo" Role="GorevNo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevNo">
+              <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2783,15 +2785,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GorevNoes">
-            <EntityTypeMapping TypeName="MModel.GorevNo">
-              <MappingFragment StoreEntitySet="GorevNo">
-                <ScalarProperty Name="No" ColumnName="No" />
-                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
           <FunctionImportMapping FunctionImportName="GetRolePermsFor" FunctionName="MModel.Store.GetRolePermsFor">
             <ResultMapping>
@@ -2838,6 +2831,15 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="GorevNoes">
+            <EntityTypeMapping TypeName="MModel.GorevNo">
+              <MappingFragment StoreEntitySet="GorevNo">
+                <ScalarProperty Name="No" ColumnName="No" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
