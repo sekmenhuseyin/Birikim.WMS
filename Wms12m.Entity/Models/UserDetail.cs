@@ -20,6 +20,7 @@ namespace Wms12m.Entity.Models
         public Nullable<int> SatisFaturaSeri { get; set; }
         public Nullable<int> TransferInSeri { get; set; }
         public Nullable<int> TransferOutSeri { get; set; }
+        public Nullable<int> SayimSeri { get; set; }
     
         public virtual User User { get; set; }
         public virtual Depo Depo { get; set; }

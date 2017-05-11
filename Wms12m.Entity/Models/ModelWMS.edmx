@@ -346,6 +346,7 @@
           <Property Name="SatisFaturaSeri" Type="int" />
           <Property Name="TransferInSeri" Type="int" />
           <Property Name="TransferOutSeri" Type="int" />
+          <Property Name="SayimSeri" Type="int" />
         </EntityType>
         <EntityType Name="Yer">
           <Key>
@@ -2256,6 +2257,7 @@
           <Property Name="TransferOutSeri" Type="Int32" />
           <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
+          <Property Name="SayimSeri" Type="Int32" />
         </EntityType>
         <Association Name="FK_Depo_Users_Users">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -2776,6 +2778,7 @@
           <EntitySetMapping Name="UserDetails">
             <EntityTypeMapping TypeName="MModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="SayimSeri" ColumnName="SayimSeri" />
                 <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
                 <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
                 <ScalarProperty Name="SatisFaturaSeri" ColumnName="SatisFaturaSeri" />
