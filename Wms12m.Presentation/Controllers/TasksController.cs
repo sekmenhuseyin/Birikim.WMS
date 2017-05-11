@@ -1,5 +1,6 @@
 ﻿using OnikimCore.GunesCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
@@ -134,7 +135,10 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return null;
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
-            ViewBag.SirketKod = new SelectList(db.GetSirketDBs().ToList(), "Kod", "Kod");
+            var list = db.GetSirketDBs().ToList();
+            List<frmSirkets> liste = new List<frmSirkets>();
+            foreach (var item in list) { liste.Add(new frmSirkets() { Kod = item }); }
+            ViewBag.SirketKod = new SelectList(liste, "Kod", "Kod");
             return PartialView("CountNew");
         }
         /// <summary>
@@ -148,7 +152,7 @@ namespace Wms12m.Presentation.Controllers
             //kontrol
             int açık = ComboItems.Açık.ToInt32();
             int sayim = ComboItems.KontrolSayım.ToInt32();
-            var grv = db.Gorevs.Where(m => m.DepoID == DepoID && m.GorevTipiID == sayim && m.DurumID == açık).FirstOrDefault();
+            var grv = db.Gorevs.Where(m => m.DepoID == DepoID && m.IR.SirketKod == SirketKod && m.GorevTipiID == sayim && m.DurumID == açık).FirstOrDefault();
             if (grv == null)
             {
                 int tarih = fn.ToOADate();
@@ -161,7 +165,21 @@ namespace Wms12m.Presentation.Controllers
                 _Result = new Result(true);
             }
             else
-                _Result = new Result(false, "Bu görev zaten var");
+            {
+                if (grv.IR.SirketKod == SirketKod)
+                    _Result = new Result(false, "Bu görev zaten var");
+                else
+                {
+                    int tarih = fn.ToOADate();
+                    var grvNo = db.SettingsGorevNo(tarih, DepoID).FirstOrDefault();
+                    var depo = Store.Detail(DepoID).DepoKodu;
+                    var cevap = db.InsertIrsaliye(SirketKod, DepoID, grvNo, grvNo, tarih, SirketKod + "-" + depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "").FirstOrDefault();
+                    grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
+                    grv.DurumID = açık;
+                    db.SaveChanges();
+                    _Result = new Result(true);
+                }
+            }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>

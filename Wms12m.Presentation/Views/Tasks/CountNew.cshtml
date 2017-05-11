@@ -6,7 +6,7 @@
                 <div class="modal-body">
                     <h4>Görev Ekle</h4>
                     <p>Buradan seçeceğiniz depoya bir kontrollü sayım görevi eklenecektir. Eğer seçili depoda böyle bir görev aktif olarak varsa yeniden eklenmeyecektir.</p>
-                    @using (Ajax.BeginForm("SaveNew", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "FuncSearchBtn()", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn - default');" }, new { @class = "form-horizontal", id = "frmNew" }))
+                    @using (Ajax.BeginForm("SaveNew", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal", id = "frmNew" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -41,9 +41,15 @@
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
     $("#submitter").click(function () {
         if ($("#SirketKod").val() != "" || $("#DepoID").val() != "")
-        {
             $("#frmNew").submit();
+    });
+    function getresult(e) {
+        if (e.Status == true)
+        {
+            FuncSearchBtn();
             $('#modalEditPage').modal('toggle');
         }
-    });
+        else
+            Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
+    };
 </script>
