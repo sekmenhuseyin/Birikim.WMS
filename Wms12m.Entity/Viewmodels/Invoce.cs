@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace Wms12m.Entity
 {
+    public class FaturaDetayData
+    {
+        public List<FaturaDetayFTD> FTD { get; set; }
+        public List<FaturaDetayGenel> GENEL { get; set; }
+        public List<FaturaDetaySTI> STI { get; set; }
+    }
+
     public class FaturaDetayFTD
     {
         /// <summary> VarChar(64) (Not Null) </summary>
@@ -113,6 +120,10 @@ namespace Wms12m.Entity
         public string IskontoOran5 { get; set; }
         /// <summary> VarChar(8000) (Allow Null) </summary>
         public string NetTutar { get; set; }
+        /// <summary> VarChar(8000) (Allow Null) </summary>
+        public string Nesne1 { get; set; }
+        /// <summary> VarChar(8000) (Allow Null) </summary>
+        public short CheckSum { get; set; }
 
     }
 
