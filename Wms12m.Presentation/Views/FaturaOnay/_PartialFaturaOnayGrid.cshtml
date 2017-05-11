@@ -1,0 +1,176 @@
+﻿@using Newtonsoft.Json;
+@model List<FaturaOnay>
+<div class="fatura-data" style="margin-top: 20px; width: 100%; box-shadow: 2px 4px 2px #5d5959;">
+    <div class="col-md-12" style="width:100%;margin-top: 20px;">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Fatura Onay
+                </div>
+                @*<div class="col-md-1 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                </div>
+                <div class="col-md-1 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Export Data </a>
+                </div>
+                <div class="col-md-1 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Temizle </a>
+                </div>*@
+
+            </div>
+
+            <div class="portlet-body">
+
+
+                <table class="table table-striped table-bordered table-hover" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th>Tarih</th>
+                            <th>Evrak No</th>
+                            <th>Hesap Kodu</th>
+                            <th>Ünvan</th>
+                            <th class="item_red">Red Nedeni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+            {
+                            <tr onclick="satir_click('@item.EvrakNo')">
+                                <td>@item.Tarih</td>
+                                <td>@item.EvrakNo</td>
+                                <td>@item.Chk</td>
+                                <td>@item.Unvan</td>
+                                <td class="item_red">@item.Not1</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        if($("#ListType").val()=="0")
+        {
+            $(".item_red").hide();
+        }
+        else{
+            $(".item_red").show();
+        }
+        @*var Links = @Html.Raw(JsonConvert.SerializeObject(Model));
+        AL_FATURALAR(Links);*@
+    });
+
+    function satir_click(evrakNo) {
+        window.location.href = '/FaturaOnay/FaturaDetay?EvrakNo=' + evrakNo;
+        //$.ajax({
+        //    url: "/FaturaOnay/FaturaDetay",
+        //    type: 'POST',
+        //    async: false,
+        //    data: JSON.stringify({ EvrakNo: evrakNo }),
+        //    dataType: "json",
+        //    contentType: 'application/json; charset=utf-8',
+        //    success: function (data) {
+        //        if (data.Id == 0) {
+        //            if (data.Message == "") data.Message = "Hata oluştu";
+        //            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        //        }
+        //    }
+        //});
+    }
+    //function AL_FATURALAR(data) {
+    //    var _dfd = $.Deferred();
+    //    var result = data;
+    //    for (var i = 0; i < result.length; i++) {
+    //        var arr = result[i].Tarih.split(".");
+    //        arr[1] = (parseInt(arr[1]) - 1).toString();
+    //        result[i].Tarih = new Date(arr[2],arr[1],arr[0]);
+    //    }
+    //    var columns = [
+    //                {
+    //                    caption: 'Tarih', dataField: 'Tarih', dataType: 'date', format: "dd/MM/yyyy", width: '130px'
+    //                },
+    //                { caption: 'Evrak No', dataField: 'EvrakNo', width: '180px' },
+    //                { caption: 'Hesap Kodu', dataField: 'Chk', width: '200px' },
+    //                { caption: 'Ünvan', dataField: 'Unvan' },
+
+    //                { caption: 'Red Nedeni', dataField: 'Not1', visible:$("#ListType").val()=="0" ? false : true },
+
+    //    ];
+
+    //    _grid_quotations_detail = $('.fatura-data').dxDataGrid({
+    //        dataSource: result,
+    //        //selection: {
+    //        //    mode: "multiple",
+    //        //},
+    //        height: function () {
+    //            if (result.length < 15) {
+    //                return 130 + (result.length * 34)
+    //            }
+    //            else {
+    //                return 620;
+    //            }
+
+    //        },
+    //        onRowPrepared: function (e) {
+    //            e.rowElement.css({ height: 20 });
+    //        },
+    //        paging: { pageSize: 5000 },
+    //        columns: columns,
+    //        columnChooser: {
+    //            enabled: true,
+    //            title: 'Kolon Seç',
+    //            height: 180,
+    //            width: 400,
+    //            emptyPanelText: 'Gizlemek İstediğiniz Kolonu Buraya Sürükleyiniz.'
+    //        },
+    //        headerFilter: {
+    //            visible: true
+    //        },
+    //        popupDetailedWindow: true,
+    //        pagingCounter: true,
+    //        filterRow: {
+    //            visible: true,
+    //            applyFilter: 'auto',
+    //            applyFilterText: 'Apply filter',
+    //            resetOperationText: 'Reset'
+    //        },
+    //        scrolling: {
+    //            scrollByContent: true,
+    //            scrollByThumb: true
+    //        },
+    //        allowColumnReordering: true,
+    //        allowColumnResizing: true,
+    //        remoteOperations: true,
+    //        showRowLines: true,
+    //        hoverStateEnabled: true,
+    //        rowAlternationEnabled: false,
+    //        width: '100%',
+    //        groupPanel: {
+    //            visible: true
+    //        },
+    //        sorting: {
+    //            mode: "multiple",
+    //        },
+    //        onRowClick: function (opt) {
+
+    //            var rdbValue = $(".rdgrpOnayRed").dxRadioGroup("instance").option("value");
+    //            if(rdbValue=="OnayBekleyenler"){
+    //                if (opt.rowType == "data") {
+    //                    var component = opt.component;
+    //                    var prevClickTime = component.lastClickTime;//take last clicked time
+    //                    component.lastClickTime = new Date();
+    //                    if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+    //                        window.location.href = '/Home/FaturaDetay?EvrakNo=' + opt.data.EvrakNo;
+    //                    }
+    //                }
+    //            }
+    //        },
+    //    }).dxDataGrid("instance");
+    //}
+</script>
+

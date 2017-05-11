@@ -34,7 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs32E0.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs2D91.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,7 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs32E0.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs2D91.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevHelper">
@@ -256,6 +256,7 @@
     <Content Include="Content\assets\pages\img\bg-white.png" />
     <Content Include="Content\assets\pages\img\bg.jpg" />
     <Content Include="Content\assets\pages\img\inbox-nav-arrow-blue.png" />
+    <Content Include="Content\assets\pages\img\VezirKoprubanner.jpg" />
     <Content Include="Content\Scripts\Functions.js" />
     <Content Include="Content\Scripts\Functions.min.js">
       <DependentUpon>Functions.js</DependentUpon>
@@ -522,6 +523,8 @@
     <Content Include="Views\Menu\Permissions.cshtml" />
     <Content Include="Views\Menu\PermissionsList.cshtml" />
     <Content Include="Views\FaturaOnay\Index.cshtml" />
+    <Content Include="Views\FaturaOnay\_PartialFaturaOnayGrid.cshtml" />
+    <Content Include="Views\FaturaOnay\FaturaDetay.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
