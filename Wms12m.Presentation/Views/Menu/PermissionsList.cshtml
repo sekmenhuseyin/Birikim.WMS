@@ -1,44 +1,37 @@
-﻿@model IEnumerable<GetRolePermsFor_Result>
-@{
-	int i = 0;
-}
-<div class="row">
-	<div class="col-md-4 bold">Yetki Adı</div><div class="col-md-2 text-center bold">Okuma</div><div class="col-md-2 text-center bold">Yazma</div><div class="col-md-2 text-center bold">Değiştirme</div><div class="col-md-2 text-center bold">Silme</div>
+﻿@model IEnumerable<GetMenuRolesFor_Result>
+@{ int i = 0; }
+<div class="row m-b-10">
+	<div class="col-md-5 col-md-offset-2 bold">Yetki Adı</div><div class="col-md-2 text-center bold">Seç</div>
 </div>
-<div class="row m-t-10">
-	@foreach (var item in Model)
+@using (Ajax.BeginForm("Save", "Menu", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "FuncSearchBtn();", OnFailure = "FuncSearchBtn();" }, new { @class = "form-horizontal", id="frmAdd" }))
+{
+	@Html.AntiForgeryToken()
+	<input type="hidden" name="MenuID" value="@ViewBag.id" />
+	<input type="hidden" id="RoleName" name="RoleName" value="" />
+	foreach (var item in Model)
 	{
-		using (Ajax.BeginForm("Save", "Perms", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
-		{
-			@Html.AntiForgeryToken()
-			<input name="ID" type="hidden" value="@item.ID" />
-			<input name="RoleName" class="RoleName" type="hidden" value="@ViewBag.RoleName" required />
-			<div class="col-md-4"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
-			<div class="col-md-2"><input class="check-box form-control" name="Reading" type="checkbox"@{if(item.Reading==true){<text> checked="checked"</text>}}></div>
-			<div class="col-md-2"><input class="check-box form-control" name="Writing" type="checkbox"@{if(item.Writing == true){<text> checked="checked"</text>}}></div>
-			<div class="col-md-2"><input class="check-box form-control" name="Updating" type="checkbox"@{if(item.Updating == true){<text> checked="checked"</text>}}></div>
-			<div class="col-md-2"><input class="check-box form-control" name="Deleting" type="checkbox"@{if(item.Deleting == true){<text> checked="checked"</text>}}></div>}
+		<div class="row">
+            <input type="hidden" id="role@{@i}" name="RoleIDs" value="@item.ID" />
+			<div class="col-md-5 col-md-offset-2"><input class="form-control" name="Roles" type="text" readonly value="@item.RoleName" required></div>
+			<div class="col-md-2"><input class="check-box form-control" name="secs" id="sec@{@i}" type="checkbox" @item.MenuID></div>
+		</div>
 		i++;
 	}
-</div>
+}
 <div class="row m-t-30">
 	<div class="col-md-offset-8 col-md-4">
 		<button class="btn btn-primary btn-block" onclick="submit()">Kaydet</button>
 	</div>
 </div>
 <script>
-	var biten = 0;
 	function submit()
 	{
-		@for (int j = 0; j < i; j++)
-		{
-			<text>$("#frm@{@j}").submit();</text>
+		var tmp = "";
+		for (var i = 0; i < @i; i++) {
+            if ($("#sec" + i).prop("checked") == true)
+                tmp += $("#role" + i).val() + ",";
 		}
-	}
-	function finished()
-	{
-		biten++;
-		if (biten == @i)
-			Modaldialog('Kaydedildi', 'Başarı', 'Tamam', 'btn - default');
+        $("#RoleName").val(tmp);
+		$("#frmAdd").submit();
 	}
 </script>

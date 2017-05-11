@@ -90,6 +90,9 @@
     <Compile Include="Models\GetIrsDetayfromGorev_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetMenuRolesFor_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetRolePermsFor_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
