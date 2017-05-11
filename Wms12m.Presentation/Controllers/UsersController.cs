@@ -150,11 +150,11 @@ namespace Wms12m.Presentation.Controllers
         /// kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Save(User tbl)
+        public JsonResult Save(User tbl)
         {
-            if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false || tbl.ID == 1) return Redirect("/");
+            if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false || tbl.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Operation(tbl);
-            return RedirectToAction("Index");
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// şifreyi değiştir
