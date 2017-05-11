@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnikimCore.GunesCore;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
@@ -133,13 +134,14 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return null;
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
+            ViewBag.SirketKod = new SelectList(db.GetSirketDBs().ToList(), "Kod", "Kod");
             return PartialView("CountNew");
         }
         /// <summary>
         /// yeni görevi kaydeder
         /// </summary>
         [HttpPost]
-        public JsonResult SaveNew(int DepoID)
+        public JsonResult SaveNew(int DepoID, string SirketKod)
         {
             if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result;
@@ -151,9 +153,8 @@ namespace Wms12m.Presentation.Controllers
             {
                 int tarih = fn.ToOADate();
                 var grvNo = db.SettingsGorevNo(tarih, DepoID).FirstOrDefault();
-                var sirketkodu = db.GetSirketDBs().FirstOrDefault();
                 var depo = Store.Detail(DepoID).DepoKodu;
-                var cevap = db.InsertIrsaliye(sirketkodu, DepoID, grvNo, grvNo, tarih, depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "").FirstOrDefault();
+                var cevap = db.InsertIrsaliye(SirketKod, DepoID, grvNo, grvNo, tarih, SirketKod + "-" + depo + " Kontrollü Sayım", false, sayim, vUser.UserName, tarih, fn.ToOATime(), depo, "", 0, "").FirstOrDefault();
                 grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
                 grv.DurumID = açık;
                 db.SaveChanges();
@@ -171,12 +172,16 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = string.Format("SELECT MalKodu, Birim, Miktar, Stok FROM (" +
+            string[] tmp = id.ToString().Split('-');
+            string sql = "";
+            if (tmp[0] != "1")//sadece fark liste
+                sql = " WHERE (Stok <> Miktar)";
+            sql = string.Format("SELECT MalKodu, Birim, Miktar, Stok FROM (" +
                                             "SELECT wms.GorevYer.MalKodu, wms.GorevYer.Birim, SUM(wms.GorevYer.Miktar) AS Miktar, " +
                                             "(SELECT SUM(Miktar) AS Expr1 FROM wms.Yer WITH(NOLOCK) WHERE (DepoID = wms.Gorev.DepoID) AND (MalKodu = wms.GorevYer.MalKodu) AND (Birim = wms.GorevYer.Birim)) AS Stok " +
                                             "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID " +
                                             "WHERE (wms.Gorev.ID = {0}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
-                                        ") AS t WHERE (Stok <> Miktar)", id);
+                                        ") AS t{1}", tmp[1], tmp[0]);
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             return PartialView("CountFark", list);
         }
@@ -184,18 +189,30 @@ namespace Wms12m.Presentation.Controllers
         /// sayım fişi kaydeder
         /// </summary>
         [HttpPost]
-        public JsonResult CreateSayimFish(int GorevID)
+        public JsonResult CountCreate(int GorevID)
         {
+            //kontrols
             if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            int durumID = ComboItems.Açık.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
+            //aktar
             Result _Result;
-                _Result = new Result(true);
+            Genel_Islemler GI = new Genel_Islemler(mGorev.IR.SirketKod);
+            string evrakNo = GI.EvrakNo_Getir(6999 + 1);
+
+            var sti = new STI();
+            sti.DefaultValueSet();
+
+            _Result = new Result(true);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// sayım fark fişi kaydeder
         /// </summary>
         [HttpPost]
-        public JsonResult CreateFarkFish(int GorevID)
+        public JsonResult CountCreateDiff(int GorevID)
         {
             if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result;

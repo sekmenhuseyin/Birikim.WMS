@@ -11,7 +11,14 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="form-group">
-                            <label class = "control-label col-md-2">Depo</label>
+                            <label class = "control-label col-md-2">Şirket</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("SirketKod", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
+                                <span class="field-validation-valid" data-valmsg-for="SirketKod" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Depo</label>
                             <div class="col-md-10">
                                 @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
@@ -30,9 +37,10 @@
     </div>
 </div>
 <script>
+    $("#SirketKod").prepend("<option value=''>Seçiniz !!!</option>"); $("#SirketKod")[0].selectedIndex = 0;
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
     $("#submitter").click(function () {
-        if ($("#DepoID").val() != "")
+        if ($("#SirketKod").val() != "" || $("#DepoID").val() != "")
         {
             $("#frmNew").submit();
             $('#modalEditPage').modal('toggle');
