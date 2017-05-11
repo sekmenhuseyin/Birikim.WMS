@@ -33,6 +33,7 @@
     </div>
 </div>
 @section Scripts{<script>
+    $("#RoleName").prepend("<option value=''>Seçiniz !!!</option>"); $("#RoleName")[0].selectedIndex = 0;
     function FuncSearchBtn() {
         $('#theGrid').html("");
         if ($("#RoleName").val() != "")
