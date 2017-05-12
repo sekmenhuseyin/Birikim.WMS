@@ -1,6 +1,7 @@
 ﻿@model FaturaDetayData
 @{
     ViewBag.Title = "FaturaDetay";
+    int ii = 1;
 }@section Styles{
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
     <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
@@ -14,10 +15,6 @@
 
 }
 <style>
-    table th {
-        width: auto !important;
-    }
-
     .list-unstyled.amounts li {
         font-size: 9px;
         text-align: left;
@@ -29,91 +26,10 @@
     }
 
     .invoice-payment.genel h3 {
-        color: rgba(9, 208, 241, 0.65);
+        color: rgba(226, 33, 140, 0.89);
         font-weight: bold;
     }
 </style>
-
-@*<div class="theme-panel hidden-xs hidden-sm">
-        <div class="toggler"> </div>
-        <div class="toggler-close"> </div>
-        <div class="theme-options">
-            <div class="theme-option theme-colors clearfix">
-                <span> THEME COLOR </span>
-                <ul>
-                    <li class="color-default current tooltips" data-style="default" data-container="body" data-original-title="Default"> </li>
-                    <li class="color-darkblue tooltips" data-style="darkblue" data-container="body" data-original-title="Dark Blue"> </li>
-                    <li class="color-blue tooltips" data-style="blue" data-container="body" data-original-title="Blue"> </li>
-                    <li class="color-grey tooltips" data-style="grey" data-container="body" data-original-title="Grey"> </li>
-                    <li class="color-light tooltips" data-style="light" data-container="body" data-original-title="Light"> </li>
-                    <li class="color-light2 tooltips" data-style="light2" data-container="body" data-html="true" data-original-title="Light 2"> </li>
-                </ul>
-            </div>
-            <div class="theme-option">
-                <span> Theme Style </span>
-                <select class="layout-style-option form-control input-sm">
-                    <option value="square" selected="selected">Square corners</option>
-                    <option value="rounded">Rounded corners</option>
-                </select>
-            </div>
-            <div class="theme-option">
-                <span> Layout </span>
-                <select class="layout-option form-control input-sm">
-                    <option value="fluid" selected="selected">Fluid</option>
-                    <option value="boxed">Boxed</option>
-                </select>
-            </div>
-            <div class="theme-option">
-                <span> Header </span>
-                <select class="page-header-option form-control input-sm">
-                    <option value="fixed" selected="selected">Fixed</option>
-                    <option value="default">Default</option>
-                </select>
-            </div>
-            <div class="theme-option">
-                <span> Top Menu Dropdown</span>
-                <select class="page-header-top-dropdown-style-option form-control input-sm">
-                    <option value="light" selected="selected">Light</option>
-                    <option value="dark">Dark</option>
-                </select>
-            </div>
-            <div class="theme-option">
-                <span> Sidebar Mode</span>
-                <select class="sidebar-option form-control input-sm">
-                    <option value="fixed">Fixed</option>
-                    <option value="default" selected="selected">Default</option>
-                </select>
-            </div>
-            <div class="theme-option">
-                <span> Sidebar Menu </span>
-                <select class="sidebar-menu-option form-control input-sm">
-                    <option value="accordion" selected="selected">Accordion</option>
-                    <option value="hover">Hover</option>
-                </select>
-            </div>
-            <div class="theme-option">
-                <span> Sidebar Style </span>
-                <select class="sidebar-style-option form-control input-sm">
-                    <option value="default" selected="selected">Default</option>
-                    <option value="light">Light</option>
-                </select>
-            </div>
-            <div class="theme-option">
-                <span> Sidebar Position </span>
-                <select class="sidebar-pos-option form-control input-sm">
-                    <option value="left" selected="selected">Left</option>
-                    <option value="right">Right</option>
-                </select>
-            </div>
-            <div class="theme-option">
-                <span> Footer </span>
-                <select class="page-footer-option form-control input-sm">
-                    <option value="fixed">Fixed</option>
-                    <option value="default" selected="selected">Default</option>
-                </select>
-            </div>
-        </div>
-    </div>*@
 <!-- END THEME PANEL -->
 <!-- BEGIN PAGE BAR -->
 <div class="page-bar">
@@ -160,18 +76,18 @@
 </div>
 <!-- END PAGE BAR -->
 <!-- BEGIN PAGE TITLE-->
-<h1 class="page-title" style="color:#d06194;">
+<h1 class="page-title" style="color:rgba(226, 33, 140, 0.89);font-weight:bold;">
     Fatura Onay
     <small></small>
 </h1>
 <!-- END PAGE TITLE-->
 <!-- END PAGE HEADER-->
 <div class="invoice">
-    <div class="row invoice-logo">
+    <div class="row invoice-logo" style="color:#d65252">
         <div class="col-xs-6 invoice-logo-space">
             <img src="~/content/assets/pages/img/VezirKoprubanner.jpg" class="img-responsive" alt="" />
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-6" style="color:rgba(13, 166, 191, 0.78);">
             <p>
                 @Model.GENEL[0].EvrakNo / @Model.GENEL[0].Tarih
                 <span class="muted">  </span>
@@ -252,7 +168,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <table class="table table-striped table-hover" id="sample_1">
+            <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
                     <tr style="background-color: rgba(9, 208, 241, 0.65);color:rgba(247, 238, 238, 0.85);">
                         <th> # </th>
@@ -281,29 +197,30 @@
                 <tbody>
                     @foreach (var item in Model.STI)
                     {
-                    <tr>
-                        <td> 1 </td>
-                        <td> @item.MalKodu </td>
-                        <td> @item.MalAdi  </td>
-                        <td> @item.Birim  </td>
-                        <td> @item.BirimMiktar  </td>
-                        <td> @item.BirimFiyat  </td>
-                        <td> @item.Tutar  </td>
-                        <td> @item.Depo  </td>
-                        <td> @item.KdvOran  </td>
-                        <td> @item.KdvMuafiyetNedeni  </td>
-                        <td> @item.DvzTL  </td>
-                        <td> @item.DovizCinsi  </td>
-                        <td> @item.DovizKuru  </td>
-                        <td> @item.DovizTutar  </td>
-                        <td> @item.IskontoOran1  </td>
-                        <td> @item.IskontoOran2  </td>
-                        <td> @item.IskontoOran3  </td>
-                        <td> @item.IskontoOran4  </td>
-                        <td> @item.IskontoOran5  </td>
-                        <td> @item.NetTutar  </td>
-                        <td> @item.Nesne1  </td>
-                    </tr>
+                        <tr>
+                            <td> @ii </td>
+                            <td> @item.MalKodu </td>
+                            <td nowrap> @item.MalAdi  </td>
+                            <td> @item.Birim  </td>
+                            <td align="right"> @item.BirimMiktar  </td>
+                            <td align="right"> @item.BirimFiyat  </td>
+                            <td align="right"> @item.Tutar  </td>
+                            <td> @item.Depo  </td>
+                            <td align="right"> @item.KdvOran  </td>
+                            <td align="right"> @item.KdvMuafiyetNedeni  </td>
+                            <td> @item.DvzTL  </td>
+                            <td> @item.DovizCinsi  </td>
+                            <td align="right"> @item.DovizKuru  </td>
+                            <td align="right"> @item.DovizTutar  </td>
+                            <td align="right"> @item.IskontoOran1  </td>
+                            <td align="right"> @item.IskontoOran2  </td>
+                            <td align="right"> @item.IskontoOran3  </td>
+                            <td align="right"> @item.IskontoOran4  </td>
+                            <td align="right"> @item.IskontoOran5  </td>
+                            <td align="right"> @item.NetTutar  </td>
+                            <td> @item.Nesne1  </td>
+                        </tr>
+                        ii++;
                     }
 
                 </tbody>
@@ -405,18 +322,20 @@
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script type="text/javascript">
         var f_evrakNo = '@ViewBag.EvrakNo';
-        var f_chk= @Model.GENEL[0].Chk;
-        var f_tarih= @Model.GENEL[0].Tarih;
+        var f_chk= '@Model.GENEL[0].Chk';
+        var f_tarih='@Model.GENEL[0].Tarih';
         var check_sum = new Array();
 
         var model = @Html.Raw(Json.Encode(Model));
        
-        model.STI.each(function( index ) {
-            check_sum.push(model.STI[index].CheckSum);
-        });
-
+        for (var i = 0; i < model.STI.length; i++) {
+            check_sum.push(model.STI[i].CheckSum);
+        }
+        console.log(check_sum);
         var sayac = 1;
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json", "autoWidth": true } });
+        $('#sample_1').DataTable({ 
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
 
         $(document).on("ready", function () {
             $(".txtRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
@@ -432,24 +351,24 @@
             var _dfd = $.Deferred();
             $.ajax({
                 url: window.location.origin + "/FaturaOnay/FaturaDetayOnayla",
-                data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, ChckSm: check_sum },
+                data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, ChckSm: check_sum},
                 type: "post",
                 success: function (data) {
                     if (data == "OK") {
                         //Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
 
-                        window.location.href = '/Home/Index';
+                        window.location.href = '/FaturaOnay/Index';
                     }
                     else if (data == "NO") {
                         Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
                     }
                     else if (data == "DEGISIM") {
-                        AL_FATURALAR(f_evrakNo);
+                        window.location.href = '/FaturaOnay/FaturaDetay?EvrakNo=' + evrakNo;
                         Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "Guncel");
 
                     }
                     else {
-                        window.location.href = '/Home/Index';
+                        window.location.href = '/FaturaOnay/Index';
                     }
 
                 },
@@ -471,15 +390,13 @@
         });
 
         function Red() {
+            console.log(check_sum);
             var _dfd = $.Deferred();
-            var f_chk, f_tarih, f_evrakNo, f_redNeden;
-            f_tarih = $(".Tarih").text();
-            f_chk = $(".CHK").text();
-            f_evrakNo = $(".EvrakNo").text();
+            var f_redNeden;
             f_redNeden = $(".txtRedNeden").dxTextArea("instance").option("value");
             $.ajax({
-                url: window.location.origin + "/Home/FaturaDetayRed",
-                data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, RedNeden: f_redNeden },
+                url: window.location.origin + "/FaturaOnay/FaturaDetayRed",
+                data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, RedNeden: f_redNeden, ChckSm: check_sum },
                 type: "post",
                 success: function (data) {
 
@@ -487,13 +404,13 @@
                         Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
                     }
                     else if (data == "DEGISIM") {
-                        AL_FATURALAR(f_evrakNo);
+                        window.location.href = '/FaturaOnay/FaturaDetay?EvrakNo=' + evrakNo;
                         Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "Guncel");
 
                     }
                     else {
                         Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
-                        window.location.href = '/Home/Index';
+                        window.location.href = '/FaturaOnay/Index';
                     }
 
 
