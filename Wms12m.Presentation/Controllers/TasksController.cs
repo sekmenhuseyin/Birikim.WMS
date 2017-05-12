@@ -217,9 +217,12 @@ namespace Wms12m.Presentation.Controllers
             //kontrols
             if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
+            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
+            if (mGorev.IR.Onay == true)
+                return Json(new Result(false, "Sayım fişi daha önce oluşturulmuş!"), JsonRequestBehavior.AllowGet);
             //seri kontrol
             var details = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
             if (details == null)
@@ -234,8 +237,6 @@ namespace Wms12m.Presentation.Controllers
             int saat = fn.ToOATime();
             short sirano = 0;
             List<STI> stiList = new List<STI>();
-            //finsat tanımlama
-            Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             //loop malkods
             var list = mGorev.GorevYers.GroupBy(m => new { m.MalKodu, m.Birim }).Select(m => new { m.Key.MalKodu, m.Key.Birim, Miktar = m.Sum(n => n.Miktar) }).ToList();
             foreach (var item in list)
@@ -258,10 +259,13 @@ namespace Wms12m.Presentation.Controllers
                 stiList.Add(sti);
                 sirano++;
             }
+            //finsat tanımlama
+            Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
             {
                 mGorev.IR.EvrakNo = sonuc.Message;
+                mGorev.IR.Onay = true;
                 db.SaveChanges();
             }
             return Json(sonuc, JsonRequestBehavior.AllowGet);
@@ -275,9 +279,14 @@ namespace Wms12m.Presentation.Controllers
             //kontrols
             if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
+            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
+            if (mGorev.IR.LinkEvrakNo != null)
+                return Json(new Result(false, "Fark fişi daha önce oluşturulmuş!"), JsonRequestBehavior.AllowGet);
+            if (mGorev.IR.Onay == false)
+                return Json(new Result(false, "Sayım fişi daha oluşturulmamış!"), JsonRequestBehavior.AllowGet);
             //seri kontrol
             var details = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
             if (details == null)
@@ -292,8 +301,6 @@ namespace Wms12m.Presentation.Controllers
             int saat = fn.ToOATime();
             short sirano = 0;
             List<STI> stiList = new List<STI>();
-            //finsat tanımlama
-            Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             //loop malkods
             var list = mGorev.GorevYers.GroupBy(m => new { m.MalKodu, m.Birim }).Select(m => new { m.Key.MalKodu, m.Key.Birim, Miktar = m.Sum(n => n.Miktar) }).ToList();
             foreach (var item in list)
@@ -313,13 +320,16 @@ namespace Wms12m.Presentation.Controllers
                 sti.VadeTarih = tarih;
                 sti.EvrakTarih = tarih;
                 sti.AnaEvrakTip = 57;
+                sti.KaynakIrsEvrakNo = mGorev.IR.EvrakNo;
                 stiList.Add(sti);
                 sirano++;
             }
-            var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
+            //finsat tanımlama
+            Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
+            var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName, mGorev.IR.EvrakNo);
             if (sonuc.Status == true)
             {
-                mGorev.IR.EvrakNo = sonuc.Message;
+                mGorev.IR.LinkEvrakNo = sonuc.Message;
                 db.SaveChanges();
             }
             return Json(sonuc, JsonRequestBehavior.AllowGet);
