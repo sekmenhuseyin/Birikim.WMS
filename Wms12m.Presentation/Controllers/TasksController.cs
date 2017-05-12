@@ -267,6 +267,7 @@ namespace Wms12m.Presentation.Controllers
                 mGorev.IR.EvrakNo = sonuc.Message;
                 mGorev.IR.Onay = true;
                 db.SaveChanges();
+                sonuc.Message = "İşlem tamlandı!";
             }
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
@@ -342,13 +343,31 @@ namespace Wms12m.Presentation.Controllers
             }
             //finsat tanımlama
             Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
-            var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName, mGorev.IR.EvrakNo);
+            var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
             {
                 mGorev.IR.LinkEvrakNo = sonuc.Message;
                 db.SaveChanges();
+                db.Database.ExecuteSqlCommand(string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STI SET KaynakIrsEvrakNo='{1}' WHERE EvrakNo = '{2}' AND KynkEvrakTip = 94", mGorev.IR.SirketKod, sonuc.Message, mGorev.IR.EvrakNo));
+                sonuc.Message = "İşlem tamlandı!";
             }
             return Json(sonuc, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// sayım fişi kaydeder
+        /// </summary>
+        [HttpPost]
+        public JsonResult Finish(int GorevID)
+        {
+            if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            int durumID = ComboItems.Açık.ToInt32();
+            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
+            mGorev.DurumID = ComboItems.Tamamlanan.ToInt32();
+            db.SaveChanges();
+            return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Wms12m
         /// <summary>
         /// sayım fişi oluştur
         /// </summary>
-        public Result SayımVeFarkFişi(List<STI> stiList, int EvrakSeriNo, bool EvrakNoArttır, string username, string kynkIrsEvrakNo = "")
+        public Result SayımVeFarkFişi(List<STI> stiList, int EvrakSeriNo, bool EvrakNoArttır, string username)
         {
             //definitions
             Functions fn = new Functions();
@@ -62,14 +62,6 @@ namespace Wms12m
             if (sonuc.Status == true)
             {
                 sonuc.Message = evrakno;
-                //kaynak irsaliye evrak nolar
-                if (kynkIrsEvrakNo != "")
-                {
-                    using (WMSEntities db = new WMSEntities())
-                    {
-                        db.Database.ExecuteSqlCommand(string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STI SET KaynakIrsEvrakNo='{1}' WHERE EvrakNo = '{2}' AND KynkEvrakTip = 94", SirketKodu, evrakno, kynkIrsEvrakNo));
-                    }
-                }
                 //evrak no arttır
                 if (EvrakNoArttır == true)
                 {
