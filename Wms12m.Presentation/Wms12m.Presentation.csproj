@@ -44,6 +44,10 @@
     <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs44F9.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevHelper, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\DevHelper.dll</HintPath>
+    </Reference>
     <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
       <Private>True</Private>
@@ -80,6 +84,10 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OnikimCore, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\OnikimCore.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Linq" />
@@ -525,14 +533,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\C#\12MCore\DevHelper\DevHelper.csproj">
-      <Project>{ad17fa96-3ab3-4d94-bf3f-406f9958ebba}</Project>
-      <Name>DevHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\C#\12MCore\OnikimCore\OnikimCore.csproj">
-      <Project>{3ba1b215-2340-4a2d-be17-997b967cd4bb}</Project>
-      <Name>OnikimCore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">
       <Project>{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}</Project>
       <Name>Wms12m.Business</Name>
