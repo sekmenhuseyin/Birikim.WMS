@@ -64,5 +64,11 @@
     "inputFiles": [
       "Content/assets/pages/css/login-4.css"
     ]
+  },
+  {
+    "outputFileName": "Content/assets/global/css/components-md.min.css",
+    "inputFiles": [
+      "Content/assets/global/css/components-md.css"
+    ]
   }
 ]

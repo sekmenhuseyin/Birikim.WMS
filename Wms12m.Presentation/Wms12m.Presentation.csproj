@@ -137,7 +137,9 @@
   <ItemGroup>
     <Content Include="Content\ajaxloader.gif" />
     <Content Include="Content\assets\global\css\components-md.css" />
-    <Content Include="Content\assets\global\css\components-md.min.css" />
+    <Content Include="Content\assets\global\css\components-md.min.css">
+      <DependentUpon>components-md.css</DependentUpon>
+    </Content>
     <Content Include="Content\assets\global\css\components.css" />
     <Content Include="Content\assets\global\css\plugins-md.css" />
     <Content Include="Content\assets\global\css\plugins-md.min.css" />

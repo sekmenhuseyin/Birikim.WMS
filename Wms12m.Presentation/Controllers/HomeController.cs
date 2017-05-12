@@ -414,8 +414,16 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBaglantiZamanCizelgesi()
         {
-            var BUGS = db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_BaglantiLogGetir]", "01")).ToList();
-            return PartialView("_PartialBaglantiZamanCizelgesi", BUGS);
+            try
+            {
+                var BUGS = db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_BaglantiLogGetir]", "33")).ToList();
+                return PartialView("_PartialBaglantiZamanCizelgesi", BUGS);
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public PartialViewResult PartialBolgeBazliSatisAnalizi(int ay, string kriter)
