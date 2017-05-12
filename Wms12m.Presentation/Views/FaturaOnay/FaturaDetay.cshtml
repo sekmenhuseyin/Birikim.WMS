@@ -23,6 +23,15 @@
         text-align: left;
         float: left;
     }
+
+    .list-unstyled.genel strong {
+        color: rgba(230, 94, 138, 0.95);
+    }
+
+    .invoice-payment.genel h3 {
+        color: rgba(9, 208, 241, 0.65);
+        font-weight: bold;
+    }
 </style>
 
 @*<div class="theme-panel hidden-xs hidden-sm">
@@ -171,9 +180,9 @@
     </div>
     <hr />
     <div class="row">
-        <div class="col-xs-4 invoice-payment">
+        <div class="col-xs-4 invoice-payment genel">
             <h3>Hesap Bilgileri:</h3>
-            <ul class="list-unstyled">
+            <ul class="list-unstyled genel">
                 <li>
                     <strong>Hesap Kodu:</strong> @Model.GENEL[0].Chk
                 </li>
@@ -191,9 +200,9 @@
                 </li>
             </ul>
         </div>
-        <div class="col-xs-4 invoice-payment">
+        <div class="col-xs-4 invoice-payment genel">
             <h3>İşlem Bilgileri:</h3>
-            <ul class="list-unstyled">
+            <ul class="list-unstyled genel">
                 <li>
                     <strong>İşlem Tipi:</strong> @Model.GENEL[0].IslemTip
                 </li>
@@ -211,9 +220,9 @@
                 </li>
             </ul>
         </div>
-        <div class="col-xs-4 invoice-payment">
+        <div class="col-xs-4 invoice-payment genel">
             <h3>Açıklamalar:</h3>
-            <ul class="list-unstyled">
+            <ul class="list-unstyled genel">
                 <li>
                     <strong>Açıklama:</strong> @Model.GENEL[0].Aciklama
                 </li>
@@ -272,29 +281,29 @@
                 <tbody>
                     @foreach (var item in Model.STI)
                     {
-                        <tr>
-                            <td> 1 </td>
-                            <td> @item.MalKodu </td>
-                            <td> @item.MalAdi  </td>
-                            <td> @item.Birim  </td>
-                            <td> @item.BirimMiktar  </td>
-                            <td> @item.BirimFiyat  </td>
-                            <td> @item.Tutar  </td>
-                            <td> @item.Depo  </td>
-                            <td> @item.KdvOran  </td>
-                            <td> @item.KdvMuafiyetNedeni  </td>
-                            <td> @item.DvzTL  </td>
-                            <td> @item.DovizCinsi  </td>
-                            <td> @item.DovizKuru  </td>
-                            <td> @item.DovizTutar  </td>
-                            <td> @item.IskontoOran1  </td>
-                            <td> @item.IskontoOran2  </td>
-                            <td> @item.IskontoOran3  </td>
-                            <td> @item.IskontoOran4  </td>
-                            <td> @item.IskontoOran5  </td>
-                            <td> @item.NetTutar  </td>
-                            <td> @item.Nesne1  </td>
-                        </tr>
+                    <tr>
+                        <td> 1 </td>
+                        <td> @item.MalKodu </td>
+                        <td> @item.MalAdi  </td>
+                        <td> @item.Birim  </td>
+                        <td> @item.BirimMiktar  </td>
+                        <td> @item.BirimFiyat  </td>
+                        <td> @item.Tutar  </td>
+                        <td> @item.Depo  </td>
+                        <td> @item.KdvOran  </td>
+                        <td> @item.KdvMuafiyetNedeni  </td>
+                        <td> @item.DvzTL  </td>
+                        <td> @item.DovizCinsi  </td>
+                        <td> @item.DovizKuru  </td>
+                        <td> @item.DovizTutar  </td>
+                        <td> @item.IskontoOran1  </td>
+                        <td> @item.IskontoOran2  </td>
+                        <td> @item.IskontoOran3  </td>
+                        <td> @item.IskontoOran4  </td>
+                        <td> @item.IskontoOran5  </td>
+                        <td> @item.NetTutar  </td>
+                        <td> @item.Nesne1  </td>
+                    </tr>
                     }
 
                 </tbody>
@@ -303,61 +312,197 @@
     </div>
     <div class="row" style="font-size:9px;margin-top:20px;">
         <div class="col-xs-2 col-sm-2" style="text-align:center;">
-            <div class="btn btn-lg green" style="width:100%; margin-bottom:10px;">Onayla<i class="fa fa-check"></i></div>
-            <div class="btn btn-lg red" style="width:100%; margin-bottom:10px;">Reddet<i class="fa fa-close"></i></div>
-            <div class="btn btn-lg default" style="width:100%; margin-bottom:10px;">Geri Dön<i class="fa fa-mail-reply"></i></div>
+            <div class="btn btn-lg green onayla-buton" style="width:100%; margin-bottom:10px;">Onayla<i class="fa fa-check"></i></div>
+            <div class="btn btn-lg red red-buton" style="width:100%; margin-bottom:10px;">Reddet<i class="fa fa-close"></i></div>
+            <div class="btn btn-lg default geri-buton" style="width:100%; margin-bottom:10px;">Geri Dön<i class="fa fa-mail-reply"></i></div>
         </div>
         <div class="col-xs-10 col-sm-10">
             <div class="well" style="display:inline-block;">
                 @foreach (var item in Model.FTD)
                 {
-                    <ul class="list-unstyled amounts" style="display: inline-block;width: 100%;">
+                <ul class="list-unstyled amounts" style="display: inline-block;width: 100%;">
 
-                        <li class="col-xs-2 col-sm-2">
-                            <strong sty>@item.Tip</strong>
-                        </li>
-                        <li class="col-xs-1 col-sm-1">
-                            <strong sty>Oran</strong> @item.IskontoOran
-                        </li>
-                        <li class="col-xs-2 col-sm-2">
-                            <strong sty>Tutar</strong> @item.Iskonto
-                        </li>
-                        @*<li class="col-xs-2">
-                                <strong sty>KDV Muafiyet Nedeni</strong> @item.KdvMuafiyetNedeni
-                            </li>*@
-                        <li class="col-xs-2 col-sm-2">
-                            <strong sty>Döviz/TL</strong> @item.DvzTL
-                        </li>
-                        <li class="col-xs-1 col-sm-1">
-                            <strong sty>Döviz Cinsi</strong> @item.DovizCinsi
-                        </li>
-                        <li class="col-xs-2 col-sm-2">
-                            <strong sty>Döviz Kuru</strong> @item.DovizKuru
-                        </li>
-                        <li class="col-xs-2 col-sm-2">
-                            <strong sty>Döviz Tutar</strong> @item.DovizTutar
-                        </li>
+                    <li class="col-xs-2 col-sm-2">
+                        <strong sty>@item.Tip</strong>
+                    </li>
+                    <li class="col-xs-1 col-sm-1">
+                        <strong sty>Oran</strong> @item.IskontoOran
+                    </li>
+                    <li class="col-xs-2 col-sm-2">
+                        <strong sty>Tutar</strong> @item.Iskonto
+                    </li>
+                    @*<li class="col-xs-2">
+                            <strong sty>KDV Muafiyet Nedeni</strong> @item.KdvMuafiyetNedeni
+                        </li>*@
+                    <li class="col-xs-2 col-sm-2">
+                        <strong sty>Döviz/TL</strong> @item.DvzTL
+                    </li>
+                    <li class="col-xs-1 col-sm-1">
+                        <strong sty>Döviz Cinsi</strong> @item.DovizCinsi
+                    </li>
+                    <li class="col-xs-2 col-sm-2">
+                        <strong sty>Döviz Kuru</strong> @item.DovizKuru
+                    </li>
+                    <li class="col-xs-2 col-sm-2">
+                        <strong sty>Döviz Tutar</strong> @item.DovizTutar
+                    </li>
 
 
-                    </ul>
+                </ul>
                 }
 
             </div>
         </div>
     </div>
+</div>
+<div class="modal fade" id="x-modal-faturared" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#3434cb">Fatura Onay Red</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                @*<div class="silKontrol">
+                        <div style="width:100%;">
+                            <h5 style="color:#de3838;">Faturanın silinmesini ister misiniz?</h5>
+                        </div>
+                        <div>
 
-    @section Scripts{
+                        </div>
+                        <div class="rdgrpSil">
 
-        <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
-        <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-        <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
-        <script src="~/Content/assets/global/scripts/datatable.js"></script>
-        <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
-        <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
-        <script type="text/javascript">
-            var sayac = 1;
-            $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json", "autoWidth": true } });
-        </script>
-    }
+                        </div>
+                    </div>
+                    <hr />*@
+                <div class="redNeden">
+                    <div style="width:100%;">
+                        <h5 style="color:#de3838;">
+                            Red Nedeni
+                        </h5>
+                    </div>
+                    <div class="txtRedNeden">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="mdlSilKapat">Kapat</button>
+                <button type="button" class="btn btn-primary" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
+    <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+    <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/scripts/datatable.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+    <script type="text/javascript">
+        var f_evrakNo = '@ViewBag.EvrakNo';
+        var f_chk= @Model.GENEL[0].Chk;
+        var f_tarih= @Model.GENEL[0].Tarih;
+        var check_sum = new Array();
+
+        var model = @Html.Raw(Json.Encode(Model));
+       
+        model.STI.each(function( index ) {
+            console.log( index + ": " + $( this ).text() );
+        });
+
+        var sayac = 1;
+        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json", "autoWidth": true } });
+
+        $(document).on("ready", function () {
+            $(".txtRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
+        });
+
+        $(document).on("click", ".geri-buton", function () {
+            window.location.href = '/FaturaOnay/Index';
+        });
+        $(document).on("click", ".onayla-buton", function () {
+            ModalYesNoClick("Onaylamak istediğinize emin misiniz?", "Onay Uyarı", "Kaydet", "onayKayit", Onayla, "Kapat", "onayKapat", null);
+        });
+        function Onayla() {
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/FaturaOnay/FaturaDetayOnayla",
+                data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih },
+                type: "post",
+                success: function (data) {
+                    if (data == "OK") {
+                        //Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
+
+                        window.location.href = '/Home/Index';
+                    }
+                    else if (data == "NO") {
+                        Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
+                    }
+                    else if (data == "DEGISIM") {
+                        AL_FATURALAR(f_evrakNo);
+                        Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "Guncel");
+
+                    }
+                    else {
+                        window.location.href = '/Home/Index';
+                    }
+
+                },
+                error: function (jqxhr) { console.log(jqxhr); }
+            });
+            return _dfd.promise();
+        }
+
+
+        $(document).on("click", ".red-buton", function () {
+            $(".rdgrpSil").dxRadioGroup({
+                value: "Silme"
+            });
+            $('#x-modal-faturared').modal("show");
+
+        });
+        $(document).on("click", "#mdlSilKayit", function () {
+            ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Kaydet", "redKayit", Red, "Kapat", "redKapat", null);
+        });
+
+        function Red() {
+            var _dfd = $.Deferred();
+            var f_chk, f_tarih, f_evrakNo, f_redNeden;
+            f_tarih = $(".Tarih").text();
+            f_chk = $(".CHK").text();
+            f_evrakNo = $(".EvrakNo").text();
+            f_redNeden = $(".txtRedNeden").dxTextArea("instance").option("value");
+            $.ajax({
+                url: window.location.origin + "/Home/FaturaDetayRed",
+                data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, RedNeden: f_redNeden },
+                type: "post",
+                success: function (data) {
+
+                    if (data == "NO") {
+                        Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
+                    }
+                    else if (data == "DEGISIM") {
+                        AL_FATURALAR(f_evrakNo);
+                        Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "Guncel");
+
+                    }
+                    else {
+                        Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
+                        window.location.href = '/Home/Index';
+                    }
+
+
+
+                },
+                error: function (jqxhr) { console.log(jqxhr); }
+            });
+            return _dfd.promise();
+        }
+    </script>
+}
 
