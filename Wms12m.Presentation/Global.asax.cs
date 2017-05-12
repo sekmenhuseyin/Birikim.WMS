@@ -34,7 +34,6 @@ namespace Wms12m.Presentation
         protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)
         {
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-
             if (authCookie != null)
             {
                 //serialize
