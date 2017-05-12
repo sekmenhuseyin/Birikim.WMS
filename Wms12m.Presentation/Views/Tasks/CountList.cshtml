@@ -25,7 +25,13 @@
                             <input name="GorevID" type="hidden" value="@item.ID" />
                             <input type="submit" class="btn btn-primary input-circle" value="Fark FİŞİ Oluştur" />
                         }
-                   }
+                        using (Ajax.BeginForm("Finish", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input name="GorevID" type="hidden" value="@item.ID" />
+                            <input type="submit" class="btn btn-danger input-circle" value="Sonlandır" />
+                        }
+                    }
                 </td>
             </tr>
         }
@@ -41,7 +47,11 @@
     });
     function getresult(e) {
         if (e.Status == true)
+        {
+            if (e.Message != "")
+                Modaldialog(e.Message, 'Tamamlandı', 'Tamam', 'btn-success');
             FuncSearchBtn();
+        }
         else
             Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
     };

@@ -1,6 +1,7 @@
 ﻿using OnikimCore.GunesCore;
 using System.Collections.Generic;
 using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m
 {
@@ -38,10 +39,12 @@ namespace Wms12m
             SqlExper sqlexper = new SqlExper(ConStr, SirketKodu);
             //evrak no
             string evrakno = EvrakNo(EvrakSeriNo);
+            if (evrakno == null || evrakno == "")
+                return new Result(false, "Evrak Seri hatası.");
             //sql exper
             foreach (var item in stiList)
             {
-                item.EvrakNo = username;
+                item.EvrakNo = evrakno;
                 item.Kaydeden = username;
                 item.KayitTarih = tarih;
                 item.KayitSaat = saat;
@@ -76,8 +79,7 @@ namespace Wms12m
                     }
                     int no = noStr.ToInt32();
                     string evrakNoArti = Helper.EvrakNoOlustur(8, seri, no);
-                    sqlexper.Komut(@"UPDATE FINSAT6{0}.FINSAT6{0}.INI SET MyValue={{0}}
-                                WHERE MySection = 1 AND MyEntry = {{1}}", evrakNoArti, EvrakSeriNo);
+                    sqlexper.Komut("UPDATE FINSAT6{0}.FINSAT6{0}.INI SET MyValue={{0}} WHERE MySection = 1 AND MyEntry = {{1}}", evrakNoArti, EvrakSeriNo);
                     sqlexper.AcceptChanges();
                 }
             }
