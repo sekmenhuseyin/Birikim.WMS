@@ -49,8 +49,26 @@ namespace Wms12m.Presentation.Controllers
             return View(_FDD);
         }
 
-        public string FaturaDetayOnayla(string EvrakNo, string CHK, string Tarih)
+        public string FaturaDetayOnayla(string EvrakNo, string CHK, string Tarih, short[] ChckSm)
         {
+            var  FO = db.Database.SqlQuery<int>(string.Format("SELECT Count(*) FROM FINSAT6{0}.FINSAT6{0}.STI (NOLOCK) WHERE EvrakNo='{1}' AND CheckSum={2}", "17", EvrakNo,ChckSm)).FirstOrDefault();
+            
+            if(FO>0)
+            {
+                return "DEGISIM";
+            }
+            try
+            {
+                var x = db.Database.SqlQuery<FaturaOnay>(string.Format("[FINSAT6{0}].[dbo].[FaturaOnayUpdate] @Tip={1}, @EvrakNo='{2}',@Chk='{3}',@Tarih={4},@RedNedeni='{5}',@Degistiren='{6}',@Degistarih={7}", "17", 1,EvrakNo,CHK, Convert.ToInt32(Convert.ToDateTime(Tarih.ToString()).ToOADate()), "",vUser.UserName, Convert.ToInt32(DateTime.Today.ToOADate()))).ToList();
+           
+                    return "NO";
+
+            }
+            catch (Exception)
+            {
+                return "NO";
+            }
+
             //Result _Rslt = new Result();
             //int a;
             //FaturaDetayData FDD = new FaturaDetayData();

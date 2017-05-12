@@ -412,7 +412,7 @@
         var model = @Html.Raw(Json.Encode(Model));
        
         model.STI.each(function( index ) {
-            console.log( index + ": " + $( this ).text() );
+            check_sum.push(model.STI[index].CheckSum);
         });
 
         var sayac = 1;
@@ -432,7 +432,7 @@
             var _dfd = $.Deferred();
             $.ajax({
                 url: window.location.origin + "/FaturaOnay/FaturaDetayOnayla",
-                data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih },
+                data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, ChckSm: check_sum },
                 type: "post",
                 success: function (data) {
                     if (data == "OK") {
