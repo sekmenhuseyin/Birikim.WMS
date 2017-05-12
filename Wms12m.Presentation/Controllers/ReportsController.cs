@@ -64,7 +64,7 @@ namespace Wms12m.Presentation.Controllers
         {
 
             var CE = db.Database.SqlQuery<RaporCariEkstre>(string.Format("[FINSAT6{0}].[wms].[DB_CariEkstre] @HesapKodu = '{1}'", "01", chk)).ToList();
-            return PartialView("_PartialCariExtre", CE);
+            return PartialView("_PartialCariEkstre", CE);
         }
 
         public ActionResult VadesiGelmemisCekler()
