@@ -60,5 +60,19 @@ namespace Wms12m.Presentation.Controllers
             HttpContext.Response.Cookies.Add(sessionCookie);
             return RedirectToAction("Login", "Security");
         }
+        /// <summary>
+        /// yeni kullanıcı kaydı
+        /// </summary>
+        public JsonResult New()
+        {
+            return Json(new Result(false, 0, "Şu anda bu işlemi gerçekleştiremiyoruz.", "Yeni Kullanıcı"), JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// şifre hatırlatma
+        /// </summary>
+        public JsonResult Forgot()
+        {
+            return Json(new Result(false, 0, "Şu anda bu işlemi gerçekleştiremiyoruz.", "Şifre Hatırlatma"), JsonRequestBehavior.AllowGet);
+        }
     }
 }

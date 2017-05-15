@@ -218,9 +218,9 @@
     <Content Include="Content\assets\layouts\layout\img\loading-spinner-default.gif" />
     <Content Include="Content\assets\layouts\layout\img\loading-spinner-grey.gif" />
     <Content Include="Content\assets\layouts\layout\img\loading.gif" />
-    <Content Include="Content\assets\layouts\layout\img\logo-big-white.png" />
-    <Content Include="Content\assets\layouts\layout\img\logo-big.png" />
-    <Content Include="Content\assets\layouts\layout\img\logo.png" />
+    <Content Include="Content\images\tum-logo3.png" />
+    <Content Include="Content\images\tum-logo2.png" />
+    <Content Include="Content\images\tum-logo1.png" />
     <Content Include="Content\assets\layouts\layout\img\menu-toggler.png" />
     <Content Include="Content\assets\layouts\layout\img\remove-icon-small.png" />
     <Content Include="Content\assets\layouts\layout\img\search_icon_light.png" />
@@ -244,10 +244,6 @@
     <Content Include="Content\assets\layouts\layout\scripts\layout.js" />
     <Content Include="Content\assets\layouts\layout\scripts\layout.min.js">
       <DependentUpon>layout.js</DependentUpon>
-    </Content>
-    <Content Include="Content\assets\pages\css\login-4.css" />
-    <Content Include="Content\assets\pages\css\login-4.min.css">
-      <DependentUpon>login-4.css</DependentUpon>
     </Content>
     <Content Include="Content\assets\pages\img\bg-opacity.png" />
     <Content Include="Content\assets\pages\img\bg-white-lock.png" />
