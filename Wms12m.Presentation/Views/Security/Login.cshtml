@@ -31,13 +31,15 @@
                 <span class="field-validation-valid" data-valmsg-for="Sifre" data-valmsg-replace="true" style="color:red;"></span>
             </div>
         </div>
+        <div class="form-group">
+            @if (setts.AllowForgotPass == true){<a href="javascript:;" id="forget-password" class="forget-password">Şifremi Unuttum</a>}
+        </div>
         <div class="form-actions">
-            <button type="submit" class="btn green uppercase">GİRİŞ YAP</button>
             <label class="rememberme check mt-checkbox mt-checkbox-outline">
                 <input type="checkbox" name="RememberMe" value="1" />Beni hatırla
                 <span></span>
             </label>
-            @if (setts.AllowForgotPass == true){<a href="javascript:;" id="forget-password" class="forget-password">Şifremi Unuttum</a>}
+            <button type="submit" class="btn green uppercase pull-right">GİRİŞ YAP</button>
         </div>
         if (setts.AllowNewUser == true){<div class="create-account">
             <p>

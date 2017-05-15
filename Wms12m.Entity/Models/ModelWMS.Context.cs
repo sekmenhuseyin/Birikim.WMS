@@ -457,5 +457,14 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMenuRolesFor_Result>("WMSEntities.GetMenuRolesFor", menuIDParameter);
         }
+    
+        public virtual ObjectResult<GetUserPermsFor_Result> GetUserPermsFor(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUserPermsFor_Result>("WMSEntities.GetUserPermsFor", userIDParameter);
+        }
     }
 }
