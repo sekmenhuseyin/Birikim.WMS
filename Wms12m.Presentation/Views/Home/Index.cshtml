@@ -91,10 +91,10 @@
     var dateVal = new Date();
     dateVal.setHours(0, 0, 0);
     var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-    //PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ tarih: oaDate }));
-    //PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ tarih: oaDate }));
-    PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ tarih: oaDate }));
-    //PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie', JSON.stringify({ tarih: oaDate }));
+    PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
+    PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
+    PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
+    PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
     //PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: "Tümü", islemtip: 0, tarih: oaDate }));
     //PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ kod: "Tümü", islemtip: 0, tarih: oaDate }));
     //PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar');

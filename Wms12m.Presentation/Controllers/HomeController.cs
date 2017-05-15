@@ -15,6 +15,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             var ozet = db.GetHomeSummary().FirstOrDefault();
+            ViewBag.SirketKodu = db.GetSirketDBs().FirstOrDefault();
             return View("Index", ozet);
         }
         /// <summary>
@@ -40,44 +41,42 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /////////////////////////////////////////////// partials
         /// </summary>
-        public PartialViewResult PartialGunlukSatis(int? tarih, string type = "serial")
+        public PartialViewResult PartialGunlukSatis(string SirketKodu, int tarih, string type = "serial")
         {
-            var tarih2 = DateTime.Today.ToShortDateString();
-            if (tarih == null)
-                tarih = fn.ToOADate();
-            else
-                tarih2 = tarih.Value.FromOADateInt();
-            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", "01", tarih)).ToList();
+            var tarih2 = tarih.FromOADateInt();
+            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", SirketKodu, tarih)).ToList();
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih2;
             ViewBag.type = type;
+            ViewBag.SirketKodu = SirketKodu;
             return PartialView("_PartialGunlukSatis", GSA);
         }
 
-        public PartialViewResult PartialGunlukSatisPie(int? tarih, string type = "serial")
+        public PartialViewResult PartialGunlukSatisPie(string SirketKodu, int tarih, string type = "serial")
         {
-            var tarih2 = DateTime.Today.ToShortDateString();
-            if (tarih == null)
-                tarih = fn.ToOADate();
-            else
-                tarih2 = tarih.Value.FromOADateInt();
-            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", "01", tarih)).ToList();
+            var tarih2 = tarih.FromOADateInt();
+            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", SirketKodu, tarih)).ToList();
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih2;
             ViewBag.type = type;
+            ViewBag.SirketKodu = SirketKodu;
             return PartialView("_PartialGunlukSatisPie", GSA);
         }
 
-        public PartialViewResult PartialGunlukSatisYearToDay(int? tarih)
+        public PartialViewResult PartialGunlukSatisYearToDay(string SirketKodu, int tarih)
         {
-            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", "01", tarih)).ToList();
+            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", SirketKodu, tarih)).ToList();
+            ViewBag.tarih = tarih;
+            ViewBag.SirketKodu = SirketKodu;
             return PartialView("_PartialGunlukSatısAnaliziYearToDay", GSA);
         }
 
-        public PartialViewResult PartialGunlukSatisYearToDayPie(int? tarih)
+        public PartialViewResult PartialGunlukSatisYearToDayPie(string SirketKodu, int tarih)
         {
 
-            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", "01", tarih)).ToList();
+            var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", SirketKodu, tarih)).ToList();
+            ViewBag.tarih = tarih;
+            ViewBag.SirketKodu = SirketKodu;
             return PartialView("_PartialGunlukSatısAnaliziYearToDayPie", GSA);
         }
 
