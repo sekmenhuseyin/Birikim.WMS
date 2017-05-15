@@ -74,6 +74,11 @@ namespace Wms12m.Presentation.Controllers
                 return;
             }
             ViewBag.settings = db.Settings.FirstOrDefault();
+            if (ViewBag.settings.Aktif == false && filterContext.ActionDescriptor.ControllerDescriptor.ControllerName != "Maintenance")
+            {
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Maintenance", action = "Index" }));
+                return;
+            }
             ViewBag.User = vUser.FirstName;
             base.OnActionExecuting(filterContext);
         }

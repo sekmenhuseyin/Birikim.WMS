@@ -20,5 +20,6 @@ namespace Wms12m.Entity.Models
         public string LoginLogo { get; set; }
         public bool AllowNewUser { get; set; }
         public bool AllowForgotPass { get; set; }
+        public bool Aktif { get; set; }
     }
 }
