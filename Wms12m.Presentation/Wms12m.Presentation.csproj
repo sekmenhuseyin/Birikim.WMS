@@ -218,6 +218,7 @@
     <Content Include="Content\assets\layouts\layout\img\loading-spinner-default.gif" />
     <Content Include="Content\assets\layouts\layout\img\loading-spinner-grey.gif" />
     <Content Include="Content\assets\layouts\layout\img\loading.gif" />
+    <Content Include="Content\images\iz-logo1.png" />
     <Content Include="Content\images\tum-logo3.png" />
     <Content Include="Content\images\tum-logo2.png" />
     <Content Include="Content\images\tum-logo1.png" />
