@@ -52,6 +52,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<IR> IRS { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<GorevNo> GorevNoes { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

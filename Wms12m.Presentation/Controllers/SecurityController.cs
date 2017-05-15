@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -16,6 +17,10 @@ namespace Wms12m.Presentation.Controllers
         Result _Result;
         public ActionResult Login()
         {
+            using (var db = new WMSEntities())
+            {
+                ViewBag.settings = db.Settings.FirstOrDefault();
+            }
             return View("Login");
         }
         /// <summary>

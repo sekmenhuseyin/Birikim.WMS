@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="68">
+      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="17.75" PointY="1.375" />
         <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="17.875" PointY="3.625" />
         <EntityTypeShape EntityType="MModel.Simge" Width="1.5" PointX="25.375" PointY="4.25" />
@@ -20,7 +20,7 @@
         <EntityTypeShape EntityType="MModel.GorevYer" Width="1.5" PointX="3.5" PointY="23.75" />
         <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="4.875" PointY="19.875" />
         <EntityTypeShape EntityType="MModel.Koridor" Width="1.5" PointX="16.75" PointY="13.5" />
-        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="13.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="0.75" PointY="3.875" />
         <EntityTypeShape EntityType="MModel.Raf" Width="1.5" PointX="16.625" PointY="17.375" />
         <EntityTypeShape EntityType="MModel.Transfer" Width="1.5" PointX="12.625" PointY="7.875" />
         <EntityTypeShape EntityType="MModel.Transfer_Detay" Width="1.5" PointX="10.625" PointY="9.5" />
@@ -66,6 +66,7 @@
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         <EntityTypeShape EntityType="MModel.GorevNo" Width="1.5" PointX="6.25" PointY="5.875" />
         <AssociationConnector Association="MModel.FK_GorevNo_Depo" />
+        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -22,6 +22,17 @@
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Visible" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TopLogo" Type="varchar" MaxLength="250" />
+          <Property Name="LoginLogo" Type="varchar" MaxLength="250" />
+          <Property Name="AllowNewUser" Type="bit" Nullable="false" />
+          <Property Name="AllowForgotPass" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Simge">
           <Key>
             <PropertyRef Name="ID" />
@@ -956,6 +967,7 @@
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="Combo_Name" EntityType="Self.Combo_Name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboItem_Name" EntityType="Self.ComboItem_Name" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Simge" EntityType="Self.Simge" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenu" EntityType="Self.WebMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenuRol" EntityType="Self.WebMenuRol" Schema="dbo" store:Type="Tables" />
@@ -1424,6 +1436,7 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="GorevNo" EntitySet="GorevNoes" />
           </AssociationSet>
+          <EntitySet Name="Settings" EntityType="MModel.Setting" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2331,6 +2344,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TopLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LoginLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AllowNewUser" Type="Boolean" Nullable="false" />
+          <Property Name="AllowForgotPass" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2840,6 +2864,18 @@
                 <ScalarProperty Name="No" ColumnName="No" />
                 <ScalarProperty Name="DepoID" ColumnName="DepoID" />
                 <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="MModel.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="AllowForgotPass" ColumnName="AllowForgotPass" />
+                <ScalarProperty Name="AllowNewUser" ColumnName="AllowNewUser" />
+                <ScalarProperty Name="LoginLogo" ColumnName="LoginLogo" />
+                <ScalarProperty Name="TopLogo" ColumnName="TopLogo" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

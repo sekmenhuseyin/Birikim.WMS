@@ -2,8 +2,9 @@
 @{
     ViewBag.Title = "Giriş Yap";
     Layout = "~/Views/Shared/_Layout.Null.cshtml";
+    Setting setts = ViewBag.settings;
 }@section Styles{<link href="~/Content/assets/pages/css/login.min.css" rel="stylesheet" type="text/css" />
-}<div class="logo"><a href="/"><img src="~/Content/images/tum-logo1.png" alt="Crew" /></a></div>
+}<div class="logo"><a href="/"><img src="~/Content/images/@setts.LoginLogo" alt="Crew" /></a></div>
 <div class="content">
     @using (Ajax.BeginForm("Login", "Security", new { }, new AjaxOptions{InsertionMode = InsertionMode.Replace, OnSuccess = "ReturnPage"}, new { @class = "login-form" }))
     {
@@ -36,58 +37,64 @@
                 <input type="checkbox" name="RememberMe" value="1" />Beni hatırla
                 <span></span>
             </label>
-            <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
+            @if (setts.AllowForgotPass == true){<a href="javascript:;" id="forget-password" class="forget-password">Şifremi Unuttum</a>}
         </div>
-        <div class="create-account">
+        if (setts.AllowNewUser == true){<div class="create-account">
             <p>
                 <a href="javascript:;" id="register-btn" class="uppercase">Yeni Hesap Oluştur</a>
             </p>
-        </div>
+        </div>}
     }
-    @using (Ajax.BeginForm("Forgot", "Security", new { }, new AjaxOptions{InsertionMode = InsertionMode.Replace, OnSuccess = "getresults" }, new { @class = "forget-form" }))
+    @if (setts.AllowForgotPass == true)
     {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-        <h3 class="font-green">Şifre Hatırlatma</h3>
-        <p>Email adresinizi yazınız</p>
-        <div class="form-group">
-            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" />
-        </div>
-        <div class="form-actions">
-            <button type="button" id="back-btn" class="btn green btn-outline">Geri</button>
-            <button type="submit" class="btn btn-success uppercase pull-right">Gönder</button>
-        </div>
+        using (Ajax.BeginForm("Forgot", "Security", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresults" }, new { @class = "forget-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <h3 class="font-green">Şifre Hatırlatma</h3>
+            <p>Email adresinizi yazınız</p>
+            <div class="form-group">
+                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" />
+            </div>
+            <div class="form-actions">
+                <button type="button" id="back-btn" class="btn green btn-outline">Geri</button>
+                <button type="submit" class="btn btn-success uppercase pull-right">Gönder</button>
+            </div>
+        }
     }
-    @using (Ajax.BeginForm("New", "Security", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresults" }, new { @class = "register-form" }))
+    @if (setts.AllowNewUser == true)
     {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-        <h3 class="font-green">Kayıt Ol</h3>
-        <p class="hint"> Lütfen bilgilerinizi yazınız: </p>
-        <div class="form-group">
-            <label class="control-label visible-ie8 visible-ie9">Ad Soyad</label>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="Ad Soyad" name="fullname" />
-        </div>
-        <div class="form-group">
-            <label class="control-label visible-ie8 visible-ie9">Email</label>
-            <input class="form-control placeholder-no-fix" type="text" placeholder="Email" name="email" />
-        </div>
-        <div class="form-group">
-            <label class="control-label visible-ie8 visible-ie9">Kullanıcı Adı</label>
-            <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" />
-        </div>
-        <div class="form-group">
-            <label class="control-label visible-ie8 visible-ie9">Şifre</label>
-            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Şifre" name="password" />
-        </div>
-        <div class="form-group">
-            <label class="control-label visible-ie8 visible-ie9">Şifre</label>
-            <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Şifre" name="rpassword" />
-        </div>
-        <div class="form-actions">
-            <button type="button" id="register-back-btn" class="btn green btn-outline">Geri</button>
-            <button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">Kaydet</button>
-        </div>
+        using (Ajax.BeginForm("New", "Security", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresults" }, new { @class = "register-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <h3 class="font-green">Kayıt Ol</h3>
+            <p class="hint"> Lütfen bilgilerinizi yazınız: </p>
+            <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Ad Soyad</label>
+                <input class="form-control placeholder-no-fix" type="text" placeholder="Ad Soyad" name="fullname" />
+            </div>
+            <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Email</label>
+                <input class="form-control placeholder-no-fix" type="text" placeholder="Email" name="email" />
+            </div>
+            <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Kullanıcı Adı</label>
+                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" />
+            </div>
+            <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Şifre</label>
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" id="register_password" placeholder="Şifre" name="password" />
+            </div>
+            <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Şifre</label>
+                <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Şifre" name="rpassword" />
+            </div>
+            <div class="form-actions">
+                <button type="button" id="register-back-btn" class="btn green btn-outline">Geri</button>
+                <button type="submit" id="register-submit-btn" class="btn btn-success uppercase pull-right">Kaydet</button>
+            </div>
+        }
     }
 </div>
 <div class="copyright">@DateTime.Today.Year &copy; <a href="http://www.12mconsulting.com.tr/" title="12M Consulting" target="_blank">12M Consulting</a></div>

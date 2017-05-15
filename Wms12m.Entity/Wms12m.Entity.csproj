@@ -144,6 +144,9 @@
     <Compile Include="Models\RolePerm.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Setting.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Simge.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
