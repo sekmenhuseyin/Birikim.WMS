@@ -2363,7 +2363,6 @@
         </EntityType>
         <ComplexType Name="GetUserPermsFor_Result">
           <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="5" />
           <Property Type="Boolean" Name="Reading" Nullable="false" />
           <Property Type="Boolean" Name="Writing" Nullable="false" />
@@ -2898,7 +2897,6 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetUserPermsFor_Result">
                 <ScalarProperty Name="PermName" ColumnName="PermName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Reading" ColumnName="Reading" />
                 <ScalarProperty Name="Writing" ColumnName="Writing" />
