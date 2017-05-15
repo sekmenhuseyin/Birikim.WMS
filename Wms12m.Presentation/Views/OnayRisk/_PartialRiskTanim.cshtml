@@ -1,0 +1,95 @@
+﻿@using Newtonsoft.Json;
+@model List<RiskTanimToplu>
+<div class="fatura-data" style="margin-top: 20px; width: 100%; box-shadow: 2px 4px 2px #5d5959;">
+    <div class="col-md-12" style="width:100%;margin-top: 20px;">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Risk Tanım
+                </div>
+                @*<div class="col-md-1 pull-right m-t-5">
+                        <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                    </div>
+                    <div class="col-md-1 pull-right m-t-5">
+                        <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Export Data </a>
+                    </div>
+                    <div class="col-md-1 pull-right m-t-5">
+                        <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Temizle </a>
+                    </div>*@
+
+            </div>
+
+            <div class="portlet-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table table-striped table-bordered table-checkable table-hover" id="sample_1">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                            <input type="checkbox" class="group-checkable" data-set="sample_1 .checkboxes" />
+                                            <span></span>
+                                        </label>
+                                    </th>
+                                    <th nowrap>Hesap Kodu</th>
+                                    <th nowrap>Ünvan</th>
+                                    <th nowrap>Şahsi Çek Limiti</th>
+                                    <th nowrap>Müşteri Çek Limiti</th>
+                                    <th nowrap class="item_red">Yeni Şahsi Çek Limiti</th>
+                                    <th nowrap class="item_red">Yeni Müşteri Çek Limiti</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="checkboxes" value="1" />
+                                                <span></span>
+                                            </label>
+                                        </td>
+                                        <td nowrap>@item.HesapKodu</td>
+                                        <td nowrap>@item.Unvan</td>
+                                        <td nowrap>@item.SahsiCekLimiti</td>
+                                        <td nowrap>@item.MusteriCekLimiti</td>
+                                        <td nowrap class="item_red">@item.YeniSahsiCekLimiti</td>
+                                        <td nowrap class="item_red">@item.YeniMusteriCekLimiti</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+</div>
+
+<script type="text/javascript">
+
+    var table = $('#sample_1').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "columnDefs": [{ "orderable": false, "ordering": false, "targets": 0 }]
+    });
+    $('#sample_1 tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
+
+    $('.refresh-buton').click(function () {
+        for (var i = 0; i < $('#sample_1').DataTable().rows('.selected').data().length; i++) {
+            console.log($('#sample_1').DataTable().rows('.selected').data()[i][5]);
+        }
+       
+        //alert(table.rows('.selected').data().length + ' row(s) selected');
+    });
+    $(document).ready(function () {
+
+    });
+
+    //function satir_click(evrakNo) {
+    //    window.location.href = '/FaturaOnay/FaturaDetay?EvrakNo=' + evrakNo;
+    //}
+</script>
+
+
