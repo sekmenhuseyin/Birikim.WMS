@@ -40,39 +40,31 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /////////////////////////////////////////////// partials
         /// </summary>
-        public PartialViewResult PartialGunlukSatis(int? tarih)
+        public PartialViewResult PartialGunlukSatis(int? tarih, string type = "serial")
         {
-            //var deneme =  db.MultipleResults(string.Format("[FINSAT6{0}].[wms].[FaturaOnayDetay] @EvrakNo='{1}'",17, "VAS000000791")).With<FaturaDetayGenel>().With<FaturaDetaySTI>().With<FaturaDetayFTD>().Execute(); 
-            var tarih2 = DateTime.Today.Date;
+            var tarih2 = DateTime.Today.ToShortDateString();
             if (tarih == null)
-            {
-                tarih = DateTime.Today.ToOADate().ToInt32();
-            }
+                tarih = fn.ToOADate();
             else
-            {
-                tarih2 = tarih.Value.FromOaDate().Date;
-            }
+                tarih2 = tarih.Value.FromOADateInt();
             var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", "01", tarih)).ToList();
-
-            ViewBag.Tarih = tarih2;
+            ViewBag.tarih = tarih;
+            ViewBag.tarih2 = tarih2;
+            ViewBag.type = type;
             return PartialView("_PartialGunlukSatis", GSA);
         }
 
-        public PartialViewResult PartialGunlukSatisPie(int? tarih)
+        public PartialViewResult PartialGunlukSatisPie(int? tarih, string type = "serial")
         {
-            var tarih2 = DateTime.Today.Date;
+            var tarih2 = DateTime.Today.ToShortDateString();
             if (tarih == null)
-            {
-                tarih = DateTime.Today.ToOADate().ToInt32();
-            }
+                tarih = fn.ToOADate();
             else
-            {
-                tarih2 = tarih.Value.FromOaDate().Date;
-            }
+                tarih2 = tarih.Value.FromOADateInt();
             var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", "01", tarih)).ToList();
-
-
-            ViewBag.Tarih = tarih2;
+            ViewBag.tarih = tarih;
+            ViewBag.tarih2 = tarih2;
+            ViewBag.type = type;
             return PartialView("_PartialGunlukSatisPie", GSA);
         }
 
