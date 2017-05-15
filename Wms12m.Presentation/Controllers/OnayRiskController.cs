@@ -50,5 +50,16 @@ namespace Wms12m.Presentation.Controllers
             var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where SPGMYOnay = 1", "01")).ToList();//--where (OnayTip = 2 and SPGMYOnay = 1 and MIGMYOnay = 0) OR (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 0) and Durum = 0
             return PartialView("_PartialMIGMY", KOD);
         }
+
+        public ActionResult RiskTanim()
+        {
+            return View();
+        }
+
+        public PartialViewResult PartialRiskTanim()
+        {
+            var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect2]", "17")).ToList();
+            return PartialView("_PartialRiskTanim", RT);
+        }
     }
 }

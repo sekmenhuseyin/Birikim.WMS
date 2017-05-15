@@ -521,6 +521,8 @@
     <Content Include="Views\FaturaOnay\Index.cshtml" />
     <Content Include="Views\FaturaOnay\_PartialFaturaOnayGrid.cshtml" />
     <Content Include="Views\FaturaOnay\FaturaDetay.cshtml" />
+    <Content Include="Views\OnayRisk\RiskTanim.cshtml" />
+    <Content Include="Views\OnayRisk\_PartialRiskTanim.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
