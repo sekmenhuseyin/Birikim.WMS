@@ -52,6 +52,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<IR> IRS { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<GorevNo> GorevNoes { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
@@ -455,6 +456,15 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("MenuID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMenuRolesFor_Result>("WMSEntities.GetMenuRolesFor", menuIDParameter);
+        }
+    
+        public virtual ObjectResult<GetUserPermsFor_Result> GetUserPermsFor(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUserPermsFor_Result>("WMSEntities.GetUserPermsFor", userIDParameter);
         }
     }
 }

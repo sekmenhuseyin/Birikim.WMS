@@ -73,6 +73,7 @@ namespace Wms12m.Presentation.Controllers
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Security", action = "Login" }));
                 return;
             }
+            ViewBag.settings = db.Settings.FirstOrDefault();
             ViewBag.User = vUser.FirstName;
             base.OnActionExecuting(filterContext);
         }

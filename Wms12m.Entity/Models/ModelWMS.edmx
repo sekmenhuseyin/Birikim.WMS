@@ -22,6 +22,17 @@
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Visible" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="50" />
+          <Property Name="TopLogo" Type="varchar" MaxLength="250" />
+          <Property Name="LoginLogo" Type="varchar" MaxLength="250" />
+          <Property Name="AllowNewUser" Type="bit" Nullable="false" />
+          <Property Name="AllowForgotPass" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Simge">
           <Key>
             <PropertyRef Name="ID" />
@@ -852,6 +863,9 @@
         </Function>
         <Function Name="GetSirketDBs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetUserPermsFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
         <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="Machine" Type="varchar" Mode="In" />
@@ -956,6 +970,7 @@
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="Combo_Name" EntityType="Self.Combo_Name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboItem_Name" EntityType="Self.ComboItem_Name" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Simge" EntityType="Self.Simge" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenu" EntityType="Self.WebMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenuRol" EntityType="Self.WebMenuRol" Schema="dbo" store:Type="Tables" />
@@ -1424,6 +1439,10 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="GorevNo" EntitySet="GorevNoes" />
           </AssociationSet>
+          <EntitySet Name="Settings" EntityType="MModel.Setting" />
+          <FunctionImport Name="GetUserPermsFor" ReturnType="Collection(MModel.GetUserPermsFor_Result)">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2331,6 +2350,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TopLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LoginLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AllowNewUser" Type="Boolean" Nullable="false" />
+          <Property Name="AllowForgotPass" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="GetUserPermsFor_Result">
+          <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="5" />
+          <Property Type="Boolean" Name="Reading" Nullable="false" />
+          <Property Type="Boolean" Name="Writing" Nullable="false" />
+          <Property Type="Boolean" Name="Updating" Nullable="false" />
+          <Property Type="Boolean" Name="Deleting" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2843,6 +2881,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="MModel.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="AllowForgotPass" ColumnName="AllowForgotPass" />
+                <ScalarProperty Name="AllowNewUser" ColumnName="AllowNewUser" />
+                <ScalarProperty Name="LoginLogo" ColumnName="LoginLogo" />
+                <ScalarProperty Name="TopLogo" ColumnName="TopLogo" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetUserPermsFor" FunctionName="MModel.Store.GetUserPermsFor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetUserPermsFor_Result">
+                <ScalarProperty Name="PermName" ColumnName="PermName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Reading" ColumnName="Reading" />
+                <ScalarProperty Name="Writing" ColumnName="Writing" />
+                <ScalarProperty Name="Updating" ColumnName="Updating" />
+                <ScalarProperty Name="Deleting" ColumnName="Deleting" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

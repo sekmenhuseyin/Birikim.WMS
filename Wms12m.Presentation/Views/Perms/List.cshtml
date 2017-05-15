@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<GetRolePermsFor_Result>
 @{
 	int i = 0;
-}
-<div class="row">
+}<div class="row">
 	<div class="col-md-4 bold">Yetki Adı</div><div class="col-md-2 text-center bold">Okuma</div><div class="col-md-2 text-center bold">Yazma</div><div class="col-md-2 text-center bold">Değiştirme</div><div class="col-md-2 text-center bold">Silme</div>
 </div>
 <div class="row m-t-10">
@@ -39,6 +38,6 @@
 	{
 		biten++;
 		if (biten == @i)
-			FuncSearchBtn();//Modaldialog('Kaydedildi', 'Başarı', 'Tamam', 'btn - default');
+			FuncSearchBtn();
 	}
 </script>

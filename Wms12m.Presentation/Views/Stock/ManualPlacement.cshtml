@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("ManualPlacement", "Stock", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "FuncSearchBtn()", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn - default');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("ManualPlacement", "Stock", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "FuncSearchBtn()", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)

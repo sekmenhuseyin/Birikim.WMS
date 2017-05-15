@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -16,6 +17,10 @@ namespace Wms12m.Presentation.Controllers
         Result _Result;
         public ActionResult Login()
         {
+            using (var db = new WMSEntities())
+            {
+                ViewBag.settings = db.Settings.FirstOrDefault();
+            }
             return View("Login");
         }
         /// <summary>
@@ -59,6 +64,20 @@ namespace Wms12m.Presentation.Controllers
             sessionCookie.Expires = DateTime.Now.AddYears(-1);
             HttpContext.Response.Cookies.Add(sessionCookie);
             return RedirectToAction("Login", "Security");
+        }
+        /// <summary>
+        /// yeni kullanıcı kaydı
+        /// </summary>
+        public JsonResult New()
+        {
+            return Json(new Result(false, 0, "Şu anda bu işlemi gerçekleştiremiyoruz.", "Yeni Kullanıcı"), JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// şifre hatırlatma
+        /// </summary>
+        public JsonResult Forgot()
+        {
+            return Json(new Result(false, 0, "Şu anda bu işlemi gerçekleştiremiyoruz.", "Şifre Hatırlatma"), JsonRequestBehavior.AllowGet);
         }
     }
 }

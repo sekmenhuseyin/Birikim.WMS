@@ -35,6 +35,7 @@
     {
         public int ID { get; set; }
         public string PermName { get; set; }
+        public string UserName { get; set; }
         public string RoleName { get; set; }
         public string Reading { get; set; }
         public string Writing { get; set; }
