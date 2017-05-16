@@ -1,29 +1,43 @@
-﻿@{
+﻿@model List<RaporCHKSelect>
+    @{
     ViewBag.Title = "Teminat Tanım";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    }@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/devextreme/css/dx.light.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
-}
-<div class="row">
-    <div>
-        <div class="col-xs-8 col-sm-2"><div class="btn btn-lg primary save-buton" style="width:95%; margin-bottom:10px;">Kaydet<i class="fa fa-save" style="margin-left:5px;"></i></div></div>
-        <div class="col-xs-8 col-sm-2"><div class="btn btn-lg danger export-buton" style="width:95%; margin-bottom:10px;">Satır Sil<i class="fa fa-file-excel-o" style="margin-left:5px;"></i></div></div>
-        <div class="col-xs-8 col-sm-2"><div class="btn btn-lg green refresh-buton" style="width:95%; margin-bottom:10px;">Dürbün<i class="fa fa-refresh" style="margin-left:5px;"></i></div></div>
-        <div class="col-xs-8 col-sm-2"><div class="btn btn-lg default export-buton" style="width:95%; margin-bottom:10px;">Bekleyenler<i class="fa fa-file-excel-o" style="margin-left:5px;"></i></div></div>
-        <div class="col-xs-8 col-sm-2"><div class="btn btn-lg green refresh-buton" style="width:95%; margin-bottom:10px;">Temizle<i class="fa fa-refresh" style="margin-left:5px;"></i></div></div>
+    }
+    <div class="row">
+        <div>
+            <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg blue save-buton" style="width:95%; margin-bottom:10px;">Kaydet<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg red export-buton" style="width:95%; margin-bottom:10px;">Satır Sil<i class="fa fa-file-excel-o" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg green refresh-buton" style="width:95%; margin-bottom:10px;">Dürbün<i class="fa fa-refresh" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg purple export-buton" style="width:95%; margin-bottom:10px;">Bekleyenler<i class="fa fa-file-excel-o" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg yellow refresh-buton" style="width:95%; margin-bottom:10px;">Temizle<i class="fa fa-refresh" style="margin-left:5px;"></i></button></div>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div id="teminat_tanim_data">
+    <hr />
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="select_chk"></div>
+            <div class="select_teminat_cinsi"></div>
+            <div class="check_sureli_suresiz"></div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="date_tarih"></div>
+            <div class="teminat_tutar"></div>
+            <div class="date_vade_tarih"></div>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div id="teminat_tanim_data">
+        </div>
+    </div>
 
 
-@section Scripts{
+    @section Scripts{
 
     <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
@@ -35,11 +49,53 @@
 
 
         $(document).ready(function () {
+            var model = @Html.Raw(Json.Encode(Model));
+            var chk = "";
+            var teminat_cinsi = [
+                { state: "TL"},
+                { state: "Döviz"},
+                { state: "Birim" },
+            ];
+            $(".select_chk").dxLookup({
+                dataSource: model,
+                searchEnabled: true,
+                pageLoadMode:"nextButton",
+                searchExpr: ["HesapKodu", "Unvan"],
+                valueExpr: 'HesapKodu',
+                displayExpr: 'Unvan',
+
+                onValueChanged: function (e) {
+                    chk = e.value;
+                },
+
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+                    if(itemIndex>0)
+                    {
+                        itemElement.css({ "margin-top":"-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
+
+            $(".select_teminat_cinsi").dxSelectBox({
+                dataSource: teminat_cinsi,
+                valueExpr: 'state',
+                displayExpr: 'state',
+                onValueChanged: function (e) {
+                    //islemtip_value=e.value;
+                    //var PartialAylikSatisAnaliziKodTipDovizBar = "/Home/PartialAylikSatisAnaliziKodTipDovizBar";
+                    //PartialView(PartialAylikSatisAnaliziKodTipDovizBar, 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, doviz: f_tarih }));
+                }
+            });
             //PartialView("/OnayTeminat/PartialTeminatTanim", 'teminat_tanim_data');
         });
 
     </script>
-}
+    }
 
 
 

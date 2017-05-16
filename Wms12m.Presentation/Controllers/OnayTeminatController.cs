@@ -19,7 +19,8 @@ namespace Wms12m.Presentation.Controllers
 
         public ActionResult TeminatTanim()
         {
-            return View();
+            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect1]", "17")).ToList();
+            return View(CHK);
         }
     }
 }
