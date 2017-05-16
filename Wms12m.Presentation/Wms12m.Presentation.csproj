@@ -313,7 +313,6 @@
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\ComboItemsController.cs" />
     <Compile Include="Controllers\CombosController.cs" />
-    <Compile Include="Controllers\OnayFiyatController.cs" />
     <Compile Include="Controllers\InboxController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
@@ -447,12 +446,12 @@
     <Content Include="Views\Tasks\Count.cshtml" />
     <Content Include="Views\Tasks\CountList.cshtml" />
     <Content Include="Views\Tasks\CountFark.cshtml" />
-    <Content Include="Views\OnayFiyat\GM.cshtml" />
-    <Content Include="Views\OnayFiyat\SM.cshtml" />
-    <Content Include="Views\OnayFiyat\SPGMY.cshtml" />
-    <Content Include="Views\OnayFiyat\_PartialGM.cshtml" />
-    <Content Include="Views\OnayFiyat\_PartialSM.cshtml" />
-    <Content Include="Views\OnayFiyat\_PartialSPGMY.cshtml" />
+    <Content Include="Views\Approval\Fiyat_GM.cshtml" />
+    <Content Include="Views\Approval\Fiyat_SM.cshtml" />
+    <Content Include="Views\Approval\Fiyat_PGMY.cshtml" />
+    <Content Include="Views\Approval\Fiyat_GM_List_List.cshtml" />
+    <Content Include="Views\Approval\Fiyat_SM_List.cshtml" />
+    <Content Include="Views\Approval\Fiyat_SPGMY.cshtml" />
     <Content Include="Views\Reports\Bakiye.cshtml" />
     <Content Include="Views\Reports\BekleyenSiparis.cshtml" />
     <Content Include="Views\Reports\CariEkstre.cshtml" />
