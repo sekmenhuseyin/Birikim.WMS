@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -79,16 +80,24 @@ namespace Wms12m.Presentation.Controllers
             //string sql = string.Format(@"INSERT INTO FINSAT";
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             foreach (JObject insertObj in parameters)
             {
                 if (false == false)
                 {
                     foreach (KeyValuePair<string, JToken> field in insertObj)
                     {
-                        
+
+                        RiskTanim rsk = new RiskTanim()
+                        {
+                            Durum = false
+                        };
+                        sqlexper.Insert(rsk);
+
                     }
+                    var sonuc = sqlexper.AcceptChanges();
                 }
-     
+
             }
             return "OK";
         }
