@@ -1,6 +1,6 @@
 ﻿@model List<ChartAylikSatisAnalizi>
-
-    <div class="col-md-12">
+<div class="row">
+    <div class="col-md-12 m-t-40">
         <div class="portlet light portlet-fit bordered">
             <div class="portlet-title">
                 <div class="caption">
@@ -24,17 +24,8 @@
             </div>
         </div>
     </div>
-
-@*<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <link href="~/Content/dx.light.css" rel="stylesheet" />
-    <link href="~/Content/dx.common.css" rel="stylesheet" />
-    <script src="~/Content/global/plugins/morris/morris.min.js"></script>
-    <script src="~/Content/global/plugins/morris/raphael-min.js"></script>
-    <script src="~/Scripts/dx.web.debug.js"></script>
-    <script src="~/Scripts/moment.min.js"></script>*@
+</div>
 <script>
-
     var model = @Html.Raw(Json.Encode(Model));
     var aylar = new Array();
     var Yil2015 = new Array();
@@ -53,7 +44,6 @@
         }
     });
 
-    // DEMOS
     require(
         [
             'echarts',
@@ -168,17 +158,4 @@
 
         }
     );
-    //new Morris.Bar({
-    //    element: 'morris_chart_3',
-    //    data: model,
-    //    xkey: 'Ay',
-    //    ykeys: ['Yil2015', 'Yil2016', 'Yil2017'],
-    //    labels: ['2015', '2016', '2017'],
-    //    //lineWidth: '3px',
-    //    resize: true,
-    //    barColors:["#0D8ECF","#CD0D74","#FCD202"]
-    //});
 </script>
-
-
-

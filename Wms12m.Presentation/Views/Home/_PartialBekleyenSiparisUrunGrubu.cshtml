@@ -1,50 +1,38 @@
-﻿
-@model List<ChartBekleyenSiparisUrunGrubu>
-
+﻿@model List<ChartBekleyenSiparisUrunGrubu>
 <style>
-    .bas_tarih .dx-dropdowneditor-icon {
-        color: #44b6ae;
-    }
-
-        .bas_tarih .dx-dropdowneditor-icon:before {
-            color: #44b6ae;
-        }
-
-    .bit_tarih .dx-dropdowneditor-icon {
-        color: #44b6ae;
-    }
-
-        .bit_tarih .dx-dropdowneditor-icon:before {
-            color: #44b6ae;
-        }
+    .bas_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
+    .bas_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
+    .bit_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
+    .bit_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
 </style>
-<div class="col-md-12">
-    <div class="portlet light bordered">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="icon-bar-chart font-green-haze"></i>
-                <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D PİE CHART</span></span>
+<div class="row">
+    <div class="col-md-12 m-t-40">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-haze"></i>
+                    <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D PİE CHART</span></span>
+                </div>
+                <div class="tools" style="float:right;margin-left:20px;">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+                    <a href="javascript:;" class="reload"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="remove"> </a>
+                </div>
+                <div style="float:right;margin-left:20px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Bitiş Tarihi</span></div> <div class="bit_tarih" style="float:left;width:200px; margin-left:10px;"></div></div>
+                <div style="float:right;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Başlangıç Tarihi </span></div> <div class="bas_tarih" style="float:left;width:200px; margin-left:10px;"></div></div>
             </div>
-            <div class="tools" style="float:right;margin-left:20px;">
-                <a href="javascript:;" class="collapse"> </a>
-                <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                <a href="javascript:;" class="reload"> </a>
-                <a href="javascript:;" class="fullscreen"> </a>
-                <a href="javascript:;" class="remove"> </a>
-            </div>
-            <div style="float:right;margin-left:20px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Bitiş Tarihi</span></div> <div class="bit_tarih" style="float:left;width:200px; margin-left:10px;"></div></div>
-            <div style="float:right;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Başlangıç Tarihi </span></div> <div class="bas_tarih" style="float:left;width:200px; margin-left:10px;"></div></div>
-        </div>
-        <div class="portlet-body">
-            <div id="chart_7_eski" class="chart" style="height: 400px;"> </div>
-            <div class="well margin-top-20">
+            <div class="portlet-body">
+                <div id="chart_7_eski" class="chart" style="height: 400px;"> </div>
+                <div class="well margin-top-20">
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function (e) {
-
         var x = '@ViewBag.BasTarih'.split("00");
         x=x[0];
         var arr = x.split(".");
@@ -186,6 +174,4 @@
             ChartsAmchartsEski.init();
         });
     });
-
 </script>
-

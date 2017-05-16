@@ -1,37 +1,34 @@
 ﻿@model List<ChartGunlukMDFUretimi>
 <style>
-    .gs_tarih .dx-dropdowneditor-icon {
-        color: #44b6ae;
-    }
-
-        .gs_tarih .dx-dropdowneditor-icon:before {
-            color: #44b6ae;
-        }
+    .gs_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
+    .gs_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
 </style>
-<div class="col-md-12">
-    <div class="portlet light bordered">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="icon-bar-chart font-green-haze"></i>
-                <span class="caption-subject bold uppercase font-green-haze"> Günlük MDF Üretim (En Boy Kalınlık) <span style="color:#8888a7;">3D CHART</span></span>
+<div class="row">
+    <div class="col-md-12 m-t-40">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-haze"></i>
+                    <span class="caption-subject bold uppercase font-green-haze"> Günlük MDF Üretim (En Boy Kalınlık) <span style="color:#8888a7;">3D CHART</span></span>
+                </div>
+                <div class="mdf_tarih" style="float:left; width:200px; margin-left:60px;"></div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+                    <a href="javascript:;" class="reload"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="remove"> </a>
+                </div>
             </div>
-            <div class="mdf_tarih" style="float:left; width:200px; margin-left:60px;"></div>
-            <div class="tools">
-                <a href="javascript:;" class="collapse"> </a>
-                <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                <a href="javascript:;" class="reload"> </a>
-                <a href="javascript:;" class="fullscreen"> </a>
-                <a href="javascript:;" class="remove"> </a>
+            <div class="portlet-body">
+                <div id="chart_5_mdf" class="chart" style="height: 400px;"> </div>
             </div>
-        </div>
-        <div class="portlet-body">
-            <div id="chart_5_mdf" class="chart" style="height: 400px;"> </div>
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function (e) {
-                  var x = '@ViewBag.Tarih'.split("00");
+        var x = '@ViewBag.Tarih'.split("00");
         x=x[0];
         var arr = x.split(".");
         arr[1] = (parseInt(arr[1]) - 1).toString();
@@ -66,8 +63,6 @@
                     "titleRotation":10,
                     "fontFamily": 'Open Sans',
                     "color": '#888',
-
-                    //"dataProvider": list,
                     "valueAxes": [{
                         "position": "left",
                         "axisAlpha": 0,
@@ -145,6 +140,4 @@
             ChartsAmcharts.init();
         });
     });
-
 </script>
-

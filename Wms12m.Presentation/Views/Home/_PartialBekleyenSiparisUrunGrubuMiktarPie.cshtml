@@ -1,57 +1,35 @@
-﻿
-
-@model List<ChartBekleyenSiparisUrunGrubu>
-
+﻿@model List<ChartBekleyenSiparisUrunGrubu>
 <style>
-    .bas_tarih .dx-dropdowneditor-icon {
-        color: #44b6ae;
-    }
-
-        .bas_tarih .dx-dropdowneditor-icon:before {
-            color: #44b6ae;
-        }
-
-    .bit_tarih .dx-dropdowneditor-icon {
-        color: #44b6ae;
-    }
-
-        .bit_tarih .dx-dropdowneditor-icon:before {
-            color: #44b6ae;
-        }
-
-    .cbox_MiktarTutar .dx-switch-off {
-        color: #d21b1b;
-        font-weight: bold;
-        font-size: 11px;
-    }
-
-    .cbox_MiktarTutar .dx-switch-on {
-        color: #d21b1b;
-        font-weight: bold;
-        font-size: 11px;
-    }
+    .bas_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
+    .bas_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
+    .bit_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
+    .bit_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
+    .cbox_MiktarTutar .dx-switch-off {color: #d21b1b;font-weight: bold;font-size: 11px;}
+    .cbox_MiktarTutar .dx-switch-on {color: #d21b1b;font-weight: bold;font-size: 11px;}
 </style>
-<div class="col-md-12">
-    <div class="portlet light bordered">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="icon-bar-chart font-green-haze"></i>
-                <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D CHART</span></span>
+<div class="row">
+    <div class="col-md-12 m-t-40">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-haze"></i>
+                    <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D CHART</span></span>
+                </div>
+                <div class="tools" style="float:right;margin-left:20px;">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+                    <a href="javascript:;" class="reload"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="remove"> </a>
+                </div>
+                <div style="float:left;width:80px;margin-left:20px;">
+                    <input type="checkbox" id="toggle-one" checked data-toggle="toggle" name="Miktar" data-on-text="Miktar" data-off-text="Tutar" data-on="Miktar" data-off="Tutar">
+                </div>
             </div>
-            <div class="tools" style="float:right;margin-left:20px;">
-                <a href="javascript:;" class="collapse"> </a>
-                <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                <a href="javascript:;" class="reload"> </a>
-                <a href="javascript:;" class="fullscreen"> </a>
-                <a href="javascript:;" class="remove"> </a>
-            </div>
-            <div style="float:left;width:80px;margin-left:20px;">
-                <input type="checkbox" id="toggle-one" checked data-toggle="toggle" name="Miktar" data-on-text="Miktar" data-off-text="Tutar" data-on="Miktar" data-off="Tutar">
-            </div>
-        </div>
-        <div class="portlet-body">
-            <div id="chart_7_mik_pie" class="chart" style="height: 400px;"> </div>
-            <div class="well margin-top-20">
+            <div class="portlet-body">
+                <div id="chart_7_mik_pie" class="chart" style="height: 400px;"> </div>
+                <div class="well margin-top-20">
+                </div>
             </div>
         </div>
     </div>
@@ -122,23 +100,14 @@
                     chart.invalidateSize();
                 });
             }
-
-
             return {
-                //main function to initiate the module
-
                 init: function () {
                     initChartSample7();
-
                 }
-
             };
         }();
         jQuery(document).ready(function () {
             ChartsAmcharts.init();
         });
     });
-
 </script>
-
-
