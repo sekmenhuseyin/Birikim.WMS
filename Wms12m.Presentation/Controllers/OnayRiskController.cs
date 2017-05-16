@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
@@ -60,6 +64,33 @@ namespace Wms12m.Presentation.Controllers
         {
             var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect2]", "17")).ToList();
             return PartialView("_PartialRiskTanim", RT);
+        }
+
+        public string GGGG()
+        {
+            var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect2]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+
+        }
+
+        public string OnayRiskInsert(string Data)
+        {
+            //string sql = string.Format(@"INSERT INTO FINSAT";
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            foreach (JObject insertObj in parameters)
+            {
+                if (false == false)
+                {
+                    foreach (KeyValuePair<string, JToken> field in insertObj)
+                    {
+                        
+                    }
+                }
+     
+            }
+            return "OK";
         }
     }
 }
