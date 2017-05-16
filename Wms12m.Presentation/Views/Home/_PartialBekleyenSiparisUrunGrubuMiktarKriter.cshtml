@@ -35,21 +35,21 @@
 </div>
 <script>
     $(document).ready(function (e) {
-         $('#toggle-three').bootstrapToggle({
+        $('#toggle-four').bootstrapToggle({
             on: 'Miktar',
             off: 'Tutar'
         });
         if ('@ViewBag.MiktarTutar' == "Miktar")
         {
-            $('#toggle-three').bootstrapToggle('on')
+            $('#toggle-four').bootstrapToggle('on')
             $(".kriter_durum").hide();
         }
         else
         {
-            $('#toggle-three').bootstrapToggle('off')
+            $('#toggle-four').bootstrapToggle('off')
             $(".kriter_durum").show();
         }
-        $('#toggle-three').change(function () {
+        $('#toggle-four').change(function () {
             var state = $(this).prop('checked');
             if (state == false) {
                 $(".kriter_durum").show();
