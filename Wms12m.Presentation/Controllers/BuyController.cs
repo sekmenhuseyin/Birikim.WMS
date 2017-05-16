@@ -167,38 +167,40 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.message = "Burası için izniniz yok";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
-            bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
-            if (kontrol1 == false)
-            {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
-                ViewBag.message = "Tarih yanlış";
-                return PartialView("_GridPartial", new List<IRS_Detay>());
-            }
-            int tarih = tmpTarih.ToOADateInt();
-            var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID & m.HesapKodu == tbl.HesapKodu).FirstOrDefault();
-            //var olanı göster
-            if (kontrol2 != null)
-            {
-                if (kontrol2.DepoID != tbl.DepoID)
-                {
-                    ViewBag.message = "Bu evrak no kullanılıyor";
-                    return PartialView("_GridPartial", new List<IRS_Detay>());
-                }
-                try
-                {
-                    var list = IrsaliyeDetay.GetList(kontrol2.ID);
-                    ViewBag.IrsaliyeId = kontrol2.ID;
-                    ViewBag.Onay = kontrol2.Onay;
-                    ViewBag.SirketID = tbl.SirketID;
-                    ViewBag.Yetki = CheckPerm("Mal Kabul", PermTypes.Writing);
-                    return PartialView("_GridPartial", list);
-                }
-                catch (Exception ex)
-                {
-                    Logger(ex, "Buy/New-varolan");
-                    return null;
-                }
-            }
+            //bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
+            //if (kontrol1 == false)
+            //{
+            //    db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
+            //    ViewBag.message = "Tarih yanlış";
+            //    return PartialView("_GridPartial", new List<IRS_Detay>());
+            //}
+            //int tarih = tmpTarih.ToOADateInt();
+            //var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID & m.HesapKodu == tbl.HesapKodu).FirstOrDefault();
+            ////var olanı göster
+            //if (kontrol2 != null)
+            //{
+            //    if (kontrol2.DepoID != tbl.DepoID)
+            //    {
+            //        ViewBag.message = "Bu evrak no kullanılıyor";
+            //        return PartialView("_GridPartial", new List<IRS_Detay>());
+            //    }
+            //    try
+            //    {
+            //        var list = IrsaliyeDetay.GetList(kontrol2.ID);
+            //        ViewBag.IrsaliyeId = kontrol2.ID;
+            //        ViewBag.Onay = kontrol2.Onay;
+            //        ViewBag.SirketID = tbl.SirketID;
+            //        ViewBag.Yetki = CheckPerm("Mal Kabul", PermTypes.Writing);
+            //        return PartialView("_GridPartial", list);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Logger(ex, "Buy/New-varolan");
+            //        return null;
+            //    }
+            //}
+            int tarih = DateTime.Today.ToOADateInt();
+
             //kontrol
             if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return null;
             //yeni kayıtta evrak no spide olmayacak kontrolü

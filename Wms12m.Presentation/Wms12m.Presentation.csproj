@@ -526,6 +526,7 @@
     <Content Include="Views\OnayRisk\RiskTanim.cshtml" />
     <Content Include="Views\OnayRisk\_PartialRiskTanim.cshtml" />
     <Content Include="Views\Maintenance\Index.cshtml" />
+    <Content Include="Views\OnayTeminat\TeminatTanim.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

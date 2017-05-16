@@ -16,5 +16,10 @@ namespace Wms12m.Presentation.Controllers
             var KOD = db.Database.SqlQuery<TeminatOnaySelect>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", "33")).ToList();
             return PartialView("List", KOD);
         }
+
+        public ActionResult TeminatTanim()
+        {
+            return View();
+        }
     }
 }

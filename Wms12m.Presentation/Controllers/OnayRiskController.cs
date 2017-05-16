@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -81,25 +82,66 @@ namespace Wms12m.Presentation.Controllers
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-            foreach (JObject insertObj in parameters)
+            try
             {
-                if (false == false)
+                foreach (JObject insertObj in parameters)
                 {
-                    foreach (KeyValuePair<string, JToken> field in insertObj)
+                    if (insertObj["YeniSahsiCekLimiti"].ToDecimal() <= 0)
+                        continue;
+
+                    RiskTanim rsk = new RiskTanim();
+
+                    rsk.HesapKodu = insertObj["HesapKodu"].ToString();
+                    rsk.Unvan = insertObj["Unvan"].ToString();
+                    rsk.SahsiCekLimiti = insertObj["SahsiCekLimiti"].ToDecimal();
+                    rsk.MusteriCekLimiti = insertObj["MusteriCekLimiti"].ToDecimal();
+                    rsk.SMOnay = false;
+                    rsk.SMOnaylayan = "";
+                    rsk.SPGMYOnay = false;
+                    rsk.SPGMYOnaylayan = "";
+                    rsk.MIGMYOnay = false;
+                    rsk.MIGMYOnaylayan = "";
+                    rsk.GMOnay = false;
+                    rsk.GMOnaylayan = "";
+                    rsk.Durum = false;
+
+                    if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 20000)
                     {
-
-                        RiskTanim rsk = new RiskTanim()
-                        {
-                            Durum = false
-                        };
-                        sqlexper.Insert(rsk);
-
+                        rsk.OnayTip = 0;
                     }
-                    var sonuc = sqlexper.AcceptChanges();
-                }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 100000)
+                    {
+                        rsk.OnayTip = 1;
+                    }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 200000)
+                    {
+                        rsk.OnayTip = 2;
+                    }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 500000)
+                    {
+                        rsk.OnayTip = 3;
+                    }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) >= 500000)
+                    {
+                        rsk.OnayTip = 4;
+                    }
+                    else
+                    {
+                        rsk.OnayTip = -1;
+                    }
 
+                    sqlexper.Insert(rsk);
+                    var sonuc = sqlexper.AcceptChanges();
+
+                }
+                return "OK";
             }
-            return "OK";
+            catch (Exception ex)
+            {
+
+                return "NO";
+            }
+            
         }
     }
 }
