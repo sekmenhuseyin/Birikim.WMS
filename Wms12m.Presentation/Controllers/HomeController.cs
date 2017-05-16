@@ -49,6 +49,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.tarih2 = tarih2;
             ViewBag.type = type;
             ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialGunlukSatis", GSA);
         }
 
