@@ -19,15 +19,12 @@
             <div class="col-md-1 pull-right m-t-5">
                 <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Reddet </a>
             </div>
-
         </div>
-
         <div class="portlet-body">
             <div class="table-toolbar">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="btn-group">
-
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -57,7 +54,6 @@
                     </div>
                 </div>
             </div>
-
             <table class="table table-striped table-bordered table-hover" id="sample_1">
                 <thead>
                     <tr>
@@ -81,7 +77,7 @@
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
-            {
+                    {
                         <tr>
                             <td>
                                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
@@ -99,7 +95,6 @@
                             <td>@item.BaglantininOrtalamaVadesi</td>
                             <td>@item.BaglantiTutar</td>
                             <td></td>
-
                         </tr>
                     }
                 </tbody>
@@ -108,7 +103,6 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
