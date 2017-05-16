@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 
@@ -117,7 +118,7 @@ namespace Wms12m.Presentation.Controllers
         {
             return View();
         }
-        public PartialViewResult Stok_List(string Durum)
+        public PartialViewResult StokList(string Durum)
         {
             int param = 1;
             if (Durum == "Tumu") { param = 0; }
@@ -132,7 +133,69 @@ namespace Wms12m.Presentation.Controllers
             var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[wms].[StokOnaySelect] {1}", "33", param)).ToList();
             return PartialView("List", KOD);
         }
-
+        #endregion
+        #region Teminat
+        public ActionResult Teminat()
+        {
+            return View();
+        }
+        public PartialViewResult TeminatList()
+        {
+            var KOD = db.Database.SqlQuery<TeminatOnaySelect>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", "33")).ToList();
+            return PartialView(KOD);
+        }
+        public ActionResult TeminatTanim()
+        {
+            return View();
+        }
+        #endregion
+        #region Sözleşme
+        public ActionResult Sozlesme_GM()
+        {
+            return View();
+        }
+        [HttpPost]
+        public PartialViewResult Sozlesme_GM_List()
+        {
+            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", "33")).ToList();
+            return PartialView(list);
+        }
+        [HttpPost]
+        public PartialViewResult Sozlesme_GM_Details(string ListeNo)
+        {
+            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "33", ListeNo)).ToList();
+            return PartialView(list);
+        }
+        public ActionResult Sozlesme_SM()
+        {
+            return View();
+        }
+        public PartialViewResult Sozlesme_SM_List()
+        {
+            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySM]", "33")).ToList();
+            return PartialView(list);
+        }
+        [HttpPost]
+        public PartialViewResult Sozlesme_SM_Details(string ListeNo)
+        {
+            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "33", ListeNo)).ToList();
+            return PartialView(list);
+        }
+        public ActionResult Sozlesme_SPGMY()
+        {
+            return View();
+        }
+        public PartialViewResult Sozlesme_SPGMY_List()
+        {
+            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySPGMY]", "33")).ToList();
+            return PartialView(list);
+        }
+        [HttpPost]
+        public PartialViewResult Sozlesme_SPMY_Details(string ListeNo)
+        {
+            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "33", ListeNo)).ToList();
+            return PartialView(list);
+        }
         #endregion
     }
 }

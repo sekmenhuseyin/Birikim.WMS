@@ -323,7 +323,6 @@
     <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\CorridorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
-    <Compile Include="Controllers\OnaySozlesmeController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RootController.cs" />
@@ -333,7 +332,6 @@
     <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
-    <Compile Include="Controllers\OnayTeminatController.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
@@ -486,19 +484,10 @@
     <Content Include="Views\Approval\Siparis_GM_List.cshtml" />
     <Content Include="Views\Approval\Siparis_SM_List.cshtml" />
     <Content Include="Views\Approval\Siparis_SPGMY_List.cshtml" />
-    <Content Include="Views\OnaySozlesme\_Details.cshtml" />
-    <Content Include="Views\OnaySozlesme\_DetailsSM.cshtml" />
-    <Content Include="Views\OnaySozlesme\_DetailsSPMY.cshtml" />
-    <Content Include="Views\OnaySozlesme\_PartialGM.cshtml" />
-    <Content Include="Views\OnaySozlesme\_PartialSM.cshtml" />
-    <Content Include="Views\OnaySozlesme\_PartialSPGMY.cshtml" />
-    <Content Include="Views\OnaySozlesme\GM.cshtml" />
-    <Content Include="Views\OnaySozlesme\SM.cshtml" />
-    <Content Include="Views\OnaySozlesme\SPGMY.cshtml" />
     <Content Include="Views\Approval\Stok.cshtml" />
     <Content Include="Views\Approval\Stok_List.cshtml" />
-    <Content Include="Views\OnayTeminat\Index.cshtml" />
-    <Content Include="Views\OnayTeminat\List.cshtml" />
+    <Content Include="Views\Approval\Teminat.cshtml" />
+    <Content Include="Views\Approval\TeminatList.cshtml" />
     <Content Include="Views\Roles\List.cshtml" />
     <Content Include="Views\Perms\List.cshtml" />
     <Content Include="Views\Stock\Details.cshtml" />
@@ -523,6 +512,16 @@
     <Content Include="Views\Approval\Cek_GM.cshtml" />
     <Content Include="Views\Approval\Cek_MIGMY.cshtml" />
     <Content Include="Views\Approval\Cek_SPGMY.cshtml" />
+    <Content Include="Views\Approval\TeminatTanim.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_GM.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SM.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SPGMY.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SM_Details.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SPMY_Details.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_GM_List.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SM_List.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SPGMY_List.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_GM_Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
