@@ -37,11 +37,11 @@ namespace Wms12m.Entity.Models
         public string Degistiren { get; set; }
         public int DegisTarih { get; set; }
     
-        public virtual ComboItem_Name ComboItem_Name { get; set; }
         public virtual Bolum Bolum { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Yer> Yers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Yer_Log> Yer_Log { get; set; }
+        public virtual ComboItem_Name ComboItem_Name { get; set; }
     }
 }

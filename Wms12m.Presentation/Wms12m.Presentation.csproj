@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsBE10.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vsD38C.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsBE10.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vsD38C.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevHelper, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
@@ -305,12 +305,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\BuyController.cs" />
     <Compile Include="Controllers\CableController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\FaturaOnayController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
-    <Compile Include="Controllers\OnayCekController.cs" />
     <Compile Include="Controllers\ComboItemsController.cs" />
     <Compile Include="Controllers\CombosController.cs" />
     <Compile Include="Controllers\OnayFiyatController.cs" />
@@ -447,12 +447,6 @@
     <Content Include="Views\Tasks\Count.cshtml" />
     <Content Include="Views\Tasks\CountList.cshtml" />
     <Content Include="Views\Tasks\CountFark.cshtml" />
-    <Content Include="Views\OnayCek\GM.cshtml" />
-    <Content Include="Views\OnayCek\MIGMY.cshtml" />
-    <Content Include="Views\OnayCek\SPGMY.cshtml" />
-    <Content Include="Views\OnayCek\_PartialGM.cshtml" />
-    <Content Include="Views\OnayCek\_PartialMIGMY.cshtml" />
-    <Content Include="Views\OnayCek\_PartialSPGMY.cshtml" />
     <Content Include="Views\OnayFiyat\GM.cshtml" />
     <Content Include="Views\OnayFiyat\SM.cshtml" />
     <Content Include="Views\OnayFiyat\SPGMY.cshtml" />
@@ -526,7 +520,12 @@
     <Content Include="Views\OnayRisk\RiskTanim.cshtml" />
     <Content Include="Views\OnayRisk\_PartialRiskTanim.cshtml" />
     <Content Include="Views\Maintenance\Index.cshtml" />
-    <Content Include="Views\OnayTeminat\TeminatTanim.cshtml" />
+    <Content Include="Views\Approval\Cek_GM_List.cshtml" />
+    <Content Include="Views\Approval\Cek_MIGMY_List.cshtml" />
+    <Content Include="Views\Approval\Cek_SPGMY_List.cshtml" />
+    <Content Include="Views\Approval\Cek_GM.cshtml" />
+    <Content Include="Views\Approval\Cek_MIGMY.cshtml" />
+    <Content Include="Views\Approval\Cek_SPGMY.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
