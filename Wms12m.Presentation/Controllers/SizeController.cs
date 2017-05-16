@@ -17,6 +17,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Boyut Kartı", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
+            ViewBag.Yetki = CheckPerm("Boyut Kartı", PermTypes.Writing);
             return View("Index", new Olcu());
         }
         /// <summary>
@@ -30,6 +31,8 @@ namespace Wms12m.Presentation.Controllers
             List<string> liste = new List<string>();
             foreach (var item in list) { liste.Add(item); }
             ViewBag.Sirket = liste;
+            ViewBag.Yetki = CheckPerm("Boyut Kartı", PermTypes.Writing);
+            ViewBag.YetkiSil = CheckPerm("Boyut Kartı", PermTypes.Deleting);
             return PartialView("_List", Dimension.GetList());
         }
         /// <summary>
