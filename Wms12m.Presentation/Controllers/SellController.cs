@@ -327,11 +327,9 @@ namespace Wms12m.Presentation.Controllers
             if (DepoID == "0") return null;
             if (CheckPerm("Genel Sipariş", PermTypes.Reading) == false) return null;
             string sql = "";
-            //bool tarihler = DateTime.TryParse(Starts, out DateTime StartDate); if (tarihler == false) return null;
-            //tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
-            //if (StartDate > EndDate) return null;
-            DateTime StartDate = DateTime.Now.AddDays(-1);
-            DateTime EndDate = DateTime.Now;
+            bool tarihler = DateTime.TryParse(Starts, out DateTime StartDate); if (tarihler == false) return null;
+            tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
+            if (StartDate > EndDate) return null;
             var tmp = db.GetSirketDBs().ToList();
             foreach (var item in tmp)
             {

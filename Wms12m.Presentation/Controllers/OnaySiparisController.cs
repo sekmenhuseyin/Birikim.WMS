@@ -12,7 +12,7 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult PartialSM()
         {
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", "01")).ToList();
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", "33")).ToList();
             return PartialView("_PartialSM", KOD);
         }
 
@@ -23,7 +23,7 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult PartialSPGMY()
         {
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", "01")).ToList();
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", "33")).ToList();
             return PartialView("_PartialSPGMY", KOD);
         }
 
@@ -34,7 +34,7 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult PartialGM()
         {
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", "01")).ToList();
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", "33")).ToList();
             return PartialView("_PartialGM", KOD);
         }
 
@@ -45,11 +45,11 @@ namespace Wms12m.Presentation.Controllers
 
 
             if (OnayTip == 3 && OnaylandiMi == true)//GMOnay
-            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "01", EvrakNo, vUser.UserName, 3, 1)); }
+            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "33", EvrakNo, vUser.UserName, 3, 1)); }
             if (OnayTip == 2 && OnaylandiMi == true)//SPGMYOnay
-            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "01", EvrakNo, vUser.UserName, 2, 1)); }
+            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "33", EvrakNo, vUser.UserName, 2, 1)); }
             if (OnayTip == 1 && OnaylandiMi == true)//SMOnay
-            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "01", EvrakNo, vUser.UserName, 1, 1)); }
+            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "33", EvrakNo, vUser.UserName, 1, 1)); }
 
             return Result;
         }

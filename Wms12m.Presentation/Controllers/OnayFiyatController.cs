@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Controllers
         {
 
 
-            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", "01")).ToList();
+            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", "33")).ToList();
             return PartialView("_PartialGM", KOD);
         }
 
@@ -29,7 +29,7 @@ namespace Wms12m.Presentation.Controllers
         {
 
 
-            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY]", "01")).ToList();
+            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY]", "33")).ToList();
             return PartialView("_PartialSPGMY", KOD);
         }
 
@@ -42,7 +42,7 @@ namespace Wms12m.Presentation.Controllers
         {
 
 
-            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList]", "01")).ToList();
+            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList]", "33")).ToList();
             return PartialView("_PartialSM", KOD);
         }
     }

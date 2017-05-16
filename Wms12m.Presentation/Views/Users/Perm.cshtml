@@ -5,11 +5,11 @@
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-offset-3">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="modal-body">
                     <h4>Yetkiler</h4>
                     <div class="row">
-                        <div class="col-md-4 bold">Yetki Adı</div><div class="col-md-2 text-center bold">Okuma</div><div class="col-md-2 text-center bold">Yazma</div><div class="col-md-2 text-center bold">Değiştirme</div><div class="col-md-2 text-center bold">Silme</div>
+                        <div class="col-md-6 col-md-offset-2 bold">Yetki Adı</div><div class="col-md-1 text-center bold">Okuma</div><div class="col-md-1 text-center bold">Yazma</div><div class="col-md-1 text-center bold">Silme</div>
                     </div>
                     <div class="row m-t-10">
 	                    @foreach (var item in Model)
@@ -17,17 +17,33 @@
 		                    using (Ajax.BeginForm("SavePerm", "Users", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
 		                    {
 			                    @Html.AntiForgeryToken()
-			                    <input name="UserName" type="hidden" value="@ViewBag.UserName" />
-			                    <div class="col-md-4"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
-			                    <div class="col-md-2"><input class="check-box form-control" name="Reading" type="checkbox"@{if(item.Reading==true){<text> checked="checked"</text>}}></div>
-			                    <div class="col-md-2"><input class="check-box form-control" name="Writing" type="checkbox"@{if(item.Writing == true){<text> checked="checked"</text>}}></div>
-			                    <div class="col-md-2"><input class="check-box form-control" name="Updating" type="checkbox"@{if(item.Updating == true){<text> checked="checked"</text>}}></div>
-			                    <div class="col-md-2"><input class="check-box form-control" name="Deleting" type="checkbox"@{if(item.Deleting == true){<text> checked="checked"</text>}}></div>}
-		                    i++;
-	                    }
+                                <input name="UserName" type="hidden" value="@ViewBag.UserName" />
+			                    <input name="Updating" type="hidden" />
+			                    <div class="col-md-6 col-md-offset-2"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
+                                <div class="checkbox col-md-1 text-center">
+                                    <label style="font-size: 1.5em">
+                                        <input name="Reading" type="checkbox" @{if (item.Reading == true) { <text> checked="checked" </text>  }}>
+                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                    </label>
+                                </div>
+                                <div class="checkbox col-md-1 text-center">
+                                    <label style="font-size: 1.5em">
+                                        <input name="Writing" type="checkbox" @{if (item.Writing == true) { <text> checked="checked" </text>  }}>
+                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                    </label>
+                                </div>
+                                <div class="checkbox col-md-1 text-center">
+                                    <label style="font-size: 1.5em">
+                                        <input name="Deleting" type="checkbox" @{if (item.Deleting == true) { <text> checked="checked" </text>  }}>
+                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                    </label>
+                                </div>
+                            }
+                            i++;
+                        }
                     </div>
                     <div class="row m-t-30">
-	                    <div class="col-md-offset-8 col-md-4">
+	                    <div class="col-md-offset-7 col-md-4">
 		                    <button class="btn btn-primary btn-block" onclick="submit()">Kaydet</button>
 	                    </div>
                     </div>

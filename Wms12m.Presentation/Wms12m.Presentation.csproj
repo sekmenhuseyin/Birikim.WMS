@@ -218,6 +218,8 @@
     <Content Include="Content\assets\layouts\layout\img\loading-spinner-default.gif" />
     <Content Include="Content\assets\layouts\layout\img\loading-spinner-grey.gif" />
     <Content Include="Content\assets\layouts\layout\img\loading.gif" />
+    <Content Include="Content\images\iz-logo.png" />
+    <Content Include="Content\images\iz-logo1.png" />
     <Content Include="Content\images\tum-logo3.png" />
     <Content Include="Content\images\tum-logo2.png" />
     <Content Include="Content\images\tum-logo1.png" />
@@ -307,6 +309,7 @@
     <Compile Include="Controllers\CableController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\FaturaOnayController.cs" />
+    <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\OnayCekController.cs" />
     <Compile Include="Controllers\ComboItemsController.cs" />
     <Compile Include="Controllers\CombosController.cs" />
@@ -522,6 +525,7 @@
     <Content Include="Views\FaturaOnay\FaturaDetay.cshtml" />
     <Content Include="Views\OnayRisk\RiskTanim.cshtml" />
     <Content Include="Views\OnayRisk\_PartialRiskTanim.cshtml" />
+    <Content Include="Views\Maintenance\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,6 +1,7 @@
 ﻿@{
-    if (ViewBag.Title != "") { ViewBag.Title += " | Yönetim Paneli"; }
-    else { ViewBag.Title = "Yönetim Paneli"; }
+    Setting setts = ViewBag.settings;
+    if (ViewBag.Title != "") { ViewBag.Title += " | " + setts.SiteName; }
+    else { ViewBag.Title = setts.SiteName; }
 }<!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
@@ -33,7 +34,7 @@
     <div class="page-header navbar navbar-fixed-top">
         <div class="page-header-inner ">
             <div class="page-logo">
-                <a href="@Url.Action("Index", "Home")"><img src="~/Content/assets/layouts/layout/img/Logo.png" alt="logo" class="logo-default m-t-10" /></a>
+                <a href="@Url.Action("Index", "Home")"><img src="~/Content/images/@setts.TopLogo" alt="logo" class="logo-default m-t-10" /></a>
             </div>
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
