@@ -1,3 +1,8 @@
+@media print {
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}
 /*checkboxes*/
 .checkbox label:after, .radio label:after {
     content: '';
