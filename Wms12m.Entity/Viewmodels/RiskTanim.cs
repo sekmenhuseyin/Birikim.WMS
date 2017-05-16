@@ -336,4 +336,31 @@ namespace Wms12m.Entity
 
     }
     #endregion /// RiskTanim Class
+
+    public class TeminatSelect
+    {
+        public int ID { get; set; }
+
+        public string HesapKodu { get; set; }
+
+        public string Unvan { get; set; }
+
+        public string AltBayi { get; set; }
+
+        public string Cins { get; set; }
+
+        public decimal Tutar { get; set; }
+
+        public bool SureliSuresiz { get; set; }
+
+        public System.DateTime Tarih { get; set; }
+
+        public System.Nullable<System.DateTime> VadeTarih { get; set; }
+
+        public bool Onay { get; set; }
+
+        public string Onaylayan { get; set; }
+
+        public System.Nullable<System.DateTime> OnayTarih { get; set; }
+    }
 }

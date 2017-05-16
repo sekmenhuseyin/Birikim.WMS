@@ -172,6 +172,27 @@ namespace Wms12m.Presentation.Controllers
             var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect1]", "17")).ToList();
             return View(CHK);
         }
+        public string Teminatdurbun()
+        {
+            var DRBN = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatDurbunSelect]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(DRBN);
+            return json;
+        }
+
+        public PartialViewResult PartialTeminatTanim(string chk)
+        {
+            if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return null;
+            //var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect]", "17")).ToList();
+            ViewBag.CHK = chk;
+            return PartialView("_PartialTeminatTanim");
+        }
+
+        public string TeminatSelect(string chk)
+        {
+            var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect] @HesapKodu='{1}'", "17", chk)).ToList();
+            var json = new JavaScriptSerializer().Serialize(TMNT);
+            return json;
+        }
         #endregion
         #region Sözleşme
         public ActionResult Sozlesme_GM()
