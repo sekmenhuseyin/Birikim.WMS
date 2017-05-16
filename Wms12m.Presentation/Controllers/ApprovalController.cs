@@ -80,7 +80,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Siparis_SM_List()
         {
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", "33")).ToList();
-            return PartialView("_PartialSM", KOD);
+            return PartialView(KOD);
         }
         public ActionResult Siparis_SPGMY()
         {
@@ -89,7 +89,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Siparis_SPGMY_List()
         {
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", "33")).ToList();
-            return PartialView("_PartialSPGMY", KOD);
+            return PartialView(KOD);
         }
         public ActionResult Siparis_GM()
         {
@@ -98,7 +98,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Siparis_GM_List()
         {
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", "33")).ToList();
-            return PartialView("_PartialGM", KOD);
+            return PartialView(KOD);
         }
         public bool Siparis_Onay(string EvrakNo, string Kaydeden, int OnayTip, bool OnaylandiMi)
         {
@@ -111,6 +111,28 @@ namespace Wms12m.Presentation.Controllers
             { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "33", EvrakNo, vUser.UserName, 1, 1)); }
             return Result;
         }
+        #endregion
+        #region Stok
+        public ActionResult Stok()
+        {
+            return View();
+        }
+        public PartialViewResult Stok_List(string Durum)
+        {
+            int param = 1;
+            if (Durum == "Tumu") { param = 0; }
+            else
+            if (Durum == "Onay") { param = 1; }
+            else
+            if (Durum == "Pasif") { param = 2; }
+            else
+            if (Durum == "Aktif") { param = 3; }
+            else
+            if (Durum == "Red") { param = 4; }
+            var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[wms].[StokOnaySelect] {1}", "33", param)).ToList();
+            return PartialView("List", KOD);
+        }
+
         #endregion
     }
 }

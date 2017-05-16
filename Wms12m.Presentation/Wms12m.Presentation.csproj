@@ -324,7 +324,6 @@
     <Compile Include="Controllers\CorridorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\OnaySozlesmeController.cs" />
-    <Compile Include="Controllers\OnayStokController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RootController.cs" />
@@ -496,8 +495,8 @@
     <Content Include="Views\OnaySozlesme\GM.cshtml" />
     <Content Include="Views\OnaySozlesme\SM.cshtml" />
     <Content Include="Views\OnaySozlesme\SPGMY.cshtml" />
-    <Content Include="Views\OnayStok\Index.cshtml" />
-    <Content Include="Views\OnayStok\List.cshtml" />
+    <Content Include="Views\Approval\Stok.cshtml" />
+    <Content Include="Views\Approval\Stok_List.cshtml" />
     <Content Include="Views\OnayTeminat\Index.cshtml" />
     <Content Include="Views\OnayTeminat\List.cshtml" />
     <Content Include="Views\Roles\List.cshtml" />
