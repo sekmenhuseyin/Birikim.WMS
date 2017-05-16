@@ -305,6 +305,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\BuyController.cs" />
     <Compile Include="Controllers\CableController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
@@ -533,7 +534,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Approval\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">
       <Project>{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}</Project>
