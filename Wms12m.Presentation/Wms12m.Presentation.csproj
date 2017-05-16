@@ -323,7 +323,6 @@
     <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\CorridorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
-    <Compile Include="Controllers\OnaySiparisController.cs" />
     <Compile Include="Controllers\OnaySozlesmeController.cs" />
     <Compile Include="Controllers\OnayStokController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
@@ -482,12 +481,12 @@
     <Content Include="Views\OnayRisk\_PartialMIGMY.cshtml" />
     <Content Include="Views\OnayRisk\_PartialSM.cshtml" />
     <Content Include="Views\OnayRisk\_PartialSPGMY.cshtml" />
-    <Content Include="Views\OnaySiparis\GM.cshtml" />
-    <Content Include="Views\OnaySiparis\SM.cshtml" />
-    <Content Include="Views\OnaySiparis\SPGMY.cshtml" />
-    <Content Include="Views\OnaySiparis\_PartialGM.cshtml" />
-    <Content Include="Views\OnaySiparis\_PartialSM.cshtml" />
-    <Content Include="Views\OnaySiparis\_PartialSPGMY.cshtml" />
+    <Content Include="Views\Approval\Siparis_GM.cshtml" />
+    <Content Include="Views\Approval\Siparis_SM.cshtml" />
+    <Content Include="Views\Approval\Siparis_SPGMY.cshtml" />
+    <Content Include="Views\Approval\Siparis_GM_List.cshtml" />
+    <Content Include="Views\Approval\Siparis_SM_List.cshtml" />
+    <Content Include="Views\Approval\Siparis_SPGMY_List.cshtml" />
     <Content Include="Views\OnaySozlesme\_Details.cshtml" />
     <Content Include="Views\OnaySozlesme\_DetailsSM.cshtml" />
     <Content Include="Views\OnaySozlesme\_DetailsSPMY.cshtml" />

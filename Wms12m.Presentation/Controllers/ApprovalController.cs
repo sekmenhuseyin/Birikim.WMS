@@ -72,5 +72,45 @@ namespace Wms12m.Presentation.Controllers
             return PartialView(KOD);
         }
         #endregion
+        #region Sipariş
+        public ActionResult Siparis_SM()
+        {
+            return View();
+        }
+        public PartialViewResult Siparis_SM_List()
+        {
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", "33")).ToList();
+            return PartialView("_PartialSM", KOD);
+        }
+        public ActionResult Siparis_SPGMY()
+        {
+            return View();
+        }
+        public PartialViewResult Siparis_SPGMY_List()
+        {
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", "33")).ToList();
+            return PartialView("_PartialSPGMY", KOD);
+        }
+        public ActionResult Siparis_GM()
+        {
+            return View();
+        }
+        public PartialViewResult Siparis_GM_List()
+        {
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", "33")).ToList();
+            return PartialView("_PartialGM", KOD);
+        }
+        public bool Siparis_Onay(string EvrakNo, string Kaydeden, int OnayTip, bool OnaylandiMi)
+        {
+            bool Result = true;
+            if (OnayTip == 3 && OnaylandiMi == true)//GMOnay
+            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "33", EvrakNo, vUser.UserName, 3, 1)); }
+            if (OnayTip == 2 && OnaylandiMi == true)//SPGMYOnay
+            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "33", EvrakNo, vUser.UserName, 2, 1)); }
+            if (OnayTip == 1 && OnaylandiMi == true)//SMOnay
+            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "33", EvrakNo, vUser.UserName, 1, 1)); }
+            return Result;
+        }
+        #endregion
     }
 }
