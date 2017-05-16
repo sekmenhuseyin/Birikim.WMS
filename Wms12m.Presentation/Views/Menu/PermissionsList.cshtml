@@ -1,9 +1,16 @@
 ﻿@model IEnumerable<GetMenuRolesFor_Result>
 @{ int i = 0; }
-<div class="row m-b-10">
+<div class="row">
 	<div class="col-md-5 col-md-offset-2 bold">Yetki Adı</div><div class="col-md-2 text-center bold">Seç</div>
 </div>
-@using (Ajax.BeginForm("Save", "Menu", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "FuncSearchBtn();", OnFailure = "FuncSearchBtn();" }, new { @class = "form-horizontal", id="frmAdd" }))
+<div class="row m-t-10 m-b-10">
+    <div class="checkbox col-md-2 col-md-offset-7 text-center">
+        <label style="font-size: 1.5em">
+            <button type="button" onclick="checkboxChanger();"><i class="cr-icon fa fa-check"></i></button>
+        </label>
+    </div>
+</div>
+@using (Ajax.BeginForm("Save", "Menu", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "FuncSearchBtn();", OnFailure = "FuncSearchBtn();" }, new { @class = "form-horizontal", id = "frmAdd" }))
 {
 	@Html.AntiForgeryToken()
 	<input type="hidden" name="MenuID" value="@ViewBag.id" />
@@ -15,7 +22,7 @@
 			<div class="col-md-5 col-md-offset-2"><input class="form-control" name="Roles" type="text" readonly value="@item.RoleName" required></div>
             <div class="checkbox col-md-2 text-center">
                 <label style="font-size: 1.5em">
-                    <input name="secs" id="sec@{@i}" type="checkbox" @item.MenuID>
+                    <input class="menus" name="secs" id="sec@{@i}" type="checkbox" @item.MenuID>
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                 </label>
             </div>
@@ -29,6 +36,7 @@
 	</div>
 </div>
 <script>
+    var r = false;
 	function submit()
 	{
 		var tmp = "";
@@ -39,4 +47,8 @@
         $("#RoleName").val(tmp);
 		$("#frmAdd").submit();
 	}
+    function checkboxChanger(k) {
+        r = r == true ? false : true;
+        $(".menus").prop("checked", r);
+    }
 </script>
