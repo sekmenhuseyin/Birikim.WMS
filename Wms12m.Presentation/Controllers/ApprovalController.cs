@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Controllers
@@ -196,6 +201,123 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "33", ListeNo)).ToList();
             return PartialView(list);
         }
+        #endregion
+        #region Risk
+        public ActionResult Risk_SM()
+        {
+            return View();
+        }
+        public PartialViewResult Risk_SM_List()
+        {
+            var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where OnayTip = 0", "33")).ToList();//-- and SMOnay = 1 and Durum = 0 eklenecek.
+            return PartialView(KOD);
+        }
+        public ActionResult Risk_GM()
+        {
+            return View();
+        }
+        public PartialViewResult Risk_GM_List()
+        {
+            var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]", "33")).ToList();//--where (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 1 and GMOnay=0) or (OnayTip = 4 and GMOnay = 0 ) and Durum =0
+            return PartialView(KOD);
+        }
+        public ActionResult Risk_SPGMY()
+        {
+            return View();
+        }
+        public PartialViewResult Risk_SPGMY_List()
+        {
+            var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where SPGMYOnay =0", "33")).ToList();//--where (OnayTip = 1 and SPGMYOnay =0) OR (OnayTip = 2 and SPGMYOnay =0) OR (OnayTip = 3 and SPGMYOnay = 0) and Durum = 0
+            return PartialView(KOD);
+        }
+        public ActionResult Risk_MIGMY()
+        {
+            return View();
+        }
+        public PartialViewResult Risk_MIGMY_List()
+        {
+            var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where SPGMYOnay = 1", "33")).ToList();//--where (OnayTip = 2 and SPGMYOnay = 1 and MIGMYOnay = 0) OR (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 0) and Durum = 0
+            return PartialView(KOD);
+        }
+        public ActionResult RiskTanim()
+        {
+            return View();
+        }
+        public PartialViewResult RiskTanimPartial()
+        {
+            var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect2]", "17")).ToList();
+            return PartialView(RT);
+        }
+        public string GGGG()
+        {
+            var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect2]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+        public string OnayRiskInsert(string Data)
+        {
+            //string sql = string.Format(@"INSERT INTO FINSAT";
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            try
+            {
+                foreach (JObject insertObj in parameters)
+                {
+                    if (insertObj["YeniSahsiCekLimiti"].ToDecimal() <= 0)
+                        continue;
+
+                    RiskTanim rsk = new RiskTanim();
+
+                    rsk.HesapKodu = insertObj["HesapKodu"].ToString();
+                    rsk.Unvan = insertObj["Unvan"].ToString();
+                    rsk.SahsiCekLimiti = insertObj["SahsiCekLimiti"].ToDecimal();
+                    rsk.MusteriCekLimiti = insertObj["MusteriCekLimiti"].ToDecimal();
+                    rsk.SMOnay = false;
+                    rsk.SMOnaylayan = "";
+                    rsk.SPGMYOnay = false;
+                    rsk.SPGMYOnaylayan = "";
+                    rsk.MIGMYOnay = false;
+                    rsk.MIGMYOnaylayan = "";
+                    rsk.GMOnay = false;
+                    rsk.GMOnaylayan = "";
+                    rsk.Durum = false;
+
+                    if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 20000)
+                    {
+                        rsk.OnayTip = 0;
+                    }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 100000)
+                    {
+                        rsk.OnayTip = 1;
+                    }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 200000)
+                    {
+                        rsk.OnayTip = 2;
+                    }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 500000)
+                    {
+                        rsk.OnayTip = 3;
+                    }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) >= 500000)
+                    {
+                        rsk.OnayTip = 4;
+                    }
+                    else
+                    {
+                        rsk.OnayTip = -1;
+                    }
+
+                    sqlexper.Insert(rsk);
+                    var sonuc = sqlexper.AcceptChanges();
+                }
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "NO";
+            }
+        } 
         #endregion
     }
 }
