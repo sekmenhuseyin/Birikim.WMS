@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs11F1.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vsD38C.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs11F1.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vsD38C.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevHelper, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
@@ -313,20 +313,15 @@
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\ComboItemsController.cs" />
     <Compile Include="Controllers\CombosController.cs" />
-    <Compile Include="Controllers\OnayFiyatController.cs" />
     <Compile Include="Controllers\InboxController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\PermsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
-    <Compile Include="Controllers\OnayRiskController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\CorridorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
-    <Compile Include="Controllers\OnaySiparisController.cs" />
-    <Compile Include="Controllers\OnaySozlesmeController.cs" />
-    <Compile Include="Controllers\OnayStokController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RootController.cs" />
@@ -336,7 +331,6 @@
     <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
-    <Compile Include="Controllers\OnayTeminatController.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
@@ -447,12 +441,12 @@
     <Content Include="Views\Tasks\Count.cshtml" />
     <Content Include="Views\Tasks\CountList.cshtml" />
     <Content Include="Views\Tasks\CountFark.cshtml" />
-    <Content Include="Views\OnayFiyat\GM.cshtml" />
-    <Content Include="Views\OnayFiyat\SM.cshtml" />
-    <Content Include="Views\OnayFiyat\SPGMY.cshtml" />
-    <Content Include="Views\OnayFiyat\_PartialGM.cshtml" />
-    <Content Include="Views\OnayFiyat\_PartialSM.cshtml" />
-    <Content Include="Views\OnayFiyat\_PartialSPGMY.cshtml" />
+    <Content Include="Views\Approval\Fiyat_GM.cshtml" />
+    <Content Include="Views\Approval\Fiyat_SM.cshtml" />
+    <Content Include="Views\Approval\Fiyat_PGMY.cshtml" />
+    <Content Include="Views\Approval\Fiyat_GM_List_List.cshtml" />
+    <Content Include="Views\Approval\Fiyat_SM_List.cshtml" />
+    <Content Include="Views\Approval\Fiyat_SPGMY.cshtml" />
     <Content Include="Views\Reports\Bakiye.cshtml" />
     <Content Include="Views\Reports\BekleyenSiparis.cshtml" />
     <Content Include="Views\Reports\CariEkstre.cshtml" />
@@ -475,33 +469,24 @@
     <Content Include="Views\Reports\_PartialStokRaporu.cshtml" />
     <Content Include="Views\Reports\_PartialToplamRiskBakiyesi.cshtml" />
     <Content Include="Views\Reports\_PartialVadesiGelmemisCekler.cshtml" />
-    <Content Include="Views\OnayRisk\GM.cshtml" />
-    <Content Include="Views\OnayRisk\MIGMY.cshtml" />
-    <Content Include="Views\OnayRisk\SM.cshtml" />
-    <Content Include="Views\OnayRisk\SPGMY.cshtml" />
-    <Content Include="Views\OnayRisk\_PartialGM.cshtml" />
-    <Content Include="Views\OnayRisk\_PartialMIGMY.cshtml" />
-    <Content Include="Views\OnayRisk\_PartialSM.cshtml" />
-    <Content Include="Views\OnayRisk\_PartialSPGMY.cshtml" />
-    <Content Include="Views\OnaySiparis\GM.cshtml" />
-    <Content Include="Views\OnaySiparis\SM.cshtml" />
-    <Content Include="Views\OnaySiparis\SPGMY.cshtml" />
-    <Content Include="Views\OnaySiparis\_PartialGM.cshtml" />
-    <Content Include="Views\OnaySiparis\_PartialSM.cshtml" />
-    <Content Include="Views\OnaySiparis\_PartialSPGMY.cshtml" />
-    <Content Include="Views\OnaySozlesme\_Details.cshtml" />
-    <Content Include="Views\OnaySozlesme\_DetailsSM.cshtml" />
-    <Content Include="Views\OnaySozlesme\_DetailsSPMY.cshtml" />
-    <Content Include="Views\OnaySozlesme\_PartialGM.cshtml" />
-    <Content Include="Views\OnaySozlesme\_PartialSM.cshtml" />
-    <Content Include="Views\OnaySozlesme\_PartialSPGMY.cshtml" />
-    <Content Include="Views\OnaySozlesme\GM.cshtml" />
-    <Content Include="Views\OnaySozlesme\SM.cshtml" />
-    <Content Include="Views\OnaySozlesme\SPGMY.cshtml" />
-    <Content Include="Views\OnayStok\Index.cshtml" />
-    <Content Include="Views\OnayStok\List.cshtml" />
-    <Content Include="Views\OnayTeminat\Index.cshtml" />
-    <Content Include="Views\OnayTeminat\List.cshtml" />
+    <Content Include="Views\Approval\Risk_GM.cshtml" />
+    <Content Include="Views\Approval\Risk_MIGMY.cshtml" />
+    <Content Include="Views\Approval\Risk_SM.cshtml" />
+    <Content Include="Views\Approval\Risk_SPGMY.cshtml" />
+    <Content Include="Views\Approval\Risk_GM_List.cshtml" />
+    <Content Include="Views\Approval\Risk_MIGMY_List.cshtml" />
+    <Content Include="Views\Approval\Risk_SM_List.cshtml" />
+    <Content Include="Views\Approval\Risk_SPGMY_List.cshtml" />
+    <Content Include="Views\Approval\Siparis_GM.cshtml" />
+    <Content Include="Views\Approval\Siparis_SM.cshtml" />
+    <Content Include="Views\Approval\Siparis_SPGMY.cshtml" />
+    <Content Include="Views\Approval\Siparis_GM_List.cshtml" />
+    <Content Include="Views\Approval\Siparis_SM_List.cshtml" />
+    <Content Include="Views\Approval\Siparis_SPGMY_List.cshtml" />
+    <Content Include="Views\Approval\Stok.cshtml" />
+    <Content Include="Views\Approval\Stok_List.cshtml" />
+    <Content Include="Views\Approval\Teminat.cshtml" />
+    <Content Include="Views\Approval\TeminatList.cshtml" />
     <Content Include="Views\Roles\List.cshtml" />
     <Content Include="Views\Perms\List.cshtml" />
     <Content Include="Views\Stock\Details.cshtml" />
@@ -517,8 +502,8 @@
     <Content Include="Views\FaturaOnay\Index.cshtml" />
     <Content Include="Views\FaturaOnay\_PartialFaturaOnayGrid.cshtml" />
     <Content Include="Views\FaturaOnay\FaturaDetay.cshtml" />
-    <Content Include="Views\OnayRisk\RiskTanim.cshtml" />
-    <Content Include="Views\OnayRisk\_PartialRiskTanim.cshtml" />
+    <Content Include="Views\Approval\RiskTanim.cshtml" />
+    <Content Include="Views\Approval\RiskTanimPartial.cshtml" />
     <Content Include="Views\Maintenance\Index.cshtml" />
     <Content Include="Views\Approval\Cek_GM_List.cshtml" />
     <Content Include="Views\Approval\Cek_MIGMY_List.cshtml" />
@@ -526,7 +511,16 @@
     <Content Include="Views\Approval\Cek_GM.cshtml" />
     <Content Include="Views\Approval\Cek_MIGMY.cshtml" />
     <Content Include="Views\Approval\Cek_SPGMY.cshtml" />
-    <Content Include="Views\OnayTeminat\TeminatTanim.cshtml" />
+    <Content Include="Views\Approval\TeminatTanim.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_GM.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SM.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SPGMY.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SM_Details.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SPMY_Details.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_GM_List.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SM_List.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_SPGMY_List.cshtml" />
+    <Content Include="Views\Approval\Sozlesme_GM_Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
