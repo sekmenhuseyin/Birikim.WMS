@@ -27,13 +27,10 @@ namespace Wms12m.Entity.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Combo_Name> Combo_Name { get; set; }
-        public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
         public virtual DbSet<Simge> Simges { get; set; }
         public virtual DbSet<WebMenu> WebMenus { get; set; }
         public virtual DbSet<Perm> Perms { get; set; }
         public virtual DbSet<RolePerm> RolePerms { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<UserPerm> UserPerms { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Bolum> Bolums { get; set; }
@@ -53,6 +50,9 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<GorevNo> GorevNoes { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
+        public virtual DbSet<Combo_Name> Combo_Name { get; set; }
+        public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

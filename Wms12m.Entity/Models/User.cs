@@ -37,9 +37,9 @@ namespace Wms12m.Entity.Models
         public string DegisSurum { get; set; }
         public System.Guid Guid { get; set; }
     
-        public virtual Role Role { get; set; }
         public virtual User Users1 { get; set; }
         public virtual User User1 { get; set; }
         public virtual UserDetail UserDetail { get; set; }
+        public virtual Role Role { get; set; }
     }
 }
