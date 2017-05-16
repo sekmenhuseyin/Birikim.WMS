@@ -40,12 +40,17 @@ namespace Wms12m.Presentation.Controllers
                     var tbl = db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
                     if (tbl != null)
                     {
-                        tbl.Reading = rolePerm.Reading == "on" ? true : false;
-                        tbl.Writing = rolePerm.Writing == "on" ? true : false;
-                        tbl.Updating = rolePerm.Updating == "on" ? true : false;
-                        tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
-                        tbl.ModifiedDate = DateTime.Now;
-                        tbl.ModifiedUser = vUser.UserName;
+                        if (rolePerm.Reading != "on" && rolePerm.Writing != "on" && rolePerm.Updating != "on" && rolePerm.Updating != "on")
+                            db.RolePerms.Remove(tbl);
+                        else
+                        {
+                            tbl.Reading = rolePerm.Reading == "on" ? true : false;
+                            tbl.Writing = rolePerm.Writing == "on" ? true : false;
+                            tbl.Updating = rolePerm.Updating == "on" ? true : false;
+                            tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
+                            tbl.ModifiedDate = DateTime.Now;
+                            tbl.ModifiedUser = vUser.UserName;
+                        }
                     }
                     else
                     {

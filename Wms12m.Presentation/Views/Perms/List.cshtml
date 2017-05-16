@@ -14,9 +14,25 @@
 			<input name="Updating" type="hidden" />
 			<input name="RoleName" class="RoleName" type="hidden" value="@ViewBag.RoleName" required />
 			<div class="col-md-6 col-md-offset-2"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
-			<div class="col-md-1"><input class="check-box form-control" name="Reading" type="checkbox"@{if(item.Reading==true){<text> checked="checked"</text>}}></div>
-			<div class="col-md-1"><input class="check-box form-control" name="Writing" type="checkbox"@{if(item.Writing == true){<text> checked="checked"</text>}}></div>
-			<div class="col-md-1"><input class="check-box form-control" name="Deleting" type="checkbox"@{if(item.Deleting == true){<text> checked="checked"</text>}}></div>}
+            <div class="checkbox col-md-1 text-center">
+                <label style="font-size: 1.5em">
+                    <input name="Reading" type="checkbox" @{if (item.Reading == true) { <text> checked="checked" </text> }}>
+                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                </label>
+            </div>
+            <div class="checkbox col-md-1 text-center">
+                <label style="font-size: 1.5em">
+                    <input name="Writing" type="checkbox" @{if (item.Writing == true) { <text> checked="checked" </text> }}>
+                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                </label>
+            </div>
+            <div class="checkbox col-md-1 text-center">
+                <label style="font-size: 1.5em">
+                    <input name="Deleting" type="checkbox" @{if (item.Deleting == true) { <text> checked="checked" </text> }}>
+                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                </label>
+            </div>
+	    }
 		i++;
 	}
 </div>
