@@ -32,16 +32,17 @@ namespace Wms12m.Presentation.Controllers
             Persons _Person = new Persons();
             _Result = new Result();
             try
-            {             
-                if (string.IsNullOrEmpty(P.Kod) || string.IsNullOrEmpty(P.Sifre)){}
+            {
+                if (string.IsNullOrEmpty(P.Kod) || string.IsNullOrEmpty(P.Sifre)) { }
                 else
                 {
                     _Result = _Person.Login(P);
                     if (_Result.Id > 0)
-                        Authentication.CreateAuth((User)_Result.Data, RememberMe == "on" ? true : false);
-                }                
+                        Authentication.CreateAuth((User)_Result.Data, RememberMe == "1" ? true : false);
+                }
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
                 using (var db = new WMSEntities())
                 {
                     db.Logger(P.Kod, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Security/Login");
