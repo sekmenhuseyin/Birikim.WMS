@@ -911,7 +911,10 @@
         <Function Name="GetGorevlis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetHomeSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms" />
+        <Function Name="GetHomeSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetHucreAd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
@@ -1173,7 +1176,6 @@
             <Parameter Name="KoridorID" Mode="In" Type="Int32" />
             <Parameter Name="desc" Mode="In" Type="Boolean" />
           </FunctionImport>
-          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)" />
           <FunctionImport Name="GetHucreAd" ReturnType="Collection(MModel.GetHucreAd_Result)">
           <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1444,17 +1446,14 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="WebMenu" EntitySet="WebMenus" />
           </AssociationSet>
+          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="Ad" Nullable="false" MaxLength="55" />
-        </ComplexType>
-        <ComplexType Name="GetHomeSummary_Result">
-          <Property Type="Int32" Name="depo" Nullable="true" />
-          <Property Type="Int32" Name="kull" Nullable="true" />
-          <Property Type="Int32" Name="gorev" Nullable="true" />
-          <Property Type="Int32" Name="irs" Nullable="true" />
-          <Property Type="Int32" Name="transfer" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GetHucreAd_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -2371,6 +2370,13 @@
           <End Type="MModel.Role" Role="Role" Multiplicity="*" />
           <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
         </Association>
+        <ComplexType Name="GetHomeSummary_Result">
+          <Property Type="Int32" Name="depo" Nullable="true" />
+          <Property Type="Int32" Name="kull" Nullable="true" />
+          <Property Type="Int32" Name="gorev" Nullable="true" />
+          <Property Type="String" Name="yetki" Nullable="true" />
+          <Property Type="Int32" Name="transfer" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2389,17 +2395,6 @@
           <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
           <FunctionImportMapping FunctionImportName="DeleteFromGorev" FunctionName="MModel.Store.DeleteFromGorev" />
           <FunctionImportMapping FunctionImportName="GetBolumSiralamaFromGorevId" FunctionName="MModel.Store.GetBolumSiralamaFromGorevId" />
-          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
-                <ScalarProperty Name="depo" ColumnName="depo" />
-                <ScalarProperty Name="kull" ColumnName="kull" />
-                <ScalarProperty Name="gorev" ColumnName="gorev" />
-                <ScalarProperty Name="irs" ColumnName="irs" />
-                <ScalarProperty Name="transfer" ColumnName="transfer" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetHucreAd" FunctionName="MModel.Store.GetHucreAd">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetHucreAd_Result">
@@ -2908,6 +2903,17 @@
               <ScalarProperty Name="RoleName" ColumnName="RoleName" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
+                <ScalarProperty Name="depo" ColumnName="depo" />
+                <ScalarProperty Name="kull" ColumnName="kull" />
+                <ScalarProperty Name="gorev" ColumnName="gorev" />
+                <ScalarProperty Name="yetki" ColumnName="yetki" />
+                <ScalarProperty Name="transfer" ColumnName="transfer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

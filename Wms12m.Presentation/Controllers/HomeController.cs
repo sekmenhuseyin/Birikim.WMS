@@ -14,7 +14,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            var ozet = db.GetHomeSummary().FirstOrDefault();
+            var ozet = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
             ViewBag.SirketKodu = db.GetSirketDBs().FirstOrDefault();
             return View("Index", ozet);
         }

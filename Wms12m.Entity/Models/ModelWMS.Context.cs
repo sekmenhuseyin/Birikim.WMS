@@ -119,11 +119,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetBolumSiralamaFromGorevId", gorevIDParameter, koridorIDParameter, descParameter);
         }
     
-        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary");
-        }
-    
         public virtual ObjectResult<GetHucreAd_Result> GetHucreAd(Nullable<int> depoID)
         {
             var depoIDParameter = depoID.HasValue ?
@@ -465,6 +460,19 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("UserID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUserPermsFor_Result>("WMSEntities.GetUserPermsFor", userIDParameter);
+        }
+    
+        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary(string userName, Nullable<int> userID)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter);
         }
     }
 }
