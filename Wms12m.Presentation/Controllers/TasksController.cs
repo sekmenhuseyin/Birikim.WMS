@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
 using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -213,7 +214,7 @@ namespace Wms12m.Presentation.Controllers
         {
             //kontrols
             if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            int durumID = ComboItems.Açık.ToInt32();
+            int durumID = ComboItems.Tamamlanan.ToInt32();
             int tipID = ComboItems.KontrolSayım.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
@@ -228,10 +229,8 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
             if (details.SayimSeri.Value < 1 || details.SayimSeri.Value > 199)
                 return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
-            //seri bul
-            int EvrakSeriNo = 7000 + details.SayimSeri.Value - 1;
+            //variables
             int tarih = fn.ToOADate();
-            int saat = fn.ToOATime();
             short sirano = 0;
             List<STI> stiList = new List<STI>();
             //loop malkods
@@ -257,6 +256,7 @@ namespace Wms12m.Presentation.Controllers
                 sirano++;
             }
             //finsat tanımlama
+            int EvrakSeriNo = 7000 + details.SayimSeri.Value - 1;
             Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
@@ -276,7 +276,7 @@ namespace Wms12m.Presentation.Controllers
         {
             //kontrols
             if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            int durumID = ComboItems.Açık.ToInt32();
+            int durumID = ComboItems.Tamamlanan.ToInt32();
             int tipID = ComboItems.KontrolSayım.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
@@ -293,10 +293,8 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
             if (details.SayimSeri.Value < 1 || details.SayimSeri.Value > 199)
                 return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
-            //seri bul
-            int EvrakSeriNo = 2600 + details.SayimSeri.Value - 1;
+            //variables
             int tarih = fn.ToOADate();
-            int saat = fn.ToOATime();
             short sirano = 0;
             List<STI> stiList = new List<STI>();
             //loop malkods
@@ -339,6 +337,7 @@ namespace Wms12m.Presentation.Controllers
                 sirano++;
             }
             //finsat tanımlama
+            int EvrakSeriNo = 2600 + details.SayimSeri.Value - 1;
             Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             var sonuc = finsat.SayımVeFarkFişi(stiList, EvrakSeriNo, true, vUser.UserName);
             if (sonuc.Status == true)
@@ -349,6 +348,53 @@ namespace Wms12m.Presentation.Controllers
                 sonuc.Message = "İşlem tamlandı!";
             }
             return Json(sonuc, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// kontrollü sayım sonrası farkı yer tablosuna kaydeder
+        /// </summary>
+        [HttpPost]
+        public JsonResult CountSave(int GorevID)
+        {
+            if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            int durumID = ComboItems.Tamamlanan.ToInt32();
+            int tipID = ComboItems.KontrolSayım.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
+            //get list
+            string sql = string.Format("SELECT wms.Yer.KatID, wms.GorevYer.MalKodu, wms.GorevYer.Birim, wms.GorevYer.Miktar, " +
+                                    "ISNULL((SELECT Miktar FROM wms.Yer AS Yer2 WHERE (KatID = wms.Yer.KatID) AND (MalKodu = wms.Yer.MalKodu) AND (Birim = wms.Yer.Birim)), 0) as Stok " +
+                                    "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
+                                    "WHERE (wms.Gorev.ID = {0})", GorevID);
+            var list = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
+            //loop list
+            foreach (var item in list)
+            {
+                //yerleştirme kaydı yapılır
+                var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, item.Birim);
+                if (tmp2 == null)
+                {
+                    tmp2 = new Yer()
+                    {
+                        KatID = item.KatID,
+                        MalKodu = item.MalKodu,
+                        Birim = item.Birim,
+                        Miktar = item.Miktar
+                    };
+                    Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                }
+                else
+                {
+                    if (item.Miktar != item.Stok)
+                    {
+                        tmp2.Miktar = 0;
+                        Yerlestirme.Update(tmp2, 0, vUser.Id, true, tmp2.Miktar);
+                        tmp2.Miktar = item.Miktar;
+                        Yerlestirme.Update(tmp2, 0, vUser.Id, false, item.Miktar);
+                    }
+                }
+            }
+            return Json(new Result(true, "Kayıt İşlemi tamamlandı"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// sayım fişi kaydeder
