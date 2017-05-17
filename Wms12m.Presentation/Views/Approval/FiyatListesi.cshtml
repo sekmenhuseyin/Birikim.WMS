@@ -1,6 +1,6 @@
 ﻿@model List<RaporCHKSelect>
 @{
-    ViewBag.Title = "Teminat Tanım";
+    ViewBag.Title = "Fiyat Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
@@ -18,11 +18,11 @@
 
     .input_label {
         float: left;
-        width: 25%;
+        width: 35%;
         font-weight: bold;
         color: #5bc8d2;
         ;
-        font-size: 10px;
+        font-size: 9px;
         padding-top: 4px;
     }
 
@@ -40,48 +40,66 @@
         margin: 0;
     }
 
-    .dx-header-row{
+    .dx-header-row {
         background-color: #86d8ea;
         color: window;
     }
 </style>
 <div class="row">
     <div>
-        <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg blue save-buton" style="width:95%; margin-bottom:10px;">Kaydet<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
-        <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg red sil-buton" style="width:95%; margin-bottom:10px;">Satır Sil<i class="fa fa-eraser" style="margin-left:5px;"></i></button></div>
-        <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg green durbun-buton" style="width:95%; margin-bottom:10px;">Dürbün<i class="fa fa-binoculars" style="margin-left:5px;"></i></button></div>
-        <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg purple bekleyen-durbun-buton" style="width:95%; margin-bottom:10px;">Bekleyenler<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
-        <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg yellow temizle-buton" style="width:95%; margin-bottom:10px;">Temizle<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
+        <div class="col-xs-6 col-sm-6" style="padding:0 2px 0 5px">
+            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg yellow yenile-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Yenile<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue satir-ekle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Ekle<i class="fa fa-eraser" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg purple satir-sil-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Sil<i class="fa fa-binoculars" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg green satir-guncelle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Güncelle<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
+        </div>
+        <div class="col-xs-6 col-sm-6" style="padding:0 5px 0 2px">
+            <div class="col-xs-12 col-sm-4"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg green-turquoise bekleyenler-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Bekleyenler<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue-dark tum-sec-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Tümünü Seç<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg red tum-kaldir-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Tümünü Kaldır<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
+        </div>
     </div>
 </div>
 <hr />
 <div class="row input_style">
-    <div class="col-xs-12 col-sm-5">
+    <div class="col-xs-12 col-sm-4">
         <div class="input_content">
-            <div class="input_label">Hesap Kodu</div>
+            <div class="input_label">Liste No</div>
             <div class="input select_chk"></div>
         </div>
         <div class="input_content">
-            <div class="input_label">Teminat Cinsi</div>
+            <div class="input_label">Ürün Kodu</div>
             <div class="input select_teminat_cinsi"></div>
         </div>
         <div class="input_content">
-            <div class="input_label">Süreli/Süresiz</div>
+            <div class="input_label">Müşteri Kodu</div>
             <div class="input check_sureli_suresiz" style="margin-top: 4px;"></div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-5">
+    <div class="col-xs-12 col-sm-8">
         <div class="input_content">
-            <div class="input_label">Tarih</div>
-            <div class="input date_tarih"></div>
+            <div class="col-xs-12 col-sm-4 input_content" style="float:left;padding: 0;">
+                <div class="input_label">Satış Fiyat</div>
+                <div class="input date_tarih"></div>
+            </div>
+            <div class="col-xs-12 col-sm-4 input_content" style="float:left;padding: 0;">
+                <div class="input_label">Birim</div>
+                <div class="input teminat_tutar"></div>
+            </div>
         </div>
         <div class="input_content">
-            <div class="input_label">Teminat Tutarı</div>
-            <div class="input teminat_tutar"></div>
-        </div>
-        <div class="input_content">
-            <div class="input_label">Vade Tarihi</div>
-            <div class="input date_vade_tarih"></div>
+            <div class="col-xs-12 col-sm-4 input_content" style="float:left;padding: 0;">
+                <div class="input_label">Döviz Satış Fiyat</div>
+                <div class="input date_vade_tarih"></div>
+            </div>
+            <div class="col-xs-12 col-sm-4 input_content" style="float:left;padding: 0;">
+                <div class="input_label">Döviz Birim</div>
+                <div class="input date_tarih"></div>
+            </div>
+            <div class="col-xs-12 col-sm-4 input_content" style="float:left;padding: 0;">
+                <div class="input_label">Döviz Cinsi</div>
+                <div class="input teminat_tutar"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -261,7 +279,7 @@
                                 var prevClickTime = component.lastClickTime;//take last clicked time
                                 component.lastClickTime = new Date();
                                 if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                    PartialView("/Approval/TeminatTanimList", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));    
+                                    PartialView("/Approval/TeminatTanimList", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
                                 }
                             }
                         },
@@ -344,7 +362,7 @@
                                 var prevClickTime = component.lastClickTime;//take last clicked time
                                 component.lastClickTime = new Date();
                                 if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                    //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));    
+                                    //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
                                 }
                             }
                         },

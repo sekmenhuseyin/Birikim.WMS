@@ -83,6 +83,13 @@ namespace Wms12m.Presentation.Controllers
             var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList]", "33")).ToList();
             return PartialView(KOD);
         }
+        public ActionResult FiyatListesi()
+        {
+            if (CheckPerm("Fiyat Listesi", PermTypes.Reading) == false) return Redirect("/");
+            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect1]", "17")).ToList();
+            return View(CHK);
+        }
+
         #endregion
         #region Sipariş
         public ActionResult Siparis_SM()
