@@ -261,7 +261,7 @@
                                 var prevClickTime = component.lastClickTime;//take last clicked time
                                 component.lastClickTime = new Date();
                                 if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                    PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));    
+                                    PartialView("/Approval/TeminatTanimList", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));    
                                 }
                             }
                         },

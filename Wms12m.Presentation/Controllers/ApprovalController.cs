@@ -187,12 +187,12 @@ namespace Wms12m.Presentation.Controllers
         }
 
 
-        public PartialViewResult PartialTeminatTanim(string chk)
+        public PartialViewResult TeminatTanimList(string chk)
         {
             if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return null;
             //var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect]", "17")).ToList();
             ViewBag.CHK = chk;
-            return PartialView("_PartialTeminatTanim");
+            return PartialView("TeminatTanimList");
         }
 
         public string TeminatSelect(string chk)

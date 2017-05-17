@@ -522,7 +522,7 @@
     <Content Include="Views\Approval\Sozlesme_SM_List.cshtml" />
     <Content Include="Views\Approval\Sozlesme_SPGMY_List.cshtml" />
     <Content Include="Views\Approval\Sozlesme_GM_Details.cshtml" />
-    <Content Include="Views\Approval\_PartialTeminatTanim.cshtml" />
+    <Content Include="Views\Approval\TeminatTanimList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
