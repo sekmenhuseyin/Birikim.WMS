@@ -38,7 +38,12 @@
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             dom: 'Bfrtip',
-            buttons: ['copy', 'excel', 'print'],
+            buttons: [{
+                text: 'Excele Aktar',
+                action: function (e, dt, node, config) {
+                    window.location.href = "/Download/StockHistory/?malkodu=" + $('#MalKodu').val() + "&depoID=" + $("#DepoID").val();
+                }
+            }],
             initComplete: function () {
                 this.api().columns([0, 1, 2, 3, 4, 7]).every(function () {
                     var column = this;

@@ -5,6 +5,23 @@
 	<div class="col-md-6 col-md-offset-2 bold">Yetki Adı</div><div class="col-md-1 text-center bold">Okuma</div><div class="col-md-1 text-center bold">Yazma</div><div class="col-md-1 text-center bold">Silme</div>
 </div>
 <div class="row m-t-10">
+    <div class="checkbox col-md-1 col-md-offset-8 text-center">
+        <label style="font-size: 1.5em">
+            <button id="Reading" type="button" onclick="checkboxChanger('Reading');"><i class="cr-icon fa fa-check"></i></button>
+        </label>
+    </div>
+    <div class="checkbox col-md-1 text-center">
+        <label style="font-size: 1.5em">
+            <button id="Writing" type="button" onclick="checkboxChanger('Writing');"><i class="cr-icon fa fa-check"></i></button>
+        </label>
+    </div>
+    <div class="checkbox col-md-1 text-center">
+        <label style="font-size: 1.5em">
+            <button id="Deleting" type="button" onclick="checkboxChanger('Deleting');"><i class="cr-icon fa fa-check"></i></button>
+        </label>
+    </div>
+</div>
+<div class="row m-t-10">
 	@foreach (var item in Model)
 	{
 		using (Ajax.BeginForm("Save", "Perms", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
@@ -16,19 +33,19 @@
 			<div class="col-md-6 col-md-offset-2"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
             <div class="checkbox col-md-1 text-center">
                 <label style="font-size: 1.5em">
-                    <input name="Reading" type="checkbox" @{if (item.Reading == true) { <text> checked="checked" </text> }}>
+                    <input class="Reading" name="Reading" type="checkbox" @{if (item.Reading == true) { <text> checked="checked" </text> }} />
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                 </label>
             </div>
             <div class="checkbox col-md-1 text-center">
                 <label style="font-size: 1.5em">
-                    <input name="Writing" type="checkbox" @{if (item.Writing == true) { <text> checked="checked" </text> }}>
+                    <input class="Writing" name="Writing" type="checkbox" @{if (item.Writing == true) { <text> checked="checked" </text> }} />
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                 </label>
             </div>
             <div class="checkbox col-md-1 text-center">
                 <label style="font-size: 1.5em">
-                    <input name="Deleting" type="checkbox" @{if (item.Deleting == true) { <text> checked="checked" </text> }}>
+                    <input class="Deleting" name="Deleting" type="checkbox" @{if (item.Deleting == true) { <text> checked="checked" </text> }} />
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                 </label>
             </div>
@@ -42,7 +59,7 @@
 	</div>
 </div>
 <script>
-	var biten = 0;
+    var biten = 0; var r = false, w = false, d = false;
 	function submit()
 	{
 		@for (int j = 0; j < i; j++)
@@ -55,5 +72,13 @@
 		biten++;
 		if (biten == @i)
 			FuncSearchBtn();
-	}
+    }
+    function checkboxChanger(k)
+    {
+        var tmp = false;
+        if (k == "Reading") { tmp = r == true ? false : true; r = tmp; }
+        if (k == "Writing") { tmp = w == true ? false : true; w = tmp; }
+        if (k == "Deleting") { tmp = d == true ? false : true; d = tmp; }
+        $("." + k).prop("checked", tmp);
+    }
 </script>
