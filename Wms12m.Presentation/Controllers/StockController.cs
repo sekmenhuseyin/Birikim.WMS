@@ -122,7 +122,7 @@ namespace Wms12m.Presentation.Controllers
             }
             sql = "SELECT ISNULL(SUM(Stok),0) as Stok from (" + sql + ")t";
             //return
-            var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.Kat.Bolum.Raf.Koridor.DepoID == depoID).OrderBy(m => m.KayitTarihi).ToList();
+            var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.DepoID == depoID).OrderBy(m => m.KayitTarihi).ToList();
             ViewBag.Stok = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
             return PartialView("HistoryList", list);
         }

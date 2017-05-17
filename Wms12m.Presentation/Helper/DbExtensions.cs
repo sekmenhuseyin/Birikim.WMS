@@ -1,5 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Entity.Mysql;
@@ -68,6 +72,29 @@ namespace Wms12m
                     sonuc = tmp.Value;
             }
             return sonuc;
+        }
+    }
+    /// <summary>
+    /// export to excel
+    /// </summary>
+    public class Export
+    {
+        public void ToExcel(HttpResponseBase Response, object clientsList, string fileName)
+        {
+            var grid = new GridView();
+            grid.DataSource = clientsList;
+            grid.DataBind();
+            Response.ClearContent();
+            Response.AddHeader("content-disposition", "attachment; filename="+ fileName + ".xls");
+            Response.ContentType = "application/excel";
+            using (StringWriter sw = new StringWriter())
+            using (HtmlTextWriter htw = new HtmlTextWriter(sw))
+            {
+                grid.RenderControl(htw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+            }
         }
     }
 }
