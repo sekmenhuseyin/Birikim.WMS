@@ -362,5 +362,7 @@ namespace Wms12m.Entity
         public string Onaylayan { get; set; }
 
         public System.Nullable<System.DateTime> OnayTarih { get; set; }
+
+        public decimal TeminatTutar { get; set; }
     }
 }

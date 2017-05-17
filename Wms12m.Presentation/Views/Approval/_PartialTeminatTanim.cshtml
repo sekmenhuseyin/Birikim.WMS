@@ -16,6 +16,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
+                                    <th></th>
                                     <th nowrap>Hesap Kodu</th>
                                     <th nowrap>Ünvan</th>
                                     <th nowrap>AltBayi</th>
@@ -29,25 +30,6 @@
                                     <th nowrap>Onay Tarihi</th>
                                 </tr>
                             </thead>
-                            @*<tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td>
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="checkboxes" value="1" />
-                                                    <span></span>
-                                                </label>
-                                            </td>
-                                            <td nowrap>@item.HesapKodu</td>
-                                            <td nowrap>@item.Unvan</td>
-                                            <td nowrap>@item.SahsiCekLimiti</td>
-                                            <td nowrap>@item.MusteriCekLimiti</td>
-                                            <td nowrap class="item_red">@item.YeniSahsiCekLimiti</td>
-                                            <td nowrap class="item_red">@item.YeniMusteriCekLimiti</td>
-                                        </tr>
-                                    }
-                                </tbody>*@
                         </table>
 
                     </div>
@@ -58,7 +40,7 @@
 </div>
 
 <script type="text/javascript">
-    $('#x-modal-faturared').modal("hide");
+    $('#x-modal-teminatdurbun').modal("hide");
     var secili_satir = new Array();
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
@@ -71,19 +53,21 @@
         },
         "fixedHeader": true,
         "scrollX": true,
+        "columnDefs": [{ "visible": false, "targets": 0 }],
         "columns": [
-            {"data": null,"defaultContent": '',"className": 'select-checkbox',"orderable": false},
+            { "data": "ID" },
+            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
             { "data": "HesapKodu"},
             { "data": "Unvan"},
             { "data": "AltBayi" },
             { "data": "Cins" },
             { "data": "Tutar"},
             { "data": "SureliSuresiz"},
-            { "data": "Tarih", "render": function (data) { return formatDateFromJson(data) } },
-            { "data": "VadeTarih", "render": function (data) { return formatDateFromJson(data) } },
+            { "data": "Tarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
+            { "data": "VadeTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
             { "data": "Onay"},
             { "data": "Onaylayan"},
-            { "data": "OnayTarih", "render": function (data) { return formatDateFromJson(data) } }
+            { "data": "OnayTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } }
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -96,12 +80,6 @@
         $(this).toggleClass('selected');
     });
 
-    //$('#sample_1 tbody').on( 'click', 'td', function () {
-    //    console.log($(this).find('td'));
-    //    $(this).prop( "disabled", false );
-    //    //this.attr('readonly');
-    //} );
-
     $('.refresh-buton').click(function () {
         var x = table.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
@@ -113,23 +91,6 @@
             data: { Data: JSON.stringify(secili_table)},
             type: "post",
             success: function (data) {
-                console.log(data);
-                //if (data == "OK") {
-                //    //Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
-
-                //    window.location.href = '/FaturaOnay/Index';
-                //}
-                //else if (data == "NO") {
-                //    Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
-                //}
-                //else if (data == "DEGISIM") {
-                //    window.location.href = '/FaturaOnay/FaturaDetay?EvrakNo=' + evrakNo;
-                //    Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "Guncel");
-
-                //}
-                //else {
-                //    window.location.href = '/FaturaOnay/Index';
-                //}
 
             },
             error: function (jqxhr) { console.log(jqxhr); }

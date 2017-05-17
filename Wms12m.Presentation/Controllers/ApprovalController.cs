@@ -179,6 +179,14 @@ namespace Wms12m.Presentation.Controllers
             return json;
         }
 
+        public string TeminatBekleyen()
+        {
+            var BKLYN = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(BKLYN);
+            return json;
+        }
+
+
         public PartialViewResult PartialTeminatTanim(string chk)
         {
             if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return null;
@@ -192,6 +200,20 @@ namespace Wms12m.Presentation.Controllers
             var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect] @HesapKodu='{1}'", "17", chk)).ToList();
             var json = new JavaScriptSerializer().Serialize(TMNT);
             return json;
+        }
+
+        public string TeminatSil(int ID)
+        {
+            var sonuc = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[TeminatSil] @ID={1}", "17", ID)).FirstOrDefault();
+            if (sonuc == 1)
+            {
+                return "OK";
+            }
+            else
+            {
+                return "NO";
+            }
+            
         }
         #endregion
         #region Sözleşme
