@@ -35,14 +35,14 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">Miktar</label>
                                 <div class="col-md-4">
-                                    @Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle", @placeholder = "Miktar", required = "required", min="1", max=ViewBag.Miktar })
+                                    @Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle touchspin", @placeholder = "Miktar", required = "required", type="number", min="1", max=ViewBag.Miktar })
                                     <span class="field-validation-valid" data-valmsg-for="Miktar" data-valmsg-replace="true" style="color:red;"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-4 col-md-offset-3">
                                     <input type="hidden" name="ID" id="ID" value="@ViewBag.Id" />
-                                    <button type="submit" class="btn btn-circle btn-block green">Ekle</button>
+                                    <button type="button" class="btn btn-circle btn-block green" onclick="submit()">Ekle</button>
                                 </div>
                             </div>
                         </div>
@@ -57,6 +57,14 @@
 </div>
 <script>
     $(".RafID").prepend("<option value=''>Seçiniz !!!</option>"); $(".RafID")[0].selectedIndex = 0;
+    $(".touchspin").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
+    function submit() {
+        if (("#Miktar").val() < 1 || ("#Miktar").val() > @ViewBag.Miktar)
+        {
+            Modaldialog("Miktarı düzgün yazınız", 'Hata', 'Tamam', 'btn-danger');
+            return;
+        }
+    }
     function getSection2(id) {
         $(".BolumID option").remove();
         $(".KatID option").remove();
