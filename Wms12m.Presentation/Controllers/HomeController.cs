@@ -430,7 +430,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception)
             {
-                return null;
+                return PartialView("_PartialBaglantiZamanCizelgesi", new List<ChartBaglantiZaman>());
             }
         }
 

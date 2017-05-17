@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Entity.Mysql;
 
@@ -185,12 +186,15 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult ManualMovement(Yer tbl)
         {
-            if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(false, JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (tbl.Miktar < 1) return Json(new Result(false, "Miktar hatalı"), JsonRequestBehavior.AllowGet);
             //ilk yerden düşür
             var ilk = Yerlestirme.Detail(tbl.ID);
+            if (tbl.Miktar > ilk.Miktar) return Json(new Result(false, "Miktar hatalı"), JsonRequestBehavior.AllowGet);
             ilk.Miktar -= tbl.Miktar;
             Yerlestirme.Update(ilk, 0, vUser.Id, true, tbl.Miktar);
             //yeni eyer ekle
+            Result _result;
             var yeni = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == ilk.MalKodu && m.Birim == ilk.Birim).FirstOrDefault();
             if (yeni == null)
             {
@@ -201,15 +205,15 @@ namespace Wms12m.Presentation.Controllers
                     Birim = ilk.Birim,
                     Miktar = tbl.Miktar
                 };
-                Yerlestirme.Insert(yeni, 0, vUser.Id);
+                _result = Yerlestirme.Insert(yeni, 0, vUser.Id);
             }
             else
             {
                 yeni.Miktar += tbl.Miktar;
-                Yerlestirme.Update(yeni, 0, vUser.Id, false, tbl.Miktar);
+                _result = Yerlestirme.Update(yeni, 0, vUser.Id, false, tbl.Miktar);
             }
             //return
-            return Json(true, JsonRequestBehavior.AllowGet);
+            return Json(_result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// elle yerleştirmede yeni yeri belirle
