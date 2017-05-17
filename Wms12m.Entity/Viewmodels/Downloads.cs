@@ -1,5 +1,12 @@
 ﻿namespace Wms12m.Entity
 {
+    public class downStock
+    {
+        public string HucreAd { get; set; }
+        public string MalKodu { get; set; }
+        public string Birim { get; set; }
+        public string Miktar { get; set; }
+    }
     public class downStockHistory
     {
         public string islem { get; set; }

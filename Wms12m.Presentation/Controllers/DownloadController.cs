@@ -13,7 +13,6 @@ namespace Wms12m.Presentation.Controllers
         {
             //define
             string depoKodu = Store.Detail(depoID).DepoKodu;
-            var tmps = db.GetSirketDBs();
             //listeyi getir
             string sql = string.Format("SELECT CASE WHEN GC = 0 THEN 'Girdi' ELSE 'Çıktı' END AS islem, wms.fnFormatDateFromInt(wms.Yer_Log.KayitTarihi) AS Tarih, wms.fnFormatTimeFromInt(wms.Yer_Log.KayitSaati) AS Saat, " +
                 "wms.IRS.EvrakNo, wms.Yer_Log.HucreAd, wms.Yer_Log.MalKodu, wms.Yer_Log.Birim, FORMAT(wms.Yer_Log.Miktar, 'N', 'tr-TR') AS Miktar, FORMAT(wms.fnGetStock('{0}', wms.Yer_Log.MalKodu, wms.Yer_Log.Birim), 'N', 'tr-TR') AS Stok " +
@@ -28,21 +27,14 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// stoğu aktar
         /// </summary>
-        public void Stock(int yerID)
+        public void Stock(int KatID)
         {
-            //define
-            string depoKodu = Store.Detail(depoID).DepoKodu;
-            var tmps = db.GetSirketDBs();
             //listeyi getir
-            string sql = string.Format("SELECT CASE WHEN GC = 0 THEN 'Girdi' ELSE 'Çıktı' END AS islem, wms.fnFormatDateFromInt(wms.Yer_Log.KayitTarihi) AS Tarih, wms.fnFormatTimeFromInt(wms.Yer_Log.KayitSaati) AS Saat, " +
-                "wms.IRS.EvrakNo, wms.Yer_Log.HucreAd, wms.Yer_Log.MalKodu, wms.Yer_Log.Birim, FORMAT(wms.Yer_Log.Miktar, 'N', 'tr-TR') AS Miktar, FORMAT(wms.fnGetStock('{0}', wms.Yer_Log.MalKodu, wms.Yer_Log.Birim), 'N', 'tr-TR') AS Stok " +
-                "FROM wms.Yer_Log LEFT OUTER JOIN wms.IRS ON wms.Yer_Log.IrsaliyeID = wms.IRS.ID " +
-                "WHERE (wms.Yer_Log.DepoID = {1}) AND (wms.Yer_Log.MalKodu = '{2}') " +
-                "ORDER BY wms.Yer_Log.KayitTarihi, wms.Yer_Log.KayitSaati", depoKodu, depoID, malkodu);
-            var list = db.Database.SqlQuery<downStockHistory>(sql).ToList();
+            string sql = string.Format("SELECT HucreAd, MalKodu, Birim, FORMAT(Miktar, 'N', 'tr-TR') AS Miktar FROM wms.Yer WHERE (KatID = {0})", KatID);
+            var list = db.Database.SqlQuery<downStock>(sql).ToList();
             //export
             Export export = new Export();
-            export.ToExcel(Response, list, depoKodu + " depoda " + malkodu + "için Stok Hareketleri");
+            export.ToExcel(Response, list, "Stok");
         }
     }
 }
