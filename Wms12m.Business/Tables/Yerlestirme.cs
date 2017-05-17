@@ -37,7 +37,20 @@ namespace Wms12m.Business
             if (IrsID > 0) yerLog.IrsaliyeID = IrsID;
             db.Yer_Log.Add(yerLog);
             //save
-            db.SaveChanges();
+            try
+            {
+                db.SaveChanges();
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Id = tbl.ID;
+            }
+            catch (Exception ex)
+            {
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Insert");
+                _Result.Id = 0;
+                _Result.Message = "İşlem Hatalı: " + ex.Message;
+                _Result.Status = false;
+            }
             //exit
             return _Result;
         }
@@ -65,7 +78,20 @@ namespace Wms12m.Business
             var log = Detail(tbl.ID);
             log.Miktar = tbl.Miktar;
             //save
-            db.SaveChanges();
+            try
+            {
+                db.SaveChanges();
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Id = tbl.ID;
+            }
+            catch (Exception ex)
+            {
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Update");
+                _Result.Id = 0;
+                _Result.Message = "İşlem Hatalı: " + ex.Message;
+                _Result.Status = false;
+            }
             //exit
             return _Result;
         }
@@ -98,10 +124,20 @@ namespace Wms12m.Business
                 KayitSaati = DateTime.Now.ToOaTime()
             };
             db.Yer_Log.Add(logs);
-            db.SaveChanges();
-            _Result.Id = tbl.ID;
-            _Result.Message = "İşlem Başarılı !!!";
-            _Result.Status = true;
+            try
+            {
+                db.SaveChanges();
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Id = tbl.ID;
+            }
+            catch (Exception ex)
+            {
+                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Remove");
+                _Result.Id = 0;
+                _Result.Message = "İşlem Hatalı: " + ex.Message;
+                _Result.Status = false;
+            }
             return _Result;
         }
         /// <summary>
@@ -110,34 +146,34 @@ namespace Wms12m.Business
         public override Result Delete(int Id)
         {
             _Result = new Result();
+            Yer tbl = db.Yers.Where(m => m.ID == Id).FirstOrDefault();
+            if (tbl != null)
+            {
+                db.Yers.Remove(tbl);
+                Yer_Log logs = new Yer_Log()
+                {
+                    KatID = tbl.KatID,
+                    MalKodu = tbl.MalKodu,
+                    Birim = tbl.Birim,
+                    Miktar = tbl.Miktar,
+                    GC = true,
+                    Kaydeden = Users.AppIdentity.User.UserName,
+                    KayitTarihi = DateTime.Today.ToOADateInt(),
+                    KayitSaati = DateTime.Now.ToOaTime()
+                };
+                db.Yer_Log.Add(logs);
+            }
+            else
+            {
+                _Result.Message = "Kayıt Yok";
+                _Result.Status = false;
+            }
             try
             {
-                Yer tbl = db.Yers.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.Yers.Remove(tbl);
-                    Yer_Log logs = new Yer_Log()
-                    {
-                        KatID = tbl.KatID,
-                        MalKodu = tbl.MalKodu,
-                        Birim = tbl.Birim,
-                        Miktar = tbl.Miktar,
-                        GC = true,
-                        Kaydeden = Users.AppIdentity.User.UserName,
-                        KayitTarihi = DateTime.Today.ToOADateInt(),
-                        KayitSaati = DateTime.Now.ToOaTime()
-                    };
-                    db.Yer_Log.Add(logs);
-                    db.SaveChanges();
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
+                db.SaveChanges();
+                _Result.Id = Id;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
             }
             catch (Exception ex)
             {
@@ -150,34 +186,34 @@ namespace Wms12m.Business
         public Result Delete(int Id, int KullID)
         {
             _Result = new Result();
+            Yer tbl = db.Yers.Where(m => m.ID == Id).FirstOrDefault();
+            if (tbl != null)
+            {
+                db.Yers.Remove(tbl);
+                Yer_Log logs = new Yer_Log()
+                {
+                    HucreAd = tbl.HucreAd,
+                    MalKodu = tbl.MalKodu,
+                    Birim = tbl.Birim,
+                    Miktar = tbl.Miktar,
+                    GC = true,
+                    Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault(),
+                    KayitTarihi = DateTime.Today.ToOADateInt(),
+                    KayitSaati = DateTime.Now.ToOaTime()
+                };
+                db.Yer_Log.Add(logs);
+            }
+            else
+            {
+                _Result.Message = "Kayıt Yok";
+                _Result.Status = false;
+            }
             try
             {
-                Yer tbl = db.Yers.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.Yers.Remove(tbl);
-                    Yer_Log logs = new Yer_Log()
-                    {
-                        HucreAd = tbl.HucreAd,
-                        MalKodu = tbl.MalKodu,
-                        Birim = tbl.Birim,
-                        Miktar = tbl.Miktar,
-                        GC = true,
-                        Kaydeden = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault(),
-                        KayitTarihi = DateTime.Today.ToOADateInt(),
-                        KayitSaati = DateTime.Now.ToOaTime()
-                    };
-                    db.Yer_Log.Add(logs);
-                    db.SaveChanges();
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
+                db.SaveChanges();
+                _Result.Id = Id;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
             }
             catch (Exception ex)
             {

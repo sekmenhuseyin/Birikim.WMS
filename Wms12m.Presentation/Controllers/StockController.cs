@@ -189,12 +189,12 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (tbl.Miktar < 1) return Json(new Result(false, "Miktar hatalı"), JsonRequestBehavior.AllowGet);
             //ilk yerden düşür
+            Result _result;
             var ilk = Yerlestirme.Detail(tbl.ID);
             if (tbl.Miktar > ilk.Miktar) return Json(new Result(false, "Miktar hatalı"), JsonRequestBehavior.AllowGet);
             ilk.Miktar -= tbl.Miktar;
-            Yerlestirme.Update(ilk, 0, vUser.Id, true, tbl.Miktar);
+            _result = Yerlestirme.Update(ilk, 0, vUser.Id, true, tbl.Miktar);
             //yeni eyer ekle
-            Result _result;
             var yeni = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == ilk.MalKodu && m.Birim == ilk.Birim).FirstOrDefault();
             if (yeni == null)
             {
