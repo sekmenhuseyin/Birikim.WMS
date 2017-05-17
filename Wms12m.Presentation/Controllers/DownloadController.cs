@@ -30,7 +30,7 @@ namespace Wms12m.Presentation.Controllers
         public void Stock(int KatID)
         {
             //listeyi getir
-            string sql = string.Format("SELECT HucreAd, MalKodu, Birim, FORMAT(Miktar, 'N', 'tr-TR') AS Miktar FROM wms.Yer WHERE (KatID = {0})", KatID);
+            string sql = string.Format("SELECT HucreAd, MalKodu, Birim, FORMAT(Miktar, 'N', 'tr-TR') AS Miktar FROM wms.Yer WHERE (KatID = {0}) ORDER BY MalKodu", KatID);
             var list = db.Database.SqlQuery<downStock>(sql).ToList();
             //export
             Export export = new Export();

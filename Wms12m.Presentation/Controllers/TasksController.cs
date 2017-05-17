@@ -234,7 +234,15 @@ namespace Wms12m.Presentation.Controllers
             short sirano = 0;
             List<STI> stiList = new List<STI>();
             //loop malkods
-            var list = mGorev.GorevYers.GroupBy(m => new { m.MalKodu, m.Birim }).Select(m => new { m.Key.MalKodu, m.Key.Birim, Miktar = m.Sum(n => n.Miktar) }).ToList();
+            string sql = string.Format("SELECT MalKodu, Birim, Miktar, Stok FROM (" +
+                                            "SELECT wms.GorevYer.MalKodu, wms.GorevYer.Birim, SUM(wms.GorevYer.Miktar) AS Miktar, " +
+                                                "ISNULL((SELECT FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar AS stok " +
+                                                "FROM FINSAT6{0}.FINSAT6{0}.DST INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.DST.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                                "WHERE (FINSAT6{0}.FINSAT6{0}.DST.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.DST.MalKodu = wms.GorevYer.MalKodu) AND (FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar > 0)),0) AS Stok " +
+                                            "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID " +
+                                            "WHERE (wms.Gorev.ID = {2}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
+                                        ") AS t", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID);
+            var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             foreach (var item in list)
             {
                 var sti = new STI();
@@ -246,6 +254,7 @@ namespace Wms12m.Presentation.Controllers
                 sti.IslemTip = 17;
                 sti.MalKodu = item.MalKodu;
                 sti.Miktar = item.Miktar;
+                sti.Miktar2 = item.Stok;
                 sti.Birim = item.Birim;
                 sti.BirimMiktar = item.Miktar;
                 sti.Depo = mGorev.Depo.DepoKodu;
@@ -327,7 +336,8 @@ namespace Wms12m.Presentation.Controllers
                 sti.IslemTip = 17;
                 sti.MalKodu = item.MalKodu;
                 sti.Birim = item.Birim;
-                sti.BirimMiktar = item.Miktar;
+                sti.BirimMiktar = sti.Miktar;
+                sti.Miktar2 = item.Stok;
                 sti.Depo = mGorev.Depo.DepoKodu;
                 sti.VadeTarih = tarih;
                 sti.EvrakTarih = tarih;
