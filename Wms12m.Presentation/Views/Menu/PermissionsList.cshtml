@@ -1,5 +1,4 @@
-﻿@model IEnumerable<GetMenuRolesFor_Result>
-@{ int i = 0; }
+﻿@{ int i = 0; }
 <div class="row">
 	<div class="col-md-5 col-md-offset-2 bold">Yetki Adı</div><div class="col-md-2 text-center bold">Seç</div>
 </div>
@@ -19,10 +18,10 @@
 	{
 		<div class="row">
             <input type="hidden" id="role@{@i}" name="RoleIDs" value="@item.ID" />
-			<div class="col-md-5 col-md-offset-2"><input class="form-control" name="Roles" type="text" readonly value="@item.RoleName" required></div>
+			<div class="col-md-5 col-md-offset-2"><input class="form-control" name="Roles" type="text" readonly value="item.RoleName" required></div>
             <div class="checkbox col-md-2 text-center">
                 <label style="font-size: 1.5em">
-                    <input class="menus" name="secs" id="sec@{@i}" type="checkbox" @item.MenuID>
+                    <input class="menus" name="secs" id="sec@{@i}" type="checkbox" item.MenuID>
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                 </label>
             </div>

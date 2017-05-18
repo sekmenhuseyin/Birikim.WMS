@@ -173,6 +173,24 @@ namespace Wms12m
             return db.Database.SqlQuery<string>(sql).FirstOrDefault();
         }
         /// <summary>
+        /// malkoduna göre mal adını ve birim1 biri getirir
+        /// </summary>
+        /// <param name="malkodu"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public Tip_Malzeme GetMalzemeFromMalKodu(string malkodu)
+        {
+            string sql = "";
+            var dbs = db.GetSirketDBs();
+            foreach (var item in dbs)
+            {
+                if (sql != "") sql += " UNION ";
+                sql += string.Format("SELECT MalAdi, Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", item, malkodu);
+            }
+            sql = "SELECT MalAdi, Birim1 as Birim from (" + sql + ") as t where MalAdi is not null";
+            return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
+        }
+        /// <summary>
         /// mal kabul kayıt işlemleri
         /// </summary>
         [WebMethod]

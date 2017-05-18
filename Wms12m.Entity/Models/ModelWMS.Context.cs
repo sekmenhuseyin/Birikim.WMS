@@ -53,6 +53,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Combo_Name> Combo_Name { get; set; }
         public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<GorevUser> GorevUsers { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
@@ -444,15 +445,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.MenuSiralayici", webSiteTipiNoParameter, menuYeriNoParameter, ustMenuNoParameter);
         }
     
-        public virtual ObjectResult<GetMenuRolesFor_Result> GetMenuRolesFor(Nullable<int> menuID)
-        {
-            var menuIDParameter = menuID.HasValue ?
-                new ObjectParameter("MenuID", menuID) :
-                new ObjectParameter("MenuID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMenuRolesFor_Result>("WMSEntities.GetMenuRolesFor", menuIDParameter);
-        }
-    
         public virtual ObjectResult<GetUserPermsFor_Result> GetUserPermsFor(Nullable<int> userID)
         {
             var userIDParameter = userID.HasValue ?
@@ -473,6 +465,11 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("UserID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter);
+        }
+    
+        public virtual ObjectResult<GetMenuRoles_Result> GetMenuRoles()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMenuRoles_Result>("WMSEntities.GetMenuRoles");
         }
     }
 }

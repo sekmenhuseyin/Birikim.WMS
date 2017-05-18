@@ -224,6 +224,26 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetMalzemeFromMalKodu", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Tip_Malzeme GetMalzemeFromMalKodu(string malkodu) {
+            object[] results = this.Invoke("GetMalzemeFromMalKodu", new object[] {
+                        malkodu});
+            return ((Tip_Malzeme)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetMalzemeFromMalKodu(string malkodu, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetMalzemeFromMalKodu", new object[] {
+                        malkodu}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Tip_Malzeme EndGetMalzemeFromMalKodu(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Tip_Malzeme)(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Mal_Kabul", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result Mal_Kabul(frmMalKabul[] StiList, int GorevID, int kulID) {
             object[] results = this.Invoke("Mal_Kabul", new object[] {
@@ -776,6 +796,37 @@ namespace WMSMobil.WMSLocal {
             }
             set {
                 this.okutulanMiktarField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
+    public partial class Tip_Malzeme {
+        
+        private string malAdiField;
+        
+        private string birimField;
+        
+        /// <remarks/>
+        public string MalAdi {
+            get {
+                return this.malAdiField;
+            }
+            set {
+                this.malAdiField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Birim {
+            get {
+                return this.birimField;
+            }
+            set {
+                this.birimField = value;
             }
         }
     }

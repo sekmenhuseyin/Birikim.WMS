@@ -13,10 +13,7 @@
                 </div>
                 <div class="tools" style="float:right;margin-left:20px;">
                     <a href="javascript:;" class="collapse"> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
                     <a href="javascript:;" class="reload"> </a>
-                    <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="remove"> </a>
                 </div>
                 <div style="float:right;margin-left:10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">İşlem Tip</span></div> <div class="slct_islemtip" style="float:left;width:130px; margin-left:10px;"></div></div>
                 <div style="float:right;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kriter </span></div> <div class="slct_double-kriter" style="float:left;width:130px; margin-left:10px;"></div></div>
@@ -24,8 +21,6 @@
             </div>
             <div class="portlet-body">
                 <div id="chart_5_gunluk_double" class="chart" style="height: 400px;"> </div>
-                <div class="well margin-top-20">
-                </div>
             </div>
         </div>
     </div>
@@ -56,8 +51,7 @@
             value:f_tarih,
             onValueChanged: function (e) {
                 var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                var GunlukSatisDoubleKriterUrl = "/Home/PartialGunlukSatisDoubleKriter";
-                PartialView(GunlukSatisDoubleKriterUrl, 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
+                PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
             }
         });
 

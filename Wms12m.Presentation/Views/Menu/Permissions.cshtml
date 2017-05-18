@@ -1,31 +1,51 @@
-﻿@model IEnumerable<RolePerm>
+﻿@model IEnumerable<GetMenuRoles_Result>
 @{
-    ViewBag.Title = "Yetkiler";
+    ViewBag.Title = "Menü Yetkileri";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
-<link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Yetkiler</span></li></ul></div>
-<h1 class="page-title">Yetkiler</h1>
+    int i = 0;
+    int RoleCount = ViewBag.Roles.Count;
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Menü Yetkileri</span></li></ul></div>
+<h1 class="page-title">Menü Yetkileri</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Yetkiler
+                    <i class="fa fa-gift"></i>Menü Yetkileri
                 </div>
             </div>
             <div class="portlet-body form">
                 <div class="form-horizontal">
-                    <div class="form-body row">
-                        <div class="col-md-6 col-md-offset-3">
-                            <div class="form-group">
-                                <label class="control-label col-md-2 bold" for="MenuID">Menu</label>
-                                <div class="col-md-10">
-                                    @Html.DropDownList("MenuID", null, htmlAttributes: new { @class = "form-control", @onchange = "FuncSearchBtn();" })
-                                </div>
-                            </div>
-                            <div id="theGrid" class="form-group"></div>
+                    <div class="form-body">
+                        <div class="row clearfix">
+                            <div class="col-md-4">&nbsp;</div>
+                             @foreach (Role item2 in ViewBag.Roles)
+                             {
+                                 <div class="col-md-1 text-center bold">@item2.RoleName</div>
+                             }
                         </div>
+                        @foreach (var item in Model)
+                        {
+                            <div class="row">
+                                @using (Ajax.BeginForm("Save", "Menu", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace }, new { @class = "form-horizontal", id = "frm"+ i }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="ID" id="ID@{@i}" value="@item.ID" />
+                                    <input type="hidden" name="RoleName" id="RoleName@{@i}" value="@item.RoleName.Replace("'","")" />
+                                    <div class="col-md-4"><input class="form-control" name="Ad" type="text" readonly value="@item.Ad" required></div>
+                                    foreach (var item2 in ViewBag.Roles)
+                                    {
+                                        <div class="checkbox col-md-1 text-center">
+                                            <label style="font-size: 1.5em">
+                                                <input class="menus" name="secs" id="sec@{@i}" type="checkbox">
+                                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            i++;
+                        }
                     </div>
                 </div>
             </div>
@@ -33,10 +53,5 @@
     </div>
 </div>
 @section Scripts{<script>
-    $("#MenuID").prepend("<option value=''>Seçiniz !!!</option>"); $("#MenuID")[0].selectedIndex = 0;
-    function FuncSearchBtn() {
-        $('#theGrid').html("");
-        if ($("#MenuID").val() != "")
-            PartialView("/Menu/PermissionsList", 'theGrid', JSON.stringify({ Id: $("#MenuID").val() }));
-    }
+
 </script>}

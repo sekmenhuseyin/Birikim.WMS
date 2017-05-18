@@ -112,6 +112,20 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("FiyatListesiPartial");
         }
 
+        public string FiyatListesiSelect(string listeNo)
+        {
+            var FYTS = db.Database.SqlQuery<FiyatListSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
+            var json = new JavaScriptSerializer().Serialize(FYTS);
+            return json;
+        }
+
+        public string FiyatListesiBekleyen()
+        {
+            var FLB = db.Database.SqlQuery<BekleyenFiyatListesi>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListTumBekleyenler]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(FLB);
+            return json;
+        }
+
         #endregion
         #region Sipariş
         public ActionResult Siparis_SM()

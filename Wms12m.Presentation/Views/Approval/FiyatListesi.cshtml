@@ -130,15 +130,15 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="x-modal-teminatbekleyen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+<div class="modal fade" id="x-modal-bekleyen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog" style="width:950px;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" style="color:#12ccee">ONAY BEKLEYEN TEMİNATLAR</h4>
+                <h4 class="modal-title" style="color:#12ccee">ONAY BEKLEYEN FİYAT LİSTELERİ</h4>
             </div>
             <div class="modal-body x-padding-inside" id="x-t-s-pe1">
-                <div class="grid_bekleyen_teminat">
+                <div class="grid_bekleyen_fiyat_listeleri">
                 </div>
             </div>
             <div class="modal-footer">
@@ -160,10 +160,10 @@
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script type="text/javascript">
 
-
+        var listeNo = "";
         $(document).ready(function () {
             var model = @Html.Raw(Json.Encode(Model));
-            var listeNo = "";
+            
             $.ajax({
                 url: window.location.origin + "/Approval/FiyatUrunGrupSelect",
                 data: {},
@@ -195,7 +195,8 @@
                 displayExpr: 'FiyatListName',
 
                 onValueChanged: function (e) {
-                    listeNo=e.Value;
+                    console.log(e.value);
+                    listeNo=e.value;
                 },
 
                 itemTemplate: function (itemData, itemIndex, itemElement) {
@@ -284,102 +285,39 @@
             }
         });
 
-        $('.durbun-buton').click(function () {
-            $('#x-modal-teminatdurbun').modal("show");
-            $.ajax({
-                url: window.location.origin + "/Approval/TeminatDurbun",
-                data: {},
-                type: "post",
-                success: function (data)
-                {
-                    var result = JSON.parse(data);
-                    var columns = [
-                    { caption: 'Hesap Kodu', dataField: 'HesapKodu', width: '30%' },
-                    { caption: 'Unvan', dataField: 'Unvan', width: '70%' },
-                    ];
-                    _grid_quotations_detail = $('.grid_dürbün').dxDataGrid({
-                        dataSource: result,
-                        height: 200,
-                        onRowPrepared: function (e) {
-                            e.rowElement.css({ height: 20 });
-                        },
-                        paging: { pageSize: 5000 },
-                        columns: columns,
-                        headerFilter: {
-                            visible: true
-                        },
-                        popupDetailedWindow: true,
-                        pagingCounter: true,
-                        filterRow: {
-                            visible: true,
-                            applyFilter: 'auto',
-                            applyFilterText: 'Apply filter',
-                            resetOperationText: 'Reset'
-                        },
-                        scrolling: {
-                            scrollByContent: true,
-                            scrollByThumb: true
-                        },
-                        allowColumnReordering: true,
-                        allowColumnResizing: true,
-                        remoteOperations: true,
-                        showRowLines: true,
-                        hoverStateEnabled: true,
-                        rowAlternationEnabled: false,
-                        sorting: {
-                            mode: "multiple",
-                        },
-                        onRowClick: function (opt) {
-                            if (opt.rowType == "data") {
-                                var component = opt.component;
-                                var prevClickTime = component.lastClickTime;//take last clicked time
-                                component.lastClickTime = new Date();
-                                if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                    PartialView("/Approval/TeminatTanimList", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
-                                }
-                            }
-                        },
-                    }).dxDataGrid("instance");
-
-                }
-            });
+        $('.tum-sec-buton').click(function () {
+            table.rows().select();
         });
 
-        $('.bekleyen-durbun-buton').click(function () {
-            $('#x-modal-teminatbekleyen').modal("show");
+        $('.tum-kaldir-buton').click(function () {
+            table.rows().deselect();
+        });
+
+        $('.bekleyenler-buton').click(function () {
+            $('#x-modal-bekleyen').modal("show");
             $.ajax({
-                url: window.location.origin + "/Approval/TeminatBekleyen",
+                url: window.location.origin + "/Approval/FiyatListesiBekleyen",
                 data: {},
                 type: "post",
                 success: function (data)
                 {
                     var result = JSON.parse(data);
                     var columns = [
-                    { caption: 'Hesap Kodu', dataField: 'HesapKodu'},
-                    { caption: 'Unvan', dataField: 'Unvan'},
+                    { caption: 'Onay Statüsü', dataField: 'HangiOnayda'},
+                    { caption: 'Liste No', dataField: 'FiyatListNum'},
                     { caption: 'AltBayi', dataField: 'AltBayi' },
-                    { caption: 'Cins', dataField: 'Cins'},
-                    { caption: 'Tutar', dataField: 'Tutar',  },
-                    { caption: 'Süreli/Süresiz', dataField: 'SureliSuresiz' },
-                    { caption: 'Tarih', dataField: 'Tarih',
-                    customizeText: function (cellInfo) {
-                        if(cellInfo.value!=null)
-                            return formatDateFromJson(cellInfo.value);
-                        else
-                            return "";
-                    }
-                    },
-                    { caption: 'Vade Tarihi', dataField: 'VadeTarih',
-                        customizeText: function (cellInfo) {
-                            if(cellInfo.value!=null)
-                                return formatDateFromJson(cellInfo.value);
-                            else
-                                return "";
-                    }
-                    },
-                    { caption: 'Teminat Tutar', dataField: 'TeminatTutar' }
+                    { caption: 'Durum', dataField: 'Durum'},
+                    { caption: 'Ürün Kodu', dataField: 'MalKodu',  },
+                    { caption: 'Ürün Adı', dataField: 'MalAdi' },
+                     { caption: 'Hesap Kodu', dataField: 'HesapKodu'},
+                    { caption: 'Unvan', dataField: 'Unvan'},
+                    { caption: 'Satış Fiyat', dataField: 'SatisFiyat1' },
+                    { caption: 'Satış Fiyat Birim', dataField: 'SatisFiyat1Birim'},
+                    { caption: 'Döviz Satış Fiyat', dataField: 'DovizSatisFiyat1',  },
+                    { caption: 'Döviz Satış Fiyat Birim', dataField: 'DovizSF1Birim' },
+                     { caption: 'Döviz Cinsi', dataField: 'DovizCinsi' },
                     ];
-                    _grid_quotations_detail = $('.grid_bekleyen_teminat').dxDataGrid({
+                    _grid_quotations_detail = $('.grid_bekleyen_fiyat_listeleri').dxDataGrid({
                         dataSource: result,
                         height: 400,
                         onRowPrepared: function (e) {
@@ -428,7 +366,32 @@
             });
         });
 
-        $('.sil-buton').click(function () {
+        $('.satir-ekle-buton').click(function () {
+            var jObject = {};
+            var lstNo=$(".select_list_no").dxLookup("instance").option("value");
+            var urnKod=$(".select_urun_kodu").dxLookup("instance").option("value");
+            var hspKod=$(".select_hesap_kod").dxLookup("instance").option("value");
+            jObject["ListeNo"]=lstNo;
+            jObject["UrunKodu"]=urnKod;
+            jObject["HesapKodu"]=hspKod;
+            console.log(jObject);
+            //if(silinecek.length>0)
+            //{
+            //    $.ajax({
+            //        url: window.location.origin + "/Approval/TeminatSil",
+            //        data: {ID: silinecek[0].ID},
+            //        type: "post",
+            //        success: function (data)
+            //        {
+            //            if(data=="OK"){
+            //                window.location.href = '/Approval/TeminatTanim';
+            //            }
+            //        }
+            //    });
+            //}
+        });
+
+        $('.satir-sil-buton').click(function () {
             var silinecek = table.rows('.selected').data();
             if(silinecek.length>0)
             {

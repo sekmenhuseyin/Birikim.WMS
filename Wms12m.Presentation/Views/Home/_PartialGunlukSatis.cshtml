@@ -15,12 +15,11 @@
                     <div id="tarih" class="gs_tarih" style="width:200px;"></div>
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control", @onchange = "Reload()" })
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID2", @onchange = "Reload2(this.value)" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reload();"> </a>
-                    @*<select id="cmbType" onchange="Reload();"><option value="serial">Seri</option><option value="pie">pie</option></select>*@
+                    <a href="javascript:;" class="reload" onclick="Reload2('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -34,12 +33,11 @@
     arr[1] = (parseInt(arr[1]) - 1).toString();
     arr[2] = arr[2].substr(0, 4);
     var f_tarih = new Date(arr[2], arr[1], arr[0]);
-    //if ("@ViewBag.type" == "pie") $("#cmbType")[0].selectedIndex = 1;
-    if ($('#SirketID option').size() == 1) $("#SirketID").hide();
-    else $("#SirketID").val('@ViewBag.SirketKodu');
-    function Reload()
+    if ($('.SirketID2 option').size() == 1) $(".SirketID2").hide();
+    else $(".SirketID2").val('@ViewBag.SirketKodu');
+    function Reload2(v)
     {
-        PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: $("#SirketID").val(), tarih: @ViewBag.tarih, type: $("#cmbType").val() }));
+        PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: v, tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
@@ -57,14 +55,14 @@
             value: f_tarih,
             onValueChanged: function (e) {
                 var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: $("#SirketID").val(), tarih: oaDate, type: "@ViewBag.type" }));
+                PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
             }
         });
         var ChartsAmcharts = function () {
             var initChartSample5 = function () {
                 var chart = AmCharts.makeChart("chart_5", {
                     "theme": "light",
-                    "type": "@ViewBag.type",
+                    "type": "serial",
                     "startDuration": 2,
                     "titleRotation":10,
                     "fontFamily": 'Open Sans',

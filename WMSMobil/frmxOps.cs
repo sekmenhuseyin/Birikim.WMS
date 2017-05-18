@@ -465,6 +465,7 @@ namespace WMSMobil
             //kontorllü sayımda sadece satır ekle
             if (Ayarlar.MenuTip == MenuType.KontrollüSayım && raf_var == false)
             {
+                var malbilgileri = Servis.GetMalzemeFromMalKodu(mal);
                 Sayac++;
                 panelOrta.AutoScrollPosition = new Point(0, 0);
 
@@ -487,6 +488,7 @@ namespace WMSMobil
                 tMiktar.Width = 65;
                 tMiktar.Location = new Point(145, 0);
                 tMiktar.TextAlign = HorizontalAlignment.Right;
+                tMiktar.ReadOnly = true;
                 tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                 TextBox tBirim = new TextBox();
@@ -528,8 +530,8 @@ namespace WMSMobil
 
                 tMiktar.Text = "0";
                 tMalKodu.Text = mal;
-                tBirim.Text = "ADET";
-                tMalAdi.Text = "";
+                tBirim.Text = malbilgileri.Birim;
+                tMalAdi.Text = malbilgileri.MalAdi;
                 tRaf.Text = raf;
                 tYerlestirmeMiktari.Text = "1";
 
@@ -581,6 +583,7 @@ namespace WMSMobil
                     tMiktar.Width = 65;
                     tMiktar.Location = new Point(145, 0);
                     tMiktar.TextAlign = HorizontalAlignment.Right;
+                    tMiktar.ReadOnly = true;
                     tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                     TextBox tBirim = new TextBox();

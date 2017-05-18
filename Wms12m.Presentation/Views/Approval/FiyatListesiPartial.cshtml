@@ -13,7 +13,7 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <table class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%" id="sample_1">
+                        <table class="table table-striped table-bordered table-condensed"  id="sample_1">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -62,13 +62,15 @@
             { "data": "MalAdi" },
             { "data": "GrupKod" },
             { "data": "MusteriKodu" },
-            { "data": "Unvan"},
+            { "data": "Unvan" },
             { "data": "SatisFiyat1" },
-            { "data": "Tarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
-            { "data": "VadeTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
-            { "data": "Onay"},
-            { "data": "Onaylayan"},
-            { "data": "OnayTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } }
+            { "data": "SF1Birim" },
+            { "data": "DvzSatisFiyat1" },
+            { "data": "DovizSF1Birim" },
+            { "data": "SF1DovizCinsi" },
+            { "data": "Birim1" },
+            { "data": "Birim2" },
+            { "data": "Birim3" }
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -89,7 +91,7 @@
         var _dfd = $.Deferred();
         $.ajax({
             url: window.location.origin + "/OnayRisk/OnayRiskInsert",
-            data: { Data: JSON.stringify(secili_table)},
+            data: { Data: JSON.stringify(secili_table) },
             type: "post",
             success: function (data) {
 
@@ -113,6 +115,5 @@
     });
 
 </script>
-
 
 
