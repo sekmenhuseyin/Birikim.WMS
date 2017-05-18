@@ -487,6 +487,7 @@ namespace WMSMobil
                 tMiktar.Width = 65;
                 tMiktar.Location = new Point(145, 0);
                 tMiktar.TextAlign = HorizontalAlignment.Right;
+                tMiktar.ReadOnly = true;
                 tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                 TextBox tBirim = new TextBox();
@@ -581,6 +582,7 @@ namespace WMSMobil
                     tMiktar.Width = 65;
                     tMiktar.Location = new Point(145, 0);
                     tMiktar.TextAlign = HorizontalAlignment.Right;
+                    tMiktar.ReadOnly = true;
                     tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
                     TextBox tBirim = new TextBox();
