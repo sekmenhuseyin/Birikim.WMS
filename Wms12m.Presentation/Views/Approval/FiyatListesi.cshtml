@@ -164,6 +164,7 @@
         $(document).ready(function () {
             var model = @Html.Raw(Json.Encode(Model));
             var brmData=new Array();
+            var dvzCinsi=[{Cins:"USD"},{Cins:"EUR"}]
             $.ajax({
                 url: window.location.origin + "/Approval/FiyatUrunGrupSelect",
                 data: {},
@@ -222,22 +223,15 @@
                 displayExpr: 'MalAdi',
                 onValueChanged: function (e) {
                     brmData=[];
-                    brmObj = {};
                     var data = $(".select_urun_kodu").dxLookup("instance").option("selectedItem");
                     if(data.Birim1!=""){
-                        brmObj["Birim"]=data.Birim1;
-                        brmData.push(data);
-                        brmObj = {};
+                        brmData.push({"Birim" : data.Birim1});
                     }
                     if(data.Birim2!=""){
-                        brmObj["Birim"]=data.Birim2;
-                        brmData.push(data);
-                        brmObj = {};
+                        brmData.push({"Birim" : data.Birim2});
                     }
                     if(data.Birim3!=""){
-                        brmObj["Birim"]=data.Birim3;
-                        brmData.push(data);
-                        brmObj = {};
+                        brmData.push({"Birim" : data.Birim3});
                     }
                     $(".txt-doviz-birim").dxSelectBox("instance").option("dataSource",brmData);
                     $(".txt-birim").dxSelectBox("instance").option("dataSource",brmData);
@@ -310,8 +304,9 @@
             });
 
             $(".txt-doviz-cinsi").dxSelectBox({
-                valueExpr: 'Birim',
-                displayExpr: 'Birim',
+                dataSource:dvzCinsi,
+                valueExpr: 'Cins',
+                displayExpr: 'Cins',
                 onValueChanged: function (e) {
                 }
             });
@@ -416,21 +411,17 @@
             jObject["DovizBirim"]=$(".txt-doviz-birim").dxTextBox("instance").option("value");
             jObject["DovizCinsi"]=$(".txt-doviz-cinsi").dxTextBox("instance").option("value");
 
-            console.log($(".select_urun_kodu").dxLookup("instance").option("dataSource"));
-            //if(silinecek.length>0)
-            //{
-            //    $.ajax({
-            //        url: window.location.origin + "/Approval/TeminatSil",
-            //        data: {ID: silinecek[0].ID},
-            //        type: "post",
-            //        success: function (data)
-            //        {
-            //            if(data=="OK"){
-            //                window.location.href = '/Approval/TeminatTanim';
-            //            }
-            //        }
-            //    });
-            //}
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Apprival/FiyatSatirEkle",
+                data: { Data: JSON.stringify(jObject)},
+                type: "post",
+                success: function (data) {
+
+                },
+                error: function (jqxhr) { console.log(jqxhr); }
+            });
+            return _dfd.promise();
         });
 
         $('.satir-sil-buton').click(function () {

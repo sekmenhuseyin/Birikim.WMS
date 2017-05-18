@@ -85,7 +85,7 @@ namespace Wms12m.Presentation.Controllers
         }
         public ActionResult FiyatListesi()
         {
-            if (CheckPerm("Fiyat Listesi", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return Redirect("/");
             var LNO = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
             return View(LNO);
         }
@@ -106,7 +106,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialFiyatList(string listeNo)
         {
-            if (CheckPerm("Fiyat Listesi", PermTypes.Reading) == false) return null;
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             //var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect]", "17")).ToList();
             ViewBag.ListeNo = listeNo;
             return PartialView("FiyatListesiPartial");
@@ -124,6 +124,71 @@ namespace Wms12m.Presentation.Controllers
             var FLB = db.Database.SqlQuery<BekleyenFiyatListesi>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListTumBekleyenler]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(FLB);
             return json;
+        }
+
+        public string FiyatSatirEkle(string Data)
+        {
+            if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            try
+            {
+                foreach (JObject insertObj in parameters)
+                {
+                    if (insertObj["YeniSahsiCekLimiti"].ToDecimal() <= 0)
+                        continue;
+
+                    RiskTanim rsk = new RiskTanim();
+
+                    rsk.HesapKodu = insertObj["HesapKodu"].ToString();
+                    rsk.Unvan = insertObj["Unvan"].ToString();
+                    rsk.SahsiCekLimiti = insertObj["SahsiCekLimiti"].ToDecimal();
+                    rsk.MusteriCekLimiti = insertObj["MusteriCekLimiti"].ToDecimal();
+                    rsk.SMOnay = false;
+                    rsk.SMOnaylayan = "";
+                    rsk.SPGMYOnay = false;
+                    rsk.SPGMYOnaylayan = "";
+                    rsk.MIGMYOnay = false;
+                    rsk.MIGMYOnaylayan = "";
+                    rsk.GMOnay = false;
+                    rsk.GMOnaylayan = "";
+                    rsk.Durum = false;
+
+                    if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 20000)
+                    {
+                        rsk.OnayTip = 0;
+                    }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 100000)
+                    {
+                        rsk.OnayTip = 1;
+                    }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 200000)
+                    {
+                        rsk.OnayTip = 2;
+                    }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 500000)
+                    {
+                        rsk.OnayTip = 3;
+                    }
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) >= 500000)
+                    {
+                        rsk.OnayTip = 4;
+                    }
+                    else
+                    {
+                        rsk.OnayTip = -1;
+                    }
+
+                    sqlexper.Insert(rsk);
+                    var sonuc = sqlexper.AcceptChanges();
+                }
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "NO";
+            }
         }
 
         #endregion
