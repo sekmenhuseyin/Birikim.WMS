@@ -293,69 +293,8 @@
             table.rows().deselect();
         });
 
-        $('.durbun-buton').click(function () {
-            $('#x-modal-teminatdurbun').modal("show");
-            $.ajax({
-                url: window.location.origin + "/Approval/TeminatDurbun",
-                data: {},
-                type: "post",
-                success: function (data)
-                {
-                    var result = JSON.parse(data);
-                    var columns = [
-                    { caption: 'Hesap Kodu', dataField: 'HesapKodu', width: '30%' },
-                    { caption: 'Unvan', dataField: 'Unvan', width: '70%' },
-                    ];
-                    _grid_quotations_detail = $('.grid_dürbün').dxDataGrid({
-                        dataSource: result,
-                        height: 200,
-                        onRowPrepared: function (e) {
-                            e.rowElement.css({ height: 20 });
-                        },
-                        paging: { pageSize: 5000 },
-                        columns: columns,
-                        headerFilter: {
-                            visible: true
-                        },
-                        popupDetailedWindow: true,
-                        pagingCounter: true,
-                        filterRow: {
-                            visible: true,
-                            applyFilter: 'auto',
-                            applyFilterText: 'Apply filter',
-                            resetOperationText: 'Reset'
-                        },
-                        scrolling: {
-                            scrollByContent: true,
-                            scrollByThumb: true
-                        },
-                        allowColumnReordering: true,
-                        allowColumnResizing: true,
-                        remoteOperations: true,
-                        showRowLines: true,
-                        hoverStateEnabled: true,
-                        rowAlternationEnabled: false,
-                        sorting: {
-                            mode: "multiple",
-                        },
-                        onRowClick: function (opt) {
-                            if (opt.rowType == "data") {
-                                var component = opt.component;
-                                var prevClickTime = component.lastClickTime;//take last clicked time
-                                component.lastClickTime = new Date();
-                                if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                    PartialView("/Approval/TeminatTanimList", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
-                                }
-                            }
-                        },
-                    }).dxDataGrid("instance");
-
-                }
-            });
-        });
-
         $('.bekleyenler-buton').click(function () {
-            $('#x-modal-teminatbekleyen').modal("show");
+            $('#x-modal-bekleyen').modal("show");
             $.ajax({
                 url: window.location.origin + "/Approval/FiyatListesiBekleyen",
                 data: {},
@@ -427,7 +366,32 @@
             });
         });
 
-        $('.sil-buton').click(function () {
+        $('.satir-ekle-buton').click(function () {
+            var jObject = {};
+            var lstNo=$(".select_list_no").dxLookup("instance").option("value");
+            var urnKod=$(".select_urun_kodu").dxLookup("instance").option("value");
+            var hspKod=$(".select_hesap_kod").dxLookup("instance").option("value");
+            jObject["ListeNo"]=lstNo;
+            jObject["UrunKodu"]=urnKod;
+            jObject["HesapKodu"]=hspKod;
+            console.log(jObject);
+            //if(silinecek.length>0)
+            //{
+            //    $.ajax({
+            //        url: window.location.origin + "/Approval/TeminatSil",
+            //        data: {ID: silinecek[0].ID},
+            //        type: "post",
+            //        success: function (data)
+            //        {
+            //            if(data=="OK"){
+            //                window.location.href = '/Approval/TeminatTanim';
+            //            }
+            //        }
+            //    });
+            //}
+        });
+
+        $('.satir-sil-buton').click(function () {
             var silinecek = table.rows('.selected').data();
             if(silinecek.length>0)
             {
