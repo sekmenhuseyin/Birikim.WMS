@@ -76,7 +76,7 @@
         </div>
         <div class="input_content">
             <div class="input_label">Müşteri Kodu</div>
-            <div class="input check_sureli_suresiz" style="margin-top: 4px;"></div>
+            <div class="input select_hesap_kod"></div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-8">
@@ -101,14 +101,14 @@
             </div>
             <div class="col-xs-12 col-sm-4 input_content" style="float:left;padding: 0;">
                 <div class="input_label">Döviz Cinsi</div>
-                <div class="input teminat_tutar"></div>
+                <div class="input txt-doviz-cinsi"></div>
             </div>
         </div>
     </div>
 </div>
 <hr />
 <div class="row">
-    <div id="teminat_tanim_data">
+    <div id="fiyat_listesi_data">
     </div>
 </div>
 <div class="modal fade" id="x-modal-teminatdurbun" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
@@ -163,7 +163,7 @@
 
         $(document).ready(function () {
             var model = @Html.Raw(Json.Encode(Model));
-            $(".select_urun_kodu").dxLookup();
+            var listeNo = "";
             $.ajax({
                 url: window.location.origin + "/Approval/FiyatUrunGrupSelect",
                 data: {},
@@ -174,12 +174,18 @@
                     $(".select_urun_kodu").dxLookup("instance").option("dataSource",result);
                 }
             });
-            var chk = "";
-            var teminat_cinsi = [
-                { state: "TL"},
-                { state: "Döviz"},
-                { state: "Birim" },
-            ];
+
+            $.ajax({
+                url: window.location.origin + "/Approval/FiyatHesapKoduSelect",
+                data: {},
+                type: "post",
+                success: function (data)
+                {
+                    var result = JSON.parse(data);
+                    $(".select_hesap_kod").dxLookup("instance").option("dataSource",result);
+                }
+            });
+
             $(".select_list_no").dxLookup({
                 dataSource: model,
                 searchEnabled: true,
@@ -189,7 +195,7 @@
                 displayExpr: 'FiyatListName',
 
                 onValueChanged: function (e) {
-                    chk = e.value;
+                    listeNo=e.Value;
                 },
 
                 itemTemplate: function (itemData, itemIndex, itemElement) {
@@ -214,10 +220,7 @@
                 valueExpr: 'MalKodu',
                 displayExpr: 'MalAdi',
                 onValueChanged: function (e) {
-                    
-                    //islemtip_value=e.value;
-                    //var PartialAylikSatisAnaliziKodTipDovizBar = "/Home/PartialAylikSatisAnaliziKodTipDovizBar";
-                    //PartialView(PartialAylikSatisAnaliziKodTipDovizBar, 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, doviz: f_tarih }));
+                
                 },
                 itemTemplate: function (itemData, itemIndex, itemElement) {
                     itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
@@ -227,29 +230,34 @@
                     }
                     var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
                     rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.MalAdi + "</b></p>");
-                    rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalKodu: <i style='font-weight:normal;'>" + itemData.MalKodu + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:5px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:5px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:5px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
+                    rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalKodu: <i style='font-weight:normal;'>" + itemData.MalKodu + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
                     itemElement.append(rightBlock);
                 }
             });
 
-           
+            $(".select_hesap_kod").dxLookup({
+                //dataSource: model,
+                searchEnabled: true,
+                pageLoadMode:"nextButton",
+                searchExpr: ["HesapKodu", "Unvan"],
+                valueExpr: 'HesapKodu',
+                displayExpr: 'Unvan',
 
-            $(".check_sureli_suresiz").dxCheckBox({
-                value: true,
-                width: 80,
-                text: ""
-            });
+                onValueChanged: function (e) {
+         
+                },
 
-            $(".date_tarih").dxDateBox({
-                format: 'date',
-                formatString: 'dd.MM.yyyy',
-                width:'60%'
-            });
-
-            $(".date_vade_tarih").dxDateBox({
-                format: 'date',
-                formatString: 'dd.MM.yyyy',
-                width:'60%'
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+                    if(itemIndex>0)
+                    {
+                        itemElement.css({ "margin-top":"-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Hesap Kodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+                    itemElement.append(rightBlock);
+                }
             });
 
             $(".numb-satis-fiyat").dxNumberBox({
@@ -263,9 +271,17 @@
                 step:1,
                 value:0
             });
+
             $(".txt-birim").dxTextBox();
             $(".txt-doviz-birim").dxTextBox();
+            $(".txt-doviz-cinsi").dxTextBox();
             //PartialView("/OnayTeminat/PartialTeminatTanim", 'teminat_tanim_data');
+        });
+
+        $('.yenile-buton').click(function () {
+            if(listeNo!=""){
+                PartialView("/Approval/PartialFiyatList", 'fiyat_listesi_data', JSON.stringify({ listeNo: listeNo }));  
+            }
         });
 
         $('.durbun-buton').click(function () {

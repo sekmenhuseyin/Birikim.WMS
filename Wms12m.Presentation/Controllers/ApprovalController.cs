@@ -97,6 +97,21 @@ namespace Wms12m.Presentation.Controllers
             return json;
         }
 
+        public string FiyatHesapKoduSelect()
+        {
+            var FHKS = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect1]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(FHKS);
+            return json;
+        }
+
+        public PartialViewResult PartialFiyatList(string listeNo)
+        {
+            if (CheckPerm("Fiyat Listesi", PermTypes.Reading) == false) return null;
+            //var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect]", "17")).ToList();
+            ViewBag.ListeNo = listeNo;
+            return PartialView("FiyatListesiPartial");
+        }
+
         #endregion
         #region Sipariş
         public ActionResult Siparis_SM()
