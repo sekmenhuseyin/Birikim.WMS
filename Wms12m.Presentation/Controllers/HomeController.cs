@@ -41,28 +41,27 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /////////////////////////////////////////////// partials
         /// </summary>
-        public PartialViewResult PartialGunlukSatis(string SirketKodu, int tarih, string type = "serial")
+        public PartialViewResult PartialGunlukSatis(string SirketKodu, int tarih)
         {
             if (CheckPerm("RaporGunlukSatis", PermTypes.Reading) == false) return null;
             var tarih2 = tarih.FromOADateInt();
             var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", SirketKodu, tarih)).ToList();
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih2;
-            ViewBag.type = type;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialGunlukSatis", GSA);
         }
 
-        public PartialViewResult PartialGunlukSatisPie(string SirketKodu, int tarih, string type = "serial")
+        public PartialViewResult PartialGunlukSatisPie(string SirketKodu, int tarih)
         {
             if (CheckPerm("RaporGunlukSatisPie", PermTypes.Reading) == false) return null;
             var tarih2 = tarih.FromOADateInt();
             var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", SirketKodu, tarih)).ToList();
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih2;
-            ViewBag.type = type;
             ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialGunlukSatisPie", GSA);
         }
 
@@ -72,6 +71,7 @@ namespace Wms12m.Presentation.Controllers
             var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", SirketKodu, tarih)).ToList();
             ViewBag.tarih = tarih;
             ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialGunlukSatısAnaliziYearToDay", GSA);
         }
 
@@ -81,6 +81,7 @@ namespace Wms12m.Presentation.Controllers
             var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", SirketKodu, tarih)).ToList();
             ViewBag.tarih = tarih;
             ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialGunlukSatısAnaliziYearToDayPie", GSA);
         }
 

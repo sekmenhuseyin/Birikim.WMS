@@ -1,8 +1,4 @@
 ﻿@model List<ChartGunlukSatisAnalizi>
-<style>
-    .gs_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
-    .gs_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
-</style>
 <div class="row">
     <div class="col-md-12 m-t-40">
         <div class="portlet light bordered">
@@ -11,10 +7,12 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Satış Analizi YearToDay <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control", @onchange = "Reload()" })
+                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="reload" onclick="Reload();"> </a>
-                    @*<select id="cmbType" onchange="Reload();"><option value="serial">Seri</option><option value="pie">pie</option></select>*@
                 </div>
             </div>
             <div class="portlet-body">
@@ -24,9 +22,11 @@
     </div>
 </div>
 <script>
+    if ($('#SirketID option').size() == 1) $("#SirketID").hide();
+    else $("#SirketID").val('@ViewBag.SirketKodu');
     function Reload()
     {
-        PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: @ViewBag.tarih }));
+        PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: $("#SirketID").val(), tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
