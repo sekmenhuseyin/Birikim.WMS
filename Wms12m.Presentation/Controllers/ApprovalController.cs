@@ -112,6 +112,13 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("FiyatListesiPartial");
         }
 
+        public string FiyatListesiSelect(string listeNo)
+        {
+            var FYTS = db.Database.SqlQuery<FiyatListSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
+            var json = new JavaScriptSerializer().Serialize(FYTS);
+            return json;
+        }
+
         #endregion
         #region Sipariş
         public ActionResult Siparis_SM()
