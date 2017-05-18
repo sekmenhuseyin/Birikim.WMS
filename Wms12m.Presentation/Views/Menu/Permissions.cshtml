@@ -41,12 +41,12 @@
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="ID" id="ID@{@i}" value="@item.ID" />
                                     <input type="hidden" name="RoleName" id="RoleName@{@i}" value="@item.RoleName.Replace("'","")" />
-                                    <div class="col-md-4"><input class="form-control clickable" name="Ad" type="text" readonly value="@item.Ad" required></div>
+                                    <div class="col-md-4"><input style="cursor:pointer;" class="form-control clickable" name="Ad" type="text" readonly value="@item.Ad" onclick="checkboxChanger2('@i')"></div>
                                     foreach (var item2 in ViewBag.Roles)
                                     {
                                         <div class="checkbox col-md-1 text-center">
                                             <label style="font-size: 1.5em">
-                                                <input class="roles@{@j}" name="secs" id="sec@{@i}" type="checkbox">
+                                                <input class="roles@{@j} menus@{@i}" name="secs" id="sec@{@i}" type="checkbox">
                                                 <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                                             </label>
                                         </div>
@@ -83,5 +83,8 @@
     function checkboxChanger(k) {
         cars[k] = cars[k] == true ? false : true;
         $(".roles" + k).prop("checked", cars[k]);
+    }
+    function checkboxChanger2(k) {
+        $(".menus" + k).prop("checked", true);
     }
 </script>}
