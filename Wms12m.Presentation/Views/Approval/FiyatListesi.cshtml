@@ -407,9 +407,11 @@
             jObject["HesapKodu"]=$(".select_hesap_kod").dxLookup("instance").option("value");
             jObject["SatisFiyat"]=$(".numb-satis-fiyat").dxNumberBox("instance").option("value");
             jObject["DovizSatisFiyat"]=$(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value");
-            jObject["Birim"]=$(".txt-birim").dxTextBox("instance").option("value");
-            jObject["DovizBirim"]=$(".txt-doviz-birim").dxTextBox("instance").option("value");
-            jObject["DovizCinsi"]=$(".txt-doviz-cinsi").dxTextBox("instance").option("value");
+            jObject["Birim"]=$(".txt-birim").dxSelectBox("instance").option("value");
+            jObject["DovizBirim"]=$(".txt-doviz-birim").dxSelectBox("instance").option("value");
+            jObject["DovizCinsi"]=$(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
+            if(jObject["ListeNo"]==null || jObject["UrunKodu"]==null || jObject["HesapKodu"]==null || jObject["Birim"]==null || jObject["DovizBirim"]==null || jObject["DovizCinsi"]==null)
+                return;
 
             var _dfd = $.Deferred();
             $.ajax({
