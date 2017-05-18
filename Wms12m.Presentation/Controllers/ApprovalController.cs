@@ -144,20 +144,47 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Siparis_GM_List()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return null;
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", "33")).ToList();
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", "17")).ToList();
             return PartialView(KOD);
         }
-        public bool Siparis_Onay(string EvrakNo, string Kaydeden, int OnayTip, bool OnaylandiMi)
+        public JsonResult Siparis_Onay(string EvrakNo, string Kaydeden, int OnayTip, bool OnaylandiMi)
         {
-            if (CheckPerm("Sipariş Onaylama", PermTypes.Writing) == false) return false;
-            bool Result = true;
-            if (OnayTip == 3 && OnaylandiMi == true)//GMOnay
-            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "33", EvrakNo, vUser.UserName, 3, 1)); }
-            if (OnayTip == 2 && OnaylandiMi == true)//SPGMYOnay
-            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "33", EvrakNo, vUser.UserName, 2, 1)); }
-            if (OnayTip == 1 && OnaylandiMi == true)//SMOnay
-            { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay]", "33", EvrakNo, vUser.UserName, 1, 1)); }
-            return Result;
+
+            if (CheckPerm("Sipariş Onaylama", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Result _Result = new Result(true);
+
+            try
+            {
+                if (OnayTip == 3 && OnaylandiMi == true)//GMOnay
+                { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 3, 1)); }
+                else
+                if (OnayTip == 2 && OnaylandiMi == true)//SPGMYOnay
+                { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 2, 1)); }
+                else
+                if (OnayTip == 1 && OnaylandiMi == true)//SMOnay
+                { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 1, 1)); }
+                else
+                /***********************************/
+                if (OnayTip == 3 && OnaylandiMi == false)//GMRet
+                { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 3, 0)); }
+                else
+                if (OnayTip == 2 && OnaylandiMi == false)//SPGMYRet
+                { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 2, 0)); }
+                else
+                if (OnayTip == 1 && OnaylandiMi == false)//SMRet
+                { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 1, 0)); }
+            }
+            catch (Exception)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu.";
+            }
+            
+
+ 
+
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         #endregion
         #region Stok
@@ -322,7 +349,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Risk_GM_List()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
-            var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]", "33")).ToList();//--where (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 1 and GMOnay=0) or (OnayTip = 4 and GMOnay = 0 ) and Durum =0
+            var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]", "17")).ToList();//--where (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 1 and GMOnay=0) or (OnayTip = 4 and GMOnay = 0 ) and Durum =0
             return PartialView(KOD);
         }
         public ActionResult Risk_SPGMY()
