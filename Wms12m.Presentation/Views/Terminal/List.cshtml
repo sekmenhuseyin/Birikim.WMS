@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<UserDetail>
 <table class="table table-striped table-bordered table-hover" id="sample_1">
-    <thead><tr><th>Kullanıcı Adı</th><th>Ad Soyad</th><th>Depo</th><th>Satış İrsaliye Seri No</th><th>Satış Fatura Evrak Seri</th><th>Transfer Çıkış Evrak Seri</th><th>Transfer Giriş Evrak Seri</th><th></th></tr></thead>
+    <thead><tr><th>Kullanıcı Adı</th><th>Ad Soyad</th><th>Depo</th><th>Satış İrsaliye Seri No</th><th>Satış Fatura Evrak Seri</th><th>Transfer Çıkış Evrak Seri</th><th>Transfer Giriş Evrak Seri</th><th>Sayım Evrak Seri</th><th></th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
@@ -12,6 +12,7 @@
                 <td>@item.SatisFaturaSeri</td>
                 <td>@item.TransferOutSeri</td>
                 <td>@item.TransferInSeri</td>
+                <td>@item.SayimSeri</td>
                 <td>
                     <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Terminal/Edit/@item.UserID')"> Düzenle </a>
                     <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.UserID','/Terminal/List','liste','', '')"> Sil </a>

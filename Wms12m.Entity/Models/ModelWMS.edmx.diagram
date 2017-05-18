@@ -4,39 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="68">
-        <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="17.75" PointY="1.375" />
-        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="18" PointY="3.625" />
+      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="MModel.Simge" Width="1.5" PointX="25.375" PointY="4.25" />
         <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="23" PointY="3.125" />
         <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="28.5" PointY="9.375" />
         <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="25.625" PointY="9.25" />
-        <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="22.875" PointY="9.375" />
         <EntityTypeShape EntityType="MModel.UserPerm" Width="1.5" PointX="31.25" PointY="9.375" />
         <EntityTypeShape EntityType="MModel.User" Width="1.5" PointX="20.25" PointY="9.5" />
         <EntityTypeShape EntityType="MModel.Bolum" Width="1.5" PointX="16.375" PointY="21.25" />
-        <EntityTypeShape EntityType="MModel.Depo" Width="1.5" PointX="15.75" PointY="7" />
+        <EntityTypeShape EntityType="MModel.Depo" Width="1.5" PointX="15.75" PointY="6.875" />
         <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="4.25" PointY="3" />
         <EntityTypeShape EntityType="MModel.GorevYer" Width="1.5" PointX="3.5" PointY="23.75" />
         <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="4.875" PointY="19.875" />
         <EntityTypeShape EntityType="MModel.Koridor" Width="1.5" PointX="16.75" PointY="13.5" />
-        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="13.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="0.75" PointY="3.875" />
         <EntityTypeShape EntityType="MModel.Raf" Width="1.5" PointX="16.625" PointY="17.375" />
-        <EntityTypeShape EntityType="MModel.Transfer" Width="1.5" PointX="12.625" PointY="7.875" />
+        <EntityTypeShape EntityType="MModel.Transfer" Width="1.5" PointX="12.625" PointY="7.75" />
         <EntityTypeShape EntityType="MModel.Transfer_Detay" Width="1.5" PointX="10.625" PointY="9.5" />
         <EntityTypeShape EntityType="MModel.Yer" Width="1.5" PointX="11.375" PointY="23.5" />
         <EntityTypeShape EntityType="MModel.Yer_Log" Width="1.5" PointX="11.375" PointY="18.375" />
-        <AssociationConnector Association="MModel.FK_ComboItemName_ComboName" />
-        <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameDurum" />
-        <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameOzellik" />
-        <AssociationConnector Association="MModel.FK_WebMenu_MenuYeri" />
-        <AssociationConnector Association="MModel.FK_WebMenu_SiteTipi" />
         <AssociationConnector Association="MModel.FK_WebMenu_Simge" />
         <AssociationConnector Association="MModel.FK_WebMenu_WebMenu" />
         <AssociationConnector Association="MModel.FK_Perm_UserPerm2" />
         <AssociationConnector Association="MModel.FK_RolePerm_Perm" />
-        <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
-        <AssociationConnector Association="MModel.FK_Users_Roles" />
         <AssociationConnector Association="MModel.FK_Users_Users" />
         <AssociationConnector Association="MModel.FK_Bolum_Raf" />
         <AssociationConnector Association="MModel.FK_Gorev_Depo" />
@@ -49,9 +39,7 @@
         <AssociationConnector Association="MModel.FK_GorevYer_Yer" />
         <AssociationConnector Association="MModel.FK_Raf_Koridor" />
         <AssociationConnector Association="MModel.FK_Transfer_Detay_Transfer" />
-        <AssociationConnector Association="MModel.WebMenuRol" />
         <EntityTypeShape EntityType="MModel.Kat" Width="1.5" PointX="14" PointY="21.25" />
-        <AssociationConnector Association="MModel.FK_Kat_ComboItem_Name" />
         <AssociationConnector Association="MModel.FK_Kat_Bolum" />
         <AssociationConnector Association="MModel.FK_Yer_Kat" />
         <AssociationConnector Association="MModel.FK_Yer_Log_Kat" />
@@ -61,11 +49,24 @@
         <AssociationConnector Association="MModel.FK_IRS_Detay_IRS" />
         <AssociationConnector Association="MModel.FK_Yer_Log_IRS" />
         <AssociationConnector Association="MModel.GorevIRS" />
-        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="20.25" PointY="6.625" />
+        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="20.25" PointY="6.375" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
-        <EntityTypeShape EntityType="MModel.GorevNo" Width="1.5" PointX="17.5" PointY="8.625" />
+        <EntityTypeShape EntityType="MModel.GorevNo" Width="1.5" PointX="6.25" PointY="5.625" />
         <AssociationConnector Association="MModel.FK_GorevNo_Depo" />
+        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="12.625" PointY="1" />
+        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="15" PointY="2.25" />
+        <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="23" PointY="8.875" />
+        <AssociationConnector Association="MModel.FK_ComboItemName_ComboName" />
+        <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameDurum" />
+        <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameOzellik" />
+        <AssociationConnector Association="MModel.FK_Kat_ComboItem_Name" />
+        <AssociationConnector Association="MModel.FK_WebMenu_MenuYeri" />
+        <AssociationConnector Association="MModel.FK_WebMenu_SiteTipi" />
+        <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
+        <AssociationConnector Association="MModel.FK_Users_Roles" />
+        <AssociationConnector Association="MModel.WebMenuRol" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

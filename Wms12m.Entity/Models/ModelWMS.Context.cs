@@ -27,13 +27,10 @@ namespace Wms12m.Entity.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Combo_Name> Combo_Name { get; set; }
-        public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
         public virtual DbSet<Simge> Simges { get; set; }
         public virtual DbSet<WebMenu> WebMenus { get; set; }
         public virtual DbSet<Perm> Perms { get; set; }
         public virtual DbSet<RolePerm> RolePerms { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<UserPerm> UserPerms { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Bolum> Bolums { get; set; }
@@ -52,6 +49,10 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<IR> IRS { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<GorevNo> GorevNoes { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
+        public virtual DbSet<Combo_Name> Combo_Name { get; set; }
+        public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
@@ -92,19 +93,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.Logger", userNameParameter, machineParameter, ipAddressParameter, descriptionParameter, messageParameter, sourceParameter);
         }
     
-        public virtual int MenuRolEkle(Nullable<short> menuID, string rolNo)
-        {
-            var menuIDParameter = menuID.HasValue ?
-                new ObjectParameter("MenuID", menuID) :
-                new ObjectParameter("MenuID", typeof(short));
-    
-            var rolNoParameter = rolNo != null ?
-                new ObjectParameter("RolNo", rolNo) :
-                new ObjectParameter("RolNo", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.MenuRolEkle", menuIDParameter, rolNoParameter);
-        }
-    
         public virtual int DeleteFromGorev(Nullable<int> gorevID)
         {
             var gorevIDParameter = gorevID.HasValue ?
@@ -129,11 +117,6 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("desc", typeof(bool));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetBolumSiralamaFromGorevId", gorevIDParameter, koridorIDParameter, descParameter);
-        }
-    
-        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary");
         }
     
         public virtual ObjectResult<GetHucreAd_Result> GetHucreAd(Nullable<int> depoID)
@@ -236,78 +219,6 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("YeniGorevTipiID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.TerminalFinishGorev", gorevIDParameter, irsaliyeIDParameter, yeniGorevNoParameter, bitisTarihiParameter, bitisSaatiParameter, kullaniciParameter, linkEvrakNoParameter, görevTipiIDParameter, yeniGorevTipiIDParameter);
-        }
-    
-        public virtual int MenuSiralayici(Nullable<int> webSiteTipiNo, Nullable<int> menuYeriNo, Nullable<short> ustMenuNo)
-        {
-            var webSiteTipiNoParameter = webSiteTipiNo.HasValue ?
-                new ObjectParameter("WebSiteTipiNo", webSiteTipiNo) :
-                new ObjectParameter("WebSiteTipiNo", typeof(int));
-    
-            var menuYeriNoParameter = menuYeriNo.HasValue ?
-                new ObjectParameter("MenuYeriNo", menuYeriNo) :
-                new ObjectParameter("MenuYeriNo", typeof(int));
-    
-            var ustMenuNoParameter = ustMenuNo.HasValue ?
-                new ObjectParameter("UstMenuNo", ustMenuNo) :
-                new ObjectParameter("UstMenuNo", typeof(short));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.MenuSiralayici", webSiteTipiNoParameter, menuYeriNoParameter, ustMenuNoParameter);
-        }
-    
-        public virtual ObjectResult<MenuRolGetir_Result> MenuRolGetir(Nullable<short> menuNo)
-        {
-            var menuNoParameter = menuNo.HasValue ?
-                new ObjectParameter("MenuNo", menuNo) :
-                new ObjectParameter("MenuNo", typeof(short));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MenuRolGetir_Result>("WMSEntities.MenuRolGetir", menuNoParameter);
-        }
-    
-        public virtual ObjectResult<MenuGetirici_Result> MenuGetirici(Nullable<int> webSiteTipiID, Nullable<int> menuYeriID, string roleName, Nullable<short> ustMenuID)
-        {
-            var webSiteTipiIDParameter = webSiteTipiID.HasValue ?
-                new ObjectParameter("WebSiteTipiID", webSiteTipiID) :
-                new ObjectParameter("WebSiteTipiID", typeof(int));
-    
-            var menuYeriIDParameter = menuYeriID.HasValue ?
-                new ObjectParameter("MenuYeriID", menuYeriID) :
-                new ObjectParameter("MenuYeriID", typeof(int));
-    
-            var roleNameParameter = roleName != null ?
-                new ObjectParameter("RoleName", roleName) :
-                new ObjectParameter("RoleName", typeof(string));
-    
-            var ustMenuIDParameter = ustMenuID.HasValue ?
-                new ObjectParameter("UstMenuID", ustMenuID) :
-                new ObjectParameter("UstMenuID", typeof(short));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MenuGetirici_Result>("WMSEntities.MenuGetirici", webSiteTipiIDParameter, menuYeriIDParameter, roleNameParameter, ustMenuIDParameter);
-        }
-    
-        public virtual ObjectResult<Nullable<short>> MenuFindAktif(Nullable<int> webSiteTipiNo, Nullable<int> menuYeriNo, string roleName, Nullable<short> ustMenuID, string url)
-        {
-            var webSiteTipiNoParameter = webSiteTipiNo.HasValue ?
-                new ObjectParameter("WebSiteTipiNo", webSiteTipiNo) :
-                new ObjectParameter("WebSiteTipiNo", typeof(int));
-    
-            var menuYeriNoParameter = menuYeriNo.HasValue ?
-                new ObjectParameter("MenuYeriNo", menuYeriNo) :
-                new ObjectParameter("MenuYeriNo", typeof(int));
-    
-            var roleNameParameter = roleName != null ?
-                new ObjectParameter("RoleName", roleName) :
-                new ObjectParameter("RoleName", typeof(string));
-    
-            var ustMenuIDParameter = ustMenuID.HasValue ?
-                new ObjectParameter("UstMenuID", ustMenuID) :
-                new ObjectParameter("UstMenuID", typeof(short));
-    
-            var urlParameter = url != null ?
-                new ObjectParameter("url", url) :
-                new ObjectParameter("url", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<short>>("WMSEntities.MenuFindAktif", webSiteTipiNoParameter, menuYeriNoParameter, roleNameParameter, ustMenuIDParameter, urlParameter);
         }
     
         public virtual ObjectResult<Nullable<bool>> GetPermissionFor(Nullable<int> userID, string roleName, string permName, string group, string perm)
@@ -446,6 +357,122 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("RoleName", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetRolePermsFor_Result>("WMSEntities.GetRolePermsFor", roleNameParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<short>> MenuFindAktif(Nullable<int> webSiteTipiNo, Nullable<int> menuYeriNo, string roleName, Nullable<short> ustMenuID, string url)
+        {
+            var webSiteTipiNoParameter = webSiteTipiNo.HasValue ?
+                new ObjectParameter("WebSiteTipiNo", webSiteTipiNo) :
+                new ObjectParameter("WebSiteTipiNo", typeof(int));
+    
+            var menuYeriNoParameter = menuYeriNo.HasValue ?
+                new ObjectParameter("MenuYeriNo", menuYeriNo) :
+                new ObjectParameter("MenuYeriNo", typeof(int));
+    
+            var roleNameParameter = roleName != null ?
+                new ObjectParameter("RoleName", roleName) :
+                new ObjectParameter("RoleName", typeof(string));
+    
+            var ustMenuIDParameter = ustMenuID.HasValue ?
+                new ObjectParameter("UstMenuID", ustMenuID) :
+                new ObjectParameter("UstMenuID", typeof(short));
+    
+            var urlParameter = url != null ?
+                new ObjectParameter("url", url) :
+                new ObjectParameter("url", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<short>>("WMSEntities.MenuFindAktif", webSiteTipiNoParameter, menuYeriNoParameter, roleNameParameter, ustMenuIDParameter, urlParameter);
+        }
+    
+        public virtual ObjectResult<MenuGetirici_Result> MenuGetirici(Nullable<int> webSiteTipiID, Nullable<int> menuYeriID, string roleName, Nullable<short> ustMenuID)
+        {
+            var webSiteTipiIDParameter = webSiteTipiID.HasValue ?
+                new ObjectParameter("WebSiteTipiID", webSiteTipiID) :
+                new ObjectParameter("WebSiteTipiID", typeof(int));
+    
+            var menuYeriIDParameter = menuYeriID.HasValue ?
+                new ObjectParameter("MenuYeriID", menuYeriID) :
+                new ObjectParameter("MenuYeriID", typeof(int));
+    
+            var roleNameParameter = roleName != null ?
+                new ObjectParameter("RoleName", roleName) :
+                new ObjectParameter("RoleName", typeof(string));
+    
+            var ustMenuIDParameter = ustMenuID.HasValue ?
+                new ObjectParameter("UstMenuID", ustMenuID) :
+                new ObjectParameter("UstMenuID", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MenuGetirici_Result>("WMSEntities.MenuGetirici", webSiteTipiIDParameter, menuYeriIDParameter, roleNameParameter, ustMenuIDParameter);
+        }
+    
+        public virtual int MenuRolEkle(Nullable<short> menuID, string rolNo)
+        {
+            var menuIDParameter = menuID.HasValue ?
+                new ObjectParameter("MenuID", menuID) :
+                new ObjectParameter("MenuID", typeof(short));
+    
+            var rolNoParameter = rolNo != null ?
+                new ObjectParameter("RolNo", rolNo) :
+                new ObjectParameter("RolNo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.MenuRolEkle", menuIDParameter, rolNoParameter);
+        }
+    
+        public virtual ObjectResult<MenuRolGetir_Result> MenuRolGetir(Nullable<int> menuID)
+        {
+            var menuIDParameter = menuID.HasValue ?
+                new ObjectParameter("MenuID", menuID) :
+                new ObjectParameter("MenuID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MenuRolGetir_Result>("WMSEntities.MenuRolGetir", menuIDParameter);
+        }
+    
+        public virtual int MenuSiralayici(Nullable<int> webSiteTipiNo, Nullable<int> menuYeriNo, Nullable<short> ustMenuNo)
+        {
+            var webSiteTipiNoParameter = webSiteTipiNo.HasValue ?
+                new ObjectParameter("WebSiteTipiNo", webSiteTipiNo) :
+                new ObjectParameter("WebSiteTipiNo", typeof(int));
+    
+            var menuYeriNoParameter = menuYeriNo.HasValue ?
+                new ObjectParameter("MenuYeriNo", menuYeriNo) :
+                new ObjectParameter("MenuYeriNo", typeof(int));
+    
+            var ustMenuNoParameter = ustMenuNo.HasValue ?
+                new ObjectParameter("UstMenuNo", ustMenuNo) :
+                new ObjectParameter("UstMenuNo", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.MenuSiralayici", webSiteTipiNoParameter, menuYeriNoParameter, ustMenuNoParameter);
+        }
+    
+        public virtual ObjectResult<GetMenuRolesFor_Result> GetMenuRolesFor(Nullable<int> menuID)
+        {
+            var menuIDParameter = menuID.HasValue ?
+                new ObjectParameter("MenuID", menuID) :
+                new ObjectParameter("MenuID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMenuRolesFor_Result>("WMSEntities.GetMenuRolesFor", menuIDParameter);
+        }
+    
+        public virtual ObjectResult<GetUserPermsFor_Result> GetUserPermsFor(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUserPermsFor_Result>("WMSEntities.GetUserPermsFor", userIDParameter);
+        }
+    
+        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary(string userName, Nullable<int> userID)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter);
         }
     }
 }

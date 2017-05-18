@@ -3,11 +3,8 @@
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
 }
-
 <div class="col-md-12" style="width:100%;">
-    <!-- BEGIN EXAMPLE TABLE PORTLET-->
     <div class="portlet box green">
-
         <div class="portlet-title">
             <div class="caption">
                 <i class="fa fa-gift"></i>Vadesi Gelmemiş Çekler
@@ -65,130 +62,10 @@
 
         </div>
     </div>
-    <!-- END EXAMPLE TABLE PORTLET-->
 </div>
 <script>
-        $(document).ready(function () {
-        //Globalize.locale('tr');
-            var model =  @Html.Raw(serializer.Serialize(Model));
-            console.log(model);
-            $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
-    });
-
-</script>
-@*<div class="stk-rapor-grid">
-
-</div>
-
-<script type="text/javascript">
-
     $(document).ready(function () {
-
-        var model = @Html.Raw(serializer.Serialize(Model));
-        GRID_DOLDUR(model);
+        var model =  @Html.Raw(serializer.Serialize(Model));
+        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
     });
-    function GRID_DOLDUR(model) {
-        var _dfd = $.Deferred();
-        var result = model;
-        for (var i = 0; i < result.length; i++) {
-            var arr = result[i].Tarih.split(".");
-            arr[1] = (parseInt(arr[1]) - 1).toString();
-            result[i].Tarih = new Date(arr[2],arr[1],arr[0]);
-            if(result[i].VadeTarih!=null || result[i].VadeTarih!="")
-            {
-                var arr2 = result[i].VadeTarih.split(".");
-                arr2[1] = (parseInt(arr2[1]) - 1).toString();
-                result[i].VadeTarih = new Date(arr2[2],arr2[1],arr2[0]);
-            }
-        }
-        var columns = [
-
-              { caption: 'EvrakNo', dataField: 'EvrakNo', width: '130px'},
-              { caption: 'HesapKodu', dataField: 'CHK', width: '180px' },
-              { caption: 'Unvan', dataField: 'Unvan', width: '200px', alignment:'right'  },
-              { caption: 'Tutar', dataField: 'Tutar', width: '180px', alignment:'right' },
-              { caption: 'Tarih', dataField: 'Tarih', dataType: 'date', format: "dd/MM/yyyy", width: '200px' },
-              { caption: 'Vade Tarihi', dataField: 'VadeTarih', dataType: 'date', format: "dd/MM/yyyy", width: '200px' },
-              { caption: 'Verildigi Yer', dataField: 'VerildigiYer', width: '200px' },
-              { caption: 'Verildigi Yer Unvan', dataField: 'VerildigiYerUnvan', width: '200px' },
-              { caption: 'Çeki Düzenleyen', dataField: 'CekiDuzenleyen', width: '180px' },
-
-        ];
-
-        _grid_quotations_detail = $('.stk-rapor-grid').dxDataGrid({
-            dataSource: model,
-            //selection: {
-            //    mode: "multiple",
-            //},
-            "export": {
-                enabled: true,
-                fileName: "Vadesi Gelmemiş Çekler",
-            },
-            height: function () {
-                if(model!=null){
-                    if (model.length < 15) {
-                        return 130 + (model.length * 34)
-                    }
-                    else {
-                        return 620;
-                    }
-                }
-            },
-            onRowPrepared: function (e) {
-                e.rowElement.css({ height: 20 });
-            },
-            paging: { pageSize: 16 },
-            columns: columns,
-            columnChooser: {
-                enabled: true,
-                title: 'Kolon Seç',
-                height: 180,
-                width: 400,
-                emptyPanelText: 'Gizlemek İstediğiniz Kolonu Buraya Sürükleyiniz.'
-            },
-            headerFilter: {
-                visible: true
-            },
-            popupDetailedWindow: true,
-            pagingCounter: true,
-            filterRow: {
-                visible: true,
-                applyFilter: 'auto',
-                applyFilterText: 'Apply filter',
-                resetOperationText: 'Reset'
-            },
-            scrolling: {
-                scrollByContent: true,
-                scrollByThumb: true
-            },
-            allowColumnReordering: true,
-            allowColumnResizing: true,
-            remoteOperations: true,
-            showRowLines: true,
-            hoverStateEnabled: true,
-            rowAlternationEnabled: false,
-            width: '100%',
-            groupPanel: {
-                visible: true
-            },
-            sorting: {
-                mode: "multiple",
-            },
-            //onRowClick: function (opt) {
-
-            //    var rdbValue = $(".rdgrpOnayRed").dxRadioGroup("instance").option("value");
-            //    if(rdbValue=="OnayBekleyenler"){
-            //        if (opt.rowType == "data") {
-            //            var component = opt.component;
-            //            var prevClickTime = component.lastClickTime;//take last clicked time
-            //            component.lastClickTime = new Date();
-            //            if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-            //                window.location.href = '/Home/FaturaDetay?EvrakNo=' + opt.data.EvrakNo;
-            //            }
-            //        }
-            //    }
-            //},
-        }).dxDataGrid("instance");
-    }
-</script>*@
-
+</script>

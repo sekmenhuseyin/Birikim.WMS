@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Teminat Onay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+}@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")" rel="stylesheet" type="text/css" />
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li></li></ul></div>
+<div class="row" id="liste"></div>
+@section Scripts{
+    <script src="~/Content/assets/global/scripts/datatable.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+    <script>
+        PartialView("/Approval/TeminatList", 'liste');
+    </script>
+}

@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <div class="modal-body">@*Project Details Go Here*@
                     <h4>Düzenle</h4>
-                    @using (Ajax.BeginForm("Save", "Users", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "modalEditPage", OnSuccess = "$('#modalEditPage').modal('toggle');", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn - default');" }, new { @class = "form-horizontal" }))
+                    @using (Ajax.BeginForm("Save", "Users", new { }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.ID)
@@ -60,3 +60,11 @@
         </div>
     </div>
 </div>
+<script>
+    function getresult(e) {
+        if (e.Status == true)
+            $('#modalEditPage').modal('toggle');
+        else
+            Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
+    };
+</script>

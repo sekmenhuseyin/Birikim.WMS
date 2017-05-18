@@ -48,21 +48,9 @@
     ]
   },
   {
-    "outputFileName": "Content/assets/pages/css/login.min.css",
+    "outputFileName": "Content/assets/global/css/components-md.min.css",
     "inputFiles": [
-      "Content/assets/pages/css/login.css"
-    ]
-  },
-  {
-    "outputFileName": "Content/assets/pages/scripts/login.min.js",
-    "inputFiles": [
-      "Content/assets/pages/scripts/login.js"
-    ]
-  },
-  {
-    "outputFileName": "Content/assets/pages/css/login-4.min.css",
-    "inputFiles": [
-      "Content/assets/pages/css/login-4.css"
+      "Content/assets/global/css/components-md.css"
     ]
   }
 ]

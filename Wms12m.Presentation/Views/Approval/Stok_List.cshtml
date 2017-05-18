@@ -1,0 +1,140 @@
+﻿@model List<StokOnaySelect>
+@{
+    System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+}
+<div class="col-md-12" style="width:100%;">
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>Stok Onay 
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Onayla </a>
+            </div>
+            <div class="col-md-1 pull-right m-t-5">
+                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Reddet </a>
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <div class="table-toolbar">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="btn-group pull-right">
+                            <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">
+                                Tools
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-print"></i> Print
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-file-pdf-o"></i> Save as PDF
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-file-excel-o"></i> Export to Excel
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <thead>
+                    <tr>
+                        <th>
+                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                <span></span>
+                            </label>
+                        </th>
+                        <th> Mal Kodu </th>
+                        <th> Mal Adı </th>
+                        <th> Mal Adı2 </th>
+                        <th> Birim1 </th>
+                        <th> Birim2 </th>
+                        <th>GrupKod</th>
+                        <th>Kalite</th>
+                        <th>ZLI/ZLSIZ</th>
+                        <th>Kalınlık</th>
+                        <th>En</th>
+                        <th>Boy</th>
+                        <th>Koleksiyon</th>
+                        <th>Yüzey</th>
+                        <th>Katsayı2</th>
+                        <th>Katsayı3</th>
+                        <th>Operatör2</th>
+                        <th>Operatör3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+                            <td>
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox" class="checkboxes" value="1" />
+                                    <span></span>
+                                </label>
+                            </td>
+                            <td> @item.MalKodu</td>
+                            <td>
+                                @item.MalAdi
+                            </td>
+                            <td>
+                                @item.MalAdi2
+                            </td>
+                            <td> @item.Birim1</td>
+                            <td>
+                                @item.Birim2
+                            </td>
+                            <td>
+                                @item.GrupKod
+                            </td>
+                            <td>
+                                @item.TipKod
+                            </td>
+                            <td>
+                                @item.OzelKod
+                            </td>
+                            <td>@item.Kod1</td>
+                            <td>@item.Kod2</td>
+                            <td>@item.Kod3</td>
+                            <td>@item.Kod4</td>
+                            <td>@item.Kod8</td>
+                            <td>@item.KatSayi2</td>
+                            <td>@item.KatSayi3</td>
+                            <td>@item.Operator2</td>
+                            <td>@item.Operator3</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var model =  @Html.Raw(serializer.Serialize(Model));
+        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+    });
+</script>

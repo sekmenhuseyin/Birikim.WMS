@@ -1,39 +1,99 @@
-﻿@model IEnumerable<UserPerm>
-<div class="modal-content">
+﻿@model IEnumerable<GetUserPermsFor_Result>
+@{
+    int i = 0;
+}<div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="modal-body">
                     <h4>Yetkiler</h4>
-                    @using (Ajax.BeginForm("SavePerm", "Users", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "modalEditPage" }, new { @class = "form-horizontal" }))
-                    {
-                        @Html.ValidationSummary(true)
-                        <input type="hidden" name="UserName" value="@ViewBag.username" />
-                        <table class="table table-striped table-bordered table-hover" id="sample_1">
-                            <thead><tr><th>Yetki</th><th>Okuma</th><th>Yazma</th><th>Değiştirme</th><th>Silme</th><th></th></tr></thead>
-                            <tbody>
-                                <tr>
-                                    <td>@Html.DropDownList("PermName", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })</td>
-                                    <td>@Html.CheckBoxFor(model => model.FirstOrDefault().Reading, new { @class = "check-box form-control" })</td>
-                                    <td>@Html.CheckBoxFor(model => model.FirstOrDefault().Writing, new { @class = "check-box form-control" })</td>
-                                    <td>@Html.CheckBoxFor(model => model.FirstOrDefault().Updating, new { @class = "check-box form-control" })</td>
-                                    <td>@Html.CheckBoxFor(model => model.FirstOrDefault().Deleting, new { @class = "check-box form-control" })</td>
-                                    <td><input type="submit" value="Ekle" class="btn btn-primary btn-circle" /></td>
-                                </tr>
-                                @foreach (var item in Model)
-                                {
-                                    <tr><td>@item.PermName</td><td>@item.Reading</td><td>@item.Writing</td><td>@item.Updating</td><td>@item.Deleting</td>
-                                    <td><a href="javascript:" class="btn btn-danger input-circle" onclick="Delete('@item.PermName#@ViewBag.username', '/Users/Perm/@ViewBag.ID', 'modalEditPage', '0', '/Users/DeletePerm')">Sil</a></td></tr>
-                                }
-                            </tbody>
-                        </table>
-                    }
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-2 bold">Yetki Adı</div><div class="col-md-1 text-center bold">Okuma</div><div class="col-md-1 text-center bold">Yazma</div><div class="col-md-1 text-center bold">Silme</div>
+                    </div>
+                    <div class="row m-t-10">
+                        <div class="col-md-1 col-md-offset-8 text-center">
+                            <label style="font-size: 1.5em">
+                                <button id="Reading" type="button" onclick="checkboxChanger('Reading');"><i class="cr-icon fa fa-check"></i></button>
+                            </label>
+                        </div>
+                        <div class="col-md-1 text-center">
+                            <label style="font-size: 1.5em">
+                                <button id="Writing" type="button" onclick="checkboxChanger('Writing');"><i class="cr-icon fa fa-check"></i></button>
+                            </label>
+                        </div>
+                        <div class="col-md-1 text-center">
+                            <label style="font-size: 1.5em">
+                                <button id="Deleting" type="button" onclick="checkboxChanger('Deleting');"><i class="cr-icon fa fa-check"></i></button>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row m-t-10">
+	                    @foreach (var item in Model)
+	                    {
+		                    using (Ajax.BeginForm("SavePerm", "Users", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
+		                    {
+			                    @Html.AntiForgeryToken()
+                                <input name="UserName" type="hidden" value="@ViewBag.UserName" />
+			                    <input name="Updating" type="hidden" />
+			                    <div class="col-md-6 col-md-offset-2"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
+                                <div class="checkbox col-md-1 text-center">
+                                    <label style="font-size: 1.5em">
+                                        <input class="Reading" name="Reading" type="checkbox" @{if (item.Reading == true) { <text> checked="checked" </text>  }} />
+                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                    </label>
+                                </div>
+                                <div class="checkbox col-md-1 text-center">
+                                    <label style="font-size: 1.5em">
+                                        <input class="Writing" name="Writing" type="checkbox" @{if (item.Writing == true) { <text> checked="checked" </text>  }} />
+                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                    </label>
+                                </div>
+                                <div class="checkbox col-md-1 text-center">
+                                    <label style="font-size: 1.5em">
+                                        <input class="Deleting" name="Deleting" type="checkbox" @{if (item.Deleting == true) { <text> checked="checked" </text>  }} />
+                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                    </label>
+                                </div>
+                            }
+                            i++;
+                        }
+                    </div>
+                    <div class="row m-t-30">
+	                    <div class="col-md-offset-7 col-md-4">
+		                    <button class="btn btn-primary btn-block" onclick="submit()">Kaydet</button>
+	                    </div>
+                    </div>
                </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    $("#PermName").prepend("<option value=''>Seçiniz !!!</option>"); $("#PermName")[0].selectedIndex = 0;
+    var biten = 0; var r = false, w = false, d = false;
+	function submit()
+	{
+        $("#div_loading").show();
+		@for (int j = 0; j < i; j++)
+		{
+			<text>$("#frm@{@j}").submit();</text>
+		}
+	}
+	function finished()
+	{
+		biten++;
+        if (biten == @i)
+        {
+            $("#div_loading").hide();
+            Modaldialog('Kaydedildi', 'BAşarı', 'Tamam', 'btn-default');
+            biten = 0;
+        }
+	}
+    function checkboxChanger(k) {
+        var tmp = false;
+        if (k == "Reading") { tmp = r == true ? false : true; r = tmp; }
+        if (k == "Writing") { tmp = w == true ? false : true; w = tmp; }
+        if (k == "Deleting") { tmp = d == true ? false : true; d = tmp; }
+        $("." + k).prop("checked", tmp);
+    }
 </script>

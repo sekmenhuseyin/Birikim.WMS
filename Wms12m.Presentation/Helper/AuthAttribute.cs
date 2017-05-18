@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Wms12m.Security;
@@ -12,11 +11,6 @@ namespace Wms12m
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            //if (SecurityKey.Any(x => x == SecurityKeys.Anonymous))
-            //{
-            //    return true;
-            //}
-
             var user = HttpContext.Current.User as CustomPrincipal;
             return false;
         }
@@ -26,9 +20,8 @@ namespace Wms12m
             filterContext.Result = filterContext.HttpContext.User.Identity.IsAuthenticated
                 ? new RedirectToRouteResult(new RouteValueDictionary(new
                 {
-                    controller = "error",
-                    action = "index",
-                    status = (int)HttpStatusCode.Unauthorized
+                    controller = "Security",
+                    action = "Login"
                 }))
                 : new RedirectToRouteResult(new RouteValueDictionary(new
                 {

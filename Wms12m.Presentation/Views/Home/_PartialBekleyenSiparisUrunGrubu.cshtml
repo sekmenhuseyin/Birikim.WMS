@@ -1,84 +1,38 @@
-﻿
-@model List<ChartBekleyenSiparisUrunGrubu>
-
+﻿@model List<ChartBekleyenSiparisUrunGrubu>
 <style>
-    .bas_tarih .dx-dropdowneditor-icon {
-        color: #44b6ae;
-    }
-
-        .bas_tarih .dx-dropdowneditor-icon:before {
-            color: #44b6ae;
-        }
-
-    .bit_tarih .dx-dropdowneditor-icon {
-        color: #44b6ae;
-    }
-
-        .bit_tarih .dx-dropdowneditor-icon:before {
-            color: #44b6ae;
-        }
+    .bas_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
+    .bas_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
+    .bit_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
+    .bit_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
 </style>
-<div class="col-md-12">
-    <!-- BEGIN CHART PORTLET-->
-    <div class="portlet light bordered">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="icon-bar-chart font-green-haze"></i>
-                <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D PİE CHART</span></span>
-                @*<span class="caption-helper">3d cylinder chart</span>*@
+<div class="row">
+    <div class="col-md-12 m-t-40">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-haze"></i>
+                    <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D PİE CHART</span></span>
+                </div>
+                <div class="tools" style="float:right;margin-left:20px;">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+                    <a href="javascript:;" class="reload"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="remove"> </a>
+                </div>
+                <div style="float:right;margin-left:20px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Bitiş Tarihi</span></div> <div class="bit_tarih" style="float:left;width:200px; margin-left:10px;"></div></div>
+                <div style="float:right;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Başlangıç Tarihi </span></div> <div class="bas_tarih" style="float:left;width:200px; margin-left:10px;"></div></div>
             </div>
-            <div class="tools" style="float:right;margin-left:20px;">
-                <a href="javascript:;" class="collapse"> </a>
-                <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                <a href="javascript:;" class="reload"> </a>
-                <a href="javascript:;" class="fullscreen"> </a>
-                <a href="javascript:;" class="remove"> </a>
-            </div>
-            <div style="float:right;margin-left:20px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Bitiş Tarihi</span></div> <div class="bit_tarih" style="float:left;width:200px; margin-left:10px;"></div></div>
-            <div style="float:right;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Başlangıç Tarihi </span></div> <div class="bas_tarih" style="float:left;width:200px; margin-left:10px;"></div></div>
-        </div>
-        <div class="portlet-body">
-            <div id="chart_7_eski" class="chart" style="height: 400px;"> </div>
-            <div class="well margin-top-20">
-                @*<div class="row">
-                        <div class="col-sm-3">
-                            <label class="text-left">Top Radius:</label>
-                            <input class="chart_7_chart_input" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01" />
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="text-left">Angle:</label>
-                            <input class="chart_7_chart_input" data-property="angle" type="range" min="0" max="89" value="30" step="1" />
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="text-left">Depth:</label>
-                            <input class="chart_7_chart_input" data-property="depth3D" type="range" min="1" max="120" value="40" step="1" />
-                        </div>
-                    </div>*@
+            <div class="portlet-body">
+                <div id="chart_7_eski" class="chart" style="height: 400px;"> </div>
+                <div class="well margin-top-20">
+                </div>
             </div>
         </div>
     </div>
-    <!-- END CHART PORTLET-->
 </div>
-@*<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<link href="~/Content/dx.light.css" rel="stylesheet" />
-<link href="~/Content/dx.common.css" rel="stylesheet" />
-<script src="~/Scripts/dx.web.debug.js"></script>
-<script src="~/Scripts/moment.min.js"></script>
-<script src="~/Content/global/plugins/amcharts/amcharts/amcharts.js"></script>
-<script src="~/Content/global/plugins/amcharts/amcharts/pie.js"></script>
-<script src="~/Content/global/plugins/amcharts/amcharts/radar.js"></script>
-<script src="~/Content/global/plugins/amcharts/amcharts/serial.js"></script>
-<script src="~/Content/global/plugins/amcharts/amcharts/themes/light.js"></script>
-<script src="~/Content/global/plugins/amcharts/amcharts/themes/patterns.js"></script>
-<script src="~/Content/global/plugins/amcharts/amcharts/themes/chalk.js"></script>
-<script src="~/Content/global/plugins/amcharts/ammap/ammap.js"></script>
-<script src="~/Content/global/plugins/amcharts/ammap/maps/js/worldLow.js"></script>
-<script src="~/Content/global/plugins/amcharts/amstockcharts/amstock.js"></script>*@
-
 <script>
     $(document).ready(function (e) {
-
         var x = '@ViewBag.BasTarih'.split("00");
         x=x[0];
         var arr = x.split(".");
@@ -130,7 +84,6 @@
                 PartialView(BekSipUrunGrubuUrl, 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: basTarih, bittarih:oaDate, chk:'33' }));
             }
         });
-        console.log(model);
         var ChartsAmchartsEski = function () {
 
             var initChartSample7Eski = function () {
@@ -221,6 +174,4 @@
             ChartsAmchartsEski.init();
         });
     });
-
 </script>
-

@@ -22,6 +22,18 @@
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Visible" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LoginLogo" Type="varchar" MaxLength="250" />
+          <Property Name="TopLogo" Type="varchar" MaxLength="250" />
+          <Property Name="AllowNewUser" Type="bit" Nullable="false" />
+          <Property Name="AllowForgotPass" Type="bit" Nullable="false" />
+          <Property Name="Aktif" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Simge">
           <Key>
             <PropertyRef Name="ID" />
@@ -192,6 +204,7 @@
         <EntityType Name="GorevNo">
           <Key>
             <PropertyRef Name="Tarih" />
+            <PropertyRef Name="DepoID" />
           </Key>
           <Property Name="Tarih" Type="int" Nullable="false" />
           <Property Name="DepoID" Type="int" Nullable="false" />
@@ -345,6 +358,7 @@
           <Property Name="SatisFaturaSeri" Type="int" />
           <Property Name="TransferInSeri" Type="int" />
           <Property Name="TransferOutSeri" Type="int" />
+          <Property Name="SayimSeri" Type="int" />
         </EntityType>
         <EntityType Name="Yer">
           <Key>
@@ -835,6 +849,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetMenuRolesFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MenuID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetPermissionFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
@@ -847,6 +864,9 @@
         </Function>
         <Function Name="GetSirketDBs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetUserPermsFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
         <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="Machine" Type="varchar" Mode="In" />
@@ -873,7 +893,7 @@
           <Parameter Name="RolNo" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="MenuRolGetir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="MenuNo" Type="smallint" Mode="In" />
+          <Parameter Name="MenuID" Type="int" Mode="In" />
         </Function>
         <Function Name="MenuSiralayici" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="WebSiteTipiNo" Type="int" Mode="In" />
@@ -891,7 +911,10 @@
         <Function Name="GetGorevlis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
-        <Function Name="GetHomeSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms" />
+        <Function Name="GetHomeSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="UserID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetHucreAd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
@@ -951,6 +974,7 @@
         <EntityContainer Name="MModelStoreContainer">
           <EntitySet Name="Combo_Name" EntityType="Self.Combo_Name" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComboItem_Name" EntityType="Self.ComboItem_Name" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Simge" EntityType="Self.Simge" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenu" EntityType="Self.WebMenu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebMenuRol" EntityType="Self.WebMenuRol" Schema="dbo" store:Type="Tables" />
@@ -1144,10 +1168,6 @@
             <Parameter Name="Message" Mode="In" Type="String" />
             <Parameter Name="Source" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="MenuRolEkle">
-            <Parameter Name="MenuID" Mode="In" Type="Int16" />
-            <Parameter Name="RolNo" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="DeleteFromGorev">
           <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1156,7 +1176,6 @@
             <Parameter Name="KoridorID" Mode="In" Type="Int32" />
             <Parameter Name="desc" Mode="In" Type="Boolean" />
           </FunctionImport>
-          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)" />
           <FunctionImport Name="GetHucreAd" ReturnType="Collection(MModel.GetHucreAd_Result)">
           <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1187,27 +1206,6 @@
             <Parameter Name="GörevTipiID" Mode="In" Type="Int32" />
             <Parameter Name="YeniGorevTipiID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="MenuSiralayici">
-            <Parameter Name="WebSiteTipiNo" Mode="In" Type="Int32" />
-            <Parameter Name="MenuYeriNo" Mode="In" Type="Int32" />
-            <Parameter Name="UstMenuNo" Mode="In" Type="Int16" />
-          </FunctionImport>
-          <FunctionImport Name="MenuRolGetir" ReturnType="Collection(MModel.MenuRolGetir_Result)">
-          <Parameter Name="MenuNo" Mode="In" Type="Int16" />
-          </FunctionImport>
-          <FunctionImport Name="MenuGetirici" ReturnType="Collection(MModel.MenuGetirici_Result)">
-            <Parameter Name="WebSiteTipiID" Mode="In" Type="Int32" />
-            <Parameter Name="MenuYeriID" Mode="In" Type="Int32" />
-            <Parameter Name="RoleName" Mode="In" Type="String" />
-            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
-          </FunctionImport>
-          <FunctionImport Name="MenuFindAktif" ReturnType="Collection(Int16)">
-            <Parameter Name="WebSiteTipiNo" Mode="In" Type="Int32" />
-            <Parameter Name="MenuYeriNo" Mode="In" Type="Int32" />
-            <Parameter Name="RoleName" Mode="In" Type="String" />
-            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
-            <Parameter Name="url" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="GetPermissionFor" ReturnType="Collection(Boolean)">
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="RoleName" Mode="In" Type="String" />
@@ -1215,13 +1213,10 @@
             <Parameter Name="Group" Mode="In" Type="String" />
             <Parameter Name="Perm" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Combo_Name" EntityType="MModel.Combo_Name" />
-          <EntitySet Name="ComboItem_Name" EntityType="MModel.ComboItem_Name" />
           <EntitySet Name="Simges" EntityType="MModel.Simge" />
           <EntitySet Name="WebMenus" EntityType="MModel.WebMenu" />
           <EntitySet Name="Perms" EntityType="MModel.Perm" />
           <EntitySet Name="RolePerms" EntityType="MModel.RolePerm" />
-          <EntitySet Name="Roles" EntityType="MModel.Role" />
           <EntitySet Name="UserPerms" EntityType="MModel.UserPerm" />
           <EntitySet Name="Users" EntityType="MModel.User" />
           <EntitySet Name="Bolums" EntityType="MModel.Bolum" />
@@ -1236,26 +1231,6 @@
           <EntitySet Name="Transfer_Detay" EntityType="MModel.Transfer_Detay" />
           <EntitySet Name="Yers" EntityType="MModel.Yer" />
           <EntitySet Name="Yer_Log" EntityType="MModel.Yer_Log" />
-          <AssociationSet Name="FK_ComboItemName_ComboName" Association="MModel.FK_ComboItemName_ComboName">
-            <End Role="Combo_Name" EntitySet="Combo_Name" />
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Gorev_ComboItem_NameDurum" Association="MModel.FK_Gorev_ComboItem_NameDurum">
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="Gorev" EntitySet="Gorevs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Gorev_ComboItem_NameOzellik" Association="MModel.FK_Gorev_ComboItem_NameOzellik">
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="Gorev" EntitySet="Gorevs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WebMenu_MenuYeri" Association="MModel.FK_WebMenu_MenuYeri">
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="WebMenu" EntitySet="WebMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WebMenu_SiteTipi" Association="MModel.FK_WebMenu_SiteTipi">
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="WebMenu" EntitySet="WebMenus" />
-          </AssociationSet>
           <AssociationSet Name="FK_WebMenu_Simge" Association="MModel.FK_WebMenu_Simge">
             <End Role="Simge" EntitySet="Simges" />
             <End Role="WebMenu" EntitySet="WebMenus" />
@@ -1271,14 +1246,6 @@
           <AssociationSet Name="FK_RolePerm_Perm" Association="MModel.FK_RolePerm_Perm">
             <End Role="Perm" EntitySet="Perms" />
             <End Role="RolePerm" EntitySet="RolePerms" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RolePerm_Roles" Association="MModel.FK_RolePerm_Roles">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="RolePerm" EntitySet="RolePerms" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Roles" Association="MModel.FK_Users_Roles">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="User" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Users" Association="MModel.FK_Users_Users">
             <End Role="User" EntitySet="Users" />
@@ -1328,15 +1295,7 @@
             <End Role="Transfer" EntitySet="Transfers" />
             <End Role="Transfer_Detay" EntitySet="Transfer_Detay" />
           </AssociationSet>
-          <AssociationSet Name="WebMenuRol" Association="MModel.WebMenuRol">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="WebMenu" EntitySet="WebMenus" />
-          </AssociationSet>
           <EntitySet Name="Kats" EntityType="MModel.Kat" />
-          <AssociationSet Name="FK_Kat_ComboItem_Name" Association="MModel.FK_Kat_ComboItem_Name">
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="Kat" EntitySet="Kats" />
-          </AssociationSet>
           <AssociationSet Name="FK_Kat_Bolum" Association="MModel.FK_Kat_Bolum">
             <End Role="Bolum" EntitySet="Bolums" />
             <End Role="Kat" EntitySet="Kats" />
@@ -1404,29 +1363,97 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
-          <EntitySet Name="GorevNoes" EntityType="MModel.GorevNo" />
-          <AssociationSet Name="FK_GorevNo_Depo" Association="MModel.FK_GorevNo_Depo">
-            <End Role="Depo" EntitySet="Depoes" />
-            <End Role="GorevNo" EntitySet="GorevNoes" />
-          </AssociationSet>
           <FunctionImport Name="SettingsGorevNo" ReturnType="Collection(String)">
             <Parameter Name="tarih" Mode="In" Type="Int32" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetRolePermsFor" ReturnType="Collection(MModel.GetRolePermsFor_Result)">
+          <Parameter Name="RoleName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MenuFindAktif" ReturnType="Collection(Int16)">
+            <Parameter Name="WebSiteTipiNo" Mode="In" Type="Int32" />
+            <Parameter Name="MenuYeriNo" Mode="In" Type="Int32" />
             <Parameter Name="RoleName" Mode="In" Type="String" />
+            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
+            <Parameter Name="url" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MenuGetirici" ReturnType="Collection(MModel.MenuGetirici_Result)">
+            <Parameter Name="WebSiteTipiID" Mode="In" Type="Int32" />
+            <Parameter Name="MenuYeriID" Mode="In" Type="Int32" />
+            <Parameter Name="RoleName" Mode="In" Type="String" />
+            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="MenuRolEkle">
+            <Parameter Name="MenuID" Mode="In" Type="Int16" />
+            <Parameter Name="RolNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MenuRolGetir" ReturnType="Collection(MModel.MenuRolGetir_Result)">
+          <Parameter Name="MenuID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MenuSiralayici">
+            <Parameter Name="WebSiteTipiNo" Mode="In" Type="Int32" />
+            <Parameter Name="MenuYeriNo" Mode="In" Type="Int32" />
+            <Parameter Name="UstMenuNo" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="GetMenuRolesFor" ReturnType="Collection(MModel.GetMenuRolesFor_Result)">
+          <Parameter Name="MenuID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="GorevNoes" EntityType="MModel.GorevNo" />
+          <AssociationSet Name="FK_GorevNo_Depo" Association="MModel.FK_GorevNo_Depo">
+            <End Role="Depo" EntitySet="Depoes" />
+            <End Role="GorevNo" EntitySet="GorevNoes" />
+          </AssociationSet>
+          <EntitySet Name="Settings" EntityType="MModel.Setting" />
+          <FunctionImport Name="GetUserPermsFor" ReturnType="Collection(MModel.GetUserPermsFor_Result)">
+          <Parameter Name="UserID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Combo_Name" EntityType="MModel.Combo_Name" />
+          <EntitySet Name="ComboItem_Name" EntityType="MModel.ComboItem_Name" />
+          <EntitySet Name="Roles" EntityType="MModel.Role" />
+          <AssociationSet Name="FK_ComboItemName_ComboName" Association="MModel.FK_ComboItemName_ComboName">
+            <End Role="Combo_Name" EntitySet="Combo_Name" />
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gorev_ComboItem_NameDurum" Association="MModel.FK_Gorev_ComboItem_NameDurum">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Gorev" EntitySet="Gorevs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gorev_ComboItem_NameOzellik" Association="MModel.FK_Gorev_ComboItem_NameOzellik">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Gorev" EntitySet="Gorevs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kat_ComboItem_Name" Association="MModel.FK_Kat_ComboItem_Name">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Kat" EntitySet="Kats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebMenu_MenuYeri" Association="MModel.FK_WebMenu_MenuYeri">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="WebMenu" EntitySet="WebMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebMenu_SiteTipi" Association="MModel.FK_WebMenu_SiteTipi">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="WebMenu" EntitySet="WebMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RolePerm_Roles" Association="MModel.FK_RolePerm_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="RolePerm" EntitySet="RolePerms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="MModel.FK_Users_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="WebMenuRol" Association="MModel.WebMenuRol">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="WebMenu" EntitySet="WebMenus" />
+          </AssociationSet>
+          <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="Ad" Nullable="false" MaxLength="55" />
-        </ComplexType>
-        <ComplexType Name="GetHomeSummary_Result">
-          <Property Type="Int32" Name="depo" Nullable="true" />
-          <Property Type="Int32" Name="kull" Nullable="true" />
-          <Property Type="Int32" Name="gorev" Nullable="true" />
-          <Property Type="Int32" Name="irs" Nullable="true" />
-          <Property Type="Int32" Name="transfer" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GetHucreAd_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -1440,43 +1467,6 @@
           <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
           <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
         </ComplexType>
-        <ComplexType Name="MenuRolGetir_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="Perm" Nullable="true" MaxLength="20" />
-        </ComplexType>
-        <ComplexType Name="MenuGetirici_Result">
-          <Property Type="Int16" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Ad" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Icon" Nullable="true" MaxLength="150" />
-          <Property Type="Int16" Name="UstMenuID" Nullable="true" />
-          <Property Type="Int32" Name="AltmenuCount" Nullable="true" />
-        </ComplexType>
-        <EntityType Name="Combo_Name">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ComboName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Açıklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_ComboItemName_ComboName" FromRole="Combo_Name" ToRole="ComboItem_Name" />
-        </EntityType>
-        <EntityType Name="ComboItem_Name">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ComboID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Visible" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Combo_Name" Relationship="MModel.FK_ComboItemName_ComboName" FromRole="ComboItem_Name" ToRole="Combo_Name" />
-          <NavigationProperty Name="Gorevs" Relationship="MModel.FK_Gorev_ComboItem_NameDurum" FromRole="ComboItem_Name" ToRole="Gorev" />
-          <NavigationProperty Name="Gorevs1" Relationship="MModel.FK_Gorev_ComboItem_NameOzellik" FromRole="ComboItem_Name" ToRole="Gorev" />
-          <NavigationProperty Name="WebMenus" Relationship="MModel.FK_WebMenu_MenuYeri" FromRole="ComboItem_Name" ToRole="WebMenu" />
-          <NavigationProperty Name="WebMenus1" Relationship="MModel.FK_WebMenu_SiteTipi" FromRole="ComboItem_Name" ToRole="WebMenu" />
-          <NavigationProperty Name="Kats" Relationship="MModel.FK_Kat_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Kat" />
-        </EntityType>
         <EntityType Name="Simge">
           <Key>
             <PropertyRef Name="ID" />
@@ -1499,11 +1489,11 @@
           <Property Name="SimgeID" Type="Int16" />
           <Property Name="UstMenuID" Type="Int16" />
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_WebMenu_MenuYeri" FromRole="WebMenu" ToRole="ComboItem_Name" />
-          <NavigationProperty Name="ComboItem_Name1" Relationship="MModel.FK_WebMenu_SiteTipi" FromRole="WebMenu" ToRole="ComboItem_Name" />
           <NavigationProperty Name="Simge" Relationship="MModel.FK_WebMenu_Simge" FromRole="WebMenu" ToRole="Simge" />
           <NavigationProperty Name="WebMenu1" Relationship="MModel.FK_WebMenu_WebMenu" FromRole="WebMenu" ToRole="WebMenu1" />
           <NavigationProperty Name="WebMenu2" Relationship="MModel.FK_WebMenu_WebMenu" FromRole="WebMenu1" ToRole="WebMenu" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_WebMenu_MenuYeri" FromRole="WebMenu" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="ComboItem_Name1" Relationship="MModel.FK_WebMenu_SiteTipi" FromRole="WebMenu" ToRole="ComboItem_Name" />
           <NavigationProperty Name="Roles" Relationship="MModel.WebMenuRol" FromRole="WebMenu" ToRole="Role" />
         </EntityType>
         <EntityType Name="Perm">
@@ -1538,16 +1528,6 @@
           <Property Name="ModifiedUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Perm" Relationship="MModel.FK_RolePerm_Perm" FromRole="RolePerm" ToRole="Perm" />
           <NavigationProperty Name="Role" Relationship="MModel.FK_RolePerm_Roles" FromRole="RolePerm" ToRole="Role" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="RoleName" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="RolePerms" Relationship="MModel.FK_RolePerm_Roles" FromRole="Role" ToRole="RolePerm" />
-          <NavigationProperty Name="Users" Relationship="MModel.FK_Users_Roles" FromRole="Role" ToRole="User" />
-          <NavigationProperty Name="WebMenus" Relationship="MModel.WebMenuRol" FromRole="Role" ToRole="WebMenu" />
         </EntityType>
         <EntityType Name="UserPerm">
           <Key>
@@ -1591,11 +1571,11 @@
           <Property Name="DegisSaat" Type="Int32" Nullable="false" />
           <Property Name="DegisKaynak" Type="Int16" Nullable="false" />
           <Property Name="DegisSurum" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Role" Relationship="MModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Users1" Relationship="MModel.FK_Users_Users" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User1" Relationship="MModel.FK_Users_Users" FromRole="User1" ToRole="User" />
           <Property Name="Guid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="UserDetail" Relationship="MModel.FK_Depo_Users_Users" FromRole="User" ToRole="UserDetail" />
+          <NavigationProperty Name="Role" Relationship="MModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
         </EntityType>
         <EntityType Name="Bolum">
           <Key>
@@ -1656,13 +1636,13 @@
           <Property Name="AtamaTarihi" Type="Int32" />
           <Property Name="BitisTarihi" Type="Int32" />
           <Property Name="BitisSaati" Type="Int32" />
-          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Gorev_ComboItem_NameDurum" FromRole="Gorev" ToRole="ComboItem_Name" />
-          <NavigationProperty Name="ComboItem_Name1" Relationship="MModel.FK_Gorev_ComboItem_NameOzellik" FromRole="Gorev" ToRole="ComboItem_Name" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Gorev_Depo" FromRole="Gorev" ToRole="Depo" />
           <NavigationProperty Name="GorevYers" Relationship="MModel.FK_GorevYer_Gorev" FromRole="Gorev" ToRole="GorevYer" />
           <NavigationProperty Name="Transfers" Relationship="MModel.FK_Transfer_Gorev" FromRole="Gorev" ToRole="Transfer" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_GorevListesi_IRS" FromRole="Gorev" ToRole="IR" />
           <NavigationProperty Name="IRS" Relationship="MModel.GorevIRS" FromRole="Gorev" ToRole="IR" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Gorev_ComboItem_NameDurum" FromRole="Gorev" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="ComboItem_Name1" Relationship="MModel.FK_Gorev_ComboItem_NameOzellik" FromRole="Gorev" ToRole="ComboItem_Name" />
         </EntityType>
         <EntityType Name="GorevYer">
           <Key>
@@ -1811,66 +1791,6 @@
           <NavigationProperty Name="IR" Relationship="MModel.FK_Yer_Log_IRS" FromRole="Yer_Log" ToRole="IR" />
           <Property Name="DepoID" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
-        <Association Name="FK_ComboItemName_ComboName">
-          <End Type="MModel.Combo_Name" Role="Combo_Name" Multiplicity="1" />
-          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Combo_Name">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="ComboItem_Name">
-              <PropertyRef Name="ComboID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Gorev_ComboItem_NameDurum">
-          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
-          <End Type="MModel.Gorev" Role="Gorev" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItem_Name">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Gorev">
-              <PropertyRef Name="DurumID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Gorev_ComboItem_NameOzellik">
-          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
-          <End Type="MModel.Gorev" Role="Gorev" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItem_Name">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Gorev">
-              <PropertyRef Name="GorevTipiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WebMenu_MenuYeri">
-          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItem_Name">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu">
-              <PropertyRef Name="MenuYeriID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WebMenu_SiteTipi">
-          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItem_Name">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu">
-              <PropertyRef Name="SiteTipiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_WebMenu_Simge">
           <End Type="MModel.Simge" Role="Simge" Multiplicity="0..1" />
           <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
@@ -1920,30 +1840,6 @@
             </Principal>
             <Dependent Role="RolePerm">
               <PropertyRef Name="PermName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RolePerm_Roles">
-          <End Type="MModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="MModel.RolePerm" Role="RolePerm" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleName" />
-            </Principal>
-            <Dependent Role="RolePerm">
-              <PropertyRef Name="RoleName" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Users_Roles">
-          <End Type="MModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="MModel.User" Role="User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleName" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="RoleName" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2091,10 +1987,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="WebMenuRol">
-          <End Type="MModel.Role" Role="Role" Multiplicity="*" />
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
-        </Association>
         <EntityType Name="Kat">
           <Key>
             <PropertyRef Name="ID" />
@@ -2114,23 +2006,11 @@
           <Property Name="KayitTarih" Type="Int32" Nullable="false" />
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Kat_ComboItem_Name" FromRole="Kat" ToRole="ComboItem_Name" />
           <NavigationProperty Name="Bolum" Relationship="MModel.FK_Kat_Bolum" FromRole="Kat" ToRole="Bolum" />
           <NavigationProperty Name="Yers" Relationship="MModel.FK_Yer_Kat" FromRole="Kat" ToRole="Yer" />
           <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_Kat" FromRole="Kat" ToRole="Yer_Log" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Kat_ComboItem_Name" FromRole="Kat" ToRole="ComboItem_Name" />
         </EntityType>
-        <Association Name="FK_Kat_ComboItem_Name">
-          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
-          <End Type="MModel.Kat" Role="Kat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItem_Name">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Kat">
-              <PropertyRef Name="OzellikID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Kat_Bolum">
           <End Type="MModel.Bolum" Role="Bolum" Multiplicity="1" />
           <End Type="MModel.Kat" Role="Kat" Multiplicity="*" />
@@ -2262,6 +2142,7 @@
           <Property Name="TransferOutSeri" Type="Int32" />
           <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
+          <Property Name="SayimSeri" Type="Int32" />
         </EntityType>
         <Association Name="FK_Depo_Users_Users">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -2287,9 +2168,36 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetRolePermsFor_Result">
+          <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Boolean" Name="Reading" Nullable="false" />
+          <Property Type="Boolean" Name="Writing" Nullable="false" />
+          <Property Type="Boolean" Name="Updating" Nullable="false" />
+          <Property Type="Boolean" Name="Deleting" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MenuGetirici_Result">
+          <Property Type="Int16" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Ad" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Icon" Nullable="true" MaxLength="150" />
+          <Property Type="Int16" Name="UstMenuID" Nullable="true" />
+          <Property Type="Int32" Name="AltmenuCount" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MenuRolGetir_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Perm" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="GetMenuRolesFor_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="MenuID" Nullable="false" MaxLength="8" />
+        </ComplexType>
         <EntityType Name="GorevNo">
           <Key>
             <PropertyRef Name="Tarih" />
+            <PropertyRef Name="DepoID" />
           </Key>
           <Property Name="Tarih" Type="Int32" Nullable="false" />
           <Property Name="DepoID" Type="Int32" Nullable="false" />
@@ -2308,13 +2216,166 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetRolePermsFor_Result">
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TopLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LoginLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AllowNewUser" Type="Boolean" Nullable="false" />
+          <Property Name="AllowForgotPass" Type="Boolean" Nullable="false" />
+          <Property Name="Aktif" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="GetUserPermsFor_Result">
           <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="5" />
           <Property Type="Boolean" Name="Reading" Nullable="false" />
           <Property Type="Boolean" Name="Writing" Nullable="false" />
           <Property Type="Boolean" Name="Updating" Nullable="false" />
           <Property Type="Boolean" Name="Deleting" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="Combo_Name">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ComboName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Açıklama" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_ComboItemName_ComboName" FromRole="Combo_Name" ToRole="ComboItem_Name" />
+        </EntityType>
+        <EntityType Name="ComboItem_Name">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ComboID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Visible" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Combo_Name" Relationship="MModel.FK_ComboItemName_ComboName" FromRole="ComboItem_Name" ToRole="Combo_Name" />
+          <NavigationProperty Name="Gorevs" Relationship="MModel.FK_Gorev_ComboItem_NameDurum" FromRole="ComboItem_Name" ToRole="Gorev" />
+          <NavigationProperty Name="Gorevs1" Relationship="MModel.FK_Gorev_ComboItem_NameOzellik" FromRole="ComboItem_Name" ToRole="Gorev" />
+          <NavigationProperty Name="Kats" Relationship="MModel.FK_Kat_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Kat" />
+          <NavigationProperty Name="WebMenus" Relationship="MModel.FK_WebMenu_MenuYeri" FromRole="ComboItem_Name" ToRole="WebMenu" />
+          <NavigationProperty Name="WebMenus1" Relationship="MModel.FK_WebMenu_SiteTipi" FromRole="ComboItem_Name" ToRole="WebMenu" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleName" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="RolePerms" Relationship="MModel.FK_RolePerm_Roles" FromRole="Role" ToRole="RolePerm" />
+          <NavigationProperty Name="Users" Relationship="MModel.FK_Users_Roles" FromRole="Role" ToRole="User" />
+          <NavigationProperty Name="WebMenus" Relationship="MModel.WebMenuRol" FromRole="Role" ToRole="WebMenu" />
+        </EntityType>
+        <Association Name="FK_ComboItemName_ComboName">
+          <End Type="MModel.Combo_Name" Role="Combo_Name" Multiplicity="1" />
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Combo_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ComboItem_Name">
+              <PropertyRef Name="ComboID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gorev_ComboItem_NameDurum">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.Gorev" Role="Gorev" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Gorev">
+              <PropertyRef Name="DurumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gorev_ComboItem_NameOzellik">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.Gorev" Role="Gorev" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Gorev">
+              <PropertyRef Name="GorevTipiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kat_ComboItem_Name">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.Kat" Role="Kat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Kat">
+              <PropertyRef Name="OzellikID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WebMenu_MenuYeri">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu">
+              <PropertyRef Name="MenuYeriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WebMenu_SiteTipi">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu">
+              <PropertyRef Name="SiteTipiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RolePerm_Roles">
+          <End Type="MModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="MModel.RolePerm" Role="RolePerm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleName" />
+            </Principal>
+            <Dependent Role="RolePerm">
+              <PropertyRef Name="RoleName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Type="MModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="MModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleName" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="WebMenuRol">
+          <End Type="MModel.Role" Role="Role" Multiplicity="*" />
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
+        </Association>
+        <ComplexType Name="GetHomeSummary_Result">
+          <Property Type="Int32" Name="depo" Nullable="true" />
+          <Property Type="Int32" Name="kull" Nullable="true" />
+          <Property Type="Int32" Name="gorev" Nullable="true" />
+          <Property Type="String" Name="yetki" Nullable="true" />
+          <Property Type="Int32" Name="transfer" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2332,20 +2393,8 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Logger" FunctionName="MModel.Store.Logger" />
-          <FunctionImportMapping FunctionImportName="MenuRolEkle" FunctionName="MModel.Store.MenuRolEkle" />
           <FunctionImportMapping FunctionImportName="DeleteFromGorev" FunctionName="MModel.Store.DeleteFromGorev" />
           <FunctionImportMapping FunctionImportName="GetBolumSiralamaFromGorevId" FunctionName="MModel.Store.GetBolumSiralamaFromGorevId" />
-          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
-                <ScalarProperty Name="depo" ColumnName="depo" />
-                <ScalarProperty Name="kull" ColumnName="kull" />
-                <ScalarProperty Name="gorev" ColumnName="gorev" />
-                <ScalarProperty Name="irs" ColumnName="irs" />
-                <ScalarProperty Name="transfer" ColumnName="transfer" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetHucreAd" FunctionName="MModel.Store.GetHucreAd">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetHucreAd_Result">
@@ -2370,49 +2419,7 @@
           <FunctionImportMapping FunctionImportName="GetKoridorIdFromGorevId" FunctionName="MModel.Store.GetKoridorIdFromGorevId" />
           <FunctionImportMapping FunctionImportName="GetStock" FunctionName="MModel.Store.GetStock" />
           <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
-          <FunctionImportMapping FunctionImportName="MenuSiralayici" FunctionName="MModel.Store.MenuSiralayici" />
-          <FunctionImportMapping FunctionImportName="MenuRolGetir" FunctionName="MModel.Store.MenuRolGetir">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.MenuRolGetir_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="Perm" ColumnName="Perm" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="MenuGetirici" FunctionName="MModel.Store.MenuGetirici">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.MenuGetirici_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Ad" ColumnName="Ad" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="UstMenuID" ColumnName="UstMenuID" />
-                <ScalarProperty Name="AltmenuCount" ColumnName="AltmenuCount" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="MenuFindAktif" FunctionName="MModel.Store.MenuFindAktif" />
           <FunctionImportMapping FunctionImportName="GetPermissionFor" FunctionName="MModel.Store.GetPermissionFor" />
-          <EntitySetMapping Name="Combo_Name">
-            <EntityTypeMapping TypeName="MModel.Combo_Name">
-              <MappingFragment StoreEntitySet="Combo_Name">
-                <ScalarProperty Name="Açıklama" ColumnName="Açıklama" />
-                <ScalarProperty Name="ComboName" ColumnName="ComboName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ComboItem_Name">
-            <EntityTypeMapping TypeName="MModel.ComboItem_Name">
-              <MappingFragment StoreEntitySet="ComboItem_Name">
-                <ScalarProperty Name="Visible" ColumnName="Visible" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ComboID" ColumnName="ComboID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Simges">
             <EntityTypeMapping TypeName="MModel.Simge">
               <MappingFragment StoreEntitySet="Simge">
@@ -2462,14 +2469,6 @@
                 <ScalarProperty Name="Writing" ColumnName="Writing" />
                 <ScalarProperty Name="Reading" ColumnName="Reading" />
                 <ScalarProperty Name="PermName" ColumnName="PermName" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="MModel.Role">
-              <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -2711,14 +2710,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="WebMenuRol" TypeName="MModel.WebMenuRol" StoreEntitySet="WebMenuRol">
-            <EndProperty Name="WebMenu">
-              <ScalarProperty Name="ID" ColumnName="MenuID" />
-            </EndProperty>
-            <EndProperty Name="Role">
-              <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="Kats">
             <EntityTypeMapping TypeName="MModel.Kat">
               <MappingFragment StoreEntitySet="Kat">
@@ -2787,21 +2778,13 @@
           <EntitySetMapping Name="UserDetails">
             <EntityTypeMapping TypeName="MModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="SayimSeri" ColumnName="SayimSeri" />
                 <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
                 <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
                 <ScalarProperty Name="SatisFaturaSeri" ColumnName="SatisFaturaSeri" />
                 <ScalarProperty Name="SatisIrsaliyeSeri" ColumnName="SatisIrsaliyeSeri" />
                 <ScalarProperty Name="DepoID" ColumnName="DepoID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GorevNoes">
-            <EntityTypeMapping TypeName="MModel.GorevNo">
-              <MappingFragment StoreEntitySet="GorevNo">
-                <ScalarProperty Name="No" ColumnName="No" />
-                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2815,6 +2798,119 @@
                 <ScalarProperty Name="Writing" ColumnName="Writing" />
                 <ScalarProperty Name="Updating" ColumnName="Updating" />
                 <ScalarProperty Name="Deleting" ColumnName="Deleting" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MenuFindAktif" FunctionName="MModel.Store.MenuFindAktif" />
+          <FunctionImportMapping FunctionImportName="MenuGetirici" FunctionName="MModel.Store.MenuGetirici">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.MenuGetirici_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="UstMenuID" ColumnName="UstMenuID" />
+                <ScalarProperty Name="AltmenuCount" ColumnName="AltmenuCount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MenuRolEkle" FunctionName="MModel.Store.MenuRolEkle" />
+          <FunctionImportMapping FunctionImportName="MenuRolGetir" FunctionName="MModel.Store.MenuRolGetir">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.MenuRolGetir_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Perm" ColumnName="Perm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MenuSiralayici" FunctionName="MModel.Store.MenuSiralayici" />
+          <FunctionImportMapping FunctionImportName="GetMenuRolesFor" FunctionName="MModel.Store.GetMenuRolesFor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetMenuRolesFor_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="GorevNoes">
+            <EntityTypeMapping TypeName="MModel.GorevNo">
+              <MappingFragment StoreEntitySet="GorevNo">
+                <ScalarProperty Name="No" ColumnName="No" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="MModel.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+                <ScalarProperty Name="AllowForgotPass" ColumnName="AllowForgotPass" />
+                <ScalarProperty Name="AllowNewUser" ColumnName="AllowNewUser" />
+                <ScalarProperty Name="LoginLogo" ColumnName="LoginLogo" />
+                <ScalarProperty Name="TopLogo" ColumnName="TopLogo" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetUserPermsFor" FunctionName="MModel.Store.GetUserPermsFor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetUserPermsFor_Result">
+                <ScalarProperty Name="PermName" ColumnName="PermName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Reading" ColumnName="Reading" />
+                <ScalarProperty Name="Writing" ColumnName="Writing" />
+                <ScalarProperty Name="Updating" ColumnName="Updating" />
+                <ScalarProperty Name="Deleting" ColumnName="Deleting" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Combo_Name">
+            <EntityTypeMapping TypeName="MModel.Combo_Name">
+              <MappingFragment StoreEntitySet="Combo_Name">
+                <ScalarProperty Name="Açıklama" ColumnName="Açıklama" />
+                <ScalarProperty Name="ComboName" ColumnName="ComboName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ComboItem_Name">
+            <EntityTypeMapping TypeName="MModel.ComboItem_Name">
+              <MappingFragment StoreEntitySet="ComboItem_Name">
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ComboID" ColumnName="ComboID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="MModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="WebMenuRol" TypeName="MModel.WebMenuRol" StoreEntitySet="WebMenuRol">
+            <EndProperty Name="WebMenu">
+              <ScalarProperty Name="ID" ColumnName="MenuID" />
+            </EndProperty>
+            <EndProperty Name="Role">
+              <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
+                <ScalarProperty Name="depo" ColumnName="depo" />
+                <ScalarProperty Name="kull" ColumnName="kull" />
+                <ScalarProperty Name="gorev" ColumnName="gorev" />
+                <ScalarProperty Name="yetki" ColumnName="yetki" />
+                <ScalarProperty Name="transfer" ColumnName="transfer" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

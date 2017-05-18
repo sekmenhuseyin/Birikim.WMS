@@ -14,6 +14,7 @@ function editInModal(URL) {
 }
 //url:method adresi ,div:render edeceği div,Id:detay için id göndere bilir
 function PartialView(Url, Div, Id) {
+    $('#' + Div).html("");
     $.ajax({
         url: Url,
         type: 'POST',
@@ -25,7 +26,6 @@ function PartialView(Url, Div, Id) {
             if (data == "") {
                 Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
             } else {
-                $('#' + Div).html("");
                 $('#' + Div).html(data);
             }
         }

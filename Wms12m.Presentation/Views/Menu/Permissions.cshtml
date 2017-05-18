@@ -1,0 +1,42 @@
+﻿@model IEnumerable<RolePerm>
+@{
+    ViewBag.Title = "Yetkiler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Yetkiler</span></li></ul></div>
+<h1 class="page-title">Yetkiler</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Yetkiler
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <div class="form-horizontal">
+                    <div class="form-body row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <div class="form-group">
+                                <label class="control-label col-md-2 bold" for="MenuID">Menu</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("MenuID", null, htmlAttributes: new { @class = "form-control", @onchange = "FuncSearchBtn();" })
+                                </div>
+                            </div>
+                            <div id="theGrid" class="form-group"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{<script>
+    $("#MenuID").prepend("<option value=''>Seçiniz !!!</option>"); $("#MenuID")[0].selectedIndex = 0;
+    function FuncSearchBtn() {
+        $('#theGrid').html("");
+        if ($("#MenuID").val() != "")
+            PartialView("/Menu/PermissionsList", 'theGrid', JSON.stringify({ Id: $("#MenuID").val() }));
+    }
+</script>}

@@ -67,4 +67,11 @@ namespace Wms12m.Entity
         public int ID { get; set; }
         public string Gorevli { get; set; }
     }
+    /// <summary>
+    /// şirket
+    /// </summary>
+    public class frmSirkets
+    {
+        public string Kod { get; set; }
+    }
 }

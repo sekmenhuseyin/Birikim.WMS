@@ -11,6 +11,21 @@ namespace Wms12m
     public static class Extensions
     {
         /// <summary>
+        /// custom ondalık format
+        /// </summary>
+        public static string ToOnFormat(this decimal Deger)
+        {
+            string[] dizi = Deger.ToString().Split(',');
+            string sdeger = string.Empty;
+
+            if (dizi.Length > 1)
+                sdeger = string.Format(string.Format("{{0:n{0}}}", dizi[1].Length), Deger);
+            else
+                sdeger = string.Format("{0:n0}", Deger);
+
+            return sdeger;
+        }
+        /// <summary>
         /// sembolleri sil
         /// </summary>
         public static string ClearSymbols(this string value)

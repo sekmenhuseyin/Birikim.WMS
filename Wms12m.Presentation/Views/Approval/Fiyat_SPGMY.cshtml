@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Fiyat Onay SPGMY";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="form-horizontal">
+    <div class="form-body">
+        <div class="row">
+            <label class="col-sm-1" style="width:50%;">
+                <input type="checkbox" name="Locked" value="Koleksiyon" /> Koleksiyon ve Kaliteye Göre Onaylama
+            </label>
+            <label class="col-sm-1" style="width:50%;">
+                <input type="checkbox" name="Locked" value="Grup" /> Grup, Ebat ve Yüzeye Göre Onaylama
+            </label>
+        </div>
+        <div id="liste" style="padding:10px;margin-top:30px; ">
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/scripts/datatable.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+    <script>
+        PartialView("/Approval/Fiyat_SPGMY_List", 'liste');
+        function FuncSearchBtn() {
+            var Type = $("input[type='checkbox'][name='Locked']:checked").val();
+            PartialView("/Approval/Fiyat_SPGMY_List", 'liste', JSON.stringify({ Durum: Type }));
+        }
+
+    </script>
+}

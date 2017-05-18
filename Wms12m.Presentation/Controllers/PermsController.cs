@@ -14,7 +14,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.RoleName = new SelectList(db.Roles.ToList(), "RoleName", "RoleName");
+            ViewBag.RoleName = new SelectList(db.Roles.Where(m => m.RoleName != "").ToList(), "RoleName", "RoleName");
             return View("Index");
         }
         /// <summary>
@@ -40,12 +40,17 @@ namespace Wms12m.Presentation.Controllers
                     var tbl = db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
                     if (tbl != null)
                     {
-                        tbl.Reading = rolePerm.Reading == "on" ? true : false;
-                        tbl.Writing = rolePerm.Writing == "on" ? true : false;
-                        tbl.Updating = rolePerm.Updating == "on" ? true : false;
-                        tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
-                        tbl.ModifiedDate = DateTime.Now;
-                        tbl.ModifiedUser = vUser.UserName;
+                        if (rolePerm.Reading != "on" && rolePerm.Writing != "on" && rolePerm.Updating != "on" && rolePerm.Updating != "on")
+                            db.RolePerms.Remove(tbl);
+                        else
+                        {
+                            tbl.Reading = rolePerm.Reading == "on" ? true : false;
+                            tbl.Writing = rolePerm.Writing == "on" ? true : false;
+                            tbl.Updating = rolePerm.Updating == "on" ? true : false;
+                            tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
+                            tbl.ModifiedDate = DateTime.Now;
+                            tbl.ModifiedUser = vUser.UserName;
+                        }
                     }
                     else
                     {

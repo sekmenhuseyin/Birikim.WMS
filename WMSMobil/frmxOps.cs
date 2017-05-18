@@ -31,7 +31,7 @@ namespace WMSMobil
             try
             {
                 Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip));
-                if (Ayarlar.STIKalemler.Count == 0)
+                if (Ayarlar.STIKalemler.Count == 0 && gorevtip != 8)
                     if (Mesaj.Soru("Bu görevin işleri bitmiş. Tüm listeye bakmak istiyor musunuz?") == DialogResult.Yes)
                     {
                         glbTip = false;
@@ -145,10 +145,10 @@ namespace WMSMobil
                 txtEvrakno.Visible = false;
             }
             //barkod
-            //Barkod = new Barcode2();
-            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            //Barkod.EnableScanner = true;
-            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            Barkod = new Barcode2();
+            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            Barkod.EnableScanner = true;
+            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             //end
             txtBarkod.Focus();
         }
@@ -233,6 +233,7 @@ namespace WMSMobil
                 tMiktar.Font = font;
                 tMiktar.Width = 65;
                 tMiktar.Location = new Point(145, 0);
+                tMiktar.ReadOnly = true;
                 tMiktar.TextAlign = HorizontalAlignment.Right;
                 tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
@@ -514,7 +515,6 @@ namespace WMSMobil
                 tYerlestirmeMiktari.Font = font;
                 tYerlestirmeMiktari.Width = 105;
                 tYerlestirmeMiktari.Location = new Point(377, 0);
-                tYerlestirmeMiktari.ReadOnly = true;
                 tYerlestirmeMiktari.Visible = true;
                 tYerlestirmeMiktari.Name = "txtYerlestirmeMiktari";
                 tYerlestirmeMiktari.GotFocus += new EventHandler(TextBoxlar_GotFocus);

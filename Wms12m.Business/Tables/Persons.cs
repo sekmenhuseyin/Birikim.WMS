@@ -53,6 +53,7 @@ namespace Wms12m.Business
             tbl.DegisSurum = "1.0.0";
             if (tbl.ID == 0)
             {
+                tbl.Guid = Guid.NewGuid();
                 tbl.Sirket = "";
                 tbl.Email = tbl.Email.ToString2();
                 tbl.Tema = tbl.Tema.ToString2();

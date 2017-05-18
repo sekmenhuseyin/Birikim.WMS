@@ -90,10 +90,16 @@
     <Compile Include="Models\GetIrsDetayfromGorev_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetMenuRolesFor_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetRolePermsFor_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetSirkets_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetUserPermsFor_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Gorev.cs">
@@ -139,6 +145,9 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RolePerm.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Setting.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Simge.cs">
@@ -225,9 +234,11 @@
     <Compile Include="Mysql\sure.cs">
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Viewmodels\Downloads.cs" />
     <Compile Include="Viewmodels\frmCables.cs" />
     <Compile Include="Viewmodels\frmTransfer.cs" />
-    <Compile Include="Viewmodels\Raports.cs" />
+    <Compile Include="Viewmodels\Invoce.cs" />
+    <Compile Include="Viewmodels\Reports.cs" />
     <Compile Include="Viewmodels\frmUsers.cs" />
     <Compile Include="Viewmodels\frmGorev.cs" />
     <Compile Include="Viewmodels\frmSiparis.cs" />
@@ -253,6 +264,8 @@
     <Compile Include="Viewmodels\Result.cs" />
     <Compile Include="Viewmodels\FinsatTypes.cs" />
     <Compile Include="Viewmodels\MobileTypes.cs" />
+    <Compile Include="Viewmodels\RiskTanim.cs" />
+    <Compile Include="Viewmodels\STI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

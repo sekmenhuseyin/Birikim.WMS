@@ -4,27 +4,46 @@ namespace Wms12m.Entity
 {
     public class RaporVadesiGelmemisCekler
     {
+        /// <summary> VarChar(16) (Not Null) </summary>
         public string EvrakNo { get; set; }
+        /// <summary> VarChar(20) (Not Null) </summary>
         public string CHK { get; set; }
+        /// <summary> VarChar(81) (Not Null) </summary>
         public string Unvan { get; set; }
-        public string Tutar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? Tutar { get; set; }
+        /// <summary> VarChar(15) (Allow Null) </summary>
         public string Tarih { get; set; }
+        /// <summary> VarChar(15) (Allow Null) </summary>
         public string VadeTarih { get; set; }
+        /// <summary> VarChar(20) (Not Null) </summary>
         public string VerildigiYer { get; set; }
+        /// <summary> VarChar(81) (Not Null) </summary>
         public string VerildigiYerUnvan { get; set; }
+        /// <summary> VarChar(82) (Not Null) </summary>
         public string CekiDuzenleyen { get; set; }
     }
     public class RaporCekPortfoyListesi
     {
+        /// <summary> VarChar(16) (Allow Null) </summary>
         public string Evrakno { get; set; }
+        /// <summary> VarChar(15) (Allow Null) </summary>
         public string Tarih { get; set; }
+        /// <summary> VarChar(20) (Allow Null) </summary>
         public string CHK { get; set; }
+        /// <summary> VarChar(81) (Not Null) </summary>
         public string Unvan { get; set; }
+        /// <summary> VarChar(81) (Allow Null) </summary>
         public string CekiDuzenleyen { get; set; }
-        public string Tutar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? Tutar { get; set; }
+        /// <summary> VarChar(15) (Allow Null) </summary>
         public string VadeTarih { get; set; }
+        /// <summary> VarChar(100) (Allow Null) </summary>
         public string SonPozisyon { get; set; }
+        /// <summary> VarChar(20) (Not Null) </summary>
         public string VerildigiYer { get; set; }
+        /// <summary> VarChar(81) (Not Null) </summary>
         public string VerildigiYerUnvan { get; set; }
     }
     public class RaporCHKSelect
@@ -44,25 +63,42 @@ namespace Wms12m.Entity
     }
     public class RaporGunlukSatis
     {
+        /// <summary> VarChar(20) (Not Null) </summary>
         public string Chk { get; set; }
+        /// <summary> VarChar(81) (Not Null) </summary>
         public string Unvan { get; set; }
+        /// <summary> VarChar(30) (Not Null) </summary>
         public string MalKodu { get; set; }
+        /// <summary> VarChar(50) (Not Null) </summary>
         public string MalAdi { get; set; }
+        /// <summary> VarChar(15) (Allow Null) </summary>
         public string IslemTarihi { get; set; }
+        /// <summary> VarChar(16) (Not Null) </summary>
         public string EvrakNo { get; set; }
+        /// <summary> VarChar(4) (Not Null) </summary>
         public string Birim { get; set; }
-        public decimal BirimMiktar { get; set; }
-        public string NetBirimFiyat { get; set; }
-        public string NetTutar { get; set; }
-        public string KDV { get; set; }
-        public string GenelToplam { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? BirimMiktar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? NetBirimFiyat { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? NetTutar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? KDV { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? GenelToplam { get; set; }
     }
     public class RaporOdemeYapmayanMusteriler
     {
+        /// <summary> VarChar(20) (Not Null) </summary>
         public string HesapKodu { get; set; }
+        /// <summary> VarChar(40) (Not Null) </summary>
         public string Unvan1 { get; set; }
-        public string Bakiye { get; set; }
-        public string SonTahsilatTutari { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? Bakiye { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? SonTahsilatTutari { get; set; }
+        /// <summary> VarChar(15) (Allow Null) </summary>
         public string SonTahsilatTarihi { get; set; }
     }
     public class RaporPozisyonCekSenet
@@ -118,12 +154,18 @@ namespace Wms12m.Entity
     }
     public class RaporToplamRiskBakiyesi
     {
+        /// <summary> VarChar(20) (Not Null) </summary>
         public string HesapKodu { get; set; }
+        /// <summary> VarChar(81) (Not Null) </summary>
         public string Ünvan { get; set; }
-        public string Borç { get; set; }
-        public string Alacak { get; set; }
-        public string Bakiye { get; set; }
-        public string ToplamBakiye { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? Borç { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? Alacak { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? Bakiye { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? ToplamBakiye { get; set; }
     }
     public class RaporBakiye
     {
@@ -135,35 +177,65 @@ namespace Wms12m.Entity
     }
     public class RaporBekleyenSiparis
     {
+        /// <summary> VarChar(20) (Not Null) </summary>
         public string Chk { get; set; }
+        /// <summary> VarChar(81) (Not Null) </summary>
         public string Unvan { get; set; }
+        /// <summary> VarChar(15) (Allow Null) </summary>
         public string Tarih { get; set; }
+        /// <summary> VarChar(16) (Not Null) </summary>
         public string EvrakNo { get; set; }
+        /// <summary> VarChar(20) (Not Null) </summary>
         public string GrupKod { get; set; }
+        /// <summary> VarChar(30) (Not Null) </summary>
         public string MalKodu { get; set; }
+        /// <summary> VarChar(50) (Not Null) </summary>
         public string MalAdi { get; set; }
-        public decimal Miktar { get; set; }
-        public decimal AnaMiktar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? Miktar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? AnaMiktar { get; set; }
+        /// <summary> VarChar(4) (Not Null) </summary>
         public string Birim { get; set; }
+        /// <summary> VarChar(4) (Not Null) </summary>
         public string AnaBirim { get; set; }
-        public decimal SevkedilenMiktar { get; set; }
-        public Nullable<decimal> KalanMiktar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? SevkedilenMiktar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? KalanMiktar { get; set; }
+        /// <summary> VarChar(4) (Not Null) </summary>
         public string KalanBirim { get; set; }
-        public Nullable<double> KalanAnaMiktar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? KalanAnaMiktar { get; set; }
+        /// <summary> VarChar(4) (Not Null) </summary>
         public string KalanAnaBirim { get; set; }
-        public string NetFiyat2 { get; set; }
-        public string Tutar { get; set; }
-        public string ToplamIskonto { get; set; }
-        public string KDV { get; set; }
-        public Nullable<decimal> KalanBirimMiktar { get; set; }
-        public string KDVSizTutar { get; set; }
-        public string KDVliTutar { get; set; }
-        public Nullable<double> StokMiktar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? NetFiyat2 { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? Tutar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? ToplamIskonto { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? KDV { get; set; }
+        /// <summary> Decimal(27,6) (Allow Null) </summary>
+        public decimal? KalanBirimMiktar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? KDVSizTutar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? KDVliTutar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? StokMiktar { get; set; }
+        /// <summary> VarChar(4) (Not Null) </summary>
         public string StokBirim { get; set; }
-        public Nullable<decimal> StokAnaMiktar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? StokAnaMiktar { get; set; }
+        /// <summary> VarChar(4) (Not Null) </summary>
         public string StokAnaBirim { get; set; }
+        /// <summary> VarChar(15) (Allow Null) </summary>
         public string TeslimTarih { get; set; }
+        /// <summary> VarChar(20) (Not Null) </summary>
         public string TeslimTarihDurum { get; set; }
+        /// <summary> VarChar(100) (Allow Null) </summary>
         public string SatisTemsilcisi { get; set; }
     }
     public class RaporCekListesi

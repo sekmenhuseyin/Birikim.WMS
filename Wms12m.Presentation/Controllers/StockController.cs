@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Entity.Mysql;
 
@@ -122,7 +123,7 @@ namespace Wms12m.Presentation.Controllers
             }
             sql = "SELECT ISNULL(SUM(Stok),0) as Stok from (" + sql + ")t";
             //return
-            var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.Kat.Bolum.Raf.Koridor.DepoID == depoID).OrderBy(m => m.KayitTarihi).ToList();
+            var list = db.Yer_Log.Where(m => m.MalKodu == kod && m.DepoID == depoID).OrderBy(m => m.KayitTarihi).ThenBy(m => m.KayitSaati).ToList();
             ViewBag.Stok = db.Database.SqlQuery<decimal>(sql).FirstOrDefault();
             return PartialView("HistoryList", list);
         }
@@ -185,11 +186,14 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult ManualMovement(Yer tbl)
         {
-            if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(false, JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (tbl.Miktar < 1) return Json(new Result(false, "Miktar hatalı"), JsonRequestBehavior.AllowGet);
             //ilk yerden düşür
+            Result _result;
             var ilk = Yerlestirme.Detail(tbl.ID);
+            if (tbl.Miktar > ilk.Miktar) return Json(new Result(false, "Miktar hatalı"), JsonRequestBehavior.AllowGet);
             ilk.Miktar -= tbl.Miktar;
-            Yerlestirme.Update(ilk, 0, vUser.Id, true, tbl.Miktar);
+            _result = Yerlestirme.Update(ilk, 0, vUser.Id, true, tbl.Miktar);
             //yeni eyer ekle
             var yeni = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == ilk.MalKodu && m.Birim == ilk.Birim).FirstOrDefault();
             if (yeni == null)
@@ -201,15 +205,15 @@ namespace Wms12m.Presentation.Controllers
                     Birim = ilk.Birim,
                     Miktar = tbl.Miktar
                 };
-                Yerlestirme.Insert(yeni, 0, vUser.Id);
+                _result = Yerlestirme.Insert(yeni, 0, vUser.Id);
             }
             else
             {
                 yeni.Miktar += tbl.Miktar;
-                Yerlestirme.Update(yeni, 0, vUser.Id, false, tbl.Miktar);
+                _result = Yerlestirme.Update(yeni, 0, vUser.Id, false, tbl.Miktar);
             }
             //return
-            return Json(true, JsonRequestBehavior.AllowGet);
+            return Json(_result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// elle yerleştirmede yeni yeri belirle
