@@ -20,8 +20,6 @@
                 <div style="float:right;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Tarih </span></div> <div class="gs_tarih_double_pie" style="float:right; width:130px; margin-left:10px;"></div></div>
                 <div class="portlet-body">
                     <div id="chart_5_gunluk_double_pie" class="chart" style="height: 400px;"> </div>
-                    <div class="well margin-top-20">
-                    </div>
                 </div>
             </div>
         </div>
@@ -53,8 +51,7 @@
             value:f_tarih,
             onValueChanged: function (e) {
                 var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                var GunlukSatisDoubleKriterPieUrl = "/Home/PartialGunlukSatisDoubleKriterPie";
-                PartialView(GunlukSatisDoubleKriterPieUrl, 'gunluk_satis_double_kriter_pie', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
+                PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
             }
         });
 
