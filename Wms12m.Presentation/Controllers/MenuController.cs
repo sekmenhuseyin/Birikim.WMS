@@ -162,31 +162,30 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Permissions()
         {
             if (CheckPerm("Menu", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.MenuID = new SelectList(db.WebMenus.Where(m => m.Aktif == true).Select(m => new { m.ID, Ad = m.ComboItem_Name1.Name + ", " + m.ComboItem_Name.Name + ", " + (m.UstMenuID > 0 ? (m.WebMenu2.UstMenuID > 0 ? m.WebMenu2.WebMenu2.Ad + ", " : "") + m.WebMenu2.Ad + ", " : "") + m.Ad }).OrderBy(m => m.Ad), "ID", "Ad");
-            return View("Permissions");
+            var list = db.GetMenuRoles().ToList();
+            return View("Permissions", list);
         }
         /// <summary>
         /// yetki oluşturma sayfası
         /// </summary>
-        public PartialViewResult PermissionsList(int id)
-        {
-            if (CheckPerm("Menu", PermTypes.Reading) == false) return null;
-            var list = db.GetMenuRolesFor(id).ToList();
-            ViewBag.id = id;
-            return PartialView("PermissionsList", list);
-        }
+        //public PartialViewResult PermissionsList(int id)
+        //{
+        //    if (CheckPerm("Menu", PermTypes.Reading) == false) return null;
+        //    ViewBag.id = id;
+        //    return PartialView("PermissionsList");
+        //}
         /// <summary>
         /// yetki oluştur
         /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public void Save(GetMenuRolesFor_Result tbl)
-        {
-            if (ModelState.IsValid)
-            {
-                if (CheckPerm("Menu", PermTypes.Writing) == true)
-                    try { db.MenuRolEkle(tbl.MenuID.ToShort(), tbl.RoleName); }
-                    catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
-            }
-        }
+        //[HttpPost, ValidateAntiForgeryToken]
+        //public void Save(GetMenuRoles_Result tbl)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (CheckPerm("Menu", PermTypes.Writing) == true)
+        //            try { db.MenuRolEkle(tbl.MenuID.ToShort(), tbl.RoleName); }
+        //            catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
+        //    }
+        //}
     }
 }

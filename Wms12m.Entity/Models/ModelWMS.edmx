@@ -849,9 +849,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="GetMenuRolesFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="MenuID" Type="int" Mode="In" />
-        </Function>
+        <Function Name="GetMenuRoles" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetPermissionFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
@@ -1395,9 +1393,6 @@
             <Parameter Name="MenuYeriNo" Mode="In" Type="Int32" />
             <Parameter Name="UstMenuNo" Mode="In" Type="Int16" />
           </FunctionImport>
-          <FunctionImport Name="GetMenuRolesFor" ReturnType="Collection(MModel.GetMenuRolesFor_Result)">
-          <Parameter Name="MenuID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="GorevNoes" EntityType="MModel.GorevNo" />
           <AssociationSet Name="FK_GorevNo_Depo" Association="MModel.FK_GorevNo_Depo">
             <End Role="Depo" EntitySet="Depoes" />
@@ -1450,6 +1445,7 @@
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GetMenuRoles" ReturnType="Collection(MModel.GetMenuRoles_Result)" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2189,11 +2185,6 @@
           <Property Type="String" Name="RoleName" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Perm" Nullable="true" MaxLength="20" />
         </ComplexType>
-        <ComplexType Name="GetMenuRolesFor_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="MenuID" Nullable="false" MaxLength="8" />
-        </ComplexType>
         <EntityType Name="GorevNo">
           <Key>
             <PropertyRef Name="Tarih" />
@@ -2376,6 +2367,10 @@
           <Property Type="Int32" Name="gorev" Nullable="true" />
           <Property Type="String" Name="yetki" Nullable="true" />
           <Property Type="Int32" Name="transfer" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetMenuRoles_Result">
+          <Property Type="String" Name="Ad" Nullable="true" MaxLength="154" />
+          <Property Type="String" Name="RoleName" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2825,15 +2820,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="MenuSiralayici" FunctionName="MModel.Store.MenuSiralayici" />
-          <FunctionImportMapping FunctionImportName="GetMenuRolesFor" FunctionName="MModel.Store.GetMenuRolesFor">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetMenuRolesFor_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="GorevNoes">
             <EntityTypeMapping TypeName="MModel.GorevNo">
               <MappingFragment StoreEntitySet="GorevNo">
@@ -2911,6 +2897,14 @@
                 <ScalarProperty Name="gorev" ColumnName="gorev" />
                 <ScalarProperty Name="yetki" ColumnName="yetki" />
                 <ScalarProperty Name="transfer" ColumnName="transfer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetMenuRoles" FunctionName="MModel.Store.GetMenuRoles">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetMenuRoles_Result">
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

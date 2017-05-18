@@ -11,10 +11,9 @@ namespace Wms12m.Entity.Models
 {
     using System;
     
-    public partial class GetMenuRolesFor_Result
+    public partial class GetMenuRoles_Result
     {
-        public int ID { get; set; }
+        public string Ad { get; set; }
         public string RoleName { get; set; }
-        public string MenuID { get; set; }
     }
 }
