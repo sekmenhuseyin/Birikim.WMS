@@ -163,7 +163,7 @@
         var listeNo = "";
         $(document).ready(function () {
             var model = @Html.Raw(Json.Encode(Model));
-            
+            var brmData=new Array();
             $.ajax({
                 url: window.location.origin + "/Approval/FiyatUrunGrupSelect",
                 data: {},
@@ -221,7 +221,29 @@
                 valueExpr: 'MalKodu',
                 displayExpr: 'MalAdi',
                 onValueChanged: function (e) {
-                
+                    brmData=[];
+                    brmObj = {};
+                    var data = $(".select_urun_kodu").dxLookup("instance").option("selectedItem");
+                    if(data.Birim1!=""){
+                        brmObj["Birim"]=data.Birim1;
+                        brmData.push(data);
+                        brmObj = {};
+                    }
+                    if(data.Birim2!=""){
+                        brmObj["Birim"]=data.Birim2;
+                        brmData.push(data);
+                        brmObj = {};
+                    }
+                    if(data.Birim3!=""){
+                        brmObj["Birim"]=data.Birim3;
+                        brmData.push(data);
+                        brmObj = {};
+                    }
+                    $(".txt-doviz-birim").dxSelectBox("instance").option("dataSource",brmData);
+                    $(".txt-birim").dxSelectBox("instance").option("dataSource",brmData);
+                    $(".txt-doviz-cinsi").dxSelectBox("instance").option("dataSource",brmData);
+                    //var data = e.selectedItems;
+                    console.log(brmData);
                 },
                 itemTemplate: function (itemData, itemIndex, itemElement) {
                     itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
@@ -273,9 +295,26 @@
                 value:0
             });
 
-            $(".txt-birim").dxTextBox();
-            $(".txt-doviz-birim").dxTextBox();
-            $(".txt-doviz-cinsi").dxTextBox();
+            $(".txt-doviz-birim").dxSelectBox({
+                valueExpr: 'Birim',
+                displayExpr: 'Birim',
+                onValueChanged: function (e) {
+                }
+            });
+
+            $(".txt-birim").dxSelectBox({
+                valueExpr: 'Birim',
+                displayExpr: 'Birim',
+                onValueChanged: function (e) {
+                }
+            });
+
+            $(".txt-doviz-cinsi").dxSelectBox({
+                valueExpr: 'Birim',
+                displayExpr: 'Birim',
+                onValueChanged: function (e) {
+                }
+            });
             //PartialView("/OnayTeminat/PartialTeminatTanim", 'teminat_tanim_data');
         });
 
@@ -368,13 +407,16 @@
 
         $('.satir-ekle-buton').click(function () {
             var jObject = {};
-            var lstNo=$(".select_list_no").dxLookup("instance").option("value");
-            var urnKod=$(".select_urun_kodu").dxLookup("instance").option("value");
-            var hspKod=$(".select_hesap_kod").dxLookup("instance").option("value");
-            jObject["ListeNo"]=lstNo;
-            jObject["UrunKodu"]=urnKod;
-            jObject["HesapKodu"]=hspKod;
-            console.log(jObject);
+            jObject["ListeNo"]=$(".select_list_no").dxLookup("instance").option("value");
+            jObject["UrunKodu"]=$(".select_urun_kodu").dxLookup("instance").option("value");
+            jObject["HesapKodu"]=$(".select_hesap_kod").dxLookup("instance").option("value");
+            jObject["SatisFiyat"]=$(".numb-satis-fiyat").dxNumberBox("instance").option("value");
+            jObject["DovizSatisFiyat"]=$(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value");
+            jObject["Birim"]=$(".txt-birim").dxTextBox("instance").option("value");
+            jObject["DovizBirim"]=$(".txt-doviz-birim").dxTextBox("instance").option("value");
+            jObject["DovizCinsi"]=$(".txt-doviz-cinsi").dxTextBox("instance").option("value");
+
+            console.log($(".select_urun_kodu").dxLookup("instance").option("dataSource"));
             //if(silinecek.length>0)
             //{
             //    $.ajax({
