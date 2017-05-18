@@ -15,7 +15,7 @@
                     <div id="tarih" class="gsp_tarih" style="width:200px;"></div>
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control", @onchange = "Reload1(this.value)" })
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID1", @onchange = "Reload1(this.value)" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
@@ -33,8 +33,8 @@
     arr[1] = (parseInt(arr[1]) - 1).toString();
     arr[2] = arr[2].substr(0, 4);
     var f_tarih = new Date(arr[2], arr[1], arr[0]);
-    if ($('#SirketID option').size() == 1) $("#SirketID").hide();
-    else $("#SirketID").val('@ViewBag.SirketKodu');
+    if ($('.SirketID1 option').size() == 1) $(".SirketID1").hide();
+    else $(".SirketID1").val('@ViewBag.SirketKodu');
     function Reload1(v)
     {
         PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: v, tarih: @ViewBag.tarih }));

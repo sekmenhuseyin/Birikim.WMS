@@ -8,7 +8,7 @@
                     <span class="caption-subject bold uppercase font-green-haze"> Satış Analizi YearToDay <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control", @onchange = "Reload4(this.value)" })
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID4", @onchange = "Reload4(this.value)" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
@@ -22,8 +22,8 @@
     </div>
 </div>
 <script>
-    if ($('#SirketID option').size() == 1) $("#SirketID").hide();
-    else $("#SirketID").val('@ViewBag.SirketKodu');
+    if ($('.SirketID4 option').size() == 1) $(".SirketID4").hide();
+    else $(".SirketID4").val('@ViewBag.SirketKodu');
     function Reload4(v)
     {
         PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: v }));
