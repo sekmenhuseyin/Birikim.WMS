@@ -160,10 +160,10 @@
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script type="text/javascript">
 
-
+        var listeNo = "";
         $(document).ready(function () {
             var model = @Html.Raw(Json.Encode(Model));
-            var listeNo = "";
+            
             $.ajax({
                 url: window.location.origin + "/Approval/FiyatUrunGrupSelect",
                 data: {},
@@ -195,7 +195,8 @@
                 displayExpr: 'FiyatListName',
 
                 onValueChanged: function (e) {
-                    listeNo=e.Value;
+                    console.log(e.value);
+                    listeNo=e.value;
                 },
 
                 itemTemplate: function (itemData, itemIndex, itemElement) {
@@ -282,6 +283,14 @@
             if(listeNo!=""){
                 PartialView("/Approval/PartialFiyatList", 'fiyat_listesi_data', JSON.stringify({ listeNo: listeNo }));  
             }
+        });
+
+        $('.tum-sec-buton').click(function () {
+            table.rows().select();
+        });
+
+        $('.tum-kaldir-buton').click(function () {
+            table.rows().deselect();
         });
 
         $('.durbun-buton').click(function () {
