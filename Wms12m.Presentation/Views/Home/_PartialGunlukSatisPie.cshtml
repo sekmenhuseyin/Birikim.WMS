@@ -1,29 +1,29 @@
 ﻿@model List<ChartGunlukSatisAnalizi>
 <style>
-    .gs_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
-    .gs_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
+    .gsp_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
+    .gsp_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
 </style>
 <div class="row">
     <div class="col-md-12 m-t-40">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="portlet light bordered">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="icon-bar-chart font-green-haze"></i>
-                            <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Analizi <span style="color:#8888a7;">3D PİE CHART</span></span>
-                        </div>
-                        <div class="gsp_tarih" style="float:left; width:200px; margin-left:60px;"></div>
-                        <div class="tools">
-                            <a href="javascript:;" class="collapse"> </a>
-                            <a href="javascript:;" class="reload" onclick="Reload();"> </a>
-                            @*<select id="cmbType" onchange="Reload();"><option value="serial">Seri</option><option value="pie">pie</option></select>*@
-                        </div>
-                    </div>
-                    <div class="portlet-body">
-                        <div id="chart_7" class="chart" style="height: 400px;"> </div>
-                    </div>
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-haze"></i>
+                    <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Analizi <span style="color:#8888a7;">3D PİE CHART</span></span>
                 </div>
+                <div class="col-md-2 p-l-30">
+                    <div id="tarih" class="gsp_tarih" style="width:200px;"></div>
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control", @onchange = "Reload1(this.value)" })
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reload1('@ViewBag.SirketKodu');"> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="chart_7" class="chart" style="height: 400px;"> </div>
             </div>
         </div>
     </div>
@@ -33,18 +33,17 @@
     arr[1] = (parseInt(arr[1]) - 1).toString();
     arr[2] = arr[2].substr(0, 4);
     var f_tarih = new Date(arr[2], arr[1], arr[0]);
-    //if ("@ViewBag.type" == "pie") $("#cmbType")[0].selectedIndex = 1;
-    function Reload()
+    if ($('#SirketID option').size() == 1) $("#SirketID").hide();
+    else $("#SirketID").val('@ViewBag.SirketKodu');
+    function Reload1(v)
     {
-        PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: @ViewBag.tarih, type: $("#cmbType").val() }));
+        PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: v, tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
-            $.extend(model[i],{
-                color: color[i%color.length]
-            });
+            $.extend(model[i],{ color: color[i%color.length] });
         }
         $(".gsp_tarih").dxDateBox({
             dataType: 'date',
@@ -52,8 +51,7 @@
             value:f_tarih,
             onValueChanged: function (e) {
                 var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                var GunlukSatisUrl = "/Home/PartialGunlukSatisPie";
-                PartialView(GunlukSatisUrl, 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate, type: "pie" }));
+                PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
             }
         });
         var ChartsAmcharts = function () {

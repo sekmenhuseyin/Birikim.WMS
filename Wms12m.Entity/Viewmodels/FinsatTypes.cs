@@ -80,6 +80,11 @@
         public string GorevNo { get; set; }
         public string Durum { get; set; }
     }
+    public class Tip_Malzeme
+    {
+        public string MalAdi { get; set; }
+        public string Birim { get; set; }
+    }
 
 
 }

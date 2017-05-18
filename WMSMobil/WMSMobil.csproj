@@ -173,6 +173,9 @@
     <None Include="Web References\WMSLocal\Tip_IRS.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\WMSLocal\Tip_Malzeme.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\WMSLocal\Tip_STI.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>

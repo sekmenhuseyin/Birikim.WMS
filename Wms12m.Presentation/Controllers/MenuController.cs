@@ -161,7 +161,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Permissions()
         {
-            if (CheckPerm("Menü", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Menu", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.MenuID = new SelectList(db.WebMenus.Where(m => m.Aktif == true).Select(m => new { m.ID, Ad = m.ComboItem_Name1.Name + ", " + m.ComboItem_Name.Name + ", " + (m.UstMenuID > 0 ? (m.WebMenu2.UstMenuID > 0 ? m.WebMenu2.WebMenu2.Ad + ", " : "") + m.WebMenu2.Ad + ", " : "") + m.Ad }).OrderBy(m => m.Ad), "ID", "Ad");
             return View("Permissions");
         }
