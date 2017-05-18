@@ -119,6 +119,13 @@ namespace Wms12m.Presentation.Controllers
             return json;
         }
 
+        public string FiyatListesiBekleyen()
+        {
+            var FLB = db.Database.SqlQuery<BekleyenFiyatListesi>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListTumBekleyenler]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(FLB);
+            return json;
+        }
+
         #endregion
         #region Sipariş
         public ActionResult Siparis_SM()
