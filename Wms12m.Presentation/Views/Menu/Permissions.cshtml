@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Menü Yetkileri";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int i = 0;
+    int i = 0, j = 0;
     int RoleCount = ViewBag.Roles.Count;
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Menü Yetkileri</span></li></ul></div>
 <h1 class="page-title">Menü Yetkileri</h1>
@@ -24,28 +24,43 @@
                                  <div class="col-md-1 text-center bold">@item2.RoleName</div>
                              }
                         </div>
-                        @foreach (var item in Model)
-                        {
+                        <div class="row m-t-10 m-b-10">
+                            <div class="col-md-4">&nbsp;</div>
+                            @foreach (Role item2 in ViewBag.Roles)
+                            {
+                                <div class="col-md-1 text-center"><button id="allRoles@{@j}" type="button" onclick="checkboxChanger('@j');"><i class="cr-icon fa fa-check"></i></button></div>
+                                 j++;
+                            }
+                        </div>
+                       @foreach (var item in Model)
+                       {
+                           j = 0;
                             <div class="row">
                                 @using (Ajax.BeginForm("Save", "Menu", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace }, new { @class = "form-horizontal", id = "frm"+ i }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="ID" id="ID@{@i}" value="@item.ID" />
                                     <input type="hidden" name="RoleName" id="RoleName@{@i}" value="@item.RoleName.Replace("'","")" />
-                                    <div class="col-md-4"><input class="form-control" name="Ad" type="text" readonly value="@item.Ad" required></div>
+                                    <div class="col-md-4"><input class="form-control clickable" name="Ad" type="text" readonly value="@item.Ad" required></div>
                                     foreach (var item2 in ViewBag.Roles)
                                     {
                                         <div class="checkbox col-md-1 text-center">
                                             <label style="font-size: 1.5em">
-                                                <input class="menus" name="secs" id="sec@{@i}" type="checkbox">
+                                                <input class="roles@{@j}" name="secs" id="sec@{@i}" type="checkbox">
                                                 <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                                             </label>
                                         </div>
+                                        j++;
                                     }
                                 }
                             </div>
-                            i++;
+                            i++; 
                         }
+                        <div class="row m-t-30">
+                            <div class="col-md-offset-7 col-md-4">
+                                <button class="btn btn-primary btn-block" onclick="submit()">Kaydet</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,5 +68,20 @@
     </div>
 </div>
 @section Scripts{<script>
-
+    var biten = 0; var cars = [@{for (int k = 0; k < RoleCount; k++){<text>false,</text>}}];
+	function submit(){ @for (int k = 0; k < i; k++){<text>$("#frm@{@k}").submit(); </text>}$("#div_loading").show(); }
+	function finished()
+	{
+		biten++;
+        if (biten == @i)
+        {
+            $("#div_loading").hide();
+            Modaldialog('Kaydedildi', 'BAşarı', 'Tamam', 'btn-default');
+            biten = 0;
+        }
+	}
+    function checkboxChanger(k) {
+        cars[k] = cars[k] == true ? false : true;
+        $(".roles" + k).prop("checked", cars[k]);
+    }
 </script>}

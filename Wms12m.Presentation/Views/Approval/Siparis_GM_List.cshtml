@@ -100,12 +100,13 @@
 </div>
 <script>
     var selected = "";
+    var secili_table = new Array();
     $(document).ready(function () {
         //Globalize.locale('tr');
         var model =  @Html.Raw(serializer.Serialize(Model));
         
         console.log(model);
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        table=$('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
 
         //$(".btn-listele").dxButton({
         //    onClick: function () {
@@ -116,25 +117,43 @@
         //});
 
         $('#GMOnayla').click(function (e) {
-            
-            var evrakno = $.trim($(".selected").find("td").first().text());
+
+            var x = table.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i][0]);
+            }
+            console.log(secili_table);
+            var _dfd = $.Deferred();
             $.ajax({
-                url: "/Approval/Siparis_Onay",
-                type: 'POST',
-                async: false,
-                data: JSON.stringify({ EvrakNo: evrakno, OnaylandiMi: true, OnayTip: 3 }),
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
+                url: window.location.origin + "/Approval/Siparis_Onay",
+                data: { Data: JSON.stringify(secili_table), OnaylandiMi: true, OnayTip: 3 },
+                type: "post",
                 success: function (data) {
-                    if (data.Status == true) {
-                        Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
-                    }
-                    else {
-                        if (data.Message == "") data.Message = "Hata oluştu";
-                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                    }
-                }
+                    console.log(data);
+
+                },
+                error: function (jqxhr) { console.log(jqxhr); }
             });
+            return _dfd.promise();
+
+            //var evrakno = $.trim($(".selected").find("td").first().text());
+            //$.ajax({
+            //    url: "/Approval/Siparis_Onay",
+            //    type: 'POST',
+            //    async: false,
+            //    data: JSON.stringify({ EvrakNo: evrakno, OnaylandiMi: true, OnayTip: 3 }),
+            //    dataType: "json",
+            //    contentType: 'application/json; charset=utf-8',
+            //    success: function (data) {
+            //        if (data.Status == true) {
+            //            Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
+            //        }
+            //        else {
+            //            if (data.Message == "") data.Message = "Hata oluştu";
+            //            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+            //        }
+            //    }
+            //});
         });
 
         $('#GMReddet').click(function (e) {
