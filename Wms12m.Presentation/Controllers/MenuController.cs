@@ -163,6 +163,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Menu", PermTypes.Reading) == false) return Redirect("/");
             var list = db.GetMenuRoles().ToList();
+            ViewBag.Roles = Roles.GetList();
             return View("Permissions", list);
         }
         /// <summary>

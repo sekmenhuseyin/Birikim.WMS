@@ -67,6 +67,8 @@
         <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
         <AssociationConnector Association="MModel.FK_Users_Roles" />
         <AssociationConnector Association="MModel.WebMenuRol" />
+        <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="6.5" PointY="1.75" />
+        <AssociationConnector Association="MModel.FK_GorevUsers_Gorev" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

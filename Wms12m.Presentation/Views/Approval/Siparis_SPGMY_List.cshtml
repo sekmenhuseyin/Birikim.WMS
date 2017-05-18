@@ -1,70 +1,37 @@
-﻿@model List<SMSiparisOnaySelect>
+﻿
+@model List<SMSiparisOnaySelect>
 @{
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
 }
+
+
 <div class="col-md-12" style="width:100%;">
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
     <div class="portlet box green">
+
         <div class="portlet-title">
             <div class="caption">
                 <i class="fa fa-gift"></i>Sipariş Onay SPGMY
             </div>
-            <div class="col-md-1 pull-right m-t-5">
+            <div class="col-md-1 pull-right m-t-5" id="SPGMYYenile">
                 <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
+            <div class="col-md-1 pull-right m-t-5" id="SPGMYOnayla">
                 <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Onayla </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
+            <div class="col-md-1 pull-right m-t-5" id="SPGMYReddet">
                 <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Reddet </a>
             </div>
-
         </div>
-        <div class="portlet-body">
-            <div class="table-toolbar">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="btn-group">
 
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="btn-group pull-right">
-                            <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">
-                                Tools
-                                <i class="fa fa-angle-down"></i>
-                            </button>
-                            <ul class="dropdown-menu pull-right">
-                                <li>
-                                    <a href="javascript:;">
-                                        <i class="fa fa-print"></i> Print
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <i class="fa fa-file-pdf-o"></i> Save as PDF
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <i class="fa fa-file-excel-o"></i> Export to Excel
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="portlet-body">
+
 
             <table class="table table-striped table-bordered table-hover" id="sample_1">
                 <thead>
                     <tr>
-                        <th>
-                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
-                                <span></span>
-                            </label>
-                        </th>
+
                         <th> Evrak No </th>
                         <th> Tarih </th>
                         <th> Hesap No </th>
@@ -87,13 +54,8 @@
                 <tbody>
                     @foreach (var item in Model)
             {
-                        <tr>
-                            <td>
-                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox" class="checkboxes" value="1" />
-                                    <span></span>
-                                </label>
-                            </td>
+                        <tr onclick="toggle(this, '@item.EvrakNo')">
+
                             <td> @item.EvrakNo</td>
                             <td>
                                 @item.Tarih
@@ -128,12 +90,94 @@
                     }
                 </tbody>
             </table>
+
         </div>
     </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+</div>
+<div class="row">
+    <input type="hidden" name="checkboxes" id="checkboxes" value="" />
 </div>
 <script>
+    var selected = "";
     $(document).ready(function () {
+        //Globalize.locale('tr');
         var model =  @Html.Raw(serializer.Serialize(Model));
+
+        console.log(model);
         $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+
+        //$(".btn-listele").dxButton({
+        //    onClick: function () {
+
+        //        var CekListesiRaporuUrl = "/Rapor/PartialCekListesi";
+        //        PartialView(CekListesiRaporuUrl, 'cek-listesi-grid', JSON.stringify({ pozisyon: pozisyon, ay: ay, yil: yil }));
+        //    }
+        //});
+
+        $('#SPGMYOnayla').click(function (e) {
+
+            var evrakno = $.trim($(".selected").find("td").first().text());
+            $.ajax({
+                url: "/Approval/Siparis_Onay",
+                type: 'POST',
+                async: false,
+                data: JSON.stringify({ EvrakNo: evrakno, OnaylandiMi: true, OnayTip: 2 }),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+                }
+            });
+        });
+
+        $('#SPGMYReddet').click(function (e) {
+
+            var evrakno = $.trim($(".selected").find("td").first().text());
+
+            $.ajax({
+                url: "/Approval/Siparis_Onay",
+                type: 'POST',
+                data: JSON.stringify({ EvrakNo: evrakno, OnaylandiMi: false, OnayTip: 2 }),
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+                }
+            });
+        });
+
+
+        //console.log(a);
+        //var SiparisGMOnaylamaURL = "/OnaySiparis/SiparisOnay";
+        //PartialView(SiparisGMOnaylamaURL, JSON.stringify({ EvrakNo: evrakno, OnaylandiMi: true, OnayTip: 3 }));
+
+        //var result = false;
+        //table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+        //    result = true;
+        //});
+        //if (result == true) $("#GMOnayla").click();
+        //else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+
     });
+    function toggle(row, id) {
+        $(row).toggleClass('selected');
+        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
+        else selected = selected.replace(id + "#", "");
+        $("#checkboxes").val(selected);
+    }
+
+
 </script>
