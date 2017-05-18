@@ -97,10 +97,10 @@
     dateVal.setHours(0, 0, 0);
     var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
 @{
-    @*if (Model.yetki.Contains("'RaporGunlukSatis'") == true){<text>PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
-    if(Model.yetki.Contains("'RaporGunlukSatisPie'") == true){<text>PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}*@
-    if(Model.yetki.Contains("'RaporGunlukSatisYearToDay'") == true){<text>PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
-    if(Model.yetki.Contains("'RaporGunlukSatisYearToDayPie'") == true){<text>PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
+    if (Model.yetki.Contains("'RaporGunlukSatis'") == true){<text>PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
+    if(Model.yetki.Contains("'RaporGunlukSatisPie'") == true){<text>PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
+    if(Model.yetki.Contains("'RaporGunlukSatisYearToDay'") == true){<text>PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));</text>}
+    if(Model.yetki.Contains("'RaporGunlukSatisYearToDayPie'") == true){<text>PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));</text>}
     @*if(Model.yetki.Contains("'RaporGunlukSatisDoubleKriter'") == true){<text>PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ kod: "Tümü", islemtip: 0, tarih: oaDate }));</text>}
     if(Model.yetki.Contains("'RaporGunlukSatisDoubleKriterPie'") == true){<text>PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ kod: "Tümü", islemtip: 0, tarih: oaDate }));</text>}
     if(Model.yetki.Contains("'RaporAylikSatisAnaliziBar'") == true){<text>PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar');</text>}
