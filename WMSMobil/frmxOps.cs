@@ -233,7 +233,7 @@ namespace WMSMobil
                 tMiktar.Font = font;
                 tMiktar.Width = 65;
                 tMiktar.Location = new Point(145, 0);
-                tBirim.ReadOnly = true;
+                tMiktar.ReadOnly = true;
                 tMiktar.TextAlign = HorizontalAlignment.Right;
                 tMiktar.GotFocus += new EventHandler(TextBoxlar_GotFocus);
 
