@@ -232,6 +232,26 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetMalzemeFromMalKodu">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="malkodu" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMalzemeFromMalKoduResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMalzemeFromMalKoduResult" type="tns:Tip_Malzeme" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Tip_Malzeme">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="Mal_Kabul">
         <s:complexType>
           <s:sequence>
@@ -526,6 +546,12 @@
   <wsdl:message name="GetMalzemeFromBarcodeSoapOut">
     <wsdl:part name="parameters" element="tns:GetMalzemeFromBarcodeResponse" />
   </wsdl:message>
+  <wsdl:message name="GetMalzemeFromMalKoduSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMalzemeFromMalKodu" />
+  </wsdl:message>
+  <wsdl:message name="GetMalzemeFromMalKoduSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMalzemeFromMalKoduResponse" />
+  </wsdl:message>
   <wsdl:message name="Mal_KabulSoapIn">
     <wsdl:part name="parameters" element="tns:Mal_Kabul" />
   </wsdl:message>
@@ -640,6 +666,10 @@
     <wsdl:operation name="GetMalzemeFromBarcode">
       <wsdl:input message="tns:GetMalzemeFromBarcodeSoapIn" />
       <wsdl:output message="tns:GetMalzemeFromBarcodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMalzemeFromMalKodu">
+      <wsdl:input message="tns:GetMalzemeFromMalKoduSoapIn" />
+      <wsdl:output message="tns:GetMalzemeFromMalKoduSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Mal_Kabul">
       <wsdl:input message="tns:Mal_KabulSoapIn" />
@@ -770,6 +800,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetMalzemeFromBarcode">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/GetMalzemeFromBarcode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMalzemeFromMalKodu">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetMalzemeFromMalKodu" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -971,6 +1010,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetMalzemeFromBarcode">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetMalzemeFromBarcode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMalzemeFromMalKodu">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetMalzemeFromMalKodu" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
