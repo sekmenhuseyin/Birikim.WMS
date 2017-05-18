@@ -337,6 +337,8 @@ namespace Wms12m.Entity
     }
     #endregion /// RiskTanim Class
 
+
+    #region Teminat
     public class TeminatSelect
     {
         public int ID { get; set; }
@@ -365,4 +367,29 @@ namespace Wms12m.Entity
 
         public decimal TeminatTutar { get; set; }
     }
+    #endregion
+
+    #region Fiyat
+    public class ListeNoSelect
+    {
+        public string FiyatListNum { get; set; }
+
+        public string FiyatListName { get; set; }
+    }
+
+    public class FiyatUrunGrupSelect
+    {
+        public string MalKodu { get; set; }
+
+        public string MalAdi { get; set; }
+
+        public string Birim1 { get; set; }
+
+        public string Birim2 { get; set; }
+
+        public string Birim3 { get; set; }
+
+        public string GrupKod { get; set; }
+    }
+    #endregion
 }

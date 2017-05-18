@@ -86,8 +86,15 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult FiyatListesi()
         {
             if (CheckPerm("Fiyat Listesi", PermTypes.Reading) == false) return Redirect("/");
-            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect1]", "17")).ToList();
-            return View(CHK);
+            var LNO = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
+            return View(LNO);
+        }
+
+        public string FiyatUrunGrupSelect()
+        {
+            var FUGS = db.Database.SqlQuery<FiyatUrunGrupSelect>(string.Format("[FINSAT6{0}].[dbo].[STKSelect1]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(FUGS);
+            return json;
         }
 
         #endregion
