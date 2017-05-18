@@ -10,11 +10,16 @@
 namespace Wms12m.Entity.Models
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class GetMenuRoles_Result
+    public partial class GorevUser
     {
-        public short ID { get; set; }
-        public string Ad { get; set; }
-        public string RoleName { get; set; }
+        public int ID { get; set; }
+        public int GorevID { get; set; }
+        public string UserName { get; set; }
+        public int BaslamaTarihi { get; set; }
+        public Nullable<int> BitisTarihi { get; set; }
+    
+        public virtual Gorev Gorev { get; set; }
     }
 }

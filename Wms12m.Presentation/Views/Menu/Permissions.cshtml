@@ -24,6 +24,7 @@
                             {
                                 @Html.AntiForgeryToken()
                                 <div class="row">
+                                    <input type="hidden" name="ID" id="ID@{@i}" value="@item.ID" />
                                     <div class="col-md-5 col-md-offset-2"><input class="form-control" name="Roles" type="text" readonly value="@item.RoleName" required></div>
                                     <div class="checkbox col-md-2 text-center">
                                         <label style="font-size: 1.5em">

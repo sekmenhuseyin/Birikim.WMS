@@ -53,6 +53,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Combo_Name> Combo_Name { get; set; }
         public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<GorevUser> GorevUsers { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

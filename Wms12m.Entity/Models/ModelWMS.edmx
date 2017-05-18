@@ -210,6 +210,16 @@
           <Property Name="DepoID" Type="int" Nullable="false" />
           <Property Name="No" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="GorevUsers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GorevID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="BaslamaTarihi" Type="int" Nullable="false" />
+          <Property Name="BitisTarihi" Type="int" />
+        </EntityType>
         <EntityType Name="GorevYer">
           <Key>
             <PropertyRef Name="ID" />
@@ -518,6 +528,18 @@
             </Principal>
             <Dependent Role="GorevNo">
               <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevUsers_Gorev">
+          <End Role="Gorev" Type="Self.Gorev" Multiplicity="1" />
+          <End Role="GorevUsers" Type="Self.GorevUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gorev">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevUsers">
+              <PropertyRef Name="GorevID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -986,6 +1008,7 @@
           <EntitySet Name="Gorev" EntityType="Self.Gorev" Schema="wms" store:Type="Tables" />
           <EntitySet Name="GorevIRS" EntityType="Self.GorevIRS" Schema="wms" store:Type="Tables" />
           <EntitySet Name="GorevNo" EntityType="Self.GorevNo" Schema="wms" store:Type="Tables" />
+          <EntitySet Name="GorevUsers" EntityType="Self.GorevUsers" Schema="wms" store:Type="Tables" />
           <EntitySet Name="GorevYer" EntityType="Self.GorevYer" Schema="wms" store:Type="Tables" />
           <EntitySet Name="IRS" EntityType="Self.IRS" Schema="wms" store:Type="Tables" />
           <EntitySet Name="IRS_Detay" EntityType="Self.IRS_Detay" Schema="wms" store:Type="Tables" />
@@ -1041,6 +1064,10 @@
           <AssociationSet Name="FK_GorevNo_Depo" Association="Self.FK_GorevNo_Depo">
             <End Role="Depo" EntitySet="Depo" />
             <End Role="GorevNo" EntitySet="GorevNo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevUsers_Gorev" Association="Self.FK_GorevUsers_Gorev">
+            <End Role="Gorev" EntitySet="Gorev" />
+            <End Role="GorevUsers" EntitySet="GorevUsers" />
           </AssociationSet>
           <AssociationSet Name="FK_GorevYer_Gorev" Association="Self.FK_GorevYer_Gorev">
             <End Role="Gorev" EntitySet="Gorev" />
@@ -1445,6 +1472,11 @@
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="GorevUsers" EntityType="MModel.GorevUser" />
+          <AssociationSet Name="FK_GorevUsers_Gorev" Association="MModel.FK_GorevUsers_Gorev">
+            <End Role="Gorev" EntitySet="Gorevs" />
+            <End Role="GorevUser" EntitySet="GorevUsers" />
+          </AssociationSet>
           <FunctionImport Name="GetMenuRoles" ReturnType="Collection(MModel.GetMenuRoles_Result)" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -1639,6 +1671,7 @@
           <NavigationProperty Name="IRS" Relationship="MModel.GorevIRS" FromRole="Gorev" ToRole="IR" />
           <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Gorev_ComboItem_NameDurum" FromRole="Gorev" ToRole="ComboItem_Name" />
           <NavigationProperty Name="ComboItem_Name1" Relationship="MModel.FK_Gorev_ComboItem_NameOzellik" FromRole="Gorev" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="GorevUsers" Relationship="MModel.FK_GorevUsers_Gorev" FromRole="Gorev" ToRole="GorevUser" />
         </EntityType>
         <EntityType Name="GorevYer">
           <Key>
@@ -2368,7 +2401,31 @@
           <Property Type="String" Name="yetki" Nullable="true" />
           <Property Type="Int32" Name="transfer" Nullable="true" />
         </ComplexType>
+        <EntityType Name="GorevUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GorevID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="BaslamaTarihi" Type="Int32" Nullable="false" />
+          <Property Name="BitisTarihi" Type="Int32" />
+          <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevUsers_Gorev" FromRole="GorevUser" ToRole="Gorev" />
+        </EntityType>
+        <Association Name="FK_GorevUsers_Gorev">
+          <End Type="MModel.Gorev" Role="Gorev" Multiplicity="1" />
+          <End Type="MModel.GorevUser" Role="GorevUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gorev">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevUser">
+              <PropertyRef Name="GorevID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <ComplexType Name="GetMenuRoles_Result">
+          <Property Type="Int16" Name="ID" Nullable="false" />
           <Property Type="String" Name="Ad" Nullable="true" MaxLength="154" />
           <Property Type="String" Name="RoleName" Nullable="false" />
         </ComplexType>
@@ -2900,9 +2957,21 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="GorevUsers">
+            <EntityTypeMapping TypeName="MModel.GorevUser">
+              <MappingFragment StoreEntitySet="GorevUsers">
+                <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
+                <ScalarProperty Name="BaslamaTarihi" ColumnName="BaslamaTarihi" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetMenuRoles" FunctionName="MModel.Store.GetMenuRoles">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetMenuRoles_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Ad" ColumnName="Ad" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
               </ComplexTypeMapping>
