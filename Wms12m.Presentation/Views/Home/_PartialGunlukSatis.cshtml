@@ -15,7 +15,7 @@
                     <div id="tarih" class="gs_tarih" style="width:200px;"></div>
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control", @onchange = "Reload2(this.value)" })
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID2", @onchange = "Reload2(this.value)" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
@@ -33,8 +33,8 @@
     arr[1] = (parseInt(arr[1]) - 1).toString();
     arr[2] = arr[2].substr(0, 4);
     var f_tarih = new Date(arr[2], arr[1], arr[0]);
-    if ($('#SirketID option').size() == 1) $("#SirketID").hide();
-    else $("#SirketID").val('@ViewBag.SirketKodu');
+    if ($('.SirketID2 option').size() == 1) $(".SirketID2").hide();
+    else $(".SirketID2").val('@ViewBag.SirketKodu');
     function Reload2(v)
     {
         PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: v, tarih: @ViewBag.tarih }));
@@ -62,7 +62,7 @@
             var initChartSample5 = function () {
                 var chart = AmCharts.makeChart("chart_5", {
                     "theme": "light",
-                    "type": "@ViewBag.type",
+                    "type": "serial",
                     "startDuration": 2,
                     "titleRotation":10,
                     "fontFamily": 'Open Sans',
