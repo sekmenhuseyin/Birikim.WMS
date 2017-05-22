@@ -443,6 +443,13 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "33", ListeNo)).ToList();
             return PartialView(list);
         }
+
+        public ActionResult SozlesmeTanim()
+        {
+            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            //var LNO = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
+            return View();
+        }
         #endregion
         #region Risk
         public ActionResult Risk_SM()
