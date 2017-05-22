@@ -161,6 +161,7 @@
     <script type="text/javascript">
 
         var listeNo = "";
+        var GrupKod = "";
         $(document).ready(function () {
             var model = @Html.Raw(Json.Encode(Model));
             var brmData=new Array();
@@ -225,17 +226,18 @@
                     brmData=[];
                     var data = $(".select_urun_kodu").dxLookup("instance").option("selectedItem");
                     if(data.Birim1!=""){
-                        brmData.push({"Birim" : data.Birim1});
+                        brmData.push({"Birim" : data.Birim1, "Deger":1});
                     }
                     if(data.Birim2!=""){
-                        brmData.push({"Birim" : data.Birim2});
+                        brmData.push({"Birim" : data.Birim2, "Deger":2});
                     }
                     if(data.Birim3!=""){
-                        brmData.push({"Birim" : data.Birim3});
+                        brmData.push({"Birim" : data.Birim3, "Deger":3});
                     }
                     $(".txt-doviz-birim").dxSelectBox("instance").option("dataSource",brmData);
                     $(".txt-birim").dxSelectBox("instance").option("dataSource",brmData);
-                    $(".txt-doviz-cinsi").dxSelectBox("instance").option("dataSource",brmData);
+                    GrupKod= data.GrupKod;
+                    //$(".txt-doviz-cinsi").dxSelectBox("instance").option("dataSource",brmData);
                     //var data = e.selectedItems;
                     console.log(brmData);
                 },
@@ -290,14 +292,14 @@
             });
 
             $(".txt-doviz-birim").dxSelectBox({
-                valueExpr: 'Birim',
+                valueExpr: 'Deger',
                 displayExpr: 'Birim',
                 onValueChanged: function (e) {
                 }
             });
 
             $(".txt-birim").dxSelectBox({
-                valueExpr: 'Birim',
+                valueExpr: 'Deger',
                 displayExpr: 'Birim',
                 onValueChanged: function (e) {
                 }
@@ -343,13 +345,13 @@
                     { caption: 'Durum', dataField: 'Durum'},
                     { caption: 'Ürün Kodu', dataField: 'MalKodu',  },
                     { caption: 'Ürün Adı', dataField: 'MalAdi' },
-                     { caption: 'Hesap Kodu', dataField: 'HesapKodu'},
+                    { caption: 'Hesap Kodu', dataField: 'HesapKodu'},
                     { caption: 'Unvan', dataField: 'Unvan'},
                     { caption: 'Satış Fiyat', dataField: 'SatisFiyat1' },
                     { caption: 'Satış Fiyat Birim', dataField: 'SatisFiyat1Birim'},
                     { caption: 'Döviz Satış Fiyat', dataField: 'DovizSatisFiyat1',  },
                     { caption: 'Döviz Satış Fiyat Birim', dataField: 'DovizSF1Birim' },
-                     { caption: 'Döviz Cinsi', dataField: 'DovizCinsi' },
+                    { caption: 'Döviz Cinsi', dataField: 'DovizCinsi' },
                     ];
                     _grid_quotations_detail = $('.grid_bekleyen_fiyat_listeleri').dxDataGrid({
                         dataSource: result,
@@ -401,16 +403,32 @@
         });
 
         $('.satir-ekle-buton').click(function () {
+            fiyatEdit(1);
+        });
+
+        $('.satir-sil-buton').click(function () {
+            fiyatEdit(2);
+        });
+
+        $('.satir-guncelle-buton').click(function () {
+            fiyatEdit(3);
+        });
+
+        function fiyatEdit(id) {
             var jObject = {};
             jObject["ListeNo"]=$(".select_list_no").dxLookup("instance").option("value");
             jObject["UrunKodu"]=$(".select_urun_kodu").dxLookup("instance").option("value");
             jObject["HesapKodu"]=$(".select_hesap_kod").dxLookup("instance").option("value");
             jObject["SatisFiyat"]=$(".numb-satis-fiyat").dxNumberBox("instance").option("value");
             jObject["DovizSatisFiyat"]=$(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value");
-            jObject["Birim"]=$(".txt-birim").dxSelectBox("instance").option("value");
-            jObject["DovizBirim"]=$(".txt-doviz-birim").dxSelectBox("instance").option("value");
+            jObject["Birim"]=$(".txt-birim").dxSelectBox("instance").option("text");
+            jObject["DovizBirim"]=$(".txt-doviz-birim").dxSelectBox("instance").option("text");
+            jObject["BirimValue"]=jObject["Birim"]==null?-1:$(".txt-birim").dxSelectBox("instance").option("value");
+            jObject["DovizBirimValue"]=jObject["DovizBirim"]==null?-1:$(".txt-doviz-birim").dxSelectBox("instance").option("value");
             jObject["DovizCinsi"]=$(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
-            if(jObject["ListeNo"]==null || jObject["UrunKodu"]==null || jObject["HesapKodu"]==null || jObject["Birim"]==null || jObject["DovizBirim"]==null || jObject["DovizCinsi"]==null)
+            jObject["GrupKod"]=GrupKod;
+            jObject["Durum"]=id;
+            if(jObject["ListeNo"]==null || jObject["UrunKodu"]==null || jObject["HesapKodu"]==null || (jObject["SatisFiyat"]==0 && jObject["DovizSatisFiyat"]==0) || (jObject["SatisFiyat"]>0 && jObject["Birim"]==null) || (jObject["DovizSatisFiyat"]>0 && jObject["DovizBirim"]==null && jObject["DovizCinsi"]==null))
                 return;
 
             var _dfd = $.Deferred();
@@ -424,25 +442,7 @@
                 error: function (jqxhr) { console.log(jqxhr); }
             });
             return _dfd.promise();
-        });
-
-        $('.satir-sil-buton').click(function () {
-            var silinecek = table.rows('.selected').data();
-            if(silinecek.length>0)
-            {
-                $.ajax({
-                    url: window.location.origin + "/Approval/TeminatSil",
-                    data: {ID: silinecek[0].ID},
-                    type: "post",
-                    success: function (data)
-                    {
-                        if(data=="OK"){
-                            window.location.href = '/Approval/TeminatTanim';
-                        }
-                    }
-                });
-            }
-        });
+        }
 
     </script>
 }
