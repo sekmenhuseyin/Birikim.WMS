@@ -244,9 +244,13 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             foreach (var item in list)
             {
+                //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                sti.IslemTur = 1;
+                if (item.Miktar < item.Stok)//eğer olması gerekenden az varsa çıkış yapılacak
+                    sti.IslemTur = 0;
+                else//olması gerekenden fazlaysa giriş yapılacak
+                    sti.IslemTur = 1;
                 sti.Tarih = tarih;
                 sti.KynkEvrakTip = 94;
                 sti.SiraNo = sirano;
@@ -317,22 +321,18 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             foreach (var item in list)
             {
+                //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
                 if (item.Miktar < item.Stok)//eğer olması gerekenden az varsa çıkış yapılacak
-                {
-                    sti.IslemTur = 0;
                     sti.Miktar = item.Stok - item.Miktar;//fark
-                }
                 else//olması gerekenden fazlaysa giriş yapılacak
-                {
-                    sti.IslemTur = 1;
                     sti.Miktar = item.Miktar - item.Stok;//fark
-                }
+                sti.IslemTur = 0;
                 sti.Tarih = tarih;
                 sti.KynkEvrakTip = 57;
                 sti.SiraNo = sirano;
-                sti.IslemTip = 17;
+                sti.IslemTip = 10;
                 sti.MalKodu = item.MalKodu;
                 sti.Birim = item.Birim;
                 sti.BirimMiktar = sti.Miktar;
