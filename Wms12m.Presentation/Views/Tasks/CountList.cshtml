@@ -13,7 +13,7 @@
                     @if (item.DurumID == ComboItems.Açık.ToInt32()){ 
                         <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/CountFark/1-@item.ID')"> Tüm Liste </a>                        
                         <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/CountFark/0-@item.ID')"> Fark Liste </a>
-                        using (Ajax.BeginForm("Finish", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "FuncSearchBtn();", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+                        using (Ajax.BeginForm("Finish", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
                         {
                             @Html.AntiForgeryToken()
                             <input name="GorevID" type="hidden" value="@item.ID" />

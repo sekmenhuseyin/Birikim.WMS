@@ -416,6 +416,9 @@ namespace Wms12m.Presentation.Controllers
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
+            var tbl = mGorev.GorevUsers.Where(m => m.BitisTarihi == null).FirstOrDefault();
+            if (tbl != null)
+                return Json(new Result(false, "Bu görev daha bitmemiş!"), JsonRequestBehavior.AllowGet);
             mGorev.DurumID = ComboItems.Tamamlanan.ToInt32();
             db.SaveChanges();
             return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
