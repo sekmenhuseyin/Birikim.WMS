@@ -58,8 +58,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             //update
-            Task tmpTable = new Task();
-            Result _Result = tmpTable.Update(tbl);
+            var _Result = Task.Update(tbl);
             //get list
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -247,7 +246,7 @@ namespace Wms12m.Presentation.Controllers
                 //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                if (item.Miktar < item.Stok)//eğer olması gerekenden az varsa çıkış yapılacak
+                if (item.Miktar > item.Stok)//eğer olması gerekenden az varsa çıkış yapılacak
                     sti.IslemTur = 0;
                 else//olması gerekenden fazlaysa giriş yapılacak
                     sti.IslemTur = 1;
@@ -324,11 +323,11 @@ namespace Wms12m.Presentation.Controllers
                 //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                if (item.Miktar < item.Stok)
-                    sti.Miktar = item.Stok - item.Miktar;//fark
+                if (item.Miktar > item.Stok)
+                    sti.IslemTur = 0;
                 else
-                    sti.Miktar = item.Miktar - item.Stok;//fark
-                sti.IslemTur = 0;
+                    sti.IslemTur = 1;
+                sti.Miktar = Math.Abs(item.Miktar - item.Stok);
                 sti.Tarih = tarih;
                 sti.KynkEvrakTip = 57;
                 sti.SiraNo = sirano;
