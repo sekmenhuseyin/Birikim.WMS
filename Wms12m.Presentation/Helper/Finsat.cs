@@ -32,15 +32,15 @@ namespace Wms12m
         /// </summary>
         public Result SayımVeFarkFişi(List<STI> stiList, int EvrakSeriNo, bool EvrakNoArttır, string username)
         {
+            //evrak no
+            string evrakno = EvrakNo(EvrakSeriNo);
+            if (evrakno == null || evrakno == "")
+                return new Result(false, "Evrak Seri hatası.");
             //definitions
             Functions fn = new Functions();
             int tarih = fn.ToOADate();
             int saat = fn.ToOATime();
             SqlExper sqlexper = new SqlExper(ConStr, SirketKodu);
-            //evrak no
-            string evrakno = EvrakNo(EvrakSeriNo);
-            if (evrakno == null || evrakno == "")
-                return new Result(false, "Evrak Seri hatası.");
             //sql exper
             foreach (var item in stiList)
             {

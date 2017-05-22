@@ -192,9 +192,8 @@ namespace Wms12m.Presentation.Controllers
             string sql = "";
             if (tmp[0] != "1")//sadece fark liste
                 sql = " WHERE (Stok <> Miktar)";
-            int durumID = ComboItems.Açık.ToInt32();
             int GorevID = tmp[1].ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             sql = string.Format("SELECT MalKodu, Birim, Miktar, Stok FROM (" +
                                             "SELECT wms.GorevYer.MalKodu, wms.GorevYer.Birim, SUM(wms.GorevYer.Miktar) AS Miktar, " +
                                                 "ISNULL((SELECT FINSAT6{0}.FINSAT6{0}.DST.DvrMiktar + FINSAT6{0}.FINSAT6{0}.DST.GirMiktar - FINSAT6{0}.FINSAT6{0}.DST.CikMiktar AS stok " +
