@@ -216,7 +216,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GorevID" Type="int" Nullable="false" />
-          <Property Name="UserName" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="BaslamaTarihi" Type="int" Nullable="false" />
           <Property Name="BitisTarihi" Type="int" />
         </EntityType>
@@ -1472,12 +1472,12 @@
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="GetMenuRoles" ReturnType="Collection(MModel.GetMenuRoles_Result)" />
           <EntitySet Name="GorevUsers" EntityType="MModel.GorevUser" />
           <AssociationSet Name="FK_GorevUsers_Gorev" Association="MModel.FK_GorevUsers_Gorev">
             <End Role="Gorev" EntitySet="Gorevs" />
             <End Role="GorevUser" EntitySet="GorevUsers" />
           </AssociationSet>
-          <FunctionImport Name="GetMenuRoles" ReturnType="Collection(MModel.GetMenuRoles_Result)" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2401,13 +2401,18 @@
           <Property Type="String" Name="yetki" Nullable="true" />
           <Property Type="Int32" Name="transfer" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="GetMenuRoles_Result">
+          <Property Type="Int16" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Ad" Nullable="true" MaxLength="154" />
+          <Property Type="String" Name="RoleName" Nullable="false" />
+        </ComplexType>
         <EntityType Name="GorevUser">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GorevID" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="BaslamaTarihi" Type="Int32" Nullable="false" />
           <Property Name="BitisTarihi" Type="Int32" />
           <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevUsers_Gorev" FromRole="GorevUser" ToRole="Gorev" />
@@ -2424,11 +2429,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetMenuRoles_Result">
-          <Property Type="Int16" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Ad" Nullable="true" MaxLength="154" />
-          <Property Type="String" Name="RoleName" Nullable="false" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2957,17 +2957,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="GorevUsers">
-            <EntityTypeMapping TypeName="MModel.GorevUser">
-              <MappingFragment StoreEntitySet="GorevUsers">
-                <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
-                <ScalarProperty Name="BaslamaTarihi" ColumnName="BaslamaTarihi" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetMenuRoles" FunctionName="MModel.Store.GetMenuRoles">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetMenuRoles_Result">
@@ -2977,6 +2966,17 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="GorevUsers">
+            <EntityTypeMapping TypeName="MModel.GorevUser">
+              <MappingFragment StoreEntitySet="GorevUsers">
+                <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
+                <ScalarProperty Name="BaslamaTarihi" ColumnName="BaslamaTarihi" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

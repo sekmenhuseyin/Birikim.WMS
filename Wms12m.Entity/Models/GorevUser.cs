@@ -16,7 +16,7 @@ namespace Wms12m.Entity.Models
     {
         public int ID { get; set; }
         public int GorevID { get; set; }
-        public string UserName { get; set; }
+        public int UserID { get; set; }
         public int BaslamaTarihi { get; set; }
         public Nullable<int> BitisTarihi { get; set; }
     
