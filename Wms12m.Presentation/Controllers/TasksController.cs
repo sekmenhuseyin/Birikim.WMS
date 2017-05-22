@@ -254,7 +254,7 @@ namespace Wms12m.Presentation.Controllers
                 sti.Tarih = tarih;
                 sti.KynkEvrakTip = 94;
                 sti.SiraNo = sirano;
-                sti.IslemTip = 17;
+                sti.IslemTip = 17;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
                 sti.MalKodu = item.MalKodu;
                 sti.Miktar = item.Miktar;
                 sti.Miktar2 = item.Stok;
@@ -324,15 +324,15 @@ namespace Wms12m.Presentation.Controllers
                 //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                if (item.Miktar < item.Stok)//eğer olması gerekenden az varsa çıkış yapılacak
+                if (item.Miktar < item.Stok)
                     sti.Miktar = item.Stok - item.Miktar;//fark
-                else//olması gerekenden fazlaysa giriş yapılacak
+                else
                     sti.Miktar = item.Miktar - item.Stok;//fark
                 sti.IslemTur = 0;
                 sti.Tarih = tarih;
                 sti.KynkEvrakTip = 57;
                 sti.SiraNo = sirano;
-                sti.IslemTip = 10;
+                sti.IslemTip = 10;//"Sayım Farkı" from finsat.COMBOITEM_NAME
                 sti.MalKodu = item.MalKodu;
                 sti.Birim = item.Birim;
                 sti.BirimMiktar = sti.Miktar;
