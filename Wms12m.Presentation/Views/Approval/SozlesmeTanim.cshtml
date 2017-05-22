@@ -1,6 +1,6 @@
-﻿@model List<ListeNoSelect>
+﻿
 @{
-    ViewBag.Title = "Fiyat Listesi";
+    ViewBag.Title = "Sözleşme Tanım";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
@@ -44,22 +44,22 @@
         background-color: #86d8ea;
         color: window;
     }
-    .dx-overlay-content.dx-popup-normal.dx-resizable{
-        width:400px;
+
+    .dx-overlay-content.dx-popup-normal.dx-resizable {
+        width: 400px;
     }
 </style>
 <div class="row">
     <div>
         <div class="col-xs-6 col-sm-6" style="padding:0 2px 0 5px">
-            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg yellow yenile-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Yenile<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue satir-ekle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Ekle<i class="fa fa-eraser" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg purple satir-sil-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Sil<i class="fa fa-binoculars" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg green satir-guncelle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Güncelle<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue satir-ekle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Ekle<i class="fa fa-eraser" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg purple satir-sil-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Sil<i class="fa fa-binoculars" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg yellow temizle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Temizle<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
         </div>
         <div class="col-xs-6 col-sm-6" style="padding:0 5px 0 2px">
-            <div class="col-xs-12 col-sm-4"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg green-turquoise bekleyenler-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Bekleyenler<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-4"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue-dark tum-sec-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Tümünü Seç<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-4"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg red tum-kaldir-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Tümünü Kaldır<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg green-turquoise sozlesme-kaydet-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Sözleşme Kaydet<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue-dark sozlesme-sil-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Sözleşme Sil<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg red sozlesme-guncelle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Sözleşme Güncelle<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
         </div>
     </div>
 </div>
@@ -67,41 +67,153 @@
 <div class="row input_style">
     <div class="col-xs-12 col-sm-4">
         <div class="input_content">
-            <div class="input_label">Liste No</div>
-            <div class="input select_list_no"></div>
+            <div class="input_label">Sözleşme Durumu</div>
+            <div class="input swtch_sozlesme_durumu"></div>
         </div>
         <div class="input_content">
-            <div class="input_label">Ürün Kodu</div>
-            <div class="input select_urun_kodu"></div>
+            <div class="input_label">Sözleşmeler</div>
+            <div class="input select_sozlesmeler"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Sözleşme Sıra No</div>
+            <div class="input txt_sozlesme_sira_no"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Sıra No</div>
+            <div class="input txt_sira_no"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Bağlantı Tipi</div>
+            <div class="input select_baglanti_tipi"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Bağlantı Tutarı</div>
+            <div class="input numb_baglanti_tutari"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Bağlantı Tutarı Döviz</div>
+            <div class="input select_baglanti_tutari_doviz"></div>
+        </div>
+
+        <div class="input_content">
+            <div class="input_label">Başlangıç Tarihi</div>
+            <div class="input date_baslangic_tarihi"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Bitiş Tarihi</div>
+            <div class="input date_bitis_tarihi"></div>
         </div>
         <div class="input_content">
             <div class="input_label">Müşteri Kodu</div>
-            <div class="input select_hesap_kod"></div>
+            <div class="input select_musteri_kodu"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Sözleşme Notu</div>
+            <div class="input txt_sozlesme_notu"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Aktif/Pasif</div>
+            <div class="input swtch_aktif_pasif"></div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-8">
+    <div class="col-xs-12 col-sm-4">
         <div class="input_content">
-            <div class="col-xs-12 col-sm-4 input_content" style="float:left;padding: 0;">
-                <div class="input_label">Satış Fiyat</div>
-                <div class="input numb-satis-fiyat"></div>
+            <div class="input_content">
+                <div class="input_label">Fiyat Listesi</div>
+                <div class="input select_fiyat_listesi"></div>
             </div>
-            <div class="col-xs-12 col-sm-4 input_content" style="float:left;padding: 0;">
-                <div class="input_label">Birim</div>
-                <div class="input txt-birim"></div>
+            <div class="input_content">
+                <div class="input_label">Ürün Grubu</div>
+                <div class="input select_urun_grubu"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Ürün Kodu</div>
+                <div class="input select_urun_kodu"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Ürün Kalite</div>
+                <div class="input select_urun_kalite"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">İskonto 1</div>
+                <div class="input numb_iskonto1"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">İskonto 2</div>
+                <div class="input numb_iskonto2"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">İskonto 3</div>
+                <div class="input numb_iskonto3"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">İskonto 4</div>
+                <div class="input numb_iskonto4"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">İskonto 5</div>
+                <div class="input numb_iskonto5"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Vade/Valor</div>
+                <div class="input swtch_vade_valor"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Vade Tarihi</div>
+                <div class="input date_vade_tarihi"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Valor Gün</div>
+                <div class="input numb_valor_gun"></div>
             </div>
         </div>
+    </div>
+    <div class="col-xs-12 col-sm-4">
         <div class="input_content">
-            <div class="col-xs-12 col-sm-4 input_content" style="float:left;padding: 0;">
-                <div class="input_label">Döviz Satış Fiyat</div>
-                <div class="input numb-doviz-satis-fiyat"></div>
+            <div class="input_content">
+                <div class="input_label">Kredi Limiti</div>
+                <div class="input numb_kredi_limiti"></div>
             </div>
-            <div class="col-xs-12 col-sm-4 input_content" style="float:left;padding: 0;">
-                <div class="input_label">Döviz Birim</div>
-                <div class="input txt-doviz-birim"></div>
+            <div class="input_content">
+                <div class="input_label">Bakiye</div>
+                <div class="input numb_bakiye"></div>
             </div>
-            <div class="col-xs-12 col-sm-4 input_content" style="float:left;padding: 0;">
-                <div class="input_label">Döviz Cinsi</div>
-                <div class="input txt-doviz-cinsi"></div>
+            <div class="input_content">
+                <div class="input_label">Toplam Bakiye</div>
+                <div class="input numb_toplam_bakiye"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Bekleyen Sipariş</div>
+                <div class="input numb_bekleyen_siparis"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Ortalama Vade</div>
+                <div class="input txt_ortalama_vade"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Alınan Bordro</div>
+                <div class="input numb_alinan_bordro"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Alınan Bordro Ort.</div>
+                <div class="input txt_alinan_bordro_ort"></div>
+            </div>
+
+            <div class="input_content">
+                <div class="input_label">Alınan Çek Tutarı</div>
+                <div class="input numb_alinan_cek_tutari"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Alınan Çek Ort. Vadesi</div>
+                <div class="input date_alinan_cek_ort_vade"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Alınan Nakit vb</div>
+                <div class="input numb_alinan_nakit_vb"></div>
+            </div>
+            <div class="input_content">
+                <div class="input_label">Toplam Tahsilat</div>
+                <div class="input numb_toplam_tahsilat"></div>
             </div>
         </div>
     </div>
@@ -160,10 +272,48 @@
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script type="text/javascript">
 
+
+
+
+
         var listeNo = "";
         var GrupKod = "";
         $(document).ready(function () {
-            var model = @Html.Raw(Json.Encode(Model));
+            $(".numb_baglanti_tutari").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_baglanti_tutari").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_baglanti_tutari").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_baglanti_tutari").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_baglanti_tutari").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_baglanti_tutari").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+
+
+
+
+            @*var model = @Html.Raw(Json.Encode(Model));*@
             var brmData=new Array();
             var dvzCinsi=[{Cins:"USD"},{Cins:"EUR"}]
             $.ajax({
@@ -265,7 +415,7 @@
                 displayExpr: 'Unvan',
 
                 onValueChanged: function (e) {
-         
+
                 },
 
                 itemTemplate: function (itemData, itemIndex, itemElement) {
@@ -318,7 +468,7 @@
 
         $('.yenile-buton').click(function () {
             if(listeNo!=""){
-                PartialView("/Approval/PartialFiyatList", 'fiyat_listesi_data', JSON.stringify({ listeNo: listeNo }));  
+                PartialView("/Approval/PartialFiyatList", 'fiyat_listesi_data', JSON.stringify({ listeNo: listeNo }));
             }
         });
 
@@ -430,7 +580,7 @@
             jObject["GrupKod"]=GrupKod;
             jObject["Durum"]=id;
             if(jObject["ListeNo"]==null || jObject["UrunKodu"]==null || jObject["HesapKodu"]==null || (jObject["SatisFiyat"]==0 && jObject["DovizSatisFiyat"]==0) || (jObject["SatisFiyat"]>0 && jObject["Birim"]==null) || (jObject["DovizSatisFiyat"]>0 && jObject["DovizBirim"]==null && jObject["DovizCinsi"]==null))
-            { 
+            {
                 Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
                 return;
             }
@@ -464,6 +614,8 @@
 
     </script>
 }
+
+
 
 
 
