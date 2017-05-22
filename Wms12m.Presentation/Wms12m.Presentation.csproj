@@ -499,7 +499,6 @@
     <Content Include="Views\Home\_PartialSatisTemsilcisi_AylikSatisAnalizi.cshtml" />
     <Content Include="Views\Home\_PartialUrunGrubuSatisKriter.cshtml" />
     <Content Include="Views\Menu\Permissions.cshtml" />
-    <Content Include="Views\Menu\PermissionsList.cshtml" />
     <Content Include="Views\FaturaOnay\Index.cshtml" />
     <Content Include="Views\FaturaOnay\_PartialFaturaOnayGrid.cshtml" />
     <Content Include="Views\FaturaOnay\FaturaDetay.cshtml" />
