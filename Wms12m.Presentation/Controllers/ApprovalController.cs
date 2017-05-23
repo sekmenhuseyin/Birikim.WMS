@@ -61,8 +61,29 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Fiyat_GM_List()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
-            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", "33")).ToList();
-            return PartialView(KOD);
+            return PartialView();
+        }
+
+        public string FiyatGMOnayCek()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
+        public PartialViewResult Fiyat_GM_List_Koleksiyon()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+
+        public string FiyatGMOnayCekGMKoleksiyon()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM_Koleksiyon]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
         }
         public ActionResult Fiyat_SPGMY()
         {
@@ -128,6 +149,407 @@ namespace Wms12m.Presentation.Controllers
             var json = new JavaScriptSerializer().Serialize(FLB);
             return json;
         }
+
+        public string Fiyat_Onay(string Data)
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
+            //string sql = string.Format(@"INSERT INTO FINSAT";
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+           
+            int BasTarih = 0;
+            int BitTarih = 0;
+            string ListeAdi = "";
+            try
+            {
+                foreach (JObject insertObj in parameters)
+                {
+
+                    var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
+                    //var bastarih = db.Database.SqlQuery<FiyatListSelect>(string.Format("SELECT Max(BasTarih)as bastarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "33", insertObj["FiyatListNum"].ToString())).ToList();
+                    //var bittarih = db.Database.SqlQuery<FiyatListSelect>(string.Format("SELECT Max(BitTarih)as bittarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "33", insertObj["FiyatListNum"].ToString())).ToList();
+
+                    FYT fyt = new FYT();
+
+                    if (fytData.FiyatListNum != null)
+                    {
+                        ListeAdi = fytData.FiyatListName;
+                        BasTarih = fytData.BasTarih;
+                        BitTarih = fytData.BitTarih;
+
+                    }
+                    else
+                    {
+                        ListeAdi = insertObj["FiyatListNum"].ToString() + " Fiyat Listesi";
+                        if (ListeAdi.Length > 30)
+                        {
+                            ListeAdi = ListeAdi.Substring(0, 30);
+                        }
+                        BasTarih = insertObj["BasTarih"].ToInt32();
+                        BitTarih = insertObj["BitTarih"].ToInt32();
+
+                    }
+
+                    fyt.MalKodu = insertObj["MalKodu"].ToString();
+                    fyt.BasTarih = BasTarih;
+                    fyt.BasSaat = 0;
+                    fyt.BitTarih = BitTarih;
+                    fyt.BitSaat = 0;
+                    fyt.SiraNo = 0;
+                    fyt.RenkBedenKod1 = "";
+                    fyt.RenkBedenKod2 = "";
+                    fyt.RenkBedenKod3 = "";
+                    fyt.RenkBedenKod4 = "";
+                    fyt.FiyatListNum = insertObj["FiyatListNum"].ToString();
+                    fyt.FiyatTuru = 1;
+                    fyt.Kod1 = "";
+                    fyt.Kod2 = "";
+                    fyt.Kod3 = "";
+                    fyt.KodTipi = 0;
+                    fyt.MusteriKodu = insertObj["HesapKodu"].ToString();
+                    fyt.AlisFiyat1 = 0;
+                    fyt.AlisFiyat2 = 0;
+                    fyt.AlisFiyat3 = 0;
+                    fyt.DvzAlisFiyat1 = 0;
+                    fyt.DvzAlisFiyat2 = 0;
+                    fyt.DvzAlisFiyat3 = 0;
+                    fyt.AF1DovizCinsi = "";
+                    fyt.AF2DovizCinsi = "";
+                    fyt.AF3DovizCinsi = "";
+                    fyt.AF1KDV = 0;
+                    fyt.AF2KDV = 0;
+                    fyt.AF3KDV = 0;
+                    fyt.DovizAF1KDV = 0;
+                    fyt.DovizAF2KDV = 0;
+                    fyt.DovizAF3KDV = 0;
+                    fyt.AF1Birim = 0;
+                    fyt.AF2Birim = 0;
+                    fyt.AF3Birim = 0;
+                    fyt.DovizAF1Birim = 0;
+                    fyt.DovizAF2Birim = 0;
+                    fyt.DovizAF3Birim = 0;
+                    fyt.SatisFiyat1 = insertObj["SatisFiyat1"].ToDecimal();
+                    fyt.SatisFiyat2 = 0;
+                    fyt.SatisFiyat3 = 0;
+                    fyt.SatisFiyat4 = 0;
+                    fyt.SatisFiyat5 = 0;
+                    fyt.SatisFiyat6 = 0;
+                    fyt.DvzSatisFiyat1 = insertObj["DovizSatisFiyat1"].ToDecimal();
+                    fyt.DvzSatisFiyat2 = 0;
+                    fyt.DvzSatisFiyat3 = 0;
+                    fyt.SF1DovizCinsi = insertObj["DovizCinsi"].ToString().Trim();
+                    fyt.SF2DovizCinsi = "";
+                    fyt.SF3DovizCinsi = "";
+                    fyt.SF4DovizCinsi = "";
+                    fyt.SF5DovizCinsi = "";
+                    fyt.SF6DovizCinsi = "";
+                    fyt.SF1KDV = 0;
+                    fyt.SF2KDV = 0;
+                    fyt.SF3KDV = 0;
+                    fyt.SF4KDV = 0;
+                    fyt.SF5KDV = 0;
+                    fyt.SF6KDV = 0;
+                    fyt.DovizSF1KDV = 0;
+                    fyt.DovizSF2KDV = 0;
+                    fyt.DovizSF3KDV = 0;
+                    fyt.SF1Birim = insertObj["SF1Birim"].ToShort(); ;
+                    fyt.SF2Birim = -1;
+                    fyt.SF3Birim = -1;
+                    fyt.SF4Birim = -1;
+                    fyt.SF5Birim = -1;
+                    fyt.SF6Birim = -1;
+                    fyt.DovizSF1Birim = insertObj["DovizSF1BirimInt"].ToShort();
+                    fyt.DovizSF2Birim = -1;
+                    fyt.DovizSF3Birim = -1;
+                    fyt.FiyatListName = ListeAdi;
+                    fyt.SatisFiyatAltLimit = 0;
+                    fyt.SatisFiyatUstLimit = 0;
+                    fyt.SF1ValorGun = 0;
+                    fyt.SF2ValorGun = 0;
+                    fyt.SF3ValorGun = 0;
+                    fyt.SF4ValorGun = 0;
+                    fyt.SF5ValorGun = 0;
+                    fyt.SF6ValorGun = 0;
+                    fyt.DvzSF1ValorGun = 0;
+                    fyt.DvzSF2ValorGun = 0;
+                    fyt.DvzSF3ValorGun = 0;
+                    fyt.KayitTuru = -1;
+                    fyt.GuvenlikKod = "";
+                    fyt.Kaydeden = vUser.UserName.ToString() ;
+                    fyt.KayitTarih = (int)DateTime.Now.ToOADate();
+                    fyt.KayitSaat = 0;
+                    fyt.KayitKaynak = 117;
+                    fyt.KayitSurum = "8.10.100";
+                    fyt.Degistiren = vUser.UserName.ToString();
+                    fyt.DegisTarih = (int)DateTime.Now.ToOADate();
+                    fyt.DegisSaat = 0;
+                    fyt.DegisKaynak = 117;
+                    fyt.DegisSurum = "8.10.100";
+                    fyt.CheckSum = 12;
+                    fyt.Aciklama = "";
+                    fyt.Kod4 = "";
+                    fyt.Kod5 = "";
+                    fyt.Kod6 = "";
+                    fyt.Kod7 = "";
+                    fyt.Kod8 = "";
+                    fyt.Kod9 = "";
+                    fyt.Kod10 = "";
+                    fyt.Kod11 = 0;
+                    fyt.Kod12 = 0;
+
+
+                    //if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 20000)
+                    //{
+                    //    rsk.OnayTip = 0;
+                    //}
+                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 100000)
+                    //{
+                    //    rsk.OnayTip = 1;
+                    //}
+                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 200000)
+                    //{
+                    //    rsk.OnayTip = 2;
+                    //}
+                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 500000)
+                    //{
+                    //    rsk.OnayTip = 3;
+                    //}
+                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) >= 500000)
+                    //{
+                    //    rsk.OnayTip = 4;
+                    //}
+                    //else
+                    //{
+                    //    rsk.OnayTip = -1;
+                    //}
+                    DateTime date = DateTime.Now;
+                    var shortDate = date.ToString("yyyy-MM-dd");
+                    sqlexper.Insert(fyt);
+                    var sonuc = sqlexper.AcceptChanges();
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(),shortDate));
+                }
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "NO";
+            }
+        }
+        public string Fiyat_Onay2(string Data)
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
+            //string sql = string.Format(@"INSERT INTO FINSAT";
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+
+            int BasTarih = 0;
+            int BitTarih = 0;
+            string ListeAdi = "";
+            try
+            {
+                foreach (JObject insertObj in parameters)
+                {
+
+                    var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
+                    //var bastarih = db.Database.SqlQuery<FiyatListSelect>(string.Format("SELECT Max(BasTarih)as bastarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "33", insertObj["FiyatListNum"].ToString())).ToList();
+                    //var bittarih = db.Database.SqlQuery<FiyatListSelect>(string.Format("SELECT Max(BitTarih)as bittarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "33", insertObj["FiyatListNum"].ToString())).ToList();
+
+                    FYT fyt = new FYT();
+
+                    if (fytData.FiyatListNum != null)
+                    {
+                        ListeAdi = fytData.FiyatListName;
+                        BasTarih = fytData.BasTarih;
+                        BitTarih = fytData.BitTarih;
+
+                    }
+                    else
+                    {
+                        ListeAdi = insertObj["FiyatListNum"].ToString() + " Fiyat Listesi";
+                        if (ListeAdi.Length > 30)
+                        {
+                            ListeAdi = ListeAdi.Substring(0, 30);
+                        }
+                        BasTarih = insertObj["BasTarih"].ToInt32();
+                        BitTarih = insertObj["BitTarih"].ToInt32();
+
+                    }
+
+                    fyt.MalKodu = insertObj["MalKodu"].ToString();
+                    fyt.BasTarih = BasTarih;
+                    fyt.BasSaat = 0;
+                    fyt.BitTarih = BitTarih;
+                    fyt.BitSaat = 0;
+                    fyt.SiraNo = 0;
+                    fyt.RenkBedenKod1 = "";
+                    fyt.RenkBedenKod2 = "";
+                    fyt.RenkBedenKod3 = "";
+                    fyt.RenkBedenKod4 = "";
+                    fyt.FiyatListNum = insertObj["FiyatListNum"].ToString();
+                    fyt.FiyatTuru = 1;
+                    fyt.Kod1 = "";
+                    fyt.Kod2 = "";
+                    fyt.Kod3 = "";
+                    fyt.KodTipi = 0;
+                    fyt.MusteriKodu = insertObj["HesapKodu"].ToString();
+                    fyt.AlisFiyat1 = 0;
+                    fyt.AlisFiyat2 = 0;
+                    fyt.AlisFiyat3 = 0;
+                    fyt.DvzAlisFiyat1 = 0;
+                    fyt.DvzAlisFiyat2 = 0;
+                    fyt.DvzAlisFiyat3 = 0;
+                    fyt.AF1DovizCinsi = "";
+                    fyt.AF2DovizCinsi = "";
+                    fyt.AF3DovizCinsi = "";
+                    fyt.AF1KDV = 0;
+                    fyt.AF2KDV = 0;
+                    fyt.AF3KDV = 0;
+                    fyt.DovizAF1KDV = 0;
+                    fyt.DovizAF2KDV = 0;
+                    fyt.DovizAF3KDV = 0;
+                    fyt.AF1Birim = 0;
+                    fyt.AF2Birim = 0;
+                    fyt.AF3Birim = 0;
+                    fyt.DovizAF1Birim = 0;
+                    fyt.DovizAF2Birim = 0;
+                    fyt.DovizAF3Birim = 0;
+                    fyt.SatisFiyat1 = insertObj["SatisFiyat1"].ToDecimal();
+                    fyt.SatisFiyat2 = 0;
+                    fyt.SatisFiyat3 = 0;
+                    fyt.SatisFiyat4 = 0;
+                    fyt.SatisFiyat5 = 0;
+                    fyt.SatisFiyat6 = 0;
+                    fyt.DvzSatisFiyat1 = insertObj["DovizSatisFiyat1"].ToDecimal();
+                    fyt.DvzSatisFiyat2 = 0;
+                    fyt.DvzSatisFiyat3 = 0;
+                    fyt.SF1DovizCinsi = insertObj["DovizCinsi"].ToString().Trim();
+                    fyt.SF2DovizCinsi = "";
+                    fyt.SF3DovizCinsi = "";
+                    fyt.SF4DovizCinsi = "";
+                    fyt.SF5DovizCinsi = "";
+                    fyt.SF6DovizCinsi = "";
+                    fyt.SF1KDV = 0;
+                    fyt.SF2KDV = 0;
+                    fyt.SF3KDV = 0;
+                    fyt.SF4KDV = 0;
+                    fyt.SF5KDV = 0;
+                    fyt.SF6KDV = 0;
+                    fyt.DovizSF1KDV = 0;
+                    fyt.DovizSF2KDV = 0;
+                    fyt.DovizSF3KDV = 0;
+                    fyt.SF1Birim = insertObj["SF1Birim"].ToShort(); ;
+                    fyt.SF2Birim = -1;
+                    fyt.SF3Birim = -1;
+                    fyt.SF4Birim = -1;
+                    fyt.SF5Birim = -1;
+                    fyt.SF6Birim = -1;
+                    fyt.DovizSF1Birim = insertObj["DovizSF1BirimInt"].ToShort();
+                    fyt.DovizSF2Birim = -1;
+                    fyt.DovizSF3Birim = -1;
+                    fyt.FiyatListName = ListeAdi;
+                    fyt.SatisFiyatAltLimit = 0;
+                    fyt.SatisFiyatUstLimit = 0;
+                    fyt.SF1ValorGun = 0;
+                    fyt.SF2ValorGun = 0;
+                    fyt.SF3ValorGun = 0;
+                    fyt.SF4ValorGun = 0;
+                    fyt.SF5ValorGun = 0;
+                    fyt.SF6ValorGun = 0;
+                    fyt.DvzSF1ValorGun = 0;
+                    fyt.DvzSF2ValorGun = 0;
+                    fyt.DvzSF3ValorGun = 0;
+                    fyt.KayitTuru = -1;
+                    fyt.GuvenlikKod = "";
+                    fyt.Kaydeden = vUser.UserName.ToString();
+                    fyt.KayitTarih = (int)DateTime.Now.ToOADate();
+                    fyt.KayitSaat = 0;
+                    fyt.KayitKaynak = 117;
+                    fyt.KayitSurum = "8.10.100";
+                    fyt.Degistiren = vUser.UserName.ToString();
+                    fyt.DegisTarih = (int)DateTime.Now.ToOADate();
+                    fyt.DegisSaat = 0;
+                    fyt.DegisKaynak = 117;
+                    fyt.DegisSurum = "8.10.100";
+                    fyt.CheckSum = 12;
+                    fyt.Aciklama = "";
+                    fyt.Kod4 = "";
+                    fyt.Kod5 = "";
+                    fyt.Kod6 = "";
+                    fyt.Kod7 = "";
+                    fyt.Kod8 = "";
+                    fyt.Kod9 = "";
+                    fyt.Kod10 = "";
+                    fyt.Kod11 = 0;
+                    fyt.Kod12 = 0;
+
+
+                    //if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 20000)
+                    //{
+                    //    rsk.OnayTip = 0;
+                    //}
+                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 100000)
+                    //{
+                    //    rsk.OnayTip = 1;
+                    //}
+                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 200000)
+                    //{
+                    //    rsk.OnayTip = 2;
+                    //}
+                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 500000)
+                    //{
+                    //    rsk.OnayTip = 3;
+                    //}
+                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) >= 500000)
+                    //{
+                    //    rsk.OnayTip = 4;
+                    //}
+                    //else
+                    //{
+                    //    rsk.OnayTip = -1;
+                    //}
+                    DateTime date = DateTime.Now;
+                    var shortDate = date.ToString("yyyy-MM-dd");
+                    sqlexper.Insert(fyt);
+                    var sonuc = sqlexper.AcceptChanges();
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
+                }
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "NO";
+            }
+        }
+
+        public string Fiyat_Red(string Data)
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
+            //string sql = string.Format(@"INSERT INTO FINSAT";
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+
+
+            try
+            {
+                foreach (JObject insertObj in parameters)
+                {
+
+ 
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID = '{1}'", "17", insertObj["ID"].ToString()));
+                }
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "NO";
+            }
+        }
+
+
+
 
         public string FiyatSatirEkle(string Data)
         {
@@ -201,7 +623,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Siparis_SM_List()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return null;
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", "33")).ToList();
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", "17")).ToList();
             return PartialView(KOD);
         }
         public ActionResult Siparis_SPGMY()
@@ -212,7 +634,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Siparis_SPGMY_List()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return null;
-            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", "33")).ToList();
+            var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", "17")).ToList();
             return PartialView(KOD);
         }
         public ActionResult Siparis_GM()
@@ -232,7 +654,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Sipariş Onaylama", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            try
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 foreach (string insertObj in parameters)
                 {
@@ -250,59 +672,27 @@ namespace Wms12m.Presentation.Controllers
                     { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 1, 0)); }
                 }
 
+                try
+                {
+                    dbContextTransaction.Commit();
 
-            }
-            catch (Exception)
-            {
+                    _Result.Status = true;
+                    _Result.Message = "İşlem Başarılı ";
+                }
+                catch (Exception)
+                {
 
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu.";
+                    _Result.Status = false;
+                    _Result.Message = "Hata Oluştu.";
+                }
             }
+
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
 
 
 
         }
-        //public JsonResult Siparis_Onay(string EvrakNo, string Kaydeden, int OnayTip, bool OnaylandiMi)
-        //{
-
-        //    if (CheckPerm("Sipariş Onaylama", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-        //    Result _Result = new Result(true);
-
-        //    try
-        //    {
-        //        if (OnayTip == 3 && OnaylandiMi == true)//GMOnay
-        //        { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 3, 1)); }
-        //        else
-        //        if (OnayTip == 2 && OnaylandiMi == true)//SPGMYOnay
-        //        { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 2, 1)); }
-        //        else
-        //        if (OnayTip == 1 && OnaylandiMi == true)//SMOnay
-        //        { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 1, 1)); }
-        //        else
-        //        /***********************************/
-        //        if (OnayTip == 3 && OnaylandiMi == false)//GMRet
-        //        { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 3, 0)); }
-        //        else
-        //        if (OnayTip == 2 && OnaylandiMi == false)//SPGMYRet
-        //        { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 2, 0)); }
-        //        else
-        //        if (OnayTip == 1 && OnaylandiMi == false)//SMRet
-        //        { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", EvrakNo, vUser.UserName, 1, 0)); }
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        _Result.Status = false;
-        //        _Result.Message = "Hata Oluştu.";
-        //    }
-
-
-
-
-        //    return Json(_Result, JsonRequestBehavior.AllowGet);
-        //}
         #endregion
         #region Stok
         public ActionResult Stok()
