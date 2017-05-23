@@ -28,7 +28,6 @@ else
     <script>
         disableAll()
         @{if (ViewBag.Onay == false && ViewBag.Yetki == true) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
-        $("#IrsNo").val('@ViewBag.IrsaliyeId');
         $("#MalKodu").focus();
         $("#MalKodu").autocomplete({
             source: "/Buy/getMalzemebyCode/" + $("#SirketID").val(),

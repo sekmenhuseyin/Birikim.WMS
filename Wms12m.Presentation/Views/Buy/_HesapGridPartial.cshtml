@@ -9,7 +9,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr style="cursor:pointer;" ondblclick="hesapSelect('@item.HesapKodu','@item.Unvan ');">
+            <tr style="cursor:pointer;" onclick="hesapSelect('@item.HesapKodu','@item.Unvan ');">
                 <td>@item.HesapKodu</td>
                 <td>@item.Unvan</td>
             </tr>
