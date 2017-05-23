@@ -76,7 +76,10 @@ namespace Wms12m.Presentation.Controllers
                             Miktar = Convert.ToDecimal(dr["Miktar"]),
                             Birim = dr["Birim"].ToString()
                         };
-                        if (dr["Kaynak Sipariş No"].ToString() != "") sti.KynkSiparisNo = dr["Kaynak Sipariş No"].ToString();
+                        if (dr["Kaynak Sipariş No"].ToString() != "")
+                        {
+                            sti.KynkSiparisNo = dr["Kaynak Sipariş No"].ToString();
+                        }
                         //ekle
                         liste.Add(sti);
                     }
