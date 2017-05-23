@@ -25,7 +25,7 @@ foreach (var item in Model)
     //normal menu ise
     else
     {
-        <li class="@{ if(item.ID==ViewBag.aktifNo) { <text> active</text> }}"><a href="@item.Url" class="nav-link">@if (item.Icon != null) {<i class="@item.Icon"></i>}item.Ad@if (item.ID == ViewBag.aktifNo) {<span class="selected"></span>}</a></li>
+        <li class="@{ if(item.ID==ViewBag.aktifNo) { <text> active</text> }}"><a href="@item.Url" class="nav-link">@if (item.Icon != null) {<i class="@item.Icon"></i>}@item.Ad@if (item.ID == ViewBag.aktifNo) {<span class="selected"></span>}</a></li>
     }
     ilkbittimi=true;
 }
