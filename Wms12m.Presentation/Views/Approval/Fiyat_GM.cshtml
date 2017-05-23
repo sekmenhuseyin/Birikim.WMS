@@ -26,6 +26,7 @@
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script>
         PartialView("/Approval/Fiyat_GM_List", 'liste');
+      //  PartialView("/Approval/RiskTanimPartial", 'liste');
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
             PartialView("/Approval/Fiyat_GM_List", 'liste', JSON.stringify({ Durum: Type }));

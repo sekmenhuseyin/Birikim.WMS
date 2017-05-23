@@ -58,8 +58,16 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Fiyat_GM_List()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
-            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", "33")).ToList();
+            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", "17")).ToList();
             return PartialView(KOD);
+        }
+
+        public string FiyatGMOnayCek()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", "33")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
         }
         public ActionResult Fiyat_SPGMY()
         {
@@ -133,6 +141,7 @@ namespace Wms12m.Presentation.Controllers
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+           
             int BasTarih = 0;
             int BitTarih = 0;
             string ListeAdi = "";
@@ -140,10 +149,31 @@ namespace Wms12m.Presentation.Controllers
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    if (insertObj["YeniSahsiCekLimiti"].ToDecimal() <= 0)
-                        continue;
+
+                    var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
+                    //var bastarih = db.Database.SqlQuery<FiyatListSelect>(string.Format("SELECT Max(BasTarih)as bastarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "33", insertObj["FiyatListNum"].ToString())).ToList();
+                    //var bittarih = db.Database.SqlQuery<FiyatListSelect>(string.Format("SELECT Max(BitTarih)as bittarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "33", insertObj["FiyatListNum"].ToString())).ToList();
 
                     FYT fyt = new FYT();
+
+                    if (fytData.FiyatListNum != null)
+                    {
+                        ListeAdi = fytData.FiyatListName;
+                        BasTarih = fytData.BasTarih;
+                        BitTarih = fytData.BitTarih;
+
+                    }
+                    else
+                    {
+                        ListeAdi = insertObj["FiyatListNum"].ToString() + " Fiyat Listesi";
+                        if (ListeAdi.Length > 30)
+                        {
+                            ListeAdi = ListeAdi.Substring(0, 30);
+                        }
+                        BasTarih = insertObj["BasTarih"].ToInt32();
+                        BitTarih = insertObj["BitTarih"].ToInt32();
+
+                    }
 
                     fyt.MalKodu = insertObj["MalKodu"].ToString();
                     fyt.BasTarih = BasTarih;
@@ -277,9 +307,36 @@ namespace Wms12m.Presentation.Controllers
                     //{
                     //    rsk.OnayTip = -1;
                     //}
-
+                    DateTime date = DateTime.Now;
+                    var shortDate = date.ToString("yyyy-MM-dd");
                     sqlexper.Insert(fyt);
                     var sonuc = sqlexper.AcceptChanges();
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(),shortDate));
+                }
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "NO";
+            }
+        }
+
+        public string Fiyat_Red(string Data)
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
+            //string sql = string.Format(@"INSERT INTO FINSAT";
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+
+
+            try
+            {
+                foreach (JObject insertObj in parameters)
+                {
+
+ 
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID = '{1}'", "17", insertObj["ID"].ToString()));
                 }
                 return "OK";
             }
