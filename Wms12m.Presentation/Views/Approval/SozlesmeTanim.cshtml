@@ -279,64 +279,126 @@
         var listeNo = "";
         var GrupKod = "";
         $(document).ready(function () {
+            $(".txt_sira_no").dxTextBox();
+            $(".swtch_sozlesme_durumu").dxSwitch({
+                onText: "Onaylanmış",
+                offText: "Onaylanmamış",
+                value: true,
+                width:"25%"
+            });
+            $(".swtch_vade_valor").dxSwitch({
+                onText: "Vade Tarihi",
+                offText: "Valor Gün",
+                value: true,
+                width: "25%"
+            });
+            $(".swtch_aktif_pasif").dxSwitch({
+                onText: "Aktif",
+                offText: "Pasif",
+                value: true,
+                width: "25%"
+            });
+            $(".txt_sira_no").dxTextBox("instance").option("value", "@ViewBag.SRNO");
             $(".numb_baglanti_tutari").dxNumberBox({
                 min: 0,
                 step: 1,
                 value: 0
             });
-            $(".numb_baglanti_tutari").dxNumberBox({
+            $(".numb_iskonto1").dxNumberBox({
                 min: 0,
                 step: 1,
                 value: 0
             });
-            $(".numb_baglanti_tutari").dxNumberBox({
+            $(".numb_iskonto2").dxNumberBox({
                 min: 0,
                 step: 1,
                 value: 0
             });
-            $(".numb_baglanti_tutari").dxNumberBox({
+            $(".numb_iskonto3").dxNumberBox({
                 min: 0,
                 step: 1,
                 value: 0
             });
-            $(".numb_baglanti_tutari").dxNumberBox({
+            $(".numb_iskonto4").dxNumberBox({
                 min: 0,
                 step: 1,
                 value: 0
             });
-            $(".numb_baglanti_tutari").dxNumberBox({
+            $(".numb_iskonto5").dxNumberBox({
                 min: 0,
                 step: 1,
                 value: 0
             });
-
-
-
+            $(".numb_valor_gun").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_kredi_limiti").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_bakiye").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_toplam_bakiye").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_bekleyen_siparis").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_alinan_bordro").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_alinan_cek_tutari").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_alinan_nakit_vb").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+            $(".numb_toplam_tahsilat").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
 
             @*var model = @Html.Raw(Json.Encode(Model));*@
-            var brmData=new Array();
-            var dvzCinsi=[{Cins:"USD"},{Cins:"EUR"}]
+            //var brmData=new Array();
+            //var dvzCinsi=[{Cins:"USD"},{Cins:"EUR"}]
             $.ajax({
-                url: window.location.origin + "/Approval/FiyatUrunGrupSelect",
+                url: window.location.origin + "/Approval/SozlemeListesi?tip=1",
                 data: {},
                 type: "post",
                 success: function (data)
                 {
                     var result = JSON.parse(data);
-                    $(".select_urun_kodu").dxLookup("instance").option("dataSource",result);
+                    $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
                 }
             });
 
-            $.ajax({
-                url: window.location.origin + "/Approval/FiyatHesapKoduSelect",
-                data: {},
-                type: "post",
-                success: function (data)
-                {
-                    var result = JSON.parse(data);
-                    $(".select_hesap_kod").dxLookup("instance").option("dataSource",result);
-                }
-            });
+            //$.ajax({
+            //    url: window.location.origin + "/Approval/FiyatHesapKoduSelect",
+            //    data: {},
+            //    type: "post",
+            //    success: function (data)
+            //    {
+            //        var result = JSON.parse(data);
+            //        $(".select_hesap_kod").dxLookup("instance").option("dataSource",result);
+            //    }
+            //});
 
             $(".select_list_no").dxLookup({
                 dataSource: model,
@@ -364,106 +426,106 @@
                 }
             });
 
-            $(".select_urun_kodu").dxLookup({
-                //dataSource: result,
-                searchEnabled: true,
-                fullScreen :true,
-                pageLoadMode:"nextButton",
-                searchExpr: ["MalKodu", "MalAdi"],
-                valueExpr: 'MalKodu',
-                displayExpr: 'MalAdi',
-                onValueChanged: function (e) {
-                    brmData=[];
-                    var data = $(".select_urun_kodu").dxLookup("instance").option("selectedItem");
-                    if(data!=null){
-                        if(data.Birim1!=""){
-                            brmData.push({"Birim" : data.Birim1, "Deger":1});
-                        }
-                        if(data.Birim2!=""){
-                            brmData.push({"Birim" : data.Birim2, "Deger":2});
-                        }
-                        if(data.Birim3!=""){
-                            brmData.push({"Birim" : data.Birim3, "Deger":3});
-                        }
-                        $(".txt-doviz-birim").dxSelectBox("instance").option("dataSource",brmData);
-                        $(".txt-birim").dxSelectBox("instance").option("dataSource",brmData);
-                        GrupKod= data.GrupKod;
-                    }
-                    //$(".txt-doviz-cinsi").dxSelectBox("instance").option("dataSource",brmData);
-                    //var data = e.selectedItems;
-                    console.log(brmData);
-                },
-                itemTemplate: function (itemData, itemIndex, itemElement) {
-                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
-                    if(itemIndex>0)
-                    {
-                        itemElement.css({ "margin-top":"-40px" });
-                    }
-                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.MalAdi + "</b></p>");
-                    rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalKodu: <i style='font-weight:normal;'>" + itemData.MalKodu + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
-                    itemElement.append(rightBlock);
-                }
-            });
+            //$(".select_urun_kodu").dxLookup({
+            //    //dataSource: result,
+            //    searchEnabled: true,
+            //    fullScreen :true,
+            //    pageLoadMode:"nextButton",
+            //    searchExpr: ["MalKodu", "MalAdi"],
+            //    valueExpr: 'MalKodu',
+            //    displayExpr: 'MalAdi',
+            //    onValueChanged: function (e) {
+            //        brmData=[];
+            //        var data = $(".select_urun_kodu").dxLookup("instance").option("selectedItem");
+            //        if(data!=null){
+            //            if(data.Birim1!=""){
+            //                brmData.push({"Birim" : data.Birim1, "Deger":1});
+            //            }
+            //            if(data.Birim2!=""){
+            //                brmData.push({"Birim" : data.Birim2, "Deger":2});
+            //            }
+            //            if(data.Birim3!=""){
+            //                brmData.push({"Birim" : data.Birim3, "Deger":3});
+            //            }
+            //            $(".txt-doviz-birim").dxSelectBox("instance").option("dataSource",brmData);
+            //            $(".txt-birim").dxSelectBox("instance").option("dataSource",brmData);
+            //            GrupKod= data.GrupKod;
+            //        }
+            //        //$(".txt-doviz-cinsi").dxSelectBox("instance").option("dataSource",brmData);
+            //        //var data = e.selectedItems;
+            //        console.log(brmData);
+            //    },
+            //    itemTemplate: function (itemData, itemIndex, itemElement) {
+            //        itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+            //        if(itemIndex>0)
+            //        {
+            //            itemElement.css({ "margin-top":"-40px" });
+            //        }
+            //        var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+            //        rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.MalAdi + "</b></p>");
+            //        rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalKodu: <i style='font-weight:normal;'>" + itemData.MalKodu + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
+            //        itemElement.append(rightBlock);
+            //    }
+            //});
 
-            $(".select_hesap_kod").dxLookup({
-                //dataSource: model,
-                searchEnabled: true,
-                pageLoadMode:"nextButton",
-                searchExpr: ["HesapKodu", "Unvan"],
-                valueExpr: 'HesapKodu',
-                displayExpr: 'Unvan',
+            //$(".select_hesap_kod").dxLookup({
+            //    //dataSource: model,
+            //    searchEnabled: true,
+            //    pageLoadMode:"nextButton",
+            //    searchExpr: ["HesapKodu", "Unvan"],
+            //    valueExpr: 'HesapKodu',
+            //    displayExpr: 'Unvan',
 
-                onValueChanged: function (e) {
+            //    onValueChanged: function (e) {
 
-                },
+            //    },
 
-                itemTemplate: function (itemData, itemIndex, itemElement) {
-                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
-                    if(itemIndex>0)
-                    {
-                        itemElement.css({ "margin-top":"-40px" });
-                    }
-                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
-                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Hesap Kodu: <i>" + itemData.HesapKodu + "</i></p></div>");
-                    itemElement.append(rightBlock);
-                }
-            });
+            //    itemTemplate: function (itemData, itemIndex, itemElement) {
+            //        itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+            //        if(itemIndex>0)
+            //        {
+            //            itemElement.css({ "margin-top":"-40px" });
+            //        }
+            //        var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+            //        rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+            //        rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Hesap Kodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+            //        itemElement.append(rightBlock);
+            //    }
+            //});
 
-            $(".numb-satis-fiyat").dxNumberBox({
-                min:0,
-                step:1,
-                value:0
-            });
+            //$(".numb-satis-fiyat").dxNumberBox({
+            //    min:0,
+            //    step:1,
+            //    value:0
+            //});
 
-            $(".numb-doviz-satis-fiyat").dxNumberBox({
-                min:0,
-                step:1,
-                value:0
-            });
+            //$(".numb-doviz-satis-fiyat").dxNumberBox({
+            //    min:0,
+            //    step:1,
+            //    value:0
+            //});
 
-            $(".txt-doviz-birim").dxSelectBox({
-                valueExpr: 'Deger',
-                displayExpr: 'Birim',
-                onValueChanged: function (e) {
-                }
-            });
+            //$(".txt-doviz-birim").dxSelectBox({
+            //    valueExpr: 'Deger',
+            //    displayExpr: 'Birim',
+            //    onValueChanged: function (e) {
+            //    }
+            //});
 
-            $(".txt-birim").dxSelectBox({
-                valueExpr: 'Deger',
-                displayExpr: 'Birim',
-                onValueChanged: function (e) {
-                }
-            });
+            //$(".txt-birim").dxSelectBox({
+            //    valueExpr: 'Deger',
+            //    displayExpr: 'Birim',
+            //    onValueChanged: function (e) {
+            //    }
+            //});
 
-            $(".txt-doviz-cinsi").dxSelectBox({
-                dataSource:dvzCinsi,
-                valueExpr: 'Cins',
-                displayExpr: 'Cins',
-                onValueChanged: function (e) {
-                }
-            });
+            //$(".txt-doviz-cinsi").dxSelectBox({
+            //    dataSource:dvzCinsi,
+            //    valueExpr: 'Cins',
+            //    displayExpr: 'Cins',
+            //    onValueChanged: function (e) {
+            //    }
+            //});
         });
 
         $('.yenile-buton').click(function () {

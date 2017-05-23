@@ -447,8 +447,23 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult SozlesmeTanim()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return Redirect("/");
-            //var LNO = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
+            ViewBag.SRNO = "SOZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeSiraNoSelect]", "17")).FirstOrDefault();
             return View();
+        }
+
+        public string SozlesmeListesi(int tip )
+        {
+            var sozlesmeler = new SozlesmeListesi();
+            if (tip == 0)
+            {
+                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeOnaylanmisList]", "17")).FirstOrDefault();
+            }
+            else
+            {
+                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeOnaylanmamisList]", "17")).FirstOrDefault();
+            }
+            var json = new JavaScriptSerializer().Serialize(sozlesmeler);
+            return json;
         }
         #endregion
         #region Risk
