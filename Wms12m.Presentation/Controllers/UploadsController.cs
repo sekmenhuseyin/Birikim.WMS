@@ -38,6 +38,7 @@ namespace Wms12m.Presentation.Controllers
             if (result.Tables[0].Rows == null) return Json(_result, JsonRequestBehavior.AllowGet);
             //sti listesi oluşturuyoruz. tüm bilgiyi tek seferde veritabanına kaydetçek
             List<IRS_Detay> liste = new List<IRS_Detay>();
+            var depo = Store.Detail(DID);
             //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
             int tarih = fn.ToOADate();
             var gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
@@ -76,7 +77,19 @@ namespace Wms12m.Presentation.Controllers
                             Miktar = Convert.ToDecimal(dr["Miktar"]),
                             Birim = dr["Birim"].ToString()
                         };
-                        if (dr["Kaynak Sipariş No"].ToString() != "") sti.KynkSiparisNo = dr["Kaynak Sipariş No"].ToString();
+                        if (dr["Kaynak Sipariş No"].ToString() != "")
+                        {
+                            string sql = String.Format("SELECT ROW_ID, EvrakNo, Tarih, SiraNo, BirimMiktar FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0) AND (EvrakNo = '{1}') AND (MalKodu = '{2}') AND (Birim = '{3}') AND (Depo = '{4}')", SID, dr["Kaynak Sipariş No"].ToString(), malkodu, dr["Birim"].ToString(), depo.DepoKodu);
+                            var tbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
+                            if (tbl != null)
+                            {
+                                sti.KynkSiparisNo = tbl.EvrakNo;
+                                sti.KynkSiparisID = tbl.ROW_ID;
+                                sti.KynkSiparisMiktar = tbl.BirimMiktar;
+                                sti.KynkSiparisSiraNo = tbl.SiraNo;
+                                sti.KynkSiparisTarih = tbl.Tarih;
+                            }
+                        }
                         //ekle
                         liste.Add(sti);
                     }

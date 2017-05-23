@@ -45,7 +45,7 @@
         color: window;
     }
 
-    .dx-popup-content{
+    /*.dx-popup-content{
         width:750px !important;
         background-color: #48e5f5;
     }
@@ -67,7 +67,7 @@
     }
     .dx-list-next-button{
         margin-top:25px !important;
-    }
+    }*/
 </style>
 <div class="row">
     <div>
@@ -300,6 +300,14 @@
         var GrupKod = "";
         $(document).ready(function () {
             $(".txt_sira_no").dxTextBox();
+            $(".txt_sozlesme_sira_no").dxTextBox();
+            $(".txt_sozlesme_notu").dxTextBox();
+            $(".txt_ortalama_vade").dxTextBox();
+            $(".txt_alinan_bordro_ort").dxTextBox();
+            $(".date_baslangic_tarihi").dxDateBox();
+            $(".date_bitis_tarihi").dxDateBox();
+            $(".date_vade_tarihi").dxDateBox();
+            $(".date_alinan_cek_ort_vade").dxDateBox();
             $(".swtch_sozlesme_durumu").dxSwitch({
                 onText: "Onaylanmış",
                 offText: "Onaylanmamış",
@@ -443,15 +451,13 @@
                 },
 
                 itemTemplate: function (itemData, itemIndex, itemElement) {
-                    itemElement.css({ "text-align": "left",  });
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
                     if (itemIndex > 0) {
                         itemElement.css({ "margin-top": "-40px" });
                     }
-                    var rightBlock = $("<div style=' margin: 2px; width:100%;'><div>");
-                    if (itemIndex == 0) {
-                        rightBlock.append("<table><tr><th style='border:1px solid window; width:80px !important;color:window;padding:2px;'>Liste No</th><th style='border:1px solid window; width:140px !important;color:window;padding:2px;'>Müşteri Kodu</th><th style='border:1px solid window; width:120px !important;color:window;padding:2px;'>Onay Merci</th><th style='border:1px solid window; width:400px !important;color:window;padding:2px;'>Unvan</th></tr></table>");
-                    }
-                    rightBlock.append("<table><tr><td style='border:1px solid window; width:80px !important;color:window;padding:2px;'>" + itemData.ListeNo + "</td><td style='border:1px solid window; width:140px !important;color:window;padding:2px;'>" + itemData.MusteriKod + "</td><td style='border:1px solid window; width:120px !important;color:window;padding:2px;'>" + itemData.OnayMerci + "</td><td style='border:1px solid window; width:400px !important;color:window;padding:2px;'>" + itemData.Unvan + "</td></td></table></div></div>");
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.MalAdi + "</b></p>");
+                    rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalKodu: <i style='font-weight:normal;'>" + itemData.MalKodu + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
                     itemElement.append(rightBlock);
                 }
             });

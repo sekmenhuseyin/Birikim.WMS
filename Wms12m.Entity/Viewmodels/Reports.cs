@@ -37,28 +37,6 @@ namespace Wms12m.Entity
         public bool Onay { get; set; }
         public string Durum { get; set; }
     }
-    //public class RiskTanim
-    //{
-    //    public int ID { get; set; }
-    //    public string HesapKodu { get; set; }
-    //    public string Unvan { get; set; }
-    //    public decimal SahsiCekLimiti { get; set; }
-    //    public decimal MusteriCekLimiti { get; set; }
-    //    public bool? SMOnay { get; set; }
-    //    public string SMOnaylayan { get; set; }
-    //    public DateTime? SMOnayTarih { get; set; }
-    //    public bool? SPGMYOnay { get; set; }
-    //    public string SPGMYOnaylayan { get; set; }
-    //    public DateTime? SPGMYOnayTarih { get; set; }
-    //    public bool? MIGMYOnay { get; set; }
-    //    public string MIGMYOnaylayan { get; set; }
-    //    public DateTime? MIGMYOnayTarih { get; set; }
-    //    public bool? GMOnay { get; set; }
-    //    public string GMOnaylayan { get; set; }
-    //    public DateTime? GMOnayTarih { get; set; }
-    //    public short? OnayTip { get; set; }
-    //    public bool? Durum { get; set; }
-    //}
     public class SozlesmeOnaySelect
     {
         public string ListeNo { get; set; }

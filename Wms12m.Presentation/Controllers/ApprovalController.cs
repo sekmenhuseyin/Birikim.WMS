@@ -873,7 +873,7 @@ namespace Wms12m.Presentation.Controllers
         {
             JavaScriptSerializer json = new JavaScriptSerializer();
             json.MaxJsonLength = int.MaxValue;
-            var ISSTemp = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]", "17")).ToList();
+            var ISSTemp = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", SozlesmeNo)).ToList();
             return json.Serialize(ISSTemp);
         }
         #endregion
