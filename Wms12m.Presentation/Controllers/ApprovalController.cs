@@ -336,7 +336,7 @@ namespace Wms12m.Presentation.Controllers
                 return "NO";
             }
         }
-        public string Fiyat_Onay(string Data)
+        public string Fiyat_Onay2(string Data)
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
             //string sql = string.Format(@"INSERT INTO FINSAT";

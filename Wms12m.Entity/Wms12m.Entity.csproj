@@ -238,9 +238,11 @@
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
     <Compile Include="Viewmodels\Downloads.cs" />
+    <Compile Include="Viewmodels\FiyatKoleksiyonSelect.cs" />
     <Compile Include="Viewmodels\frmCables.cs" />
     <Compile Include="Viewmodels\frmTransfer.cs" />
     <Compile Include="Viewmodels\Fiyat.cs" />
+    <Compile Include="Viewmodels\FYT.cs" />
     <Compile Include="Viewmodels\Invoce.cs" />
     <Compile Include="Viewmodels\ISS_Temp.cs" />
     <Compile Include="Viewmodels\Reports.cs" />
