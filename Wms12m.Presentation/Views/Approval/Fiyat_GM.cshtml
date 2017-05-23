@@ -6,13 +6,17 @@
     <div class="form-body">
         <div class="row">
             <label class="col-sm-1" style="width:50%;" >
-                <input type="checkbox" name="Locked" value="Koleksiyon" /> Koleksiyon ve Kaliteye Göre Onaylama
+                <input type="checkbox" name="Locked" value="Koleksiyon" id="chkKoleksiyon" /> Koleksiyon ve Kaliteye Göre Onaylama
             </label>
             <label class="col-sm-1" style="width:50%;" >
-                <input type="checkbox" name="Locked" value="Grup" /> Grup, Ebat ve Yüzeye Göre Onaylama
+                <input type="checkbox" name="Locked" value="Grup" id="chkGrup" /> Grup, Ebat ve Yüzeye Göre Onaylama
             </label>
         </div>
         <div id="liste" style="padding:10px;margin-top:30px; ">
+        </div>
+        <div id="listekoleksiyon" style="padding:10px;margin-top:30px;display:none; ">
+        </div>
+        <div id="listegrup" style="padding:10px;margin-top:30px;display:none; ">
         </div>
     </div>
 </div>
@@ -26,10 +30,40 @@
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script>
         PartialView("/Approval/Fiyat_GM_List", 'liste');
+
+        //PartialView("/Approval/Fiyat_GM_List_Grup", 'listegrup');
       //  PartialView("/Approval/RiskTanimPartial", 'liste');
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
             PartialView("/Approval/Fiyat_GM_List", 'liste', JSON.stringify({ Durum: Type }));
         }
+
+        $(document).ready(function () {
+
+            $('#chkKoleksiyon').click(function () {
+                if (this.checked) {
+                    PartialView("/Approval/Fiyat_GM_List_Koleksiyon", 'listekoleksiyon');
+                    $("#listekoleksiyon").css("display", "block");
+                    $("#liste").css("display", "none");
+                    
+
+                }
+                else
+                {
+                    $("#listekoleksiyon").css("display", "none");
+                    $("#liste").css("display", "block");
+                }
+
+               
+            });
+
+            $('#chkGrup').click(function () {
+                if (this.checked) {
+                    var returnVal = confirm("Are you sure?");
+                    $(this).prop("checked", returnVal);
+                }
+
+            });
+        });
     </script>
 }

@@ -525,6 +525,7 @@
     <Content Include="Views\Approval\TeminatTanimList.cshtml" />
     <Content Include="Views\Approval\FiyatListesi.cshtml" />
     <Content Include="Views\Approval\FiyatListesiPartial.cshtml" />
+    <Content Include="Views\Approval\Fiyat_GM_List_Koleksiyon.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

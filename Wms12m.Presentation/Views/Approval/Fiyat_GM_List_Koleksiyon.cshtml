@@ -57,27 +57,26 @@
                 </div>
             </div>
 
-            <table class="table table-striped table-bordered table-hover" id="sample_1">
+            <table class="table table-striped table-bordered table-hover" id="sample_2">
                 <thead>
                     <tr>
-                        <th></th>
+                        
                         <th>
                             <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                <input type="checkbox" class="group-checkable" data-set="#sample_2 .checkboxes" />
                                 <span></span>
                             </label>
                         </th>
-                        <th> Liste No </th>
-                        <th> Durum </th>
-                        <th> Ürün Kodu </th>
-                        <th> Ürün Adı </th>
-                        <th> Müşteri Kodu </th>
-                        <th>Ünvan</th>
-                        <th>Satış Fiyat1</th>
-                        <th>Satış Fiyat1 Birim</th>
-                        <th>Döviz Satış Fiyat</th>
-                        <th>Döviz Satış Fiyat1 Birim</th>
+                        <th> Kod 4</th>
+                        <th> Tip Kod</th>
+                        <th> Liste Adı </th>
+                        <th> Satış Fiyat </th>
+                        <th> Satış Fiyat Birim </th>
+                        <th> Döviz Satış Fiyat</th>
+                        <th>Döviz SF Birim</th>
+                        <th>Döviz SF Birim Sayı</th>
                         <th>Döviz Cinsi</th>
+
 
                     </tr>
                 </thead>
@@ -87,35 +86,31 @@
     </div>
 </div>
 <script>
-   
+
             var secili_satir = new Array();
             var secili_table = new Array();
-        var table = $('#sample_1').DataTable({
+        var table = $('#sample_2').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
-                "url": '/Approval/FiyatGMOnayCek',
+                "url": '/Approval/FiyatGMOnayCekGMKoleksiyon',
                 "dataSrc": function (json) {
                     return json;
                 },
             },
             //"responsive": true,
             "fixedHeader": true,
-            "columnDefs": [{ "visible": false, "targets": 0 }],
-            "scrollX": true,
+            //"scrollX": true,
             "columns": [
-                { "data": "ID" },
                 { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
+                { "data": "Kod4", "sClass": "nowrap" },
+                { "data": "TipKod", "sClass": "nowrap" },
                 { "data": "FiyatListNum", "sClass": "nowrap" },
-                { "data": "Durum", "sClass": "nowrap" },
-                { "data": "MalKodu", "sClass": "nowrap" },
-                { "data": "MalAdi", "sClass": "nowrap" },
-                { "data": "HesapKodu", "sClass": "nowrap" },
-                { "data": "Unvan", "sClass": "nowrap" },
                 { "data": "SatisFiyat1", "sClass": "nowrap" },
                 { "data": "SatisFiyat1Birim", "sClass": "nowrap" },
-                { "data": "DovizSatisFiyat1", "sClass": "nowrap" },
-                { "data": "DovizSF1Birim", "sClass": "nowrap" },
+                { "data": "SatisFiyat1BirimInt", "sClass": "nowrap" },
                 { "data": "DovizCinsi", "sClass": "nowrap" },
+
+
                 //{
                 //    "render": function ( data, type, full, meta ) {
                 //        return table.saveContact(full);
@@ -130,7 +125,7 @@
         });
 
 
-        $('#sample_1 tbody').on('click', 'tr', function () {
+        $('#sample_2 tbody').on('click', 'tr', function () {
             $(this).toggleClass('selected');
         });
 
@@ -188,6 +183,6 @@
 
         });
         $(document).ready(function () { });
-    
+
 </script>
 
