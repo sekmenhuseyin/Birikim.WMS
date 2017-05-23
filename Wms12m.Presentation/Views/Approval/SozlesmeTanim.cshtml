@@ -41,12 +41,32 @@
     }
 
     .dx-header-row {
-        background-color: #86d8ea;
+        background-color: #86d8ea ;
         color: window;
     }
 
-    .dx-overlay-content.dx-popup-normal.dx-resizable {
-        width: 400px;
+    .dx-popup-content{
+        width:750px !important;
+        background-color: #48e5f5;
+    }
+    .dx-state-hover{
+        background-color: #48e5f5 !important;
+        color: window !important;
+    }
+    .dx-list-item-selected{
+        background-color: #48e5f5 !important;
+        color: window !important;
+    }
+    .dx-lookup-popup-wrapper .dx-list-item{
+        margin-bottom:-25px !important;
+    }
+    .dx-overlay-content.dx-popup-normal.dx-resizable{
+        width:750px !important;
+        background-color: #48e5f5;
+        height:700px !important;
+    }
+    .dx-list-next-button{
+        margin-top:25px !important;
     }
 </style>
 <div class="row">
@@ -284,7 +304,7 @@
                 onText: "Onaylanmış",
                 offText: "Onaylanmamış",
                 value: true,
-                width:"25%"
+                width: "25%"
             });
             $(".swtch_vade_valor").dxSwitch({
                 onText: "Vade Tarihi",
@@ -375,15 +395,16 @@
                 value: 0
             });
 
+           
+
             @*var model = @Html.Raw(Json.Encode(Model));*@
             //var brmData=new Array();
             //var dvzCinsi=[{Cins:"USD"},{Cins:"EUR"}]
             $.ajax({
-                url: window.location.origin + "/Approval/SozlemeListesi?tip=1",
+                url: window.location.origin + "/Approval/SozlesmeListesi?tip=0",
                 data: {},
                 type: "post",
-                success: function (data)
-                {
+                success: function (data) {
                     var result = JSON.parse(data);
                     $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
                 }
@@ -400,28 +421,37 @@
             //    }
             //});
 
-            $(".select_list_no").dxLookup({
-                dataSource: model,
+            $(".select_sozlesmeler").dxLookup({
+                //dataSource: model,
                 searchEnabled: true,
-                pageLoadMode:"nextButton",
-                searchExpr: ["FiyatListNum", "FiyatListName"],
-                valueExpr: 'FiyatListNum',
-                displayExpr: 'FiyatListName',
+                pageLoadMode: "nextButton",
+                searchExpr: ["ListeNo", "MusteriKod", "Unvan", "OnayMerci"],
+                valueExpr: 'ListeNo',
+                displayExpr: 'ListeNo',
 
                 onValueChanged: function (e) {
-                    console.log(e.value);
-                    listeNo=e.value;
+                    $.ajax({
+                        url: window.location.origin + "/Approval/ISSTempList?SozlesmeNo=" + e.value,
+                        data: {},
+                        type: "post",
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            console.log(result);
+                            //$(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
+                        }
+                    });
                 },
 
                 itemTemplate: function (itemData, itemIndex, itemElement) {
-                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
-                    if(itemIndex>0)
-                    {
-                        itemElement.css({ "margin-top":"-40px" });
+                    itemElement.css({ "text-align": "left",  });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
                     }
-                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.FiyatListName + "</b></p>");
-                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Liste No: <i>" + itemData.FiyatListNum + "</i></p></div>");
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'><div>");
+                    if (itemIndex == 0) {
+                        rightBlock.append("<table><tr><th style='border:1px solid window; width:80px !important;color:window;padding:2px;'>Liste No</th><th style='border:1px solid window; width:140px !important;color:window;padding:2px;'>Müşteri Kodu</th><th style='border:1px solid window; width:120px !important;color:window;padding:2px;'>Onay Merci</th><th style='border:1px solid window; width:400px !important;color:window;padding:2px;'>Unvan</th></tr></table>");
+                    }
+                    rightBlock.append("<table><tr><td style='border:1px solid window; width:80px !important;color:window;padding:2px;'>" + itemData.ListeNo + "</td><td style='border:1px solid window; width:140px !important;color:window;padding:2px;'>" + itemData.MusteriKod + "</td><td style='border:1px solid window; width:120px !important;color:window;padding:2px;'>" + itemData.OnayMerci + "</td><td style='border:1px solid window; width:400px !important;color:window;padding:2px;'>" + itemData.Unvan + "</td></td></table></div></div>");
                     itemElement.append(rightBlock);
                 }
             });
@@ -529,7 +559,7 @@
         });
 
         $('.yenile-buton').click(function () {
-            if(listeNo!=""){
+            if (listeNo != "") {
                 PartialView("/Approval/PartialFiyatList", 'fiyat_listesi_data', JSON.stringify({ listeNo: listeNo }));
             }
         });
@@ -548,21 +578,20 @@
                 url: window.location.origin + "/Approval/FiyatListesiBekleyen",
                 data: {},
                 type: "post",
-                success: function (data)
-                {
+                success: function (data) {
                     var result = JSON.parse(data);
                     var columns = [
-                    { caption: 'Onay Statüsü', dataField: 'HangiOnayda'},
-                    { caption: 'Liste No', dataField: 'FiyatListNum'},
+                    { caption: 'Onay Statüsü', dataField: 'HangiOnayda' },
+                    { caption: 'Liste No', dataField: 'FiyatListNum' },
                     { caption: 'AltBayi', dataField: 'AltBayi' },
-                    { caption: 'Durum', dataField: 'Durum'},
-                    { caption: 'Ürün Kodu', dataField: 'MalKodu',  },
+                    { caption: 'Durum', dataField: 'Durum' },
+                    { caption: 'Ürün Kodu', dataField: 'MalKodu', },
                     { caption: 'Ürün Adı', dataField: 'MalAdi' },
-                    { caption: 'Hesap Kodu', dataField: 'HesapKodu'},
-                    { caption: 'Unvan', dataField: 'Unvan'},
+                    { caption: 'Hesap Kodu', dataField: 'HesapKodu' },
+                    { caption: 'Unvan', dataField: 'Unvan' },
                     { caption: 'Satış Fiyat', dataField: 'SatisFiyat1' },
-                    { caption: 'Satış Fiyat Birim', dataField: 'SatisFiyat1Birim'},
-                    { caption: 'Döviz Satış Fiyat', dataField: 'DovizSatisFiyat1',  },
+                    { caption: 'Satış Fiyat Birim', dataField: 'SatisFiyat1Birim' },
+                    { caption: 'Döviz Satış Fiyat', dataField: 'DovizSatisFiyat1', },
                     { caption: 'Döviz Satış Fiyat Birim', dataField: 'DovizSF1Birim' },
                     { caption: 'Döviz Cinsi', dataField: 'DovizCinsi' },
                     ];
@@ -629,20 +658,19 @@
 
         function fiyatEdit(id) {
             var jObject = {};
-            jObject["ListeNo"]=$(".select_list_no").dxLookup("instance").option("value");
-            jObject["UrunKodu"]=$(".select_urun_kodu").dxLookup("instance").option("value");
-            jObject["HesapKodu"]=$(".select_hesap_kod").dxLookup("instance").option("value");
-            jObject["SatisFiyat"]=$(".numb-satis-fiyat").dxNumberBox("instance").option("value");
-            jObject["DovizSatisFiyat"]=$(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value");
-            jObject["Birim"]=$(".txt-birim").dxSelectBox("instance").option("text");
-            jObject["DovizBirim"]=$(".txt-doviz-birim").dxSelectBox("instance").option("text");
-            jObject["BirimValue"]=jObject["Birim"]==null?-1:$(".txt-birim").dxSelectBox("instance").option("value");
-            jObject["DovizBirimValue"]=jObject["DovizBirim"]==null?-1:$(".txt-doviz-birim").dxSelectBox("instance").option("value");
-            jObject["DovizCinsi"]=$(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
-            jObject["GrupKod"]=GrupKod;
-            jObject["Durum"]=id;
-            if(jObject["ListeNo"]==null || jObject["UrunKodu"]==null || jObject["HesapKodu"]==null || (jObject["SatisFiyat"]==0 && jObject["DovizSatisFiyat"]==0) || (jObject["SatisFiyat"]>0 && jObject["Birim"]==null) || (jObject["DovizSatisFiyat"]>0 && jObject["DovizBirim"]==null && jObject["DovizCinsi"]==null))
-            {
+            jObject["ListeNo"] = $(".select_list_no").dxLookup("instance").option("value");
+            jObject["UrunKodu"] = $(".select_urun_kodu").dxLookup("instance").option("value");
+            jObject["HesapKodu"] = $(".select_hesap_kod").dxLookup("instance").option("value");
+            jObject["SatisFiyat"] = $(".numb-satis-fiyat").dxNumberBox("instance").option("value");
+            jObject["DovizSatisFiyat"] = $(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value");
+            jObject["Birim"] = $(".txt-birim").dxSelectBox("instance").option("text");
+            jObject["DovizBirim"] = $(".txt-doviz-birim").dxSelectBox("instance").option("text");
+            jObject["BirimValue"] = jObject["Birim"] == null ? -1 : $(".txt-birim").dxSelectBox("instance").option("value");
+            jObject["DovizBirimValue"] = jObject["DovizBirim"] == null ? -1 : $(".txt-doviz-birim").dxSelectBox("instance").option("value");
+            jObject["DovizCinsi"] = $(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
+            jObject["GrupKod"] = GrupKod;
+            jObject["Durum"] = id;
+            if (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || jObject["HesapKodu"] == null || (jObject["SatisFiyat"] == 0 && jObject["DovizSatisFiyat"] == 0) || (jObject["SatisFiyat"] > 0 && jObject["Birim"] == null) || (jObject["DovizSatisFiyat"] > 0 && jObject["DovizBirim"] == null && jObject["DovizCinsi"] == null)) {
                 Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
                 return;
             }
@@ -650,19 +678,19 @@
             var _dfd = $.Deferred();
             $.ajax({
                 url: window.location.origin + "/Approval/FiyatSatirEkle",
-                data: { Data: JSON.stringify(jObject)},
+                data: { Data: JSON.stringify(jObject) },
                 type: "post",
                 success: function (data) {
                     if (data == "OK") {
-                        $(".select_urun_kodu").dxLookup("instance").option("value",null);
-                        $(".select_hesap_kod").dxLookup("instance").option("value",null);
-                        $(".numb-satis-fiyat").dxNumberBox("instance").option("value",0);
-                        $(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value",0);
-                        $(".txt-birim").dxSelectBox("instance").option("text","");
-                        $(".txt-doviz-birim").dxSelectBox("instance").option("text","");
-                        $(".txt-birim").dxSelectBox("instance").option("value","");
-                        $(".txt-doviz-birim").dxSelectBox("instance").option("value","");
-                        $(".txt-doviz-cinsi").dxSelectBox("instance").option("value","");
+                        $(".select_urun_kodu").dxLookup("instance").option("value", null);
+                        $(".select_hesap_kod").dxLookup("instance").option("value", null);
+                        $(".numb-satis-fiyat").dxNumberBox("instance").option("value", 0);
+                        $(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value", 0);
+                        $(".txt-birim").dxSelectBox("instance").option("text", "");
+                        $(".txt-doviz-birim").dxSelectBox("instance").option("text", "");
+                        $(".txt-birim").dxSelectBox("instance").option("value", "");
+                        $(".txt-doviz-birim").dxSelectBox("instance").option("value", "");
+                        $(".txt-doviz-cinsi").dxSelectBox("instance").option("value", "");
                         Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
                     }
                     else if (data == "NO") {

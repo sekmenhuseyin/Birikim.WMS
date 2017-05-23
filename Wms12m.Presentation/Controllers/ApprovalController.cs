@@ -11,8 +11,10 @@ using Wms12m.Entity.Viewmodels;
 
 namespace Wms12m.Presentation.Controllers
 {
+    
     public class ApprovalController : RootController
     {
+        
         #region Çek
         public ActionResult Cek_SPGMY()
         {
@@ -451,19 +453,27 @@ namespace Wms12m.Presentation.Controllers
             return View();
         }
 
-        public string SozlesmeListesi(int tip )
+        public string SozlesmeListesi(int tip)
         {
-            var sozlesmeler = new SozlesmeListesi();
+            var sozlesmeler = new List<SozlesmeListesi>();
             if (tip == 0)
             {
-                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeOnaylanmisList]", "17")).FirstOrDefault();
+                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeOnaylanmisList]", "17")).ToList();
             }
             else
             {
-                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeOnaylanmamisList]", "17")).FirstOrDefault();
+                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeOnaylanmamisList]", "17")).ToList();
             }
             var json = new JavaScriptSerializer().Serialize(sozlesmeler);
             return json;
+        }
+
+        public string ISSTempList(string SozlesmeNo)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer();
+            json.MaxJsonLength = int.MaxValue;
+            var ISSTemp = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]", "17")).ToList();
+            return json.Serialize(ISSTemp);
         }
         #endregion
         #region Risk
