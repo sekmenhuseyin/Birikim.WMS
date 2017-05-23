@@ -17,6 +17,18 @@
                         <div class="caption">
                             <i class="fa fa-gift"></i>Evrak Bilgileri
                         </div>
+                        <div class="col-md-1 pull-right m-t-5">
+                            @using (Ajax.BeginForm("irsaliye", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <a id="linkUpload" class="btn btn-warning showlater2">Yükle</a>
+                                <input id="btnUpload" type="file" name="file" />
+                                <input type="hidden" name="SID" id="SID" value="" />
+                                <input type="hidden" name="DID" id="DID" value="" />
+                                <input type="hidden" name="Hesap" id="Hesap" value="" />
+                            }
+                        </div>
+                        <div class="col-md-1 pull-right m-t-5"><a id="btnSablon" href="~/Content/STISablon.xlsx" class="btn btn-default showlater2">Şablon İndir</a></div>
                     </div>
                     <div class="portlet-body form">
                         @using (Ajax.BeginForm("New", "Buy", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnBegin = "$('#StoreGrid').html('');", UpdateTargetId = "StoreGrid", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
@@ -27,7 +39,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Şirket</label>
                                     <div class="col-md-4">
-                                        @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "checkEnabled()" })
+                                        @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "$('#hesapSelect').hide();checkEnabled()" })
                                         <span class="field-validation-valid" data-valmsg-for="SirketID" data-valmsg-replace="true" style="color:red;"></span>
                                     </div>
                                 </div>
@@ -41,7 +53,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">Hesap Kodu</label>
                                     <div class="col-md-4">
-                                        @Html.TextBoxFor(a => a.HesapKodu, new { @class = "form-control input-circle", @required = "", @onclick = "ShowHide()", @readonly = "", style = "cursor:pointer;", @maxlength = "20" })
+                                        @Html.TextBoxFor(a => a.HesapKodu, new { @class = "form-control input-circle", @required = "", @onclick = "ShowHide()", @readonly = "", style = "cursor:pointer;", @maxlength = "20", @onchange = "checkEnabled()" })
                                         <span class="field-validation-valid" data-valmsg-for="HesapKodu" data-valmsg-replace="true" style="color:red;"></span>
                                     </div>
                                 </div>
@@ -88,16 +100,6 @@
                     <div class="caption">
                         <i class="fa fa-files-o"></i>Malzeme Bilgileri
                     </div>
-                    <div class="col-md-1 pull-right m-t-5 showlater">
-                        @using (Ajax.BeginForm("irsaliye", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <a id="linkUpload" class="btn btn-warning">Yükle</a>
-                            <input id="btnUpload" type="file" name="file" />
-                            <input type="hidden" name="IrsNo" id="IrsNo" value="0" />
-                        }
-                    </div>
-                    <div class="col-md-1 pull-right m-t-5 showlater"><a id="btnSablon" href="~/Content/STISablon.xlsx" class="btn btn-default">Şablon İndir</a></div>
                     <div class="col-md-2 pull-right m-t-5 showlater">
                         <a id="btnSiparis" class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Buy/SiparisList/' + $('#SirketID').val() + ',' + $('#DepoID').val() + ',' + $('#HesapKodu').val())"> Siparişten Getir </a>
                     </div>
@@ -116,11 +118,11 @@
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/scripts/datatable.js" type="text/javascript"></script>
 <script>
-    $(".showlater").hide();
     var DeleteFunctionUrl = '@Url.Action("Delete2", "Buy")';
     $("#SirketID").prepend("<option value=''>Seçiniz !!!</option>");
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>");
     CreateNew(); checkEnabled();
+    $(".showlater").hide();
     $(document).ready(function () {
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#Tarih").datepicker();
@@ -146,10 +148,19 @@
         $("#Tarih").attr("readonly", true);
    }
     function checkEnabled() {
+        $("#SID").val($("#SirketID").val());
+        $("#DID").val($("#DepoID").val());
+        $("#Hesap").val($("#HesapKodu").val());
         if ($("#SirketID").val() == "" || $("#DepoID").val() == "" || $("#HesapKodu").val() == "" || $("#HesapKodu").val() == null)
-            $("#btnList").hide();
+        {
+            $("#btnList").attr("disabled", true);
+            $(".showlater2").attr("disabled", true);
+        }
         else
-            $("#btnList").show();
+        {
+            $("#btnList").attr("disabled", false);
+            $(".showlater2").attr("disabled", false);
+        }
     }
     function ShowHide() {
         if ($('#hesapSelect').css("display") == "none")
@@ -158,11 +169,9 @@
             $('#hesapSelect').hide();
     }
     function CreateNew() {
-        $("#btnList").hide();
         $(".showlater").hide();
         $('#hesapSelect').hide();
         $("#hesapSelect").html("");
-        $("#IrsNo").val('0');
         $("#SirketID")[0].selectedIndex = 0;
         $("#DepoID")[0].selectedIndex = 0;
         $("#HesapKodu").val('');
@@ -174,10 +183,11 @@
         $("#DepoID").attr("readonly", false);
         $("#EvrakNo").attr("readonly", false);
         $("#Tarih").attr("readonly", false);
+        checkEnabled();
     }
     $(function () {
         $('#linkUpload').click(function () {
-            if ($("#IrsNo").val() > 0)
+            if ($("#SID").val() != "" && $("#DID").val() != "" && $("#Hesap").val() != "")
                 $("#btnUpload").click();
         });
         $('#fileupload').fileupload({
@@ -189,7 +199,7 @@
                 if (data.result.Status == false)
                     Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
                 else
-                    $('#submitForm').click();
+                    Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-primary");
             },
             fail: function (e, data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
         });
