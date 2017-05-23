@@ -60,7 +60,7 @@
         var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
         $.ajax({
             url: window.location.origin + "/Home/GunlukSatisAnaliziDoubleKriter",
-            data: {},
+            data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
             {
