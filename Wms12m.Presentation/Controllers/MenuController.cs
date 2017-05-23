@@ -167,26 +167,17 @@ namespace Wms12m.Presentation.Controllers
             return View("Permissions", list);
         }
         /// <summary>
-        /// yetki oluşturma sayfası
+        /// yetkileri kaydet
         /// </summary>
-        //public PartialViewResult PermissionsList(int id)
-        //{
-        //    if (CheckPerm("Menu", PermTypes.Reading) == false) return null;
-        //    ViewBag.id = id;
-        //    return PartialView("PermissionsList");
-        //}
-        /// <summary>
-        /// yetki oluştur
-        /// </summary>
-        //[HttpPost, ValidateAntiForgeryToken]
-        //public void Save(GetMenuRoles_Result tbl)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (CheckPerm("Menu", PermTypes.Writing) == true)
-        //            try { db.MenuRolEkle(tbl.MenuID.ToShort(), tbl.RoleName); }
-        //            catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
-        //    }
-        //}
+        [HttpPost, ValidateAntiForgeryToken]
+        public void Save(GetMenuRoles_Result tbl)
+        {
+            if (ModelState.IsValid)
+            {
+                if (CheckPerm("Menu", PermTypes.Writing) == true)
+                    try { db.MenuRolEkle(tbl.ID, tbl.RoleName); }
+                    catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
+            }
+        }
     }
 }

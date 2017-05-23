@@ -16,18 +16,16 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// irsaliye için malzeme girişi yapar
         /// </summary>
-        public JsonResult irsaliye(int IrsNo, HttpPostedFileBase file)
+        public JsonResult irsaliye(string SID, int DID, string Hesap, HttpPostedFileBase file)
         {
             if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _result = new Result(false, 0, "Hatalı dosya");
-            if (file == null || file.ContentLength == 0 || IrsNo == 0) return Json(_result, JsonRequestBehavior.AllowGet);
+            if (file == null || file.ContentLength == 0) return Json(_result, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku
             Stream stream = file.InputStream;
             IExcelDataReader reader;
             //dosya tipini bul
-            if (file.FileName.EndsWith(".xls"))
-                reader = ExcelReaderFactory.CreateBinaryReader(stream);
-            else if (file.FileName.EndsWith(".xlsx"))
+            if (file.FileName.EndsWith(".xlsx"))
                 reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
             else
                 return Json(_result, JsonRequestBehavior.AllowGet);
@@ -38,56 +36,58 @@ namespace Wms12m.Presentation.Controllers
             //kontrol
             if (result.Tables.Count == 0) return Json(_result, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(_result, JsonRequestBehavior.AllowGet);
-            //irsaliye no bul
-            var irsaliye = db.IRS.Where(m => m.ID == IrsNo).FirstOrDefault();
             //sti listesi oluşturuyoruz. tüm bilgiyi tek seferde veritabanına kaydetçek
             List<IRS_Detay> liste = new List<IRS_Detay>();
-            for (int i = 0; i < result.Tables[0].Rows.Count; i++)
-            {
-                DataRow dr = result.Tables[0].Rows[i];
-                //kontrol
-                try
-                {
-                    if (dr["Birim"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
-                    if (dr["Miktar"].ToString2().IsNumeric() == false) return Json(_result, JsonRequestBehavior.AllowGet);
-                    if (dr["MalKodu"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception)
-                {
-                    return Json(_result, JsonRequestBehavior.AllowGet);
-                }
-                //satıcı malkodundan malkodunu getir
-                string malkodu = String.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.TTY WITH(NOLOCK) WHERE (SatMalKodu = '{1}') AND (Chk = '{2}')", irsaliye.SirketKod, dr["MalKodu"].ToString(), irsaliye.HesapKodu);
-                malkodu = db.Database.SqlQuery<string>(malkodu).FirstOrDefault();
-                _result.Message = "Mal kodu yanlış";
-                if (malkodu == "" || malkodu == null) return Json(_result, JsonRequestBehavior.AllowGet);
-                //add new
-                try
-                {
-                    IRS_Detay sti = new IRS_Detay()
-                    {
-                        IrsaliyeID = IrsNo,
-                        MalKodu = malkodu,
-                        Miktar = Convert.ToDecimal(dr["Miktar"]),
-                        Birim = dr["Birim"].ToString()
-                    };
-                    if (dr["Kaynak Sipariş No"].ToString() != "") sti.KynkSiparisNo = dr["Kaynak Sipariş No"].ToString();
-                    if (dr["Kaynak Sipariş Sıra No"].ToString() != "") sti.KynkSiparisSiraNo = dr["Kaynak Sipariş Sıra No"].ToString().ToShort();
-                    if (dr["Kaynak Sipariş Tarih"].ToString() != "") sti.KynkSiparisTarih = dr["Kaynak Sipariş Tarih"].ToString().ToInt32();
-                    if (dr["Kaynak Sipariş Miktar"].ToString() != "") sti.KynkSiparisMiktar = dr["Kaynak Sipariş Miktar"].ToString().ToDecimal();
-                    //ekle
-                    liste.Add(sti);
-                }
-                catch (Exception)
-                {
-                    _result.Message = "Hatalı satırlar var";
-                    return Json(_result, JsonRequestBehavior.AllowGet);
-                }
-            }
-            reader.Close();
             //buraya kadar hata yoksa bunu yapar. yine de hata olursa hiçbirini kaydetmez...
+            int tarih = fn.ToOADate();
+            var gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
+            var sonuc = new InsertIrsaliye_Result();
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
+                for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+                {
+                    DataRow dr = result.Tables[0].Rows[i];
+                    //kontrol
+                    try
+                    {
+                        if (dr["İrsaliye No"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
+                        if (dr["Birim"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
+                        if (dr["Miktar"].ToString2().IsNumeric() == false) return Json(_result, JsonRequestBehavior.AllowGet);
+                        if (dr["MalKodu"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
+                    }
+                    catch (Exception)
+                    {
+                        return Json(_result, JsonRequestBehavior.AllowGet);
+                    }
+                    //satıcı malkodundan malkodunu getir
+                    string malkodu = String.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.TTY WITH(NOLOCK) WHERE (SatMalKodu = '{1}') AND (Chk = '{2}')", SID, dr["MalKodu"].ToString(), Hesap);
+                    malkodu = db.Database.SqlQuery<string>(malkodu).FirstOrDefault();
+                    _result.Message = "Mal kodu yanlış";
+                    if (malkodu == "" || malkodu == null) return Json(_result, JsonRequestBehavior.AllowGet);
+                    //add irsaliye and gorev
+                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, dr["İrsaliye No"].ToString(), tarih, "Alıcı: " + Hesap, false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "").FirstOrDefault();
+                    //add detays
+                    try
+                    {
+                        IRS_Detay sti = new IRS_Detay()
+                        {
+                            IrsaliyeID = sonuc.IrsaliyeID.Value,
+                            MalKodu = malkodu,
+                            Miktar = Convert.ToDecimal(dr["Miktar"]),
+                            Birim = dr["Birim"].ToString()
+                        };
+                        if (dr["Kaynak Sipariş No"].ToString() != "") sti.KynkSiparisNo = dr["Kaynak Sipariş No"].ToString();
+                        //ekle
+                        liste.Add(sti);
+                    }
+                    catch (Exception)
+                    {
+                        _result.Message = "Hatalı satırlar var";
+                        return Json(_result, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                reader.Close();
+                //update db
                 try
                 {
                     db.IRS_Detay.AddRange(liste);
@@ -102,7 +102,7 @@ namespace Wms12m.Presentation.Controllers
                 }
             }
             //update görev
-            var gorev = db.Gorevs.Where(m => m.IrsaliyeID == IrsNo).FirstOrDefault();
+            var gorev = db.Gorevs.Where(m => m.ID == sonuc.GorevID.Value).FirstOrDefault();
             gorev.DurumID = ComboItems.Açık.ToInt32();
             db.SaveChanges();
             //return

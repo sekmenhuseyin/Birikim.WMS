@@ -7,11 +7,14 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
+using Wms12m.Entity.Viewmodels;
 
 namespace Wms12m.Presentation.Controllers
 {
+    
     public class ApprovalController : RootController
     {
+        
         #region Çek
         public ActionResult Cek_SPGMY()
         {
@@ -551,60 +554,57 @@ namespace Wms12m.Presentation.Controllers
         public string FiyatSatirEkle(string Data)
         {
             if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            JObject parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(Request["Data"]);
             //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
-                foreach (JObject insertObj in parameters)
+                Fiyat fyt = new Fiyat();
+                fyt.FiyatListNum = parameters["ListeNo"].ToString();
+
+                fyt.HesapKodu = parameters["HesapKodu"].ToString();
+                fyt.MalKodu = parameters["UrunKodu"].ToString();
+                fyt.SatisFiyat1 = parameters["SatisFiyat"].ToDecimal();
+                fyt.SatisFiyat1Birim = parameters["Birim"].ToString();
+                fyt.SatisFiyat1BirimInt = parameters["BirimValue"].ToInt32();
+                fyt.DovizSatisFiyat1 = parameters["DovizSatisFiyat"].ToDecimal();
+                fyt.DovizSF1Birim = parameters["DovizBirim"].ToString();
+                fyt.DovizSF1BirimInt = parameters["DovizBirimValue"].ToInt32();
+                fyt.DovizCinsi = parameters["Birim"].ToString();
+                fyt.Durum = parameters["Durum"].ToShort();
+                fyt.ROW_ID = 0;
+                if (fyt.MalKodu.Substring(0, 2) == "80" || fyt.MalKodu.Substring(0, 2) == "81"
+                       || fyt.MalKodu == "M60101000080" || fyt.MalKodu == "M60101000081")
                 {
-                    if (insertObj["YeniSahsiCekLimiti"].ToDecimal() <= 0)
-                        continue;
-
-                    RiskTanim rsk = new RiskTanim();
-
-                    rsk.HesapKodu = insertObj["HesapKodu"].ToString();
-                    rsk.Unvan = insertObj["Unvan"].ToString();
-                    rsk.SahsiCekLimiti = insertObj["SahsiCekLimiti"].ToDecimal();
-                    rsk.MusteriCekLimiti = insertObj["MusteriCekLimiti"].ToDecimal();
-                    rsk.SMOnay = false;
-                    rsk.SMOnaylayan = "";
-                    rsk.SPGMYOnay = false;
-                    rsk.SPGMYOnaylayan = "";
-                    rsk.MIGMYOnay = false;
-                    rsk.MIGMYOnaylayan = "";
-                    rsk.GMOnay = false;
-                    rsk.GMOnaylayan = "";
-                    rsk.Durum = false;
-
-                    if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 20000)
-                    {
-                        rsk.OnayTip = 0;
-                    }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 100000)
-                    {
-                        rsk.OnayTip = 1;
-                    }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 200000)
-                    {
-                        rsk.OnayTip = 2;
-                    }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 500000)
-                    {
-                        rsk.OnayTip = 3;
-                    }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) >= 500000)
-                    {
-                        rsk.OnayTip = 4;
-                    }
-                    else
-                    {
-                        rsk.OnayTip = -1;
-                    }
-
-                    sqlexper.Insert(rsk);
-                    var sonuc = sqlexper.AcceptChanges();
+                    fyt.Onay = true;
+                    fyt.Onaylayan = "";
+                    fyt.SPGMYOnay = true;
+                    fyt.SPGMYOnaylayan = "";
+                    fyt.GMOnay = false;
+                    fyt.GMOnaylayan = "";
                 }
+                /// Fiyatlar İçin KağıtFiltre Kontrolü
+                else if (fyt.MalKodu.StartsWith("2800") || parameters["GrupKod"].ToString() == "FKAĞIT" || fyt.MalKodu == "M001001000017051" || fyt.MalKodu == "M001001000022051") ///2800% ile başlayan ve Navlun ile Sigorta  
+                {
+                    ///Filtre kağıt önce SM sonra da GMye düşecek.
+                    fyt.Onay = false;
+                    fyt.Onaylayan = "OZ";  ///SMden Sadece Özgür Beye düşmesi için yapıldı. 
+                    fyt.SPGMYOnay = true;  ///SPGMY düşmemesi için direk true diyorum
+                    fyt.SPGMYOnaylayan = "";
+                    fyt.GMOnay = false;
+                    fyt.GMOnaylayan = "";
+                }
+                else
+                {
+                    fyt.Onay = false;
+                    fyt.Onaylayan = "";
+                    fyt.SPGMYOnay = false;
+                    fyt.SPGMYOnaylayan = "";
+                    fyt.GMOnay = false;
+                    fyt.GMOnaylayan = "";
+                }
+                sqlexper.Insert(fyt);
+                var sonuc = sqlexper.AcceptChanges();
                 return "OK";
             }
             catch (Exception ex)
@@ -834,6 +834,36 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
             var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "33", ListeNo)).ToList();
             return PartialView(list);
+        }
+
+        public ActionResult SozlesmeTanim()
+        {
+            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            ViewBag.SRNO = "SOZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeSiraNoSelect]", "17")).FirstOrDefault();
+            return View();
+        }
+
+        public string SozlesmeListesi(int tip)
+        {
+            var sozlesmeler = new List<SozlesmeListesi>();
+            if (tip == 0)
+            {
+                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeOnaylanmisList]", "17")).ToList();
+            }
+            else
+            {
+                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeOnaylanmamisList]", "17")).ToList();
+            }
+            var json = new JavaScriptSerializer().Serialize(sozlesmeler);
+            return json;
+        }
+
+        public string ISSTempList(string SozlesmeNo)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer();
+            json.MaxJsonLength = int.MaxValue;
+            var ISSTemp = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]", "17")).ToList();
+            return json.Serialize(ISSTemp);
         }
         #endregion
         #region Risk

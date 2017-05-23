@@ -28,6 +28,11 @@ namespace WMSMobil
             InitializeComponent();
             glbTip = tip;
             GorevTip=gorevtip;
+            //barkod
+            //Barkod = new Barcode2();
+            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            //Barkod.EnableScanner = true;
+            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             try
             {
                 Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip));
@@ -144,11 +149,6 @@ namespace WMSMobil
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
             }
-            //barkod
-            Barkod = new Barcode2();
-            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            Barkod.EnableScanner = true;
-            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             //end
             txtBarkod.Focus();
         }

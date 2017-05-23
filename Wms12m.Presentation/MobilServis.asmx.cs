@@ -94,9 +94,9 @@ namespace Wms12m
             var yetkikontrol = db.GetPermissionFor(KullID, kullanici.RoleName, gtipi, "WMS", "Reading").FirstOrDefault().Value;
             if (yetkikontrol == true)
             {
-                string sql = string.Format("SELECT GRV.ID, ISNULL(GRV.IrsaliyeID, 0) as IrsaliyeID, CONVERT(VARCHAR(10), CONVERT(Datetime, GRV.OlusturmaTarihi - 2), 104) AS OlusturmaTarihi, GRV.Bilgi, GRV.Aciklama, GRV.GorevNo, ISNULL(wms.IRS.EvrakNo, '') as EvrakNo, wms.Depo.DepoKodu, GRV.Atayan, GRV.Gorevli, ComboItem_Name.[Name] AS Durum " +
-                                        "FROM wms.Gorev AS GRV WITH (nolock) INNER JOIN wms.Depo WITH (nolock) ON GRV.DepoID = wms.Depo.ID INNER JOIN ComboItem_Name WITH (nolock) ON GRV.DurumID = ComboItem_Name.ID LEFT OUTER JOIN usr.Users WITH (nolock) ON GRV.Gorevli = usr.Users.Kod LEFT OUTER JOIN wms.IRS WITH (nolock) ON GRV.IrsaliyeID = wms.IRS.ID " +
-                                        "WHERE (wms.Depo.ID = {3}) and case when ({0}>0) then case when (GRV.GorevTipiID = {0}) then 1 else 0 end else 0 end = 1 AND case when ({1}>0) then case when (usr.Users.ID = {1}) then 1 else 0 end else 1 end = 1 AND  case when ({2}>0) then case when (GRV.DurumID = {2}) then 1 else 0 end else 0 end = 1", gorevtipi, gorevli, durum, DepoID);
+                string sql = string.Format("SELECT Gorev.ID, ISNULL(Gorev.IrsaliyeID, 0) as IrsaliyeID, wms.fnFormatDateFromInt(Gorev.OlusturmaTarihi) AS OlusturmaTarihi, Gorev.Bilgi, Gorev.Aciklama, Gorev.GorevNo, ISNULL(wms.IRS.EvrakNo, '') as EvrakNo, wms.Depo.DepoKodu, Gorev.Atayan, Gorev.Gorevli, ComboItem_Name.[Name] AS Durum " +
+                                        "FROM wms.Gorev WITH (nolock) INNER JOIN wms.Depo WITH (nolock) ON Gorev.DepoID = wms.Depo.ID INNER JOIN ComboItem_Name WITH (nolock) ON Gorev.DurumID = ComboItem_Name.ID LEFT OUTER JOIN wms.GorevUsers WITH (nolock) ON wms.Gorev.ID = wms.GorevUsers.GorevID LEFT OUTER JOIN usr.Users WITH (nolock) ON Gorev.Gorevli = usr.Users.Kod LEFT OUTER JOIN wms.IRS WITH (nolock) ON Gorev.IrsaliyeID = wms.IRS.ID " +
+                                        "WHERE (wms.GorevUsers.BitisTarihi IS NULL) AND (wms.Depo.ID = {3}) and case when ({0}>0) then case when (Gorev.GorevTipiID = {0}) then 1 else 0 end else 0 end = 1 AND (CASE WHEN ({1} > 0) THEN CASE WHEN (wms.GorevUsers.UserID = {1} OR wms.GorevUsers.UserID IS NULL) THEN 1 ELSE 0 END ELSE 1 END = 1) AND case when ({1}>0) then case when (usr.Users.ID = {1}) then 1 else 0 end else 1 end = 1 AND  case when ({2}>0) then case when (Gorev.DurumID = {2}) then 1 else 0 end else 1 end = 1", gorevtipi, gorevli, durum, DepoID);
                 return db.Database.SqlQuery<Tip_GOREV>(sql).ToList();
             }
             return new List<Tip_GOREV>();
@@ -125,7 +125,11 @@ namespace Wms12m
         {
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull())
-                return null;
+                return new List<Tip_STI>();
+            var tu = mGorev.GorevUsers.Where(m => m.UserID == kulID).FirstOrDefault();
+            if (tu != null)
+                if(tu.BitisTarihi != null)
+                    return new List<Tip_STI>();
             string sql;
             if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())
             {
@@ -176,7 +180,6 @@ namespace Wms12m
         /// malkoduna göre mal adını ve birim1 biri getirir
         /// </summary>
         /// <param name="malkodu"></param>
-        /// <returns></returns>
         [WebMethod]
         public Tip_Malzeme GetMalzemeFromMalKodu(string malkodu)
         {
@@ -200,6 +203,19 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
+            //add to gorev user table
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            if (tbl == null)
+            {
+                tbl = new GorevUser()
+                {
+                    UserID = kulID,
+                    GorevID = GorevID,
+                    BaslamaTarihi = DateTime.Today.ToOADateInt()
+                };
+                db.GorevUsers.Add(tbl);
+                db.SaveChanges();
+            }
             using (var stok = new IrsaliyeDetay())
             {
                 foreach (var item in StiList)
@@ -252,6 +268,9 @@ namespace Wms12m
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32());
                 //miktarı 0 olanları sil
                 db.IRS_Detay.RemoveRange(mGorev.IR.IRS_Detay.Where(m => m.Miktar == 0));
+                //görev user tablosu
+                var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+                tbl.BitisTarihi = DateTime.Today.ToOADateInt();
                 db.SaveChanges();
                 //return
                 return new Result(true);
@@ -345,6 +364,19 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
+            //add to gorev user table
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            if (tbl == null)
+            {
+                tbl = new GorevUser()
+                {
+                    UserID = kulID,
+                    GorevID = GorevID,
+                    BaslamaTarihi = DateTime.Today.ToOADateInt()
+                };
+                db.GorevUsers.Add(tbl);
+                db.SaveChanges();
+            }
             //loop
             Result _result = new Result(true);
             foreach (var item in YerlestirmeList)
@@ -408,37 +440,44 @@ namespace Wms12m
                                         "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                                         "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", mGorev.IR.SirketKod, mGorev.IrsaliyeID);
             var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
-            using (KabloEntities dbx = new KabloEntities())
+            if (stks.Count > 0)
             {
-                string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
-                foreach (var item in stks)
+                using (KabloEntities dbx = new KabloEntities())
                 {
-                    //sid bul
-                    int sid = dbx.indices.Where(m => m.cins == item.Nesne2 && m.kesit == item.Kod15).Select(m => m.id).FirstOrDefault();
-                    //stoğa kaydet
-                    stok tbl = new stok()
+                    string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
+                    foreach (var item in stks)
                     {
-                        marka = item.MalAdi4,
-                        cins = item.Nesne2,
-                        kesit = item.Kod15,
-                        sid = sid,
-                        depo = depo,
-                        renk = "",
-                        makara = "KAPALI",
-                        rezerve = "0",
-                        sure = new TimeSpan(),
-                        tarih = DateTime.Now,
-                        tip = "",
-                        rmiktar = 0,
-                        miktar = item.Miktar
-                    };
-                    dbx.stoks.Add(tbl);
-                    dbx.SaveChanges();
+                        //sid bul
+                        int sid = dbx.indices.Where(m => m.cins == item.Nesne2 && m.kesit == item.Kod15).Select(m => m.id).FirstOrDefault();
+                        //stoğa kaydet
+                        stok tbls = new stok()
+                        {
+                            marka = item.MalAdi4,
+                            cins = item.Nesne2,
+                            kesit = item.Kod15,
+                            sid = sid,
+                            depo = depo,
+                            renk = "",
+                            makara = "KAPALI",
+                            rezerve = "0",
+                            sure = new TimeSpan(),
+                            tarih = DateTime.Now,
+                            tip = "",
+                            rmiktar = 0,
+                            miktar = item.Miktar
+                        };
+                        dbx.stoks.Add(tbls);
+                        dbx.SaveChanges();
+                    }
                 }
             }
             //görevi tamamla
             var kull = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.RafaKaldır.ToInt32(), 0);
+            //görev user tablosu
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            tbl.BitisTarihi = DateTime.Today.ToOADateInt();
+            db.SaveChanges();
             return new Result(true);
         }
         /// <summary>
@@ -452,6 +491,19 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
+            //add to gorev user table
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            if (tbl == null)
+            {
+                tbl = new GorevUser()
+                {
+                    UserID = kulID,
+                    GorevID = GorevID,
+                    BaslamaTarihi = DateTime.Today.ToOADateInt()
+                };
+                db.GorevUsers.Add(tbl);
+                db.SaveChanges();
+            }
             //loop
             Result _result = new Result(true);
             foreach (var item in YerlestirmeList)
@@ -542,6 +594,10 @@ namespace Wms12m
                     return new Result(false, sonuc.Message);
             }
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, saat, kull.Kod, "", ComboItems.SiparişTopla.ToInt32(), 0);
+            //görev user tablosu
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            tbl.BitisTarihi = DateTime.Today.ToOADateInt();
+            db.SaveChanges();
             //kablo hareketlere kaydet
             using (KabloEntities dbx = new KabloEntities())
             {
@@ -564,14 +620,14 @@ namespace Wms12m
                             if (kablo.miktar != item2.Miktar)
                                 kablo.makara = "AÇIK";
                             //yeni hareket ekle
-                            hareket tbl = new hareket()
+                            hareket tblh = new hareket()
                             {
                                 id = kablo.id,
                                 miktar = item2.Miktar,
                                 musteri = item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
                                 tarih = DateTime.Now
                             };
-                            dbx.harekets.Add(tbl);
+                            dbx.harekets.Add(tblh);
                             dbx.SaveChanges();
                         }
                     }
@@ -617,8 +673,13 @@ namespace Wms12m
             //finsat işlemleri
             try
             {
-                var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil);
-                return new Result(sonuc.Basarili, sonuc.Mesaj);
+                if (STIBaseList.Count > 0)
+                {
+                    var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil);
+                    return new Result(sonuc.Basarili, sonuc.Mesaj);
+                }
+                else
+                    return new Result(false, "Bu sipariş kapanmış");
             }
             catch (Exception ex)
             {
@@ -636,6 +697,19 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
+            //add to gorev user table
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            if (tbl == null)
+            {
+                tbl = new GorevUser()
+                {
+                    UserID = kulID,
+                    GorevID = GorevID,
+                    BaslamaTarihi = DateTime.Today.ToOADateInt()
+                };
+                db.GorevUsers.Add(tbl);
+                db.SaveChanges();
+            }
             //loop
             Result _result = new Result(true);
             var stok = new IrsaliyeDetay();
@@ -669,7 +743,7 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Görev bulunamadı !");
             var mIrsaliye = db.IRS.Where(m => m.ID == IrsaliyeID).FirstOrDefault();
             var list = mIrsaliye.IRS_Detay.Where(m => m.IrsaliyeID == mGorev.IrsaliyeID && (m.OkutulanMiktar != m.Miktar || m.OkutulanMiktar == null)).FirstOrDefault();
             if (list.IsNotNull())
@@ -678,6 +752,10 @@ namespace Wms12m
             string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
             var kull = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), kull, "", ComboItems.Paketle.ToInt32(), ComboItems.Sevkiyat.ToInt32());
+            //görev user tablosu
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            tbl.BitisTarihi = DateTime.Today.ToOADateInt();
+            db.SaveChanges();
             return new Result(true);
 
         }
@@ -690,10 +768,14 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Görev bulunamadı !");
             int tarih = DateTime.Today.ToOADateInt();
             var kull = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull, "", ComboItems.Sevkiyat.ToInt32(), 0);
+            //görev user tablosu
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            tbl.BitisTarihi = DateTime.Today.ToOADateInt();
+            db.SaveChanges();
             return new Result(true);
 
         }
@@ -735,13 +817,16 @@ namespace Wms12m
                 //insert irs_detay
                 foreach (var item in mGorev.IR.IRS_Detay)
                 {
-                    var tbl = new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim };
-                    db.IRS_Detay.Add(tbl);
+                    var tbli = new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim };
+                    db.IRS_Detay.Add(tbli);
                 }
                 //yeni görev id'yi yaz
                 transfer.GorevID = cevap.GorevID.Value;
                 mGorev.IR.DepoID = transfer.GirisDepoID;
                 mGorev.IR.EvrakNo = sonuc.Data.ToString();
+                //görev user tablosu
+                var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+                tbl.BitisTarihi = DateTime.Today.ToOADateInt();
                 db.SaveChanges();
             }
             return sonuc;
@@ -773,6 +858,10 @@ namespace Wms12m
                 db.UpdateIrsaliye(mGorev.IrsaliyeID, sonuc.Data.ToString(), "");
                 //finish
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferGiriş.ToInt32(), 0);
+                //görev user tablosu
+                var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+                tbl.BitisTarihi = DateTime.Today.ToOADateInt();
+                db.SaveChanges();
             }
             return sonuc;
         }
@@ -823,7 +912,19 @@ namespace Wms12m
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "Görev bulunamadı !");
+            //add to gorev user table
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            if (tbl == null)
+            {
+                tbl = new GorevUser()
+                {
+                    UserID = kulID,
+                    GorevID = GorevID,
+                    BaslamaTarihi = DateTime.Today.ToOADateInt()
+                };
+                db.GorevUsers.Add(tbl);
+            }
             //loop the list
             foreach (var item in StiList)
             {
@@ -860,6 +961,25 @@ namespace Wms12m
                 {
                     db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Mal_Kabul");
                 }
+            }
+            return new Result(true);
+        }
+        /// <summary>
+        /// kontrollü sayımda satırları kaydet
+        /// </summary>
+        [WebMethod]
+        public Result KontrolluSay_GoreviTamamla(int GorevID, int kulID)
+        {
+            int durumID = ComboItems.Açık.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return new Result(false, "Görev bulunamadı !");
+            //update gorev user table
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            if (tbl != null)
+            {
+                tbl.BitisTarihi = DateTime.Today.ToOADateInt();
+                db.SaveChanges();
             }
             return new Result(true);
         }

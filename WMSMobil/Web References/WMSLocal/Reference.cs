@@ -28,7 +28,7 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         public MobilServis() {
-            this.Url = "http://88.248.139.219/mobilservis.asmx";
+            this.Url = "http://localhost:3841/mobilservis.asmx";
         }
         
         /// <remarks/>
@@ -539,6 +539,28 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         public Result EndKontrollu_Say(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/KontrolluSay_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result KontrolluSay_GoreviTamamla(int GorevID, int kulID) {
+            object[] results = this.Invoke("KontrolluSay_GoreviTamamla", new object[] {
+                        GorevID,
+                        kulID});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginKontrolluSay_GoreviTamamla(int GorevID, int kulID, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("KontrolluSay_GoreviTamamla", new object[] {
+                        GorevID,
+                        kulID}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndKontrolluSay_GoreviTamamla(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((Result)(results[0]));
         }

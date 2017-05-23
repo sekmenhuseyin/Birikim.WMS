@@ -490,6 +490,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="KontrolluSay_GoreviTamamla">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="kulID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KontrolluSay_GoreviTamamlaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="KontrolluSay_GoreviTamamlaResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LoginKontrolSoapIn">
@@ -630,6 +645,12 @@
   <wsdl:message name="Kontrollu_SaySoapOut">
     <wsdl:part name="parameters" element="tns:Kontrollu_SayResponse" />
   </wsdl:message>
+  <wsdl:message name="KontrolluSay_GoreviTamamlaSoapIn">
+    <wsdl:part name="parameters" element="tns:KontrolluSay_GoreviTamamla" />
+  </wsdl:message>
+  <wsdl:message name="KontrolluSay_GoreviTamamlaSoapOut">
+    <wsdl:part name="parameters" element="tns:KontrolluSay_GoreviTamamlaResponse" />
+  </wsdl:message>
   <wsdl:portType name="MobilServisSoap">
     <wsdl:operation name="LoginKontrol">
       <wsdl:input message="tns:LoginKontrolSoapIn" />
@@ -722,6 +743,10 @@
     <wsdl:operation name="Kontrollu_Say">
       <wsdl:input message="tns:Kontrollu_SaySoapIn" />
       <wsdl:output message="tns:Kontrollu_SaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="KontrolluSay_GoreviTamamla">
+      <wsdl:input message="tns:KontrolluSay_GoreviTamamlaSoapIn" />
+      <wsdl:output message="tns:KontrolluSay_GoreviTamamlaSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="MobilServisSoap" type="tns:MobilServisSoap">
@@ -926,6 +951,15 @@
     </wsdl:operation>
     <wsdl:operation name="Kontrollu_Say">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/Kontrollu_Say" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KontrolluSay_GoreviTamamla">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/KontrolluSay_GoreviTamamla" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1143,13 +1177,22 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="KontrolluSay_GoreviTamamla">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/KontrolluSay_GoreviTamamla" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="MobilServis">
     <wsdl:port name="MobilServisSoap" binding="tns:MobilServisSoap">
-      <soap:address location="http://88.248.139.219/mobilservis.asmx" />
+      <soap:address location="http://localhost:3841/mobilservis.asmx" />
     </wsdl:port>
     <wsdl:port name="MobilServisSoap12" binding="tns:MobilServisSoap12">
-      <soap12:address location="http://88.248.139.219/mobilservis.asmx" />
+      <soap12:address location="http://localhost:3841/mobilservis.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

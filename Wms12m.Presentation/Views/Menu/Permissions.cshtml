@@ -3,7 +3,13 @@
     ViewBag.Title = "Menü Yetkileri";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int i = 0, j = 0;
-    int RoleCount = ViewBag.Roles.Count;
+    List<Role> Roles = ViewBag.Roles;
+    string[] roles = new string[Roles.Count()];
+    foreach (var item in Roles)
+    {
+        roles[i] = item.ID.ToString() + ","; i++;
+    }
+    i = 0;
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Menü Yetkileri</span></li></ul></div>
 <h1 class="page-title">Menü Yetkileri</h1>
 <div class="row">
@@ -26,7 +32,7 @@
                         </div>
                         <div class="row m-t-10 m-b-10">
                             <div class="col-md-4">&nbsp;</div>
-                            @foreach (Role item2 in ViewBag.Roles)
+                            @for (int k = 0; k < Roles.Count(); k++)
                             {
                                 <div class="col-md-1 text-center"><button id="allRoles@{@j}" type="button" onclick="checkboxChanger('@j');"><i class="cr-icon fa fa-check"></i></button></div>
                                  j++;
@@ -34,19 +40,19 @@
                         </div>
                        @foreach (var item in Model)
                        {
-                           j = 0;
                             <div class="row">
                                 @using (Ajax.BeginForm("Save", "Menu", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace }, new { @class = "form-horizontal", id = "frm"+ i }))
                                 {
+                                    j = 0;//bu sütunlar için idno
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="ID" id="ID@{@i}" value="@item.ID" />
                                     <input type="hidden" name="RoleName" id="RoleName@{@i}" value="@item.RoleName.Replace("'","")" />
-                                    <div class="col-md-4"><input class="form-control clickable" name="Ad" type="text" readonly value="@item.Ad" required></div>
-                                    foreach (var item2 in ViewBag.Roles)
+                                    <div class="col-md-4"><input style="cursor:pointer;" class="form-control clickable" name="Ad" type="text" readonly value="@item.Ad" onclick="checkboxChanger2('@i')"></div>
+                                    foreach (var item2 in Roles)
                                     {
                                         <div class="checkbox col-md-1 text-center">
                                             <label style="font-size: 1.5em">
-                                                <input class="roles@{@j}" name="secs" id="sec@{@i}" type="checkbox">
+                                                <input class="roles@{@j} menus@{@i}" name="secs" id="id@{@j}@{@i}" type="checkbox"@{if(item.RoleName.Contains("'"+item2.RoleName+"'")==true){<text> checked</text>}}>
                                                 <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                                             </label>
                                         </div>
@@ -54,7 +60,7 @@
                                     }
                                 }
                             </div>
-                            i++; 
+                            i++;//bu satırlar için idno
                         }
                         <div class="row m-t-30">
                             <div class="col-md-offset-7 col-md-4">
@@ -68,20 +74,33 @@
     </div>
 </div>
 @section Scripts{<script>
-    var biten = 0; var cars = [@{for (int k = 0; k < RoleCount; k++){<text>false,</text>}}];
-	function submit(){ @for (int k = 0; k < i; k++){<text>$("#frm@{@k}").submit(); </text>}$("#div_loading").show(); }
+    var biten = 0; var cars = [@{for (int k = 0; k < roles.Count(); k++){<text>false,</text>}}];
+    function submit() {
+        @for (int k = 0; k < i; k++){
+            <text>var rolenames = "";</text>
+            for (int l = 0; l < roles.Count(); l++)
+            {
+                <text>if ($("#id@{@l}@{@k}").is(":checked")) rolenames += "@Html.Raw(roles[l])";</text>
+            }
+            <text>$("#RoleName@{@k}").val(rolenames);$("#frm@{@k}").submit(); </text>
+        }
+        $("#div_loading").show();
+    }
 	function finished()
 	{
 		biten++;
         if (biten == @i)
         {
             $("#div_loading").hide();
-            Modaldialog('Kaydedildi', 'BAşarı', 'Tamam', 'btn-default');
+            Modaldialog('Kaydedildi', 'Başarı', 'Tamam', 'btn-default');
             biten = 0;
         }
 	}
     function checkboxChanger(k) {
         cars[k] = cars[k] == true ? false : true;
         $(".roles" + k).prop("checked", cars[k]);
+    }
+    function checkboxChanger2(k) {
+        $(".menus" + k).prop("checked", true);
     }
 </script>}

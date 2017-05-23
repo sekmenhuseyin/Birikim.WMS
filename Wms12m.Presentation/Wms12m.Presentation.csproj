@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs2AF3.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs751E.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs2AF3.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs751E.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevHelper, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
@@ -108,7 +108,8 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TumFaturaKayit">
+    <Reference Include="TumFaturaKayit, Version=1.17.5.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\TumFaturaKayit.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
@@ -445,7 +446,7 @@
     <Content Include="Views\Approval\Fiyat_GM.cshtml" />
     <Content Include="Views\Approval\Fiyat_SM.cshtml" />
     <Content Include="Views\Approval\Fiyat_SPGMY.cshtml" />
-    <Content Include="Views\Approval\Fiyat_GM_List.cshtml" />
+    <Content Include="Views\Approval\Fiyat_GM_List_List.cshtml" />
     <Content Include="Views\Approval\Fiyat_SM_List.cshtml" />
     <Content Include="Views\Approval\Fiyat_SPGMY_List.cshtml" />
     <Content Include="Views\Reports\Bakiye.cshtml" />
@@ -499,7 +500,6 @@
     <Content Include="Views\Home\_PartialSatisTemsilcisi_AylikSatisAnalizi.cshtml" />
     <Content Include="Views\Home\_PartialUrunGrubuSatisKriter.cshtml" />
     <Content Include="Views\Menu\Permissions.cshtml" />
-    <Content Include="Views\Menu\PermissionsList.cshtml" />
     <Content Include="Views\FaturaOnay\Index.cshtml" />
     <Content Include="Views\FaturaOnay\_PartialFaturaOnayGrid.cshtml" />
     <Content Include="Views\FaturaOnay\FaturaDetay.cshtml" />
@@ -525,7 +525,7 @@
     <Content Include="Views\Approval\TeminatTanimList.cshtml" />
     <Content Include="Views\Approval\FiyatListesi.cshtml" />
     <Content Include="Views\Approval\FiyatListesiPartial.cshtml" />
-    <Content Include="Views\Approval\Fiyat_GM_List_Koleksiyon.cshtml" />
+    <Content Include="Views\Approval\SozlesmeTanim.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
