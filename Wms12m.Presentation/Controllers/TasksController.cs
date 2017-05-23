@@ -58,8 +58,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             //update
-            Task tmpTable = new Task();
-            Result _Result = tmpTable.Update(tbl);
+            var _Result = Task.Update(tbl);
             //get list
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -247,14 +246,14 @@ namespace Wms12m.Presentation.Controllers
                 //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                if (item.Miktar < item.Stok)//eğer olması gerekenden az varsa çıkış yapılacak
+                if (item.Miktar > item.Stok)//eğer olması gerekenden az varsa çıkış yapılacak
                     sti.IslemTur = 0;
                 else//olması gerekenden fazlaysa giriş yapılacak
                     sti.IslemTur = 1;
                 sti.Tarih = tarih;
                 sti.KynkEvrakTip = 94;
                 sti.SiraNo = sirano;
-                sti.IslemTip = 17;
+                sti.IslemTip = 17;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
                 sti.MalKodu = item.MalKodu;
                 sti.Miktar = item.Miktar;
                 sti.Miktar2 = item.Stok;
@@ -324,15 +323,15 @@ namespace Wms12m.Presentation.Controllers
                 //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                if (item.Miktar < item.Stok)//eğer olması gerekenden az varsa çıkış yapılacak
-                    sti.Miktar = item.Stok - item.Miktar;//fark
-                else//olması gerekenden fazlaysa giriş yapılacak
-                    sti.Miktar = item.Miktar - item.Stok;//fark
-                sti.IslemTur = 0;
+                if (item.Miktar > item.Stok)
+                    sti.IslemTur = 0;
+                else
+                    sti.IslemTur = 1;
+                sti.Miktar = Math.Abs(item.Miktar - item.Stok);
                 sti.Tarih = tarih;
                 sti.KynkEvrakTip = 57;
                 sti.SiraNo = sirano;
-                sti.IslemTip = 10;
+                sti.IslemTip = 10;//"Sayım Farkı" from finsat.COMBOITEM_NAME
                 sti.MalKodu = item.MalKodu;
                 sti.Birim = item.Birim;
                 sti.BirimMiktar = sti.Miktar;
@@ -417,6 +416,9 @@ namespace Wms12m.Presentation.Controllers
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
+            var tbl = mGorev.GorevUsers.Where(m => m.BitisTarihi == null).FirstOrDefault();
+            if (tbl != null)
+                return Json(new Result(false, "Bu görev daha bitmemiş!"), JsonRequestBehavior.AllowGet);
             mGorev.DurumID = ComboItems.Tamamlanan.ToInt32();
             db.SaveChanges();
             return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);

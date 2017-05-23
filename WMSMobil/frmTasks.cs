@@ -231,7 +231,8 @@ namespace WMSMobil
                 else if (Ayarlar.MenuTip == MenuType.TransferGiriş)
                     sonuc = Servis.TransferGiris_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
                 else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
-                    sonuc.Message = "Bu görevi buradan sonlandıramazsınız.";
+                    if (Mesaj.Soru("Bu görevi tamamladınız mı?") == DialogResult.Yes)
+                        sonuc = Servis.KontrolluSay_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID);
             }
             catch (Exception ex)
             {
@@ -240,12 +241,13 @@ namespace WMSMobil
             //sonuç
             if (sonuc.Status)
             {
-                Mesaj.Basari("Aktarım işlemi başarıyla gerçekleşti.");
+                Mesaj.Basari("İşlem başarıyla gerçekleşti.");
                 btnListele_Click(sender, e);
                 if (Ayarlar.Gorevler.Count == 0) this.Close();
             }
             else
-                Mesaj.Uyari(sonuc.Message);
+                if (sonuc.Message != "") 
+                    Mesaj.Uyari(sonuc.Message);
         }
         /// <summary>
         /// dispose
