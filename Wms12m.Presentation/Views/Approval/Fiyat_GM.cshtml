@@ -12,13 +12,35 @@
                 <input type="checkbox" name="Locked" value="Grup" id="chkGrup" /> Grup, Ebat ve Yüzeye Göre Onaylama
             </label>
         </div>
-        <div id="liste" style="padding:10px;margin-top:30px; ">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Fiyat Onay GM
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle alayinisec-buton" href="#modalEditPage" data-toggle="modal"> Tümünü Seç </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle alayinikaldir-buton" href="#modalEditPage" data-toggle="modal"> Tümünü Kaldır </a>
+                </div>
+            </div>
+            </div>
+            <div id="liste" style="padding:10px;margin-top:30px; ">
+            </div>
+            <div id="listekoleksiyon" style="padding:10px;margin-top:30px;display:none; ">
+            </div>
+            <div id="listegrup" style="padding:10px;margin-top:30px;display:none; ">
+            </div>
         </div>
-        <div id="listekoleksiyon" style="padding:10px;margin-top:30px;display:none; ">
-        </div>
-        <div id="listegrup" style="padding:10px;margin-top:30px;display:none; ">
-        </div>
-    </div>
 </div>
 @section Scripts{
     <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
@@ -45,6 +67,7 @@
                     PartialView("/Approval/Fiyat_GM_List_Koleksiyon", 'listekoleksiyon');
                     $("#listekoleksiyon").css("display", "block");
                     $("#liste").css("display", "none");
+                    $("#chkGrup").prop("checked", false);
                     
 
                 }
@@ -59,11 +82,93 @@
 
             $('#chkGrup').click(function () {
                 if (this.checked) {
-                    var returnVal = confirm("Are you sure?");
-                    $(this).prop("checked", returnVal);
+                    $("#chkKoleksiyon").prop("checked", false);
+                }
+                else if ($("#chkKoleksiyon").prop("checked") == false) {
+                    $("#liste").css("display", "block");
+
                 }
 
             });
+
+
+        });
+        $('.onay-buton').click(function () {
+            if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
+                var x = table.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approval/Fiyat_Onay",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        console.log(data);
+
+                    },
+                    error: function (jqxhr) { console.log(jqxhr); }
+                });
+                return _dfd.promise();
+            }
+            else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
+                var x = table2.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approval/Fiyat_Onay_Koleksiyon",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        console.log(data);
+
+                    },
+                    error: function (jqxhr) { console.log(jqxhr); }
+                });
+                return _dfd.promise();
+
+            }
+            else if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == true)
+            {
+                alert("Grup");
+            }
+
+        });
+
+        $('.reddet-buton').click(function () {
+            var x = table.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approval/Fiyat_Red",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+                success: function (data) {
+                    console.log(data);
+
+                },
+                error: function (jqxhr) { console.log(jqxhr); }
+            });
+            return _dfd.promise();
+
+        });
+
+        $('.alayinisec-buton').click(function () {
+
+            $('tbody tr').addClass('selected');
+
+
+        });
+        $('.alayinikaldir-buton').click(function () {
+
+            $('tbody tr').removeClass('selected');
+
+
         });
     </script>
 }
