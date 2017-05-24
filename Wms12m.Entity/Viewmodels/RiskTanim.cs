@@ -487,5 +487,12 @@ namespace Wms12m.Entity
 
         public string OnayMerci { get; set; }
     }
+
+    public class UrunGrup
+    {
+        public string Kod { get; set; }
+
+        public string Aciklama { get; set; }
+    }
     #endregion
 }
