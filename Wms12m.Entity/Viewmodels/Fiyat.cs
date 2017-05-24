@@ -74,6 +74,7 @@ namespace Wms12m.Entity.Viewmodels
         public int ID
         {
             get { return this._ID; }
+            set { this._ID = value; }
         }
 
         /// <summary> VARCHAR (8) * </summary>
