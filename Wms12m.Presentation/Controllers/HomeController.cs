@@ -111,13 +111,6 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_PartialGunlukSatisAnaliziDoubleKriterPie", GSADK);
         }
 
-        public PartialViewResult PartialAylikSatis()
-        {
-            if (CheckPerm("RaporAylikSatis", PermTypes.Reading) == false) return null;
-            var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", "33")).ToList();
-            return PartialView("_PartialAylikSatis", ASA);
-        }
-
         public PartialViewResult PartialAylikSatisAnaliziBar()
         {
             if (CheckPerm("RaporAylikSatisAnaliziBar", PermTypes.Reading) == false) return null;

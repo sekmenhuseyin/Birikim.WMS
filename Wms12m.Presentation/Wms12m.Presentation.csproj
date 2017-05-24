@@ -277,7 +277,6 @@
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\_PartialAylikSatis.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatisCHKAnaliziBar.cshtml" />
     <Content Include="Views\Home\_PartialBaglantiUrunGrubu.cshtml" />
