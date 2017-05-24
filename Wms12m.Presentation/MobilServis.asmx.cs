@@ -57,7 +57,11 @@ namespace Wms12m
         [WebMethod]
         public List<GorevOzet> GetGorevOzet(int ID, int kulID)
         {
-            return db.Gorevs.Where(m => m.DepoID == ID && m.DurumID == 9).GroupBy(m => new { m.ComboItem_Name1.Name, m.ComboItem_Name1.ID }).Select(m => new GorevOzet { ID = m.Key.ID, Ad = m.Key.Name, Sayi = m.Count(n => n.ID > 0) }).ToList();
+            string sql = string.Format("SELECT ComboItem_Name.ID, ComboItem_Name.Name AS Ad, COUNT(wms.Gorev.ID) AS Sayi " +
+                "FROM wms.Gorev INNER JOIN ComboItem_Name ON wms.Gorev.GorevTipiID = ComboItem_Name.ID LEFT OUTER JOIN wms.GorevUsers ON wms.Gorev.ID = wms.GorevUsers.GorevID " +
+                "WHERE (wms.Gorev.DepoID = {0}) AND (wms.GorevUsers.UserID = {1} OR wms.GorevUsers.UserID IS NULL) AND (wms.GorevUsers.BitisTarihi IS NULL) AND (wms.Gorev.DurumID = 9) " +
+                "GROUP BY ComboItem_Name.Name, ComboItem_Name.ID", ID, kulID);
+            return db.Database.SqlQuery<GorevOzet>(sql).ToList();
         }
         /// <summary>
         /// irsaliyeleri getir
