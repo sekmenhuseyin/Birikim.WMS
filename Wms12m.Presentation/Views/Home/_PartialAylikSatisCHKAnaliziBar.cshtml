@@ -7,17 +7,13 @@
                     <i class="icon-layers font-green"></i>
                     <span class="caption-subject font-green bold uppercase">Aylık Satış Analizi Cari Hesap Bazında <span style="color:#8888a7;">BAR CHART</span></span>
                 </div>
-                <div class="chk-select" style="float:left; width:300px; margin-left:60px;height:29px;"></div>
-                <div class="actions">
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-cloud-upload"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-wrench"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-trash"></i>
-                    </a>
+                <div class="col-md-2 chk-select"></div>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID8", @onchange = "Reload8(this.value)" })
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reload8('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -27,10 +23,15 @@
     </div>
 </div>
 <script>
-    var x = '@ViewBag.CHK';
+    if ($('.SirketID8 option').size() == 1) $(".SirketID8").hide();
+    else $(".SirketID8").val('@ViewBag.SirketKodu');
+    function Reload8(v)
+    {
+        PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar', JSON.stringify({ SirketKodu: v, chk : '@ViewBag.CHK' }));
+    }
     $.ajax({
-        url: window.location.origin + "/Home/CHKSelect",
-        data: {},
+        url: "/Home/CHKSelect",
+        data: { SirketKodu: '@ViewBag.SirketKodu'},
         type: "post",
         success: function (data)
         {
@@ -41,11 +42,10 @@
                 searchExpr: ["HesapKodu", "Unvan"],
                 valueExpr: 'HesapKodu',
                 displayExpr: 'Unvan',
-                value:x,
+                value:'@ViewBag.CHK',
                 onValueChanged: function (e) {
                     if(e.value!=null && e.value!=""){
-                    var AylikSatisCHKAnaliziBarUrl = "/Home/PartialAylikSatisCHKAnaliziBar";
-                    PartialView(AylikSatisCHKAnaliziBarUrl, 'aylik_satis_chk_bar', JSON.stringify({ chk: e.value }));
+                        PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', chk: e.value }));
                     }
                 },
 
@@ -87,22 +87,6 @@
         [
             'echarts',
             'echarts/chart/bar',
-            'echarts/chart/chord',
-            'echarts/chart/eventRiver',
-            'echarts/chart/force',
-            'echarts/chart/funnel',
-            'echarts/chart/gauge',
-            'echarts/chart/heatmap',
-            'echarts/chart/k',
-            'echarts/chart/line',
-            'echarts/chart/map',
-            'echarts/chart/pie',
-            'echarts/chart/radar',
-            'echarts/chart/scatter',
-            'echarts/chart/tree',
-            'echarts/chart/treemap',
-            'echarts/chart/venn',
-            'echarts/chart/wordCloud'
         ],
         function(ec) {
             //--- BAR ---
@@ -113,28 +97,6 @@
                 },
                 legend: {
                     data: ['Yil2015', 'Yil2016', 'Yil2017']
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        mark: {
-                            show: true
-                        },
-                        dataView: {
-                            show: true,
-                            readOnly: false
-                        },
-                        magicType: {
-                            show: true,
-                            type: ['line', 'bar']
-                        },
-                        restore: {
-                            show: true
-                        },
-                        saveAsImage: {
-                            show: true
-                        }
-                    }
                 },
                 calculable: true,
                 xAxis: [{
