@@ -12,7 +12,7 @@
                     <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Analizi GrupKod ve İşlemTip <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
                 <div class="col-md-2 p-l-30">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID2", @onchange = "Reload5(this.value)" })
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID5", @onchange = "Reload5(this.value)" })
                 </div>
                 <div class="col-md-1 p-l-10">
                     <div class="slct_islemtip" style="width:130px;"></div>
@@ -42,11 +42,11 @@
     arr[1] = (parseInt(arr[1]) - 1).toString();
     arr[2] = arr[2].substr(0, 4);
     var f_tarih = new Date(arr[2], arr[1], arr[0]);
-    if ($('.SirketID2 option').size() == 1) $(".SirketID2").hide();
-    else $(".SirketID2").val('@ViewBag.SirketKodu');
+    if ($('.SirketID5 option').size() == 1) $(".SirketID5").hide();
+    else $(".SirketID5").val('@ViewBag.SirketKodu');
     function Reload5(v)
     {
-        PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: v, kod: kriter_value, islemtip: islemtip_value, tarih: f_tarih }));
+        PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: v, kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
@@ -84,7 +84,7 @@
                     onValueChanged: function (e) {
                         if(e.value!=kriter_value){
                             kriter_value=e.value;
-                            PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: f_tarih }));
+                            PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
                         }
                     }
                 });
@@ -100,7 +100,7 @@
             value: islemtip_value,
             onValueChanged: function (e) {
                 islemtip_value=e.value;
-                PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: f_tarih }));
+                PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
             }
         });
         var ChartsAmcharts = function () {

@@ -202,6 +202,7 @@ namespace Wms12m.Presentation.Controllers
                                             "WHERE (wms.Gorev.ID = {2}) GROUP BY wms.Gorev.DepoID, wms.GorevYer.MalKodu, wms.GorevYer.Birim" +
                                         ") AS t{3}", mGorev.IR.SirketKod, mGorev.Depo.DepoKodu, GorevID, sql);
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
+            ViewBag.ID = id;
             return PartialView("CountFark", list);
         }
         /// <summary>
@@ -246,12 +247,12 @@ namespace Wms12m.Presentation.Controllers
                 //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                if (item.Miktar > item.Stok)//eğer olması gerekenden az varsa çıkış yapılacak
+                if (item.Miktar > item.Stok)//olması gerekenden fazlaysa giriş yapılacak
                     sti.IslemTur = 0;
-                else//olması gerekenden fazlaysa giriş yapılacak
+                else//eğer olması gerekenden az varsa çıkış yapılacak
                     sti.IslemTur = 1;
                 sti.Tarih = tarih;
-                sti.KynkEvrakTip = 94;
+                sti.KynkEvrakTip = 94;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
                 sti.SiraNo = sirano;
                 sti.IslemTip = 17;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
                 sti.MalKodu = item.MalKodu;
@@ -262,7 +263,7 @@ namespace Wms12m.Presentation.Controllers
                 sti.Depo = mGorev.Depo.DepoKodu;
                 sti.VadeTarih = tarih;
                 sti.EvrakTarih = tarih;
-                sti.AnaEvrakTip = 94;
+                sti.AnaEvrakTip = 94;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
                 stiList.Add(sti);
                 sirano++;
             }
@@ -306,6 +307,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, "Seri hatası!"), JsonRequestBehavior.AllowGet);
             //variables
             int tarih = fn.ToOADate();
+            int saat = fn.ToOATime();
             short sirano = 0;
             List<STI> stiList = new List<STI>();
             //loop malkods
@@ -323,13 +325,13 @@ namespace Wms12m.Presentation.Controllers
                 //TODO: burada hata var
                 var sti = new STI();
                 sti.DefaultValueSet();
-                if (item.Miktar > item.Stok)
+                if (item.Miktar > item.Stok)//fazla mal varsa giriş
                     sti.IslemTur = 0;
                 else
                     sti.IslemTur = 1;
                 sti.Miktar = Math.Abs(item.Miktar - item.Stok);
                 sti.Tarih = tarih;
-                sti.KynkEvrakTip = 57;
+                sti.KynkEvrakTip = 57;//"Sayım Farkı Fişi" from finsat.COMBOITEM_NAME
                 sti.SiraNo = sirano;
                 sti.IslemTip = 10;//"Sayım Farkı" from finsat.COMBOITEM_NAME
                 sti.MalKodu = item.MalKodu;
@@ -339,7 +341,7 @@ namespace Wms12m.Presentation.Controllers
                 sti.Depo = mGorev.Depo.DepoKodu;
                 sti.VadeTarih = tarih;
                 sti.EvrakTarih = tarih;
-                sti.AnaEvrakTip = 57;
+                sti.AnaEvrakTip = 57;//"Sayım Farkı Fişi" from finsat.COMBOITEM_NAME
                 sti.KaynakIrsEvrakNo = mGorev.IR.EvrakNo;
                 stiList.Add(sti);
                 sirano++;
@@ -354,6 +356,30 @@ namespace Wms12m.Presentation.Controllers
                 db.SaveChanges();
                 db.Database.ExecuteSqlCommand(string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STI SET KaynakIrsEvrakNo='{1}' WHERE EvrakNo = '{2}' AND KynkEvrakTip = 94", mGorev.IR.SirketKod, sonuc.Message, mGorev.IR.EvrakNo));
                 sonuc.Message = "İşlem tamlandı!";
+                //dst & stk update
+                sql = "";
+                foreach (var item in list)
+                {
+                    if (item.Miktar > item.Stok)//giriş
+                    {
+                        sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.DST " +
+                            "SET GirMiktar = GirMiktar + {3}, SonGirTarih = {5}, SonSayimTarih = {5}, SonSayimFarki = {3}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
+                            "WHERE(MalKodu = '{1}') AND(Depo = '{2}');", mGorev.IR.SirketKod, item.MalKodu, mGorev.Depo.DepoKodu, (item.Miktar - item.Stok).ToDot(), vUser.UserName, tarih, saat);
+                        sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STK " +
+                            "SET TahminiStok = TahminiStok + {2}, GirMiktar = GirMiktar + {2}, GirTarih = {5}, SonSayimTarih = {5}, SonSayimSonuc = {3}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
+                            "WHERE(MalKodu = '{1}');", mGorev.IR.SirketKod, item.MalKodu, (item.Miktar - item.Stok).ToDot(), item.Miktar.ToDot(), vUser.UserName, tarih, saat);
+                    }
+                    else//çıkış
+                    {
+                        sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.DST " +
+                            "SET CikMiktar = CikMiktar + {3}, SonCikTarih = {5}, SonSayimTarih = {5}, SonSayimFarki = -{3}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
+                            "WHERE(MalKodu = '{1}') AND(Depo = '{2}');", mGorev.IR.SirketKod, item.MalKodu, mGorev.Depo.DepoKodu, (item.Stok - item.Miktar).ToDot(), vUser.UserName, tarih, saat);
+                        sql += string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STK " +
+                            "SET TahminiStok = TahminiStok - {2}, CikMiktar = CikMiktar + {2}, CikTarih = {5}, SonSayimTarih = {5}, SonSayimSonuc = {3}, Degistiren = '{4}', DegisTarih = {5}, DegisSaat = {6} " +
+                            "WHERE(MalKodu = '{1}');", mGorev.IR.SirketKod, item.MalKodu, (item.Stok - item.Miktar).ToDot(), item.Miktar.ToDot(), vUser.UserName, tarih, saat);
+                    }
+                }
+                db.Database.ExecuteSqlCommand(sql);
             }
             return Json(sonuc, JsonRequestBehavior.AllowGet);
         }

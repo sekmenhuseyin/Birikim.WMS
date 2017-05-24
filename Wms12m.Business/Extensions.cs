@@ -11,6 +11,15 @@ namespace Wms12m
     public static class Extensions
     {
         /// <summary>
+        /// Genellikle decimal veya float tiplerde database tarafına kayıt
+        /// atarken ondalık kısmı "," olarak gördüğünden hata verir. 
+        /// Bunu önlemek için ToDot() extension metodu kullanılır.
+        /// </summary>
+        public static string ToDot(this object value)
+        {
+            return value.ToString().Replace(',', '.');
+        }
+        /// <summary>
         /// custom ondalık format
         /// </summary>
         public static string ToOnFormat(this decimal Deger)
