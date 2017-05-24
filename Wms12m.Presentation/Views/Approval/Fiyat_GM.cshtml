@@ -18,7 +18,7 @@
                     <i class="fa fa-gift"></i>Fiyat Onay GM
                 </div>
                 <div class="col-md-2 pull-right m-t-5">
-                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                    <a class="btn btn-default pull-right input-circle yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
                 </div>
                 <div class="col-md-2 pull-right m-t-5">
                     <a class="btn btn-default pull-right input-circle onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
@@ -67,6 +67,7 @@
                     PartialView("/Approval/Fiyat_GM_List_Koleksiyon", 'listekoleksiyon');
                     $("#listekoleksiyon").css("display", "block");
                     $("#liste").css("display", "none");
+                    $("#listegrup").css("display", "none");
                     $("#chkGrup").prop("checked", false);
                     
 
@@ -82,6 +83,10 @@
 
             $('#chkGrup').click(function () {
                 if (this.checked) {
+                    PartialView("/Approval/Fiyat_GM_List_Grup", 'listegrup');
+                    $("#listegrup").css("display", "block");
+                    $("#liste").css("display", "none");
+                    $("#listekoleksiyon").css("display", "block");
                     $("#chkKoleksiyon").prop("checked", false);
                 }
                 else if ($("#chkKoleksiyon").prop("checked") == false) {
@@ -179,6 +184,14 @@
 
             }
 
+
+
+        });
+
+        $('.yenile-buton').click(function () {
+            if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
+                window.location.href = '/Approval/Fiyat_GM';
+            }
 
 
         });

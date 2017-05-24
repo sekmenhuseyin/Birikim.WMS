@@ -1,6 +1,6 @@
 ﻿<div class="col-md-12" style="width:100%;">
     <div>
-  
+
 
         <div class="portlet-body">
             <div class="table-toolbar">
@@ -38,25 +38,30 @@
                 </div>
             </div>
 
-            <table class="table table-striped table-bordered table-hover" id="sample_2">
+            <table class="table table-striped table-bordered table-hover" id="sample_3">
                 <thead>
                     <tr>
-                        
+
                         <th>
                             <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                <input type="checkbox" class="group-checkable" data-set="#sample_2 .checkboxes" />
+                                <input type="checkbox" class="group-checkable" data-set="#sample_3 .checkboxes" />
                                 <span></span>
                             </label>
                         </th>
-                        <th> Kod 4</th>
-                        <th> Tip Kod</th>
-                        <th> Liste Adı </th>
-                        <th> Satış Fiyat </th>
-                        <th> Satış Fiyat Birim </th>
+                        <th> Grup Kod</th>
+                        <th> Kalite</th>
+                        <th> En </th>
+                        <th> Boy </th>
+                        <th> Kalınlık </th>
+                        <th> Yüzey</th>
+                        <th> Liste Adı</th>
+                        <th> Satış Fiyat</th>
+                        <th> Satış Fiyat Birim</th>
+                        <th> Satış Fiyat Birim Sayı</th>
                         <th> Döviz Satış Fiyat</th>
-                        <th>Döviz SF Birim</th>
-                        <th>Döviz SF Birim Sayı</th>
-                        <th>Döviz Cinsi</th>
+                        <th> Döviz Satış Fiyat Birim</th>
+                        <th> Döviz Satış Fiyat Birim Sayı</th>
+                        <th> Döviz Cinsi</th>
 
 
                     </tr>
@@ -70,10 +75,10 @@
 
             var secili_satir = new Array();
             var secili_table = new Array();
-        var table2 = $('#sample_2').DataTable({
+        var table3 = $('#sample_3').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
-                "url": '/Approval/FiyatGMOnayCekGMKoleksiyon',
+                "url": '/Approval/FiyatGMOnayCekGMGrup',
                 "dataSrc": function (json) {
                     return json;
                 },
@@ -83,16 +88,22 @@
             //"scrollX": true,
             "columns": [
                 { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
-                { "data": "Kod4", "sClass": "nowrap" },
-                { "data": "TipKod", "sClass": "nowrap" },
+                { "data": "GrupKod", "sClass": "nowrap" },
+                { "data": "Kalite", "sClass": "nowrap" },
+                { "data": "En", "sClass": "nowrap" },
+                { "data": "Boy", "sClass": "nowrap" },
+                { "data": "Kalinlik", "sClass": "nowrap" },
+
+                { "data": "Yuzey", "sClass": "nowrap" },
                 { "data": "FiyatListNum", "sClass": "nowrap" },
+
                 { "data": "SatisFiyat1", "sClass": "nowrap" },
                 { "data": "SatisFiyat1Birim", "sClass": "nowrap" },
 
+                { "data": "SatisFiyat1BirimInt", "sClass": "nowrap" },
                 { "data": "DovizSatisFiyat1", "sClass": "nowrap" },
                 { "data": "DovizSF1Birim", "sClass": "nowrap" },
-
-                { "data": "SatisFiyat1BirimInt", "sClass": "nowrap" },
+                { "data": "DovizSF1BirimInt", "sClass": "nowrap" },
                 { "data": "DovizCinsi", "sClass": "nowrap" },
 
 
@@ -110,12 +121,12 @@
         });
 
 
-        $('#sample_2 tbody').on('click', 'tr', function () {
+        $('#sample_3 tbody').on('click', 'tr', function () {
             $(this).toggleClass('selected');
         });
 
 
-   
+
 
 </script>
 
