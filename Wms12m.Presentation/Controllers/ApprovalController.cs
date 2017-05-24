@@ -865,6 +865,21 @@ namespace Wms12m.Presentation.Controllers
             var ISSTemp = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", SozlesmeNo)).ToList();
             return json.Serialize(ISSTemp);
         }
+        public string FiyatListeleriSelect()
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer();
+            json.MaxJsonLength = int.MaxValue;
+            var FYTList = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
+            return json.Serialize(FYTList);
+        }
+
+        public string SozlesmeCariBilgileri(string ListeNo, string HesapKodu)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer();
+            json.MaxJsonLength = int.MaxValue;
+            var chkBilgi = db.Database.SqlQuery<SozlesmeCariBilgileri>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeCariBilgileri] @HesapKodu='{2}', @ListeNo='{1}'", "17", ListeNo, HesapKodu)).ToList();
+            return json.Serialize(chkBilgi);
+        }
         #endregion
         #region Risk
         public ActionResult Risk_SM()

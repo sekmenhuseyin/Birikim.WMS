@@ -107,35 +107,23 @@ namespace Wms12m.Entity.Viewmodels
         Kod12,
         DevirTarih,
         DevirTutar,
-        LimitKontrol,
-        SozlesmeVadeGun,
-        FiyatTip,
-        NetFiyat,
-        NetFiyatBirim,
-        LimitMiktar,
-        LimitMiktarBirim,
-        LimitKullanilanMiktar,
-        Maliyet,
-        Kalite,
-        PiyasaTipi,
-        DovizKuru,
-        OdemeAlinmadanSevkiyatYok,
-        SatisTemsilcisi,
-        Birim,
         OnayTip,
         SatisMuduruOnay,
-        IhracatMuduruOnay,
+        FinansmanMuduruOnay,
         GenelMudurOnay,
         OnaylayanSatisMuduru,
-        OnaylayanIhracatMuduru,
-        OnaylayanGenelMudur,
         OnayTarihSatisMuduru,
-        OnayTarihIhracatMuduru,
+        OnaylayanFinansmanMuduru,
+        OnayTarihFinansmanMuduru,
+        OnaylayanGenelMudur,
         OnayTarihGenelMudur,
         CekTutari,
         CekOrtalamaVadeTarih,
         NakitTutari,
+        BaglantiParaCinsi,
         AktifPasif,
+        VadeTarihi,
+        ValorGun,
         Row_ID,
         timestamp
 
@@ -241,35 +229,23 @@ namespace Wms12m.Entity.Viewmodels
         private decimal _Kod12;
         private int? _DevirTarih;
         private decimal? _DevirTutar;
-        private short _LimitKontrol;
-        private int? _SozlesmeVadeGun;
-        private short? _FiyatTip;
-        private decimal? _NetFiyat;
-        private string _NetFiyatBirim;
-        private decimal? _LimitMiktar;
-        private string _LimitMiktarBirim;
-        private decimal _LimitKullanilanMiktar;
-        private decimal? _Maliyet;
-        private string _Kalite;
-        private short? _PiyasaTipi;
-        private decimal? _DovizKuru;
-        private bool? _OdemeAlinmadanSevkiyatYok;
-        private string _SatisTemsilcisi;
-        private string _Birim;
         private short _OnayTip;
         private bool? _SatisMuduruOnay;
-        private bool? _IhracatMuduruOnay;
+        private bool? _FinansmanMuduruOnay;
         private bool? _GenelMudurOnay;
         private string _OnaylayanSatisMuduru;
-        private string _OnaylayanIhracatMuduru;
-        private string _OnaylayanGenelMudur;
         private DateTime? _OnayTarihSatisMuduru;
-        private DateTime? _OnayTarihIhracatMuduru;
+        private string _OnaylayanFinansmanMuduru;
+        private DateTime? _OnayTarihFinansmanMuduru;
+        private string _OnaylayanGenelMudur;
         private DateTime? _OnayTarihGenelMudur;
         private decimal? _CekTutari;
         private DateTime? _CekOrtalamaVadeTarih;
         private decimal? _NakitTutari;
+        private string _BaglantiParaCinsi;
         private bool _AktifPasif;
+        private int? _VadeTarihi;
+        private int? _ValorGun;
         private int _Row_ID;
         private byte[] _timestamp;
         private string _pk_ListeNo;
@@ -1325,171 +1301,6 @@ namespace Wms12m.Entity.Viewmodels
         }
 
         /// <summary> SMALLINT (2) * </summary>
-        public short LimitKontrol
-        {
-            get { return this._LimitKontrol; }
-            set
-            {
-                this._LimitKontrol = value;
-                OnPropertyChanged("LimitKontrol");
-            }
-        }
-
-        /// <summary> INT (4) Allow Null </summary>
-        public int? SozlesmeVadeGun
-        {
-            get { return this._SozlesmeVadeGun; }
-            set
-            {
-                this._SozlesmeVadeGun = value;
-                OnPropertyChanged("SozlesmeVadeGun");
-            }
-        }
-
-        /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? FiyatTip
-        {
-            get { return this._FiyatTip; }
-            set
-            {
-                this._FiyatTip = value;
-                OnPropertyChanged("FiyatTip");
-            }
-        }
-
-        /// <summary> NUMERIC (13) Allow Null </summary>
-        public decimal? NetFiyat
-        {
-            get { return this._NetFiyat; }
-            set
-            {
-                this._NetFiyat = value;
-                OnPropertyChanged("NetFiyat");
-            }
-        }
-
-        /// <summary> VARCHAR (6) Allow Null </summary>
-        public string NetFiyatBirim
-        {
-            get { return this._NetFiyatBirim; }
-            set
-            {
-                this._NetFiyatBirim = value;
-                OnPropertyChanged("NetFiyatBirim");
-            }
-        }
-
-        /// <summary> NUMERIC (13) Allow Null </summary>
-        public decimal? LimitMiktar
-        {
-            get { return this._LimitMiktar; }
-            set
-            {
-                this._LimitMiktar = value;
-                OnPropertyChanged("LimitMiktar");
-            }
-        }
-
-        /// <summary> VARCHAR (6) Allow Null </summary>
-        public string LimitMiktarBirim
-        {
-            get { return this._LimitMiktarBirim; }
-            set
-            {
-                this._LimitMiktarBirim = value;
-                OnPropertyChanged("LimitMiktarBirim");
-            }
-        }
-
-        /// <summary> NUMERIC (13) * </summary>
-        public decimal LimitKullanilanMiktar
-        {
-            get { return this._LimitKullanilanMiktar; }
-            set
-            {
-                this._LimitKullanilanMiktar = value;
-                OnPropertyChanged("LimitKullanilanMiktar");
-            }
-        }
-
-        /// <summary> NUMERIC (13) Allow Null </summary>
-        public decimal? Maliyet
-        {
-            get { return this._Maliyet; }
-            set
-            {
-                this._Maliyet = value;
-                OnPropertyChanged("Maliyet");
-            }
-        }
-
-        /// <summary> VARCHAR (20) Allow Null </summary>
-        public string Kalite
-        {
-            get { return this._Kalite; }
-            set
-            {
-                this._Kalite = value;
-                OnPropertyChanged("Kalite");
-            }
-        }
-
-        /// <summary> SMALLINT (2) Allow Null </summary>
-        public short? PiyasaTipi
-        {
-            get { return this._PiyasaTipi; }
-            set
-            {
-                this._PiyasaTipi = value;
-                OnPropertyChanged("PiyasaTipi");
-            }
-        }
-
-        /// <summary> DECIMAL (9) Allow Null </summary>
-        public decimal? DovizKuru
-        {
-            get { return this._DovizKuru; }
-            set
-            {
-                this._DovizKuru = value;
-                OnPropertyChanged("DovizKuru");
-            }
-        }
-
-        /// <summary> BIT (1) Allow Null </summary>
-        public bool? OdemeAlinmadanSevkiyatYok
-        {
-            get { return this._OdemeAlinmadanSevkiyatYok; }
-            set
-            {
-                this._OdemeAlinmadanSevkiyatYok = value;
-                OnPropertyChanged("OdemeAlinmadanSevkiyatYok");
-            }
-        }
-
-        /// <summary> VARCHAR (20) Allow Null </summary>
-        public string SatisTemsilcisi
-        {
-            get { return this._SatisTemsilcisi; }
-            set
-            {
-                this._SatisTemsilcisi = value;
-                OnPropertyChanged("SatisTemsilcisi");
-            }
-        }
-
-        /// <summary> VARCHAR (6) Allow Null </summary>
-        public string Birim
-        {
-            get { return this._Birim; }
-            set
-            {
-                this._Birim = value;
-                OnPropertyChanged("Birim");
-            }
-        }
-
-        /// <summary> SMALLINT (2) * </summary>
         public short OnayTip
         {
             get { return this._OnayTip; }
@@ -1512,13 +1323,13 @@ namespace Wms12m.Entity.Viewmodels
         }
 
         /// <summary> BIT (1) Allow Null </summary>
-        public bool? IhracatMuduruOnay
+        public bool? FinansmanMuduruOnay
         {
-            get { return this._IhracatMuduruOnay; }
+            get { return this._FinansmanMuduruOnay; }
             set
             {
-                this._IhracatMuduruOnay = value;
-                OnPropertyChanged("IhracatMuduruOnay");
+                this._FinansmanMuduruOnay = value;
+                OnPropertyChanged("FinansmanMuduruOnay");
             }
         }
 
@@ -1544,28 +1355,6 @@ namespace Wms12m.Entity.Viewmodels
             }
         }
 
-        /// <summary> VARCHAR (15) Allow Null </summary>
-        public string OnaylayanIhracatMuduru
-        {
-            get { return this._OnaylayanIhracatMuduru; }
-            set
-            {
-                this._OnaylayanIhracatMuduru = value;
-                OnPropertyChanged("OnaylayanIhracatMuduru");
-            }
-        }
-
-        /// <summary> VARCHAR (15) Allow Null </summary>
-        public string OnaylayanGenelMudur
-        {
-            get { return this._OnaylayanGenelMudur; }
-            set
-            {
-                this._OnaylayanGenelMudur = value;
-                OnPropertyChanged("OnaylayanGenelMudur");
-            }
-        }
-
         /// <summary> SMALLDATETIME (4) Allow Null </summary>
         public DateTime? OnayTarihSatisMuduru
         {
@@ -1577,14 +1366,36 @@ namespace Wms12m.Entity.Viewmodels
             }
         }
 
-        /// <summary> SMALLDATETIME (4) Allow Null </summary>
-        public DateTime? OnayTarihIhracatMuduru
+        /// <summary> VARCHAR (15) Allow Null </summary>
+        public string OnaylayanFinansmanMuduru
         {
-            get { return this._OnayTarihIhracatMuduru; }
+            get { return this._OnaylayanFinansmanMuduru; }
             set
             {
-                this._OnayTarihIhracatMuduru = value;
-                OnPropertyChanged("OnayTarihIhracatMuduru");
+                this._OnaylayanFinansmanMuduru = value;
+                OnPropertyChanged("OnaylayanFinansmanMuduru");
+            }
+        }
+
+        /// <summary> SMALLDATETIME (4) Allow Null </summary>
+        public DateTime? OnayTarihFinansmanMuduru
+        {
+            get { return this._OnayTarihFinansmanMuduru; }
+            set
+            {
+                this._OnayTarihFinansmanMuduru = value;
+                OnPropertyChanged("OnayTarihFinansmanMuduru");
+            }
+        }
+
+        /// <summary> VARCHAR (15) Allow Null </summary>
+        public string OnaylayanGenelMudur
+        {
+            get { return this._OnaylayanGenelMudur; }
+            set
+            {
+                this._OnaylayanGenelMudur = value;
+                OnPropertyChanged("OnaylayanGenelMudur");
             }
         }
 
@@ -1632,6 +1443,17 @@ namespace Wms12m.Entity.Viewmodels
             }
         }
 
+        /// <summary> VARCHAR (4) Allow Null </summary>
+        public string BaglantiParaCinsi
+        {
+            get { return this._BaglantiParaCinsi; }
+            set
+            {
+                this._BaglantiParaCinsi = value;
+                OnPropertyChanged("BaglantiParaCinsi");
+            }
+        }
+
         /// <summary> BIT (1) * </summary>
         public bool AktifPasif
         {
@@ -1640,6 +1462,28 @@ namespace Wms12m.Entity.Viewmodels
             {
                 this._AktifPasif = value;
                 OnPropertyChanged("AktifPasif");
+            }
+        }
+
+        /// <summary> INT (4) Allow Null </summary>
+        public int? VadeTarihi
+        {
+            get { return this._VadeTarihi; }
+            set
+            {
+                this._VadeTarihi = value;
+                OnPropertyChanged("VadeTarihi");
+            }
+        }
+
+        /// <summary> INT (4) Allow Null </summary>
+        public int? ValorGun
+        {
+            get { return this._ValorGun; }
+            set
+            {
+                this._ValorGun = value;
+                OnPropertyChanged("ValorGun");
             }
         }
 
