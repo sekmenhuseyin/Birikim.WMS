@@ -111,53 +111,43 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_PartialGunlukSatisAnaliziDoubleKriterPie", GSADK);
         }
 
-        public PartialViewResult PartialAylikSatis()
-        {
-            if (CheckPerm("RaporAylikSatis", PermTypes.Reading) == false) return null;
-            var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", "33")).ToList();
-            return PartialView("_PartialAylikSatis", ASA);
-        }
-
-        public PartialViewResult PartialAylikSatisAnaliziBar()
+        public PartialViewResult PartialAylikSatisAnaliziBar(string SirketKodu)
         {
             if (CheckPerm("RaporAylikSatisAnaliziBar", PermTypes.Reading) == false) return null;
-            var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", "33")).ToList();
+            var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", SirketKodu)).ToList();
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialAylikSatisAnaliziBar", ASA);
         }
 
-        public PartialViewResult PartialAylikSatisCHKAnaliziBar(string chk)
+        public PartialViewResult PartialAylikSatisCHKAnaliziBar(string SirketKodu, string chk)
         {
             if (CheckPerm("RaporAylikSatisCHKAnaliziBar", PermTypes.Reading) == false) return null;
-            var chk2 = "";
-            if (chk == null)
-            {
-                chk = "";
-            }
-            else
-            {
-                chk2 = chk;
-            }
-
-            var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_CHK] @chk='{1}'", "33", chk)).ToList();
-            ViewBag.CHK = chk2;
+            chk = chk.ToString2();
+            var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_CHK] @chk='{1}'", SirketKodu, chk)).ToList();
+            ViewBag.CHK = chk;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialAylikSatisCHKAnaliziBar", ASA);
         }
 
-        public PartialViewResult PartialAylikSatisAnaliziKodTipDovizBar(string kod, int islemtip, string doviz)
+        public PartialViewResult PartialAylikSatisAnaliziKodTipDovizBar(string SirketKodu, string kod, int islemtip, string doviz)
         {
             if (CheckPerm("RaporAylikSatisAnaliziKodTipDovizBar", PermTypes.Reading) == false) return null;
             List<ChartAylikSatisAnalizi> GSADK;
             try
             {
-                GSADK = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = {1}, @Kriter = {2}, @IslemTip = '{3}'", "33", kod, doviz, islemtip)).ToList();
+                GSADK = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = {1}, @Kriter = {2}, @IslemTip = '{3}'", SirketKodu, kod, doviz, islemtip)).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 GSADK = new List<ChartAylikSatisAnalizi>();
             }
             ViewBag.Doviz = doviz;
             ViewBag.IslemTip = islemtip;
             ViewBag.Kriter = kod;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialAylikSatisAnaliziKodTipDovizBar", GSADK);
         }
 
@@ -465,9 +455,9 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// xrtas
         /// </summary>
-        public string CHKSelect()
+        public string CHKSelect(string SirketKodu)
         {
-            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", "33")).ToList();
+            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(CHK);
             return json;
         }
@@ -483,9 +473,9 @@ namespace Wms12m.Presentation.Controllers
             var json = new JavaScriptSerializer().Serialize(Kriter);
             return json;
         }
-        public string AylikSatisAnaliziKodTipDovizKriter()
+        public string AylikSatisAnaliziKodTipDovizKriter(string SirketKodu)
         {
-            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisAnaliziKriterSelect]", "33")).ToList();
+            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisAnaliziKriterSelect]", SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(Kriter);
             return json;
         }

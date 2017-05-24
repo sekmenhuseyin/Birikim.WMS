@@ -1185,6 +1185,21 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             return View();
         }
 
+        public PartialViewResult PartialSozlesmeTanim(string listeNo)
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            //var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect]", "17")).ToList();
+            ViewBag.ListeNo = listeNo;
+            return PartialView("SozlesmeTanim_List");
+        }
+
+        public string SozlesmeTanimListesiSelect(string listeNo)
+        {
+            var STL = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
+            var json = new JavaScriptSerializer().Serialize(STL);
+            return json;
+        }
+
         public string SozlesmeListesi(int tip)
         {
             var sozlesmeler = new List<SozlesmeListesi>();
@@ -1221,6 +1236,12 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             json.MaxJsonLength = int.MaxValue;
             var chkBilgi = db.Database.SqlQuery<SozlesmeCariBilgileri>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeCariBilgileri] @HesapKodu='{2}', @ListeNo='{1}'", "17", ListeNo, HesapKodu)).ToList();
             return json.Serialize(chkBilgi);
+        }
+        public string SozlesmeUrunGrupSelect(int Index)
+        {
+            var FUGS = db.Database.SqlQuery<UrunGrup>(string.Format("[FINSAT6{0}].[dbo].[STKSelect2] @Index={1}", "17",Index)).ToList();
+            var json = new JavaScriptSerializer().Serialize(FUGS);
+            return json;
         }
         #endregion
         #region Risk
