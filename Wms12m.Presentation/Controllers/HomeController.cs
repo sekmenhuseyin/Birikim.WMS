@@ -315,17 +315,14 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_PartialBekleyenSiparisMusteriAnalizi", BSMA);
         }
 
-        public PartialViewResult PartialSatisTemsilcisiAylikSatisAnalizi(string kod, short? tarih)
+        public PartialViewResult PartialSatisTemsilcisiAylikSatisAnalizi(string SirketKodu, string kod, short tarih)
         {
             if (CheckPerm("RaporSatisTemsilcisiAylikSatisAnalizi", PermTypes.Reading) == false) return null;
-            if (tarih == null)
-                tarih = (short)DateTime.Today.Month;
-
-            var STASA = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[SatisTemsilcisi_AylikSatisAnalizi] @Ay = '{1}', @Kriter = '{2}'", "33", tarih, kod)).ToList();
-
-
+            var STASA = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[SatisTemsilcisi_AylikSatisAnalizi] @Ay = '{1}', @Kriter = '{2}'", SirketKodu, tarih, kod)).ToList();
             ViewBag.Tarih = tarih;
             ViewBag.Kriter = kod;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialSatisTemsilcisi_AylikSatisAnalizi", STASA);
         }
 

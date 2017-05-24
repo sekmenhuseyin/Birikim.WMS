@@ -31,11 +31,14 @@
     </div>
 </div>
 <script>
+    var islemtip_value= @ViewBag.IslemTip;
+    var doviz_value= @Html.Raw(Json.Encode(ViewBag.Doviz));
+    var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
     if ($('.SirketID9 option').size() == 1) $(".SirketID9").hide();
     else $(".SirketID9").val('@ViewBag.SirketKodu');
     function Reload9(v)
     {
-        PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: v, kod: kriter_value, islemtip: islemtip_value, doviz: f_tarih }));
+        PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: v, kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
@@ -59,9 +62,6 @@
             Yil2016.push(val.Yil2016);
             Yil2017.push(val.Yil2017);
         });
-        var islemtip_value= @ViewBag.IslemTip;
-        var doviz_value= @Html.Raw(Json.Encode(ViewBag.Doviz));
-        var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
         var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
         var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
         $.ajax({
