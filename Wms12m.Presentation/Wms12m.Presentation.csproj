@@ -526,6 +526,7 @@
     <Content Include="Views\Approval\SozlesmeTanim.cshtml" />
     <Content Include="Views\Approval\Fiyat_GM_List.cshtml" />
     <Content Include="Views\Approval\Fiyat_GM_List_Koleksiyon.cshtml" />
+    <Content Include="Views\Approval\SozlesmeTanim_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

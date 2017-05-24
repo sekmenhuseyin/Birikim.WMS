@@ -44,7 +44,31 @@
         background-color: #86d8ea ;
         color: window;
     }
+     .dx-state-readonly{
+        background-color:#e0dede !important;
+    }
+    .dx-state-readonly input{
+        background-color:#e0dede !important;
+    }
+    table{
+        margin:0 !important;
+    }
 
+    th{
+        width:auto !important;
+    }
+    td {
+        width: auto !important;
+    }
+     .dataTables_scrollHead{
+        width:100% !important;
+    }
+    .dataTables_scrollHeadInner{
+        width:100% !important;
+    }
+    .dataTables_scrollBody{
+        width:100% !important;
+    }
     /*.dx-popup-content{
         width:750px !important;
         background-color: #48e5f5;
@@ -68,6 +92,7 @@
     .dx-list-next-button{
         margin-top:25px !important;
     }*/
+    
 </style>
 <div class="row">
     <div>
@@ -150,7 +175,7 @@
                 <div class="input_label">Ürün Kodu</div>
                 <div class="input select_urun_kodu"></div>
             </div>
-            <div class="input_content">
+            <div class="input_content urun_kalite_content">
                 <div class="input_label">Ürün Kalite</div>
                 <div class="input select_urun_kalite"></div>
             </div>
@@ -178,11 +203,11 @@
                 <div class="input_label">Vade/Valor</div>
                 <div class="input swtch_vade_valor"></div>
             </div>
-            <div class="input_content">
+            <div class="input_content vade_content">
                 <div class="input_label">Vade Tarihi</div>
                 <div class="input date_vade_tarihi"></div>
             </div>
-            <div class="input_content">
+            <div class="input_content valor_content">
                 <div class="input_label">Valor Gün</div>
                 <div class="input numb_valor_gun"></div>
             </div>
@@ -240,7 +265,7 @@
 </div>
 <hr />
 <div class="row">
-    <div id="fiyat_listesi_data">
+    <div id="sozlesme_tanim_data">
     </div>
 </div>
 <div class="modal fade" id="x-modal-teminatdurbun" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
@@ -299,11 +324,12 @@
         var listeNo = "";
         var GrupKod = "";
         $(document).ready(function () {
+            $(".urun_kalite_content").css("display", "none");
             $(".txt_sira_no").dxTextBox({readOnly:true});
             $(".txt_sozlesme_sira_no").dxTextBox();
             $(".txt_sozlesme_notu").dxTextBox();
-            $(".txt_ortalama_vade").dxTextBox();
-            $(".txt_alinan_bordro_ort").dxTextBox();
+            $(".txt_ortalama_vade").dxTextBox({ readOnly: true });
+            $(".txt_alinan_bordro_ort").dxTextBox({ readOnly: true });
             $(".date_baslangic_tarihi").dxDateBox({
                 dataType: 'date',
                 formatString: 'dd/MM/yyyy',
@@ -390,27 +416,32 @@
             $(".numb_kredi_limiti").dxNumberBox({
                 min: 0,
                 step: 1,
-                value: 0
+                value: 0,
+                readOnly: true
             });
             $(".numb_bakiye").dxNumberBox({
                 min: 0,
                 step: 1,
-                value: 0
+                value: 0,
+                readOnly: true
             });
             $(".numb_toplam_bakiye").dxNumberBox({
                 min: 0,
                 step: 1,
-                value: 0
+                value: 0,
+                readOnly: true
             });
             $(".numb_bekleyen_siparis").dxNumberBox({
                 min: 0,
                 step: 1,
-                value: 0
+                value: 0,
+                readOnly: true
             });
             $(".numb_alinan_bordro").dxNumberBox({
                 min: 0,
                 step: 1,
-                value: 0
+                value: 0,
+                readOnly: true
             });
             $(".numb_alinan_cek_tutari").dxNumberBox({
                 min: 0,
@@ -425,10 +456,11 @@
             $(".numb_toplam_tahsilat").dxNumberBox({
                 min: 0,
                 step: 1,
-                value: 0
+                value: 0,
+                readOnly: true
             });
 
-           
+
 
             @*var model = @Html.Raw(Json.Encode(Model));*@
             //var brmData=new Array();
@@ -447,13 +479,30 @@
                 displayExpr: 'Tip',
                 onValueChanged: function (e) {
                 }
-            }); 
-            var urunGrup = [{ Tip: "Mal Kodu" }, { Tip: "Grup Kodu" }, { Tip: "Tip Kodu" }, { Tip: "Özel Kod" }, { Tip: "Kod1" }, { Tip: "Kod2" }, { Tip: "Kod3" }, { Tip: "Kod4" }]
+            });
+            var urunGrup = [{ Tip: "Mal Kodu", ID: 0 }, { Tip: "Grup Kodu", ID: 1 }, { Tip: "Tip Kodu", ID: 2 }, { Tip: "Özel Kod", ID: 3 }, { Tip: "Kod1", ID: 4 }, { Tip: "Kod2", ID: 5 }, { Tip: "Kod3", ID: 6 }, { Tip: "Kod4", ID: 7 }]
             $(".select_urun_grubu").dxSelectBox({
                 dataSource: urunGrup,
-                valueExpr: 'Tip',
+                valueExpr: 'ID',
                 displayExpr: 'Tip',
                 onValueChanged: function (e) {
+                    if (e.value == 7) {
+                        $(".urun_kalite_content").css("display", "block");
+                    }
+                    else {
+                        $(".urun_kalite_content").css("display", "none");
+                        $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
+                    }
+
+                    $.ajax({
+                        url: window.location.origin + "/Approval/SozlesmeUrunGrupSelect?Index="+e.value,
+                        data: {},
+                        type: "post",
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            $(".select_urun_kodu").dxLookup("instance").option("dataSource", result);
+                        }
+                    });
                 }
             });
             var kalite = [{ Tip: "" }, { Tip: "1K" }, { Tip: "2K" }, { Tip: "3K" }, { Tip: "ISK" }, { Tip: "1B" }];
@@ -496,7 +545,7 @@
             });
 
             $.ajax({
-                url: window.location.origin + "/Approval/FiyatUrunGrupSelect",
+                url: window.location.origin + "/Approval/SozlesmeUrunGrupSelect?Index=1",
                 data: {},
                 type: "post",
                 success: function (data) {
@@ -515,6 +564,8 @@
                 displayExpr: 'ListeNo',
 
                 onValueChanged: function (e) {
+                    PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
+                    inputDisable();
                     $.ajax({
                         url: window.location.origin + "/Approval/ISSTempList?SozlesmeNo=" + e.value,
                         data: {},
@@ -545,13 +596,19 @@
                             if (result[0].ValorGun > 1)
                             {
                                 $(".numb_valor_gun").dxNumberBox("instance").option("value", result[0].ValorGun);
+                                $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
+                                $(".vade_content").css("display", "none");
+                                $(".valor_content").css("display", "block");
                             }
                             else if (result[0].VadeTarihi != null)
                             {
                                 $(".date_vade_tarihi").dxDateBox("instance").option("value", new Date(((result[0].VadeTarihi - 25569) * 86400000)));
+                                $(".numb_valor_gun").dxNumberBox("instance").option("value", 0);
+                                $(".valor_content").css("display", "none");
+                                $(".vade_content").css("display", "block");
                             }
                             $(".numb_toplam_tahsilat").dxNumberBox("instance").option("value", (result[0].CekTutari == null ? 0 : result[0].CekTutari) + (result[0].NakitTutari == null ? 0 : result[0].NakitTutari));
-                            //else 
+                            //else
                             //{
                             //    rbVade.IsChecked = true;
                             //    dateVadeTarihi.EditValue = null;
@@ -572,45 +629,25 @@
                     itemElement.append(rightBlock);
                 }
             });
-
             $(".select_urun_kodu").dxLookup({
                 //dataSource: result,
                 searchEnabled: true,
-                fullScreen :true,
+                //fullScreen :true,
                 pageLoadMode:"nextButton",
-                searchExpr: ["MalKodu", "MalAdi"],
-                valueExpr: 'MalKodu',
-                displayExpr: 'MalAdi',
+                searchExpr: ["Kod", "Aciklama"],
+                valueExpr: 'Kod',
+                displayExpr: 'Aciklama',
                 onValueChanged: function (e) {
-                    brmData=[];
-                    var data = $(".select_urun_kodu").dxLookup("instance").option("selectedItem");
-                    if(data!=null){
-                        if(data.Birim1!=""){
-                            brmData.push({"Birim" : data.Birim1, "Deger":1});
-                        }
-                        if(data.Birim2!=""){
-                            brmData.push({"Birim" : data.Birim2, "Deger":2});
-                        }
-                        if(data.Birim3!=""){
-                            brmData.push({"Birim" : data.Birim3, "Deger":3});
-                        }
-                        $(".txt-doviz-birim").dxSelectBox("instance").option("dataSource",brmData);
-                        $(".txt-birim").dxSelectBox("instance").option("dataSource",brmData);
-                        GrupKod= data.GrupKod;
-                    }
-                    //$(".txt-doviz-cinsi").dxSelectBox("instance").option("dataSource",brmData);
-                    //var data = e.selectedItems;
-                    console.log(brmData);
+                   
                 },
                 itemTemplate: function (itemData, itemIndex, itemElement) {
-                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
-                    if(itemIndex>0)
-                    {
-                        itemElement.css({ "margin-top":"-40px" });
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
                     }
                     var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.MalAdi + "</b></p>");
-                    rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalKodu: <i style='font-weight:normal;'>" + itemData.MalKodu + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Aciklama + "</b></p>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Kod: <i>" + itemData.Kod + "</i></p></div>");
                     itemElement.append(rightBlock);
                 }
             });
@@ -678,39 +715,10 @@
                 }
             });
 
-            //$(".numb-satis-fiyat").dxNumberBox({
-            //    min:0,
-            //    step:1,
-            //    value:0
-            //});
-
-            //$(".numb-doviz-satis-fiyat").dxNumberBox({
-            //    min:0,
-            //    step:1,
-            //    value:0
-            //});
-
-            //$(".txt-doviz-birim").dxSelectBox({
-            //    valueExpr: 'Deger',
-            //    displayExpr: 'Birim',
-            //    onValueChanged: function (e) {
-            //    }
-            //});
-
-            //$(".txt-birim").dxSelectBox({
-            //    valueExpr: 'Deger',
-            //    displayExpr: 'Birim',
-            //    onValueChanged: function (e) {
-            //    }
-            //});
-
-         
         });
 
-        $('.yenile-buton').click(function () {
-            if (listeNo != "") {
-                PartialView("/Approval/PartialFiyatList", 'fiyat_listesi_data', JSON.stringify({ listeNo: listeNo }));
-            }
+        $('.temizle-buton').click(function () {
+            window.location.href = '/Approval/SozlesmeTanim';
         });
 
         $('.tum-sec-buton').click(function () {
@@ -849,6 +857,38 @@
                 error: function (jqxhr) { console.log(jqxhr); }
             });
             return _dfd.promise();
+        }
+
+        function inputDisable() {
+            $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", true);
+            $(".date_baslangic_tarihi").dxDateBox("instance").option("readOnly", true);
+            $(".date_bitis_tarihi").dxDateBox("instance").option("readOnly", true);
+            $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", true);
+            $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", true);
+            $(".numb_baglanti_tutari").dxNumberBox("instance").option("readOnly", true);
+            $(".numb_valor_gun").dxNumberBox("instance").option("readOnly", true);
+            $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("readOnly", true);
+            $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("readOnly", true);
+            $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", true);
+            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", true);
+            $(".select_musteri_kodu").dxLookup("instance").option("readOnly", true);
+            $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", true);
+        }
+
+        function inputVisible() {
+            $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", false);
+            $(".date_baslangic_tarihi").dxDateBox("instance").option("readOnly", false);
+            $(".date_bitis_tarihi").dxDateBox("instance").option("readOnly", false);
+            $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", false);
+            $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", false);
+            $(".numb_baglanti_tutari").dxNumberBox("instance").option("readOnly", false);
+            $(".numb_valor_gun").dxNumberBox("instance").option("readOnly", false);
+            $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("readOnly", false);
+            $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("readOnly", false);
+            $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", false);
+            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
+            $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
+            $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", true);
         }
 
     </script>
