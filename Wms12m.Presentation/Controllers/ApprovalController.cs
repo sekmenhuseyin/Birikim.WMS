@@ -336,7 +336,7 @@ namespace Wms12m.Presentation.Controllers
                 return "NO";
             }
         }
-        public string Fiyat_Onay2(string Data)
+        public string Fiyat_Onay_Koleksiyon(string Data)
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
             //string sql = string.Format(@"INSERT INTO FINSAT";
@@ -349,8 +349,43 @@ namespace Wms12m.Presentation.Controllers
             string ListeAdi = "";
             try
             {
+                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
                 {
+                    if (FiyatMaxSiraNo.ContainsKey(insertObj["FiyatListNum"].ToString()))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        int FytSiraNo = -1;
+                        var FLB = db.Database.SqlQuery<short>(string.Format("SELECT ISNULL(MAX(SiraNo),0) FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE FiyatListNum='{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
+                        if (FLB>0)
+                        {
+                            FytSiraNo = FLB;
+                            FytSiraNo++;
+                        }
+                        else
+                        {
+                            FytSiraNo = 0;
+                        }
+                        FiyatMaxSiraNo.Add(insertObj["FiyatListNum"].ToString(), FytSiraNo);
+                    }
+                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
+                    WHERE S.GrupKod = 'PARKE' AND F.FiyatListNum = '{1}'
+                    AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
+                    AND F.SatisFiyat1Birim = '{5}' AND F.SatisFiyat1BirimInt = {6}
+                    AND F.DovizSatisFiyat1 = {7} AND F.DovizSF1Birim = '{8}' AND F.DovizSF1BirimInt = {9}
+                    AND F.DovizCinsi = '{10}' AND F.Onay = 1 AND F.SPGMYOnay = 1 AND F.GMOnay = 0 ", "17", insertObj["FiyatListNum"].ToString(), insertObj["Kod4"].ToString(),
+                    insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",","."), insertObj["SatisFiyat1Birim"].ToString(), insertObj["SatisFiyat1BirimInt"].ToString(),
+                    insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
+                    );
+                    var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
+                    var result = String.Join(", ", fiyatID.ToArray());
+                    sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
+                    var OnayFiyatList = db.Database.SqlQuery<int>(sql).ToList();
+
 
                     var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
                     //var bastarih = db.Database.SqlQuery<FiyatListSelect>(string.Format("SELECT Max(BasTarih)as bastarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "33", insertObj["FiyatListNum"].ToString())).ToList();
@@ -485,30 +520,6 @@ namespace Wms12m.Presentation.Controllers
                     fyt.Kod12 = 0;
 
 
-                    //if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 20000)
-                    //{
-                    //    rsk.OnayTip = 0;
-                    //}
-                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 100000)
-                    //{
-                    //    rsk.OnayTip = 1;
-                    //}
-                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 200000)
-                    //{
-                    //    rsk.OnayTip = 2;
-                    //}
-                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 500000)
-                    //{
-                    //    rsk.OnayTip = 3;
-                    //}
-                    //else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) >= 500000)
-                    //{
-                    //    rsk.OnayTip = 4;
-                    //}
-                    //else
-                    //{
-                    //    rsk.OnayTip = -1;
-                    //}
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
                     sqlexper.Insert(fyt);

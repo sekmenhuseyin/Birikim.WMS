@@ -1,25 +1,6 @@
 ﻿<div class="col-md-12" style="width:100%;">
     <div class="portlet box green">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-gift"></i>Fiyat Onay GM
-            </div>
-            <div class="col-md-2 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
-            </div>
-            <div class="col-md-2 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle refresh-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
-            </div>
-            <div class="col-md-2 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
-            </div>
-            <div class="col-md-2 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle alayinisec-buton" href="#modalEditPage" data-toggle="modal"> Tümünü Seç </a>
-            </div>
-            <div class="col-md-2 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle alayinikaldir-buton" href="#modalEditPage" data-toggle="modal"> Tümünü Kaldır </a>
-            </div>
-        </div>
+
 
         <div class="portlet-body">
             <div class="table-toolbar">
@@ -135,59 +116,7 @@
         });
 
 
-        $('.refresh-buton').click(function () {
-            var x = table.rows('.selected').data();
-            for (var i = 0; i < x.length; i++) {
-                secili_table.push(x[i]);
-            }
-            var _dfd = $.Deferred();
-            $.ajax({
-                url: window.location.origin + "/Approval/Fiyat_Onay",
-                data: { Data: JSON.stringify(secili_table) },
-                type: "post",
-                success: function (data) {
-                    console.log(data);
 
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
-            });
-            return _dfd.promise();
-
-        });
-
-        $('.reddet-buton').click(function () {
-            var x = table.rows('.selected').data();
-            for (var i = 0; i < x.length; i++) {
-                secili_table.push(x[i]);
-            }
-            var _dfd = $.Deferred();
-            $.ajax({
-                url: window.location.origin + "/Approval/Fiyat_Red",
-                data: { Data: JSON.stringify(secili_table) },
-                type: "post",
-                success: function (data) {
-                    console.log(data);
-
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
-            });
-            return _dfd.promise();
-
-        });
-
-        $('.alayinisec-buton').click(function () {
-
-            $('tbody tr').addClass('selected');
-
-
-        });
-        $('.alayinikaldir-buton').click(function () {
-
-            $('tbody tr').removeClass('selected');
-
-
-        });
-        $(document).ready(function () { });
     
 </script>
 

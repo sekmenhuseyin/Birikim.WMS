@@ -11,29 +11,44 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Analizi GrupKod ve İşlemTip <span style="color:#8888a7;">3D PİE CHART</span></span>
                 </div>
-                <div class="tools" style="float:right;margin-left:20px;">
+                <div class="col-md-2 p-l-30">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID6", @onchange = "Reload6(this.value)" })
+                </div>
+                <div class="col-md-1 p-l-10">
+                    <div class="slct_islemtip_pie" style="width:130px;"></div>
+                </div>
+                <div class="col-md-1 p-l-10">
+                    <div class="slct_double-kriter_pie" style="width:130px;"></div>
+                </div>
+                <div class="col-md-1 p-l-10">
+                    <div class="gs_tarih_double_pie" style="width:130px;"></div>
+                </div>
+                <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
-                    <a href="javascript:;" class="reload"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reload6('@ViewBag.SirketKodu');"> </a>
                 </div>
-                <div style="float:right;margin-left:10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">İşlem Tip</span></div> <div class="slct_islemtip_pie" style="float:left;width:130px; margin-left:10px;"></div></div>
-                <div style="float:right;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kriter </span></div> <div class="slct_double-kriter_pie" style="float:left;width:130px; margin-left:10px;"></div></div>
-                <div style="float:right;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Tarih </span></div> <div class="gs_tarih_double_pie" style="float:right; width:130px; margin-left:10px;"></div></div>
-                <div class="portlet-body">
-                    <div id="chart_5_gunluk_double_pie" class="chart" style="height: 400px;"> </div>
-                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="chart_5_gunluk_double_pie" class="chart" style="height: 400px;"> </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+    var islemtip_value = @ViewBag.IslemTip;
+    var kriter_value = @Html.Raw(Json.Encode(ViewBag.Kriter));
+    var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
+    var arr = '@ViewBag.tarih2'.split(".");
+    arr[1] = (parseInt(arr[1]) - 1).toString();
+    arr[2] = arr[2].substr(0, 4);
+    var f_tarih = new Date(arr[2], arr[1], arr[0]);
+    if ($('.SirketID6 option').size() == 1) $(".SirketID6").hide();
+    else $(".SirketID6").val('@ViewBag.SirketKodu');
+    function Reload6(v)
+    {
+        PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: v, kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
+    }
     $(document).ready(function (e) {
-        var x = '@ViewBag.Tarih'.split("00");
-        x=x[0];
-        var arr = x.split(".");
-        arr[1] = (parseInt(arr[1]) - 1).toString();
-        arr[2] = arr[2].substr(0, 4);
-        var f_tarih= new Date(arr[2],arr[1],arr[0]);
-
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
@@ -51,7 +66,7 @@
             value:f_tarih,
             onValueChanged: function (e) {
                 var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
+                PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
             }
         });
 
@@ -59,8 +74,8 @@
         var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
         var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
         $.ajax({
-            url: window.location.origin + "/Home/GunlukSatisAnaliziDoubleKriter",
-            data: {},
+            url: "/Home/GunlukSatisAnaliziDoubleKriter",
+            data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
             {
@@ -72,8 +87,7 @@
                     onValueChanged: function (e) {
                         if(e.value!=kriter_value){
                             kriter_value=e.value;
-                            var GunlukSatisDoubleKriterPieUrl = "/Home/PartialGunlukSatisDoubleKriterPie";
-                            PartialView(GunlukSatisDoubleKriterPieUrl, 'gunluk_satis_double_kriter_pie', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: f_tarih }));
+                            PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
                         }
                     }
                 });
@@ -86,8 +100,7 @@
             value: islemtip_value,
             onValueChanged: function (e) {
                 islemtip_value=e.value;
-                var GunlukSatisDoubleKriterPieUrl = "/Home/PartialGunlukSatisDoubleKriterPie";
-                PartialView(GunlukSatisDoubleKriterPieUrl, 'gunluk_satis_double_kriter_pie', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, tarih: f_tarih }));
+                PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
             }
         });
 
