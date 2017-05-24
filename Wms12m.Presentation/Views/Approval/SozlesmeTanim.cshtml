@@ -299,15 +299,40 @@
         var listeNo = "";
         var GrupKod = "";
         $(document).ready(function () {
-            $(".txt_sira_no").dxTextBox();
+            $(".txt_sira_no").dxTextBox({readOnly:true});
             $(".txt_sozlesme_sira_no").dxTextBox();
             $(".txt_sozlesme_notu").dxTextBox();
             $(".txt_ortalama_vade").dxTextBox();
             $(".txt_alinan_bordro_ort").dxTextBox();
-            $(".date_baslangic_tarihi").dxDateBox();
-            $(".date_bitis_tarihi").dxDateBox();
-            $(".date_vade_tarihi").dxDateBox();
-            $(".date_alinan_cek_ort_vade").dxDateBox();
+            $(".date_baslangic_tarihi").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                width: "60%",
+                onValueChanged: function (e) {
+                    //oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+                }
+            });
+            $(".date_bitis_tarihi").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                width:"60%",
+                onValueChanged: function (e) {
+                }
+            });
+            $(".date_vade_tarihi").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                width: "60%",
+                onValueChanged: function (e) {
+                }
+            });
+            $(".date_alinan_cek_ort_vade").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                width: "60%",
+                onValueChanged: function (e) {
+                }
+            });
             $(".swtch_sozlesme_durumu").dxSwitch({
                 onText: "Onaylanmış",
                 offText: "Onaylanmamış",
@@ -407,7 +432,38 @@
 
             @*var model = @Html.Raw(Json.Encode(Model));*@
             //var brmData=new Array();
-            //var dvzCinsi=[{Cins:"USD"},{Cins:"EUR"}]
+            var bagTipi = [{ Tip: "Peşin" }, { Tip: "Vadeli" }, { Tip: "Kredi Kart" }, { Tip: "Kampanya" }]
+            $(".select_baglanti_tipi").dxSelectBox({
+                dataSource: bagTipi,
+                valueExpr: 'Tip',
+                displayExpr: 'Tip',
+                onValueChanged: function (e) {
+                }
+            });
+            var dvzCins = [{ Tip: "TL" }, { Tip: "EUR" }, { Tip: "USD" }]
+            $(".select_baglanti_tutari_doviz").dxSelectBox({
+                dataSource: dvzCins,
+                valueExpr: 'Tip',
+                displayExpr: 'Tip',
+                onValueChanged: function (e) {
+                }
+            }); 
+            var urunGrup = [{ Tip: "Mal Kodu" }, { Tip: "Grup Kodu" }, { Tip: "Tip Kodu" }, { Tip: "Özel Kod" }, { Tip: "Kod1" }, { Tip: "Kod2" }, { Tip: "Kod3" }, { Tip: "Kod4" }]
+            $(".select_urun_grubu").dxSelectBox({
+                dataSource: urunGrup,
+                valueExpr: 'Tip',
+                displayExpr: 'Tip',
+                onValueChanged: function (e) {
+                }
+            });
+            var kalite = [{ Tip: "" }, { Tip: "1K" }, { Tip: "2K" }, { Tip: "3K" }, { Tip: "ISK" }, { Tip: "1B" }];
+            $(".select_urun_kalite").dxSelectBox({
+                dataSource: kalite,
+                valueExpr: 'Tip',
+                displayExpr: 'Tip',
+                onValueChanged: function (e) {
+                }
+            });
             $.ajax({
                 url: window.location.origin + "/Approval/SozlesmeListesi?tip=0",
                 data: {},
@@ -418,20 +474,41 @@
                 }
             });
 
-            //$.ajax({
-            //    url: window.location.origin + "/Approval/FiyatHesapKoduSelect",
-            //    data: {},
-            //    type: "post",
-            //    success: function (data)
-            //    {
-            //        var result = JSON.parse(data);
-            //        $(".select_hesap_kod").dxLookup("instance").option("dataSource",result);
-            //    }
-            //});
+            $.ajax({
+                url: window.location.origin + "/Approval/FiyatHesapKoduSelect",
+                data: {},
+                type: "post",
+                success: function (data)
+                {
+                    var result = JSON.parse(data);
+                    $(".select_musteri_kodu").dxLookup("instance").option("dataSource", result);
+                }
+            });
+
+            $.ajax({
+                url: window.location.origin + "/Approval/FiyatListeleriSelect",
+                data: {},
+                type: "post",
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    $(".select_fiyat_listesi").dxLookup("instance").option("dataSource", result);
+                }
+            });
+
+            $.ajax({
+                url: window.location.origin + "/Approval/FiyatUrunGrupSelect",
+                data: {},
+                type: "post",
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    $(".select_urun_kodu").dxLookup("instance").option("dataSource", result);
+                }
+            });
 
             $(".select_sozlesmeler").dxLookup({
                 //dataSource: model,
                 searchEnabled: true,
+                fullScreen: true,
                 pageLoadMode: "nextButton",
                 searchExpr: ["ListeNo", "MusteriKod", "Unvan", "OnayMerci"],
                 valueExpr: 'ListeNo',
@@ -444,8 +521,42 @@
                         type: "post",
                         success: function (data) {
                             var result = JSON.parse(data);
-                            console.log(result);
-                            //$(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
+                            $(".select_fiyat_listesi").dxLookup("instance").option("value", null);
+                            $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
+                            $(".select_urun_kodu").dxLookup("instance").option("value", null);
+                            $(".txt_sira_no").dxTextBox("instance").option("value", result[0].Kod2);
+                            $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", result[0].ListeNo);
+                            $(".select_baglanti_tipi").dxSelectBox("instance").option("value", result[0].Kod1);
+                            if (result[0].BaglantiParaCinsi == null) {
+                                $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", "TL");
+                            }
+                            else{
+                                $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", result[0].BaglantiParaCinsi);
+                            }
+                            $(".date_baslangic_tarihi").dxDateBox("instance").option("value", new Date(((result[0].BasTarih - 25569) * 86400000)));
+                            $(".date_bitis_tarihi").dxDateBox("instance").option("value", new Date(((result[0].BitTarih - 25569) * 86400000)));
+                            $(".select_musteri_kodu").dxLookup("instance").option("value", result[0].MusteriKod);
+                            $(".txt_sozlesme_notu").dxTextBox("instance").option("value", result[0].Aciklama);
+                            $(".swtch_aktif_pasif").dxSwitch("instance").option("value", result[0].AktifPasif);
+                            $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("value", result[0].CekTutari);
+                            console.log(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1));
+                            $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value", new Date(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1)));
+                            $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("value", result[0].NakitTutari);
+                            if (result[0].ValorGun > 1)
+                            {
+                                $(".numb_valor_gun").dxNumberBox("instance").option("value", result[0].ValorGun);
+                            }
+                            else if (result[0].VadeTarihi != null)
+                            {
+                                $(".date_vade_tarihi").dxDateBox("instance").option("value", new Date(((result[0].VadeTarihi - 25569) * 86400000)));
+                            }
+                            $(".numb_toplam_tahsilat").dxNumberBox("instance").option("value", (result[0].CekTutari == null ? 0 : result[0].CekTutari) + (result[0].NakitTutari == null ? 0 : result[0].NakitTutari));
+                            //else 
+                            //{
+                            //    rbVade.IsChecked = true;
+                            //    dateVadeTarihi.EditValue = null;
+                            //    spinValor.EditValue = null;
+                            //}
                         }
                     });
                 },
@@ -456,78 +567,116 @@
                         itemElement.css({ "margin-top": "-40px" });
                     }
                     var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.Unvan + "</b></p>");
+                    rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>ListeNo: <i style='font-weight:normal;'>" + itemData.ListeNo + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Musteri Kodu: <i style='font-weight:normal;'>" + itemData.MusteriKod + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>OnayMerci: <i style='font-weight:normal;'>" + itemData.OnayMerci + "</i></span></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
+
+            $(".select_urun_kodu").dxLookup({
+                //dataSource: result,
+                searchEnabled: true,
+                fullScreen :true,
+                pageLoadMode:"nextButton",
+                searchExpr: ["MalKodu", "MalAdi"],
+                valueExpr: 'MalKodu',
+                displayExpr: 'MalAdi',
+                onValueChanged: function (e) {
+                    brmData=[];
+                    var data = $(".select_urun_kodu").dxLookup("instance").option("selectedItem");
+                    if(data!=null){
+                        if(data.Birim1!=""){
+                            brmData.push({"Birim" : data.Birim1, "Deger":1});
+                        }
+                        if(data.Birim2!=""){
+                            brmData.push({"Birim" : data.Birim2, "Deger":2});
+                        }
+                        if(data.Birim3!=""){
+                            brmData.push({"Birim" : data.Birim3, "Deger":3});
+                        }
+                        $(".txt-doviz-birim").dxSelectBox("instance").option("dataSource",brmData);
+                        $(".txt-birim").dxSelectBox("instance").option("dataSource",brmData);
+                        GrupKod= data.GrupKod;
+                    }
+                    //$(".txt-doviz-cinsi").dxSelectBox("instance").option("dataSource",brmData);
+                    //var data = e.selectedItems;
+                    console.log(brmData);
+                },
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+                    if(itemIndex>0)
+                    {
+                        itemElement.css({ "margin-top":"-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
                     rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.MalAdi + "</b></p>");
                     rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalKodu: <i style='font-weight:normal;'>" + itemData.MalKodu + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
                     itemElement.append(rightBlock);
                 }
             });
+            $(".select_fiyat_listesi").dxLookup({
+                //dataSource: model,
+                searchEnabled: true,
+                pageLoadMode: "nextButton",
+                searchExpr: ["FiyatListNum", "FiyatListName"],
+                valueExpr: 'FiyatListNum',
+                displayExpr: 'FiyatListName',
 
-            //$(".select_urun_kodu").dxLookup({
-            //    //dataSource: result,
-            //    searchEnabled: true,
-            //    fullScreen :true,
-            //    pageLoadMode:"nextButton",
-            //    searchExpr: ["MalKodu", "MalAdi"],
-            //    valueExpr: 'MalKodu',
-            //    displayExpr: 'MalAdi',
-            //    onValueChanged: function (e) {
-            //        brmData=[];
-            //        var data = $(".select_urun_kodu").dxLookup("instance").option("selectedItem");
-            //        if(data!=null){
-            //            if(data.Birim1!=""){
-            //                brmData.push({"Birim" : data.Birim1, "Deger":1});
-            //            }
-            //            if(data.Birim2!=""){
-            //                brmData.push({"Birim" : data.Birim2, "Deger":2});
-            //            }
-            //            if(data.Birim3!=""){
-            //                brmData.push({"Birim" : data.Birim3, "Deger":3});
-            //            }
-            //            $(".txt-doviz-birim").dxSelectBox("instance").option("dataSource",brmData);
-            //            $(".txt-birim").dxSelectBox("instance").option("dataSource",brmData);
-            //            GrupKod= data.GrupKod;
-            //        }
-            //        //$(".txt-doviz-cinsi").dxSelectBox("instance").option("dataSource",brmData);
-            //        //var data = e.selectedItems;
-            //        console.log(brmData);
-            //    },
-            //    itemTemplate: function (itemData, itemIndex, itemElement) {
-            //        itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
-            //        if(itemIndex>0)
-            //        {
-            //            itemElement.css({ "margin-top":"-40px" });
-            //        }
-            //        var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-            //        rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.MalAdi + "</b></p>");
-            //        rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalKodu: <i style='font-weight:normal;'>" + itemData.MalKodu + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:15px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
-            //        itemElement.append(rightBlock);
-            //    }
-            //});
+                onValueChanged: function (e) {
+                    console.log(e.value);
+                    listeNo = e.value;
+                },
 
-            //$(".select_hesap_kod").dxLookup({
-            //    //dataSource: model,
-            //    searchEnabled: true,
-            //    pageLoadMode:"nextButton",
-            //    searchExpr: ["HesapKodu", "Unvan"],
-            //    valueExpr: 'HesapKodu',
-            //    displayExpr: 'Unvan',
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.FiyatListName + "</b></p>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Liste No: <i>" + itemData.FiyatListNum + "</i></p></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
+            $(".select_musteri_kodu").dxLookup({
+                //dataSource: model,
+                searchEnabled: true,
+                pageLoadMode:"nextButton",
+                searchExpr: ["HesapKodu", "Unvan"],
+                valueExpr: 'HesapKodu',
+                displayExpr: 'Unvan',
 
-            //    onValueChanged: function (e) {
+                onValueChanged: function (e) {
+                    var listeNo = $(".select_sozlesmeler").dxLookup("instance").option("value");
+                    $.ajax({
+                        url: window.location.origin + "/Approval/SozlesmeCariBilgileri?ListeNo=" + listeNo + "&HesapKodu="+e.value,
+                        data: {},
+                        type: "post",
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            $(".numb_kredi_limiti").dxNumberBox("instance").option("value", result[0].KrediLimiti);
+                            $(".numb_bakiye").dxNumberBox("instance").option("value", result[0].Bakiye);
+                            $(".numb_toplam_bakiye").dxNumberBox("instance").option("value", result[0].ToplamBakiye);
+                            $(".numb_bekleyen_siparis").dxNumberBox("instance").option("value", result[0].BekleyenSiparisTutar);
+                            $(".numb_alinan_bordro").dxNumberBox("instance").option("value", result[0].AlinanBordro);
+                            $(".txt_alinan_bordro_ort").dxTextBox("instance").option("value", result[0].AlinanBordroOrtalamaVade == null ? "" : result[0].AlinanBordroOrtalamaVade);
+                            $(".txt_ortalama_vade").dxTextBox("instance").option("value", result[0].OrtalamaVade == null ? "" : result[0].OrtalamaVade);
+                        }
+                    });
+                },
 
-            //    },
-
-            //    itemTemplate: function (itemData, itemIndex, itemElement) {
-            //        itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
-            //        if(itemIndex>0)
-            //        {
-            //            itemElement.css({ "margin-top":"-40px" });
-            //        }
-            //        var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-            //        rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
-            //        rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Hesap Kodu: <i>" + itemData.HesapKodu + "</i></p></div>");
-            //        itemElement.append(rightBlock);
-            //    }
-            //});
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+                    if(itemIndex>0)
+                    {
+                        itemElement.css({ "margin-top":"-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Hesap Kodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
 
             //$(".numb-satis-fiyat").dxNumberBox({
             //    min:0,
@@ -555,13 +704,7 @@
             //    }
             //});
 
-            //$(".txt-doviz-cinsi").dxSelectBox({
-            //    dataSource:dvzCinsi,
-            //    valueExpr: 'Cins',
-            //    displayExpr: 'Cins',
-            //    onValueChanged: function (e) {
-            //    }
-            //});
+         
         });
 
         $('.yenile-buton').click(function () {
