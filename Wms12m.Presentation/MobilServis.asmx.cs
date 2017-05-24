@@ -57,7 +57,11 @@ namespace Wms12m
         [WebMethod]
         public List<GorevOzet> GetGorevOzet(int ID, int kulID)
         {
-            return db.Gorevs.Where(m => m.DepoID == ID && m.DurumID == 9).GroupBy(m => new { m.ComboItem_Name1.Name, m.ComboItem_Name1.ID }).Select(m => new GorevOzet { ID = m.Key.ID, Ad = m.Key.Name, Sayi = m.Count(n => n.ID > 0) }).ToList();
+            string sql = string.Format("SELECT ComboItem_Name.ID, ComboItem_Name.Name AS Ad, COUNT(wms.Gorev.ID) AS Sayi " +
+                "FROM wms.Gorev INNER JOIN ComboItem_Name ON wms.Gorev.GorevTipiID = ComboItem_Name.ID LEFT OUTER JOIN wms.GorevUsers ON wms.Gorev.ID = wms.GorevUsers.GorevID " +
+                "WHERE (wms.Gorev.DepoID = {0}) AND (wms.GorevUsers.UserID = {1} OR wms.GorevUsers.UserID IS NULL) AND (wms.GorevUsers.BitisTarihi IS NULL) AND (wms.Gorev.DurumID = 9) " +
+                "GROUP BY ComboItem_Name.Name, ComboItem_Name.ID", ID, kulID);
+            return db.Database.SqlQuery<GorevOzet>(sql).ToList();
         }
         /// <summary>
         /// irsaliyeleri getir
@@ -76,10 +80,12 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull() || mGorev.IR == null)
                 return new Tip_IRS();
-            string sql = string.Format(@"SELECT IRS.ID, IRS.EvrakNo, Depo.DepoKodu AS DepoID, IRS.HesapKodu, CONVERT(VARCHAR(10), CONVERT(Datetime, IRS.Tarih - 2), 104) AS Tarih, IRS.TeslimCHK,
-                                        (SELECT Unvan1 + ' ' + Unvan2 AS Expr1 FROM FINSAT6{0}.FINSAT6{0}.CHK WITH (NOLOCK) WHERE (HesapKodu = IRS.HesapKodu)) AS Unvan
-                                        FROM wms.IRS AS IRS WITH (nolock) INNER JOIN wms.Depo WITH (nolock) ON IRS.DepoID = Depo.ID
-                                        WHERE (IRS.ID = {1})", mGorev.IR.SirketKod, mGorev.IR.ID);
+            string sql = string.Format("SELECT MIN(IRS.ID) as ID, wms.Depo.DepoKodu AS DepoID, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih) AS Tarih, " +
+                "(SELECT Unvan1 + ' ' + Unvan2 AS Expr1 FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE (HesapKodu = IRS.HesapKodu)) AS Unvan, " +
+                "(SELECT wms.IRS.EvrakNo + ',' FROM wms.IRS WITH(nolock) INNER JOIN wms.GorevIRS WITH(nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID WHERE (wms.GorevIRS.GorevID = {1}) FOR XML PATH('')) as EvrakNo " +
+                "FROM wms.IRS AS IRS WITH(nolock) INNER JOIN wms.Depo WITH(nolock) ON IRS.DepoID = wms.Depo.ID INNER JOIN wms.GorevIRS WITH(nolock) ON IRS.ID = wms.GorevIRS.IrsaliyeID " +
+                "WHERE (wms.GorevIRS.GorevID = {1}) " +
+                "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih)", mGorev.IR.SirketKod, mGorev.ID);
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
         /// <summary>
@@ -149,9 +155,9 @@ namespace Wms12m
             {
                 sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
                                     "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi " +
-                                    "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.Yer_Log.IrsaliyeID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu " +
-                                    "WHERE (wms.IRS_Detay.IrsaliyeID = {1}) " +
-                                    "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.IR.ID, mGorev.DepoID);
+                                    "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID INNER JOIN wms.GorevIRS WITH (nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.Yer_Log.IrsaliyeID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu " +
+                                    "WHERE (wms.GorevIRS.GorevID = {1}) " +
+                                    "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID);
                 if (devamMi == true)
                     if (mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevkiyat.ToInt32())
                         sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(OkutulanMiktar,0))";
@@ -244,8 +250,11 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
-            var list = mGorev.IR.IRS_Detay.Where(m => m.IrsaliyeID == mGorev.IrsaliyeID && (m.OkutulanMiktar != m.Miktar || m.OkutulanMiktar == null)).FirstOrDefault();
-            if (list.IsNotNull())
+            string sql = string.Format("SELECT COUNT(wms.IRS_Detay.OkutulanMiktar) as Bitmeyen " +
+                "FROM wms.GorevIRS INNER JOIN wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID " +
+                "WHERE(wms.GorevIRS.GorevID = {0}) AND(wms.IRS_Detay.OkutulanMiktar IS NULL OR wms.IRS_Detay.OkutulanMiktar <> wms.IRS_Detay.Miktar)", mGorev.ID);
+            var tbl = db.Database.SqlQuery<int>(sql).FirstOrDefault();
+            if (tbl != 0)
                 return new Result(false, -1, "İşlem bitmemiş !");
             return new Result(true);
         }
@@ -259,7 +268,7 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
-            var sonuc = MalKabulToLink(mGorev.IR.SirketKod, mGorev.IR.ID, kulID);
+            var sonuc = MalKabulToLink(mGorev, kulID);
             if (sonuc.Status == true)
             {
                 string gorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), mGorev.DepoID).FirstOrDefault();
@@ -279,66 +288,68 @@ namespace Wms12m
                 return new Result(false, sonuc.Message);
 
         }
-        private Result MalKabulToLink(string sirketKodu, int irsID, int kulID)
+        private Result MalKabulToLink(Gorev mGorev, int kulID)
         {
             DevHelper.Ayarlar.SetConStr(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
-            DevHelper.Ayarlar.SirketKodu = sirketKodu;
+            DevHelper.Ayarlar.SirketKodu = mGorev.IR.SirketKod;
             string kaydeden = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
             List<STIBase> STIBaseList = new List<STIBase>();
-            string sql = String.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, IRS_Detay.Miktar, IRS_Detay.Birim, ISNULL(IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, ISNULL(IRS_Detay.KynkSiparisNo, '') AS SiparisNo, " +
-                                        "(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = IRS_Detay.MalKodu)) AS MalAdi," +
-                                        "ISNULL(IRS_Detay.KynkSiparisSiraNo, 0) AS KynkSiparisSiraNo, ISNULL(IRS_Detay.KynkSiparisTarih, 0) AS KynkSiparisTarih, ISNULL(IRS_Detay.KynkSiparisMiktar, 0) AS KynkSiparisMiktar, " +
-                                        "FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat AS Fiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5 " +
-                                        "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) RIGHT OUTER JOIN wms.Depo WITH(NOLOCK) INNER JOIN wms.IRS WITH(NOLOCK) ON wms.Depo.ID = wms.IRS.DepoID INNER JOIN wms.IRS_Detay WITH(NOLOCK) ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = wms.IRS.HesapKodu AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = wms.IRS_Detay.KynkSiparisTarih AND FINSAT6{0}.FINSAT6{0}.SPI.SiraNo = wms.IRS_Detay.KynkSiparisSiraNo AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = wms.IRS_Detay.KynkSiparisNo " +
-                                        "WHERE (IRS_Detay.IrsaliyeID = {1}) AND (IRS_Detay.OkutulanMiktar IS NOT NULL) AND (IRS_Detay.OkutulanMiktar > 0)", sirketKodu, irsID);
-            var STList = db.Database.SqlQuery<STIMax>(sql).ToList();
-            foreach (STIMax stItem in STList)
+            foreach (var item in mGorev.IRS)
             {
-                STIBase sti = new STIBase()
+                string sql = String.Format("SELECT IRS.EvrakNo, IRS_Detay.IrsaliyeID, IRS_Detay.MalKodu, IRS_Detay.Miktar, IRS_Detay.Birim, ISNULL(IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, Depo.DepoKodu, IRS.HesapKodu, IRS.Tarih, " +
+                                            "(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = IRS_Detay.MalKodu)) AS MalAdi," +
+                                            "ISNULL(IRS_Detay.KynkSiparisNo, '') AS SiparisNo, ISNULL(IRS_Detay.KynkSiparisSiraNo, 0) AS KynkSiparisSiraNo, ISNULL(IRS_Detay.KynkSiparisTarih, 0) AS KynkSiparisTarih, ISNULL(IRS_Detay.KynkSiparisMiktar, 0) AS KynkSiparisMiktar, " +
+                                            "FINSAT6{0}.FINSAT6{0}.SPI.BirimFiyat AS Fiyat, FINSAT6{0}.FINSAT6{0}.SPI.KDVOran, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran1, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran2, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran3, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran4, FINSAT6{0}.FINSAT6{0}.SPI.IskontoOran5 " +
+                                            "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) RIGHT OUTER JOIN wms.Depo WITH(NOLOCK) INNER JOIN wms.IRS WITH(NOLOCK) ON wms.Depo.ID = wms.IRS.DepoID INNER JOIN wms.IRS_Detay WITH(NOLOCK) ON wms.IRS.ID = wms.IRS_Detay.IrsaliyeID ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = wms.IRS.HesapKodu AND FINSAT6{0}.FINSAT6{0}.SPI.Tarih = wms.IRS_Detay.KynkSiparisTarih AND FINSAT6{0}.FINSAT6{0}.SPI.SiraNo = wms.IRS_Detay.KynkSiparisSiraNo AND FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = wms.IRS_Detay.KynkSiparisNo " +
+                                            "WHERE (IRS_Detay.IrsaliyeID = {1}) AND (IRS_Detay.OkutulanMiktar IS NOT NULL) AND (IRS_Detay.OkutulanMiktar > 0)", item.SirketKod, item.ID);
+                var STList = db.Database.SqlQuery<STIMax>(sql).ToList();
+                foreach (STIMax stItem in STList)
                 {
-                    EvrakNo = stItem.EvrakNo,
-                    HesapKodu = stItem.HesapKodu,
-                    Tarih = stItem.Tarih.IntToDate(),
-                    MalKodu = stItem.MalKodu,
-                    Miktar = stItem.OkutulanMiktar,
-                    Birim = stItem.Birim,
-                    Depo = stItem.DepoKodu,
-                    EvrakTipi = STIEvrakTipi.AlimIrsaliyesi,
-                    Kaydeden = kaydeden,
-                    KayitSurum = "9.01.028",
-                    KayitKaynak = 74
-                };
-                if (stItem.SiparisNo.IsNotNullEmpty())
-                {
-                    sti.KayitTipi = STIKayitTipi.Siparisten_Irsaliye;
-                    sti.KaynakSiparisNo = stItem.SiparisNo;
-                    sti.KaynakSiparisTarih = stItem.KynkSiparisTarih;
-                    sti.SiparisSiraNo = stItem.KynkSiparisSiraNo;
-                    sti.SiparisMiktar = stItem.KynkSiparisMiktar;
-                    sti.Fiyat = stItem.Fiyat;
-                    sti.KdvOran = stItem.KdvOran;
-                    sti.IskontoOran1 = stItem.IskontoOran1;
-                    sti.IskontoOran2 = stItem.IskontoOran2;
-                    sti.IskontoOran3 = stItem.IskontoOran3;
-                    sti.IskontoOran4 = stItem.IskontoOran4;
-                    sti.IskontoOran5 = stItem.IskontoOran5;
+                    STIBase sti = new STIBase()
+                    {
+                        EvrakNo = stItem.EvrakNo,
+                        HesapKodu = stItem.HesapKodu,
+                        Tarih = stItem.Tarih.IntToDate(),
+                        MalKodu = stItem.MalKodu,
+                        Miktar = stItem.OkutulanMiktar,
+                        Birim = stItem.Birim,
+                        Depo = stItem.DepoKodu,
+                        EvrakTipi = STIEvrakTipi.AlimIrsaliyesi,
+                        Kaydeden = kaydeden,
+                        KayitSurum = "9.01.028",
+                        KayitKaynak = 74
+                    };
+                    if (stItem.SiparisNo != "" && stItem.KynkSiparisMiktar > 0)
+                    {
+                        sti.KayitTipi = STIKayitTipi.Siparisten_Irsaliye;
+                        sti.KaynakSiparisNo = stItem.SiparisNo;
+                        sti.KaynakSiparisTarih = stItem.KynkSiparisTarih;
+                        sti.SiparisSiraNo = stItem.KynkSiparisSiraNo;
+                        sti.SiparisMiktar = stItem.KynkSiparisMiktar;
+                        sti.Fiyat = stItem.Fiyat;
+                        sti.KdvOran = stItem.KdvOran;
+                        sti.IskontoOran1 = stItem.IskontoOran1;
+                        sti.IskontoOran2 = stItem.IskontoOran2;
+                        sti.IskontoOran3 = stItem.IskontoOran3;
+                        sti.IskontoOran4 = stItem.IskontoOran4;
+                        sti.IskontoOran5 = stItem.IskontoOran5;
+                    }
+                    else
+                    {
+                        sti.KayitTipi = STIKayitTipi.Irsaliye;
+                        sti.KaynakSiparisNo = "";
+                        sti.KaynakSiparisTarih = 0;
+                        sti.SiparisSiraNo = 0;
+                        sti.SiparisMiktar = 0;
+                    }
+                    STIBaseList.Add(sti);
                 }
-                else
-                {
-                    sti.KayitTipi = STIKayitTipi.Irsaliye;
-                    sti.KaynakSiparisNo = "";
-                    sti.KaynakSiparisTarih = 0;
-                    sti.SiparisSiraNo = 0;
-                    sti.SiparisMiktar = 0;
-                }
-                STIBaseList.Add(sti);
             }
-            Irsaliye_Islemleri IrsIslem = new Irsaliye_Islemleri(sirketKodu);
+            Irsaliye_Islemleri IrsIslem = new Irsaliye_Islemleri(mGorev.IR.SirketKod);
             var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
             try
             {
                 Sonuc = IrsIslem.Irsaliye_Kayit(-1, STIBaseList);
-
             }
             catch (Exception ex)
             {
@@ -347,9 +358,7 @@ namespace Wms12m
             }
             //sonuç döner
             if (Sonuc.Hata.IsNull())
-            {
                 return new Result(true, Sonuc.Veri.ToString2());
-            }
             else
                 return new Result(false, Sonuc.Hata.Message);
         }
