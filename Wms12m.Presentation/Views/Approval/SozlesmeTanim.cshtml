@@ -299,7 +299,7 @@
         var listeNo = "";
         var GrupKod = "";
         $(document).ready(function () {
-            $(".txt_sira_no").dxTextBox();
+            $(".txt_sira_no").dxTextBox({readOnly:true});
             $(".txt_sozlesme_sira_no").dxTextBox();
             $(".txt_sozlesme_notu").dxTextBox();
             $(".txt_ortalama_vade").dxTextBox();
@@ -521,7 +521,6 @@
                         type: "post",
                         success: function (data) {
                             var result = JSON.parse(data);
-                            console.log(result);
                             $(".select_fiyat_listesi").dxLookup("instance").option("value", null);
                             $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
                             $(".select_urun_kodu").dxLookup("instance").option("value", null);
@@ -660,7 +659,8 @@
                             $(".numb_toplam_bakiye").dxNumberBox("instance").option("value", result[0].ToplamBakiye);
                             $(".numb_bekleyen_siparis").dxNumberBox("instance").option("value", result[0].BekleyenSiparisTutar);
                             $(".numb_alinan_bordro").dxNumberBox("instance").option("value", result[0].AlinanBordro);
-                           
+                            $(".txt_alinan_bordro_ort").dxTextBox("instance").option("value", result[0].AlinanBordroOrtalamaVade == null ? "" : result[0].AlinanBordroOrtalamaVade);
+                            $(".txt_ortalama_vade").dxTextBox("instance").option("value", result[0].OrtalamaVade == null ? "" : result[0].OrtalamaVade);
                         }
                     });
                 },
