@@ -139,22 +139,47 @@
         });
 
         $('.reddet-buton').click(function () {
-            var x = table.rows('.selected').data();
-            for (var i = 0; i < x.length; i++) {
-                secili_table.push(x[i]);
-            }
-            var _dfd = $.Deferred();
-            $.ajax({
-                url: window.location.origin + "/Approval/Fiyat_Red",
-                data: { Data: JSON.stringify(secili_table) },
-                type: "post",
-                success: function (data) {
-                    console.log(data);
+            if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
+                var x = table.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approval/Fiyat_Red",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        console.log(data);
 
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
-            });
-            return _dfd.promise();
+                    },
+                    error: function (jqxhr) { console.log(jqxhr); }
+                });
+                return _dfd.promise();
+
+            }
+            else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false)
+            {
+                var x = table2.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approval/Fiyat_Red_Koleksiyon",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        console.log(data);
+
+                    },
+                    error: function (jqxhr) { console.log(jqxhr); }
+                });
+                return _dfd.promise();
+
+            }
+
+
 
         });
 
