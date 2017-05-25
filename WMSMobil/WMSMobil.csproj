@@ -129,10 +129,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://88.248.139.219/mobilservis.asmx">
+    <WebReferenceUrl Include="http://localhost:3841/mobilservis.asmx">
       <UrlBehavior>Static</UrlBehavior>
       <RelPath>Web References\WMSLocal\</RelPath>
-      <UpdateFromURL>http://88.248.139.219/mobilservis.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost:3841/mobilservis.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

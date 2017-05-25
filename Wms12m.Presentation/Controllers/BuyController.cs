@@ -33,7 +33,29 @@ namespace Wms12m.Presentation.Controllers
             //get liste
             var list = Irsaliye.GetList(tmp[0], false, tmp[2], tmp[1].ToInt32());
             ViewBag.id = id;
+            ViewBag.Yetki = CheckPerm("Mal Kabul", PermTypes.Writing);
+            ViewBag.Yetki2 = CheckPerm("Mal Kabul", PermTypes.Deleting);
             return PartialView("List", list);
+        }
+        /// <summary>
+        /// irsaliye evrak no günceller
+        /// </summary>
+        public JsonResult Update(string EvrakNo, int ID,string SirketID, string HesapKodu)
+        {
+            if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Result _Result = new Result(false, "Bu evrak no kullanılıyor");
+            var kontrol = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == EvrakNo && m.SirketKod == SirketID & m.HesapKodu == HesapKodu && m.ID != ID).FirstOrDefault();
+            if (kontrol != null)
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = {2})", SirketID, EvrakNo, HesapKodu);
+            var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            if (sti != null)
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            //if all correct update
+            var tbl = Irsaliye.Detail(ID);
+            tbl.EvrakNo = EvrakNo;
+            _Result = Irsaliye.Operation(tbl);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// irsaliye listesi
