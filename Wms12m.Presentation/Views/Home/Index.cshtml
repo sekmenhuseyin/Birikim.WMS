@@ -47,7 +47,7 @@
         </a>
     </div>
 </div>@{
-    @*if (Model.yetki.Contains("'RaporGunlukSatis'") == true) {<div class="h-500" id="gunluk_satis"></div>}
+    if (Model.yetki.Contains("'RaporGunlukSatis'") == true) {<div class="h-500" id="gunluk_satis"></div>}
     if (Model.yetki.Contains("'RaporGunlukSatisPie'") == true) {<div class="h-500" id="gunluk_satis_pie"></div>}
     if (Model.yetki.Contains("'RaporGunlukSatisYearToDay'") == true) {<div class="h-500" id="gunluk_satis_yeartoday"></div>}
     if (Model.yetki.Contains("'RaporGunlukSatisYearToDayPie'") == true) {<div class="h-500" id="gunluk_satis_yeartoday_pie"></div>}
@@ -66,15 +66,15 @@
     if (Model.yetki.Contains("'RaporBekleyenSiparisUrunGrubuMiktarPie'") == true) {<div class="h-500" id="bekleyen_siparis_urun_grubu_miktar_pie"></div>}
     if (Model.yetki.Contains("'RaporBekleyenSiparisUrunGrubuMiktarKriter'") == true) {<div class="h-500" id="bekleyen_siparis_urun_grubu_miktar_kriter"></div>}
     if (Model.yetki.Contains("'RaporBekleyenSiparisUrunGrubuMiktarKriterPie'") == true) {<div class="h-500" id="bekleyen_siparis_urun_grubu_miktar_kriter_pie"></div>}
-    if (Model.yetki.Contains("'RaporBekleyenSiparisMusteriAnalizi'") == true) {<div class="h-500" id="bekleyen_siparis_musteri_analizi"></div>}*@
+    if (Model.yetki.Contains("'RaporBekleyenSiparisMusteriAnalizi'") == true) {<div class="h-500" id="bekleyen_siparis_musteri_analizi"></div>}
     if (Model.yetki.Contains("'RaporSatisTemsilcisiAylikSatisAnalizi'") == true) {<div class="h-500" id="satis_temsilcisi_aylik_satis_analizi"></div>}
-    @*if (Model.yetki.Contains("'RaporBaglantiUrunGrubu'") == true) {<div class="h-500" id="baglanti_urun_grubu"></div>}
+    if (Model.yetki.Contains("'RaporBaglantiUrunGrubu'") == true) {<div class="h-500" id="baglanti_urun_grubu"></div>}
     if (Model.yetki.Contains("'RaporBaglantiUrunGrubuPie'") == true) {<div class="h-500" id="baglanti_urun_grubu_pie"></div>}
     if (Model.yetki.Contains("'RaporGunlukMDFUretimi'") == true) {<div class="h-500" id="gunluk_mdf_uretim"></div>}
     if (Model.yetki.Contains("'RaporGunlukMDFUretimiPie'") == true) {<div class="h-500" id="gunluk_mdf_uretim_pie"></div>}
     if (Model.yetki.Contains("'RaporBaglantiZamanCizelgesi'") == true) {<div class="h-500" id="baglanti_zaman_cizelgesi"></div>}
     if (Model.yetki.Contains("'RaporBolgeBazliSatisAnalizi'") == true) {<div class="h-500" id="bolge_bazli_satis_analizi"></div>}
-    if (Model.yetki.Contains("'RaporBolgeBazliSatisAnaliziPie'") == true) {<div class="h-500" id="bolge_bazli_satis_analizi_pie"></div>}*@
+    if (Model.yetki.Contains("'RaporBolgeBazliSatisAnaliziPie'") == true) {<div class="h-500" id="bolge_bazli_satis_analizi_pie"></div>}
 }@section Scripts{<script src="~/Content/assets/global/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
 <script src="~/Content/assets/global/plugins/counterup/jquery.counterup.min.js"></script>
 <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -98,7 +98,7 @@
     dateVal.setHours(0, 0, 0);
     var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
 @{
-    @*if (Model.yetki.Contains("'RaporGunlukSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis'), handler: function () { PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
+    if (Model.yetki.Contains("'RaporGunlukSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis'), handler: function () { PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'RaporGunlukSatisPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'RaporGunlukSatisYearToDay'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_yeartoday'), handler: function () { PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'RaporGunlukSatisYearToDayPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_yeartoday_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
@@ -117,15 +117,15 @@
     if(Model.yetki.Contains("'RaporBekleyenSiparisUrunGrubuMiktarPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bekleyen_siparis_urun_grubu_miktar_pie'), handler: function () { PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'RaporBekleyenSiparisUrunGrubuMiktarKriter'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bekleyen_siparis_urun_grubu_miktar_kriter'), handler: function () { PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true, kriter: "TL" })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'RaporBekleyenSiparisUrunGrubuMiktarKriterPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bekleyen_siparis_urun_grubu_miktar_kriter_pie'), handler: function () { PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie", 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true, kiter: "TL" })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'RaporBekleyenSiparisMusteriAnalizi'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bekleyen_siparis_musteri_analizi'), handler: function () { PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", doviz: "TL" })); this.destroy(); }, offset: '50%'  });</text>}*@
+    if(Model.yetki.Contains("'RaporBekleyenSiparisMusteriAnalizi'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bekleyen_siparis_musteri_analizi'), handler: function () { PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", doviz: "TL" })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'RaporSatisTemsilcisiAylikSatisAnalizi'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('satis_temsilcisi_aylik_satis_analizi'), handler: function () { PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", tarih: dateVal.getMonth() + 1 })); this.destroy(); }, offset: '50%'  });</text>}
-    @*if(Model.yetki.Contains("'RaporBaglantiUrunGrubu'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('baglanti_urun_grubu'), handler: function () { PartialView("/Home/PartialBaglantiUrunGrubu", 'baglanti_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
+    if(Model.yetki.Contains("'RaporBaglantiUrunGrubu'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('baglanti_urun_grubu'), handler: function () { PartialView("/Home/PartialBaglantiUrunGrubu", 'baglanti_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'RaporBaglantiUrunGrubuPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('baglanti_urun_grubu_pie'), handler: function () { PartialView("/Home/PartialBaglantiUrunGrubuPie", 'baglanti_urun_grubu_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'RaporGunlukMDFUretimi'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_mdf_uretim'), handler: function () { PartialView("/Home/PartialGunlukMDFUretimi", 'gunluk_mdf_uretim', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'RaporGunlukMDFUretimiPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_mdf_uretim_pie'), handler: function () { PartialView("/Home/PartialGunlukMDFUretimiPie", 'gunluk_mdf_uretim_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'RaporBaglantiZamanCizelgesi'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('baglanti_zaman_cizelgesi'), handler: function () { PartialView("/Home/PartialBaglantiZamanCizelgesi", 'baglanti_zaman_cizelgesi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'RaporBolgeBazliSatisAnalizi'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bolge_bazli_satis_analizi'), handler: function () { PartialView("/Home/PartialBolgeBazliSatisAnalizi", 'bolge_bazli_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: 0, kriter: "Tümü" })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'RaporBolgeBazliSatisAnaliziPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bolge_bazli_satis_analizi_pie'), handler: function () { PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: 0, kriter: "Tümü" })); this.destroy(); }, offset: '50%'  });</text>}*@
+    if(Model.yetki.Contains("'RaporBolgeBazliSatisAnaliziPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bolge_bazli_satis_analizi_pie'), handler: function () { PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: 0, kriter: "Tümü" })); this.destroy(); }, offset: '50%'  });</text>}
 }
 </script>
 }

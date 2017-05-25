@@ -335,6 +335,7 @@
         var TempKalite = "";
         var element = "";
         $(document).ready(function () {
+            $(".sozlesme-guncelle-buton").toggleClass('disabled');
             $(".urun_kalite_content").css("display", "none");
             $(".valor_content").css("display", "none");
             $(".txt_sira_no").dxTextBox({ readOnly: true });
@@ -590,6 +591,7 @@
                 displayExpr: 'ListeNo',
 
                 onValueChanged: function (e) {
+                    $(".sozlesme-guncelle-buton").removeClass('disabled');
                     PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
                     inputDisable();
                     $.ajax({
@@ -789,11 +791,69 @@
         });
 
         $('.satir-sil-buton').click(function () {
-            $(".selected").parent().remove();
+            $(".selected").remove();
         });
 
         $('.sozlesme-kaydet-buton').click(function () {
-            fiyatEdit(1);
+            console.log("ww");
+            if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("value") == "") {
+                Modaldialog("Sözleşme Numarası Girmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
+                return;
+            }
+            var ListeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
+            var AktifPasif = null;
+            if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly") == true) {
+                if ($(".swtch_aktif_pasif").dxSwitch("instance").option("value") == true) {
+                    AktifPasif = true;
+                }
+                else {
+                    AktifPasif = false;
+                }
+
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approval/ISS_TempUpdate_AktifPasif",
+                    data: { SozlesmeNo: ListeNo, AktifPasif: AktifPasif },
+                    type: "post",
+                    success: function (data) {
+                        Modaldialog("İşlem Başarılı", "Kayıt İşlemi", "Tamam", "Kayıt");
+                        window.location.href = '/Approval/SozlesmeTanim';
+
+                    },
+                    error: function (jqxhr) { console.log(jqxhr); }
+                });
+                return _dfd.promise();
+            }
+
+            var ListNoVar = false;
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approval/SozlesmeListeNoKontrol",
+                data: { SozlesmeNo: ListeNo},
+                type: "post",
+                success: function (data) {
+                    if (data > 0) {
+                        Modaldialog("Liste No Kullanılmış.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                    }
+                    else {
+                        console.log("zzz");
+                    }
+                }
+            });
+            return _dfd.promise();
+            if ($(".select_baglanti_tipi").dxSelectBox("instance").option("value") == null) {
+                Modaldialog("Bağlantı Tipi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                return;
+            }
+            if ($(".swtch_aktif_pasif").dxSwitch("instance").option("value") == true && $(".date_vade_tarihi").dxDateBox("instance").option("value") == null) {
+                Modaldialog("Vade Tarihi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                return;
+            }
+            if ($(".swtch_aktif_pasif").dxSwitch("instance").option("value") == false && $(".numb_valor_gun").dxNumberBox("instance").option("value") <=0) {
+                Modaldialog("ValorGun Boş Geçilemez.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                return;
+            }
+
         });
 
         $('.sozlesme-sil-buton').click(function () {

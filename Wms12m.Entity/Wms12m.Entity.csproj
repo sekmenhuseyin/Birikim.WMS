@@ -243,6 +243,7 @@
     <Compile Include="Viewmodels\Fiyat.cs" />
     <Compile Include="Viewmodels\FYT.cs" />
     <Compile Include="Viewmodels\Invoce.cs" />
+    <Compile Include="Viewmodels\ISS.cs" />
     <Compile Include="Viewmodels\ISS_Temp.cs" />
     <Compile Include="Viewmodels\Reports.cs" />
     <Compile Include="Viewmodels\frmUsers.cs" />
