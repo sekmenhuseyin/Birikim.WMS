@@ -13,13 +13,14 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <table class="table table-striped table-bordered table-condensed" id="sample_1">
-                            <thead>
+                            <thead class="aaaaa">
                                 <tr>
                                     <th></th>
                                     <th nowrap>Fiyat Listesi</th>
                                     <th nowrap>Ürün Grubu</th>
                                     <th nowrap>Ürün Kodu</th>
                                     <th nowrap>Ürün Adı</th>
+                                    <th nowrap>Kalite</th>
                                     <th nowrap>Iskonto1</th>
                                     <th nowrap>Iskonto2</th>
                                     <th nowrap>Iskonto3</th>
@@ -34,12 +35,13 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     $('#x-modal-teminatdurbun').modal("hide");
     var secili_satir = new Array();
     var secili_table = new Array();
-    var table = $('#sample_1').DataTable({
+    var table = "";
+    if ("@ViewBag.ListeNo" != "#12MConsulting#")
+     table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approval/SozlesmeTanimListesiSelect?listeNo=' + '@ViewBag.ListeNo',
@@ -55,6 +57,7 @@
             { "data": "MalKodGrup" },
             { "data": "MalKod" },
             { "data": "MalAdi" },
+            { "data": "Kalite" },
             { "data": "Oran1" },
             { "data": "Oran2" },
             { "data": "Oran3" },
@@ -67,7 +70,23 @@
             return nRow;
         }
 
-    });
+     });
+    else {
+        table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        });
+        $('tbody').last().remove();
+        
+        console.log($(".input_label").text());
+        var element = @Html.Raw(Json.Encode(ViewBag.Satir));
+        $(element).insertAfter($(".aaaaa"));
+        setTimeout(function(){ $("#sample_1_info").text("Satır Eklendi"); }, 500);
+        $(".numb_iskonto1").dxNumberBox("instance").option("value",0);
+        $(".numb_iskonto2").dxNumberBox("instance").option("value",0);
+        $(".numb_iskonto3").dxNumberBox("instance").option("value",0);
+        $(".numb_iskonto4").dxNumberBox("instance").option("value",0);
+        $(".numb_iskonto5").dxNumberBox("instance").option("value",0);
+    }
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
