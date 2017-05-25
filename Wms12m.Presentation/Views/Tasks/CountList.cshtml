@@ -24,23 +24,23 @@
                     {
                         <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/CountFark/1-@item.ID')"> Tüm Liste </a>
                         <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/CountFark/0-@item.ID')"> Fark Liste </a>
-                        using (Ajax.BeginForm("CountCreate", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+                        if (item.IR.Onay == false)
                         {
-                            @Html.AntiForgeryToken()
-                            <input name="GorevID" type="hidden" value="@item.ID" />
-                            <input type="submit" class="btn btn-primary input-circle" value="Sayım FİŞİ Oluştur" />
+                            using (Ajax.BeginForm("CountCreate", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input name="GorevID" type="hidden" value="@item.ID" />
+                                <input type="submit" class="btn btn-primary input-circle" value="Sayım FİŞİ Oluştur" />
+                            }
                         }
-                        using (Ajax.BeginForm("CountCreateDiff", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+                        if(item.IR.LinkEvrakNo == null)
                         {
-                            @Html.AntiForgeryToken()
-                            <input name="GorevID" type="hidden" value="@item.ID" />
-                            <input type="submit" class="btn btn-primary input-circle" value="Fark FİŞİ Oluştur" />
-                        }
-                        using (Ajax.BeginForm("CountSave", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <input name="GorevID" type="hidden" value="@item.ID" />
-                            <input type="submit" class="btn green input-circle" value="Kaydet" />
+                            using (Ajax.BeginForm("CountCreateDiff", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input name="GorevID" type="hidden" value="@item.ID" />
+                                <input type="submit" class="btn btn-primary input-circle" value="Fark FİŞİ Oluştur" />
+                            }
                         }
                     }
                 </td>
@@ -61,9 +61,15 @@
         {
             if (e.Message != "")
                 Modaldialog(e.Message, 'Tamamlandı', 'Tamam', 'btn-success');
+            $('#DurumID').val(11);
             FuncSearchBtn();
         }
         else
             Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
     };
+    //ModalPrompt("w", "r", "ye", "no");
+    //function Maincallback(result)
+    //{
+    //    alert(result)
+    //}
 </script>
