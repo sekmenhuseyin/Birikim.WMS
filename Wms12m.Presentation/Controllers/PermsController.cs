@@ -23,7 +23,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult List(string id)
         {
             if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return null;
-            var list = db.GetRolePermsFor(id).ToList();
+            var list = db.GetRolePermsFor(id, "WMS").ToList();
             ViewBag.RoleName = id;
             return PartialView("List", list);
         }
