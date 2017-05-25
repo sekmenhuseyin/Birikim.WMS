@@ -14,8 +14,8 @@
                 label: NoLabel,
                 className: NoClass,
                 callback: function () {
-                    if (Nocallback == null)
-                    { } else {
+                    if (Nocallback != null)
+                    {
                         Nocallback();
                     }
                 }
@@ -58,6 +58,7 @@ function Modaldialog(message, title, label, className) {
     bootbox.dialog({
         message: message,
         title: title,
+        backdrop: true,
         buttons: {
             cancel: {
                 label: label,
@@ -65,4 +66,23 @@ function Modaldialog(message, title, label, className) {
             }
         }
     });
+}
+
+function ModalPrompt(title, defaultvalue, YesLabel, NoLabel)
+{
+    bootbox.prompt({
+        title: title,
+        value: defaultvalue,
+        callback: function (result) {
+            Maincallback(result);
+        },
+         buttons: {
+             confirm: {
+                 label: YesLabel
+             },
+           cancel: {
+               label: NoLabel
+            }
+        }
+   });
 }

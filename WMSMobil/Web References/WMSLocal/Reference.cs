@@ -28,7 +28,7 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         public MobilServis() {
-            this.Url = "http://192.168.2.228/mobilservis.asmx";
+            this.Url = "http://localhost:3841/mobilservis.asmx";
         }
         
         /// <remarks/>
