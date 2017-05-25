@@ -137,6 +137,13 @@
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
@@ -156,6 +163,13 @@
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
@@ -178,6 +192,13 @@
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
@@ -197,6 +218,13 @@
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
@@ -219,6 +247,13 @@
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
