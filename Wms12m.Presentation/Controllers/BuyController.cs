@@ -307,7 +307,7 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = String.Format("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu LIKE '{1}%')", id.ToString(), term);
+            string sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -323,7 +323,7 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = String.Format("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalAdi LIKE '%{1}%')", id.ToString(), term);
+            string sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'', @MalAdi = N'{1}'", id.ToString(), term);
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -362,7 +362,7 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             if (id.ToString() == "0") return null;
-            string sql = String.Format("SELECT HesapKodu, Unvan1 + ' ' + Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE (KartTip = 0) OR (KartTip = 1) OR (KartTip = 4)", id.ToString());
+            string sql = String.Format("FINSAT6{0}.[wms].[CHKSelectKartTip]", id.ToString());
             var list = db.Database.SqlQuery<frmHesapUnvan>(sql).ToList();
             return PartialView("_HesapGridPartial", list);
         }

@@ -324,14 +324,17 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public PartialViewResult GetSiparis(string DepoID, string Starts, string Ends)
         {
+            //ilk kontrol
             if (DepoID == "0") return null;
-            if (CheckPerm("Genel Sipariş", PermTypes.Reading) == false) return null;
-            string sql = "";
             bool tarihler = DateTime.TryParse(Starts, out DateTime StartDate); if (tarihler == false) return null;
             tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
             if (StartDate > EndDate) return null;
             //DateTime StartDate = DateTime.Now.AddDays(-1);
             //DateTime EndDate = DateTime.Now;
+            //perm kontrol
+            if (CheckPerm("Genel Sipariş", PermTypes.Reading) == false) return null;
+            string sql = "";
+            //loop dbs
             var tmp = db.GetSirketDBs().ToList();
             foreach (var item in tmp)
             {
@@ -341,6 +344,7 @@ namespace Wms12m.Presentation.Controllers
                                     "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Tarih >= '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Tarih <= '{3}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı')) AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 <> 'KKABLO')" +
                                     "GROUP BY FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.SPI.Chk, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1, FINSAT6{0}.FINSAT6{0}.CHK.GrupKod, FINSAT6{0}.FINSAT6{0}.CHK.FaturaAdres3, FINSAT6{0}.FINSAT6{0}.MFK.Aciklama, FINSAT6{0}.FINSAT6{0}.STK.Kod1", item, DepoID.ToString(), StartDate.ToOADateInt(), EndDate.ToOADateInt());
             }
+            //return list
             ViewBag.Depo = DepoID;
             try
             {
@@ -350,7 +354,7 @@ namespace Wms12m.Presentation.Controllers
             catch (Exception ex)
             {
                 Logger(ex, "Sell/GetSiparis");
-                return null;
+                return PartialView("_Siparis", new List<frmSiparisler>());
             }
         }
         /// <summary>
