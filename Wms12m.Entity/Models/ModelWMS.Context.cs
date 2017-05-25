@@ -351,15 +351,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.SettingsGorevNo", tarihParameter, depoIDParameter);
         }
     
-        public virtual ObjectResult<GetRolePermsFor_Result> GetRolePermsFor(string roleName)
-        {
-            var roleNameParameter = roleName != null ?
-                new ObjectParameter("RoleName", roleName) :
-                new ObjectParameter("RoleName", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetRolePermsFor_Result>("WMSEntities.GetRolePermsFor", roleNameParameter);
-        }
-    
         public virtual ObjectResult<Nullable<short>> MenuFindAktif(Nullable<int> webSiteTipiNo, Nullable<int> menuYeriNo, string roleName, Nullable<short> ustMenuID, string url)
         {
             var webSiteTipiNoParameter = webSiteTipiNo.HasValue ?
@@ -470,6 +461,19 @@ namespace Wms12m.Entity.Models
         public virtual ObjectResult<GetMenuRoles_Result> GetMenuRoles()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMenuRoles_Result>("WMSEntities.GetMenuRoles");
+        }
+    
+        public virtual ObjectResult<GetRolePermsFor_Result> GetRolePermsFor(string roleName, string group)
+        {
+            var roleNameParameter = roleName != null ?
+                new ObjectParameter("RoleName", roleName) :
+                new ObjectParameter("RoleName", typeof(string));
+    
+            var groupParameter = group != null ?
+                new ObjectParameter("Group", group) :
+                new ObjectParameter("Group", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetRolePermsFor_Result>("WMSEntities.GetRolePermsFor", roleNameParameter, groupParameter);
         }
     }
 }
