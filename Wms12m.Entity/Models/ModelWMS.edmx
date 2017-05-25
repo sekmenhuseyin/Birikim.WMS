@@ -32,6 +32,7 @@
           <Property Name="TopLogo" Type="varchar" MaxLength="250" />
           <Property Name="AllowNewUser" Type="bit" Nullable="false" />
           <Property Name="AllowForgotPass" Type="bit" Nullable="false" />
+          <Property Name="KabloSiparisMySql" Type="bit" Nullable="false" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Simge">
@@ -881,6 +882,7 @@
         </Function>
         <Function Name="GetRolePermsFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
+          <Parameter Name="Group" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetSirketDBs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetSirkets" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -895,18 +897,12 @@
           <Parameter Name="Message" Type="varchar(max)" Mode="In" />
           <Parameter Name="Source" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="MenuFindAktif" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="WebSiteTipiNo" Type="int" Mode="In" />
-          <Parameter Name="MenuYeriNo" Type="int" Mode="In" />
-          <Parameter Name="RoleName" Type="varchar" Mode="In" />
-          <Parameter Name="UstMenuID" Type="smallint" Mode="In" />
-          <Parameter Name="url" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="MenuGetirici" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="WebSiteTipiID" Type="int" Mode="In" />
           <Parameter Name="MenuYeriID" Type="int" Mode="In" />
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
           <Parameter Name="UstMenuID" Type="smallint" Mode="In" />
+          <Parameter Name="url" Type="varchar" Mode="In" />
         </Function>
         <Function Name="MenuRolEkle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MenuID" Type="smallint" Mode="In" />
@@ -1392,22 +1388,6 @@
             <Parameter Name="tarih" Mode="In" Type="Int32" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="GetRolePermsFor" ReturnType="Collection(MModel.GetRolePermsFor_Result)">
-          <Parameter Name="RoleName" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="MenuFindAktif" ReturnType="Collection(Int16)">
-            <Parameter Name="WebSiteTipiNo" Mode="In" Type="Int32" />
-            <Parameter Name="MenuYeriNo" Mode="In" Type="Int32" />
-            <Parameter Name="RoleName" Mode="In" Type="String" />
-            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
-            <Parameter Name="url" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="MenuGetirici" ReturnType="Collection(MModel.MenuGetirici_Result)">
-            <Parameter Name="WebSiteTipiID" Mode="In" Type="Int32" />
-            <Parameter Name="MenuYeriID" Mode="In" Type="Int32" />
-            <Parameter Name="RoleName" Mode="In" Type="String" />
-            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
-          </FunctionImport>
           <FunctionImport Name="MenuRolEkle">
             <Parameter Name="MenuID" Mode="In" Type="Int16" />
             <Parameter Name="RolNo" Mode="In" Type="String" />
@@ -1478,6 +1458,17 @@
             <End Role="Gorev" EntitySet="Gorevs" />
             <End Role="GorevUser" EntitySet="GorevUsers" />
           </AssociationSet>
+          <FunctionImport Name="GetRolePermsFor" ReturnType="Collection(MModel.GetRolePermsFor_Result)">
+            <Parameter Name="RoleName" Mode="In" Type="String" />
+            <Parameter Name="Group" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MenuGetirici" ReturnType="Collection(MModel.MenuGetirici_Result)">
+            <Parameter Name="WebSiteTipiID" Mode="In" Type="Int32" />
+            <Parameter Name="MenuYeriID" Mode="In" Type="Int32" />
+            <Parameter Name="RoleName" Mode="In" Type="String" />
+            <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
+            <Parameter Name="url" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2197,22 +2188,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetRolePermsFor_Result">
-          <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="Boolean" Name="Reading" Nullable="false" />
-          <Property Type="Boolean" Name="Writing" Nullable="false" />
-          <Property Type="Boolean" Name="Updating" Nullable="false" />
-          <Property Type="Boolean" Name="Deleting" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="MenuGetirici_Result">
-          <Property Type="Int16" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Ad" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Icon" Nullable="true" MaxLength="150" />
-          <Property Type="Int16" Name="UstMenuID" Nullable="true" />
-          <Property Type="Int32" Name="AltmenuCount" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="MenuRolGetir_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="RoleName" Nullable="false" MaxLength="20" />
@@ -2251,6 +2226,7 @@
           <Property Name="AllowNewUser" Type="Boolean" Nullable="false" />
           <Property Name="AllowForgotPass" Type="Boolean" Nullable="false" />
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
+          <Property Name="KabloSiparisMySql" Type="Boolean" Nullable="false" />
         </EntityType>
         <ComplexType Name="GetUserPermsFor_Result">
           <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
@@ -2429,6 +2405,25 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetRolePermsFor_Result">
+          <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
+          <Property Type="Int16" Name="Type" Nullable="false" />
+          <Property Type="Int16" Name="AppType" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Boolean" Name="Reading" Nullable="false" />
+          <Property Type="Boolean" Name="Writing" Nullable="false" />
+          <Property Type="Boolean" Name="Updating" Nullable="false" />
+          <Property Type="Boolean" Name="Deleting" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MenuGetirici_Result">
+          <Property Type="Int16" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Ad" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Icon" Nullable="true" MaxLength="150" />
+          <Property Type="Int16" Name="UstMenuID" Nullable="true" />
+          <Property Type="Int32" Name="AltmenuCount" Nullable="true" />
+          <Property Type="Int32" Name="Aktif" Nullable="false" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2841,31 +2836,6 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
-          <FunctionImportMapping FunctionImportName="GetRolePermsFor" FunctionName="MModel.Store.GetRolePermsFor">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetRolePermsFor_Result">
-                <ScalarProperty Name="PermName" ColumnName="PermName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Reading" ColumnName="Reading" />
-                <ScalarProperty Name="Writing" ColumnName="Writing" />
-                <ScalarProperty Name="Updating" ColumnName="Updating" />
-                <ScalarProperty Name="Deleting" ColumnName="Deleting" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="MenuFindAktif" FunctionName="MModel.Store.MenuFindAktif" />
-          <FunctionImportMapping FunctionImportName="MenuGetirici" FunctionName="MModel.Store.MenuGetirici">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.MenuGetirici_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Ad" ColumnName="Ad" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="UstMenuID" ColumnName="UstMenuID" />
-                <ScalarProperty Name="AltmenuCount" ColumnName="AltmenuCount" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="MenuRolEkle" FunctionName="MModel.Store.MenuRolEkle" />
           <FunctionImportMapping FunctionImportName="MenuRolGetir" FunctionName="MModel.Store.MenuRolGetir">
             <ResultMapping>
@@ -2889,6 +2859,7 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="KabloSiparisMySql" ColumnName="KabloSiparisMySql" />
                 <ScalarProperty Name="Aktif" ColumnName="Aktif" />
                 <ScalarProperty Name="AllowForgotPass" ColumnName="AllowForgotPass" />
                 <ScalarProperty Name="AllowNewUser" ColumnName="AllowNewUser" />
@@ -2977,6 +2948,33 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetRolePermsFor" FunctionName="MModel.Store.GetRolePermsFor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetRolePermsFor_Result">
+                <ScalarProperty Name="PermName" ColumnName="PermName" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="AppType" ColumnName="AppType" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Reading" ColumnName="Reading" />
+                <ScalarProperty Name="Writing" ColumnName="Writing" />
+                <ScalarProperty Name="Updating" ColumnName="Updating" />
+                <ScalarProperty Name="Deleting" ColumnName="Deleting" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MenuGetirici" FunctionName="MModel.Store.MenuGetirici">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.MenuGetirici_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="UstMenuID" ColumnName="UstMenuID" />
+                <ScalarProperty Name="AltmenuCount" ColumnName="AltmenuCount" />
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

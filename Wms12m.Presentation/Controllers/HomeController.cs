@@ -34,8 +34,7 @@ namespace Wms12m.Presentation.Controllers
             }
             url = "/" + url;
             ViewBag.ustMenu = mUstNo;
-            ViewBag.aktifNo = db.MenuFindAktif(ComboItems.WMS.ToInt32(), mYeri, vUser.RoleName, mUstNo, url).FirstOrDefault();
-            var tablo = db.MenuGetirici(ComboItems.WMS.ToInt32(), mYeri, vUser.RoleName, mUstNo).ToList();
+            var tablo = db.MenuGetirici(ComboItems.WMS.ToInt32(), mYeri, vUser.RoleName, mUstNo, url).ToList();
             return PartialView("../Shared/_MenuList", tablo);
         }
         /// <summary>
@@ -43,7 +42,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult PartialGunlukSatis(string SirketKodu, int tarih)
         {
-            if (CheckPerm("RaporGunlukSatis", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartGunlukSatis", PermTypes.Reading) == false) return null;
             var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", SirketKodu, tarih)).ToList();
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih.FromOADateInt();
@@ -54,7 +53,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukSatisPie(string SirketKodu, int tarih)
         {
-            if (CheckPerm("RaporGunlukSatisPie", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartGunlukSatisPie", PermTypes.Reading) == false) return null;
             var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", SirketKodu, tarih)).ToList();
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih.FromOADateInt();
@@ -65,7 +64,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukSatisYearToDay(string SirketKodu)
         {
-            if (CheckPerm("RaporGunlukSatisYearToDay", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartGunlukSatisYearToDay", PermTypes.Reading) == false) return null;
             int tarih = fn.ToOADate();
             var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", SirketKodu, tarih)).ToList();
             ViewBag.tarih = tarih;
@@ -76,7 +75,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukSatisYearToDayPie(string SirketKodu)
         {
-            if (CheckPerm("RaporGunlukSatisYearToDayPie", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartGunlukSatisYearToDayPie", PermTypes.Reading) == false) return null;
             int tarih = fn.ToOADate();
             var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", SirketKodu, tarih)).ToList();
             ViewBag.tarih = tarih;
@@ -87,7 +86,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukSatisDoubleKriter(string SirketKodu, string kod, int islemtip, int tarih)
         {
-            if (CheckPerm("RaporGunlukSatisDoubleKriter", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartGunlukSatisDoubleKriter", PermTypes.Reading) == false) return null;
             var GSADK = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziDoubleKriter] @Tarih = {1}, @IslemTip = {2}, @Grup = '{3}'", SirketKodu, tarih, islemtip, kod)).ToList();
             ViewBag.IslemTip = islemtip;
             ViewBag.Kriter = kod;
@@ -100,7 +99,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukSatisDoubleKriterPie(string SirketKodu, string kod, int islemtip, int tarih)
         {
-            if (CheckPerm("RaporGunlukSatisDoubleKriterPie", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartGunlukSatisDoubleKriterPie", PermTypes.Reading) == false) return null;
             var GSADK = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziDoubleKriter] @Tarih = {1}, @IslemTip = {2}, @Grup = '{3}'", SirketKodu, tarih, islemtip, kod)).ToList();
             ViewBag.IslemTip = islemtip;
             ViewBag.Kriter = kod;
@@ -113,7 +112,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialAylikSatisAnaliziBar(string SirketKodu)
         {
-            if (CheckPerm("RaporAylikSatisAnaliziBar", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartAylikSatisAnaliziBar", PermTypes.Reading) == false) return null;
             var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", SirketKodu)).ToList();
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
@@ -122,7 +121,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialAylikSatisCHKAnaliziBar(string SirketKodu, string chk)
         {
-            if (CheckPerm("RaporAylikSatisCHKAnaliziBar", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartAylikSatisCHKAnaliziBar", PermTypes.Reading) == false) return null;
             chk = chk.ToString2();
             var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_CHK] @chk='{1}'", SirketKodu, chk)).ToList();
             ViewBag.CHK = chk;
@@ -133,7 +132,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialAylikSatisAnaliziKodTipDovizBar(string SirketKodu, string kod, int islemtip, string doviz)
         {
-            if (CheckPerm("RaporAylikSatisAnaliziKodTipDovizBar", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartAylikSatisAnaliziKodTipDovizBar", PermTypes.Reading) == false) return null;
             List<ChartAylikSatisAnalizi> GSADK;
             try
             {
@@ -153,7 +152,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialUrunGrubuSatis(short? tarih)
         {
-            if (CheckPerm("RaporUrunGrubuSatis", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartUrunGrubuSatis", PermTypes.Reading) == false) return null;
             if (tarih == null)
                 tarih = (short)DateTime.Today.Month;
             var UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", "33", tarih)).ToList();
@@ -163,7 +162,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialUrunGrubuSatisKriter(short? tarih, string kriter)
         {
-            if (CheckPerm("RaporUrunGrubuSatisKriter", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartUrunGrubuSatisKriter", PermTypes.Reading) == false) return null;
             if (tarih == null)
                 tarih = (short)DateTime.Today.Month;
 
@@ -175,7 +174,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialLokasyonSatis(short? tarih)
         {
-            if (CheckPerm("RaporLokasyonSatis", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartLokasyonSatis", PermTypes.Reading) == false) return null;
             if (tarih == null)
                 tarih = (short)DateTime.Today.Month;
             var UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", "33", tarih)).ToList();
@@ -185,7 +184,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialLokasyonSatisKriter(short? tarih, string kriter)
         {
-            if (CheckPerm("RaporLokasyonSatisKriter", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartLokasyonSatisKriter", PermTypes.Reading) == false) return null;
             if (tarih == null)
                 tarih = (short)DateTime.Today.Month;
 
@@ -197,14 +196,14 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBakiyeRiskAnalizi()
         {
-            if (CheckPerm("RaporBakiyeRiskAnalizi", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBakiyeRiskAnalizi", PermTypes.Reading) == false) return null;
             var BRA = db.Database.SqlQuery<ChartBakiyeRiskAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", "33")).ToList();
             return PartialView("_PartialBakiyeRiskAnalizi", BRA);
         }
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubu(string chk, int? bastarih, int? bittarih)
         {
-            if (CheckPerm("RaporBekleyenSiparisUrunGrubu", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBekleyenSiparisUrunGrubu", PermTypes.Reading) == false) return null;
             var tarih1 = DateTime.Today.Date;
             var tarih2 = DateTime.Today.Date;
             if (bastarih == null)
@@ -234,7 +233,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktar(bool miktarTutar)
         {
-            if (CheckPerm("RaporBekleyenSiparisUrunGrubuMiktar", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBekleyenSiparisUrunGrubuMiktar", PermTypes.Reading) == false) return null;
             if (miktarTutar == true)
             {
                 var BSUG = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu_Miktar]", "33")).ToList();
@@ -251,7 +250,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarPie(bool miktarTutar)
         {
-            if (CheckPerm("RaporBekleyenSiparisUrunGrubuMiktarPie", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBekleyenSiparisUrunGrubuMiktarPie", PermTypes.Reading) == false) return null;
             if (miktarTutar == true)
             {
                 var BSUG = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu_Miktar]", "33")).ToList();
@@ -268,7 +267,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriter(bool miktarTutar, string kriter)
         {
-            if (CheckPerm("RaporBekleyenSiparisUrunGrubuMiktarKriter", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBekleyenSiparisUrunGrubuMiktarKriter", PermTypes.Reading) == false) return null;
             if (miktarTutar == true)
             {
                 var BSUG = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu_Miktar]", "33")).ToList();
@@ -287,7 +286,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriterPie(bool miktarTutar, string kriter)
         {
-            if (CheckPerm("RaporBekleyenSiparisUrunGrubuMiktarKriterPie", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBekleyenSiparisUrunGrubuMiktarKriterPie", PermTypes.Reading) == false) return null;
             if (miktarTutar == true)
             {
                 var BSUG = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu_Miktar]", "33")).ToList();
@@ -306,7 +305,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBekleyenSiparisMusteriAnalizi(string kod, string doviz)
         {
-            if (CheckPerm("RaporBekleyenSiparisMusteriAnalizi", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBekleyenSiparisMusteriAnalizi", PermTypes.Reading) == false) return null;
             var BSMA = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_Musteri_Analizi] @Kod = '{1}', @Kriter = '{2}'", "33", kod, doviz)).ToList();
 
 
@@ -317,7 +316,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialSatisTemsilcisiAylikSatisAnalizi(string SirketKodu, string kod, short tarih)
         {
-            if (CheckPerm("RaporSatisTemsilcisiAylikSatisAnalizi", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartSatisTemsilcisiAylikSatisAnalizi", PermTypes.Reading) == false) return null;
             var STASA = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[SatisTemsilcisi_AylikSatisAnalizi] @Ay = '{1}', @Kriter = '{2}'", SirketKodu, tarih, kod)).ToList();
             ViewBag.Tarih = tarih;
             ViewBag.Kriter = kod;
@@ -328,7 +327,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBaglantiUrunGrubu()
         {
-            if (CheckPerm("RaporBaglantiUrunGrubu", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBaglantiUrunGrubu", PermTypes.Reading) == false) return null;
             List<ChartBaglantiUrunGrup> BUGS;
             try
             {
@@ -343,7 +342,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBaglantiUrunGrubuPie()
         {
-            if (CheckPerm("RaporBaglantiUrunGrubuPie", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBaglantiUrunGrubuPie", PermTypes.Reading) == false) return null;
             List<ChartBaglantiUrunGrup> BUGS;
             try
             {
@@ -358,7 +357,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukMDFUretimi(int? tarih)
         {
-            if (CheckPerm("RaporGunlukMDFUretimi", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartGunlukMDFUretimi", PermTypes.Reading) == false) return null;
             var tarih2 = DateTime.Today.Date;
             if (tarih == null)
             {
@@ -377,7 +376,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukMDFUretimiPie(int? tarih)
         {
-            if (CheckPerm("RaporGunlukMDFUretimiPie", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartGunlukMDFUretimiPie", PermTypes.Reading) == false) return null;
             var tarih2 = DateTime.Today.Date;
             if (tarih == null)
             {
@@ -397,7 +396,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBaglantiZamanCizelgesi()
         {
-            if (CheckPerm("RaporBaglantiZamanCizelgesi", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBaglantiZamanCizelgesi", PermTypes.Reading) == false) return null;
             try
             {
                 var BUGS = db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_BaglantiLogGetir]", "33")).ToList();
@@ -412,7 +411,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBolgeBazliSatisAnalizi(int? ay, string kriter)
         {
-            if (CheckPerm("RaporBolgeBazliSatisAnalizi", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBolgeBazliSatisAnalizi", PermTypes.Reading) == false) return null;
             if (ay == null)
             {
                 ay = 0;
@@ -432,7 +431,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBolgeBazliSatisAnaliziPie(int? ay, string kriter)
         {
-            if (CheckPerm("RaporBolgeBazliSatisAnaliziPie", PermTypes.Reading) == false) return null;
+            if (CheckPerm("ChartBolgeBazliSatisAnaliziPie", PermTypes.Reading) == false) return null;
             if (ay == null)
             {
                 ay = 0;

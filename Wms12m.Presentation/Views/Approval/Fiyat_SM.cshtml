@@ -123,7 +123,7 @@
                     error: function (jqxhr) { console.log(jqxhr); }
                 });
                 return _dfd.promise();
-                window.location.href = '/Approval/Fiyat_SM';
+               // window.location.href = '/Approval/Fiyat_SM';
             }
             else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
                 var x = table2.rows('.selected').data();
@@ -137,6 +137,13 @@
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
@@ -156,6 +163,13 @@
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
@@ -173,11 +187,18 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Red",
+                    url: window.location.origin + "/Approval/Fiyat_Red_SM",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
@@ -192,17 +213,52 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Red_Koleksiyon",
+                    url: window.location.origin + "/Approval/Fiyat_Red_Koleksiyon_SM",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
                 });
                 return _dfd.promise();
 
+
+
+            }
+
+            else if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == true) {
+                var x = table3.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approval/Fiyat_Red_Grup_SM",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
+
+                    },
+                    error: function (jqxhr) { console.log(jqxhr); }
+                });
+                return _dfd.promise();
             }
 
 

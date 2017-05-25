@@ -21,5 +21,6 @@ namespace Wms12m.Entity.Models
         public bool AllowNewUser { get; set; }
         public bool AllowForgotPass { get; set; }
         public bool Aktif { get; set; }
+        public bool KabloSiparisMySql { get; set; }
     }
 }

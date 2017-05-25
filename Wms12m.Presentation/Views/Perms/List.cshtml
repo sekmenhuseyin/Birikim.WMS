@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<GetRolePermsFor_Result>
 @{
-	int i = 0;
+    int i = 0;
+    short tip = 0;
 }<div class="row">
 	<div class="col-md-6 col-md-offset-2 bold">Yetki Adı</div><div class="col-md-1 text-center bold">Okuma</div><div class="col-md-1 text-center bold">Yazma</div><div class="col-md-1 text-center bold">Silme</div>
 </div>
-<div class="row m-t-10">
+<div class="row m-t-10 m-b-10">
     <div class="checkbox col-md-1 col-md-offset-8 text-center">
         <label style="font-size: 1.5em">
             <button id="Reading" type="button" onclick="checkboxChanger('Reading');"><i class="cr-icon fa fa-check"></i></button>
@@ -21,38 +22,43 @@
         </label>
     </div>
 </div>
-<div class="row m-t-10">
-	@foreach (var item in Model)
-	{
-		using (Ajax.BeginForm("Save", "Perms", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
-		{
-			@Html.AntiForgeryToken()
+@foreach (var item in Model)
+{
+    if (tip != item.Type)
+    {
+        tip = item.Type;
+        <div class="row m-t-10"><div class="col-md-12">&nbsp;</div></div>
+    }
+    using (Ajax.BeginForm("Save", "Perms", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
+    {
+		@Html.AntiForgeryToken()
+        <div class="row">
             <input name="ID" type="hidden" value="@item.ID" />
-			<input name="Updating" type="hidden" />
-			<input name="RoleName" class="RoleName" type="hidden" value="@ViewBag.RoleName" required />
-			<div class="col-md-6 col-md-offset-2"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
+            <input name="Updating" type="hidden" />
+            <input name="RoleName" class="RoleName" type="hidden" value="@ViewBag.RoleName" required />
+            <div class="col-md-6 col-md-offset-2"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
             <div class="checkbox col-md-1 text-center">
                 <label style="font-size: 1.5em">
-                    <input class="Reading" name="Reading" type="checkbox" @{if (item.Reading == true) { <text> checked="checked" </text> }} />
+                    <input class="Reading" name="Reading" type="checkbox" @{if (item.Reading == true) { <text> checked="checked" </text>   }} />
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                 </label>
             </div>
             <div class="checkbox col-md-1 text-center">
                 <label style="font-size: 1.5em">
-                    <input class="Writing" name="Writing" type="checkbox" @{if (item.Writing == true) { <text> checked="checked" </text> }} />
+                    <input class="Writing" name="Writing" type="checkbox" @{if (item.Writing == true) { <text> checked="checked" </text>   }} />
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                 </label>
             </div>
             <div class="checkbox col-md-1 text-center">
                 <label style="font-size: 1.5em">
-                    <input class="Deleting" name="Deleting" type="checkbox" @{if (item.Deleting == true) { <text> checked="checked" </text> }} />
+                    <input class="Deleting" name="Deleting" type="checkbox" @{if (item.Deleting == true) { <text> checked="checked" </text>   }} />
                     <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                 </label>
             </div>
-	    }
-		i++;
-	}
-</div>
+        </div>
+    }
+    i++;
+}
 <div class="row m-t-30">
 	<div class="col-md-offset-7 col-md-4">
 		<button class="btn btn-primary btn-block" onclick="submit()">Kaydet</button>
