@@ -123,8 +123,10 @@
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
                 });
+               
                 return _dfd.promise();
                 window.location.href = '/Approval/Fiyat_GM';
+               
             }
             else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
                 var x = table2.rows('.selected').data();
