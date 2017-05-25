@@ -143,6 +143,20 @@ namespace Wms12m.Presentation.Controllers
             return json;
         }
 
+        public PartialViewResult Fiyat_SM_List_Grup()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+
+        public string FiyatSMOnayCekSMGrup()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_GrupEbatYuzey]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
 
         public ActionResult FiyatListesi()
         {
@@ -920,6 +934,8 @@ namespace Wms12m.Presentation.Controllers
                 return "NO";
             }
         }
+       
+
 
         public JsonResult Fiyat_Onay_SM(string Data)
         {
@@ -980,7 +996,7 @@ namespace Wms12m.Presentation.Controllers
                     AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
                     AND F.SatisFiyat1Birim = '{5}' AND F.SatisFiyat1BirimInt = {6}
                     AND F.DovizSatisFiyat1 = {7} AND F.DovizSF1Birim = '{8}' AND F.DovizSF1BirimInt = {9}
-                    AND F.DovizCinsi = '{10}' --AND F.Onay = 0 AND F.GMOnay = 0 ", "17", insertObj["FiyatListNum"].ToString(), insertObj["Kod4"].ToString(),
+                    AND F.DovizCinsi = '{10}' AND F.Onay = 0 AND F.GMOnay = 0 ", "17", insertObj["FiyatListNum"].ToString(), insertObj["Kod4"].ToString(),
                     insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(), insertObj["SatisFiyat1BirimInt"].ToString(),
                     insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
@@ -1001,6 +1017,60 @@ namespace Wms12m.Presentation.Controllers
 
                 }
 
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "NO";
+            }
+        }
+        public string Fiyat_Onay_Grup_SM(string Data)
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
+            //string sql = string.Format(@"INSERT INTO FINSAT";
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+
+            try
+            {
+                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
+                foreach (JObject insertObj in parameters)
+                {
+
+                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
+                    WHERE S.GrupKod <> 'PARKE' AND S.GrupKod = '{1}' AND F.FiyatListNum = '{2}'
+                    AND S.TipKod = '{3}' AND S.Kod2 = '{4}' AND S.Kod3 = '{5}' AND S.Kod1 ='{6}'
+                    AND S.Kod8 ='{7}'
+                    AND F.SatisFiyat1 = {8} AND F.SatisFiyat1Birim = '{9}' AND F.SatisFiyat1BirimInt = {10}
+                    AND F.DovizSatisFiyat1 = {11} AND F.DovizSF1Birim = '{12}' AND F.DovizSF1BirimInt = {13}
+                    AND F.DovizCinsi = '{14}' AND F.Onay = 0 AND F.GMOnay = 0 ", "17", insertObj["GrupKod"].ToString(),
+                    insertObj["FiyatListNum"].ToString(), insertObj["Kalite"].ToString(),
+                    insertObj["En"].ToString(), insertObj["Boy"].ToString(), insertObj["Kalinlik"].ToString(), insertObj["Yuzey"].ToString(),
+                    insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(),
+                    insertObj["SatisFiyat1BirimInt"].ToInt32(), insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."),
+                    insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
+                    );
+                    var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
+                    var result = String.Join(", ", fiyatID.ToArray());
+                    sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
+                    var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
+                    foreach (Fiyat rts in OnayFiyatList)
+                    {
+
+                        DateTime date = DateTime.Now;
+                        var shortDate = date.ToString("yyyy-MM-dd");
+
+                        var sonuc = sqlexper.AcceptChanges();
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
+
+
+
+                    }
+
+
+                }
                 return "OK";
             }
             catch (Exception ex)

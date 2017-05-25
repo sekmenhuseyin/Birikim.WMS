@@ -529,6 +529,7 @@
     <Content Include="Views\Approval\SozlesmeTanim_List.cshtml" />
     <Content Include="Views\Approval\Fiyat_GM_List_Grup.cshtml" />
     <Content Include="Views\Approval\Fiyat_SM_List_Koleksiyon.cshtml" />
+    <Content Include="Views\Approval\Fiyat_SM_List_Grup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
