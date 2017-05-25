@@ -125,7 +125,7 @@
                 });
                
                 return _dfd.promise();
-                window.location.href = '/Approval/Fiyat_GM';
+               // window.location.href = '/Approval/Fiyat_GM';
                
             }
             else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
@@ -140,6 +140,13 @@
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
@@ -155,11 +162,18 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Onay_Grup",
+                    url: window.location.origin + "/Approval/Fiyat_Onay_Grup_SM",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
@@ -182,6 +196,13 @@
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
@@ -202,6 +223,40 @@
                     type: "post",
                     success: function (data) {
                         console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
+
+                    },
+                    error: function (jqxhr) { console.log(jqxhr); }
+                });
+                return _dfd.promise();
+
+            }
+
+            else if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == true) {
+                var x = table3.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approval/Fiyat_Red_Grup",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
 
                     },
                     error: function (jqxhr) { console.log(jqxhr); }
