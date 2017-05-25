@@ -61,9 +61,15 @@
         {
             if (e.Message != "")
                 Modaldialog(e.Message, 'Tamamlandı', 'Tamam', 'btn-success');
+            $('#DurumID').val(11);
             FuncSearchBtn();
         }
         else
             Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
     };
+    //ModalPrompt("w", "r", "ye", "no");
+    //function Maincallback(result)
+    //{
+    //    alert(result)
+    //}
 </script>
