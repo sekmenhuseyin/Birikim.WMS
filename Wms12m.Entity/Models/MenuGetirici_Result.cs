@@ -19,5 +19,6 @@ namespace Wms12m.Entity.Models
         public string Icon { get; set; }
         public Nullable<short> UstMenuID { get; set; }
         public Nullable<int> AltmenuCount { get; set; }
+        public int Aktif { get; set; }
     }
 }
