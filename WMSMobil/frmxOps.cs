@@ -129,10 +129,6 @@ namespace WMSMobil
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
-                //kutucukları yer değiştir
-                int top1 = txtBarkod.Top; int top2 = txtRafBarkod.Top;
-                label7.Top = top1; txtRafBarkod.Top = top1;
-                label4.Top = top2; txtBarkod.Top = top2;
             }
             else// if (gorevtip == 19 || gorevtip == 20)
             {
@@ -167,21 +163,20 @@ namespace WMSMobil
                     {
                         if (cont.Focused)
                         {
-                            //eğer odaklanana yer barkod ise barkoda göre malkodunu getir
-                            if (cont.Name == txtBarkod.Name)
-                            {
-                                txtBarkod.Text = Servis.GetMalzemeFromBarcode(scanDataCollection.GetFirst.Text);
-                                //raf varsa rafa odaklan yoksa uygula
-                                if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "" && GorevTip != 8) txtRafBarkod.Focus();
-                                else btnUygula_Click(Barkod, null);
-                                focuslandi = true;
-                            }
                             //eğer raf ise direk yaz
-                            else if (cont.Name == txtRafBarkod.Name)
+                            if (cont.Name == txtRafBarkod.Name)
                             {
                                 txtRafBarkod.Text = scanDataCollection.GetFirst.Text;
-                                //rafı da okutursa yerleştir düğmesine bas
-                                if (GorevTip == 8) txtBarkod.Focus();
+                                //rafı da okutursa mala odaklan
+                                txtBarkod.Focus();
+                                focuslandi = true;
+                            }
+                            //eğer odaklanana yer barkod ise barkoda göre malkodunu getir
+                            else if (cont.Name == txtBarkod.Name)
+                            {
+                                txtBarkod.Text = Servis.GetMalzemeFromBarcode(scanDataCollection.GetFirst.Text);
+                                //uygula
+                                if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
                                 else btnUygula_Click(Barkod, null);
                                 focuslandi = true;
                             }
