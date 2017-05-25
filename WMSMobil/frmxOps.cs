@@ -400,7 +400,7 @@ namespace WMSMobil
             else
             {
                 mal = Servis.GetMalzemeFromBarcode(txtBarkod.Text);
-                if (txtBarkod.Text == "")
+                if (mal == "" || mal == null)
                 {
                     Mesaj.Uyari("Barkod bulunamadı!");
                     return;
