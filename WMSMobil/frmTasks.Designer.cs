@@ -74,7 +74,7 @@
             this.cmbDurum.Location = new System.Drawing.Point(125, 22);
             this.cmbDurum.Name = "cmbDurum";
             this.cmbDurum.Size = new System.Drawing.Size(112, 22);
-            this.cmbDurum.TabIndex = 1;
+            this.cmbDurum.TabIndex = 0;
             this.cmbDurum.SelectedIndexChanged += new System.EventHandler(this.btnListele_Click);
             // 
             // label1
@@ -197,7 +197,7 @@
             this.btnIslemYap.Location = new System.Drawing.Point(70, 5);
             this.btnIslemYap.Name = "btnIslemYap";
             this.btnIslemYap.Size = new System.Drawing.Size(68, 21);
-            this.btnIslemYap.TabIndex = 0;
+            this.btnIslemYap.TabIndex = 1;
             this.btnIslemYap.Text = "İşlem Yap";
             this.btnIslemYap.Click += new System.EventHandler(this.btnIslemYap_Click);
             // 

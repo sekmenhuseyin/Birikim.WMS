@@ -79,19 +79,19 @@
             // 
             // txtRafBarkod
             // 
-            this.txtRafBarkod.Location = new System.Drawing.Point(74, 24);
+            this.txtRafBarkod.Location = new System.Drawing.Point(74, 2);
             this.txtRafBarkod.Name = "txtRafBarkod";
             this.txtRafBarkod.Size = new System.Drawing.Size(106, 21);
-            this.txtRafBarkod.TabIndex = 1;
+            this.txtRafBarkod.TabIndex = 0;
             this.txtRafBarkod.Visible = false;
             this.txtRafBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
             // txtBarkod
             // 
-            this.txtBarkod.Location = new System.Drawing.Point(74, 2);
+            this.txtBarkod.Location = new System.Drawing.Point(74, 24);
             this.txtBarkod.Name = "txtBarkod";
             this.txtBarkod.Size = new System.Drawing.Size(106, 21);
-            this.txtBarkod.TabIndex = 0;
+            this.txtBarkod.TabIndex = 1;
             this.txtBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
             // btnUygula
@@ -110,7 +110,7 @@
             this.label7.BackColor = System.Drawing.Color.CadetBlue;
             this.label7.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label7.ForeColor = System.Drawing.SystemColors.Window;
-            this.label7.Location = new System.Drawing.Point(3, 24);
+            this.label7.Location = new System.Drawing.Point(3, 2);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 21);
             this.label7.Text = "Raf Okut";
@@ -121,7 +121,7 @@
             this.label4.BackColor = System.Drawing.Color.CadetBlue;
             this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.SystemColors.Window;
-            this.label4.Location = new System.Drawing.Point(3, 2);
+            this.label4.Location = new System.Drawing.Point(3, 24);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 21);
             this.label4.Text = "Mal Okut";

@@ -199,7 +199,7 @@
                 if (data.result.Status == false)
                     Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
                 else
-                    Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-primary");
+                    Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
             },
             fail: function (e, data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
         });

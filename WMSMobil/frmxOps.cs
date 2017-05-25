@@ -29,10 +29,10 @@ namespace WMSMobil
             glbTip = tip;
             GorevTip=gorevtip;
             //barkod
-            Barkod = new Barcode2();
-            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            Barkod.EnableScanner = true;
-            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            //Barkod = new Barcode2();
+            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            //Barkod.EnableScanner = true;
+            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             try
             {
                 Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip));
@@ -129,10 +129,6 @@ namespace WMSMobil
                 txtUnvan.Visible = false;
                 txtHesapKodu.Visible = false;
                 txtEvrakno.Visible = false;
-                //kutucukları yer değiştir
-                int top1 = txtBarkod.Top; int top2 = txtRafBarkod.Top;
-                label7.Top = top1; txtRafBarkod.Top = top1;
-                label4.Top = top2; txtBarkod.Top = top2;
             }
             else// if (gorevtip == 19 || gorevtip == 20)
             {
@@ -167,22 +163,25 @@ namespace WMSMobil
                     {
                         if (cont.Focused)
                         {
-                            //eğer odaklanana yer barkod ise barkoda göre malkodunu getir
-                            if (cont.Name == txtBarkod.Name)
-                            {
-                                txtBarkod.Text = Servis.GetMalzemeFromBarcode(scanDataCollection.GetFirst.Text);
-                                //raf varsa rafa odaklan yoksa uygula
-                                if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "" && GorevTip != 8) txtRafBarkod.Focus();
-                                else btnUygula_Click(Barkod, null);
-                                focuslandi = true;
-                            }
                             //eğer raf ise direk yaz
-                            else if (cont.Name == txtRafBarkod.Name)
+                            if (cont.Name == txtRafBarkod.Name)
                             {
                                 txtRafBarkod.Text = scanDataCollection.GetFirst.Text;
-                                //rafı da okutursa yerleştir düğmesine bas
-                                if (GorevTip == 8) txtBarkod.Focus();
-                                else btnUygula_Click(Barkod, null);
+                                //rafı da okutursa mala odaklan
+                                txtBarkod.Focus();
+                                focuslandi = true;
+                            }
+                            //eğer odaklanana yer barkod ise barkoda göre malkodunu getir
+                            else if (cont.Name == txtBarkod.Name)
+                            {
+                                txtBarkod.Text = Servis.GetMalzemeFromBarcode(scanDataCollection.GetFirst.Text);
+                                if (txtBarkod.Text == "")
+                                    Mesaj.Uyari("Barkod bulunamadı!");
+                                else
+                                {                                    
+                                    if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
+                                    else btnUygula_Click(Barkod, null);//uygula
+                                }
                                 focuslandi = true;
                             }
                         }
@@ -394,8 +393,19 @@ namespace WMSMobil
         /// bir tane okur, malın bulunduğu satırda miktarı bir arttırır
         /// </summary>
         private void btnUygula_Click(object sender, EventArgs e)
-        {            
-            string mal = txtBarkod.Text;
+        {
+            string mal;
+            if (sender == Barkod)
+                mal = txtBarkod.Text;
+            else
+            {
+                mal = Servis.GetMalzemeFromBarcode(txtBarkod.Text);
+                if (mal == "" || mal == null)
+                {
+                    Mesaj.Uyari("Barkod bulunamadı!");
+                    return;
+                }
+            }
             string raf = txtRafBarkod.Text;
             if (mal == "")
             {

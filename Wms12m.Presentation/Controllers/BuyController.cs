@@ -33,7 +33,29 @@ namespace Wms12m.Presentation.Controllers
             //get liste
             var list = Irsaliye.GetList(tmp[0], false, tmp[2], tmp[1].ToInt32());
             ViewBag.id = id;
+            ViewBag.Yetki = CheckPerm("Mal Kabul", PermTypes.Writing);
+            ViewBag.Yetki2 = CheckPerm("Mal Kabul", PermTypes.Deleting);
             return PartialView("List", list);
+        }
+        /// <summary>
+        /// irsaliye evrak no günceller
+        /// </summary>
+        public JsonResult Update(string EvrakNo, int ID,string SirketID, string HesapKodu)
+        {
+            if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Result _Result = new Result(false, "Bu evrak no kullanılıyor");
+            var kontrol = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == EvrakNo && m.SirketKod == SirketID & m.HesapKodu == HesapKodu && m.ID != ID).FirstOrDefault();
+            if (kontrol != null)
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = {2})", SirketID, EvrakNo, HesapKodu);
+            var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            if (sti != null)
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            //if all correct update
+            var tbl = Irsaliye.Detail(ID);
+            tbl.EvrakNo = EvrakNo;
+            _Result = Irsaliye.Operation(tbl);
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// irsaliye listesi
@@ -167,39 +189,39 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.message = "Burası için izniniz yok";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
-            //bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
-            //if (kontrol1 == false)
-            //{
-            //    db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
-            //    ViewBag.message = "Tarih yanlış";
-            //    return PartialView("_GridPartial", new List<IRS_Detay>());
-            //}
-            //int tarih = tmpTarih.ToOADateInt();
-            //var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID & m.HesapKodu == tbl.HesapKodu).FirstOrDefault();
-            ////var olanı göster
-            //if (kontrol2 != null)
-            //{
-            //    if (kontrol2.DepoID != tbl.DepoID)
-            //    {
-            //        ViewBag.message = "Bu evrak no kullanılıyor";
-            //        return PartialView("_GridPartial", new List<IRS_Detay>());
-            //    }
-            //    try
-            //    {
-            //        var list = IrsaliyeDetay.GetList(kontrol2.ID);
-            //        ViewBag.IrsaliyeId = kontrol2.ID;
-            //        ViewBag.Onay = kontrol2.Onay;
-            //        ViewBag.SirketID = tbl.SirketID;
-            //        ViewBag.Yetki = CheckPerm("Mal Kabul", PermTypes.Writing);
-            //        return PartialView("_GridPartial", list);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Logger(ex, "Buy/New-varolan");
-            //        return null;
-            //    }
-            //}
-            int tarih = DateTime.Today.ToOADateInt();
+            bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
+            if (kontrol1 == false)
+            {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
+                ViewBag.message = "Tarih yanlış";
+                return PartialView("_GridPartial", new List<IRS_Detay>());
+            }
+            int tarih = tmpTarih.ToOADateInt();
+            var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID & m.HesapKodu == tbl.HesapKodu).FirstOrDefault();
+            //var olanı göster
+            if (kontrol2 != null)
+            {
+                if (kontrol2.DepoID != tbl.DepoID)
+                {
+                    ViewBag.message = "Bu evrak no kullanılıyor";
+                    return PartialView("_GridPartial", new List<IRS_Detay>());
+                }
+                try
+                {
+                    var list = IrsaliyeDetay.GetList(kontrol2.ID);
+                    ViewBag.IrsaliyeId = kontrol2.ID;
+                    ViewBag.Onay = kontrol2.Onay;
+                    ViewBag.SirketID = tbl.SirketID;
+                    ViewBag.Yetki = CheckPerm("Mal Kabul", PermTypes.Writing);
+                    return PartialView("_GridPartial", list);
+                }
+                catch (Exception ex)
+                {
+                    Logger(ex, "Buy/New-varolan");
+                    return null;
+                }
+            }
+            //int tarih = DateTime.Today.ToOADateInt();
 
             //kontrol
             if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return null;
@@ -285,7 +307,7 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = String.Format("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu LIKE '{1}%')", id.ToString(), term);
+            string sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -301,7 +323,7 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = String.Format("SELECT TOP (20) MalKodu AS id, MalAdi AS value, MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalAdi LIKE '%{1}%')", id.ToString(), term);
+            string sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'', @MalAdi = N'{1}'", id.ToString(), term);
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -340,7 +362,7 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             if (id.ToString() == "0") return null;
-            string sql = String.Format("SELECT HesapKodu, Unvan1 + ' ' + Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE (KartTip = 0) OR (KartTip = 1) OR (KartTip = 4)", id.ToString());
+            string sql = String.Format("FINSAT6{0}.[wms].[CHKSelectKartTip]", id.ToString());
             var list = db.Database.SqlQuery<frmHesapUnvan>(sql).ToList();
             return PartialView("_HesapGridPartial", list);
         }
