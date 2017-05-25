@@ -175,9 +175,13 @@ namespace WMSMobil
                             else if (cont.Name == txtBarkod.Name)
                             {
                                 txtBarkod.Text = Servis.GetMalzemeFromBarcode(scanDataCollection.GetFirst.Text);
-                                //uygula
-                                if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
-                                else btnUygula_Click(Barkod, null);
+                                if (txtBarkod.Text == "")
+                                    Mesaj.Uyari("Barkod bulunamadı!");
+                                else
+                                {                                    
+                                    if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
+                                    else btnUygula_Click(Barkod, null);//uygula
+                                }
                                 focuslandi = true;
                             }
                         }
@@ -389,8 +393,19 @@ namespace WMSMobil
         /// bir tane okur, malın bulunduğu satırda miktarı bir arttırır
         /// </summary>
         private void btnUygula_Click(object sender, EventArgs e)
-        {            
-            string mal = txtBarkod.Text;
+        {
+            string mal;
+            if (sender == Barkod)
+                mal = txtBarkod.Text;
+            else
+            {
+                mal = Servis.GetMalzemeFromBarcode(txtBarkod.Text);
+                if (txtBarkod.Text == "")
+                {
+                    Mesaj.Uyari("Barkod bulunamadı!");
+                    return;
+                }
+            }
             string raf = txtRafBarkod.Text;
             if (mal == "")
             {

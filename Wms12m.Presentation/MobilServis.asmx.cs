@@ -179,7 +179,7 @@ namespace Wms12m
                 if (sql != "") sql += " UNION ";
                 sql += string.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (BarKod1 = '{1}') OR (BarKod2 = '{1}')", item, barkod);
             }
-            sql = "SELECT MalKodu from (" + sql + ") as t where Malkodu is not null";
+            sql = "SELECT ISNULL(MalKodu, '') from (" + sql + ") as t where Malkodu is not null";
             return db.Database.SqlQuery<string>(sql).FirstOrDefault();
         }
         /// <summary>
