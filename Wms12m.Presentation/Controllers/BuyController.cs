@@ -189,14 +189,15 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.message = "Burası için izniniz yok";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
-            bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
-            if (kontrol1 == false)
-            {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
-                ViewBag.message = "Tarih yanlış";
-                return PartialView("_GridPartial", new List<IRS_Detay>());
-            }
-            int tarih = tmpTarih.ToOADateInt();
+            //bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
+            //if (kontrol1 == false)
+            //{
+            //    db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
+            //    ViewBag.message = "Tarih yanlış";
+            //    return PartialView("_GridPartial", new List<IRS_Detay>());
+            //}
+            //int tarih = tmpTarih.ToOADateInt();
+            int tarih = DateTime.Today.ToOADateInt();
             var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID & m.HesapKodu == tbl.HesapKodu).FirstOrDefault();
             //var olanı göster
             if (kontrol2 != null)
@@ -221,7 +222,6 @@ namespace Wms12m.Presentation.Controllers
                     return null;
                 }
             }
-            //int tarih = DateTime.Today.ToOADateInt();
 
             //kontrol
             if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return null;

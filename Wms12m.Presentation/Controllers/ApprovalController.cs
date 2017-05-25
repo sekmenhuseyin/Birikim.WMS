@@ -1500,17 +1500,21 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             return View();
         }
 
-        public PartialViewResult PartialSozlesmeTanim(string listeNo)
+        public PartialViewResult PartialSozlesmeTanim(string listeNo, string satir)
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             //var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect]", "17")).ToList();
             ViewBag.ListeNo = listeNo;
+            ViewBag.Satir = satir;
             return PartialView("SozlesmeTanim_List");
         }
 
         public string SozlesmeTanimListesiSelect(string listeNo)
         {
-            var STL = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
+            var STL = new List<BaglantiDetaySelect1>();
+            if (listeNo != "#12MConsulting#") { 
+            STL = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
+            }
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
         }

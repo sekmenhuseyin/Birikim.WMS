@@ -41,33 +41,40 @@
     }
 
     .dx-header-row {
-        background-color: #86d8ea ;
+        background-color: #86d8ea;
         color: window;
     }
-     .dx-state-readonly{
-        background-color:#e0dede !important;
-    }
-    .dx-state-readonly input{
-        background-color:#e0dede !important;
-    }
-    table{
-        margin:0 !important;
+
+    .dx-state-readonly {
+        background-color: #e0dede !important;
     }
 
-    th{
-        width:auto !important;
+        .dx-state-readonly input {
+            background-color: #e0dede !important;
+        }
+
+    table {
+        margin: 0 !important;
     }
+
+    th {
+        width: auto !important;
+    }
+
     td {
         width: auto !important;
     }
-     .dataTables_scrollHead{
-        width:100% !important;
+
+    .dataTables_scrollHead {
+        width: 100% !important;
     }
-    .dataTables_scrollHeadInner{
-        width:100% !important;
+
+    .dataTables_scrollHeadInner {
+        width: 100% !important;
     }
-    .dataTables_scrollBody{
-        width:100% !important;
+
+    .dataTables_scrollBody {
+        width: 100% !important;
     }
     /*.dx-popup-content{
         width:750px !important;
@@ -92,7 +99,6 @@
     .dx-list-next-button{
         margin-top:25px !important;
     }*/
-    
 </style>
 <div class="row">
     <div>
@@ -320,12 +326,18 @@
 
 
 
-
+        var TempMalAdi = "";
+        var TempUrunGrup = -1;
         var listeNo = "";
-        var GrupKod = "";
+        var TempUrunGrupText = "";
+        var TempMalKod = "";
+        var satirsayisi = 0;
+        var TempKalite = "";
+        var element = "";
         $(document).ready(function () {
             $(".urun_kalite_content").css("display", "none");
-            $(".txt_sira_no").dxTextBox({readOnly:true});
+            $(".valor_content").css("display", "none");
+            $(".txt_sira_no").dxTextBox({ readOnly: true });
             $(".txt_sozlesme_sira_no").dxTextBox();
             $(".txt_sozlesme_notu").dxTextBox();
             $(".txt_ortalama_vade").dxTextBox({ readOnly: true });
@@ -341,7 +353,7 @@
             $(".date_bitis_tarihi").dxDateBox({
                 dataType: 'date',
                 formatString: 'dd/MM/yyyy',
-                width:"60%",
+                width: "60%",
                 onValueChanged: function (e) {
                 }
             });
@@ -369,7 +381,18 @@
                 onText: "Vade Tarihi",
                 offText: "Valor Gün",
                 value: true,
-                width: "25%"
+                width: "25%",
+                onValueChanged: function (data) {
+                    if (data.value == true) {
+                        $(".valor_content").css("display", "none");
+                        $(".vade_content").css("display", "block");
+                    }
+                    else {
+                        $(".valor_content").css("display", "block");
+                        $(".vade_content").css("display", "none");
+                    }
+                    console.log(data.value);
+                }
             });
             $(".swtch_aktif_pasif").dxSwitch({
                 onText: "Aktif",
@@ -483,9 +506,11 @@
             var urunGrup = [{ Tip: "Mal Kodu", ID: 0 }, { Tip: "Grup Kodu", ID: 1 }, { Tip: "Tip Kodu", ID: 2 }, { Tip: "Özel Kod", ID: 3 }, { Tip: "Kod1", ID: 4 }, { Tip: "Kod2", ID: 5 }, { Tip: "Kod3", ID: 6 }, { Tip: "Kod4", ID: 7 }]
             $(".select_urun_grubu").dxSelectBox({
                 dataSource: urunGrup,
-                valueExpr: 'ID',
+                //valueExpr: 'ID',
                 displayExpr: 'Tip',
                 onValueChanged: function (e) {
+                    TempUrunGrup = e.value.ID;
+                    TempUrunGrupText = e.value.Tip;
                     if (e.value == 7) {
                         $(".urun_kalite_content").css("display", "block");
                     }
@@ -495,7 +520,7 @@
                     }
 
                     $.ajax({
-                        url: window.location.origin + "/Approval/SozlesmeUrunGrupSelect?Index="+e.value,
+                        url: window.location.origin + "/Approval/SozlesmeUrunGrupSelect?Index=" + e.value.ID,
                         data: {},
                         type: "post",
                         success: function (data) {
@@ -511,6 +536,7 @@
                 valueExpr: 'Tip',
                 displayExpr: 'Tip',
                 onValueChanged: function (e) {
+                    TempKalite = e.value;
                 }
             });
             $.ajax({
@@ -527,8 +553,7 @@
                 url: window.location.origin + "/Approval/FiyatHesapKoduSelect",
                 data: {},
                 type: "post",
-                success: function (data)
-                {
+                success: function (data) {
                     var result = JSON.parse(data);
                     $(".select_musteri_kodu").dxLookup("instance").option("dataSource", result);
                 }
@@ -550,6 +575,7 @@
                 type: "post",
                 success: function (data) {
                     var result = JSON.parse(data);
+                    console.log(result);
                     $(".select_urun_kodu").dxLookup("instance").option("dataSource", result);
                 }
             });
@@ -572,6 +598,7 @@
                         type: "post",
                         success: function (data) {
                             var result = JSON.parse(data);
+                            console.log(result[0]);
                             $(".select_fiyat_listesi").dxLookup("instance").option("value", null);
                             $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
                             $(".select_urun_kodu").dxLookup("instance").option("value", null);
@@ -581,7 +608,7 @@
                             if (result[0].BaglantiParaCinsi == null) {
                                 $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", "TL");
                             }
-                            else{
+                            else {
                                 $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", result[0].BaglantiParaCinsi);
                             }
                             $(".date_baslangic_tarihi").dxDateBox("instance").option("value", new Date(((result[0].BasTarih - 25569) * 86400000)));
@@ -593,27 +620,27 @@
                             console.log(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1));
                             $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value", new Date(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1)));
                             $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("value", result[0].NakitTutari);
-                            if (result[0].ValorGun > 1)
-                            {
+
+                            if (result[0].ValorGun > 1) {
                                 $(".numb_valor_gun").dxNumberBox("instance").option("value", result[0].ValorGun);
                                 $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
                                 $(".vade_content").css("display", "none");
                                 $(".valor_content").css("display", "block");
                             }
-                            else if (result[0].VadeTarihi != null)
-                            {
+                            else if (result[0].VadeTarihi != null) {
                                 $(".date_vade_tarihi").dxDateBox("instance").option("value", new Date(((result[0].VadeTarihi - 25569) * 86400000)));
                                 $(".numb_valor_gun").dxNumberBox("instance").option("value", 0);
                                 $(".valor_content").css("display", "none");
                                 $(".vade_content").css("display", "block");
                             }
+                            else {
+                                $(".numb_valor_gun").dxNumberBox("instance").option("value", 0);
+                                $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
+                                $(".valor_content").css("display", "none");
+                                $(".vade_content").css("display", "block");
+                            }
                             $(".numb_toplam_tahsilat").dxNumberBox("instance").option("value", (result[0].CekTutari == null ? 0 : result[0].CekTutari) + (result[0].NakitTutari == null ? 0 : result[0].NakitTutari));
-                            //else
-                            //{
-                            //    rbVade.IsChecked = true;
-                            //    dateVadeTarihi.EditValue = null;
-                            //    spinValor.EditValue = null;
-                            //}
+
                         }
                     });
                 },
@@ -632,13 +659,15 @@
             $(".select_urun_kodu").dxLookup({
                 //dataSource: result,
                 searchEnabled: true,
-                //fullScreen :true,
-                pageLoadMode:"nextButton",
+                pageLoadMode: "nextButton",
                 searchExpr: ["Kod", "Aciklama"],
-                valueExpr: 'Kod',
-                displayExpr: 'Aciklama',
+                //valueExpr: 'Kod',
+                displayExpr: 'Kod',
                 onValueChanged: function (e) {
-                   
+                    TempMalKod = e.value.Kod;
+                    if (TempUrunGrup == 0) {
+                        TempMalAdi = e.value.Aciklama
+                    }
                 },
                 itemTemplate: function (itemData, itemIndex, itemElement) {
                     itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
@@ -678,7 +707,7 @@
             $(".select_musteri_kodu").dxLookup({
                 //dataSource: model,
                 searchEnabled: true,
-                pageLoadMode:"nextButton",
+                pageLoadMode: "nextButton",
                 searchExpr: ["HesapKodu", "Unvan"],
                 valueExpr: 'HesapKodu',
                 displayExpr: 'Unvan',
@@ -686,7 +715,7 @@
                 onValueChanged: function (e) {
                     var listeNo = $(".select_sozlesmeler").dxLookup("instance").option("value");
                     $.ajax({
-                        url: window.location.origin + "/Approval/SozlesmeCariBilgileri?ListeNo=" + listeNo + "&HesapKodu="+e.value,
+                        url: window.location.origin + "/Approval/SozlesmeCariBilgileri?ListeNo=" + listeNo + "&HesapKodu=" + e.value,
                         data: {},
                         type: "post",
                         success: function (data) {
@@ -703,10 +732,9 @@
                 },
 
                 itemTemplate: function (itemData, itemIndex, itemElement) {
-                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
-                    if(itemIndex>0)
-                    {
-                        itemElement.css({ "margin-top":"-40px" });
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
                     }
                     var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
                     rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
@@ -721,143 +749,106 @@
             window.location.href = '/Approval/SozlesmeTanim';
         });
 
-        $('.tum-sec-buton').click(function () {
-            table.rows().select();
-        });
-
-        $('.tum-kaldir-buton').click(function () {
-            table.rows().deselect();
-        });
-
-        $('.bekleyenler-buton').click(function () {
-            $('#x-modal-bekleyen').modal("show");
-            $.ajax({
-                url: window.location.origin + "/Approval/FiyatListesiBekleyen",
-                data: {},
-                type: "post",
-                success: function (data) {
-                    var result = JSON.parse(data);
-                    var columns = [
-                    { caption: 'Onay Statüsü', dataField: 'HangiOnayda' },
-                    { caption: 'Liste No', dataField: 'FiyatListNum' },
-                    { caption: 'AltBayi', dataField: 'AltBayi' },
-                    { caption: 'Durum', dataField: 'Durum' },
-                    { caption: 'Ürün Kodu', dataField: 'MalKodu', },
-                    { caption: 'Ürün Adı', dataField: 'MalAdi' },
-                    { caption: 'Hesap Kodu', dataField: 'HesapKodu' },
-                    { caption: 'Unvan', dataField: 'Unvan' },
-                    { caption: 'Satış Fiyat', dataField: 'SatisFiyat1' },
-                    { caption: 'Satış Fiyat Birim', dataField: 'SatisFiyat1Birim' },
-                    { caption: 'Döviz Satış Fiyat', dataField: 'DovizSatisFiyat1', },
-                    { caption: 'Döviz Satış Fiyat Birim', dataField: 'DovizSF1Birim' },
-                    { caption: 'Döviz Cinsi', dataField: 'DovizCinsi' },
-                    ];
-                    _grid_quotations_detail = $('.grid_bekleyen_fiyat_listeleri').dxDataGrid({
-                        dataSource: result,
-                        height: 400,
-                        onRowPrepared: function (e) {
-                            e.rowElement.css({ height: 20 });
-                        },
-                        paging: { pageSize: 5000 },
-                        columns: columns,
-                        headerFilter: {
-                            visible: true
-                        },
-                        popupDetailedWindow: true,
-                        columnAutoWidth: true,
-                        pagingCounter: true,
-                        filterRow: {
-                            visible: true,
-                            applyFilter: 'auto',
-                            applyFilterText: 'Apply filter',
-                            resetOperationText: 'Reset'
-                        },
-                        scrolling: {
-                            scrollByContent: true,
-                            scrollByThumb: true
-                        },
-                        allowColumnReordering: true,
-                        allowColumnResizing: true,
-                        remoteOperations: true,
-                        showRowLines: true,
-                        hoverStateEnabled: true,
-                        rowAlternationEnabled: false,
-                        sorting: {
-                            mode: "multiple",
-                        },
-                        onRowClick: function (opt) {
-                            if (opt.rowType == "data") {
-                                var component = opt.component;
-                                var prevClickTime = component.lastClickTime;//take last clicked time
-                                component.lastClickTime = new Date();
-                                if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                    //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
-                                }
-                            }
-                        },
-                    }).dxDataGrid("instance");
-
-                }
-            });
-        });
-
         $('.satir-ekle-buton').click(function () {
-            fiyatEdit(1);
-        });
-
-        $('.satir-sil-buton').click(function () {
-            fiyatEdit(2);
-        });
-
-        $('.satir-guncelle-buton').click(function () {
-            fiyatEdit(3);
-        });
-
-        function fiyatEdit(id) {
-            var jObject = {};
-            jObject["ListeNo"] = $(".select_list_no").dxLookup("instance").option("value");
-            jObject["UrunKodu"] = $(".select_urun_kodu").dxLookup("instance").option("value");
-            jObject["HesapKodu"] = $(".select_hesap_kod").dxLookup("instance").option("value");
-            jObject["SatisFiyat"] = $(".numb-satis-fiyat").dxNumberBox("instance").option("value");
-            jObject["DovizSatisFiyat"] = $(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value");
-            jObject["Birim"] = $(".txt-birim").dxSelectBox("instance").option("text");
-            jObject["DovizBirim"] = $(".txt-doviz-birim").dxSelectBox("instance").option("text");
-            jObject["BirimValue"] = jObject["Birim"] == null ? -1 : $(".txt-birim").dxSelectBox("instance").option("value");
-            jObject["DovizBirimValue"] = jObject["DovizBirim"] == null ? -1 : $(".txt-doviz-birim").dxSelectBox("instance").option("value");
-            jObject["DovizCinsi"] = $(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
-            jObject["GrupKod"] = GrupKod;
-            jObject["Durum"] = id;
-            if (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || jObject["HesapKodu"] == null || (jObject["SatisFiyat"] == 0 && jObject["DovizSatisFiyat"] == 0) || (jObject["SatisFiyat"] > 0 && jObject["Birim"] == null) || (jObject["DovizSatisFiyat"] > 0 && jObject["DovizBirim"] == null && jObject["DovizCinsi"] == null)) {
-                Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
+            //Kontrol
+            if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly")) {
+                Modaldialog("Sözleşme Değiştirilemez.", "Satır Ekle", "Tamam", "Uyarı");
+                return;
+            }
+            if ($(".select_fiyat_listesi").dxLookup("instance").option("value") == null) {
+                Modaldialog("Fiyat Listesi Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
                 return;
             }
 
-            var _dfd = $.Deferred();
-            $.ajax({
-                url: window.location.origin + "/Approval/FiyatSatirEkle",
-                data: { Data: JSON.stringify(jObject) },
-                type: "post",
-                success: function (data) {
-                    if (data == "OK") {
-                        $(".select_urun_kodu").dxLookup("instance").option("value", null);
-                        $(".select_hesap_kod").dxLookup("instance").option("value", null);
-                        $(".numb-satis-fiyat").dxNumberBox("instance").option("value", 0);
-                        $(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value", 0);
-                        $(".txt-birim").dxSelectBox("instance").option("text", "");
-                        $(".txt-doviz-birim").dxSelectBox("instance").option("text", "");
-                        $(".txt-birim").dxSelectBox("instance").option("value", "");
-                        $(".txt-doviz-birim").dxSelectBox("instance").option("value", "");
-                        $(".txt-doviz-cinsi").dxSelectBox("instance").option("value", "");
-                        Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
-                    }
-                    else if (data == "NO") {
-                        Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
-                    }
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
-            });
-            return _dfd.promise();
-        }
+            if ($(".select_urun_grubu").dxSelectBox("instance").option("value") == null) {
+                Modaldialog("Ürün Grubu Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
+                return;
+            }
+
+            if ($(".select_urun_kodu").dxLookup("instance").option("value") == null) {
+                Modaldialog("Ürün Kodu Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
+                return;
+            }
+           
+            var EKFiyatListesi = listeNo;
+            var EKMalKod = TempMalKod;
+            var EKMalKodGrup = TempUrunGrupText;
+            var EKMalAdi = TempMalAdi;
+            var EKKalite = TempKalite;
+            var EKOran1 = $(".numb_iskonto1").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto1").dxNumberBox("instance").option("value");
+            var EKOran2 = $(".numb_iskonto2").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto2").dxNumberBox("instance").option("value");
+            var EKOran3 = $(".numb_iskonto3").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto3").dxNumberBox("instance").option("value");
+            var EKOran4 = $(".numb_iskonto4").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto4").dxNumberBox("instance").option("value");
+            var EKOran5 = $(".numb_iskonto5").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto5").dxNumberBox("instance").option("value");
+            element += "<tbody><tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td nowrap>" + EKOran1 + "</td><td nowrap>" + EKOran2 + "</td><td nowrap>" + EKOran3 + "</td><td nowrap>" + EKOran4 + "</td><td nowrap>" + EKOran5 + "</td></tr></tbody>";
+            if ($("#fiyat_listesi_data table").length < 1) {
+                PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: element }));
+            }
+            satirsayisi++;
+
+        });
+
+        $('.satir-sil-buton').click(function () {
+            $(".selected").parent().remove();
+        });
+
+        $('.sozlesme-kaydet-buton').click(function () {
+            fiyatEdit(1);
+        });
+
+        $('.sozlesme-sil-buton').click(function () {
+            fiyatEdit(2);
+        });
+
+        $('.red sozlesme-guncelle-buton').click(function () {
+            fiyatEdit(3);
+        });
+
+        //function fiyatEdit(id) {
+        //    var jObject = {};
+        //    jObject["ListeNo"] = $(".select_list_no").dxLookup("instance").option("value");
+        //    jObject["UrunKodu"] = $(".select_urun_kodu").dxLookup("instance").option("value");
+        //    jObject["HesapKodu"] = $(".select_hesap_kod").dxLookup("instance").option("value");
+        //    jObject["SatisFiyat"] = $(".numb-satis-fiyat").dxNumberBox("instance").option("value");
+        //    jObject["DovizSatisFiyat"] = $(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value");
+        //    jObject["Birim"] = $(".txt-birim").dxSelectBox("instance").option("text");
+        //    jObject["DovizBirim"] = $(".txt-doviz-birim").dxSelectBox("instance").option("text");
+        //    jObject["BirimValue"] = jObject["Birim"] == null ? -1 : $(".txt-birim").dxSelectBox("instance").option("value");
+        //    jObject["DovizBirimValue"] = jObject["DovizBirim"] == null ? -1 : $(".txt-doviz-birim").dxSelectBox("instance").option("value");
+        //    jObject["DovizCinsi"] = $(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
+        //    jObject["GrupKod"] = GrupKod;
+        //    jObject["Durum"] = id;
+        //    if (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || jObject["HesapKodu"] == null || (jObject["SatisFiyat"] == 0 && jObject["DovizSatisFiyat"] == 0) || (jObject["SatisFiyat"] > 0 && jObject["Birim"] == null) || (jObject["DovizSatisFiyat"] > 0 && jObject["DovizBirim"] == null && jObject["DovizCinsi"] == null)) {
+        //        Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
+        //        return;
+        //    }
+
+        //    var _dfd = $.Deferred();
+        //    $.ajax({
+        //        url: window.location.origin + "/Approval/FiyatSatirEkle",
+        //        data: { Data: JSON.stringify(jObject) },
+        //        type: "post",
+        //        success: function (data) {
+        //            if (data == "OK") {
+        //                $(".select_urun_kodu").dxLookup("instance").option("value", null);
+        //                $(".select_hesap_kod").dxLookup("instance").option("value", null);
+        //                $(".numb-satis-fiyat").dxNumberBox("instance").option("value", 0);
+        //                $(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value", 0);
+        //                $(".txt-birim").dxSelectBox("instance").option("text", "");
+        //                $(".txt-doviz-birim").dxSelectBox("instance").option("text", "");
+        //                $(".txt-birim").dxSelectBox("instance").option("value", "");
+        //                $(".txt-doviz-birim").dxSelectBox("instance").option("value", "");
+        //                $(".txt-doviz-cinsi").dxSelectBox("instance").option("value", "");
+        //                Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
+        //            }
+        //            else if (data == "NO") {
+        //                Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
+        //            }
+        //        },
+        //        error: function (jqxhr) { console.log(jqxhr); }
+        //    });
+        //    return _dfd.promise();
+        //}
 
         function inputDisable() {
             $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", true);
