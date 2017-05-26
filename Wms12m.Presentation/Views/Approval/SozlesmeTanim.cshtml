@@ -333,7 +333,7 @@
         var TempMalKod = "";
         var satirsayisi = 0;
         var TempKalite = "";
-        var element = "";
+        var element = new Array();
         $(document).ready(function () {
             $(".sozlesme-guncelle-buton").toggleClass('disabled');
             $(".urun_kalite_content").css("display", "none");
@@ -782,16 +782,21 @@
             var EKOran3 = $(".numb_iskonto3").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto3").dxNumberBox("instance").option("value");
             var EKOran4 = $(".numb_iskonto4").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto4").dxNumberBox("instance").option("value");
             var EKOran5 = $(".numb_iskonto5").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto5").dxNumberBox("instance").option("value");
-            element += "<tbody><tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td nowrap>" + EKOran1 + "</td><td nowrap>" + EKOran2 + "</td><td nowrap>" + EKOran3 + "</td><td nowrap>" + EKOran4 + "</td><td nowrap>" + EKOran5 + "</td></tr></tbody>";
+            console.log(element);
+            var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td nowrap>" + EKOran1 + "</td><td nowrap>" + EKOran2 + "</td><td nowrap>" + EKOran3 + "</td><td nowrap>" + EKOran4 + "</td><td nowrap>" + EKOran5 + "</td></tr>"
+            element.push(sss);
+            var jsonElement = JSON.stringify(element);
+           
             if ($("#fiyat_listesi_data table").length < 1) {
-                PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: element }));
+                PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
             }
             satirsayisi++;
 
         });
 
         $('.satir-sil-buton').click(function () {
-            $(".selected").remove();
+            //$(".selected").remove();
+            SatirSil();
         });
 
         $('.sozlesme-kaydet-buton').click(function () {
@@ -941,6 +946,7 @@
             $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
             $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", true);
         }
+
 
     </script>
 }

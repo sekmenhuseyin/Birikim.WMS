@@ -11,10 +11,10 @@ using Wms12m.Entity.Viewmodels;
 
 namespace Wms12m.Presentation.Controllers
 {
-    
+
     public class ApprovalController : RootController
     {
-        
+
         #region Çek
         public ActionResult Cek_SPGMY()
         {
@@ -48,12 +48,12 @@ namespace Wms12m.Presentation.Controllers
             try
             {
                 KOD = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnayMIGMY]", "33")).ToList();
-                }
-                catch (Exception)
-                {
-                    KOD = new List<CekOnaySelect>();
-                }
-                return PartialView(KOD);
+            }
+            catch (Exception)
+            {
+                KOD = new List<CekOnaySelect>();
+            }
+            return PartialView(KOD);
         }
 
         public ActionResult Cek_GM()
@@ -72,7 +72,7 @@ namespace Wms12m.Presentation.Controllers
             catch (Exception)
             {
                 KOD = new List<CekOnaySelect>();
-            }                
+            }
             return PartialView(KOD);
         }
         #endregion
@@ -233,7 +233,7 @@ namespace Wms12m.Presentation.Controllers
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-           
+
             int BasTarih = 0;
             int BitTarih = 0;
             string ListeAdi = "";//int FytSiraNo = -1;
@@ -452,7 +452,7 @@ namespace Wms12m.Presentation.Controllers
 
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-           
+
             }
             catch (Exception ex)
             {
@@ -489,7 +489,7 @@ namespace Wms12m.Presentation.Controllers
                     {
                         int FytSiraNo = -1;
                         var FLB = db.Database.SqlQuery<short>(string.Format("SELECT ISNULL(MAX(SiraNo),0) FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE FiyatListNum='{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
-                        if (FLB>0)
+                        if (FLB > 0)
                         {
                             FytSiraNo = FLB;
                             FytSiraNo++;
@@ -507,7 +507,7 @@ namespace Wms12m.Presentation.Controllers
                     AND F.SatisFiyat1Birim = '{5}' AND F.SatisFiyat1BirimInt = {6}
                     AND F.DovizSatisFiyat1 = {7} AND F.DovizSF1Birim = '{8}' AND F.DovizSF1BirimInt = {9}
                     AND F.DovizCinsi = '{10}' AND F.Onay = 1 AND F.SPGMYOnay = 1 AND F.GMOnay = 0 ", "17", insertObj["FiyatListNum"].ToString(), insertObj["Kod4"].ToString(),
-                    insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",","."), insertObj["SatisFiyat1Birim"].ToString(), insertObj["SatisFiyat1BirimInt"].ToString(),
+                    insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(), insertObj["SatisFiyat1BirimInt"].ToString(),
                     insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
@@ -685,7 +685,7 @@ namespace Wms12m.Presentation.Controllers
                         {
                             string durum3sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", "17", rts.ROW_ID);
                             var fytGuncellenecek = db.Database.SqlQuery<FYT>(durum3sql).FirstOrDefault();
-                            if (fytGuncellenecek!=null)
+                            if (fytGuncellenecek != null)
                             {
                                 fytGuncellenecek.SatisFiyat1 = rts.SatisFiyat1;
                                 fytGuncellenecek.SF1Birim = (short)rts.SatisFiyat1BirimInt;
@@ -701,7 +701,7 @@ namespace Wms12m.Presentation.Controllers
 
                     }
 
- 
+
                 }
 
                 _Result.Status = true;
@@ -758,7 +758,7 @@ namespace Wms12m.Presentation.Controllers
                     AND F.SatisFiyat1 = {8} AND F.SatisFiyat1Birim = '{9}' AND F.SatisFiyat1BirimInt = {10}
                     AND F.DovizSatisFiyat1 = {11} AND F.DovizSF1Birim = '{12}' AND F.DovizSF1BirimInt = {13}
                     AND F.DovizCinsi = '{14}' AND F.Onay = 1 AND F.SPGMYOnay = 1 AND F.GMOnay = 0 ", "17", insertObj["GrupKod"].ToString(),
-                    insertObj["FiyatListNum"].ToString(),insertObj["Kalite"].ToString(),
+                    insertObj["FiyatListNum"].ToString(), insertObj["Kalite"].ToString(),
                     insertObj["En"].ToString(), insertObj["Boy"].ToString(), insertObj["Kalinlik"].ToString(), insertObj["Yuzey"].ToString(),
                     insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(),
                     insertObj["SatisFiyat1BirimInt"].ToInt32(), insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."),
@@ -967,7 +967,7 @@ namespace Wms12m.Presentation.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-       
+
 
 
         public JsonResult Fiyat_Onay_SM(string Data)
@@ -983,13 +983,13 @@ namespace Wms12m.Presentation.Controllers
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
-                {     
-                       // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
-                        DateTime date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd");                       
-                        var sonuc = sqlexper.AcceptChanges();
-                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
-                    
+                {
+                    // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
+                    DateTime date = DateTime.Now;
+                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var sonuc = sqlexper.AcceptChanges();
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
+
 
 
 
@@ -1020,7 +1020,7 @@ namespace Wms12m.Presentation.Controllers
 
             try
             {
-               
+
                 foreach (JObject insertObj in parameters)
                 {
 
@@ -1040,11 +1040,11 @@ namespace Wms12m.Presentation.Controllers
                     var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
                     foreach (Fiyat rts in OnayFiyatList)
                     {
-                        
-                            DateTime date = DateTime.Now;
-                            var shortDate = date.ToString("yyyy-MM-dd");                           
-                            var sonuc = sqlexper.AcceptChanges();
-                            db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
+
+                        DateTime date = DateTime.Now;
+                        var shortDate = date.ToString("yyyy-MM-dd");
+                        var sonuc = sqlexper.AcceptChanges();
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
 
                     }
 
@@ -1136,7 +1136,7 @@ namespace Wms12m.Presentation.Controllers
                 foreach (JObject insertObj in parameters)
                 {
 
- 
+
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID = '{1}'", "17", insertObj["ID"].ToString()));
                 }
                 _Result.Message = "İşlem Başarılı";
@@ -1646,17 +1646,27 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public PartialViewResult PartialSozlesmeTanim(string listeNo, string satir)
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
-            //var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect]", "17")).ToList();
+            var tempSatir = "<tbody>";
+            if (listeNo == "#12MConsulting#")
+            {
+                JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(satir);
+                foreach (var insertObj in parameters)
+                {
+                    tempSatir += insertObj.ToString();
+                }
+                tempSatir += "</tbody>";
+                ViewBag.Satir = tempSatir;
+            }
             ViewBag.ListeNo = listeNo;
-            ViewBag.Satir = satir;
             return PartialView("SozlesmeTanim_List");
         }
 
         public string SozlesmeTanimListesiSelect(string listeNo)
         {
             var STL = new List<BaglantiDetaySelect1>();
-            if (listeNo != "#12MConsulting#") { 
-            STL = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
+            if (listeNo != "#12MConsulting#")
+            {
+                STL = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
             }
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
@@ -1701,12 +1711,12 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         }
         public string SozlesmeUrunGrupSelect(int Index)
         {
-            var FUGS = db.Database.SqlQuery<UrunGrup>(string.Format("[FINSAT6{0}].[dbo].[STKSelect2] @Index={1}", "17",Index)).ToList();
+            var FUGS = db.Database.SqlQuery<UrunGrup>(string.Format("[FINSAT6{0}].[dbo].[STKSelect2] @Index={1}", "17", Index)).ToList();
             var json = new JavaScriptSerializer().Serialize(FUGS);
             return json;
         }
 
-        public int SozlesmeListeNoKontrol( string ListeNo)
+        public int SozlesmeListeNoKontrol(string ListeNo)
         {
             var VarMi = db.Database.SqlQuery<int>(string.Format("SELECT Count(ListeNo) FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", ListeNo)).FirstOrDefault();
             return VarMi;
@@ -1836,9 +1846,9 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                             var sonuc = sqlexper.AcceptChanges();
                         }
                     }
-                   
+
                 }
-                    _Result.Status = true;
+                _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
 
             }
@@ -1852,13 +1862,228 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-        public string SozlesmeYeniSatirKayit(string Data)
+        public JsonResult SozlesmeYeniSatirKayit(string Data)
         {
             if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
-            JObject parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            bool filtreKagitVarmi = false;
+            int SiraNo = 0;
+            Result _Result = new Result(true);
+            _Result.Message = "İşlem Başarılı. ";
+            List<ISS_Temp> listiss = new List<ISS_Temp>();
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-            return "";
+            try
+            {
+
+
+                foreach (JObject insertObj in parameters)
+                {
+                    ISS_Temp isstmp = new ISS_Temp();
+
+                    string ListeAdi = insertObj["Unvan"].ToString().Length >= 10 ? insertObj["Unvan"].ToString().Substring(0, 10) : insertObj["Unvan"].ToString();
+                    //ListeAdi += "  " + bds.Kod10 + " / " + "%" + bds.Oran1.ToString() + "+%" + bds.Oran2.ToString() + "+%" + bds.Oran3.ToString() + "+%" + bds.Oran4.ToString() + "+%" + bds.Oran5.ToString();
+
+                    if (insertObj["ValorGun"].ToInt32() > 0)
+                        isstmp.ValorGun = insertObj["ValorGun"].ToInt32();
+
+                    else if (insertObj["VadeTarihInt"].ToInt32() > 0)
+                        isstmp.VadeTarihi = insertObj["VadeTarihInt"].ToInt32();
+
+
+                    isstmp.ListeNo = insertObj["ListeNo"].ToString();
+                    isstmp.ListeAdi = insertObj["Unvan"].ToString().Length >= 30 ? insertObj["Unvan"].ToString().Substring(0, 30) : insertObj["Unvan"].ToString();
+                    isstmp.BasTarih = insertObj["BasTarihInt"].ToInt32();
+                    isstmp.BasSaat = DbExtensions.SaatForDB(insertObj["BasTarih"].ToDatetime());
+                    isstmp.BitTarih = insertObj["BitTarihInt"].ToInt32();
+                    isstmp.BitSaat = DbExtensions.SaatForDB(insertObj["BitTarih"].ToDatetime());
+                    isstmp.MusUygSekli = 1;
+                    isstmp.MusKodGrup = 0;
+                    isstmp.MusteriKod = insertObj["HesapKodu"].ToString() != null ? "" : insertObj["HesapKodu"].ToString();
+                    if (insertObj["UrunGrubu"].ToString() == "Mal Kodu")
+                        isstmp.MalKodGrup = 0;
+                    else if (insertObj["UrunGrubu"].ToString() == "Grup Kodu")
+                        isstmp.MalKodGrup = 1;
+                    else if (insertObj["UrunGrubu"].ToString() == "Tip Kodu")
+                        isstmp.MalKodGrup = 2;
+                    else if (insertObj["UrunGrubu"].ToString() == "Özel Kod")
+                        isstmp.MalKodGrup = 3;
+                    else if (insertObj["UrunGrubu"].ToString() == "Kod1")
+                        isstmp.MalKodGrup = 4;
+                    else if (insertObj["UrunGrubu"].ToString() == "Kod2")
+                        isstmp.MalKodGrup = 5;
+                    else if (insertObj["UrunGrubu"].ToString() == "Kod3")
+                        isstmp.MalKodGrup = 6;
+                    else if (insertObj["UrunGrubu"].ToString() == "Kod4")
+                        isstmp.MalKodGrup = 7;
+
+                    isstmp.MalKod = insertObj["UrunKodu"].ToString();
+                    isstmp.SiraNo = (short)SiraNo;
+                    SiraNo++;
+                    isstmp.Oran = 0;
+                    isstmp.Oran1 = insertObj["Iskonto1"].ToFloat();
+                    isstmp.Oran2 = insertObj["Iskonto2"].ToFloat();
+                    isstmp.Oran3 = insertObj["Iskonto3"].ToFloat();
+                    isstmp.Oran4 = insertObj["Iskonto4"].ToFloat();
+                    isstmp.Oran5 = insertObj["Iskonto5"].ToFloat();
+                    isstmp.MikAralik1 = 0;
+                    isstmp.MikYuzde1 = 0;
+                    isstmp.MikAralik2 = 0;
+                    isstmp.MikYuzde2 = 0;
+                    isstmp.MikAralik3 = 0;
+                    isstmp.MikYuzde3 = 0;
+                    isstmp.MikAralik4 = 0;
+                    isstmp.MikYuzde4 = 0;
+                    isstmp.MikAralik5 = 0;
+                    isstmp.MikYuzde5 = 0;
+                    isstmp.MikAralik6 = 0;
+                    isstmp.MikYuzde6 = 0;
+                    isstmp.MikAralik7 = 0;
+                    isstmp.MikYuzde7 = 0;
+                    isstmp.MikAralik8 = 0;
+                    isstmp.MikYuzde8 = 0;
+                    isstmp.TutarAralik1 = 0;
+                    isstmp.TutarYuzde1 = 0;
+                    isstmp.TutarAralik2 = 0;
+                    isstmp.TutarYuzde2 = 0;
+                    isstmp.TutarAralik3 = 0;
+                    isstmp.TutarYuzde3 = 0;
+                    isstmp.TutarAralik4 = 0;
+                    isstmp.TutarYuzde4 = 0;
+                    isstmp.TutarAralik5 = 0;
+                    isstmp.TutarYuzde5 = 0;
+                    isstmp.TutarAralik6 = 0;
+                    isstmp.TutarYuzde6 = 0;
+                    isstmp.TutarAralik7 = 0;
+                    isstmp.TutarYuzde7 = 0;
+                    isstmp.TutarAralik8 = 0;
+                    isstmp.TutarYuzde8 = 0;
+                    isstmp.OdemeAralik1 = 0;
+                    isstmp.OdemeYuzde1 = 0;
+                    isstmp.OdemeAralik2 = 0;
+                    isstmp.OdemeYuzde2 = 0;
+                    isstmp.OdemeAralik3 = 0;
+                    isstmp.OdemeYuzde3 = 0;
+                    isstmp.OdemeAralik4 = 0;
+                    isstmp.OdemeYuzde4 = 0;
+                    isstmp.OdemeAralik5 = 0;
+                    isstmp.OdemeYuzde5 = 0;
+                    isstmp.OdemeAralik6 = 0;
+                    isstmp.OdemeYuzde6 = 0;
+                    isstmp.OdemeAralik7 = 0;
+                    isstmp.OdemeYuzde7 = 0;
+                    isstmp.OdemeAralik8 = 0;
+                    isstmp.OdemeYuzde8 = 0;
+                    isstmp.KayitTuru = -1;
+                    isstmp.GuvenlikKod = "12";
+                    isstmp.Kaydeden = vUser.UserName.ToString();
+                    isstmp.KayitTarih = (int)DateTime.Now.ToOADate();
+                    isstmp.KayitSaat = DbExtensions.SaatForDB(DateTime.Now);
+                    isstmp.KayitKaynak = 136;
+                    isstmp.KayitSurum = "8.00.001";
+                    isstmp.Degistiren = vUser.UserName.ToString();
+                    isstmp.DegisTarih = (int)DateTime.Now.ToOADate();
+                    isstmp.DegisSaat = DbExtensions.SaatForDB(DateTime.Now);
+                    isstmp.DegisKaynak = 136;
+                    isstmp.DegisSurum = "8.00.001";
+                    isstmp.CheckSum = 12;
+                    isstmp.Aciklama = insertObj["Not"].ToString();
+                    ////isstmp.Kod1 = (bool)rbGercek.IsChecked ? "Gercek" : "Sanal";
+                    isstmp.Kod1 = insertObj["BaglantiTipi"].ToString();
+                    isstmp.Kod2 = insertObj["SiraNo"].ToString();
+                    isstmp.Kod3 = "";
+                    isstmp.Kod4 = insertObj["Kalite"].ToString();
+                    isstmp.Kod5 = "";
+                    isstmp.Kod6 = "";
+                    isstmp.Kod7 = "";
+                    isstmp.Kod8 = "";
+                    isstmp.Kod9 = "";
+                    isstmp.Kod10 = insertObj["ListeNo"].ToString();
+                    isstmp.Kod11 = insertObj["BaglantiTutari"].ToDecimal();
+                    isstmp.Kod12 = 0;
+                    isstmp.DevirTarih = 0;
+                    isstmp.DevirTutar = 0;
+
+                    /// Sözleşmeler İçin KağıtFiltre Kontrolü
+                    if ((isstmp.MalKodGrup == 0 && isstmp.MalKod.StartsWith("2800")) ||
+                       (isstmp.MalKodGrup == 1 && isstmp.MalKod == "FKAĞIT") ||
+                        (isstmp.MalKodGrup == 0 && (isstmp.MalKod == "M001001000017051" || isstmp.MalKod == "M001001000022051")))
+                    {
+
+                        filtreKagitVarmi = true;
+                    }
+
+
+                    isstmp.OnayTip = -1;
+                    isstmp.SatisMuduruOnay = false;
+                    isstmp.FinansmanMuduruOnay = false;
+                    isstmp.GenelMudurOnay = false;
+                    isstmp.OnaylayanSatisMuduru = "";
+                    isstmp.OnaylayanFinansmanMuduru = "";
+                    isstmp.OnaylayanGenelMudur = "";
+
+                    isstmp.CekTutari = insertObj["CekTutari"].ToDecimal();
+                    isstmp.CekOrtalamaVadeTarih = insertObj["CekOrtVadeTarihi"].ToDatetime();
+                    isstmp.NakitTutari = insertObj["NakitTutar"].ToDecimal();
+
+                    isstmp.BaglantiParaCinsi = insertObj["BaglantiParaCinsi"].ToString();
+                    isstmp.AktifPasif = insertObj["AktifPasif"].ToBool();
+
+
+                    listiss.Add(isstmp);
+                }
+
+                if (filtreKagitVarmi)
+                {
+                    foreach (var item in listiss)
+                    {
+                        item.OnayTip = 2;
+                        item.SatisMuduruOnay = false;
+                        item.FinansmanMuduruOnay = true;
+                        item.GenelMudurOnay = false;
+                        item.OnaylayanSatisMuduru = "OZ";  /// SM sadece Özgür Beyin onayına düşsün diye
+                        item.OnaylayanFinansmanMuduru = "";
+                        item.OnaylayanGenelMudur = "";
+                    }
+                }
+                if (listiss.Count > 0)
+                {
+                    bool kontrol = false;
+                    string SozlesmeSiraNo = "";
+                    SozlesmeSiraNo = "SÖZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeSiraNoSelect]", "17")).FirstOrDefault();
+                    string HesapKodu = "";
+                    string ListeNo = "";
+                    decimal BaglantiTutari = 0;
+                    foreach (ISS_Temp isstemp in listiss)
+                    {
+                        if (isstemp.Kod2.Trim() != SozlesmeSiraNo)
+                        {
+                            kontrol = true;
+                            isstemp.Kod2 = SozlesmeSiraNo;
+                        }
+
+                        HesapKodu = isstemp.MusteriKod;
+                        ListeNo = isstemp.ListeNo;
+                        BaglantiTutari = isstemp.Kod11;
+                        sqlexper.Insert(isstemp);
+                        var sonuc = sqlexper.AcceptChanges();
+                        if (sonuc.Status == false)
+                        {
+                            _Result.Status = false;
+                            _Result.Message = "Hata Oluştu. ";
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+
         }
         #endregion
         #region Risk

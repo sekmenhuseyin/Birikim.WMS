@@ -39,6 +39,7 @@
     $('#x-modal-teminatdurbun').modal("hide");
     var secili_satir = new Array();
     var secili_table = new Array();
+    var silinecek = new Array();
     var table = "";
     if ("@ViewBag.ListeNo" != "#12MConsulting#")
      table = $('#sample_1').DataTable({
@@ -75,9 +76,10 @@
        
         $('tbody').last().remove();
         
-        console.log($(".input_label").text());
-        var element = @Html.Raw(Json.Encode(ViewBag.Satir));
-        $(element).insertAfter($(".aaaaa"));
+        
+        var elementt = @Html.Raw(Json.Encode(ViewBag.Satir));
+        console.log(elementt);
+        $(elementt).insertAfter($(".aaaaa"));
         setTimeout(function(){ $("#sample_1_info").text("Satır Eklendi"); }, 500);
         $(".numb_iskonto1").dxNumberBox("instance").option("value",0);
         $(".numb_iskonto2").dxNumberBox("instance").option("value",0);
@@ -90,6 +92,12 @@
     }
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
+        if($( this ).hasClass( "selected" )){
+        silinecek.push($( "tr" ).index( this )-1)
+        }else{
+            silinecek.splice($( "tr" ).index( this )-1, 1);
+        }
+        console.log(silinecek);
     });
 
     $('.refresh-buton').click(function () {
@@ -132,17 +140,20 @@
             var jObject = {};
             jObject["HesapKodu"] = $(".select_musteri_kodu").dxLookup("instance").option("value");
             jObject["Unvan"] = $(".select_musteri_kodu").dxLookup("instance").option("selectedItem").Unvan;
-            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == true) {
-                jObject["VadeTarih"] = "";
+            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false) {
+                jObject["VadeTarihInt"] = 0;
                 jObject["ValorGun"] = $(".numb_valor_gun").dxNumberBox("instance").option("value");
             }
             else {
-                jObject["VadeTarih"] = $(".date_vade_tarihi").dxDateBox("instance").option("value");
+                jObject["VadeTarihInt"] =  Math.ceil(($(".date_vade_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+                jObject["VadeTarih"] =  $(".date_vade_tarihi").dxDateBox("instance").option("value");
                 jObject["ValorGun"] = 0;
             }
             jObject["ListeNo"] = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
-            jObject["BasTarih"] = Math.ceil(($(".date_baslangic_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            jObject["BitTarih"] = Math.ceil(($(".date_bitis_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            jObject["BasTarihInt"] = Math.ceil(($(".date_baslangic_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            jObject["BasTarih"] = $(".date_baslangic_tarihi").dxDateBox("instance").option("value");
+            jObject["BitTarihInt"] = Math.ceil(($(".date_bitis_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            jObject["BitTarih"] = $(".date_bitis_tarihi").dxDateBox("instance").option("value");
             jObject["Not"] = $(".txt_sozlesme_notu").dxTextBox("instance").option("value");
             jObject["BaglantiTipi"] = $(".select_baglanti_tipi").dxSelectBox("instance").option("value");
             jObject["SiraNo"] = $(".txt_sira_no").dxTextBox("instance").option("value");
@@ -153,15 +164,15 @@
             jObject["BaglantiParaCinsi"] = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
             jObject["AktifPasif"] = $(".swtch_aktif_pasif").dxSwitch("instance").option("value");
 
-            jObject["UrunGrubu"] = x[i][1];
-            jObject["UrunKodu"] = x[i][2];
-            jObject["UrunAdi"] = x[i][3];
-            jObject["Kalite"] = x[i][4];
-            jObject["Iskonto1"] = x[i][5];
-            jObject["Iskonto2"] = x[i][6];
-            jObject["Iskonto3"] = x[i][7];
-            jObject["Iskonto4"] = x[i][8];
-            jObject["Iskonto5"] = x[i][9];
+            jObject["UrunGrubu"] = x[i][2];
+            jObject["UrunKodu"] = x[i][3];
+            jObject["UrunAdi"] = x[i][4];
+            jObject["Kalite"] = x[i][5];
+            jObject["Iskonto1"] = x[i][6];
+            jObject["Iskonto2"] = x[i][7];
+            jObject["Iskonto3"] = x[i][8];
+            jObject["Iskonto4"] = x[i][9];
+            jObject["Iskonto5"] = x[i][10];
 
             secili_table.push(jObject);
         }
@@ -171,16 +182,27 @@
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
             success: function (data) {
-                if (data == "OK") {
-             
+                if (data.Status == true) {
+                    $(".selected").remove();
+                    element=[];
                 }
-                else if (data == "NO") {
-
-                }
+                Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
             },
             error: function (jqxhr) { console.log(jqxhr); }
         });
 
+    }
+
+    function SatirSil(){
+        for (var i = 0; i < silinecek.length; i++) {
+            element.splice(i, 1);
+            var jsonElement = JSON.stringify(element);
+           
+            if ($("#fiyat_listesi_data table").length < 1) {
+                PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+            }
+            //SatirSil2(silinecek[i]);
+        }
     }
 </script>
 
