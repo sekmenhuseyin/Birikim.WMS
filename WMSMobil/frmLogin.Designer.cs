@@ -99,7 +99,7 @@
             this.label4.Location = new System.Drawing.Point(0, 278);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(240, 16);
-            this.label4.Text = "Versiyon : 170518";
+            this.label4.Text = "Versiyon : 170526";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel1

@@ -72,9 +72,7 @@
 
      });
     else {
-        table = $('#sample_1').DataTable({
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-        });
+       
         $('tbody').last().remove();
         
         console.log($(".input_label").text());
@@ -86,6 +84,9 @@
         $(".numb_iskonto3").dxNumberBox("instance").option("value",0);
         $(".numb_iskonto4").dxNumberBox("instance").option("value",0);
         $(".numb_iskonto5").dxNumberBox("instance").option("value",0);
+        table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        });
     }
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
@@ -121,7 +122,66 @@
     $(document).ready(function () {
 
     });
+    function dddd() {
+        $("tr").toggleClass('selected');
 
+        var x = table.rows('.selected').data();
+        console.log(x.length);
+        console.log($("tr").length);
+        for (var i = 0; i < x.length; i++) {
+            var jObject = {};
+            jObject["HesapKodu"] = $(".select_musteri_kodu").dxLookup("instance").option("value");
+            jObject["Unvan"] = $(".select_musteri_kodu").dxLookup("instance").option("selectedItem").Unvan;
+            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == true) {
+                jObject["VadeTarih"] = "";
+                jObject["ValorGun"] = $(".numb_valor_gun").dxNumberBox("instance").option("value");
+            }
+            else {
+                jObject["VadeTarih"] = $(".date_vade_tarihi").dxDateBox("instance").option("value");
+                jObject["ValorGun"] = 0;
+            }
+            jObject["ListeNo"] = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
+            jObject["BasTarih"] = Math.ceil(($(".date_baslangic_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            jObject["BitTarih"] = Math.ceil(($(".date_bitis_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            jObject["Not"] = $(".txt_sozlesme_notu").dxTextBox("instance").option("value");
+            jObject["BaglantiTipi"] = $(".select_baglanti_tipi").dxSelectBox("instance").option("value");
+            jObject["SiraNo"] = $(".txt_sira_no").dxTextBox("instance").option("value");
+            jObject["BaglantiTutari"] = $(".numb_baglanti_tutari").dxNumberBox("instance").option("value");
+            jObject["CekTutari"] = $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("value");
+            jObject["CekOrtVadeTarihi"] = $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value");
+            jObject["NakitTutar"] = $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("value");
+            jObject["BaglantiParaCinsi"] = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
+            jObject["AktifPasif"] = $(".swtch_aktif_pasif").dxSwitch("instance").option("value");
+
+            jObject["UrunGrubu"] = x[i][1];
+            jObject["UrunKodu"] = x[i][2];
+            jObject["UrunAdi"] = x[i][3];
+            jObject["Kalite"] = x[i][4];
+            jObject["Iskonto1"] = x[i][5];
+            jObject["Iskonto2"] = x[i][6];
+            jObject["Iskonto3"] = x[i][7];
+            jObject["Iskonto4"] = x[i][8];
+            jObject["Iskonto5"] = x[i][9];
+
+            secili_table.push(jObject);
+        }
+        console.log(secili_table);
+        $.ajax({
+            url: window.location.origin + "/Approval/SozlesmeYeniSatirKayit",
+            data: { Data: JSON.stringify(secili_table) },
+            type: "post",
+            success: function (data) {
+                if (data == "OK") {
+             
+                }
+                else if (data == "NO") {
+
+                }
+            },
+            error: function (jqxhr) { console.log(jqxhr); }
+        });
+
+    }
 </script>
 
 

@@ -205,40 +205,22 @@ namespace WMSMobil.WMSLocal {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetMalzemeFromBarcode", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string GetMalzemeFromBarcode(string barkod) {
+        public Tip_Malzeme GetMalzemeFromBarcode(string malkodu, string barkod) {
             object[] results = this.Invoke("GetMalzemeFromBarcode", new object[] {
+                        malkodu,
                         barkod});
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        public System.IAsyncResult BeginGetMalzemeFromBarcode(string barkod, System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("GetMalzemeFromBarcode", new object[] {
-                        barkod}, callback, asyncState);
-        }
-        
-        /// <remarks/>
-        public string EndGetMalzemeFromBarcode(System.IAsyncResult asyncResult) {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((string)(results[0]));
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetMalzemeFromMalKodu", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Tip_Malzeme GetMalzemeFromMalKodu(string malkodu) {
-            object[] results = this.Invoke("GetMalzemeFromMalKodu", new object[] {
-                        malkodu});
             return ((Tip_Malzeme)(results[0]));
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetMalzemeFromMalKodu(string malkodu, System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("GetMalzemeFromMalKodu", new object[] {
-                        malkodu}, callback, asyncState);
+        public System.IAsyncResult BeginGetMalzemeFromBarcode(string malkodu, string barkod, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetMalzemeFromBarcode", new object[] {
+                        malkodu,
+                        barkod}, callback, asyncState);
         }
         
         /// <remarks/>
-        public Tip_Malzeme EndGetMalzemeFromMalKodu(System.IAsyncResult asyncResult) {
+        public Tip_Malzeme EndGetMalzemeFromBarcode(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((Tip_Malzeme)(results[0]));
         }
@@ -828,9 +810,23 @@ namespace WMSMobil.WMSLocal {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
     public partial class Tip_Malzeme {
         
+        private string malKoduField;
+        
         private string malAdiField;
         
         private string birimField;
+        
+        private string barkodField;
+        
+        /// <remarks/>
+        public string MalKodu {
+            get {
+                return this.malKoduField;
+            }
+            set {
+                this.malKoduField = value;
+            }
+        }
         
         /// <remarks/>
         public string MalAdi {
@@ -849,6 +845,16 @@ namespace WMSMobil.WMSLocal {
             }
             set {
                 this.birimField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Barkod {
+            get {
+                return this.barkodField;
+            }
+            set {
+                this.barkodField = value;
             }
         }
     }
