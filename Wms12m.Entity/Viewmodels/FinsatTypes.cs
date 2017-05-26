@@ -82,8 +82,10 @@
     }
     public class Tip_Malzeme
     {
+        public string MalKodu { get; set; }
         public string MalAdi { get; set; }
         public string Birim { get; set; }
+        public string Barkod { get; set; }
     }
     public class FiyatKoleksiyonSelect
     {

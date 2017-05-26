@@ -44,9 +44,17 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(false, "Bu evrak no kullanılıyor");
+            //length kontrol
+            if (EvrakNo.Length > 16)
+            {
+                _Result.Message = "Bu evrak no çok uzun.";
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
+            //birikim db kontrol
             var kontrol = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == EvrakNo && m.SirketKod == SirketID & m.HesapKodu == HesapKodu && m.ID != ID).FirstOrDefault();
             if (kontrol != null)
                 return Json(_Result, JsonRequestBehavior.AllowGet);
+            //finsta db kontrol
             string sql = string.Format("SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.STI WHERE (EvrakNo = '{1}') AND (KynkEvrakTip = 3) AND (Chk = {2})", SirketID, EvrakNo, HesapKodu);
             var sti = db.Database.SqlQuery<string>(sql).FirstOrDefault();
             if (sti != null)
@@ -187,6 +195,11 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Mal Kabul", PermTypes.Reading) == false)
             {
                 ViewBag.message = "Burası için izniniz yok";
+                return PartialView("_GridPartial", new List<IRS_Detay>());
+            }
+            if (tbl.EvrakNo.Length > 16)
+            {
+                ViewBag.message = "Bu evrak no çok uzun";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
             //bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);

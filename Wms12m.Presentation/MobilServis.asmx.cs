@@ -136,17 +136,24 @@ namespace Wms12m
             if (tu != null)
                 if(tu.BitisTarihi != null)
                     return new List<Tip_STI>();
-            string sql;
+            string sql = "", sql2 = "";
             if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())
             {
-                var dbs = db.GetSirketDBs(); sql = "''";
+                var dbs = db.GetSirketDBs();
                 foreach (var item in dbs)
                 {
-                    sql = string.Format("ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.GorevYer.MalKodu))," + sql + ")", item);
+                    if (sql != "")
+                    {
+                        sql += " UNION "; sql2 += " UNION ";
+                    }
+                    sql += string.Format("SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.GorevYer.MalKodu)", item);
+                    sql2 += string.Format("SELECT Barkod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.GorevYer.MalKodu)", item);
                 }
+                sql = "(Select TOP(1) ISNULL(MalAdi, '') from (" + sql + ") t where MalAdi <> '')";
+                sql2 = "(Select TOP(1) ISNULL(Barkod1, '') as Barkod from (" + sql2 + ") t where Barkod1 <> '')";
                 string sqltmp = ""; if (devamMi == true && mGorev.GorevTipiID != ComboItems.KontrolSayım.ToInt32()) sqltmp += "AND wms.GorevYer.Miktar>ISNULL(wms.GorevYer.YerlestirmeMiktari,0) ";
                 sql = string.Format("SELECT wms.GorevYer.ID, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.HucreAd AS Raf, ISNULL(wms.GorevYer.YerlestirmeMiktari,0) as YerlestirmeMiktari, " +
-                                    sql + " AS MalAdi " +
+                                    sql + " AS MalAdi, " + sql2 + " AS Barkod " +
                                     "FROM wms.GorevYer WITH(nolock) INNER JOIN wms.Yer WITH(nolock) ON wms.GorevYer.YerID = wms.Yer.ID " +
                                     "WHERE (wms.GorevYer.GorevID = {0}) {1}" +
                                     "ORDER BY wms.GorevYer.Sira", GorevID, sqltmp);
@@ -154,7 +161,8 @@ namespace Wms12m
             else
             {
                 sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
-                                    "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi " +
+                                    "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi, " +
+                                    "ISNULL((SELECT Barkod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS Barkod " +
                                     "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID INNER JOIN wms.GorevIRS WITH (nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.Yer_Log.IrsaliyeID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu " +
                                     "WHERE (wms.GorevIRS.GorevID = {1}) " +
                                     "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID);
@@ -170,33 +178,18 @@ namespace Wms12m
         /// malzemeyi barkoda göre bulur
         /// </summary>
         [WebMethod]
-        public string GetMalzemeFromBarcode(string barkod)
+        public Tip_Malzeme GetMalzemeFromBarcode(string malkodu, string barkod)
         {
             string sql = "";
             var dbs = db.GetSirketDBs();
             foreach (var item in dbs)
             {
                 if (sql != "") sql += " UNION ";
-                sql += string.Format("SELECT MalKodu FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (BarKod1 = '{1}') OR (BarKod2 = '{1}')", item, barkod);
+                sql += string.Format("SELECT MalKodu, MalAdi, Birim1, Barkod1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE ", item);
+                if (malkodu != "") sql += string.Format("(MalKodu = '{0}')", malkodu);
+                else sql += string.Format("(BarKod1 = '{0}') OR (BarKod2 = '{0}')", barkod);
             }
-            sql = "SELECT ISNULL(MalKodu, '') from (" + sql + ") as t where Malkodu is not null";
-            return db.Database.SqlQuery<string>(sql).FirstOrDefault();
-        }
-        /// <summary>
-        /// malkoduna göre mal adını ve birim1 biri getirir
-        /// </summary>
-        /// <param name="malkodu"></param>
-        [WebMethod]
-        public Tip_Malzeme GetMalzemeFromMalKodu(string malkodu)
-        {
-            string sql = "";
-            var dbs = db.GetSirketDBs();
-            foreach (var item in dbs)
-            {
-                if (sql != "") sql += " UNION ";
-                sql += string.Format("SELECT MalAdi, Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = '{1}')", item, malkodu);
-            }
-            sql = "SELECT MalAdi, Birim1 as Birim from (" + sql + ") as t where MalAdi is not null";
+            sql = "SELECT MalKodu, MalAdi, Birim1 as Birim, Barkod1 as Barkod from (" + sql + ") as t where MalAdi is not null";
             return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
         }
         /// <summary>
