@@ -87,7 +87,6 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-
         public string FiyatGMOnayCek()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
@@ -101,7 +100,6 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-
         public string FiyatGMOnayCekGMKoleksiyon()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
@@ -115,7 +113,6 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-
         public string FiyatGMOnayCekGMGrup()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
@@ -123,6 +120,7 @@ namespace Wms12m.Presentation.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
+
         public ActionResult Fiyat_SPGMY()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return Redirect("/");
@@ -131,9 +129,43 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult Fiyat_SPGMY_List()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
-            var KOD = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY]", "33")).ToList();
-            return PartialView(KOD);
+            return PartialView();
         }
+        public string FiyatSPGMYOnayCek()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
+        public PartialViewResult Fiyat_SPGMY_List_Koleksiyon()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string FiyatSPGMYOnayCekSPGMYKoleksiyon()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_Koleksiyon]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
+
+        public PartialViewResult Fiyat_SPGMY_List_Grup()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string FiyatSPGMYOnayCekSPGMYGrup()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_GrupEbatYuzey]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
         public ActionResult Fiyat_SM()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return Redirect("/");
@@ -144,7 +176,6 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-
         public string FiyatSMOnayCek()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
@@ -158,7 +189,6 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-
         public string FiyatSMOnayCekSMKoleksiyon()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
@@ -172,7 +202,6 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-
         public string FiyatSMOnayCekSMGrup()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
