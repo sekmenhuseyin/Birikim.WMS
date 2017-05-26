@@ -150,7 +150,7 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_PartialAylikSatisAnaliziKodTipDovizBar", GSADK);
         }
 
-        public PartialViewResult PartialUrunGrubuSatis(short? tarih)
+        public PartialViewResult PartialUrunGrubuSatis(string SirketKodu, short? tarih)
         {
             if (CheckPerm("ChartUrunGrubuSatis", PermTypes.Reading) == false) return null;
             if (tarih == null)
@@ -160,7 +160,7 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_PartialUrunGrubuSatis", UGS);
         }
 
-        public PartialViewResult PartialUrunGrubuSatisKriter(short? tarih, string kriter)
+        public PartialViewResult PartialUrunGrubuSatisKriter(string SirketKodu, short? tarih, string kriter)
         {
             if (CheckPerm("ChartUrunGrubuSatisKriter", PermTypes.Reading) == false) return null;
             if (tarih == null)
