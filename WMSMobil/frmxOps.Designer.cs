@@ -268,7 +268,7 @@
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(60, 21);
-            this.label8.Text = "Barkod";
+            this.label8.Text = "Mal Kodu";
             // 
             // panelAlt
             // 
