@@ -354,10 +354,8 @@ namespace Wms12m.Presentation.Controllers
             {
                 mGorev.IR.LinkEvrakNo = sonuc.Message;
                 db.SaveChanges();
-                db.Database.ExecuteSqlCommand(string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STI SET KaynakIrsEvrakNo='{1}' WHERE EvrakNo = '{2}' AND KynkEvrakTip = 94", mGorev.IR.SirketKod, sonuc.Message, mGorev.IR.EvrakNo));
-                sonuc.Message = "İşlem tamlandı!";
-                //dst & stk update
-                sql = "";
+                //finsat dst & stk update
+                sql = string.Format("UPDATE FINSAT6{0}.FINSAT6{0}.STI SET KaynakIrsEvrakNo='{1}' WHERE EvrakNo = '{2}' AND KynkEvrakTip = 94;", mGorev.IR.SirketKod, sonuc.Message, mGorev.IR.EvrakNo);
                 foreach (var item in list)
                 {
                     if (item.Miktar > item.Stok)//giriş
@@ -380,55 +378,48 @@ namespace Wms12m.Presentation.Controllers
                     }
                 }
                 db.Database.ExecuteSqlCommand(sql);
-            }
-            return Json(sonuc, JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// kontrollü sayım sonrası farkı yer tablosuna kaydeder
-        /// </summary>
-        [HttpPost]
-        public JsonResult CountSave(int GorevID)
-        {
-            if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            int durumID = ComboItems.Tamamlanan.ToInt32();
-            int tipID = ComboItems.KontrolSayım.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
-            if (mGorev.IsNull())
-                return Json(new Result(false, "Görev bulunamadı!"), JsonRequestBehavior.AllowGet);
-            //get list
-            string sql = string.Format("SELECT wms.Yer.KatID, wms.GorevYer.MalKodu, wms.GorevYer.Birim, wms.GorevYer.Miktar, " +
-                                    "ISNULL((SELECT Miktar FROM wms.Yer AS Yer2 WHERE (KatID = wms.Yer.KatID) AND (MalKodu = wms.Yer.MalKodu) AND (Birim = wms.Yer.Birim)), 0) as Stok " +
-                                    "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
-                                    "WHERE (wms.Gorev.ID = {0})", GorevID);
-            var list = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
-            //loop list
-            foreach (var item in list)
-            {
-                //yerleştirme kaydı yapılır
-                var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, item.Birim);
-                if (tmp2 == null)
+                //son olarak bizim stoka kaydet
+                //get list
+                sql = string.Format("SELECT wms.Yer.KatID, wms.GorevYer.MalKodu, wms.GorevYer.Birim, wms.GorevYer.Miktar, " +
+                                        "ISNULL((SELECT Miktar FROM wms.Yer AS Yer2 WHERE (KatID = wms.Yer.KatID) AND (MalKodu = wms.Yer.MalKodu) AND (Birim = wms.Yer.Birim)), 0) as Stok " +
+                                        "FROM wms.Gorev WITH(NOLOCK) INNER JOIN wms.GorevYer WITH(NOLOCK) ON wms.Gorev.ID = wms.GorevYer.GorevID INNER JOIN wms.Yer ON wms.GorevYer.YerID = wms.Yer.ID " +
+                                        "WHERE (wms.Gorev.ID = {0})", GorevID);
+                var list2 = db.Database.SqlQuery<frmSiparisToplama>(sql).ToList();
+                //loop list
+                foreach (var item in list2)
                 {
-                    tmp2 = new Yer()
+                    //yerleştirme kaydı yapılır
+                    var tmp2 = Yerlestirme.Detail(item.KatID, item.MalKodu, item.Birim);
+                    if (tmp2 == null)
                     {
-                        KatID = item.KatID,
-                        MalKodu = item.MalKodu,
-                        Birim = item.Birim,
-                        Miktar = item.Miktar
-                    };
-                    Yerlestirme.Insert(tmp2, 0, vUser.Id);
-                }
-                else
-                {
-                    if (item.Miktar != item.Stok)
+                        tmp2 = new Yer()
+                        {
+                            KatID = item.KatID,
+                            MalKodu = item.MalKodu,
+                            Birim = item.Birim,
+                            Miktar = item.Miktar
+                        };
+                        Yerlestirme.Insert(tmp2, mGorev.IrsaliyeID.Value, vUser.Id);
+                    }
+                    else
                     {
-                        tmp2.Miktar = 0;
-                        Yerlestirme.Update(tmp2, 0, vUser.Id, true, tmp2.Miktar);
-                        tmp2.Miktar = item.Miktar;
-                        Yerlestirme.Update(tmp2, 0, vUser.Id, false, item.Miktar);
+                        if (item.Miktar > item.Stok)//giriş
+                        {
+
+                            tmp2.Miktar = item.Miktar;
+                            Yerlestirme.Update(tmp2, mGorev.IrsaliyeID.Value, vUser.Id, false, item.Miktar - tmp2.Miktar);
+                        }
+                        else if (item.Miktar > item.Stok)//çıkış
+                        {
+
+                            tmp2.Miktar = item.Miktar;
+                            Yerlestirme.Update(tmp2, mGorev.IrsaliyeID.Value, vUser.Id, true, tmp2.Miktar - item.Miktar);
+                        }
                     }
                 }
+                sonuc.Message = "İşlem tamlandı!";
             }
-            return Json(new Result(true, "Kayıt İşlemi tamamlandı"), JsonRequestBehavior.AllowGet);
+            return Json(sonuc, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// sayım fişi kaydeder

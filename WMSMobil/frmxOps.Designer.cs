@@ -102,7 +102,7 @@
             this.btnUygula.Name = "btnUygula";
             this.btnUygula.Size = new System.Drawing.Size(57, 43);
             this.btnUygula.TabIndex = 2;
-            this.btnUygula.Text = "Uygula";
+            this.btnUygula.Text = "Ekle";
             this.btnUygula.Click += new System.EventHandler(this.btnUygula_Click);
             // 
             // label7
@@ -258,7 +258,7 @@
             this.label9.Location = new System.Drawing.Point(64, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(80, 21);
-            this.label9.Text = "MalAdı";
+            this.label9.Text = "Malzeme";
             // 
             // label8
             // 
@@ -268,7 +268,7 @@
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(60, 21);
-            this.label8.Text = "MalKodu";
+            this.label8.Text = "Barkod";
             // 
             // panelAlt
             // 
