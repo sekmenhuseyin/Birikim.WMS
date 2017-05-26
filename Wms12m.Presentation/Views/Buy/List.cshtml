@@ -36,6 +36,7 @@
 </div>
 <script>
     $(document).ready(function () { $('#sample_2').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });
+    var tmpID;
     function CopyValues(i, e, t)
     {
         $("#ID").val(i);
@@ -45,17 +46,19 @@
         $("#submitForm").click();
     }
     function ChangeMiktar(miktar, id) {
-        var miktar = prompt("Yeni evrak noyu giriniz", miktar);
+        tmpID = id;
+        ModalPrompt("Yeni evrak noyu giriniz", miktar, "Kaydet", "İptal")
+    }
+    function Maincallback(miktar)
+    {
         if (miktar == null || miktar == undefined) return;
         $.ajax({
             url: "/Buy/Update",
-            data: { EvrakNo: miktar, ID: id, SirketID: $('#SirketID').val(), HesapKodu: $('#HesapKodu').val()},
+            data: { EvrakNo: miktar, ID: tmpID, SirketID: $('#SirketID').val(), HesapKodu: $('#HesapKodu').val() },
             type: 'POST',
             dataType: "json",
-            success: function (data)
-            {
-                if (data.Status == true)
-                {
+            success: function (data) {
+                if (data.Status == true) {
                     Modaldialog("İşlem başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
                     editInModal('/Buy/List/' + $('#SirketID').val() + ',' + $('#DepoID').val() + ',' + $('#HesapKodu').val());
                 }
@@ -64,6 +67,5 @@
             },
             error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
         });
-        
     }
 </script>
