@@ -795,7 +795,6 @@
         });
 
         $('.sozlesme-kaydet-buton').click(function () {
-            console.log("ww");
             if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("value") == "") {
                 Modaldialog("Sözleşme Numarası Girmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
                 return;
@@ -826,7 +825,7 @@
             }
 
             var ListNoVar = false;
-            var _dfd = $.Deferred();
+
             $.ajax({
                 url: window.location.origin + "/Approval/SozlesmeListeNoKontrol",
                 data: { SozlesmeNo: ListeNo},
@@ -840,24 +839,25 @@
                     }
                 }
             });
-            return _dfd.promise();
+
             if ($(".select_baglanti_tipi").dxSelectBox("instance").option("value") == null) {
                 Modaldialog("Bağlantı Tipi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
                 return;
             }
-            if ($(".swtch_aktif_pasif").dxSwitch("instance").option("value") == true && $(".date_vade_tarihi").dxDateBox("instance").option("value") == null) {
+            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == true && $(".date_vade_tarihi").dxDateBox("instance").option("value") == null) {
                 Modaldialog("Vade Tarihi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
                 return;
             }
-            if ($(".swtch_aktif_pasif").dxSwitch("instance").option("value") == false && $(".numb_valor_gun").dxNumberBox("instance").option("value") <=0) {
+            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false && $(".numb_valor_gun").dxNumberBox("instance").option("value") <= 0) {
                 Modaldialog("ValorGun Boş Geçilemez.", "Kayıt İşlemi", "Tamam", "Kayıt");
                 return;
             }
 
+            dddd();
         });
 
         $('.sozlesme-sil-buton').click(function () {
-            fiyatEdit(2);
+            
         });
 
         $('.red sozlesme-guncelle-buton').click(function () {
