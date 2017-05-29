@@ -26,6 +26,20 @@
           <s:element minOccurs="1" maxOccurs="1" name="DepoID" type="s:int" />
         </s:sequence>
       </s:complexType>
+      <s:element name="LoginKontrol2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="barkod" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginKontrol2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoginKontrol2Result" type="tns:Login" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetGorevOzet">
         <s:complexType>
           <s:sequence>
@@ -502,6 +516,12 @@
   <wsdl:message name="LoginKontrolSoapOut">
     <wsdl:part name="parameters" element="tns:LoginKontrolResponse" />
   </wsdl:message>
+  <wsdl:message name="LoginKontrol2SoapIn">
+    <wsdl:part name="parameters" element="tns:LoginKontrol2" />
+  </wsdl:message>
+  <wsdl:message name="LoginKontrol2SoapOut">
+    <wsdl:part name="parameters" element="tns:LoginKontrol2Response" />
+  </wsdl:message>
   <wsdl:message name="GetGorevOzetSoapIn">
     <wsdl:part name="parameters" element="tns:GetGorevOzet" />
   </wsdl:message>
@@ -639,6 +659,10 @@
       <wsdl:input message="tns:LoginKontrolSoapIn" />
       <wsdl:output message="tns:LoginKontrolSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="LoginKontrol2">
+      <wsdl:input message="tns:LoginKontrol2SoapIn" />
+      <wsdl:output message="tns:LoginKontrol2SoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetGorevOzet">
       <wsdl:input message="tns:GetGorevOzetSoapIn" />
       <wsdl:output message="tns:GetGorevOzetSoapOut" />
@@ -732,6 +756,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="LoginKontrol">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/LoginKontrol" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoginKontrol2">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/LoginKontrol2" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -942,6 +975,15 @@
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="LoginKontrol">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/LoginKontrol" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoginKontrol2">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/LoginKontrol2" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

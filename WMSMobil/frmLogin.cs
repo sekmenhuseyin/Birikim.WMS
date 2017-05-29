@@ -7,18 +7,72 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using WMSMobil.WMSLocal;
+using Symbol.Barcode2.Design;
 
 namespace WMSMobil
 {
     public partial class frmLogin : Form
     {
         MobilServis Servis = new MobilServis();
+        private Barcode2 Barkod;
         /// <summary>
         /// load
         /// </summary>
         public frmLogin()
         {
             InitializeComponent();
+            //barkod
+            //Barkod = new Barcode2();
+            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            //Barkod.EnableScanner = true;
+            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+        }
+        /// <summary>
+        /// barkod okursa
+        /// </summary>
+        public delegate void MethodInvoker();
+        void Barkod_OnScan(Symbol.Barcode2.ScanDataCollection scanDataCollection)
+        {
+            this.Invoke((MethodInvoker)delegate()
+            {
+                bool focuslandi = false;
+                try
+                {
+                    foreach (Control cont in panel1.Controls)
+                    {
+                        if (cont.Focused)
+                        {
+                            if (cont.Name == txtKullaniciAdi.Name || cont.Name == txtParola.Name)
+                            {
+                                focuslandi = true;
+                                Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text);
+                                if (login.ID != 0)
+                                {
+                                    Ayarlar.Kullanici = login;
+                                    frmMain anaForm = new frmMain();
+                                    this.Enabled = true;
+                                    anaForm.ShowDialog();
+                                }
+                                else
+                                {
+                                    this.Enabled = true;
+                                    Mesaj.Uyari(login.AdSoyad);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Mesaj.Hata(ex);
+                }
+                //eğer hiç bir yere odaklanmamışsa
+                if (!focuslandi)
+                {
+                    Mesaj.Uyari("Lütfen önce bir yazı kutusuna tıklayın!");
+                    return;
+                }
+            });
         }
         /// <summary>
         /// entera basarsa

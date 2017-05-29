@@ -54,6 +54,26 @@ namespace WMSMobil.WMSLocal {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/LoginKontrol2", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Login LoginKontrol2(string barkod) {
+            object[] results = this.Invoke("LoginKontrol2", new object[] {
+                        barkod});
+            return ((Login)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginLoginKontrol2(string barkod, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("LoginKontrol2", new object[] {
+                        barkod}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Login EndLoginKontrol2(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Login)(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetGorevOzet", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public GorevOzet[] GetGorevOzet(int ID, int kulID) {
             object[] results = this.Invoke("GetGorevOzet", new object[] {
