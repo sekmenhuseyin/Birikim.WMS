@@ -2,15 +2,126 @@
     ViewBag.Title = "Teminat Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-}@section Styles{<link href="@Url.Content("~/Content/assets/global/plugins/datatables/datatables.min.css")" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")" rel="stylesheet" type="text/css" />
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li></li></ul></div>
-<div class="row" id="liste"></div>
+<div class="form-horizontal">
+    <div class="form-body">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Teminat Onay
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
+                </div>
+
+            </div>
+        </div>
+        <div id="liste" style="padding:10px;margin-top:30px; ">
+        </div>
+
+    </div>
+</div>
 @section Scripts{
+    <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="~/Content/assets/global/scripts/datatable.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script>
-        PartialView("/Approval/TeminatList", 'liste');
+        PartialView("/Approval/Teminat_List", 'liste');
+
+        //PartialView("/Approval/Teminat_SPGMY_List_Grup", 'listegrup');
+        //  PartialView("/Approval/RiskTanimPartial", 'liste');
+        function FuncSearchBtn() {
+            var Type = $("input[type='checkbox'][name='Locked']:checked").val();
+            PartialView("/Approval/Teminat_List", 'liste', JSON.stringify({ Durum: Type }));
+        }
+
+        $(document).ready(function () {
+
+
+
+
+
+        });
+        $('.onay-buton').click(function () {
+
+            var x = table.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approval/Teminat_Onay",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+
+                success: function (data) {
+                    console.log(data);
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+
+                },
+                error: function (jqxhr) { console.log(jqxhr); }
+            });
+
+            return _dfd.promise();
+            // window.location.href = '/Approval/Teminat';
+
+
+
+        });
+
+        //$('.reddet-buton').click(function () {
+
+        //    var x = table.rows('.selected').data();
+        //    for (var i = 0; i < x.length; i++) {
+        //        secili_table.push(x[i]);
+        //    }
+        //    var _dfd = $.Deferred();
+        //    $.ajax({
+        //        url: window.location.origin + "/Approval/Teminat_Red,
+        //        data: { Data: JSON.stringify(secili_table) },
+        //        type: "post",
+        //        success: function (data) {
+        //            console.log(data);
+        //            if (data.Status == true) {
+        //                Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+        //            }
+        //            else {
+        //                if (data.Message == "") data.Message = "Hata oluştu";
+        //                Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        //            }
+
+        //        },
+        //        error: function (jqxhr) { console.log(jqxhr); }
+        //    });
+        //    return _dfd.promise();
+
+
+
+        //});
+
+        $('.yenile-buton').click(function () {
+
+            window.location.href = '/Approval/Teminat';
+
+
+
+        });
+
+
     </script>
 }

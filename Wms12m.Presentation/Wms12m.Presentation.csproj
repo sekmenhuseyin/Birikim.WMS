@@ -486,7 +486,7 @@
     <Content Include="Views\Approval\Stok.cshtml" />
     <Content Include="Views\Approval\Stok_List.cshtml" />
     <Content Include="Views\Approval\Teminat.cshtml" />
-    <Content Include="Views\Approval\TeminatList.cshtml" />
+    <Content Include="Views\Approval\Teminat_List.cshtml" />
     <Content Include="Views\Roles\List.cshtml" />
     <Content Include="Views\Perms\List.cshtml" />
     <Content Include="Views\Stock\Details.cshtml" />
