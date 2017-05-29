@@ -7,30 +7,35 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bölge Bazlı Satış Analizi <span style="color:#8888a7;">3D PİE CHART</span></span>
                 </div>
-                <div class="tools" style="float:right;margin-left:20px;">
-                    <a href="javascript:;" class="collapse"> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                    <a href="javascript:;" class="reload"> </a>
-                    <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="remove"> </a>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDs", @onchange = "Reloads(this.value)" })
                 </div>
-                <div style="float:right;margin-left:20px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Ay</span></div> <div class="slct_ay_pie" style="float:left;width:200px; margin-left:10px;"></div></div>
-                <div style="float:right;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kriter </span></div> <div class="slct_kriter_pie" style="float:left;width:200px; margin-left:10px;"></div></div>
+                <div class="col-md-2 slct_ay_pie"></div>
+                <div class="col-md-2 slct_kriter_pie"></div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloads('@ViewBag.SirketKodu');"> </a>
+                </div>
             </div>
             <div class="portlet-body">
                 <div id="chart_5_bolge_pie" class="chart" style="height: 400px;"> </div>
-                <div class="well margin-top-20">
-                </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+    var ay_value= @ViewBag.Ay;
+    var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
+    var ay = [{ id: 0, state: "Tümü"},{ id: 1, state: "Ocak"},{ id: 2, state: "Şubat" },{ id: 3, state: "Mart"},{ id: 4, state: "Nisan"},{ id: 5, state: "Mayıs" },{ id: 6, state: "Haziran"},{ id: 7, state: "Temmuz"},{ id: 8, state: "Ağustos" },{ id: 9, state: "Eylül"},{ id: 10, state: "Ekim"},{ id: 11, state: "Kasım" },{ id: 12, state: "Aralik"}];
+    var kriter = [{ state: "Tüm Bölgeler" }, { state: "Akdeniz Böl." }, { state: "Doğu Anad. Böl." }, { state: "Ege Böl." }, { state: "G.Doğu Anad.Böl." }, { state: "İç Anadolu Böl." }, { state: "Karadeniz Böl." }, { state: "Marmara Böl." }];
+    if ($('.SirketIDs option').size() == 1) $(".SirketIDs").hide();
+    else $(".SirketIDs").val('@ViewBag.SirketKodu');
+    function Reloads(v)
+    {
+        PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: v, ay: ay_value, kriter:kriter_value }));
+    }
     $(document).ready(function (e) {
-        var ay_value= @ViewBag.Ay;
-        var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
-        var ay = [{ id: 0, state: "Tümü"},{ id: 1, state: "Ocak"},{ id: 2, state: "Şubat" },{ id: 3, state: "Mart"},{ id: 4, state: "Nisan"},{ id: 5, state: "Mayıs" },{ id: 6, state: "Haziran"},{ id: 7, state: "Temmuz"},{ id: 8, state: "Ağustos" },{ id: 9, state: "Eylül"},{ id: 10, state: "Ekim"},{ id: 11, state: "Kasım" },{ id: 12, state: "Aralik"}];
-        var kriter = [{ state: "Tüm Bölgeler"},{ state: "Akdeniz Böl."},{ state: "Doğu Anad. Böl." },{ state: "Ege Böl."},{ state: "G.Doğu Anad.Böl."},{ state: "İç Anadolu Böl." },{ state: "Karadeniz Böl."},{ state: "Marmara Böl."}];
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
@@ -45,8 +50,7 @@
             value: ay_value,
             onValueChanged: function (e) {
                 ay_value=e.value;
-                var BolgeBazliSatisAnaliziPie = "/Home/PartialBolgeBazliSatisAnaliziPie";
-                PartialView(BolgeBazliSatisAnaliziPie, 'bolge-bazli-satis-analizi-pie', JSON.stringify({ ay: ay_value, kriter:kriter_value}));
+                PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: ay_value, kriter:kriter_value}));
             }
         });
         $(".slct_kriter_pie").dxSelectBox({
@@ -56,8 +60,7 @@
             value: kriter_value,
             onValueChanged: function (e) {
                 kriter_value=e.value;
-                var BolgeBazliSatisAnaliziPie = "/Home/PartialBolgeBazliSatisAnaliziPie";
-                PartialView(BolgeBazliSatisAnaliziPie, 'bolge-bazli-satis-analizi-pie', JSON.stringify({ ay: ay_value, kriter:kriter_value}));
+                PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: ay_value, kriter:kriter_value}));
             }
         });
         var ChartsAmcharts = function () {

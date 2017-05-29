@@ -40,7 +40,7 @@
         var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
         $.ajax({
             url: window.location.origin + "/Home/BekleyenSiparisMusteriKriter",
-            data: {},
+            data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
             {

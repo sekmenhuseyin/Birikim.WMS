@@ -7,32 +7,37 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bölge Bazlı Satış Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
-                <div class="tools" style="float:right;margin-left:20px;">
-                    <a href="javascript:;" class="collapse"> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                    <a href="javascript:;" class="reload"> </a>
-                    <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="remove"> </a>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDr", @onchange = "Reloadr(this.value)" })
                 </div>
-                <div style="float:right;margin-left:20px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Ay</span></div> <div class="slct_ay" style="float:left;width:200px; margin-left:10px;"></div></div>
-                <div style="float:right;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kriter </span></div> <div class="slct_kriter" style="float:left;width:200px; margin-left:10px;"></div></div>
+                <div class="col-md-2 slct_ay"></div>
+                <div class="col-md-2 slct_kriter"></div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadr('@ViewBag.SirketKodu');"> </a>
+                </div>
             </div>
             <div class="portlet-body">
                 <div id="chart_5_bolge" class="chart" style="height: 400px;"> </div>
-                <div class="well margin-top-20">
-                </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+    var ay_value= @ViewBag.Ay;
+    var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
+    var ay = [{ id: 0, state: "Tümü"},{ id: 1, state: "Ocak"},{ id: 2, state: "Şubat" },{ id: 3, state: "Mart"},{ id: 4, state: "Nisan"},{ id: 5, state: "Mayıs" },{ id: 6, state: "Haziran"},{ id: 7, state: "Temmuz"},{ id: 8, state: "Ağustos" },{ id: 9, state: "Eylül"},{ id: 10, state: "Ekim"},{ id: 11, state: "Kasım" },{ id: 12, state: "Aralik"}];
+    if ($('.SirketIDr option').size() == 1) $(".SirketIDr").hide();
+    else $(".SirketIDr").val('@ViewBag.SirketKodu');
+    function Reloadr(v)
+    {
+        PartialView("/Home/PartialBolgeBazliSatisAnalizi", 'bolge_bazli_satis_analizi', JSON.stringify({ SirketKodu: v, ay: ay_value, kriter:kriter_value }));
+    }
     $(document).ready(function (e) {
-        var ay_value= @ViewBag.Ay;
-       var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
-        var ay = [{ id: 0, state: "Tümü"},{ id: 1, state: "Ocak"},{ id: 2, state: "Şubat" },{ id: 3, state: "Mart"},{ id: 4, state: "Nisan"},{ id: 5, state: "Mayıs" },{ id: 6, state: "Haziran"},{ id: 7, state: "Temmuz"},{ id: 8, state: "Ağustos" },{ id: 9, state: "Eylül"},{ id: 10, state: "Ekim"},{ id: 11, state: "Kasım" },{ id: 12, state: "Aralik"}];
         $.ajax({
-            url: window.location.origin + "/Home/BolgeBazliSatisAnaliziKriter",
-            data: {},
+            url: "/Home/BolgeBazliSatisAnaliziKriter",
+            data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
             {
@@ -43,19 +48,18 @@
                     value: kriter_value,
                     onValueChanged: function (e) {
                         if(e.value!=kriter_value){
-                        kriter_value=e.value;
-                        var BolgeBazliSatisAnalizi = "/Home/PartialBolgeBazliSatisAnalizi";
-                        PartialView(BolgeBazliSatisAnalizi, 'bolge-bazli-satis-analizi', JSON.stringify({ ay: ay_value, kriter:kriter_value}));
+                            kriter_value=e.value;
+                            PartialView("/Home/PartialBolgeBazliSatisAnalizi", 'bolge_bazli_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: ay_value, kriter:kriter_value }));
                         }
                     }
                 });
             }
         });
         var model = @Html.Raw(Json.Encode(Model));
-        var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
+        var color = ["#FF0F00", "#FF6600", "#FF9E01", "#FCD202", "#F8FF01", "#B0DE09", "#04D215", "#0D8ECF", "#0D52D1", "#2A0CD0", "#8A0CCF", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000"];
         for (var i = 0; i < model.length; i++) {
-            $.extend(model[i],{
-                color: color[i%color.length]
+            $.extend(model[i], {
+                color: color[i % color.length]
             });
         }
 
@@ -65,10 +69,9 @@
             displayExpr: 'state',
             value: ay_value,
             onValueChanged: function (e) {
-                if(e.value!=ay_value){
-                    ay_value=e.value;
-                    var BolgeBazliSatisAnalizi = "/Home/PartialBolgeBazliSatisAnalizi";
-                    PartialView(BolgeBazliSatisAnalizi, 'bolge-bazli-satis-analizi', JSON.stringify({ ay: ay_value, kriter:kriter_value}));
+                if (e.value != ay_value) {
+                    ay_value = e.value;
+                    PartialView("/Home/PartialBolgeBazliSatisAnalizi", 'bolge_bazli_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: ay_value, kriter: kriter_value }));
                 }
             }
         });
@@ -78,7 +81,7 @@
                     "theme": "light",
                     "type": "serial",
                     "startDuration": 2,
-                    "titleRotation":10,
+                    "titleRotation": 10,
                     "fontFamily": 'Open Sans',
                     "color": '#888',
                     "valueAxes": [{
@@ -97,9 +100,9 @@
                         "valueField": "GenelTutar",
                         "fixedColumnWidth": 40,
                         "labelText": "[[value]]",
-                        "labelRotation":315,
-                        "color":"grey",
-                        "labelOffset":30
+                        "labelRotation": 315,
+                        "color": "grey",
+                        "labelOffset": 30
                     }],
                     "depth3D": 40,
                     "angle": 30,
@@ -157,5 +160,5 @@
         jQuery(document).ready(function () {
             ChartsAmcharts.init();
         });
-    });
+        });
 </script>

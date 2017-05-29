@@ -7,12 +7,13 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bağlantı Zaman Çizelgesi <span style="color:#8888a7;">STACK CHART</span></span>
                 </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDp", @onchange = "Reloadp(this.value)" })
+                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                    <a href="javascript:;" class="reload"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="remove"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadp('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -22,6 +23,12 @@
     </div>
 </div>
 <script>
+    if ($('.SirketIDp option').size() == 1) $(".SirketIDp").hide();
+    else $(".SirketIDp").val('@ViewBag.SirketKodu');
+    function Reloadp(v)
+    {
+        PartialView("/Home/PartialBaglantiZamanCizelgesi", 'baglanti_zaman_cizelgesi', JSON.stringify({ SirketKodu: v }));
+    }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
