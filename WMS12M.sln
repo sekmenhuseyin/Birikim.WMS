@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Business", "Wms12m.Business\Wms12m.Business.csproj", "{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}"
 EndProject
@@ -10,10 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Entity", "Wms12m.Entity\Wms12m.Entity.csproj", "{8C1BE237-38F4-4170-AE02-AC56D44FDE73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Presentation", "Wms12m.Presentation\Wms12m.Presentation.csproj", "{5BDA8764-6E30-43B3-8BC2-B3168CCF23FF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KurumsalKaynakPlanlaması12M", "KurumsalKaynakPlanlaması12M\KurumsalKaynakPlanlaması12M.csproj", "{A04A607A-BA56-45C9-8B9A-C9D00E52B13D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakvimeBagliKisit", "TakvimeBagliKisit\TakvimeBagliKisit.csproj", "{AB73DDB3-F178-47D8-9E1B-A73284281AB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +33,6 @@ Global
 		{5BDA8764-6E30-43B3-8BC2-B3168CCF23FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BDA8764-6E30-43B3-8BC2-B3168CCF23FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BDA8764-6E30-43B3-8BC2-B3168CCF23FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A04A607A-BA56-45C9-8B9A-C9D00E52B13D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A04A607A-BA56-45C9-8B9A-C9D00E52B13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A04A607A-BA56-45C9-8B9A-C9D00E52B13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A04A607A-BA56-45C9-8B9A-C9D00E52B13D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB73DDB3-F178-47D8-9E1B-A73284281AB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB73DDB3-F178-47D8-9E1B-A73284281AB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB73DDB3-F178-47D8-9E1B-A73284281AB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB73DDB3-F178-47D8-9E1B-A73284281AB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
