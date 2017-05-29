@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wms12m.Presentation", "Wms1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KurumsalKaynakPlanlaması12M", "KurumsalKaynakPlanlaması12M\KurumsalKaynakPlanlaması12M.csproj", "{A04A607A-BA56-45C9-8B9A-C9D00E52B13D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakvimeBagliKisit", "TakvimeBagliKisit\TakvimeBagliKisit.csproj", "{AB73DDB3-F178-47D8-9E1B-A73284281AB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A04A607A-BA56-45C9-8B9A-C9D00E52B13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A04A607A-BA56-45C9-8B9A-C9D00E52B13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A04A607A-BA56-45C9-8B9A-C9D00E52B13D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB73DDB3-F178-47D8-9E1B-A73284281AB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB73DDB3-F178-47D8-9E1B-A73284281AB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB73DDB3-F178-47D8-9E1B-A73284281AB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB73DDB3-F178-47D8-9E1B-A73284281AB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,17 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A04A607A-BA56-45C9-8B9A-C9D00E52B13D}</ProjectGuid>
+    <ProjectGuid>{AB73DDB3-F178-47D8-9E1B-A73284281AB7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KurumsalKaynakPlanlaması12M</RootNamespace>
-    <AssemblyName>KurumsalKaynakPlanlaması12M</AssemblyName>
+    <RootNamespace>TakvimeBagliKisit</RootNamespace>
+    <AssemblyName>TakvimeBagliKisit</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,7 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,33 +42,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class\Data.cs" />
-    <Compile Include="Class\DbAlanAttribute.cs" />
-    <Compile Include="Class\DbTabloAttribute.cs" />
-    <Compile Include="Class\MyHelper.cs" />
-    <Compile Include="Tables\KKP_IRS.cs" />
-    <Compile Include="Tables\KKPYNS_CAR005.cs" />
-    <Compile Include="Tables\KKPYNS_STK002.cs" />
-    <Compile Include="Tables\KKP_DST.cs" />
-    <Compile Include="Tables\KKP_DEP.cs" />
-    <Compile Include="Tables\KKP_CHK.cs" />
-    <Compile Include="Tables\KKP_ENT.cs" />
-    <Compile Include="Tables\KKP_MHI.cs" />
-    <Compile Include="Tables\KKP_STI.cs" />
-    <Compile Include="Tables\KKP_STK.cs" />
-    <Compile Include="Tables\KKP_FTD.cs" />
-    <Compile Include="Tables\KKP_MFK.cs" />
-    <Compile Include="Tables\KKP_SPI.cs" />
-    <Compile Include="Tables\DocumentType.cs" />
-    <Compile Include="Tables\KKP_FYT.cs" />
-    <Compile Include="Tables\KKP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="TBK.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TBK.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="TBKException.cs" />
+    <Compile Include="TBKIslem.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TakvimeBagliKisit\TakvimeBagliKisit.csproj">
-      <Project>{ab73ddb3-f178-47d8-9e1b-a73284281ab7}</Project>
-      <Name>TakvimeBagliKisit</Name>
-    </ProjectReference>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="TBK.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>TBK.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TBK.dbml.layout">
+      <DependentUpon>TBK.dbml</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
