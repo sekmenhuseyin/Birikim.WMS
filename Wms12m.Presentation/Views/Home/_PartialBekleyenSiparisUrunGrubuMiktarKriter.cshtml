@@ -73,7 +73,7 @@
                 PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, miktarTutar: false, kriter:kriter_value }));
             }
         });
-        var ChartsAmchartsMik = function () {
+        var ChartsAmchartsMik6 = function () {
             var initChartSample7Mik = function () {
                 var chart = AmCharts.makeChart("chart_7_mik_kriter", {
                     "theme": "light",
@@ -153,7 +153,7 @@
             };
         }();
         jQuery(document).ready(function () {
-            ChartsAmchartsMik.init();
+            ChartsAmchartsMik6.init();
         });
     });
 </script>

@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <div id="chart_5_gunluk_double_pie" class="chart" style="height: 400px;"> </div>
+                <div id="echarts_bar2" class="chart" style="height: 400px;"> </div>
             </div>
         </div>
     </div>
@@ -120,11 +120,10 @@
             [
                 'echarts',
                 'echarts/chart/bar',
-                'echarts/chart/pie',
             ],
             function(ec) {
                 //--- BAR ---
-                var myChart = ec.init(document.getElementById('echarts_bar'));
+                var myChart = ec.init(document.getElementById('echarts_bar2'));
                 myChart.setOption({
                     tooltip: {
                         trigger: 'axis'

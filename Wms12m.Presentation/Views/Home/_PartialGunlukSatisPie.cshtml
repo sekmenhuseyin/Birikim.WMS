@@ -11,11 +11,11 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Analizi <span style="color:#8888a7;">3D PİE CHART</span></span>
                 </div>
-                <div class="col-md-3 p-l-30">
-                    <div id="tarih" class="gsp_tarih" style="width:200px;"></div>
-                </div>
                 <div class="col-md-2">
                     @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID1", @onchange = "Reload1(this.value)" })
+                </div>
+                <div class="col-md-3 p-l-30">
+                    <div id="tarih" class="gsp_tarih" style="width:200px;"></div>
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
@@ -55,7 +55,7 @@
                 PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
             }
         });
-        var ChartsAmcharts = function () {
+        var ChartsAmchartsh = function () {
             var initChartSample7 = function () {
                 var chart = AmCharts.makeChart("chart_7", {
                     "type": "pie",
@@ -101,7 +101,7 @@
             };
         }();
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmchartsh.init();
         });
     });
 </script>

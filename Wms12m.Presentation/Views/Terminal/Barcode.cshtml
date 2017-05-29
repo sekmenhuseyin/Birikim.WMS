@@ -1,0 +1,5 @@
+﻿@model User
+@{var a = IDAtomationBarCode.BarcodeImageGenerator(Model.Guid.ToString().Right(12));}
+<img src = "@Url.Content(a)" alt = "Alternate Text" width = "400" height = "100" />
+<div>@Model.AdSoyad</div>
+<script>window.print();</script>
