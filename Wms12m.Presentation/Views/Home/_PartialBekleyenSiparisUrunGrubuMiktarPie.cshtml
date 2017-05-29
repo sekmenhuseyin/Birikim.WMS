@@ -1,12 +1,4 @@
 ﻿@model List<ChartBekleyenSiparisUrunGrubu>
-<style>
-    .bas_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
-    .bas_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
-    .bit_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
-    .bit_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
-    .cbox_MiktarTutar .dx-switch-off {color: #d21b1b;font-weight: bold;font-size: 11px;}
-    .cbox_MiktarTutar .dx-switch-on {color: #d21b1b;font-weight: bold;font-size: 11px;}
-</style>
 <div class="row">
     <div class="col-md-12 m-t-40">
         <div class="portlet light bordered">
@@ -15,37 +7,39 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
-                <div class="tools" style="float:right;margin-left:20px;">
-                    <a href="javascript:;" class="collapse"> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                    <a href="javascript:;" class="reload"> </a>
-                    <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="remove"> </a>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDj", @onchange = "Reloadj(this.value)" })
                 </div>
-                <div style="float:left;width:80px;margin-left:20px;">
+                <div class="col-md-2">
                     <input type="checkbox" id="toggle-one" checked data-toggle="toggle" name="Miktar" data-on-text="Miktar" data-off-text="Tutar" data-on="Miktar" data-off="Tutar">
                 </div>
-            </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadh('@ViewBag.SirketKodu');"> </a>
+                </div>
+           </div>
             <div class="portlet-body">
                 <div id="chart_7_mik_pie" class="chart" style="height: 400px;"> </div>
-                <div class="well margin-top-20">
-                </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+    if ($('.SirketIDj option').size() == 1) $(".SirketIDj").hide();
+    else $(".SirketIDj").val('@ViewBag.SirketKodu');
+    function Reloadj(v)
+    {
+        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ SirketKodu: v, miktarTutar: $('#toggle-one').prop('checked') }));
+    }
     $(document).ready(function (e) {
-        $('#toggle-one').bootstrapToggle({
-            on: 'Miktar',
-            off: 'Tutar'
-        });
+        $('#toggle-one').bootstrapToggle({on: 'Miktar',off: 'Tutar'});
         if ('@ViewBag.MiktarTutar' == "Miktar")
             $('#toggle-one').bootstrapToggle('on')
         else
             $('#toggle-one').bootstrapToggle('off')
         $('#toggle-one').change(function () {
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ miktarTutar: $(this).prop('checked') }));
+            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, miktarTutar: $(this).prop('checked') }));
         })
 
         var model = @Html.Raw(Json.Encode(Model));

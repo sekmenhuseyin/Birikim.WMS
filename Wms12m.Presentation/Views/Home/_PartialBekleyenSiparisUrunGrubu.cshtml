@@ -13,15 +13,16 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D PİE CHART</span></span>
                 </div>
-                <div class="tools" style="float:right;margin-left:20px;">
-                    <a href="javascript:;" class="collapse"> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                    <a href="javascript:;" class="reload"> </a>
-                    <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="remove"> </a>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDg", @onchange = "Reloadg(this.value)" })
                 </div>
-                <div style="float:right;margin-left:20px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Bitiş Tarihi</span></div> <div class="bit_tarih" style="float:left;width:200px; margin-left:10px;"></div></div>
-                <div style="float:right;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Başlangıç Tarihi </span></div> <div class="bas_tarih" style="float:left;width:200px; margin-left:10px;"></div></div>
+                <div class="col-md-2 bit_tarih"></div>
+                <div class="col-md-2 bas_tarih"></div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadg('@ViewBag.SirketKodu');"> </a>
+                </div>
             </div>
             <div class="portlet-body">
                 <div id="chart_7_eski" class="chart" style="height: 400px;"> </div>
@@ -32,26 +33,21 @@
     </div>
 </div>
 <script>
+    var trh1 = '@ViewBag.BasTarih2'.split(".");
+    trh1[1] = (parseInt(trh1[1]) - 1).toString();
+    trh1[2] = trh1[2].substr(0, 4);
+    var bas_tarih = new Date(trh1[2], trh1[1], trh1[0]);
+    var trh2 = '@ViewBag.BitTarih2'.split(".");
+    trh2[1] = (parseInt(trh2[1]) - 1).toString();
+    trh2[2] = trh2[2].substr(0, 4);
+    var bit_tarih = new Date(trh2[2], trh2[1], trh2[0]);
+    if ($('.SirketIDg option').size() == 1) $(".SirketIDg").hide();
+    else $(".SirketIDg").val('@ViewBag.SirketKodu');
+    function Reloadg(v)
+    {
+        PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: v, bastarih: @ViewBag.BasTarih, bittarih: @ViewBag.BitTarih }));
+    }
     $(document).ready(function (e) {
-        var x = '@ViewBag.BasTarih'.split("00");
-        x=x[0];
-        var arr = x.split(".");
-        arr[1] = (parseInt(arr[1]) - 1).toString();
-        arr[2] = arr[2].substr(0, 4);
-        var f_tarih= new Date(arr[2],arr[1],arr[0]);
-
-
-        var xx = '@ViewBag.BitTarih'.split("00");
-        xx=xx[0];
-        var arr2 = xx.split(".");
-        arr2[1] = (parseInt(arr2[1]) - 1).toString();
-        arr2[2] = arr2[2].substr(0, 4);
-        var f_tarih2= new Date(arr2[2],arr2[1],arr2[0]);
-
-        var xx = '@ViewBag.BitTarih'.substr(0, 10);
-        var arr2 = xx.split(".");
-        arr2[1] = (parseInt(arr2[1]) - 1).toString();
-        var f_tarih2= new Date(arr2[2],arr2[1],arr2[0]);
         var model = @Html.Raw(Json.Encode(Model));
 
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
@@ -63,25 +59,21 @@
 
         $(".bas_tarih").dxDateBox({
             dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            value:f_tarih,
+            formatString: 'dd.MM.yyyy',
+            value: bas_tarih,
             onValueChanged: function (e) {
                 var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                var BekSipUrunGrubuUrl = "/Home/PartialBekleyenSiparisUrunGrubu";
-                var bitTarih = Math.ceil(($(".bit_tarih").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                PartialView(BekSipUrunGrubuUrl, 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: oaDate, bittarih:bitTarih, chk:'33' }));
+                PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', bastarih: oaDate, bittarih: @ViewBag.BitTarih }));
             }
         });
 
         $(".bit_tarih").dxDateBox({
             dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            value:f_tarih2,
+            formatString: 'dd.MM.yyyy',
+            value: bit_tarih,
             onValueChanged: function (e) {
                 var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                var BekSipUrunGrubuUrl = "/Home/PartialBekleyenSiparisUrunGrubu";
-                var basTarih = Math.ceil(($(".bas_tarih").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                PartialView(BekSipUrunGrubuUrl, 'bekleyen_siparis_urun_grubu', JSON.stringify({ bastarih: basTarih, bittarih:oaDate, chk:'33' }));
+                PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', basTarih: @ViewBag.BasTarih, bittarih: oaDate }));
             }
         });
         var ChartsAmchartsEski = function () {
