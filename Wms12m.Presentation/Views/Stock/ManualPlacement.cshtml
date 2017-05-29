@@ -130,6 +130,7 @@
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 <script>
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+    checkEnabled();
     function checkEnabled() {
         $("#DID").val($("#DepoID").val());
         if ($("#DepoID").val() == "") {
