@@ -542,6 +542,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\KurumsalKaynakPlanlaması12M\KurumsalKaynakPlanlaması12M.csproj">
+      <Project>{a04a607a-ba56-45c9-8b9a-c9d00e52b13d}</Project>
+      <Name>KurumsalKaynakPlanlaması12M</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">
       <Project>{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}</Project>
       <Name>Wms12m.Business</Name>
