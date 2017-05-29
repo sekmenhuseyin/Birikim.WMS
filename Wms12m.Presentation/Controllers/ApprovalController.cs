@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Viewmodels;
+using KKP12M = KurumsalKaynakPlanlaması12M;
 
 namespace Wms12m.Presentation.Controllers
 {

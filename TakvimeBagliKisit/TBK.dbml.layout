@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="TBK">
+  <DataContextMoniker Name="/TBKDataContext" />
+  <nestedChildShapes>
+    <classShape Id="78623664-dbdc-457d-82cd-0020323e4403" absoluteBounds="5, 1.375, 2, 3.1170068359375">
+      <DataClassMoniker Name="/TBKDataContext/TBK" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e76be133-6d18-4e27-b4f2-e49dd3556e3b" absoluteBounds="5.015, 1.835, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
