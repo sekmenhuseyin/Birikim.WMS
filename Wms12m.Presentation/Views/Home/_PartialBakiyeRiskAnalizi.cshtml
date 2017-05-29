@@ -38,7 +38,7 @@
                 color: color[i % color.length]
             });
         }
-        var ChartsAmcharts = function () {
+        var ChartsAmcharts4 = function () {
 
             var initChartSample6 = function () {
                 var chart = AmCharts.makeChart("chart_6", {
@@ -99,7 +99,7 @@
                 chart.dataProvider = model;
                 chart.validateData();
                 chart.animateAgain();
-                jQuery('.chart_6_chart_input').off().on('input change', function () {
+                jQuery('#bakiye_risk').off().on('input change', function () {
                     var property = jQuery(this).data('property');
                     var target = chart;
                     chart.startDuration = 0;
@@ -112,7 +112,7 @@
                     chart.validateNow();
                 });
 
-                $('#chart_6').closest('.portlet').find('.fullscreen').click(function () {
+                $('#bakiye_risk').closest('.portlet').find('.fullscreen').click(function () {
                     chart.invalidateSize();
                 });
             }
@@ -125,7 +125,7 @@
         }();
 
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmcharts4.init();
         });
     });
 </script>

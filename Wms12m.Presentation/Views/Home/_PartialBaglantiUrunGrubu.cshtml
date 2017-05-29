@@ -7,12 +7,13 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bağlantı Ürün Grubu Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDl", @onchange = "Reloadl(this.value)" })
+                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                    <a href="javascript:;" class="reload"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="remove"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadl('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -22,6 +23,12 @@
     </div>
 </div>
 <script>
+    if ($('.SirketIDl option').size() == 1) $(".SirketIDl").hide();
+    else $(".SirketIDl").val('@ViewBag.SirketKodu');
+    function Reloadl(v)
+    {
+        PartialView("/Home/PartialBaglantiUrunGrubu", 'baglanti_urun_grubu', JSON.stringify({ SirketKodu: v }));
+    }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
@@ -35,7 +42,7 @@
             model = @Html.Raw(Json.Encode(null));
         }
 
-        var ChartsAmcharts = function () {
+        var ChartsAmcharts1 = function () {
 
             var initChartSample5 = function () {
                 var chart = AmCharts.makeChart("chart_5_baglantiUrun", {
@@ -46,7 +53,6 @@
                     "fontFamily": 'Open Sans',
                     "color": '#888',
 
-                    //"dataProvider": list,
                     "valueAxes": [{
                         "position": "left",
                         "axisAlpha": 0,
@@ -95,7 +101,7 @@
                 chart.dataProvider = model;
                 chart.validateData();
                 chart.animateAgain();
-                jQuery('.chart_5_chart_input').off().on('input change', function () {
+                jQuery('#baglanti_urun_grubu').off().on('input change', function () {
                     var property = jQuery(this).data('property');
                     var target = chart;
                     chart.startDuration = 0;
@@ -108,7 +114,7 @@
                     chart.validateNow();
                 });
 
-                $('#chart_5_baglantiUrun').closest('.portlet').find('.fullscreen').click(function () {
+                $('#baglanti_urun_grubu').closest('.portlet').find('.fullscreen').click(function () {
                     chart.invalidateSize();
                 });
             }
@@ -121,7 +127,7 @@
         }();
 
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmcharts1.init();
         });
     });
 </script>

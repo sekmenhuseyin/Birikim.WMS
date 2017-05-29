@@ -11,11 +11,11 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
-                <div class="col-md-3 p-l-30">
-                    <div id="tarih" class="gs_tarih" style="width:200px;"></div>
-                </div>
                 <div class="col-md-2">
                     @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID2", @onchange = "Reload2(this.value)" })
+                </div>
+                <div class="col-md-3 p-l-30">
+                    <div id="tarih" class="gs_tarih" style="width:200px;"></div>
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
@@ -59,7 +59,7 @@
                 PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
             }
         });
-        var ChartsAmcharts = function () {
+        var ChartsAmchartsd = function () {
             var initChartSample5 = function () {
                 var chart = AmCharts.makeChart("chart_5", {
                     "theme": "light",
@@ -140,7 +140,7 @@
             };
         }();
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmchartsd.init();
         });
     });
 </script>

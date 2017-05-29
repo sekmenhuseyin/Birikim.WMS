@@ -1,0 +1,5 @@
+﻿@model User
+@{string tmp = Model.Guid.ToString().Right(8).ToString() + Model.ID.ToString(); tmp = tmp.GenerateBarcode(); }
+<img src="@Url.Content(tmp)" alt="@Model.AdSoyad" width="400" height="100" />
+<div>@Model.AdSoyad</div>
+<script>window.print();</script>

@@ -7,12 +7,13 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bağlantı Zaman Çizelgesi <span style="color:#8888a7;">STACK CHART</span></span>
                 </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDp", @onchange = "Reloadp(this.value)" })
+                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                    <a href="javascript:;" class="reload"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="remove"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadp('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -22,6 +23,12 @@
     </div>
 </div>
 <script>
+    if ($('.SirketIDp option').size() == 1) $(".SirketIDp").hide();
+    else $(".SirketIDp").val('@ViewBag.SirketKodu');
+    function Reloadp(v)
+    {
+        PartialView("/Home/PartialBaglantiZamanCizelgesi", 'baglanti_zaman_cizelgesi', JSON.stringify({ SirketKodu: v }));
+    }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
@@ -35,7 +42,7 @@
             model = @Html.Raw(Json.Encode(null));
         }
 
-        var ChartsAmcharts = function () {
+        var ChartsAmcharts3 = function () {
 
             var initChartSample12 = function() {
                 var chartData = [];
@@ -85,75 +92,63 @@
                             type: "sign",
                             backgroundColor: "#85CDE6",
                             graph: "g1",
-                            text: "S",
-                            description: "This is description of an event"
+                            text: "S"
                         }, {
                             date: new Date(2010, 10, 19),
                             type: "flag",
                             backgroundColor: "#FFFFFF",
                             backgroundAlpha: 0.5,
                             graph: "g1",
-                            text: "F",
-                            description: "Some longerntext can alson be added"
+                            text: "F"
                         }, {
                             date: new Date(2010, 11, 10),
                             showOnAxis: true,
                             backgroundColor: "#85CDE6",
                             type: "pin",
                             text: "X",
-                            graph: "g1",
-                            description: "This is description of an event"
+                            graph: "g1"
                         }, {
                             date: new Date(2010, 11, 26),
                             showOnAxis: true,
                             backgroundColor: "#85CDE6",
                             type: "pin",
                             text: "Z",
-                            graph: "g1",
-                            description: "This is description of an event"
+                            graph: "g1"
                         }, {
                             date: new Date(2011, 0, 3),
                             type: "sign",
                             backgroundColor: "#85CDE6",
                             graph: "g1",
-                            text: "U",
-                            description: "This is description of an event"
+                            text: "U"
                         }, {
                             date: new Date(2011, 1, 6),
                             type: "sign",
                             graph: "g1",
-                            text: "D",
-                            description: "This is description of an event"
+                            text: "D"
                         }, {
                             date: new Date(2011, 3, 5),
                             type: "sign",
                             graph: "g1",
-                            text: "L",
-                            description: "This is description of an event"
+                            text: "L"
                         }, {
                             date: new Date(2011, 3, 5),
                             type: "sign",
                             graph: "g1",
-                            text: "R",
-                            description: "This is description of an event"
+                            text: "R"
                         }, {
                             date: new Date(2011, 5, 15),
                             type: "arrowUp",
                             backgroundColor: "#00CC00",
-                            graph: "g1",
-                            description: "This is description of an event"
+                            graph: "g1"
                         }, {
                             date: new Date(2011, 6, 25),
                             type: "arrowDown",
                             backgroundColor: "#CC0000",
-                            graph: "g1",
-                            description: "This is description of an event"
+                            graph: "g1"
                         }, {
                             date: new Date(2011, 8, 1),
                             type: "text",
-                            graph: "g1",
-                            text: "Longer text can\nalso be displayed",
-                            description: "This is description of an event"
+                            graph: "g1"
                         }]
                     }],
 
@@ -212,7 +207,7 @@
                     }
                 });
 
-                $('#chart_12').closest('.portlet').find('.fullscreen').click(function() {
+                $('#baglanti_zaman_cizelgesi').closest('.portlet').find('.fullscreen').click(function() {
                     chart.invalidateSize();
                 });
             }
@@ -225,7 +220,7 @@
         }();
 
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmcharts3.init();
         });
     });
 </script>
