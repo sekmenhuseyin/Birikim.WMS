@@ -1,4 +1,5 @@
-﻿<div id="qrcode"></div>
-<script src="~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js"></script>
-<script src="~/Content/assets/global/plugins/jquery-qrcode/jquery.qrcode.min.js"></script>
-<script>$('#qrcode').qrcode({ width: 128, height: 128, text: "@ViewBag.UserID" });</script>
+﻿@model User
+@{var a = IDAtomationBarCode.BarcodeImageGenerator(Model.Guid.ToString().Right(12));}
+<img src = "@Url.Content(a)" alt = "Alternate Text" width = "400" height = "100" />
+<div>@Model.AdSoyad</div>
+<script>window.print();</script>
