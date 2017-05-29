@@ -136,11 +136,24 @@ namespace Wms12m
             if (tu != null)
                 if(tu.BitisTarihi != null)
                     return new List<Tip_STI>();
-            string sql;
+            string sql = "", sql2 = "";
             if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())
             {
+                var dbs = db.GetSirketDBs();
+                foreach (var item in dbs)
+                {
+                    if (sql != "")
+                    {
+                        sql += " UNION "; sql2 += " UNION ";
+                    }
+                    sql += string.Format("SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.GorevYer.MalKodu)", item);
+                    sql2 += string.Format("SELECT Barkod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.GorevYer.MalKodu)", item);
+                }
+                sql = "(Select TOP(1) ISNULL(MalAdi, '') from (" + sql + ") t where MalAdi <> '')";
+                sql2 = "(Select TOP(1) ISNULL(Barkod1, '') as Barkod from (" + sql2 + ") t where Barkod1 <> '')";
                 string sqltmp = ""; if (devamMi == true && mGorev.GorevTipiID != ComboItems.KontrolSayım.ToInt32()) sqltmp += "AND wms.GorevYer.Miktar>ISNULL(wms.GorevYer.YerlestirmeMiktari,0) ";
-                sql = string.Format("SELECT wms.GorevYer.ID, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.HucreAd AS Raf, ISNULL(wms.GorevYer.YerlestirmeMiktari,0) as YerlestirmeMiktari, wms.GorevYer.MalAdi, wms.GorevYer.Barkod " +
+                sql = string.Format("SELECT wms.GorevYer.ID, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.HucreAd AS Raf, ISNULL(wms.GorevYer.YerlestirmeMiktari,0) as YerlestirmeMiktari, " +
+                                    sql + " AS MalAdi, " + sql2 + " AS Barkod " +
                                     "FROM wms.GorevYer WITH(nolock) INNER JOIN wms.Yer WITH(nolock) ON wms.GorevYer.YerID = wms.Yer.ID " +
                                     "WHERE (wms.GorevYer.GorevID = {0}) {1}" +
                                     "ORDER BY wms.GorevYer.Sira", GorevID, sqltmp);

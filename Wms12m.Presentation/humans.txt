@@ -10,4 +10,4 @@ Gizem Altıntaş
 Name: WMS - Depo Yönetim Paneli
 Language: Turkish
 Web: http://www.12mconsulting.com.tr/
-Last update: 2017/05/25
+Last update: 2017/05/26

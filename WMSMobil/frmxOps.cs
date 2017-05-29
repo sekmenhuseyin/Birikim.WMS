@@ -54,7 +54,7 @@ namespace WMSMobil
             catch (Exception ex)
             {
                 Mesaj.Hata(ex);
-                this.Close();
+                return;
             }
             //gizle göster
             label1.Visible = true;

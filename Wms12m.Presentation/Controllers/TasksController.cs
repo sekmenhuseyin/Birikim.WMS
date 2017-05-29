@@ -252,9 +252,9 @@ namespace Wms12m.Presentation.Controllers
                 else//eğer olması gerekenden az varsa çıkış yapılacak
                     sti.IslemTur = 1;
                 sti.Tarih = tarih;
-                sti.KynkEvrakTip = 94;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
+                sti.KynkEvrakTip = 95;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
                 sti.SiraNo = sirano;
-                sti.IslemTip = 17;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
+                sti.IslemTip = 18;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
                 sti.MalKodu = item.MalKodu;
                 sti.Miktar = item.Miktar;
                 sti.Miktar2 = item.Stok;
@@ -263,7 +263,7 @@ namespace Wms12m.Presentation.Controllers
                 sti.Depo = mGorev.Depo.DepoKodu;
                 sti.VadeTarih = tarih;
                 sti.EvrakTarih = tarih;
-                sti.AnaEvrakTip = 94;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
+                sti.AnaEvrakTip = 95;//"Sayım Sonuç Fişi" from finsat.COMBOITEM_NAME
                 stiList.Add(sti);
                 sirano++;
             }
@@ -331,9 +331,9 @@ namespace Wms12m.Presentation.Controllers
                     sti.IslemTur = 1;
                 sti.Miktar = Math.Abs(item.Miktar - item.Stok);
                 sti.Tarih = tarih;
-                sti.KynkEvrakTip = 57;//"Sayım Farkı Fişi" from finsat.COMBOITEM_NAME
+                sti.KynkEvrakTip = 100;//"Sayım Farkı Fişi" from finsat.COMBOITEM_NAME
                 sti.SiraNo = sirano;
-                sti.IslemTip = 10;//"Sayım Farkı" from finsat.COMBOITEM_NAME
+                sti.IslemTip = 20;//"Sayım Farkı" from finsat.COMBOITEM_NAME
                 sti.MalKodu = item.MalKodu;
                 sti.Birim = item.Birim;
                 sti.BirimMiktar = sti.Miktar;
@@ -341,7 +341,7 @@ namespace Wms12m.Presentation.Controllers
                 sti.Depo = mGorev.Depo.DepoKodu;
                 sti.VadeTarih = tarih;
                 sti.EvrakTarih = tarih;
-                sti.AnaEvrakTip = 57;//"Sayım Farkı Fişi" from finsat.COMBOITEM_NAME
+                sti.AnaEvrakTip = 100;//"Sayım Farkı Fişi" from finsat.COMBOITEM_NAME
                 sti.KaynakIrsEvrakNo = mGorev.IR.EvrakNo;
                 stiList.Add(sti);
                 sirano++;
@@ -405,15 +405,13 @@ namespace Wms12m.Presentation.Controllers
                     {
                         if (item.Miktar > item.Stok)//giriş
                         {
-
                             tmp2.Miktar = item.Miktar;
-                            Yerlestirme.Update(tmp2, mGorev.IrsaliyeID.Value, vUser.Id, false, item.Miktar - tmp2.Miktar);
+                            Yerlestirme.Update(tmp2, mGorev.IrsaliyeID.Value, vUser.Id, false, item.Miktar - item.Stok);
                         }
-                        else if (item.Miktar > item.Stok)//çıkış
+                        else if (item.Miktar < item.Stok)//çıkış
                         {
-
                             tmp2.Miktar = item.Miktar;
-                            Yerlestirme.Update(tmp2, mGorev.IrsaliyeID.Value, vUser.Id, true, tmp2.Miktar - item.Miktar);
+                            Yerlestirme.Update(tmp2, mGorev.IrsaliyeID.Value, vUser.Id, true, item.Stok - item.Miktar);
                         }
                     }
                 }

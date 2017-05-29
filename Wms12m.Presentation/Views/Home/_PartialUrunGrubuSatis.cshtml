@@ -17,17 +17,14 @@
                     <i class="icon-layers font-green"></i>
                     <span class="caption-subject font-green bold uppercase">Ürün Grubu Satış Analizi</span>
                 </div>
-                <div class="as_urungrup_tarih" style="float:left; width:200px; margin-left:60px;"></div>
-                <div class="actions">
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-cloud-upload"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-wrench"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-trash"></i>
-                    </a>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDb", @onchange = "Reloadb(this.value)" })
+                </div>
+                <div class="col-md-2 as_urungrup_tarih"></div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadb('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -37,22 +34,27 @@
     </div>
 </div>
 <script>
+    var f_tarih = @ViewBag.Tarih;
+    if ($('.SirketIDb option').size() == 1) $(".SirketIDb").hide();
+    else $(".SirketIDb").val('@ViewBag.SirketKodu');
+    function Reloadb(v)
+    {
+        PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ SirketKodu: v, tarih: f_tarih }));
+    }
     $(document).ready(function (e) {
-        var f_tarih = @ViewBag.Tarih;
         var states = [
-      { id: 1, state: "Ocak 2016-2017"},
-      { id: 2, state: "Şubat 2016-2017" },
-      { id: 3, state: "Mart 2016-2017"},
-       { id: 4, state: "Nisan 2016-2017"},
-      { id: 5, state: "Mayıs 2016-2017" },
-      { id: 6, state: "Haziran 2016-2017"},
-       { id: 7, state: "Temmuz 2016-2017"},
-      { id: 8, state: "Ağustos 2016-2017" },
-      { id: 9, state: "Eylül 2016-2017"},
-       { id: 10, state: "Ekim 2016-2017"},
-      { id: 11, state: "Kasım 2016-2017" },
-      { id: 12, state: "Aralik 2016-2017"},
-      // ...
+            { id: 1, state: "Ocak 2016-2017"},
+            { id: 2, state: "Şubat 2016-2017" },
+            { id: 3, state: "Mart 2016-2017"},
+            { id: 4, state: "Nisan 2016-2017"},
+            { id: 5, state: "Mayıs 2016-2017" },
+            { id: 6, state: "Haziran 2016-2017"},
+            { id: 7, state: "Temmuz 2016-2017"},
+            { id: 8, state: "Ağustos 2016-2017" },
+            { id: 9, state: "Eylül 2016-2017"},
+            { id: 10, state: "Ekim 2016-2017"},
+            { id: 11, state: "Kasım 2016-2017" },
+            { id: 12, state: "Aralik 2016-2017"},
         ];
         $(".as_urungrup_tarih").dxSelectBox({
             dataSource: states,
@@ -60,23 +62,22 @@
             displayExpr: 'state',
             value:f_tarih,
             onValueChanged: function (e) {
-                var UrunGrubuSatisUrl = "/Home/PartialUrunGrubuSatis";
-                PartialView(UrunGrubuSatisUrl, 'urun_grubu_satis', JSON.stringify({ tarih: e.value }));
+                PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: e.value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));
         var grupKod = new Array();
         var Yil2016 = new Array();
         var Yil2017 = new Array();
-        jQuery.each( model, function( i, val ) {
+        jQuery.each(model, function (i, val) {
             grupKod.push(val.GrupKod);
             Yil2016.push(val.Yil2016);
             Yil2017.push(val.Yil2017);
         });
 
-        var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
+        var color = ["#FF0F00", "#FF6600", "#FF9E01", "#FCD202", "#F8FF01", "#B0DE09", "#04D215", "#0D8ECF", "#0D52D1", "#2A0CD0", "#8A0CCF", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000"];
         for (var i = 0; i < model.length; i++) {
-            $.extend(model[i],{
+            $.extend(model[i], {
                 color: color[i]
             });
         }
@@ -85,31 +86,12 @@
                 echarts: '/content/assets/global/plugins/echarts'
             }
         });
-
-        // DEMOS
         require(
             [
                 'echarts',
                 'echarts/chart/bar',
-                'echarts/chart/chord',
-                'echarts/chart/eventRiver',
-                'echarts/chart/force',
-                'echarts/chart/funnel',
-                'echarts/chart/gauge',
-                'echarts/chart/heatmap',
-                'echarts/chart/k',
-                'echarts/chart/line',
-                'echarts/chart/map',
-                'echarts/chart/pie',
-                'echarts/chart/radar',
-                'echarts/chart/scatter',
-                'echarts/chart/tree',
-                'echarts/chart/treemap',
-                'echarts/chart/venn',
-                'echarts/chart/wordCloud'
             ],
-            function(ec) {
-                //--- BAR ---
+            function (ec) {
                 var myChart = ec.init(document.getElementById('echarts_bar_urungrubu'));
                 myChart.setOption({
                     tooltip: {
@@ -118,34 +100,12 @@
                     legend: {
                         data: ['Yil2016', 'Yil2017']
                     },
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            mark: {
-                                show: true
-                            },
-                            dataView: {
-                                show: true,
-                                readOnly: false
-                            },
-                            magicType: {
-                                show: true,
-                                type: ['line', 'bar']
-                            },
-                            restore: {
-                                show: true
-                            },
-                            saveAsImage: {
-                                show: true
-                            }
-                        }
-                    },
                     calculable: true,
                     xAxis: [{
                         type: 'category',
                         data: grupKod,
-                        axisLabel:{
-                        rotate:-45
+                        axisLabel: {
+                            rotate: -45
                         }
                     }],
                     yAxis: [{
@@ -158,30 +118,30 @@
                         name: '2016',
                         type: 'bar',
                         data: Yil2016,
-                        markPoint : {
-                            data : [
-                                {type : 'max', name: '2016'},
-                                {type : 'min', name: '2016'}
+                        markPoint: {
+                            data: [
+                                { type: 'max', name: '2016' },
+                                { type: 'min', name: '2016' }
                             ]
                         },
-                        markLine : {
-                            data : [
-                                {type : 'average', name: '2016'}
+                        markLine: {
+                            data: [
+                                { type: 'average', name: '2016' }
                             ]
                         }
                     }, {
                         name: '2017',
                         type: 'bar',
                         data: Yil2017,
-                        markPoint : {
-                            data : [
-                                {type : 'max', name: '2017'},
-                                {type : 'min', name: '2017'}
+                        markPoint: {
+                            data: [
+                                { type: 'max', name: '2017' },
+                                { type: 'min', name: '2017' }
                             ]
                         },
-                        markLine : {
-                            data : [
-                                {type : 'average', name: '2017'}
+                        markLine: {
+                            data: [
+                                { type: 'average', name: '2017' }
                             ]
                         }
                     }]

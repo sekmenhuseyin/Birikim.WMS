@@ -43,6 +43,7 @@ namespace Wms12m.Presentation.Controllers
             int tarih = fn.ToOADate();
             var gorevno = db.SettingsGorevNo(tarih, DID).FirstOrDefault();
             var sonuc = new InsertIrsaliye_Result();
+            string evraklar = "";
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 for (int i = 0; i < result.Tables[0].Rows.Count; i++)
@@ -66,7 +67,12 @@ namespace Wms12m.Presentation.Controllers
                     _result.Message = "Mal kodu yanlış";
                     if (malkodu == "" || malkodu == null) return Json(_result, JsonRequestBehavior.AllowGet);
                     //add irsaliye and gorev
-                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, dr["İrsaliye No"].ToString(), tarih, "Alıcı: " + Hesap, false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "").FirstOrDefault();
+                    sonuc = db.InsertIrsaliye(SID, DID, gorevno, dr["İrsaliye No"].ToString(), tarih, "", false, ComboItems.MalKabul.ToInt32(), vUser.UserName, tarih, fn.ToOATime(), Hesap, "", 0, "").FirstOrDefault();
+                    if (evraklar.Contains(dr["İrsaliye No"].ToString()) == false)
+                    {
+                        if (evraklar != "") evraklar += ",";
+                        evraklar += dr["İrsaliye No"].ToString();
+                    }
                     //add detays
                     try
                     {
@@ -114,9 +120,11 @@ namespace Wms12m.Presentation.Controllers
                     return Json(_result, JsonRequestBehavior.AllowGet);
                 }
             }
+            var Unvan = db.Database.SqlQuery<string>(string.Format("SELECT Unvan1+' '+Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE HesapKodu = '{1}'", SID, Hesap)).FirstOrDefault();
             //update görev
             var gorev = db.Gorevs.Where(m => m.ID == sonuc.GorevID.Value).FirstOrDefault();
             gorev.DurumID = ComboItems.Açık.ToInt32();
+            gorev.Bilgi = "Irs: " + evraklar + ", Tedarikçi: " + Unvan;
             db.SaveChanges();
             //return
             _result.Id = 1;

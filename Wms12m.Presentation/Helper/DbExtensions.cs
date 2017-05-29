@@ -13,6 +13,28 @@ namespace Wms12m
     public static class DbExtensions
     {
         /// <summary>
+        /// int saat
+        /// </summary>
+        public static int SaatForDB(DateTime Saatim)
+        {
+
+            int saat = 0;
+            if (Saatim.Hour >= 1)
+            {
+                saat += Saatim.Hour * 60 * 60;
+            }
+            if (Saatim.Minute >= 1)
+            {
+                saat += Saatim.Minute * 60;
+            }
+            if (Saatim.Second > 0)
+            {
+                saat += Saatim.Second;
+            }
+            return saat;
+
+        }
+        /// <summary>
         /// get finsat stk maladi from malkodu
         /// </summary>
         public static string GetMalAdi(this string value, string SirketKodu)

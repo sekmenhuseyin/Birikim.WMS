@@ -17,18 +17,15 @@
                     <i class="icon-layers font-green"></i>
                     <span class="caption-subject font-green bold uppercase">Lokasyon Bazlı Satış Analizi Kriter</span>
                 </div>
-                <div style="float:left;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Tarih </span></div> <div class="ls_tarih_kriter" style="float:right; width:130px; margin-left:10px;"></div></div>
-                <div style="float:left;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kriter </span></div> <div class="slct_aylik_lokasyon-kriter" style="float:left;width:130px; margin-left:10px;"></div></div>
-                <div class="actions">
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-cloud-upload"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-wrench"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-trash"></i>
-                    </a>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDe", @onchange = "Reloade(this.value)" })
+                </div>
+                <div class="col-md-2 ls_tarih_kriter"></div>
+                <div class="col-md-2 slct_aylik_lokasyon-kriter"></div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloade('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -38,22 +35,29 @@
     </div>
 </div>
 <script>
+    var kriter_value= @Html.Raw(Json.Encode(ViewBag.Kriter));
+    var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
+    var f_tarih = @ViewBag.Tarih;
+    if ($('.SirketIDe option').size() == 1) $(".SirketIDe").hide();
+    else $(".SirketIDe").val('@ViewBag.SirketKodu');
+    function Reloade(v)
+    {
+        PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ SirketKodu: v, tarih: f_tarih, kriter: kriter_value }));
+    }
     $(document).ready(function (e) {
-        var f_tarih = @ViewBag.Tarih;
         var states = [
-      { id: 1, state: "Ocak 2016-2017"},
-      { id: 2, state: "Şubat 2016-2017" },
-      { id: 3, state: "Mart 2016-2017"},
-       { id: 4, state: "Nisan 2016-2017"},
-      { id: 5, state: "Mayıs 2016-2017" },
-      { id: 6, state: "Haziran 2016-2017"},
-       { id: 7, state: "Temmuz 2016-2017"},
-      { id: 8, state: "Ağustos 2016-2017" },
-      { id: 9, state: "Eylül 2016-2017"},
-       { id: 10, state: "Ekim 2016-2017"},
-      { id: 11, state: "Kasım 2016-2017" },
-      { id: 12, state: "Aralik 2016-2017"},
-      // ...
+            { id: 1, state: "Ocak 2016-2017"},
+            { id: 2, state: "Şubat 2016-2017" },
+            { id: 3, state: "Mart 2016-2017"},
+            { id: 4, state: "Nisan 2016-2017"},
+            { id: 5, state: "Mayıs 2016-2017" },
+            { id: 6, state: "Haziran 2016-2017"},
+            { id: 7, state: "Temmuz 2016-2017"},
+            { id: 8, state: "Ağustos 2016-2017" },
+            { id: 9, state: "Eylül 2016-2017"},
+            { id: 10, state: "Ekim 2016-2017"},
+            { id: 11, state: "Kasım 2016-2017" },
+            { id: 12, state: "Aralik 2016-2017"},
         ];
         $(".ls_tarih_kriter").dxSelectBox({
             dataSource: states,
@@ -61,8 +65,7 @@
             displayExpr: 'state',
             value:f_tarih,
             onValueChanged: function (e) {
-                var LokasyonbazliSatisKriterUrl = "/Home/PartialLokasyonSatisKriter";
-                PartialView(LokasyonbazliSatisKriterUrl, 'lokasyon_satis_kriter', JSON.stringify({ tarih: e.value, kriter:kriter_value }));
+                PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: e.value, kriter:kriter_value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));
@@ -82,8 +85,6 @@
             });
         }
 
-        var kriter_value= @Html.Raw(Json.Encode(ViewBag.Kriter));
-        var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
         $(".slct_aylik_lokasyon-kriter").dxSelectBox({
             dataSource: doviz,
             valueExpr: 'state',
@@ -91,8 +92,7 @@
             value: kriter_value,
             onValueChanged: function (e) {
                 kriter_value=e.value;
-                var LokasyonbazliSatisKriterUrl = "/Home/PartialLokasyonSatisKriter";
-                PartialView(LokasyonbazliSatisKriterUrl, 'lokasyon_satis_kriter', JSON.stringify({ tarih: f_tarih, kriter:kriter_value }));
+                PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: f_tarih, kriter:kriter_value }));
             }
         });
 
@@ -105,22 +105,6 @@
             [
                 'echarts',
                 'echarts/chart/bar',
-                'echarts/chart/chord',
-                'echarts/chart/eventRiver',
-                'echarts/chart/force',
-                'echarts/chart/funnel',
-                'echarts/chart/gauge',
-                'echarts/chart/heatmap',
-                'echarts/chart/k',
-                'echarts/chart/line',
-                'echarts/chart/map',
-                'echarts/chart/pie',
-                'echarts/chart/radar',
-                'echarts/chart/scatter',
-                'echarts/chart/tree',
-                'echarts/chart/treemap',
-                'echarts/chart/venn',
-                'echarts/chart/wordCloud'
             ],
             function(ec) {
                 //--- BAR ---
@@ -131,28 +115,6 @@
                     },
                     legend: {
                         data: ['Yil2016', 'Yil2017']
-                    },
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            mark: {
-                                show: true
-                            },
-                            dataView: {
-                                show: true,
-                                readOnly: false
-                            },
-                            magicType: {
-                                show: true,
-                                type: ['line', 'bar']
-                            },
-                            restore: {
-                                show: true
-                            },
-                            saveAsImage: {
-                                show: true
-                            }
-                        }
                     },
                     calculable: true,
                     xAxis: [{

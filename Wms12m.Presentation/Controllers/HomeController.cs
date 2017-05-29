@@ -150,54 +150,54 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_PartialAylikSatisAnaliziKodTipDovizBar", GSADK);
         }
 
-        public PartialViewResult PartialUrunGrubuSatis(short? tarih)
+        public PartialViewResult PartialUrunGrubuSatis(string SirketKodu, short tarih)
         {
             if (CheckPerm("ChartUrunGrubuSatis", PermTypes.Reading) == false) return null;
-            if (tarih == null)
-                tarih = (short)DateTime.Today.Month;
-            var UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", "33", tarih)).ToList();
+            var UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
             ViewBag.Tarih = tarih;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialUrunGrubuSatis", UGS);
         }
 
-        public PartialViewResult PartialUrunGrubuSatisKriter(short? tarih, string kriter)
+        public PartialViewResult PartialUrunGrubuSatisKriter(string SirketKodu, short tarih, string kriter)
         {
             if (CheckPerm("ChartUrunGrubuSatisKriter", PermTypes.Reading) == false) return null;
-            if (tarih == null)
-                tarih = (short)DateTime.Today.Month;
-
-            var UGSK = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", "33", tarih, kriter)).ToList();
+            var UGSK = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", SirketKodu, tarih, kriter)).ToList();
             ViewBag.Tarih = tarih;
             ViewBag.Kriter = kriter;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialUrunGrubuSatisKriter", UGSK);
         }
 
-        public PartialViewResult PartialLokasyonSatis(short? tarih)
+        public PartialViewResult PartialLokasyonSatis(string SirketKodu, short tarih)
         {
             if (CheckPerm("ChartLokasyonSatis", PermTypes.Reading) == false) return null;
-            if (tarih == null)
-                tarih = (short)DateTime.Today.Month;
-            var UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", "33", tarih)).ToList();
+            var UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
             ViewBag.Tarih = tarih;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialLokasyonSatis", UGS);
         }
 
-        public PartialViewResult PartialLokasyonSatisKriter(short? tarih, string kriter)
+        public PartialViewResult PartialLokasyonSatisKriter(string SirketKodu, short tarih, string kriter)
         {
             if (CheckPerm("ChartLokasyonSatisKriter", PermTypes.Reading) == false) return null;
-            if (tarih == null)
-                tarih = (short)DateTime.Today.Month;
-
-            var UGSK = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", "33", tarih, kriter)).ToList();
+            var UGSK = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", SirketKodu, tarih, kriter)).ToList();
             ViewBag.Tarih = tarih;
             ViewBag.Kriter = kriter;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialLokasyonSatisKriter", UGSK);
         }
 
-        public PartialViewResult PartialBakiyeRiskAnalizi()
+        public PartialViewResult PartialBakiyeRiskAnalizi(string SirketKodu)
         {
             if (CheckPerm("ChartBakiyeRiskAnalizi", PermTypes.Reading) == false) return null;
             var BRA = db.Database.SqlQuery<ChartBakiyeRiskAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", "33")).ToList();
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialBakiyeRiskAnalizi", BRA);
         }
 
