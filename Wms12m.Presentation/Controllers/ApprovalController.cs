@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Viewmodels;
-using KKP12M = KurumsalKaynakPlanlaması12M;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -1881,20 +1880,22 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
-                Fiyat fyt = new Fiyat();
-                fyt.FiyatListNum = parameters["ListeNo"].ToString();
+                Fiyat fyt = new Fiyat()
+                {
+                    FiyatListNum = parameters["ListeNo"].ToString(),
 
-                fyt.HesapKodu = parameters["HesapKodu"].ToString();
-                fyt.MalKodu = parameters["UrunKodu"].ToString();
-                fyt.SatisFiyat1 = parameters["SatisFiyat"].ToDecimal();
-                fyt.SatisFiyat1Birim = parameters["Birim"].ToString();
-                fyt.SatisFiyat1BirimInt = parameters["BirimValue"].ToInt32();
-                fyt.DovizSatisFiyat1 = parameters["DovizSatisFiyat"].ToDecimal();
-                fyt.DovizSF1Birim = parameters["DovizBirim"].ToString();
-                fyt.DovizSF1BirimInt = parameters["DovizBirimValue"].ToInt32();
-                fyt.DovizCinsi = parameters["Birim"].ToString();
-                fyt.Durum = parameters["Durum"].ToShort();
-                fyt.ROW_ID = 0;
+                    HesapKodu = parameters["HesapKodu"].ToString(),
+                    MalKodu = parameters["UrunKodu"].ToString(),
+                    SatisFiyat1 = parameters["SatisFiyat"].ToDecimal(),
+                    SatisFiyat1Birim = parameters["Birim"].ToString(),
+                    SatisFiyat1BirimInt = parameters["BirimValue"].ToInt32(),
+                    DovizSatisFiyat1 = parameters["DovizSatisFiyat"].ToDecimal(),
+                    DovizSF1Birim = parameters["DovizBirim"].ToString(),
+                    DovizSF1BirimInt = parameters["DovizBirimValue"].ToInt32(),
+                    DovizCinsi = parameters["Birim"].ToString(),
+                    Durum = parameters["Durum"].ToShort(),
+                    ROW_ID = 0
+                };
                 if (fyt.MalKodu.Substring(0, 2) == "80" || fyt.MalKodu.Substring(0, 2) == "81"
                        || fyt.MalKodu == "M60101000080" || fyt.MalKodu == "M60101000081")
                 {
@@ -2286,23 +2287,29 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public string ISSTempList(string SozlesmeNo)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer();
-            json.MaxJsonLength = int.MaxValue;
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
             var ISSTemp = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", SozlesmeNo)).ToList();
             return json.Serialize(ISSTemp);
         }
         public string FiyatListeleriSelect()
         {
-            JavaScriptSerializer json = new JavaScriptSerializer();
-            json.MaxJsonLength = int.MaxValue;
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
             var FYTList = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
             return json.Serialize(FYTList);
         }
 
         public string SozlesmeCariBilgileri(string ListeNo, string HesapKodu)
         {
-            JavaScriptSerializer json = new JavaScriptSerializer();
-            json.MaxJsonLength = int.MaxValue;
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
             List<SozlesmeCariBilgileri> chkBilgi;
             try
             {
@@ -2348,101 +2355,103 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] SET AktifPasif = 1  where ListeNo = '{1}'", "17", SozlesmeNo));
                     foreach (ISS_Temp lst in ISSS)
                     {
-                        ISS insrt = new ISS();
-                        insrt.Aciklama = lst.Aciklama;
-                        insrt.BasSaat = lst.BasSaat;
-                        insrt.BasTarih = lst.BasTarih;
-                        insrt.BitSaat = lst.BitSaat;
-                        insrt.BitTarih = lst.BitTarih;
-                        insrt.DegisKaynak = lst.DegisKaynak;
-                        insrt.DegisSaat = lst.DegisSaat;
-                        insrt.DegisSurum = lst.DegisSurum;
-                        insrt.DegisTarih = lst.DegisTarih;
-                        insrt.Degistiren = lst.Degistiren;
-                        insrt.DevirTarih = lst.DevirTarih;
-                        insrt.DevirTutar = lst.DevirTutar;
-                        insrt.GuvenlikKod = lst.GuvenlikKod;
-                        insrt.Kaydeden = lst.Kaydeden;
-                        insrt.KayitKaynak = lst.KayitKaynak;
-                        insrt.KayitSaat = lst.KayitSaat;
-                        insrt.KayitSurum = lst.KayitSurum;
-                        insrt.KayitTarih = lst.KayitTarih;
-                        insrt.KayitTuru = lst.KayitTuru;
-                        insrt.Kod1 = lst.Kod1;
-                        insrt.Kod10 = lst.Kod10;
-                        insrt.Kod11 = lst.Kod11;
-                        insrt.Kod12 = lst.Kod12;
-                        insrt.Kod2 = lst.Kod2;
-                        insrt.Kod3 = lst.Kod3;
-                        insrt.Kod4 = lst.Kod4;
-                        insrt.Kod5 = lst.Kod5;
-                        insrt.Kod6 = lst.Kod6;
-                        insrt.Kod7 = lst.Kod7;
-                        insrt.Kod8 = lst.Kod8;
-                        insrt.Kod9 = lst.BaglantiParaCinsi; ///lst.Kod9;
-                        insrt.ListeAdi = lst.ListeAdi;
-                        insrt.ListeNo = lst.ListeNo;
-                        insrt.MalKod = lst.MalKod;
-                        insrt.MalKodGrup = lst.MalKodGrup;
-                        insrt.MalUygSekli = lst.MalUygSekli;
-                        insrt.MikAralik1 = lst.MikAralik1;
-                        insrt.MikAralik2 = lst.MikAralik2;
-                        insrt.MikAralik3 = lst.MikAralik3;
-                        insrt.MikAralik4 = lst.MikAralik4;
-                        insrt.MikAralik5 = lst.MikAralik5;
-                        insrt.MikAralik6 = lst.MikAralik6;
-                        insrt.MikAralik7 = lst.MikAralik7;
-                        insrt.MikAralik8 = lst.MikAralik8;
-                        insrt.MikYuzde1 = lst.MikYuzde1;
-                        insrt.MikYuzde2 = lst.MikYuzde2;
-                        insrt.MikYuzde3 = lst.MikYuzde3;
-                        insrt.MikYuzde4 = lst.MikYuzde4;
-                        insrt.MikYuzde5 = lst.MikYuzde5;
-                        insrt.MikYuzde6 = lst.MikYuzde6;
-                        insrt.MikYuzde7 = lst.MikYuzde7;
-                        insrt.MikYuzde8 = lst.MikYuzde8;
-                        insrt.MusKodGrup = lst.MusKodGrup;
-                        insrt.MusteriKod = lst.MusteriKod;
-                        insrt.MusUygSekli = lst.MusUygSekli;
-                        insrt.OdemeAralik1 = lst.OdemeAralik1;
-                        insrt.OdemeAralik2 = lst.OdemeAralik2;
-                        insrt.OdemeAralik3 = lst.OdemeAralik3;
-                        insrt.OdemeAralik4 = lst.OdemeAralik4;
-                        insrt.OdemeAralik5 = lst.OdemeAralik5;
-                        insrt.OdemeAralik6 = lst.OdemeAralik6;
-                        insrt.OdemeAralik7 = lst.OdemeAralik7;
-                        insrt.OdemeAralik8 = lst.OdemeAralik8;
-                        insrt.OdemeYuzde1 = lst.OdemeYuzde1;
-                        insrt.OdemeYuzde2 = lst.OdemeYuzde2;
-                        insrt.OdemeYuzde3 = lst.OdemeYuzde3;
-                        insrt.OdemeYuzde4 = lst.OdemeYuzde4;
-                        insrt.OdemeYuzde5 = lst.OdemeYuzde5;
-                        insrt.OdemeYuzde6 = lst.OdemeYuzde6;
-                        insrt.OdemeYuzde7 = lst.OdemeYuzde7;
-                        insrt.OdemeYuzde8 = lst.OdemeYuzde8;
-                        insrt.Oran = lst.Oran;
-                        insrt.Oran1 = lst.Oran1;
-                        insrt.Oran2 = lst.Oran2;
-                        insrt.Oran3 = lst.Oran3;
-                        insrt.Oran4 = lst.Oran4;
-                        insrt.Oran5 = lst.Oran5;
-                        insrt.SiraNo = lst.SiraNo;
-                        insrt.TutarAralik1 = lst.TutarAralik1;
-                        insrt.TutarAralik2 = lst.TutarAralik2;
-                        insrt.TutarAralik3 = lst.TutarAralik3;
-                        insrt.TutarAralik4 = lst.TutarAralik4;
-                        insrt.TutarAralik5 = lst.TutarAralik5;
-                        insrt.TutarAralik6 = lst.TutarAralik6;
-                        insrt.TutarAralik7 = lst.TutarAralik7;
-                        insrt.TutarAralik8 = lst.TutarAralik8;
-                        insrt.TutarYuzde1 = lst.TutarYuzde1;
-                        insrt.TutarYuzde2 = lst.TutarYuzde2;
-                        insrt.TutarYuzde3 = lst.TutarYuzde3;
-                        insrt.TutarYuzde4 = lst.TutarYuzde4;
-                        insrt.TutarYuzde5 = lst.TutarYuzde5;
-                        insrt.TutarYuzde6 = lst.TutarYuzde6;
-                        insrt.TutarYuzde7 = lst.TutarYuzde7;
-                        insrt.TutarYuzde8 = lst.TutarYuzde8;
+                        ISS insrt = new ISS()
+                        {
+                            Aciklama = lst.Aciklama,
+                            BasSaat = lst.BasSaat,
+                            BasTarih = lst.BasTarih,
+                            BitSaat = lst.BitSaat,
+                            BitTarih = lst.BitTarih,
+                            DegisKaynak = lst.DegisKaynak,
+                            DegisSaat = lst.DegisSaat,
+                            DegisSurum = lst.DegisSurum,
+                            DegisTarih = lst.DegisTarih,
+                            Degistiren = lst.Degistiren,
+                            DevirTarih = lst.DevirTarih,
+                            DevirTutar = lst.DevirTutar,
+                            GuvenlikKod = lst.GuvenlikKod,
+                            Kaydeden = lst.Kaydeden,
+                            KayitKaynak = lst.KayitKaynak,
+                            KayitSaat = lst.KayitSaat,
+                            KayitSurum = lst.KayitSurum,
+                            KayitTarih = lst.KayitTarih,
+                            KayitTuru = lst.KayitTuru,
+                            Kod1 = lst.Kod1,
+                            Kod10 = lst.Kod10,
+                            Kod11 = lst.Kod11,
+                            Kod12 = lst.Kod12,
+                            Kod2 = lst.Kod2,
+                            Kod3 = lst.Kod3,
+                            Kod4 = lst.Kod4,
+                            Kod5 = lst.Kod5,
+                            Kod6 = lst.Kod6,
+                            Kod7 = lst.Kod7,
+                            Kod8 = lst.Kod8,
+                            Kod9 = lst.BaglantiParaCinsi, ///lst.Kod9;
+                            ListeAdi = lst.ListeAdi,
+                            ListeNo = lst.ListeNo,
+                            MalKod = lst.MalKod,
+                            MalKodGrup = lst.MalKodGrup,
+                            MalUygSekli = lst.MalUygSekli,
+                            MikAralik1 = lst.MikAralik1,
+                            MikAralik2 = lst.MikAralik2,
+                            MikAralik3 = lst.MikAralik3,
+                            MikAralik4 = lst.MikAralik4,
+                            MikAralik5 = lst.MikAralik5,
+                            MikAralik6 = lst.MikAralik6,
+                            MikAralik7 = lst.MikAralik7,
+                            MikAralik8 = lst.MikAralik8,
+                            MikYuzde1 = lst.MikYuzde1,
+                            MikYuzde2 = lst.MikYuzde2,
+                            MikYuzde3 = lst.MikYuzde3,
+                            MikYuzde4 = lst.MikYuzde4,
+                            MikYuzde5 = lst.MikYuzde5,
+                            MikYuzde6 = lst.MikYuzde6,
+                            MikYuzde7 = lst.MikYuzde7,
+                            MikYuzde8 = lst.MikYuzde8,
+                            MusKodGrup = lst.MusKodGrup,
+                            MusteriKod = lst.MusteriKod,
+                            MusUygSekli = lst.MusUygSekli,
+                            OdemeAralik1 = lst.OdemeAralik1,
+                            OdemeAralik2 = lst.OdemeAralik2,
+                            OdemeAralik3 = lst.OdemeAralik3,
+                            OdemeAralik4 = lst.OdemeAralik4,
+                            OdemeAralik5 = lst.OdemeAralik5,
+                            OdemeAralik6 = lst.OdemeAralik6,
+                            OdemeAralik7 = lst.OdemeAralik7,
+                            OdemeAralik8 = lst.OdemeAralik8,
+                            OdemeYuzde1 = lst.OdemeYuzde1,
+                            OdemeYuzde2 = lst.OdemeYuzde2,
+                            OdemeYuzde3 = lst.OdemeYuzde3,
+                            OdemeYuzde4 = lst.OdemeYuzde4,
+                            OdemeYuzde5 = lst.OdemeYuzde5,
+                            OdemeYuzde6 = lst.OdemeYuzde6,
+                            OdemeYuzde7 = lst.OdemeYuzde7,
+                            OdemeYuzde8 = lst.OdemeYuzde8,
+                            Oran = lst.Oran,
+                            Oran1 = lst.Oran1,
+                            Oran2 = lst.Oran2,
+                            Oran3 = lst.Oran3,
+                            Oran4 = lst.Oran4,
+                            Oran5 = lst.Oran5,
+                            SiraNo = lst.SiraNo,
+                            TutarAralik1 = lst.TutarAralik1,
+                            TutarAralik2 = lst.TutarAralik2,
+                            TutarAralik3 = lst.TutarAralik3,
+                            TutarAralik4 = lst.TutarAralik4,
+                            TutarAralik5 = lst.TutarAralik5,
+                            TutarAralik6 = lst.TutarAralik6,
+                            TutarAralik7 = lst.TutarAralik7,
+                            TutarAralik8 = lst.TutarAralik8,
+                            TutarYuzde1 = lst.TutarYuzde1,
+                            TutarYuzde2 = lst.TutarYuzde2,
+                            TutarYuzde3 = lst.TutarYuzde3,
+                            TutarYuzde4 = lst.TutarYuzde4,
+                            TutarYuzde5 = lst.TutarYuzde5,
+                            TutarYuzde6 = lst.TutarYuzde6,
+                            TutarYuzde7 = lst.TutarYuzde7,
+                            TutarYuzde8 = lst.TutarYuzde8
+                        };
                         var VarMi = db.Database.SqlQuery<int>(string.Format("SELECT Count(*) FROM [FINSAT6{0}].[FINSAT6{0}].[ISS] WHERE ListeNo='{1}' AND BasTarih={2} AND MusUygSekli='{3}' AND SiraNo={4}", "17", insrt.ListeNo, insrt.BasTarih, insrt.MusUygSekli, insrt.SiraNo)).FirstOrDefault();
 
                         if (VarMi > 0)
@@ -2471,7 +2480,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         {
             if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
             JObject parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             return "";
         }
@@ -2479,8 +2487,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult SozlesmeSil(string SozlesmeNo)
         {
             if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
-            Result _Result = new Result(true);
-            _Result.Message = "İşlem Başarılı. ";
+            Result _Result = new Result(true, "İşlem Başarılı.");
             try
             {
                 db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]  WHERE ListeNo = '{1}'", "17", SozlesmeNo));
@@ -2494,15 +2501,13 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
 
         }
 
         public JsonResult SozlesmeGuncelle(string SozlesmeNo, int BasTarih, short MusUygSekli, decimal YeniBaglantiTutari,int YeniBitisTarihi)
         {
             if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
-            Result _Result = new Result(true);
-            _Result.Message = "İşlem Başarılı. ";
+            Result _Result = new Result(true, "İşlem Başarılı.");
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
@@ -2663,22 +2668,22 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     if (insertObj["YeniSahsiCekLimiti"].ToDecimal() <= 0)
                         continue;
 
-                    RiskTanim rsk = new RiskTanim();
-
-                    rsk.HesapKodu = insertObj["HesapKodu"].ToString();
-                    rsk.Unvan = insertObj["Unvan"].ToString();
-                    rsk.SahsiCekLimiti = insertObj["SahsiCekLimiti"].ToDecimal();
-                    rsk.MusteriCekLimiti = insertObj["MusteriCekLimiti"].ToDecimal();
-                    rsk.SMOnay = false;
-                    rsk.SMOnaylayan = "";
-                    rsk.SPGMYOnay = false;
-                    rsk.SPGMYOnaylayan = "";
-                    rsk.MIGMYOnay = false;
-                    rsk.MIGMYOnaylayan = "";
-                    rsk.GMOnay = false;
-                    rsk.GMOnaylayan = "";
-                    rsk.Durum = false;
-
+                    RiskTanim rsk = new RiskTanim()
+                    {
+                        HesapKodu = insertObj["HesapKodu"].ToString(),
+                        Unvan = insertObj["Unvan"].ToString(),
+                        SahsiCekLimiti = insertObj["SahsiCekLimiti"].ToDecimal(),
+                        MusteriCekLimiti = insertObj["MusteriCekLimiti"].ToDecimal(),
+                        SMOnay = false,
+                        SMOnaylayan = "",
+                        SPGMYOnay = false,
+                        SPGMYOnaylayan = "",
+                        MIGMYOnay = false,
+                        MIGMYOnaylayan = "",
+                        GMOnay = false,
+                        GMOnaylayan = "",
+                        Durum = false
+                    };
                     if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 20000)
                     {
                         rsk.OnayTip = 0;
