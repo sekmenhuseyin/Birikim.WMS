@@ -42,7 +42,7 @@
             model = @Html.Raw(Json.Encode(null));
         }
 
-        var ChartsAmcharts = function () {
+        var ChartsAmcharts3 = function () {
 
             var initChartSample12 = function() {
                 var chartData = [];
@@ -92,75 +92,63 @@
                             type: "sign",
                             backgroundColor: "#85CDE6",
                             graph: "g1",
-                            text: "S",
-                            description: "This is description of an event"
+                            text: "S"
                         }, {
                             date: new Date(2010, 10, 19),
                             type: "flag",
                             backgroundColor: "#FFFFFF",
                             backgroundAlpha: 0.5,
                             graph: "g1",
-                            text: "F",
-                            description: "Some longerntext can alson be added"
+                            text: "F"
                         }, {
                             date: new Date(2010, 11, 10),
                             showOnAxis: true,
                             backgroundColor: "#85CDE6",
                             type: "pin",
                             text: "X",
-                            graph: "g1",
-                            description: "This is description of an event"
+                            graph: "g1"
                         }, {
                             date: new Date(2010, 11, 26),
                             showOnAxis: true,
                             backgroundColor: "#85CDE6",
                             type: "pin",
                             text: "Z",
-                            graph: "g1",
-                            description: "This is description of an event"
+                            graph: "g1"
                         }, {
                             date: new Date(2011, 0, 3),
                             type: "sign",
                             backgroundColor: "#85CDE6",
                             graph: "g1",
-                            text: "U",
-                            description: "This is description of an event"
+                            text: "U"
                         }, {
                             date: new Date(2011, 1, 6),
                             type: "sign",
                             graph: "g1",
-                            text: "D",
-                            description: "This is description of an event"
+                            text: "D"
                         }, {
                             date: new Date(2011, 3, 5),
                             type: "sign",
                             graph: "g1",
-                            text: "L",
-                            description: "This is description of an event"
+                            text: "L"
                         }, {
                             date: new Date(2011, 3, 5),
                             type: "sign",
                             graph: "g1",
-                            text: "R",
-                            description: "This is description of an event"
+                            text: "R"
                         }, {
                             date: new Date(2011, 5, 15),
                             type: "arrowUp",
                             backgroundColor: "#00CC00",
-                            graph: "g1",
-                            description: "This is description of an event"
+                            graph: "g1"
                         }, {
                             date: new Date(2011, 6, 25),
                             type: "arrowDown",
                             backgroundColor: "#CC0000",
-                            graph: "g1",
-                            description: "This is description of an event"
+                            graph: "g1"
                         }, {
                             date: new Date(2011, 8, 1),
                             type: "text",
-                            graph: "g1",
-                            text: "Longer text can\nalso be displayed",
-                            description: "This is description of an event"
+                            graph: "g1"
                         }]
                     }],
 
@@ -219,7 +207,7 @@
                     }
                 });
 
-                $('#chart_12').closest('.portlet').find('.fullscreen').click(function() {
+                $('#baglanti_zaman_cizelgesi').closest('.portlet').find('.fullscreen').click(function() {
                     chart.invalidateSize();
                 });
             }
@@ -232,7 +220,7 @@
         }();
 
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmcharts3.init();
         });
     });
 </script>

@@ -37,7 +37,7 @@
                 color: color[i % color.length]
             });
         }
-        var ChartsAmcharts = function () {
+        var ChartsAmcharts2 = function () {
             var initChartSample7 = function () {
                 var chart = AmCharts.makeChart("chart_7_bagurunpie", {
                     "type": "pie",
@@ -63,7 +63,7 @@
                 chart.dataProvider = model;
                 chart.validateData();
                 chart.animateAgain();
-                jQuery('.chart_7_chart_input').off().on('input change', function () {
+                jQuery('#baglanti_urun_grubu_pie').off().on('input change', function () {
                     var property = jQuery(this).data('property');
                     var target = chart;
                     var value = Number(this.value);
@@ -77,7 +77,7 @@
                     chart.validateNow();
                 });
 
-                $('#chart_7_bagurunpie').closest('.portlet').find('.fullscreen').click(function () {
+                $('#baglanti_urun_grubu_pie').closest('.portlet').find('.fullscreen').click(function () {
                     chart.invalidateSize();
                 });
             }
@@ -88,7 +88,7 @@
             };
         }();
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmcharts2.init();
         });
     });
 </script>

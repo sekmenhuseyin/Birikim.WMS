@@ -59,7 +59,7 @@
                 PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
             }
         });
-        var ChartsAmcharts = function () {
+        var ChartsAmchartsd = function () {
             var initChartSample5 = function () {
                 var chart = AmCharts.makeChart("chart_5", {
                     "theme": "light",
@@ -140,7 +140,7 @@
             };
         }();
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmchartsd.init();
         });
     });
 </script>

@@ -19,8 +19,6 @@
             </div>
             <div class="portlet-body">
                 <div id="chart_7_bek_musteri" class="chart" style="height: 400px;"> </div>
-                <div class="well margin-top-20">
-                </div>
             </div>
         </div>
     </div>
@@ -39,7 +37,7 @@
         var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
         var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
         $.ajax({
-            url: window.location.origin + "/Home/BekleyenSiparisMusteriKriter",
+            url: "/Home/BekleyenSiparisMusteriKriter",
             data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
@@ -82,7 +80,6 @@
 
                     "color": '#888',
 
-                    //"dataProvider": list,
                     "valueAxes": [{
                         "position": "left",
                         "axisAlpha": 0,

@@ -89,11 +89,8 @@
                         }
                     }
                 });
-
-
             }
         });
-
         $(".slct_islemtip").dxSelectBox({
             dataSource: islemtip,
             valueExpr: 'id',
@@ -104,8 +101,7 @@
                 PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
             }
         });
-        var ChartsAmcharts = function () {
-
+        var ChartsAmchartse = function () {
             var initChartSample5 = function () {
                 var chart = AmCharts.makeChart("chart_5_gunluk_double", {
                     "theme": "light",
@@ -163,7 +159,7 @@
                 chart.dataProvider = model;
                 chart.validateData();
                 chart.animateAgain();
-                jQuery('.chart_5_chart_input').off().on('input change', function () {
+                jQuery('#gunluk_satis_double_kriter').off().on('input change', function () {
                     var property = jQuery(this).data('property');
                     var target = chart;
                     chart.startDuration = 0;
@@ -176,7 +172,7 @@
                     chart.validateNow();
                 });
 
-                $('#chart_5_gunluk_double').closest('.portlet').find('.fullscreen').click(function () {
+                $('#gunluk_satis_double_kriter').closest('.portlet').find('.fullscreen').click(function () {
                     chart.invalidateSize();
                 });
             }
@@ -189,7 +185,7 @@
         }();
 
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            if (model != null) ChartsAmchartse.init();
         });
     });
 </script>

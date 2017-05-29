@@ -74,7 +74,7 @@
                 PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie", 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, miktarTutar: false , kriter:kriter_value}));
             }
         });
-        var ChartsAmcharts = function () {
+        var ChartsAmcharts7 = function () {
             var initChartSample7 = function () {
                 var chart = AmCharts.makeChart("chart_7_mik_kriter_pie", {
                     "type": "pie",
@@ -124,7 +124,7 @@
             };
         }();
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmcharts7.init();
         });
     });
 </script>

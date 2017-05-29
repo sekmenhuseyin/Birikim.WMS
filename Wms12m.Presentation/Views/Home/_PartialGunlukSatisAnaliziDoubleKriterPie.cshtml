@@ -63,7 +63,7 @@
         }
         $(".gs_tarih_double_pie").dxDateBox({
             dataType: 'date',
-            formatString: 'dd/MM/yyyy',
+            formatString: 'dd.MM.yyyy',
             value:f_tarih,
             onValueChanged: function (e) {
                 var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
@@ -71,9 +71,6 @@
             }
         });
 
-        var islemtip_value= @ViewBag.IslemTip;
-        var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
-        var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
         $.ajax({
             url: "/Home/GunlukSatisAnaliziDoubleKriter",
             data: { SirketKodu: '@ViewBag.SirketKodu'},
@@ -104,15 +101,12 @@
                 PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
             }
         });
-
-        var ChartsAmcharts = function () {
+        var ChartsAmchartsf = function () {
             var initChartSample7 = function () {
                 var chart = AmCharts.makeChart("chart_5_gunluk_double_pie", {
                     "type": "pie",
                     "theme": "light",
-
                     "fontFamily": 'Open Sans',
-
                     "color": '#888',
                     "valueField": "GenelTutar",
                     "titleField": "Unvan",
@@ -131,7 +125,7 @@
                 chart.dataProvider = model;
                 chart.validateData();
                 chart.animateAgain();
-                jQuery('.chart_7_chart_input').off().on('input change', function () {
+                jQuery('#gunluk_satis_double_kriter_pie').off().on('input change', function () {
                     var property = jQuery(this).data('property');
                     var target = chart;
                     var value = Number(this.value);
@@ -145,7 +139,7 @@
                     chart.validateNow();
                 });
 
-                $('#chart_5_gunluk_double_pie').closest('.portlet').find('.fullscreen').click(function () {
+                $('#gunluk_satis_double_kriter_pie').closest('.portlet').find('.fullscreen').click(function () {
                     chart.invalidateSize();
                 });
             }
@@ -156,7 +150,7 @@
             };
         }();
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            if (model != null) ChartsAmchartsf.init();
         });
     });
 </script>

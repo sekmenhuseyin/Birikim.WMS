@@ -55,7 +55,7 @@
                 PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
             }
         });
-        var ChartsAmcharts = function () {
+        var ChartsAmchartsh = function () {
             var initChartSample7 = function () {
                 var chart = AmCharts.makeChart("chart_7", {
                     "type": "pie",
@@ -101,7 +101,7 @@
             };
         }();
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmchartsh.init();
         });
     });
 </script>

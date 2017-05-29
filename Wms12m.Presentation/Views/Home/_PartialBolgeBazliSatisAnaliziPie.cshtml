@@ -63,7 +63,7 @@
                 PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: ay_value, kriter:kriter_value}));
             }
         });
-        var ChartsAmcharts = function () {
+        var ChartsAmchartsa = function () {
             var initChartSample7 = function () {
                 var chart = AmCharts.makeChart("chart_5_bolge_pie", {
                     "type": "pie",
@@ -112,7 +112,7 @@
             };
         }();
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmchartsa.init();
         });
     });
 </script>
