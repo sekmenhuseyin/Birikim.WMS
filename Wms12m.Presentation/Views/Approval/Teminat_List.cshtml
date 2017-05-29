@@ -1,0 +1,126 @@
+﻿<div class="col-md-12" style="width:100%;">
+    <div class="portlet box green">
+
+
+        <div class="portlet-body">
+            <div class="table-toolbar">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="btn-group pull-right">
+                            <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">
+                                Tools
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-print"></i> Print
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-file-pdf-o"></i> Save as PDF
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <i class="fa fa-file-excel-o"></i> Export to Excel
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                <span></span>
+                            </label>
+                        </th>
+                        <th> Hesap Kodu</th>
+                        <th> Ünvan </th>
+                        <th> Tutar </th>
+                        <th> Teminat Tutar </th>
+                        <th> Süreli Süresiz</th>
+                        <th> Tarih</th>
+                        <th> Vade Tarih</th>
+                     
+
+
+
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    var secili_satir = new Array();
+    var secili_table = new Array();
+    var table = $('#sample_1').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ajax": {
+            "url": '/Approval/TeminatOnayCek',
+            "dataSrc": function (json) {
+                return json;
+            },
+        },
+        //"responsive": true,
+        "fixedHeader": true,
+         "columnDefs": [{ "visible": false, "targets": 0 }],
+        //"scrollX": true,
+        "columns": [
+            { "data": "ID" },
+            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
+            { "data": "HesapKodu", "sClass": "nowrap" },
+            { "data": "Unvan", "sClass": "nowrap" },
+            { "data": "Tutar", "sClass": "nowrap" },
+            { "data": "TeminatTutar", "sClass": "nowrap" },
+            { "data": "SureliSuresiz", "sClass": "nowrap" },
+            { "data": "Tarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap"  },
+            { "data": "VadeTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap"  },
+          
+            //{
+            //    "render": function ( data, type, full, meta ) {
+            //        return table.saveContact(full);
+            //    }
+            //},
+        ],
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        }
+    });
+
+
+    $('#sample_1 tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
+
+
+
+
+</script>
+                    @*
+                            <td>@item.HesapKodu</td>
+                            <td>@item.Unvan</td>
+                            <td>@item.Cins</td>
+                            <td>@item.Tutar</td>
+                            <td>@item.TeminatTutar</td>
+                            <td>@item.SureliSuresiz</td>
+                            <td>@item.Tarih</td>
+                            <td>@item.VadeTarih</td>*@
