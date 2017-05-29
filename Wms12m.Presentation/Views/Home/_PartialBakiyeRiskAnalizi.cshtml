@@ -7,14 +7,16 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bakiye Risk Analizi</span>
                 </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDf", @onchange = "Reloadf(this.value)" })
+                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                    <a href="javascript:;" class="reload"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="remove"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadf('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
+            <div id="portlet-config"></div>
             <div class="portlet-body">
                 <div id="chart_6" class="chart" style="height: 400px;"> </div>
             </div>
@@ -22,12 +24,18 @@
     </div>
 </div>
 <script>
+    if ($('.SirketIDf option').size() == 1) $(".SirketIDf").hide();
+    else $(".SirketIDf").val('@ViewBag.SirketKodu');
+    function Reloadf(v)
+    {
+        PartialView("/Home/PartialBakiyeRiskAnalizi", 'bakiye_risk', JSON.stringify({ SirketKodu: v }));
+    }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
-        var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
+        var color = ["#FF0F00", "#FF6600", "#FF9E01", "#FCD202", "#F8FF01", "#B0DE09", "#04D215", "#0D8ECF", "#0D52D1", "#2A0CD0", "#8A0CCF", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000"];
         for (var i = 0; i < model.length; i++) {
-            $.extend(model[i],{
-                color: color[i%color.length]
+            $.extend(model[i], {
+                color: color[i % color.length]
             });
         }
         var ChartsAmcharts = function () {
@@ -59,9 +67,9 @@
                         "valueField": "Bakiye",
                         "fixedColumnWidth": 40,
                         "labelText": "[[value]]",
-                        "labelRotation":315,
-                        "color":"grey",
-                        "labelOffset":30
+                        "labelRotation": 315,
+                        "color": "grey",
+                        "labelOffset": 30
                     }],
                     "depth3D": 40,
                     "angle": 30,

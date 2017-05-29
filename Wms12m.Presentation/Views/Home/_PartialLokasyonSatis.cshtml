@@ -17,17 +17,14 @@
                     <i class="icon-layers font-green"></i>
                     <span class="caption-subject font-green bold uppercase">Lokasyon Bazlı Satış Analizi</span>
                 </div>
-                <div class="as_tarih" style="float:left; width:200px; margin-left:60px;"></div>
-                <div class="actions">
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-cloud-upload"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-wrench"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-trash"></i>
-                    </a>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDd", @onchange = "Reloadd(this.value)" })
+                </div>
+                <div class="col-md-2 as_tarih" style="float:left; width:200px; margin-left:60px;"></div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadd('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -37,22 +34,27 @@
     </div>
 </div>
 <script>
+    var f_tarih = @ViewBag.Tarih;
+    if ($('.SirketIDd option').size() == 1) $(".SirketIDd").hide();
+    else $(".SirketIDd").val('@ViewBag.SirketKodu');
+    function Reloadd(v)
+    {
+        PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ SirketKodu: v, tarih: f_tarih }));
+    }
     $(document).ready(function (e) {
-        var f_tarih = @ViewBag.Tarih;
         var states = [
-      { id: 1, state: "Ocak 2016-2017"},
-      { id: 2, state: "Şubat 2016-2017" },
-      { id: 3, state: "Mart 2016-2017"},
-       { id: 4, state: "Nisan 2016-2017"},
-      { id: 5, state: "Mayıs 2016-2017" },
-      { id: 6, state: "Haziran 2016-2017"},
-       { id: 7, state: "Temmuz 2016-2017"},
-      { id: 8, state: "Ağustos 2016-2017" },
-      { id: 9, state: "Eylül 2016-2017"},
-       { id: 10, state: "Ekim 2016-2017"},
-      { id: 11, state: "Kasım 2016-2017" },
-      { id: 12, state: "Aralik 2016-2017"},
-      // ...
+            { id: 1, state: "Ocak 2016-2017"},
+            { id: 2, state: "Şubat 2016-2017" },
+            { id: 3, state: "Mart 2016-2017"},
+            { id: 4, state: "Nisan 2016-2017"},
+            { id: 5, state: "Mayıs 2016-2017" },
+            { id: 6, state: "Haziran 2016-2017"},
+            { id: 7, state: "Temmuz 2016-2017"},
+            { id: 8, state: "Ağustos 2016-2017" },
+            { id: 9, state: "Eylül 2016-2017"},
+            { id: 10, state: "Ekim 2016-2017"},
+            { id: 11, state: "Kasım 2016-2017" },
+            { id: 12, state: "Aralik 2016-2017"},
         ];
         $(".as_tarih").dxSelectBox({
             dataSource: states,
@@ -60,8 +62,7 @@
             displayExpr: 'state',
             value:f_tarih,
             onValueChanged: function (e) {
-                var LokasyonSatisUrl = "/Home/PartialLokasyonSatis";
-                PartialView(LokasyonSatisUrl, 'lokasyon_satis', JSON.stringify({ tarih: e.value }));
+                PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: e.value }));
             }
         });
         var model = @Html.Raw(Json.Encode(Model));
@@ -85,28 +86,10 @@
                 echarts: '/content/assets/global/plugins/echarts'
             }
         });
-
-        // DEMOS
         require(
             [
                 'echarts',
                 'echarts/chart/bar',
-                'echarts/chart/chord',
-                'echarts/chart/eventRiver',
-                'echarts/chart/force',
-                'echarts/chart/funnel',
-                'echarts/chart/gauge',
-                'echarts/chart/heatmap',
-                'echarts/chart/k',
-                'echarts/chart/line',
-                'echarts/chart/map',
-                'echarts/chart/pie',
-                'echarts/chart/radar',
-                'echarts/chart/scatter',
-                'echarts/chart/tree',
-                'echarts/chart/treemap',
-                'echarts/chart/venn',
-                'echarts/chart/wordCloud'
             ],
             function(ec) {
                 //--- BAR ---
@@ -117,28 +100,6 @@
                     },
                     legend: {
                         data: ['Yil2016', 'Yil2017']
-                    },
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            mark: {
-                                show: true
-                            },
-                            dataView: {
-                                show: true,
-                                readOnly: false
-                            },
-                            magicType: {
-                                show: true,
-                                type: ['line', 'bar']
-                            },
-                            restore: {
-                                show: true
-                            },
-                            saveAsImage: {
-                                show: true
-                            }
-                        }
                     },
                     calculable: true,
                     xAxis: [{
