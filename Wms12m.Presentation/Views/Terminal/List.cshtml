@@ -15,6 +15,7 @@
                 <td>@item.SayimSeri</td>
                 <td>
                     <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Terminal/Edit/@item.UserID')"> Düzenle </a>
+                    <a class="btn btn-default input-circle" href="/Terminal/Barcode/@item.UserID" target="_blank"> Barkod </a>
                     <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.UserID','/Terminal/List','liste','', '')"> Sil </a>
                 </td>
             </tr>

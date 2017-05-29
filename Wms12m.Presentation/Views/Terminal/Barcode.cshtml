@@ -1,0 +1,4 @@
+﻿<div id="qrcode"></div>
+<script src="~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js"></script>
+<script src="~/Content/assets/global/plugins/jquery-qrcode/jquery.qrcode.min.js"></script>
+<script>$('#qrcode').qrcode({ width: 128, height: 128, text: "@ViewBag.UserID" });</script>

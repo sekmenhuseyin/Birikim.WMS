@@ -532,6 +532,7 @@
     <Content Include="Views\Approval\Fiyat_SM_List_Grup.cshtml" />
     <Content Include="Views\Approval\Fiyat_SPGMY_List_Koleksiyon.cshtml" />
     <Content Include="Views\Approval\Fiyat_SPGMY_List_Grup.cshtml" />
+    <Content Include="Views\Terminal\Barcode.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

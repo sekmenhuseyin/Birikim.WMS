@@ -49,6 +49,18 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("Editor", tbl);
         }
         /// <summary>
+        /// düzenler
+        /// </summary>
+        public PartialViewResult Barcode()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null || id.ToString2() == "") return null;
+            if (CheckPerm("Terminal için Yetkilendirme", PermTypes.Reading) == false) return null;
+            //return
+            ViewBag.UserID = Persons.Detail(id.ToInt32()).Guid.ToString();
+            return PartialView("Barcode");
+        }
+        /// <summary>
         /// kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
