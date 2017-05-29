@@ -167,6 +167,7 @@ namespace Wms12m.Entity
         public string MalKodGrup { get; set; }
         public string MalKod { get; set; }
         public string MalAdi { get; set; }
+        public string Kalite { get; set; }
         public Single Oran1 { get; set; }
         public Single Oran2 { get; set; }
         public Single Oran3 { get; set; }

@@ -52,6 +52,24 @@ namespace Wms12m
             return new Login() { ID = 0, AdSoyad = "Hatalı Kullanıcı adı ve şifre" };
         }
         /// <summary>
+        /// login işlemleri
+        /// </summary>
+        [WebMethod]
+        public Login LoginKontrol2(string barkod)
+        {
+            string guid = barkod.Left(8).ToLower();
+            int userID = barkod.Remove(0, 8).ToInt32();
+            var tbl = db.Users.Where(m => m.ID == userID).FirstOrDefault();
+            if (tbl.Guid.ToString().ToLower().Right(8) != guid)
+                return new Login() { ID = 0, AdSoyad = "Hatalı barkod" };
+            if (tbl.UserDetail == null)
+                return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok" };
+            else
+            {
+                return new Login { ID = tbl.ID, Kod = tbl.Kod, AdSoyad = tbl.AdSoyad, DepoKodu = tbl.UserDetail.Depo.DepoKodu, DepoID = tbl.UserDetail.Depo.ID };
+            }
+        }
+        /// <summary>
         /// depoya ait görev özetini getirir
         /// </summary>
         [WebMethod]
@@ -134,7 +152,7 @@ namespace Wms12m
                 return new List<Tip_STI>();
             var tu = mGorev.GorevUsers.Where(m => m.UserID == kulID).FirstOrDefault();
             if (tu != null)
-                if(tu.BitisTarihi != null)
+                if (tu.BitisTarihi != null)
                     return new List<Tip_STI>();
             string sql = "", sql2 = "";
             if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())

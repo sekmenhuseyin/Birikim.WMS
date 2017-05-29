@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -12,28 +14,6 @@ namespace Wms12m
 {
     public static class DbExtensions
     {
-        /// <summary>
-        /// int saat
-        /// </summary>
-        public static int SaatForDB(DateTime Saatim)
-        {
-
-            int saat = 0;
-            if (Saatim.Hour >= 1)
-            {
-                saat += Saatim.Hour * 60 * 60;
-            }
-            if (Saatim.Minute >= 1)
-            {
-                saat += Saatim.Minute * 60;
-            }
-            if (Saatim.Second > 0)
-            {
-                saat += Saatim.Second;
-            }
-            return saat;
-
-        }
         /// <summary>
         /// get finsat stk maladi from malkodu
         /// </summary>
@@ -95,6 +75,31 @@ namespace Wms12m
             }
             return sonuc;
         }
+        /// <summary>
+        /// Generates Barcode Image
+        /// </summary>
+        public static string GenerateBarcode(this string Code)
+        {
+            byte[] barcode;
+            string BarCodeImage;
+            Bitmap objBitmap = new Bitmap(Code.Length * 28, 100);
+            using (Graphics graphic = Graphics.FromImage(objBitmap))
+            {
+                Font newFont = new Font("IDAutomationHC39M Free Version", 18, FontStyle.Regular);
+                PointF point = new PointF(2, 2);
+                SolidBrush balck = new SolidBrush(Color.Black);
+                SolidBrush white = new SolidBrush(Color.White);
+                graphic.FillRectangle(white, 0, 0, objBitmap.Width, objBitmap.Height);
+                graphic.DrawString("*" + Code + "*", newFont, balck, point);
+            }
+            using (MemoryStream Mmst = new MemoryStream())
+            {
+                objBitmap.Save(Mmst, ImageFormat.Png);
+                barcode = Mmst.GetBuffer();
+                BarCodeImage = barcode != null ? "data:image/jpg;base64," + Convert.ToBase64String((byte[])barcode) : "";
+                return BarCodeImage;
+            }
+        }
     }
     /// <summary>
     /// export to excel
@@ -107,7 +112,7 @@ namespace Wms12m
             grid.DataSource = clientsList;
             grid.DataBind();
             Response.ClearContent();
-            Response.AddHeader("content-disposition", "attachment; filename="+ fileName + ".xls");
+            Response.AddHeader("content-disposition", "attachment; filename=" + fileName + ".xls");
             Response.ContentType = "application/excel";
             using (StringWriter sw = new StringWriter())
             using (HtmlTextWriter htw = new HtmlTextWriter(sw))
