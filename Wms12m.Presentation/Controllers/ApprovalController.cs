@@ -2096,6 +2096,45 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult Teminat_Red(string Data)
+        {
+            Result _Result = new Result(true);
+            if (CheckPerm("Teminat Onaylama", PermTypes.Writing) == false) return null;
+            //string sql = string.Format(@"INSERT INTO FINSAT";
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+
+            try
+            {
+                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
+                foreach (JObject insertObj in parameters)
+                {
+                    // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
+                    DateTime date = DateTime.Now;
+                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var sonuc = sqlexper.AcceptChanges();
+                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TeminatOnayUpdate] @ID = {1}, @Kullanici = '{2}'", "17", insertObj["ID"].ToString(), vUser.UserName));
+                    // { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 3, 1)); }
+
+
+
+                }
+                //return "OK";
+
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+
+            }
+            catch (Exception ex)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult TeminatTanim()
         {
             if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return Redirect("/");
