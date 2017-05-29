@@ -1,36 +1,4 @@
-﻿
-
-@model List<ChartBekleyenSiparisUrunGrubu>
-
-<style>
-    .bas_tarih .dx-dropdowneditor-icon {
-        color: #44b6ae;
-    }
-
-        .bas_tarih .dx-dropdowneditor-icon:before {
-            color: #44b6ae;
-        }
-
-    .bit_tarih .dx-dropdowneditor-icon {
-        color: #44b6ae;
-    }
-
-        .bit_tarih .dx-dropdowneditor-icon:before {
-            color: #44b6ae;
-        }
-
-    .cbox_MiktarTutar .dx-switch-off {
-        color: #d21b1b;
-        font-weight: bold;
-        font-size: 11px;
-    }
-
-    .cbox_MiktarTutar .dx-switch-on {
-        color: #d21b1b;
-        font-weight: bold;
-        font-size: 11px;
-    }
-</style>
+﻿@model List<ChartBekleyenSiparisUrunGrubu>
 <div class="col-md-12">
     <div class="portlet light bordered">
         <div class="portlet-title">
@@ -38,36 +6,38 @@
                 <i class="icon-bar-chart font-green-haze"></i>
                 <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D CHART</span></span>
             </div>
-            <div class="tools" style="float:right;margin-left:20px;">
-                <a href="javascript:;" class="collapse"> </a>
-                <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                <a href="javascript:;" class="reload"> </a>
-                <a href="javascript:;" class="fullscreen"> </a>
-                <a href="javascript:;" class="remove"> </a>
+            <div class="col-md-2">
+                @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDh", @onchange = "Reloadh(this.value)" })
             </div>
-                <div style="float:left;width:80px;margin-left:20px;">
-                    <input type="checkbox" id="toggle-two" checked data-toggle="toggle" name="Miktar" data-on-text="Miktar" data-off-text="Tutar" data-on="Miktar" data-off="Tutar">
-                </div>
+            <div class="col-md-2">
+                <input type="checkbox" id="toggle-two" checked data-toggle="toggle" name="Miktar" data-on-text="Miktar" data-off-text="Tutar" data-on="Miktar" data-off="Tutar">
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"> </a>
+                <a href="javascript:;" class="fullscreen"> </a>
+                <a href="javascript:;" class="reload" onclick="Reloadh('@ViewBag.SirketKodu');"> </a>
+            </div>
         </div>
         <div class="portlet-body">
             <div id="chart_7_mik" class="chart" style="height: 400px;"> </div>
-            <div class="well margin-top-20">
-            </div>
         </div>
     </div>
 </div>
 <script>
+    if ($('.SirketIDh option').size() == 1) $(".SirketIDh").hide();
+    else $(".SirketIDh").val('@ViewBag.SirketKodu');
+    function Reloadh(v)
+    {
+        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ SirketKodu: v, miktarTutar: $('#toggle-two').prop('checked') }));
+    }
     $(document).ready(function (e) {
-        $('#toggle-two').bootstrapToggle({
-            on: 'Miktar',
-            off: 'Tutar'
-        });
+        $('#toggle-two').bootstrapToggle({on: 'Miktar',off: 'Tutar'});
         if ('@ViewBag.MiktarTutar' == "Miktar")
             $('#toggle-two').bootstrapToggle('on')
         else
             $('#toggle-two').bootstrapToggle('off')
         $('#toggle-two').change(function () {
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar: $(this).prop('checked') }));
+            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, miktarTutar: $(this).prop('checked') }));
         })
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00", "#FF6600", "#FF9E01", "#FCD202", "#F8FF01", "#B0DE09", "#04D215", "#0D8ECF", "#0D52D1", "#2A0CD0", "#8A0CCF", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000"];
