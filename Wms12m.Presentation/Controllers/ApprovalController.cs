@@ -2114,6 +2114,28 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
 
         }
+
+        public JsonResult SozlesmeSil(string SozlesmeNo)
+        {
+            if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
+            Result _Result = new Result(true);
+            _Result.Message = "İşlem Başarılı. ";
+            try
+            {
+                db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]  WHERE ListeNo = '{1}'", "17", SozlesmeNo));
+
+            }
+            catch (Exception)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+
+        }
         #endregion
         #region Risk
         public ActionResult Risk_SM()

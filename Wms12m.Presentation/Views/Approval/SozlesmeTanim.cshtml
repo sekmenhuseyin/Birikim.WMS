@@ -312,6 +312,53 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="x-modal-sozlesme-guncelle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" style="width:950px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#12ccee">SÖZLEŞME GÜNCELLE</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
+                    <div style="float:left"><span>Önceki Bağlantı Tutarı</span></div>
+                    <div class="numb_onc_baglanti_tutari" style="float:left"></div>
+                    <div class="txt_onc_bag_tutar_doviz" style="float:left"></div>
+                </div>
+                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
+                    <div style="float:left"><span>Yeni Bağlantı Tutarı</span></div>
+                    <div class="numb_yeni_baglanti_tutari" style="float:left"></div>
+                    <div class="txt_onc_bag_tutar_doviz" style="float:left"></div>
+                </div>
+                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
+                    <div style="float:left"><span>Önceki Bitiş Tarihi</span></div>
+                    <div class="date_onc_bitis_tarihi" style="float:left"></div>
+                </div>
+                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
+                    <div style="float:left"><span>Yeni Bitiş Tarihi</span></div>
+                    <div class="date_yeni_bitis_tarihi" style="float:left"></div>
+                </div>
+                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
+                    <div>
+                        <button type="button" class="btn btn-lg green-turquoise soz_gunc_kaydet" style="font-size:9px; margin-bottom:10px;">
+                            Kaydet<i class="fa fa-paint-brush" style="margin-left:5px;"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-lg green-turquoise soz_gunc_iptal" style="font-size:9px; margin-bottom:10px;">
+                            İptal<i class="fa fa-paint-brush" style="margin-left:5px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn red" data-dismiss="modal" id="mdlSilKapat">Kapat</button>
+                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
 
@@ -335,7 +382,7 @@
         var TempKalite = "";
         var element = new Array();
         $(document).ready(function () {
-            $(".sozlesme-guncelle-buton").toggleClass('disabled');
+            //$(".sozlesme-guncelle-buton").toggleClass('disabled');
             $(".urun_kalite_content").css("display", "none");
             $(".valor_content").css("display", "none");
             $(".txt_sira_no").dxTextBox({ readOnly: true });
@@ -376,7 +423,32 @@
                 onText: "Onaylanmış",
                 offText: "Onaylanmamış",
                 value: true,
-                width: "25%"
+                width: "25%",
+                onValueChanged: function (data) {
+                    if (data.value == true) {
+                        $.ajax({
+                            url: window.location.origin + "/Approval/SozlesmeListesi?tip=0",
+                            data: {},
+                            type: "post",
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
+                            }
+                        });
+                    }
+                    else {
+                        $.ajax({
+                            url: window.location.origin + "/Approval/SozlesmeListesi?tip=1",
+                            data: {},
+                            type: "post",
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
+                            }
+                        });
+                        $(".sozlesme-guncelle-buton").addClass('disabled');
+                    }
+                }
             });
             $(".swtch_vade_valor").dxSwitch({
                 onText: "Vade Tarihi",
@@ -591,7 +663,13 @@
                 displayExpr: 'ListeNo',
 
                 onValueChanged: function (e) {
-                    $(".sozlesme-guncelle-buton").removeClass('disabled');
+                    if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
+                        $(".sozlesme-guncelle-buton").removeClass('disabled');
+                    }
+                    else {
+                        $(".sozlesme-guncelle-buton").addClass('disabled');
+                    }
+
                     PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
                     inputDisable();
                     $.ajax({
@@ -771,7 +849,7 @@
                 Modaldialog("Ürün Kodu Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
                 return;
             }
-           
+
             var EKFiyatListesi = listeNo;
             var EKMalKod = TempMalKod;
             var EKMalKodGrup = TempUrunGrupText;
@@ -786,7 +864,7 @@
             var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td nowrap>" + EKOran1 + "</td><td nowrap>" + EKOran2 + "</td><td nowrap>" + EKOran3 + "</td><td nowrap>" + EKOran4 + "</td><td nowrap>" + EKOran5 + "</td></tr>"
             element.push(sss);
             var jsonElement = JSON.stringify(element);
-           
+
             if ($("#fiyat_listesi_data table").length < 1) {
                 PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
             }
@@ -833,7 +911,7 @@
 
             $.ajax({
                 url: window.location.origin + "/Approval/SozlesmeListeNoKontrol",
-                data: { SozlesmeNo: ListeNo},
+                data: { SozlesmeNo: ListeNo },
                 type: "post",
                 success: function (data) {
                     if (data > 0) {
@@ -862,11 +940,70 @@
         });
 
         $('.sozlesme-sil-buton').click(function () {
-            
+            sozDurum = $(".swtch_sozlesme_durumu").dxSwitch("instance").option("value");
+            sozNoReadOnly = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly");
+            sozlesme = $(".select_sozlesmeler").dxLookup("instance").option("value");
+            console.log(sozDurum);
+            console.log(sozNoReadOnly);
+            console.log(sozlesme);
+            if (sozDurum == true && sozNoReadOnly == true) {
+                Modaldialog("Sözleşme Değiştirilemez", "Sözleşme Sil", "Tamam", "Uyarı");
+                return;
+            }
+            if (sozlesme == null) {
+                Modaldialog("Sözleşme Seçmelisiniz", "Sözleşme Sil", "Tamam", "Uyarı");
+                return;
+            }
+
+            $.ajax({
+                url: window.location.origin + "/Approval/SozlesmeSil",
+                data: { SozlesmeNo: sozlesme },
+                type: "post",
+                success: function (data) {
+                    if (data > 0) {
+                        Modaldialog("Liste No Kullanılmış.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                    }
+                    else {
+                        console.log("zzz");
+                    }
+                }
+            });
         });
 
-        $('.red sozlesme-guncelle-buton').click(function () {
-            fiyatEdit(3);
+        $('.sozlesme-guncelle-buton').click(function () {
+            var bas_tarih = $(".date_bitis_tarihi").dxDateBox("instance").option("value");
+            var bag_tutari = $(".numb_baglanti_tutari").dxNumberBox("instance").option("value");
+            var bag_tutar_doviz = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
+            $('#x-modal-sozlesme-guncelle').modal("show");
+            $(".date_onc_bitis_tarihi").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                value: bas_tarih,
+                readOnly: true,
+                //width: "60%",
+                onValueChanged: function (e) {
+                }
+            });
+            $(".numb_onc_baglanti_tutari").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: bag_tutari,
+                readOnly: true
+            });
+            $(".txt_onc_bag_tutar_doviz").dxTextBox({ "value": bag_tutar_doviz, "readOnly": true });
+            $(".date_yeni_bitis_tarihi").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                //width: "60%",
+                onValueChanged: function (e) {
+                }
+            });
+            $(".numb_yeni_baglanti_tutari").dxNumberBox({
+                min: 0,
+                step: 1,
+                value: 0
+            });
+
         });
 
         //function fiyatEdit(id) {
