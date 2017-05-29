@@ -1986,7 +1986,15 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         {
             JavaScriptSerializer json = new JavaScriptSerializer();
             json.MaxJsonLength = int.MaxValue;
-            var chkBilgi = db.Database.SqlQuery<SozlesmeCariBilgileri>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeCariBilgileri] @HesapKodu='{2}', @ListeNo='{1}'", "17", ListeNo, HesapKodu)).ToList();
+            List<SozlesmeCariBilgileri> chkBilgi;
+            try
+            {
+                chkBilgi = db.Database.SqlQuery<SozlesmeCariBilgileri>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeCariBilgileri] @HesapKodu='{2}', @ListeNo='{1}'", "17", ListeNo, HesapKodu)).ToList();
+            }
+            catch (Exception)
+            {
+                chkBilgi = new List<Entity.SozlesmeCariBilgileri>();
+            }
             return json.Serialize(chkBilgi);
         }
         public string SozlesmeUrunGrupSelect(int Index)
@@ -2172,6 +2180,94 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
 
         }
+
+        public JsonResult SozlesmeGuncelle(string SozlesmeNo, int BasTarih, short MusUygSekli, decimal YeniBaglantiTutari,int YeniBitisTarihi)
+        {
+            if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
+            Result _Result = new Result(true);
+            _Result.Message = "İşlem Başarılı. ";
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            try
+            {
+                bool filtreKagitVarmi = false;
+                var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}' AND BasTarih = {2} AND MusUygSekli={3}", "17", SozlesmeNo,BasTarih,MusUygSekli)).ToList();
+                foreach (ISS_Temp item in list)
+                {
+                    item.pk_ListeNo = SozlesmeNo;
+                    item.pk_BasTarih = BasTarih;
+                    item.pk_MusUygSekli = MusUygSekli;
+                    item.pk_SiraNo = item.SiraNo;
+                    item.Kod12 = item.Kod11;
+                    item.Kod11 = YeniBaglantiTutari;
+
+
+                    if (YeniBitisTarihi != item.BitTarih)
+                    {
+                        item.Kod9 = item.BitTarih.ToString2();
+                        item.BitTarih = YeniBitisTarihi;
+                    }
+
+                    if ((item.MalKodGrup == 0 && item.MalKod.StartsWith("2800")) ||
+                     (item.MalKodGrup == 1 && item.MalKod == "FKAĞIT") ||
+                      (item.MalKodGrup == 0 && (item.MalKod == "M001001000017051" || item.MalKod == "M001001000022051")))
+                    {
+
+                        filtreKagitVarmi = true;
+                    }
+
+                    item.SatisMuduruOnay = false;
+                    item.FinansmanMuduruOnay = false;
+                    item.GenelMudurOnay = false;
+                    item.OnaylayanSatisMuduru = "";
+                    item.OnaylayanFinansmanMuduru = "";
+                    item.OnaylayanGenelMudur = "";
+                    item.OnayTarihSatisMuduru = null;
+                    item.OnayTarihGenelMudur = null;
+                    item.OnayTarihFinansmanMuduru = null;
+
+                    sqlexper.Update(item, null, null, false, "timestamp");
+                }
+
+                if (filtreKagitVarmi)
+                {
+                    foreach (var item in list)
+                    {
+                        item.OnayTip = 2;
+                        item.SatisMuduruOnay = false;
+                        item.FinansmanMuduruOnay = true;
+                        item.GenelMudurOnay = false;
+                        item.OnaylayanSatisMuduru = "OZ";  /// SM sadece Özgür Beyin onayına düşsün diye
+                        item.OnaylayanFinansmanMuduru = "";
+                        item.OnaylayanGenelMudur = "";
+
+                        sqlexper.Update(item, null, null, false, "timestamp");
+                    }
+                }
+
+                var sonuc = sqlexper.AcceptChanges();
+                if (sonuc.Status == true) {
+                db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS] where ListeNo='{1}' AND BasTarih = {2} AND MusUygSekli={3}", "17", SozlesmeNo, BasTarih, MusUygSekli));
+                }
+                else
+                {
+                    _Result.Status = false;
+                    _Result.Message = "Hata Oluştu. ";
+                }
+
+                //db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]  WHERE ListeNo = '{1}'", "17", SozlesmeNo));
+
+            }
+            catch (Exception ex)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+
+        }
         #endregion
         #region Risk
         public ActionResult Risk_SM()
@@ -2300,6 +2396,13 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             {
                 return "NO";
             }
+        }
+        #endregion
+        #region Satınalma
+        public ActionResult Satınalma_GM_Onay()
+        {
+            if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            return View();
         }
         #endregion
     }

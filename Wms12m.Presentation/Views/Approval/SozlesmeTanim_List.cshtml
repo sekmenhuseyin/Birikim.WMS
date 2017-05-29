@@ -47,6 +47,7 @@
         "ajax": {
             "url": '/Approval/SozlesmeTanimListesiSelect?listeNo=' + '@ViewBag.ListeNo',
             "dataSrc": function (json) {
+                console.log(json);
                 return json;
             },
         },
@@ -78,7 +79,6 @@
         
         
         var elementt = @Html.Raw(Json.Encode(ViewBag.Satir));
-        console.log(elementt);
         $(elementt).insertAfter($(".aaaaa"));
         setTimeout(function(){ $("#sample_1_info").text("Satır Eklendi"); }, 500);
         $(".numb_iskonto1").dxNumberBox("instance").option("value",0);
@@ -97,7 +97,6 @@
         }else{
             silinecek.splice($( "tr" ).index( this )-1, 1);
         }
-        console.log(silinecek);
     });
 
     $('.refresh-buton').click(function () {
@@ -134,8 +133,6 @@
         $("tr").toggleClass('selected');
 
         var x = table.rows('.selected').data();
-        console.log(x.length);
-        console.log($("tr").length);
         for (var i = 0; i < x.length; i++) {
             var jObject = {};
             jObject["HesapKodu"] = $(".select_musteri_kodu").dxLookup("instance").option("value");
@@ -176,7 +173,6 @@
 
             secili_table.push(jObject);
         }
-        console.log(secili_table);
         $.ajax({
             url: window.location.origin + "/Approval/SozlesmeYeniSatirKayit",
             data: { Data: JSON.stringify(secili_table) },
