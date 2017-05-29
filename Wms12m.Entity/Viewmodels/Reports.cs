@@ -4,6 +4,7 @@ namespace Wms12m.Entity
 {
     public class CekOnaySelect
     {
+        public int ID { get; set; }
         public string EvrakNo { get; set; }
         public string Veren { get; set; }
         public string Unvan { get; set; }

@@ -59,7 +59,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Cek_Onay",
+                    url: window.location.origin + "/Approval/Cek_Onay_GM",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
 
@@ -85,14 +85,14 @@
         });
 
         $('.reddet-buton').click(function () {
-            if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
+            
                 var x = table.rows('.selected').data();
                 for (var i = 0; i < x.length; i++) {
                     secili_table.push(x[i]);
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Cek_Red",
+                    url: window.location.origin + "/Approval/Cek_Red_GM",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
@@ -110,7 +110,7 @@
                 });
                 return _dfd.promise();
 
-            }
+            
 
         });
 
