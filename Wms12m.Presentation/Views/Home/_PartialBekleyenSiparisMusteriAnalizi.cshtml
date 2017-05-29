@@ -7,15 +7,16 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Müşteri Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
-                <div class="tools" style="float:right;margin-left:20px;">
-                    <a href="javascript:;" class="collapse"> </a>
-                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                    <a href="javascript:;" class="reload"> </a>
-                    <a href="javascript:;" class="fullscreen"> </a>
-                    <a href="javascript:;" class="remove"> </a>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDt", @onchange = "Reloadt(this.value)" })
                 </div>
-                <div style="float:right;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kriter </span></div> <div class="slct_bek_musteri_kriter_doviz" style="float:left;width:130px; margin-left:10px;"></div></div>
-                <div style="float:right;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kod </span></div> <div class="slct_bek_musteri_kriter_kod" style="float:left;width:130px; margin-left:10px;"></div></div>
+                <div class="col-md-2 slct_bek_musteri_kriter_doviz"></div>
+                <div class="col-md-2 slct_bek_musteri_kriter_kod"></div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloadt('@ViewBag.SirketKodu');"> </a>
+                </div>
             </div>
             <div class="portlet-body">
                 <div id="chart_7_bek_musteri" class="chart" style="height: 400px;"> </div>
@@ -24,8 +25,16 @@
     </div>
 </div>
 <script>
+    var doviz_value= @Html.Raw(Json.Encode(ViewBag.Doviz));
+    var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
+    var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
+    if ($('.SirketIDt option').size() == 1) $(".SirketIDt").hide();
+    else $(".SirketIDt").val('@ViewBag.SirketKodu');
+    function Reloadt(v)
+    {
+        PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ SirketKodu: v, kod: kriter_value, doviz: doviz_value }));
+    }
     $(document).ready(function (e) {
-
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
@@ -33,25 +42,20 @@
                 color: color[i%color.length]
             });
         }
-        var doviz_value= @Html.Raw(Json.Encode(ViewBag.Doviz));
-        var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
-        var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
         $.ajax({
             url: "/Home/BekleyenSiparisMusteriKriter",
-            data: { SirketKodu: '@ViewBag.SirketKodu'},
+            data: { SirketKodu: '@ViewBag.SirketKodu' },
             type: "post",
-            success: function (data)
-            {
+            success: function (data) {
                 $(".slct_bek_musteri_kriter_kod").dxSelectBox({
                     dataSource: $.parseJSON(data),
                     valueExpr: 'Kriter',
                     displayExpr: 'Kriter',
                     value: kriter_value,
                     onValueChanged: function (e) {
-                        if(e.value!=kriter_value){
-                            kriter_value=e.value;
-                            var BekleyenSiparisMusteriAnalizi = "/Home/PartialBekleyenSiparisMusteriAnalizi";
-                            PartialView(BekleyenSiparisMusteriAnalizi, 'bekleyen_siparis_musteri_analizi', JSON.stringify({ kod: kriter_value, doviz: doviz_value }));
+                        if (e.value != kriter_value) {
+                            kriter_value = e.value;
+                            PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, doviz: doviz_value }));
                         }
                     }
                 });
@@ -63,9 +67,8 @@
             displayExpr: 'state',
             value: doviz_value,
             onValueChanged: function (e) {
-                doviz_value=e.value;
-                var BekleyenSiparisMusteriAnalizi = "/Home/PartialBekleyenSiparisMusteriAnalizi";
-                PartialView(BekleyenSiparisMusteriAnalizi, 'bekleyen_siparis_musteri_analizi', JSON.stringify({ kod: kriter_value, doviz: doviz_value }));
+                doviz_value = e.value;
+                PartialView("/Home/PartialBekleyenSiparisMusteriAnalizi", 'bekleyen_siparis_musteri_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, doviz: doviz_value }));
             }
         });
         var ChartsAmchartsMik = function () {
@@ -96,9 +99,9 @@
                         "valueField": "KalanMiktar",
                         "fixedColumnWidth": 40,
                         "labelText": "[[value]]",
-                        "labelRotation":315,
-                        "color":"grey",
-                        "labelOffset":30
+                        "labelRotation": 315,
+                        "color": "grey",
+                        "labelOffset": 30
                     }],
                     "depth3D": 40,
                     "angle": 30,
@@ -156,5 +159,5 @@
         jQuery(document).ready(function () {
             ChartsAmchartsMik.init();
         });
-    });
+        });
 </script>
