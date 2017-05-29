@@ -171,25 +171,24 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_PartialUrunGrubuSatisKriter", UGSK);
         }
 
-        public PartialViewResult PartialLokasyonSatis(short? tarih)
+        public PartialViewResult PartialLokasyonSatis(string SirketKodu, short tarih)
         {
             if (CheckPerm("ChartLokasyonSatis", PermTypes.Reading) == false) return null;
-            if (tarih == null)
-                tarih = (short)DateTime.Today.Month;
-            var UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", "33", tarih)).ToList();
+            var UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
             ViewBag.Tarih = tarih;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialLokasyonSatis", UGS);
         }
 
-        public PartialViewResult PartialLokasyonSatisKriter(short? tarih, string kriter)
+        public PartialViewResult PartialLokasyonSatisKriter(string SirketKodu, short tarih, string kriter)
         {
             if (CheckPerm("ChartLokasyonSatisKriter", PermTypes.Reading) == false) return null;
-            if (tarih == null)
-                tarih = (short)DateTime.Today.Month;
-
-            var UGSK = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", "33", tarih, kriter)).ToList();
+            var UGSK = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", SirketKodu, tarih, kriter)).ToList();
             ViewBag.Tarih = tarih;
             ViewBag.Kriter = kriter;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialLokasyonSatisKriter", UGSK);
         }
 
