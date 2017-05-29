@@ -47,7 +47,7 @@
         </a>
     </div>
 </div>@{
-    if (Model.yetki.Contains("'ChartGunlukSatis'") == true) {<div class="h-500" id="gunluk_satis"></div>}
+    @*if (Model.yetki.Contains("'ChartGunlukSatis'") == true) {<div class="h-500" id="gunluk_satis"></div>}
     if (Model.yetki.Contains("'ChartGunlukSatisPie'") == true) {<div class="h-500" id="gunluk_satis_pie"></div>}
     if (Model.yetki.Contains("'ChartGunlukSatisYearToDay'") == true) {<div class="h-500" id="gunluk_satis_yeartoday"></div>}
     if (Model.yetki.Contains("'ChartGunlukSatisYearToDayPie'") == true) {<div class="h-500" id="gunluk_satis_yeartoday_pie"></div>}
@@ -55,7 +55,7 @@
     if (Model.yetki.Contains("'ChartGunlukSatisDoubleKriterPie'") == true) {<div class="h-500" id="gunluk_satis_double_kriter_pie"></div>}
     if (Model.yetki.Contains("'ChartAylikSatisAnaliziBar'") == true) {<div class="h-500" id="aylik_satis_bar"></div>}
     if (Model.yetki.Contains("'ChartAylikSatisCHKAnaliziBar'") == true) {<div class="h-500" id="aylik_satis_chk_bar"></div>}
-    if (Model.yetki.Contains("'ChartAylikSatisAnaliziKodTipDovizBar'") == true) {<div class="h-500" id="aylik_satis_kod_tip_doviz_bar"></div>}
+    if (Model.yetki.Contains("'ChartAylikSatisAnaliziKodTipDovizBar'") == true) {<div class="h-500" id="aylik_satis_kod_tip_doviz_bar"></div>}*@
     if (Model.yetki.Contains("'ChartUrunGrubuSatis'") == true) {<div class="h-500" id="urun_grubu_satis"></div>}
     if (Model.yetki.Contains("'ChartUrunGrubuSatisKriter'") == true) {<div class="h-500" id="urun_grubu_satis_kriter"></div>}
     if (Model.yetki.Contains("'ChartLokasyonSatis'") == true) {<div class="h-500" id="lokasyon_satis"></div>}
@@ -98,7 +98,7 @@
     dateVal.setHours(0, 0, 0);
     var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
 @{
-    if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis'), handler: function () { PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
+    @*if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis'), handler: function () { PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartGunlukSatisPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartGunlukSatisYearToDay'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_yeartoday'), handler: function () { PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartGunlukSatisYearToDayPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_yeartoday_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
@@ -106,7 +106,7 @@
     if(Model.yetki.Contains("'ChartGunlukSatisDoubleKriterPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_double_kriter_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", islemtip: 0, tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartAylikSatisAnaliziBar'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('aylik_satis_bar'), handler: function () { PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartAylikSatisCHKAnaliziBar'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('aylik_satis_chk_bar'), handler: function () { PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', chk : '' })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartAylikSatisAnaliziKodTipDovizBar'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('aylik_satis_kod_tip_doviz_bar'), handler: function () { PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", islemtip: 0, doviz: "TL" })); this.destroy(); }, offset: '50%'  });</text>}
+    if(Model.yetki.Contains("'ChartAylikSatisAnaliziKodTipDovizBar'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('aylik_satis_kod_tip_doviz_bar'), handler: function () { PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", islemtip: 0, doviz: "TL" })); this.destroy(); }, offset: '50%'  });</text>}*@
     if(Model.yetki.Contains("'ChartUrunGrubuSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('urun_grubu_satis'), handler: function () { PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartUrunGrubuSatisKriter'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('urun_grubu_satis_kriter'), handler: function () { PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1, kriter: "TL" })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartLokasyonSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('lokasyon_satis'), handler: function () { PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 })); this.destroy(); }, offset: '50%'  });</text>}

@@ -8,7 +8,7 @@
                     <span class="caption-subject bold uppercase font-green-haze"> Satış Temsilcisi Aylık Satış Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID9", @onchange = "Reload9(this.value)" })
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDa", @onchange = "Reloada(this.value)" })
                 </div>
                 <div class="col-md-1 p-l-10">
                     <div class="slct_satis_temsilcisi_aylar" style="width:130px;"></div>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
-                    <a href="javascript:;" class="reload" onclick="Reload9('@ViewBag.SirketKodu');"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reloada('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -32,9 +32,9 @@
 <script>
     var f_tarih = @ViewBag.Tarih;
     var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
-    if ($('.SirketID9 option').size() == 1) $(".SirketID9").hide();
-    else $(".SirketID9").val('@ViewBag.SirketKodu');
-    function Reload9(v)
+    if ($('.SirketIDa option').size() == 1) $(".SirketIDa").hide();
+    else $(".SirketIDa").val('@ViewBag.SirketKodu');
+    function Reloada(v)
     {
         PartialView("/Home/PartialSatisTemsilcisiAylikSatisAnalizi", 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ SirketKodu: v, kod: kriter_value, tarih: f_tarih }));
     }
