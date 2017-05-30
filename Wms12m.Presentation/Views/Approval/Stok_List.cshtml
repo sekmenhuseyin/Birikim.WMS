@@ -1,24 +1,6 @@
-﻿@model List<StokOnaySelect>
-@{
-    System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-    serializer.MaxJsonLength = Int32.MaxValue;
-}
-<div class="col-md-12" style="width:100%;">
+﻿<div class="col-md-12" style="width:100%;">
     <div class="portlet box green">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-gift"></i>Stok Onay 
-            </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
-            </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Onayla </a>
-            </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Reddet </a>
-            </div>
-        </div>
+
 
         <div class="portlet-body">
             <div class="table-toolbar">
@@ -59,82 +41,134 @@
             <table class="table table-striped table-bordered table-hover" id="sample_1">
                 <thead>
                     <tr>
+                       
                         <th>
                             <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                 <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
                                 <span></span>
                             </label>
                         </th>
-                        <th> Mal Kodu </th>
+                        <th> Mal Kodu</th>
                         <th> Mal Adı </th>
                         <th> Mal Adı2 </th>
                         <th> Birim1 </th>
-                        <th> Birim2 </th>
-                        <th>GrupKod</th>
-                        <th>Kalite</th>
-                        <th>ZLI/ZLSIZ</th>
-                        <th>Kalınlık</th>
-                        <th>En</th>
-                        <th>Boy</th>
-                        <th>Koleksiyon</th>
-                        <th>Yüzey</th>
-                        <th>Katsayı2</th>
-                        <th>Katsayı3</th>
-                        <th>Operatör2</th>
-                        <th>Operatör3</th>
+                        <th> Birim2</th>
+                        <th> GrupKod</th>
+                        <th> TipKod</th>
+
+                        <th> Özel Kod</th>
+                        <th> Kod1</th>
+                        <th> Kod2</th>
+                        <th> Kod3</th>
+                        <th> Kod4</th>
+                        <th> Kod8</th>
+
+                        <th> Katsayi2</th>
+                        <th> Katsayi3</th>
+                        <th> Operator2</th>
+                        <th> Operator3</th>
+
+
+
+
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var item in Model)
-            {
-                        <tr>
-                            <td>
-                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox" class="checkboxes" value="1" />
-                                    <span></span>
-                                </label>
-                            </td>
-                            <td> @item.MalKodu</td>
-                            <td>
-                                @item.MalAdi
-                            </td>
-                            <td>
-                                @item.MalAdi2
-                            </td>
-                            <td> @item.Birim1</td>
-                            <td>
-                                @item.Birim2
-                            </td>
-                            <td>
-                                @item.GrupKod
-                            </td>
-                            <td>
-                                @item.TipKod
-                            </td>
-                            <td>
-                                @item.OzelKod
-                            </td>
-                            <td>@item.Kod1</td>
-                            <td>@item.Kod2</td>
-                            <td>@item.Kod3</td>
-                            <td>@item.Kod4</td>
-                            <td>@item.Kod8</td>
-                            <td>@item.KatSayi2</td>
-                            <td>@item.KatSayi3</td>
-                            <td>@item.Operator2</td>
-                            <td>@item.Operator3</td>
-
-                        </tr>
-                    }
-                </tbody>
             </table>
 
         </div>
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+
+    var secili_satir = new Array();
+    var secili_table = new Array();
+    var table = $('#sample_1').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ajax": {
+            "url": '/Approval/StokOnayCek?Durum=' + $("input[type='radio'][name='Locked']:checked").val(),
+            "dataSrc": function (json) {
+                return json;
+            },
+        },
+        //"responsive": true,
+        "fixedHeader": true,
+        // "columnDefs": [{ "visible": false, "targets": 0 }],
+        //"scrollX": true,
+        "columns": [
+            
+            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
+            { "data": "MalKodu", "sClass": "nowrap" },
+            { "data": "MalAdi", "sClass": "nowrap" },
+            { "data": "MalAdi2", "sClass": "nowrap" },
+            { "data": "Birim1", "sClass": "nowrap" },
+            { "data": "Birim2", "sClass": "nowrap" },
+            { "data": "GrupKod", "sClass": "nowrap" },
+            { "data": "TipKod", "sClass": "nowrap" },
+            { "data": "OzelKod", "sClass": "nowrap" },
+            { "data": "Kod1", "sClass": "nowrap" },
+            { "data": "Kod2", "sClass": "nowrap" },
+            { "data": "Kod3", "sClass": "nowrap" },
+            { "data": "Kod4", "sClass": "nowrap" },
+            { "data": "Kod8", "sClass": "nowrap" },
+            { "data": "KatSayi2", "sClass": "nowrap" },
+            { "data": "KatSayi3", "sClass": "nowrap" },
+            { "data": "Operator2", "sClass": "nowrap" },
+            { "data": "Operator3", "sClass": "nowrap" },
+  
+            //{
+            //    "render": function ( data, type, full, meta ) {
+            //        return table.saveContact(full);
+            //    }
+            //},
+        ],
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        }
     });
+
+
+    $('#sample_1 tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
+
+
+
+
 </script>
+
+
+
+@*
+    <td> @item.MalKodu</td>
+    <td>
+        @item.MalAdi
+    </td>
+    <td>
+        @item.MalAdi2
+    </td>
+    <td> @item.Birim1</td>
+    <td>
+        @item.Birim2
+    </td>
+    <td>
+        @item.GrupKod
+    </td>
+    <td>
+        @item.TipKod
+    </td>
+    <td>
+        @item.OzelKod
+    </td>
+    <td>@item.Kod1</td>
+    <td>@item.Kod2</td>
+    <td>@item.Kod3</td>
+    <td>@item.Kod4</td>
+    <td>@item.Kod8</td>
+    <td>@item.KatSayi2</td>
+    <td>@item.KatSayi3</td>
+    <td>@item.Operator2</td>
+    <td>@item.Operator3</td>
+*@
+

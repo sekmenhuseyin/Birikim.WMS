@@ -5,8 +5,26 @@
     <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+
 }<div class="form-horizontal">
     <div class="form-body">
+        <div class="portlet box green row">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Stok Onay
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
+                </div>
+
+            </div>
+        </div>
         <div class="row">
 
             <label class="col-sm-1 radio-inline">
@@ -50,5 +68,74 @@
             var Type = $("input[type='radio'][name='Locked']:checked").val();
             PartialView("/Approval/Stok_List", 'liste', JSON.stringify({ Durum: Type }));
         }
+        $('.onay-buton').click(function () {
+
+            var x = table.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approval/Stok_Onay",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+
+                success: function (data) {
+                    console.log(data);
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+
+                },
+                error: function (jqxhr) { console.log(jqxhr); }
+            });
+
+            return _dfd.promise();
+            // window.location.href = '/Approval/Teminat';
+
+
+
+        });
+        $('.reddet-buton').click(function () {
+
+            var x = table.rows('.selected').data();
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approval/Stok_Red",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+                success: function (data) {
+                    console.log(data);
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    }
+
+                },
+                error: function (jqxhr) { console.log(jqxhr); }
+            });
+            return _dfd.promise();
+
+
+
+        });
+
+        $('.yenile-buton').click(function () {
+
+            window.location.href = '/Approval/Risk_SM';
+
+
+
+        });
     </script>
 }

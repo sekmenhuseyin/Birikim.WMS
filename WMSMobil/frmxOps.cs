@@ -214,7 +214,8 @@ namespace WMSMobil
                 Font font = new Font("Tahoma", 8, FontStyle.Regular);
                 PanelEx panelSatir = new PanelEx();
                 panelSatir.Name = Sayac.ToString();
-                panelSatir.Location = new Point(0, (Sayac * 21));
+                panelSatir.Location = new Point(0, (Sayac * 22));
+
 
                 TextBox tBarkod = new TextBox();
                 tBarkod.Visible = false;
@@ -340,7 +341,7 @@ namespace WMSMobil
                 tMalKodu.Tag = stiItem.ID.ToInt32();
                 tMiktar.Text = stiItem.Miktar.ToDecimal().ToString("N2");
                 tMiktar.Tag = stiItem.Miktar.ToDecimal();
-                //ekle
+                //panel ekle
                 panelSatir.Barkod = stiItem.Barkod;
                 panelSatir.MalAdi = stiItem.MalAdi;
                 panelSatir.MalKodu = stiItem.MalKodu;
@@ -370,7 +371,6 @@ namespace WMSMobil
                     panelSatir.Controls.Add(tYerlestirmeMiktari);
                     panelSatir.Controls.Add(tIslemMiktar);
                 }
-                panelSatir.Height = 20;
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
             }

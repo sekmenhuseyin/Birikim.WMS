@@ -171,14 +171,13 @@ namespace WMSMobil
                 PanelGrv panelSatir = new PanelGrv();
                 panelSatir.Name = Sayac.ToString();
                 panelSatir.Size = new Size(370, 22);
-                panelSatir.Location = new Point(1, (Sayac * 18));
+                panelSatir.Location = new Point(0, (Sayac * 22));
                 panelSatir.Tag = grvItem.ID + "-" + grvItem.IrsaliyeID;
                 panelSatir.Controls.Add(tGorevNo);
                 panelSatir.Controls.Add(tBilgi);
                 panelSatir.Controls.Add(tKayitTarihi);
                 panelSatir.Controls.Add(tGorevli);
                 panelSatir.Controls.Add(tDurum);
-                panelSatir.Height = 20;
                 //panel
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
