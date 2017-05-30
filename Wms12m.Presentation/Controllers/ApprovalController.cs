@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using KurumsalKaynakPlanlaması12M;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,17 @@ using Wms12m.Entity.Viewmodels;
 
 namespace Wms12m.Presentation.Controllers
 {
-    
+    public static class MyGlobalVariables
+    {
+        public static KKPEvrakSiparis SipEvrak { get; set; }
+        public static List<MMK> TesisList { get; set; }
+        public static List<SatTalep> SipTalepList { get; set; }
+        public static List<SatTalep> TalepSource { get; set; }
+        public static List<KKP_SPI> GridSource { get; set; }
+        public static bool DovizDurum { get; set; }
+
+    }
+
     public class ApprovalController : RootController
     {
         
@@ -3071,8 +3082,90 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public ActionResult Satınalma_GM_Onay()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            MyGlobalVariables.DovizDurum = false;
             var GMOnay = db.Database.SqlQuery<SatinAlmaGMOnayList>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", "17")).ToList();
             return View(GMOnay);
+        }
+
+        public PartialViewResult SipGMOnayList(string HesapKodu, int SipTalepNo)
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            //var TMNT = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[dbo].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", "17", HesapKodu, SipTalepNo)).ToList();
+            ViewBag.HesapKodu = HesapKodu;
+            ViewBag.SipTalepNo = SipTalepNo;
+            return PartialView("SatinalmaSipGMOnay_List");
+        }
+        public string SipGMOnayListData(string HesapKodu, int SipTalepNo)
+        {
+            if (MyGlobalVariables.GridSource == null)
+                MyGlobalVariables.GridSource = new List<KKP_SPI>();
+            else
+                MyGlobalVariables.GridSource.Clear();
+
+            MyGlobalVariables.SipEvrak = new KKPEvrakSiparis(KKPSiparisTip.AlimSiparisi);
+
+            MyGlobalVariables.TalepSource = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", "17", HesapKodu, SipTalepNo)).ToList();
+            if (MyGlobalVariables.TalepSource[0].SipIslemTip == null || (MyGlobalVariables.TalepSource[0].SipIslemTip != 1 && MyGlobalVariables.TalepSource[0].SipIslemTip != 2))
+                return "";
+
+            //SipEvrak.dvzTL = (KKPDvzTL)(short)TalepSource[0].DvzTL;
+            //SipEvrak.DovizCinsi = TalepSource[0].DvzCinsi;
+            //SipEvrak.DovizKuru = TalepSource[0].DvzKuru ?? 0;
+            MyGlobalVariables.SipEvrak.IslemTip = (KKPIslemTipSPI)MyGlobalVariables.TalepSource[0].SipIslemTip;
+            MyGlobalVariables.SipEvrak.dvzTL = (KKPDvzTL)(short)MyGlobalVariables.TalepSource[0].FTDDovizTL;
+            short siraNo = 0;
+            foreach (var item in MyGlobalVariables.TalepSource)
+            {
+                if ((short)item.DvzTL == (short)1)
+                {
+                    MyGlobalVariables.DovizDurum = true;
+                }
+                KKP_SPI spi = new KKP_SPI(KKPSiparisTip.AlimSiparisi);
+                spi.MalKodu = item.MalKodu;
+                spi.MalAdi = item.MalAdi;
+                spi.Birim = item.Birim;
+                spi.BirimMiktar = item.BirimMiktar;
+                spi.Miktar = Convert.ToDecimal(item.Miktar);
+                spi.Fiyat = (decimal)item.BirimFiyat;
+                spi.BirimFiyat = (decimal)item.BirimFiyat;
+
+                spi.DvzTL = (short)item.DvzTL;
+                spi.DovizCinsi = item.DvzCinsi;
+                spi.DovizKuru = item.DvzKuru ?? 0;
+
+                spi.Aciklama = item.Aciklama;
+                spi.TeklifAciklamasi = item.TeklifAciklamasi;
+
+                spi.KDVOran = item.KDVOran;
+                spi.SiraNo = siraNo;
+
+                spi.SatirHesapla();
+
+                spi.Kod1 = item.TalepNo;
+                spi.Kod2 = item.Satinalmaci;
+                spi.Kod3 = item.SipTalepNo.ToString();
+                spi.Kod4 = item.TeklifNo.ToString();
+
+                spi.Kaydeden = item.Kaydeden;
+                spi.Nesne3 = item.TesisKodu == null ? "" : item.TesisKodu;
+                spi.SatinAlmaci = item.Satinalmaci;
+
+                spi.Kod11 = item.TeklifVade ?? 0; //Sırf ekranda göstermek için Kod11' e teklif de ki Vade atıyoruz. Ve kaydediyoruz. SPI.Kod11 daha sonra değiştirilip silinebilir önemli değil. (şimdilik)
+
+                //spi.Depo = Degiskenler.SiparisDepo;
+
+                spi.Operator = (short)item.Operator;
+                spi.Katsayi = item.Katsayi.Value;
+
+                MyGlobalVariables.SipEvrak.Ekle(spi);
+                MyGlobalVariables.GridSource.Add(spi);
+                siraNo++;
+            }
+
+
+
+            var json = new JavaScriptSerializer().Serialize(GMOnay);
+            return json;
         }
         #endregion
     }

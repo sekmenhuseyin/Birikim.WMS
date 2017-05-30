@@ -18,7 +18,7 @@
                     <i class="fa fa-gift"></i>Ekle
                 </div>
                 <div class="col-md-1 pull-right m-t-5">
-                    @using (Ajax.BeginForm("Stok", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                    @using (Ajax.BeginForm("Stock", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         <a id="linkUpload" class="btn btn-warning showlater">Yükle</a>

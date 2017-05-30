@@ -218,7 +218,7 @@
 
         $(document).ready(function () {
             var model = @Html.Raw(Json.Encode(Model));
-            $(".musteri_unvan").text("Deneme Müşterisi");
+            $(".musteri_unvan").hide();
             //$(".date_alinan_cek_ort_vade").dxDateBox({
             //    dataType: 'date',
             //    formatString: 'dd/MM/yyyy',
@@ -232,7 +232,9 @@
             //    value: true,
             //    width: "25%"
             //});
-            $(".txt_geri_cevirme_aciklamasi").dxTextBox();
+            $(".txt_geri_cevirme_aciklamasi").dxTextBox({
+                maxLength: 250
+            });
             //$(".numb_baglanti_tutari").dxNumberBox({
             //    min: 0,
             //    step: 1,
@@ -243,18 +245,16 @@
                 dataSource: model,
                 searchEnabled: true,
                 pageLoadMode: "nextButton",
-                searchExpr: ["HesapKodu", "Unvan","SipTalepno"],
+                searchExpr: ["HesapKodu", "Unvan","SipTalepNo"],
                 //valueExpr: 'Kod',
-                displayExpr: 'Kod',
+                displayExpr: 'SipTalepNo',
                 onValueChanged: function (e) {
                     if (e.value == null) {
-                        TempMalKod = "";
                         return;
                     }
-                    TempMalKod = e.value.Kod;
-                    if (TempUrunGrup == 0) {
-                        TempMalAdi = e.value.Aciklama
-                    }
+                    $(".musteri_unvan").text(e.value.Unvan);
+                    $(".musteri_unvan").show();
+                    PartialView("/Approval/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo:e.value.SipTalepNo }));
                 },
                 itemTemplate: function (itemData, itemIndex, itemElement) {
                     itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
@@ -263,7 +263,7 @@
                     }
                     var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
                     rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.SipTalepNo + "</b></p>");
-                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p><p style='line-height: 0%;font-size:11px;'>Unvan: <i>" + itemData.Unvan + "</i></p></div>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'><span style='font-weight:bold'>HesapKodu: </span><i>" + itemData.HesapKodu + "</i></p><p style='line-height: 0%;font-size:11px;'><span style='font-weight:bold'>Unvan: </span><i>" + itemData.Unvan + "</i></p></div>");
                     itemElement.append(rightBlock);
                 }
             });
