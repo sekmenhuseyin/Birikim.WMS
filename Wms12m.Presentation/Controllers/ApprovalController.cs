@@ -3164,7 +3164,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
 
 
-            var json = new JavaScriptSerializer().Serialize(GMOnay);
+            var json = new JavaScriptSerializer().Serialize("");
             return json;
         }
         #endregion
