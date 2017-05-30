@@ -546,6 +546,7 @@
     <Content Include="Views\Approval\Satınalma_GM_Onay.cshtml" />
     <Content Include="Views\Terminal\Barcode.cshtml" />
     <Content Include="Views\Approval\SatinalmaSipGMOnay_List.cshtml" />
+    <Content Include="Views\Approval\SatinalmaSipGMOnayFTD_List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
