@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// irsaliye için malzeme girişi yapar
         /// </summary>
-        public JsonResult irsaliye(string SID, int DID, string Hesap, HttpPostedFileBase file)
+        public JsonResult Malzeme(string SID, int DID, string Hesap, HttpPostedFileBase file)
         {
             if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _result = new Result(false, 0, "Hatalı dosya");
@@ -143,9 +143,7 @@ namespace Wms12m.Presentation.Controllers
             Stream stream = file.InputStream;
             IExcelDataReader reader;
             //dosya tipini bul
-            if (file.FileName.EndsWith(".xls"))
-                reader = ExcelReaderFactory.CreateBinaryReader(stream);
-            else if (file.FileName.EndsWith(".xlsx"))
+            if (file.FileName.EndsWith(".xlsx"))
                 reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
             else
                 return Json(_Result, JsonRequestBehavior.AllowGet);
@@ -197,16 +195,97 @@ namespace Wms12m.Presentation.Controllers
             }
             reader.Close();
             if (basarili > 0)
-                _Result.Message = basarili + " kart eklendi";
+                _Result.Message = basarili + " adet satır eklendi";
             else
                 _Result.Message = "";
             if (basarili > 0 && hatali > 0)
                 _Result.Message += ", ";
             if (hatali > 0)
-                _Result.Message += hatali + " kart hata verdi. Hatalı satırlar: \n" + hatalilar;
+                _Result.Message += hatali + " satır hata verdi. Hatalı satırlar: \n" + hatalilar;
             else
                 _Result.Status = true;
             return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// stoğa excelden elle ekleme
+        /// </summary>
+        public JsonResult Stock(int DID, HttpPostedFileBase file)
+        {
+            if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Result _result = new Result(false, 0, "Hatalı dosya");
+            if (file == null || file.ContentLength == 0) return Json(_result, JsonRequestBehavior.AllowGet);
+            //gelen dosyayı oku
+            Stream stream = file.InputStream;
+            IExcelDataReader reader;
+            //dosya tipini bul
+            if (file.FileName.EndsWith(".xlsx"))
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            else
+                return Json(_result, JsonRequestBehavior.AllowGet);
+            //ilk satır başlık
+            reader.IsFirstRowAsColumnNames = true;
+            //exceldeki bilgileri datasete aktar
+            DataSet result = reader.AsDataSet();
+            //kontrol
+            if (result.Tables.Count == 0) return Json(_result, JsonRequestBehavior.AllowGet);
+            if (result.Tables[0].Rows == null) return Json(_result, JsonRequestBehavior.AllowGet);
+            //loop table
+            int basarili = 0, hatali = 0; string hatalilar = "";
+            for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+            {
+                DataRow dr = result.Tables[0].Rows[i];
+                try
+                {
+                    if (dr["Hücre Adı"].ToString() != "" && dr["Mal Kodu"].ToString() != "" && dr["Birim"].ToString() != "" && dr["Miktar"].ToString2().IsNumeric() != false)
+                    {
+                        var katID = db.GetHucreKatID(DID, dr["Hücre Adı"].ToString()).FirstOrDefault();
+                        if (katID != null)
+                        {
+                            var tbl = Yerlestirme.Detail(katID.Value, dr["Mal Kodu"].ToString(), dr["Birim"].ToString());
+                            if (tbl != null)
+                            {
+                                tbl.Miktar += dr["Miktar"].ToString().ToDecimal();
+                            }
+                            tbl = new Yer()
+                            {
+                                KatID = katID.Value,
+                                MalKodu = dr["Mal Kodu"].ToString()
+                            };
+                            basarili++;
+                        }
+                        else
+                        {
+                            hatali++;
+                            if (hatalilar != "") hatalilar += ", ";
+                            hatalilar += i;
+                        }
+                    }
+                    else
+                    {
+                        hatali++;
+                        if (hatalilar != "") hatalilar += ", ";
+                        hatalilar += i;
+                    }
+                }
+                catch (Exception)
+                {
+                    hatali++;
+                    if (hatalilar != "") hatalilar += ", ";
+                    hatalilar += i;
+                }
+            }
+            reader.Close();
+            if (basarili > 0)
+                _result.Message = basarili + " adet satır eklendi";
+            else
+                _result.Message = "";
+            if (basarili > 0 && hatali > 0)
+                _result.Message += ", ";
+            if (hatali > 0)
+                _result.Message += hatali + " satır hata verdi. Hatalı satırlar: \n" + hatalilar;
+            else
+                _result.Status = true;
+            return Json(_result, JsonRequestBehavior.AllowGet);
         }
     }
 }

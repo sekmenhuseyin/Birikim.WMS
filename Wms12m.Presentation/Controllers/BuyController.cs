@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// irsaliye evrak no günceller
         /// </summary>
-        public JsonResult Update(string EvrakNo, int ID,string SirketID, string HesapKodu)
+        public JsonResult Update(string EvrakNo, int ID, string SirketID, string HesapKodu)
         {
             if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(false, "Bu evrak no kullanılıyor");
@@ -387,7 +387,7 @@ namespace Wms12m.Presentation.Controllers
             // Global filtering.
             // Filter is being manually applied due to in-memmory (IEnumerable) data.
             // If you want something rather easier, check IEnumerableExtensions Sample.
-            var filteredData = data.Where(_item => _item.Unvan.Contains(request.Search.Value) || _item.HesapKodu.ToLower().Contains(request.Search.Value.ToLower()));
+            var filteredData = data.Where(_item => _item.Unvan.ToLower().Contains(request.Search.Value.ToLower()) || _item.HesapKodu.Contains(request.Search.Value));
 
             // Paging filtered data.
             // Paging is rather manual due to in-memmory (IEnumerable) data.
