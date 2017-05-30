@@ -138,7 +138,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 GSADK = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = {1}, @Kriter = {2}, @IslemTip = '{3}'", SirketKodu, kod, doviz, islemtip)).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 GSADK = new List<ChartAylikSatisAnalizi>();
             }

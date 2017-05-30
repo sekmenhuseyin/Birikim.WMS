@@ -177,7 +177,8 @@ namespace WMSMobil
                 panelSatir.Controls.Add(tBilgi);
                 panelSatir.Controls.Add(tKayitTarihi);
                 panelSatir.Controls.Add(tGorevli);
-                panelSatir.Controls.Add(tDurum);          
+                panelSatir.Controls.Add(tDurum);
+                panelSatir.Height = 20;
                 //panel
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);

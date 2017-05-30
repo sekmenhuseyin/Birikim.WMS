@@ -6,6 +6,7 @@
 <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<style>#myTable>tbody>tr{cursor:pointer;}</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>İrsaliye İşlemleri</span></li></ul></div>
 <h1 class="page-title">İrsaliye İşlemleri</h1>
 <div class="row">
@@ -16,7 +17,7 @@
                     <i class="fa fa-gift"></i>Evrak Bilgileri
                 </div>
                 <div class="col-md-1 pull-right m-t-5">
-                    @using (Ajax.BeginForm("irsaliye", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                    @using (Ajax.BeginForm("Malzeme", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         <a id="linkUpload" class="btn btn-warning showlater2">Yükle</a>
@@ -37,7 +38,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Şirket</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required", @onchange = "$('#hesapSelect').hide();checkEnabled()" })
+                                @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control input-circle", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="SirketID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
@@ -62,7 +63,7 @@
                                 <span class="field-validation-valid" data-valmsg-for="Unvan" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
-                        <div id="hesapSelect"></div>
+                        <div id="hesapSelect"><table id="myTable" class="table table-striped table-bordered table-hover"></table></div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Evrak No</label>
                             <div class="col-md-4">
@@ -123,21 +124,36 @@
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#Tarih").datepicker();
         $('#SirketID').on('change', function () {
-            $("#hesapSelect").html("");
-            $("#HesapKodu").val('');
-            $("#Unvan").val('');
-            $.ajax({
-                url: "/Buy/GetHesapCodes/" + $('#SirketID').val(),
-                type: 'POST',
-                dataType: "html",
-                success: function (data) { if (data != "") $("#hesapSelect").html(data); },
-                error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
-            });
+            checkEnabled();
+            $('#hesapSelect').hide();
+            $('#hesapSelect').html("<table id='myTable' class='table table-striped table-bordered table-hover'></table>");
+            if ($('#SirketID').val() != "")
+            {
+                var table = $('#myTable').dataTable({
+                    "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+                    "pagingType": "full_numbers",
+                    serverSide: true,
+                    ajax: {
+                        "url": "/Buy/GetHesapCodes",
+                        "data": function (data) {
+                            data.param1 = "SirketID";
+                            data.param2 = $('#SirketID').val()
+                        }
+                    },
+                    columns: [
+                        { name: 'HesapKodu', data: 'hesapKodu', title: "Hesap Kodu", sortable: true, searchable: true },
+                        { name: 'Unvan', data: "unvan", title: "Ünvan", sortable: true, searchable: true }
+                    ]
+                });
+                $('#myTable tbody').on('click', 'tr', function () {
+                    hesapSelect($(this).find("td:nth-child(1)").text(), $(this).find("td:nth-child(2)").text());
+                });
+            }
         });
     });
+    function hesapSelect(no, ad) { $('#HesapKodu').val(no); $('#Unvan').val(ad); $('#hesapSelect').hide(); checkEnabled(); }
     function disableAll() {
         $('#hesapSelect').hide();
-        $("#hesapSelect").html("");
         $("#SirketID").attr("readonly", true);
         $("#DepoID").attr("readonly", true);
         $("#EvrakNo").attr("readonly", true);
@@ -167,7 +183,6 @@
     function CreateNew() {
         $(".showlater").hide();
         $('#hesapSelect').hide();
-        $("#hesapSelect").html("");
         $("#SirketID")[0].selectedIndex = 0;
         $("#DepoID")[0].selectedIndex = 0;
         $("#HesapKodu").val('');

@@ -81,6 +81,12 @@ namespace Wms12m.Entity
         public int ID
         {
             get { return this._ID; }
+            set
+            {
+                this._ID = value;
+                //OnPropertyChanged("HesapKodu");
+            }
+
         }
 
         /// <summary> VARCHAR (30) * </summary>

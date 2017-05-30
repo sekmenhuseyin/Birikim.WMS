@@ -18,7 +18,7 @@
                     <i class="fa fa-gift"></i>Ekle
                 </div>
                 <div class="col-md-1 pull-right m-t-5">
-                    @using (Ajax.BeginForm("Stok", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                    @using (Ajax.BeginForm("Stock", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         <a id="linkUpload" class="btn btn-warning showlater">Yükle</a>
@@ -26,7 +26,7 @@
                                 <input type="hidden" name="DID" id="DID" value="" />
                     }
                 </div>
-                <div class="col-md-1 pull-right m-t-5"><a id="btnSablon" href="~/Content/SokSablon.xlsx" class="btn btn-default showlater">Şablon İndir</a></div>
+                <div class="col-md-1 pull-right m-t-5"><a id="btnSablon" href="~/Content/StockSablon.xlsx" class="btn btn-default showlater">Şablon İndir</a></div>
            </div>
             <div class="portlet-body form">
                 @using (Ajax.BeginForm("ManualPlacement", "Stock", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "FuncSearchBtn()", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
