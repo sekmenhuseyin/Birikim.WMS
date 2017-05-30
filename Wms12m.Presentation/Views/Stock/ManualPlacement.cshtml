@@ -231,5 +231,24 @@
                 $("#MalAdi").val(ui.item.value);
             }
         });
+    $(function () {
+        $('#linkUpload').click(function () {
+            if ($("#DID").val() != "")
+                $("#btnUpload").click();
+        });
+        $('#fileupload').fileupload({
+            maxFileSize: 2000000,
+            acceptFileTypes: /(\.|\/)(xlsx)$/i,
+            dataType: 'json',
+            add: function (e, data) { data.submit(); },
+            done: function (e, data) {
+                if (data.result.Status == false)
+                    Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
+                else
+                    Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
+            },
+            fail: function (e, data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
+        });
+    });
 </script>
 }
