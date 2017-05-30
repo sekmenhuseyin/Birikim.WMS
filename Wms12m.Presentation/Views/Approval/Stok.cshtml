@@ -1,8 +1,11 @@
 ﻿@{
     ViewBag.Title = "Stok Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<div class="form-horizontal">
+}@section Styles{
+    <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+}<div class="form-horizontal">
     <div class="form-body">
         <div class="row">
 
@@ -28,7 +31,7 @@
            <div id="liste" style="padding:10px;margin-top:30px; "></div>
     </div>
 </div>
-@section Scripts{
+@section Scripts{<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
     <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
@@ -45,7 +48,7 @@
         });
         function FuncSearchBtn() {
             var Type = $("input[type='radio'][name='Locked']:checked").val();
-            PartialView("/Approval/Stok", 'liste', JSON.stringify({ Durum: Type }));
+            PartialView("/Approval/Stok_List", 'liste', JSON.stringify({ Durum: Type }));
         }
     </script>
 }

@@ -2048,7 +2048,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             else
             if (Durum == "Red") { param = 4; }
             var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[wms].[StokOnaySelect] {1}", "17", param)).ToList();
-            return PartialView("List", KOD);
+            return PartialView("Stok_List", KOD);
         }
         #endregion
         #region Teminat
