@@ -14,6 +14,16 @@ namespace Wms12m
 {
     public static class DbExtensions
     {
+        public static string GetEvrakNosForGorev(this int GorevID)
+        {
+            using (WMSEntities db = new WMSEntities())
+            {
+                var sonuc = db.GetEvrakNosForGorev(GorevID).FirstOrDefault();
+                if (sonuc == null) sonuc = "";
+                else sonuc = sonuc = sonuc.Substring(0, sonuc.Length - 1);
+                return sonuc;
+            }
+        }
         /// <summary>
         /// get finsat stk maladi from malkodu
         /// </summary>

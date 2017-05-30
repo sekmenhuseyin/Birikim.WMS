@@ -924,6 +924,9 @@
           <Parameter Name="KoridorID" Type="int" Mode="In" />
           <Parameter Name="desc" Type="bit" Mode="In" />
         </Function>
+        <Function Name="GetEvrakNosForGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="GorevID" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetGorevlis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
@@ -1468,6 +1471,9 @@
             <Parameter Name="RoleName" Mode="In" Type="String" />
             <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
             <Parameter Name="url" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetEvrakNosForGorev" ReturnType="Collection(String)">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2975,6 +2981,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetEvrakNosForGorev" FunctionName="MModel.Store.GetEvrakNosForGorev" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -22,8 +22,8 @@
                     {
                         @Html.AntiForgeryToken()
                         <a id="linkUpload" class="btn btn-warning showlater">Yükle</a>
-                                <input id="btnUpload" type="file" name="file" />
-                                <input type="hidden" name="DID" id="DID" value="" />
+                        <input id="btnUpload" type="file" name="file" />
+                        <input type="hidden" name="DID" id="DID" value="" />
                     }
                 </div>
                 <div class="col-md-1 pull-right m-t-5"><a id="btnSablon" href="~/Content/StockSablon.xlsx" class="btn btn-default showlater">Şablon İndir</a></div>
@@ -204,14 +204,6 @@
         $('#FloorGrid').html("");
         PartialView("/Stock/List", 'FloorGrid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
     }
-    $("#MalKodu").autocomplete({
-        source: "/Buy/getMalzemebyCode/@ViewBag.SirketID",
-        minLength: 2,
-        select: function (event, ui) {
-            getBirims(ui.item.id);
-            $("#MalAdi").val(ui.item.value);
-        }
-    });
     function getBirims(id) {
         $("#Birim option").remove();
         $.ajax({
@@ -231,5 +223,13 @@
             }
         });
     }
+    $("#MalKodu").autocomplete({
+        source: "/Buy/getMalzemebyCode/@ViewBag.SirketID",
+            minLength: 2,
+            select: function (event, ui) {
+                getBirims(ui.item.id);
+                $("#MalAdi").val(ui.item.value);
+            }
+        });
 </script>
 }
