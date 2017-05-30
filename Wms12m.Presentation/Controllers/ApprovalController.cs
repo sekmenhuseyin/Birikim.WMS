@@ -2724,7 +2724,8 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public ActionResult Satınalma_GM_Onay()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
-            return View();
+            var GMOnay = db.Database.SqlQuery<SatinAlmaGMOnayList>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", "17")).ToList();
+            return View(GMOnay);
         }
         #endregion
     }

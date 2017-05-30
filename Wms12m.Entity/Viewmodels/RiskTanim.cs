@@ -495,4 +495,15 @@ namespace Wms12m.Entity
         public string Aciklama { get; set; }
     }
     #endregion
+
+    #region Satınalma
+    public class SatinAlmaGMOnayList
+    {
+        public string SipTalepNo { get; set; }
+
+        public string HesapKodu { get; set; }
+
+        public string Unvan { get; set; }
+    }
+    #endregion
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@model List<SatinAlmaGMOnayList>
 @{
     ViewBag.Title = "Sözleşme Tanım";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -217,6 +217,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            var model = @Html.Raw(Json.Encode(Model));
             $(".musteri_unvan").text("Deneme Müşterisi");
             //$(".date_alinan_cek_ort_vade").dxDateBox({
             //    dataType: 'date',
@@ -238,13 +239,32 @@
             //    value: 0
             //});
 
-            var kalite = [{ Tip: "" }, { Tip: "1K" }, { Tip: "2K" }, { Tip: "3K" }, { Tip: "ISK" }, { Tip: "1B" }];
-            $(".select_onay").dxSelectBox({
-                dataSource: kalite,
-                valueExpr: 'Tip',
-                displayExpr: 'Tip',
+            $(".select_onay").dxLookup({
+                dataSource: model,
+                searchEnabled: true,
+                pageLoadMode: "nextButton",
+                searchExpr: ["HesapKodu", "Unvan","SipTalepno"],
+                //valueExpr: 'Kod',
+                displayExpr: 'Kod',
                 onValueChanged: function (e) {
-                    TempKalite = e.value;
+                    if (e.value == null) {
+                        TempMalKod = "";
+                        return;
+                    }
+                    TempMalKod = e.value.Kod;
+                    if (TempUrunGrup == 0) {
+                        TempMalAdi = e.value.Aciklama
+                    }
+                },
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.SipTalepNo + "</b></p>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p><p style='line-height: 0%;font-size:11px;'>Unvan: <i>" + itemData.Unvan + "</i></p></div>");
+                    itemElement.append(rightBlock);
                 }
             });
             //$.ajax({
