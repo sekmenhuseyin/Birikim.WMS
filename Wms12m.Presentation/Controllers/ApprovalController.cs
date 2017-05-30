@@ -2023,7 +2023,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm("Stok Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public PartialViewResult StokList(string Durum)
+        public PartialViewResult Stok_List(string Durum)
         {
             if (CheckPerm("Stok Onaylama", PermTypes.Reading) == false) return null;
             int param = 1;
@@ -2036,7 +2036,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (Durum == "Aktif") { param = 3; }
             else
             if (Durum == "Red") { param = 4; }
-            var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[wms].[StokOnaySelect] {1}", "33", param)).ToList();
+            var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[wms].[StokOnaySelect] {1}", "17", param)).ToList();
             return PartialView("List", KOD);
         }
         #endregion
@@ -2593,17 +2593,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         #endregion
         #region Risk
 
-        //public ActionResult Risk_SM()
-        //{
-        //    if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
-        //    return View();
-        //}
-        //public PartialViewResult Risk_SM_List()
-        //{
-        //    if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
-        //    var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where OnayTip = 0", "33")).ToList();//-- and SMOnay = 1 and Durum = 0 eklenecek.
-        //    return PartialView(KOD);
-        //}
+
 
         public ActionResult Risk_SM()
         {
@@ -2700,17 +2690,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        //public ActionResult Risk_GM()
-        //{
-        //    if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
-        //    return View();
-        //}
-        //public PartialViewResult Risk_GM_List()
-        //{
-        //    if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
-        //    var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]", "17")).ToList();//--where (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 1 and GMOnay=0) or (OnayTip = 4 and GMOnay = 0 ) and Durum =0
-        //    return PartialView(KOD);
-        //}
+
 
         public ActionResult Risk_GM()
         {
@@ -2807,17 +2787,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        //public ActionResult Risk_SPGMY()
-        //{
-        //    if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
-        //    return View();
-        //}
-        //public PartialViewResult Risk_SPGMY_List()
-        //{
-        //    if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
-        //    var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where SPGMYOnay =0", "33")).ToList();//--where (OnayTip = 1 and SPGMYOnay =0) OR (OnayTip = 2 and SPGMYOnay =0) OR (OnayTip = 3 and SPGMYOnay = 0) and Durum = 0
-        //    return PartialView(KOD);
-        //}
+
         public ActionResult Risk_SPGMY()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
@@ -2913,17 +2883,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        //public ActionResult Risk_MIGMY()
-        //{
-        //    if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
-        //    return View();
-        //}
-        //public PartialViewResult Risk_MIGMY_List()
-        //{
-        //    if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
-        //    var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where SPGMYOnay = 1", "33")).ToList();//--where (OnayTip = 2 and SPGMYOnay = 1 and MIGMYOnay = 0) OR (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 0) and Durum = 0
-        //    return PartialView(KOD);
-        //}
+
 
         public ActionResult Risk_MIGMY()
         {
