@@ -44,9 +44,6 @@
     <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs822A.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DataTables.AspNet.Core">
-      <HintPath>Lib\DataTables.AspNet.Core.dll</HintPath>
-    </Reference>
     <Reference Include="DataTables.AspNet.Mvc5">
       <HintPath>Lib\DataTables.AspNet.Mvc5.dll</HintPath>
     </Reference>
@@ -287,6 +284,7 @@
     <Content Include="humans.txt" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
+    <Content Include="Content\StockSablon.xlsx" />
     <None Include="Content\STISablon.xlsx" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
@@ -390,7 +388,6 @@
     <Content Include="Views\Floor\_FloorGridPartial.cshtml" />
     <Content Include="Views\Buy\_GridNewPartial.cshtml" />
     <Content Include="Views\Buy\_GridPartial.cshtml" />
-    <Content Include="Views\Buy\_HesapGridPartial.cshtml" />
     <Content Include="Views\Buy\Index.cshtml" />
     <Content Include="Views\Tasks\Index.cshtml" />
     <Content Include="Views\Tasks\_GorevDetailPartial.cshtml" />

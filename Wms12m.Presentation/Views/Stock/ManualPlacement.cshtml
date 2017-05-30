@@ -26,7 +26,7 @@
                                 <input type="hidden" name="DID" id="DID" value="" />
                     }
                 </div>
-                <div class="col-md-1 pull-right m-t-5"><a id="btnSablon" href="~/Content/SokSablon.xlsx" class="btn btn-default showlater">Şablon İndir</a></div>
+                <div class="col-md-1 pull-right m-t-5"><a id="btnSablon" href="~/Content/StockSablon.xlsx" class="btn btn-default showlater">Şablon İndir</a></div>
            </div>
             <div class="portlet-body form">
                 @using (Ajax.BeginForm("ManualPlacement", "Stock", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "FuncSearchBtn()", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))

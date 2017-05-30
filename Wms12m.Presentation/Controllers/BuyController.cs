@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataTables.AspNet.Mvc5;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -370,14 +371,35 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// anasayfadaki malzeme listesi
         /// </summary>
-        public PartialViewResult GetHesapCodes()
+        public ActionResult GetHesapCodes(IDataTablesRequest request)
         {
-            var id = Url.RequestContext.RouteData.Values["id"];
-            if (id == null) return null;
-            if (id.ToString() == "0") return null;
-            string sql = String.Format("FINSAT6{0}.[wms].[CHKSelectKartTip]", id.ToString());
-            var list = db.Database.SqlQuery<frmHesapUnvan>(sql).ToList();
-            return PartialView("_HesapGridPartial", list);
+            string SirketID = "";
+            // Check additional parameters. You may perform custom actions with them.
+            if (request.AdditionalParameters != null)
+                foreach (var additionalParameter in request.AdditionalParameters)
+                {
+                    if (additionalParameter.Key == "SirketID") SirketID = additionalParameter.Value.ToString();
+                }
+            if (SirketID == "") SirketID = db.GetSirketDBs().FirstOrDefault();
+            string sql = String.Format("FINSAT6{0}.[wms].[CHKSelectKartTip]", SirketID);
+            var data = db.Database.SqlQuery<frmHesapUnvan>(sql).ToList();
+
+            // Global filtering.
+            // Filter is being manually applied due to in-memmory (IEnumerable) data.
+            // If you want something rather easier, check IEnumerableExtensions Sample.
+            var filteredData = data.Where(_item => _item.Unvan.Contains(request.Search.Value) || _item.HesapKodu.ToLower().Contains(request.Search.Value.ToLower()));
+
+            // Paging filtered data.
+            // Paging is rather manual due to in-memmory (IEnumerable) data.
+            var dataPage = filteredData.Skip(request.Start).Take(request.Length);
+
+            // Response creation. To create your response you need to reference your request, to avoid
+            // request/response tampering and to ensure response will be correctly created.
+            var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
+
+            // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
+            // response to a json-compatible content, so DataTables can read it when received.
+            return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// yeni malzeme satırı formu
