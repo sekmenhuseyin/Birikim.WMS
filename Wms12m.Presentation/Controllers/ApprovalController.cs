@@ -2116,7 +2116,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Teminat] WHERE  @ID = {1}", "17", insertObj["ID"].ToString()));
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Teminat] WHERE  ID = {1}", "17", insertObj["ID"].ToString()));
                     // { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 3, 1)); }
 
 
@@ -2592,16 +2592,35 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         }
         #endregion
         #region Risk
+
+        //public ActionResult Risk_SM()
+        //{
+        //    if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
+        //    return View();
+        //}
+        //public PartialViewResult Risk_SM_List()
+        //{
+        //    if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
+        //    var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where OnayTip = 0", "33")).ToList();//-- and SMOnay = 1 and Durum = 0 eklenecek.
+        //    return PartialView(KOD);
+        //}
+
         public ActionResult Risk_SM()
         {
-            if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult Risk_SM_List()
         {
-            if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
-            var KOD = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where OnayTip = 0", "33")).ToList();//-- and SMOnay = 1 and Durum = 0 eklenecek.
-            return PartialView(KOD);
+            if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string RiskOnayCekSM()
+        {
+            if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where OnayTip = 0", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
         }
         public ActionResult Risk_GM()
         {
