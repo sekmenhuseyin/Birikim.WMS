@@ -17,6 +17,8 @@ namespace Wms12m.Presentation
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            // DataTables.AspNet registration with default options.
+            DataTables.AspNet.Mvc5.Configuration.RegisterDataTables();
         }
         /// <summary>
         /// session start for user

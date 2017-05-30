@@ -44,9 +44,6 @@
     <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs18BD.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DataTables.AspNet.Core">
-      <HintPath>Lib\DataTables.AspNet.Core.dll</HintPath>
-    </Reference>
     <Reference Include="DataTables.AspNet.Mvc5">
       <HintPath>Lib\DataTables.AspNet.Mvc5.dll</HintPath>
     </Reference>
@@ -390,7 +387,6 @@
     <Content Include="Views\Floor\_FloorGridPartial.cshtml" />
     <Content Include="Views\Buy\_GridNewPartial.cshtml" />
     <Content Include="Views\Buy\_GridPartial.cshtml" />
-    <Content Include="Views\Buy\_HesapGridPartial.cshtml" />
     <Content Include="Views\Buy\Index.cshtml" />
     <Content Include="Views\Tasks\Index.cshtml" />
     <Content Include="Views\Tasks\_GorevDetailPartial.cshtml" />
