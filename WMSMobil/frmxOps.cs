@@ -214,8 +214,7 @@ namespace WMSMobil
                 Font font = new Font("Tahoma", 8, FontStyle.Regular);
                 PanelEx panelSatir = new PanelEx();
                 panelSatir.Name = Sayac.ToString();
-                panelSatir.Location = new Point(0, (Sayac * 22));
-
+                panelSatir.Location = new Point(0, (Sayac * 21));
 
                 TextBox tBarkod = new TextBox();
                 tBarkod.Visible = false;

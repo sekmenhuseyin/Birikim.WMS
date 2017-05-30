@@ -21,6 +21,7 @@ namespace WMSMobil
         public frmLogin()
         {
             InitializeComponent();
+            Mesaj.Basari(Screen.PrimaryScreen.Bounds.Width.ToString());
             //barkod
             //Barkod = new Barcode2();
             //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;

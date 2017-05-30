@@ -120,11 +120,12 @@ namespace WMSMobil
             {
                 Sayac++;//satır no
                 panelOrta.AutoScrollPosition = new Point(0, 0);
-                Font font = new Font("Tahoma", 8, FontStyle.Regular);
+                Font font = new Font("Tahoma", 8*2, FontStyle.Regular);
                 //sütun gorev no
                 TextBox tGorevNo = new TextBox();
                 tGorevNo.Font = font;
-                tGorevNo.Width = 60;
+                tGorevNo.Width = 60 * 2;
+                tGorevNo.Height = 21 * 2;
                 tGorevNo.Location = new Point(0, 0);
                 tGorevNo.ReadOnly = true;
                 tGorevNo.BackColor = Color.FromArgb(206, 223, 239);
@@ -132,32 +133,36 @@ namespace WMSMobil
                 //sütun bilgi
                 TextBox tBilgi = new TextBox();
                 tBilgi.Font = font;
-                tBilgi.Width = 100;
-                tBilgi.Location = new Point(61, 0);
+                tBilgi.Width = 100 * 2;
+                tBilgi.Height = 21 * 2;
+                tBilgi.Location = new Point(61*2, 0);
                 tBilgi.ReadOnly = true;
                 tBilgi.BackColor = Color.FromArgb(206, 223, 239);
                 tBilgi.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                 //sütun oluşturma tarihi
                 TextBox tKayitTarihi = new TextBox();
                 tKayitTarihi.Font = font;
-                tKayitTarihi.Width = 80;
-                tKayitTarihi.Location = new Point(162, 0);
+                tKayitTarihi.Width = 80*2;
+                tKayitTarihi.Height = 21 * 2;
+                tKayitTarihi.Location = new Point(162 * 2, 0);
                 tKayitTarihi.ReadOnly = true;
                 tKayitTarihi.BackColor = Color.FromArgb(206, 223, 239);
                 tKayitTarihi.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                 //sütun görevli
                 TextBox tGorevli = new TextBox();
                 tGorevli.Font = font;
-                tGorevli.Width = 60;
-                tGorevli.Location = new Point(243, 0);
+                tGorevli.Width = 60*2;
+                tGorevli.Height = 21 * 2;
+                tGorevli.Location = new Point(243 * 2, 0);
                 tGorevli.ReadOnly = true;
                 tGorevli.BackColor = Color.FromArgb(206, 223, 239);
                 tGorevli.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                 //sütun durum
                 TextBox tDurum = new TextBox();
                 tDurum.Font = font;
-                tDurum.Width = 60;
-                tDurum.Location = new Point(304, 0);
+                tDurum.Width = 60*2;
+                tDurum.Height = 21 * 2;
+                tDurum.Location = new Point(304 * 2, 0);
                 tDurum.ReadOnly = true;
                 tDurum.BackColor = Color.FromArgb(206, 223, 239);
                 tDurum.GotFocus += new EventHandler(TextBoxlar_GotFocus);
@@ -170,8 +175,8 @@ namespace WMSMobil
                 //panel ekle
                 PanelGrv panelSatir = new PanelGrv();
                 panelSatir.Name = Sayac.ToString();
-                panelSatir.Size = new Size(370, 22);
-                panelSatir.Location = new Point(0, (Sayac * 22));
+                panelSatir.Size = new Size(370*2, 21*2);
+                panelSatir.Location = new Point(0, (Sayac * 21)*2);
                 panelSatir.Tag = grvItem.ID + "-" + grvItem.IrsaliyeID;
                 panelSatir.Controls.Add(tGorevNo);
                 panelSatir.Controls.Add(tBilgi);
