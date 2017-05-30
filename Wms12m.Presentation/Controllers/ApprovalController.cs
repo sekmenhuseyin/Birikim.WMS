@@ -19,6 +19,7 @@ namespace Wms12m.Presentation.Controllers
         public static List<SatTalep> SipTalepList { get; set; }
         public static List<SatTalep> TalepSource { get; set; }
         public static List<KKP_SPI> GridSource { get; set; }
+        public static List<KKP_FTD> GridFTD { get; set; }
         public static bool DovizDurum { get; set; }
 
     }
@@ -3167,8 +3168,8 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
             MyGlobalVariables.DovizDurum = false;
-            var GMOnay = db.Database.SqlQuery<SatinAlmaGMOnayList>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", "17")).ToList();
-            return View(GMOnay);
+            MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", "17")).ToList();
+            return View(MyGlobalVariables.SipTalepList);
         }
 
         public PartialViewResult SipGMOnayList(string HesapKodu, int SipTalepNo)
@@ -3178,6 +3179,14 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             ViewBag.HesapKodu = HesapKodu;
             ViewBag.SipTalepNo = SipTalepNo;
             return PartialView("SatinalmaSipGMOnay_List");
+        }
+        public PartialViewResult SipGMOnayListFTD(string HesapKodu, int SipTalepNo)
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            //var TMNT = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[dbo].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", "17", HesapKodu, SipTalepNo)).ToList();
+            ViewBag.HesapKodu = HesapKodu;
+            ViewBag.SipTalepNo = SipTalepNo;
+            return PartialView("SatinalmaSipGMOnayFTD_List");
         }
         public string SipGMOnayListData(string HesapKodu, int SipTalepNo)
         {
@@ -3238,7 +3247,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
                 //spi.Depo = Degiskenler.SiparisDepo;
 
-                spi.Operator = (short)item.Operator;
+                spi.Operator = (short)item.Operator.Value;
                 spi.Katsayi = item.Katsayi.Value;
 
                 MyGlobalVariables.SipEvrak.Ekle(spi);
@@ -3246,9 +3255,28 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 siraNo++;
             }
 
+            if (MyGlobalVariables.DovizDurum == false)
+            {
+                MyGlobalVariables.SipEvrak.FTDHesapla("TL", Convert.ToDecimal(0));
+                MyGlobalVariables.GridFTD = MyGlobalVariables.SipEvrak.FTDList;
+            }
+            else
+            {
+                decimal kur = MyGlobalVariables.TalepSource[0].FTDDovizKuru.Value;
+                if (kur > 0)
+                {
+                    MyGlobalVariables.SipEvrak.FTDHesapla(MyGlobalVariables.TalepSource[0].FTDDovizCinsi, kur);
+                    MyGlobalVariables.GridFTD = MyGlobalVariables.SipEvrak.FTDList;
+                }
+            }
 
+            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridSource);
+            return json;
+        }
 
-            var json = new JavaScriptSerializer().Serialize("");
+        public string SipGMOnayListFTDData(string HesapKodu, int SipTalepNo)
+        {
+            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridFTD);
             return json;
         }
         #endregion

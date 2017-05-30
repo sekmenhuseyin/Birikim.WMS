@@ -1,4 +1,4 @@
-﻿@model List<SatinAlmaGMOnayList>
+﻿@model List<SatTalep>
 @{
     ViewBag.Title = "Sözleşme Tanım";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -44,61 +44,12 @@
         background-color: #86d8ea;
         color: window;
     }
-
-    .dx-state-readonly {
-        background-color: #e0dede !important;
-    }
-
-        .dx-state-readonly input {
-            background-color: #e0dede !important;
-        }
-
-    table {
-        margin: 0 !important;
-    }
-
-    th {
-        width: auto !important;
-    }
-
-    td {
-        width: auto !important;
-    }
-
-    .dataTables_scrollHead {
-        width: 100% !important;
-    }
-
-    .dataTables_scrollHeadInner {
-        width: 100% !important;
-    }
-
-    .dataTables_scrollBody {
-        width: 100% !important;
-    }
-    /*.dx-popup-content{
-        width:750px !important;
-        background-color: #48e5f5;
-    }
-    .dx-state-hover{
-        background-color: #48e5f5 !important;
-        color: window !important;
-    }
-    .dx-list-item-selected{
-        background-color: #48e5f5 !important;
-        color: window !important;
-    }
-    .dx-lookup-popup-wrapper .dx-list-item{
-        margin-bottom:-25px !important;
-    }
     .dx-overlay-content.dx-popup-normal.dx-resizable{
-        width:750px !important;
-        background-color: #48e5f5;
-        height:700px !important;
+        width:400px;
     }
-    .dx-list-next-button{
-        margin-top:25px !important;
-    }*/
+    table{
+        margin:0 !important;
+    }
 </style>
 <div class="row">
     <div>
@@ -255,6 +206,7 @@
                     $(".musteri_unvan").text(e.value.Unvan);
                     $(".musteri_unvan").show();
                     PartialView("/Approval/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo:e.value.SipTalepNo }));
+                    PartialView("/Approval/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data',JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo:e.value.SipTalepNo }));
                 },
                 itemTemplate: function (itemData, itemIndex, itemElement) {
                     itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
