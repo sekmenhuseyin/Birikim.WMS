@@ -101,8 +101,6 @@ namespace Wms12m.Presentation.Controllers
             int aDepoID = Store.Detail(tbl.AraDepo).ID;
             var cDepoID = Store.Detail(tbl.CikisDepo);
             var gDepoID = Store.Detail(tbl.GirisDepo);
-            //tüm diğer başlamamış görevler silinir
-            Task.DeleteSome();
             //yeni bir görev eklenir
             int today = fn.ToOADate(), time = fn.ToOATime();
             int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.CikisDepo).Select(m => m.ID).FirstOrDefault();
