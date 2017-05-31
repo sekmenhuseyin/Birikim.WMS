@@ -562,7 +562,8 @@ namespace Wms12m
                 bool efatKullanici = false;
                 if (tmp == 1) efatKullanici = true;
                 //listedeki her eleman için döngü yapılır
-                var sonuc = SiparisToplamaToLink(item.SirketKod, item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.SatisIrsaliyeSeri.Value, kull.UserDetail.SatisFaturaSeri.Value, yil);
+                Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, item.SirketKod);
+                var sonuc = finsat.FaturaKayıt(item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.SatisIrsaliyeSeri.Value, kull.UserDetail.SatisFaturaSeri.Value, yil);
                 if (sonuc.Status == true)
                 {
                     //update irsaliye
@@ -617,57 +618,6 @@ namespace Wms12m
                 }
             }
             return new Result(true);
-        }
-        private Result SiparisToplamaToLink(string sirketKodu, int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden, int IrsaliyeSeri, int FaturaSeri, int yil)
-        {
-            var STIBaseList = new List<ParamSti>();
-            //evrak no getir
-            var ftrKayit = new FaturaKayit(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, sirketKodu);
-            List<EvrakBilgi> evrkno;
-            try
-            {
-                evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil);
-            }
-            catch (Exception ex)
-            {
-                return new Result(false, ex.Message);
-            }
-            int saat = DateTime.Now.ToOaTime();
-            //listeyi dön
-            string sql = String.Format("SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo,KynkSiparisTarih, KynkSiparisSiraNo  FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
-            var list = db.Database.SqlQuery<STIMax>(sql).ToList();
-            foreach (STIMax item in list)
-            {
-                sql = string.Format("SELECT Chk, Miktar, MalKodu, Fiyat, Birim, Depo, ToplamIskonto, KDV, KDVOran, IskontoOran1, IskontoOran2, IskontoOran3, IskontoOran4, IskontoOran5, EvrakNo as KaynakSiparisNo, Tarih as KaynakSiparisTarih, SiraNo as SiparisSiraNo, Miktar as SiparisMiktar, TeslimMiktar, KapatilanMiktar, FytListeNo, ValorGun, Kod1, Kod2, Kod3, Kod10, Kod13, Kod14, KayitKaynak, KayitSurum, DegisKaynak, DegisSurum " +
-                                    "FROM FINSAT6{0}.FINSAT6{0}.SPI WHERE (EvrakNo = '{1}') AND (Chk = '{2}') AND (Depo = '{3}') AND (Tarih = {4}) AND (SiraNo = {5}) AND (KynkEvrakTip = 62) AND (SiparisDurumu = 0) AND (Kod10 IN ('Terminal', 'Onaylandı'))", sirketKodu, item.EvrakNo, CHK, DepoKodu, item.KynkSiparisTarih, item.KynkSiparisSiraNo);
-                var finsat = db.Database.SqlQuery<ParamSti>(sql).FirstOrDefault();
-                if (finsat != null)
-                {
-                    finsat.Miktar = item.Miktar;
-                    finsat.EvrakNo = evrkno[0].EvrakNo;
-                    finsat.KaynakIrsEvrakNo = evrkno[1].EvrakNo;
-                    finsat.Tarih = Tarih;
-                    finsat.Kaydeden = kaydeden;
-                    finsat.KayitSurum = "9.01.028";
-                    finsat.KayitKaynak = 74;
-                    STIBaseList.Add(finsat);
-                }
-            }
-            //finsat işlemleri
-            try
-            {
-                if (STIBaseList.Count > 0)
-                {
-                    var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil);
-                    return new Result(sonuc.Basarili, sonuc.Mesaj);
-                }
-                else
-                    return new Result(false, "Bu sipariş kapanmış");
-            }
-            catch (Exception ex)
-            {
-                return new Result(false, ex.Message);
-            }
         }
         /// <summary>
         /// mal kabul kayıt işlemleri
@@ -763,7 +713,7 @@ namespace Wms12m
 
         }
         /// <summary>
-        /// transfer görevleri tamamlma
+        /// transfer çıkış görevleri tamamlma
         /// </summary>
         [WebMethod]
         public Result TransferCikis_GoreviTamamla(int GorevID, int kulID)
@@ -800,7 +750,8 @@ namespace Wms12m
                     return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
                 if (kull.UserDetail.TransferOutSeri.Value < 1 || kull.UserDetail.TransferOutSeri.Value > 199)
                     return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
-                sonuc = TransferToLink(transfer, false, kull.Kod, kull.UserDetail.TransferOutSeri.Value);
+                Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
+                sonuc = finsat.DepoTransfer(transfer, false, kull.Kod, kull.UserDetail.TransferOutSeri.Value);
                 if (sonuc.Status == true)
                 {
                     //finish
@@ -828,6 +779,9 @@ namespace Wms12m
             }
             return sonuc;
         }
+        /// <summary>
+        /// transfer giriş görevleri tamamlma
+        /// </summary>
         [WebMethod]
         public Result TransferGiris_GoreviTamamla(int GorevID, int kulID)
         {
@@ -848,7 +802,8 @@ namespace Wms12m
             //aktar
             //görev bitir
             int tarih = DateTime.Today.ToOADateInt();
-            var sonuc = TransferToLink(mGorev.Transfers.FirstOrDefault(), true, kull.Kod, kull.UserDetail.TransferInSeri.Value);
+            Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
+            var sonuc = finsat.DepoTransfer(mGorev.Transfers.FirstOrDefault(), true, kull.Kod, kull.UserDetail.TransferInSeri.Value);
             if (sonuc.Status == true)
             {
                 //update irsaliye
@@ -861,44 +816,6 @@ namespace Wms12m
                 db.SaveChanges();
             }
             return sonuc;
-        }
-        private Result TransferToLink(Transfer tblTransfer, bool GirisMi, string kaydeden, int Evrakserino)
-        {
-            //settings
-            DevHelper.Ayarlar.SetConStr(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
-            DevHelper.Ayarlar.SirketKodu = tblTransfer.SirketKod;
-            Genel_Islemler GI = new Genel_Islemler(tblTransfer.SirketKod);
-            string evrakNo = GI.EvrakNo_Getir(7199 + Evrakserino);
-            //add to list
-            List<DepTran> DepTranList = new List<DepTran>();
-            foreach (var item in tblTransfer.Transfer_Detay)
-            {
-                DepTran dep = new DepTran()
-                {
-                    EvrakNo = evrakNo,
-                    Tarih = DateTime.Today,
-                    MalKodu = item.MalKodu,
-                    Miktar = item.Miktar,
-                    Birim = item.Birim,
-                    GirisDepo = GirisMi == true ? tblTransfer.Depo.DepoKodu : tblTransfer.Depo2.DepoKodu,
-                    CikisDepo = GirisMi == true ? tblTransfer.Depo2.DepoKodu : tblTransfer.Depo1.DepoKodu,
-                    Kaydeden = kaydeden,
-                    KayitSurum = "9.01.028",
-                    KayitKaynak = 74
-                };
-                DepTranList.Add(dep);
-            }
-            //save 2 db
-            Stok_Islemleri StokIslem = new Stok_Islemleri(tblTransfer.SirketKod);
-            OnikimCore.GunesCore.IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7199 + Evrakserino, DepTranList);
-            //return
-            var _Result = new Result()
-            {
-                Status = Sonuc.Basarili,
-                Message = Sonuc.Hata != null ? Sonuc.Hata.Message : "",
-                Data = evrakNo
-            };
-            return _Result;
         }
         /// <summary>
         /// kontrollü sayımda satırları kaydet
