@@ -353,16 +353,12 @@
     </Compile>
     <Compile Include="Helper\AuthAttribute.cs" />
     <Compile Include="Helper\Authentication.cs" />
-    <Compile Include="Helper\Finsat.cs" />
     <Compile Include="Helper\Client.cs" />
-    <Compile Include="Helper\DbExtensions.cs" />
-    <Compile Include="Helper\MyMail.cs" />
     <Compile Include="MobilServis.asmx.cs">
       <DependentUpon>MobilServis.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helper\SqlExper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">

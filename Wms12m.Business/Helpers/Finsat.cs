@@ -1,7 +1,6 @@
 ﻿using OnikimCore.GunesCore;
 using System.Collections.Generic;
 using Wms12m.Entity;
-using Wms12m.Entity.Models;
 
 namespace Wms12m
 {
