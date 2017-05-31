@@ -17,7 +17,7 @@
         <EntityTypeShape EntityType="MModel.GorevYer" Width="1.5" PointX="3.25" PointY="9.125" />
         <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="7.375" PointY="16.75" />
         <EntityTypeShape EntityType="MModel.Koridor" Width="1.5" PointX="16.125" PointY="11.875" />
-        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="0.75" PointY="3.875" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="0.75" PointY="5.5" />
         <EntityTypeShape EntityType="MModel.Raf" Width="1.5" PointX="16.25" PointY="15.5" />
         <EntityTypeShape EntityType="MModel.Transfer" Width="1.5" PointX="12.625" PointY="7.75" />
         <EntityTypeShape EntityType="MModel.Transfer_Detay" Width="1.5" PointX="10.625" PointY="9.5" />
@@ -54,7 +54,6 @@
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         <EntityTypeShape EntityType="MModel.GorevNo" Width="1.5" PointX="6.25" PointY="5.625" />
         <AssociationConnector Association="MModel.FK_GorevNo_Depo" />
-        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="14.625" PointY="1" />
         <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="16.875" PointY="1.875" />
         <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="23" PointY="8.875" />
@@ -69,6 +68,7 @@
         <AssociationConnector Association="MModel.WebMenuRol" />
         <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="6.5" PointY="1.75" />
         <AssociationConnector Association="MModel.FK_GorevUsers_Gorev" />
+        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
