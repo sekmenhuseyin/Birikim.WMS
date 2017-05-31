@@ -356,6 +356,7 @@
     <Compile Include="Helper\Finsat.cs" />
     <Compile Include="Helper\Client.cs" />
     <Compile Include="Helper\DbExtensions.cs" />
+    <Compile Include="Helper\MyMail.cs" />
     <Compile Include="MobilServis.asmx.cs">
       <DependentUpon>MobilServis.asmx</DependentUpon>
       <SubType>Component</SubType>
