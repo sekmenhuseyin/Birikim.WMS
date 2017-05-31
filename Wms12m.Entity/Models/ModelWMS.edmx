@@ -903,6 +903,11 @@
           <Parameter Name="Message" Type="varchar(max)" Mode="In" />
           <Parameter Name="Source" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="LogLogins" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="IpAddress" Type="varchar" Mode="In" />
+          <Parameter Name="LoggedIn" Type="bit" Mode="In" />
+        </Function>
         <Function Name="MenuGetirici" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="WebSiteTipiID" Type="int" Mode="In" />
           <Parameter Name="MenuYeriID" Type="int" Mode="In" />
@@ -1481,6 +1486,11 @@
           <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="Settings" EntityType="MModel.Setting" />
+          <FunctionImport Name="LogLogins">
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="IpAddress" Mode="In" Type="String" />
+            <Parameter Name="LoggedIn" Mode="In" Type="Boolean" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3000,6 +3010,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="LogLogins" FunctionName="MModel.Store.LogLogins" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
