@@ -124,6 +124,8 @@ namespace Wms12m.Business
                         _Result.Data = tbl;
                     }
                 }
+                else
+                    _Result.Message = "Hatalı kombinasyon";
             }
             catch (Exception ex)
             {

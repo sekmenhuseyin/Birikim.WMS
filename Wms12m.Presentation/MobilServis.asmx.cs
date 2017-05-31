@@ -27,7 +27,7 @@ namespace Wms12m
         /// login işlemleri
         /// </summary>
         [WebMethod]
-        public Login LoginKontrol(string userID, string sifre)
+        public Login LoginKontrol(string userID, string sifre, string machine)
         {
             //new user
             var user = new User() { Kod = userID.Left(5), Sifre = sifre };
@@ -38,34 +38,59 @@ namespace Wms12m
             if (result.Id > 0)
             {
                 if (db.Users.Where(m => m.ID == result.Id).FirstOrDefault().UserDetail == null)
+                {
+                    db.LogLogins(userID, machine, false, "Depoya ait bir yetkiniz yok");
                     return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok" };
+                }
                 else
                     try
                     {
+                        db.LogLogins(userID, machine, true, "");
                         return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, DepoKodu = m.UserDetail.Depo.DepoKodu, DepoID = m.UserDetail.Depo.ID }).FirstOrDefault();
                     }
                     catch (Exception ex)
                     {
-                        db.Logger(userID, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Login");
+                        string inner = "";
+                        if (ex.InnerException != null)
+                        {
+                            inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                            if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+                        }
+                        db.Logger(userID, "", machine, ex.Message, inner, "WebService/Login");
+                        db.LogLogins(userID, machine, false, result.Message);
                     }
             }
+            else
+                db.LogLogins(userID, machine, false, result.Message);
             return new Login() { ID = 0, AdSoyad = "Hatalı Kullanıcı adı ve şifre" };
         }
         /// <summary>
         /// login işlemleri
         /// </summary>
         [WebMethod]
-        public Login LoginKontrol2(string barkod)
+        public Login LoginKontrol2(string barkod, string machine)
         {
             string guid = barkod.Left(8).ToLower();
             int userID = barkod.Remove(0, 8).ToInt32();
             var tbl = db.Users.Where(m => m.ID == userID).FirstOrDefault();
-            if (tbl.Guid.ToString().ToLower().Right(8) != guid)
+            if (tbl == null)
+            {
+                db.LogLogins(barkod, machine, false, "Hatalı barkod");
                 return new Login() { ID = 0, AdSoyad = "Hatalı barkod" };
+            }
+            if (tbl.Guid.ToString().ToLower().Right(8) != guid)
+            {
+                db.LogLogins(barkod, machine, false, "Hatalı barkod");
+                return new Login() { ID = 0, AdSoyad = "Hatalı barkod" };
+            }
             if (tbl.UserDetail == null)
+            {
+                db.LogLogins(barkod, machine, false, "Depoya ait bir yetkiniz yok");
                 return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok" };
+            }
             else
             {
+                db.LogLogins(tbl.Kod, machine, true, "");
                 return new Login { ID = tbl.ID, Kod = tbl.Kod, AdSoyad = tbl.AdSoyad, DepoKodu = tbl.UserDetail.Depo.DepoKodu, DepoID = tbl.UserDetail.Depo.ID };
             }
         }

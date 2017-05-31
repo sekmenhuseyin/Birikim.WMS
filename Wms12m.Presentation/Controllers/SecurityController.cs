@@ -31,24 +31,36 @@ namespace Wms12m.Presentation.Controllers
         {
             Persons _Person = new Persons();
             _Result = new Result();
-            try
+            var fn = new Functions();
+            using (var db = new WMSEntities())
             {
-                if (string.IsNullOrEmpty(P.Kod) || string.IsNullOrEmpty(P.Sifre)) { }
-                else
+                try
                 {
-                    _Result = _Person.Login(P);
-                    if (_Result.Id > 0)
-                        Authentication.CreateAuth((User)_Result.Data, RememberMe == "1" ? true : false);
+                    if (string.IsNullOrEmpty(P.Kod) || string.IsNullOrEmpty(P.Sifre)) { }
+                    else
+                    {
+                        _Result = _Person.Login(P);
+                        if (_Result.Id > 0)
+                        {
+                            Authentication.CreateAuth((User)_Result.Data, RememberMe == "1" ? true : false);
+                            db.LogLogins(P.Kod, fn.GetIPAddress(), true, "");
+                        }
+                        else
+                            db.LogLogins(P.Kod, fn.GetIPAddress(), false, _Result.Message);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                using (var db = new WMSEntities())
+                catch (Exception ex)
                 {
-                    db.Logger(P.Kod, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Security/Login");
-                    db.LogLogins(P.Kod, "", false);
+                    string inner = "";
+                    if (ex.InnerException != null)
+                    {
+                        inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                        if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+                    }
+                    db.Logger(P.Kod, "", fn.GetIPAddress(), ex.Message, inner, "Security/Login");
+                    db.LogLogins(P.Kod, fn.GetIPAddress(), false, ex.Message);
+                    return null;
                 }
-                return null;
             }
             return Json(new { data = (_Result.Status) }, JsonRequestBehavior.AllowGet);
         }
