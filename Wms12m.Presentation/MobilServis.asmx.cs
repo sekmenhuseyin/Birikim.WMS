@@ -27,7 +27,7 @@ namespace Wms12m
         /// login işlemleri
         /// </summary>
         [WebMethod]
-        public Login LoginKontrol(string userID, string sifre, string machine)
+        public Login LoginKontrol(string userID, string sifre)
         {
             //new user
             var user = new User() { Kod = userID.Left(5), Sifre = sifre };
@@ -39,13 +39,13 @@ namespace Wms12m
             {
                 if (db.Users.Where(m => m.ID == result.Id).FirstOrDefault().UserDetail == null)
                 {
-                    db.LogLogins(userID, machine, false, "Depoya ait bir yetkiniz yok");
+                    db.LogLogins(userID, "terminal", false, "Depoya ait bir yetkiniz yok");
                     return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok" };
                 }
                 else
                     try
                     {
-                        db.LogLogins(userID, machine, true, "");
+                        db.LogLogins(userID, "terminal", true, "");
                         return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, DepoKodu = m.UserDetail.Depo.DepoKodu, DepoID = m.UserDetail.Depo.ID }).FirstOrDefault();
                     }
                     catch (Exception ex)
@@ -56,41 +56,41 @@ namespace Wms12m
                             inner = ex.InnerException == null ? "" : ex.InnerException.Message;
                             if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
                         }
-                        db.Logger(userID, "", machine, ex.Message, inner, "WebService/Login");
-                        db.LogLogins(userID, machine, false, result.Message);
+                        db.Logger(userID, "", "terminal", ex.Message, inner, "WebService/Login");
+                        db.LogLogins(userID, "terminal", false, result.Message);
                     }
             }
             else
-                db.LogLogins(userID, machine, false, result.Message);
+                db.LogLogins(userID, "terminal", false, result.Message);
             return new Login() { ID = 0, AdSoyad = "Hatalı Kullanıcı adı ve şifre" };
         }
         /// <summary>
         /// login işlemleri
         /// </summary>
         [WebMethod]
-        public Login LoginKontrol2(string barkod, string machine)
+        public Login LoginKontrol2(string barkod)
         {
             string guid = barkod.Left(8).ToLower();
             int userID = barkod.Remove(0, 8).ToInt32();
             var tbl = db.Users.Where(m => m.ID == userID).FirstOrDefault();
             if (tbl == null)
             {
-                db.LogLogins(barkod, machine, false, "Hatalı barkod");
+                db.LogLogins(barkod, "terminal", false, "Hatalı barkod");
                 return new Login() { ID = 0, AdSoyad = "Hatalı barkod" };
             }
             if (tbl.Guid.ToString().ToLower().Right(8) != guid)
             {
-                db.LogLogins(barkod, machine, false, "Hatalı barkod");
+                db.LogLogins(barkod, "terminal", false, "Hatalı barkod");
                 return new Login() { ID = 0, AdSoyad = "Hatalı barkod" };
             }
             if (tbl.UserDetail == null)
             {
-                db.LogLogins(barkod, machine, false, "Depoya ait bir yetkiniz yok");
+                db.LogLogins(barkod, "terminal", false, "Depoya ait bir yetkiniz yok");
                 return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok" };
             }
             else
             {
-                db.LogLogins(tbl.Kod, machine, true, "");
+                db.LogLogins(tbl.Kod, "terminal", true, "");
                 return new Login { ID = tbl.ID, Kod = tbl.Kod, AdSoyad = tbl.AdSoyad, DepoKodu = tbl.UserDetail.Depo.DepoKodu, DepoID = tbl.UserDetail.Depo.ID };
             }
         }
@@ -778,39 +778,53 @@ namespace Wms12m
                 return new Result(false, "İşlem bitmemiş !");
             //kullanıcı kontrol
             var kull = db.Users.Where(m => m.ID == kulID).FirstOrDefault();
-            if (kull.UserDetail.TransferOutSeri == null)
-                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
-            if (kull.UserDetail.TransferOutSeri.Value < 1 || kull.UserDetail.TransferOutSeri.Value > 199)
-                return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
             //aktar
+            Result sonuc;
             int tarih = DateTime.Today.ToOADateInt();
             int saat = DateTime.Now.ToOaTime();
-            var transfer = mGorev.Transfers.FirstOrDefault();
             string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
-            var sonuc = TransferToLink(transfer, false, kull.Kod, kull.UserDetail.TransferOutSeri.Value);
-            if (sonuc.Status == true)
+            var transfer = mGorev.Transfers.FirstOrDefault();
+            if (transfer == null)//iç transfer
             {
-                //finish
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0);
-                //get depo details
-                var araDepo = db.Depoes.Where(m => m.ID == transfer.AraDepoID).Select(m => m.DepoKodu).FirstOrDefault();
-                var girisDepo = db.Depoes.Where(m => m.ID == transfer.GirisDepoID).Select(m => m.DepoKodu).FirstOrDefault();
-                //add new irsaliye for giriş
-                var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, gorevNo, tarih, "Giriş: " + girisDepo + ", Çıkış: " + araDepo, true, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
-                //insert irs_detay
-                foreach (var item in mGorev.IR.IRS_Detay)
-                {
-                    var tbli = new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim };
-                    db.IRS_Detay.Add(tbli);
-                }
-                //yeni görev id'yi yaz
-                transfer.GorevID = cevap.GorevID.Value;
-                mGorev.IR.DepoID = transfer.GirisDepoID;
-                mGorev.IR.EvrakNo = sonuc.Data.ToString();
-                //görev user tablosu
-                var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
-                tbl.BitisTarihi = DateTime.Today.ToOADateInt();
+                var cevap = db.InsertIrsaliye(mGorev.IR.SirketKod, mGorev.IR.DepoID, gorevNo, mGorev.IR.EvrakNo, tarih, "Yer Değiştir", false, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
+                //update gorev table
+                var tmp = db.Gorevs.Where(m => m.ID == cevap.GorevID.Value).FirstOrDefault();
+                tmp.DurumID = ComboItems.Açık.ToInt32();
                 db.SaveChanges();
+                sonuc = new Result(true);
+            }
+            else//dış transfer
+            {
+                if (kull.UserDetail.TransferOutSeri == null)
+                    return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
+                if (kull.UserDetail.TransferOutSeri.Value < 1 || kull.UserDetail.TransferOutSeri.Value > 199)
+                    return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
+                sonuc = TransferToLink(transfer, false, kull.Kod, kull.UserDetail.TransferOutSeri.Value);
+                if (sonuc.Status == true)
+                {
+                    //finish
+                    db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0);
+                    //get depo details
+                    var araDepo = db.Depoes.Where(m => m.ID == transfer.AraDepoID).Select(m => m.DepoKodu).FirstOrDefault();
+                    var girisDepo = db.Depoes.Where(m => m.ID == transfer.GirisDepoID).Select(m => m.DepoKodu).FirstOrDefault();
+                    //add new irsaliye for giriş
+                    var cevap = db.InsertIrsaliye(transfer.SirketKod, transfer.GirisDepoID, gorevNo, gorevNo, tarih, "Giriş: " + girisDepo + ", Çıkış: " + araDepo, false, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
+                    //insert irs_detay
+                    foreach (var item in mGorev.IR.IRS_Detay)
+                    {
+                        var tbli = new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim };
+                        db.IRS_Detay.Add(tbli);
+                    }
+                    //yeni görev id'yi yaz
+                    transfer.GorevID = cevap.GorevID.Value;
+                    mGorev.IR.DepoID = transfer.GirisDepoID;
+                    mGorev.IR.EvrakNo = sonuc.Data.ToString();
+                    //görev user tablosu
+                    var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+                    tbl.BitisTarihi = DateTime.Today.ToOADateInt();
+                    db.SaveChanges();
+                }
             }
             return sonuc;
         }

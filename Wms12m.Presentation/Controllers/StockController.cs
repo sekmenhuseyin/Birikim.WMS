@@ -197,7 +197,7 @@ namespace Wms12m.Presentation.Controllers
             string GorevNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
             try
             {
-                var cevap = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevNo, GorevNo, today, "Yer Değiştir", false, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "").FirstOrDefault();
+                var cevap = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevNo, GorevNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "").FirstOrDefault();
                 if (cevap.GorevID != null)
                 {
                     //GorevYer tablosu
