@@ -33,6 +33,12 @@
           <Property Name="AllowNewUser" Type="bit" Nullable="false" />
           <Property Name="AllowForgotPass" Type="bit" Nullable="false" />
           <Property Name="KabloSiparisMySql" Type="bit" Nullable="false" />
+          <Property Name="SmtpEmail" Type="varchar" MaxLength="150" />
+          <Property Name="SmtpPass" Type="varchar" MaxLength="150" />
+          <Property Name="SmtpPort" Type="int" />
+          <Property Name="SmtpHost" Type="varchar" MaxLength="150" />
+          <Property Name="SmtpSSL" Type="bit" Nullable="false" />
+          <Property Name="Version" Type="varchar" MaxLength="50" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Simge">
@@ -1408,7 +1414,6 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="GorevNo" EntitySet="GorevNoes" />
           </AssociationSet>
-          <EntitySet Name="Settings" EntityType="MModel.Setting" />
           <FunctionImport Name="GetUserPermsFor" ReturnType="Collection(MModel.GetUserPermsFor_Result)">
           <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1473,8 +1478,9 @@
             <Parameter Name="url" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetEvrakNosForGorev" ReturnType="Collection(String)">
-            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="Settings" EntityType="MModel.Setting" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2221,19 +2227,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Setting">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TopLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="LoginLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="AllowNewUser" Type="Boolean" Nullable="false" />
-          <Property Name="AllowForgotPass" Type="Boolean" Nullable="false" />
-          <Property Name="Aktif" Type="Boolean" Nullable="false" />
-          <Property Name="KabloSiparisMySql" Type="Boolean" Nullable="false" />
-        </EntityType>
         <ComplexType Name="GetUserPermsFor_Result">
           <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="UserName" Nullable="false" MaxLength="5" />
@@ -2430,6 +2423,25 @@
           <Property Type="Int32" Name="AltmenuCount" Nullable="true" />
           <Property Type="Int32" Name="Aktif" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoginLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="TopLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AllowNewUser" Type="Boolean" Nullable="false" />
+          <Property Name="AllowForgotPass" Type="Boolean" Nullable="false" />
+          <Property Name="KabloSiparisMySql" Type="Boolean" Nullable="false" />
+          <Property Name="SmtpEmail" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpPass" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpPort" Type="Int32" />
+          <Property Name="SmtpHost" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpSSL" Type="Boolean" Nullable="false" />
+          <Property Name="Version" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Aktif" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2862,20 +2874,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Settings">
-            <EntityTypeMapping TypeName="MModel.Setting">
-              <MappingFragment StoreEntitySet="Settings">
-                <ScalarProperty Name="KabloSiparisMySql" ColumnName="KabloSiparisMySql" />
-                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
-                <ScalarProperty Name="AllowForgotPass" ColumnName="AllowForgotPass" />
-                <ScalarProperty Name="AllowNewUser" ColumnName="AllowNewUser" />
-                <ScalarProperty Name="LoginLogo" ColumnName="LoginLogo" />
-                <ScalarProperty Name="TopLogo" ColumnName="TopLogo" />
-                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetUserPermsFor" FunctionName="MModel.Store.GetUserPermsFor">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetUserPermsFor_Result">
@@ -2982,6 +2980,26 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetEvrakNosForGorev" FunctionName="MModel.Store.GetEvrakNosForGorev" />
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="MModel.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="SmtpSSL" ColumnName="SmtpSSL" />
+                <ScalarProperty Name="SmtpHost" ColumnName="SmtpHost" />
+                <ScalarProperty Name="SmtpPort" ColumnName="SmtpPort" />
+                <ScalarProperty Name="SmtpPass" ColumnName="SmtpPass" />
+                <ScalarProperty Name="SmtpEmail" ColumnName="SmtpEmail" />
+                <ScalarProperty Name="KabloSiparisMySql" ColumnName="KabloSiparisMySql" />
+                <ScalarProperty Name="AllowForgotPass" ColumnName="AllowForgotPass" />
+                <ScalarProperty Name="AllowNewUser" ColumnName="AllowNewUser" />
+                <ScalarProperty Name="TopLogo" ColumnName="TopLogo" />
+                <ScalarProperty Name="LoginLogo" ColumnName="LoginLogo" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
