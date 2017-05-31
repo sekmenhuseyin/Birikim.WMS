@@ -27,7 +27,7 @@ namespace Wms12m.Presentation.Controllers
         /// giriş işlemleri
         /// </summary>
         [HttpPost]
-        public ActionResult Login(User P, string RememberMe)
+        public JsonResult Login(User P, string RememberMe)
         {
             Persons _Person = new Persons();
             _Result = new Result();
@@ -46,6 +46,7 @@ namespace Wms12m.Presentation.Controllers
                 using (var db = new WMSEntities())
                 {
                     db.Logger(P.Kod, "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "Security/Login");
+                    db.LogLogins(P.Kod, "", false);
                 }
                 return null;
             }
