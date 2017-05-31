@@ -231,13 +231,28 @@
 
         });
 
-        $('.temizle-buton').click(function () {
-            inputClear();
-            $(".txt_sira_no").dxTextBox("instance").option("value", "@ViewBag.SRNO");
-            $(".select_sozlesmeler").dxLookup("instance").option("value", null);
-            $(".swtch_sozlesme_durumu").dxSwitch("instance").option("value", true);
-            $(".swtch_vade_valor").dxSwitch("instance").option("value", true);
-            $(".swtch_aktif_pasif").dxSwitch("instance").option("value", true);
+        $('.onayla-buton').click(function () {
+            $.ajax({
+                url: window.location.origin + "/Approval/SipGMOnayla",
+                data: {},
+                type: "post",
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    console.log(data);
+                }
+            });
+        });
+
+        $('.reddet-buton').click(function () {
+            $.ajax({
+                url: window.location.origin + "/Approval/SipGMReddet?redAciklama="+ $(".txt_geri_cevirme_aciklamasi").dxTextBox("instance").option("value"),
+                data: {},
+                type: "post",
+                success: function (data) {
+                    //var result = JSON.parse(data);
+                    console.log(data);
+                }
+            });
         });
 
         function inputDisable() {
