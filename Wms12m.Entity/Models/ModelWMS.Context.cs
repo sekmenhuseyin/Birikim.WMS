@@ -49,11 +49,11 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<IR> IRS { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<GorevNo> GorevNoes { get; set; }
-        public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<Combo_Name> Combo_Name { get; set; }
         public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<GorevUser> GorevUsers { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
@@ -453,6 +453,15 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("url", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MenuGetirici_Result>("WMSEntities.MenuGetirici", webSiteTipiIDParameter, menuYeriIDParameter, roleNameParameter, ustMenuIDParameter, urlParameter);
+        }
+    
+        public virtual ObjectResult<string> GetEvrakNosForGorev(Nullable<int> gorevID)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetEvrakNosForGorev", gorevIDParameter);
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -12,8 +14,21 @@ using Wms12m.Entity.Mysql;
 
 namespace Wms12m
 {
+    /// <summary>
+    /// statik extensions that require db usage
+    /// </summary>
     public static class DbExtensions
     {
+        public static string GetEvrakNosForGorev(this int GorevID)
+        {
+            using (WMSEntities db = new WMSEntities())
+            {
+                var sonuc = db.GetEvrakNosForGorev(GorevID).FirstOrDefault();
+                if (sonuc == null) sonuc = "";
+                else sonuc = sonuc = sonuc.Substring(0, sonuc.Length - 1);
+                return sonuc;
+            }
+        }
         /// <summary>
         /// get finsat stk maladi from malkodu
         /// </summary>
@@ -122,6 +137,42 @@ namespace Wms12m
                 Response.Flush();
                 Response.End();
             }
+        }
+    }
+    /// <summary>
+    /// send email
+    /// </summary>
+    public class Email
+    {
+        public Result Send(string To, string Subject, string Body)
+        {
+            string smtpEmail, smtpPass, smtpHost; int smtpPort; bool smtpSSL;
+            using (WMSEntities db = new WMSEntities())
+            {
+                var tbl = db.Settings.FirstOrDefault();
+                if (tbl.SmtpEmail == null || tbl.SmtpPass == null || tbl.SmtpHost == null || tbl.SmtpPort == null)
+                    return new Result(false, "Mail ayarları kaydedilmemiş");
+                smtpEmail = tbl.SmtpEmail;
+                smtpPass = tbl.SmtpPass;
+                smtpHost = tbl.SmtpHost;
+                smtpPort = tbl.SmtpPort.Value;
+                smtpSSL = tbl.SmtpSSL;
+            }
+            SmtpClient SmtpServer = new SmtpClient();
+            MailMessage mail = new MailMessage();
+            SmtpServer.Credentials = new NetworkCredential(smtpEmail, smtpPass);
+            SmtpServer.Port = smtpPort;
+            SmtpServer.Host = smtpHost;
+            SmtpServer.EnableSsl = true;
+            mail = new MailMessage();
+            mail.To.Add(To);
+            mail.From = new MailAddress(smtpEmail);
+            mail.Subject = Subject;
+            mail.Body = Body;
+            SmtpServer.Send(mail);
+
+            return new Result();
+
         }
     }
 }

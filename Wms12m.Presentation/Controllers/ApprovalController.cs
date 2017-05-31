@@ -4,6 +4,8 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -19,6 +21,7 @@ namespace Wms12m.Presentation.Controllers
         public static List<SatTalep> SipTalepList { get; set; }
         public static List<SatTalep> TalepSource { get; set; }
         public static List<KKP_SPI> GridSource { get; set; }
+        public static List<KKP_FTD> GridFTD { get; set; }
         public static bool DovizDurum { get; set; }
 
     }
@@ -2875,9 +2878,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] SET SMOnay = 1, SMOnaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
                     // { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 3, 1)); }
-
-
-
                 }
                 //return "OK";
 
@@ -3315,8 +3315,8 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
             MyGlobalVariables.DovizDurum = false;
-            var GMOnay = db.Database.SqlQuery<SatinAlmaGMOnayList>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", "17")).ToList();
-            return View(GMOnay);
+            MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", "17")).ToList();
+            return View(MyGlobalVariables.SipTalepList);
         }
 
         public PartialViewResult SipGMOnayList(string HesapKodu, int SipTalepNo)
@@ -3326,6 +3326,14 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             ViewBag.HesapKodu = HesapKodu;
             ViewBag.SipTalepNo = SipTalepNo;
             return PartialView("SatinalmaSipGMOnay_List");
+        }
+        public PartialViewResult SipGMOnayListFTD(string HesapKodu, int SipTalepNo)
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            //var TMNT = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[dbo].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", "17", HesapKodu, SipTalepNo)).ToList();
+            ViewBag.HesapKodu = HesapKodu;
+            ViewBag.SipTalepNo = SipTalepNo;
+            return PartialView("SatinalmaSipGMOnayFTD_List");
         }
         public string SipGMOnayListData(string HesapKodu, int SipTalepNo)
         {
@@ -3386,7 +3394,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
                 //spi.Depo = Degiskenler.SiparisDepo;
 
-                spi.Operator = (short)item.Operator;
+                spi.Operator = (short)item.Operator.Value;
                 spi.Katsayi = item.Katsayi.Value;
 
                 MyGlobalVariables.SipEvrak.Ekle(spi);
@@ -3394,11 +3402,194 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 siraNo++;
             }
 
+            if (MyGlobalVariables.DovizDurum == false)
+            {
+                MyGlobalVariables.SipEvrak.FTDHesapla("TL", Convert.ToDecimal(0));
+                MyGlobalVariables.GridFTD = MyGlobalVariables.SipEvrak.FTDList;
+            }
+            else
+            {
+                decimal kur = MyGlobalVariables.TalepSource[0].FTDDovizKuru.Value;
+                if (kur > 0)
+                {
+                    MyGlobalVariables.SipEvrak.FTDHesapla(MyGlobalVariables.TalepSource[0].FTDDovizCinsi, kur);
+                    MyGlobalVariables.GridFTD = MyGlobalVariables.SipEvrak.FTDList;
+                }
+            }
 
-
-            var json = new JavaScriptSerializer().Serialize("");
+            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridSource);
             return json;
         }
-        #endregion
-    }
+
+        public string SipGMOnayListFTDData(string HesapKodu, int SipTalepNo)
+        {
+            var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridFTD);
+            return json;
+        }
+
+        public JsonResult SipGMOnayla()
+        {
+            Result _Result = new Result();
+            _Result.Message = "İşlem Başarılı";
+            _Result.Status = true;
+            if (MyGlobalVariables.TalepSource == null)
+            {
+                _Result.Message = "Sipariş Seçin";
+                _Result.Status = false;
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
+                
+
+            using (KKP kkp = new KKP(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17"))
+            {
+                try
+                {
+                    string evrakno = kkp.YeniEvrakNo(KKPKynkEvrakTip.AlımSiparişi, 1);
+                    foreach (var item in MyGlobalVariables.TalepSource)
+                    {
+                        //Durum 11: Sipariş Ön Onay; 15: Onaylı Sipariş
+                        string sql = string.Format(@"UPDATE sta.Talep 
+    SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo
+    , SirketKodu='{0}'
+    , Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
+    WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL", "17");
+
+
+                        SqlParameter[] paramlist = new SqlParameter[4]
+                        {
+                            new SqlParameter("ID", SqlDbType.Int){ Value = item.ID},
+                            new SqlParameter("Degistiren", SqlDbType.VarChar){ Value = vUser.UserName.ToString()},
+                            new SqlParameter("DegisTarih", SqlDbType.SmallDateTime){ Value = DateTime.Now},
+                            new SqlParameter("SipEvrakNo", SqlDbType.VarChar){Value = evrakno}
+                        };
+
+                        kkp.ExecuteCommandOnUpdate(sql, true, paramlist);
+                    }
+
+
+                    foreach (var item in MyGlobalVariables.SipEvrak.Satirlar)
+                    {
+                        item.Aciklama = item.Aciklama.Length > 64 ? item.Aciklama.Substring(0, 64) : item.Aciklama;
+                    }
+
+                    kkp.SiparisEvrakList.Add(MyGlobalVariables.SipEvrak);
+                    MyGlobalVariables.SipEvrak.MFK.Aciklama = "";
+                    MyGlobalVariables.SipEvrak.MFK.Aciklama2 = "";
+                    MyGlobalVariables.SipEvrak.MFK.Aciklama3 = "";
+                    MyGlobalVariables.SipEvrak.MFK.Aciklama4 = "";
+                    MyGlobalVariables.SipEvrak.MFK.Aciklama5 = "";
+                    MyGlobalVariables.SipEvrak.MFK.Aciklama6 = "";
+
+
+
+                    MyGlobalVariables.SipEvrak.EvrakNo = evrakno;
+                    MyGlobalVariables.SipEvrak.HesapKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
+                    MyGlobalVariables.SipEvrak.TeslimYeriKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
+                    MyGlobalVariables.SipEvrak.Tarih = DateTime.Today;
+                    //SipEvrak.IslemTip = (KKPIslemTipSPI)TalepSource[0].SipIslemTip;
+                    MyGlobalVariables.SipEvrak.INIGuncellensin = true;
+                    MyGlobalVariables.SipEvrak.TahTeslimTarihi = new DateTime(1900, 1, 1).AddDays(-2);
+
+                    if (MyGlobalVariables.DovizDurum == false)
+                    {
+                        MyGlobalVariables.SipEvrak.FTDHesapla("", Convert.ToDecimal(0));
+                    }
+                    else
+                    {
+                        decimal kur = MyGlobalVariables.TalepSource[0].FTDDovizKuru.Value;
+                        if (kur > 0)
+                        {
+                            MyGlobalVariables.SipEvrak.FTDHesapla(MyGlobalVariables.TalepSource[0].FTDDovizCinsi, kur);
+                        }
+                        //else
+                        //{
+                        //    Mesaj.Uyari("Döviz Kuru 0'dan büyük bir değer olmalıdır!!");
+                        //    return;
+                        //}
+                    }
+                    //SipEvrak.FTDHesapla();
+
+
+                    kkp.UpdateChanges();
+                    //Mesaj.Basari(string.Format("İşlem başarılı bir şekilde gerçekleştirildi. Evrak No: {0}", evrakno));
+                    //gridLueSipTalepNo.EditValue = null;
+                    //Yenile();
+
+                    int sipTarih = Convert.ToInt32(MyGlobalVariables.SipEvrak.Tarih.ToOADate());
+
+                    //SatTalep talep = (SatTalep)gridLueSipTalepNo.GetSelectedDataRow();
+                    //DbSat.SiparisOnayMailGonderim(SipEvrak.EvrakNo, SipEvrak.HesapKodu, sipTarih, Convert.ToInt32(SipEvrak.Satirlar[0].Kod4));
+
+                }
+                catch (Exception ex)
+                {
+                    _Result.Message = "İşlem Sırasında Hata Oluştu.";
+                    _Result.Status = false;
+                   
+                }
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult SipGMReddet( string redAciklama)
+        {
+            Result _Result = new Result();
+            _Result.Message = "İşlem Başarılı";
+            _Result.Status = true;
+
+            if (MyGlobalVariables.GridSource == null || MyGlobalVariables.GridSource.Count == 0 || MyGlobalVariables.SipEvrak == null)
+            {
+                _Result.Message = "Siparis Seçmelisiniz!!";
+                _Result.Status = false;
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
+                
+
+            if (redAciklama.Trim() == "")
+            {
+                _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!!";
+                _Result.Status = false;
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            }
+
+            Connection con = Connection.GetConnectionWithTrans();
+            try
+            {
+                foreach (var item in MyGlobalVariables.TalepSource)
+                {
+                    //Durum 11: Sipariş Ön Onay; 15: Onaylı Sipariş; 13: Sipariş Onay İptal
+                    string sql = @"UPDATE sta.Talep 
+SET GMOnaylayan='{0}', GMOnayTarih={1}, Durum=13
+, Degistiren='{0}', DegisTarih={1}, DegisSirKodu={3}, Aciklama2='{2}'
+WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
+
+                db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-MM-dd"), redAciklama, "17",item.ID));
+                //con.Params.Add("ID", SqlDbType.Int);
+                //con.Params.AddWithValue("Degistiren", vUser.UserName.ToString());
+                //con.Params.AddWithValue("DegisTarih", DateTime.Now);
+                //con.Params.AddWithValue("Aciklama", redAciklama);
+                //con.Params.AddWithValue("DegisSirKodu", "17");
+
+                }
+
+                con.Trans.Commit();
+
+                //DbTalep.SiparisdenGeriCevirmeMail(TalepSource, TalepOnayTip.SipGMOnay);
+
+                //gridLueSipTalepNo.EditValue = null;
+                //Yenile();
+            }
+            catch (Exception ex)
+            {
+                if (con.Trans != null)
+                    con.Trans.Rollback();
+                _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!!";
+                _Result.Status = false;
+
+            }
+            con.Dispose();
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+            #endregion
+        }
 }

@@ -115,7 +115,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "Uploads/irsaliye");
+                    Logger(ex, "Uploads/Irsaliye");
                     _result.Message = "Hatalı satırlar var";
                     return Json(_result, JsonRequestBehavior.AllowGet);
                 }
@@ -229,29 +229,43 @@ namespace Wms12m.Presentation.Controllers
             //kontrol
             if (result.Tables.Count == 0) return Json(_result, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(_result, JsonRequestBehavior.AllowGet);
-            //loop table
-            int basarili = 0, hatali = 0; string hatalilar = "";
-            for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+            //loop all list
+            int basarili = 0, hatali = 0, tarih = fn.ToOADate(); string hatalilar = "";
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                DataRow dr = result.Tables[0].Rows[i];
-                try
+                //add to irs table
+                var sonuc = Irsaliye.Operation(new IR() { SirketKod = db.GetSirketDBs().FirstOrDefault(), DepoID = DID, EvrakNo = db.SettingsGorevNo(tarih, DID).FirstOrDefault(), HesapKodu = "Elle Ekleme", Tarih = tarih });
+                //loop
+                for (int i = 0; i < result.Tables[0].Rows.Count; i++)
                 {
-                    if (dr["Hücre Adı"].ToString() != "" && dr["Mal Kodu"].ToString() != "" && dr["Birim"].ToString() != "" && dr["Miktar"].ToString2().IsNumeric() != false)
+                    DataRow dr = result.Tables[0].Rows[i];
+                    try
                     {
-                        var katID = db.GetHucreKatID(DID, dr["Hücre Adı"].ToString()).FirstOrDefault();
-                        if (katID != null)
+                        if (dr["Hücre Adı"].ToString() != "" && dr["Mal Kodu"].ToString() != "" && dr["Birim"].ToString() != "" && dr["Miktar"].ToString2().IsNumeric() != false)
                         {
-                            var tbl = Yerlestirme.Detail(katID.Value, dr["Mal Kodu"].ToString(), dr["Birim"].ToString());
-                            if (tbl != null)
+                            var katID = db.GetHucreKatID(DID, dr["Hücre Adı"].ToString()).FirstOrDefault();
+                            var miktar = dr["Miktar"].ToString().ToDecimal();
+                            if (katID != null)
                             {
-                                tbl.Miktar += dr["Miktar"].ToString().ToDecimal();
+                                var tmp2 = Yerlestirme.Detail(katID.Value, dr["Mal Kodu"].ToString(), dr["Birim"].ToString());
+                                if (tmp2 == null)
+                                {
+                                    tmp2 = new Yer() { KatID = katID.Value, MalKodu = dr["Mal Kodu"].ToString(), Birim = dr["Birim"].ToString(), Miktar = miktar };
+                                    Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                                }
+                                else
+                                {
+                                    tmp2.Miktar += miktar;
+                                    Yerlestirme.Update(tmp2, 0, vUser.Id, false, miktar);
+                                }
+                                basarili++;
                             }
-                            tbl = new Yer()
+                            else
                             {
-                                KatID = katID.Value,
-                                MalKodu = dr["Mal Kodu"].ToString()
-                            };
-                            basarili++;
+                                hatali++;
+                                if (hatalilar != "") hatalilar += ", ";
+                                hatalilar += i;
+                            }
                         }
                         else
                         {
@@ -260,21 +274,26 @@ namespace Wms12m.Presentation.Controllers
                             hatalilar += i;
                         }
                     }
-                    else
+                    catch (Exception)
                     {
                         hatali++;
                         if (hatalilar != "") hatalilar += ", ";
                         hatalilar += i;
                     }
                 }
-                catch (Exception)
+                reader.Close();
+                //update db
+                try
                 {
-                    hatali++;
-                    if (hatalilar != "") hatalilar += ", ";
-                    hatalilar += i;
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    Logger(ex, "Uploads/Stock");
+                    _result.Message = "Hatalı satırlar var";
+                    return Json(_result, JsonRequestBehavior.AllowGet);
                 }
             }
-            reader.Close();
             if (basarili > 0)
                 _result.Message = basarili + " adet satır eklendi";
             else

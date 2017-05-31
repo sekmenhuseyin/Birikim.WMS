@@ -207,7 +207,7 @@
             this.label12.ForeColor = System.Drawing.SystemColors.Window;
             this.label12.Location = new System.Drawing.Point(483, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(70, 21);
+            this.label12.Size = new System.Drawing.Size(70, 18);
             this.label12.Text = "İşlemMiktar";
             this.label12.Visible = false;
             // 
@@ -217,8 +217,8 @@
             this.label6.ForeColor = System.Drawing.SystemColors.Window;
             this.label6.Location = new System.Drawing.Point(377, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(105, 21);
-            this.label6.Text = "YerlestirmeMiktari";
+            this.label6.Size = new System.Drawing.Size(105, 18);
+            this.label6.Text = "Yerleştirme Miktar";
             this.label6.Visible = false;
             // 
             // label5
@@ -227,7 +227,7 @@
             this.label5.ForeColor = System.Drawing.SystemColors.Window;
             this.label5.Location = new System.Drawing.Point(284, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(92, 21);
+            this.label5.Size = new System.Drawing.Size(92, 18);
             this.label5.Text = "Okutulan Miktar";
             // 
             // label11
@@ -237,7 +237,7 @@
             this.label11.ForeColor = System.Drawing.SystemColors.Window;
             this.label11.Location = new System.Drawing.Point(211, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(72, 21);
+            this.label11.Size = new System.Drawing.Size(72, 18);
             this.label11.Text = "Birim";
             // 
             // label10
@@ -247,7 +247,7 @@
             this.label10.ForeColor = System.Drawing.SystemColors.Window;
             this.label10.Location = new System.Drawing.Point(145, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(65, 21);
+            this.label10.Size = new System.Drawing.Size(65, 18);
             this.label10.Text = "Miktar";
             // 
             // label9
@@ -257,7 +257,7 @@
             this.label9.ForeColor = System.Drawing.SystemColors.Window;
             this.label9.Location = new System.Drawing.Point(64, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(80, 21);
+            this.label9.Size = new System.Drawing.Size(80, 18);
             this.label9.Text = "Malzeme";
             // 
             // label8
@@ -267,7 +267,7 @@
             this.label8.ForeColor = System.Drawing.SystemColors.Window;
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 21);
+            this.label8.Size = new System.Drawing.Size(60, 18);
             this.label8.Text = "Mal Kodu";
             // 
             // panelAlt
