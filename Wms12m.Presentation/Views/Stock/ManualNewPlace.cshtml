@@ -70,9 +70,8 @@
     function getresult(e) {
         if (e.Status == true)
         {
-            FuncSearchBtn();
-            Modaldialog("İşlem Tamamlandı", 'Başarı', 'Tamam', 'btn-default');
-            //$('#modalEditPage').modal('toggle');
+            Modaldialog("İşlem Tamamlandı", 'Başarı', 'Tamam', 'btn-success');
+            $('#modalEditPage').modal('toggle');
         }
         else
             Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');

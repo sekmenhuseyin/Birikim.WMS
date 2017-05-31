@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TumFaturaKayit;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
@@ -32,7 +33,7 @@ namespace Wms12m
         /// <summary>
         /// sayım fişi oluştur
         /// </summary>
-        public Result SayımVeFarkFişi(List<STI> stiList, int EvrakSeriNo, bool EvrakNoArttır, string username)
+        public Result SayımVeFarkFişi(List<Entity.STI> stiList, int EvrakSeriNo, bool EvrakNoArttır, string username)
         {
             //evrak no
             string evrakno = EvrakNo(EvrakSeriNo);
@@ -148,7 +149,7 @@ namespace Wms12m
                 }
             }
             Irsaliye_Islemleri IrsIslem = new Irsaliye_Islemleri(irsaliye.SirketKod);
-            var Sonuc = new IslemSonuc(false);
+            var Sonuc = new OnikimCore.GunesCore.IslemSonuc(false);
             try
             {
                 Sonuc = IrsIslem.Irsaliye_Kayit(-1, STIBaseList);
@@ -163,6 +164,104 @@ namespace Wms12m
                 return new Result(true, Sonuc.Veri.ToString2());
             else
                 return new Result(false, Sonuc.Hata.Message);
+        }
+        /// <summary>
+        /// satış irsaliyesi ve faturası
+        /// </summary>
+        public Result FaturaKayıt(int irsID, string DepoKodu, bool efatKullanici, int Tarih, string CHK, string kaydeden, int IrsaliyeSeri, int FaturaSeri, int yil)
+        {
+            var STIBaseList = new List<ParamSti>();
+            //evrak no getir
+            var ftrKayit = new FaturaKayit(ConStr, SirketKodu);
+            List<EvrakBilgi> evrkno;
+            try
+            {
+                evrkno = ftrKayit.EvrakNo_Getir(efatKullanici, IrsaliyeSeri, yil);
+            }
+            catch (Exception ex)
+            {
+                return new Result(false, ex.Message);
+            }
+            int saat = DateTime.Now.ToOaTime();
+            //listeyi dön
+            using (WMSEntities db = new WMSEntities())
+            {
+                string sql = String.Format("SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo,KynkSiparisTarih, KynkSiparisSiraNo  FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
+                var list = db.Database.SqlQuery<STIMax>(sql).ToList();
+                foreach (STIMax item in list)
+                {
+                    sql = string.Format("SELECT Chk, Miktar, MalKodu, Fiyat, Birim, Depo, ToplamIskonto, KDV, KDVOran, IskontoOran1, IskontoOran2, IskontoOran3, IskontoOran4, IskontoOran5, EvrakNo as KaynakSiparisNo, Tarih as KaynakSiparisTarih, SiraNo as SiparisSiraNo, Miktar as SiparisMiktar, TeslimMiktar, KapatilanMiktar, FytListeNo, ValorGun, Kod1, Kod2, Kod3, Kod10, Kod13, Kod14, KayitKaynak, KayitSurum, DegisKaynak, DegisSurum " +
+                                        "FROM FINSAT6{0}.FINSAT6{0}.SPI WHERE (EvrakNo = '{1}') AND (Chk = '{2}') AND (Depo = '{3}') AND (Tarih = {4}) AND (SiraNo = {5}) AND (KynkEvrakTip = 62) AND (SiparisDurumu = 0) AND (Kod10 IN ('Terminal', 'Onaylandı'))", SirketKodu, item.EvrakNo, CHK, DepoKodu, item.KynkSiparisTarih, item.KynkSiparisSiraNo);
+                    var finsat = db.Database.SqlQuery<ParamSti>(sql).FirstOrDefault();
+                    if (finsat != null)
+                    {
+                        finsat.Miktar = item.Miktar;
+                        finsat.EvrakNo = evrkno[0].EvrakNo;
+                        finsat.KaynakIrsEvrakNo = evrkno[1].EvrakNo;
+                        finsat.Tarih = Tarih;
+                        finsat.Kaydeden = kaydeden;
+                        finsat.KayitSurum = "9.01.028";
+                        finsat.KayitKaynak = 74;
+                        STIBaseList.Add(finsat);
+                    }
+                }
+            }
+            //finsat işlemleri
+            try
+            {
+                if (STIBaseList.Count > 0)
+                {
+                    var sonuc = ftrKayit.FaturaKaydet(STIBaseList, efatKullanici, FaturaSeri, yil);
+                    return new Result(sonuc.Basarili, sonuc.Mesaj);
+                }
+                else
+                    return new Result(false, "Bu sipariş kapanmış");
+            }
+            catch (Exception ex)
+            {
+                return new Result(false, ex.Message);
+            }
+        }
+        /// <summary>
+        /// depo transfer fişi
+        /// </summary>
+        public Result DepoTransfer(Transfer tblTransfer, bool GirisMi, string kaydeden, int Evrakserino)
+        {
+            //settings
+            DevHelper.Ayarlar.SetConStr(ConStr);
+            DevHelper.Ayarlar.SirketKodu = SirketKodu;
+            Genel_Islemler GI = new Genel_Islemler(SirketKodu);
+            string evrakNo = GI.EvrakNo_Getir(7199 + Evrakserino);
+            //add to list
+            List<DepTran> DepTranList = new List<DepTran>();
+            foreach (var item in tblTransfer.Transfer_Detay)
+            {
+                DepTran dep = new DepTran()
+                {
+                    EvrakNo = evrakNo,
+                    Tarih = DateTime.Today,
+                    MalKodu = item.MalKodu,
+                    Miktar = item.Miktar,
+                    Birim = item.Birim,
+                    GirisDepo = GirisMi == true ? tblTransfer.Depo.DepoKodu : tblTransfer.Depo2.DepoKodu,
+                    CikisDepo = GirisMi == true ? tblTransfer.Depo2.DepoKodu : tblTransfer.Depo1.DepoKodu,
+                    Kaydeden = kaydeden,
+                    KayitSurum = "9.01.028",
+                    KayitKaynak = 74
+                };
+                DepTranList.Add(dep);
+            }
+            //save 2 db
+            Stok_Islemleri StokIslem = new Stok_Islemleri(tblTransfer.SirketKod);
+            OnikimCore.GunesCore.IslemSonuc Sonuc = StokIslem.DepoTransfer_Kayit(7199 + Evrakserino, DepTranList);
+            //return
+            var _Result = new Result()
+            {
+                Status = Sonuc.Basarili,
+                Message = Sonuc.Hata != null ? Sonuc.Hata.Message : "",
+                Data = evrakNo
+            };
+            return _Result;
         }
     }
 }

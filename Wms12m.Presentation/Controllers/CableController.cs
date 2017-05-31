@@ -192,8 +192,6 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
             if (list == null)
                 return RedirectToAction("Index");
-            //tüm diğer başlamamış görevler silinir
-            Task.DeleteSome();
             //variables and consts
             int today = fn.ToOADate(), time = fn.ToOATime(), valorgun = 0;
             int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
