@@ -2291,7 +2291,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        [HttpPost]
         public PartialViewResult Sozlesme_GM_List()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
