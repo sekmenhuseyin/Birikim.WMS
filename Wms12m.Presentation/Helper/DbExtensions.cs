@@ -139,40 +139,4 @@ namespace Wms12m
             }
         }
     }
-    /// <summary>
-    /// send email
-    /// </summary>
-    public class Email
-    {
-        public Result Send(string To, string Subject, string Body)
-        {
-            string smtpEmail, smtpPass, smtpHost; int smtpPort; bool smtpSSL;
-            using (WMSEntities db = new WMSEntities())
-            {
-                var tbl = db.Settings.FirstOrDefault();
-                if (tbl.SmtpEmail == null || tbl.SmtpPass == null || tbl.SmtpHost == null || tbl.SmtpPort == null)
-                    return new Result(false, "Mail ayarları kaydedilmemiş");
-                smtpEmail = tbl.SmtpEmail;
-                smtpPass = tbl.SmtpPass;
-                smtpHost = tbl.SmtpHost;
-                smtpPort = tbl.SmtpPort.Value;
-                smtpSSL = tbl.SmtpSSL;
-            }
-            SmtpClient SmtpServer = new SmtpClient();
-            MailMessage mail = new MailMessage();
-            SmtpServer.Credentials = new NetworkCredential(smtpEmail, smtpPass);
-            SmtpServer.Port = smtpPort;
-            SmtpServer.Host = smtpHost;
-            SmtpServer.EnableSsl = true;
-            mail = new MailMessage();
-            mail.To.Add(To);
-            mail.From = new MailAddress(smtpEmail);
-            mail.Subject = Subject;
-            mail.Body = Body;
-            SmtpServer.Send(mail);
-
-            return new Result();
-
-        }
-    }
 }

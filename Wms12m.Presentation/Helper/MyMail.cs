@@ -5,34 +5,25 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m
 {
-    public enum MailType
-    {
-        SiparisOnay = 0,
-        SiparisTermin = 1,
-        TeklifGonder = 2,
-        TalepGeriCevirMe = 3,
-        TeklifGeriCevirme = 4,
-        IrsaliyeGiris = 5,
-        GMOnayBilgilendirme = 6
-    }
-
     public class MyMail
     {
 
-        public Exception ExcHata { get; set; }
+        SmtpClient smtp;
+        MailMessage message;
         public string MailHataMesajı { get; set; }
         public string MailBasariMesajı { get; set; }
-
         public bool IsBodyHtml { get; set; }
+
         public MyMail(bool isBodyHtml = false)
         {
             IsBodyHtml = isBodyHtml;
         }
-
+        public bool MailGonderimBasarili { get; private set; }
         /// <summary>
         /// Mail Adresi geçerli mi değilmi bunu regexle kontrol eder. Geçerli ise true döner.
         /// </summary>
@@ -40,32 +31,32 @@ namespace Wms12m
         {
             return Regex.IsMatch(emailaddress, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }
-
-        public bool MailGonderimBasarili { get; private set; }
-
-
-        SmtpClient smtp;
-        MailMessage message;
-        public void Gonder(string kime, string cc, string gorunenIsim, string konu, string mesaj, List<string> dosyaList,
-             string mailOturumAdi, string mailSifre, string serverAdi, bool enableSsl, int smtpPort)
+        
+        public Result Gonder(string kime, string cc, string gorunenIsim, string konu, string mesaj, List<string> dosyaList)
         {
-
-            //if (Degiskenler.TestRun)
-            //    return;
+            string smtpEmail, smtpPass, smtpHost; int smtpPort; bool smtpSSL;
+            using (WMSEntities db = new WMSEntities())
+            {
+                var tbl = db.Settings.FirstOrDefault();
+                if (tbl.SmtpEmail == null || tbl.SmtpPass == null || tbl.SmtpHost == null || tbl.SmtpPort == null)
+                    return new Result(false, "Mail ayarları kaydedilmemiş");
+                smtpEmail = tbl.SmtpEmail;
+                smtpPass = tbl.SmtpPass;
+                smtpHost = tbl.SmtpHost;
+                smtpPort = tbl.SmtpPort.Value;
+                smtpSSL = tbl.SmtpSSL;
+            }
 
             message = new MailMessage();
-            MailAddress fromAddress = new MailAddress(mailOturumAdi, gorunenIsim);
-
+            MailAddress fromAddress = new MailAddress(smtpEmail, gorunenIsim);
             message.From = fromAddress;
-
             foreach (string mail in kime.Split(';'))
             {
                 if (string.IsNullOrWhiteSpace(mail))
                     continue;
 
                 if (!MailGecerlimi(mail.Trim()))
-                    
-                    //throw new MyException(string.Format("Mail gönderimi başarısız!! Mail Formatı hatalı (mail: {0})", mail)) { Deger = mail };
+                    return new Result(false, string.Format("Mail gönderimi başarısız!! Mail Formatı hatalı (mail: {0})", mail));
 
                 message.To.Add(mail);
             }
@@ -76,7 +67,7 @@ namespace Wms12m
                     continue;
 
                 if (!MailGecerlimi(mail.Trim()))
-                    //throw new MyException(string.Format("Mail gönderimi başarısız!! Mail Formatı hatalı (mail: {0})", mail)) { Deger = mail };
+                    return new Result(false, string.Format("Mail gönderimi başarısız!! Mail Formatı hatalı (mail: {0})", mail));
 
                 message.CC.Add(mail);
             }
@@ -99,18 +90,19 @@ namespace Wms12m
 
             smtp = new SmtpClient();
             smtp.Port = smtpPort;
-            smtp.Host = serverAdi;
-            smtp.EnableSsl = enableSsl;
-            smtp.Credentials = new System.Net.NetworkCredential(mailOturumAdi, mailSifre);
+            smtp.Host = smtpHost;
+            smtp.EnableSsl = smtpSSL;
+            smtp.Credentials = new System.Net.NetworkCredential(smtpEmail, smtpPass);
             smtp.SendCompleted += smtp_SendCompleted;
             smtp.SendAsync(message, message);
 
 
 
-            //message.Dispose();
-            //smtp.Dispose();
+            message.Dispose();
+            smtp.Dispose();
 
             MailGonderimBasarili = true;
+            return new Result(true);
 
         }
 
@@ -118,44 +110,6 @@ namespace Wms12m
         {
             smtp.Dispose();
             message.Dispose();
-        }
-
-        public void SendMail(string kime, string cc, string gorunenIsım, string konu, string mesaj, List<string> dosyaList
-            , string mailOturumAdi, string mailSifre, string serverAdi, bool enableSsl, int smtpPort, bool msgBoxVisible = false)
-        {
-
-            if (Degiskenler.TestRun)
-                return;
-
-            try
-            {
-                Gonder(kime, cc, gorunenIsım, konu, mesaj, dosyaList, mailOturumAdi, mailSifre, serverAdi, enableSsl, smtpPort);
-
-                if (msgBoxVisible && Degiskenler.FromWinServis == false)
-                {
-                    if (string.IsNullOrWhiteSpace(MailBasariMesajı))
-                        Mesaj.Basari("Mail Gönderimi Başarılı.");
-                    else
-                        Mesaj.Basari(MailBasariMesajı);
-                }
-            }
-            catch (Exception ex)
-            {
-                ExcHata = ex;
-                if (Degiskenler.FromWinServis == false)
-                {
-                    if (ex is MyException)
-                        Mesaj.Uyari(ex.Message);
-                    else
-                    {
-                        if (string.IsNullOrWhiteSpace(MailHataMesajı))
-                            Mesaj.BilgiOzelPencere("Mail gönderimi Başarısız!!", ex.Message);
-                        else
-                            Mesaj.BilgiOzelPencere(MailHataMesajı, ex.Message, System.Drawing.SystemIcons.Warning);
-                    }
-                }
-            }
-
         }
 
     }
