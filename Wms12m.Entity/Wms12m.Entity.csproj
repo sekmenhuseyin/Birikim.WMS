@@ -184,6 +184,7 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="MyConnection.cs" />
+    <Compile Include="MyMail.cs" />
     <Compile Include="Mysql\cin.cs">
       <DependentUpon>ModelKablo.tt</DependentUpon>
     </Compile>
