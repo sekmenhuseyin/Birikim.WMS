@@ -2292,14 +2292,162 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public PartialViewResult Sozlesme_GM_List()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", "33")).ToList();
-            return PartialView(list);
+           // List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", "17")).ToList();
+            return PartialView();
         }
+        public string SozlesmeOnayCekGM()
+        {
+            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+        public JsonResult Sozlesme_Onay_GM(string Data)
+        {
+            Result _Result = new Result(true);
+            if (CheckPerm("Sözleşme Onaylama", PermTypes.Writing) == false) return null;
+            //string sql = string.Format(@"INSERT INTO FINSAT";
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            try
+            {
+               
+                foreach (JObject insertObj in parameters)
+                {
+
+
+                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SozlesmeGenelMudurOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName)); 
+
+                    var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", insertObj["ListeNo"].ToString())).ToList();
+
+
+                    foreach (ISS_Temp lst in list)
+                    {
+                        if (lst.OnayTip == 2)
+                        {
+                            ISS insrt = new ISS();
+                            insrt.Aciklama = lst.Aciklama;
+                            insrt.BasSaat = lst.BasSaat;
+                            insrt.BasTarih = lst.BasTarih;
+                            insrt.BitSaat = lst.BitSaat;
+                            insrt.BitTarih = lst.BitTarih;
+                            insrt.DegisKaynak = lst.DegisKaynak;
+                            insrt.DegisSaat = lst.DegisSaat;
+                            insrt.DegisSurum = lst.DegisSurum;
+                            insrt.DegisTarih = lst.DegisTarih;
+                            insrt.Degistiren = lst.Degistiren;
+                            insrt.DevirTarih = lst.DevirTarih;
+                            insrt.DevirTutar = lst.DevirTutar;
+                            insrt.GuvenlikKod = lst.GuvenlikKod;
+                            insrt.Kaydeden = lst.Kaydeden;
+                            insrt.KayitKaynak = lst.KayitKaynak;
+                            insrt.KayitSaat = lst.KayitSaat;
+                            insrt.KayitSurum = lst.KayitSurum;
+                            insrt.KayitTarih = lst.KayitTarih;
+                            insrt.KayitTuru = lst.KayitTuru;
+                            insrt.Kod1 = lst.Kod1;
+                            insrt.Kod10 = lst.Kod10;
+                            insrt.Kod11 = lst.Kod11;
+                            insrt.Kod12 = lst.Kod12;
+                            insrt.Kod2 = lst.Kod2;
+                            insrt.Kod3 = lst.Kod3;
+                            insrt.Kod4 = lst.Kod4;
+                            insrt.Kod5 = lst.Kod5;
+                            insrt.Kod6 = lst.Kod6;
+                            insrt.Kod7 = lst.Kod7;
+                            insrt.Kod8 = lst.Kod8;
+                            insrt.Kod9 = lst.BaglantiParaCinsi; ///lst.Kod9;
+                            insrt.ListeAdi = lst.ListeAdi;
+                            insrt.ListeNo = lst.ListeNo;
+                            insrt.MalKod = lst.MalKod;
+                            insrt.MalKodGrup = lst.MalKodGrup;
+                            insrt.MalUygSekli = lst.MalUygSekli;
+                            insrt.MikAralik1 = lst.MikAralik1;
+                            insrt.MikAralik2 = lst.MikAralik2;
+                            insrt.MikAralik3 = lst.MikAralik3;
+                            insrt.MikAralik4 = lst.MikAralik4;
+                            insrt.MikAralik5 = lst.MikAralik5;
+                            insrt.MikAralik6 = lst.MikAralik6;
+                            insrt.MikAralik7 = lst.MikAralik7;
+                            insrt.MikAralik8 = lst.MikAralik8;
+                            insrt.MikYuzde1 = lst.MikYuzde1;
+                            insrt.MikYuzde2 = lst.MikYuzde2;
+                            insrt.MikYuzde3 = lst.MikYuzde3;
+                            insrt.MikYuzde4 = lst.MikYuzde4;
+                            insrt.MikYuzde5 = lst.MikYuzde5;
+                            insrt.MikYuzde6 = lst.MikYuzde6;
+                            insrt.MikYuzde7 = lst.MikYuzde7;
+                            insrt.MikYuzde8 = lst.MikYuzde8;
+                            insrt.MusKodGrup = lst.MusKodGrup;
+                            insrt.MusteriKod = lst.MusteriKod;
+                            insrt.MusUygSekli = lst.MusUygSekli;
+                            insrt.OdemeAralik1 = lst.OdemeAralik1;
+                            insrt.OdemeAralik2 = lst.OdemeAralik2;
+                            insrt.OdemeAralik3 = lst.OdemeAralik3;
+                            insrt.OdemeAralik4 = lst.OdemeAralik4;
+                            insrt.OdemeAralik5 = lst.OdemeAralik5;
+                            insrt.OdemeAralik6 = lst.OdemeAralik6;
+                            insrt.OdemeAralik7 = lst.OdemeAralik7;
+                            insrt.OdemeAralik8 = lst.OdemeAralik8;
+                            insrt.OdemeYuzde1 = lst.OdemeYuzde1;
+                            insrt.OdemeYuzde2 = lst.OdemeYuzde2;
+                            insrt.OdemeYuzde3 = lst.OdemeYuzde3;
+                            insrt.OdemeYuzde4 = lst.OdemeYuzde4;
+                            insrt.OdemeYuzde5 = lst.OdemeYuzde5;
+                            insrt.OdemeYuzde6 = lst.OdemeYuzde6;
+                            insrt.OdemeYuzde7 = lst.OdemeYuzde7;
+                            insrt.OdemeYuzde8 = lst.OdemeYuzde8;
+                            insrt.Oran = lst.Oran;
+                            insrt.Oran1 = lst.Oran1;
+                            insrt.Oran2 = lst.Oran2;
+                            insrt.Oran3 = lst.Oran3;
+                            insrt.Oran4 = lst.Oran4;
+                            insrt.Oran5 = lst.Oran5;
+                            insrt.SiraNo = lst.SiraNo;
+                            insrt.TutarAralik1 = lst.TutarAralik1;
+                            insrt.TutarAralik2 = lst.TutarAralik2;
+                            insrt.TutarAralik3 = lst.TutarAralik3;
+                            insrt.TutarAralik4 = lst.TutarAralik4;
+                            insrt.TutarAralik5 = lst.TutarAralik5;
+                            insrt.TutarAralik6 = lst.TutarAralik6;
+                            insrt.TutarAralik7 = lst.TutarAralik7;
+                            insrt.TutarAralik8 = lst.TutarAralik8;
+                            insrt.TutarYuzde1 = lst.TutarYuzde1;
+                            insrt.TutarYuzde2 = lst.TutarYuzde2;
+                            insrt.TutarYuzde3 = lst.TutarYuzde3;
+                            insrt.TutarYuzde4 = lst.TutarYuzde4;
+                            insrt.TutarYuzde5 = lst.TutarYuzde5;
+                            insrt.TutarYuzde6 = lst.TutarYuzde6;
+                            insrt.TutarYuzde7 = lst.TutarYuzde7;
+                            insrt.TutarYuzde8 = lst.TutarYuzde8;
+                            sqlexper.Insert(insrt);
+                         
+                        }
+                    }
+                    var sonuc = sqlexper.AcceptChanges();
+                }
+                //return "OK";
+
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+
+            }
+            catch (Exception ex)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public PartialViewResult Sozlesme_GM_Details(string ListeNo)
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "33", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
             return PartialView(list);
         }
         public ActionResult Sozlesme_SM()
@@ -2310,14 +2458,14 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public PartialViewResult Sozlesme_SM_List()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySM]", "33")).ToList();
+            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySM]", "17")).ToList();
             return PartialView(list);
         }
         [HttpPost]
         public PartialViewResult Sozlesme_SM_Details(string ListeNo)
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "33", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
             return PartialView(list);
         }
         public ActionResult Sozlesme_SPGMY()
@@ -2328,14 +2476,14 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public PartialViewResult Sozlesme_SPGMY_List()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySPGMY]", "33")).ToList();
+            List<SozlesmeOnaySelect> list = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySPGMY]", "17")).ToList();
             return PartialView(list);
         }
         [HttpPost]
         public PartialViewResult Sozlesme_SPMY_Details(string ListeNo)
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "33", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
             return PartialView(list);
         }
 
