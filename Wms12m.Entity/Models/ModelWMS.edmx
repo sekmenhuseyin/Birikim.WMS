@@ -907,6 +907,7 @@
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="IpAddress" Type="varchar" Mode="In" />
           <Parameter Name="LoggedIn" Type="bit" Mode="In" />
+          <Parameter Name="Comment" Type="varchar" Mode="In" />
         </Function>
         <Function Name="MenuGetirici" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="WebSiteTipiID" Type="int" Mode="In" />
@@ -1490,6 +1491,7 @@
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="IpAddress" Mode="In" Type="String" />
             <Parameter Name="LoggedIn" Mode="In" Type="Boolean" />
+            <Parameter Name="Comment" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">

@@ -464,7 +464,7 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetEvrakNosForGorev", gorevIDParameter);
         }
     
-        public virtual int LogLogins(string userName, string ipAddress, Nullable<bool> loggedIn)
+        public virtual int LogLogins(string userName, string ipAddress, Nullable<bool> loggedIn, string comment)
         {
             var userNameParameter = userName != null ?
                 new ObjectParameter("UserName", userName) :
@@ -478,7 +478,11 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("LoggedIn", loggedIn) :
                 new ObjectParameter("LoggedIn", typeof(bool));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.LogLogins", userNameParameter, ipAddressParameter, loggedInParameter);
+            var commentParameter = comment != null ?
+                new ObjectParameter("Comment", comment) :
+                new ObjectParameter("Comment", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.LogLogins", userNameParameter, ipAddressParameter, loggedInParameter, commentParameter);
         }
     }
 }
