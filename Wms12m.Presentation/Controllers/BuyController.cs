@@ -371,7 +371,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// anasayfadaki malzeme listesi
         /// </summary>
-        public ActionResult GetHesapCodes(IDataTablesRequest request)
+        public JsonResult GetHesapCodes(IDataTablesRequest request)
         {
             string SirketID = "";
             // Check additional parameters. You may perform custom actions with them.
