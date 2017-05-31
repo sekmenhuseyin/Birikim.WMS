@@ -2730,9 +2730,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] SET SMOnay = 1, SMOnaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
                     // { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 3, 1)); }
-
-
-
                 }
                 //return "OK";
 
@@ -3410,29 +3407,21 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             Connection con = Connection.GetConnectionWithTrans();
             try
             {
-                //Durum 11: Sipariş Ön Onay; 15: Onaylı Sipariş; 13: Sipariş Onay İptal
-                string sql = @"UPDATE sta.Talep 
-SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=13
-, Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu=@DegisSirKodu, Aciklama2=@Aciklama
-WHERE ID=@ID AND Durum=11 AND SipTalepNo IS NOT NULL";
-
-
-                con.Params.Add("ID", SqlDbType.Int);
-                con.Params.AddWithValue("Degistiren", vUser.UserName.ToString());
-                con.Params.AddWithValue("DegisTarih", DateTime.Now);
-                con.Params.AddWithValue("Aciklama", redAciklama);
-                con.Params.AddWithValue("DegisSirKodu", "17");
-
                 foreach (var item in MyGlobalVariables.TalepSource)
                 {
-                    con.Params["ID"].Value = item.ID;
+                    //Durum 11: Sipariş Ön Onay; 15: Onaylı Sipariş; 13: Sipariş Onay İptal
+                    string sql = @"UPDATE sta.Talep 
+SET GMOnaylayan='{0}', GMOnayTarih={1}, Durum=13
+, Degistiren='{0}', DegisTarih={1}, DegisSirKodu={3}, Aciklama2='{2}'
+WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
 
-                    int say = con.SqlExecute(sql);
-                    if (say <= 0)
-                    {
-                        _Result.Message = "Kayıt işlemi başarısız oldu. Data değişmiş olabilir. Lütfen tekrar listeleyiniz!!";
-                        _Result.Status = false;
-                    }
+                db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-MM-dd"), redAciklama, "17",item.ID));
+                //con.Params.Add("ID", SqlDbType.Int);
+                //con.Params.AddWithValue("Degistiren", vUser.UserName.ToString());
+                //con.Params.AddWithValue("DegisTarih", DateTime.Now);
+                //con.Params.AddWithValue("Aciklama", redAciklama);
+                //con.Params.AddWithValue("DegisSirKodu", "17");
+
                 }
 
                 con.Trans.Commit();
