@@ -5,6 +5,37 @@ using System.ComponentModel;
 
 namespace Wms12m.Entity
 {
+    public class GenelAyarVeParams
+    {
+        public int ID { get; set; }
+        public short Tip { get; set; }
+        public short Tip2 { get; set; }
+        public string TalebiGiren { get; set; }
+        public string Talep2KademeOnaylayan { get; set; }
+        public string Talep1KademeOnaylayan { get; set; }
+        public string SiparisSorumlu { get; set; }
+        public byte[] SiparisSorumluImza { get; set; }
+        public decimal? SiparisGMYOnayLimit { get; set; }
+        public string Satinalmaci { get; set; }
+        public bool? SatinalmaciAdmin { get; set; }
+        public string MailExp { get; set; }
+        public string MailTo { get; set; }
+        public string MailCc { get; set; }
+        public int? OngoruStokAsgariFaktor { get; set; }
+        public int? OngoruStokAzamiFaktor { get; set; }
+        public string OzelParca { get; set; }
+        public string DosyaTipi { get; set; }
+        public string DosyaYolu { get; set; }
+        public string Kaydeden { get; set; }
+        public DateTime KayitTarih { get; set; }
+        public string Degistiren { get; set; }
+        public DateTime DegisTarih { get; set; }
+        public string TipAck { get; set; }
+        public string Tip2Ack { get; set; }
+        public int pk_ID { get; set; }
+    }
+
+    #region RiskTanim Class 
     public class RiskTanimToplu
     {
         public bool? Onay { get; set; }
@@ -21,9 +52,6 @@ namespace Wms12m.Entity
 
         public decimal? YeniMusteriCekLimiti { get; set; }
     }
-
-    #region RiskTanim Class 
-
     #region RiskTanimE Enum 
     public enum RiskTanimE
     {

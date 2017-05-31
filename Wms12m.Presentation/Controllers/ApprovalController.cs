@@ -3518,7 +3518,133 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
                     //SatTalep talep = (SatTalep)gridLueSipTalepNo.GetSelectedDataRow();
                     //DbSat.SiparisOnayMailGonderim(SipEvrak.EvrakNo, SipEvrak.HesapKodu, sipTarih, Convert.ToInt32(SipEvrak.Satirlar[0].Kod4));
+                    var sipEvrakNo = MyGlobalVariables.SipEvrak.EvrakNo;
+                    var hesapKodu = MyGlobalVariables.SipEvrak.HesapKodu;
+                    var teklifNo = Convert.ToInt32(MyGlobalVariables.SipEvrak.Satirlar[0].Kod4);
 
+                    try
+                    {
+                        if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
+                            throw new ArgumentException("parametreler hatalı!!");
+                        
+                        GenelAyarVeParams mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format("SELECT * FROM [BIRIKIM].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
+                        if (mailayar == null)
+                        {
+                            _Result.Message = "Sipariş Onay Mail ayarları yapılandırılmamış!!";
+                            _Result.Status = false;
+                        }
+
+                        //string sorgu = string.Format("SELECT /*SirketEMail*/ SatAlmaIslemEMail FROM FINSAT6{0}.FINSAT6{0}.CHK (nolock) WHERE HesapKodu='{1}'", Degiskenler.SirketKodu, hesapKodu);
+
+                        string sorgu = string.Format("SELECT sta.TedarikciMail('{0}')", hesapKodu);
+
+                        string sirketemail = ent.ExecuteQuery<string>(sorgu).FirstOrDefault();
+                        if (string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
+                            if (Degiskenler.FromWinServis == false)
+                                Mesaj.Uyari("Tedarikçiye ait mail bulunamadı!! (Hesap Kodu: {0})", hesapKodu);
+
+                        string satinalmacimail = ent.ExecuteQuery<string>(@"SELECT Email FROM usr.Users (nolock) WHERE UserName = 
+(SELECT TOP (1) Satinalmaci FROM sta.Talep (nolock) WHERE SipEvrakNo={0} )", sipEvrakNo).FirstOrDefault();
+
+                        if ((string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
+                            && (string.IsNullOrEmpty(satinalmacimail) || satinalmacimail.Trim() == ""))
+                            throw new MyException("Ne Şirket Maili nede Satınalmacı maili yapılandırılmamış. Mail gönderilemedi");
+
+                        //                Nullable<short> islemTip = ent.ExecuteQuery<Nullable<short>>(
+                        //@"SELECT TOP (1) SipIslemTip FROM sta.Talep (nolock) WHERE SipEvrakNo={0}", sipEvrakNo).FirstOrDefault();
+
+                        //                if (islemTip == null)
+                        //                    throw new MyException("Sipariş iç/Dış Piyasa olduğu belirlenemedi!!");
+
+                        SatTalep sipTalep = ent.ExecuteQuery<SatTalep>(
+        @"SELECT TOP (1) TalepNo, SipIslemTip FROM sta.Talep (nolock) WHERE SipEvrakNo={0}", sipEvrakNo).FirstOrDefault();
+                        if (sipTalep == null)
+                            throw new MyException("Siparişin Talep ile ilişkisi bulunamadı!! (Sipariş Onay Mail Gönderim)");
+                        if (sipTalep.SipIslemTip == null)
+                            throw new MyException("Sipariş iç/Dış Piyasa olduğu belirlenemedi!!");
+
+                        SatınalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true);
+
+                        List<string> attachList = new List<string>();
+                        attachList.Add(String.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo));
+
+                        //if (teklifNo > 0)
+                        //{
+                        //    string teklifListsorgu = string.Format("SELECT TeklifNo FROM sta.Talep WHERE SipEvrakNo = '{0}' GROUP BY TeklifNo", sipEvrakNo);
+
+                        //    List<int> teklifList = ent.ExecuteQuery<int>(teklifListsorgu).ToList();
+
+                        //    for (int i = 0; i < teklifList.Count; i++)
+                        //    {
+                        //        TeklifKayitFormu(teklifList[i], hesapKodu, true, false);
+                        //        attachList.Add(String.Format("{0}{1}.pdf", Path.GetTempPath(), teklifList[i]));
+                        //    }
+                        //}
+
+
+                        List<SatTalep> listTalep = ent.ExecuteQuery<SatTalep>(
+        @"SELECT TalepNo, MalKodu, EkDosya FROM sta.Talep (nolock) 
+WHERE SipEvrakNo={0} AND HesapKodu={1} AND ISNULL(EkDosya,'')<>'' "
+                                , sipEvrakNo
+                                , hesapKodu).ToList();
+
+
+                        DosyaYukle yukle = new DosyaYukle(DosyaTip.SatTalep);
+                        foreach (SatTalep talep in listTalep)
+                        {
+                            string path = yukle.GetDosyaYolu(talep.TalepNo, talep.EkDosya);
+                            if (File.Exists(path))
+                                attachList.Add(path);
+                        }
+
+
+
+
+                        string kime = String.Format("{0};{1};{2}", sirketemail, satinalmacimail, mailayar.MailTo);
+                        //string kime = String.Format("d.akdeniz@12mconsulting.com.tr");
+                        string gorunenIsim = "Sipariş Onay";
+                        string konu = "Sipariş Onay";
+                        string icerik = "Sipariş Bilgileri Ektedir.";
+                        //if (islemTip == (short)KKPIslemTipSPI.DışPiyasa)
+                        if (sipTalep.SipIslemTip == (short)KKPIslemTipSPI.DışPiyasa)
+                        {
+                            gorunenIsim = "Purchase Order Approval";
+                            konu = "Purchase Order Approval";
+                            icerik = "Purchase Order Items Information in Attachments";
+                        }
+
+                        //GM NİN KENDİSİNİ DE EKLİYORDUK İPTAL ETTİK
+                        //if (Degiskenler.FromWinServis == false)
+                        //{
+                        //    if (!kime.Contains(Degiskenler.Kullanici.Email) && !mailayar.MailCc.Contains(Degiskenler.Kullanici.Email))
+                        //        mailayar.MailCc += ";" + Degiskenler.Kullanici.Email;
+                        //}
+
+
+                        MyMail m = new MyMail(false);
+                        m.MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!";
+                        m.MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!!";
+                        m.SendMail(kime, mailayar.MailCc, gorunenIsim, konu, icerik
+                            , attachList
+                            , mailayar.AccountName, mailayar.AccountPass, mailayar.MailServer, (bool)mailayar.EnableSSL, (int)mailayar.SmtpPort, true);
+
+                        if (m.MailGonderimBasarili)
+                            ent.ExecuteCommand("UPDATE sta.Talep SET MailGonder=-1 WHERE TalepNo={0}", sipTalep.TalepNo);
+                        else
+                        {
+                            ent.ExecuteCommand("UPDATE sta.Talep SET MailGonder={0} WHERE TalepNo={1}", (short)MailType.SiparisOnay, sipTalep.TalepNo);
+                            if (Degiskenler.FromWinServis && m.ExcHata != null)
+                                throw m.ExcHata;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Degiskenler.FromWinServis)
+                            throw ex;
+                        Mesaj.BilgiOzelPencere("Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!! (2)", ex.Message
+                            , "HATA", System.Drawing.SystemIcons.Error);
+                    }
                 }
                 catch (Exception ex)
                 {
