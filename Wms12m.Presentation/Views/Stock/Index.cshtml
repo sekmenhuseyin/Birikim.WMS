@@ -48,7 +48,7 @@
                                     <button class="btn btn-default btn-block btn-circle" type="button" onclick="FuncSearchBtn()">Yenile <i class="icon-refresh"></i></button>
                                 </div>
                             </div>
-                            <div id="Grid"></div>
+                            <div id="Grid"><table id="myTable" class="table table-striped table-bordered table-hover"></table></div>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
 <script type="text/javascript">
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
     function getShelf(id) {
-        $('#Grid').html("");
+        $('#Grid').html("<table id='myTable' class='table table-striped table-bordered table-hover'></table>");
         $("#RafID option").remove();
         $("#BolumID option").remove();
         $("#KatID option").remove();
@@ -85,7 +85,7 @@
         });
     }
     function getSection(id) {
-        $('#Grid').html("");
+        $('#Grid').html("<table id='myTable' class='table table-striped table-bordered table-hover'></table>");
         $("#BolumID option").remove();
         $("#KatID option").remove();
         $.ajax({
@@ -104,7 +104,7 @@
         });
     }
     function getFloor(id) {
-        $('#Grid').html("");
+        $('#Grid').html("<table id='myTable' class='table table-striped table-bordered table-hover'></table>");
         $("#KatID option").remove();
         $.ajax({
             url: "/Floor/FloorList/" + id,
@@ -123,8 +123,46 @@
     }
     function FuncSearchBtn() {
         if ($("#KatID").val() == "" || $("#KatID").val() == null) return;
-        $('#Grid').html("");
-        PartialView("/Stock/List", 'Grid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
+        $('#Grid').html("<table id='myTable' class='table table-striped table-bordered table-hover'></table>");
+        //PartialView("/Stock/List", 'Grid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
+        var table = $('#myTable').dataTable({
+            "pagingType": "full_numbers",
+            "ordering": false,
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            dom: 'Bfrtip',
+            buttons: [{
+                text: 'Excele Aktar',
+                action: function (e, dt, node, config) {
+                    window.location.href = "/Download/Stock/?KatID=" + $('#KatID').val();
+                }
+            }],
+            initComplete: function () {
+                this.api().columns([0, 1, 2]).every(function () {
+                    var column = this;
+                    var select = $('<br /><select class="form-control input-circle no-print" style="max-width:100px;"><option value=""></option></select>')
+                        .appendTo($(column.header()))
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
+                });
+            },
+            ajax: {
+                "url": "/Stock/List",
+                "data": function (data) {
+                    data.param1 = "Id";
+                    data.param2 = $("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false"
+                }
+            },
+            columns: [
+                { name: 'Yer', data: 'Yer', title: "Yer", sortable: false, searchable: true },
+                { name: 'MalKodu', data: 'MalKodu', title: "Mal Kodu", sortable: false, searchable: true },
+                { name: 'MalAdi', data: 'MalAdi', title: "Mal Adı", sortable: false, searchable: true },
+                { name: 'Birim', data: 'Birim', title: "Birim", sortable: false, searchable: true },
+                { name: 'Miktar', data: "Miktar", title: "Miktar", sortable: false, searchable: true }
+            ]
+        });
     }
 </script>
 }

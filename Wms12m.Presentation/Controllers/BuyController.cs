@@ -169,7 +169,7 @@ namespace Wms12m.Presentation.Controllers
                 if (eklenen > 0)
                 {
                     //set aktif
-                    var grv = db.Gorevs.Where(m => m.IrsaliyeID == irsaliyeID).FirstOrDefault();
+                    var grv = db.Database.SqlQuery<Gorev>("SELECT wms.Gorev.* FROM wms.Gorev INNER JOIN wms.GorevIRS ON wms.Gorev.ID = wms.GorevIRS.GorevID WHERE wms.GorevIRS.IrsaliyeID = " + irsaliyeID).FirstOrDefault();
                     if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
                     {
                         grv.DurumID = ComboItems.Açık.ToInt32();
