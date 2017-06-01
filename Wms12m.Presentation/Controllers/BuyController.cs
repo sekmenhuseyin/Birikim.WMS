@@ -380,9 +380,9 @@ namespace Wms12m.Presentation.Controllers
             if (request.AdditionalParameters != null)
                 foreach (var additionalParameter in request.AdditionalParameters)
                 {
-                    if (additionalParameter.Key == "SirketID") SirketID = additionalParameter.Value.ToString();
+                    if (additionalParameter.Key == "param1") SirketID = additionalParameter.Value.ToString();
                 }
-            if (SirketID == "") SirketID = db.GetSirketDBs().FirstOrDefault();
+            if (SirketID == "" || SirketID == null) return new DataTablesJsonResult(null, JsonRequestBehavior.AllowGet);
             string sql = String.Format("FINSAT6{0}.[wms].[CHKSelectKartTip]", SirketID);
             var data = db.Database.SqlQuery<frmHesapUnvan>(sql).ToList();
 

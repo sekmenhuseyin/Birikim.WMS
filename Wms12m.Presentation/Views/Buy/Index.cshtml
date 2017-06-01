@@ -136,8 +136,8 @@
                     ajax: {
                         "url": "/Buy/GetHesapCodes",
                         "data": function (data) {
-                            data.param1 = "SirketID";
-                            data.param2 = $('#SirketID').val()
+                            data.param1 = $('#SirketID').val();
+                            data.param2 = 0
                         }
                     },
                     columns: [
