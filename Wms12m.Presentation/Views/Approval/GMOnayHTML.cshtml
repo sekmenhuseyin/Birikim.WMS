@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "GMOnayHTML";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .td_bilgi{
+        width:100px !important;
+        border:1px solid black;
+    }
+    .td_text{
+         width:300px !important;
+         border:1px solid black;
+    }
+</style>
+<div style="height: 29.7cm;width: 21cm;">
+    <div class="header-logo" style="width:100%;">
+        <img src="~/Content/images/GMOnayHeader.png" alt="Mountain View" style="width:100%;height:100%;">
+    </div>
+    <div style="width:100%;height:20px;text-align:center;margin-top:10px;">
+        <span style="font-weight:bold;">SATINALMA SİPARİŞ FORMU</span>
+    </div>
+    <div style="width:75%;float:left;height:20px;margin-top:5px;">
+        <div style="width:100%;"><span style="font-weight:bold;">Tedarikçi Bilgileri</span></div>
+        <div style="width:60%;">
+            <table style="width:100%;">
+                <tr>
+                    <td class="td_text" colspan="3">Ünvanı</td>
+                    <td class="td_bilgi" colspan="1">{3}</td>
+                </tr>
+                <tr>
+                    <td class="td_text" colspan="3">Adresi</td>
+                    <td class="td_bilgi" colspan="1">{4}</td>
+                </tr>
+                <tr>
+                    <td class="td_text" colspan="3">Tel</td>
+                    <td class="td_bilgi" colspan="1">{5}</td>
+                </tr>
+                <tr>
+                    <td class="td_text" colspan="3">Fax</td>
+                    <td class="td_bilgi" colspan="1">{6}</td>
+                </tr>
+                <tr>
+                    <td class="td_text" colspan="3">Email</td>
+                    <td class="td_bilgi" colspan="1">{7}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div style="width:25%;float:left;height:20px;margin-top:5px;">
+        <div>
+            <div style="width:50%;float:left;height:20px;"><span style="font-weight:bold;width:120px;">Tarih</span></div>
+            <div style="width:50%;float:left;height:20px;text-align:right;"><span style="width:120px;margin-left:8px;">{0}</span></div>
+        </div>
+        <div>
+            <div style="width:50%;float:left;height:20px;"><span style="font-weight:bold;width:120px;">Sipariş No</span></div>
+            <div style="width:50%;float:left;height:20px;text-align:right;"><span style="width:120px;margin-left:8px;">{1}</span></div>
+        </div>
+        <div>
+            <div style="width:50%;float:left;height:20px;"><span style="font-weight:bold;width:120px;">Sipariş Tarihi</span></div>
+            <div style="width:50%;float:left;height:20px;text-align:right;"><span style="width:120px;margin-left:8px;">{2}</span></div>
+        </div>
+    </div>
+</div>
+

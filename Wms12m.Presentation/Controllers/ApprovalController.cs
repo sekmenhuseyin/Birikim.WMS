@@ -28,9 +28,13 @@ namespace Wms12m.Presentation.Controllers
 
     public class ApprovalController : RootController
     {
-        
-        #region Çek
         public ActionResult Cek_SPGMY()
+        {
+            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+        #region Çek
+        public ActionResult GMOnayHTML()
         {
             if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
