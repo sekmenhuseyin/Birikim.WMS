@@ -1,7 +1,7 @@
-﻿@model IEnumerable<Wms12m.Entity.Models.Musteri>
+﻿@model IEnumerable<Wms12m.Entity.Models.ProjeForm>
 
 @{
-    ViewBag.Title = "Müşteri";
+    ViewBag.Title = "Proje Form";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -19,22 +19,19 @@
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Firma)
+                @Html.DisplayNameFor(model => model.Proje)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Unvan)
+                @Html.DisplayNameFor(model => model.Form)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sorumlu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KarsiSorumlu)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Aciklama)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tel1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tel2)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MesaiKontrol)
@@ -43,16 +40,19 @@
                 @Html.DisplayNameFor(model => model.MesaiKota)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Durum)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Kaydeden)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.KayitTarih)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Degistiren)
+                @Html.DisplayNameFor(model => model.Musteri.Firma)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DegisTarih)
+                @Html.DisplayNameFor(model => model.ProjeForm2.Proje)
             </th>
             <th></th>
         </tr>
@@ -60,22 +60,19 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Firma)
+                @Html.DisplayFor(modelItem => item.Proje)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Unvan)
+                @Html.DisplayFor(modelItem => item.Form)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sorumlu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KarsiSorumlu)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Aciklama)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tel1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tel2)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MesaiKontrol)
@@ -84,16 +81,19 @@
                 @Html.DisplayFor(modelItem => item.MesaiKota)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Durum)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Kaydeden)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.KayitTarih)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Degistiren)
+                @Html.DisplayFor(modelItem => item.Musteri.Firma)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DegisTarih)
+                @Html.DisplayFor(modelItem => item.ProjeForm2.Proje)
             </td>
             <td>
                 @Html.ActionLink("Düzenle", "Edit", new { id=item.ID }) |

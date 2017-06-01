@@ -1,8 +1,7 @@
-﻿@model Wms12m.Entity.Models.Musteri
+﻿@model Wms12m.Entity.Models.ProjeForm
 
 @{
-    ViewBag.Title = "Musteri";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -15,23 +14,39 @@
 <body>
     <h3>Are you sure you want to delete this?</h3>
     <div>
-        <h4>Musteri</h4>
+        <h4>ProjeForm</h4>
         <hr />
         <dl class="dl-horizontal">
             <dt>
-                @Html.DisplayNameFor(model => model.Firma)
+                @Html.DisplayNameFor(model => model.Proje)
             </dt>
     
             <dd>
-                @Html.DisplayFor(model => model.Firma)
+                @Html.DisplayFor(model => model.Proje)
             </dd>
     
             <dt>
-                @Html.DisplayNameFor(model => model.Unvan)
+                @Html.DisplayNameFor(model => model.Form)
             </dt>
     
             <dd>
-                @Html.DisplayFor(model => model.Unvan)
+                @Html.DisplayFor(model => model.Form)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Sorumlu)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Sorumlu)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.KarsiSorumlu)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.KarsiSorumlu)
             </dd>
     
             <dt>
@@ -40,30 +55,6 @@
     
             <dd>
                 @Html.DisplayFor(model => model.Aciklama)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Email)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Email)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Tel1)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Tel1)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Tel2)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Tel2)
             </dd>
     
             <dt>
@@ -83,6 +74,14 @@
             </dd>
     
             <dt>
+                @Html.DisplayNameFor(model => model.Durum)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Durum)
+            </dd>
+    
+            <dt>
                 @Html.DisplayNameFor(model => model.Kaydeden)
             </dt>
     
@@ -99,19 +98,19 @@
             </dd>
     
             <dt>
-                @Html.DisplayNameFor(model => model.Degistiren)
+                @Html.DisplayNameFor(model => model.Musteri.Firma)
             </dt>
     
             <dd>
-                @Html.DisplayFor(model => model.Degistiren)
+                @Html.DisplayFor(model => model.Musteri.Firma)
             </dd>
     
             <dt>
-                @Html.DisplayNameFor(model => model.DegisTarih)
+                @Html.DisplayNameFor(model => model.ProjeForm2.Proje)
             </dt>
     
             <dd>
-                @Html.DisplayFor(model => model.DegisTarih)
+                @Html.DisplayFor(model => model.ProjeForm2.Proje)
             </dd>
     
         </dl>
@@ -120,7 +119,7 @@
             @Html.AntiForgeryToken()
     
             <div class="form-actions no-color">
-                <input type="submit" value="Sil" class="btn btn-default" /> |
+                <input type="submit" value="Delete" class="btn btn-default" /> |
                 @Html.ActionLink("Back to List", "Index")
             </div>
         }

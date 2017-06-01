@@ -335,6 +335,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\PermsController.cs" />
+    <Compile Include="Controllers\ProjectFormController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
@@ -555,6 +556,11 @@
     <Content Include="Views\Customer\Details.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\ProjectForm\Create.cshtml" />
+    <Content Include="Views\ProjectForm\Delete.cshtml" />
+    <Content Include="Views\ProjectForm\Details.cshtml" />
+    <Content Include="Views\ProjectForm\Edit.cshtml" />
+    <Content Include="Views\ProjectForm\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
