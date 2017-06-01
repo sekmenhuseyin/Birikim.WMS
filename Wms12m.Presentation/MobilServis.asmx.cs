@@ -50,13 +50,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        string inner = "";
-                        if (ex.InnerException != null)
-                        {
-                            inner = ex.InnerException == null ? "" : ex.InnerException.Message;
-                            if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
-                        }
-                        db.Logger(userID, "", "terminal", ex.Message, inner, "WebService/Login");
+                        Logger(ex, "WebService/Login", userID);
                         db.LogLogins(userID, "terminal", false, result.Message);
                     }
             }
@@ -270,7 +264,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Mal_Kabul");
+                        Logger(ex, "WebService/Mal_Kabul", kulID.ToString());
                     }
                 }
             }
@@ -587,6 +581,7 @@ namespace Wms12m
             {
                 //önce depo adını bul
                 string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
+                bool varmi = false;
                 foreach (var item in mGorev.IRS)
                 {
                     foreach (var item2 in item.IRS_Detay)
@@ -612,9 +607,17 @@ namespace Wms12m
                                 tarih = DateTime.Now
                             };
                             dbx.harekets.Add(tblh);
-                            dbx.SaveChanges();
+                            varmi = true;
                         }
                     }
+                }
+                try
+                {
+                    if (varmi == true) dbx.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
                 }
             }
             return new Result(true);
@@ -905,6 +908,19 @@ namespace Wms12m
             if (disposing)
                 db.Dispose();
             base.Dispose(disposing);
+        }
+        /// <summary>
+        /// hata kaydını tek yerden kontrol etmek için
+        /// </summary>
+        private void Logger(Exception ex, string page, string user)
+        {
+            string inner = "";
+            if (ex.InnerException != null)
+            {
+                inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+            }
+            db.Logger(user, "Terminal", "", ex.Message, inner, page);
         }
     }
 }
