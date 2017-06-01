@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="72">
+      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="59">
         <EntityTypeShape EntityType="MModel.Simge" Width="1.5" PointX="25.375" PointY="4.25" />
         <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="23" PointY="3.125" />
         <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="28.5" PointY="9.375" />
@@ -69,6 +69,14 @@
         <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="6.5" PointY="1.75" />
         <AssociationConnector Association="MModel.FK_GorevUsers_Gorev" />
         <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MModel.Gorevler" Width="1.5" PointX="23.875" PointY="17.125" />
+        <EntityTypeShape EntityType="MModel.Musteri" Width="1.5" PointX="19.375" PointY="17.625" />
+        <EntityTypeShape EntityType="MModel.ProjeForm" Width="1.5" PointX="21.625" PointY="17.5" />
+        <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
+        <AssociationConnector Association="MModel.FK_Proje_Musteri" />
+        <EntityTypeShape EntityType="MModel.GorevCalisma" Width="1.5" PointX="26.125" PointY="18.125" />
+        <AssociationConnector Association="MModel.FK_GorevCalisma_Gorevler" />
+        <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

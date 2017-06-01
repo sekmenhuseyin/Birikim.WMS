@@ -72,4 +72,15 @@ namespace Wms12m.Entity
         public decimal Miktar { get; set; }
         public string RafNo { get; set; }
     }
+    /// <summary>
+    /// stok sayfası 1
+    /// </summary>
+    public class frmStok1
+    {
+        public string HucreAd { get; set; }
+        public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
+        public string Birim { get; set; }
+        public decimal Miktar { get; set; }
+    }
 }

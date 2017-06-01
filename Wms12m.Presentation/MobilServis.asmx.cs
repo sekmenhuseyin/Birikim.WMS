@@ -665,7 +665,7 @@ namespace Wms12m
             }
             catch (Exception ex)
             {
-                db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Paketle");
+                Logger(ex, "WebService/Paketle", kulID.ToString());
                 return new Result(false, "Bir hata oldu");
             }
             return _result;
@@ -876,7 +876,7 @@ namespace Wms12m
                 }
                 catch (Exception ex)
                 {
-                    db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Mal_Kabul");
+                    Logger(ex, "WebService/Kontrollu_Say", kulID.ToString());
                 }
             }
             return new Result(true);

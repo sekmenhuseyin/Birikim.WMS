@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DataTables.AspNet.Mvc5;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Business;
@@ -51,6 +52,52 @@ namespace Wms12m.Presentation.Controllers
                 Logger(ex, "Stock/List");
                 return PartialView("List", new List<Yer>());
             }
+        }
+        /// <summary>
+        /// sadece listeyi gönderiri
+        /// </summary>
+        public JsonResult List2(IDataTablesRequest request)
+        {
+            if (CheckPerm("Stok", PermTypes.Reading) == false) return new DataTablesJsonResult(null, JsonRequestBehavior.AllowGet);
+            if (request == null) return new DataTablesJsonResult(null, JsonRequestBehavior.AllowGet);
+            int? KatID = 0;
+            string sql = "";
+            // Check additional parameters. You may perform custom actions with them.
+            if (request.AdditionalParameters != null)
+                foreach (var additionalParameter in request.AdditionalParameters)
+                {
+                    if (additionalParameter.Key == "param1") KatID = additionalParameter.Value.ToInt32();
+                }
+            if (KatID == null || KatID == 0) return new DataTablesJsonResult(null, JsonRequestBehavior.AllowGet);
+            //get maladı sql
+            var dbs = db.GetSirketDBs();
+            foreach (var item in dbs)
+            {
+                if (sql != "")
+                {
+                    sql += " UNION ";
+                }
+                sql += string.Format("SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.Yer.MalKodu)", item);
+            }
+            sql = "(Select TOP(1) ISNULL(MalAdi, '') from (" + sql + ") t where MalAdi <> '')";
+            var data = db.Database.SqlQuery<frmStok1>(string.Format("SELECT HucreAd, MalKodu, Birim, Miktar, {0} as MalAdi FROM wms.Yer WHERE (KatID = {1})", sql, KatID.Value)).ToList();
+
+            // Global filtering.
+            // Filter is being manually applied due to in-memmory (IEnumerable) data.
+            // If you want something rather easier, check IEnumerableExtensions Sample.
+            var filteredData = data.Where(_item => _item.MalKodu.ToLower().Contains(request.Search.Value.ToLower()) || _item.MalAdi.ToLower().Contains(request.Search.Value.ToLower()));
+
+            // Paging filtered data.
+            // Paging is rather manual due to in-memmory (IEnumerable) data.
+            var dataPage = filteredData.Skip(request.Start).Take(request.Length);
+
+            // Response creation. To create your response you need to reference your request, to avoid
+            // request/response tampering and to ensure response will be correctly created.
+            var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
+
+            // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
+            // response to a json-compatible content, so DataTables can read it when received.
+            return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// kablo stok ana sayfası
@@ -220,8 +267,8 @@ namespace Wms12m.Presentation.Controllers
             }
             try
             {
-                    //return
-                    return Json(new Result(true), JsonRequestBehavior.AllowGet);
+                //return
+                return Json(new Result(true), JsonRequestBehavior.AllowGet);
             }
             catch (System.Exception)
             {
