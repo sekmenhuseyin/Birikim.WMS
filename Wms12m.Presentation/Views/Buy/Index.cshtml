@@ -63,7 +63,7 @@
                                 <span class="field-validation-valid" data-valmsg-for="Unvan" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
-                        <div id="hesapSelect"><table id="myTable" class="table table-striped table-bordered table-hover"></table></div>
+                        <div id="hesapSelect"></div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Evrak No</label>
                             <div class="col-md-4">
@@ -126,34 +126,21 @@
         $('#SirketID').on('change', function () {
             checkEnabled();
             $('#hesapSelect').hide();
-            $('#hesapSelect').html("<table id='myTable' class='table table-striped table-bordered table-hover'></table>");
-            if ($('#SirketID').val() != "")
-            {
-                var table = $('#myTable').dataTable({
-                    "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-                    "pagingType": "full_numbers",
-                    serverSide: true,
-                    ajax: {
-                        "url": "/Buy/GetHesapCodes",
-                        "data": function (data) {
-                            data.param1 = $('#SirketID').val();
-                            data.param2 = 0
-                        }
-                    },
-                    columns: [
-                        { name: 'HesapKodu', data: 'hesapKodu', title: "Hesap Kodu", sortable: true, searchable: true },
-                        { name: 'Unvan', data: "unvan", title: "Ünvan", sortable: true, searchable: true }
-                    ]
-                });
-                $('#myTable tbody').on('click', 'tr', function () {
-                    hesapSelect($(this).find("td:nth-child(1)").text(), $(this).find("td:nth-child(2)").text());
-                });
-            }
+            $("#hesapSelect").html("");
+            $("#HesapKodu").val('');
+            $("#Unvan").val('');
+            $.ajax({
+                url: "/Buy/GetHesapCodes/" + $('#SirketID').val(),
+                type: 'POST',
+                dataType: "html",
+                success: function (data) { if (data != "") $("#hesapSelect").html(data); },
+                error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
+            });
         });
     });
-    function hesapSelect(no, ad) { $('#HesapKodu').val(no); $('#Unvan').val(ad); $('#hesapSelect').hide(); checkEnabled(); }
     function disableAll() {
         $('#hesapSelect').hide();
+        $("#hesapSelect").html("");
         $("#SirketID").attr("readonly", true);
         $("#DepoID").attr("readonly", true);
         $("#EvrakNo").attr("readonly", true);
@@ -183,6 +170,7 @@
     function CreateNew() {
         $(".showlater").hide();
         $('#hesapSelect').hide();
+        $("#hesapSelect").html("");
         $("#SirketID")[0].selectedIndex = 0;
         $("#DepoID")[0].selectedIndex = 0;
         $("#HesapKodu").val('');

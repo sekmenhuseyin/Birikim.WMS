@@ -548,6 +548,7 @@
     <Content Include="Views\Terminal\Barcode.cshtml" />
     <Content Include="Views\Approval\SatinalmaSipGMOnay_List.cshtml" />
     <Content Include="Views\Approval\SatinalmaSipGMOnayFTD_List.cshtml" />
+    <Content Include="Views\Buy\_HesapGridPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

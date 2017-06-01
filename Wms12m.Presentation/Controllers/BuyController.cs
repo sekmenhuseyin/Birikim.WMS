@@ -1,5 +1,4 @@
-﻿using DataTables.AspNet.Mvc5;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -204,15 +203,15 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.message = "Bu evrak no çok uzun";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
-            //bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
-            //if (kontrol1 == false)
-            //{
-            //    db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
-            //    ViewBag.message = "Tarih yanlış";
-            //    return PartialView("_GridPartial", new List<IRS_Detay>());
-            //}
-            //int tarih = tmpTarih.ToOADateInt();
-            int tarih = DateTime.Today.ToOADateInt();
+            bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
+            if (kontrol1 == false)
+            {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
+                ViewBag.message = "Tarih yanlış";
+                return PartialView("_GridPartial", new List<IRS_Detay>());
+            }
+            int tarih = tmpTarih.ToOADateInt();
+            //int tarih = DateTime.Today.ToOADateInt();
             var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID & m.HesapKodu == tbl.HesapKodu).FirstOrDefault();
             //var olanı göster
             if (kontrol2 != null)
@@ -373,35 +372,14 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// anasayfadaki malzeme listesi
         /// </summary>
-        public JsonResult GetHesapCodes(IDataTablesRequest request)
+        public PartialViewResult GetHesapCodes()
         {
-            string SirketID = "";
-            // Check additional parameters. You may perform custom actions with them.
-            if (request.AdditionalParameters != null)
-                foreach (var additionalParameter in request.AdditionalParameters)
-                {
-                    if (additionalParameter.Key == "param1") SirketID = additionalParameter.Value.ToString();
-                }
-            if (SirketID == "" || SirketID == null) return new DataTablesJsonResult(null, JsonRequestBehavior.AllowGet);
-            string sql = String.Format("FINSAT6{0}.[wms].[CHKSelectKartTip]", SirketID);
-            var data = db.Database.SqlQuery<frmHesapUnvan>(sql).ToList();
-
-            // Global filtering.
-            // Filter is being manually applied due to in-memmory (IEnumerable) data.
-            // If you want something rather easier, check IEnumerableExtensions Sample.
-            var filteredData = data.Where(_item => _item.Unvan.ToLower().Contains(request.Search.Value.ToLower()) || _item.HesapKodu.Contains(request.Search.Value));
-
-            // Paging filtered data.
-            // Paging is rather manual due to in-memmory (IEnumerable) data.
-            var dataPage = filteredData.Skip(request.Start).Take(request.Length);
-
-            // Response creation. To create your response you need to reference your request, to avoid
-            // request/response tampering and to ensure response will be correctly created.
-            var response = DataTablesResponse.Create(request, data.Count(), filteredData.Count(), dataPage);
-
-            // Easier way is to return a new 'DataTablesJsonResult', which will automatically convert your
-            // response to a json-compatible content, so DataTables can read it when received.
-            return new DataTablesJsonResult(response, JsonRequestBehavior.AllowGet);
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            if (id.ToString() == "0") return null;
+            string sql = String.Format("FINSAT6{0}.[wms].[CHKSelectKartTip]", id.ToString());
+            var list = db.Database.SqlQuery<frmHesapUnvan>(sql).ToList();
+            return PartialView("_HesapGridPartial", list);
         }
         /// <summary>
         /// yeni malzeme satırı formu
