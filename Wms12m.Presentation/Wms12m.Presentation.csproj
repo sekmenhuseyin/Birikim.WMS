@@ -325,6 +325,7 @@
     <Compile Include="Controllers\BuyController.cs" />
     <Compile Include="Controllers\CableController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\FaturaOnayController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
@@ -549,6 +550,11 @@
     <Content Include="Views\Approval\SatinalmaSipGMOnay_List.cshtml" />
     <Content Include="Views\Approval\SatinalmaSipGMOnayFTD_List.cshtml" />
     <Content Include="Views\Buy\_HesapGridPartial.cshtml" />
+    <Content Include="Views\Customer\Create.cshtml" />
+    <Content Include="Views\Customer\Delete.cshtml" />
+    <Content Include="Views\Customer\Details.cshtml" />
+    <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
