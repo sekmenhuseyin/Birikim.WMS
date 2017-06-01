@@ -25,7 +25,7 @@
                     <a class="btn btn-default pull-right input-circle onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
                 </div>
                 <div class="col-md-2 pull-right m-t-5">
-                    <a class="btn btn-default pull-right input-circle reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
+                    <a class="btn btn-default pull-right input-circle sil-buton" href="#modalEditPage" data-toggle="modal"> Sözleşme Sil </a>
                 </div>
 
             </div>
@@ -65,8 +65,17 @@
 
             Onayla();
 
-           
-            // window.location.href = '/Approval/Teminat';
+
+        });
+
+        $('.sil-buton').click(function () {
+
+            SozlesmeSil();
+
+        });
+        $('.yenile-buton').click(function () {
+
+            window.location.href = '/Approval/Sozlesme_GM';
 
 
 

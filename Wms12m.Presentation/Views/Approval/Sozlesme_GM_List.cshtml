@@ -197,6 +197,33 @@
 
         return _dfd.promise();
     }
+    function SozlesmeSil() {
+
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) {
+            secili_table.push(x[i]);
+        }
+        var _dfd = $.Deferred();
+        $.ajax({
+            url: window.location.origin + "/Approval/Sozlesme_Sil_GM",
+            data: { Data: JSON.stringify(secili_table) },
+            type: "post",
+            success: function (data) {
+                console.log(data);
+                if (data.Status == true) {
+                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                }
+                else {
+                    if (data.Message == "") data.Message = "Hata oluştu";
+                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                }
+
+            },
+            error: function (jqxhr) { console.log(jqxhr); }
+        });
+        return _dfd.promise();
+
+    }
    
 
 
