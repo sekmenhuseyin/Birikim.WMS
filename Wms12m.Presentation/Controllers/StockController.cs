@@ -128,7 +128,7 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("HistoryList", list);
         }
         /// <summary>
-        /// manual yerleştir
+        /// manual ekle
         /// </summary>
         public ActionResult ManualPlacement()
         {
@@ -141,7 +141,7 @@ namespace Wms12m.Presentation.Controllers
             return View("ManualPlacement", new Yer());
         }
         /// <summary>
-        /// manual yerleştir
+        /// manual ekle
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult ManualPlacement(Yer tbl)
@@ -188,32 +188,60 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (tbl.Miktar < 1) return Json(new Result(false, "Miktar hatalı"), JsonRequestBehavior.AllowGet);
-            //ilk yerden düşür
-            Result _result;
+            //burada görev oluştur
             var ilk = Yerlestirme.Detail(tbl.ID);
-            if (tbl.Miktar > ilk.Miktar) return Json(new Result(false, "Miktar hatalı"), JsonRequestBehavior.AllowGet);
-            ilk.Miktar -= tbl.Miktar;
-            _result = Yerlestirme.Update(ilk, 0, vUser.Id, true, tbl.Miktar);
-            //yeni eyer ekle
-            var yeni = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == ilk.MalKodu && m.Birim == ilk.Birim).FirstOrDefault();
-            if (yeni == null)
+            if (ilk.Miktar < tbl.Miktar || tbl.Miktar < 1)
+                return Json(new Result(false, "Miktar hatalı yazılmış"), JsonRequestBehavior.AllowGet);
+            int today = fn.ToOADate();
+            int time = fn.ToOATime();
+            string GorevNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
+            try
             {
-                yeni = new Yer()
+                var cevap = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevNo, GorevNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "").FirstOrDefault();
+                if (cevap.GorevID != null)
                 {
-                    KatID = tbl.KatID,
-                    MalKodu = ilk.MalKodu,
-                    Birim = ilk.Birim,
-                    Miktar = tbl.Miktar
-                };
-                _result = Yerlestirme.Insert(yeni, 0, vUser.Id);
+                    //GorevYer tablosu
+                    TaskYer.Operation(new GorevYer() { GorevID = cevap.GorevID.Value, YerID = ilk.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = true });
+                    //irs detay
+                    IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = ilk.MalKodu, Miktar = tbl.Miktar, Birim = ilk.Birim });
+                    //update gorev table
+                    var tmp = Task.Detail(cevap.GorevID.Value);
+                    tmp.DurumID = ComboItems.Açık.ToInt32();
+                    Task.Operation(tmp);
+                    //return
+                    return Json(new Result(true), JsonRequestBehavior.AllowGet);
+                }
             }
-            else
+            catch (System.Exception)
             {
-                yeni.Miktar += tbl.Miktar;
-                _result = Yerlestirme.Update(yeni, 0, vUser.Id, false, tbl.Miktar);
             }
-            //return
-            return Json(_result, JsonRequestBehavior.AllowGet);
+            return Json(new Result(false, "Kayıt hatası"), JsonRequestBehavior.AllowGet);
+            ////ilk yerden düşür
+            //Result _result;
+            //var ilk = Yerlestirme.Detail(tbl.ID);
+            //if (tbl.Miktar > ilk.Miktar) return Json(new Result(false, "Miktar hatalı"), JsonRequestBehavior.AllowGet);
+            //ilk.Miktar -= tbl.Miktar;
+            //_result = Yerlestirme.Update(ilk, 0, vUser.Id, true, tbl.Miktar);
+            ////yeni eyer ekle
+            //var yeni = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == ilk.MalKodu && m.Birim == ilk.Birim).FirstOrDefault();
+            //if (yeni == null)
+            //{
+            //    yeni = new Yer()
+            //    {
+            //        KatID = tbl.KatID,
+            //        MalKodu = ilk.MalKodu,
+            //        Birim = ilk.Birim,
+            //        Miktar = tbl.Miktar
+            //    };
+            //    _result = Yerlestirme.Insert(yeni, 0, vUser.Id);
+            //}
+            //else
+            //{
+            //    yeni.Miktar += tbl.Miktar;
+            //    _result = Yerlestirme.Update(yeni, 0, vUser.Id, false, tbl.Miktar);
+            //}
+            ////return
+            //return Json(_result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// elle yerleştirmede yeni yeri belirle

@@ -22,7 +22,6 @@
                                     <th nowrap>Doviz Cinsi</th>
                                     <th nowrap>Doviz Kuru</th>
                                   
-
                                     <th nowrap>Sira No</th>
                                     <th nowrap>SatirTip</th>
                                     <th nowrap>DvzTL</th>
@@ -51,7 +50,7 @@
         },
         "fixedHeader": true,
         "scrollX": true,
-        "columnDefs": [{ "visible": false, "targets": [7, 8, 9] }],
+        "columnDefs": [{ "visible": false, "width": "10%", "targets": [7, 8, 9] }, { "width": "18%", "targets": [1, 2, 3, 4, 5, 6] }],
         "columns": [
             { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
             { "data": "Aciklama" },
@@ -61,14 +60,9 @@
             { "data": "DovizCinsi" },
             { "data": "DovizKuru" },
            
-
             { "data": "SiraNo" },
             { "data": "SatirTip" },
             { "data": "DvzTL" }
-         
-
-            //{ "data": "TahTeslimTarih_D", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
-            //{ "data": "Depo" }
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -87,108 +81,6 @@
             silinecek.splice($( "tr" ).index( this )-1, 1);
         }
     });
-
-    $('.refresh-buton').click(function () {
-        var x = table.rows('.selected').data();
-        for (var i = 0; i < x.length; i++) {
-            secili_table.push(x[i]);
-        }
-        var _dfd = $.Deferred();
-        $.ajax({
-            url: window.location.origin + "/OnayRisk/OnayRiskInsert",
-            data: { Data: JSON.stringify(secili_table) },
-            type: "post",
-            success: function (data) {
-
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
-        });
-        return _dfd.promise();
-        //for (var i = 0; i < table.rows('.selected').data().length; i++) {
-        //    for (var j = 0; j < table.rows('.selected').data()[i].length; j++) {
-        //        console.log(table.rows('.selected'));
-        //        console.log(table.rows('.selected').data()[i][j]);
-        //        secili_satir.push(table.rows('.selected').data()[i][j])
-        //    }
-        //    secili_table.push(secili_satir);
-        //    secili_satir = [];
-        //}
-        //alert(table.rows('.selected').data().length + ' row(s) selected');
-    });
-    $(document).ready(function () {
-
-    });
-    function dddd() {
-        $("tr").toggleClass('selected');
-
-        var x = table.rows('.selected').data();
-        for (var i = 0; i < x.length; i++) {
-            var jObject = {};
-            jObject["HesapKodu"] = $(".select_musteri_kodu").dxLookup("instance").option("value");
-            jObject["Unvan"] = $(".select_musteri_kodu").dxLookup("instance").option("selectedItem").Unvan;
-            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false) {
-                jObject["VadeTarihInt"] = 0;
-                jObject["ValorGun"] = $(".numb_valor_gun").dxNumberBox("instance").option("value");
-            }
-            else {
-                jObject["VadeTarihInt"] =  Math.ceil(($(".date_vade_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                jObject["VadeTarih"] =  $(".date_vade_tarihi").dxDateBox("instance").option("value");
-                jObject["ValorGun"] = 0;
-            }
-            jObject["ListeNo"] = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
-            jObject["BasTarihInt"] = Math.ceil(($(".date_baslangic_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            jObject["BasTarih"] = $(".date_baslangic_tarihi").dxDateBox("instance").option("value");
-            jObject["BitTarihInt"] = Math.ceil(($(".date_bitis_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            jObject["BitTarih"] = $(".date_bitis_tarihi").dxDateBox("instance").option("value");
-            jObject["Not"] = $(".txt_sozlesme_notu").dxTextBox("instance").option("value");
-            jObject["BaglantiTipi"] = $(".select_baglanti_tipi").dxSelectBox("instance").option("value");
-            jObject["SiraNo"] = $(".txt_sira_no").dxTextBox("instance").option("value");
-            jObject["BaglantiTutari"] = $(".numb_baglanti_tutari").dxNumberBox("instance").option("value");
-            jObject["CekTutari"] = $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("value");
-            jObject["CekOrtVadeTarihi"] = $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value");
-            jObject["NakitTutar"] = $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("value");
-            jObject["BaglantiParaCinsi"] = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
-            jObject["AktifPasif"] = $(".swtch_aktif_pasif").dxSwitch("instance").option("value");
-
-            jObject["UrunGrubu"] = x[i][2];
-            jObject["UrunKodu"] = x[i][3];
-            jObject["UrunAdi"] = x[i][4];
-            jObject["Kalite"] = x[i][5];
-            jObject["Iskonto1"] = x[i][6];
-            jObject["Iskonto2"] = x[i][7];
-            jObject["Iskonto3"] = x[i][8];
-            jObject["Iskonto4"] = x[i][9];
-            jObject["Iskonto5"] = x[i][10];
-
-            secili_table.push(jObject);
-        }
-        $.ajax({
-            url: window.location.origin + "/Approval/SozlesmeYeniSatirKayit",
-            data: { Data: JSON.stringify(secili_table) },
-            type: "post",
-            success: function (data) {
-                if (data.Status == true) {
-                    $(".selected").remove();
-                    element=[];
-                }
-                Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
-        });
-
-    }
-
-    function SatirSil(){
-        for (var i = 0; i < silinecek.length; i++) {
-            element.splice(i, 1);
-            var jsonElement = JSON.stringify(element);
-
-            if ($("#fiyat_listesi_data table").length < 1) {
-                PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
-            }
-            //SatirSil2(silinecek[i]);
-        }
-    }
 </script>
 
 

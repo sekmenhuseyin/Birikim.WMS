@@ -40,24 +40,21 @@ namespace WMSMobil
                 {
                     foreach (Control cont in panel1.Controls)
                     {
-                        if (cont.Focused)
+                        if (cont.Focused && (cont.Name == txtKullaniciAdi.Name || cont.Name == txtParola.Name))
                         {
-                            if (cont.Name == txtKullaniciAdi.Name || cont.Name == txtParola.Name)
+                            focuslandi = true;
+                            Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text);
+                            if (login.ID != 0)
                             {
-                                focuslandi = true;
-                                Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text);
-                                if (login.ID != 0)
-                                {
-                                    Ayarlar.Kullanici = login;
-                                    frmMain anaForm = new frmMain();
-                                    this.Enabled = true;
-                                    anaForm.ShowDialog();
-                                }
-                                else
-                                {
-                                    this.Enabled = true;
-                                    Mesaj.Uyari(login.AdSoyad);
-                                }
+                                Ayarlar.Kullanici = login;
+                                frmMain anaForm = new frmMain();
+                                this.Enabled = true;
+                                anaForm.ShowDialog();
+                            }
+                            else
+                            {
+                                this.Enabled = true;
+                                Mesaj.Uyari(login.AdSoyad);
                             }
                         }
                     }

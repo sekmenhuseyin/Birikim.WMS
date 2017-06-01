@@ -94,15 +94,19 @@ namespace Wms12m
             smtp.EnableSsl = smtpSSL;
             smtp.Credentials = new System.Net.NetworkCredential(smtpEmail, smtpPass);
             smtp.SendCompleted += smtp_SendCompleted;
-            smtp.SendAsync(message, message);
+            try
+            {
+                smtp.Send(message);
 
+                MailGonderimBasarili = true;
+                return new Result(true);
 
-
-            message.Dispose();
-            smtp.Dispose();
-
-            MailGonderimBasarili = true;
-            return new Result(true);
+            }
+            catch (Exception ex)
+            {
+                MailGonderimBasarili = false;
+                return new Result(false, ex.Message);
+            }
 
         }
 

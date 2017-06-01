@@ -463,5 +463,26 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetEvrakNosForGorev", gorevIDParameter);
         }
+    
+        public virtual int LogLogins(string userName, string ipAddress, Nullable<bool> loggedIn, string comment)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var ipAddressParameter = ipAddress != null ?
+                new ObjectParameter("IpAddress", ipAddress) :
+                new ObjectParameter("IpAddress", typeof(string));
+    
+            var loggedInParameter = loggedIn.HasValue ?
+                new ObjectParameter("LoggedIn", loggedIn) :
+                new ObjectParameter("LoggedIn", typeof(bool));
+    
+            var commentParameter = comment != null ?
+                new ObjectParameter("Comment", comment) :
+                new ObjectParameter("Comment", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.LogLogins", userNameParameter, ipAddressParameter, loggedInParameter, commentParameter);
+        }
     }
 }

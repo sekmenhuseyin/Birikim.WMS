@@ -3862,7 +3862,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                             new SqlParameter("SipEvrakNo", SqlDbType.VarChar){Value = evrakno}
                         };
 
-                        kkp.ExecuteCommandOnUpdate(sql, true, paramlist);
+                        //kkp.ExecuteCommandOnUpdate(sql, true, paramlist);
                     }
 
 
@@ -3909,7 +3909,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     //SipEvrak.FTDHesapla();
 
 
-                    kkp.UpdateChanges();
+                    //kkp.UpdateChanges();
                     //Mesaj.Basari(string.Format("İşlem başarılı bir şekilde gerçekleştirildi. Evrak No: {0}", evrakno));
                     //gridLueSipTalepNo.EditValue = null;
                     //Yenile();
@@ -3918,7 +3918,122 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
                     //SatTalep talep = (SatTalep)gridLueSipTalepNo.GetSelectedDataRow();
                     //DbSat.SiparisOnayMailGonderim(SipEvrak.EvrakNo, SipEvrak.HesapKodu, sipTarih, Convert.ToInt32(SipEvrak.Satirlar[0].Kod4));
+                    var sipEvrakNo = MyGlobalVariables.SipEvrak.EvrakNo;
+                    var hesapKodu = MyGlobalVariables.SipEvrak.HesapKodu;
+                    var teklifNo = Convert.ToInt32(MyGlobalVariables.SipEvrak.Satirlar[0].Kod4);
 
+                    try
+                    {
+                        if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
+                            throw new ArgumentException("parametreler hatalı!!");
+                        
+                        GenelAyarVeParams mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format("SELECT * FROM [BIRIKIM].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
+                        if (mailayar == null)
+                        {
+                            _Result.Message = "Sipariş Onay Mail ayarları yapılandırılmamış!!";
+                            _Result.Status = false;
+                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                        }
+
+                        //string sorgu = string.Format("SELECT /*SirketEMail*/ SatAlmaIslemEMail FROM FINSAT6{0}.FINSAT6{0}.CHK (nolock) WHERE HesapKodu='{1}'", Degiskenler.SirketKodu, hesapKodu);
+
+                        string sorgu = string.Format("SELECT sta.TedarikciMail('{0}')", hesapKodu);
+
+                        string sirketemail = db.Database.SqlQuery<string>(sorgu).FirstOrDefault();
+                        if (string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
+                        {
+                            //if (Degiskenler.FromWinServis == false)
+                            _Result.Message = string.Format("Tedarikçiye ait mail bulunamadı!! (Hesap Kodu: {0})", hesapKodu);
+                            _Result.Status = false;
+                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                        }
+
+                        string satinalmacimail= db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM sta.Talep(nolock) WHERE SipEvrakNo ={0} )", sipEvrakNo)).FirstOrDefault();
+
+                        if ((string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
+                            && (string.IsNullOrEmpty(satinalmacimail) || satinalmacimail.Trim() == ""))
+                        {
+                            _Result.Message = "Ne Şirket Maili nede Satınalmacı maili yapılandırılmamış. Mail gönderilemedi";
+                            _Result.Status = false;
+                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                        }
+
+                        SatTalep sipTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TOP (1) TalepNo, SipIslemTip FROM sta.Talep (nolock) WHERE SipEvrakNo={0}", sipEvrakNo)).FirstOrDefault();
+                        if (sipTalep == null)
+                        {
+                            _Result.Message = "Siparişin Talep ile ilişkisi bulunamadı!! (Sipariş Onay Mail Gönderim)";
+                            _Result.Status = false;
+                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                        }
+                        if (sipTalep.SipIslemTip == null)
+                        {
+                            _Result.Message = "Sipariş iç/Dış Piyasa olduğu belirlenemedi!!";
+                            _Result.Status = false;
+                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                        }
+
+                        //SatınalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true);
+
+                        //List<string> attachList = new List<string>();
+                        //attachList.Add(String.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo));
+
+                        List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
+                        
+                        //DosyaYukle yukle = new DosyaYukle(DosyaTip.SatTalep);
+                        //foreach (SatTalep talep in listTalep)
+                        //{
+                        //    string path = yukle.GetDosyaYolu(talep.TalepNo, talep.EkDosya);
+                        //    if (File.Exists(path))
+                        //        attachList.Add(path);
+                        //}
+
+
+
+
+                        string kime = String.Format("{0};{1};{2}", sirketemail, satinalmacimail, mailayar.MailTo);
+                        string gorunenIsim = "Sipariş Onay";
+                        string konu = "Sipariş Onay";
+                        string icerik = "Sipariş Bilgileri Ektedir.";
+                        if (sipTalep.SipIslemTip == (short)KKPIslemTipSPI.DışPiyasa)
+                        {
+                            gorunenIsim = "Purchase Order Approval";
+                            konu = "Purchase Order Approval";
+                            icerik = "Purchase Order Items Information in Attachments";
+                        }
+
+                        //GM NİN KENDİSİNİ DE EKLİYORDUK İPTAL ETTİK
+                        //if (Degiskenler.FromWinServis == false)
+                        //{
+                        //    if (!kime.Contains(Degiskenler.Kullanici.Email) && !mailayar.MailCc.Contains(Degiskenler.Kullanici.Email))
+                        //        mailayar.MailCc += ";" + Degiskenler.Kullanici.Email;
+                        //}
+
+
+                        MyMail m = new MyMail(false);
+                        m.MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!";
+                        m.MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!!";
+                        m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, null);
+
+                        if (m.MailGonderimBasarili)
+                        {
+                            db.Database.ExecuteSqlCommand(string.Format("UPDATE sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
+                        }
+                        else
+                        {
+                            db.Database.ExecuteSqlCommand(string.Format("UPDATE sta.Talep SET MailGonder={0} WHERE TalepNo='{1}'", 0, sipTalep.TalepNo));
+                            //if (Degiskenler.FromWinServis && m.ExcHata != null)
+                            //    throw m.ExcHata;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        //if (Degiskenler.FromWinServis)
+                        //    throw ex;
+                        _Result.Message = string.Format("Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!)");
+                        _Result.Status = false;
+                        return Json(_Result, JsonRequestBehavior.AllowGet);
+                    }
                 }
                 catch (Exception ex)
                 {

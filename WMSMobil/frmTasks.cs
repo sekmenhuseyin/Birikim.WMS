@@ -173,7 +173,7 @@ namespace WMSMobil
                 //panel ekle
                 PanelGrv panelSatir = new PanelGrv();
                 panelSatir.Name = Sayac.ToString();
-                panelSatir.Size = new Size((370 * carpim).ToInt32(), 20);
+                panelSatir.Size = new Size((370 * carpim).ToInt32(), (20 * carpim).ToInt32());
                 panelSatir.Location = new Point(0, (Sayac * 20 * carpim).ToInt32());
                 panelSatir.Tag = grvItem.ID + "-" + grvItem.IrsaliyeID;
                 panelSatir.Controls.Add(tGorevNo);
