@@ -33,7 +33,9 @@ namespace Wms12m.Entity.Models
         public Nullable<int> PID { get; set; }
         public Nullable<short> Durum { get; set; }
         public string Kaydeden { get; set; }
-        public Nullable<System.DateTime> KayitTarih { get; set; }
+        public System.DateTime KayitTarih { get; set; }
+        public string Degistiren { get; set; }
+        public System.DateTime DegisTarih { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorevler> Gorevlers { get; set; }

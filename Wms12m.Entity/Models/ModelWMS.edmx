@@ -80,10 +80,10 @@
           <Property Name="Tarih" Type="smalldatetime" Nullable="false" />
           <Property Name="CalismaSure" Type="int" Nullable="false" />
           <Property Name="Calisma" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Kaydeden" Type="varchar" MaxLength="5" />
-          <Property Name="KayitTarih" Type="smalldatetime" />
-          <Property Name="Degistiren" Type="varchar" MaxLength="5" />
-          <Property Name="DegisTarih" Type="smalldatetime" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
+          <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Gorevler">
           <Key>
@@ -122,10 +122,10 @@
           <Property Name="Tel2" Type="varchar" MaxLength="15" />
           <Property Name="MesaiKontrol" Type="bit" />
           <Property Name="MesaiKota" Type="int" />
-          <Property Name="Kaydeden" Type="varchar" MaxLength="5" />
-          <Property Name="KayitTarih" Type="smalldatetime" />
-          <Property Name="Degistiren" Type="varchar" MaxLength="5" />
-          <Property Name="DegisTarih" Type="smalldatetime" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
+          <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <EntityType Name="ProjeForm">
           <Key>
@@ -142,8 +142,10 @@
           <Property Name="MesaiKota" Type="int" />
           <Property Name="PID" Type="int" />
           <Property Name="Durum" Type="smallint" />
-          <Property Name="Kaydeden" Type="varchar" MaxLength="5" />
-          <Property Name="KayitTarih" Type="smalldatetime" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="KayitTarih" Type="smalldatetime" Nullable="false" />
+          <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DegisTarih" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Perm">
           <Key>
@@ -1635,9 +1637,14 @@
             <Parameter Name="LoggedIn" Mode="In" Type="Boolean" />
             <Parameter Name="Comment" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="GorevCalismas" EntityType="MModel.GorevCalisma" />
           <EntitySet Name="Gorevlers" EntityType="MModel.Gorevler" />
           <EntitySet Name="Musteris" EntityType="MModel.Musteri" />
           <EntitySet Name="ProjeForms" EntityType="MModel.ProjeForm" />
+          <AssociationSet Name="FK_GorevCalisma_Gorevler" Association="MModel.FK_GorevCalisma_Gorevler">
+            <End Role="Gorevler" EntitySet="Gorevlers" />
+            <End Role="GorevCalisma" EntitySet="GorevCalismas" />
+          </AssociationSet>
           <AssociationSet Name="FK_Gorevler_ProjeForm" Association="MModel.FK_Gorevler_ProjeForm">
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="Gorevler" EntitySet="Gorevlers" />
@@ -1645,11 +1652,6 @@
           <AssociationSet Name="FK_Proje_Musteri" Association="MModel.FK_Proje_Musteri">
             <End Role="Musteri" EntitySet="Musteris" />
             <End Role="ProjeForm" EntitySet="ProjeForms" />
-          </AssociationSet>
-          <EntitySet Name="GorevCalismas" EntityType="MModel.GorevCalisma" />
-          <AssociationSet Name="FK_GorevCalisma_Gorevler" Association="MModel.FK_GorevCalisma_Gorevler">
-            <End Role="Gorevler" EntitySet="Gorevlers" />
-            <End Role="GorevCalisma" EntitySet="GorevCalismas" />
           </AssociationSet>
           <AssociationSet Name="FK_ProjeForm_ProjeForm" Association="MModel.FK_ProjeForm_ProjeForm">
             <End Role="ProjeForm" EntitySet="ProjeForms" />
@@ -2616,6 +2618,21 @@
           <Property Name="Version" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
         </EntityType>
+        <EntityType Name="GorevCalisma">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GorevID" Type="Int32" Nullable="false" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CalismaSure" Type="Int32" Nullable="false" />
+          <Property Name="Calisma" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevCalisma_Gorevler" FromRole="GorevCalisma" ToRole="Gorevler" />
+        </EntityType>
         <EntityType Name="Gorevler">
           <Key>
             <PropertyRef Name="ID" />
@@ -2639,8 +2656,8 @@
           <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="ProjeForm" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="Gorevler" ToRole="ProjeForm" />
           <NavigationProperty Name="GorevCalismas" Relationship="MModel.FK_GorevCalisma_Gorevler" FromRole="Gorevler" ToRole="GorevCalisma" />
+          <NavigationProperty Name="ProjeForm" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="Gorevler" ToRole="ProjeForm" />
         </EntityType>
         <EntityType Name="Musteri">
           <Key>
@@ -2655,10 +2672,10 @@
           <Property Name="Tel2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="MesaiKontrol" Type="Boolean" />
           <Property Name="MesaiKota" Type="Int32" />
-          <Property Name="Kaydeden" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Precision="0" />
-          <Property Name="Degistiren" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Precision="0" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="ProjeForms" Relationship="MModel.FK_Proje_Musteri" FromRole="Musteri" ToRole="ProjeForm" />
         </EntityType>
         <EntityType Name="ProjeForm">
@@ -2676,13 +2693,27 @@
           <Property Name="MesaiKota" Type="Int32" />
           <Property Name="PID" Type="Int32" />
           <Property Name="Durum" Type="Int16" />
-          <Property Name="Kaydeden" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Precision="0" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="ProjeForm" ToRole="Gorevler" />
           <NavigationProperty Name="Musteri" Relationship="MModel.FK_Proje_Musteri" FromRole="ProjeForm" ToRole="Musteri" />
           <NavigationProperty Name="ProjeForm1" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm" ToRole="ProjeForm1" />
           <NavigationProperty Name="ProjeForm2" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm1" ToRole="ProjeForm" />
         </EntityType>
+        <Association Name="FK_GorevCalisma_Gorevler">
+          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="1" />
+          <End Type="MModel.GorevCalisma" Role="GorevCalisma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gorevler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevCalisma">
+              <PropertyRef Name="GorevID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Gorevler_ProjeForm">
           <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="1" />
           <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="*" />
@@ -2704,33 +2735,6 @@
             </Principal>
             <Dependent Role="ProjeForm">
               <PropertyRef Name="MusteriID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="GorevCalisma">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GorevID" Type="Int32" Nullable="false" />
-          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CalismaSure" Type="Int32" Nullable="false" />
-          <Property Name="Calisma" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Kaydeden" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Precision="0" />
-          <Property Name="Degistiren" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevCalisma_Gorevler" FromRole="GorevCalisma" ToRole="Gorevler" />
-        </EntityType>
-        <Association Name="FK_GorevCalisma_Gorevler">
-          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="1" />
-          <End Type="MModel.GorevCalisma" Role="GorevCalisma" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gorevler">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevCalisma">
-              <PropertyRef Name="GorevID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3305,6 +3309,21 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="LogLogins" FunctionName="MModel.Store.LogLogins" />
+          <EntitySetMapping Name="GorevCalismas">
+            <EntityTypeMapping TypeName="MModel.GorevCalisma">
+              <MappingFragment StoreEntitySet="GorevCalisma">
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="Calisma" ColumnName="Calisma" />
+                <ScalarProperty Name="CalismaSure" ColumnName="CalismaSure" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Gorevlers">
             <EntityTypeMapping TypeName="MModel.Gorevler">
               <MappingFragment StoreEntitySet="Gorevler">
@@ -3352,6 +3371,8 @@
           <EntitySetMapping Name="ProjeForms">
             <EntityTypeMapping TypeName="MModel.ProjeForm">
               <MappingFragment StoreEntitySet="ProjeForm">
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
                 <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
                 <ScalarProperty Name="Durum" ColumnName="Durum" />
@@ -3364,21 +3385,6 @@
                 <ScalarProperty Name="Form" ColumnName="Form" />
                 <ScalarProperty Name="Proje" ColumnName="Proje" />
                 <ScalarProperty Name="MusteriID" ColumnName="MusteriID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GorevCalismas">
-            <EntityTypeMapping TypeName="MModel.GorevCalisma">
-              <MappingFragment StoreEntitySet="GorevCalisma">
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="Calisma" ColumnName="Calisma" />
-                <ScalarProperty Name="CalismaSure" ColumnName="CalismaSure" />
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

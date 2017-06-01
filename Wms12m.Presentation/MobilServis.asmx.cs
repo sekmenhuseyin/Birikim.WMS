@@ -195,6 +195,20 @@ namespace Wms12m
                                     "WHERE (wms.GorevYer.GorevID = {0}) {1}" +
                                     "ORDER BY wms.GorevYer.Sira", GorevID, sqltmp);
             }
+            else if (mGorev.GorevTipiID == ComboItems.TransferGiriş.ToInt32() && mGorev.Transfers.Count == 0)
+            {
+                sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.IRS_Detay.KynkSiparisNo as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
+                                    "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi, " +
+                                    "ISNULL((SELECT Barkod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS Barkod " +
+                                    "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID INNER JOIN wms.GorevIRS WITH (nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.Yer_Log.IrsaliyeID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu " +
+                                    "WHERE (wms.GorevIRS.GorevID = {1}) " +
+                                    "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.IRS_Detay.KynkSiparisNo ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID);
+                if (devamMi == true)
+                    if (mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevkiyat.ToInt32())
+                        sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(OkutulanMiktar,0))";
+                    else //2 and 3
+                        sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(YerlestirmeMiktari,0))";
+            }
             else
             {
                 sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
@@ -735,20 +749,20 @@ namespace Wms12m
             Result sonuc;
             int tarih = DateTime.Today.ToOADateInt();
             int saat = DateTime.Now.ToOaTime();
-            string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
             var transfer = mGorev.Transfers.FirstOrDefault();
             if (transfer == null)//iç transfer
             {
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0);
-                var cevap = db.InsertIrsaliye(mGorev.IR.SirketKod, mGorev.IR.DepoID, gorevNo, mGorev.IR.EvrakNo, tarih, "Yer Değiştir", false, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
                 //update gorev table
-                var tmp = db.Gorevs.Where(m => m.ID == cevap.GorevID.Value).FirstOrDefault();
+                var id = mGorev.IR.LinkEvrakNo.ToInt32();
+                var tmp = db.Gorevs.Where(m => m.ID == id).FirstOrDefault();
                 tmp.DurumID = ComboItems.Açık.ToInt32();
                 db.SaveChanges();
                 sonuc = new Result(true);
             }
             else//dış transfer
             {
+                string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
                 if (kull.UserDetail.TransferOutSeri == null)
                     return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
                 if (kull.UserDetail.TransferOutSeri.Value < 1 || kull.UserDetail.TransferOutSeri.Value > 199)

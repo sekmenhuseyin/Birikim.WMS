@@ -40,8 +40,8 @@ namespace Wms12m.Entity.Models
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
     
-        public virtual ProjeForm ProjeForm { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevCalisma> GorevCalismas { get; set; }
+        public virtual ProjeForm ProjeForm { get; set; }
     }
 }
