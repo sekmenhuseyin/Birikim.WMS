@@ -34,6 +34,7 @@ namespace Wms12m.Business
                 db.SaveChanges();
                 //result
                 _Result.Id = tbl.ID;
+                _Result.Data = tbl.Yer.HucreAd;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
             }

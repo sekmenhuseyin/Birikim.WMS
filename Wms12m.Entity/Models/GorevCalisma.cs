@@ -20,9 +20,9 @@ namespace Wms12m.Entity.Models
         public int CalismaSure { get; set; }
         public string Calisma { get; set; }
         public string Kaydeden { get; set; }
-        public Nullable<System.DateTime> KayitTarih { get; set; }
+        public System.DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }
-        public Nullable<System.DateTime> DegisTarih { get; set; }
+        public System.DateTime DegisTarih { get; set; }
     
         public virtual Gorevler Gorevler { get; set; }
     }
