@@ -170,13 +170,14 @@ namespace Wms12m.Presentation.Controllers
                 {
                     //set aktif
                     var grv = db.Database.SqlQuery<Gorev>("SELECT wms.Gorev.* FROM wms.Gorev INNER JOIN wms.GorevIRS ON wms.Gorev.ID = wms.GorevIRS.GorevID WHERE wms.GorevIRS.IrsaliyeID = " + irsaliyeID).FirstOrDefault();
-                    if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
-                    {
-                        grv.DurumID = ComboItems.Açık.ToInt32();
-                        grv.OlusturmaTarihi = fn.ToOADate();
-                        grv.OlusturmaSaati = fn.ToOATime();
-                        db.SaveChanges();
-                    }
+                    if (grv != null)
+                        if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
+                        {
+                            grv.DurumID = ComboItems.Açık.ToInt32();
+                            grv.OlusturmaTarihi = fn.ToOADate();
+                            grv.OlusturmaSaati = fn.ToOATime();
+                            db.SaveChanges();
+                        }
                 }
             }
             //get list
@@ -297,14 +298,15 @@ namespace Wms12m.Presentation.Controllers
                 //add new
                 Result _Result = IrsaliyeDetay.Insert(tbl);
                 //set aktif
-                var grv = db.Gorevs.Where(m => m.IrsaliyeID == tbl.IrsaliyeId).FirstOrDefault();
-                if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
-                {
-                    grv.DurumID = ComboItems.Açık.ToInt32();
-                    grv.OlusturmaTarihi = fn.ToOADate();
-                    grv.OlusturmaSaati = fn.ToOATime();
-                    db.SaveChanges();
-                }
+                var grv = db.Database.SqlQuery<Gorev>("SELECT wms.Gorev.* FROM wms.Gorev INNER JOIN wms.GorevIRS ON wms.Gorev.ID = wms.GorevIRS.GorevID WHERE wms.GorevIRS.IrsaliyeID = " + tbl.IrsaliyeId).FirstOrDefault();
+                if (grv != null)
+                    if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
+                    {
+                        grv.DurumID = ComboItems.Açık.ToInt32();
+                        grv.OlusturmaTarihi = fn.ToOADate();
+                        grv.OlusturmaSaati = fn.ToOATime();
+                        db.SaveChanges();
+                    }
             }
             //get list
             var list = IrsaliyeDetay.GetList(tbl.IrsaliyeId);
