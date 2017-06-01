@@ -194,23 +194,34 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, "Miktar hatalı yazılmış"), JsonRequestBehavior.AllowGet);
             int today = fn.ToOADate();
             int time = fn.ToOATime();
-            string GorevNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                //ilk önce görevler ve irsaliye kaydedilir
+                string GorevGirNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
+                string GorevÇıkNo = db.SettingsGorevNo(today, ilk.DepoID).FirstOrDefault();
+                var cevapÇık = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevGirNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferGiriş.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "").FirstOrDefault();
+                var cevapGir = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevÇıkNo, GorevGirNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "").FirstOrDefault();
+                //GorevYer tablosu
+                TaskYer.Operation(new GorevYer() { GorevID = cevapÇık.GorevID.Value, YerID = ilk.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = true });
+                var yertmp = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+                if (yertmp == null)
+                {
+                    var cvp = Yerlestirme.Insert(new Yer() { KatID = tbl.KatID, MalKodu = tbl.MalKodu, Birim = tbl.Birim, Miktar = 0 }, 0, vUser.Id);
+                    yertmp.ID = cvp.Id;
+                }
+                TaskYer.Operation(new GorevYer() { GorevID = cevapGir.GorevID.Value, YerID = yertmp.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = true });
+                //irs detay
+                IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevapÇık.IrsaliyeID.Value, MalKodu = ilk.MalKodu, Miktar = tbl.Miktar, Birim = ilk.Birim });
+                //update gorev table
+                var tmp = Task.Detail(cevapÇık.GorevID.Value);
+                tmp.DurumID = ComboItems.Açık.ToInt32();
+                Task.Operation(tmp);
+
+            }
             try
             {
-                var cevap = db.InsertIrsaliye(db.GetSirketDBs().FirstOrDefault(), ilk.DepoID, GorevNo, GorevNo, today, "Yer Değiştir", true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, "Yer Değiştir", "", 0, "").FirstOrDefault();
-                if (cevap.GorevID != null)
-                {
-                    //GorevYer tablosu
-                    TaskYer.Operation(new GorevYer() { GorevID = cevap.GorevID.Value, YerID = ilk.ID, MalKodu = ilk.MalKodu, Birim = ilk.Birim, Miktar = tbl.Miktar, GC = true });
-                    //irs detay
-                    IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = ilk.MalKodu, Miktar = tbl.Miktar, Birim = ilk.Birim });
-                    //update gorev table
-                    var tmp = Task.Detail(cevap.GorevID.Value);
-                    tmp.DurumID = ComboItems.Açık.ToInt32();
-                    Task.Operation(tmp);
                     //return
                     return Json(new Result(true), JsonRequestBehavior.AllowGet);
-                }
             }
             catch (System.Exception)
             {
