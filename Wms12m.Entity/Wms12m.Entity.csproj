@@ -108,6 +108,12 @@
     <Compile Include="Models\Gorev.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GorevCalisma.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Gorevler.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GorevNo.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -138,10 +144,16 @@
     <Compile Include="Models\MenuRolGetir_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Musteri.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Olcu.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Perm.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjeForm.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Raf.cs">
