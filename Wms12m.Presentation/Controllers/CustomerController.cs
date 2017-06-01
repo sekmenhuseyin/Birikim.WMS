@@ -10,7 +10,7 @@ using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class CustomerController : Controller
+    public class CustomerController : RootController
     {
         private WMSEntities db = new WMSEntities();
 
