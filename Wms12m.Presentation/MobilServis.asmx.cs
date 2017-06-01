@@ -174,7 +174,7 @@ namespace Wms12m
                 if (tu.BitisTarihi != null)
                     return new List<Tip_STI>();
             string sql = "", sql2 = "";
-            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())
+            if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32() || (mGorev.GorevTipiID == ComboItems.TransferGiriş.ToInt32() && mGorev.Transfers.Count == 0))
             {
                 var dbs = db.GetSirketDBs();
                 foreach (var item in dbs)
@@ -735,20 +735,20 @@ namespace Wms12m
             Result sonuc;
             int tarih = DateTime.Today.ToOADateInt();
             int saat = DateTime.Now.ToOaTime();
-            string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
             var transfer = mGorev.Transfers.FirstOrDefault();
             if (transfer == null)//iç transfer
             {
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0);
-                var cevap = db.InsertIrsaliye(mGorev.IR.SirketKod, mGorev.IR.DepoID, gorevNo, mGorev.IR.EvrakNo, tarih, "Yer Değiştir", false, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
                 //update gorev table
-                var tmp = db.Gorevs.Where(m => m.ID == cevap.GorevID.Value).FirstOrDefault();
+                var id = mGorev.IR.LinkEvrakNo.ToInt32();
+                var tmp = db.Gorevs.Where(m => m.ID == id).FirstOrDefault();
                 tmp.DurumID = ComboItems.Açık.ToInt32();
                 db.SaveChanges();
                 sonuc = new Result(true);
             }
             else//dış transfer
             {
+                string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
                 if (kull.UserDetail.TransferOutSeri == null)
                     return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
                 if (kull.UserDetail.TransferOutSeri.Value < 1 || kull.UserDetail.TransferOutSeri.Value > 199)
