@@ -25,6 +25,7 @@ else
             </tbody>
         </table>
     }
+    <input type="hidden" id="IrsNo" value="@ViewBag.IrsaliyeId" />
     <script>
         disableAll()
         @{if (ViewBag.Onay == false && ViewBag.Yetki == true) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }

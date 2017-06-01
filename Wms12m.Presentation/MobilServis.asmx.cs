@@ -50,13 +50,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        string inner = "";
-                        if (ex.InnerException != null)
-                        {
-                            inner = ex.InnerException == null ? "" : ex.InnerException.Message;
-                            if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
-                        }
-                        db.Logger(userID, "", "terminal", ex.Message, inner, "WebService/Login");
+                        Logger(ex, "WebService/Login", userID);
                         db.LogLogins(userID, "terminal", false, result.Message);
                     }
             }
@@ -201,6 +195,20 @@ namespace Wms12m
                                     "WHERE (wms.GorevYer.GorevID = {0}) {1}" +
                                     "ORDER BY wms.GorevYer.Sira", GorevID, sqltmp);
             }
+            else if (mGorev.GorevTipiID == ComboItems.TransferGiriş.ToInt32() && mGorev.Transfers.Count == 0)
+            {
+                sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
+                                    "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi, " +
+                                    "ISNULL((SELECT Barkod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS Barkod " +
+                                    "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID INNER JOIN wms.GorevIRS WITH (nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.KynkSiparisID = wms.Yer_Log.KatID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu " +
+                                    "WHERE (wms.GorevIRS.GorevID = {1}) " +
+                                    "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID);
+                if (devamMi == true)
+                    if (mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevkiyat.ToInt32())
+                        sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(OkutulanMiktar,0))";
+                    else //2 and 3
+                        sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(YerlestirmeMiktari,0))";
+            }
             else
             {
                 sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
@@ -270,7 +278,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Mal_Kabul");
+                        Logger(ex, "WebService/Mal_Kabul", kulID.ToString());
                     }
                 }
             }
@@ -587,6 +595,7 @@ namespace Wms12m
             {
                 //önce depo adını bul
                 string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
+                bool varmi = false;
                 foreach (var item in mGorev.IRS)
                 {
                     foreach (var item2 in item.IRS_Detay)
@@ -612,9 +621,17 @@ namespace Wms12m
                                 tarih = DateTime.Now
                             };
                             dbx.harekets.Add(tblh);
-                            dbx.SaveChanges();
+                            varmi = true;
                         }
                     }
+                }
+                try
+                {
+                    if (varmi == true) dbx.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
                 }
             }
             return new Result(true);
@@ -662,7 +679,7 @@ namespace Wms12m
             }
             catch (Exception ex)
             {
-                db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Paketle");
+                Logger(ex, "WebService/Paketle", kulID.ToString());
                 return new Result(false, "Bir hata oldu");
             }
             return _result;
@@ -732,20 +749,20 @@ namespace Wms12m
             Result sonuc;
             int tarih = DateTime.Today.ToOADateInt();
             int saat = DateTime.Now.ToOaTime();
-            string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
             var transfer = mGorev.Transfers.FirstOrDefault();
             if (transfer == null)//iç transfer
             {
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0);
-                var cevap = db.InsertIrsaliye(mGorev.IR.SirketKod, mGorev.IR.DepoID, gorevNo, mGorev.IR.EvrakNo, tarih, "Yer Değiştir", false, ComboItems.TransferGiriş.ToInt32(), kull.Kod, tarih, saat, mGorev.IR.HesapKodu, "", 0, "").FirstOrDefault();
                 //update gorev table
-                var tmp = db.Gorevs.Where(m => m.ID == cevap.GorevID.Value).FirstOrDefault();
+                var id = mGorev.IR.LinkEvrakNo.ToInt32();
+                var tmp = db.Gorevs.Where(m => m.ID == id).FirstOrDefault();
                 tmp.DurumID = ComboItems.Açık.ToInt32();
                 db.SaveChanges();
                 sonuc = new Result(true);
             }
             else//dış transfer
             {
+                string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
                 if (kull.UserDetail.TransferOutSeri == null)
                     return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
                 if (kull.UserDetail.TransferOutSeri.Value < 1 || kull.UserDetail.TransferOutSeri.Value > 199)
@@ -801,19 +818,29 @@ namespace Wms12m
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
             //aktar
             //görev bitir
+            Result sonuc;
             int tarih = DateTime.Today.ToOADateInt();
-            Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
-            var sonuc = finsat.DepoTransfer(mGorev.Transfers.FirstOrDefault(), true, kull.Kod, kull.UserDetail.TransferInSeri.Value);
-            if (sonuc.Status == true)
+            var transfer = mGorev.Transfers.FirstOrDefault();
+            if (transfer == null)//iç transfer
             {
-                //update irsaliye
-                db.UpdateIrsaliye(mGorev.IrsaliyeID, sonuc.Data.ToString(), "");
-                //finish
-                db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferGiriş.ToInt32(), 0);
-                //görev user tablosu
-                var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
-                tbl.BitisTarihi = DateTime.Today.ToOADateInt();
-                db.SaveChanges();
+                db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0);
+                sonuc = new Result(true);
+            }
+            else//dış transfer
+            {
+                Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
+                sonuc = finsat.DepoTransfer(mGorev.Transfers.FirstOrDefault(), true, kull.Kod, kull.UserDetail.TransferInSeri.Value);
+                if (sonuc.Status == true)
+                {
+                    //update irsaliye
+                    db.UpdateIrsaliye(mGorev.IrsaliyeID, sonuc.Data.ToString(), "");
+                    //finish
+                    db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferGiriş.ToInt32(), 0);
+                    //görev user tablosu
+                    var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+                    tbl.BitisTarihi = DateTime.Today.ToOADateInt();
+                    db.SaveChanges();
+                }
             }
             return sonuc;
         }
@@ -873,7 +900,7 @@ namespace Wms12m
                 }
                 catch (Exception ex)
                 {
-                    db.Logger("", "", "", ex.Message + ex.InnerException != null ? ": " + ex.InnerException : "", ex.InnerException != null ? ex.InnerException.InnerException != null ? ex.InnerException.InnerException.Message : "" : "", "WebService/Mal_Kabul");
+                    Logger(ex, "WebService/Kontrollu_Say", kulID.ToString());
                 }
             }
             return new Result(true);
@@ -905,6 +932,19 @@ namespace Wms12m
             if (disposing)
                 db.Dispose();
             base.Dispose(disposing);
+        }
+        /// <summary>
+        /// hata kaydını tek yerden kontrol etmek için
+        /// </summary>
+        private void Logger(Exception ex, string page, string user)
+        {
+            string inner = "";
+            if (ex.InnerException != null)
+            {
+                inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+            }
+            db.Logger(user, "Terminal", "", ex.Message, inner, page);
         }
     }
 }

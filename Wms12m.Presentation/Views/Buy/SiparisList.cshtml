@@ -70,7 +70,7 @@
                 type: 'POST',
                 dataType: "html",
                 success: function (data) { if (data != "") $("#StoreGrid").html(data); },
-                error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); }
+                error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
             });
         });
         $("#selector").click(function () {
