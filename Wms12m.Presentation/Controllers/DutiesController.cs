@@ -50,7 +50,7 @@ namespace Wms12m.Presentation.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,Gorev,Aciklama,Oncelik,Durum,GorevTipi,Departman,TahminiBitis,BitisTarih,IslemTip,IslemSira,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Gorevler gorevler)
+        public ActionResult Create([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Gorevler gorevler)
         {
             if (ModelState.IsValid)
             {
@@ -75,6 +75,8 @@ namespace Wms12m.Presentation.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevDurumları.ToInt32()), "ID", "Name");
+            ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje", gorevler.ProjeFormID);
             return View(gorevler);
         }
