@@ -74,6 +74,8 @@ namespace Wms12m.Presentation.Controllers
         // GET: ProjectForm/Edit/5
         public ActionResult Edit(int? id)
         {
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -94,14 +96,15 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,MusteriID,Proje,Form,Sorumlu,KarsiSorumlu,Aciklama,MesaiKontrol,MesaiKota,PID,Durum,Kaydeden,KayitTarih")] ProjeForm projeForm)
-        {
+        {   
             if (ModelState.IsValid)
             {
                 projeForm.Degistiren = vUser.UserName;
-                projeForm.Kaydeden = vUser.UserName;
+               // projeForm.Kaydeden = vUser.UserName;
                 DateTime date = DateTime.Now;
                 projeForm.DegisTarih = date;
-                projeForm.KayitTarih = date;
+               
+              //  projeForm.KayitTarih = date;
                 db.Entry(projeForm).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

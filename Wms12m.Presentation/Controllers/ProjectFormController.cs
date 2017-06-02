@@ -97,10 +97,10 @@ namespace Wms12m.Presentation.Controllers
             if (ModelState.IsValid)
             {
                 projeForm.Degistiren = vUser.UserName;
-                projeForm.Kaydeden = vUser.UserName;
+               // projeForm.Kaydeden = vUser.UserName;
                 DateTime date = DateTime.Now;
                 projeForm.DegisTarih = date;
-                projeForm.KayitTarih = date;
+                //projeForm.KayitTarih = date;
                 projeForm.PID = null;
 
                 db.Entry(projeForm).State = EntityState.Modified;
