@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Sözleşme Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
@@ -9,9 +8,7 @@
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
 </style>
-
-}
-<div class="form-horizontal">
+}<div class="form-horizontal">
     <div class="form-body">
         <div class="portlet box green">
             <div class="portlet-title">
@@ -43,50 +40,37 @@
 
     </div>
 </div>
-@*<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li></li></ul></div>
-<div class="row" id="liste"></div>*@
-@section Scripts{
-    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="~/Content/assets/global/scripts/datatable.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
-    <script type="text/javascript">
-        FuncSearchBtn();
-        function FuncSearchBtn() {
-            $('#liste').html("");
-            PartialView('/Approval/Sozlesme_GM_List', 'liste');
-        }
-        function newrow(listeno) { return "<table style='background:transparent;' id='new" + listeno + "'></table>"; }
-        function format(d) {
-            var html = "<tr style='background: transparent;'><th>Fiyat Listesi</th><th>Ürün Grubu</th><th>Ürün Kodu</th><th>Ürün Adı</th><th>Iskonto1</th><th>Iskonto2</th>< th > Iskonto3</th><th>Iskonto4</th> <th>Iskonto5</th></tr >";
-            $.ajax({
-                type: 'POST',
-                url: '/Approval/Sozlesme_GM_Details',
-                data: { "ListeNo": d },
-                dataType: "html",
-                success: function (data) {
-                    $('#new' + d).html(data);
-                }
-            });
-        }
-        $('.onay-buton').click(function () {
-
-            Onayla();
-
-
+@section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="~/Content/assets/global/scripts/datatable.js"></script>
+<script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+<script type="text/javascript">
+    FuncSearchBtn();
+    function FuncSearchBtn() {
+        $('#liste').html("");
+        PartialView('/Approval/Contract/GM_List', 'liste');
+    }
+    function newrow(listeno) { return "<table style='background:transparent;' id='new" + listeno + "'></table>"; }
+    function format(d) {
+        var html = "<tr style='background: transparent;'><th>Fiyat Listesi</th><th>Ürün Grubu</th><th>Ürün Kodu</th><th>Ürün Adı</th><th>Iskonto1</th><th>Iskonto2</th>< th > Iskonto3</th><th>Iskonto4</th> <th>Iskonto5</th></tr >";
+        $.ajax({
+            type: 'POST',
+            url: '/Approval/Contract/GM_Details',
+            data: { "ListeNo": d },
+            dataType: "html",
+            success: function (data) {
+                $('#new' + d).html(data);
+            }
         });
-
-        $('.sil-buton').click(function () {
-
-            SozlesmeSil();
-
-        });
-        $('.yenile-buton').click(function () {
-
-            window.location.href = '/Approval/Sozlesme_GM';
-
-
-
-        });
-    </script>
+    }
+    $('.onay-buton').click(function () {
+        Onayla();
+    });
+    $('.sil-buton').click(function () {
+        SozlesmeSil();
+    });
+    $('.yenile-buton').click(function () {
+        window.location.href = '/Approval/Contract/GM';
+    });
+</script>
 }
