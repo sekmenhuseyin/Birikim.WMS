@@ -96,10 +96,10 @@
           <Property Name="Sorumlu3" Type="varchar" MaxLength="5" />
           <Property Name="Gorev" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Aciklama" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Oncelik" Type="int" Nullable="false" />
-          <Property Name="Durum" Type="int" Nullable="false" />
-          <Property Name="GorevTipi" Type="int" />
-          <Property Name="Departman" Type="int" />
+          <Property Name="OncelikID" Type="int" Nullable="false" />
+          <Property Name="DurumID" Type="int" Nullable="false" />
+          <Property Name="GorevTipiID" Type="int" />
+          <Property Name="DepartmanID" Type="int" />
           <Property Name="TahminiBitis" Type="smalldatetime" />
           <Property Name="BitisTarih" Type="smalldatetime" />
           <Property Name="IslemTip" Type="smallint" />
@@ -607,6 +607,54 @@
             </Principal>
             <Dependent Role="GorevIRS">
               <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gorevler_ComboItem_Name_Departman">
+          <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="0..1" />
+          <End Role="Gorevler" Type="Self.Gorevler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Gorevler">
+              <PropertyRef Name="DepartmanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gorevler_ComboItem_Name_Durum">
+          <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="1" />
+          <End Role="Gorevler" Type="Self.Gorevler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Gorevler">
+              <PropertyRef Name="DurumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gorevler_ComboItem_Name_GorevTipi">
+          <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="0..1" />
+          <End Role="Gorevler" Type="Self.Gorevler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Gorevler">
+              <PropertyRef Name="GorevTipiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gorevler_ComboItem_Name_Oncelik">
+          <End Role="ComboItem_Name" Type="Self.ComboItem_Name" Multiplicity="1" />
+          <End Role="Gorevler" Type="Self.Gorevler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Gorevler">
+              <PropertyRef Name="OncelikID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1221,6 +1269,22 @@
             <End Role="IRS" EntitySet="IRS" />
             <End Role="GorevIRS" EntitySet="GorevIRS" />
           </AssociationSet>
+          <AssociationSet Name="FK_Gorevler_ComboItem_Name_Departman" Association="Self.FK_Gorevler_ComboItem_Name_Departman">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Gorevler" EntitySet="Gorevler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gorevler_ComboItem_Name_Durum" Association="Self.FK_Gorevler_ComboItem_Name_Durum">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Gorevler" EntitySet="Gorevler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gorevler_ComboItem_Name_GorevTipi" Association="Self.FK_Gorevler_ComboItem_Name_GorevTipi">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Gorevler" EntitySet="Gorevler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gorevler_ComboItem_Name_Oncelik" Association="Self.FK_Gorevler_ComboItem_Name_Oncelik">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Gorevler" EntitySet="Gorevler" />
+          </AssociationSet>
           <AssociationSet Name="FK_Gorevler_ProjeForm" Association="Self.FK_Gorevler_ProjeForm">
             <End Role="ProjeForm" EntitySet="ProjeForm" />
             <End Role="Gorevler" EntitySet="Gorevler" />
@@ -1663,17 +1727,8 @@
             <Parameter Name="Comment" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="GorevCalismas" EntityType="MModel.GorevCalisma" />
-          <EntitySet Name="Gorevlers" EntityType="MModel.Gorevler" />
           <EntitySet Name="Musteris" EntityType="MModel.Musteri" />
           <EntitySet Name="ProjeForms" EntityType="MModel.ProjeForm" />
-          <AssociationSet Name="FK_GorevCalisma_Gorevler" Association="MModel.FK_GorevCalisma_Gorevler">
-            <End Role="Gorevler" EntitySet="Gorevlers" />
-            <End Role="GorevCalisma" EntitySet="GorevCalismas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Gorevler_ProjeForm" Association="MModel.FK_Gorevler_ProjeForm">
-            <End Role="ProjeForm" EntitySet="ProjeForms" />
-            <End Role="Gorevler" EntitySet="Gorevlers" />
-          </AssociationSet>
           <AssociationSet Name="FK_Proje_Musteri" Association="MModel.FK_Proje_Musteri">
             <End Role="Musteri" EntitySet="Musteris" />
             <End Role="ProjeForm" EntitySet="ProjeForms" />
@@ -1686,6 +1741,31 @@
           <AssociationSet Name="FK_UserDevices_Users" Association="MModel.FK_UserDevices_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="UserDevice" EntitySet="UserDevices" />
+          </AssociationSet>
+          <EntitySet Name="Gorevlers" EntityType="MModel.Gorevler" />
+          <AssociationSet Name="FK_Gorevler_ComboItem_Name_Departman" Association="MModel.FK_Gorevler_ComboItem_Name_Departman">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Gorevler" EntitySet="Gorevlers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gorevler_ComboItem_Name_Durum" Association="MModel.FK_Gorevler_ComboItem_Name_Durum">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Gorevler" EntitySet="Gorevlers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gorevler_ComboItem_Name_GorevTipi" Association="MModel.FK_Gorevler_ComboItem_Name_GorevTipi">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Gorevler" EntitySet="Gorevlers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gorevler_ComboItem_Name_Oncelik" Association="MModel.FK_Gorevler_ComboItem_Name_Oncelik">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="Gorevler" EntitySet="Gorevlers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GorevCalisma_Gorevler" Association="MModel.FK_GorevCalisma_Gorevler">
+            <End Role="Gorevler" EntitySet="Gorevlers" />
+            <End Role="GorevCalisma" EntitySet="GorevCalismas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gorevler_ProjeForm" Association="MModel.FK_Gorevler_ProjeForm">
+            <End Role="ProjeForm" EntitySet="ProjeForms" />
+            <End Role="Gorevler" EntitySet="Gorevlers" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2465,6 +2545,10 @@
           <NavigationProperty Name="Kats" Relationship="MModel.FK_Kat_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Kat" />
           <NavigationProperty Name="WebMenus" Relationship="MModel.FK_WebMenu_MenuYeri" FromRole="ComboItem_Name" ToRole="WebMenu" />
           <NavigationProperty Name="WebMenus1" Relationship="MModel.FK_WebMenu_SiteTipi" FromRole="ComboItem_Name" ToRole="WebMenu" />
+          <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ComboItem_Name_Departman" FromRole="ComboItem_Name" ToRole="Gorevler" />
+          <NavigationProperty Name="Gorevlers1" Relationship="MModel.FK_Gorevler_ComboItem_Name_Durum" FromRole="ComboItem_Name" ToRole="Gorevler" />
+          <NavigationProperty Name="Gorevlers2" Relationship="MModel.FK_Gorevler_ComboItem_Name_GorevTipi" FromRole="ComboItem_Name" ToRole="Gorevler" />
+          <NavigationProperty Name="Gorevlers3" Relationship="MModel.FK_Gorevler_ComboItem_Name_Oncelik" FromRole="ComboItem_Name" ToRole="Gorevler" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -2664,32 +2748,6 @@
           <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Gorevler" Relationship="MModel.FK_GorevCalisma_Gorevler" FromRole="GorevCalisma" ToRole="Gorevler" />
         </EntityType>
-        <EntityType Name="Gorevler">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProjeFormID" Type="Int32" Nullable="false" />
-          <Property Name="Sorumlu" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Sorumlu2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Sorumlu3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Gorev" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Oncelik" Type="Int32" Nullable="false" />
-          <Property Name="Durum" Type="Int32" Nullable="false" />
-          <Property Name="GorevTipi" Type="Int32" />
-          <Property Name="Departman" Type="Int32" />
-          <Property Name="TahminiBitis" Type="DateTime" Precision="0" />
-          <Property Name="BitisTarih" Type="DateTime" Precision="0" />
-          <Property Name="IslemTip" Type="Int16" />
-          <Property Name="IslemSira" Type="Int32" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="GorevCalismas" Relationship="MModel.FK_GorevCalisma_Gorevler" FromRole="Gorevler" ToRole="GorevCalisma" />
-          <NavigationProperty Name="ProjeForm" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="Gorevler" ToRole="ProjeForm" />
-        </EntityType>
         <EntityType Name="Musteri">
           <Key>
             <PropertyRef Name="ID" />
@@ -2728,35 +2786,11 @@
           <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="ProjeForm" ToRole="Gorevler" />
           <NavigationProperty Name="Musteri" Relationship="MModel.FK_Proje_Musteri" FromRole="ProjeForm" ToRole="Musteri" />
           <NavigationProperty Name="ProjeForm1" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm" ToRole="ProjeForm1" />
           <NavigationProperty Name="ProjeForm2" Relationship="MModel.FK_ProjeForm_ProjeForm" FromRole="ProjeForm1" ToRole="ProjeForm" />
+          <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="ProjeForm" ToRole="Gorevler" />
         </EntityType>
-        <Association Name="FK_GorevCalisma_Gorevler">
-          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="1" />
-          <End Type="MModel.GorevCalisma" Role="GorevCalisma" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gorevler">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevCalisma">
-              <PropertyRef Name="GorevID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Gorevler_ProjeForm">
-          <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="1" />
-          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProjeForm">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Gorevler">
-              <PropertyRef Name="ProjeFormID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Proje_Musteri">
           <End Type="MModel.Musteri" Role="Musteri" Multiplicity="1" />
           <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="*" />
@@ -2799,6 +2833,108 @@
             </Principal>
             <Dependent Role="UserDevice">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Gorevler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjeFormID" Type="Int32" Nullable="false" />
+          <Property Name="Sorumlu" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Sorumlu2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Sorumlu3" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Gorev" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OncelikID" Type="Int32" Nullable="false" />
+          <Property Name="DurumID" Type="Int32" Nullable="false" />
+          <Property Name="GorevTipiID" Type="Int32" />
+          <Property Name="DepartmanID" Type="Int32" />
+          <Property Name="TahminiBitis" Type="DateTime" Precision="0" />
+          <Property Name="BitisTarih" Type="DateTime" Precision="0" />
+          <Property Name="IslemTip" Type="Int16" />
+          <Property Name="IslemSira" Type="Int32" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Gorevler_ComboItem_Name_Departman" FromRole="Gorevler" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="ComboItem_Name1" Relationship="MModel.FK_Gorevler_ComboItem_Name_Durum" FromRole="Gorevler" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="ComboItem_Name2" Relationship="MModel.FK_Gorevler_ComboItem_Name_GorevTipi" FromRole="Gorevler" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="ComboItem_Name3" Relationship="MModel.FK_Gorevler_ComboItem_Name_Oncelik" FromRole="Gorevler" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="GorevCalismas" Relationship="MModel.FK_GorevCalisma_Gorevler" FromRole="Gorevler" ToRole="GorevCalisma" />
+          <NavigationProperty Name="ProjeForm" Relationship="MModel.FK_Gorevler_ProjeForm" FromRole="Gorevler" ToRole="ProjeForm" />
+        </EntityType>
+        <Association Name="FK_Gorevler_ComboItem_Name_Departman">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="0..1" />
+          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Gorevler">
+              <PropertyRef Name="DepartmanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gorevler_ComboItem_Name_Durum">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Gorevler">
+              <PropertyRef Name="DurumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gorevler_ComboItem_Name_GorevTipi">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="0..1" />
+          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Gorevler">
+              <PropertyRef Name="GorevTipiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gorevler_ComboItem_Name_Oncelik">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Gorevler">
+              <PropertyRef Name="OncelikID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevCalisma_Gorevler">
+          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="1" />
+          <End Type="MModel.GorevCalisma" Role="GorevCalisma" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gorevler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevCalisma">
+              <PropertyRef Name="GorevID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gorevler_ProjeForm">
+          <End Type="MModel.ProjeForm" Role="ProjeForm" Multiplicity="1" />
+          <End Type="MModel.Gorevler" Role="Gorevler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjeForm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Gorevler">
+              <PropertyRef Name="ProjeFormID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3376,31 +3512,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Gorevlers">
-            <EntityTypeMapping TypeName="MModel.Gorevler">
-              <MappingFragment StoreEntitySet="Gorevler">
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="IslemSira" ColumnName="IslemSira" />
-                <ScalarProperty Name="IslemTip" ColumnName="IslemTip" />
-                <ScalarProperty Name="BitisTarih" ColumnName="BitisTarih" />
-                <ScalarProperty Name="TahminiBitis" ColumnName="TahminiBitis" />
-                <ScalarProperty Name="Departman" ColumnName="Departman" />
-                <ScalarProperty Name="GorevTipi" ColumnName="GorevTipi" />
-                <ScalarProperty Name="Durum" ColumnName="Durum" />
-                <ScalarProperty Name="Oncelik" ColumnName="Oncelik" />
-                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
-                <ScalarProperty Name="Gorev" ColumnName="Gorev" />
-                <ScalarProperty Name="Sorumlu3" ColumnName="Sorumlu3" />
-                <ScalarProperty Name="Sorumlu2" ColumnName="Sorumlu2" />
-                <ScalarProperty Name="Sorumlu" ColumnName="Sorumlu" />
-                <ScalarProperty Name="ProjeFormID" ColumnName="ProjeFormID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Musteris">
             <EntityTypeMapping TypeName="MModel.Musteri">
               <MappingFragment StoreEntitySet="Musteri">
@@ -3446,6 +3557,31 @@
               <MappingFragment StoreEntitySet="UserDevices">
                 <ScalarProperty Name="Device" ColumnName="Device" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gorevlers">
+            <EntityTypeMapping TypeName="MModel.Gorevler">
+              <MappingFragment StoreEntitySet="Gorevler">
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="IslemSira" ColumnName="IslemSira" />
+                <ScalarProperty Name="IslemTip" ColumnName="IslemTip" />
+                <ScalarProperty Name="BitisTarih" ColumnName="BitisTarih" />
+                <ScalarProperty Name="TahminiBitis" ColumnName="TahminiBitis" />
+                <ScalarProperty Name="DepartmanID" ColumnName="DepartmanID" />
+                <ScalarProperty Name="GorevTipiID" ColumnName="GorevTipiID" />
+                <ScalarProperty Name="DurumID" ColumnName="DurumID" />
+                <ScalarProperty Name="OncelikID" ColumnName="OncelikID" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="Gorev" ColumnName="Gorev" />
+                <ScalarProperty Name="Sorumlu3" ColumnName="Sorumlu3" />
+                <ScalarProperty Name="Sorumlu2" ColumnName="Sorumlu2" />
+                <ScalarProperty Name="Sorumlu" ColumnName="Sorumlu" />
+                <ScalarProperty Name="ProjeFormID" ColumnName="ProjeFormID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
