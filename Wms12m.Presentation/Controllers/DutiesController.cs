@@ -39,8 +39,10 @@ namespace Wms12m.Presentation.Controllers
         // GET: Duties/Create
         public ActionResult Create()
         {
-            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevDurumları.ToInt32()), "ID", "Name");
+            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
+            ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name");
+            ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name");
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje");
             return View();
         }
@@ -75,9 +77,11 @@ namespace Wms12m.Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevDurumları.ToInt32()), "ID", "Name");
+            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
+            ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name");
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje", gorevler.ProjeFormID);
+            ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name");
             return View(gorevler);
         }
 
@@ -86,7 +90,7 @@ namespace Wms12m.Presentation.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,Gorev,Aciklama,Oncelik,Durum,GorevTipi,Departman,TahminiBitis,BitisTarih,IslemTip,IslemSira,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Gorevler gorevler)
+        public ActionResult Edit([Bind(Include = "ID,ProjeFormID,Sorumlu,Sorumlu2,Sorumlu3,Gorev,Aciklama,OncelikID,DurumID,GorevTipiID,DepartmanID,TahminiBitis,BitisTarih,IslemTip,IslemSira,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Gorevler gorevler)
         {
             if (ModelState.IsValid)
             {
