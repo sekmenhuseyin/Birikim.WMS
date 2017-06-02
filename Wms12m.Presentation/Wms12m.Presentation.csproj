@@ -153,6 +153,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AndroidService.asmx" />
     <Content Include="Content\ajaxloader.gif" />
     <Content Include="Content\assets\global\css\components-md.css" />
     <Content Include="Content\assets\global\css\components-md.min.css">
@@ -320,6 +321,10 @@
     <Content Include="Views\Security\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AndroidService.asmx.cs">
+      <DependentUpon>AndroidService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\BuyController.cs" />
@@ -343,7 +348,7 @@
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RootController.cs" />
+    <Compile Include="Helper\RootController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\SellController.cs" />
     <Compile Include="Controllers\ShelfController.cs" />
@@ -359,6 +364,9 @@
     </Compile>
     <Compile Include="Helper\AuthAttribute.cs" />
     <Compile Include="Helper\Authentication.cs" />
+    <Compile Include="Helper\BaseService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Helper\Client.cs" />
     <Compile Include="MobilServis.asmx.cs">
       <DependentUpon>MobilServis.asmx</DependentUpon>
