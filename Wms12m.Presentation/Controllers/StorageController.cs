@@ -62,7 +62,17 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult StoreOperation(Depo P)
         {
             if (CheckPerm("Depo Kartı", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Store.Operation(P);
+            Result _Result;
+            if (P.ID == 0)//yeni depo ise mutlaka rezerv kat=koridor oluştur...
+            {
+                _Result = Store.Operation(P);
+                _Result = Corridor.Operation(new Koridor() { DepoID = _Result.Id, Aktif = true, KoridorAd = "R" });
+                _Result = Shelf.Operation(new Raf() { KoridorID = _Result.Id, Aktif = true, RafAd = "Z" });
+                _Result = Section.Operation(new Bolum() { RafID = _Result.Id, Aktif = true, BolumAd = "R" });
+                _Result = Floor.Operation(new Kat() { BolumID = _Result.Id, Aktif = true, KatAd = "V", OzellikID = ComboItems.MuhtelifKoli.ToInt32(), Boy = 1, En = 1, Derinlik = 1, AgirlikKapasite = 1 });
+            }
+            else
+                _Result = Store.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
