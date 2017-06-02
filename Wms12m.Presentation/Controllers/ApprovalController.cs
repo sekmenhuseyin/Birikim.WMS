@@ -4211,7 +4211,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
                             var xmlWorker = XMLWorkerHelper.GetInstance();
                             
-                            xmlWorker.ParseXHtml(writer, document);
+                            //xmlWorker.ParseXHtml(writer, document);
                             document.Close();
                             output.Position = 0;
 
