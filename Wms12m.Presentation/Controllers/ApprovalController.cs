@@ -11,6 +11,13 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Viewmodels;
+using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.pdf;
+using iTextSharp.text.html;
+using System.IO;
+using System.Net;
+using iTextSharp.tool.xml;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -28,7 +35,12 @@ namespace Wms12m.Presentation.Controllers
 
     public class ApprovalController : RootController
     {
-        
+        public ActionResult GMOnayHTML()
+        {
+            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+
         #region Çek
         public ActionResult Cek_SPGMY()
         {
@@ -3924,6 +3936,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
                     try
                     {
+                        #region Kayıt ve Mail
                         if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
                             throw new ArgumentException("parametreler hatalı!!");
                         
@@ -4009,21 +4022,202 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                         //}
 
 
-                        MyMail m = new MyMail(false);
-                        m.MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!";
-                        m.MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!!";
-                        m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, null);
+                        //MyMail m = new MyMail(false);
+                        //m.MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!";
+                        //m.MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!!";
+                        //m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, null);
 
-                        if (m.MailGonderimBasarili)
+                        //if (m.MailGonderimBasarili)
+                        //{
+                        //    db.Database.ExecuteSqlCommand(string.Format("UPDATE sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
+                        //}
+                        //else
+                        //{
+                        //    db.Database.ExecuteSqlCommand(string.Format("UPDATE sta.Talep SET MailGonder={0} WHERE TalepNo='{1}'", 0, sipTalep.TalepNo));
+                        //}
+                        #endregion
+
+                        #region Rapor oluşturma
+
+                        string deger = "aaaaaaaa";
+                        var x = @"<style>
+    .a {
+    border: 1px solid black;
+    }
+
+    th {
+        border: 2px dotted black;
+        text-align: center;
+    }
+
+    td {
+        border: 2px dotted black;
+        text-align: center;
+    }
+    p{
+        line-height:1px;
+        font-weight:bold;
+        font-size:12px;
+    }
+    </style>
+    <div class='m-10' style='height: 29.7cm;width: 21cm;'>
+        <div class='header-logo' style='width:100%;'>
+            <img src='/Content/images/GMOnayHeader.png' alt='Mountain View' style='width:100%;height:100%;'>
+        </div>
+        <div style='width:100%;height:20px;text-align:center;margin-top:10px;'>
+            <span style='font-weight:bold;'>SATINALMA SİPARİŞ FORMU</span>
+        </div>
+        <div class='row col-md-12' style='font-size:12px;'>
+            <div class='col-md-9'>
+                <div class='row bold m-l-5'>Tedarikçi Bilgileri</div>
+                <div class='row'>
+                    <div class='a col-md-3'>Ünvanı</div>
+                    <div class='a col-md-9'>" + deger + @"</div>
+                </div>
+                <div class='row'>
+                    <div class='a col-md-3'>Adresi</div>
+                    <div class='a col-md-9'>" + deger + @"</div>
+                </div>
+                <div class='row'>
+                    <div class='a col-md-3'>Tel</div>
+                    <div class='a col-md-9'>" + deger + @"</div>
+                </div>
+                <div class='row'>
+                    <div class='a col-md-3'>Fax</div>
+                    <div class='a col-md-9'>" + deger + @"</div>
+                </div>
+                <div class='row'>
+                    <div class='a col-md-3'>Email</div>
+                    <div class='a col-md-9'>" + deger + @"</div>
+                </div>
+            </div>
+            <div class='col-md-3'>
+                <div>
+                    <div style='width:50%;float:left;height:20px;'><span style='font-weight:bold;width:120px;'>Tarih</span></div>
+                    <div style='width:50%;float:left;height:20px;text-align:right;'><span style='width:120px;margin-left:8px;'>" + deger + @"</span></div>
+                </div>
+                <div>
+                    <div style='width:50%;float:left;height:20px;'><span style='font-weight:bold;width:120px;'>Sipariş No</span></div>
+                    <div style='width:50%;float:left;height:20px;text-align:right;'><span style='width:120px;margin-left:8px;'>" + deger + @"</span></div>
+                </div>
+                <div>
+                    <div style='width:50%;float:left;height:20px;'><span style='font-weight:bold;width:120px;'>Sipariş Tarihi</span></div>
+                    <div style='width:50%;float:left;height:20px;text-align:right;'><span style='width:120px;margin-left:8px;'>" + deger + @"</span></div>
+                </div>
+            </div>
+        </div>
+        <div class='row col-md-12 m-t-10' >
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Mal Kodu</th>
+                        <th>Nal Adı</th>
+                        <th>Açıklamalar</th>
+                        <th>İstenen Tarih</th>
+                        <th>Onaylanan Tarih</th>
+                        <th>Miktar</th>
+                        <th>Birim</th>
+                        <th>Fiyat</th>
+                        <th>Tutar</th>
+                        <th>Döviz Cinsi</th>
+                        <th>Vade</th>
+                        <th>Teslim Yeri</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                        <td>" + deger + @"</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class='row col-md-12 m-t-10'>
+            <div class='col-md-4' style='float:right;'>
+                <div class='row'>
+                    <div class='a col-md-6' style='border:none;'>Ara Toplam</div>
+                    <div class='a col-md-4' style='border:none;'>" + deger + @"</div>
+                    <div class='a col-md-2' style='border:none;'>" + deger + @"</div>
+                </div>
+                <div class='row'>
+                    <div class='a col-md-6' style='border:none;'>KDV</div>
+                    <div class='a col-md-4' style='border:none;'>" + deger + @"</div>
+                    <div class='a col-md-2' style='border:none;'>" + deger + @"</div>
+                </div>
+                <div class='row'>
+                    <div class='a col-md-6' style='border:none;'>Toplam Tutar</div>
+                    <div class='a col-md-4' style='border:none;'>" + deger + @"</div>
+                    <div class='a col-md-2' style='border:none;'>" + deger + @"</div>
+                </div>
+            </div>
+        </div>
+
+        <div class='row col-md-12 m-t-10'>
+            <p>LÜTFEN SİPARİŞLERİMİZİ KESİN TESLİM TARİHİ İLE BİRLİKTE TEYİT EDİNİZ.</p>
+            <p>İRSALİYE VE FATURA ÜZERİNE SİPARİŞ NUMARASININ MUTLAKA YAZILMASINI RİCA EDERİZ.</p>
+            <p>FATURANIZDA BANKA BİLGİLERİNİZİN IBAN NO KULLANILARAK BELİRTİLMESİ HUSUSUNU RİCA EDERİZ.</p>
+            <p>İRSALİYESİZ MAL KABULÜ KESİNLİKLE YAPILMAYACAKTIR.</p>
+            <p>FİRMAMIZ ADINA KESİLEN FATURALARIN İVEDİLİKLE TARAFIMIZA ULAŞTIRILMASI HUSUSUNU RİCA EDERİZ.</p>
+            <p>ÜCRET ALICI GÖNDERİLERİNİZİN AKSİ BELİRTİLMEDİĞİ SÜRECE ARAS KARGO İLE GÖNDERİLMESİNİ RİCA EDERİZ.</p>
+        </div>
+
+        <div class='row col-md-12 m-t-10'>
+            <div class='row'>
+                <div class='a col-md-4' style='text-align:center;border:none;font-weight:bold;'>Satınalma Uzmanı</div>
+                <div class='a col-md-4' style='text-align:center;border:none;font-weight:bold;'>Genel Müdür Yardımcısı</div>
+                <div class='a col-md-4' style='text-align:center;border:none;font-weight:bold;'>Genel Müdür</div>
+            </div>
+            <div class='row'>
+                <div class='a col-md-4' style='text-align:center;border:none;font-weight:bold;'>Çetin Ün</div>
+                <div class='a col-md-4' style='text-align:center;border:none;'></div>
+                <div class='a col-md-4' style='text-align:center;border:none;'></div>
+            </div>
+
+        </div>
+    </div>";
+                        var html = @"<?xml version=""1.0"" encoding=""UTF-8""?>
+                 <!DOCTYPE html 
+                     PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN""
+                    ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
+                 <html xmlns=""http://www.w3.org/1999/xhtml"" xml:lang=""en"" lang=""en"">
+                    <head>
+                        <title>Minimal XHTML 1.0 Document with W3C DTD</title>
+                    </head>
+                  <body>
+                    " + x + "</body></html>";
+
+                        var bytes = System.Text.Encoding.UTF8.GetBytes(html);
+
+                        using (var input = new MemoryStream(bytes))
                         {
-                            db.Database.ExecuteSqlCommand(string.Format("UPDATE sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
+                            var output = new MemoryStream(); // this MemoryStream is closed by FileStreamResult
+
+                            var document = new iTextSharp.text.Document(iTextSharp.text.PageSize.LETTER, 50, 50, 50, 50);
+                            var writer = PdfWriter.GetInstance(document, output);
+                            writer.CloseStream = false;
+                            document.Open();
+
+                            var xmlWorker = XMLWorkerHelper.GetInstance();
+                            
+                            xmlWorker.ParseXHtml(writer, document);
+                            document.Close();
+                            output.Position = 0;
+
+                             new FileStreamResult(output, "application/pdf");
                         }
-                        else
-                        {
-                            db.Database.ExecuteSqlCommand(string.Format("UPDATE sta.Talep SET MailGonder={0} WHERE TalepNo='{1}'", 0, sipTalep.TalepNo));
-                            //if (Degiskenler.FromWinServis && m.ExcHata != null)
-                            //    throw m.ExcHata;
-                        }
+                        #endregion
 
                     }
                     catch (Exception ex)

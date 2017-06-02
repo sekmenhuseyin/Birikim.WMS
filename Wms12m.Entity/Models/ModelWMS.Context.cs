@@ -58,6 +58,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Gorevler> Gorevlers { get; set; }
         public virtual DbSet<Musteri> Musteris { get; set; }
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
+        public virtual DbSet<UserDevice> UserDevices { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

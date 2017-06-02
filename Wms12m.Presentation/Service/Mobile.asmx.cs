@@ -1,11 +1,9 @@
-﻿using OnikimCore.GunesCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
 using System.Web.Services;
-using TumFaturaKayit;
 using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
@@ -14,15 +12,13 @@ using Wms12m.Entity.Mysql;
 namespace Wms12m
 {
     /// <summary>
-    /// Summary description for Service1
+    /// Summary description for MobilServis
     /// </summary>
     [WebService(Namespace = "http://www.12mconsulting.com.tr/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ToolboxItem(false)]
-    public class MobilServis : WebService, IDisposable
+    public class Mobile : BaseService
     {
-        //declerations
-        private WMSEntities db = new WMSEntities();
         /// <summary>
         /// login işlemleri
         /// </summary>
@@ -50,7 +46,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "WebService/Login", userID);
+                        Logger(ex, "Service/Mobile/Login", userID);
                         db.LogLogins(userID, "terminal", false, result.Message);
                     }
             }
@@ -197,12 +193,12 @@ namespace Wms12m
             }
             else if (mGorev.GorevTipiID == ComboItems.TransferGiriş.ToInt32() && mGorev.Transfers.Count == 0)
             {
-                sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.IRS_Detay.KynkSiparisNo as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
+                sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
                                     "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi, " +
                                     "ISNULL((SELECT Barkod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS Barkod " +
-                                    "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID INNER JOIN wms.GorevIRS WITH (nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.Yer_Log.IrsaliyeID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu " +
+                                    "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID INNER JOIN wms.GorevIRS WITH (nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.KynkSiparisID = wms.Yer_Log.KatID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu " +
                                     "WHERE (wms.GorevIRS.GorevID = {1}) " +
-                                    "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.IRS_Detay.KynkSiparisNo ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID);
+                                    "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID);
                 if (devamMi == true)
                     if (mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevkiyat.ToInt32())
                         sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(OkutulanMiktar,0))";
@@ -278,7 +274,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "WebService/Mal_Kabul", kulID.ToString());
+                        Logger(ex, "Service/Mobile/Mal_Kabul", kulID.ToString());
                     }
                 }
             }
@@ -679,7 +675,7 @@ namespace Wms12m
             }
             catch (Exception ex)
             {
-                Logger(ex, "WebService/Paketle", kulID.ToString());
+                Logger(ex, "Service/Mobile/Paketle", kulID.ToString());
                 return new Result(false, "Bir hata oldu");
             }
             return _result;
@@ -818,19 +814,29 @@ namespace Wms12m
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
             //aktar
             //görev bitir
+            Result sonuc;
             int tarih = DateTime.Today.ToOADateInt();
-            Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
-            var sonuc = finsat.DepoTransfer(mGorev.Transfers.FirstOrDefault(), true, kull.Kod, kull.UserDetail.TransferInSeri.Value);
-            if (sonuc.Status == true)
+            var transfer = mGorev.Transfers.FirstOrDefault();
+            if (transfer == null)//iç transfer
             {
-                //update irsaliye
-                db.UpdateIrsaliye(mGorev.IrsaliyeID, sonuc.Data.ToString(), "");
-                //finish
-                db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferGiriş.ToInt32(), 0);
-                //görev user tablosu
-                var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
-                tbl.BitisTarihi = DateTime.Today.ToOADateInt();
-                db.SaveChanges();
+                db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0);
+                sonuc = new Result(true);
+            }
+            else//dış transfer
+            {
+                Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
+                sonuc = finsat.DepoTransfer(mGorev.Transfers.FirstOrDefault(), true, kull.Kod, kull.UserDetail.TransferInSeri.Value);
+                if (sonuc.Status == true)
+                {
+                    //update irsaliye
+                    db.UpdateIrsaliye(mGorev.IrsaliyeID, sonuc.Data.ToString(), "");
+                    //finish
+                    db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferGiriş.ToInt32(), 0);
+                    //görev user tablosu
+                    var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+                    tbl.BitisTarihi = DateTime.Today.ToOADateInt();
+                    db.SaveChanges();
+                }
             }
             return sonuc;
         }
@@ -890,7 +896,7 @@ namespace Wms12m
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "WebService/Kontrollu_Say", kulID.ToString());
+                    Logger(ex, "Service/Mobile/Kontrollu_Say", kulID.ToString());
                 }
             }
             return new Result(true);
@@ -913,28 +919,6 @@ namespace Wms12m
                 db.SaveChanges();
             }
             return new Result(true);
-        }
-        /// <summary>
-        /// dispose override
-        /// </summary>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-                db.Dispose();
-            base.Dispose(disposing);
-        }
-        /// <summary>
-        /// hata kaydını tek yerden kontrol etmek için
-        /// </summary>
-        private void Logger(Exception ex, string page, string user)
-        {
-            string inner = "";
-            if (ex.InnerException != null)
-            {
-                inner = ex.InnerException == null ? "" : ex.InnerException.Message;
-                if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
-            }
-            db.Logger(user, "Terminal", "", ex.Message, inner, page);
         }
     }
 }

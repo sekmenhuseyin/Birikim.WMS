@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs7934.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsE86E.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs7934.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsE86E.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DataTables.AspNet.Mvc5">
@@ -77,6 +77,14 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.11.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.11\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.11.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.11\lib\itextsharp.xmlworker.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="KurumsalKaynakPlanlaması12M, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
@@ -153,6 +161,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\12M-Logo-30.png" />
+    <Content Include="Content\images\12M-Logo-90.png" />
+    <Content Include="Content\images\12M-Logo.png" />
+    <Content Include="Content\images\GMOnayHeader.png" />
+    <Content Include="Content\images\iz-logo-30.png" />
+    <Content Include="Content\images\iz-logo-90.png" />
+    <Content Include="Content\images\tum-logo-30.png" />
+    <Content Include="Content\images\tum-logo-90.png" />
+    <Content Include="Content\images\tum-logo.png" />
+    <Content Include="Service\Android.asmx" />
     <Content Include="Content\ajaxloader.gif" />
     <Content Include="Content\assets\global\css\components-md.css" />
     <Content Include="Content\assets\global\css\components-md.min.css">
@@ -235,10 +253,6 @@
     <Content Include="Content\assets\layouts\layout\img\loading-spinner-grey.gif" />
     <Content Include="Content\assets\layouts\layout\img\loading.gif" />
     <Content Include="Content\images\iz-logo.png" />
-    <Content Include="Content\images\iz-logo1.png" />
-    <Content Include="Content\images\tum-logo3.png" />
-    <Content Include="Content\images\tum-logo2.png" />
-    <Content Include="Content\images\tum-logo1.png" />
     <Content Include="Content\assets\layouts\layout\img\menu-toggler.png" />
     <Content Include="Content\assets\layouts\layout\img\remove-icon-small.png" />
     <Content Include="Content\assets\layouts\layout\img\search_icon_light.png" />
@@ -283,9 +297,13 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="MobilServis.asmx" />
+    <Content Include="Service\Mobile.asmx" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
+    <Content Include="Areas\Approval\Views\web.config" />
+    <Content Include="Areas\Approval\Views\Invoice\List.cshtml" />
+    <Content Include="Areas\Approval\Views\Invoice\Detail.cshtml" />
+    <Content Include="Areas\Approval\Views\Invoice\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -320,6 +338,12 @@
     <Content Include="Views\Security\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Approval\ApprovalAreaRegistration.cs" />
+    <Compile Include="Areas\Approval\Controllers\InvoiceController.cs" />
+    <Compile Include="Service\Android.asmx.cs">
+      <DependentUpon>Android.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\BuyController.cs" />
@@ -327,8 +351,6 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
-    <Compile Include="Controllers\FaturaOnayController.cs" />
-    <Compile Include="Controllers\ProjectFormController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\ComboItemsController.cs" />
     <Compile Include="Controllers\CombosController.cs" />
@@ -336,7 +358,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\PermsController.cs" />
-    <Compile Include="Controllers\SubProjectFormController.cs" />
+    <Compile Include="Controllers\ProjectFormController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
@@ -344,7 +366,7 @@
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RootController.cs" />
+    <Compile Include="Helper\RootController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\SellController.cs" />
     <Compile Include="Controllers\ShelfController.cs" />
@@ -360,9 +382,12 @@
     </Compile>
     <Compile Include="Helper\AuthAttribute.cs" />
     <Compile Include="Helper\Authentication.cs" />
+    <Compile Include="Helper\BaseService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Helper\Client.cs" />
-    <Compile Include="MobilServis.asmx.cs">
-      <DependentUpon>MobilServis.asmx</DependentUpon>
+    <Compile Include="Service\Mobile.asmx.cs">
+      <DependentUpon>Mobile.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -513,9 +538,6 @@
     <Content Include="Views\Home\_PartialSatisTemsilcisi_AylikSatisAnalizi.cshtml" />
     <Content Include="Views\Home\_PartialUrunGrubuSatisKriter.cshtml" />
     <Content Include="Views\Menu\Permissions.cshtml" />
-    <Content Include="Views\FaturaOnay\Index.cshtml" />
-    <Content Include="Views\FaturaOnay\_PartialFaturaOnayGrid.cshtml" />
-    <Content Include="Views\FaturaOnay\FaturaDetay.cshtml" />
     <Content Include="Views\Approval\RiskTanim.cshtml" />
     <Content Include="Views\Approval\RiskTanimPartial.cshtml" />
     <Content Include="Views\Maintenance\Index.cshtml" />
@@ -557,16 +579,12 @@
     <Content Include="Views\Customer\Details.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
-    <Content Include="Views\SubProjectForm\Create.cshtml" />
-    <Content Include="Views\SubProjectForm\Delete.cshtml" />
-    <Content Include="Views\SubProjectForm\Details.cshtml" />
-    <Content Include="Views\SubProjectForm\Edit.cshtml" />
-    <Content Include="Views\SubProjectForm\Index.cshtml" />
     <Content Include="Views\ProjectForm\Create.cshtml" />
     <Content Include="Views\ProjectForm\Delete.cshtml" />
     <Content Include="Views\ProjectForm\Details.cshtml" />
     <Content Include="Views\ProjectForm\Edit.cshtml" />
     <Content Include="Views\ProjectForm\Index.cshtml" />
+    <Content Include="Views\Approval\GMOnayHTML.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
