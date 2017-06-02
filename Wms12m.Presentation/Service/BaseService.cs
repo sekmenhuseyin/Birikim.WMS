@@ -7,13 +7,17 @@ namespace Wms12m
     public class BaseService : WebService, IDisposable
     {
         public WMSEntities db = new WMSEntities();
+        public YNSEntities dby = new YNSEntities();
         /// <summary>
         /// dispose override
         /// </summary>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 db.Dispose();
+                dby.Dispose();
+            }
             base.Dispose(disposing);
         }
         /// <summary>
