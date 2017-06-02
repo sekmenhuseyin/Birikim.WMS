@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Services;
 using Wms12m.Business;
@@ -32,7 +33,7 @@ namespace Wms12m
                 try
                 {
                     db.LogLogins(userID, "Android", true, "");
-                    return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, DepoKodu = m.UserDetail.Depo.DepoKodu, DepoID = m.UserDetail.Depo.ID }).FirstOrDefault();
+                    return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, Guid = m.Guid.ToString() }).FirstOrDefault();
                 }
                 catch (Exception ex)
                 {
@@ -43,6 +44,15 @@ namespace Wms12m
             else
                 db.LogLogins(userID, "Android", false, result.Message);
             return new Login() { ID = 0, AdSoyad = "Hatalı Kullanıcı adı ve şifre" };
+        }
+        /// <summary>
+        /// kullanıcıya ait müşterileri getir
+        /// </summary>
+        [WebMethod]
+        public List<string> GetClients(string user)
+        {
+            var tbl = dby.CAR002.Where(m => m.CAR002_OzelKodu == user).Select(m => new { m.CAR002_HesapKodu, m.CAR002_Unvan1, CariTipi = m.CAR002_Kod2 }).ToList();
+            return new List<string>();
         }
     }
 }

@@ -31,7 +31,7 @@ else
         @{if (ViewBag.Onay == false && ViewBag.Yetki == true) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
         $("#MalKodu").focus();
         $("#MalKodu").autocomplete({
-            source: "/Buy/getMalzemebyCode/" + $("#SirketID").val(),
+            source: "/Buy/GetMalzemebyCode/" + $("#SirketID").val(),
             minLength: 2,
             select: function (event, ui) {
                 getBirims(ui.item.id);
@@ -39,7 +39,7 @@ else
             }
         });
         $("#MalAdi").autocomplete({
-            source: "/Buy/getMalzemebyName/" + $("#SirketID").val(),
+            source: "/Buy/GetMalzemebyName/" + $("#SirketID").val(),
             minLength: 2,
             select: function (event, ui) {
                 getBirims(ui.item.id);
@@ -50,7 +50,7 @@ else
         {
             $("#Birim option").remove();
             $.ajax({
-                url: "/Buy/getBirim" ,
+                url: "/Buy/GetBirim" ,
                 type: 'POST',
                 data: JSON.stringify({ kod: id,s:$("#SirketID").val() }),
                 dataType: "json",

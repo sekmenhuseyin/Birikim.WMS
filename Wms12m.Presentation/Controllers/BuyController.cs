@@ -203,15 +203,14 @@ namespace Wms12m.Presentation.Controllers
                 ViewBag.message = "Bu evrak no çok uzun";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
-            //bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
-            //if (kontrol1 == false)
-            //{
-            //    db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
-            //    ViewBag.message = "Tarih yanlış";
-            //    return PartialView("_GridPartial", new List<IRS_Detay>());
-            //}
-            //int tarih = tmpTarih.ToOADateInt();
-            int tarih = DateTime.Today.ToOADateInt();
+            bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
+            if (kontrol1 == false)
+            {
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
+                ViewBag.message = "Tarih yanlış";
+                return PartialView("_GridPartial", new List<IRS_Detay>());
+            }
+            int tarih = tmpTarih.ToOADateInt();
             var kontrol2 = db.IRS.Where(m => m.IslemTur == false && m.EvrakNo == tbl.EvrakNo && m.SirketKod == tbl.SirketID & m.HesapKodu == tbl.HesapKodu).FirstOrDefault();
             //var olanı göster
             if (kontrol2 != null)
@@ -318,7 +317,7 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// malzeme autocomplete
         /// </summary>
-        public JsonResult getMalzemebyCode(string term)
+        public JsonResult GetMalzemebyCode(string term)
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
@@ -334,7 +333,7 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult getMalzemebyName(string term)
+        public JsonResult GetMalzemebyName(string term)
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
@@ -354,7 +353,7 @@ namespace Wms12m.Presentation.Controllers
         /// malzeme koduna göre birim getirir
         /// </summary>
         [HttpPost]
-        public JsonResult getBirim(string kod, string s)
+        public JsonResult GetBirim(string kod, string s)
         {
             string sql = String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", s, kod);
             try

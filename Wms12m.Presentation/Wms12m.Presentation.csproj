@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs291E.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs394F.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs291E.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs394F.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DataTables.AspNet.Mvc5">
@@ -280,9 +280,7 @@
     <Content Include="Content\assets\pages\img\bg-opacity.png" />
     <Content Include="Content\assets\pages\img\bg-white-lock.png" />
     <Content Include="Content\assets\pages\img\bg-white.png" />
-    <Content Include="Content\assets\pages\img\bg.jpg" />
     <Content Include="Content\assets\pages\img\inbox-nav-arrow-blue.png" />
-    <Content Include="Content\assets\pages\img\VezirKoprubanner.jpg" />
     <Content Include="Content\Scripts\Functions.js" />
     <Content Include="Content\Scripts\Functions.min.js">
       <DependentUpon>Functions.js</DependentUpon>
@@ -304,6 +302,10 @@
     <Content Include="Areas\Approval\Views\Invoice\List.cshtml" />
     <Content Include="Areas\Approval\Views\Invoice\Detail.cshtml" />
     <Content Include="Areas\Approval\Views\Invoice\Index.cshtml" />
+    <Content Include="Areas\Approval\Views\Check\Index.cshtml" />
+    <Content Include="Areas\Approval\Views\Contract\Index.cshtml" />
+    <Content Include="Areas\Approval\Views\Price\Index.cshtml" />
+    <Content Include="Areas\Approval\Views\Order\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -339,8 +341,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Approval\ApprovalAreaRegistration.cs" />
+    <Compile Include="Areas\Approval\Controllers\CheckController.cs" />
+    <Compile Include="Areas\Approval\Controllers\ContractController.cs" />
     <Compile Include="Areas\Approval\Controllers\InvoiceController.cs" />
-    <Compile Include="Controllers\SubProjectFormController.cs" />
+    <Compile Include="Areas\Approval\Controllers\OrderController.cs" />
+    <Compile Include="Areas\Approval\Controllers\PriceController.cs" />
     <Compile Include="Service\Android.asmx.cs">
       <DependentUpon>Android.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -586,11 +591,6 @@
     <Content Include="Views\ProjectForm\Edit.cshtml" />
     <Content Include="Views\ProjectForm\Index.cshtml" />
     <Content Include="Views\Approval\GMOnayHTML.cshtml" />
-    <Content Include="Views\SubProjectForm\Create.cshtml" />
-    <Content Include="Views\SubProjectForm\Delete.cshtml" />
-    <Content Include="Views\SubProjectForm\Details.cshtml" />
-    <Content Include="Views\SubProjectForm\Edit.cshtml" />
-    <Content Include="Views\SubProjectForm\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
