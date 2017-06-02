@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vsB52C.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vsEBE3.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vsB52C.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vsEBE3.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DataTables.AspNet.Mvc5">
@@ -356,6 +356,7 @@
     <Compile Include="Areas\Approval\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Approval\Controllers\OrderController.cs" />
     <Compile Include="Areas\Approval\Controllers\PriceController.cs" />
+    <Compile Include="Areas\Approval\Controllers\StockController.cs" />
     <Compile Include="Controllers\DutiesController.cs" />
     <Compile Include="Controllers\SubProjectFormController.cs" />
     <Compile Include="Service\Android.asmx.cs">
@@ -541,8 +542,8 @@
     <Content Include="Views\Approval\Siparis_GM_List.cshtml" />
     <Content Include="Views\Approval\Siparis_SM_List.cshtml" />
     <Content Include="Views\Approval\Siparis_SPGMY_List.cshtml" />
-    <Content Include="Views\Approval\Stok.cshtml" />
-    <Content Include="Views\Approval\Stok_List.cshtml" />
+    <Content Include="Areas\Approval\Views\Stock\Index.cshtml" />
+    <Content Include="Areas\Approval\Views\Stock\List.cshtml" />
     <Content Include="Views\Approval\Teminat.cshtml" />
     <Content Include="Views\Approval\Teminat_List.cshtml" />
     <Content Include="Views\Roles\List.cshtml" />

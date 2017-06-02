@@ -1,4 +1,6 @@
-﻿using KurumsalKaynakPlanlaması12M;
+﻿using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
+using KurumsalKaynakPlanlaması12M;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -6,18 +8,12 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Viewmodels;
-using iTextSharp.text;
-using iTextSharp.text.html.simpleparser;
-using iTextSharp.text.pdf;
-using iTextSharp.text.html;
-using System.IO;
-using System.Net;
-using iTextSharp.tool.xml;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -517,7 +513,7 @@ namespace Wms12m.Presentation.Controllers
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-           
+
             int BasTarih = 0;
             int BitTarih = 0;
             string ListeAdi = "";//int FytSiraNo = -1;
@@ -736,7 +732,7 @@ namespace Wms12m.Presentation.Controllers
 
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
-           
+
             }
             catch (Exception ex)
             {
@@ -773,7 +769,7 @@ namespace Wms12m.Presentation.Controllers
                     {
                         int FytSiraNo = -1;
                         var FLB = db.Database.SqlQuery<short>(string.Format("SELECT ISNULL(MAX(SiraNo),0) FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE FiyatListNum='{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
-                        if (FLB>0)
+                        if (FLB > 0)
                         {
                             FytSiraNo = FLB;
                             FytSiraNo++;
@@ -791,7 +787,7 @@ namespace Wms12m.Presentation.Controllers
                     AND F.SatisFiyat1Birim = '{5}' AND F.SatisFiyat1BirimInt = {6}
                     AND F.DovizSatisFiyat1 = {7} AND F.DovizSF1Birim = '{8}' AND F.DovizSF1BirimInt = {9}
                     AND F.DovizCinsi = '{10}' AND F.Onay = 1 AND F.SPGMYOnay = 1 AND F.GMOnay = 0 ", "17", insertObj["FiyatListNum"].ToString(), insertObj["Kod4"].ToString(),
-                    insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",","."), insertObj["SatisFiyat1Birim"].ToString(), insertObj["SatisFiyat1BirimInt"].ToString(),
+                    insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(), insertObj["SatisFiyat1BirimInt"].ToString(),
                     insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
@@ -969,7 +965,7 @@ namespace Wms12m.Presentation.Controllers
                         {
                             string durum3sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", "17", rts.ROW_ID);
                             var fytGuncellenecek = db.Database.SqlQuery<FYT>(durum3sql).FirstOrDefault();
-                            if (fytGuncellenecek!=null)
+                            if (fytGuncellenecek != null)
                             {
                                 fytGuncellenecek.SatisFiyat1 = rts.SatisFiyat1;
                                 fytGuncellenecek.SF1Birim = (short)rts.SatisFiyat1BirimInt;
@@ -985,7 +981,7 @@ namespace Wms12m.Presentation.Controllers
 
                     }
 
- 
+
                 }
 
                 _Result.Status = true;
@@ -1042,7 +1038,7 @@ namespace Wms12m.Presentation.Controllers
                     AND F.SatisFiyat1 = {8} AND F.SatisFiyat1Birim = '{9}' AND F.SatisFiyat1BirimInt = {10}
                     AND F.DovizSatisFiyat1 = {11} AND F.DovizSF1Birim = '{12}' AND F.DovizSF1BirimInt = {13}
                     AND F.DovizCinsi = '{14}' AND F.Onay = 1 AND F.SPGMYOnay = 1 AND F.GMOnay = 0 ", "17", insertObj["GrupKod"].ToString(),
-                    insertObj["FiyatListNum"].ToString(),insertObj["Kalite"].ToString(),
+                    insertObj["FiyatListNum"].ToString(), insertObj["Kalite"].ToString(),
                     insertObj["En"].ToString(), insertObj["Boy"].ToString(), insertObj["Kalinlik"].ToString(), insertObj["Yuzey"].ToString(),
                     insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(),
                     insertObj["SatisFiyat1BirimInt"].ToInt32(), insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."),
@@ -1251,7 +1247,7 @@ namespace Wms12m.Presentation.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-       
+
 
 
         public JsonResult Fiyat_Onay_SM(string Data)
@@ -1267,13 +1263,13 @@ namespace Wms12m.Presentation.Controllers
             {
                 Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
-                {     
-                       // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
-                        DateTime date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd");                       
-                        var sonuc = sqlexper.AcceptChanges();
-                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
-                    
+                {
+                    // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
+                    DateTime date = DateTime.Now;
+                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var sonuc = sqlexper.AcceptChanges();
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
+
 
 
 
@@ -1304,7 +1300,7 @@ namespace Wms12m.Presentation.Controllers
 
             try
             {
-               
+
                 foreach (JObject insertObj in parameters)
                 {
 
@@ -1324,11 +1320,11 @@ namespace Wms12m.Presentation.Controllers
                     var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
                     foreach (Fiyat rts in OnayFiyatList)
                     {
-                        
-                            DateTime date = DateTime.Now;
-                            var shortDate = date.ToString("yyyy-MM-dd");                           
-                            var sonuc = sqlexper.AcceptChanges();
-                            db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
+
+                        DateTime date = DateTime.Now;
+                        var shortDate = date.ToString("yyyy-MM-dd");
+                        var sonuc = sqlexper.AcceptChanges();
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
 
                     }
 
@@ -1571,7 +1567,7 @@ namespace Wms12m.Presentation.Controllers
                 foreach (JObject insertObj in parameters)
                 {
 
- 
+
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID = '{1}'", "17", insertObj["ID"].ToString()));
                 }
                 _Result.Message = "İşlem Başarılı";
@@ -2043,113 +2039,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         }
         #endregion
-        #region Stok
-        public ActionResult Stok()
-        {
-            if (CheckPerm("Stok Onaylama", PermTypes.Reading) == false) return Redirect("/");
-            return View();
-        }
-        public PartialViewResult Stok_List()
-        {
-            if (CheckPerm("Stok Onaylama", PermTypes.Reading) == false) return null;
-            return PartialView();
-        }
-        public string StokOnayCek(string Durum)
-        {
-            if (CheckPerm("Stok Onaylama", PermTypes.Reading) == false) return null;
-            int param = 1;
-            if (Durum == "Tumu") { param = 0; }
-            else
-            if (Durum == "Onay") { param = 1; }
-            else
-            if (Durum == "Pasif") { param = 2; }
-            else
-            if (Durum == "Aktif") { param = 3; }
-            else
-            if (Durum == "Red") { param = 4; }
-            var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[wms].[StokOnaySelect] {1}", "17", param)).ToList();
-            var json = new JavaScriptSerializer().Serialize(KOD);
-            return json;
-        }
-        public JsonResult Stok_Onay(string Data)
-        {
-            Result _Result = new Result(true);
-            if (CheckPerm("Stok Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-
-            try
-            {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
-                foreach (JObject insertObj in parameters)
-                {
-                    // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[STK] SET AktifPasif = 0, CheckSum =1  where MalKodu = '{1}'", "17", insertObj["MalKodu"].ToString()));
-
-
-
-
-                }
-                //return "OK";
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
-            }
-            catch (Exception ex)
-            {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult Stok_Red(string Data)
-        {
-            Result _Result = new Result(true);
-            if (CheckPerm("Stok Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-
-            try
-            {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
-                foreach (JObject insertObj in parameters)
-                {
-                    // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[STK] SET AktifPasif = 0, CheckSum =-1  where MalKodu = '{1}'", "17", insertObj["MalKodu"].ToString()));
-
-
-
-
-                }
-                //return "OK";
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
-            }
-            catch (Exception ex)
-            {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-        #endregion
         #region Teminat
         public ActionResult Teminat()
         {
@@ -2188,7 +2077,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     var shortDate = date.ToString("yyyy-MM-dd");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TeminatOnayUpdate] @ID = {1}, @Kullanici = '{2}'", "17", insertObj["ID"].ToString(), vUser.UserName));
-                   // { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 3, 1)); }
+                    // { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 3, 1)); }
 
 
 
@@ -2329,7 +2218,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
             try
             {
-               
+
                 foreach (JObject insertObj in parameters)
                 {
                     // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
@@ -2897,7 +2786,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Status = false;
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             }
-                
+
 
             using (KKP kkp = new KKP(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17"))
             {
@@ -2987,7 +2876,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                         #region Kayıt ve Mail
                         if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
                             throw new ArgumentException("parametreler hatalı!!");
-                        
+
                         GenelAyarVeParams mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format("SELECT * FROM [BIRIKIM].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
                         if (mailayar == null)
                         {
@@ -3009,7 +2898,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
-                        string satinalmacimail= db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM sta.Talep(nolock) WHERE SipEvrakNo ={0} )", sipEvrakNo)).FirstOrDefault();
+                        string satinalmacimail = db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM sta.Talep(nolock) WHERE SipEvrakNo ={0} )", sipEvrakNo)).FirstOrDefault();
 
                         if ((string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
                             && (string.IsNullOrEmpty(satinalmacimail) || satinalmacimail.Trim() == ""))
@@ -3039,7 +2928,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                         //attachList.Add(String.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo));
 
                         List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
-                        
+
                         //DosyaYukle yukle = new DosyaYukle(DosyaTip.SatTalep);
                         //foreach (SatTalep talep in listTalep)
                         //{
@@ -3258,12 +3147,12 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                             document.Open();
 
                             var xmlWorker = XMLWorkerHelper.GetInstance();
-                            
+
                             //xmlWorker.ParseXHtml(writer, document);
                             document.Close();
                             output.Position = 0;
 
-                             new FileStreamResult(output, "application/pdf");
+                            new FileStreamResult(output, "application/pdf");
                         }
                         #endregion
 
@@ -3281,13 +3170,13 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 {
                     _Result.Message = "İşlem Sırasında Hata Oluştu.";
                     _Result.Status = false;
-                   
+
                 }
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             }
         }
 
-        public JsonResult SipGMReddet( string redAciklama)
+        public JsonResult SipGMReddet(string redAciklama)
         {
             Result _Result = new Result(true, "İşlem Başarılı");
 
@@ -3297,7 +3186,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Status = false;
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             }
-                
+
 
             if (redAciklama.Trim() == "")
             {
@@ -3317,12 +3206,12 @@ SET GMOnaylayan='{0}', GMOnayTarih={1}, Durum=13
 , Degistiren='{0}', DegisTarih={1}, DegisSirKodu={3}, Aciklama2='{2}'
 WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
 
-                db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-MM-dd"), redAciklama, "17",item.ID));
-                //con.Params.Add("ID", SqlDbType.Int);
-                //con.Params.AddWithValue("Degistiren", vUser.UserName.ToString());
-                //con.Params.AddWithValue("DegisTarih", DateTime.Now);
-                //con.Params.AddWithValue("Aciklama", redAciklama);
-                //con.Params.AddWithValue("DegisSirKodu", "17");
+                    db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-MM-dd"), redAciklama, "17", item.ID));
+                    //con.Params.Add("ID", SqlDbType.Int);
+                    //con.Params.AddWithValue("Degistiren", vUser.UserName.ToString());
+                    //con.Params.AddWithValue("DegisTarih", DateTime.Now);
+                    //con.Params.AddWithValue("Aciklama", redAciklama);
+                    //con.Params.AddWithValue("DegisSirKodu", "17");
 
                 }
 
@@ -3344,6 +3233,6 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
             con.Dispose();
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-            #endregion
-        }
+        #endregion
+    }
 }
