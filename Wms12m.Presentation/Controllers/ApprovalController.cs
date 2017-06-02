@@ -1897,8 +1897,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public string FiyatSatirEkle(string Data)
         {
             if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
-            JObject parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JObject>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            JObject parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
