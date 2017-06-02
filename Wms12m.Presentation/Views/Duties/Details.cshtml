@@ -1,0 +1,171 @@
+﻿@model Wms12m.Entity.Models.Gorevler
+
+@{
+    ViewBag.Title = "Görevler Detaylar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Gorevler</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Sorumlu)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Sorumlu)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Sorumlu2)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Sorumlu2)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Sorumlu3)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Sorumlu3)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Gorev)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Gorev)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Aciklama)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Aciklama)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Oncelik)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Oncelik)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Durum)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Durum)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.GorevTipi)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.GorevTipi)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Departman)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Departman)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TahminiBitis)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TahminiBitis)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BitisTarih)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BitisTarih)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IslemTip)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IslemTip)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IslemSira)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IslemSira)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Kaydeden)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Kaydeden)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.KayitTarih)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.KayitTarih)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Degistiren)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Degistiren)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DegisTarih)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DegisTarih)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ProjeForm.Proje)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ProjeForm.Proje)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>
