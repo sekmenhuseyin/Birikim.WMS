@@ -288,7 +288,6 @@
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
     <Content Include="Areas\Approval\Views\web.config" />
-    <Content Include="Areas\Approval\Views\Default\Index.cshtml" />
     <Content Include="Areas\Approval\Views\Invoice\List.cshtml" />
     <Content Include="Areas\Approval\Views\Invoice\Detail.cshtml" />
     <Content Include="Areas\Approval\Views\Invoice\Index.cshtml" />
@@ -327,7 +326,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Approval\ApprovalAreaRegistration.cs" />
-    <Compile Include="Areas\Approval\Controllers\DefaultController.cs" />
     <Compile Include="Areas\Approval\Controllers\InvoiceController.cs" />
     <Compile Include="Service\Android.asmx.cs">
       <DependentUpon>Android.asmx</DependentUpon>
