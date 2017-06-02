@@ -1,11 +1,9 @@
-﻿using OnikimCore.GunesCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
 using System.Web.Services;
-using TumFaturaKayit;
 using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
@@ -14,15 +12,13 @@ using Wms12m.Entity.Mysql;
 namespace Wms12m
 {
     /// <summary>
-    /// Summary description for Service1
+    /// Summary description for MobilServis
     /// </summary>
     [WebService(Namespace = "http://www.12mconsulting.com.tr/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ToolboxItem(false)]
-    public class MobilServis : WebService, IDisposable
+    public class Mobile : BaseService
     {
-        //declerations
-        private WMSEntities db = new WMSEntities();
         /// <summary>
         /// login işlemleri
         /// </summary>
@@ -50,7 +46,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "WebService/Login", userID);
+                        Logger(ex, "Service/Mobile/Login", userID);
                         db.LogLogins(userID, "terminal", false, result.Message);
                     }
             }
@@ -278,7 +274,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "WebService/Mal_Kabul", kulID.ToString());
+                        Logger(ex, "Service/Mobile/Mal_Kabul", kulID.ToString());
                     }
                 }
             }
@@ -679,7 +675,7 @@ namespace Wms12m
             }
             catch (Exception ex)
             {
-                Logger(ex, "WebService/Paketle", kulID.ToString());
+                Logger(ex, "Service/Mobile/Paketle", kulID.ToString());
                 return new Result(false, "Bir hata oldu");
             }
             return _result;
@@ -900,7 +896,7 @@ namespace Wms12m
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "WebService/Kontrollu_Say", kulID.ToString());
+                    Logger(ex, "Service/Mobile/Kontrollu_Say", kulID.ToString());
                 }
             }
             return new Result(true);
@@ -923,28 +919,6 @@ namespace Wms12m
                 db.SaveChanges();
             }
             return new Result(true);
-        }
-        /// <summary>
-        /// dispose override
-        /// </summary>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-                db.Dispose();
-            base.Dispose(disposing);
-        }
-        /// <summary>
-        /// hata kaydını tek yerden kontrol etmek için
-        /// </summary>
-        private void Logger(Exception ex, string page, string user)
-        {
-            string inner = "";
-            if (ex.InnerException != null)
-            {
-                inner = ex.InnerException == null ? "" : ex.InnerException.Message;
-                if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
-            }
-            db.Logger(user, "Terminal", "", ex.Message, inner, page);
         }
     }
 }

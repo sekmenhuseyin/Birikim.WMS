@@ -23,12 +23,12 @@ namespace WMSMobil.WMSLocal {
     /// <remarks/>
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="MobilServisSoap", Namespace="http://www.12mconsulting.com.tr/")]
-    public partial class MobilServis : System.Web.Services.Protocols.SoapHttpClientProtocol {
+    [System.Web.Services.WebServiceBindingAttribute(Name="MobileSoap", Namespace="http://www.12mconsulting.com.tr/")]
+    public partial class Mobile : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         /// <remarks/>
-        public MobilServis() {
-            this.Url = "http://localhost:3841/mobilservis.asmx";
+        public Mobile() {
+            this.Url = "http://localhost:3841/service/mobile.asmx";
         }
         
         /// <remarks/>

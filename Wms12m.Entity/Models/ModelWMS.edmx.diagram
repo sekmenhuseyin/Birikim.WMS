@@ -77,6 +77,8 @@
         <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
         <AssociationConnector Association="MModel.FK_Proje_Musteri" />
         <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
+        <EntityTypeShape EntityType="MModel.UserDevice" Width="1.5" PointX="22.5" PointY="11.75" />
+        <AssociationConnector Association="MModel.FK_UserDevices_Users" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

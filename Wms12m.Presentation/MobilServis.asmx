@@ -1,1 +1,0 @@
-﻿<%@ WebService Language="C#" CodeBehind="MobilServis.asmx.cs" Class="Wms12m.MobilServis" %>

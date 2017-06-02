@@ -6,7 +6,7 @@ using Wms12m.Business;
 using Wms12m.Entity.Models;
 using Wms12m.Security;
 
-namespace Wms12m.Presentation.Controllers
+namespace Wms12m.Presentation
 {
     public class RootController : Controller
     {
@@ -35,7 +35,7 @@ namespace Wms12m.Presentation.Controllers
         public void Logger(Exception ex, string page)
         {
             string inner = "";
-            if(ex.InnerException!=null)
+            if (ex.InnerException != null)
             {
                 inner = ex.InnerException == null ? "" : ex.InnerException.Message;
                 if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
@@ -57,8 +57,7 @@ namespace Wms12m.Presentation.Controllers
         {
             get
             {
-                var u = HttpContext.User as CustomPrincipal;
-                if (u != null)
+                if (HttpContext.User is CustomPrincipal u)
                     return u.AppIdentity.User;
                 return null;
             }

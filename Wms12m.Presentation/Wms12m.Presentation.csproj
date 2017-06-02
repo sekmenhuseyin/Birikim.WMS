@@ -161,6 +161,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\12M-Logo-30.png" />
+    <Content Include="Content\images\12M-Logo-90.png" />
+    <Content Include="Content\images\12M-Logo.png" />
+    <Content Include="Content\images\GMOnayHeader.png" />
+    <Content Include="Content\images\iz-logo-30.png" />
+    <Content Include="Content\images\iz-logo-90.png" />
+    <Content Include="Content\images\tum-logo-30.png" />
+    <Content Include="Content\images\tum-logo-90.png" />
+    <Content Include="Content\images\tum-logo.png" />
+    <Content Include="Service\Android.asmx" />
     <Content Include="Content\ajaxloader.gif" />
     <Content Include="Content\assets\global\css\components-md.css" />
     <Content Include="Content\assets\global\css\components-md.min.css">
@@ -243,10 +253,6 @@
     <Content Include="Content\assets\layouts\layout\img\loading-spinner-grey.gif" />
     <Content Include="Content\assets\layouts\layout\img\loading.gif" />
     <Content Include="Content\images\iz-logo.png" />
-    <Content Include="Content\images\iz-logo1.png" />
-    <Content Include="Content\images\tum-logo3.png" />
-    <Content Include="Content\images\tum-logo2.png" />
-    <Content Include="Content\images\tum-logo1.png" />
     <Content Include="Content\assets\layouts\layout\img\menu-toggler.png" />
     <Content Include="Content\assets\layouts\layout\img\remove-icon-small.png" />
     <Content Include="Content\assets\layouts\layout\img\search_icon_light.png" />
@@ -291,9 +297,13 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="MobilServis.asmx" />
+    <Content Include="Service\Mobile.asmx" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
+    <Content Include="Areas\Approval\Views\web.config" />
+    <Content Include="Areas\Approval\Views\Invoice\List.cshtml" />
+    <Content Include="Areas\Approval\Views\Invoice\Detail.cshtml" />
+    <Content Include="Areas\Approval\Views\Invoice\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -328,6 +338,12 @@
     <Content Include="Views\Security\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Approval\ApprovalAreaRegistration.cs" />
+    <Compile Include="Areas\Approval\Controllers\InvoiceController.cs" />
+    <Compile Include="Service\Android.asmx.cs">
+      <DependentUpon>Android.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\BuyController.cs" />
@@ -335,7 +351,6 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
-    <Compile Include="Controllers\FaturaOnayController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\ComboItemsController.cs" />
     <Compile Include="Controllers\CombosController.cs" />
@@ -351,7 +366,7 @@
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RootController.cs" />
+    <Compile Include="Helper\RootController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\SellController.cs" />
     <Compile Include="Controllers\ShelfController.cs" />
@@ -367,9 +382,12 @@
     </Compile>
     <Compile Include="Helper\AuthAttribute.cs" />
     <Compile Include="Helper\Authentication.cs" />
+    <Compile Include="Helper\BaseService.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Helper\Client.cs" />
-    <Compile Include="MobilServis.asmx.cs">
-      <DependentUpon>MobilServis.asmx</DependentUpon>
+    <Compile Include="Service\Mobile.asmx.cs">
+      <DependentUpon>Mobile.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -520,9 +538,6 @@
     <Content Include="Views\Home\_PartialSatisTemsilcisi_AylikSatisAnalizi.cshtml" />
     <Content Include="Views\Home\_PartialUrunGrubuSatisKriter.cshtml" />
     <Content Include="Views\Menu\Permissions.cshtml" />
-    <Content Include="Views\FaturaOnay\Index.cshtml" />
-    <Content Include="Views\FaturaOnay\_PartialFaturaOnayGrid.cshtml" />
-    <Content Include="Views\FaturaOnay\FaturaDetay.cshtml" />
     <Content Include="Views\Approval\RiskTanim.cshtml" />
     <Content Include="Views\Approval\RiskTanimPartial.cshtml" />
     <Content Include="Views\Maintenance\Index.cshtml" />

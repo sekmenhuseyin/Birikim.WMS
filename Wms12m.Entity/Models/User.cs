@@ -14,6 +14,12 @@ namespace Wms12m.Entity.Models
     
     public partial class User
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+            this.UserDevices = new HashSet<UserDevice>();
+        }
+    
         public int ID { get; set; }
         public string Sirket { get; set; }
         public short Tip { get; set; }
@@ -41,5 +47,7 @@ namespace Wms12m.Entity.Models
         public virtual User User1 { get; set; }
         public virtual UserDetail UserDetail { get; set; }
         public virtual Role Role { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserDevice> UserDevices { get; set; }
     }
 }
