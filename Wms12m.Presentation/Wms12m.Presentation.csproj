@@ -153,6 +153,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\12M-Logo-30.png" />
+    <Content Include="Content\images\12M-Logo-90.png" />
+    <Content Include="Content\images\12M-Logo.png" />
+    <Content Include="Content\images\GMOnayHeader.png" />
+    <Content Include="Content\images\iz-logo-30.png" />
+    <Content Include="Content\images\iz-logo-90.png" />
+    <Content Include="Content\images\tum-logo-30.png" />
+    <Content Include="Content\images\tum-logo-90.png" />
+    <Content Include="Content\images\tum-logo.png" />
     <Content Include="Service\Android.asmx" />
     <Content Include="Content\ajaxloader.gif" />
     <Content Include="Content\assets\global\css\components-md.css" />
@@ -236,10 +245,6 @@
     <Content Include="Content\assets\layouts\layout\img\loading-spinner-grey.gif" />
     <Content Include="Content\assets\layouts\layout\img\loading.gif" />
     <Content Include="Content\images\iz-logo.png" />
-    <Content Include="Content\images\iz-logo1.png" />
-    <Content Include="Content\images\tum-logo3.png" />
-    <Content Include="Content\images\tum-logo2.png" />
-    <Content Include="Content\images\tum-logo1.png" />
     <Content Include="Content\assets\layouts\layout\img\menu-toggler.png" />
     <Content Include="Content\assets\layouts\layout\img\remove-icon-small.png" />
     <Content Include="Content\assets\layouts\layout\img\search_icon_light.png" />
