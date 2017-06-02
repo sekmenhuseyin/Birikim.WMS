@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs394F.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs374F.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs394F.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs374F.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DataTables.AspNet.Mvc5">
@@ -346,6 +346,7 @@
     <Compile Include="Areas\Approval\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Approval\Controllers\OrderController.cs" />
     <Compile Include="Areas\Approval\Controllers\PriceController.cs" />
+    <Compile Include="Controllers\SubProjectFormController.cs" />
     <Compile Include="Service\Android.asmx.cs">
       <DependentUpon>Android.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -591,6 +592,11 @@
     <Content Include="Views\ProjectForm\Edit.cshtml" />
     <Content Include="Views\ProjectForm\Index.cshtml" />
     <Content Include="Views\Approval\GMOnayHTML.cshtml" />
+    <Content Include="Views\SubProjectForm\Create.cshtml" />
+    <Content Include="Views\SubProjectForm\Delete.cshtml" />
+    <Content Include="Views\SubProjectForm\Details.cshtml" />
+    <Content Include="Views\SubProjectForm\Edit.cshtml" />
+    <Content Include="Views\SubProjectForm\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
