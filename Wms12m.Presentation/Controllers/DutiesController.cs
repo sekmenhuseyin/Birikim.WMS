@@ -40,6 +40,7 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Create()
         {
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevDurumları.ToInt32()), "ID", "Name");
+            ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje");
             return View();
         }
