@@ -57,7 +57,9 @@ namespace Wms12m.Presentation
         {
             get
             {
-                if (HttpContext.User is CustomPrincipal u)
+                //if (HttpContext.User is CustomPrincipal u)
+                var u = HttpContext.User as CustomPrincipal;
+                if (u != null)
                     return u.AppIdentity.User;
                 return null;
             }
