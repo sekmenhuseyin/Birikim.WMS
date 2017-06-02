@@ -19,7 +19,7 @@
         KabloSiparişi = 4,
         İrsaliyeKes = 5,
         Paketle = 6,
-        Sevkiyat = 7,
+        Sevket = 7,
         KontrolSayım = 8,
         Açık = 9,
         Durdurulan = 10,
@@ -30,7 +30,7 @@
         Başlamamış = 15,
         EArşiv = 16,
         EFatura = 17,
-        Normal = 18,
+        NormalFatura = 18,
         TransferÇıkış = 19,
         TransferGiriş = 20,
         WMS = 21,
@@ -38,7 +38,30 @@
         ÜstMenü = 23,
         SolMenü = 24,
         SağMenü = 25,
-        FooterMenü = 26
+        FooterMenü = 26,
+        Oluşturuldu = 27,
+        Atandı = 28,
+        Başlandı = 29,
+        OnayVer = 30,
+        KaliteKontrol = 31,
+        Beklemede = 32,
+        Bitti = 33,
+        Onaylandı = 34,
+        Reddedildi = 35,
+        Durduruldu = 36,
+        DüşükÖncelik = 37,
+        NormalÖncelik = 38,
+        AcilÖncelik = 39,
+        depMuhasebe = 40,
+        depSatış = 41,
+        depSatınalma = 42,
+        depIK = 43,
+        depIT = 44,
+        depSevkiyat = 45,
+        depDepo = 46,
+        depYönetim = 47,
+        depFinans = 48,
+        depGenel = 49
     }
     /// <summary>
     /// combo item names
@@ -50,7 +73,10 @@
         Özellik = 3,
         EvrakSeriTipi = 4,
         SiteTipi = 5,
-        MenuYeri = 6
+        MenuYeri = 6,
+        GörevDurumları = 7,
+        Öncelik = 8,
+        Departman = 9
     }
     /// <summary>
     /// permission types
