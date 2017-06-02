@@ -289,6 +289,9 @@
     <Content Include="humans.txt" />
     <Content Include="Areas\Approval\Views\web.config" />
     <Content Include="Areas\Approval\Views\Default\Index.cshtml" />
+    <Content Include="Areas\Approval\Views\Invoice\List.cshtml" />
+    <Content Include="Areas\Approval\Views\Invoice\Detail.cshtml" />
+    <Content Include="Areas\Approval\Views\Invoice\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -325,6 +328,7 @@
   <ItemGroup>
     <Compile Include="Areas\Approval\ApprovalAreaRegistration.cs" />
     <Compile Include="Areas\Approval\Controllers\DefaultController.cs" />
+    <Compile Include="Areas\Approval\Controllers\InvoiceController.cs" />
     <Compile Include="Service\Android.asmx.cs">
       <DependentUpon>Android.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -336,7 +340,6 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
-    <Compile Include="Controllers\FaturaOnayController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\ComboItemsController.cs" />
     <Compile Include="Controllers\CombosController.cs" />
@@ -524,9 +527,6 @@
     <Content Include="Views\Home\_PartialSatisTemsilcisi_AylikSatisAnalizi.cshtml" />
     <Content Include="Views\Home\_PartialUrunGrubuSatisKriter.cshtml" />
     <Content Include="Views\Menu\Permissions.cshtml" />
-    <Content Include="Views\FaturaOnay\Index.cshtml" />
-    <Content Include="Views\FaturaOnay\_PartialFaturaOnayGrid.cshtml" />
-    <Content Include="Views\FaturaOnay\FaturaDetay.cshtml" />
     <Content Include="Views\Approval\RiskTanim.cshtml" />
     <Content Include="Views\Approval\RiskTanimPartial.cshtml" />
     <Content Include="Views\Maintenance\Index.cshtml" />
