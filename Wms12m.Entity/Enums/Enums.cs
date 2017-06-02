@@ -61,7 +61,12 @@
         depDepo = 46,
         depYönetim = 47,
         depFinans = 48,
-        depGenel = 49
+        depGenel = 49,
+        gytKritikHata = 50,
+        gytBilgiTalebi = 51,
+        gytStandart = 52,
+        gytGeliştirme = 53,
+        gytKaliteKontrol = 54
     }
     /// <summary>
     /// combo item names
@@ -74,9 +79,10 @@
         EvrakSeriTipi = 4,
         SiteTipi = 5,
         MenuYeri = 6,
-        GörevDurumları = 7,
+        GörevYönetimDurumları = 7,
         Öncelik = 8,
-        Departman = 9
+        Departman = 9,
+        GörevYönetimTipleri = 10
     }
     /// <summary>
     /// permission types
