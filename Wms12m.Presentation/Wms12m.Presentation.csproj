@@ -304,6 +304,10 @@
     <Content Include="Areas\Approval\Views\Invoice\List.cshtml" />
     <Content Include="Areas\Approval\Views\Invoice\Detail.cshtml" />
     <Content Include="Areas\Approval\Views\Invoice\Index.cshtml" />
+    <Content Include="Areas\Approval\Views\Check\Index.cshtml" />
+    <Content Include="Areas\Approval\Views\Contract\Index.cshtml" />
+    <Content Include="Areas\Approval\Views\Price\Index.cshtml" />
+    <Content Include="Areas\Approval\Views\Order\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -339,7 +343,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Approval\ApprovalAreaRegistration.cs" />
+    <Compile Include="Areas\Approval\Controllers\CheckController.cs" />
+    <Compile Include="Areas\Approval\Controllers\ContractController.cs" />
     <Compile Include="Areas\Approval\Controllers\InvoiceController.cs" />
+    <Compile Include="Areas\Approval\Controllers\OrderController.cs" />
+    <Compile Include="Areas\Approval\Controllers\PriceController.cs" />
     <Compile Include="Service\Android.asmx.cs">
       <DependentUpon>Android.asmx</DependentUpon>
       <SubType>Component</SubType>
