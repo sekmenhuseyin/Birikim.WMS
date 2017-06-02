@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsE86E.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs394F.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsE86E.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs394F.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DataTables.AspNet.Mvc5">
@@ -382,7 +382,7 @@
     </Compile>
     <Compile Include="Helper\AuthAttribute.cs" />
     <Compile Include="Helper\Authentication.cs" />
-    <Compile Include="Helper\BaseService.cs">
+    <Compile Include="Service\BaseService.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Helper\Client.cs" />
