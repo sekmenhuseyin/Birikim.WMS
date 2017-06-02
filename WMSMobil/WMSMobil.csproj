@@ -129,10 +129,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:3841/mobilservis.asmx">
+    <WebReferenceUrl Include="http://localhost:3841/service/mobile.asmx">
       <UrlBehavior>Static</UrlBehavior>
       <RelPath>Web References\WMSLocal\</RelPath>
-      <UpdateFromURL>http://localhost:3841/mobilservis.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost:3841/service/mobile.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -142,9 +142,6 @@
       <CachedSettingsPropName>
       </CachedSettingsPropName>
     </WebReferenceUrl>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Web References\WMSLocal\MobilServis.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Web References\WMSLocal\Durum.datasource">
@@ -159,7 +156,6 @@
     <None Include="Web References\WMSLocal\Login.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\WMSLocal\MobilServis.disco" />
     <None Include="Web References\WMSLocal\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -182,6 +178,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <None Include="Web References\WMSLocal\mobile.disco" />
+    <None Include="Web References\WMSLocal\mobile.wsdl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
