@@ -88,11 +88,13 @@ namespace Wms12m
             message.Body = mesaj;
             message.IsBodyHtml = IsBodyHtml;
 
-            smtp = new SmtpClient();
-            smtp.Port = smtpPort;
-            smtp.Host = smtpHost;
-            smtp.EnableSsl = smtpSSL;
-            smtp.Credentials = new System.Net.NetworkCredential(smtpEmail, smtpPass);
+            smtp = new SmtpClient()
+            {
+                Port = smtpPort,
+                Host = smtpHost,
+                EnableSsl = smtpSSL,
+                Credentials = new System.Net.NetworkCredential(smtpEmail, smtpPass)
+            };
             smtp.SendCompleted += smtp_SendCompleted;
             try
             {
