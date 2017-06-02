@@ -153,7 +153,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AndroidService.asmx" />
+    <Content Include="Service\Android.asmx" />
     <Content Include="Content\ajaxloader.gif" />
     <Content Include="Content\assets\global\css\components-md.css" />
     <Content Include="Content\assets\global\css\components-md.min.css">
@@ -284,9 +284,11 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="MobilServis.asmx" />
+    <Content Include="Service\Mobile.asmx" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
+    <Content Include="Areas\Approval\Views\web.config" />
+    <Content Include="Areas\Approval\Views\Default\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -321,8 +323,10 @@
     <Content Include="Views\Security\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AndroidService.asmx.cs">
-      <DependentUpon>AndroidService.asmx</DependentUpon>
+    <Compile Include="Areas\Approval\ApprovalAreaRegistration.cs" />
+    <Compile Include="Areas\Approval\Controllers\DefaultController.cs" />
+    <Compile Include="Service\Android.asmx.cs">
+      <DependentUpon>Android.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -368,8 +372,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Helper\Client.cs" />
-    <Compile Include="MobilServis.asmx.cs">
-      <DependentUpon>MobilServis.asmx</DependentUpon>
+    <Compile Include="Service\Mobile.asmx.cs">
+      <DependentUpon>Mobile.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

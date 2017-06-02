@@ -654,7 +654,7 @@
   <wsdl:message name="KontrolluSay_GoreviTamamlaSoapOut">
     <wsdl:part name="parameters" element="tns:KontrolluSay_GoreviTamamlaResponse" />
   </wsdl:message>
-  <wsdl:portType name="MobilServisSoap">
+  <wsdl:portType name="MobileSoap">
     <wsdl:operation name="LoginKontrol">
       <wsdl:input message="tns:LoginKontrolSoapIn" />
       <wsdl:output message="tns:LoginKontrolSoapOut" />
@@ -752,7 +752,7 @@
       <wsdl:output message="tns:KontrolluSay_GoreviTamamlaSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="MobilServisSoap" type="tns:MobilServisSoap">
+  <wsdl:binding name="MobileSoap" type="tns:MobileSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="LoginKontrol">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/LoginKontrol" style="document" />
@@ -971,7 +971,7 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:binding name="MobilServisSoap12" type="tns:MobilServisSoap">
+  <wsdl:binding name="MobileSoap12" type="tns:MobileSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="LoginKontrol">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/LoginKontrol" style="document" />
@@ -1190,12 +1190,12 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="MobilServis">
-    <wsdl:port name="MobilServisSoap" binding="tns:MobilServisSoap">
-      <soap:address location="http://localhost:3841/mobilservis.asmx" />
+  <wsdl:service name="Mobile">
+    <wsdl:port name="MobileSoap" binding="tns:MobileSoap">
+      <soap:address location="http://localhost:3841/service/mobile.asmx" />
     </wsdl:port>
-    <wsdl:port name="MobilServisSoap12" binding="tns:MobilServisSoap12">
-      <soap12:address location="http://localhost:3841/mobilservis.asmx" />
+    <wsdl:port name="MobileSoap12" binding="tns:MobileSoap12">
+      <soap12:address location="http://localhost:3841/service/mobile.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

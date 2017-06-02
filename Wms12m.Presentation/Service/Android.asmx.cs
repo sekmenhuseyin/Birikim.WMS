@@ -5,15 +5,15 @@ using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
-namespace Wms12m.Presentation
+namespace Wms12m
 {
     /// <summary>
-    /// Summary description for AndroidService
+    /// Summary description for Android
     /// </summary>
     [WebService(Namespace = "http://www.12mconsulting.com.tr/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
-    public class AndroidService : BaseService
+    public class Android : BaseService
     {
         /// <summary>
         /// login işlemleri
@@ -36,7 +36,7 @@ namespace Wms12m.Presentation
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "AndroidService/Login", userID);
+                    Logger(ex, "Service/Android/Login", userID);
                     db.LogLogins(userID, "Android", false, result.Message);
                 }
             }

@@ -17,7 +17,7 @@ namespace Wms12m
     [WebService(Namespace = "http://www.12mconsulting.com.tr/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ToolboxItem(false)]
-    public class MobilServis : BaseService
+    public class Mobile : BaseService
     {
         /// <summary>
         /// login işlemleri
@@ -46,7 +46,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "WebService/Login", userID);
+                        Logger(ex, "Service/Mobile/Login", userID);
                         db.LogLogins(userID, "terminal", false, result.Message);
                     }
             }
@@ -274,7 +274,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "WebService/Mal_Kabul", kulID.ToString());
+                        Logger(ex, "Service/Mobile/Mal_Kabul", kulID.ToString());
                     }
                 }
             }
@@ -675,7 +675,7 @@ namespace Wms12m
             }
             catch (Exception ex)
             {
-                Logger(ex, "WebService/Paketle", kulID.ToString());
+                Logger(ex, "Service/Mobile/Paketle", kulID.ToString());
                 return new Result(false, "Bir hata oldu");
             }
             return _result;
@@ -896,7 +896,7 @@ namespace Wms12m
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "WebService/Kontrollu_Say", kulID.ToString());
+                    Logger(ex, "Service/Mobile/Kontrollu_Say", kulID.ToString());
                 }
             }
             return new Result(true);
