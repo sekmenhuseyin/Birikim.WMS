@@ -14,7 +14,7 @@
 </head>
 <body>
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Yeni Oluştur", "Create")
     </p>
     <table class="table">
         <tr>
@@ -47,12 +47,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.KayitTarih)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Degistiren)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DegisTarih)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Musteri.Firma)
@@ -96,21 +90,15 @@
                 @Html.DisplayFor(modelItem => item.KayitTarih)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Degistiren)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DegisTarih)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Musteri.Firma)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProjeForm2.Proje)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+                @Html.ActionLink("Düzenle", "Edit", new { id=item.ID }) |
+                @Html.ActionLink("Detaylar", "Details", new { id=item.ID }) |
+                @Html.ActionLink("Sil", "Delete", new { id=item.ID })
             </td>
         </tr>
     }

@@ -1,7 +1,7 @@
 ﻿@model Wms12m.Entity.Models.ProjeForm
 
 @{
-    ViewBag.Title = "Proje Detay";
+    ViewBag.Title = "Cek Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -113,27 +113,11 @@
                 @Html.DisplayFor(model => model.DegisTarih)
             </dd>
     
-            <dt>
-                @Html.DisplayNameFor(model => model.Musteri.Firma)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Musteri.Firma)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.ProjeForm2.Proje)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.ProjeForm2.Proje)
-            </dd>
-    
         </dl>
     </div>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-        @Html.ActionLink("Back to List", "Index")
+        @Html.DisplayNameFor(model => model.Musteri.Firma) |
+        @Html.DisplayFor(model => model.Musteri.Firma)
     </p>
 </body>
 </html>

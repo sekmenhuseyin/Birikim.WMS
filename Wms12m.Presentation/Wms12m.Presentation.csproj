@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs5CDE.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs7934.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs5CDE.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs7934.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DataTables.AspNet.Mvc5">
@@ -328,6 +328,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\FaturaOnayController.cs" />
+    <Compile Include="Controllers\ProjectFormController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\ComboItemsController.cs" />
     <Compile Include="Controllers\CombosController.cs" />
@@ -335,7 +336,7 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\PermsController.cs" />
-    <Compile Include="Controllers\ProjectFormController.cs" />
+    <Compile Include="Controllers\SubProjectFormController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
@@ -556,6 +557,11 @@
     <Content Include="Views\Customer\Details.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\SubProjectForm\Create.cshtml" />
+    <Content Include="Views\SubProjectForm\Delete.cshtml" />
+    <Content Include="Views\SubProjectForm\Details.cshtml" />
+    <Content Include="Views\SubProjectForm\Edit.cshtml" />
+    <Content Include="Views\SubProjectForm\Index.cshtml" />
     <Content Include="Views\ProjectForm\Create.cshtml" />
     <Content Include="Views\ProjectForm\Delete.cshtml" />
     <Content Include="Views\ProjectForm\Details.cshtml" />

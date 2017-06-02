@@ -10,18 +10,18 @@ using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class ProjectFormController : RootController
+    public class SubProjectFormController : RootController
     {
         private WMSEntities db = new WMSEntities();
 
-        // GET: MainProjectForm
+        // GET: ProjectForm
         public ActionResult Index()
         {
             var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
             return View(projeForms.ToList());
         }
 
-        // GET: MainProjectForm/Details/5
+        // GET: ProjectForm/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,30 +36,31 @@ namespace Wms12m.Presentation.Controllers
             return View(projeForm);
         }
 
-        // GET: MainProjectForm/Create
+        // GET: ProjectForm/Create
         public ActionResult Create()
         {
-            ViewBag.MusteriID = new SelectList(db.Musteris, "ID", "Firma");
-            ViewBag.PID = new SelectList(db.ProjeForms.Where(x=>x.PID!=null).ToList(), "ID", "Proje");
+            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
+
+            ViewBag.PID = new SelectList(db.ProjeForms.Where(x=>x.PID==null).ToList(), "ID", "Proje");
             return View();
         }
 
-        // POST: MainProjectForm/Create
+        // POST: ProjectForm/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,MusteriID,Proje,Form,Sorumlu,KarsiSorumlu,Aciklama,MesaiKontrol,MesaiKota,PID,Durum,Kaydeden,KayitTarih,Degistiren,DegisTarih")] ProjeForm projeForm)
+        public ActionResult Create([Bind(Include = "ID,MusteriID,Proje,Form,Sorumlu,KarsiSorumlu,Aciklama,MesaiKontrol,MesaiKota,PID,Durum,Kaydeden,KayitTarih")] ProjeForm projeForm)
         {
             if (ModelState.IsValid)
             {
+                
                 projeForm.Degistiren = vUser.UserName;
                 projeForm.Kaydeden = vUser.UserName;
                 DateTime date = DateTime.Now;
                 projeForm.DegisTarih = date;
                 projeForm.KayitTarih = date;
-                projeForm.PID = null;
-
+               // projeForm.Musteri = "deneme musterisi";
                 db.ProjeForms.Add(projeForm);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -70,7 +71,7 @@ namespace Wms12m.Presentation.Controllers
             return View(projeForm);
         }
 
-        // GET: MainProjectForm/Edit/5
+        // GET: ProjectForm/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -82,17 +83,17 @@ namespace Wms12m.Presentation.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.MusteriID = new SelectList(db.Musteris, "ID", "Firma", projeForm.MusteriID);
-            ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).ToList(), "ID", "Proje", projeForm.PID);
+            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
+            ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.PID);
             return View(projeForm);
         }
 
-        // POST: MainProjectForm/Edit/5
+        // POST: ProjectForm/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,MusteriID,Proje,Form,Sorumlu,KarsiSorumlu,Aciklama,MesaiKontrol,MesaiKota,PID,Durum,Kaydeden,KayitTarih,Degistiren,DegisTarih")] ProjeForm projeForm)
+        public ActionResult Edit([Bind(Include = "ID,MusteriID,Proje,Form,Sorumlu,KarsiSorumlu,Aciklama,MesaiKontrol,MesaiKota,PID,Durum,Kaydeden,KayitTarih")] ProjeForm projeForm)
         {
             if (ModelState.IsValid)
             {
@@ -101,8 +102,6 @@ namespace Wms12m.Presentation.Controllers
                 DateTime date = DateTime.Now;
                 projeForm.DegisTarih = date;
                 projeForm.KayitTarih = date;
-                projeForm.PID = null;
-
                 db.Entry(projeForm).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -112,7 +111,7 @@ namespace Wms12m.Presentation.Controllers
             return View(projeForm);
         }
 
-        // GET: MainProjectForm/Delete/5
+        // GET: ProjectForm/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -127,7 +126,7 @@ namespace Wms12m.Presentation.Controllers
             return View(projeForm);
         }
 
-        // POST: MainProjectForm/Delete/5
+        // POST: ProjectForm/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
