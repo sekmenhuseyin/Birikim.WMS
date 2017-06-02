@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Services;
 using Wms12m.Business;
@@ -43,6 +44,14 @@ namespace Wms12m
             else
                 db.LogLogins(userID, "Android", false, result.Message);
             return new Login() { ID = 0, AdSoyad = "Hatalı Kullanıcı adı ve şifre" };
+        }
+        /// <summary>
+        /// kullanıcıya ait müterileri getir
+        /// </summary>
+        [WebMethod]
+        public List<string> GetClients(string user)
+        {
+            return new List<string>();
         }
     }
 }
