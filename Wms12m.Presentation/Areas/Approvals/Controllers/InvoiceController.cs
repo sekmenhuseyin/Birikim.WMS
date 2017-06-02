@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
 
-namespace Wms12m.Presentation.Areas.Approval.Controllers
+namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class InvoiceController : RootController
     {

@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
 
-namespace Wms12m.Presentation.Areas.Approval.Controllers
+namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class StockController : RootController
     {
