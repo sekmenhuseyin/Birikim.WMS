@@ -56,6 +56,12 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                gorevler.Degistiren = vUser.UserName;
+                gorevler.Kaydeden = vUser.UserName;
+                DateTime date = DateTime.Now;
+                gorevler.DegisTarih = date;
+                gorevler.KayitTarih = date;
+
                 db.Gorevlers.Add(gorevler);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -94,6 +100,11 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                gorevler.Degistiren = vUser.UserName;
+                // projeForm.Kaydeden = vUser.UserName;
+                DateTime date = DateTime.Now;
+                gorevler.DegisTarih = date;
+
                 db.Entry(gorevler).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

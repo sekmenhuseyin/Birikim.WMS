@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Wms12m.Entity.Models.GorevCalisma>
+
+@{
+    ViewBag.Title = "Görev Çalışma";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Tarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CalismaSure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Calisma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kaydeden)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KayitTarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Degistiren)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DegisTarih)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gorevler.Sorumlu)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CalismaSure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Calisma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kaydeden)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KayitTarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Degistiren)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegisTarih)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gorevler.Sorumlu)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>
