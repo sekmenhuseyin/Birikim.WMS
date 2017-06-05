@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Wms12m.Presentation.Areas.Approval.Controllers
+namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class CheckController : RootController
     {

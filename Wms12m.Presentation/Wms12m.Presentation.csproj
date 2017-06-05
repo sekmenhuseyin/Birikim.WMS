@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs637E.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs9CCA.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\RUHIGO~1\AppData\Local\Temp\vs637E.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs9CCA.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DataTables.AspNet.Mvc5">
@@ -374,24 +374,24 @@
     <Content Include="Service\Mobile.asmx" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
-    <Content Include="Areas\Approval\Views\web.config" />
-    <Content Include="Areas\Approval\Views\Invoice\List.cshtml" />
-    <Content Include="Areas\Approval\Views\Invoice\Detail.cshtml" />
-    <Content Include="Areas\Approval\Views\Invoice\Index.cshtml" />
-    <Content Include="Areas\Approval\Views\Check\Index.cshtml" />
-    <Content Include="Areas\Approval\Views\Price\Index.cshtml" />
-    <Content Include="Areas\Approval\Views\Order\Index.cshtml" />
-    <Content Include="Areas\Approval\Views\Contract\GM.cshtml" />
-    <Content Include="Areas\Approval\Views\Contract\GM_Details.cshtml" />
-    <Content Include="Areas\Approval\Views\Contract\GM_List.cshtml" />
-    <Content Include="Areas\Approval\Views\Contract\SM.cshtml" />
-    <Content Include="Areas\Approval\Views\Contract\SM_Details.cshtml" />
-    <Content Include="Areas\Approval\Views\Contract\SM_List.cshtml" />
-    <Content Include="Areas\Approval\Views\Contract\SPGMY.cshtml" />
-    <Content Include="Areas\Approval\Views\Contract\SPGMY_List.cshtml" />
-    <Content Include="Areas\Approval\Views\Contract\SPMY_Details.cshtml" />
-    <Content Include="Areas\Approval\Views\Contract\Tanim.cshtml" />
-    <Content Include="Areas\Approval\Views\Contract\Tanim_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\web.config" />
+    <Content Include="Areas\Approvals\Views\Invoice\List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Invoice\Detail.cshtml" />
+    <Content Include="Areas\Approvals\Views\Invoice\Index.cshtml" />
+    <Content Include="Areas\Approvals\Views\Check\Index.cshtml" />
+    <Content Include="Areas\Approvals\Views\Price\Index.cshtml" />
+    <Content Include="Areas\Approvals\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\GM.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\GM_Details.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\GM_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\SM.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\SM_Details.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\SM_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\SPGMY.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\SPGMY_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\SPMY_Details.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\Tanim.cshtml" />
+    <Content Include="Areas\Approvals\Views\Contract\Tanim_List.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -434,13 +434,13 @@
     <Content Include="Views\Security\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Areas\Approval\ApprovalAreaRegistration.cs" />
-    <Compile Include="Areas\Approval\Controllers\CheckController.cs" />
-    <Compile Include="Areas\Approval\Controllers\ContractController.cs" />
-    <Compile Include="Areas\Approval\Controllers\InvoiceController.cs" />
-    <Compile Include="Areas\Approval\Controllers\OrderController.cs" />
-    <Compile Include="Areas\Approval\Controllers\PriceController.cs" />
-    <Compile Include="Areas\Approval\Controllers\StockController.cs" />
+    <Compile Include="Areas\Approvals\ApprovalsAreaRegistration.cs" />
+    <Compile Include="Areas\Approvals\Controllers\CheckController.cs" />
+    <Compile Include="Areas\Approvals\Controllers\ContractController.cs" />
+    <Compile Include="Areas\Approvals\Controllers\InvoiceController.cs" />
+    <Compile Include="Areas\Approvals\Controllers\OrderController.cs" />
+    <Compile Include="Areas\Approvals\Controllers\PriceController.cs" />
+    <Compile Include="Areas\Approvals\Controllers\StockController.cs" />
     <Compile Include="Controllers\DutiesController.cs" />
     <Compile Include="Controllers\SubProjectFormController.cs" />
     <Compile Include="Service\Android.asmx.cs">
@@ -626,8 +626,8 @@
     <Content Include="Views\Approval\Siparis_GM_List.cshtml" />
     <Content Include="Views\Approval\Siparis_SM_List.cshtml" />
     <Content Include="Views\Approval\Siparis_SPGMY_List.cshtml" />
-    <Content Include="Areas\Approval\Views\Stock\Index.cshtml" />
-    <Content Include="Areas\Approval\Views\Stock\List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Stock\Index.cshtml" />
+    <Content Include="Areas\Approvals\Views\Stock\List.cshtml" />
     <Content Include="Views\Approval\Teminat.cshtml" />
     <Content Include="Views\Approval\Teminat_List.cshtml" />
     <Content Include="Views\Roles\List.cshtml" />

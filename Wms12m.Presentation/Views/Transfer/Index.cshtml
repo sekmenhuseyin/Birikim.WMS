@@ -79,7 +79,19 @@
         jObject["GirisDepo"] = $("#GirisDepo").val();
         jObject["CikisDepo"] = $("#CikisDepo").val();
         jObject["listType"] = $("#listType").val();
-        PartialView('/Transfer/Stock', 'liste', { Id: JSON.stringify(jObject) });
+        $('#liste').html("");
+        $.ajax({
+            url: '/Transfer/Stock',
+            type: 'POST',
+            data: { Id: JSON.stringify(jObject) },
+            success: function (data) {
+                if (data == "") {
+                    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
+                } else {
+                    $('#liste').html(data);
+                }
+            }
+        });
     }
 </script>
 }

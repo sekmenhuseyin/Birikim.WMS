@@ -9,7 +9,7 @@ using System.Web.Script.Serialization;
 using Wms12m.Entity;
 using Wms12m.Entity.Viewmodels;
 
-namespace Wms12m.Presentation.Areas.Approval.Controllers
+namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class ContractController : RootController
     {

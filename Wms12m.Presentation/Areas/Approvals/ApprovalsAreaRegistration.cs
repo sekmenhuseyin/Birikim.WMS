@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Wms12m.Presentation.Areas.Approval
+namespace Wms12m.Presentation.Areas.Approvals
 {
     public class ApprovalAreaRegistration : AreaRegistration
     {
@@ -8,7 +8,7 @@ namespace Wms12m.Presentation.Areas.Approval
         {
             get
             {
-                return "Approval";
+                return "Approvals";
             }
         }
 
@@ -16,9 +16,9 @@ namespace Wms12m.Presentation.Areas.Approval
         {
             context.MapRoute(
                 "Approval_default",
-                "Approval/{controller}/{action}/{id}",
+                "Approvals/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional },
-                new[] { "Wms12m.Presentation.Areas.Approval.Controllers" }
+                new[] { "Wms12m.Presentation.Areas.Approvals.Controllers" }
             );
         }
     }
