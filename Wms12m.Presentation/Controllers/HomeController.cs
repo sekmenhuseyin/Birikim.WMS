@@ -40,6 +40,23 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /////////////////////////////////////////////// partials
         /// </summary>
+        /// 
+
+        public PartialViewResult PartialBox()
+        {
+            return PartialView("_PartialBox");
+        }
+
+        public PartialViewResult PartialBox2()
+        {
+            return PartialView("_PartialBox2");
+        }
+
+        public PartialViewResult PartialBox3()
+        {
+            return PartialView("_PartialBox3");
+        }
+
         public PartialViewResult PartialGunlukSatis(string SirketKodu, int tarih)
         {
             if (CheckPerm("ChartGunlukSatis", PermTypes.Reading) == false) return null;

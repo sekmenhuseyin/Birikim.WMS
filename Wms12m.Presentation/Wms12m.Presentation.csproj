@@ -716,6 +716,9 @@
     <Content Include="Views\DutyWork\Details.cshtml" />
     <Content Include="Views\DutyWork\Edit.cshtml" />
     <Content Include="Views\DutyWork\Index.cshtml" />
+    <Content Include="Views\Home\_PartialBox.cshtml" />
+    <Content Include="Views\Home\_PartialBox2.cshtml" />
+    <Content Include="Views\Home\_PartialBox3.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
