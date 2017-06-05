@@ -15,9 +15,9 @@ namespace Wms12m.Presentation.Controllers
         private WMSEntities db = new WMSEntities();
 
         // GET: Customer
-        public ActionResult Index()
+        public PartialViewResult List()
         {
-            return View(db.Musteris.ToList());
+            return PartialView(db.Musteris.ToList());
         }
 
         // GET: Customer/Details/5
@@ -36,7 +36,7 @@ namespace Wms12m.Presentation.Controllers
         }
 
         // GET: Customer/Create
-        public ActionResult Create()
+        public ActionResult Index()
         {
             return View();
         }
@@ -46,10 +46,15 @@ namespace Wms12m.Presentation.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
+        public ActionResult Index([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
         {
             if (ModelState.IsValid)
             {
+                musteri.Degistiren = vUser.UserName;
+                musteri.Kaydeden = vUser.UserName;
+                DateTime date = DateTime.Now;
+                musteri.DegisTarih = date;
+                musteri.KayitTarih = date;
                 db.Musteris.Add(musteri);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,6 +87,11 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                musteri.Degistiren = vUser.UserName;
+                // projeForm.Kaydeden = vUser.UserName;
+                DateTime date = DateTime.Now;
+                musteri.DegisTarih = date;
+
                 db.Entry(musteri).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
