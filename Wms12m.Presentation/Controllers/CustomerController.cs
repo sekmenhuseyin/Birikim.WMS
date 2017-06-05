@@ -50,6 +50,11 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                musteri.Degistiren = vUser.UserName;
+                musteri.Kaydeden = vUser.UserName;
+                DateTime date = DateTime.Now;
+                musteri.DegisTarih = date;
+                musteri.KayitTarih = date;
                 db.Musteris.Add(musteri);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,6 +87,11 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid)
             {
+                musteri.Degistiren = vUser.UserName;
+                // projeForm.Kaydeden = vUser.UserName;
+                DateTime date = DateTime.Now;
+                musteri.DegisTarih = date;
+
                 db.Entry(musteri).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
