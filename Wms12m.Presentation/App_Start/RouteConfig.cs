@@ -13,7 +13,7 @@ namespace Wms12m.Presentation
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                namespaces: new[] { "Wms12m.Controllers" }
+                namespaces: new[] { "Wms12m.Presentation.Controllers" }
             );
         }
     }
