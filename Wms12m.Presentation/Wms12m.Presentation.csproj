@@ -690,11 +690,11 @@
     <Content Include="Views\Approval\SatinalmaSipGMOnay_List.cshtml" />
     <Content Include="Views\Approval\SatinalmaSipGMOnayFTD_List.cshtml" />
     <Content Include="Views\Buy\_HesapGridPartial.cshtml" />
-    <Content Include="Views\Customer\Create.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Customer\Delete.cshtml" />
     <Content Include="Views\Customer\Details.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
-    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Customer\List.cshtml" />
     <Content Include="Views\ProjectForm\Create.cshtml" />
     <Content Include="Views\ProjectForm\Delete.cshtml" />
     <Content Include="Views\ProjectForm\Details.cshtml" />
