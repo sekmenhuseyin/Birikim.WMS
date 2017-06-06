@@ -20,7 +20,7 @@
                                     <td>
                                         <button class="btn btn-primary input-circle" onclick="CopyValues('@item.ID','@item.EvrakNo','@item.Tarih.FromOADateInt()')">Seç</button>
                                         @if (ViewBag.Yetki == true && item.Onay == false) {<button class="btn btn-default input-circle" onclick="ChangeMiktar('@item.EvrakNo','@item.ID')">Evrak No Değiştir</button>}
-                                        @if (ViewBag.Yetki2 == true && item.Onay == false) {<button class="btn btn-danger input-circle" onclick="Delete('@item.ID', '/Buy/List/@ViewBag.id', 'modalEditPage', '0', '/Buy/Delete1')">Sil</button>}
+                                        @if (ViewBag.Yetki2 == true && item.Onay == false) {<button class="btn btn-danger input-circle" onclick="Delete('@item.ID', '/Purchase/List/@ViewBag.id', 'modalEditPage', '0', '/Purchase/Delete1')">Sil</button>}
                                     </td>
                                 </tr>
                             }
@@ -53,14 +53,14 @@
     {
         if (miktar == null || miktar == undefined) return;
         $.ajax({
-            url: "/Buy/Update",
+            url: "/Purchase/Update",
             data: { EvrakNo: miktar, ID: tmpID, SirketID: $('#SirketID').val(), HesapKodu: $('#HesapKodu').val() },
             type: 'POST',
             dataType: "json",
             success: function (data) {
                 if (data.Status == true) {
                     Modaldialog("İşlem başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
-                    editInModal('/Buy/List/' + $('#SirketID').val() + ',' + $('#DepoID').val() + ',' + $('#HesapKodu').val());
+                    editInModal('/Purchase/List/' + $('#SirketID').val() + ',' + $('#DepoID').val() + ',' + $('#HesapKodu').val());
                 }
                 else
                     Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");

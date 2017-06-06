@@ -7,7 +7,7 @@ using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
-    public class BuyController : RootController
+    public class PurchaseController : RootController
     {
         /// <summary>
         /// irsaliye sayfası
