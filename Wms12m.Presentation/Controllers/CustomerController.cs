@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
@@ -53,20 +51,23 @@ namespace Wms12m.Presentation.Controllers
         // POST: Customer/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult Save([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
+        public JsonResult Save([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
         {
             if (ModelState.IsValid)
             {
-                musteri.Degistiren = vUser.UserName;
-                // projeForm.Kaydeden = vUser.UserName;
-                DateTime date = DateTime.Now;
-                musteri.DegisTarih = date;
-
-                db.Entry(musteri).State = EntityState.Modified;
+                var tbl = db.Musteris.Where(m => m.ID == musteri.ID).FirstOrDefault();
+                tbl.Firma = musteri.Firma;
+                tbl.Unvan = musteri.Unvan;
+                tbl.Aciklama = musteri.Aciklama;
+                tbl.Tel1 = musteri.Tel1;
+                tbl.Tel2 = musteri.Tel2;
+                tbl.MesaiKontrol = musteri.MesaiKontrol;
+                tbl.MesaiKota = musteri.MesaiKota;
+                tbl.Degistiren = vUser.UserName;
+                tbl.DegisTarih = DateTime.Now;
                 db.SaveChanges();
-                // return RedirectToAction("Index");
             }
-            return PartialView(musteri);
+            return Json(new Result(true, musteri.ID), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Delete(string Id)
@@ -80,7 +81,7 @@ namespace Wms12m.Presentation.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }
-        
+
 
 
     }
