@@ -563,7 +563,6 @@
     <Content Include="Areas\Approvals\Views\Order\SM.cshtml" />
     <Content Include="Areas\Approvals\Views\Order\SPGMY.cshtml" />
     <Content Include="Areas\Approvals\Views\Order\GM_List.cshtml" />
-    <Content Include="Areas\Approvals\Views\Order\SM_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Order\SPGMY_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Stock\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\Stock\List.cshtml" />
