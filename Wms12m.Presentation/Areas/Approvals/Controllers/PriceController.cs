@@ -23,7 +23,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string FiyatGMOnayCek()
+        public string GMOnayCek()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", "17")).ToList();
@@ -36,7 +36,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string FiyatGMOnayCekGMKoleksiyon()
+        public string GMOnayCekGMKoleksiyon()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM_Koleksiyon]", "17")).ToList();
@@ -49,7 +49,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string FiyatGMOnayCekGMGrup()
+        public string GMOnayCekGMGrup()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM_GrupEbatYuzey]", "17")).ToList();
@@ -67,7 +67,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string FiyatSPGMYOnayCek()
+        public string SPGMYOnayCek()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY]", "17")).ToList();
@@ -80,7 +80,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string FiyatSPGMYOnayCekSPGMYKoleksiyon()
+        public string SPGMYOnayCekSPGMYKoleksiyon()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_Koleksiyon]", "17")).ToList();
@@ -94,7 +94,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string FiyatSPGMYOnayCekSPGMYGrup()
+        public string SPGMYOnayCekSPGMYGrup()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_GrupEbatYuzey]", "17")).ToList();
@@ -112,7 +112,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string FiyatSMOnayCek()
+        public string SMOnayCek()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList]", "17")).ToList();
@@ -125,7 +125,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string FiyatSMOnayCekSMKoleksiyon()
+        public string SMOnayCekSMKoleksiyon()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_Koleksiyon]", "17")).ToList();
@@ -138,7 +138,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string FiyatSMOnayCekSMGrup()
+        public string SMOnayCekSMGrup()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_GrupEbatYuzey]", "17")).ToList();
@@ -147,43 +147,43 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
 
 
-        public ActionResult FiyatListesi()
+        public ActionResult List()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return Redirect("/");
             var LNO = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
             return View(LNO);
         }
 
-        public string FiyatUrunGrupSelect()
+        public string UrunGrupSelect()
         {
             var FUGS = db.Database.SqlQuery<FiyatUrunGrupSelect>(string.Format("[FINSAT6{0}].[dbo].[STKSelect1]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(FUGS);
             return json;
         }
 
-        public string FiyatHesapKoduSelect()
+        public string HesapKoduSelect()
         {
             var FHKS = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect1]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(FHKS);
             return json;
         }
 
-        public PartialViewResult PartialFiyatList(string listeNo)
+        public PartialViewResult ListPartial(string listeNo)
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
             //var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect]", "17")).ToList();
             ViewBag.ListeNo = listeNo;
-            return PartialView("FiyatListesiPartial");
+            return PartialView();
         }
 
-        public string FiyatListesiSelect(string listeNo)
+        public string ListesiSelect(string listeNo)
         {
             var FYTS = db.Database.SqlQuery<FiyatListSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
             var json = new JavaScriptSerializer().Serialize(FYTS);
             return json;
         }
 
-        public string FiyatListesiBekleyen()
+        public string ListesiBekleyen()
         {
             var FLB = db.Database.SqlQuery<BekleyenFiyatListesi>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListTumBekleyenler]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(FLB);
@@ -1576,7 +1576,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
 
 
-        public string FiyatSatirEkle(string Data)
+        public string SatirEkle(string Data)
         {
             if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
             JObject parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);

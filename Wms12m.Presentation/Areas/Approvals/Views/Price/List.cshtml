@@ -315,7 +315,7 @@
 
         $('.yenile-buton').click(function () {
             if(listeNo!=""){
-                PartialView("/Approval/PartialFiyatList", 'fiyat_listesi_data', JSON.stringify({ listeNo: listeNo }));  
+                PartialView("/Approval/Price/ListPartial", 'fiyat_listesi_data', JSON.stringify({ listeNo: listeNo }));  
             }
         });
 

@@ -28,6 +28,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
     public class PurchaseController : RootController
     {
+        public ActionResult GMOnayHTML()
+        {
+            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
         public ActionResult Satınalma_GM_Onay()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");

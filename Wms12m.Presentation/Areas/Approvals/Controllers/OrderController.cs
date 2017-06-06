@@ -9,40 +9,40 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class OrderController : RootController
     {
-        public ActionResult Siparis_SM()
+        public ActionResult SM()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public PartialViewResult Siparis_SM_List()
+        public PartialViewResult SM_List()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return null;
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", "17")).ToList();
             return PartialView(KOD);
         }
-        public ActionResult Siparis_SPGMY()
+        public ActionResult SPGMY()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public PartialViewResult Siparis_SPGMY_List()
+        public PartialViewResult SPGMY_List()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return null;
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", "17")).ToList();
             return PartialView(KOD);
         }
-        public ActionResult Siparis_GM()
+        public ActionResult GM()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public PartialViewResult Siparis_GM_List()
+        public PartialViewResult GM_List()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return null;
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", "17")).ToList();
             return PartialView(KOD);
         }
-        public JsonResult Siparis_Onay(string Data, int OnayTip, bool OnaylandiMi)
+        public JsonResult Onay(string Data, int OnayTip, bool OnaylandiMi)
         {
 
             if (CheckPerm("Sipariş Onaylama", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
