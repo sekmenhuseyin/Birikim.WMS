@@ -118,7 +118,6 @@
                     type: "post",
 
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -126,12 +125,9 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
                 return _dfd.promise();
-                // window.location.href = '/Approval/Fiyat_SM';
             }
             else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
                 var x = table2.rows('.selected').data();
@@ -144,7 +140,6 @@
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -152,9 +147,7 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
                 return _dfd.promise();
 
@@ -170,17 +163,14 @@
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
                         else {
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                        }                    
+                    }
                 });
                 return _dfd.promise();
             }
@@ -199,7 +189,6 @@
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -207,9 +196,7 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
                 return _dfd.promise();
 
@@ -225,7 +212,6 @@
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -233,14 +219,9 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
                 return _dfd.promise();
-
-
-
             }
 
             else if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == true) {
@@ -254,7 +235,6 @@
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -262,35 +242,22 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
                 return _dfd.promise();
             }
-
-
-
         });
 
         $('.yenile-buton').click(function () {
 
             window.location.href = '/Approval/Fiyat_SM';
-
-
-
         });
 
         $('.alayinisec-buton').click(function () {
-
             $('tbody tr').addClass('selected');
-
-
         });
         $('.alayinikaldir-buton').click(function () {
-
             $('tbody tr').removeClass('selected');
-
 
         });
     </script>

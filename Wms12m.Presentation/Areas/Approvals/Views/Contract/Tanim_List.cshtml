@@ -46,7 +46,6 @@
         "ajax": {
             "url": '/Approval/Contract/TanimListesiSelect?listeNo=' + '@ViewBag.ListeNo',
             "dataSrc": function (json) {
-                console.log(json);
                 return json;
             },
         },
@@ -110,8 +109,7 @@
             type: "post",
             success: function (data) {
 
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
         return _dfd.promise();
     });
@@ -172,8 +170,7 @@
                     element=[];
                 }
                 Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
 
     }

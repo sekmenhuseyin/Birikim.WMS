@@ -174,7 +174,6 @@
     for (var i = 0; i < model.STI.length; i++) {
         check_sum.push(model.STI[i].CheckSum);
     }
-    console.log(check_sum);
     var sayac = 1;
     $('#sample_1').DataTable({ 
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
@@ -211,9 +210,7 @@
                 else {
                     window.location.href = '/Approval/Invoice';
                 }
-
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
         return _dfd.promise();
     }
@@ -230,7 +227,6 @@
     });
 
     function Red() {
-        console.log(check_sum);
         var _dfd = $.Deferred();
         var f_redNeden;
         f_redNeden = $(".txtRedNeden").dxTextArea("instance").option("value");
@@ -252,8 +248,7 @@
                     Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
                     window.location.href = '/Approval/Invoice';
                 }
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
         return _dfd.promise();
     }

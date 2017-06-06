@@ -93,7 +93,6 @@
 
         </div>
     </div>
-    <!-- END EXAMPLE TABLE PORTLET-->
 </div>
 <div class="row">
     <input type="hidden" name="checkboxes" id="checkboxes" value="" />
@@ -102,30 +101,22 @@
     var selected = "";
     var secili_table = new Array();
     $(document).ready(function () {
-        //Globalize.locale('tr');
         var model =  @Html.Raw(serializer.Serialize(Model));
-
-        console.log(model);
         table=$('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
-
-
         $('#SPGMYOnayla').click(function (e) {
 
             var x = table.rows('.selected').data();
             for (var i = 0; i < x.length; i++) {
                 secili_table.push(x[i][0]);
             }
-            console.log(secili_table);
             var _dfd = $.Deferred();
             $.ajax({
                 url: window.location.origin + "/Approval/Siparis_Onay",
                 data: { Data: JSON.stringify(secili_table), OnaylandiMi: true, OnayTip: 2 },
                 type: "post",
                 success: function (data) {
-                    console.log(data);
 
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
+                }
             });
             return _dfd.promise();
         });
@@ -135,14 +126,12 @@
             for (var i = 0; i < x.length; i++) {
                 secili_table.push(x[i][0]);
             }
-            console.log(secili_table);
             var _dfd = $.Deferred();
             $.ajax({
                 url: window.location.origin + "/Approval/Siparis_Onay",
                 data: { Data: JSON.stringify(secili_table), OnaylandiMi: false, OnayTip: 2 },
                 type: "post",
                 success: function (data) {
-                    console.log(data);
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                     }
@@ -151,8 +140,7 @@
                         Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                     }
 
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
+                }
             });
             return _dfd.promise();
         });
@@ -161,9 +149,6 @@
             window.location.href = '/Approval/Siparis_SPGMY';
 
         });
-
-
-
     });
     function toggle(row, id) {
         $(row).toggleClass('selected');
@@ -171,6 +156,4 @@
         else selected = selected.replace(id + "#", "");
         $("#checkboxes").val(selected);
     }
-
-
 </script>

@@ -184,14 +184,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-datepicker.css" />
-    <Content Include="Content\bootstrap-datepicker.min.css" />
-    <Content Include="Content\bootstrap-datepicker.standalone.css" />
-    <Content Include="Content\bootstrap-datepicker.standalone.min.css" />
-    <Content Include="Content\bootstrap-datepicker3.css" />
-    <Content Include="Content\bootstrap-datepicker3.min.css" />
-    <Content Include="Content\bootstrap-datepicker3.standalone.css" />
-    <Content Include="Content\bootstrap-datepicker3.standalone.min.css" />
     <Content Include="Content\images\12M-Logo-30.png" />
     <Content Include="Content\images\12M-Logo-90.png" />
     <Content Include="Content\images\12M-Logo.png" />
@@ -418,14 +410,6 @@
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
-    <Content Include="Content\bootstrap-datepicker3.standalone.min.css.map" />
-    <Content Include="Content\bootstrap-datepicker3.standalone.css.map" />
-    <Content Include="Content\bootstrap-datepicker3.min.css.map" />
-    <Content Include="Content\bootstrap-datepicker3.css.map" />
-    <Content Include="Content\bootstrap-datepicker.standalone.min.css.map" />
-    <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
-    <Content Include="Content\bootstrap-datepicker.min.css.map" />
-    <Content Include="Content\bootstrap-datepicker.css.map" />
     <None Include="Content\STISablon.xlsx" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />

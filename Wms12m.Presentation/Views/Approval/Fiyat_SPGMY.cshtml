@@ -117,7 +117,6 @@
                     type: "post",
 
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -125,9 +124,7 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
 
                 return _dfd.promise();
@@ -145,7 +142,6 @@
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -153,9 +149,7 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
                 return _dfd.promise();
 
@@ -171,7 +165,6 @@
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -179,9 +172,7 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
                 return _dfd.promise();
             }
@@ -200,7 +191,6 @@
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -208,9 +198,7 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
                 return _dfd.promise();
 
@@ -226,7 +214,6 @@
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -234,9 +221,7 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
                 return _dfd.promise();
 
@@ -253,7 +238,6 @@
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -261,37 +245,21 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
                 return _dfd.promise();
-
             }
-
-
-
         });
 
         $('.yenile-buton').click(function () {
-
             window.location.href = '/Approval/Fiyat_SPGMY';
-
-
-
         });
 
         $('.alayinisec-buton').click(function () {
-
             $('tbody tr').addClass('selected');
-
-
         });
         $('.alayinikaldir-buton').click(function () {
-
             $('tbody tr').removeClass('selected');
-
-
         });
     </script>
 }

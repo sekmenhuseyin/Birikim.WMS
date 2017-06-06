@@ -35,7 +35,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    //$('#x-modal-teminatdurbun').modal("hide");
     var secili_satir = new Array();
     var secili_table = new Array();
     var silinecek = new Array();
@@ -44,7 +43,6 @@
         "ajax": {
             "url": '/Approval/SipGMOnayListFTDData?HesapKodu=' + '@ViewBag.HesapKodu'+ '&SipTalepNo=' + '@ViewBag.SipTalepNo',
             "dataSrc": function (json) {
-                console.log(json);
                 return json;
             },
         },
@@ -69,7 +67,6 @@
             $('td', nRow).attr('nowrap', 'nowrap');
             return nRow;
         },
-        //"columnDefs": [{ "width": "140px", "targets": 0 }]
 
      });
 

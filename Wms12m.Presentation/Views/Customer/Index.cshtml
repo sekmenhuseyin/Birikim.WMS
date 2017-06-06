@@ -133,18 +133,15 @@
     </div>
 </body>
 </html>
-@section Scripts{
-    <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+@section Scripts{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
 <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="~/Content/assets/global/scripts/datatable.js"></script>
 <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
-    <script type="text/javascript">
-        console.log("aaa");
-        //PartialView("/Customer/Cek_SPGMY_List", 'liste');
-        PartialView("/Customer/List", 'liste');
-    </script>
+<script type="text/javascript">
+    PartialView("/Customer/List", 'liste');
+</script>
 }
 

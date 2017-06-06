@@ -63,7 +63,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    //$('#x-modal-teminatdurbun').modal("hide");
     var secili_satir = new Array();
     var secili_table = new Array();
     var silinecek = new Array();
@@ -72,7 +71,6 @@
         "ajax": {
             "url": '/Approval/SipGMOnayListData?HesapKodu=' + '@ViewBag.HesapKodu'+ '&SipTalepNo=' + '@ViewBag.SipTalepNo',
             "dataSrc": function (json) {
-                console.log(json);
                 return json;
             },
         },
@@ -120,15 +118,12 @@
             { "data": "Katsayi" },
             { "data": "IslemTip" }
 
-            //{ "data": "TahTeslimTarih_D", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } }, 
-            //{ "data": "Depo" }
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
             $('td', nRow).attr('nowrap', 'nowrap');
             return nRow;
         },
-        //"columnDefs": [{ "width": "140px", "targets": 0 }]
 
      });
 
@@ -153,20 +148,9 @@
             type: "post",
             success: function (data) {
 
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
         return _dfd.promise();
-        //for (var i = 0; i < table.rows('.selected').data().length; i++) {
-        //    for (var j = 0; j < table.rows('.selected').data()[i].length; j++) {
-        //        console.log(table.rows('.selected'));
-        //        console.log(table.rows('.selected').data()[i][j]);
-        //        secili_satir.push(table.rows('.selected').data()[i][j])
-        //    }
-        //    secili_table.push(secili_satir);
-        //    secili_satir = [];
-        //}
-        //alert(table.rows('.selected').data().length + ' row(s) selected');
     });
     $(document).ready(function () {
 
@@ -225,8 +209,7 @@
                     element=[];
                 }
                 Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
 
     }
@@ -239,7 +222,6 @@
             if ($("#fiyat_listesi_data table").length < 1) {
                 PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
             }
-            //SatirSil2(silinecek[i]);
         }
     }
 </script>
