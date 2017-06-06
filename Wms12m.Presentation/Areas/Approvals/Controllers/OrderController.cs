@@ -12,35 +12,20 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult SM()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return Redirect("/");
-            return View();
-        }
-        public PartialViewResult SM_List()
-        {
-            if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return null;
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", "17")).ToList();
-            return PartialView(KOD);
+            return View(KOD);
         }
         public ActionResult SPGMY()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return Redirect("/");
-            return View();
-        }
-        public PartialViewResult SPGMY_List()
-        {
-            if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return null;
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", "17")).ToList();
-            return PartialView(KOD);
+            return View(KOD);
         }
         public ActionResult GM()
         {
             if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return Redirect("/");
-            return View();
-        }
-        public PartialViewResult GM_List()
-        {
-            if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return null;
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", "17")).ToList();
-            return PartialView(KOD);
+            return View(KOD);
         }
         public JsonResult Onay(string Data, int OnayTip, bool OnaylandiMi)
         {

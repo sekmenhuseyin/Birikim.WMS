@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs4615.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs89F7.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs4615.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs89F7.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Charts.v17.1.Core, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
@@ -562,9 +562,6 @@
     <Content Include="Areas\Approvals\Views\Order\GM.cshtml" />
     <Content Include="Areas\Approvals\Views\Order\SM.cshtml" />
     <Content Include="Areas\Approvals\Views\Order\SPGMY.cshtml" />
-    <Content Include="Areas\Approvals\Views\Order\GM_List.cshtml" />
-    <Content Include="Areas\Approvals\Views\Order\SM_List.cshtml" />
-    <Content Include="Areas\Approvals\Views\Order\SPGMY_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Stock\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\Stock\List.cshtml" />
     <Content Include="Areas\Approvals\Views\Guarantee\Index.cshtml" />

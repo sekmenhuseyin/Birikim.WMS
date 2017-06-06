@@ -12,7 +12,7 @@ namespace Wms12m.Presentation.Controllers
         // GET: Customer/Create
         public ActionResult Index()
         {
-            return View();
+            return View(new Musteri());
         }
 
         // GET: Customer
@@ -61,7 +61,7 @@ namespace Wms12m.Presentation.Controllers
                     db.SaveChanges();
                     return Json(new Result(true, musteri.ID), JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
             }
