@@ -4,7 +4,7 @@
         @Html.AntiForgeryToken()
 
         <div class="portlet-body form">
-            @using (Html.BeginForm())
+            @using (Html.BeginForm("Save", "Customer", FormMethod.Post, new { @class = "form-horizontal" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
@@ -44,7 +44,7 @@
                     <div class="form-group row">
                         @Html.LabelFor(model => model.MesaiKontrol, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-4">
-                            @Html.CheckBoxFor(model => model.MesaiKontrol.Value, new { id = "MesaiKontrol" })
+                            @Html.CheckBoxFor(model => model.MesaiKontrol, new { id = "MesaiKontrol" })
                             @*@Html.EditorFor(model => model.MesaiKontrol, new { id = "MesaiKontrol" })*@
                             @Html.ValidationMessageFor(model => model.MesaiKontrol, "", new { @class = "text-danger" })
 
@@ -191,7 +191,3 @@
             </div>
         </div>*@
     }
-    
-    <div>
-        @Html.ActionLink("Listeye Dön", "Index")
-    </div>
