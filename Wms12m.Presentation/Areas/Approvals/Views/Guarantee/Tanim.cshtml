@@ -216,7 +216,7 @@
         $('.durbun-buton').click(function () {
             $('#x-modal-teminatdurbun').modal("show");
             $.ajax({
-                url: window.location.origin + "/Approval/TeminatDurbun",
+                url: window.location.origin + "/Approvals/Guarantee/Durbun",
                 data: {},
                 type: "post",
                 success: function (data)
@@ -264,7 +264,7 @@
                                 var prevClickTime = component.lastClickTime;//take last clicked time
                                 component.lastClickTime = new Date();
                                 if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                    PartialView("/Approval/TeminatTanimList", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));    
+                                    PartialView("/Approvals/Guarantee/TanimList", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));    
                                 }
                             }
                         },
@@ -277,7 +277,7 @@
         $('.bekleyen-durbun-buton').click(function () {
             $('#x-modal-teminatbekleyen').modal("show");
             $.ajax({
-                url: window.location.origin + "/Approval/TeminatBekleyen",
+                url: window.location.origin + "/Approvals/Guarantee/Bekleyen",
                 data: {},
                 type: "post",
                 success: function (data)
@@ -362,13 +362,13 @@
             if(silinecek.length>0)
             {
                 $.ajax({
-                    url: window.location.origin + "/Approval/TeminatSil",
+                    url: window.location.origin + "/Approvals/Guarantee/Sil",
                     data: {ID: silinecek[0].ID},
                     type: "post",
                     success: function (data)
                     {
                         if(data=="OK"){
-                            window.location.href = '/Approval/TeminatTanim';
+                            window.location.href = '/Approvals/Guarantee/Tanim';
                         }
                     }
                 });

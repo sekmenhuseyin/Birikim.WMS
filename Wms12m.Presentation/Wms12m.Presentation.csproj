@@ -569,7 +569,6 @@
     <Content Include="Areas\Approvals\Views\Stock\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\Stock\List.cshtml" />
     <Content Include="Areas\Approvals\Views\Guarantee\Index.cshtml" />
-    <Content Include="Areas\Approvals\Views\Guarantee\List.cshtml" />
     <Content Include="Views\Roles\List.cshtml" />
     <Content Include="Views\Perms\List.cshtml" />
     <Content Include="Views\Stock\Details.cshtml" />
