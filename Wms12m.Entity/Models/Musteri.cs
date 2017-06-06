@@ -27,7 +27,7 @@ namespace Wms12m.Entity.Models
         public string Email { get; set; }
         public string Tel1 { get; set; }
         public string Tel2 { get; set; }
-        public Nullable<bool> MesaiKontrol { get; set; }
+        public bool MesaiKontrol { get; set; }
         public Nullable<int> MesaiKota { get; set; }
         public string Kaydeden { get; set; }
         public System.DateTime KayitTarih { get; set; }
