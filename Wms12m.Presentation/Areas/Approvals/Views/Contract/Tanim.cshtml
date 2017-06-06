@@ -793,7 +793,7 @@
                 success: function (data) {
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
-                        window.location.href = '/Approvals/Contract/Tanim';
+                        window.location.reload();
                     }
                     else {
                         Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
@@ -853,7 +853,7 @@
             success: function (data) {
                 if (data.Status == true) {
                     Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
-                    window.location.href = '/Approvals/Contract/Tanim';
+                    window.location.reload();
                 }
                 else {
                     Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
@@ -934,7 +934,7 @@
                         if (data.Status == true) {
                             $('#x-modal-sozlesme-guncelle').modal("hide");
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Güncelleme");
-                            window.location.href = '/Approvals/Contract/Tanim';
+                            window.location.reload();
                         }
                         else {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Uyarı");

@@ -27,7 +27,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCekGM()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", "17")).ToList();
+            List<SozlesmeOnaySelect> RT;
+            try
+            {
+                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", "17")).ToList();
+            }
+            catch (Exception)
+            {
+                RT = new List<SozlesmeOnaySelect>();
+            }
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -218,7 +226,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCekSM()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySM]", "17")).ToList();
+            List<SozlesmeOnaySelect> RT;
+            try
+            {
+                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySM]", "17")).ToList();
+            }
+            catch (Exception)
+            {
+                RT = new List<SozlesmeOnaySelect>();
+            }
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -403,7 +419,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCekSPGMY()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySPGMY]", "17")).ToList();
+            List<SozlesmeOnaySelect> RT;
+            try
+            {
+                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySPGMY]", "17")).ToList();
+            }
+            catch (Exception)
+            {
+                RT = new List<SozlesmeOnaySelect>();
+            }
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
