@@ -90,8 +90,10 @@
                                 <div class="form-actions">
                                     <div class="row">
                                         <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Ekle" class="btn btn-circle green" />
-                                            <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                                            <center>
+                                                <input type="submit" value="Ekle" class="btn btn-circle green" />
+                                                <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                                            </center>
                                         </div>
                                     </div>
                                 </div>
@@ -131,16 +133,7 @@
     var EditURL = '@Url.Action("Edit", "Customer")';
     var DeleteFunctionUrl = '@Url.Action("Delete", "Customer")';
     PartialView("/Customer/List", 'liste');
-    //$('#MesaiKontrol').click(function () {
-    //    alert("hi");
-    //    var $this = $(this);
 
-    //    if ($this.is(':checked')) {
-    //        $('#MesaiKota').prop("readonly", false)
-    //    } else {
-    //        $('#MesaiKota').prop("readonly", true)
-    //    }
-    //});
     function CreateEdit(Id) {
         if (Id == 0) {
             $("#ID").val("0");

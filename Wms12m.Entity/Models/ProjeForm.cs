@@ -28,7 +28,7 @@ namespace Wms12m.Entity.Models
         public string Sorumlu { get; set; }
         public string KarsiSorumlu { get; set; }
         public string Aciklama { get; set; }
-        public Nullable<bool> MesaiKontrol { get; set; }
+        public bool MesaiKontrol { get; set; }
         public Nullable<int> MesaiKota { get; set; }
         public Nullable<int> PID { get; set; }
         public Nullable<short> Durum { get; set; }
