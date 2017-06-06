@@ -184,7 +184,7 @@
     });
 
     $(document).on("click", ".geri-buton", function () {
-        window.location.href = '/Approval/Invoice';
+        window.location.href = '/Approvals/Invoice';
     });
     $(document).on("click", ".onayla-buton", function () {
         ModalYesNoClick("Onaylamak istediğinize emin misiniz?", "Onay Uyarı", "Kaydet", "onayKayit", Onayla, "Kapat", "onayKapat", null);
@@ -192,23 +192,23 @@
     function Onayla() {
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approval/Invoice/Onayla",
+            url: window.location.origin + "/Approvals/Invoice/Onayla",
             data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, ChckSm: check_sum},
             type: "post",
             success: function (data) {
                 if (data == "OK") {
-                    window.location.href = '/Approval/Invoice';
+                    window.location.href = '/Approvals/Invoice';
                 }
                 else if (data == "NO") {
                     Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
                 }
                 else if (data == "DEGISIM") {
-                    window.location.href = '/Approval/Invoice/Detail?EvrakNo=' + evrakNo;
+                    window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + evrakNo;
                     Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "Guncel");
 
                 }
                 else {
-                    window.location.href = '/Approval/Invoice';
+                    window.location.href = '/Approvals/Invoice';
                 }
             }
         });
@@ -231,7 +231,7 @@
         var f_redNeden;
         f_redNeden = $(".txtRedNeden").dxTextArea("instance").option("value");
         $.ajax({
-            url: window.location.origin + "/Approval/Invoice/Red",
+            url: window.location.origin + "/Approvals/Invoice/Red",
             data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, RedNeden: f_redNeden, ChckSm: check_sum },
             type: "post",
             success: function (data) {
@@ -240,13 +240,13 @@
                     Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
                 }
                 else if (data == "DEGISIM") {
-                    window.location.href = '/Approval/Invoice/Detail?EvrakNo=' + evrakNo;
+                    window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + evrakNo;
                     Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "Guncel");
 
                 }
                 else {
                     Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
-                    window.location.href = '/Approval/Invoice';
+                    window.location.href = '/Approvals/Invoice';
                 }
             }
         });
