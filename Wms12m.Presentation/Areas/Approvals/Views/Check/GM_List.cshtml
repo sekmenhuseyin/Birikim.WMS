@@ -74,15 +74,13 @@
         var table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
-                "url": '/Approval/CekGMOnayCek',
+                "url": '/Approvals/Cek/GMOnayCek',
                 "dataSrc": function (json) {
                     return json;
                 },
             },
-            //"responsive": true,
             "fixedHeader": true,
             "columnDefs": [{ "visible": false, "targets": 0 }],
-           // "scrollX": true,
             "columns": [
                 { "data": "ID" },
                 { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
@@ -95,12 +93,6 @@
                 { "data": "Tutar", "sClass": "nowrap" },
                 { "data": "BaglantiTutar", "sClass": "nowrap" },
                 { "data": "BaglantininOrtalamaVadesi","render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } , "sClass": "nowrap" },
-               
-                //{
-                //    "render": function ( data, type, full, meta ) {
-                //        return table.saveContact(full);
-                //    }
-                //},
             ],
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
