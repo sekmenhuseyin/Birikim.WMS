@@ -37,11 +37,11 @@ namespace Wms12m.Entity.Models
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
     
-        public virtual Musteri Musteri { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjeForm> ProjeForm1 { get; set; }
         public virtual ProjeForm ProjeForm2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorevler> Gorevlers { get; set; }
+        public virtual Musteri Musteri { get; set; }
     }
 }
