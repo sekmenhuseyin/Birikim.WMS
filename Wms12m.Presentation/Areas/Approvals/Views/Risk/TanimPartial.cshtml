@@ -7,15 +7,6 @@
                 <div class="caption">
                     <i class="fa fa-gift"></i>Risk Tanım
                 </div>
-                @*<div class="col-md-1 pull-right m-t-5">
-                        <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
-                    </div>
-                    <div class="col-md-1 pull-right m-t-5">
-                        <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Export Data </a>
-                    </div>
-                    <div class="col-md-1 pull-right m-t-5">
-                        <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Temizle </a>
-                    </div>*@
 
             </div>
 
@@ -32,7 +23,6 @@
                                             <span></span>
                                         </label>
                                     </th>
-                                    @*<th></th>*@
                                     <th nowrap>Hesap Kodu</th>
                                     <th nowrap>Ünvan</th>
                                     <th nowrap>Şahsi Çek Limiti</th>
@@ -41,25 +31,6 @@
                                     <th nowrap>Yeni Müşteri Çek Limiti</th>
                                 </tr>
                             </thead>
-                            @*<tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td>
-                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                                    <input type="checkbox" class="checkboxes" value="1" />
-                                                    <span></span>
-                                                </label>
-                                            </td>
-                                            <td nowrap>@item.HesapKodu</td>
-                                            <td nowrap>@item.Unvan</td>
-                                            <td nowrap>@item.SahsiCekLimiti</td>
-                                            <td nowrap>@item.MusteriCekLimiti</td>
-                                            <td nowrap class="item_red">@item.YeniSahsiCekLimiti</td>
-                                            <td nowrap class="item_red">@item.YeniMusteriCekLimiti</td>
-                                        </tr>
-                                    }
-                                </tbody>*@
                         </table>
 
                     </div>
@@ -75,14 +46,12 @@
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-        //"columnDefs": [{ "orderable": false, "ordering": false, "targets": 0 }],
         "ajax": {
-            "url" : '/Approval/GGGG',
+            "url": '/Approvals/Risk/CHKSelect',
             "dataSrc": function(json) {
                 return json;
             },
         },
-        //"responsive": true,
         "fixedHeader": true,
         "scrollX": true,
         "columns": [  
@@ -112,7 +81,7 @@
         }
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approval/OnayRiskInsert",
+            url: window.location.origin + "/Approvals/Risk/OnayRiskInsert",
             data: { Data: JSON.stringify(secili_table)},
             type: "post",
             success: function (data) {

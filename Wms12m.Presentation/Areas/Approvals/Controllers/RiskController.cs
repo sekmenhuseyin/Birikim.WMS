@@ -21,7 +21,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string RiskOnayCekSM()
+        public string OnayCekSM()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where OnayTip = 0 and SMOnay = 0 and Durum = 0", "17")).ToList();
@@ -103,7 +103,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string RiskOnayCekGM()
+        public string OnayCekGM()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]  where (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 1 and GMOnay=0) or (OnayTip = 4 and GMOnay = 0 ) and Durum =0", "17")).ToList();
@@ -183,7 +183,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string RiskOnayCekSPGMY()
+        public string OnayCekSPGMY()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where (OnayTip = 1 and SPGMYOnay =0) OR (OnayTip = 2 and SPGMYOnay =0) OR (OnayTip = 3 and SPGMYOnay = 0) and Durum = 0", "17")).ToList();
@@ -266,7 +266,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string RiskOnayCekMIGMY()
+        public string OnayCekMIGMY()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]  where (OnayTip = 2 and SPGMYOnay = 1 and MIGMYOnay = 0) OR (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 0) and Durum = 0", "17")).ToList();
@@ -340,18 +340,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult RiskTanim()
+        public ActionResult Tanim()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public PartialViewResult RiskTanimPartial()
+        public PartialViewResult TanimPartial()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect2]", "17")).ToList();
-            return PartialView(RT);
+            return PartialView();
         }
-        public string GGGG()
+        public string CHKSelect()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect2]", "17")).ToList();

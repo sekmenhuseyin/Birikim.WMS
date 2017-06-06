@@ -48,7 +48,7 @@
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approval/FiyatListesiSelect?listeNo=' + '@ViewBag.ListeNo',
+            "url": '/Approvals/Price/ListesiSelect?listeNo= ' + '@ViewBag.ListeNo',
             "dataSrc": function (json) {
                 return json;
             },

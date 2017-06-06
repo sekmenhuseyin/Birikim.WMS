@@ -115,7 +115,7 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/Siparis_Onay",
+                url: window.location.origin + "/Approvals/Order/Onay",
                 data: { Data: JSON.stringify(secili_table), OnaylandiMi: true, OnayTip: 1 },
                 type: "post",
                 success: function (data) {
@@ -139,7 +139,7 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/Siparis_Onay",
+                url: window.location.origin + "/Approvals/Order/Onay",
                 data: { Data: JSON.stringify(secili_table), OnaylandiMi: false, OnayTip: 1 },
                 type: "post",
                 success: function (data) {
