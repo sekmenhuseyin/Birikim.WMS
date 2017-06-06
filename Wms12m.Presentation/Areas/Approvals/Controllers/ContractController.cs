@@ -13,6 +13,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class ContractController : RootController
     {
+        #region GM
         public ActionResult GM()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return Redirect("/");
@@ -26,7 +27,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCekGM()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", "17")).ToList();
+            List<SozlesmeOnaySelect> RT;
+            try
+            {
+                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnay]", "17")).ToList();
+            }
+            catch (Exception)
+            {
+                RT = new List<SozlesmeOnaySelect>();
+            }
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -202,7 +211,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
             return PartialView(list);
         }
-
+        #endregion
+        #region SM
         public ActionResult SM()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return Redirect("/");
@@ -216,7 +226,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCekSM()
         {
             if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySM]", "17")).ToList();
+            List<SozlesmeOnaySelect> RT;
+            try
+            {
+                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySM]", "17")).ToList();
+            }
+            catch (Exception)
+            {
+                RT = new List<SozlesmeOnaySelect>();
+            }
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -359,8 +377,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Sil_SM(string Data)
-        {
-            Result _Result = new Result(true);
+        {            Result _Result = new Result(true);
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
@@ -387,7 +404,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-
+        #endregion
+        #region SPGMY
         public ActionResult SPGMY()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return Redirect("/");
@@ -401,7 +419,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCekSPGMY()
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySPGMY]", "17")).ToList();
+            List<SozlesmeOnaySelect> RT;
+            try
+            {
+                RT = db.Database.SqlQuery<SozlesmeOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SP_SozlesmeOnaySPGMY]", "17")).ToList();
+            }
+            catch (Exception)
+            {
+                RT = new List<SozlesmeOnaySelect>();
+            }
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -569,7 +595,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
+        } 
+        #endregion
 
         public ActionResult Tanim()
         {

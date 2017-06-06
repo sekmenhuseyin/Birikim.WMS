@@ -7,7 +7,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Risk Onay MIGMY
+                    <i class="fa fa-gift"></i>Risk Onay SM
                 </div>
                 <div class="col-md-2 pull-right m-t-5">
                     <a class="btn btn-default pull-right input-circle yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
@@ -43,10 +43,10 @@
     <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script>
-        PartialView("/Approval/Risk_MIGMY_List", 'liste');
+        PartialView("/Approval/Risk_SM_List", 'liste');
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
-            PartialView("/Approval/Risk_MIGMY_List", 'liste', JSON.stringify({ Durum: Type }));
+            PartialView("/Approval/Risk_SM_List", 'liste', JSON.stringify({ Durum: Type }));
         }
         $('.onay-buton').click(function () {
 
@@ -56,7 +56,7 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/Risk_Onay_MIGMY",
+                url: window.location.origin + "/Approval/Risk_Onay_SM",
                 data: { Data: JSON.stringify(secili_table) },
                 type: "post",
 
@@ -73,7 +73,6 @@
             });
 
             return _dfd.promise();
-
         });
 
         $('.reddet-buton').click(function () {
@@ -84,7 +83,7 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/Risk_Red_MIGMY",
+                url: window.location.origin + "/Approval/Risk_Red_SM",
                 data: { Data: JSON.stringify(secili_table) },
                 type: "post",
                 success: function (data) {
@@ -99,14 +98,13 @@
                 }
             });
             return _dfd.promise();
-
-
-
         });
 
         $('.yenile-buton').click(function () {
 
-            window.location.href = '/Approval/Risk_MIGMY';
+            window.location.reload();
         });
+
+
     </script>
 }

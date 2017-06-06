@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Teminat Onay";
+    ViewBag.Title = "Risk Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="form-horizontal">
@@ -7,7 +7,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Teminat Onay
+                    <i class="fa fa-gift"></i>Risk Onay SPGMY
                 </div>
                 <div class="col-md-2 pull-right m-t-5">
                     <a class="btn btn-default pull-right input-circle yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
@@ -43,13 +43,11 @@
     <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script>
-        PartialView("/Approval/Teminat_List", 'liste');
+        PartialView("/Approval/Risk_SPGMY_List", 'liste');
 
-        //PartialView("/Approval/Teminat_SPGMY_List_Grup", 'listegrup');
-        //  PartialView("/Approval/RiskTanimPartial", 'liste');
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
-            PartialView("/Approval/Teminat_List", 'liste', JSON.stringify({ Durum: Type }));
+            PartialView("/Approval/Risk_SPGMY_List", 'liste', JSON.stringify({ Durum: Type }));
         }
 
         $(document).ready(function () {
@@ -67,7 +65,7 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/Teminat_Onay",
+                url: window.location.origin + "/Approval/Risk_Onay_SPGMY",
                 data: { Data: JSON.stringify(secili_table) },
                 type: "post",
 
@@ -84,7 +82,6 @@
             });
 
             return _dfd.promise();
-
         });
 
         $('.reddet-buton').click(function () {
@@ -95,7 +92,7 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/Teminat_Red",
+                url: window.location.origin + "/Approval/Risk_Red_SPGMY",
                 data: { Data: JSON.stringify(secili_table) },
                 type: "post",
                 success: function (data) {
@@ -110,11 +107,14 @@
                 }
             });
             return _dfd.promise();
+
+
+
         });
 
         $('.yenile-buton').click(function () {
 
-            window.location.href = '/Approval/Teminat';
+            window.location.reload();
         });
     </script>
 }

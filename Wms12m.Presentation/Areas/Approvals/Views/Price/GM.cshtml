@@ -15,7 +15,7 @@
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Fiyat Onay SM
+                    <i class="fa fa-gift"></i>Fiyat Onay GM
                 </div>
                 <div class="col-md-2 pull-right m-t-5">
                     <a class="btn btn-default pull-right input-circle yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
@@ -46,8 +46,6 @@
                 </div>
             </div>
         </div>
-       
-        
     </div>
 </div>
 @section Scripts{
@@ -59,20 +57,17 @@
     <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script>
-        PartialView("/Approval/Fiyat_SM_List", 'liste');
-
-        //PartialView("/Approval/Fiyat_GM_List_Grup", 'listegrup');
-        //  PartialView("/Approval/RiskTanimPartial", 'liste');
+        PartialView("/Approval/Fiyat_GM_List", 'liste');
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
-            PartialView("/Approval/Fiyat_SM_List", 'liste', JSON.stringify({ Durum: Type }));
+            PartialView("/Approval/Fiyat_GM_List", 'liste', JSON.stringify({ Durum: Type }));
         }
 
         $(document).ready(function () {
 
             $('#chkKoleksiyon').click(function () {
                 if (this.checked) {
-                    PartialView("/Approval/Fiyat_SM_List_Koleksiyon", 'listekoleksiyon');
+                    PartialView("/Approval/Fiyat_GM_List_Koleksiyon", 'listekoleksiyon');
                     $("#listekoleksiyon").css("display", "block");
                     $("#liste").css("display", "none");
                     $("#listegrup").css("display", "none");
@@ -90,7 +85,7 @@
 
             $('#chkGrup').click(function () {
                 if (this.checked) {
-                    PartialView("/Approval/Fiyat_SM_List_Grup", 'listegrup');
+                    PartialView("/Approval/Fiyat_GM_List_Grup", 'listegrup');
                     $("#listegrup").css("display", "block");
                     $("#liste").css("display", "none");
                     $("#listekoleksiyon").css("display", false);
@@ -113,7 +108,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Onay_SM",
+                    url: window.location.origin + "/Approval/Fiyat_Onay",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
 
@@ -127,7 +122,9 @@
                         }
                     }
                 });
+
                 return _dfd.promise();
+
             }
             else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
                 var x = table2.rows('.selected').data();
@@ -136,7 +133,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Onay_Koleksiyon_SM",
+                    url: window.location.origin + "/Approval/Fiyat_Onay_Koleksiyon",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
@@ -159,7 +156,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Onay_Grup_SM",
+                    url: window.location.origin + "/Approval/Fiyat_Onay_Grup",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
@@ -169,7 +166,7 @@
                         else {
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        }                    
+                        }
                     }
                 });
                 return _dfd.promise();
@@ -185,7 +182,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Red_SM",
+                    url: window.location.origin + "/Approval/Fiyat_Red",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
@@ -208,7 +205,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Red_Koleksiyon_SM",
+                    url: window.location.origin + "/Approval/Fiyat_Red_Koleksiyon",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
@@ -222,6 +219,7 @@
                     }
                 });
                 return _dfd.promise();
+
             }
 
             else if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == true) {
@@ -231,7 +229,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Red_Grup_SM",
+                    url: window.location.origin + "/Approval/Fiyat_Red_Grup",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
@@ -245,20 +243,21 @@
                     }
                 });
                 return _dfd.promise();
+
             }
         });
 
         $('.yenile-buton').click(function () {
-
-            window.location.href = '/Approval/Fiyat_SM';
+            window.location.reload();
         });
 
         $('.alayinisec-buton').click(function () {
             $('tbody tr').addClass('selected');
+
+
         });
         $('.alayinikaldir-buton').click(function () {
             $('tbody tr').removeClass('selected');
-
         });
     </script>
 }

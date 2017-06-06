@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
@@ -18,12 +17,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public PartialViewResult List()
-        {
-            if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return null;
-            return PartialView();
-        }
-        public string OnayCek()
+        public string List()
         {
             if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<TeminatOnaySelect>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", "17")).ToList();
@@ -35,9 +29,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             Result _Result = new Result(true);
             if (CheckPerm("Teminat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
             try
@@ -68,7 +60,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             Result _Result = new Result(true);
             if (CheckPerm("Teminat Onaylama", PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
             try
