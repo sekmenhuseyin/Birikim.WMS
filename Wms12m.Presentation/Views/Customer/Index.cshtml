@@ -30,10 +30,11 @@
                         </div>
                     </div>
                     <div class="portlet-body form">
-                        @using (Html.BeginForm())
+                        @using (Ajax.BeginForm("Save", "Customer", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
                         {
-                                @Html.AntiForgeryToken()
-                                @Html.ValidationSummary(true)
+                            @Html.HiddenFor(model => model.ID)
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
                             <div class="form-body">
                                 <div class="form-group row">
                                     @Html.LabelFor(model => model.Firma, htmlAttributes: new { @class = "control-label col-md-4" })
@@ -126,15 +127,15 @@
     });
     function CreateEdit(Id) {
         if (Id == 0) {
+            $("#ID").val("0");
             $("#Unvan").val("");
             $("#Firma").val("");
             $("#Aciklama").val("");
             $("#Email").val("");
             $("#MesaiKota").val("");
         }
-
         else
-        { PartialView(EditURL, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id })); }
+        { PartialView(EditURL, 'CreateEdit', JSON.stringify({ Id: Id })); }
 
     }
 </script>
