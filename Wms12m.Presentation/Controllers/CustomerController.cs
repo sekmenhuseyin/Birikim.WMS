@@ -60,18 +60,18 @@ namespace Wms12m.Presentation.Controllers
         }
 
         // GET: Customer/Edit/5
-        public ActionResult Edit(int? id)
+        public PartialViewResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
             Musteri musteri = db.Musteris.Find(id);
-            if (musteri == null)
-            {
-                return HttpNotFound();
-            }
-            return View(musteri);
+            //if (musteri == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return PartialView(musteri);
         }
 
         // POST: Customer/Edit/5
@@ -79,7 +79,7 @@ namespace Wms12m.Presentation.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
+        public PartialViewResult Edit([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
         {
             if (ModelState.IsValid)
             {
@@ -90,9 +90,9 @@ namespace Wms12m.Presentation.Controllers
 
                 db.Entry(musteri).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+               // return RedirectToAction("Index");
             }
-            return View(musteri);
+            return PartialView(musteri);
         }
 
         // GET: Customer/Delete/5
