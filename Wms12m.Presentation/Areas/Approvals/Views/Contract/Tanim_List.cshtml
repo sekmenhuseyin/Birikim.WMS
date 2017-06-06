@@ -44,7 +44,7 @@
      table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approval/Contract/TanimListesiSelect?listeNo=' + '@ViewBag.ListeNo',
+            "url": '/Approvals/Contract/TanimListesiSelect?listeNo=' + '@ViewBag.ListeNo',
             "dataSrc": function (json) {
                 return json;
             },
@@ -161,7 +161,7 @@
             secili_table.push(jObject);
         }
         $.ajax({
-            url: window.location.origin + "/Approval/Contract/YeniSatirKayit",
+            url: window.location.origin + "/Approvals/Contract/YeniSatirKayit",
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
             success: function (data) {
@@ -181,7 +181,7 @@
             var jsonElement = JSON.stringify(element);
            
             if ($("#fiyat_listesi_data table").length < 1) {
-                PartialView("/Approval/Contract/Tanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+                PartialView("/Approvals/Contract/Tanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
             }
         }
     }

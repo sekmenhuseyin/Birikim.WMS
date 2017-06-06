@@ -85,15 +85,12 @@
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approval/StokOnayCek?Durum=' + $("input[type='radio'][name='Locked']:checked").val(),
+            "url": '/Approvals/StokOnayCek?Durum=' + $("input[type='radio'][name='Locked']:checked").val(),
             "dataSrc": function (json) {
                 return json;
             },
         },
-        //"responsive": true,
         "fixedHeader": true,
-        // "columnDefs": [{ "visible": false, "targets": 0 }],
-        //"scrollX": true,
         "columns": [
             
             { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
@@ -114,12 +111,6 @@
             { "data": "KatSayi3", "sClass": "nowrap" },
             { "data": "Operator2", "sClass": "nowrap" },
             { "data": "Operator3", "sClass": "nowrap" },
-  
-            //{
-            //    "render": function ( data, type, full, meta ) {
-            //        return table.saveContact(full);
-            //    }
-            //},
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -132,43 +123,5 @@
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
-
-
-
-
+    
 </script>
-
-
-
-@*
-    <td> @item.MalKodu</td>
-    <td>
-        @item.MalAdi
-    </td>
-    <td>
-        @item.MalAdi2
-    </td>
-    <td> @item.Birim1</td>
-    <td>
-        @item.Birim2
-    </td>
-    <td>
-        @item.GrupKod
-    </td>
-    <td>
-        @item.TipKod
-    </td>
-    <td>
-        @item.OzelKod
-    </td>
-    <td>@item.Kod1</td>
-    <td>@item.Kod2</td>
-    <td>@item.Kod3</td>
-    <td>@item.Kod4</td>
-    <td>@item.Kod8</td>
-    <td>@item.KatSayi2</td>
-    <td>@item.KatSayi3</td>
-    <td>@item.Operator2</td>
-    <td>@item.Operator3</td>
-*@
-

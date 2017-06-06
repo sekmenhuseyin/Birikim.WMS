@@ -71,7 +71,7 @@
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
-                "url": '/Approval/Contract/OnayCekSM',
+                "url": '/Approvals/Contract/OnayCekSM',
                 "dataSrc": function (json) {
                     return json;
                 },
@@ -137,7 +137,7 @@
         }
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approval/Contract/Onay_SM",
+            url: window.location.origin + "/Approvals/Contract/Onay_SM",
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
 
@@ -163,7 +163,7 @@
         }
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approval/Contract/Sil_SM",
+            url: window.location.origin + "/Approvals/Contract/Sil_SM",
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
             success: function (data) {
