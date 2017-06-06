@@ -67,28 +67,10 @@
                                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                @*<div class="form-group row">
-                                    @Html.LabelFor(model => model.Tel1, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-4">
-                                        @Html.EditorFor(model => model.Tel1, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Tel1, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    @Html.LabelFor(model => model.Tel2, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-4">
-                                        @Html.EditorFor(model => model.Tel2, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Tel2, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
                              
                                 <div class="form-group row">
                                     @Html.LabelFor(model => model.MesaiKontrol, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
-                                        
-                                            @*@Html.EditorFor(model => model.MesaiKontrol, new { htmlAttributes = new { @class = "form-control input-circle" } })*@
                                             @Html.CheckBoxFor(model => model.MesaiKontrol.Value, new { id = "MesaiKontrol" })
                                             @Html.ValidationMessageFor(model => model.MesaiKontrol, "", new { @class = "text-danger" })
                                        
@@ -102,38 +84,6 @@
                                         @Html.ValidationMessageFor(model => model.MesaiKota, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                @*<div class="form-group row">
-                                    @Html.LabelFor(model => model.Kaydeden, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-4">
-                                        @Html.EditorFor(model => model.Kaydeden, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Kaydeden, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    @Html.LabelFor(model => model.KayitTarih, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-4">
-                                        @Html.EditorFor(model => model.KayitTarih, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.KayitTarih, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    @Html.LabelFor(model => model.Degistiren, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-4">
-                                        @Html.EditorFor(model => model.Degistiren, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Degistiren, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    @Html.LabelFor(model => model.DegisTarih, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-4">
-                                        @Html.EditorFor(model => model.DegisTarih, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.DegisTarih, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
 
 
                                 <div class="form-actions">
@@ -169,9 +119,7 @@
                 PartialView("/Customer/List", 'liste');
         $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
         $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
-        @*@if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}*@
         $("#touchspin_11").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
-        //$(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
         $('.StoreListi').on('change', function () { FuncSearchBtn(); })
     });
@@ -188,7 +136,6 @@
     }
     function CreateEdit(Id) {
         if (Id == 0) {
-          //  $("#ID").val("0");
             $("#Aciklama").val("");
         }
         else
@@ -201,197 +148,12 @@
                 var $this = $(this);
 
                 if ($this.is(':checked')) {
-                    $('#MesaiKota').attr("readonly", "")
+                    $('#MesaiKota').prop("readonly", false)
                 } else {
-                    $('#MesaiKota').attr("readonly", "readonly")
+                    $('#MesaiKota').prop("readonly", true)
                 }
                
             });
         </script>
 
     }
-
-    @*@{
-            ViewBag.Title = "Musteri";
-            Layout = "~/Views/Shared/_Layout.cshtml";
-        }
-
-        <!DOCTYPE html>
-
-        <html>
-        <head>
-            <meta name="viewport" content="width=device-width" />
-            <title>Create</title>
-        </head>
-        <body>
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="form-horizontal">
-                    <h4>Musteri</h4>
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Firma, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.Firma, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Firma, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Unvan, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.Unvan, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Unvan, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.Aciklama, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Tel1, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.Tel1, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Tel1, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Tel2, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.Tel2, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Tel2, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.MesaiKontrol, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.MesaiKontrol)
-                                @Html.ValidationMessageFor(model => model.MesaiKontrol, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.MesaiKota, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.MesaiKota, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.MesaiKota, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    @*<div class="form-group row">
-                        @Html.LabelFor(model => model.Kaydeden, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.Kaydeden, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Kaydeden, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
-
-    @*<div class="form-group row">
-            @Html.LabelFor(model => model.KayitTarih, htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.KayitTarih, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.KayitTarih, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group row">
-            @Html.LabelFor(model => model.Degistiren, htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.Degistiren, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Degistiren, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group row">
-            @Html.LabelFor(model => model.DegisTarih, htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.DegisTarih, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DegisTarih, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-    @*<div class="form-group row">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Müşteri Oluştur" class="btn btn-default" />
-                        </div>
-                    </div>
-                </div>
-            }
-            <div id="liste">
-            </div>
-            <div>
-                @Html.ActionLink("Listeye Dön", "List")
-            </div>
-        </body>
-        </html>
-        @section Scripts{
-            <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-        <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
-        <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
-        <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <script src="~/Content/assets/global/scripts/datatable.js"></script>
-        <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
-        <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
-            <script type="text/javascript">
-                console.log("aaa");
-                //PartialView("/Customer/Cek_SPGMY_List", 'liste');
-                PartialView("/Customer/List", 'liste');
-            </script>
-        }*@
-
-
-
-    @*<div class="portlet box green">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-gift"></i>Koridor Listesi
-            </div>
-        </div>
-        <div class="portlet-body form">
-            <div class="form-horizontal">
-                <div class="form-body">
-                    <div class="row">
-                        <label class="col-sm-1">
-                            <label style="color:#32c5d2;">Durum</label>
-                        </label>
-                        <label class="col-sm-1 radio-inline">
-                            <input type="radio" name="Locked" value="Locked" /> Aktif
-                        </label>
-                        <label class="col-sm-1 radio-inline">
-                            <input type="radio" name="Locked" value="noLocked" /> Pasif
-                        </label>
-                        <label class="col-sm-1 radio-inline">
-                            <input type="radio" name="Locked" value="All" checked /> Tümü
-                        </label>
-                        <div class="col-sm-1 col-sm-offset-4" style="color:#32c5d2;">Depo</div>
-                        <label class="col-sm-2">*@
-                            @*@Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle StoreListi DepoID", required = "required" })*@
-                        @*</label>
-                    </div>
-                </div>
-            </div>
-            <div id="CorridorGrid" style="padding:8px;margin-top:30px;"></div>
-        </div>
-    </div>
-</div>*@
-
