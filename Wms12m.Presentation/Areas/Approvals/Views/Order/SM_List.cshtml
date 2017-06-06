@@ -1,13 +1,5 @@
-﻿
-@model List<SMSiparisOnaySelect>
-@{
-    System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-    serializer.MaxJsonLength = Int32.MaxValue;
-}
-
-
+﻿@model List<SMSiparisOnaySelect>
 <div class="col-md-12" style="width:100%;">
-    <!-- BEGIN EXAMPLE TABLE PORTLET-->
     <div class="portlet box green">
 
         <div class="portlet-title">
@@ -24,10 +16,7 @@
                 <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Reddet </a>
             </div>
         </div>
-
         <div class="portlet-body">
-
-
             <table class="table table-striped table-bordered table-hover" id="sample_1">
                 <thead>
                     <tr>
@@ -53,29 +42,16 @@
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
-            {
+                    {
                         <tr onclick="toggle(this, '@item.EvrakNo')">
-
                             <td> @item.EvrakNo</td>
-                            <td>
-                                @item.Tarih
-                            </td>
-                            <td>
-                                @item.HesapNo
-                            </td>
+                            <td>@item.Tarih</td>
+                            <td>@item.HesapNo</td>
                             <td> @item.Unvan</td>
-                            <td>
-                                @item.TeslimYeriKodu
-                            </td>
-                            <td>
-                                @item.TeslimYeriUnvan
-                            </td>
-                            <td>
-                                @item.SiparisTutari
-                            </td>
-                            <td>
-                                @item.Bakiye
-                            </td>
+                            <td>@item.TeslimYeriKodu</td>
+                            <td>@item.TeslimYeriUnvan</td>
+                            <td>@item.SiparisTutari</td>
+                            <td>@item.Bakiye</td>
                             <td>@item.RiskBakiyesi</td>
                             <td>@item.ToplamBakiye</td>
                             <td>@item.SahsiCekLimiti</td>
@@ -93,7 +69,6 @@
 
         </div>
     </div>
-    <!-- END EXAMPLE TABLE PORTLET-->
 </div>
 <div class="row">
     <input type="hidden" name="checkboxes" id="checkboxes" value="" />
@@ -102,8 +77,6 @@
     var selected = "";
     var secili_table = new Array();
     $(document).ready(function () {
-        var model =  @Html.Raw(serializer.Serialize(Model));
-
         table=$('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
 
 

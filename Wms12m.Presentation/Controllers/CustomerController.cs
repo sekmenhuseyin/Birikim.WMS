@@ -21,26 +21,6 @@ namespace Wms12m.Presentation.Controllers
             return PartialView(db.Musteris.ToList());
         }
 
-        // POST: Customer/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
-        {
-            if (ModelState.IsValid)
-            {
-                musteri.Degistiren = vUser.UserName;
-                musteri.Kaydeden = vUser.UserName;
-                DateTime date = DateTime.Now;
-                musteri.DegisTarih = date;
-                musteri.KayitTarih = date;
-                db.Musteris.Add(musteri);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(musteri);
-        }
-
         // GET: Customer/Edit/5
         public PartialViewResult Edit(int? id)
         {
@@ -51,23 +31,41 @@ namespace Wms12m.Presentation.Controllers
         // POST: Customer/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Save([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
+        public JsonResult Save([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota")] Musteri musteri)
         {
             if (ModelState.IsValid)
             {
-                var tbl = db.Musteris.Where(m => m.ID == musteri.ID).FirstOrDefault();
-                tbl.Firma = musteri.Firma;
-                tbl.Unvan = musteri.Unvan;
-                tbl.Aciklama = musteri.Aciklama;
-                tbl.Tel1 = musteri.Tel1;
-                tbl.Tel2 = musteri.Tel2;
-                tbl.MesaiKontrol = musteri.MesaiKontrol;
-                tbl.MesaiKota = musteri.MesaiKota;
-                tbl.Degistiren = vUser.UserName;
-                tbl.DegisTarih = DateTime.Now;
-                db.SaveChanges();
+                if (musteri.ID == 0)
+                {
+                    musteri.Degistiren = vUser.UserName;
+                    musteri.Kaydeden = vUser.UserName;
+                    musteri.DegisTarih = DateTime.Now;
+                    musteri.KayitTarih = musteri.DegisTarih;
+                    db.Musteris.Add(musteri);
+                }
+                else
+                {
+                    var tbl = db.Musteris.Where(m => m.ID == musteri.ID).FirstOrDefault();
+                    tbl.Firma = musteri.Firma;
+                    tbl.Unvan = musteri.Unvan;
+                    tbl.Aciklama = musteri.Aciklama;
+                    tbl.Tel1 = musteri.Tel1;
+                    tbl.Tel2 = musteri.Tel2;
+                    tbl.MesaiKontrol = musteri.MesaiKontrol;
+                    tbl.MesaiKota = musteri.MesaiKota;
+                    tbl.Degistiren = vUser.UserName;
+                    tbl.DegisTarih = DateTime.Now;
+                }
+                try
+                {
+                    db.SaveChanges();
+                    return Json(new Result(true, musteri.ID), JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                }
             }
-            return Json(new Result(true, musteri.ID), JsonRequestBehavior.AllowGet);
+            return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Delete(string Id)
