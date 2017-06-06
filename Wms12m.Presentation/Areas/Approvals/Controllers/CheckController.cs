@@ -18,12 +18,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public PartialViewResult SPGMY_List()
-        {
-            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return null;
-            return PartialView();
-        }
-        public string CekSPGMYOnayCek()
+        public string SPGMY_List()
         {
             if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnaySPGMY]", "17")).ToList();
@@ -115,12 +110,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public PartialViewResult MIGMY_List()
-        {
-            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return null;
-            return PartialView();
-        }
-        public string CekMIGMYOnayCek()
+        public string MIGMY_List()
         {
             if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnayMIGMY]", "17")).ToList();
@@ -212,12 +202,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public PartialViewResult GM_List()
-        {
-            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return null;
-            return PartialView();
-        }
-        public string CekGMOnayCek()
+        public string GM_List()
         {
             if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnayGM]", "17")).ToList();

@@ -584,9 +584,6 @@
     <Content Include="Areas\Approvals\Views\Risk\Tanim.cshtml" />
     <Content Include="Areas\Approvals\Views\Risk\TanimPartial.cshtml" />
     <Content Include="Views\Maintenance\Index.cshtml" />
-    <Content Include="Areas\Approvals\Views\Check\GM_List.cshtml" />
-    <Content Include="Areas\Approvals\Views\Check\MIGMY_List.cshtml" />
-    <Content Include="Areas\Approvals\Views\Check\SPGMY_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Check\GM.cshtml" />
     <Content Include="Areas\Approvals\Views\Check\MIGMY.cshtml" />
     <Content Include="Areas\Approvals\Views\Check\SPGMY.cshtml" />
