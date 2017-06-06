@@ -10,36 +10,19 @@ namespace Wms12m.Presentation.Controllers
     public class CustomerController : RootController
     {
 
-        // GET: Customer
-        public PartialViewResult List()
-        {
-            return PartialView(db.Musteris.ToList());
-        }
-
-        // GET: Customer/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Musteri musteri = db.Musteris.Find(id);
-            if (musteri == null)
-            {
-                return HttpNotFound();
-            }
-            return View(musteri);
-        }
-
         // GET: Customer/Create
         public ActionResult Index()
         {
             return View();
         }
 
+        // GET: Customer
+        public PartialViewResult List()
+        {
+            return PartialView(db.Musteris.ToList());
+        }
+
         // POST: Customer/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
@@ -62,24 +45,14 @@ namespace Wms12m.Presentation.Controllers
         // GET: Customer/Edit/5
         public PartialViewResult Edit(int? id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
             Musteri musteri = db.Musteris.Find(id);
-            //if (musteri == null)
-            //{
-            //    return HttpNotFound();
-            //}
             return PartialView(musteri);
         }
 
         // POST: Customer/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public PartialViewResult Edit([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
+        public PartialViewResult Save([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
         {
             if (ModelState.IsValid)
             {
@@ -90,36 +63,21 @@ namespace Wms12m.Presentation.Controllers
 
                 db.Entry(musteri).State = EntityState.Modified;
                 db.SaveChanges();
-               // return RedirectToAction("Index");
+                // return RedirectToAction("Index");
             }
             return PartialView(musteri);
         }
 
         // GET: Customer/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Musteri musteri = db.Musteris.Find(id);
-            if (musteri == null)
-            {
-                return HttpNotFound();
-            }
-            return View(musteri);
-        }
-
-        // POST: Customer/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [HttpPost]
+        public ActionResult Delete(int id)
         {
             Musteri musteri = db.Musteris.Find(id);
             db.Musteris.Remove(musteri);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
 
     }
 }
