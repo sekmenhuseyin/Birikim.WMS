@@ -121,8 +121,6 @@
             $("tr").removeClass("aa");
             tr.addClass("aa");
             var x = table.rows('.aa').data();
-            console.log(x);
-            console.log(x[0].ListeNo);
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(x[0].ListeNo)).show(); format(x[0].ListeNo.replace("/", "")); tr.addClass('shown'); }
@@ -133,7 +131,6 @@
         });
     });
     function Onayla() {
-        console.log(table);
         var x = table.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
@@ -145,7 +142,6 @@
             type: "post",
 
             success: function (data) {
-                console.log(data);
                 if (data.Status == true) {
                     Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                 }
@@ -154,8 +150,7 @@
                     Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                 }
 
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
 
         return _dfd.promise();
@@ -172,7 +167,6 @@
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
             success: function (data) {
-                console.log(data);
                 if (data.Status == true) {
                     Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                 }
@@ -181,8 +175,7 @@
                     Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                 }
 
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
         return _dfd.promise();
     }

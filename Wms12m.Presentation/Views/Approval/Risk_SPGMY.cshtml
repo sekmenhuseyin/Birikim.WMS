@@ -45,8 +45,6 @@
     <script>
         PartialView("/Approval/Risk_SPGMY_List", 'liste');
 
-        //PartialView("/Approval/Risk_SPGMY_List_Grup", 'listegrup');
-        //  PartialView("/Approval/RiskTanimPartial", 'liste');
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
             PartialView("/Approval/Risk_SPGMY_List", 'liste', JSON.stringify({ Durum: Type }));
@@ -72,7 +70,6 @@
                 type: "post",
 
                 success: function (data) {
-                    console.log(data);
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                     }
@@ -81,15 +78,10 @@
                         Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                     }
 
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
+                }
             });
 
             return _dfd.promise();
-            // window.location.href = '/Approval/Teminat';
-
-
-
         });
 
         $('.reddet-buton').click(function () {
@@ -104,7 +96,6 @@
                 data: { Data: JSON.stringify(secili_table) },
                 type: "post",
                 success: function (data) {
-                    console.log(data);
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                     }
@@ -113,8 +104,7 @@
                         Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                     }
 
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
+                }
             });
             return _dfd.promise();
 
@@ -125,11 +115,6 @@
         $('.yenile-buton').click(function () {
 
             window.location.href = '/Approval/Risk_SPGMY';
-
-
-
         });
-
-
     </script>
 }

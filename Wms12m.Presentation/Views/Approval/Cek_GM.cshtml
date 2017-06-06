@@ -44,21 +44,10 @@
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script>
         PartialView("/Approval/Cek_GM_List", 'liste');
-
-        //PartialView("/Approval/Cek_GM_List_Grup", 'listegrup');
-        //  PartialView("/Approval/RiskTanimPartial", 'liste');
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
             PartialView("/Approval/Cek_GM_List", 'liste', JSON.stringify({ Durum: Type }));
         }
-
-        $(document).ready(function () {
-
-
-
-
-
-        });
         $('.onay-buton').click(function () {
            
                 var x = table.rows('.selected').data();
@@ -72,7 +61,6 @@
                     type: "post",
 
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -80,16 +68,9 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
-
                 return _dfd.promise();
-                // window.location.href = '/Approval/Cek_GM';
-
-            
-
         });
 
         $('.reddet-buton').click(function () {
@@ -104,7 +85,6 @@
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
-                        console.log(data);
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                         }
@@ -112,24 +92,13 @@
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                         }
-
-                    },
-                    error: function (jqxhr) { console.log(jqxhr); }
+                    }
                 });
                 return _dfd.promise();
-
-            
-
         });
 
         $('.yenile-buton').click(function () {
-
             window.location.href = '/Approval/Cek_GM';
-
-
-
         });
-
-
     </script>
 }

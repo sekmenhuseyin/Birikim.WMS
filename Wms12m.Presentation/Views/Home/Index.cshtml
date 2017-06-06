@@ -46,7 +46,11 @@
             </div>
         </a>
     </div>
-</div>@{
+</div>
+<div id="box-content">
+
+</div>
+@{
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true) {<div class="h-500" id="gunluk_satis"></div>}
     if (Model.yetki.Contains("'ChartGunlukSatisPie'") == true) {<div class="h-500" id="gunluk_satis_pie"></div>}
     if (Model.yetki.Contains("'ChartGunlukSatisYearToDay'") == true) {<div class="h-500" id="gunluk_satis_yeartoday"></div>}
@@ -91,6 +95,10 @@
     var dateVal = new Date();
     dateVal.setHours(0, 0, 0);
     var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+    //var BoxUrl = "/Home/PartialBox";
+    //var BoxUrl = "/Home/PartialBox2";
+    var BoxUrl = "/Home/PartialBox3";
+    PartialView(BoxUrl, 'box-content'); 
 @{
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis'), handler: function () { PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartGunlukSatisPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}

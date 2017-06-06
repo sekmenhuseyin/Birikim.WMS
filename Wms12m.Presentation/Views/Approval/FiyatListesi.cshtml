@@ -200,7 +200,6 @@
                 displayExpr: 'FiyatListName',
 
                 onValueChanged: function (e) {
-                    console.log(e.value);
                     listeNo=e.value;
                 },
 
@@ -218,7 +217,6 @@
             });
 
             $(".select_urun_kodu").dxLookup({
-                //dataSource: result,
                 searchEnabled: true,
                 fullScreen :true,
                 pageLoadMode:"nextButton",
@@ -242,9 +240,6 @@
                         $(".txt-birim").dxSelectBox("instance").option("dataSource",brmData);
                         GrupKod= data.GrupKod;
                     }
-                    //$(".txt-doviz-cinsi").dxSelectBox("instance").option("dataSource",brmData);
-                    //var data = e.selectedItems;
-                    console.log(brmData);
                 },
                 itemTemplate: function (itemData, itemIndex, itemElement) {
                     itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
@@ -260,7 +255,6 @@
             });
 
             $(".select_hesap_kod").dxLookup({
-                //dataSource: model,
                 searchEnabled: true,
                 pageLoadMode:"nextButton",
                 searchExpr: ["HesapKodu", "Unvan"],
@@ -459,8 +453,7 @@
                     else if (data == "NO") {
                         Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
                     }
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
+                }
             });
             return _dfd.promise();
         }

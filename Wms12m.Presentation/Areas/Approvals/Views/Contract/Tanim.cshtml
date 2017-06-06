@@ -455,7 +455,6 @@
             onValueChanged: function (e) {
                 if (e.value == null)
                     return;
-                console.log(e.value.ID);
                 TempUrunGrup = e.value.ID;
                 TempUrunGrupText = e.value.Tip;
                 if (e.value.ID == 7) {
@@ -546,16 +545,13 @@
                 else {
                     $(".sozlesme-guncelle-buton").addClass('disabled');
                 }
-                console.log("aa");
                 PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
-                console.log("bb");
                 inputDisable();
                 $.ajax({
                     url: window.location.origin + "/Approval/ISSTempList?SozlesmeNo=" + e.value,
                     data: {},
                     type: "post",
                     success: function (data) {
-                        console.log("cc");
                         var result = JSON.parse(data);
                         if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
                             MusteriUygunlukKodu = result[0].MusUygSekli;
@@ -803,8 +799,7 @@
                         Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
                     }
 
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
+                }
             });
             return _dfd.promise();
         }
