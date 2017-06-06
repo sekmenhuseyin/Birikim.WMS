@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
@@ -68,15 +69,18 @@ namespace Wms12m.Presentation.Controllers
             return PartialView(musteri);
         }
 
-        // GET: Customer/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id)
+        public JsonResult Delete(string Id)
         {
-            Musteri musteri = db.Musteris.Find(id);
+            if (CheckPerm("Müşteri", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Musteri musteri = db.Musteris.Find(Id.ToInt32());
             db.Musteris.Remove(musteri);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            Result _Result = new Result(true, Id.ToInt32());
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+
         }
+        
 
 
     }
