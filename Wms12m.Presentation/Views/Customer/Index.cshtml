@@ -3,10 +3,12 @@
 @{
     ViewBag.Title = "Müşteri işlemleri";
     Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    
 }
 <style>
     .control-label{
@@ -81,13 +83,13 @@
                                         @Html.ValidationMessageFor(model => model.Tel2, "", new { @class = "text-danger" })
                                     </div>
                                 </div>*@
-
+                             
                                 <div class="form-group row">
                                     @Html.LabelFor(model => model.MesaiKontrol, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
                                         
                                             @*@Html.EditorFor(model => model.MesaiKontrol, new { htmlAttributes = new { @class = "form-control input-circle" } })*@
-                                            @Html.CheckBoxFor(model => model.MesaiKontrol.Value)
+                                            @Html.CheckBoxFor(model => model.MesaiKontrol.Value, new { id = "MesaiKontrol" })
                                             @Html.ValidationMessageFor(model => model.MesaiKontrol, "", new { @class = "text-danger" })
                                        
                                     </div>
@@ -96,7 +98,7 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(model => model.MesaiKota, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
-                                        @Html.EditorFor(model => model.MesaiKota, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                                        @Html.EditorFor(model => model.MesaiKota, new { htmlAttributes = new {id="MesaiKota", @class = "form-control input-circle",  @readonly = "readonly"  } })
                                         @Html.ValidationMessageFor(model => model.MesaiKota, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -169,7 +171,7 @@
         $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
         @*@if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}*@
         $("#touchspin_11").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
-        $(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
+        //$(".DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $(".DepoID")[0].selectedIndex = 0; $(".DepoID")[1].selectedIndex = 0;
         $('[name="Locked"]').click(function () { FuncSearchBtn(); });
         $('.StoreListi').on('change', function () { FuncSearchBtn(); })
     });
@@ -192,11 +194,23 @@
         else
             PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
             }
-            $('#MesaiKontrol').change(function () {
-                $("#MesaiKota").prop("disabled", !$(this).is(':checked'));
+
+
+
+            $('#MesaiKontrol').click(function () {
+                var $this = $(this);
+
+                if ($this.is(':checked')) {
+                    $('#MesaiKota').attr("readonly", "")
+                } else {
+                    $('#MesaiKota').attr("readonly", "readonly")
+                }
+               
             });
         </script>
+
     }
+
     @*@{
             ViewBag.Title = "Musteri";
             Layout = "~/Views/Shared/_Layout.cshtml";
