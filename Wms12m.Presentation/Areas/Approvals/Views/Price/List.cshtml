@@ -170,7 +170,7 @@
             var brmData=new Array();
             var dvzCinsi=[{Cins:"USD"},{Cins:"EUR"}]
             $.ajax({
-                url: window.location.origin + "/Approval/FiyatUrunGrupSelect",
+                url: window.location.origin + "/Approvals/Price/UrunGrupSelect",
                 data: {},
                 type: "post",
                 success: function (data)
@@ -181,7 +181,7 @@
             });
 
             $.ajax({
-                url: window.location.origin + "/Approval/FiyatHesapKoduSelect",
+                url: window.location.origin + "/Approvals/Price/HesapKoduSelect",
                 data: {},
                 type: "post",
                 success: function (data)
@@ -315,7 +315,7 @@
 
         $('.yenile-buton').click(function () {
             if(listeNo!=""){
-                PartialView("/Approval/PartialFiyatList", 'fiyat_listesi_data', JSON.stringify({ listeNo: listeNo }));  
+                PartialView("/Approval/Price/ListPartial", 'fiyat_listesi_data', JSON.stringify({ listeNo: listeNo }));  
             }
         });
 
@@ -330,7 +330,7 @@
         $('.bekleyenler-buton').click(function () {
             $('#x-modal-bekleyen').modal("show");
             $.ajax({
-                url: window.location.origin + "/Approval/FiyatListesiBekleyen",
+                url: window.location.origin + "/Approvals/Price/ListesiBekleyen",
                 data: {},
                 type: "post",
                 success: function (data)
@@ -434,7 +434,7 @@
 
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/FiyatSatirEkle",
+                url: window.location.origin + "/Approvals/Price/SatirEkle",
                 data: { Data: JSON.stringify(jObject)},
                 type: "post",
                 success: function (data) {

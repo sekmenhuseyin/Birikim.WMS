@@ -43,11 +43,11 @@
     <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script>
-        PartialView("/Approval/Risk_SPGMY_List", 'liste');
+        PartialView("/Approvals/Risk/SPGMY_List", 'liste');
 
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
-            PartialView("/Approval/Risk_SPGMY_List", 'liste', JSON.stringify({ Durum: Type }));
+            PartialView("/Approvals/Risk/SPGMY_List", 'liste', JSON.stringify({ Durum: Type }));
         }
 
         $(document).ready(function () {
@@ -65,7 +65,7 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/Risk_Onay_SPGMY",
+                url: window.location.origin + "/Approvals/Risk/Onay_SPGMY",
                 data: { Data: JSON.stringify(secili_table) },
                 type: "post",
 
@@ -92,7 +92,7 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/Risk_Red_SPGMY",
+                url: window.location.origin + "/Approvals/Risk/Red_SPGMY",
                 data: { Data: JSON.stringify(secili_table) },
                 type: "post",
                 success: function (data) {

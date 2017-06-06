@@ -205,8 +205,8 @@
                     }
                     $(".musteri_unvan").text(e.value.Unvan);
                     $(".musteri_unvan").show();
-                    PartialView("/Approval/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo:e.value.SipTalepNo }));
-                    PartialView("/Approval/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data',JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo:e.value.SipTalepNo }));
+                    PartialView("/Approvals/Purchase/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo:e.value.SipTalepNo }));
+                    PartialView("/Approvals/Purchase/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data',JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo:e.value.SipTalepNo }));
                 },
                 itemTemplate: function (itemData, itemIndex, itemElement) {
                     itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
@@ -224,7 +224,7 @@
 
         $('.onayla-buton').click(function () {
             $.ajax({
-                url: window.location.origin + "/Approval/SipGMOnayla",
+                url: window.location.origin + "/Approvals/Purchase/SipGMOnayla",
                 data: {},
                 type: "post",
                 success: function (data) {
@@ -234,7 +234,7 @@
 
         $('.reddet-buton').click(function () {
             $.ajax({
-                url: window.location.origin + "/Approval/SipGMReddet?redAciklama="+ $(".txt_geri_cevirme_aciklamasi").dxTextBox("instance").option("value"),
+                url: window.location.origin + "/Approvals/Purchase/SipGMReddet?redAciklama="+ $(".txt_geri_cevirme_aciklamasi").dxTextBox("instance").option("value"),
                 data: {},
                 type: "post",
                 success: function (data) {

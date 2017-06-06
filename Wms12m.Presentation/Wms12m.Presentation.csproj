@@ -388,7 +388,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Controllers\CableController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
@@ -610,7 +609,7 @@
     <Content Include="Views\ProjectForm\Details.cshtml" />
     <Content Include="Views\ProjectForm\Edit.cshtml" />
     <Content Include="Views\ProjectForm\Index.cshtml" />
-    <Content Include="Views\Approval\GMOnayHTML.cshtml" />
+    <Content Include="Areas\Approvals\Views\Purchase\GMOnayHTML.cshtml" />
     <Content Include="Views\SubProjectForm\Create.cshtml" />
     <Content Include="Views\SubProjectForm\Delete.cshtml" />
     <Content Include="Views\SubProjectForm\Details.cshtml" />

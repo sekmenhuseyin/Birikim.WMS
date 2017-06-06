@@ -41,7 +41,7 @@
     var table = $('#sample_2').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approval/SipGMOnayListFTDData?HesapKodu=' + '@ViewBag.HesapKodu'+ '&SipTalepNo=' + '@ViewBag.SipTalepNo',
+            "url": '/Approvals/Purchase/SipGMOnayListFTDData?HesapKodu=' + '@ViewBag.HesapKodu'+ '&SipTalepNo=' + '@ViewBag.SipTalepNo',
             "dataSrc": function (json) {
                 return json;
             },

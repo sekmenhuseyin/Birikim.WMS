@@ -59,20 +59,20 @@
     <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script>
-        PartialView("/Approval/Fiyat_SM_List", 'liste');
+        PartialView("/Approvals/Price/SM_List", 'liste');
 
-        //PartialView("/Approval/Fiyat_GM_List_Grup", 'listegrup');
+        //PartialView("/Approvals/Price/GM_List_Grup", 'listegrup');
         //  PartialView("/Approval/RiskTanimPartial", 'liste');
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
-            PartialView("/Approval/Fiyat_SM_List", 'liste', JSON.stringify({ Durum: Type }));
+            PartialView("/Approvals/Price/SM_List", 'liste', JSON.stringify({ Durum: Type }));
         }
 
         $(document).ready(function () {
 
             $('#chkKoleksiyon').click(function () {
                 if (this.checked) {
-                    PartialView("/Approval/Fiyat_SM_List_Koleksiyon", 'listekoleksiyon');
+                    PartialView("/Approvals/Price/SM_List_Koleksiyon", 'listekoleksiyon');
                     $("#listekoleksiyon").css("display", "block");
                     $("#liste").css("display", "none");
                     $("#listegrup").css("display", "none");
@@ -90,7 +90,7 @@
 
             $('#chkGrup').click(function () {
                 if (this.checked) {
-                    PartialView("/Approval/Fiyat_SM_List_Grup", 'listegrup');
+                    PartialView("/Approvals/Price/SM_List_Grup", 'listegrup');
                     $("#listegrup").css("display", "block");
                     $("#liste").css("display", "none");
                     $("#listekoleksiyon").css("display", false);
@@ -113,7 +113,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Onay_SM",
+                    url: window.location.origin + "/Approvals/Price/Onay_SM",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
 
@@ -136,7 +136,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Onay_Koleksiyon_SM",
+                    url: window.location.origin + "/Approvals/Price/Onay_Koleksiyon_SM",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
@@ -159,7 +159,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Onay_Grup_SM",
+                    url: window.location.origin + "/Approvals/Price/Onay_Grup_SM",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
@@ -185,7 +185,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Red_SM",
+                    url: window.location.origin + "/Approvals/Price/Red_SM",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
@@ -208,7 +208,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Red_Koleksiyon_SM",
+                    url: window.location.origin + "/Approvals/Price/Red_Koleksiyon_SM",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
@@ -231,7 +231,7 @@
                 }
                 var _dfd = $.Deferred();
                 $.ajax({
-                    url: window.location.origin + "/Approval/Fiyat_Red_Grup_SM",
+                    url: window.location.origin + "/Approvals/Price/Red_Grup_SM",
                     data: { Data: JSON.stringify(secili_table) },
                     type: "post",
                     success: function (data) {
