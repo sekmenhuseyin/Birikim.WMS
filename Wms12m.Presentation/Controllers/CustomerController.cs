@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Wms12m.Entity.Models;
 
@@ -12,7 +9,6 @@ namespace Wms12m.Presentation.Controllers
 {
     public class CustomerController : RootController
     {
-        private WMSEntities db = new WMSEntities();
 
         // GET: Customer
         public PartialViewResult List()
@@ -125,13 +121,5 @@ namespace Wms12m.Presentation.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
