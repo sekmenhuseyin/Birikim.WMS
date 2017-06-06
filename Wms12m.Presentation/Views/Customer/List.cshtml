@@ -61,14 +61,25 @@
                                 @Html.DisplayFor(modelItem => item.Tel2)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.MesaiKontrol)
+                                @if (item.MesaiKontrol == true)
+                                {
+                                    @("Var");
+                                }
+                                else
+                                {
+                                    @("Yok");
+                                }
+
+                               
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.MesaiKota)
                             </td>
                             <td>
-                                @Html.ActionLink("Düzenle", "Edit", new { id = item.ID }, new { @class = "btn btn-default" })
-                                @Html.ActionLink("Sil", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
+                                <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                                <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Corridor/CorridorGridPartial','CorridorGrid','@item.ID')"> Sil </a>
+                                @*@Html.ActionLink("Düzenle", "Edit", new { id = item.ID }, new { @class = "btn btn-default" })
+                                @Html.ActionLink("Sil", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })*@
                             </td>
                         </tr>
                     }

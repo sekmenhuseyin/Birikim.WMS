@@ -13,11 +13,11 @@
 <style>
     .control-label{
         text-align:right;
-        color:green;
-        font-weight:bold;
+        color:black;
+        
     }
 </style>
-<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Koridor İşlemleri</span></li></ul></div>
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Müşteri İşlemleri</span></li></ul></div>
 <h1 class="page-title">Müşteri İşlemleri</h1>
 <div class="row">
     <div class="col-md-12">
@@ -110,6 +110,7 @@
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/scripts/datatable.js" type="text/javascript"></script>
 <script type="text/javascript">
+    var EditURL = '@Url.Action("Edit", "Customer")';
     PartialView("/Customer/List", 'liste');
     $('#MesaiKontrol').click(function () {
         var $this = $(this);
@@ -118,7 +119,20 @@
             $('#MesaiKota').prop("readonly", false)
         } else {
             $('#MesaiKota').prop("readonly", true)
-        }               
+        }
     });
+    function CreateEdit(Id) {
+        if (Id == 0) {
+            $("#Unvan").val("");
+            $("#Firma").val("");
+            $("#Aciklama").val("");
+            $("#Email").val("");
+            $("#MesaiKota").val("");
+        }
+
+        else
+        { PartialView(EditURL, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id })); }
+
+    }
 </script>
 }
