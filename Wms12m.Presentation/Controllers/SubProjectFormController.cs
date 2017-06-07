@@ -24,7 +24,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult List()
         {
             var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
-            return PartialView(projeForms.ToList());
+            return PartialView(projeForms.Where(a=>a.PID!=null).ToList());
         }
 
         // GET: MainProjectForm/Edit/5
