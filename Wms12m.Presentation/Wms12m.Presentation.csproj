@@ -625,6 +625,7 @@
     <Content Include="Views\Home\_PartialBox.cshtml" />
     <Content Include="Views\Home\_PartialBox2.cshtml" />
     <Content Include="Views\Home\_PartialBox3.cshtml" />
+    <Content Include="Views\ProjectForm\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

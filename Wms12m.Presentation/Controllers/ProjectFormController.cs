@@ -13,14 +13,13 @@ namespace Wms12m.Presentation.Controllers
 {
     public class ProjectFormController : RootController
     {
-        private WMSEntities db = new WMSEntities();
 
      
         // GET: MainProjectForm/Create
         public ActionResult Index()
         {
-            ViewBag.MusteriID = new SelectList(db.Musteris, "ID", "Firma");
-            ViewBag.PID = new SelectList(db.ProjeForms.Where(x=>x.PID!=null).ToList(), "ID", "Proje");
+            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
+            ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).ToList(), "ID", "Proje");
             return View(new ProjeForm());
         }
 

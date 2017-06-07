@@ -72,7 +72,6 @@
                                     @Html.LabelFor(model => model.MesaiKontrol, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
                                             @Html.CheckBoxFor(model => model.MesaiKontrol, new { id = "MesaiKontrol", @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
-                                        @*@Html.CheckBoxFor(model => model.MesaiKontrol, new { @checked = Model.MesaiKontrol ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })*@
                                             @Html.ValidationMessageFor(model => model.MesaiKontrol, "", new { @class = "text-danger" })
                                        
                                     </div>
