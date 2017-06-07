@@ -75,7 +75,7 @@
         });
         function FuncSearchBtn() {
             var Type = $("input[type='radio'][name='Locked']:checked").val();
-            PartialView("/Approval/Stock/List", 'liste', JSON.stringify({ Durum: Type }));
+            PartialView("/Approvals/Stock/List", 'liste', JSON.stringify({ Durum: Type }));
         }
         $('.onay-buton').click(function () {
 
@@ -85,12 +85,11 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/Stock/Onay",
+                url: window.location.origin + "/Approvals/Stock/Onay",
                 data: { Data: JSON.stringify(secili_table) },
                 type: "post",
 
                 success: function (data) {
-                    console.log(data);
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                     }
@@ -98,9 +97,7 @@
                         if (data.Message == "") data.Message = "Hata oluştu";
                         Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                     }
-
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
+                }
             });
             return _dfd.promise();
         });
@@ -112,11 +109,10 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/Stock/Red",
+                url: window.location.origin + "/Approvals/Stock/Red",
                 data: { Data: JSON.stringify(secili_table) },
                 type: "post",
                 success: function (data) {
-                    console.log(data);
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                     }
@@ -124,13 +120,12 @@
                         if (data.Message == "") data.Message = "Hata oluştu";
                         Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                     }
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
+                }
             });
             return _dfd.promise();
         });
         $('.yenile-buton').click(function () {
-            window.location.href = '/Approval/Risk_SM';
+            window.location.reload();
         });
     </script>
 }

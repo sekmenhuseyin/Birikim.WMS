@@ -18,15 +18,6 @@ namespace Wms12m.Presentation
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            // DataTables.AspNet registration with default options.
-            var options = new DataTables.AspNet.Mvc5.Options()
-                .EnableRequestAdditionalParameters()
-                .EnableResponseAdditionalParameters();
-            //ParseAdditionalParameters
-            var binder = new DataTables.AspNet.Mvc5.ModelBinder();
-            binder.ParseAdditionalParameters = MyParseFunction;
-            //register
-            DataTables.AspNet.Mvc5.Configuration.RegisterDataTables(options, binder);
         }
         /// <summary>
         /// session start for user
@@ -51,8 +42,10 @@ namespace Wms12m.Presentation
                 FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
                 var serializeModel = serializer.Deserialize<CustomPrincipalSerializeModel>(authTicket.UserData);
                 //create user
-                var newUser = new CustomPrincipal(authTicket.Name);
-                newUser.AppIdentity = serializeModel.AppIdentity;
+                var newUser = new CustomPrincipal(authTicket.Name)
+                {
+                    AppIdentity = serializeModel.AppIdentity
+                };
                 HttpContext.Current.User = newUser;
             }
         }

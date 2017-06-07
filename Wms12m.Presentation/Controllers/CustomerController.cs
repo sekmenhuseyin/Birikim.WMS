@@ -1,18 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
     public class CustomerController : RootController
     {
-        private WMSEntities db = new WMSEntities();
+
+        // GET: Customer/Create
+        public ActionResult Index()
+        {
+            return View(new Musteri());
+        }
 
         // GET: Customer
         public PartialViewResult List()
@@ -20,118 +21,66 @@ namespace Wms12m.Presentation.Controllers
             return PartialView(db.Musteris.ToList());
         }
 
-        // GET: Customer/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Musteri musteri = db.Musteris.Find(id);
-            if (musteri == null)
-            {
-                return HttpNotFound();
-            }
-            return View(musteri);
-        }
-
-        // GET: Customer/Create
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // POST: Customer/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
-        {
-            if (ModelState.IsValid)
-            {
-                musteri.Degistiren = vUser.UserName;
-                musteri.Kaydeden = vUser.UserName;
-                DateTime date = DateTime.Now;
-                musteri.DegisTarih = date;
-                musteri.KayitTarih = date;
-                db.Musteris.Add(musteri);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(musteri);
-        }
-
         // GET: Customer/Edit/5
-        public ActionResult Edit(int? id)
+        public PartialViewResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Musteri musteri = db.Musteris.Find(id);
-            if (musteri == null)
-            {
-                return HttpNotFound();
-            }
-            return View(musteri);
+            return PartialView(musteri);
         }
 
         // POST: Customer/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota,Kaydeden,KayitTarih,Degistiren,DegisTarih")] Musteri musteri)
+        public JsonResult Save([Bind(Include = "ID,Firma,Unvan,Aciklama,Email,Tel1,Tel2,MesaiKontrol,MesaiKota")] Musteri musteri)
         {
             if (ModelState.IsValid)
             {
-                musteri.Degistiren = vUser.UserName;
-                // projeForm.Kaydeden = vUser.UserName;
-                DateTime date = DateTime.Now;
-                musteri.DegisTarih = date;
-
-                db.Entry(musteri).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (musteri.ID == 0)
+                {
+                    musteri.Degistiren = vUser.UserName;
+                    musteri.Kaydeden = vUser.UserName;
+                    musteri.DegisTarih = DateTime.Now;
+                    musteri.KayitTarih = musteri.DegisTarih;
+                    db.Musteris.Add(musteri);
+                }
+                else
+                {
+                    var tbl = db.Musteris.Where(m => m.ID == musteri.ID).FirstOrDefault();
+                    tbl.Firma = musteri.Firma;
+                    tbl.Unvan = musteri.Unvan;
+                    tbl.Aciklama = musteri.Aciklama;
+                    tbl.Tel1 = musteri.Tel1;
+                    tbl.Tel2 = musteri.Tel2;
+                    tbl.MesaiKontrol = musteri.MesaiKontrol;
+                    tbl.MesaiKota = musteri.MesaiKota;
+                    tbl.Degistiren = vUser.UserName;
+                    tbl.DegisTarih = DateTime.Now;
+                }
+                try
+                {
+                    db.SaveChanges();
+                    return Json(new Result(true, musteri.ID), JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception ex)
+                {
+                }
             }
-            return View(musteri);
+            return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Customer/Delete/5
-        public ActionResult Delete(int? id)
+        public JsonResult Delete(string Id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Musteri musteri = db.Musteris.Find(id);
-            if (musteri == null)
-            {
-                return HttpNotFound();
-            }
-            return View(musteri);
-        }
-
-        // POST: Customer/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Musteri musteri = db.Musteris.Find(id);
+            if (CheckPerm("Müşteri", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            Musteri musteri = db.Musteris.Find(Id.ToInt32());
             db.Musteris.Remove(musteri);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            Result _Result = new Result(true, Id.ToInt32());
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+
+
     }
 }

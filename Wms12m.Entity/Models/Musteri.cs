@@ -17,7 +17,7 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Musteri()
         {
-            this.ProjeForms = new HashSet<ProjeForm>();
+            this.ProjeForms = new HashSet<ProjeForm>();//*
         }
     
         public int ID { get; set; }
@@ -27,7 +27,7 @@ namespace Wms12m.Entity.Models
         public string Email { get; set; }
         public string Tel1 { get; set; }
         public string Tel2 { get; set; }
-        public Nullable<bool> MesaiKontrol { get; set; }
+        public bool MesaiKontrol { get; set; }
         public Nullable<int> MesaiKota { get; set; }
         public string Kaydeden { get; set; }
         public System.DateTime KayitTarih { get; set; }

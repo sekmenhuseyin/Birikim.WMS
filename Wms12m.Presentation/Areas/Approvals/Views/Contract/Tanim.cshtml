@@ -304,7 +304,7 @@
                 inputClear();
                 if (data.value == true) {
                     $.ajax({
-                        url: window.location.origin + "/Approval/SozlesmeListesi?tip=0",
+                        url: window.location.origin + "/Approvals/Contract/List?tip=0",
                         data: {},
                         type: "post",
                         success: function (data) {
@@ -315,7 +315,7 @@
                 }
                 else {
                     $.ajax({
-                        url: window.location.origin + "/Approval/SozlesmeListesi?tip=1",
+                        url: window.location.origin + "/Approvals/Contract/List?tip=1",
                         data: {},
                         type: "post",
                         success: function (data) {
@@ -455,7 +455,6 @@
             onValueChanged: function (e) {
                 if (e.value == null)
                     return;
-                console.log(e.value.ID);
                 TempUrunGrup = e.value.ID;
                 TempUrunGrupText = e.value.Tip;
                 if (e.value.ID == 7) {
@@ -467,7 +466,7 @@
                 }
 
                 $.ajax({
-                    url: window.location.origin + "/Approval/SozlesmeUrunGrupSelect?Index=" + e.value.ID,
+                    url: window.location.origin + "/Approvals/Contract/UrunGrupSelect?Index=" + e.value.ID,
                     data: {},
                     type: "post",
                     success: function (data) {
@@ -487,7 +486,7 @@
             }
         });
         $.ajax({
-            url: window.location.origin + "/Approval/SozlesmeListesi?tip=0",
+            url: window.location.origin + "/Approvals/Contract/List?tip=0",
             data: {},
             type: "post",
             success: function (data) {
@@ -497,7 +496,7 @@
         });
 
         $.ajax({
-            url: window.location.origin + "/Approval/FiyatHesapKoduSelect",
+            url: window.location.origin + "/Approvals/Contract/FiyatHesapKoduSelect",
             data: {},
             type: "post",
             success: function (data) {
@@ -507,7 +506,7 @@
         });
 
         $.ajax({
-            url: window.location.origin + "/Approval/FiyatListeleriSelect",
+            url: window.location.origin + "/Approvals/Contract/FiyatListeleriSelect",
             data: {},
             type: "post",
             success: function (data) {
@@ -517,7 +516,7 @@
         });
 
         $.ajax({
-            url: window.location.origin + "/Approval/SozlesmeUrunGrupSelect?Index=1",
+            url: window.location.origin + "/Approvals/Contract/UrunGrupSelect?Index=1",
             data: {},
             type: "post",
             success: function (data) {
@@ -546,16 +545,13 @@
                 else {
                     $(".sozlesme-guncelle-buton").addClass('disabled');
                 }
-                console.log("aa");
-                PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
-                console.log("bb");
+                PartialView("/Approvals/Contract/Tanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
                 inputDisable();
                 $.ajax({
-                    url: window.location.origin + "/Approval/ISSTempList?SozlesmeNo=" + e.value,
+                    url: window.location.origin + "/Approvals/Contract/ISSTempList?SozlesmeNo=" + e.value,
                     data: {},
                     type: "post",
                     success: function (data) {
-                        console.log("cc");
                         var result = JSON.parse(data);
                         if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
                             MusteriUygunlukKodu = result[0].MusUygSekli;
@@ -689,7 +685,7 @@
                 }
                 var listeNo = $(".select_sozlesmeler").dxLookup("instance").option("value");
                 $.ajax({
-                    url: window.location.origin + "/Approval/SozlesmeCariBilgileri?ListeNo=" + listeNo + "&HesapKodu=" + e.value,
+                    url: window.location.origin + "/Approvals/Contract/CariBilgileri?ListeNo=" + listeNo + "&HesapKodu=" + e.value,
                     data: {},
                     type: "post",
                     success: function (data) {
@@ -764,7 +760,7 @@
         var jsonElement = JSON.stringify(element);
 
         if ($("#fiyat_listesi_data table").length < 1) {
-            PartialView("/Approval/PartialSozlesmeTanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+            PartialView("/Approvals/Contract/Tanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
         }
         satirsayisi++;
 
@@ -791,20 +787,19 @@
 
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approval/ISS_TempUpdate_AktifPasif",
+                url: window.location.origin + "/Approvals/Contract/ISS_TempUpdate_AktifPasif",
                 data: { SozlesmeNo: ListeNo, AktifPasif: AktifPasif },
                 type: "post",
                 success: function (data) {
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
-                        window.location.href = '/Approval/SozlesmeTanim';
+                        window.location.reload();
                     }
                     else {
                         Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
                     }
 
-                },
-                error: function (jqxhr) { console.log(jqxhr); }
+                }
             });
             return _dfd.promise();
         }
@@ -812,7 +807,7 @@
         var ListNoVar = false;
 
         $.ajax({
-            url: window.location.origin + "/Approval/SozlesmeListeNoKontrol",
+            url: window.location.origin + "/Approvals/Contract/ListeNoKontrol",
             data: { SozlesmeNo: ListeNo },
             type: "post",
             success: function (data) {
@@ -852,13 +847,13 @@
         }
 
         $.ajax({
-            url: window.location.origin + "/Approval/SozlesmeSil",
+            url: window.location.origin + "/Approvals/Contract/Sil",
             data: { SozlesmeNo: sozlesme },
             type: "post",
             success: function (data) {
                 if (data.Status == true) {
                     Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
-                    window.location.href = '/Approval/SozlesmeTanim';
+                    window.location.reload();
                 }
                 else {
                     Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
@@ -932,14 +927,14 @@
                     return;
                 }
                 $.ajax({
-                    url: window.location.origin + "/Approval/SozlesmeGuncelle",
+                    url: window.location.origin + "/Approvals/Contract/Guncelle",
                     data: { SozlesmeNo: listeNo, BasTarih: bas_tarih, MusUygSekli: mus_uyg_sekli, YeniBaglantiTutari: yeni_bag_tut, YeniBitisTarihi: yeni_bit_tarih },
                     type: "post",
                     success: function (data) {
                         if (data.Status == true) {
                             $('#x-modal-sozlesme-guncelle').modal("hide");
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Güncelleme");
-                            window.location.href = '/Approval/SozlesmeTanim';
+                            window.location.reload();
                         }
                         else {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Uyarı");

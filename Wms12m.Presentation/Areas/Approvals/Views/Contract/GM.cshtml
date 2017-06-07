@@ -48,14 +48,14 @@
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#liste').html("");
-        PartialView('/Approval/Contract/GM_List', 'liste');
+        PartialView('/Approvals/Contract/GM_List', 'liste');
     }
     function newrow(listeno) { return "<table style='background:transparent;' id='new" + listeno + "'></table>"; }
     function format(d) {
         var html = "<tr style='background: transparent;'><th>Fiyat Listesi</th><th>Ürün Grubu</th><th>Ürün Kodu</th><th>Ürün Adı</th><th>Iskonto1</th><th>Iskonto2</th>< th > Iskonto3</th><th>Iskonto4</th> <th>Iskonto5</th></tr >";
         $.ajax({
             type: 'POST',
-            url: '/Approval/Contract/GM_Details',
+            url: '/Approvals/Contract/GM_Details',
             data: { "ListeNo": d },
             dataType: "html",
             success: function (data) {
@@ -70,7 +70,7 @@
         SozlesmeSil();
     });
     $('.yenile-buton').click(function () {
-        window.location.href = '/Approval/Contract/GM';
+        window.location.reload();
     });
 </script>
 }

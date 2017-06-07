@@ -73,7 +73,7 @@
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
-                "url": '/Approval/Contract/OnayCekSPGMY',
+                "url": '/Approvals/Contract/OnayCekSPGMY',
                 "dataSrc": function (json) {
                     return json;
                 },
@@ -123,8 +123,6 @@
             $("tr").removeClass("aa");
             tr.addClass("aa");
             var x = table.rows('.aa').data();
-            console.log(x);
-            console.log(x[0].ListeNo);
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(x[0].ListeNo)).show(); format(x[0].ListeNo.replace("/", "")); tr.addClass('shown'); }
@@ -135,19 +133,17 @@
         });
     });
     function Onayla() {
-        console.log(table);
         var x = table.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
         }
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approval/Contract/Onay_SPGMY",
+            url: window.location.origin + "/Approvals/Contract/Onay_SPGMY",
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
 
             success: function (data) {
-                console.log(data);
                 if (data.Status == true) {
                     Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                 }
@@ -156,8 +152,7 @@
                     Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                 }
 
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
 
         return _dfd.promise();
@@ -170,11 +165,10 @@
         }
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approval/Contract/Sil_SPGMY",
+            url: window.location.origin + "/Approvals/Contract/Sil_SPGMY",
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
             success: function (data) {
-                console.log(data);
                 if (data.Status == true) {
                     Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
                 }
@@ -183,8 +177,7 @@
                     Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
                 }
 
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
         return _dfd.promise();
     }

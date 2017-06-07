@@ -44,9 +44,8 @@
      table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approval/Contract/TanimListesiSelect?listeNo=' + '@ViewBag.ListeNo',
+            "url": '/Approvals/Contract/TanimListesiSelect?listeNo=' + '@ViewBag.ListeNo',
             "dataSrc": function (json) {
-                console.log(json);
                 return json;
             },
         },
@@ -110,8 +109,7 @@
             type: "post",
             success: function (data) {
 
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
         return _dfd.promise();
     });
@@ -163,7 +161,7 @@
             secili_table.push(jObject);
         }
         $.ajax({
-            url: window.location.origin + "/Approval/Contract/YeniSatirKayit",
+            url: window.location.origin + "/Approvals/Contract/YeniSatirKayit",
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
             success: function (data) {
@@ -172,8 +170,7 @@
                     element=[];
                 }
                 Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
-            },
-            error: function (jqxhr) { console.log(jqxhr); }
+            }
         });
 
     }
@@ -184,7 +181,7 @@
             var jsonElement = JSON.stringify(element);
            
             if ($("#fiyat_listesi_data table").length < 1) {
-                PartialView("/Approval/Contract/Tanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+                PartialView("/Approvals/Contract/Tanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
             }
         }
     }

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="42">
+      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="55">
         <EntityTypeShape EntityType="MModel.Simge" Width="1.5" PointX="25.25" PointY="5.875" />
         <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="22.875" PointY="4.75" />
         <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="28.375" PointY="11" />
@@ -55,7 +55,7 @@
         <EntityTypeShape EntityType="MModel.GorevNo" Width="1.5" PointX="6.125" PointY="7.25" />
         <AssociationConnector Association="MModel.FK_GorevNo_Depo" />
         <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="14.5" PointY="2.625" />
-        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="16.75" PointY="3.5" />
+        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="16.75" PointY="2.625" />
         <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="22.875" PointY="10.5" />
         <AssociationConnector Association="MModel.FK_ComboItemName_ComboName" />
         <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameDurum" />
@@ -66,13 +66,11 @@
         <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
         <AssociationConnector Association="MModel.FK_Users_Roles" />
         <AssociationConnector Association="MModel.WebMenuRol" />
-        <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="6.375" PointY="3.375" />
+        <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="4" PointY="2" />
         <AssociationConnector Association="MModel.FK_GorevUsers_Gorev" />
         <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.625" PointY="2.375" />
-        <EntityTypeShape EntityType="MModel.GorevCalisma" Width="1.5" PointX="31.125" PointY="0.5" />
-        <EntityTypeShape EntityType="MModel.Musteri" Width="1.5" PointX="38.375" PointY="2.125" />
+        <EntityTypeShape EntityType="MModel.GorevCalisma" Width="1.5" PointX="30.875" PointY="5" />
         <EntityTypeShape EntityType="MModel.ProjeForm" Width="1.5" PointX="35.875" PointY="1.625" />
-        <AssociationConnector Association="MModel.FK_Proje_Musteri" />
         <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
         <EntityTypeShape EntityType="MModel.UserDevice" Width="1.5" PointX="22.375" PointY="13.375" />
         <AssociationConnector Association="MModel.FK_UserDevices_Users" />
@@ -83,6 +81,8 @@
         <AssociationConnector Association="MModel.FK_Gorevler_ComboItem_Name_Oncelik" />
         <AssociationConnector Association="MModel.FK_GorevCalisma_Gorevler" />
         <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
+        <EntityTypeShape EntityType="MModel.Musteri" Width="1.5" PointX="38.5" PointY="2.125" />
+        <AssociationConnector Association="MModel.FK_Proje_Musteri" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

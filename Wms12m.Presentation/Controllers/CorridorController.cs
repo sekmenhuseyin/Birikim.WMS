@@ -99,7 +99,7 @@ namespace Wms12m.Presentation.Controllers
             }
         }
         /// <summary>
-        /// sil
+        /// sil ss
         /// </summary>
         public JsonResult Delete(string Id)
         {
