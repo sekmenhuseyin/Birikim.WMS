@@ -69,9 +69,6 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
             else
                 PartialView(Method, DivName, JSON.stringify({ Id: extraId }));
         }
-        //else {
-        //    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-success");
-        //}
     }
 }
 
