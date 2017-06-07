@@ -20,6 +20,7 @@ namespace Wms12m.Presentation.Controllers
         {
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).ToList(), "ID", "Proje");
+            ViewBag.SorumluID = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             return View(new ProjeForm());
         }
 
@@ -38,6 +39,7 @@ namespace Wms12m.Presentation.Controllers
 
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).ToList(), "ID", "Proje", projeForm.PID);
+            ViewBag.SorumluID = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             return PartialView(projeForm);
         }
 
@@ -55,6 +57,7 @@ namespace Wms12m.Presentation.Controllers
                     projeForm.DegisTarih = DateTime.Now;
                     projeForm.KayitTarih = projeForm.DegisTarih;
                     projeForm.Form = "";
+                    projeForm.Durum = null;
                     db.ProjeForms.Add(projeForm);
                 }
                 else
@@ -70,6 +73,7 @@ namespace Wms12m.Presentation.Controllers
                     tbl.Proje = projeForm.Proje;//
                     tbl.Sorumlu = projeForm.Sorumlu;//
                     tbl.Form = "";
+                    tbl.Durum = null;
               
 
                 }

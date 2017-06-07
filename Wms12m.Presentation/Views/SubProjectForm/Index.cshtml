@@ -63,7 +63,8 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
-                                        @Html.EditorFor(model => model.Sorumlu, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                                        @Html.DropDownList("SorumluID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                        @*@Html.EditorFor(model => model.Sorumlu, new { htmlAttributes = new { @class = "form-control input-circle" } })*@
                                         @Html.ValidationMessageFor(model => model.Sorumlu, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -165,11 +166,11 @@
     function CreateEdit(Id) {
         if (Id == 0) {
             $("#ID").val("0");
-            //$("#Unvan").val("");
-            //$("#Firma").val("");
-            //$("#Aciklama").val("");
-            //$("#Email").val("");
-            //$("#MesaiKota").val("");
+            $("#Proje").val("");
+            $("#Sorumlu").val("");
+            $("#KarsiForumlu").val("");
+            $("#Aciklama").val("");
+            $("#MesaiKota").val("");
         }
         else
         { PartialView(EditURL, 'CreateEdit', JSON.stringify({ Id: Id })); }
