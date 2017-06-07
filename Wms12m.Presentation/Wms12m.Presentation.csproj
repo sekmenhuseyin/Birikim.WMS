@@ -602,14 +602,10 @@
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\List.cshtml" />
     <Content Include="Views\ProjectForm\Create.cshtml" />
-    <Content Include="Views\ProjectForm\Delete.cshtml" />
-    <Content Include="Views\ProjectForm\Details.cshtml" />
     <Content Include="Views\ProjectForm\Edit.cshtml" />
     <Content Include="Views\ProjectForm\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\GMOnayHTML.cshtml" />
     <Content Include="Views\SubProjectForm\Create.cshtml" />
-    <Content Include="Views\SubProjectForm\Delete.cshtml" />
-    <Content Include="Views\SubProjectForm\Details.cshtml" />
     <Content Include="Views\SubProjectForm\Edit.cshtml" />
     <Content Include="Views\SubProjectForm\Index.cshtml" />
     <Content Include="Views\Duties\Create.cshtml" />
@@ -625,6 +621,7 @@
     <Content Include="Views\Home\_PartialBox.cshtml" />
     <Content Include="Views\Home\_PartialBox2.cshtml" />
     <Content Include="Views\Home\_PartialBox3.cshtml" />
+    <Content Include="Views\ProjectForm\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
