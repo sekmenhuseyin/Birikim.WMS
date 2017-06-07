@@ -23,10 +23,10 @@ namespace Wms12m.Presentation.Controllers
             return View(new ProjeForm());
         }
 
-        public ActionResult List()
+        public PartialViewResult List()
         {
             var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
-            return View(projeForms.ToList());
+            return PartialView(projeForms.ToList());
         }
 
         // GET: MainProjectForm/Edit/5
@@ -35,7 +35,7 @@ namespace Wms12m.Presentation.Controllers
 
             ProjeForm projeForm = db.ProjeForms.Find(id);
 
-            ViewBag.MusteriID = new SelectList(db.Musteris, "ID", "Firma", projeForm.MusteriID);
+            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).ToList(), "ID", "Proje", projeForm.PID);
             return PartialView(projeForm);
         }
@@ -53,6 +53,7 @@ namespace Wms12m.Presentation.Controllers
                     projeForm.Kaydeden = vUser.UserName;
                     projeForm.DegisTarih = DateTime.Now;
                     projeForm.KayitTarih = projeForm.DegisTarih;
+                    projeForm.Form = "";
                     db.ProjeForms.Add(projeForm);
                 }
                 else
@@ -67,6 +68,7 @@ namespace Wms12m.Presentation.Controllers
 
                     tbl.Proje = projeForm.Proje;//
                     tbl.Sorumlu = projeForm.Sorumlu;//
+                    tbl.Form = "";
               
 
                 }
