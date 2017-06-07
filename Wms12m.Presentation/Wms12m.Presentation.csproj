@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs1154.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs7472.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs1154.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs7472.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Charts.v17.1.Core, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
@@ -193,7 +193,7 @@
     <Content Include="Content\images\tum-logo-30.png" />
     <Content Include="Content\images\tum-logo-90.png" />
     <Content Include="Content\images\tum-logo.png" />
-    <Content Include="Service\Android.asmx" />
+    <Content Include="Service\Mobile.asmx" />
     <Content Include="Content\ajaxloader.gif" />
     <Content Include="Content\assets\global\css\components-md.css" />
     <Content Include="Content\assets\global\css\components-md.min.css">
@@ -318,7 +318,7 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Service\Mobile.asmx" />
+    <Content Include="Service\Terminal.asmx" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
     <Content Include="Areas\Approvals\Views\web.config" />
@@ -383,8 +383,8 @@
     <Compile Include="Controllers\DutiesController.cs" />
     <Compile Include="Controllers\DutyWorkController.cs" />
     <Compile Include="Controllers\SubProjectFormController.cs" />
-    <Compile Include="Service\Android.asmx.cs">
-      <DependentUpon>Android.asmx</DependentUpon>
+    <Compile Include="Service\Mobile.asmx.cs">
+      <DependentUpon>Mobile.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -428,8 +428,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Helper\Client.cs" />
-    <Compile Include="Service\Mobile.asmx.cs">
-      <DependentUpon>Mobile.asmx</DependentUpon>
+    <Compile Include="Service\Terminal.asmx.cs">
+      <DependentUpon>Terminal.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
