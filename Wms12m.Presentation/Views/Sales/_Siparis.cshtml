@@ -44,7 +44,7 @@
         var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr>";
         $.ajax({
             type: 'POST',
-            url: '/Sell/Details',
+            url: '/Sales/Details',
             data: { "ID": d },
             dataType: "json",
             success: function (data) {

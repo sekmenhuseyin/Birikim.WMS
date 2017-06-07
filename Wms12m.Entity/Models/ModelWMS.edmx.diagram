@@ -70,8 +70,6 @@
         <AssociationConnector Association="MModel.FK_GorevUsers_Gorev" />
         <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.625" PointY="2.375" />
         <EntityTypeShape EntityType="MModel.GorevCalisma" Width="1.5" PointX="30.875" PointY="5" />
-        <EntityTypeShape EntityType="MModel.ProjeForm" Width="1.5" PointX="35.875" PointY="1.625" />
-        <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
         <EntityTypeShape EntityType="MModel.UserDevice" Width="1.5" PointX="22.375" PointY="13.375" />
         <AssociationConnector Association="MModel.FK_UserDevices_Users" />
         <EntityTypeShape EntityType="MModel.Gorevler" Width="1.5" PointX="33.625" PointY="1.875" />
@@ -80,9 +78,11 @@
         <AssociationConnector Association="MModel.FK_Gorevler_ComboItem_Name_GorevTipi" />
         <AssociationConnector Association="MModel.FK_Gorevler_ComboItem_Name_Oncelik" />
         <AssociationConnector Association="MModel.FK_GorevCalisma_Gorevler" />
-        <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
         <EntityTypeShape EntityType="MModel.Musteri" Width="1.5" PointX="38.5" PointY="2.125" />
+        <EntityTypeShape EntityType="MModel.ProjeForm" Width="1.5" PointX="40.75" PointY="1.625" />
+        <AssociationConnector Association="MModel.FK_Gorevler_ProjeForm" />
         <AssociationConnector Association="MModel.FK_Proje_Musteri" />
+        <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
