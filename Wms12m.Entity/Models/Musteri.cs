@@ -17,7 +17,7 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Musteri()
         {
-            this.ProjeForms = new HashSet<ProjeForm>();//*
+            this.ProjeForms = new HashSet<ProjeForm>();
         }
     
         public int ID { get; set; }

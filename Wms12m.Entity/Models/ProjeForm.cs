@@ -17,8 +17,8 @@ namespace Wms12m.Entity.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ProjeForm()
         {
-            this.ProjeForm1 = new HashSet<ProjeForm>();
             this.Gorevlers = new HashSet<Gorevler>();
+            this.ProjeForm1 = new HashSet<ProjeForm>();
         }
     
         public int ID { get; set; }
@@ -28,7 +28,7 @@ namespace Wms12m.Entity.Models
         public string Sorumlu { get; set; }
         public string KarsiSorumlu { get; set; }
         public string Aciklama { get; set; }
-        public Nullable<bool> MesaiKontrol { get; set; }
+        public bool MesaiKontrol { get; set; }
         public Nullable<int> MesaiKota { get; set; }
         public Nullable<int> PID { get; set; }
         public Nullable<short> Durum { get; set; }
@@ -38,10 +38,10 @@ namespace Wms12m.Entity.Models
         public System.DateTime DegisTarih { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProjeForm> ProjeForm1 { get; set; }
-        public virtual ProjeForm ProjeForm2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorevler> Gorevlers { get; set; }
         public virtual Musteri Musteri { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProjeForm> ProjeForm1 { get; set; }
+        public virtual ProjeForm ProjeForm2 { get; set; }
     }
 }
