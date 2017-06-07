@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Areas.Approvals.Controllers
@@ -68,6 +69,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public string BekleyenOnaylar()
+        {
+            var BO = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[dbo].[DB_BekleyenOnaylar]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(BO);
+            return json;
         }
     }
 }
