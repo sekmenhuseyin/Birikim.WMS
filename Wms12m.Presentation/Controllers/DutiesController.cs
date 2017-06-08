@@ -105,7 +105,6 @@ namespace Wms12m.Presentation.Controllers
                 DateTime date = DateTime.Now;
                 gorevler.DegisTarih = date;
 
-                db.Entry(gorevler).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
