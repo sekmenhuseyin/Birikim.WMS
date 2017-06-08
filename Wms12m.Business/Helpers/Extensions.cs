@@ -5,11 +5,26 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Wms12m.Security;
 
 namespace Wms12m
 {
     public static class Extensions
     {
+        /// <summary>
+        /// CryptographyExtension.Sifrele
+        /// </summary>
+        public static string Sifrele(this object value)
+        {
+            return CryptographyExtension.Sifrele(value.ToString());
+        }
+        /// <summary>
+        /// CryptographyExtension.Cozumle
+        /// </summary>
+        public static string Cozumle(this object value)
+        {
+            return CryptographyExtension.Cozumle(value.ToString());
+        }
         /// <summary>
         /// Genellikle decimal veya float tiplerde database tarafına kayıt
         /// atarken ondalık kısmı "," olarak gördüğünden hata verir. 
