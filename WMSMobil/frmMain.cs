@@ -6,14 +6,14 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using WMSMobil.WMSLocal;
+using WMSMobil.TerminalService;
 
 
 namespace WMSMobil
 {
     public partial class frmMain : Form
     {
-        MobilServis Servis = new MobilServis();
+        Terminal Servis = new Terminal();
         /// <summary>
         /// form load
         /// </summary>
@@ -28,7 +28,7 @@ namespace WMSMobil
         private void AnaForm_Activated(object sender, EventArgs e)
         {
             lblMalKabul.Text = ""; lblRafKaldirma.Text = ""; lblSiparisToplama.Text = ""; lblSayim.Text = ""; lblPaketleme.Text = ""; lblTransferIn.Text = ""; lblTransferOut.Text = "";
-            var tbl = Servis.GetGorevOzet(Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID).ToList();
+            var tbl = Servis.GetGorevOzet(Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();
             foreach (var item in tbl)
             {
                 if (item.ID == 1) { lblMalKabul.Text = "[" + item.Sayi.ToString() + "]"; }
