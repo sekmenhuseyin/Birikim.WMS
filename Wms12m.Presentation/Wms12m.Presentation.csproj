@@ -400,10 +400,6 @@
     <Compile Include="Reports\XtraReportSipGM.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Service\Android.asmx.cs">
-      <DependentUpon>Android.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Controllers\CableController.cs" />
