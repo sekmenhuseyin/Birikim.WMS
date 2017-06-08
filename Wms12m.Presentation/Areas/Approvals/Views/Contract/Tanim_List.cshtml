@@ -77,8 +77,11 @@
     else {
 
         $('tbody').last().remove();
+        @*console.log("@ViewBag.Satir");
+        console.log(JSON.parse("@ViewBag.Satir"););*@
+        console.log(@Html.Raw(Json.Encode(ViewBag.Satir)));
         @*@Html.Raw(Json.Encode(ViewBag.Satir));*@
-        var elementt = JSON.parse(@ViewBag.Satir);
+        var elementt = @Html.Raw(Json.Encode(ViewBag.Satir));
         console.log(elementt);
         $(elementt).insertAfter($(".aaaaa"));
         setTimeout(function(){ $("#sample_1_info").text("Satır Eklendi"); }, 500);
@@ -182,9 +185,9 @@
         for (var i = 0; i < silinecek.length; i++) {
             element.splice(i, 1);
             var jsonElement = JSON.stringify(element);
-
+            console.log(element);
             if ($("#fiyat_listesi_data table").length < 1) {
-                PartialView("/Approvals/Contract/Tanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+                PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
             }
         }
     }
