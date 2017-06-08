@@ -11,12 +11,15 @@ namespace Wms12m.Entity.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class GorevCalisma
     {
         public int ID { get; set; }
         public int GorevID { get; set; }
         public System.DateTime Tarih { get; set; }
+        [Range(0, 540)]
+        [Required(ErrorMessage = "Çalýþma Süresi 0 ve 540 arasý olmalýdýr.")]
         public int CalismaSure { get; set; }
         public string Calisma { get; set; }
         public string Kaydeden { get; set; }

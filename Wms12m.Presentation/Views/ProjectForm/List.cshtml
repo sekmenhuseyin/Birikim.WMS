@@ -89,6 +89,7 @@
                         </td>
                         <td>
                             <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                            <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/SubProjectForm/EditAlt/@item.ID')"> Form Ekle </a>
                             <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ProjectForm/List','liste','@item.ID')"> Sil </a>
                         </td>
                     </tr>
