@@ -21,6 +21,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult List()
         {
             var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
+            ViewBag.id = "tbl1";
             return PartialView(projeForms.Where(a => a.PID != null).ToList());
         }
 
@@ -28,13 +29,9 @@ namespace Wms12m.Presentation.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
-            ProjeForm projeForm = db.ProjeForms.Find(ID);
-            if (ID != 0) {
-                ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
-                ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == ID).ToList(), "ID", "Proje", projeForm.ID);
-            }
-
-            return PartialView(projeForm);
+            var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
+            ViewBag.id = "tbl2";
+            return PartialView("List", projeForms.Where(a => a.PID == ID).ToList());
         }
 
         // GET: MainProjectForm/Edit/5
