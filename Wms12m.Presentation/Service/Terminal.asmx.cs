@@ -394,7 +394,33 @@ namespace Wms12m
                 {
                     //finish
                     db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32());
-                    //var list=db.IRS_Detay.Where(m=>m.IR.Gorevs)
+                    var KatID = db.GetHucreKatID(item.DepoID, "R-Z-R-V").FirstOrDefault();
+                    if (KatID != null)
+                    {
+                        var list = db.GetIrsDetayfromGorev(GorevID).ToList();
+                        foreach (var item2 in list)
+                        {
+                            //yerleştirme kaydı yapılır
+                            var stok = new Yerlestirme();
+                            var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim);
+                            if (tmp2 == null)
+                            {
+                                tmp2 = new Yer()
+                                {
+                                    KatID = KatID.Value,
+                                    MalKodu = item2.MalKodu,
+                                    Birim = item2.Birim,
+                                    Miktar = item2.Miktar.Value
+                                };
+                                stok.Insert(tmp2, item.ID, KullID);
+                            }
+                            else
+                            {
+                                tmp2.Miktar += item2.Miktar.Value;
+                                stok.Update(tmp2, item.ID, KullID, false, item2.Miktar.Value);
+                            }
+                        }
+                    }
                 }
                 else
                     return new Result(false, sonuc.Message);
