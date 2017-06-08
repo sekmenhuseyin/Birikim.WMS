@@ -609,8 +609,19 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public PartialViewResult Tanim_List(string listeNo, string satir)
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
+            string sat = "";
+            if (satir != null)
+            {
+                sat = "<tbody>";
+                JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(satir);
+                foreach (string insertObj in parameters)
+                {
+                    sat += insertObj;
+                }
+                sat += "</tbody>";
+            }
             ViewBag.ListeNo = listeNo;
-            ViewBag.Satir = satir;
+            ViewBag.Satir = sat;
             return PartialView("Tanim_List");
         }
 
@@ -668,9 +679,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             List<SozlesmeCariBilgileri> chkBilgi;
             try
             {
-                chkBilgi = db.Database.SqlQuery<SozlesmeCariBilgileri>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeCariBilgileri] @HesapKodu='{2}', @ListeNo='{1}'", "17", ListeNo, HesapKodu)).ToList();
+                chkBilgi = db.Database.SqlQuery<SozlesmeCariBilgileri>(string.Format("[FINSAT6{0}].[wms].[SozlesmeCariBilgileri] @HesapKodu='{2}', @ListeNo='{1}'", "17", ListeNo, HesapKodu)).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 chkBilgi = new List<Entity.SozlesmeCariBilgileri>();
             }

@@ -545,7 +545,7 @@
                 else {
                     $(".sozlesme-guncelle-buton").addClass('disabled');
                 }
-                PartialView("/Approvals/Contract/Tanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
+                PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
                 inputDisable();
                 $.ajax({
                     url: window.location.origin + "/Approvals/Contract/ISSTempList?SozlesmeNo=" + e.value,
@@ -690,6 +690,7 @@
                     type: "post",
                     success: function (data) {
                         var result = JSON.parse(data);
+                        console.log(result[0]);
                         $(".numb_kredi_limiti").dxNumberBox("instance").option("value", result[0].KrediLimiti);
                         $(".numb_bakiye").dxNumberBox("instance").option("value", result[0].Bakiye);
                         $(".numb_toplam_bakiye").dxNumberBox("instance").option("value", result[0].ToplamBakiye);
@@ -758,7 +759,7 @@
         var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td nowrap>" + EKOran1 + "</td><td nowrap>" + EKOran2 + "</td><td nowrap>" + EKOran3 + "</td><td nowrap>" + EKOran4 + "</td><td nowrap>" + EKOran5 + "</td></tr>"
         element.push(sss);
         var jsonElement = JSON.stringify(element);
-
+        console.log(element);
         if ($("#fiyat_listesi_data table").length < 1) {
             PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
         }
