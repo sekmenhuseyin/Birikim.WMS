@@ -394,8 +394,7 @@ namespace Wms12m
                 {
                     //finish
                     db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32());
-                    //miktarı 0 olanları sil
-                    db.IRS_Detay.RemoveRange(item.IRS_Detay.Where(m => m.Miktar == 0));
+                    //var list=db.IRS_Detay.Where(m=>m.IR.Gorevs)
                 }
                 else
                     return new Result(false, sonuc.Message);
