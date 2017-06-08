@@ -19,7 +19,6 @@ namespace Wms12m
     [ToolboxItem(false)]
     public class Terminal : BaseService
     {
-        string AuthPass = "http://www.12mconsulting.com.tr/";
         /// <summary>
         /// login işlemleri
         /// </summary>
@@ -395,8 +394,33 @@ namespace Wms12m
                 {
                     //finish
                     db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32());
-                    //miktarı 0 olanları sil
-                    db.IRS_Detay.RemoveRange(item.IRS_Detay.Where(m => m.Miktar == 0));
+                    var KatID = db.GetHucreKatID(item.DepoID, "R-Z-R-V").FirstOrDefault();
+                    if (KatID != null)
+                    {
+                        var list = db.GetIrsDetayfromGorev(GorevID).ToList();
+                        foreach (var item2 in list)
+                        {
+                            //yerleştirme kaydı yapılır
+                            var stok = new Yerlestirme();
+                            var tmp2 = stok.Detail(KatID.Value, item2.MalKodu, item2.Birim);
+                            if (tmp2 == null)
+                            {
+                                tmp2 = new Yer()
+                                {
+                                    KatID = KatID.Value,
+                                    MalKodu = item2.MalKodu,
+                                    Birim = item2.Birim,
+                                    Miktar = item2.Miktar.Value
+                                };
+                                stok.Insert(tmp2, item.ID, KullID);
+                            }
+                            else
+                            {
+                                tmp2.Miktar += item2.Miktar.Value;
+                                stok.Update(tmp2, item.ID, KullID, false, item2.Miktar.Value);
+                            }
+                        }
+                    }
                 }
                 else
                     return new Result(false, sonuc.Message);
@@ -439,6 +463,7 @@ namespace Wms12m
             }
             //loop
             Result _result = new Result(true);
+            var Rkat = db.GetHucreKatID(mGorev.IR.DepoID, "R-Z-R-V").FirstOrDefault();
             foreach (var item in YerlestirmeList)
             {
                 //hücre adından kat id bulunur
@@ -452,10 +477,13 @@ namespace Wms12m
                     {
                         if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
                         else tmp.YerlestirmeMiktari += item.Miktar;
+                        //irs detay kayıt
                         irsdetay.Operation(tmp);
-                        //yerleştirme kaydı yapılır
                         var stok = new Yerlestirme();
-                        var tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
+                        //rezervden düşürülür
+                        var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
+                        //yerleştirme kaydı yapılır
+                        tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
                         if (tmp2 == null)
                         {
                             tmp2 = new Yer()

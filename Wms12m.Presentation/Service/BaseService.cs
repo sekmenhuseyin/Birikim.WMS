@@ -8,6 +8,7 @@ namespace Wms12m
     {
         public WMSEntities db = new WMSEntities();
         public YNSEntities dby = new YNSEntities();
+        public string AuthPass = "http://www.12mconsulting.com.tr/";
         /// <summary>
         /// dispose override
         /// </summary>

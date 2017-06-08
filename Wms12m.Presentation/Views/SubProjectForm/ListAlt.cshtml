@@ -2,18 +2,18 @@
 <div class="portlet box green">
     <div class="portlet-title">
         <div class="caption">
-            <i class="fa fa-gift"></i>Proje Listesi
+            <i class="fa fa-gift"></i>Form Listesi
         </div>
     </div>
     <div class="portlet-body form p-40">
-        <table class="table table-striped table-bordered table-hover" id="sample_1">
+        <table class="table table-striped table-bordered table-hover" id="sample_2">
             <thead>
                 <tr>
                     <th>
-                        Firma
+                        Proje
                     </th>
                     <th>
-                        Proje
+                        Form
                     </th>
                     <th>
                         Sorumlu
@@ -33,6 +33,12 @@
                     <th>
                         Durum
                     </th>
+                    <th>
+                        Firma
+                    </th>
+                    <th>
+                        Üst Proje
+                    </th>
                     <th></th>
                 </tr>
 
@@ -43,10 +49,10 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Musteri.Firma)
+                            @Html.DisplayFor(modelItem => item.Proje)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Proje)
+                            @Html.DisplayFor(modelItem => item.Form)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Sorumlu)
@@ -76,9 +82,14 @@
                             @Html.DisplayFor(modelItem => item.Durum)
                         </td>
                         <td>
-                            <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/SubProjectForm/EditAlt/@item.ID')"> Form Ekle </a>
-                            <a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                            <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/ProjectForm/List','liste','@item.ID')"> Sil </a>
+                            @Html.DisplayFor(modelItem => item.Musteri.Firma)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProjeForm2.Proje)
+                        </td>
+                        <td>
+                            <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/SubProjectForm/ListAlt','liste','@item.ID')"> Sil </a>
                         </td>
                     </tr>
                 }
@@ -88,4 +99,6 @@
     </div>
 </div>
 
-<script>$(document).ready(function () { $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>
+<script>$(document).ready(function () { $('#sample_2').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>
+
+
