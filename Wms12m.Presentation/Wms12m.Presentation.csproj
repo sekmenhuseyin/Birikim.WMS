@@ -202,7 +202,7 @@
     <Content Include="Content\images\tum-logo-30.png" />
     <Content Include="Content\images\tum-logo-90.png" />
     <Content Include="Content\images\tum-logo.png" />
-    <Content Include="Service\Android.asmx" />
+    <Content Include="Service\Mobile.asmx" />
     <Content Include="Content\ajaxloader.gif" />
     <Content Include="Content\assets\global\css\components-md.css" />
     <Content Include="Content\assets\global\css\components-md.min.css">
@@ -327,7 +327,7 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Service\Mobile.asmx" />
+    <Content Include="Service\Terminal.asmx" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
     <Content Include="Areas\Approvals\Views\web.config" />
@@ -445,8 +445,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Helper\Client.cs" />
-    <Compile Include="Service\Mobile.asmx.cs">
-      <DependentUpon>Mobile.asmx</DependentUpon>
+    <Compile Include="Service\Terminal.asmx.cs">
+      <DependentUpon>Terminal.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

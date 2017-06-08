@@ -1,1 +1,1 @@
-﻿<%@ WebService Language="C#" CodeBehind="Mobile.asmx.cs" Class="Wms12m.Mobile" %>
+﻿<%@ WebService Language="C#" CodeBehind="Mobile.asmx.cs" Class="Wms12m.Android" %>
