@@ -90,7 +90,7 @@
                     <div class="col-md-4">
 
                         @*@Html.EditorFor(model => model.GorevTipiID, new { htmlAttributes = new { @class = "form-control" } })*@
-                        @Html.DropDownList("GorevTipiID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                        @Html.DropDownList("GorevTipiID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
                         @Html.ValidationMessageFor(model => model.GorevTipiID, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                     @Html.LabelFor(model => model.DepartmanID, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-4">
                         @*@Html.EditorFor(model => model.DepartmanID, new { htmlAttributes = new { @class = "form-control" } })*@
-                        @Html.DropDownList("DepartmanID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                        @Html.DropDownList("DepartmanID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
                         @Html.ValidationMessageFor(model => model.DepartmanID, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="form-actions">
                     <div class="row">
-                        <div class="col-md-offset-2 col-md-10">
+                        <div class="col-md-offset-3 col-md-9">
                             <input type="submit" value="Kaydet" class="btn btn-circle green" />
                             <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
                         </div>
