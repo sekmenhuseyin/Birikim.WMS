@@ -6,14 +6,14 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using WMSMobil.WMSLocal;
+using WMSMobil.TerminalService;
 using Symbol.Barcode2.Design;
 
 namespace WMSMobil
 {
     public partial class frmLogin : Form
     {
-        MobilServis Servis = new MobilServis();
+        Terminal Servis = new Terminal();
         private Barcode2 Barkod;
         /// <summary>
         /// load
@@ -43,7 +43,7 @@ namespace WMSMobil
                         if (cont.Focused && (cont.Name == txtKullaniciAdi.Name || cont.Name == txtParola.Name))
                         {
                             focuslandi = true;
-                            Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text);
+                            Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text, Ayarlar.AuthCode);
                             if (login.ID != 0)
                             {
                                 Ayarlar.Kullanici = login;
@@ -94,7 +94,7 @@ namespace WMSMobil
             this.Enabled = false;
             try
             {
-                Login login = Servis.LoginKontrol(txtKullaniciAdi.Text.Trim().Left(5), txtParola.Text.Trim());
+                Login login = Servis.LoginKontrol(txtKullaniciAdi.Text.Trim().Left(5), txtParola.Text.Trim(), Ayarlar.AuthCode);
                 if (login.ID != 0)
                 {
                     Ayarlar.Kullanici = login;

@@ -2,11 +2,10 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using WMSMobil.WMSLocal;
+using WMSMobil.TerminalService;
 
 namespace WMSMobil
 {
-
     public enum MenuType
     {
         None = 0, MalKabul = 1, RafaYerlestirme = 2, SiparisToplama = 3, KabloSiparis = 4, Paketle = 6, Sevkiyat = 7, KontrollüSayım = 8, TransferÇıkış = 19, TransferGiriş = 20
@@ -14,6 +13,7 @@ namespace WMSMobil
 
     public class Ayarlar
     {
+        public static string AuthCode = "RJ0QdX5V5kWDkjTNR2oWmQdtoxbu2bdbWX4RLI6acw4P/LRTIjKzqaJlx1v76NJw9ngbH1bBDu65EqhU4He0IU2lfI05B8WhXJkMnhlZUNvO5IxKU8fSztlp7uziL6W27/q7v5lV0fXRB0f+RdNzXQIgqMheHhqNbp3z3Vf4VRI=";
         static string sirketKodu;
         public static string SirketKodu
         {

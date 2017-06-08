@@ -19,14 +19,14 @@ namespace Wms12m
     [ToolboxItem(false)]
     public class Terminal : BaseService
     {
-        string AuthPass = ("http://www.12mconsulting.com.tr/").Sifrele();
+        string AuthPass = "http://www.12mconsulting.com.tr/";
         /// <summary>
         /// login işlemleri
         /// </summary>
         [WebMethod]
         public Login LoginKontrol(string userID, string sifre, string AuthGiven)
         {
-            if (AuthGiven != AuthPass) return new Login() { ID = 0, AdSoyad = "Yetkisiz giriş!" };
+            if (AuthGiven.Cozumle() != AuthPass) return new Login() { ID = 0, AdSoyad = "Yetkisiz giriş!" };
             //new user
             var user = new User() { Kod = userID.Left(5), Sifre = sifre };
             //log in actions
@@ -44,7 +44,9 @@ namespace Wms12m
                     try
                     {
                         db.LogLogins(userID, "terminal", true, "");
-                        return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, Guid = m.Guid.Sifrele(), AdSoyad = m.AdSoyad, DepoKodu = m.UserDetail.Depo.DepoKodu, DepoID = m.UserDetail.Depo.ID }).FirstOrDefault();
+                        var tbl = db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, Guid = m.Guid.ToString(), AdSoyad = m.AdSoyad, DepoKodu = m.UserDetail.Depo.DepoKodu, DepoID = m.UserDetail.Depo.ID }).FirstOrDefault();
+                        tbl.Guid = tbl.Guid.Sifrele();
+                        return tbl;
                     }
                     catch (Exception ex)
                     {
@@ -62,7 +64,7 @@ namespace Wms12m
         [WebMethod]
         public Login LoginKontrol2(string barkod, string AuthGiven)
         {
-            if (AuthGiven != AuthPass) return new Login() { ID = 0, AdSoyad = "Yetkisiz giriş!" };
+            if (AuthGiven.Cozumle() != AuthPass) return new Login() { ID = 0, AdSoyad = "Yetkisiz giriş!" };
             string guid = barkod.Left(8).ToLower();
             int userID = barkod.Remove(0, 8).ToInt32();
             var tbl = db.Users.Where(m => m.ID == userID).FirstOrDefault();
@@ -94,7 +96,7 @@ namespace Wms12m
         public List<GorevOzet> GetGorevOzet(int ID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new List<GorevOzet>();
+            if (AuthGiven.Cozumle() != AuthPass) return new List<GorevOzet>();
             Guid = Guid.Cozumle();
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new List<GorevOzet>();
@@ -112,7 +114,7 @@ namespace Wms12m
         public List<Tip_IRS> GetIrsaliyeList(int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new List<Tip_IRS>();
+            if (AuthGiven.Cozumle() != AuthPass) return new List<Tip_IRS>();
             Guid = Guid.Cozumle();
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new List<Tip_IRS>();
@@ -126,7 +128,7 @@ namespace Wms12m
         public Tip_IRS GetIrsaliye(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Tip_IRS();
+            if (AuthGiven.Cozumle() != AuthPass) return new Tip_IRS();
             Guid = Guid.Cozumle();
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new Tip_IRS();
@@ -149,7 +151,7 @@ namespace Wms12m
         public List<Tip_GOREV> GetGorevList(int gorevli, int durum, int gorevtipi, int DepoID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new List<Tip_GOREV>();
+            if (AuthGiven.Cozumle() != AuthPass) return new List<Tip_GOREV>();
             Guid = Guid.Cozumle();
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new List<Tip_GOREV>();
@@ -174,7 +176,7 @@ namespace Wms12m
         public List<GetGorevlis_Result> GetUsers(int DepoID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new List<GetGorevlis_Result>();
+            if (AuthGiven.Cozumle() != AuthPass) return new List<GetGorevlis_Result>();
             Guid = Guid.Cozumle();
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new List<GetGorevlis_Result>();
@@ -188,7 +190,7 @@ namespace Wms12m
         public List<Durum> GetDurums(int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new List<Durum>();
+            if (AuthGiven.Cozumle() != AuthPass) return new List<Durum>();
             Guid = Guid.Cozumle();
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new List<Durum>();
@@ -202,7 +204,7 @@ namespace Wms12m
         public List<Tip_STI> GetMalzemes(int GorevID, int KullID, bool devamMi, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new List<Tip_STI>();
+            if (AuthGiven.Cozumle() != AuthPass) return new List<Tip_STI>();
             Guid = Guid.Cozumle();
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new List<Tip_STI>();
@@ -273,7 +275,7 @@ namespace Wms12m
         public Tip_Malzeme GetMalzemeFromBarcode(string malkodu, string barkod, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Tip_Malzeme();
+            if (AuthGiven.Cozumle() != AuthPass) return new Tip_Malzeme();
             Guid = Guid.Cozumle();
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new Tip_Malzeme();
@@ -297,7 +299,7 @@ namespace Wms12m
         public Result Mal_Kabul(List<frmMalKabul> StiList, int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -344,7 +346,7 @@ namespace Wms12m
         public Result MalKabul_GorevKontrol(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -368,7 +370,7 @@ namespace Wms12m
         public Result MalKabul_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -414,7 +416,7 @@ namespace Wms12m
         public Result Rafa_Kaldir(List<frmYerlesme> YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -486,7 +488,7 @@ namespace Wms12m
         public Result RafaKaldir_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -549,7 +551,7 @@ namespace Wms12m
         public Result Siparis_Topla(List<frmYerlesme> YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -611,7 +613,7 @@ namespace Wms12m
         public Result SiparisTopla_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -723,7 +725,7 @@ namespace Wms12m
         public Result Paketle(List<frmMalKabul> StiList, int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -775,7 +777,7 @@ namespace Wms12m
         public Result Paketle_GoreviTamamla(int GorevID, int IrsaliyeID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -806,7 +808,7 @@ namespace Wms12m
         public Result Sevkiyat_GoreviTamamla(int GorevID, int IrsaliyeID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -832,7 +834,7 @@ namespace Wms12m
         public Result TransferCikis_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrols
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -903,7 +905,7 @@ namespace Wms12m
         public Result TransferGiris_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrols
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -955,7 +957,7 @@ namespace Wms12m
         public Result Kontrollu_Say(List<frmYerlesme> StiList, int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
@@ -1021,7 +1023,7 @@ namespace Wms12m
         public Result KontrolluSay_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
             Guid = Guid.Cozumle();
             var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tblx == null) return new Result(false, "Yetkisiz giriş!");
