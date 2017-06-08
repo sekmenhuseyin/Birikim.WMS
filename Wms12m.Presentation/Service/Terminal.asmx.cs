@@ -19,12 +19,14 @@ namespace Wms12m
     [ToolboxItem(false)]
     public class Terminal : BaseService
     {
+        string AuthPass = ("http://www.12mconsulting.com.tr/").Sifrele();
         /// <summary>
         /// login işlemleri
         /// </summary>
         [WebMethod]
-        public Login LoginKontrol(string userID, string sifre)
+        public Login LoginKontrol(string userID, string sifre, string AuthGiven)
         {
+            if (AuthGiven != AuthPass) return new Login() { ID = 0, AdSoyad = "Yetkisiz giriş!" };
             //new user
             var user = new User() { Kod = userID.Left(5), Sifre = sifre };
             //log in actions
@@ -35,14 +37,14 @@ namespace Wms12m
             {
                 if (db.Users.Where(m => m.ID == result.Id).FirstOrDefault().UserDetail == null)
                 {
-                    db.LogLogins(userID, "terminal", false, "Depoya ait bir yetkiniz yok");
-                    return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok" };
+                    db.LogLogins(userID, "terminal", false, "Depoya ait bir yetkiniz yok!");
+                    return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok!" };
                 }
                 else
                     try
                     {
                         db.LogLogins(userID, "terminal", true, "");
-                        return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, DepoKodu = m.UserDetail.Depo.DepoKodu, DepoID = m.UserDetail.Depo.ID }).FirstOrDefault();
+                        return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, Guid = m.Guid.Sifrele(), AdSoyad = m.AdSoyad, DepoKodu = m.UserDetail.Depo.DepoKodu, DepoID = m.UserDetail.Depo.ID }).FirstOrDefault();
                     }
                     catch (Exception ex)
                     {
@@ -52,14 +54,15 @@ namespace Wms12m
             }
             else
                 db.LogLogins(userID, "terminal", false, result.Message);
-            return new Login() { ID = 0, AdSoyad = "Hatalı Kullanıcı adı ve şifre" };
+            return new Login() { ID = 0, AdSoyad = "Hatalı Kullanıcı adı ve şifre!" };
         }
         /// <summary>
         /// login işlemleri
         /// </summary>
         [WebMethod]
-        public Login LoginKontrol2(string barkod)
+        public Login LoginKontrol2(string barkod, string AuthGiven)
         {
+            if (AuthGiven != AuthPass) return new Login() { ID = 0, AdSoyad = "Yetkisiz giriş!" };
             string guid = barkod.Left(8).ToLower();
             int userID = barkod.Remove(0, 8).ToInt32();
             var tbl = db.Users.Where(m => m.ID == userID).FirstOrDefault();
@@ -81,38 +84,56 @@ namespace Wms12m
             else
             {
                 db.LogLogins(tbl.Kod, "terminal", true, "");
-                return new Login { ID = tbl.ID, Kod = tbl.Kod, AdSoyad = tbl.AdSoyad, DepoKodu = tbl.UserDetail.Depo.DepoKodu, DepoID = tbl.UserDetail.Depo.ID };
+                return new Login { ID = tbl.ID, Kod = tbl.Kod, Guid = tbl.Guid.Sifrele(), AdSoyad = tbl.AdSoyad, DepoKodu = tbl.UserDetail.Depo.DepoKodu, DepoID = tbl.UserDetail.Depo.ID };
             }
         }
         /// <summary>
         /// depoya ait görev özetini getirir
         /// </summary>
         [WebMethod]
-        public List<GorevOzet> GetGorevOzet(int ID, int kulID)
+        public List<GorevOzet> GetGorevOzet(int ID, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new List<GorevOzet>();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new List<GorevOzet>();
+            //return
             string sql = string.Format("SELECT ComboItem_Name.ID, ComboItem_Name.Name AS Ad, COUNT(wms.Gorev.ID) AS Sayi " +
                 "FROM wms.Gorev INNER JOIN ComboItem_Name ON wms.Gorev.GorevTipiID = ComboItem_Name.ID LEFT OUTER JOIN wms.GorevUsers ON wms.Gorev.ID = wms.GorevUsers.GorevID " +
                 "WHERE (wms.Gorev.DepoID = {0}) AND (wms.GorevUsers.UserID = {1} OR wms.GorevUsers.UserID IS NULL) AND (wms.GorevUsers.BitisTarihi IS NULL) AND (wms.Gorev.DurumID = 9) " +
-                "GROUP BY ComboItem_Name.Name, ComboItem_Name.ID", ID, kulID);
+                "GROUP BY ComboItem_Name.Name, ComboItem_Name.ID", ID, KullID);
             return db.Database.SqlQuery<GorevOzet>(sql).ToList();
         }
         /// <summary>
         /// irsaliyeleri getir
         /// </summary>
         [WebMethod]
-        public List<Tip_IRS> GetIrsaliyeList()
+        public List<Tip_IRS> GetIrsaliyeList(int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new List<Tip_IRS>();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new List<Tip_IRS>();
+            //return
             return db.IRS.Select(m => new Tip_IRS { ID = m.ID, DepoID = m.Depo.DepoKodu, EvrakNo = m.EvrakNo, HesapKodu = m.HesapKodu, SirketKod = m.SirketKod, Tarih = m.Tarih.ToString(), TeslimCHK = m.TeslimCHK, Unvan = "" }).ToList();
         }
         /// <summary>
         /// seçili irsaliyenin bilgileri
         /// </summary>
         [WebMethod]
-        public Tip_IRS GetIrsaliye(int GorevID)
+        public Tip_IRS GetIrsaliye(int GorevID, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new Tip_IRS();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new Tip_IRS();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull() || mGorev.IR == null)
                 return new Tip_IRS();
+            //return
             string sql = string.Format("SELECT MIN(IRS.ID) as ID, wms.Depo.DepoKodu AS DepoID, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih) AS Tarih, " +
                 "(SELECT Unvan1 + ' ' + Unvan2 AS Expr1 FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE (HesapKodu = IRS.HesapKodu)) AS Unvan, " +
                 "(SELECT wms.IRS.EvrakNo + ',' FROM wms.IRS WITH(nolock) INNER JOIN wms.GorevIRS WITH(nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID WHERE (wms.GorevIRS.GorevID = {1}) FOR XML PATH('')) as EvrakNo " +
@@ -125,8 +146,14 @@ namespace Wms12m
         /// görev listelerini filtreye göre getirir
         /// </summary>
         [WebMethod]
-        public List<Tip_GOREV> GetGorevList(int gorevli, int durum, int gorevtipi, int DepoID, int KullID)
+        public List<Tip_GOREV> GetGorevList(int gorevli, int durum, int gorevtipi, int DepoID, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new List<Tip_GOREV>();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new List<Tip_GOREV>();
+            //return
             string gtipi = db.ComboItem_Name.Where(m => m.ID == gorevtipi).Select(m => m.Name).FirstOrDefault();
             gtipi = "Terminal" + gtipi.Replace(" ", "");
             var kullanici = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
@@ -144,31 +171,49 @@ namespace Wms12m
         /// bir şirkete ait kullanıcıları getirir
         /// </summary>
         [WebMethod]
-        public List<GetGorevlis_Result> GetUsers(int DepoID)
+        public List<GetGorevlis_Result> GetUsers(int DepoID, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new List<GetGorevlis_Result>();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new List<GetGorevlis_Result>();
+            //return
             return db.GetGorevlis(DepoID).ToList();
         }
         /// <summary>
         /// durumları listeler
         /// </summary>
         [WebMethod]
-        public List<Durum> GetDurums()
+        public List<Durum> GetDurums(int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new List<Durum>();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new List<Durum>();
+            //return
             return db.ComboItem_Name.Where(m => m.Visible == true).Where(m => m.ComboID == 2).Select(m => new Durum { ID = m.ID, Name = m.Name }).ToList();
         }
         /// <summary>
         /// malzemeleri getir
         /// </summary>
         [WebMethod]
-        public List<Tip_STI> GetMalzemes(int GorevID, int kulID, bool devamMi)
+        public List<Tip_STI> GetMalzemes(int GorevID, int KullID, bool devamMi, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new List<Tip_STI>();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new List<Tip_STI>();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new List<Tip_STI>();
-            var tu = mGorev.GorevUsers.Where(m => m.UserID == kulID).FirstOrDefault();
+            var tu = mGorev.GorevUsers.Where(m => m.UserID == KullID).FirstOrDefault();
             if (tu != null)
                 if (tu.BitisTarihi != null)
                     return new List<Tip_STI>();
+            //return
             string sql = "", sql2 = "";
             if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())
             {
@@ -225,8 +270,14 @@ namespace Wms12m
         /// malzemeyi barkoda göre bulur
         /// </summary>
         [WebMethod]
-        public Tip_Malzeme GetMalzemeFromBarcode(string malkodu, string barkod)
+        public Tip_Malzeme GetMalzemeFromBarcode(string malkodu, string barkod, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new Tip_Malzeme();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new Tip_Malzeme();
+            //return
             string sql = "";
             var dbs = db.GetSirketDBs();
             foreach (var item in dbs)
@@ -243,19 +294,25 @@ namespace Wms12m
         /// mal kabul kayıt işlemleri
         /// </summary>
         [WebMethod]
-        public Result Mal_Kabul(List<frmMalKabul> StiList, int GorevID, int kulID)
+        public Result Mal_Kabul(List<frmMalKabul> StiList, int GorevID, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
-                return new Result(false, "İrsaliye bulunamadı !");
+                return new Result(false, "İrsaliye bulunamadı!");
+            //return
             //add to gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             if (tbl == null)
             {
                 tbl = new GorevUser()
                 {
-                    UserID = kulID,
+                    UserID = KullID,
                     GorevID = GorevID,
                     BaslamaTarihi = DateTime.Today.ToOADateInt()
                 };
@@ -274,7 +331,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "Service/Terminal/Mal_Kabul", kulID.ToString());
+                        Logger(ex, "Service/Terminal/Mal_Kabul", KullID.ToString());
                     }
                 }
             }
@@ -284,12 +341,18 @@ namespace Wms12m
         /// mal kabul için miktar kontrol
         /// </summary>
         [WebMethod]
-        public Result MalKabul_GorevKontrol(int GorevID, int kulID)
+        public Result MalKabul_GorevKontrol(int GorevID, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
+            //return
             string sql = string.Format("SELECT COUNT(wms.IRS_Detay.OkutulanMiktar) as Bitmeyen " +
                 "FROM wms.GorevIRS INNER JOIN wms.IRS_Detay ON wms.GorevIRS.IrsaliyeID = wms.IRS_Detay.IrsaliyeID " +
                 "WHERE(wms.GorevIRS.GorevID = {0}) AND(wms.IRS_Detay.OkutulanMiktar IS NULL OR wms.IRS_Detay.OkutulanMiktar <> wms.IRS_Detay.Miktar)", mGorev.ID);
@@ -302,16 +365,20 @@ namespace Wms12m
         /// mal kabul onay
         /// </summary>
         [WebMethod]
-        public Result MalKabul_GoreviTamamla(int GorevID, int kulID)
+        public Result MalKabul_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //variables
             string gorevNo = db.SettingsGorevNo(DateTime.Today.ToOADateInt(), mGorev.DepoID).FirstOrDefault();
-            var kull = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
+            var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             Finsat finsat = new Finsat(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, mGorev.IR.SirketKod);
             //loop iraliyes
             foreach (var item in mGorev.IRS.Where(m => m.Onay == false))
@@ -321,7 +388,7 @@ namespace Wms12m
                 if (sti != null)
                     return new Result(false, item.EvrakNo + " nolu evrak daha önce kullanılmış");
                 //send to finsat
-                var sonuc = finsat.MalKabul(item, kulID);
+                var sonuc = finsat.MalKabul(item, KullID);
                 if (sonuc.Status == true)
                 {
                     //finish
@@ -334,7 +401,7 @@ namespace Wms12m
             }
             //return if all true: tüm israliyeler biterse görevi kapat
             //görev user ve görev tablosu
-            var tbl2 = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            var tbl2 = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             tbl2.BitisTarihi = DateTime.Today.ToOADateInt();
             mGorev.DurumID = ComboItems.Tamamlanan.ToInt32();
             db.SaveChanges();
@@ -344,20 +411,24 @@ namespace Wms12m
         /// rafa yerleştir
         /// </summary>
         [WebMethod]
-        public Result Rafa_Kaldir(List<frmYerlesme> YerlestirmeList, int kulID, int GorevID)
+        public Result Rafa_Kaldir(List<frmYerlesme> YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid)
         {
             //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //add to gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             if (tbl == null)
             {
                 tbl = new GorevUser()
                 {
-                    UserID = kulID,
+                    UserID = KullID,
                     GorevID = GorevID,
                     BaslamaTarihi = DateTime.Today.ToOADateInt()
                 };
@@ -392,12 +463,12 @@ namespace Wms12m
                                 Birim = item.Birim,
                                 Miktar = item.Miktar
                             };
-                            stok.Insert(tmp2, item.IrsID, kulID);
+                            stok.Insert(tmp2, item.IrsID, KullID);
                         }
                         else
                         {
                             tmp2.Miktar += item.Miktar;
-                            stok.Update(tmp2, item.IrsID, kulID, false, item.Miktar);
+                            stok.Update(tmp2, item.IrsID, KullID, false, item.Miktar);
                         }
                     }
                     else
@@ -412,9 +483,13 @@ namespace Wms12m
         /// rafa kaldır görevi tamamlanınca
         /// </summary>
         [WebMethod]
-        public Result RafaKaldir_GoreviTamamla(int GorevID, int kulID)
+        public Result RafaKaldir_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
@@ -459,10 +534,10 @@ namespace Wms12m
                 }
             }
             //görevi tamamla
-            var kull = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
+            var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.RafaKaldır.ToInt32(), 0);
             //görev user tablosu
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
             db.SaveChanges();
             return new Result(true);
@@ -471,20 +546,24 @@ namespace Wms12m
         /// raftan indir
         /// </summary>
         [WebMethod]
-        public Result Siparis_Topla(List<frmYerlesme> YerlestirmeList, int kulID, int GorevID)
+        public Result Siparis_Topla(List<frmYerlesme> YerlestirmeList, int KullID, int GorevID, string AuthGiven, string Guid)
         {
             //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //add to gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             if (tbl == null)
             {
                 tbl = new GorevUser()
                 {
-                    UserID = kulID,
+                    UserID = KullID,
                     GorevID = GorevID,
                     BaslamaTarihi = DateTime.Today.ToOADateInt()
                 };
@@ -512,7 +591,7 @@ namespace Wms12m
                             db.SaveChanges();
                             //yerlestirme tablosuna kaydet
                             tmp2.Miktar -= item.Miktar;
-                            yerlestirme.Update(tmp2, item.IrsID, kulID, true, item.Miktar);
+                            yerlestirme.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
                         }
                         else
                             _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
@@ -529,8 +608,13 @@ namespace Wms12m
         /// sipariş toplama görevi tamamlma
         /// </summary>
         [WebMethod]
-        public Result SiparisTopla_GoreviTamamla(int GorevID, int kulID)
+        public Result SiparisTopla_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
@@ -539,7 +623,7 @@ namespace Wms12m
             if (tmpYer.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
             //kaydeden bulunur
-            var kull = db.Users.Where(m => m.ID == kulID).FirstOrDefault();
+            var kull = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
             if (kull.UserDetail.SatisFaturaSeri == null || kull.UserDetail.SatisIrsaliyeSeri == null)
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
             if (kull.UserDetail.SatisFaturaSeri.Value < 1 || kull.UserDetail.SatisFaturaSeri.Value > 199 || kull.UserDetail.SatisIrsaliyeSeri.Value < 1 || kull.UserDetail.SatisIrsaliyeSeri.Value > 199)
@@ -583,7 +667,7 @@ namespace Wms12m
             }
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, saat, kull.Kod, "", ComboItems.SiparişTopla.ToInt32(), 0);
             //görev user tablosu
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
             db.SaveChanges();
             //kablo hareketlere kaydet
@@ -636,20 +720,24 @@ namespace Wms12m
         /// mal kabul kayıt işlemleri
         /// </summary>
         [WebMethod]
-        public Result Paketle(List<frmMalKabul> StiList, int GorevID, int kulID)
+        public Result Paketle(List<frmMalKabul> StiList, int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //add to gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             if (tbl == null)
             {
                 tbl = new GorevUser()
                 {
-                    UserID = kulID,
+                    UserID = KullID,
                     GorevID = GorevID,
                     BaslamaTarihi = DateTime.Today.ToOADateInt()
                 };
@@ -675,7 +763,7 @@ namespace Wms12m
             }
             catch (Exception ex)
             {
-                Logger(ex, "Service/Terminal/Paketle", kulID.ToString());
+                Logger(ex, "Service/Terminal/Paketle", KullID.ToString());
                 return new Result(false, "Bir hata oldu");
             }
             return _result;
@@ -684,8 +772,13 @@ namespace Wms12m
         /// paketle görevini tamamla
         /// </summary>
         [WebMethod]
-        public Result Paketle_GoreviTamamla(int GorevID, int IrsaliyeID, int kulID)
+        public Result Paketle_GoreviTamamla(int GorevID, int IrsaliyeID, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
@@ -694,12 +787,13 @@ namespace Wms12m
             var list = mIrsaliye.IRS_Detay.Where(m => m.IrsaliyeID == mGorev.IrsaliyeID && (m.OkutulanMiktar != m.Miktar || m.OkutulanMiktar == null)).FirstOrDefault();
             if (list.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
+            //return
             int tarih = DateTime.Today.ToOADateInt();
             string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
-            var kull = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
+            var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), kull, "", ComboItems.Paketle.ToInt32(), ComboItems.Sevket.ToInt32());
             //görev user tablosu
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
             db.SaveChanges();
             return new Result(true);
@@ -709,17 +803,23 @@ namespace Wms12m
         /// paketle görevini tamamla
         /// </summary>
         [WebMethod]
-        public Result Sevkiyat_GoreviTamamla(int GorevID, int IrsaliyeID, int kulID)
+        public Result Sevkiyat_GoreviTamamla(int GorevID, int IrsaliyeID, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "Görev bulunamadı !");
+            //return
             int tarih = DateTime.Today.ToOADateInt();
-            var kull = db.Users.Where(m => m.ID == kulID).Select(m => m.Kod).FirstOrDefault();
+            var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull, "", ComboItems.Sevket.ToInt32(), 0);
             //görev user tablosu
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
             db.SaveChanges();
             return new Result(true);
@@ -729,9 +829,13 @@ namespace Wms12m
         /// transfer çıkış görevleri tamamlma
         /// </summary>
         [WebMethod]
-        public Result TransferCikis_GoreviTamamla(int GorevID, int kulID)
+        public Result TransferCikis_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrols
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
@@ -740,7 +844,7 @@ namespace Wms12m
             if (tmpYer.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
             //kullanıcı kontrol
-            var kull = db.Users.Where(m => m.ID == kulID).FirstOrDefault();
+            var kull = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
             //aktar
             Result sonuc;
             int tarih = DateTime.Today.ToOADateInt();
@@ -785,7 +889,7 @@ namespace Wms12m
                     mGorev.IR.DepoID = transfer.GirisDepoID;
                     mGorev.IR.EvrakNo = sonuc.Data.ToString();
                     //görev user tablosu
-                    var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+                    var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
                     tbl.BitisTarihi = DateTime.Today.ToOADateInt();
                     db.SaveChanges();
                 }
@@ -796,9 +900,13 @@ namespace Wms12m
         /// transfer giriş görevleri tamamlma
         /// </summary>
         [WebMethod]
-        public Result TransferGiris_GoreviTamamla(int GorevID, int kulID)
+        public Result TransferGiris_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
             //kontrols
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
@@ -807,7 +915,7 @@ namespace Wms12m
             if (tmpYer.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
             //kullanıcı kontrol
-            var kull = db.Users.Where(m => m.ID == kulID).FirstOrDefault();
+            var kull = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
             if (kull.UserDetail.TransferInSeri == null)
                 return new Result(false, "Bu kullanıcıya ait seri nolar hatalı !");
             if (kull.UserDetail.TransferInSeri < 1 || kull.UserDetail.TransferInSeri > 199)
@@ -833,7 +941,7 @@ namespace Wms12m
                     //finish
                     db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferGiriş.ToInt32(), 0);
                     //görev user tablosu
-                    var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+                    var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
                     tbl.BitisTarihi = DateTime.Today.ToOADateInt();
                     db.SaveChanges();
                 }
@@ -844,19 +952,24 @@ namespace Wms12m
         /// kontrollü sayımda satırları kaydet
         /// </summary>
         [WebMethod]
-        public Result Kontrollu_Say(List<frmYerlesme> StiList, int GorevID, int kulID)
+        public Result Kontrollu_Say(List<frmYerlesme> StiList, int GorevID, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "Görev bulunamadı !");
             //add to gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             if (tbl == null)
             {
                 tbl = new GorevUser()
                 {
-                    UserID = kulID,
+                    UserID = KullID,
                     GorevID = GorevID,
                     BaslamaTarihi = DateTime.Today.ToOADateInt()
                 };
@@ -896,7 +1009,7 @@ namespace Wms12m
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "Service/Terminal/Kontrollu_Say", kulID.ToString());
+                    Logger(ex, "Service/Terminal/Kontrollu_Say", KullID.ToString());
                 }
             }
             return new Result(true);
@@ -905,14 +1018,19 @@ namespace Wms12m
         /// kontrollü sayımda satırları kaydet
         /// </summary>
         [WebMethod]
-        public Result KontrolluSay_GoreviTamamla(int GorevID, int kulID)
+        public Result KontrolluSay_GoreviTamamla(int GorevID, int KullID, string AuthGiven, string Guid)
         {
+            //kontrol
+            if (AuthGiven != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
             int durumID = ComboItems.Açık.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "Görev bulunamadı !");
             //update gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == kulID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             if (tbl != null)
             {
                 tbl.BitisTarihi = DateTime.Today.ToOADateInt();
