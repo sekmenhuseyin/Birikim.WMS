@@ -18,11 +18,11 @@
 <div class="portlet box green">
     <div class="portlet-title">
         <div class="caption">
-            <i class="fa fa-gift"></i>Müşteri Düzenle
+            <i class="fa fa-gift"></i>ProjeForm Düzenle
         </div>
     </div>
     <div class="portlet-body form">
-        @using (Ajax.BeginForm("Save", "ProjectForm", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
+        @using (Ajax.BeginForm("Save", "SubProjectForm", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
         {
             @Html.HiddenFor(model => model.ID)
             @Html.AntiForgeryToken()
@@ -44,13 +44,13 @@
                     </div>
                 </div>
 
-                @*<div class="form-group row">
+                <div class="form-group row">
                         @Html.LabelFor(model => model.Form, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-4">
                             @Html.EditorFor(model => model.Form, new { htmlAttributes = new { @class = "form-control input-circle" } })
                             @Html.ValidationMessageFor(model => model.Form, "", new { @class = "text-danger" })
                         </div>
-                    </div>*@
+                    </div>
 
                 <div class="form-group row">
                     @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-4" })
