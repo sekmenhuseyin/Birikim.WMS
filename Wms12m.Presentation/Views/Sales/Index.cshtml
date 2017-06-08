@@ -99,7 +99,7 @@
             data: { DepoID: $('#DepoID').val(), Starts: $("#Starts").val(), Ends: $("#Ends").val() },
             dataType: "html",
             success: function (data) {
-                if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); $('#DepoID').val(0); }
+                if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); $('#DepoID').val(""); }
                 $("#liste").html(data);
             },
             error: function (data) {
