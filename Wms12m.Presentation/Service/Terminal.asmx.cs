@@ -19,7 +19,6 @@ namespace Wms12m
     [ToolboxItem(false)]
     public class Terminal : BaseService
     {
-        string AuthPass = "http://www.12mconsulting.com.tr/";
         /// <summary>
         /// login işlemleri
         /// </summary>
