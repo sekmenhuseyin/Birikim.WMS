@@ -19,7 +19,11 @@
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Proje Form İşlemleri</span></li></ul></div>
 <h1 class="page-title">Proje Form İşlemleri</h1>
 <div class="row">
+
     <div class="col-md-12">
+        <div class = "btn btn-large btn-info">
+            @Html.ActionLink("Alt Proje Ekle", "Index", "SubProjectForm")
+        </div>
         <div class="row" id="CreateEdit">
             <div class="col-md-12">
                 <div class="portlet box green">
@@ -64,7 +68,7 @@
                                     @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
                                         @*@Html.EditorFor(model => model.Sorumlu, new { htmlAttributes = new { @class = "form-control input-circle" } })*@
-                                        @Html.DropDownList("SorumluID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                        @Html.DropDownList("Sorumlu", null, htmlAttributes: new { @class = "form-control input-circle" })
                                         @Html.ValidationMessageFor(model => model.Sorumlu, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

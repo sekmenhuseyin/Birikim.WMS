@@ -41,6 +41,8 @@
     var silinecek = new Array();
     var table = "";
     if ("@ViewBag.ListeNo" != "#12MConsulting#")
+        {
+        console.log("werwer");
      table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
@@ -70,13 +72,14 @@
             return nRow;
         }
 
-     });
+    });
+    }
     else {
-       
+
         $('tbody').last().remove();
-        
-        
-        var elementt = @Html.Raw(Json.Encode(ViewBag.Satir));
+        @*@Html.Raw(Json.Encode(ViewBag.Satir));*@
+        var elementt = JSON.parse(@ViewBag.Satir);
+        console.log(elementt);
         $(elementt).insertAfter($(".aaaaa"));
         setTimeout(function(){ $("#sample_1_info").text("Satır Eklendi"); }, 500);
         $(".numb_iskonto1").dxNumberBox("instance").option("value",0);
@@ -179,7 +182,7 @@
         for (var i = 0; i < silinecek.length; i++) {
             element.splice(i, 1);
             var jsonElement = JSON.stringify(element);
-           
+
             if ($("#fiyat_listesi_data table").length < 1) {
                 PartialView("/Approvals/Contract/Tanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
             }

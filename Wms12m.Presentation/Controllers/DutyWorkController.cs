@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Wms12m.Entity.Models;
 
@@ -84,14 +80,15 @@ namespace Wms12m.Presentation.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,GorevID,Tarih,CalismaSure,Calisma,Kaydeden,KayitTarih,Degistiren,DegisTarih")] GorevCalisma gorevCalisma)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(gorevCalisma).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.GorevID = new SelectList(db.Gorevlers, "ID", "Sorumlu", gorevCalisma.GorevID);
-            return View(gorevCalisma);
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(gorevCalisma).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            //ViewBag.GorevID = new SelectList(db.Gorevlers, "ID", "Sorumlu", gorevCalisma.GorevID);
+            //return View(gorevCalisma);
+            return View();
         }
 
         // GET: DutyWork/Delete/5
