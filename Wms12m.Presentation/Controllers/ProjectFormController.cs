@@ -20,7 +20,7 @@ namespace Wms12m.Presentation.Controllers
         {
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).ToList(), "ID", "Proje");
-            ViewBag.SorumluID = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
+            ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             return View(new ProjeForm());
         }
 
@@ -39,7 +39,7 @@ namespace Wms12m.Presentation.Controllers
 
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID != null).ToList(), "ID", "Proje", projeForm.PID);
-            ViewBag.SorumluID = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
+            ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             return PartialView(projeForm);
         }
 
@@ -90,31 +90,15 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.PID = new SelectList(db.ProjeForms, "ID", "Proje", projeForm.PID);
             return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
 
-            //if (ModelState.IsValid)
-            //{
-            //    projeForm.Degistiren = vUser.UserName;
-            //    projeForm.Kaydeden = vUser.UserName;
-            //    DateTime date = DateTime.Now;
-            //    projeForm.DegisTarih = date;
-            //    projeForm.KayitTarih = date;
-            //    projeForm.PID = null;
 
-            //    db.ProjeForms.Add(projeForm);
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
-
-            //ViewBag.MusteriID = new SelectList(db.Musteris, "ID", "Firma", projeForm.MusteriID);
-            //ViewBag.PID = new SelectList(db.ProjeForms, "ID", "Proje", projeForm.PID);
-            //return View(projeForm);
         }
 
  
         public JsonResult Delete(string Id)
         {
             if (CheckPerm("ProjeForm", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Musteri musteri = db.Musteris.Find(Id.ToInt32());
-            db.Musteris.Remove(musteri);
+            ProjeForm projeform = db.ProjeForms.Find(Id.ToInt32());
+            db.ProjeForms.Remove(projeform);
             db.SaveChanges();
 
             Result _Result = new Result(true, Id.ToInt32());

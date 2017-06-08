@@ -1,144 +1,249 @@
-﻿@model IEnumerable<Gorevler>
+﻿@model Gorevler
 
 @{
-    ViewBag.Title = "Görevler Form";
+    ViewBag.Title = "Görevler";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/devextreme/css/dx.light.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
+<style>
+    .control-label {
+        text-align: right;
+        color: black;
+    }
+
+    textarea {
+        border-radius: 1rem !important;
+    }
+</style>
 }
 
-<!DOCTYPE html>
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Proje Form İşlemleri</span></li></ul></div>
+<h1 class="page-title">Proje Form İşlemleri</h1>
+<div class="row">
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Sorumlu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sorumlu2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sorumlu3)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gorev)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Aciklama)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OncelikID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DurumID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GorevTipiID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DepartmanID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TahminiBitis)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BitisTarih)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IslemTip)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IslemSira)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Kaydeden)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KayitTarih)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Degistiren)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DegisTarih)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjeForm.Proje)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sorumlu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sorumlu2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sorumlu3)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gorev)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aciklama)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OncelikID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DurumID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GorevTipiID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepartmanID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TahminiBitis)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BitisTarih)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IslemTip)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IslemSira)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kaydeden)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KayitTarih)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Degistiren)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DegisTarih)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjeForm.Proje)
-            </td>
-            <td>
-                @Html.ActionLink("Düzenle", "Edit", new { id=item.ID }) |
-                @Html.ActionLink("Detaylar", "Details", new { id=item.ID }) |
-                @Html.ActionLink("Sil", "Delete", new { id=item.ID })
-            </td>
-        </tr>
+    <div class="col-md-12">
+
+        <div class="row" id="CreateEdit">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Görevler Ekle
+
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        @using (Ajax.BeginForm("Save", "Duties", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
+                        {
+                            @Html.HiddenFor(model => model.ID)
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <div class="form-body">
+                                <h4>Gorevler</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.ID)
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.ProjeFormID, "ProjeFormID", htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownList("ProjeFormID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                        @Html.ValidationMessageFor(model => model.ProjeFormID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownList("Sorumlu", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                        @*@Html.EditorFor(model => model.Sorumlu, new { htmlAttributes = new { @class = "form-control input-circle" } })*@
+                                        @Html.ValidationMessageFor(model => model.Sorumlu, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.Sorumlu2, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownList("Sorumlu2", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
+                                        @*@Html.EditorFor(model => model.Sorumlu2, new { htmlAttributes = new { @class = "form-control input-circle" } })*@
+                                        @Html.ValidationMessageFor(model => model.Sorumlu2, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.Sorumlu3, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownList("Sorumlu3", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
+                                        @*@Html.EditorFor(model => model.Sorumlu3, new { htmlAttributes = new { @class = "form-control input-circle" } })*@
+                                        @Html.ValidationMessageFor(model => model.Sorumlu3, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.Gorev, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.Gorev, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                                        @Html.ValidationMessageFor(model => model.Gorev, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" } })
+                                        @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.OncelikID, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @*@Html.EditorFor(model => model.OncelikID, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @Html.DropDownList("OncelikID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                        @Html.ValidationMessageFor(model => model.OncelikID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.DurumID, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @*@Html.EditorFor(model => model.Durum, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @Html.DropDownList("DurumID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                        @Html.ValidationMessageFor(model => model.DurumID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.GorevTipiID, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+
+                                        @*@Html.EditorFor(model => model.GorevTipiID, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @Html.DropDownList("GorevTipiID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                        @Html.ValidationMessageFor(model => model.GorevTipiID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.DepartmanID, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @*@Html.EditorFor(model => model.DepartmanID, new { htmlAttributes = new { @class = "form-control" } })*@
+                                        @Html.DropDownList("DepartmanID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                        @Html.ValidationMessageFor(model => model.DepartmanID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker" } })
+                                        @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.BitisTarih, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.BitisTarih, new { htmlAttributes = new { @class = "form-control input-circledate-picker" } })
+                                            @Html.ValidationMessageFor(model => model.BitisTarih, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
+
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.IslemTip, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.IslemTip, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.IslemTip, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
+
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.IslemSira, htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-4">
+                                            @Html.EditorFor(model => model.IslemSira, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.IslemSira, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
+
+                                <div class="form-group" style="display: none;">
+                                    @Html.LabelFor(model => model.Kaydeden, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.Kaydeden, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                                        @Html.ValidationMessageFor(model => model.Kaydeden, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="display: none;">
+                                    @Html.LabelFor(model => model.KayitTarih, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.KayitTarih, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                                        @Html.ValidationMessageFor(model => model.KayitTarih, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-2 col-md-4">
+                                            <center>
+                                                <input type="submit" value="Ekle" class="btn btn-circle green" />
+                                                <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="liste">
+        </div>
+    </div>
+
+
+</div>
+@section Scripts{
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
+    <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+    <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+    <script src="~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('.date-picker').datepicker();
+            $(".form-rounded").css("border-radius", "1rem");
+        });
+
+        $('.form-rounded').click(function () {
+            console.log("qwer");
+        });
+    var EditURL = '@Url.Action("Edit", "Duties")';
+    var DeleteFunctionUrl = '@Url.Action("Delete", "Duties")';
+    PartialView("/Duties/List", 'liste');
+
+    function CreateEdit(Id) {
+        if (Id == 0) {
+            $("#ID").val("0");
+            $("#Proje").val("");
+            $("#Sorumlu").val("");
+            $("#KarsiForumlu").val("");
+            $("#Aciklama").val("");
+            $("#MesaiKota").val("");
+        }
+        else
+        { PartialView(EditURL, 'CreateEdit', JSON.stringify({ Id: Id })); }
+
     }
-    
-    </table>
-</body>
-</html>
+    </script>
+}
+
+
+
