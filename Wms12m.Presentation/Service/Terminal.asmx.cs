@@ -463,6 +463,7 @@ namespace Wms12m
             }
             //loop
             Result _result = new Result(true);
+            var Rkat = db.GetHucreKatID(mGorev.IR.DepoID, "R-Z-R-V").FirstOrDefault();
             foreach (var item in YerlestirmeList)
             {
                 //hücre adından kat id bulunur
@@ -476,10 +477,13 @@ namespace Wms12m
                     {
                         if (tmp.YerlestirmeMiktari == null) tmp.YerlestirmeMiktari = item.Miktar;
                         else tmp.YerlestirmeMiktari += item.Miktar;
+                        //irs detay kayıt
                         irsdetay.Operation(tmp);
-                        //yerleştirme kaydı yapılır
                         var stok = new Yerlestirme();
-                        var tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
+                        //rezervden düşürülür
+                        var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
+                        //yerleştirme kaydı yapılır
+                        tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
                         if (tmp2 == null)
                         {
                             tmp2 = new Yer()
