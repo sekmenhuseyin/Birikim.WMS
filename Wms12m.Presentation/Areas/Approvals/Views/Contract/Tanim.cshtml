@@ -496,7 +496,7 @@
         });
 
         $.ajax({
-            url: window.location.origin + "/Approvals/Contract/FiyatHesapKoduSelect",
+            url: window.location.origin + "/Approvals/Price/HesapKoduSelect",
             data: {},
             type: "post",
             success: function (data) {
@@ -760,7 +760,7 @@
         var jsonElement = JSON.stringify(element);
 
         if ($("#fiyat_listesi_data table").length < 1) {
-            PartialView("/Approvals/Contract/Tanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+            PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
         }
         satirsayisi++;
 

@@ -377,7 +377,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Sil_SM(string Data)
-        {            Result _Result = new Result(true);
+        {
+            Result _Result = new Result(true);
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
@@ -595,7 +596,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
-        } 
+        }
         #endregion
 
         public ActionResult Tanim()
