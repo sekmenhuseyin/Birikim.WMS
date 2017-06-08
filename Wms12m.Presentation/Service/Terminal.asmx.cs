@@ -26,7 +26,7 @@ namespace Wms12m
         [WebMethod]
         public Login LoginKontrol(string userID, string sifre, string AuthGiven)
         {
-            if (AuthGiven.Cozumle().Cozumle() != AuthPass) return new Login() { ID = 0, AdSoyad = "Yetkisiz giriş!" };
+            if (AuthGiven.Cozumle() != AuthPass) return new Login() { ID = 0, AdSoyad = "Yetkisiz giriş!" };
             //new user
             var user = new User() { Kod = userID.Left(5), Sifre = sifre };
             //log in actions
@@ -44,7 +44,9 @@ namespace Wms12m
                     try
                     {
                         db.LogLogins(userID, "terminal", true, "");
-                        return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, Guid = m.Guid.Sifrele(), AdSoyad = m.AdSoyad, DepoKodu = m.UserDetail.Depo.DepoKodu, DepoID = m.UserDetail.Depo.ID }).FirstOrDefault();
+                        var tbl = db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, Guid = m.Guid.ToString(), AdSoyad = m.AdSoyad, DepoKodu = m.UserDetail.Depo.DepoKodu, DepoID = m.UserDetail.Depo.ID }).FirstOrDefault();
+                        tbl.Guid = tbl.Guid.Sifrele();
+                        return tbl;
                     }
                     catch (Exception ex)
                     {
