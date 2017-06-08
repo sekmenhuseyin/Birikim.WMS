@@ -42,7 +42,6 @@
     var table = "";
     if ("@ViewBag.ListeNo" != "#12MConsulting#")
         {
-        console.log("werwer");
      table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
@@ -154,6 +153,7 @@
             jObject["BaglantiParaCinsi"] = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
             jObject["AktifPasif"] = $(".swtch_aktif_pasif").dxSwitch("instance").option("value");
 
+            jObject["Kod10"] = x[i][1];
             jObject["UrunGrubu"] = x[i][2];
             jObject["UrunKodu"] = x[i][3];
             jObject["UrunAdi"] = x[i][4];
@@ -171,11 +171,20 @@
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
             success: function (data) {
-                if (data.Status == true) {
+                console.log(data);
+                if (data == "OK") {
                     $(".selected").remove();
                     element=[];
                 }
-                Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
+                else if (data.substring(0, 3) == "SÖZ") {
+                    Modaldialog("Sözleşme sıra no =>" + data + " şeklinde başarıyla kaydedildi.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                    inputClear();
+                }
+                else {
+                    Modaldialog("Hata Oluştu.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                    inputClear();
+                }
+                
             }
         });
 
@@ -191,4 +200,6 @@
             }
         }
     }
+
+
 </script>
