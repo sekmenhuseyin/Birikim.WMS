@@ -167,6 +167,7 @@
             $("#KarsiForumlu").val("");
             $("#Aciklama").val("");
             $("#MesaiKota").val("");
+            PartialView("/ProjectForm/List", 'liste');
         }
         else
         { PartialView(EditURL, 'CreateEdit', JSON.stringify({ Id: Id })); }
