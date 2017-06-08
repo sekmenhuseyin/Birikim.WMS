@@ -47,9 +47,7 @@
         </a>
     </div>
 </div>
-<div id="box-content">
-
-</div>
+<div id="box-content"></div>
 @{
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true) {<div class="h-500" id="gunluk_satis"></div>}
     if (Model.yetki.Contains("'ChartGunlukSatisPie'") == true) {<div class="h-500" id="gunluk_satis_pie"></div>}
@@ -92,11 +90,8 @@
 <script src="~/Content/assets/global/plugins/echarts/echarts.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
 <script>
-    var dateVal = new Date();
-    dateVal.setHours(0, 0, 0);
+    var dateVal = new Date(); dateVal.setHours(0, 0, 0);
     var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-    //var BoxUrl = "/Home/PartialBox";
-    //var BoxUrl = "/Home/PartialBox2";
     var BoxUrl = "/Home/PartialBox3";
     PartialView(BoxUrl, 'box-content'); 
 @{
