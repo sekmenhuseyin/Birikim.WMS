@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs2B1F.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs7FD0.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs2B1F.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs7FD0.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Charts.v17.1.Core, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
@@ -623,9 +623,6 @@
     <Content Include="Areas\Approvals\Views\Purchase\GMOnayHTML.cshtml" />
     <Content Include="Views\SubProjectForm\Edit.cshtml" />
     <Content Include="Views\SubProjectForm\Index.cshtml" />
-    <Content Include="Views\Duties\Create.cshtml" />
-    <Content Include="Views\Duties\Delete.cshtml" />
-    <Content Include="Views\Duties\Details.cshtml" />
     <Content Include="Views\Duties\Edit.cshtml" />
     <Content Include="Views\Duties\Index.cshtml" />
     <Content Include="Views\DutyWork\Create.cshtml" />
@@ -650,6 +647,9 @@
       <DependentUpon>DsSatinalma.xsd</DependentUpon>
     </Content>
     <Content Include="Views\SubProjectForm\EditAlt.cshtml" />
+    <Content Include="Views\Duties\List.cshtml" />
+    <Content Include="Views\Duties\New.cshtml" />
+    <Content Include="Views\DutyWork\NewWork.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

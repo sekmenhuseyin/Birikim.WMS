@@ -71,4 +71,30 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
         }
     }
 }
+// Stringe karakter eklemek için
+String.prototype.addAt = function (index, character) {
+    return this.substr(0, index) + character + this.substr(index + character.length - 1);
+// Sayılara ondalık binlik ayraçları eklemek için
+function ondalikBinlik(Val) {
+    if (Val.toString().indexOf(",") < 1) {
+        var b = new Array();
+        var decVal = Number(Val).toFixed(2).replace(".", ",");
+        var a = decVal.split(",")[0].length;
+        for (var i = a; i > 0; i = i - 3) {
+            var c = i % 3;
+            if (c == 0 && i != 3) {
+                b.push(i - 3);
+            }
+            else if (c != 0) {
+                b.push(c);
+            }
+        }
+        $.each(b, function (index, value) {
+            decVal = decVal.addAt(value, '.');
+        });
+        return decVal;
+    }
+}
+
+}
 
