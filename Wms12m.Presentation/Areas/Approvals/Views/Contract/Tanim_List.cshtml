@@ -76,19 +76,15 @@
     else {
 
         $('tbody').last().remove();
-        @*console.log("@ViewBag.Satir");
-        console.log(JSON.parse("@ViewBag.Satir"););*@
-        console.log(@Html.Raw(Json.Encode(ViewBag.Satir)));
         @*@Html.Raw(Json.Encode(ViewBag.Satir));*@
         var elementt = @Html.Raw(Json.Encode(ViewBag.Satir));
-        console.log(elementt);
         $(elementt).insertAfter($(".aaaaa"));
         setTimeout(function(){ $("#sample_1_info").text("Satır Eklendi"); }, 500);
-        $(".numb_iskonto1").dxNumberBox("instance").option("value",0);
-        $(".numb_iskonto2").dxNumberBox("instance").option("value",0);
-        $(".numb_iskonto3").dxNumberBox("instance").option("value",0);
-        $(".numb_iskonto4").dxNumberBox("instance").option("value",0);
-        $(".numb_iskonto5").dxNumberBox("instance").option("value",0);
+        $(".numb_iskonto1").dxTextBox("instance").option("value",0);
+        $(".numb_iskonto2").dxTextBox("instance").option("value",0);
+        $(".numb_iskonto3").dxTextBox("instance").option("value",0);
+        $(".numb_iskonto4").dxTextBox("instance").option("value",0);
+        $(".numb_iskonto5").dxTextBox("instance").option("value",0);
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         });
@@ -131,7 +127,7 @@
             jObject["Unvan"] = $(".select_musteri_kodu").dxLookup("instance").option("selectedItem").Unvan;
             if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false) {
                 jObject["VadeTarihInt"] = 0;
-                jObject["ValorGun"] = $(".numb_valor_gun").dxNumberBox("instance").option("value");
+                jObject["ValorGun"] = $(".numb_valor_gun").dxTextBox("instance").option("value");
             }
             else {
                 jObject["VadeTarihInt"] =  Math.ceil(($(".date_vade_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
@@ -146,10 +142,10 @@
             jObject["Not"] = $(".txt_sozlesme_notu").dxTextBox("instance").option("value");
             jObject["BaglantiTipi"] = $(".select_baglanti_tipi").dxSelectBox("instance").option("value");
             jObject["SiraNo"] = $(".txt_sira_no").dxTextBox("instance").option("value");
-            jObject["BaglantiTutari"] = $(".numb_baglanti_tutari").dxNumberBox("instance").option("value");
-            jObject["CekTutari"] = $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("value");
+            jObject["BaglantiTutari"] = $(".numb_baglanti_tutari").dxTextBox("instance").option("value");
+            jObject["CekTutari"] = $(".numb_alinan_cek_tutari").dxTextBox("instance").option("value");
             jObject["CekOrtVadeTarihi"] = $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value");
-            jObject["NakitTutar"] = $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("value");
+            jObject["NakitTutar"] = $(".numb_alinan_nakit_vb").dxTextBox("instance").option("value");
             jObject["BaglantiParaCinsi"] = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
             jObject["AktifPasif"] = $(".swtch_aktif_pasif").dxSwitch("instance").option("value");
 
@@ -171,7 +167,6 @@
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
             success: function (data) {
-                console.log(data);
                 if (data == "OK") {
                     $(".selected").remove();
                     element=[];
@@ -194,7 +189,6 @@
         for (var i = 0; i < silinecek.length; i++) {
             element.splice(i, 1);
             var jsonElement = JSON.stringify(element);
-            console.log(element);
             if ($("#fiyat_listesi_data table").length < 1) {
                 PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
             }

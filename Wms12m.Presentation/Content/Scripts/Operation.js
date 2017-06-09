@@ -74,6 +74,7 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
 // Stringe karakter eklemek için
 String.prototype.addAt = function (index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length - 1);
+}
 // Sayılara ondalık binlik ayraçları eklemek için
 function ondalikBinlik(Val) {
     if (Val.toString().indexOf(",") < 1) {
@@ -85,8 +86,8 @@ function ondalikBinlik(Val) {
             if (c == 0 && i != 3) {
                 b.push(i - 3);
             }
-            else if (c != 0) {
-                b.push(c);
+            else if (c != 0 && i >3) {
+                b.push(i - 3);
             }
         }
         $.each(b, function (index, value) {
@@ -94,7 +95,27 @@ function ondalikBinlik(Val) {
         });
         return decVal;
     }
+    else if (Val.toString().indexOf(".") < 1) {
+        return Val;
+    }
+    else {
+        var b = new Array();
+       
+        var detVal = Val.split(",")[0].replace(/\./g, "");
+        var a = detVal.length;
+        for (var i = a; i > 0; i = i - 3) {
+            var c = i % 3;
+            if (c == 0 && i != 3) {
+                b.push(i - 3);
+            }
+            else if (c != 0 && i > 3) {
+                b.push(i - 3);
+            }
+        }
+        $.each(b, function (index, value) {
+            detVal = detVal.addAt(value, '.');
+        });
+        detVal += "," + Val.split(",")[1]
+        return detVal;
+    }
 }
-
-}
-
