@@ -20,8 +20,9 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult List()
         {
+
             var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
-            ViewBag.id = "tbl1";
+            //ViewBag.id = ID;
             return PartialView(projeForms.Where(a => a.PID != null).ToList());
         }
 
@@ -30,7 +31,7 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
             var projeForms = db.ProjeForms.Include(p => p.Musteri).Include(p => p.ProjeForm2);
-            ViewBag.id = "tbl2";
+            ViewBag.id = ID;
             return PartialView("List", projeForms.Where(a => a.PID == ID).ToList());
         }
 
@@ -46,16 +47,18 @@ namespace Wms12m.Presentation.Controllers
         }
 
 
-        public PartialViewResult EditAlt()
+        public PartialViewResult EditAlt()//ProjectForm'dan gelen veriyi alır. Form ekler.
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
             ProjeForm projeForm = db.ProjeForms.Find(ID);
-
+            ViewBag.id = ID;
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.ID);
             return PartialView(projeForm);
         }
+
+
 
 
         [HttpPost]

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row" id="CreateEditAlt">
     <div class="col-lg-12">
-        <div class="modal-body">
+        <div class="modal-body" id="ustform">
             <h4>Yeni Form</h4>
             @using (Ajax.BeginForm("Save", "SubProjectForm", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEditAltF('1');" }, new { @class = "form-horizontal" }))
             {
@@ -63,7 +63,8 @@
 </div>
 
 <script type="text/javascript">
-    PartialView("/SubProjectForm/ListAlt", 'listealt');
+    var EditURLAdres = '@Url.Action("Edit", "SubProjectForm")';
+    PartialView("/SubProjectForm/ListAlt/@ViewBag.id", 'listealt');
     function CreateEditAltF(Id) {
         if (Id == 0) {
             $("#ID").val("0");
@@ -73,10 +74,9 @@
             $("#Aciklama").val("");
             $("#MesaiKota").val("");
         }
-        else
-        {
-            Modaldialog("Kaydedildi", 'Başarı', 'Tamam', 'btn-success');
-            PartialView("/SubProjectForm/ListAlt", 'listealt');
+        else {
+            //  Modaldialog("Kaydedildi", 'Başarı', 'Tamam', 'btn-success');
+            { PartialView(EditURLAdres, 'ustform', JSON.stringify({ Id: Id })); }
         }
 
     }
