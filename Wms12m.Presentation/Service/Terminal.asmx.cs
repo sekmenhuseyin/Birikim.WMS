@@ -482,6 +482,8 @@ namespace Wms12m
                         var stok = new Yerlestirme();
                         //rezervden düşürülür
                         var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
+                        tmp2.Miktar -= item.Miktar;
+                        stok.Update(tmp2, item.IrsID, KullID, false, item.Miktar);
                         //yerleştirme kaydı yapılır
                         tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
                         if (tmp2 == null)

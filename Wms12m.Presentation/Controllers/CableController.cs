@@ -387,9 +387,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Kablo Siparişi", PermTypes.Reading) == false) return null;
             string[] tmp = ID.Split('-');
-            string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.MalKodu, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar AS Miktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
-                        "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                        "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo = '{2}') AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 62) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.Kod10 IN ('Terminal', 'Onaylandı'))", tmp[0], tmp[1], tmp[2]);
+            string sql = String.Format("FINSAT6{0}.wms.getSiparisDetail @DepoKodu = '{1}', @EvrakNo = '{2}'", tmp[0], tmp[1], tmp[2]);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }

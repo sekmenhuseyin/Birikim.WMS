@@ -61,7 +61,7 @@
         PartialView('/Stock/HistoryList', 'Grid', JSON.stringify({ Id: $("#MalKodu").val() + "#" + $("#DepoID").val() }));
     }
     $("#MalKodu").autocomplete({
-        source: "/Buy/getMalzemebyCode/@ViewBag.SirketID",
+        source: "/Purchase/getMalzemebyCode/@ViewBag.SirketID",
         minLength: 2,
         select: function (event, ui) {
             getBirims(ui.item.id);
@@ -71,7 +71,7 @@
     function getBirims(id) {
         $("#Birim option").remove();
         $.ajax({
-            url: "/Buy/getBirim",
+            url: "/Purchase/getBirim",
             type: 'POST',
             data: JSON.stringify({ kod: id, s: @ViewBag.SirketID }),
             dataType: "json",
