@@ -111,34 +111,27 @@
             }
         });
         $("#selector").click(function () {
-            selected = "";
             if (selectall == true) {
                 $("#selector").text("Seçimi İptal Et"); selectall = false;
-                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
-                    selected = selected + this.data()[0] + "#";
-                    this.select();
-                });
+                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
             }
             else {
                 $("#selector").text("Hepsini Seç"); selectall = true;
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
             }
-            $("#checkboxes").val(selected);
         });
         $(".submit").click(function () {
-            var result = false;
+            var selected = ""; var result = true;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-                result = true;
+                selected = selected + this.data()[7] + "#";
+                var stok = this.data()[5];
+                if (stok == "0,00")
+                    result = false;
             });
+            $("#checkboxes").val(selected);
             if (result == true) $("#submit").click();
             else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
         });
     });
-    function toggle(row, id) {
-        $(row).toggleClass('selected');
-        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
-        else selected = selected.replace(id + "#", "");
-        $("#checkboxes").val(selected);
-    }
 </script>
 }

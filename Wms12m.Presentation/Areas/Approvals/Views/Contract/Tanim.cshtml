@@ -60,7 +60,7 @@
             <div class="input select_baglanti_tipi"></div>
         </div>
         <div class="input_content">
-            <div class="input_label">Bağlantı Tutarı</div>
+            <div class="input_label" data-bind="text: Globalize.format(someNumber, 'n2')">Bağlantı Tutarı </div>
             <div class="input numb_baglanti_tutari"></div>
         </div>
         <div class="input_content">
@@ -353,7 +353,11 @@
         $(".numb_baglanti_tutari").dxNumberBox({
             min: 0,
             step: 1,
-            value: 0
+            value: 0,
+            mode: "number",
+            dataType: 'number',
+            format: 'fixedPoint',
+            precision: 2,
         });
         $(".numb_iskonto1").dxNumberBox({
             min: 0,
@@ -553,13 +557,14 @@
                     type: "post",
                     success: function (data) {
                         var result = JSON.parse(data);
+                        console.log(result[0]);
                         if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
                             MusteriUygunlukKodu = result[0].MusUygSekli;
                         }
                         else {
                             MusteriUygunlukKodu = "";
                         }
-
+                        $(".numb_baglanti_tutari").dxNumberBox("instance").option("value", result[0].Kod11);
                         $(".select_fiyat_listesi").dxLookup("instance").option("value", null);
                         $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
                         $(".select_urun_kodu").dxLookup("instance").option("value", null);
