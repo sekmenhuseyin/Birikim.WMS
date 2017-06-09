@@ -18,6 +18,16 @@ namespace Wms12m.Presentation.Controllers
             return View(new GorevCalisma());
         }
 
+        public PartialViewResult NewWork()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            var ID = id.ToInt32();
+            GorevCalisma gorevCalisma = db.GorevCalismas.Find(ID);
+            ViewBag.id = ID;
+            ViewBag.GorevID = new SelectList(db.Gorevlers.Where(a => a.Sorumlu == vUser.UserName || a.Sorumlu2 == vUser.UserName || a.Sorumlu3 == vUser.UserName && a.ID == ID).ToList(), "ID", "Gorev");
+            return PartialView(gorevCalisma);
+        }
+
         public PartialViewResult List()
         {
             var gorevCalismas = db.GorevCalismas.Include(g => g.Gorevler);
