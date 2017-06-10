@@ -129,10 +129,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://192.168.2.232:9080/service/terminal.asmx">
+    <WebReferenceUrl Include="http://localhost:3841/service/terminal.asmx">
       <UrlBehavior>Static</UrlBehavior>
       <RelPath>Web References\TerminalService\</RelPath>
-      <UpdateFromURL>http://192.168.2.232:9080/service/terminal.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost:3841/service/terminal.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

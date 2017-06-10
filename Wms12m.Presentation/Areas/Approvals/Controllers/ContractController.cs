@@ -1043,9 +1043,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         sqlexper.Insert(isstemp);
 
                     }
-
+                    var tempBagTutar = BaglantiTutari.ToString().Replace(@".", "x").Replace(@",", ".").Replace(@"x", ",").ToDecimal();
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, BaglantiTutari));
+                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, tempBagTutar));
 
                     if (kontrol)
                         return SozlesmeSiraNo;

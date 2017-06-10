@@ -111,8 +111,8 @@
             <div class="input select_baglanti_tipi"></div>
         </div>
         <div class="input_content">
-            <div class="input_label" data-bind="text: Globalize.format(someNumber, 'n2')">Bağlantı Tutarı </div>
-            <div class="input numb_baglanti_tutari"></div>
+            <div class="input_label">Bağlantı Tutarı</div>
+            <div class="input numb numb_baglanti_tutari"></div>
         </div>
         <div class="input_content">
             <div class="input_label">Bağlantı Tutarı Döviz</div>
@@ -404,88 +404,286 @@
         $(".txt_sira_no").dxTextBox("instance").option("value", "@ViewBag.SRNO");
       
         $(".numb_baglanti_tutari").dxTextBox({
-            mode:"fixed-point",
+            mode: "fixed-point",
             value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
             onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", decVal);
+                //if (e.value.toString().indexOf(",") < 1) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                //}
+                //else {
+                //    var deger = ondalikBinlik(e.value)
+                //    e.component.option("value", deger);
+                //}
             }
 
         });
-        $(".numb_iskonto1").dxNumberBox({
-            min: 0,
-            step: 1,
-            value: 0
-        });
-        $(".numb_iskonto2").dxNumberBox({
-            min: 0,
-            step: 1,
-            value: 0
-        });
-        $(".numb_iskonto3").dxNumberBox({
-            min: 0,
-            step: 1,
-            value: 0
-        });
-        $(".numb_iskonto4").dxNumberBox({
-            min: 0,
-            step: 1,
-            value: 0
-        });
-        $(".numb_iskonto5").dxNumberBox({
-            min: 0,
-            step: 1,
-            value: 0
-        });
-        $(".numb_valor_gun").dxNumberBox({
-            min: 0,
-            step: 1,
-            value: 0
-        });
-        $(".numb_kredi_limiti").dxNumberBox({
-            min: 0,
-            step: 1,
+        $(".numb_iskonto1").dxTextBox({
+            mode: "fixed-point",
             value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            }
+        });
+        $(".numb_iskonto2").dxTextBox({
+            mode: "fixed-point",
+            value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            }
+        });
+        $(".numb_iskonto3").dxTextBox({
+            mode: "fixed-point",
+            value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            }
+        });
+        $(".numb_iskonto4").dxTextBox({
+            mode: "fixed-point",
+            value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            }
+        });
+        $(".numb_iskonto5").dxTextBox({
+            mode: "fixed-point",
+            value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            }
+        });
+        $(".numb_valor_gun").dxTextBox({
+            mode: "fixed-point",
+            value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            }
+        });
+        $(".numb_kredi_limiti").dxTextBox({
+            mode: "fixed-point",
+            value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            },
             readOnly: true
         });
-        $(".numb_bakiye").dxNumberBox({
-            min: 0,
-            step: 1,
+        $(".numb_bakiye").dxTextBox({
+            mode: "fixed-point",
             value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            },
             readOnly: true
         });
-        $(".numb_toplam_bakiye").dxNumberBox({
-            min: 0,
-            step: 1,
+        $(".numb_toplam_bakiye").dxTextBox({
+            mode: "fixed-point",
             value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            },
             readOnly: true
         });
-        $(".numb_bekleyen_siparis").dxNumberBox({
-            min: 0,
-            step: 1,
+        $(".numb_bekleyen_siparis").dxTextBox({
+            mode: "fixed-point",
             value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            },
             readOnly: true
         });
-        $(".numb_alinan_bordro").dxNumberBox({
-            min: 0,
-            step: 1,
+        $(".numb_alinan_bordro").dxTextBox({
+            mode: "fixed-point",
             value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            },
             readOnly: true
         });
-        $(".numb_alinan_cek_tutari").dxNumberBox({
-            min: 0,
-            step: 1,
-            value: 0
-        });
-        $(".numb_alinan_nakit_vb").dxNumberBox({
-            min: 0,
-            step: 1,
-            value: 0
-        });
-        $(".numb_toplam_tahsilat").dxNumberBox({
-            min: 0,
-            step: 1,
+        $(".numb_alinan_cek_tutari").dxTextBox({
+            mode: "fixed-point",
             value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            }
+        });
+        $(".numb_alinan_nakit_vb").dxTextBox({
+            mode: "fixed-point",
+            value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            }
+        });
+        $(".numb_toplam_tahsilat").dxTextBox({
+            mode: "fixed-point",
+            value: 0,
+            onKeyPress: function (info) {
+                var event = info.jQueryEvent;
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    var val = info.component.option("value");
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            },
+            onValueChanged: function (e) {
+                var deger = ondalikBinlik(e.value)
+                e.component.option("value", deger);
+            },
             readOnly: true
         });
         var bagTipi = [{ Tip: "Peşin" }, { Tip: "Vadeli" }, { Tip: "Kredi Kart" }, { Tip: "Kampanya" }]
@@ -610,7 +808,6 @@
                     type: "post",
                     success: function (data) {
                         var result = JSON.parse(data);
-                        console.log(result[0]);
                         if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
                             MusteriUygunlukKodu = result[0].MusUygSekli;
                         }
@@ -635,29 +832,29 @@
                         $(".select_musteri_kodu").dxLookup("instance").option("value", result[0].MusteriKod);
                         $(".txt_sozlesme_notu").dxTextBox("instance").option("value", result[0].Aciklama);
                         $(".swtch_aktif_pasif").dxSwitch("instance").option("value", result[0].AktifPasif);
-                        $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("value", result[0].CekTutari);
+                        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("value", result[0].CekTutari);
                         $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value", new Date(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1)));
-                        $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("value", result[0].NakitTutari);
+                        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("value", result[0].NakitTutari);
 
                         if (result[0].ValorGun > 1) {
-                            $(".numb_valor_gun").dxNumberBox("instance").option("value", result[0].ValorGun);
+                            $(".numb_valor_gun").dxTextBox("instance").option("value", result[0].ValorGun);
                             $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
                             $(".vade_content").css("display", "none");
                             $(".valor_content").css("display", "block");
                         }
                         else if (result[0].VadeTarihi != null) {
                             $(".date_vade_tarihi").dxDateBox("instance").option("value", new Date(((result[0].VadeTarihi - 25569) * 86400000)));
-                            $(".numb_valor_gun").dxNumberBox("instance").option("value", 0);
+                            $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
                             $(".valor_content").css("display", "none");
                             $(".vade_content").css("display", "block");
                         }
                         else {
-                            $(".numb_valor_gun").dxNumberBox("instance").option("value", 0);
+                            $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
                             $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
                             $(".valor_content").css("display", "none");
                             $(".vade_content").css("display", "block");
                         }
-                        $(".numb_toplam_tahsilat").dxNumberBox("instance").option("value", (result[0].CekTutari == null ? 0 : result[0].CekTutari) + (result[0].NakitTutari == null ? 0 : result[0].NakitTutari));
+                        $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", (result[0].CekTutari == null ? 0 : result[0].CekTutari) + (result[0].NakitTutari == null ? 0 : result[0].NakitTutari));
 
                     }
                 });
@@ -748,12 +945,11 @@
                     type: "post",
                     success: function (data) {
                         var result = JSON.parse(data);
-                        console.log(result[0]);
-                        $(".numb_kredi_limiti").dxNumberBox("instance").option("value", result[0].KrediLimiti);
-                        $(".numb_bakiye").dxNumberBox("instance").option("value", result[0].Bakiye);
-                        $(".numb_toplam_bakiye").dxNumberBox("instance").option("value", result[0].ToplamBakiye);
-                        $(".numb_bekleyen_siparis").dxNumberBox("instance").option("value", result[0].BekleyenSiparisTutar);
-                        $(".numb_alinan_bordro").dxNumberBox("instance").option("value", result[0].AlinanBordro);
+                        $(".numb_kredi_limiti").dxTextBox("instance").option("value", result[0].KrediLimiti);
+                        $(".numb_bakiye").dxTextBox("instance").option("value", result[0].Bakiye);
+                        $(".numb_toplam_bakiye").dxTextBox("instance").option("value", result[0].ToplamBakiye);
+                        $(".numb_bekleyen_siparis").dxTextBox("instance").option("value", result[0].BekleyenSiparisTutar);
+                        $(".numb_alinan_bordro").dxTextBox("instance").option("value", result[0].AlinanBordro);
                         $(".txt_alinan_bordro_ort").dxTextBox("instance").option("value", result[0].AlinanBordroOrtalamaVade == null ? "" : result[0].AlinanBordroOrtalamaVade);
                         $(".txt_ortalama_vade").dxTextBox("instance").option("value", result[0].OrtalamaVade == null ? "" : result[0].OrtalamaVade);
                     }
@@ -809,15 +1005,14 @@
         var EKMalKodGrup = TempUrunGrupText;
         var EKMalAdi = TempMalAdi;
         var EKKalite = TempKalite;
-        var EKOran1 = $(".numb_iskonto1").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto1").dxNumberBox("instance").option("value");
-        var EKOran2 = $(".numb_iskonto2").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto2").dxNumberBox("instance").option("value");
-        var EKOran3 = $(".numb_iskonto3").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto3").dxNumberBox("instance").option("value");
-        var EKOran4 = $(".numb_iskonto4").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto4").dxNumberBox("instance").option("value");
-        var EKOran5 = $(".numb_iskonto5").dxNumberBox("instance").option("value") == null ? 0 : $(".numb_iskonto5").dxNumberBox("instance").option("value");
-        var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td nowrap>" + EKOran1 + "</td><td nowrap>" + EKOran2 + "</td><td nowrap>" + EKOran3 + "</td><td nowrap>" + EKOran4 + "</td><td nowrap>" + EKOran5 + "</td></tr>"
+        var EKOran1 = $(".numb_iskonto1").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto1").dxTextBox("instance").option("value");
+        var EKOran2 = $(".numb_iskonto2").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto2").dxTextBox("instance").option("value");
+        var EKOran3 = $(".numb_iskonto3").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto3").dxTextBox("instance").option("value");
+        var EKOran4 = $(".numb_iskonto4").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto4").dxTextBox("instance").option("value");
+        var EKOran5 = $(".numb_iskonto5").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto5").dxTextBox("instance").option("value");
+        var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td  align='right' nowrap>" + EKOran1 + "</td><td align='right' nowrap>" + EKOran2 + "</td><td align='right' nowrap>" + EKOran3 + "</td><td align='right' nowrap>" + EKOran4 + "</td><td align='right' nowrap>" + EKOran5 + "</td></tr>"
         element.push(sss);
         var jsonElement = JSON.stringify(element);
-        console.log(element);
         if ($("#fiyat_listesi_data table").length < 1) {
             PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
         }
@@ -884,7 +1079,7 @@
             Modaldialog("Vade Tarihi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
             return;
         }
-        if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false && $(".numb_valor_gun").dxNumberBox("instance").option("value") <= 0) {
+        if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false && $(".numb_valor_gun").dxTextBox("instance").option("value") <= 0) {
             Modaldialog("ValorGun Boş Geçilemez.", "Kayıt İşlemi", "Tamam", "Kayıt");
             return;
         }
@@ -937,7 +1132,7 @@
             onValueChanged: function (e) {
             }
         });
-        $(".numb_onc_baglanti_tutari").dxNumberBox({
+        $(".numb_onc_baglanti_tutari").dxTextBox({
             min: 0,
             step: 1,
             value: bag_tutari,
@@ -952,7 +1147,7 @@
                 YeniBitisTarihi = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
             }
         });
-        $(".numb_yeni_baglanti_tutari").dxNumberBox({
+        $(".numb_yeni_baglanti_tutari").dxTextBox({
             min: 0,
             step: 1,
             value: 0,
@@ -965,7 +1160,7 @@
 
     $('.soz_gunc_kaydet').click(function () {
         var listeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
-        var onc_bag_tut = $(".numb_onc_baglanti_tutari").dxNumberBox("instance").option("value");
+        var onc_bag_tut = $(".numb_onc_baglanti_tutari").dxTextBox("instance").option("value");
         var yeni_bag_tut = YeniBaglantiTutari;
         var onc_bit_tarih = $(".date_onc_bitis_tarihi").dxDateBox("instance").option("value");
         var yeni_bit_tarih = YeniBitisTarihi;
@@ -1015,7 +1210,7 @@
     });
 
     $('.soz_gunc_iptal').click(function () {
-        $(".numb_yeni_baglanti_tutari").dxNumberBox("instance").option("value", 0);
+        $(".numb_yeni_baglanti_tutari").dxTextBox("instance").option("value", 0);
         $(".date_yeni_bitis_tarihi").dxDateBox("instance").option("value", null);
         YeniBaglantiTutari = "";
         YeniBitisTarihi = "";
@@ -1029,9 +1224,9 @@
         $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", true);
         $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", true);
         $(".numb_baglanti_tutari").dxTextBox("instance").option("readOnly", true);
-        $(".numb_valor_gun").dxNumberBox("instance").option("readOnly", true);
-        $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("readOnly", true);
-        $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("readOnly", true);
+        $(".numb_valor_gun").dxTextBox("instance").option("readOnly", true);
+        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", true);
+        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", true);
         $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", true);
         $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", true);
         $(".select_musteri_kodu").dxLookup("instance").option("readOnly", true);
@@ -1045,9 +1240,9 @@
         $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", false);
         $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", false);
         $(".numb_baglanti_tutari").dxTextBox("instance").option("readOnly", false);
-        $(".numb_valor_gun").dxNumberBox("instance").option("readOnly", false);
-        $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("readOnly", false);
-        $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("readOnly", false);
+        $(".numb_valor_gun").dxTextBox("instance").option("readOnly", false);
+        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", false);
+        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", false);
         $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", false);
         $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
         $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
@@ -1061,9 +1256,9 @@
         $(".date_vade_tarihi").dxDateBox("instance").option("value", 0);
         $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value", null);
         $(".numb_baglanti_tutari").dxTextBox("instance").option("value", 0);
-        $(".numb_valor_gun").dxNumberBox("instance").option("value", 0);
-        $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("value", 0);
-        $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("value", 0);
+        $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
+        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("value", 0);
+        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("value", 0);
         $(".select_baglanti_tipi").dxSelectBox("instance").option("value", null);
         $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", null);
         $(".select_musteri_kodu").dxLookup("instance").option("value", null);
@@ -1073,19 +1268,19 @@
         $(".select_urun_kodu").dxLookup("instance").option("value", null);
         $(".txt_sozlesme_notu").dxTextBox("instance").option("value", "");
         $(".swtch_aktif_pasif").dxSwitch("instance").option("value", true);
-        $(".numb_valor_gun").dxNumberBox("instance").option("value", 0);
+        $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
         $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
-        $(".numb_toplam_tahsilat").dxNumberBox("instance").option("value", 0);
-        $(".numb_bakiye").dxNumberBox("instance").option("value", 0);
-        $(".numb_toplam_bakiye").dxNumberBox("instance").option("value", 0);
-        $(".numb_bekleyen_siparis").dxNumberBox("instance").option("value", 0);
+        $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", 0);
+        $(".numb_bakiye").dxTextBox("instance").option("value", 0);
+        $(".numb_toplam_bakiye").dxTextBox("instance").option("value", 0);
+        $(".numb_bekleyen_siparis").dxTextBox("instance").option("value", 0);
         $(".txt_alinan_bordro_ort").dxTextBox("instance").option("value", "");
         $(".txt_ortalama_vade").dxTextBox("instance").option("value", "");
-        $(".numb_iskonto1").dxNumberBox("instance").option("value", 0);
-        $(".numb_iskonto2").dxNumberBox("instance").option("value", 0);
-        $(".numb_iskonto3").dxNumberBox("instance").option("value", 0);
-        $(".numb_iskonto4").dxNumberBox("instance").option("value", 0);
-        $(".numb_iskonto5").dxNumberBox("instance").option("value", 0);
+        $(".numb_iskonto1").dxTextBox("instance").option("value", 0);
+        $(".numb_iskonto2").dxTextBox("instance").option("value", 0);
+        $(".numb_iskonto3").dxTextBox("instance").option("value", 0);
+        $(".numb_iskonto4").dxTextBox("instance").option("value", 0);
+        $(".numb_iskonto5").dxTextBox("instance").option("value", 0);
         $(".select_urun_kodu").dxLookup("instance").option("value", null);
         $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
 
@@ -1096,15 +1291,17 @@
         $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", false);
         $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", false);
         $(".numb_baglanti_tutari").dxTextBox("instance").option("readOnly", false);
-        $(".numb_valor_gun").dxNumberBox("instance").option("readOnly", false);
-        $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("readOnly", false);
-        $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("readOnly", false);
+        $(".numb_valor_gun").dxTextBox("instance").option("readOnly", false);
+        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", false);
+        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", false);
         $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", false);
         $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
         $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
         $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", false);
+
+        
     }
 
-
+       
     </script>
 }

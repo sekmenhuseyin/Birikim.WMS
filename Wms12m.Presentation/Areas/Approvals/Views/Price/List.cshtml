@@ -21,7 +21,6 @@
         width: 35%;
         font-weight: bold;
         color: #5bc8d2;
-        ;
         font-size: 9px;
         padding-top: 4px;
     }
@@ -166,6 +165,7 @@
         var listeNo = "";
         var GrupKod = "";
         $(document).ready(function () {
+           
             var model = @Html.Raw(Json.Encode(Model));
             var brmData=new Array();
             var dvzCinsi=[{Cins:"USD"},{Cins:"EUR"}]
@@ -200,6 +200,7 @@
                 displayExpr: 'FiyatListName',
 
                 onValueChanged: function (e) {
+                    console.log(e.value);
                     listeNo=e.value;
                 },
 
@@ -278,16 +279,42 @@
                 }
             });
 
-            $(".numb-satis-fiyat").dxNumberBox({
-                min:0,
-                step:1,
-                value:0
+            $(".numb-satis-fiyat").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                }
             });
 
-            $(".numb-doviz-satis-fiyat").dxNumberBox({
-                min:0,
-                step:1,
-                value:0
+            $(".numb-doviz-satis-fiyat").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                }
             });
 
             $(".txt-doviz-birim").dxSelectBox({
@@ -314,8 +341,9 @@
         });
 
         $('.yenile-buton').click(function () {
+            console.log(listeNo);
             if(listeNo!=""){
-                PartialView("/Approval/Price/ListPartial", 'fiyat_listesi_data', JSON.stringify({ listeNo: listeNo }));  
+                PartialView("/Approvals/Price/ListPartial", 'fiyat_listesi_data', JSON.stringify({ listeNo:listeNo }));  
             }
         });
 
@@ -417,16 +445,17 @@
             jObject["ListeNo"]=$(".select_list_no").dxLookup("instance").option("value");
             jObject["UrunKodu"]=$(".select_urun_kodu").dxLookup("instance").option("value");
             jObject["HesapKodu"]=$(".select_hesap_kod").dxLookup("instance").option("value");
-            jObject["SatisFiyat"]=$(".numb-satis-fiyat").dxNumberBox("instance").option("value");
-            jObject["DovizSatisFiyat"]=$(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value");
+            jObject["SatisFiyat"]=$(".numb-satis-fiyat").dxTextBox("instance").option("value");
+            jObject["DovizSatisFiyat"]=$(".numb-doviz-satis-fiyat").dxTextBox("instance").option("value");
             jObject["Birim"]=$(".txt-birim").dxSelectBox("instance").option("text");
             jObject["DovizBirim"]=$(".txt-doviz-birim").dxSelectBox("instance").option("text");
             jObject["BirimValue"]=jObject["Birim"]==null?-1:$(".txt-birim").dxSelectBox("instance").option("value");
             jObject["DovizBirimValue"]=jObject["DovizBirim"]==null?-1:$(".txt-doviz-birim").dxSelectBox("instance").option("value");
             jObject["DovizCinsi"]=$(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
             jObject["GrupKod"]=GrupKod;
-            jObject["Durum"]=id;
-            if(jObject["ListeNo"]==null || jObject["UrunKodu"]==null || jObject["HesapKodu"]==null || (jObject["SatisFiyat"]==0 && jObject["DovizSatisFiyat"]==0) || (jObject["SatisFiyat"]>0 && jObject["Birim"]==null) || (jObject["DovizSatisFiyat"]>0 && jObject["DovizBirim"]==null && jObject["DovizCinsi"]==null))
+            jObject["Durum"] = id;
+            console.log(parseFloat(jObject["SatisFiyat"]));
+            if (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || jObject["HesapKodu"] == null || (parseFloat(jObject["SatisFiyat"]) == 0 && parseFloat(jObject["DovizSatisFiyat"]) == 0) || (parseFloat(jObject["SatisFiyat"]) > 0 && jObject["Birim"] == null) || (parseFloat(jObject["DovizSatisFiyat"])>0 && jObject["DovizBirim"]==null && jObject["DovizCinsi"]==null))
             { 
                 Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
                 return;
@@ -441,8 +470,8 @@
                     if (data == "OK") {
                         $(".select_urun_kodu").dxLookup("instance").option("value",null);
                         $(".select_hesap_kod").dxLookup("instance").option("value",null);
-                        $(".numb-satis-fiyat").dxNumberBox("instance").option("value",0);
-                        $(".numb-doviz-satis-fiyat").dxNumberBox("instance").option("value",0);
+                        $(".numb-satis-fiyat").dxTextBox("instance").option("value",0);
+                        $(".numb-doviz-satis-fiyat").dxTextBox("instance").option("value",0);
                         $(".txt-birim").dxSelectBox("instance").option("text","");
                         $(".txt-doviz-birim").dxSelectBox("instance").option("text","");
                         $(".txt-birim").dxSelectBox("instance").option("value","");

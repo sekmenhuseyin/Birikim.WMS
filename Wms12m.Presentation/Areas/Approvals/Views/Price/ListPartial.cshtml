@@ -48,7 +48,7 @@
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/Price/ListesiSelect?listeNo= ' + '@ViewBag.ListeNo',
+            "url": '/Approvals/Price/ListesiSelect?listeNo=' + '@ViewBag.ListeNo',
             "dataSrc": function (json) {
                 return json;
             },
@@ -56,6 +56,7 @@
         "fixedHeader": true,
         "scrollX": true,
         "columnDefs": [{ "visible": false, "targets": 0 }],
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6, 8] }],
         "columns": [
             { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
             { "data": "MalKodu" },
@@ -63,9 +64,9 @@
             { "data": "GrupKod" },
             { "data": "MusteriKodu" },
             { "data": "Unvan" },
-            { "data": "SatisFiyat1" },
+            { "data": "SatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
             { "data": "SF1Birim" },
-            { "data": "DvzSatisFiyat1" },
+            { "data": "DvzSatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "DovizSF1Birim" },
             { "data": "SF1DovizCinsi" },
             { "data": "Birim1" },
