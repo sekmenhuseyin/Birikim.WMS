@@ -1,4 +1,14 @@
-﻿@model IEnumerable<Gorevler>
+﻿@model IEnumerable<GorevDurum>
+<style>
+    td.details-control {
+        background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+    }
+</style>
 <div class="portlet box green">
     <div class="portlet-title">
         <div class="caption">
@@ -6,9 +16,10 @@
         </div>
     </div>
     <div class="portlet-body form p-40">
-        <table class="table table-striped table-bordered table-hover" id="sample_1">
+        <table class="table table-striped table-responsive table-bordered" id="sample_1">
             <thead>
                 <tr>
+                    <th>Çalışma</th>
                     <th>Düzenle</th>
                     <th>
                         Sorumlu
@@ -49,7 +60,9 @@
 
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    <tr  data-ID="@item.ID">
+                        @*<td class="details-control" id="ilksutun"></td>*@
+                        <td style="width:20px!important;" class="details-control"></td>
                         <td>
                             <a class="btn icon-pencil" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Duties/Edit/@item.ID')"> Düzenle </a>
 
@@ -71,22 +84,23 @@
                         </td>
 
                         <td>
-                            @Html.DisplayFor(modelItem => item.OncelikID)
+                            @Html.DisplayFor(modelItem => item.Oncelik)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.DurumID)
+                            @Html.DisplayFor(modelItem => item.Durum)                           
+                                                      
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.GorevTipiID)
+                            @Html.DisplayFor(modelItem => item.GorevTipi)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.DepartmanID)
+                            @Html.DisplayFor(modelItem => item.Departman)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.TahminiBitis)
                         </td>
                         <td>
-                            <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/DutyWork/NewWork/@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma Ekle</a>
+                            <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/DutyWork/NewWork/@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
                             <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Duties/List','liste','@item.ID')"> Sil </a>
                         </td>
                     </tr>
@@ -97,9 +111,54 @@
     </div>
 </div>
 
-<script>$(document).ready(function () { $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>
+@*<script>$(document).ready(function () { $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>*@
 
+<script language="text/javascript">
+    $(document).ready(function () {
 
+        setTimeout(function () { $('.details-control').removeClass("sorting_1"); }, 100);
+
+        var table = $('#sample_1').DataTable({
+            "pagingType": "full_numbers",
+            "ordering": false,
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            initComplete: function () {
+
+                console.log("1");
+
+                this.api().columns([1, 2, 3, 4, 6, 7]).every(function () {
+                    console.log("2");
+                    var column = this;
+                    var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
+                        .appendTo($(column.header()))
+                        .on('change', function () {
+                            console.log("3");
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
+                });
+            }
+        });
+        $('#sample_1 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
+            //var tr = $(this).closest('tr');
+            //$("tr").removeClass("aa");
+            //tr.addClass("aa");
+            //var x = table.rows('.aa').data();
+            //var row = table.row(tr);
+            //if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            //else { console.log(x[0][0]); row.child(newrow(x[0][0])).show(); format(x[0][0].replace("/", "")); tr.addClass('shown'); }
+        });
+
+    }); 
+
+    
+
+</script>
 @*@model IEnumerable<Gorevler>
 
     @{

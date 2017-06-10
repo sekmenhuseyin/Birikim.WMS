@@ -4,14 +4,14 @@
     <div class="container">
         <div class="row" id="CreateEditAlt">
     <div class="col-lg-12">
-        <div class="modal-body" id="ustform">
+        
             <h4>Yeni Form</h4>
             @using (Ajax.BeginForm("Save", "SubProjectForm", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEditAltF('1');" }, new { @class = "form-horizontal" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
                 <div class="form-body">
-                    <div class="form-group row">
+                    <div class="form-group row" style="display:none">
                         @Html.LabelFor(model => model.PID, "PID", htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-4">
                             @Html.DropDownList("PID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" })
@@ -22,7 +22,7 @@
                     <div class="form-group row">
                         @Html.LabelFor(model => model.MusteriID, "MusteriID", htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-4">
-                            @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" })
+                            @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" ,@disabled="disabled" })
                             @Html.ValidationMessageFor(model => model.MusteriID, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                     <div class="form-group row">
                         @Html.LabelFor(model => model.Proje, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-4">
-                            @Html.EditorFor(model => model.Proje, new { htmlAttributes = new { @class = "form-control input-circle", @readonly = "readonly" } })
+                            @Html.EditorFor(model => model.Proje, new { htmlAttributes = new { @class = "form-control input-circle", @readonly = "readonly", @disabled = "disabled" } })
                             @Html.ValidationMessageFor(model => model.Proje, "", new { @class = "text-danger" })
                         </div>
                     </div>
