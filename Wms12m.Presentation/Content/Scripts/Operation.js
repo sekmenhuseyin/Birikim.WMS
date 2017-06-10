@@ -76,8 +76,12 @@ String.prototype.addAt = function (index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length - 1);
 }
 // Sayılara ondalık binlik ayraçları eklemek için
+// Sonrasında ondalık miktarıda parametreden gelecek şekilde ayarlanabilir
 function ondalikBinlik(Val) {
-    if (Val.toString().indexOf(",") < 1) {
+    if (Val == null || Val == undefined) {
+        return 0,00;
+    }
+    else if (Val.toString().indexOf(",") < 1) {
         var b = new Array();
         var decVal = Number(Val).toFixed(2).replace(".", ",");
         var a = decVal.split(",")[0].length;
