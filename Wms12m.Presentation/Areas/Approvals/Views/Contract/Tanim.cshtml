@@ -99,7 +99,7 @@
             <div class="input select_sozlesmeler"></div>
         </div>
         <div class="input_content">
-            <div class="input_label">Sözleşme Sıra No</div>
+            <div class="input_label">Sözleşme No</div>
             <div class="input txt_sozlesme_sira_no"></div>
         </div>
         <div class="input_content">
@@ -182,10 +182,16 @@
                 <div class="input_label">Vade/Valor</div>
                 <div class="input swtch_vade_valor"></div>
             </div>
-            <div class="input_content vade_content">
+            @*<div class="input_content vade_content">
                 <div class="input_label">Vade Tarihi</div>
                 <div class="input date_vade_tarihi"></div>
+            </div>*@
+
+            <div class="input_content vade_content">
+                <div class="input_label">Vade Tarihi</div>
+                <div class="input p_vade_tarihi"><input class="form-control" id="date" name="date" type="text" style="font-size:10px;font-weight:bold;height:36px;"/></div>
             </div>
+
             <div class="input_content valor_content">
                 <div class="input_label">Valor Gün</div>
                 <div class="input numb_valor_gun"></div>
@@ -296,753 +302,828 @@
     <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
     <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+    <script src="~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js" type="text/javascript"></script>
     <script type="text/javascript">
-    var YeniBaglantiTutari = "";
-    var YeniBitisTarihi = "";
-    var MusteriUygunlukKodu = "";
-    var TempMalAdi = "";
-    var TempUrunGrup = -1;
-    var listeNo = "";
-    var TempUrunGrupText = "";
-    var TempMalKod = "";
-    var satirsayisi = 0;
-    var TempKalite = "";
-    var element = new Array();
-    $(document).ready(function () {
-        $(".sozlesme-guncelle-buton").addClass('disabled');
-        DevExpress.ui.dxOverlay.baseZIndex(20000);
-        $(".urun_kalite_content").css("display", "none");
-        $(".valor_content").css("display", "none");
-        $(".txt_sira_no").dxTextBox({ readOnly: true });
-        $(".txt_sozlesme_sira_no").dxTextBox();
-        $(".txt_sozlesme_notu").dxTextBox();
-        $(".txt_ortalama_vade").dxTextBox({ readOnly: true });
-        $(".txt_alinan_bordro_ort").dxTextBox({ readOnly: true });
-        $(".date_baslangic_tarihi").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            width: "60%",
-            onValueChanged: function (e) {
-                //oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
-        $(".date_bitis_tarihi").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            width: "60%",
-            onValueChanged: function (e) {
-            }
-        });
-        $(".date_vade_tarihi").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            width: "60%",
-            onValueChanged: function (e) {
-            }
-        });
-        $(".date_alinan_cek_ort_vade").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            width: "60%",
-            onValueChanged: function (e) {
-            }
-        });
-        $(".swtch_sozlesme_durumu").dxSwitch({
-            onText: "Onaylanmış",
-            offText: "Onaylanmamış",
-            value: true,
-            width: "25%",
-            onValueChanged: function (data) {
-                inputClear();
-                if (data.value == true) {
-                    $.ajax({
-                        url: window.location.origin + "/Approvals/Contract/List?tip=0",
-                        data: {},
-                        type: "post",
-                        success: function (data) {
-                            var result = JSON.parse(data);
-                            $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
-                        }
-                    });
+        var YeniBaglantiTutari = "";
+        var YeniBitisTarihi = "";
+        var MusteriUygunlukKodu = "";
+        var TempMalAdi = "";
+        var TempUrunGrup = -1;
+        var listeNo = "";
+        var TempUrunGrupText = "";
+        var TempMalKod = "";
+        var satirsayisi = 0;
+        var TempKalite = "";
+        var element = new Array();
+        $(document).ready(function () {
+            var date_input = $('input[name="date"]'); //our date input has the name "date"
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            var options = {
+                format: 'mm/dd/yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            };
+            date_input.datepicker(options);
+            $(".form-rounded").css("border-radius", "1rem");
+            $(".sozlesme-guncelle-buton").addClass('disabled');
+            DevExpress.ui.dxOverlay.baseZIndex(20000);
+            $(".urun_kalite_content").css("display", "none");
+            $(".valor_content").css("display", "none");
+            $(".txt_sira_no").dxTextBox({ readOnly: true });
+            $(".txt_sozlesme_sira_no").dxTextBox();
+            $(".txt_sozlesme_notu").dxTextBox();
+            $(".txt_ortalama_vade").dxTextBox({ readOnly: true });
+            $(".txt_alinan_bordro_ort").dxTextBox({ readOnly: true });
+            $(".date_baslangic_tarihi").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                width: "60%",
+                onValueChanged: function (e) {
+                    //oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
                 }
-                else {
-                    $.ajax({
-                        url: window.location.origin + "/Approvals/Contract/List?tip=1",
-                        data: {},
-                        type: "post",
-                        success: function (data) {
-                            var result = JSON.parse(data);
-                            $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
-                        }
-                    });
-                    $(".sozlesme-guncelle-buton").addClass('disabled');
+            });
+            $(".date_bitis_tarihi").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                width: "60%",
+                onValueChanged: function (e) {
                 }
-            }
-        });
-        $(".swtch_vade_valor").dxSwitch({
-            onText: "Vade Tarihi",
-            offText: "Valor Gün",
-            value: true,
-            width: "25%",
-            onValueChanged: function (data) {
-                if (data.value == true) {
-                    $(".valor_content").css("display", "none");
-                    $(".vade_content").css("display", "block");
+            });
+            $(".date_vade_tarihi").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                width: "60%",
+                onValueChanged: function (e) {
                 }
-                else {
-                    $(".valor_content").css("display", "block");
-                    $(".vade_content").css("display", "none");
+            });
+            $(".date_alinan_cek_ort_vade").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                width: "60%",
+                onValueChanged: function (e) {
                 }
-            }
-        });
-        $(".swtch_aktif_pasif").dxSwitch({
-            onText: "Aktif",
-            offText: "Pasif",
-            value: true,
-            width: "25%"
-        });
-        $(".txt_sira_no").dxTextBox("instance").option("value", "@ViewBag.SRNO");
-      
-        $(".numb_baglanti_tutari").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
+            });
+            $(".swtch_sozlesme_durumu").dxSwitch({
+                onText: "Onaylanmış",
+                offText: "Onaylanmamış",
+                value: true,
+                width: "25%",
+                onValueChanged: function (data) {
+                    inputClear();
+                    if (data.value == true) {
+                        $.ajax({
+                            url: window.location.origin + "/Approvals/Contract/List?tip=0",
+                            data: {},
+                            type: "post",
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
+                            }
+                        });
+                    }
+                    else {
+                        $.ajax({
+                            url: window.location.origin + "/Approvals/Contract/List?tip=1",
+                            data: {},
+                            type: "post",
+                            success: function (data) {
+                                var result = JSON.parse(data);
+                                $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
+                            }
+                        });
+                        $(".sozlesme-guncelle-buton").addClass('disabled');
+                    }
                 }
-            },
-            onValueChanged: function (e) {
-                //if (e.value.toString().indexOf(",") < 1) {
+            });
+            $(".swtch_vade_valor").dxSwitch({
+                onText: "Vade Tarihi",
+                offText: "Valor Gün",
+                value: true,
+                width: "25%",
+                onValueChanged: function (data) {
+                    if (data.value == true) {
+                        $(".valor_content").css("display", "none");
+                        $(".vade_content").css("display", "block");
+                    }
+                    else {
+                        $(".valor_content").css("display", "block");
+                        $(".vade_content").css("display", "none");
+                    }
+                }
+            });
+            $(".swtch_aktif_pasif").dxSwitch({
+                onText: "Aktif",
+                offText: "Pasif",
+                value: true,
+                width: "25%"
+            });
+
+            $(".txt_sira_no").dxTextBox("instance").option("value", "545");
+            $(".numb_baglanti_tutari").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    //if (e.value.toString().indexOf(",") < 1) {
                     var deger = ondalikBinlik(e.value)
                     e.component.option("value", deger);
-                //}
-                //else {
-                //    var deger = ondalikBinlik(e.value)
-                //    e.component.option("value", deger);
-                //}
-            }
-
-        });
-        $(".numb_iskonto1").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            }
-        });
-        $(".numb_iskonto2").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            }
-        });
-        $(".numb_iskonto3").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            }
-        });
-        $(".numb_iskonto4").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            }
-        });
-        $(".numb_iskonto5").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            }
-        });
-        $(".numb_valor_gun").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            }
-        });
-        $(".numb_kredi_limiti").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            },
-            readOnly: true
-        });
-        $(".numb_bakiye").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            },
-            readOnly: true
-        });
-        $(".numb_toplam_bakiye").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            },
-            readOnly: true
-        });
-        $(".numb_bekleyen_siparis").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            },
-            readOnly: true
-        });
-        $(".numb_alinan_bordro").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            },
-            readOnly: true
-        });
-        $(".numb_alinan_cek_tutari").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            }
-        });
-        $(".numb_alinan_nakit_vb").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            }
-        });
-        $(".numb_toplam_tahsilat").dxTextBox({
-            mode: "fixed-point",
-            value: 0,
-            onKeyPress: function (info) {
-                var event = info.jQueryEvent;
-                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                    var val = info.component.option("value");
-                    var deger = ondalikBinlik(val)
-                    info.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            },
-            onValueChanged: function (e) {
-                var deger = ondalikBinlik(e.value)
-                e.component.option("value", deger);
-            },
-            readOnly: true
-        });
-        var bagTipi = [{ Tip: "Peşin" }, { Tip: "Vadeli" }, { Tip: "Kredi Kart" }, { Tip: "Kampanya" }]
-        $(".select_baglanti_tipi").dxSelectBox({
-            dataSource: bagTipi,
-            valueExpr: 'Tip',
-            displayExpr: 'Tip',
-            onValueChanged: function (e) {
-            }
-        });
-        var dvzCins = [{ Tip: "TL" }, { Tip: "EUR" }, { Tip: "USD" }]
-        $(".select_baglanti_tutari_doviz").dxSelectBox({
-            dataSource: dvzCins,
-            valueExpr: 'Tip',
-            displayExpr: 'Tip',
-            onValueChanged: function (e) {
-            }
-        });
-        var urunGrup = [{ Tip: "Mal Kodu", ID: 0 }, { Tip: "Grup Kodu", ID: 1 }, { Tip: "Tip Kodu", ID: 2 }, { Tip: "Özel Kod", ID: 3 }, { Tip: "Kod1", ID: 4 }, { Tip: "Kod2", ID: 5 }, { Tip: "Kod3", ID: 6 }, { Tip: "Kod4", ID: 7 }]
-        $(".select_urun_grubu").dxSelectBox({
-            dataSource: urunGrup,
-            //valueExpr: 'ID',
-            displayExpr: 'Tip',
-            onValueChanged: function (e) {
-                if (e.value == null)
-                    return;
-                TempUrunGrup = e.value.ID;
-                TempUrunGrupText = e.value.Tip;
-                if (e.value.ID == 7) {
-                    $(".urun_kalite_content").css("display", "block");
-                }
-                else {
-                    $(".urun_kalite_content").css("display", "none");
-                    $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
+                    //}
+                    //else {
+                    //    var deger = ondalikBinlik(e.value)
+                    //    e.component.option("value", deger);
+                    //}
                 }
 
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Contract/UrunGrupSelect?Index=" + e.value.ID,
-                    data: {},
-                    type: "post",
-                    success: function (data) {
-                        var result = JSON.parse(data);
-                        $(".select_urun_kodu").dxLookup("instance").option("dataSource", result);
+            });
+            $(".numb_iskonto1").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
                     }
-                });
-            }
-        });
-        var kalite = [{ Tip: "" }, { Tip: "1K" }, { Tip: "2K" }, { Tip: "3K" }, { Tip: "ISK" }, { Tip: "1B" }];
-        $(".select_urun_kalite").dxSelectBox({
-            dataSource: kalite,
-            valueExpr: 'Tip',
-            displayExpr: 'Tip',
-            onValueChanged: function (e) {
-                TempKalite = e.value;
-            }
-        });
-        $.ajax({
-            url: window.location.origin + "/Approvals/Contract/List?tip=0",
-            data: {},
-            type: "post",
-            success: function (data) {
-                var result = JSON.parse(data);
-                $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
-            }
-        });
-
-        $.ajax({
-            url: window.location.origin + "/Approvals/Price/HesapKoduSelect",
-            data: {},
-            type: "post",
-            success: function (data) {
-                var result = JSON.parse(data);
-                $(".select_musteri_kodu").dxLookup("instance").option("dataSource", result);
-            }
-        });
-
-        $.ajax({
-            url: window.location.origin + "/Approvals/Contract/FiyatListeleriSelect",
-            data: {},
-            type: "post",
-            success: function (data) {
-                var result = JSON.parse(data);
-                $(".select_fiyat_listesi").dxLookup("instance").option("dataSource", result);
-            }
-        });
-
-        $.ajax({
-            url: window.location.origin + "/Approvals/Contract/UrunGrupSelect?Index=1",
-            data: {},
-            type: "post",
-            success: function (data) {
-                var result = JSON.parse(data);
-                $(".select_urun_kodu").dxLookup("instance").option("dataSource", result);
-            }
-        });
-
-        $(".select_sozlesmeler").dxLookup({
-            //dataSource: model,
-            searchEnabled: true,
-            fullScreen: true,
-            pageLoadMode: "nextButton",
-            searchExpr: ["ListeNo", "MusteriKod", "Unvan", "OnayMerci"],
-            valueExpr: 'ListeNo',
-            displayExpr: 'ListeNo',
-
-            onValueChanged: function (e) {
-                if (e.value == null) {
-                    $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", "");
-                    return;
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
                 }
-                if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
-                    $(".sozlesme-guncelle-buton").removeClass('disabled');
-                }
-                else {
-                    $(".sozlesme-guncelle-buton").addClass('disabled');
-                }
-                PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
-                inputDisable();
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Contract/ISSTempList?SozlesmeNo=" + e.value,
-                    data: {},
-                    type: "post",
-                    success: function (data) {
-                        var result = JSON.parse(data);
-                        if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
-                            MusteriUygunlukKodu = result[0].MusUygSekli;
-                        }
-                        else {
-                            MusteriUygunlukKodu = "";
-                        }
-                        $(".numb_baglanti_tutari").dxTextBox("instance").option("value", result[0].Kod11);
-                        $(".select_fiyat_listesi").dxLookup("instance").option("value", null);
-                        $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
-                        $(".select_urun_kodu").dxLookup("instance").option("value", null);
-                        $(".txt_sira_no").dxTextBox("instance").option("value", result[0].Kod2);
-                        $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", result[0].ListeNo);
-                        $(".select_baglanti_tipi").dxSelectBox("instance").option("value", result[0].Kod1);
-                        if (result[0].BaglantiParaCinsi == null) {
-                            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", "TL");
-                        }
-                        else {
-                            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", result[0].BaglantiParaCinsi);
-                        }
-                        $(".date_baslangic_tarihi").dxDateBox("instance").option("value", new Date(((result[0].BasTarih - 25569) * 86400000)));
-                        $(".date_bitis_tarihi").dxDateBox("instance").option("value", new Date(((result[0].BitTarih - 25569) * 86400000)));
-                        $(".select_musteri_kodu").dxLookup("instance").option("value", result[0].MusteriKod);
-                        $(".txt_sozlesme_notu").dxTextBox("instance").option("value", result[0].Aciklama);
-                        $(".swtch_aktif_pasif").dxSwitch("instance").option("value", result[0].AktifPasif);
-                        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("value", result[0].CekTutari);
-                        $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value", new Date(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1)));
-                        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("value", result[0].NakitTutari);
-
-                        if (result[0].ValorGun > 1) {
-                            $(".numb_valor_gun").dxTextBox("instance").option("value", result[0].ValorGun);
-                            $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
-                            $(".vade_content").css("display", "none");
-                            $(".valor_content").css("display", "block");
-                        }
-                        else if (result[0].VadeTarihi != null) {
-                            $(".date_vade_tarihi").dxDateBox("instance").option("value", new Date(((result[0].VadeTarihi - 25569) * 86400000)));
-                            $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
-                            $(".valor_content").css("display", "none");
-                            $(".vade_content").css("display", "block");
-                        }
-                        else {
-                            $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
-                            $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
-                            $(".valor_content").css("display", "none");
-                            $(".vade_content").css("display", "block");
-                        }
-                        $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", (result[0].CekTutari == null ? 0 : result[0].CekTutari) + (result[0].NakitTutari == null ? 0 : result[0].NakitTutari));
-
+            });
+            $(".numb_iskonto2").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
                     }
-                });
-            },
-
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-                if (itemIndex > 0) {
-                    itemElement.css({ "margin-top": "-40px" });
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
                 }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.Unvan + "</b></p>");
-                rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>ListeNo: <i style='font-weight:normal;'>" + itemData.ListeNo + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Musteri Kodu: <i style='font-weight:normal;'>" + itemData.MusteriKod + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>OnayMerci: <i style='font-weight:normal;'>" + itemData.OnayMerci + "</i></span></div>");
-                itemElement.append(rightBlock);
-            }
-        });
-        $(".select_urun_kodu").dxLookup({
-            //dataSource: result,
-            searchEnabled: true,
-            pageLoadMode: "nextButton",
-            searchExpr: ["Kod", "Aciklama"],
-            //valueExpr: 'Kod',
-            displayExpr: 'Kod',
-            onValueChanged: function (e) {
-                if (e.value == null) {
-                    TempMalKod = "";
-                    return;
-                }
-                TempMalKod = e.value.Kod;
-                if (TempUrunGrup == 0) {
-                    TempMalAdi = e.value.Aciklama
-                }
-            },
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-                if (itemIndex > 0) {
-                    itemElement.css({ "margin-top": "-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Aciklama + "</b></p>");
-                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Kod: <i>" + itemData.Kod + "</i></p></div>");
-                itemElement.append(rightBlock);
-            }
-        });
-        $(".select_fiyat_listesi").dxLookup({
-            //dataSource: model,
-            searchEnabled: true,
-            pageLoadMode: "nextButton",
-            searchExpr: ["FiyatListNum", "FiyatListName"],
-            valueExpr: 'FiyatListNum',
-            displayExpr: 'FiyatListName',
-
-            onValueChanged: function (e) {
-                if (e.value == null) {
-                    listeNo = "";
-                    return;
-                }
-                listeNo = e.value;
-            },
-
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-                if (itemIndex > 0) {
-                    itemElement.css({ "margin-top": "-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.FiyatListName + "</b></p>");
-                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Liste No: <i>" + itemData.FiyatListNum + "</i></p></div>");
-                itemElement.append(rightBlock);
-            }
-        });
-        $(".select_musteri_kodu").dxLookup({
-            //dataSource: model,
-            searchEnabled: true,
-            pageLoadMode: "nextButton",
-            searchExpr: ["HesapKodu", "Unvan"],
-            valueExpr: 'HesapKodu',
-            displayExpr: 'Unvan',
-
-            onValueChanged: function (e) {
-                if (e.value == null) {
-                    return;
-                }
-                var listeNo = $(".select_sozlesmeler").dxLookup("instance").option("value");
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Contract/CariBilgileri?ListeNo=" + listeNo + "&HesapKodu=" + e.value,
-                    data: {},
-                    type: "post",
-                    success: function (data) {
-                        var result = JSON.parse(data);
-                        $(".numb_kredi_limiti").dxTextBox("instance").option("value", result[0].KrediLimiti);
-                        $(".numb_bakiye").dxTextBox("instance").option("value", result[0].Bakiye);
-                        $(".numb_toplam_bakiye").dxTextBox("instance").option("value", result[0].ToplamBakiye);
-                        $(".numb_bekleyen_siparis").dxTextBox("instance").option("value", result[0].BekleyenSiparisTutar);
-                        $(".numb_alinan_bordro").dxTextBox("instance").option("value", result[0].AlinanBordro);
-                        $(".txt_alinan_bordro_ort").dxTextBox("instance").option("value", result[0].AlinanBordroOrtalamaVade == null ? "" : result[0].AlinanBordroOrtalamaVade);
-                        $(".txt_ortalama_vade").dxTextBox("instance").option("value", result[0].OrtalamaVade == null ? "" : result[0].OrtalamaVade);
+            });
+            $(".numb_iskonto3").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
                     }
-                });
-            },
-
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-                if (itemIndex > 0) {
-                    itemElement.css({ "margin-top": "-40px" });
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
                 }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
-                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Hesap Kodu: <i>" + itemData.HesapKodu + "</i></p></div>");
-                itemElement.append(rightBlock);
-            }
-        });
+            });
+            $(".numb_iskonto4").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                }
+            });
+            $(".numb_iskonto5").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                }
+            });
+            $(".numb_valor_gun").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                }
+            });
+            $(".numb_kredi_limiti").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                },
+                readOnly: true
+            });
+            $(".numb_bakiye").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                },
+                readOnly: true
+            });
+            $(".numb_toplam_bakiye").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                },
+                readOnly: true
+            });
+            $(".numb_bekleyen_siparis").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                },
+                readOnly: true
+            });
+            $(".numb_alinan_bordro").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                },
+                readOnly: true
+            });
+            $(".numb_alinan_cek_tutari").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                }
+            });
+            $(".numb_alinan_nakit_vb").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                }
+            });
+            $(".numb_toplam_tahsilat").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        var val = info.component.option("value");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                },
+                readOnly: true
+            });
+            var bagTipi = [{ Tip: "Peşin" }, { Tip: "Vadeli" }, { Tip: "Kredi Kart" }, { Tip: "Kampanya" }]
+            $(".select_baglanti_tipi").dxSelectBox({
+                dataSource: bagTipi,
+                valueExpr: 'Tip',
+                displayExpr: 'Tip',
+                onValueChanged: function (e) {
+                }
+            });
+            var dvzCins = [{ Tip: "TL" }, { Tip: "EUR" }, { Tip: "USD" }]
+            $(".select_baglanti_tutari_doviz").dxSelectBox({
+                dataSource: dvzCins,
+                valueExpr: 'Tip',
+                displayExpr: 'Tip',
+                onValueChanged: function (e) {
+                }
+            });
+            var urunGrup = [{ Tip: "Mal Kodu", ID: 0 }, { Tip: "Grup Kodu", ID: 1 }, { Tip: "Tip Kodu", ID: 2 }, { Tip: "Özel Kod", ID: 3 }, { Tip: "Kod1", ID: 4 }, { Tip: "Kod2", ID: 5 }, { Tip: "Kod3", ID: 6 }, { Tip: "Kod4", ID: 7 }]
+            $(".select_urun_grubu").dxSelectBox({
+                dataSource: urunGrup,
+                //valueExpr: 'ID',
+                displayExpr: 'Tip',
+                onValueChanged: function (e) {
+                    if (e.value == null)
+                        return;
+                    TempUrunGrup = e.value.ID;
+                    TempUrunGrupText = e.value.Tip;
+                    if (e.value.ID == 7) {
+                        $(".urun_kalite_content").css("display", "block");
+                    }
+                    else {
+                        $(".urun_kalite_content").css("display", "none");
+                        $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
+                    }
 
-    });
-
-    $('.temizle-buton').click(function () {
-        inputClear();
-        $(".txt_sira_no").dxTextBox("instance").option("value", "@ViewBag.SRNO");
-        $(".select_sozlesmeler").dxLookup("instance").option("value", null);
-        $(".swtch_sozlesme_durumu").dxSwitch("instance").option("value", true);
-        $(".swtch_vade_valor").dxSwitch("instance").option("value", true);
-        $(".swtch_aktif_pasif").dxSwitch("instance").option("value", true);
-    });
-
-    $('.satir-ekle-buton').click(function () {
-        //Kontrol
-        if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly")) {
-            Modaldialog("Sözleşme Değiştirilemez.", "Satır Ekle", "Tamam", "Uyarı");
-            return;
-        }
-        if ($(".select_fiyat_listesi").dxLookup("instance").option("value") == null) {
-            Modaldialog("Fiyat Listesi Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
-            return;
-        }
-
-        if ($(".select_urun_grubu").dxSelectBox("instance").option("value") == null) {
-            Modaldialog("Ürün Grubu Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
-            return;
-        }
-
-        if ($(".select_urun_kodu").dxLookup("instance").option("value") == null) {
-            Modaldialog("Ürün Kodu Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
-            return;
-        }
-
-        var EKFiyatListesi = listeNo;
-        var EKMalKod = TempMalKod;
-        var EKMalKodGrup = TempUrunGrupText;
-        var EKMalAdi = TempMalAdi;
-        var EKKalite = TempKalite;
-        var EKOran1 = $(".numb_iskonto1").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto1").dxTextBox("instance").option("value");
-        var EKOran2 = $(".numb_iskonto2").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto2").dxTextBox("instance").option("value");
-        var EKOran3 = $(".numb_iskonto3").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto3").dxTextBox("instance").option("value");
-        var EKOran4 = $(".numb_iskonto4").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto4").dxTextBox("instance").option("value");
-        var EKOran5 = $(".numb_iskonto5").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto5").dxTextBox("instance").option("value");
-        var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td  align='right' nowrap>" + EKOran1 + "</td><td align='right' nowrap>" + EKOran2 + "</td><td align='right' nowrap>" + EKOran3 + "</td><td align='right' nowrap>" + EKOran4 + "</td><td align='right' nowrap>" + EKOran5 + "</td></tr>"
-        element.push(sss);
-        var jsonElement = JSON.stringify(element);
-        if ($("#fiyat_listesi_data table").length < 1) {
-            PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
-        }
-        satirsayisi++;
-
-    });
-
-    $('.satir-sil-buton').click(function () {
-        SatirSil();
-    });
-
-    $('.sozlesme-kaydet-buton').click(function () {
-        if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("value") == "") {
-            Modaldialog("Sözleşme Numarası Girmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
-            return;
-        }
-        var ListeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
-        var AktifPasif = null;
-        if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly") == true) {
-            if ($(".swtch_aktif_pasif").dxSwitch("instance").option("value") == true) {
-                AktifPasif = true;
-            }
-            else {
-                AktifPasif = false;
-            }
-
-            var _dfd = $.Deferred();
+                    $.ajax({
+                        url: window.location.origin + "/Approvals/Contract/UrunGrupSelect?Index=" + e.value.ID,
+                        data: {},
+                        type: "post",
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            $(".select_urun_kodu").dxLookup("instance").option("dataSource", result);
+                        }
+                    });
+                }
+            });
+            var kalite = [{ Tip: "" }, { Tip: "1K" }, { Tip: "2K" }, { Tip: "3K" }, { Tip: "ISK" }, { Tip: "1B" }];
+            $(".select_urun_kalite").dxSelectBox({
+                dataSource: kalite,
+                valueExpr: 'Tip',
+                displayExpr: 'Tip',
+                onValueChanged: function (e) {
+                    TempKalite = e.value;
+                }
+            });
             $.ajax({
-                url: window.location.origin + "/Approvals/Contract/ISS_TempUpdate_AktifPasif",
-                data: { SozlesmeNo: ListeNo, AktifPasif: AktifPasif },
+                url: window.location.origin + "/Approvals/Contract/List?tip=0",
+                data: {},
+                type: "post",
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
+                }
+            });
+
+            $.ajax({
+                url: window.location.origin + "/Approvals/Price/HesapKoduSelect",
+                data: {},
+                type: "post",
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    $(".select_musteri_kodu").dxLookup("instance").option("dataSource", result);
+                }
+            });
+
+            $.ajax({
+                url: window.location.origin + "/Approvals/Contract/FiyatListeleriSelect",
+                data: {},
+                type: "post",
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    $(".select_fiyat_listesi").dxLookup("instance").option("dataSource", result);
+                }
+            });
+
+            $.ajax({
+                url: window.location.origin + "/Approvals/Contract/UrunGrupSelect?Index=1",
+                data: {},
+                type: "post",
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    $(".select_urun_kodu").dxLookup("instance").option("dataSource", result);
+                }
+            });
+
+            $(".select_sozlesmeler").dxLookup({
+                //dataSource: model,
+                searchEnabled: true,
+                fullScreen: true,
+                pageLoadMode: "nextButton",
+                searchExpr: ["ListeNo", "MusteriKod", "Unvan", "OnayMerci"],
+                valueExpr: 'ListeNo',
+                displayExpr: 'ListeNo',
+
+                onValueChanged: function (e) {
+                    if (e.value == null) {
+                        $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", "");
+                        return;
+                    }
+                    if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
+                        $(".sozlesme-guncelle-buton").removeClass('disabled');
+                    }
+                    else {
+                        $(".sozlesme-guncelle-buton").addClass('disabled');
+                    }
+                    PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
+                    inputDisable();
+                    $.ajax({
+                        url: window.location.origin + "/Approvals/Contract/ISSTempList?SozlesmeNo=" + e.value,
+                        data: {},
+                        type: "post",
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
+                                MusteriUygunlukKodu = result[0].MusUygSekli;
+                            }
+                            else {
+                                MusteriUygunlukKodu = "";
+                            }
+                            $(".numb_baglanti_tutari").dxTextBox("instance").option("value", result[0].Kod11);
+                            $(".select_fiyat_listesi").dxLookup("instance").option("value", null);
+                            $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
+                            $(".select_urun_kodu").dxLookup("instance").option("value", null);
+                            $(".txt_sira_no").dxTextBox("instance").option("value", result[0].Kod2);
+                            $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", result[0].ListeNo);
+                            $(".select_baglanti_tipi").dxSelectBox("instance").option("value", result[0].Kod1);
+                            if (result[0].BaglantiParaCinsi == null) {
+                                $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", "TL");
+                            }
+                            else {
+                                $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", result[0].BaglantiParaCinsi);
+                            }
+                            $(".date_baslangic_tarihi").dxDateBox("instance").option("value", new Date(((result[0].BasTarih - 25569) * 86400000)));
+                            $(".date_bitis_tarihi").dxDateBox("instance").option("value", new Date(((result[0].BitTarih - 25569) * 86400000)));
+                            $(".select_musteri_kodu").dxLookup("instance").option("value", result[0].MusteriKod);
+                            $(".txt_sozlesme_notu").dxTextBox("instance").option("value", result[0].Aciklama);
+                            $(".swtch_aktif_pasif").dxSwitch("instance").option("value", result[0].AktifPasif);
+                            $(".numb_alinan_cek_tutari").dxTextBox("instance").option("value", result[0].CekTutari);
+                            $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value", new Date(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1)));
+                            $(".numb_alinan_nakit_vb").dxTextBox("instance").option("value", result[0].NakitTutari);
+
+                            if (result[0].ValorGun > 1) {
+                                $(".numb_valor_gun").dxTextBox("instance").option("value", result[0].ValorGun);
+                                $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
+                                $(".vade_content").css("display", "none");
+                                $(".valor_content").css("display", "block");
+                            }
+                            else if (result[0].VadeTarihi != null) {
+                                $(".date_vade_tarihi").dxDateBox("instance").option("value", new Date(((result[0].VadeTarihi - 25569) * 86400000)));
+                                $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
+                                $(".valor_content").css("display", "none");
+                                $(".vade_content").css("display", "block");
+                            }
+                            else {
+                                $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
+                                $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
+                                $(".valor_content").css("display", "none");
+                                $(".vade_content").css("display", "block");
+                            }
+                            $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", (result[0].CekTutari == null ? 0 : result[0].CekTutari) + (result[0].NakitTutari == null ? 0 : result[0].NakitTutari));
+
+                        }
+                    });
+                },
+
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.Unvan + "</b></p>");
+                    rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>ListeNo: <i style='font-weight:normal;'>" + itemData.ListeNo + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Musteri Kodu: <i style='font-weight:normal;'>" + itemData.MusteriKod + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>OnayMerci: <i style='font-weight:normal;'>" + itemData.OnayMerci + "</i></span></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
+            $(".select_urun_kodu").dxLookup({
+                //dataSource: result,
+                searchEnabled: true,
+                pageLoadMode: "nextButton",
+                searchExpr: ["Kod", "Aciklama"],
+                //valueExpr: 'Kod',
+                displayExpr: 'Kod',
+                onValueChanged: function (e) {
+                    if (e.value == null) {
+                        TempMalKod = "";
+                        return;
+                    }
+                    TempMalKod = e.value.Kod;
+                    if (TempUrunGrup == 0) {
+                        TempMalAdi = e.value.Aciklama
+                    }
+                },
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Aciklama + "</b></p>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Kod: <i>" + itemData.Kod + "</i></p></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
+            $(".select_fiyat_listesi").dxLookup({
+                //dataSource: model,
+                searchEnabled: true,
+                pageLoadMode: "nextButton",
+                searchExpr: ["FiyatListNum", "FiyatListName"],
+                valueExpr: 'FiyatListNum',
+                displayExpr: 'FiyatListName',
+
+                onValueChanged: function (e) {
+                    if (e.value == null) {
+                        listeNo = "";
+                        return;
+                    }
+                    listeNo = e.value;
+                },
+
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.FiyatListName + "</b></p>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Liste No: <i>" + itemData.FiyatListNum + "</i></p></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
+            $(".select_musteri_kodu").dxLookup({
+                //dataSource: model,
+                searchEnabled: true,
+                pageLoadMode: "nextButton",
+                searchExpr: ["HesapKodu", "Unvan"],
+                valueExpr: 'HesapKodu',
+                displayExpr: 'Unvan',
+
+                onValueChanged: function (e) {
+                    if (e.value == null) {
+                        return;
+                    }
+                    var listeNo = $(".select_sozlesmeler").dxLookup("instance").option("value");
+                    $.ajax({
+                        url: window.location.origin + "/Approvals/Contract/CariBilgileri?ListeNo=" + listeNo + "&HesapKodu=" + e.value,
+                        data: {},
+                        type: "post",
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            $(".numb_kredi_limiti").dxTextBox("instance").option("value", result[0].KrediLimiti);
+                            $(".numb_bakiye").dxTextBox("instance").option("value", result[0].Bakiye);
+                            $(".numb_toplam_bakiye").dxTextBox("instance").option("value", result[0].ToplamBakiye);
+                            $(".numb_bekleyen_siparis").dxTextBox("instance").option("value", result[0].BekleyenSiparisTutar);
+                            $(".numb_alinan_bordro").dxTextBox("instance").option("value", result[0].AlinanBordro);
+                            $(".txt_alinan_bordro_ort").dxTextBox("instance").option("value", result[0].AlinanBordroOrtalamaVade == null ? "" : result[0].AlinanBordroOrtalamaVade);
+                            $(".txt_ortalama_vade").dxTextBox("instance").option("value", result[0].OrtalamaVade == null ? "" : result[0].OrtalamaVade);
+                        }
+                    });
+                },
+
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Hesap Kodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
+
+        });
+
+        $('.temizle-buton').click(function () {
+            inputClear();
+            $(".txt_sira_no").dxTextBox("instance").option("value", "333");
+            $(".select_sozlesmeler").dxLookup("instance").option("value", null);
+            $(".swtch_sozlesme_durumu").dxSwitch("instance").option("value", true);
+            $(".swtch_vade_valor").dxSwitch("instance").option("value", true);
+            $(".swtch_aktif_pasif").dxSwitch("instance").option("value", true);
+        });
+
+        $('.satir-ekle-buton').click(function () {
+            //Kontrol
+            if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly")) {
+                Modaldialog("Sözleşme Değiştirilemez.", "Satır Ekle", "Tamam", "Uyarı");
+                return;
+            }
+            if ($(".select_fiyat_listesi").dxLookup("instance").option("value") == null) {
+                Modaldialog("Fiyat Listesi Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
+                return;
+            }
+
+            if ($(".select_urun_grubu").dxSelectBox("instance").option("value") == null) {
+                Modaldialog("Ürün Grubu Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
+                return;
+            }
+
+            if ($(".select_urun_kodu").dxLookup("instance").option("value") == null) {
+                Modaldialog("Ürün Kodu Seçmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
+                return;
+            }
+
+            var EKFiyatListesi = listeNo;
+            var EKMalKod = TempMalKod;
+            var EKMalKodGrup = TempUrunGrupText;
+            var EKMalAdi = TempMalAdi;
+            var EKKalite = TempKalite;
+            var EKOran1 = $(".numb_iskonto1").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto1").dxTextBox("instance").option("value");
+            var EKOran2 = $(".numb_iskonto2").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto2").dxTextBox("instance").option("value");
+            var EKOran3 = $(".numb_iskonto3").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto3").dxTextBox("instance").option("value");
+            var EKOran4 = $(".numb_iskonto4").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto4").dxTextBox("instance").option("value");
+            var EKOran5 = $(".numb_iskonto5").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto5").dxTextBox("instance").option("value");
+            var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td  align='right' nowrap>" + EKOran1 + "</td><td align='right' nowrap>" + EKOran2 + "</td><td align='right' nowrap>" + EKOran3 + "</td><td align='right' nowrap>" + EKOran4 + "</td><td align='right' nowrap>" + EKOran5 + "</td></tr>"
+            element.push(sss);
+            var jsonElement = JSON.stringify(element);
+            if ($("#fiyat_listesi_data table").length < 1) {
+                PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+            }
+            satirsayisi++;
+            $(".select_urun_kodu").dxLookup("instance").option("value", null);
+            $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
+            $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
+            $(".urun_kalite_content").css("display", "none");
+
+        });
+
+        $('.satir-sil-buton').click(function () {
+            SatirSil();
+        });
+
+        $('.sozlesme-kaydet-buton').click(function () {
+            if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("value") == "") {
+                Modaldialog("Sözleşme Numarası Girmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
+                return;
+            }
+            var ListeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
+            var AktifPasif = null;
+            if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly") == true) {
+                if ($(".swtch_aktif_pasif").dxSwitch("instance").option("value") == true) {
+                    AktifPasif = true;
+                }
+                else {
+                    AktifPasif = false;
+                }
+
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Contract/ISS_TempUpdate_AktifPasif",
+                    data: { SozlesmeNo: ListeNo, AktifPasif: AktifPasif },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
+                            window.location.reload();
+                        }
+                        else {
+                            Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
+                        }
+
+                    }
+                });
+                return _dfd.promise();
+            }
+
+            var ListNoVar = false;
+
+            $.ajax({
+                url: window.location.origin + "/Approvals/Contract/ListeNoKontrol",
+                data: { SozlesmeNo: ListeNo },
+                type: "post",
+                success: function (data) {
+                    if (data > 0) {
+                        Modaldialog("Liste No Kullanılmış.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                    }
+                }
+            });
+
+            if ($(".select_baglanti_tipi").dxSelectBox("instance").option("value") == null) {
+                Modaldialog("Bağlantı Tipi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                return;
+            }
+            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == true && $(".date_vade_tarihi").dxDateBox("instance").option("value") == null) {
+                Modaldialog("Vade Tarihi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                return;
+            }
+            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false && $(".numb_valor_gun").dxTextBox("instance").option("value") <= 0) {
+                Modaldialog("ValorGun Boş Geçilemez.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                return;
+            }
+
+            dddd();
+        });
+
+        $('.sozlesme-sil-buton').click(function () {
+            sozDurum = $(".swtch_sozlesme_durumu").dxSwitch("instance").option("value");
+            sozNoReadOnly = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly");
+            sozlesme = $(".select_sozlesmeler").dxLookup("instance").option("value");
+            if (sozDurum == true && sozNoReadOnly == true) {
+                Modaldialog("Sözleşme Değiştirilemez", "Sözleşme Sil", "Tamam", "Uyarı");
+                return;
+            }
+            if (sozlesme == null) {
+                Modaldialog("Sözleşme Seçmelisiniz", "Sözleşme Sil", "Tamam", "Uyarı");
+                return;
+            }
+
+            $.ajax({
+                url: window.location.origin + "/Approvals/Contract/Sil",
+                data: { SozlesmeNo: sozlesme },
                 type: "post",
                 success: function (data) {
                     if (data.Status == true) {
@@ -1052,256 +1133,195 @@
                     else {
                         Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
                     }
-
                 }
             });
-            return _dfd.promise();
-        }
-
-        var ListNoVar = false;
-
-        $.ajax({
-            url: window.location.origin + "/Approvals/Contract/ListeNoKontrol",
-            data: { SozlesmeNo: ListeNo },
-            type: "post",
-            success: function (data) {
-                if (data > 0) {
-                    Modaldialog("Liste No Kullanılmış.", "Kayıt İşlemi", "Tamam", "Kayıt");
-                }
-            }
         });
 
-        if ($(".select_baglanti_tipi").dxSelectBox("instance").option("value") == null) {
-            Modaldialog("Bağlantı Tipi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
-            return;
-        }
-        if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == true && $(".date_vade_tarihi").dxDateBox("instance").option("value") == null) {
-            Modaldialog("Vade Tarihi Seçmelisiniz.", "Kayıt İşlemi", "Tamam", "Kayıt");
-            return;
-        }
-        if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false && $(".numb_valor_gun").dxTextBox("instance").option("value") <= 0) {
-            Modaldialog("ValorGun Boş Geçilemez.", "Kayıt İşlemi", "Tamam", "Kayıt");
-            return;
-        }
+        $('.sozlesme-guncelle-buton').click(function () {
+            if ($(this).hasClass("disabled"))
+                return;
+            var bas_tarih = $(".date_bitis_tarihi").dxDateBox("instance").option("value");
+            var bag_tutari = $(".numb_baglanti_tutari").dxTextBox("instance").option("value");
+            var bag_tutar_doviz = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
+            $('#x-modal-sozlesme-guncelle').modal("show");
+            $(".date_onc_bitis_tarihi").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                value: bas_tarih,
+                readOnly: true,
+                //width: "60%",
+                onValueChanged: function (e) {
+                }
+            });
+            $(".numb_onc_baglanti_tutari").dxTextBox({
+                min: 0,
+                step: 1,
+                value: bag_tutari,
+                readOnly: true
+            });
+            $(".txt_onc_bag_tutar_doviz").dxTextBox({ "value": bag_tutar_doviz, "readOnly": true });
+            $(".date_yeni_bitis_tarihi").dxDateBox({
+                dataType: 'date',
+                formatString: 'dd/MM/yyyy',
+                //width: "60%",
+                onValueChanged: function (e) {
+                    YeniBitisTarihi = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+                }
+            });
+            $(".numb_yeni_baglanti_tutari").dxTextBox({
+                min: 0,
+                step: 1,
+                value: 0,
+                onValueChanged: function (e) {
+                    YeniBaglantiTutari = e.value;
+                }
+            });
 
-        dddd();
-    });
+        });
 
-    $('.sozlesme-sil-buton').click(function () {
-        sozDurum = $(".swtch_sozlesme_durumu").dxSwitch("instance").option("value");
-        sozNoReadOnly = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly");
-        sozlesme = $(".select_sozlesmeler").dxLookup("instance").option("value");
-        if (sozDurum == true && sozNoReadOnly == true) {
-            Modaldialog("Sözleşme Değiştirilemez", "Sözleşme Sil", "Tamam", "Uyarı");
-            return;
-        }
-        if (sozlesme == null) {
-            Modaldialog("Sözleşme Seçmelisiniz", "Sözleşme Sil", "Tamam", "Uyarı");
-            return;
-        }
-
-        $.ajax({
-            url: window.location.origin + "/Approvals/Contract/Sil",
-            data: { SozlesmeNo: sozlesme },
-            type: "post",
-            success: function (data) {
-                if (data.Status == true) {
-                    Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
-                    window.location.reload();
+        $('.soz_gunc_kaydet').click(function () {
+            var listeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
+            var onc_bag_tut = $(".numb_onc_baglanti_tutari").dxTextBox("instance").option("value");
+            var yeni_bag_tut = YeniBaglantiTutari;
+            var onc_bit_tarih = $(".date_onc_bitis_tarihi").dxDateBox("instance").option("value");
+            var yeni_bit_tarih = YeniBitisTarihi;
+            var mus_uyg_sekli = MusteriUygunlukKodu;
+            var bas_tarih = Math.ceil(($(".date_baslangic_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            if (yeni_bag_tut > 0) {
+                if (yeni_bag_tut > 0 && yeni_bag_tut > onc_bag_tut) {
+                    if (listeNo == null) {
+                        Modaldialog("ListeNo Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "Uyarı");
+                        return;
+                    }
+                    if (bas_tarih == null) {
+                        Modaldialog("Başlangıç Tarihi Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "Uyarı");
+                        return;
+                    }
+                    if (mus_uyg_sekli == "") {
+                        Modaldialog("Müşteri Uygunluk Şekli Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "Uyarı");
+                        return;
+                    }
+                    $.ajax({
+                        url: window.location.origin + "/Approvals/Contract/Guncelle",
+                        data: { SozlesmeNo: listeNo, BasTarih: bas_tarih, MusUygSekli: mus_uyg_sekli, YeniBaglantiTutari: yeni_bag_tut, YeniBitisTarihi: yeni_bit_tarih },
+                        type: "post",
+                        success: function (data) {
+                            if (data.Status == true) {
+                                $('#x-modal-sozlesme-guncelle').modal("hide");
+                                Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Güncelleme");
+                                window.location.reload();
+                            }
+                            else {
+                                Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Uyarı");
+                            }
+                        }
+                    });
                 }
                 else {
-                    Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
-                }
-            }
-        });
-    });
-
-    $('.sozlesme-guncelle-buton').click(function () {
-        if ($(this).hasClass("disabled"))
-            return;
-        var bas_tarih = $(".date_bitis_tarihi").dxDateBox("instance").option("value");
-        var bag_tutari = $(".numb_baglanti_tutari").dxTextBox("instance").option("value");
-        var bag_tutar_doviz = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
-        $('#x-modal-sozlesme-guncelle').modal("show");
-        $(".date_onc_bitis_tarihi").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            value: bas_tarih,
-            readOnly: true,
-            //width: "60%",
-            onValueChanged: function (e) {
-            }
-        });
-        $(".numb_onc_baglanti_tutari").dxTextBox({
-            min: 0,
-            step: 1,
-            value: bag_tutari,
-            readOnly: true
-        });
-        $(".txt_onc_bag_tutar_doviz").dxTextBox({ "value": bag_tutar_doviz, "readOnly": true });
-        $(".date_yeni_bitis_tarihi").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            //width: "60%",
-            onValueChanged: function (e) {
-                YeniBitisTarihi = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
-        $(".numb_yeni_baglanti_tutari").dxTextBox({
-            min: 0,
-            step: 1,
-            value: 0,
-            onValueChanged: function (e) {
-                YeniBaglantiTutari = e.value;
-            }
-        });
-
-    });
-
-    $('.soz_gunc_kaydet').click(function () {
-        var listeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
-        var onc_bag_tut = $(".numb_onc_baglanti_tutari").dxTextBox("instance").option("value");
-        var yeni_bag_tut = YeniBaglantiTutari;
-        var onc_bit_tarih = $(".date_onc_bitis_tarihi").dxDateBox("instance").option("value");
-        var yeni_bit_tarih = YeniBitisTarihi;
-        var mus_uyg_sekli = MusteriUygunlukKodu;
-        var bas_tarih = Math.ceil(($(".date_baslangic_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-        if (yeni_bag_tut > 0) {
-            if (yeni_bag_tut > 0 && yeni_bag_tut > onc_bag_tut) {
-                if (listeNo == null) {
-                    Modaldialog("ListeNo Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "Uyarı");
+                    Modaldialog("Yeni Bağlantı Tutarı Önceki Bağlantı Tutarından Büyük Olmalıdır.", "Sözleşme Güncelle", "Tamam", "Uyarı");
                     return;
                 }
-                if (bas_tarih == null) {
-                    Modaldialog("Başlangıç Tarihi Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "Uyarı");
-                    return;
-                }
-                if (mus_uyg_sekli == "") {
-                    Modaldialog("Müşteri Uygunluk Şekli Boş Geçilemez.", "Sözleşme Güncelle", "Tamam", "Uyarı");
-                    return;
-                }
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Contract/Guncelle",
-                    data: { SozlesmeNo: listeNo, BasTarih: bas_tarih, MusUygSekli: mus_uyg_sekli, YeniBaglantiTutari: yeni_bag_tut, YeniBitisTarihi: yeni_bit_tarih },
-                    type: "post",
-                    success: function (data) {
-                        if (data.Status == true) {
-                            $('#x-modal-sozlesme-guncelle').modal("hide");
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Güncelleme");
-                            window.location.reload();
-                        }
-                        else {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Uyarı");
-                        }
-                    }
-                });
             }
             else {
-                Modaldialog("Yeni Bağlantı Tutarı Önceki Bağlantı Tutarından Büyük Olmalıdır.", "Sözleşme Güncelle", "Tamam", "Uyarı");
+                Modaldialog("Yeni Bağlantı Tutarı Girmelisiniz.", "Sözleşme Güncelle", "Tamam", "Uyarı");
                 return;
             }
+
+
+        });
+
+        $('.soz_gunc_iptal').click(function () {
+            $(".numb_yeni_baglanti_tutari").dxTextBox("instance").option("value", 0);
+            $(".date_yeni_bitis_tarihi").dxDateBox("instance").option("value", null);
+            YeniBaglantiTutari = "";
+            YeniBitisTarihi = "";
+            $('#x-modal-sozlesme-guncelle').modal("hide");
+        });
+
+        function inputDisable() {
+            $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", true);
+            $(".date_baslangic_tarihi").dxDateBox("instance").option("readOnly", true);
+            $(".date_bitis_tarihi").dxDateBox("instance").option("readOnly", true);
+            $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", true);
+            $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", true);
+            $(".numb_baglanti_tutari").dxTextBox("instance").option("readOnly", true);
+            $(".numb_valor_gun").dxTextBox("instance").option("readOnly", true);
+            $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", true);
+            $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", true);
+            $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", true);
+            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", true);
+            $(".select_musteri_kodu").dxLookup("instance").option("readOnly", true);
+            $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", true);
         }
-        else {
-            Modaldialog("Yeni Bağlantı Tutarı Girmelisiniz.", "Sözleşme Güncelle", "Tamam", "Uyarı");
-            return;
+
+        function inputVisible() {
+            $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", false);
+            $(".date_baslangic_tarihi").dxDateBox("instance").option("readOnly", false);
+            $(".date_bitis_tarihi").dxDateBox("instance").option("readOnly", false);
+            $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", false);
+            $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", false);
+            $(".numb_baglanti_tutari").dxTextBox("instance").option("readOnly", false);
+            $(".numb_valor_gun").dxTextBox("instance").option("readOnly", false);
+            $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", false);
+            $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", false);
+            $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", false);
+            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
+            $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
+            $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", true);
+        }
+
+        function inputClear() {
+            $(".txt_sozlesme_notu").dxTextBox("instance").option("value", "");
+            $(".date_baslangic_tarihi").dxDateBox("instance").option("value", null);
+            $(".date_bitis_tarihi").dxDateBox("instance").option("value", null);
+            $(".date_vade_tarihi").dxDateBox("instance").option("value", 0);
+            $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value", null);
+            $(".numb_baglanti_tutari").dxTextBox("instance").option("value", 0);
+            $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
+            $(".numb_alinan_cek_tutari").dxTextBox("instance").option("value", 0);
+            $(".numb_alinan_nakit_vb").dxTextBox("instance").option("value", 0);
+            $(".select_baglanti_tipi").dxSelectBox("instance").option("value", null);
+            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", null);
+            $(".select_musteri_kodu").dxLookup("instance").option("value", null);
+            $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", "");
+            $(".select_fiyat_listesi").dxLookup("instance").option("value", null);
+            $(".txt_sozlesme_notu").dxTextBox("instance").option("value", "");
+            $(".swtch_aktif_pasif").dxSwitch("instance").option("value", true);
+            $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
+            $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
+            $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", 0);
+            $(".numb_bakiye").dxTextBox("instance").option("value", 0);
+            $(".numb_toplam_bakiye").dxTextBox("instance").option("value", 0);
+            $(".numb_bekleyen_siparis").dxTextBox("instance").option("value", 0);
+            $(".txt_alinan_bordro_ort").dxTextBox("instance").option("value", "");
+            $(".txt_ortalama_vade").dxTextBox("instance").option("value", "");
+            $(".numb_iskonto1").dxTextBox("instance").option("value", 0);
+            $(".numb_iskonto2").dxTextBox("instance").option("value", 0);
+            $(".numb_iskonto3").dxTextBox("instance").option("value", 0);
+            $(".numb_iskonto4").dxTextBox("instance").option("value", 0);
+            $(".numb_iskonto5").dxTextBox("instance").option("value", 0);
+            $(".select_urun_kodu").dxLookup("instance").option("value", null);
+            $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
+            $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
+
+
+            $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", false);
+            $(".date_baslangic_tarihi").dxDateBox("instance").option("readOnly", false);
+            $(".date_bitis_tarihi").dxDateBox("instance").option("readOnly", false);
+            $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", false);
+            $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", false);
+            $(".numb_baglanti_tutari").dxTextBox("instance").option("readOnly", false);
+            $(".numb_valor_gun").dxTextBox("instance").option("readOnly", false);
+            $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", false);
+            $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", false);
+            $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", false);
+            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
+            $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
+            $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", false);
+
+
         }
 
 
-    });
-
-    $('.soz_gunc_iptal').click(function () {
-        $(".numb_yeni_baglanti_tutari").dxTextBox("instance").option("value", 0);
-        $(".date_yeni_bitis_tarihi").dxDateBox("instance").option("value", null);
-        YeniBaglantiTutari = "";
-        YeniBitisTarihi = "";
-        $('#x-modal-sozlesme-guncelle').modal("hide");
-    });
-
-    function inputDisable() {
-        $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", true);
-        $(".date_baslangic_tarihi").dxDateBox("instance").option("readOnly", true);
-        $(".date_bitis_tarihi").dxDateBox("instance").option("readOnly", true);
-        $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", true);
-        $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", true);
-        $(".numb_baglanti_tutari").dxTextBox("instance").option("readOnly", true);
-        $(".numb_valor_gun").dxTextBox("instance").option("readOnly", true);
-        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", true);
-        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", true);
-        $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", true);
-        $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", true);
-        $(".select_musteri_kodu").dxLookup("instance").option("readOnly", true);
-        $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", true);
-    }
-
-    function inputVisible() {
-        $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", false);
-        $(".date_baslangic_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_bitis_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", false);
-        $(".numb_baglanti_tutari").dxTextBox("instance").option("readOnly", false);
-        $(".numb_valor_gun").dxTextBox("instance").option("readOnly", false);
-        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", false);
-        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", false);
-        $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", false);
-        $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
-        $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
-        $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", true);
-    }
-
-    function inputClear() {
-        $(".txt_sozlesme_notu").dxTextBox("instance").option("value", "");
-        $(".date_baslangic_tarihi").dxDateBox("instance").option("value", null);
-        $(".date_bitis_tarihi").dxDateBox("instance").option("value", null);
-        $(".date_vade_tarihi").dxDateBox("instance").option("value", 0);
-        $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value", null);
-        $(".numb_baglanti_tutari").dxTextBox("instance").option("value", 0);
-        $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
-        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("value", 0);
-        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("value", 0);
-        $(".select_baglanti_tipi").dxSelectBox("instance").option("value", null);
-        $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", null);
-        $(".select_musteri_kodu").dxLookup("instance").option("value", null);
-        $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", "");
-        $(".select_fiyat_listesi").dxLookup("instance").option("value", null);
-        $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
-        $(".select_urun_kodu").dxLookup("instance").option("value", null);
-        $(".txt_sozlesme_notu").dxTextBox("instance").option("value", "");
-        $(".swtch_aktif_pasif").dxSwitch("instance").option("value", true);
-        $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
-        $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
-        $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", 0);
-        $(".numb_bakiye").dxTextBox("instance").option("value", 0);
-        $(".numb_toplam_bakiye").dxTextBox("instance").option("value", 0);
-        $(".numb_bekleyen_siparis").dxTextBox("instance").option("value", 0);
-        $(".txt_alinan_bordro_ort").dxTextBox("instance").option("value", "");
-        $(".txt_ortalama_vade").dxTextBox("instance").option("value", "");
-        $(".numb_iskonto1").dxTextBox("instance").option("value", 0);
-        $(".numb_iskonto2").dxTextBox("instance").option("value", 0);
-        $(".numb_iskonto3").dxTextBox("instance").option("value", 0);
-        $(".numb_iskonto4").dxTextBox("instance").option("value", 0);
-        $(".numb_iskonto5").dxTextBox("instance").option("value", 0);
-        $(".select_urun_kodu").dxLookup("instance").option("value", null);
-        $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
-
-
-        $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", false);
-        $(".date_baslangic_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_bitis_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", false);
-        $(".numb_baglanti_tutari").dxTextBox("instance").option("readOnly", false);
-        $(".numb_valor_gun").dxTextBox("instance").option("readOnly", false);
-        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", false);
-        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", false);
-        $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", false);
-        $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
-        $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
-        $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", false);
-
-        
-    }
-
-       
     </script>
 }

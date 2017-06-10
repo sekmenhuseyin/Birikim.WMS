@@ -892,11 +892,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 isstmp.SiraNo = (short)SiraNo;
                 SiraNo++;
                 isstmp.Oran = 0;
-                isstmp.Oran1 = bds["Iskonto1"].ToFloat();
-                isstmp.Oran2 = bds["Iskonto2"].ToFloat();
-                isstmp.Oran3 = bds["Iskonto3"].ToFloat();
-                isstmp.Oran4 = bds["Iskonto4"].ToFloat();
-                isstmp.Oran5 = bds["Iskonto5"].ToFloat();
+                isstmp.Oran1 = Convert.ToSingle(bds["Iskonto1"].ToString());
+                isstmp.Oran2 = Convert.ToSingle(bds["Iskonto2"].ToString());
+                isstmp.Oran3 = Convert.ToSingle(bds["Iskonto3"].ToString());
+                isstmp.Oran4 = Convert.ToSingle(bds["Iskonto4"].ToString());
+                isstmp.Oran5 = Convert.ToSingle(bds["Iskonto5"].ToString());
                 isstmp.MikAralik1 = 0;
                 isstmp.MikYuzde1 = 0;
                 isstmp.MikAralik2 = 0;
@@ -969,7 +969,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 isstmp.Kod8 = "";
                 isstmp.Kod9 = "";
                 isstmp.Kod10 = bds["Kod10"].ToString();
-                isstmp.Kod11 = bds["BaglantiTutari"].ToDecimal();
+                isstmp.Kod11 = Convert.ToDecimal(bds["BaglantiTutari"].ToString());
                 isstmp.Kod12 = 0;
                 isstmp.DevirTarih = 0;
                 isstmp.DevirTutar = 0;
@@ -992,9 +992,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 isstmp.OnaylayanFinansmanMuduru = "";
                 isstmp.OnaylayanGenelMudur = "";
 
-                isstmp.CekTutari = bds["CekTutari"].ToDecimal();
+                isstmp.CekTutari = Convert.ToDecimal(bds["CekTutari"].ToString());
                 isstmp.CekOrtalamaVadeTarih = bds["CekOrtVadeTarihi"].ToDatetime();
-                isstmp.NakitTutari = bds["NakitTutar"].ToDecimal();
+                isstmp.NakitTutari = Convert.ToDecimal(bds["NakitTutar"].ToString());
 
                 isstmp.BaglantiParaCinsi = bds["BaglantiParaCinsi"].ToString();
                 isstmp.AktifPasif = AktifPasif.ToBool();
