@@ -84,7 +84,22 @@
         else
         { PartialView(EditURL, 'CreateEdit', JSON.stringify({ Id: Id })); }
 
-    }
+        }
+        function newrow(id) { return "<table style='background:transparent;' id='new" + id + "'></table>"; }
+        function format(d) {
+
+            var html = "<tr style='background: transparent;'><th>Tarih</th > <th>Çalışma Süre</th><th>Çalışma</th><th>Sorumlu</th></tr >";
+            $.ajax({
+                type: 'POST',
+                url: '/Duties/Duty_Details',
+                data: { "ID": d },
+                dataType: "html",
+                success: function (data) {
+                    console.log(data);
+                    $('#new' + d).html(data);
+                }
+            });
+        }
     </script>
 }
 

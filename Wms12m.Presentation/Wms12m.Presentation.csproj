@@ -650,6 +650,8 @@
     <Content Include="Views\Duties\List.cshtml" />
     <Content Include="Views\Duties\New.cshtml" />
     <Content Include="Views\DutyWork\NewWork.cshtml" />
+    <Content Include="Views\DutyWork\List.cshtml" />
+    <Content Include="Views\Duties\Duty_Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

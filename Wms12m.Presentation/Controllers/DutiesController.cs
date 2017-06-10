@@ -40,10 +40,23 @@ namespace Wms12m.Presentation.Controllers
             return PartialView(new Gorevler());
         }
 
+        [HttpPost]
+        public PartialViewResult Duty_Details(int ID)
+        {
+            var gorevCalismas = db.GorevCalismas.Include(g => g.Gorevler);
+            var list = gorevCalismas.Where(a => a.GorevID == ID).ToList();
+            return PartialView("Duty_Details", list);
+
+        }
+
         public PartialViewResult List()
         {
-            var gorevlers = db.Gorevlers.Include(g => g.ProjeForm);
-            return PartialView(gorevlers.ToList());
+            var list = db.Database.SqlQuery<GorevDurum>(string.Format("[BIRIKIM].[dbo].[SP_Gorev]")).ToList();
+            return PartialView(list);
+
+            //var gorevlers = db.Gorevlers.Include(g => g.ProjeForm);
+
+
         }
 
         // GET: MainProjectForm/Edit/5
