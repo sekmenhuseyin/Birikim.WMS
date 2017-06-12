@@ -9,7 +9,7 @@
                 <td>@item.AdSoyad</td>
                 <td>@item.Email</td>
                 <td>@item.RoleName</td>
-                <td>@item.Aktif</td>
+                <td>@if (item.Aktif) { <text>Aktif</text> } else { <text>Pasif</text>; }</td>
                 <td>
                     @if (ViewBag.Yetki == true)
                     {<div class="btn-group btn-xs">
@@ -32,7 +32,7 @@
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             initComplete: function () {
-                this.api().columns([0, 1, 2]).every(function () {
+                this.api().columns([0, 1, 2, 3, 4]).every(function () {
                     var column = this;
                     var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
                         .appendTo($(column.header()))
