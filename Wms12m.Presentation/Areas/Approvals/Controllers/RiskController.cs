@@ -364,62 +364,73 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-            try
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                foreach (JObject insertObj in parameters)
+                try
                 {
-                    if (insertObj["YeniSahsiCekLimiti"].ToDecimal() <= 0)
-                        continue;
+                    string sonucMessage = "OK";
+                    foreach (JObject insertObj in parameters)
+                    {
+                        if (insertObj["YeniSahsiCekLimiti"].ToDecimal() <= 0)
+                        {
+                            sonucMessage = "EKSIK";
+                            continue;
+                        }
 
-                    RiskTanim rsk = new RiskTanim()
-                    {
-                        HesapKodu = insertObj["HesapKodu"].ToString(),
-                        Unvan = insertObj["Unvan"].ToString(),
-                        SahsiCekLimiti = insertObj["SahsiCekLimiti"].ToDecimal(),
-                        MusteriCekLimiti = insertObj["MusteriCekLimiti"].ToDecimal(),
-                        SMOnay = false,
-                        SMOnaylayan = "",
-                        SPGMYOnay = false,
-                        SPGMYOnaylayan = "",
-                        MIGMYOnay = false,
-                        MIGMYOnaylayan = "",
-                        GMOnay = false,
-                        GMOnaylayan = "",
-                        Durum = false
-                    };
-                    if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 20000)
-                    {
-                        rsk.OnayTip = 0;
-                    }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 100000)
-                    {
-                        rsk.OnayTip = 1;
-                    }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 200000)
-                    {
-                        rsk.OnayTip = 2;
-                    }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 500000)
-                    {
-                        rsk.OnayTip = 3;
-                    }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) >= 500000)
-                    {
-                        rsk.OnayTip = 4;
-                    }
-                    else
-                    {
-                        rsk.OnayTip = -1;
-                    }
+                        RiskTanim rsk = new RiskTanim()
+                        {
+                            HesapKodu = insertObj["HesapKodu"].ToString(),
+                            Unvan = insertObj["Unvan"].ToString(),
+                            SahsiCekLimiti = insertObj["SahsiCekLimiti"].ToDecimal(),
+                            MusteriCekLimiti = insertObj["MusteriCekLimiti"].ToDecimal(),
+                            SMOnay = false,
+                            SMOnaylayan = "",
+                            SPGMYOnay = false,
+                            SPGMYOnaylayan = "",
+                            MIGMYOnay = false,
+                            MIGMYOnaylayan = "",
+                            GMOnay = false,
+                            GMOnaylayan = "",
+                            Durum = false
+                        };
+                        if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 20000)
+                        {
+                            rsk.OnayTip = 0;
+                        }
+                        else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 100000)
+                        {
+                            rsk.OnayTip = 1;
+                        }
+                        else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 200000)
+                        {
+                            rsk.OnayTip = 2;
+                        }
+                        else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 500000)
+                        {
+                            rsk.OnayTip = 3;
+                        }
+                        else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) >= 500000)
+                        {
+                            rsk.OnayTip = 4;
+                        }
+                        else
+                        {
+                            rsk.OnayTip = -1;
+                        }
 
-                    sqlexper.Insert(rsk);
-                    var sonuc = sqlexper.AcceptChanges();
+                        sqlexper.Insert(rsk);
+                        var sonuc = sqlexper.AcceptChanges();
+                        if (sonuc.Status == false)
+                        {
+                            sonucMessage = "NO";
+                        }
+                    }
+                    return sonucMessage;
                 }
-                return "OK";
-            }
-            catch (Exception ex)
-            {
-                return "NO";
+                catch (Exception ex)
+                {
+                    return "NO";
+                }
             }
         }
     }

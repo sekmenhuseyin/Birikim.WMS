@@ -1,11 +1,11 @@
 ﻿@using Newtonsoft.Json;
-@model List<RiskTanimToplu>
+@model List<Kullanici>
 <div class="fatura-data" style="margin-top: 20px; width: 100%; box-shadow: 2px 4px 2px #5d5959;">
     <div class="col-md-12" style="width:100%;margin-top: 20px;">
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Risk Tanım
+                    <i class="fa fa-gift"></i>Kullanıcılar
                 </div>
 
             </div>
@@ -14,21 +14,22 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <table class="table table-striped table-bordered table-condensed"  id="sample_1" style="margin:0;">
+                        <table class="table table-striped table-bordered table-condensed" id="sample_1" style="margin:0;">
                             <thead>
                                 <tr>
-                                    <th>
+                                    @*<th>
                                         <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                             <input type="checkbox" class="group-checkable" data-set="sample_1 .checkboxes" />
                                             <span></span>
                                         </label>
-                                    </th>
-                                    <th nowrap>Hesap Kodu</th>
-                                    <th nowrap>Ünvan</th>
-                                    <th nowrap>Şahsi Çek Limiti</th>
-                                    <th nowrap>Müşteri Çek Limiti</th>
-                                    <th nowrap>Yeni Şahsi Çek Limiti</th>
-                                    <th nowrap>Yeni Müşteri Çek Limiti</th>
+                                    </th>*@
+                                    <th nowrap style="display:none">ID</th>
+                                    <th nowrap>Adı Soyadı</th>
+                                    <th nowrap>Kullanıcı Kodu</th>
+                                    <th nowrap>Parola</th>
+                                    <th nowrap>E-Mail</th>
+                                    <th nowrap>Yetki</th>
+                                    <th nowrap>Firma</th>
                                 </tr>
                             </thead>
                         </table>
@@ -47,21 +48,25 @@
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/Risk/CHKSelect',
+            "url": '/GorevKisiler/GorevKisiListesiData',
             "dataSrc": function(json) {
                 return json;
             },
         },
         "fixedHeader": true,
         "scrollX": true,
-        "columns": [  
-            {"data": null,"defaultContent": '',"className": 'select-checkbox',"orderable": false},
-            { "data": "HesapKodu", "sClass": "nowrap" },
-            { "data": "Unvan", "sClass": "nowrap" },
-            { "data": "SahsiCekLimiti", "sClass": "nowrap"  },
-            { "data": "MusteriCekLimiti" , "sClass": "nowrap" },
-            { "data": "YeniSahsiCekLimiti", "sClass": "nowrap" },
-            { "data": "YeniMusteriCekLimiti", "sClass": "nowrap" },
+        "columnDefs": [{ "visible": false, "targets": 0 }],
+        "columnDefs": [{
+            "render": function (data, type, row) { if (data == 0) return "a"; else if (data == 1) return "b"; else if (data == 2) return "c"; else if (data == 3) return "d"}, "targets": 5 }],
+        "columns": [
+            //{"data": null,"defaultContent": '',"className": 'select-checkbox',"orderable": false},
+            { "data": "ID", "sClass": "nowrap" },
+            { "data": "AdSoyad", "sClass": "nowrap" },
+            { "data": "KulKodu", "sClass": "nowrap" },
+            { "data": "Pass", "sClass": "nowrap"  },
+            { "data": "Email" , "sClass": "nowrap" },
+            { "data": "YetkiKod", "sClass": "nowrap" },
+            { "data": "Firma", "sClass": "nowrap" },
         ],
         "ordering":false,
         "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
@@ -71,10 +76,11 @@
 
     });
     $('#sample_1 tbody').on('click', 'tr', function () {
+        $("tr").removeClass('selected');
         $(this).toggleClass('selected');
     });
 
-    $('.save-buton').click(function () {
+    $('.refresh-buton').click(function () {
         var x = table.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
@@ -85,26 +91,16 @@
             data: { Data: JSON.stringify(secili_table)},
             type: "post",
             success: function (data) {
-                if (data == "OK") {
-                    Modaldialog("İşlem Başarılı.", "Risk Tanım Kayıt", "Tamam", "Mesaj");
-                }
-                else if (data == "EKSIK") {
-                    Modaldialog("Yeni Şahsi Çek Limiti 0 ve Altında Olan Satırlar Kaydedilmedi.", "Risk Tanım Kayıt", "Tamam", "Uyarı");
-                }
-                else {
-                    Modaldialog("Kayıt Sırasında Bir Hata Oluştu.", "Risk Tanım Kayıt", "Tamam", "Uyarı");
-                }
+
             }
         });
         return _dfd.promise();
-    });
-    $('.refresh-buton').click(function () {
-        PartialView("/Approvals/Risk/TanimPartial", 'risk_tanim_data');
     });
     $(document).ready(function () {
 
     });
 
 </script>
+
 
 

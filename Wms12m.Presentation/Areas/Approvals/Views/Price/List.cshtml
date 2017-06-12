@@ -382,9 +382,6 @@
                     _grid_quotations_detail = $('.grid_bekleyen_fiyat_listeleri').dxDataGrid({
                         dataSource: result,
                         height: 400,
-                        onRowPrepared: function (e) {
-                            e.rowElement.css({ height: 20 });
-                        },
                         paging: { pageSize: 5000 },
                         columns: columns,
                         headerFilter: {
@@ -412,6 +409,18 @@
                         sorting: {
                             mode: "multiple",
                         },
+                        onRowPrepared: function (info) {
+                            if (info.rowType == 'data') {
+
+                                if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
+                                    info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
+                                else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
+                                    info.rowElement.css({ "background-color": "green", "color": "white" });
+                                else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
+                                    info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
+                            }
+                           
+                        },
                         onRowClick: function (opt) {
                             if (opt.rowType == "data") {
                                 var component = opt.component;
@@ -422,6 +431,14 @@
                                 }
                             }
                         },
+                        onCellPrepared: function (info) {
+                            console.log(info);
+                            if (info.rowType == "data") {
+                                if (info.column.dataField == "Durum" && info.value == "Yeni Kayıt") {
+                                    info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
+                                }
+                            }
+                        }
                     }).dxDataGrid("instance");
 
                 }
