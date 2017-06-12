@@ -392,6 +392,7 @@
     <Compile Include="Areas\Approvals\Controllers\StockController.cs" />
     <Compile Include="Areas\Constants\ConstantsAreaRegistration.cs" />
     <Compile Include="Areas\Constants\Controllers\CorridorController.cs" />
+    <Compile Include="Areas\Constants\Controllers\ShelfController.cs" />
     <Compile Include="Areas\Constants\Controllers\StorageController.cs" />
     <Compile Include="Controllers\DutiesController.cs" />
     <Compile Include="Controllers\DutyWorkController.cs" />
@@ -427,7 +428,6 @@
     <Compile Include="Helper\RootController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
-    <Compile Include="Controllers\ShelfController.cs" />
     <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
@@ -467,9 +467,9 @@
     <Content Include="Areas\Constants\Views\Corridor\Index.cshtml" />
     <Content Include="Areas\Constants\Views\Corridor\_CorridorGridPartial.cshtml" />
     <Content Include="Areas\Constants\Views\Corridor\_CorridorDetailPartial.cshtml" />
-    <Content Include="Views\Shelf\Index.cshtml" />
-    <Content Include="Views\Shelf\_ShelfGridPartial.cshtml" />
-    <Content Include="Views\Shelf\_ShelfDetailPartial.cshtml" />
+    <Content Include="Areas\Constants\Views\Shelf\Index.cshtml" />
+    <Content Include="Areas\Constants\Views\Shelf\_ShelfGridPartial.cshtml" />
+    <Content Include="Areas\Constants\Views\Shelf\_ShelfDetailPartial.cshtml" />
     <Content Include="Views\Section\Index.cshtml" />
     <Content Include="Views\Floor\Index.cshtml" />
     <Content Include="Views\Section\_SectionGridPartial.cshtml" />
