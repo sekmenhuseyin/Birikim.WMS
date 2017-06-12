@@ -391,6 +391,7 @@
     <Compile Include="Areas\Approvals\Controllers\PriceController.cs" />
     <Compile Include="Areas\Approvals\Controllers\StockController.cs" />
     <Compile Include="Areas\Constants\ConstantsAreaRegistration.cs" />
+    <Compile Include="Areas\Constants\Controllers\CorridorController.cs" />
     <Compile Include="Areas\Constants\Controllers\StorageController.cs" />
     <Compile Include="Controllers\DutiesController.cs" />
     <Compile Include="Controllers\DutyWorkController.cs" />
@@ -420,7 +421,6 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
-    <Compile Include="Controllers\CorridorController.cs" />
     <Compile Include="Controllers\FloorController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -464,9 +464,9 @@
     <Content Include="Areas\Constants\Views\Storage\Index.cshtml" />
     <Content Include="Areas\Constants\Views\Storage\_StoreGridPartial.cshtml" />
     <Content Include="Areas\Constants\Views\Storage\_StoreDetailPartial.cshtml" />
-    <Content Include="Views\Corridor\Index.cshtml" />
-    <Content Include="Views\Corridor\_CorridorGridPartial.cshtml" />
-    <Content Include="Views\Corridor\_CorridorDetailPartial.cshtml" />
+    <Content Include="Areas\Constants\Views\Corridor\Index.cshtml" />
+    <Content Include="Areas\Constants\Views\Corridor\_CorridorGridPartial.cshtml" />
+    <Content Include="Areas\Constants\Views\Corridor\_CorridorDetailPartial.cshtml" />
     <Content Include="Views\Shelf\Index.cshtml" />
     <Content Include="Views\Shelf\_ShelfGridPartial.cshtml" />
     <Content Include="Views\Shelf\_ShelfDetailPartial.cshtml" />
@@ -681,9 +681,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Storage\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
