@@ -1,12 +1,14 @@
 ﻿@model IEnumerable<User>
 <table class="table table-striped table-bordered table-hover" id="sample_1">
-    <thead><tr><th>Kullanıcı Adı</th><th>Ad Soyad</th><th>Aktif</th><th class="col-lg-2"></th></tr></thead>
+    <thead><tr><th>Kullanıcı Adı</th><th>Ad Soyad</th><th>Email</th><th>Yetki</th><th>Aktif</th><th class="col-lg-2"></th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
                 <td>@item.Kod</td>
                 <td>@item.AdSoyad</td>
+                <td>@item.Email</td>
+                <td>@item.RoleName</td>
                 <td>@item.Aktif</td>
                 <td>
                     @if (ViewBag.Yetki == true)
