@@ -45,10 +45,15 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         {
             if (CheckPerm("Depo Kartı", PermTypes.Reading) == false) return null;
             var item = Convert.ToInt16(Id == "" ? "0" : Id) > 0 ? Store.Detail(Convert.ToInt16(Id)) : new Depo() { Aktif = false };
-            using (KabloEntities dbx = new KabloEntities())
+            var mysql = db.Settings.Select(m => m.KabloSiparisMySql).FirstOrDefault();
+            if (mysql)
             {
-                ViewBag.KabloDepoID = new SelectList(dbx.depoes.OrderBy(m => m.depo1).ToList(), "id", "depo1", item.KabloDepoID);
+                using (KabloEntities dbx = new KabloEntities())
+                {
+                    ViewBag.KabloDepoID = new SelectList(dbx.depoes.OrderBy(m => m.depo1).ToList(), "id", "depo1", item.KabloDepoID);
+                }
             }
+            ViewBag.mysql = mysql;
             return PartialView("_StoreDetailPartial", item);
         }
         /// <summary>

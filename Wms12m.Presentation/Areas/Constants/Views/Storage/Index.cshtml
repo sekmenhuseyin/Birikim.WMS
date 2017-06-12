@@ -119,7 +119,7 @@
     var DeleteFunctionUrl = '/Constants/Storage/Delete';
     var StoreListUrl = '/Constants/Corridor/StoreList';
     $(document).ready(function () {
-        $("#KabloDepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#KabloDepoID")[0].selectedIndex = 0;
+        @if (ViewBag.mysql == true) {<text>$("#KabloDepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#KabloDepoID")[0].selectedIndex = 0;</text> }
         $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
         $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
         @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}
