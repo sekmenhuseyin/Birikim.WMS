@@ -371,34 +371,228 @@ namespace Wms12m.Entity
 
 
     #region Teminat
-    public class TeminatSelect
+
+    #region Teminat Class 
+
+    #region TeminatE Enum 
+    public enum TeminatE
     {
-        public int ID { get; set; }
+        ID,
+        HesapKodu,
+        Unvan,
+        AltBayi,
+        Cins,
+        Tutar,
+        SureliSuresiz,
+        Tarih,
+        VadeTarih,
+        Onay,
+        Onaylayan,
+        OnayTarih
 
-        public string HesapKodu { get; set; }
-
-        public string Unvan { get; set; }
-
-        public string AltBayi { get; set; }
-
-        public string Cins { get; set; }
-
-        public decimal Tutar { get; set; }
-
-        public bool SureliSuresiz { get; set; }
-
-        public System.DateTime Tarih { get; set; }
-
-        public System.Nullable<System.DateTime> VadeTarih { get; set; }
-
-        public bool Onay { get; set; }
-
-        public string Onaylayan { get; set; }
-
-        public System.Nullable<System.DateTime> OnayTarih { get; set; }
-
-        public decimal TeminatTutar { get; set; }
     }
+    #endregion /// TeminatE Enum           
+
+    public class Teminat : INotifyPropertyChanged
+    {
+        #region Properties
+        #region Fields  
+        private int _ID;
+        private string _HesapKodu;
+        private string _Unvan;
+        private string _AltBayi;
+        private string _Cins;
+        private decimal _Tutar;
+        private bool _SureliSuresiz;
+        private DateTime _Tarih;
+        private DateTime? _VadeTarih;
+        private bool _Onay;
+        private string _Onaylayan;
+        private DateTime? _OnayTarih;
+        private int _pk_ID;
+        #endregion /// Fields
+
+
+        /// <summary> INT (4) PrimaryKey IdentityKey * </summary>
+        public int ID
+        {
+            get { return this._ID; }
+        }
+
+        /// <summary> VARCHAR (30) * </summary>
+        public string HesapKodu
+        {
+            get { return this._HesapKodu; }
+            set
+            {
+                this._HesapKodu = value;
+                OnPropertyChanged("HesapKodu");
+            }
+        }
+
+        /// <summary> VARCHAR (100) * </summary>
+        public string Unvan
+        {
+            get { return this._Unvan; }
+            set
+            {
+                this._Unvan = value;
+                OnPropertyChanged("Unvan");
+            }
+        }
+
+        /// <summary> VARCHAR (-1) * </summary>
+        public string AltBayi
+        {
+            get { return this._AltBayi; }
+            set
+            {
+                this._AltBayi = value;
+                OnPropertyChanged("AltBayi");
+            }
+        }
+
+        /// <summary> VARCHAR (50) * </summary>
+        public string Cins
+        {
+            get { return this._Cins; }
+            set
+            {
+                this._Cins = value;
+                OnPropertyChanged("Cins");
+            }
+        }
+
+        /// <summary> NUMERIC (13) * </summary>
+        public decimal Tutar
+        {
+            get { return this._Tutar; }
+            set
+            {
+                this._Tutar = value;
+                OnPropertyChanged("Tutar");
+            }
+        }
+
+        /// <summary> BIT (1) * </summary>
+        public bool SureliSuresiz
+        {
+            get { return this._SureliSuresiz; }
+            set
+            {
+                this._SureliSuresiz = value;
+                OnPropertyChanged("SureliSuresiz");
+            }
+        }
+
+        /// <summary> SMALLDATETIME (4) * </summary>
+        public DateTime Tarih
+        {
+            get { return this._Tarih; }
+            set
+            {
+                this._Tarih = value;
+                OnPropertyChanged("Tarih");
+            }
+        }
+
+        /// <summary> SMALLDATETIME (4) Allow Null </summary>
+        public DateTime? VadeTarih
+        {
+            get { return this._VadeTarih; }
+            set
+            {
+                this._VadeTarih = value;
+                OnPropertyChanged("VadeTarih");
+            }
+        }
+
+        /// <summary> BIT (1) * </summary>
+        public bool Onay
+        {
+            get { return this._Onay; }
+            set
+            {
+                this._Onay = value;
+                OnPropertyChanged("Onay");
+            }
+        }
+
+        /// <summary> VARCHAR (5) Allow Null </summary>
+        public string Onaylayan
+        {
+            get { return this._Onaylayan; }
+            set
+            {
+                this._Onaylayan = value;
+                OnPropertyChanged("Onaylayan");
+            }
+        }
+
+        /// <summary> SMALLDATETIME (4) Allow Null </summary>
+        public DateTime? OnayTarih
+        {
+            get { return this._OnayTarih; }
+            set
+            {
+                this._OnayTarih = value;
+                OnPropertyChanged("OnayTarih");
+            }
+        }
+
+        /// <summary> INT (4) PRIMARY KEY * </summary>
+        public int pk_ID
+        {
+            private get { return this._pk_ID; }
+            set
+            {
+                this._pk_ID = value;
+                OnPropertyChanged("pk_ID");
+            }
+        }
+        #endregion /// Properties       
+
+        #region Tablo Bilgileri & Metodlar
+
+        private List<string> WhereList = new List<string>();
+        private List<string> SetList = new List<string>();
+        private string info_FullTableName = "FINSAT6{0}.FINSAT6{0}.Teminat";
+        private string[] info_PrimaryKeys = { "pk_ID" };
+        private string[] info_IdentityKeys = { "ID" };
+
+        private List<string> ChangedProperties = new List<string>();
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Teminat()
+        {
+            ChangedProperties = new List<string>();
+            this.PropertyChanged += Teminat_PropertyChanged;
+        }
+
+        public void AcceptChanges()
+        {
+            ChangedProperties.Clear();
+        }
+
+        void Teminat_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (!ChangedProperties.Contains(e.PropertyName))
+            {
+                ChangedProperties.Add(e.PropertyName);
+            }
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        #endregion  /// Tablo Bilgileri & Metodlar
+
+    }
+    #endregion /// Teminat Class
     #endregion
 
     #region Fiyat
@@ -492,7 +686,8 @@ namespace Wms12m.Entity
 
         public string HangiOnayda { get; set; }
     }
-    public class SozlesmeCariBilgileri {
+    public class SozlesmeCariBilgileri
+    {
         /// <summary> Decimal(36,6) (Allow Null) </summary>
         public decimal? Bakiye { get; set; }
         /// <summary> Decimal(38,6) (Allow Null) </summary>
@@ -685,142 +880,142 @@ namespace Wms12m.Entity
     }
     public class SPI
     {
-        public short IslemTur{ get; set; }
-        public string EvrakNo{ get; set; }
-        public int Tarih{ get; set; }
-        public string Chk{ get; set; }
-        public short SiraNo{ get; set; }
-        public short IslemTip{ get; set; }
-        public string MalKodu{ get; set; }
-        public short KynkEvrakTip{ get; set; }
-        public decimal Miktar{ get; set; }
-        public decimal Fiyat{ get; set; }
-        public decimal Tutar{ get; set; }
-        public string DovizCinsi{ get; set; }
-        public decimal DovizKuru{ get; set; }
-        public decimal DovizTutar{ get; set; }
-        public decimal DvzBirimFiyat{ get; set; }
-        public string Birim{ get; set; }
-        public decimal BirimFiyat{ get; set; }
-        public decimal BirimMiktar{ get; set; }
-        public decimal Iskonto{ get; set; }
-        public double IskontoOran{ get; set; }
-        public decimal ToplamIskonto{ get; set; }
-        public decimal KDV{ get; set; }
-        public double KDVOran{ get; set; }
-        public short KDVDahilHaric{ get; set; }
-        public string Aciklama{ get; set; }
-        public string Kod1{ get; set; }
-        public string Kod2{ get; set; }
-        public string Kod3{ get; set; }
-        public string Kod4{ get; set; }
-        public string Kod5{ get; set; }
-        public string Kod6{ get; set; }
-        public string Kod7{ get; set; }
-        public string Kod8{ get; set; }
-        public string Kod9{ get; set; }
-        public string Kod10{ get; set; }
-        public short Kod11{ get; set; }
-        public short Kod12{ get; set; }
-        public decimal Kod13{ get; set; }
-        public decimal Kod14{ get; set; }
-        public int EvrakTarih{ get; set; }
-        public decimal Miktar2{ get; set; }
-        public decimal Tutar2{ get; set; }
-        public int Tarih2{ get; set; }
-        public int VadeTarih{ get; set; }
-        public string Depo{ get; set; }
-        public string Vasita{ get; set; }
-        public string SeriNo{ get; set; }
-        public string IrsaliyeNo{ get; set; }
-        public int IrsaliyeTarih{ get; set; }
-        public decimal PromosyonMiktar{ get; set; }
-        public string Aciklama2{ get; set; }
-        public string AsilEvrakNo{ get; set; }
-        public decimal Masraf{ get; set; }
-        public decimal TeslimMiktar{ get; set; }
-        public int TahTeslimTarih{ get; set; }
-        public int SonTeslimTarih{ get; set; }
-        public short SiparisDurumu{ get; set; }
-        public string RezervasyonEvrakNo{ get; set; }
-        public int RezervasyonTarihi{ get; set; }
-        public decimal KapatilanMiktar{ get; set; }
-        public double IskontoOran1{ get; set; }
-        public short IskOran1Net{ get; set; }
-        public double IskontoOran2{ get; set; }
-        public short IskOran2Net{ get; set; }
-        public double IskontoOran3{ get; set; }
-        public short IskOran3Net{ get; set; }
-        public double IskontoOran4{ get; set; }
-        public short IskOran4Net{ get; set; }
-        public double IskontoOran5{ get; set; }
-        public short IskOran5Net{ get; set; }
-        public decimal KlmTutarIsk{ get; set; }
-        public short KlmTutarIskNet{ get; set; }
-        public string TeslimChk{ get; set; }
-        public string ButceKod{ get; set; }
-        public string FytListeNo{ get; set; }
-        public string MasrafMerkez{ get; set; }
-        public short DvzTL{ get; set; }
-        public string RenkBedenKod1{ get; set; }
-        public string RenkBedenKod2{ get; set; }
-        public string RenkBedenKod3{ get; set; }
-        public string RenkBedenKod4{ get; set; }
-        public string BarkodNo{ get; set; }
-        public double Katsayi{ get; set; }
-        public short Operator{ get; set; }
-        public short ValorGun{ get; set; }
-        public short KayitTuru{ get; set; }
-        public string Nesne1{ get; set; }
-        public string Nesne2{ get; set; }
-        public string Nesne3{ get; set; }
-        public string TesTemMalKod{ get; set; }
-        public decimal Miktar3{ get; set; }
-        public decimal Tutar3{ get; set; }
-        public short SiraNo2{ get; set; }
-        public decimal BlkMiktar{ get; set; }
-        public int BlkTarih{ get; set; }
-        public short BlkDurumu{ get; set; }
-        public int KurTarihi{ get; set; }
-        public short AnaEvrakTip{ get; set; }
-        public string GuvenlikKod{ get; set; }
-        public string Kaydeden{ get; set; }
-        public int KayitTarih{ get; set; }
-        public int KayitSaat{ get; set; }
-        public short KayitKaynak{ get; set; }
-        public string KayitSurum{ get; set; }
-        public string Degistiren{ get; set; }
-        public int DegisTarih{ get; set; }
-        public int DegisSaat{ get; set; }
-        public short DegisKaynak{ get; set; }
-        public string DegisSurum{ get; set; }
-        public short CheckSum{ get; set; }
-        public string TeklifEvrakNo{ get; set; }
-        public int TeklifTarihi{ get; set; }
-        public decimal OnayMiktar{ get; set; }
-        public int SonKullanimTarihi{ get; set; }
-        public short DvzKurCinsi{ get; set; }
-        public string TevfikatOran{ get; set; }
-        public decimal TevfikatTutar{ get; set; }
-        public int Tarih3{ get; set; }
-        public int Tarih4{ get; set; }
-        public int Tarih5{ get; set; }
-        public int Tarih6{ get; set; }
-        public string TevfikatOranKod{ get; set; }
-        public string ProjeKodu{ get; set; }
-        public decimal IskontoTutar{ get; set; }
-        public decimal IskontoTutar1{ get; set; }
-        public decimal IskontoTutar2{ get; set; }
-        public decimal IskontoTutar3{ get; set; }
-        public decimal IskontoTutar4{ get; set; }
-        public decimal IskontoTutar5{ get; set; }
-        public string Not1{ get; set; }
-        public string Not2{ get; set; }
-        public string Not3{ get; set; }
-        public string Not4{ get; set; }
-        public string Not5{ get; set; }
-        public string TeklifAciklamasi{ get; set; }
-        public int ROW_ID{ get; set; }
+        public short IslemTur { get; set; }
+        public string EvrakNo { get; set; }
+        public int Tarih { get; set; }
+        public string Chk { get; set; }
+        public short SiraNo { get; set; }
+        public short IslemTip { get; set; }
+        public string MalKodu { get; set; }
+        public short KynkEvrakTip { get; set; }
+        public decimal Miktar { get; set; }
+        public decimal Fiyat { get; set; }
+        public decimal Tutar { get; set; }
+        public string DovizCinsi { get; set; }
+        public decimal DovizKuru { get; set; }
+        public decimal DovizTutar { get; set; }
+        public decimal DvzBirimFiyat { get; set; }
+        public string Birim { get; set; }
+        public decimal BirimFiyat { get; set; }
+        public decimal BirimMiktar { get; set; }
+        public decimal Iskonto { get; set; }
+        public double IskontoOran { get; set; }
+        public decimal ToplamIskonto { get; set; }
+        public decimal KDV { get; set; }
+        public double KDVOran { get; set; }
+        public short KDVDahilHaric { get; set; }
+        public string Aciklama { get; set; }
+        public string Kod1 { get; set; }
+        public string Kod2 { get; set; }
+        public string Kod3 { get; set; }
+        public string Kod4 { get; set; }
+        public string Kod5 { get; set; }
+        public string Kod6 { get; set; }
+        public string Kod7 { get; set; }
+        public string Kod8 { get; set; }
+        public string Kod9 { get; set; }
+        public string Kod10 { get; set; }
+        public short Kod11 { get; set; }
+        public short Kod12 { get; set; }
+        public decimal Kod13 { get; set; }
+        public decimal Kod14 { get; set; }
+        public int EvrakTarih { get; set; }
+        public decimal Miktar2 { get; set; }
+        public decimal Tutar2 { get; set; }
+        public int Tarih2 { get; set; }
+        public int VadeTarih { get; set; }
+        public string Depo { get; set; }
+        public string Vasita { get; set; }
+        public string SeriNo { get; set; }
+        public string IrsaliyeNo { get; set; }
+        public int IrsaliyeTarih { get; set; }
+        public decimal PromosyonMiktar { get; set; }
+        public string Aciklama2 { get; set; }
+        public string AsilEvrakNo { get; set; }
+        public decimal Masraf { get; set; }
+        public decimal TeslimMiktar { get; set; }
+        public int TahTeslimTarih { get; set; }
+        public int SonTeslimTarih { get; set; }
+        public short SiparisDurumu { get; set; }
+        public string RezervasyonEvrakNo { get; set; }
+        public int RezervasyonTarihi { get; set; }
+        public decimal KapatilanMiktar { get; set; }
+        public double IskontoOran1 { get; set; }
+        public short IskOran1Net { get; set; }
+        public double IskontoOran2 { get; set; }
+        public short IskOran2Net { get; set; }
+        public double IskontoOran3 { get; set; }
+        public short IskOran3Net { get; set; }
+        public double IskontoOran4 { get; set; }
+        public short IskOran4Net { get; set; }
+        public double IskontoOran5 { get; set; }
+        public short IskOran5Net { get; set; }
+        public decimal KlmTutarIsk { get; set; }
+        public short KlmTutarIskNet { get; set; }
+        public string TeslimChk { get; set; }
+        public string ButceKod { get; set; }
+        public string FytListeNo { get; set; }
+        public string MasrafMerkez { get; set; }
+        public short DvzTL { get; set; }
+        public string RenkBedenKod1 { get; set; }
+        public string RenkBedenKod2 { get; set; }
+        public string RenkBedenKod3 { get; set; }
+        public string RenkBedenKod4 { get; set; }
+        public string BarkodNo { get; set; }
+        public double Katsayi { get; set; }
+        public short Operator { get; set; }
+        public short ValorGun { get; set; }
+        public short KayitTuru { get; set; }
+        public string Nesne1 { get; set; }
+        public string Nesne2 { get; set; }
+        public string Nesne3 { get; set; }
+        public string TesTemMalKod { get; set; }
+        public decimal Miktar3 { get; set; }
+        public decimal Tutar3 { get; set; }
+        public short SiraNo2 { get; set; }
+        public decimal BlkMiktar { get; set; }
+        public int BlkTarih { get; set; }
+        public short BlkDurumu { get; set; }
+        public int KurTarihi { get; set; }
+        public short AnaEvrakTip { get; set; }
+        public string GuvenlikKod { get; set; }
+        public string Kaydeden { get; set; }
+        public int KayitTarih { get; set; }
+        public int KayitSaat { get; set; }
+        public short KayitKaynak { get; set; }
+        public string KayitSurum { get; set; }
+        public string Degistiren { get; set; }
+        public int DegisTarih { get; set; }
+        public int DegisSaat { get; set; }
+        public short DegisKaynak { get; set; }
+        public string DegisSurum { get; set; }
+        public short CheckSum { get; set; }
+        public string TeklifEvrakNo { get; set; }
+        public int TeklifTarihi { get; set; }
+        public decimal OnayMiktar { get; set; }
+        public int SonKullanimTarihi { get; set; }
+        public short DvzKurCinsi { get; set; }
+        public string TevfikatOran { get; set; }
+        public decimal TevfikatTutar { get; set; }
+        public int Tarih3 { get; set; }
+        public int Tarih4 { get; set; }
+        public int Tarih5 { get; set; }
+        public int Tarih6 { get; set; }
+        public string TevfikatOranKod { get; set; }
+        public string ProjeKodu { get; set; }
+        public decimal IskontoTutar { get; set; }
+        public decimal IskontoTutar1 { get; set; }
+        public decimal IskontoTutar2 { get; set; }
+        public decimal IskontoTutar3 { get; set; }
+        public decimal IskontoTutar4 { get; set; }
+        public decimal IskontoTutar5 { get; set; }
+        public string Not1 { get; set; }
+        public string Not2 { get; set; }
+        public string Not3 { get; set; }
+        public string Not4 { get; set; }
+        public string Not5 { get; set; }
+        public string TeklifAciklamasi { get; set; }
+        public int ROW_ID { get; set; }
     }
     #endregion
 }

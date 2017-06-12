@@ -391,6 +391,7 @@
     <Compile Include="Areas\Approvals\Controllers\StockController.cs" />
     <Compile Include="Controllers\DutiesController.cs" />
     <Compile Include="Controllers\DutyWorkController.cs" />
+    <Compile Include="Controllers\GorevKisilerController.cs" />
     <Compile Include="Controllers\SubProjectFormController.cs" />
     <Compile Include="Reports\DsSatinalma.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -652,6 +653,8 @@
     <Content Include="Views\DutyWork\NewWork.cshtml" />
     <Content Include="Views\DutyWork\List.cshtml" />
     <Content Include="Views\Duties\Duty_Details.cshtml" />
+    <Content Include="Views\GorevKisiler\Index.cshtml" />
+    <Content Include="Views\GorevKisiler\GorevKisiListesiPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -682,6 +685,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

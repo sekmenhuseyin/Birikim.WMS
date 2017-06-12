@@ -21,7 +21,6 @@
         width: 25%;
         font-weight: bold;
         color: #5bc8d2;
-        ;
         font-size: 10px;
         padding-top: 4px;
     }
@@ -146,6 +145,7 @@
         $(document).ready(function () {
             var model = @Html.Raw(Json.Encode(Model));
             var chk = "";
+            var yeniKayit = new Array();
             var teminat_cinsi = [
                 { state: "TL"},
                 { state: "Döviz"},
@@ -373,6 +373,52 @@
                     }
                 });
             }
+        });
+
+        $('.save-buton').click(function () {
+            var jObject = {};
+            jObject["HesapKodu"] = $(".select_chk").dxLookup("instance").option("value");
+            jObject["TeminatCinsi"] = $(".select_teminat_cinsi").dxSelectBox("instance").option("value");
+            jObject["TeminatTutari"] = $(".teminat_tutar").dxNumberBox("instance").option("value");
+            jObject["Tarih"] = $(".date_tarih").dxDateBox("instance").option("text");
+            jObject["AltBayi"] = "";
+            jObject["Unvan"] = $(".select_chk").dxLookup("instance").option("text");
+            jObject["SureliSuresiz"] = $(".check_sureli_suresiz").dxCheckBox("instance").option("value");
+            if (jObject["SureliSuresiz"]) {
+                jObject["VadeTarihi"] = $(".date_vade_tarih").dxDateBox("instance").option("value");
+            }
+            else {
+                jObject["VadeTarihi"] = null;
+            }
+
+            if (jObject["HesapKodu"] == null) {
+                Modaldialog("HesapKodu Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+                return;
+            }
+            if (jObject["TeminatCinsi"] == null) {
+                Modaldialog("Teminat Cinsi Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+                return;
+            }
+            if (jObject["TeminatTutari"] <= 0) {
+                Modaldialog("Teminat Tutarı Girmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+                return;
+            }
+            if (jObject["Tarih"] == null) {
+                Modaldialog("Tarih Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+                return;
+            }
+            $.ajax({
+                url: window.location.origin + "/Approvals/Guarantee/TeminatTanimInsert",
+                data: { Data: JSON.stringify(jObject) },
+                type: "post",
+                success: function (data) {
+
+                }
+            });
+            return _dfd.promise();
+        });
+        $('.refresh-buton').click(function () {
+            window.location.href = '/Approvals/Invoice';
         });
 
     </script>

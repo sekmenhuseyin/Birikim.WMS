@@ -89,19 +89,19 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult Tanim()
         {
             if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return Redirect("/");
-            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect1]", "17")).ToList();
+            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelect1]", "17")).ToList();
             return View(CHK);
         }
         public string durbun()
         {
-            var DRBN = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatDurbunSelect]", "17")).ToList();
+            var DRBN = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[TeminatDurbunSelect]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(DRBN);
             return json;
         }
 
         public string Bekleyen()
         {
-            var BKLYN = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", "17")).ToList();
+            var BKLYN = db.Database.SqlQuery<Teminat>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(BKLYN);
             return json;
         }
@@ -111,19 +111,19 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return null;
             ViewBag.CHK = chk;
-            return PartialView("TeminatTanimList");
+            return PartialView("TanimList");
         }
 
         public string Select(string chk)
         {
-            var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect] @HesapKodu='{1}'", "17", chk)).ToList();
+            var TMNT = db.Database.SqlQuery<Teminat>(string.Format("[FINSAT6{0}].[wms].[TeminatOnaySelect] @HesapKodu='{1}'", "17", chk)).ToList();
             var json = new JavaScriptSerializer().Serialize(TMNT);
             return json;
         }
 
         public string Sil(int ID)
         {
-            var sonuc = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[TeminatSil] @ID={1}", "17", ID)).FirstOrDefault();
+            var sonuc = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[TeminatSil] @ID={1}", "17", ID)).FirstOrDefault();
             if (sonuc == 1)
             {
                 return "OK";
@@ -133,6 +133,44 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 return "NO";
             }
 
+        }
+
+        public string TeminatTanimInsert(string Data)
+        {
+            if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
+            JObject parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            try
+            {
+                Teminat tmnt = new Teminat()
+                {
+
+                    HesapKodu = parameters["HesapKodu"].ToString(),
+                    Cins = parameters["TeminatCinsi"].ToString(),
+                    Tutar = parameters["TeminatTutari"].ToDecimal(),
+                    Tarih = parameters["Tarih"].ToDatetime(),
+                    AltBayi = parameters["AltBayi"].ToString(),
+                    Unvan = parameters["Unvan"].ToString(),
+                    SureliSuresiz = parameters["SureliSuresiz"].ToBool(),
+                    VadeTarih = parameters["VadeTarihi"].ToDatetime(),
+                };
+                sqlexper.Insert(tmnt);
+                var sonuc = sqlexper.AcceptChanges();
+                if (sonuc.Status == true)
+                {
+                    return "OK";
+                }
+                else
+                {
+                    return "NO";
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                return "NO";
+            }
         }
     }
 }
