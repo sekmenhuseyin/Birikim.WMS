@@ -14,8 +14,10 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            var SirketKodu = db.GetSirketDBs().FirstOrDefault();
             var ozet = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
-            ViewBag.SirketKodu = db.GetSirketDBs().FirstOrDefault();
+            ViewBag.BekleyenOnaylar = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
+            ViewBag.SirketKodu = SirketKodu;
             return View("Index", ozet);
         }
         /// <summary>
@@ -41,22 +43,6 @@ namespace Wms12m.Presentation.Controllers
         /////////////////////////////////////////////// partials
         /// </summary>
         /// 
-
-        public PartialViewResult PartialBox()
-        {
-            return PartialView("_PartialBox");
-        }
-
-        public PartialViewResult PartialBox2()
-        {
-            return PartialView("_PartialBox2");
-        }
-
-        public PartialViewResult PartialBox3()
-        {
-            return PartialView("_PartialBox3");
-        }
-
         public PartialViewResult PartialGunlukSatis(string SirketKodu, int tarih)
         {
             if (CheckPerm("ChartGunlukSatis", PermTypes.Reading) == false) return null;

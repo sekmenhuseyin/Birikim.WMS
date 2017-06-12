@@ -2,11 +2,16 @@
 @{
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    BekleyenOnaylar tbl = ViewBag.BekleyenOnaylar;
 }@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/devextreme/css/dx.light.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
-<style>.h-500{min-height:500px!important;}</style>
+<style>
+    .h-500{min-height:500px!important;}
+    .number2{font-size:16px!important;margin-top:0!important;padding-top:0!important;font-weight:bold!important;}
+    .link,.link:hover,.link:active,.link:visited{text-decoration:none;color:white;}
+</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><span>Anasayfa</span></li></ul></div>
 <h1 class="page-title">Yönetim Paneli</h1>
 <div class="row">
@@ -47,7 +52,85 @@
         </a>
     </div>
 </div>
-<div id="box-content"></div>
+
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 red">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Bekleyen Sipariş Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Order/SM">SM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SM">@tbl.SiparisOnay_SM</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Order/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SPGMY">@tbl.SiparisOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Order/GM">GM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_GM">@tbl.SiparisOnay_GM</span></a></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 green" href="/Approvals/Stock">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@tbl.StokOnay">@tbl.StokOnay</span></div>
+                <div class="desc">Bekleyen Stok Onayları</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 blue" href="/Approvals/Guarantee">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@tbl.TeminatOnay">@tbl.TeminatOnay</span></div>
+                <div class="desc">Bekleyen Teminat Onayları</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 purple">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Bekleyen Sözleşme Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Contract/SM">SM: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SM">@tbl.SozlesmeOnay_SM</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Contract/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SPGMY">@tbl.SozlesmeOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Contract/GM">GM: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_GM">@tbl.SozlesmeOnay_GM</span></a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 red">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Bekleyen Risk Limit Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Risk/SM">SM: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_SM">@tbl.RiskLimitOnay_SM</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Risk/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_SPGMY">@tbl.RiskLimitOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Risk/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_MIGMY">@tbl.RiskLimitOnay_MIGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Risk/GM">GM: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_GM">@tbl.RiskLimitOnay_GM</span></a></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 blue">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Bekleyen Fiyat Listesi Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Price/SM">SM: <span data-counter="counterup" data-value="@tbl.FiyatOnay_SM">@tbl.FiyatOnay_SM</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Price/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.FiyatOnay_SPGMY">@tbl.FiyatOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Price/GM">GM: <span data-counter="counterup" data-value="@tbl.FiyatOnay_GM">@tbl.FiyatOnay_GM</span></a></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 green">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Bekleyen Çek Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Check/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Check/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Check/GM">GM: <span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></a></div>
+            </div>
+        </div>
+    </div>
+</div>
 @{
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true) {<div class="h-500" id="gunluk_satis"></div>}
     if (Model.yetki.Contains("'ChartGunlukSatisPie'") == true) {<div class="h-500" id="gunluk_satis_pie"></div>}
@@ -92,8 +175,6 @@
 <script>
     var dateVal = new Date(); dateVal.setHours(0, 0, 0);
     var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-    var BoxUrl = "/Home/PartialBox3";
-    PartialView(BoxUrl, 'box-content'); 
 @{
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis'), handler: function () { PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartGunlukSatisPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}

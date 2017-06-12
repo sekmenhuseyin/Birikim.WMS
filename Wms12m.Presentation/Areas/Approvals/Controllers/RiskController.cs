@@ -353,7 +353,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string CHKSelect()
         {
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect2]", "17")).ToList();
+            var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[wms].[CHKSelect2]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
