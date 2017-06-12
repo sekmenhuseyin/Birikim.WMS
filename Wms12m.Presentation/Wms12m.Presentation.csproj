@@ -343,6 +343,7 @@
     <Content Include="Areas\Approvals\Views\Contract\SPMY_Details.cshtml" />
     <Content Include="Areas\Approvals\Views\Contract\Tanim.cshtml" />
     <Content Include="Areas\Approvals\Views\Contract\Tanim_List.cshtml" />
+    <Content Include="Areas\Constants\Views\web.config" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -389,6 +390,8 @@
     <Compile Include="Areas\Approvals\Controllers\OrderController.cs" />
     <Compile Include="Areas\Approvals\Controllers\PriceController.cs" />
     <Compile Include="Areas\Approvals\Controllers\StockController.cs" />
+    <Compile Include="Areas\Constants\ConstantsAreaRegistration.cs" />
+    <Compile Include="Areas\Constants\Controllers\StorageController.cs" />
     <Compile Include="Controllers\DutiesController.cs" />
     <Compile Include="Controllers\DutyWorkController.cs" />
     <Compile Include="Controllers\SubProjectFormController.cs" />
@@ -427,7 +430,6 @@
     <Compile Include="Controllers\ShelfController.cs" />
     <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\StockController.cs" />
-    <Compile Include="Controllers\StorageController.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Controllers\UploadsController.cs" />
@@ -459,9 +461,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_MenuList.cshtml" />
-    <Content Include="Views\Storage\Index.cshtml" />
-    <Content Include="Views\Storage\_StoreGridPartial.cshtml" />
-    <Content Include="Views\Storage\_StoreDetailPartial.cshtml" />
+    <Content Include="Areas\Constants\Views\Storage\Index.cshtml" />
+    <Content Include="Areas\Constants\Views\Storage\_StoreGridPartial.cshtml" />
+    <Content Include="Areas\Constants\Views\Storage\_StoreDetailPartial.cshtml" />
     <Content Include="Views\Corridor\Index.cshtml" />
     <Content Include="Views\Corridor\_CorridorGridPartial.cshtml" />
     <Content Include="Views\Corridor\_CorridorDetailPartial.cshtml" />
@@ -678,6 +680,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Storage\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

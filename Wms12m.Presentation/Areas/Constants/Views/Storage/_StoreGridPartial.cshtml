@@ -21,7 +21,7 @@
                     <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
                     <td>
                         <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                        <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Storage/StoreGridPartial','StoreGrid','0')"> Sil </a>
+                        <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Constants/Storage/StoreGridPartial','StoreGrid','0')"> Sil </a>
                     </td>
                 </tr>
             }

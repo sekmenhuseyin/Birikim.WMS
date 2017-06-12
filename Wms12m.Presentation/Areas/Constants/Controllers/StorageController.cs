@@ -7,7 +7,7 @@ using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Entity.Mysql;
 
-namespace Wms12m.Presentation.Controllers
+namespace Wms12m.Presentation.Areas.Constants.Controllers
 {
     public class StorageController : RootController
     {
@@ -17,10 +17,15 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             if (CheckPerm("Depo Kartı", PermTypes.Reading) == false) return Redirect("/");
-            using (KabloEntities dbx = new KabloEntities())
+            var mysql = db.Settings.Select(m => m.KabloSiparisMySql).FirstOrDefault();
+            if (mysql)
             {
-                ViewBag.KabloDepoID = new SelectList(dbx.depoes.OrderBy(m => m.depo1).ToList(), "id", "depo1");
+                using (KabloEntities dbx = new KabloEntities())
+                {
+                    ViewBag.KabloDepoID = new SelectList(dbx.depoes.OrderBy(m => m.depo1).ToList(), "id", "depo1");
+                }
             }
+            ViewBag.mysql = mysql;
             return View("Index", new Depo());
         }
         /// <summary>
@@ -54,7 +59,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Depo Kartı", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Store.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
-            
+
         }
         /// <summary>
         /// kayıt işlemleri
