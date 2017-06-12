@@ -163,7 +163,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string HesapKoduSelect()
         {
-            var FHKS = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect1]", "17")).ToList();
+            var FHKS = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelect1]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(FHKS);
             return json;
         }

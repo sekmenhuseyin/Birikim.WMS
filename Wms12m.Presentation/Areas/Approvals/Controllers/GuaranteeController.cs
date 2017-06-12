@@ -89,7 +89,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult Tanim()
         {
             if (CheckPerm("Teminat Onaylama", PermTypes.Reading) == false) return Redirect("/");
-            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[dbo].[CHKSelect1]", "17")).ToList();
+            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelect1]", "17")).ToList();
             return View(CHK);
         }
         public string durbun()
