@@ -4,8 +4,10 @@
 /* TEAM */
 Hüseyin Sekmenoğlu
 Derviş Akdeniz
+Ruhi Göktaş
 Fatih Bingöl
 Gizem Altıntaş
+Emre Ünal
 /* SITE */
 Name: WMS - Depo Yönetim Paneli
 Language: Turkish
