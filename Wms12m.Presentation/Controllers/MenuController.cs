@@ -56,6 +56,9 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Menu/SavePermission");
                 }
             }
+            //log
+            LogActions("", "Menu", "Permission", ComboItems.alEkle, "", "");
+            //return
             var mn = db.WebMenus.Where(m => m.ID == tablo.MenuNo).FirstOrDefault();
             if (mn.UstMenuID == null)
                 return Redirect("/Menu");
@@ -89,6 +92,8 @@ namespace Wms12m.Presentation.Controllers
                 webMenu.Sira = Convert.ToByte(sira + 1);
                 db.WebMenus.Add(webMenu);
                 db.SaveChanges();
+                //log
+                LogActions("", "Menu", "Create", ComboItems.alEkle, "", "");
                 return Redirect("/Menu/Permission/" + webMenu.ID);
             }
             return RedirectToAction("Index");
@@ -125,6 +130,8 @@ namespace Wms12m.Presentation.Controllers
                 db.Entry(webMenu).State = EntityState.Modified;
                 db.SaveChanges();
                 db.MenuSiralayici(webMenu.SiteTipiID, webMenu.MenuYeriID, webMenu.UstMenuID);
+                //log
+                LogActions("", "Menu", "Edit", ComboItems.alDüzenle, "", "");
             }
             if (webMenu.UstMenuID == null)
                 return RedirectToAction("Index");
@@ -177,6 +184,8 @@ namespace Wms12m.Presentation.Controllers
                 if (CheckPerm("Menu", PermTypes.Writing) == true)
                     try { db.MenuRolEkle(tbl.ID, tbl.RoleName); }
                     catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
+                //log
+                LogActions("", "Menu", "Save", ComboItems.alEkle, "", "");
             }
         }
     }
