@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
-namespace Wms12m.Presentation.Controllers
+namespace Wms12m.Presentation.Areas.ToDo.Controllers
 {
     public class ProjectFormController : RootController
     {
 
-     
+
         // GET: MainProjectForm/Create
         public ActionResult Index()
         {
@@ -74,7 +71,7 @@ namespace Wms12m.Presentation.Controllers
                     tbl.Sorumlu = projeForm.Sorumlu;//
                     tbl.Form = "";
                     tbl.Durum = null;
-              
+
 
                 }
                 try
@@ -93,7 +90,7 @@ namespace Wms12m.Presentation.Controllers
 
         }
 
- 
+
         public JsonResult Delete(string Id)
         {
             if (CheckPerm("ProjeForm", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);

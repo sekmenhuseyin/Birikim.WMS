@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
-namespace Wms12m.Presentation.Controllers
+namespace Wms12m.Presentation.Areas.ToDo.Controllers
 {
     public class SubProjectFormController : RootController
     {
