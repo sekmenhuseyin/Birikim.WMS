@@ -845,12 +845,13 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             bool filtreKagitVarmi = false;
-            ISS_Temp isstmp = new ISS_Temp();
+
             int SiraNo = 0;
             bool? AktifPasif = null;
             List<ISS_Temp> listiss = new List<ISS_Temp>();
             foreach (JObject bds in parameters)
             {
+                ISS_Temp isstmp = new ISS_Temp();
                 AktifPasif = bds["Unvan"].ToBool();
                 string ListeAdi = bds["Unvan"].ToString().Length >= 10 ? bds["Unvan"].ToString().Substring(0, 10) : bds["Unvan"].ToString();
                 if (bds["VadeTarihInt"].ToInt32() == 0)
@@ -1020,42 +1021,49 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             if (listiss.Count > 0)
             {
-                try
+                using (var dbContextTransaction = db.Database.BeginTransaction())
                 {
-                    bool kontrol = false;
-                    string SozlesmeSiraNo = "";
-
-                    SozlesmeSiraNo = "SÖZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeSiraNoSelect]", 17)).FirstOrDefault();
-                    string HesapKodu = "";
-                    string ListeNo = "";
-                    decimal BaglantiTutari = 0;
-                    foreach (ISS_Temp isstemp in listiss)
+                    try
                     {
-                        if (isstemp.Kod2.Trim() != SozlesmeSiraNo)
-                        {
-                            kontrol = true;
-                            isstemp.Kod2 = SozlesmeSiraNo;
-                        }
+                        bool kontrol = false;
+                        string SozlesmeSiraNo = "";
 
-                        HesapKodu = isstemp.MusteriKod;
-                        ListeNo = isstemp.ListeNo;
-                        BaglantiTutari = isstemp.Kod11;
-                        sqlexper.Insert(isstemp);
+                        SozlesmeSiraNo = "SÖZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeSiraNoSelect]", 17)).FirstOrDefault();
+                        string HesapKodu = "";
+                        string ListeNo = "";
+                        decimal BaglantiTutari = 0;
+                        foreach (ISS_Temp isstemp in listiss)
+                        {
+                            if (isstemp.Kod2.Trim() != SozlesmeSiraNo)
+                            {
+                                kontrol = true;
+                                isstemp.Kod2 = SozlesmeSiraNo;
+                            }
+
+                            HesapKodu = isstemp.MusteriKod;
+                            ListeNo = isstemp.ListeNo;
+                            BaglantiTutari = isstemp.Kod11;
+                            sqlexper.Insert(isstemp);
+                            var sonuc = sqlexper.AcceptChanges();
+                            if (sonuc.Status == false)
+                            {
+                                return "NO";
+                            }
+                        }
+                        var tempBagTutar = BaglantiTutari.ToString().Replace(@".", "x").Replace(@",", ".").Replace(@"x", ",").ToDecimal();
+
+                        db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, tempBagTutar));
+
+                        if (kontrol)
+                            return SozlesmeSiraNo;
+                        else
+                            return "OK";
 
                     }
-                    var tempBagTutar = BaglantiTutari.ToString().Replace(@".", "x").Replace(@",", ".").Replace(@"x", ",").ToDecimal();
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, tempBagTutar));
-
-                    if (kontrol)
-                        return SozlesmeSiraNo;
-                    else
-                        return "OK";
-
-                }
-                catch (Exception hata)
-                {
-                    return hata.Message;
+                    catch (Exception hata)
+                    {
+                        return hata.Message;
+                    }
                 }
 
             }

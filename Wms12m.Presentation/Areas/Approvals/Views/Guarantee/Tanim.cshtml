@@ -359,6 +359,7 @@
 
         $('.sil-buton').click(function () {
             var silinecek = table.rows('.selected').data();
+            console.log(silinecek);
             if(silinecek.length>0)
             {
                 $.ajax({
@@ -376,6 +377,10 @@
                         }
                     }
                 });
+            }
+            else {
+                Modaldialog("Satır Seçiniz", "Silme İşlemi", "Tamam", "Uyarı");
+                return;
             }
         });
 
@@ -427,8 +432,8 @@
             });
             return _dfd.promise();
         });
-        $('.refresh-buton').click(function () {
-            window.location.href = '/Approvals/Invoice';
+        $('.temizle-buton').click(function () {
+            window.location.reload();
         });
 
     </script>
