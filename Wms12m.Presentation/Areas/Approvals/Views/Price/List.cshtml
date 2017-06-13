@@ -43,25 +43,27 @@
         background-color: #86d8ea;
         color: window;
     }
-    .dx-overlay-content.dx-popup-normal.dx-resizable{
-        width:400px;
+
+    .dx-overlay-content.dx-popup-normal.dx-resizable {
+        width: 400px;
     }
-    table{
-        margin:0 !important;
+
+    table {
+        margin: 0 !important;
     }
 </style>
 <div class="row">
     <div>
         <div class="col-xs-6 col-sm-6" style="padding:0 2px 0 5px">
-            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg yellow yenile-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Yenile<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue satir-ekle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Ekle<i class="fa fa-eraser" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg purple satir-sil-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Sil<i class="fa fa-binoculars" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-3"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg green satir-guncelle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Güncelle<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-3" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg yellow yenile-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Yenile<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-3" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue satir-ekle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Ekle<i class="fa fa-eraser" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-3" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg purple satir-sil-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Sil<i class="fa fa-binoculars" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-3" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg green satir-guncelle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Güncelle<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
         </div>
         <div class="col-xs-6 col-sm-6" style="padding:0 5px 0 2px">
-            <div class="col-xs-12 col-sm-4"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg green-turquoise bekleyenler-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Bekleyenler<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-4"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue-dark tum-sec-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Tümünü Seç<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-4"style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg red tum-kaldir-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Tümünü Kaldır<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg green-turquoise bekleyenler-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Bekleyenler<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue-dark tum-sec-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Tümünü Seç<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg red tum-kaldir-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Tümünü Kaldır<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
         </div>
     </div>
 </div>
@@ -164,8 +166,9 @@
 
         var listeNo = "";
         var GrupKod = "";
+        var sayac = 0;
         $(document).ready(function () {
-           
+
             var model = @Html.Raw(Json.Encode(Model));
             var brmData=new Array();
             var dvzCinsi=[{Cins:"USD"},{Cins:"EUR"}]
@@ -263,7 +266,7 @@
                 displayExpr: 'Unvan',
 
                 onValueChanged: function (e) {
-         
+
                 },
 
                 itemTemplate: function (itemData, itemIndex, itemElement) {
@@ -341,9 +344,9 @@
         });
 
         $('.yenile-buton').click(function () {
-            console.log(listeNo);
+            sayac++;
             if(listeNo!=""){
-                PartialView("/Approvals/Price/ListPartial", 'fiyat_listesi_data', JSON.stringify({ listeNo:listeNo }));  
+                PartialView("/Approvals/Price/ListPartial", 'fiyat_listesi_data', JSON.stringify({ listeNo:listeNo }));
             }
         });
 
@@ -419,7 +422,7 @@
                                 else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
                                     info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
                             }
-                           
+
                         },
                         onRowClick: function (opt) {
                             if (opt.rowType == "data") {
@@ -458,42 +461,88 @@
         });
 
         function fiyatEdit(id) {
+            var secili_table = new Array();
             var jObject = {};
-            jObject["ListeNo"]=$(".select_list_no").dxLookup("instance").option("value");
-            jObject["UrunKodu"]=$(".select_urun_kodu").dxLookup("instance").option("value");
-            jObject["HesapKodu"]=$(".select_hesap_kod").dxLookup("instance").option("value");
-            jObject["SatisFiyat"]=$(".numb-satis-fiyat").dxTextBox("instance").option("value");
-            jObject["DovizSatisFiyat"]=$(".numb-doviz-satis-fiyat").dxTextBox("instance").option("value");
-            jObject["Birim"]=$(".txt-birim").dxSelectBox("instance").option("text");
-            jObject["DovizBirim"]=$(".txt-doviz-birim").dxSelectBox("instance").option("text");
-            jObject["BirimValue"]=jObject["Birim"]==null?-1:$(".txt-birim").dxSelectBox("instance").option("value");
-            jObject["DovizBirimValue"]=jObject["DovizBirim"]==null?-1:$(".txt-doviz-birim").dxSelectBox("instance").option("value");
-            jObject["DovizCinsi"]=$(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
-            jObject["GrupKod"]=GrupKod;
+            jObject["ListeNo"] = $(".select_list_no").dxLookup("instance").option("value");
+            jObject["UrunKodu"] = $(".select_urun_kodu").dxLookup("instance").option("value");
+            jObject["HesapKodu"] = $(".select_hesap_kod").dxLookup("instance").option("value");
+            jObject["SatisFiyat"] = $(".numb-satis-fiyat").dxTextBox("instance").option("value");
+            jObject["DovizSatisFiyat"] = $(".numb-doviz-satis-fiyat").dxTextBox("instance").option("value");
+            jObject["Birim"] = $(".txt-birim").dxSelectBox("instance").option("text");
+            jObject["DovizBirim"] = $(".txt-doviz-birim").dxSelectBox("instance").option("text");
+            jObject["BirimValue"] = jObject["Birim"] == null ? -1 : $(".txt-birim").dxSelectBox("instance").option("value");
+            jObject["DovizBirimValue"] = jObject["DovizBirim"] == null ? -1 : $(".txt-doviz-birim").dxSelectBox("instance").option("value");
+            jObject["DovizCinsi"] = $(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
+            jObject["GrupKod"] = GrupKod;
             jObject["Durum"] = id;
-            console.log(parseFloat(jObject["SatisFiyat"]));
-            if (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || jObject["HesapKodu"] == null || (parseFloat(jObject["SatisFiyat"]) == 0 && parseFloat(jObject["DovizSatisFiyat"]) == 0) || (parseFloat(jObject["SatisFiyat"]) > 0 && jObject["Birim"] == null) || (parseFloat(jObject["DovizSatisFiyat"])>0 && jObject["DovizBirim"]==null && jObject["DovizCinsi"]==null))
-            { 
+            console.log(id);
+            console.log(sayac);
+            if (id == 1 && (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || jObject["HesapKodu"] == null || (parseFloat(jObject["SatisFiyat"]) == 0 && parseFloat(jObject["DovizSatisFiyat"]) == 0) || (parseFloat(jObject["SatisFiyat"]) > 0 && jObject["Birim"] == null) || (parseFloat(jObject["DovizSatisFiyat"]) > 0 && jObject["DovizBirim"] == null && jObject["DovizCinsi"] == null))) {
                 Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
                 return;
+            }
+            var silinecek = "";
+            if (id == 2 || id == 3) {
+                if(sayac>0){
+                    silinecek = table.rows('.selected').data();
+                    if (silinecek.length > 0) {
+                        if (silinecek.length > 50) {
+                            Modaldialog("50 Satırdan Fazla Seçemezsiniz.", "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                            return;
+                        }
+                        else {
+                            secili_table = [];
+                            for (var i = 0; i < silinecek.length; i++) {
+                                if (id == 3) {
+                                    if (silinecek[i]["SatisFiyat1"] > 0) {
+                                        console.log();
+                                        if (silinecek[i]["SF1Birim"]==null) {
+                                            Modaldialog("Birim Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                                            return;
+                                        }
+                                    }
+                                    if (silinecek[i]["DvzSatisFiyat1"] > 0) {
+                                        if (silinecek[i]["DovizSF1Birim"] == null) {
+                                            Modaldialog("Döviz Birim Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                                            return;
+                                        }
+                                        if (silinecek[i]["SF1DovizCinsi"] == null) {
+                                            Modaldialog("Döviz Cinsi Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                                            return;
+                                        }
+                                    }
+                                }
+                                secili_table.push(silinecek[i]);
+                            }
+                        }
+                    }
+                    else {
+                        Modaldialog("Satır Seçmelisiniz.", "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                        return;
+                    }
+                }
+                else {
+                    Modaldialog("Satır Seçmelisiniz.", "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                    return;
+                }
             }
 
             var _dfd = $.Deferred();
             $.ajax({
                 url: window.location.origin + "/Approvals/Price/SatirEkle",
-                data: { Data: JSON.stringify(jObject)},
+                data: { Data: JSON.stringify(jObject), Satirlar: JSON.stringify(secili_table) },
                 type: "post",
                 success: function (data) {
                     if (data == "OK") {
-                        $(".select_urun_kodu").dxLookup("instance").option("value",null);
-                        $(".select_hesap_kod").dxLookup("instance").option("value",null);
-                        $(".numb-satis-fiyat").dxTextBox("instance").option("value",0);
-                        $(".numb-doviz-satis-fiyat").dxTextBox("instance").option("value",0);
-                        $(".txt-birim").dxSelectBox("instance").option("text","");
-                        $(".txt-doviz-birim").dxSelectBox("instance").option("text","");
-                        $(".txt-birim").dxSelectBox("instance").option("value","");
-                        $(".txt-doviz-birim").dxSelectBox("instance").option("value","");
-                        $(".txt-doviz-cinsi").dxSelectBox("instance").option("value","");
+                        $(".select_urun_kodu").dxLookup("instance").option("value", null);
+                        $(".select_hesap_kod").dxLookup("instance").option("value", null);
+                        $(".numb-satis-fiyat").dxTextBox("instance").option("value", 0);
+                        $(".numb-doviz-satis-fiyat").dxTextBox("instance").option("value", 0);
+                        $(".txt-birim").dxSelectBox("instance").option("text", "");
+                        $(".txt-doviz-birim").dxSelectBox("instance").option("text", "");
+                        $(".txt-birim").dxSelectBox("instance").option("value", "");
+                        $(".txt-doviz-birim").dxSelectBox("instance").option("value", "");
+                        $(".txt-doviz-cinsi").dxSelectBox("instance").option("value", "");
                         Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
                     }
                     else if (data == "NO") {
