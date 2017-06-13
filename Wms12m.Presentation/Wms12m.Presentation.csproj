@@ -344,6 +344,8 @@
     <Content Include="Areas\Approvals\Views\Contract\Tanim.cshtml" />
     <Content Include="Areas\Approvals\Views\Contract\Tanim_List.cshtml" />
     <Content Include="Areas\Constants\Views\web.config" />
+    <Content Include="Areas\WMS\Views\web.config" />
+    <Content Include="Areas\ToDo\Views\web.config" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -394,6 +396,8 @@
     <Compile Include="Areas\Constants\Controllers\CorridorController.cs" />
     <Compile Include="Areas\Constants\Controllers\ShelfController.cs" />
     <Compile Include="Areas\Constants\Controllers\StorageController.cs" />
+    <Compile Include="Areas\ToDo\ToDoAreaRegistration.cs" />
+    <Compile Include="Areas\WMS\WMSAreaRegistration.cs" />
     <Compile Include="Controllers\DutiesController.cs" />
     <Compile Include="Controllers\DutyWorkController.cs" />
     <Compile Include="Controllers\SubProjectFormController.cs" />
@@ -681,7 +685,10 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Areas\ToDo\Controllers\" />
+    <Folder Include="Areas\WMS\Controllers\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
