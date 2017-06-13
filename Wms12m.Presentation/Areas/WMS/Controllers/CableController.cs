@@ -7,7 +7,7 @@ using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Entity.Mysql;
 
-namespace Wms12m.Presentation.Controllers
+namespace Wms12m.Presentation.Areas.WMS.Controllers
 {
     public class CableController : RootController
     {

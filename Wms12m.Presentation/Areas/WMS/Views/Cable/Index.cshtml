@@ -44,7 +44,7 @@
         <div class="portlet box green m-t-30">
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Sipariş Seçimi</div></div>
             <div class="portlet-body form">
-                @using (Html.BeginForm("Step2", "Cable", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Step2", "Cable", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -75,7 +75,7 @@
         if ($('#DepoID').val() == 0) return;
         $.ajax({
             type: 'POST',
-            url: "/Cable/GetSiparis/",
+            url: "/WMS/Cable/GetSiparis/",
             data: { DepoID: $('#DepoID').val() },
             dataType: "html",
             success: function (data) {

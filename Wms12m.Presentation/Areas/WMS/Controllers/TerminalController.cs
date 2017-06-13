@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
-namespace Wms12m.Presentation.Controllers
+namespace Wms12m.Presentation.Areas.WMS.Controllers
 {
     public class TerminalController : RootController
     {
