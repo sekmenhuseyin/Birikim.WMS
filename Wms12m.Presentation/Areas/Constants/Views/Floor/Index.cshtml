@@ -68,9 +68,9 @@
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/scripts/datatable.js" type="text/javascript"></script>
 <script type="text/javascript">
-    var FloorGridUrl = '@Url.Action("FloorGridPartial", "Floor")';
-    var FloorDetailUrl = '@Url.Action("FloorDetailPartial", "Floor")';
-    var DeleteFunctionUrl = '@Url.Action("Delete", "Floor")';
+    var FloorGridUrl = '/Constants/Floor/FloorGridPartial';
+    var FloorDetailUrl = '/Constants/Floor/FloorDetailPartial';
+    var DeleteFunctionUrl = '/Constants/Floor/Delete';
     $(document).ready(function () {
         $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
         $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
@@ -86,7 +86,7 @@
         $("#" + what2 + " option").remove();
         if (what == "ShelfListi") $('#FloorGrid').html("");
         $.ajax({
-            url: "/Shelf/ShelfList2/" + id,
+            url: "/Constants/Shelf/ShelfList2/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -104,7 +104,7 @@
         $("#" + what + " option").remove();
         if (what == "SectionListi") $('#FloorGrid').html("");
         $.ajax({
-            url: "/Section/SectionList/" + id,
+            url: "/Constants/Section/SectionList/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',

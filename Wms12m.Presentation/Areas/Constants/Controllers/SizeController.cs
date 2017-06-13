@@ -6,7 +6,7 @@ using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
-namespace Wms12m.Presentation.Controllers
+namespace Wms12m.Presentation.Areas.Constants.Controllers
 {
     public class SizeController : RootController
     {

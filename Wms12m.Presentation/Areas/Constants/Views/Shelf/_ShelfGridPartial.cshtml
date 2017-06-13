@@ -19,7 +19,7 @@
                     <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
                     <td>
                         <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                        <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Shelf/ShelfGridPartial','ShelfGrid','@item.KoridorID')"> Sil </a>
+                        <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Constants/Shelf/ShelfGridPartial','ShelfGrid','@item.KoridorID')"> Sil </a>
                     </td>
                 </tr>
             }

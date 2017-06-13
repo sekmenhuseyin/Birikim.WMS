@@ -29,7 +29,7 @@
                 }}
             </div>
             <div class="portlet-body form" id="CreateEdit">
-                @using (Ajax.BeginForm("Save", "Size", new AjaxOptions { OnSuccess = "getresult", HttpMethod = "post" }, htmlAttributes: new { @class = "form-horizontal", role = "form" }))
+                @using (Ajax.BeginForm("Save", "Size", new { area = "Constants" }, new AjaxOptions { OnSuccess = "getresult", HttpMethod = "post" }, htmlAttributes: new { @class = "form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="form-body">
@@ -140,7 +140,7 @@
     function RefreshPage()
     {
         $.ajax({
-            url: "/Size/List",
+            url: "/Constants/Size/List",
             type: 'POST',
             dataType: "html",
             success: function (data) { if (data != "") $("#liste").html(data); },
