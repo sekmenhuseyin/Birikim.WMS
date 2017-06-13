@@ -155,6 +155,8 @@ namespace Wms12m.Presentation.Controllers
                 {
                     db.UserPerms.Remove(tbl);
                     db.SaveChanges();
+                    //log
+                    LogActions("", "Roles", "DeletePerm", ComboItems.alSil, Id.ToString(), "");
                 }
             }
             catch (System.Exception) { }
@@ -175,6 +177,11 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false || tbl.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Operation(tbl);
+            if (_Result.Status == true)
+            {
+                //log
+                LogActions("", "Roles", "Save", ComboItems.alDüzenle, tbl.ID.ToString(), "");
+            }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -193,6 +200,11 @@ namespace Wms12m.Presentation.Controllers
                     Sifre = tmp.Password
                 };
                 _Result = Persons.ChangePass(tbl);
+                if (_Result.Status == true)
+                {
+                    //log
+                    LogActions("", "Roles", "ChangePass", ComboItems.alDüzenle, tmp.ID.ToString(), "");
+                }
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -204,6 +216,11 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Kullanıcılar", PermTypes.Deleting) == false || Id == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Delete(Id);
+            if (_Result.Status == true)
+            {
+                //log
+                LogActions("", "Users", "Delete", ComboItems.alSil, Id.ToString(), "");
+            }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
