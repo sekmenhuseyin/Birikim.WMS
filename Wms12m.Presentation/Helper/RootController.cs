@@ -69,13 +69,13 @@ namespace Wms12m.Presentation
         {
             if (vUser == null)
             {
-                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Security", action = "Login" }));
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Security", action = "Login" }));
                 return;
             }
             ViewBag.settings = db.Settings.FirstOrDefault();
             if (ViewBag.settings.Aktif == false && filterContext.ActionDescriptor.ControllerDescriptor.ControllerName != "Maintenance")
             {
-                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Maintenance", action = "Index" }));
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { area = "", controller = "Maintenance", action = "Index" }));
                 return;
             }
             ViewBag.User = vUser.FirstName;

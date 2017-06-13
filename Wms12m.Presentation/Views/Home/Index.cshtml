@@ -16,24 +16,6 @@
 <h1 class="page-title">Yönetim Paneli</h1>
 <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 red" href="/Storage">
-            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-            <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@Model.depo">@Model.depo</span></div>
-                <div class="desc"> Depo Sayısı </div>
-            </div>
-        </a>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 green" href="/Users">
-            <div class="visual"><i class="fa fa-shopping-cart"></i></div>
-            <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@Model.kull">@Model.kull</span></div>
-                <div class="desc"> Kullanıcı Sayısı </div>
-            </div>
-        </a>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a class="dashboard-stat dashboard-stat-v2 blue" href="/Tasks">
             <div class="visual"><i class="fa fa-comments"></i></div>
             <div class="details">
@@ -41,29 +23,6 @@
                 <div class="desc"> Açık Görevler </div>
             </div>
         </a>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 purple" href="/Transfer">
-            <div class="visual"><i class="fa fa-globe"></i></div>
-            <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@Model.transfer">@Model.transfer</span></div>
-                <div class="desc"> Depolar Arası Transfer </div>
-            </div>
-        </a>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat dashboard-stat-v2 red">
-            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-            <div class="details">
-                <div class="number number2">Bekleyen Sipariş Onayları</div>
-                <div class="desc"><a class="link" href="/Approvals/Order/SM">SM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SM">@tbl.SiparisOnay_SM</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Order/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SPGMY">@tbl.SiparisOnay_SPGMY</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Order/GM">GM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_GM">@tbl.SiparisOnay_GM</span></a></div>
-            </div>
-        </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a class="dashboard-stat dashboard-stat-v2 green" href="/Approvals/Stock">
@@ -75,7 +34,7 @@
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 blue" href="/Approvals/Guarantee">
+        <a class="dashboard-stat dashboard-stat-v2 purple" href="/Approvals/Guarantee">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details">
                 <div class="number"><span data-counter="counterup" data-value="@tbl.TeminatOnay">@tbl.TeminatOnay</span></div>
@@ -84,7 +43,20 @@
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat dashboard-stat-v2 purple">
+        <div class="dashboard-stat dashboard-stat-v2 red">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Bekleyen Sipariş Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Order/SM">SM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SM">@tbl.SiparisOnay_SM</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Order/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SPGMY">@tbl.SiparisOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Order/GM">GM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_GM">@tbl.SiparisOnay_GM</span></a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 blue-chambray">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details">
                 <div class="number number2">Bekleyen Sözleşme Onayları</div>
@@ -94,10 +66,8 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat dashboard-stat-v2 red">
+        <div class="dashboard-stat dashboard-stat-v2 green-jungle">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details">
                 <div class="number number2">Bekleyen Risk Limit Onayları</div>
@@ -109,7 +79,7 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat dashboard-stat-v2 blue">
+        <div class="dashboard-stat dashboard-stat-v2 purple-intense">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details">
                 <div class="number number2">Bekleyen Fiyat Listesi Onayları</div>
@@ -120,7 +90,7 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat dashboard-stat-v2 green">
+        <div class="dashboard-stat dashboard-stat-v2 yellow-casablanca">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details">
                 <div class="number number2">Bekleyen Çek Onayları</div>

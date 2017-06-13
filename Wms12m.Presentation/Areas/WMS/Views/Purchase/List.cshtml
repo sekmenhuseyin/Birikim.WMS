@@ -1,0 +1,71 @@
+﻿@model IEnumerable<IR>
+<div class="modal-content">
+    <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="modal-body">@*Project Details Go Here*@
+                    <h4>İrsaliye Liste</h4>
+                    <table class="table table-striped table-bordered table-hover" id="sample_2">
+                        <thead><tr><th>Şirket Kodu</th><th>Tarih</th><th>Evrak No</th><th>Hesap Kodu</th><th>Ünvan</th><th></th></tr></thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr style="cursor:pointer;" ondblclick="CopyValues('@item.ID','@item.EvrakNo','@item.Tarih.FromOADateInt()')">
+                                    <td>@item.SirketKod</td>
+                                    <td>@item.Tarih.FromOADateInt()</td>
+                                    <td>@item.EvrakNo</td>
+                                    <td>@item.HesapKodu</td>
+                                    <td>@item.HesapKodu.GetUnvan(item.SirketKod)</td>
+                                    <td>
+                                        <button class="btn btn-primary input-circle" onclick="CopyValues('@item.ID','@item.EvrakNo','@item.Tarih.FromOADateInt()')">Seç</button>
+                                        @if (ViewBag.Yetki == true && item.Onay == false) {<button class="btn btn-default input-circle" onclick="ChangeMiktar('@item.EvrakNo','@item.ID')">Evrak No Değiştir</button>}
+                                        @if (ViewBag.Yetki2 == true && item.Onay == false) {<button class="btn btn-danger input-circle" onclick="Delete('@item.ID', '/WMS/Purchase/List/@ViewBag.id', 'modalEditPage', '0', '/Purchase/Delete1')">Sil</button>}
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () { $('#sample_2').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });
+    var tmpID;
+    function CopyValues(i, e, t)
+    {
+        $("#ID").val(i);
+        $("#EvrakNo").val(e);
+        $("#Tarih").val(t);
+        $('#modalEditPage').modal('toggle');
+        $("#submitForm").click();
+    }
+    function ChangeMiktar(miktar, id) {
+        tmpID = id;
+        ModalPrompt("Yeni evrak noyu giriniz", miktar, "Kaydet", "İptal")
+    }
+    function Maincallback(miktar)
+    {
+        if (miktar == null || miktar == undefined) return;
+        $.ajax({
+            url: "/WMS/Purchase/Update",
+            data: { EvrakNo: miktar, ID: tmpID, SirketID: $('#SirketID').val(), HesapKodu: $('#HesapKodu').val() },
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog("İşlem başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
+                    editInModal('/WMS/Purchase/List/' + $('#SirketID').val() + ',' + $('#DepoID').val() + ',' + $('#HesapKodu').val());
+                }
+                else
+                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+            },
+            error: function (data) { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); }
+        });
+    }
+</script>

@@ -18,7 +18,7 @@
                 @{if (ViewBag.Yetki == true)
                 {
                     <div class="col-md-1 pull-right m-t-5">
-                        @using (Ajax.BeginForm("Olcu", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                        @using (Ajax.BeginForm("Olcu", "Uploads", new { area = "" }, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
                             <a id="linkUpload" class="btn btn-warning">Yükle</a>
@@ -128,7 +128,7 @@
         $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
         RefreshPage()
         $("#MalKodu").autocomplete({
-            source: "/Purchase/getMalzemebyCode/@ViewBag.SirketID",
+            source: "/WMS/Purchase/getMalzemebyCode/@ViewBag.SirketID",
             minLength: 2,
             select: function (event, ui) {
                 getBirims(ui.item.id);
@@ -136,7 +136,7 @@
             }
         });
     });
-    var DeleteFunctionUrl = '@Url.Action("Delete", "Size")';
+    var DeleteFunctionUrl = '/Constants/Size/Delete';
     function RefreshPage()
     {
         $.ajax({
@@ -160,7 +160,7 @@
             $("#Agirlik").val("");
         }
         else
-            PartialView("/Size/Edit", 'CreateEdit', JSON.stringify({ Id: Id }));
+            PartialView("/Constants/Size/Edit", 'CreateEdit', JSON.stringify({ Id: Id }));
     }
     function ClearPoints() {
         $("#Boy").val($("#Boy").val().replace(".", ","));
@@ -186,7 +186,7 @@
     function getBirims(id) {
         $("#Birim option").remove();
         $.ajax({
-            url: "/Purchase/getBirim",
+            url: "/WMS/Purchase/getBirim",
             type: 'POST',
             data: JSON.stringify({ kod: id, s: @ViewBag.SirketID }),
             dataType: "json",
