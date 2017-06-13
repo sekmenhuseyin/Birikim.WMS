@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Musteri>
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>Müşteri Listesi
+            </div>
+        </div>
+        <div class="portlet-body form p-40">
+            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <thead><tr><th>Firma</th><th>Ünvan</th><th>Açıklama</th><th>Email</th><th>Tel1</th><th>Tel2</th><th>Mesai Kontrol</th><th>Mesai Kota</th><th></th></tr>
+                    
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Firma)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Unvan)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Aciklama)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tel1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tel2)
+                            </td>
+                            <td>
+                                @if (item.MesaiKontrol == true)
+                                {
+                                    @("Var");
+                                }
+                                else
+                                {
+                                    @("Yok");
+                                }
+
+                               
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MesaiKota)
+                            </td>
+                            <td>
+                                <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                                <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Customer/List','liste','@item.ID')"> Sil </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+            </div>
+        </div>
+
+<script>$(document).ready(function () { $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>

@@ -1,0 +1,120 @@
+﻿<div class="col-md-12" style="width:100%;">
+    <div class="table-toolbar">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="btn-group">
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="btn-group pull-right">
+                    <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">
+                        Tools
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-print"></i> Print
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-file-pdf-o"></i> Save as PDF
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-file-excel-o"></i> Export to Excel
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <thead>
+                    <tr>
+                       
+                        <th>
+                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                <span></span>
+                            </label>
+                        </th>
+                        <th> Mal Kodu</th>
+                        <th> Mal Adı </th>
+                        <th> Mal Adı2 </th>
+                        <th> Birim1 </th>
+                        <th> Birim2</th>
+                        <th> GrupKod</th>
+                        <th> TipKod</th>
+
+                        <th> Özel Kod</th>
+                        <th> Kod1</th>
+                        <th> Kod2</th>
+                        <th> Kod3</th>
+                        <th> Kod4</th>
+                        <th> Kod8</th>
+
+                        <th> Katsayi2</th>
+                        <th> Katsayi3</th>
+                        <th> Operator2</th>
+                        <th> Operator3</th>
+
+
+
+
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    var secili_satir = new Array();
+    var secili_table = new Array();
+    var table = $('#sample_1').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ajax": {
+            "url": '/Approvals/Stock/OnayCek?Durum=' + $("input[type='radio'][name='Locked']:checked").val(),
+            "dataSrc": function (json) {
+                return json;
+            },
+        },
+        "fixedHeader": true,
+        "columns": [
+            
+            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
+            { "data": "MalKodu", "sClass": "nowrap" },
+            { "data": "MalAdi", "sClass": "nowrap" },
+            { "data": "MalAdi2", "sClass": "nowrap" },
+            { "data": "Birim1", "sClass": "nowrap" },
+            { "data": "Birim2", "sClass": "nowrap" },
+            { "data": "GrupKod", "sClass": "nowrap" },
+            { "data": "TipKod", "sClass": "nowrap" },
+            { "data": "OzelKod", "sClass": "nowrap" },
+            { "data": "Kod1", "sClass": "nowrap" },
+            { "data": "Kod2", "sClass": "nowrap" },
+            { "data": "Kod3", "sClass": "nowrap" },
+            { "data": "Kod4", "sClass": "nowrap" },
+            { "data": "Kod8", "sClass": "nowrap" },
+            { "data": "KatSayi2", "sClass": "nowrap" },
+            { "data": "KatSayi3", "sClass": "nowrap" },
+            { "data": "Operator2", "sClass": "nowrap" },
+            { "data": "Operator3", "sClass": "nowrap" },
+        ],
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        }
+    });
+
+
+    $('#sample_1 tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
+    
+</script>

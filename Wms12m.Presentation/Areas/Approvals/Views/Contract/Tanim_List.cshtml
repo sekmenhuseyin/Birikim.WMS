@@ -1,0 +1,204 @@
+﻿@using Newtonsoft.Json;
+<div class="fiyat-list-data" style="width: 100%; box-shadow: 2px 4px 2px #5d5959;">
+    <div class="col-md-12" style="width:100%;">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Sözleşme Tanım Listesi
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table table-striped table-bordered table-condensed" id="sample_1">
+                            <thead class="aaaaa">
+                                <tr>
+                                    <th></th>
+                                    <th nowrap>Fiyat Listesi</th>
+                                    <th nowrap>Ürün Grubu</th>
+                                    <th nowrap>Ürün Kodu</th>
+                                    <th nowrap>Ürün Adı</th>
+                                    <th nowrap>Kalite</th>
+                                    <th nowrap>Iskonto1</th>
+                                    <th nowrap>Iskonto2</th>
+                                    <th nowrap>Iskonto3</th>
+                                    <th nowrap>Iskonto4</th>
+                                    <th nowrap>Iskonto5</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#x-modal-teminatdurbun').modal("hide");
+    var secili_satir = new Array();
+    var secili_table = new Array();
+    var silinecek = new Array();
+    var table = "";
+    if ("@ViewBag.ListeNo" != "#12MConsulting#")
+        {
+     table = $('#sample_1').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ajax": {
+            "url": '/Approvals/Contract/TanimListesiSelect?listeNo=' + '@ViewBag.ListeNo',
+            "dataSrc": function (json) {
+                return json;
+            },
+        },
+        "fixedHeader": true,
+        "scrollX": true,
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6,7, 8,9,10] }],
+        "columns": [
+            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
+            { "data": "Kod10" },
+            { "data": "MalKodGrup" },
+            { "data": "MalKod" },
+            { "data": "MalAdi" },
+            { "data": "Kalite" },
+            { "data": "Oran1", "render": $.fn.dataTable.render.number('.', ',', 5, '')  },
+            { "data": "Oran2", "render": $.fn.dataTable.render.number('.', ',', 5, '')  },
+            { "data": "Oran3", "render": $.fn.dataTable.render.number('.', ',', 5, '')  },
+            { "data": "Oran4", "render": $.fn.dataTable.render.number('.', ',', 5, '')  },
+            { "data": "Oran5", "render": $.fn.dataTable.render.number('.', ',', 5, '')  }
+        ],
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        }
+
+    });
+    }
+    else {
+
+        $('tbody').last().remove();
+        @*@Html.Raw(Json.Encode(ViewBag.Satir));*@
+        var elementt = @Html.Raw(Json.Encode(ViewBag.Satir));
+        $(elementt).insertAfter($(".aaaaa"));
+        setTimeout(function(){ $("#sample_1_info").text("Satır Eklendi"); }, 500);
+        $(".numb_iskonto1").dxTextBox("instance").option("value",0);
+        $(".numb_iskonto2").dxTextBox("instance").option("value",0);
+        $(".numb_iskonto3").dxTextBox("instance").option("value",0);
+        $(".numb_iskonto4").dxTextBox("instance").option("value",0);
+        $(".numb_iskonto5").dxTextBox("instance").option("value",0);
+        table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        });
+    }
+    $('#sample_1 tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+        if($( this ).hasClass( "selected" )){
+        silinecek.push($( "tr" ).index( this )-1)
+        }else{
+            silinecek.splice($( "tr" ).index( this )-1, 1);
+        }
+    });
+
+    $('.refresh-buton').click(function () {
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) {
+            secili_table.push(x[i]);
+        }
+        var _dfd = $.Deferred();
+        $.ajax({
+            url: window.location.origin + "/OnayRisk/OnayRiskInsert",
+            data: { Data: JSON.stringify(secili_table) },
+            type: "post",
+            success: function (data) {
+
+            }
+        });
+        return _dfd.promise();
+    });
+    $(document).ready(function () {
+
+    });
+    function dddd() {
+        $("tr").toggleClass('selected');
+
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) {
+            var jObject = {};
+            jObject["HesapKodu"] = $(".select_musteri_kodu").dxLookup("instance").option("value");
+            jObject["Unvan"] = $(".select_musteri_kodu").dxLookup("instance").option("selectedItem").Unvan;
+            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false) {
+                jObject["VadeTarihInt"] = 0;
+                jObject["ValorGun"] = $(".numb_valor_gun").dxTextBox("instance").option("value");
+            }
+            else {
+                jObject["VadeTarihInt"] =  Math.ceil(($(".date_vade_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+                jObject["VadeTarih"] =  $(".date_vade_tarihi").dxDateBox("instance").option("value");
+                jObject["ValorGun"] = 0;
+            }
+            jObject["ListeNo"] = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
+            jObject["BasTarihInt"] = Math.ceil(($(".date_baslangic_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            jObject["BasTarih"] = $(".date_baslangic_tarihi").dxDateBox("instance").option("value");
+            jObject["BitTarihInt"] = Math.ceil(($(".date_bitis_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            jObject["BitTarih"] = $(".date_bitis_tarihi").dxDateBox("instance").option("value");
+            jObject["Not"] = $(".txt_sozlesme_notu").dxTextBox("instance").option("value");
+            jObject["BaglantiTipi"] = $(".select_baglanti_tipi").dxSelectBox("instance").option("value");
+            jObject["SiraNo"] = $(".txt_sira_no").dxTextBox("instance").option("value");
+            jObject["BaglantiTutari"] = $(".numb_baglanti_tutari").dxTextBox("instance").option("value");
+            jObject["CekTutari"] = $(".numb_alinan_cek_tutari").dxTextBox("instance").option("value");
+            jObject["CekOrtVadeTarihi"] = $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value");
+            jObject["NakitTutar"] = $(".numb_alinan_nakit_vb").dxTextBox("instance").option("value");
+            jObject["BaglantiParaCinsi"] = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
+            jObject["AktifPasif"] = $(".swtch_aktif_pasif").dxSwitch("instance").option("value");
+
+            jObject["Kod10"] = x[i][1];
+            jObject["UrunGrubu"] = x[i][2];
+            jObject["UrunKodu"] = x[i][3];
+            jObject["UrunAdi"] = x[i][4];
+            jObject["Kalite"] = x[i][5];
+            jObject["Iskonto1"] = x[i][6];
+            jObject["Iskonto2"] = x[i][7];
+            jObject["Iskonto3"] = x[i][8];
+            jObject["Iskonto4"] = x[i][9];
+            jObject["Iskonto5"] = x[i][10];
+
+            secili_table.push(jObject);
+            console.log(secili_table);
+        }
+        $.ajax({
+            url: window.location.origin + "/Approvals/Contract/YeniSatirKayit",
+            data: { Data: JSON.stringify(secili_table) },
+            type: "post",
+            success: function (data) {
+                if (data == "OK") {
+                    $(".selected").remove();
+                    element=[];
+                }
+                else if (data.substring(0, 3) == "SÖZ") {
+                    Modaldialog("Sözleşme sıra no =>" + data + " şeklinde başarıyla kaydedildi.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                    inputClear();
+                    element = [];
+                    var jsonElement = JSON.stringify(element);
+                    PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+                }
+                else {
+                    Modaldialog("Hata Oluştu.", "Kayıt İşlemi", "Tamam", "Kayıt");
+                    inputClear();
+                }
+                
+            }
+        });
+
+    }
+
+    function SatirSil(){
+        for (var i = 0; i < silinecek.length; i++) {
+            element.splice(i, 1);
+            var jsonElement = JSON.stringify(element);
+            if ($("#fiyat_listesi_data table").length < 1) {
+                PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
+            }
+        }
+    }
+
+
+</script>

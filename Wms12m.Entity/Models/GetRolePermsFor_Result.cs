@@ -14,6 +14,8 @@ namespace Wms12m.Entity.Models
     public partial class GetRolePermsFor_Result
     {
         public string PermName { get; set; }
+        public short Type { get; set; }
+        public short AppType { get; set; }
         public int ID { get; set; }
         public bool Reading { get; set; }
         public bool Writing { get; set; }

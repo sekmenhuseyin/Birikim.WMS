@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Sözleşme Onay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+<style>
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+</style>
+}<div class="form-horizontal">
+    <div class="form-body">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Sözleşme Onay SM
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle sil-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="liste"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="~/Content/assets/global/scripts/datatable.js"></script>
+<script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+<script type="text/javascript">
+    FuncSearchBtn();
+    function FuncSearchBtn() {
+        $('#liste').html("");
+        PartialView('/Approvals/Contract/SM_List', 'liste');
+    }
+    function newrow(listeno) { return "<table style='background:transparent;' id='new" + listeno + "'></table>"; }
+    function format(d) {
+        var html = "<tr style='background: transparent;'><th>Fiyat Listesi</th><th>Ürün Grubu</th><th>Ürün Kodu</th><th>Ürün Adı</th><th>Iskonto1</th><th>Iskonto2</th><th> Iskonto3</th><th>Iskonto4</th> <th>Iskonto5</th></tr >";
+        $.ajax({
+            type: 'POST',
+            url: '/Approvals/Contract/SM_Details',
+            data: { "ListeNo": d },
+            dataType: "html",
+            success: function (data) {
+                $('#new' + d).html(data);
+            }
+        });
+    }
+    $('.onay-buton').click(function () {
+        Onayla();
+    });
+    $('.sil-buton').click(function () {
+        SozlesmeSil();
+    });
+    $('.yenile-buton').click(function () {
+        window.location.reload();
+
+    });
+</script>
+}

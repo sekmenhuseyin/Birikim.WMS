@@ -1,0 +1,50 @@
+﻿@model List<FaturaOnay>
+<div class="fatura-data" style="margin-top: 20px; width: 100%; box-shadow: 2px 4px 2px #5d5959;">
+    <div class="col-md-12" style="width:100%;margin-top: 20px;">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Fatura Onay
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th>Tarih</th>
+                            <th>Evrak No</th>
+                            <th>Hesap Kodu</th>
+                            <th>Ünvan</th>
+                            <th class="item_red">Red Nedeni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr onclick="satir_click('@item.EvrakNo')">
+                                <td>@item.Tarih</td>
+                                <td>@item.EvrakNo</td>
+                                <td>@item.Chk</td>
+                                <td>@item.Unvan</td>
+                                <td class="item_red">@item.Not1</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if($("#ListType").val()=="0")
+            $(".item_red").hide();
+        else
+            $(".item_red").show();
+    });
+    function satir_click(evrakNo) {
+        window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + evrakNo;
+    }
+</script>
+

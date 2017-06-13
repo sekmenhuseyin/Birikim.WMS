@@ -1,157 +1,69 @@
-﻿
-
-@model List<ChartBekleyenSiparisUrunGrubu>
-
-<style>
-    .bas_tarih .dx-dropdowneditor-icon {
-        color: #44b6ae;
-    }
-
-        .bas_tarih .dx-dropdowneditor-icon:before {
-            color: #44b6ae;
-        }
-
-    .bit_tarih .dx-dropdowneditor-icon {
-        color: #44b6ae;
-    }
-
-        .bit_tarih .dx-dropdowneditor-icon:before {
-            color: #44b6ae;
-        }
-
-    .cbox_MiktarTutar .dx-switch-off {
-        color: #d21b1b;
-        font-weight: bold;
-        font-size: 11px;
-    }
-
-    .cbox_MiktarTutar .dx-switch-on {
-        color: #d21b1b;
-        font-weight: bold;
-        font-size: 11px;
-    }
-</style>
+﻿@model List<ChartBekleyenSiparisUrunGrubu>
 <div class="col-md-12">
-    <!-- BEGIN CHART PORTLET-->
     <div class="portlet light bordered">
         <div class="portlet-title">
             <div class="caption">
                 <i class="icon-bar-chart font-green-haze"></i>
                 <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">3D CHART</span></span>
-                @*<span class="caption-helper">3d cylinder chart</span>*@
             </div>
-            <div class="tools" style="float:right;margin-left:20px;">
+            <div class="col-md-2">
+                @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDk", @onchange = "Reloadk(this.value)" })
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" id="toggle-three" checked data-toggle="toggle" name="Miktar" data-on-text="Miktar" data-off-text="Tutar" data-on="Miktar" data-off="Tutar">
+            </div>
+            <div class="col-md-2 slct_bekleyen_siparis_kriter_pie kriter_durum_pie"></div>
+            <div class="tools">
                 <a href="javascript:;" class="collapse"> </a>
-                <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                <a href="javascript:;" class="reload"> </a>
                 <a href="javascript:;" class="fullscreen"> </a>
-                <a href="javascript:;" class="remove"> </a>
+                <a href="javascript:;" class="reload" onclick="Reloadk('@ViewBag.SirketKodu');"> </a>
             </div>
-            @*<div class="cbox_MiktarTutar" style="float:left;width:80px;margin-left:20px;line-height:36px;color:red;"></div>*@
-            @*<div class="form-group" style="float:left; ">*@
-
-            <div style="float:left;width:80px;margin-left:20px;">
-                <input type="checkbox" class="make-switch-pie" name="Miktar" data-on-text="&nbsp;Miktar&nbsp;" data-off-text="&nbsp;Tutar&nbsp;">
-            </div>
-            <div class="kriter_durum_pie" style="float:left;margin-left: 80px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kriter </span></div> <div class="slct_bekleyen_siparis_kriter_pie" style="float:left;width:130px; margin-left:10px;"></div></div>
-            @*</div>*@
         </div>
         <div class="portlet-body">
             <div id="chart_7_mik_kriter_pie" class="chart" style="height: 400px;"> </div>
             <div class="well margin-top-20">
-                @*<div class="row">
-                        <div class="col-sm-3">
-                            <label class="text-left">Top Radius:</label>
-                            <input class="chart_7_chart_input" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01" />
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="text-left">Angle:</label>
-                            <input class="chart_7_chart_input" data-property="angle" type="range" min="0" max="89" value="30" step="1" />
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="text-left">Depth:</label>
-                            <input class="chart_7_chart_input" data-property="depth3D" type="range" min="1" max="120" value="40" step="1" />
-                        </div>
-                    </div>*@
             </div>
         </div>
     </div>
-    <!-- END CHART PORTLET-->
 </div>
-@*<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <link href="~/Content/dx.light.css" rel="stylesheet" />
-    <link href="~/Content/dx.common.css" rel="stylesheet" />
-    <script src="~/Scripts/dx.web.debug.js"></script>
-    <script src="~/Scripts/moment.min.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/amcharts.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/pie.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/radar.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/serial.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/themes/light.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/themes/patterns.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amcharts/themes/chalk.js"></script>
-    <script src="~/Content/global/plugins/amcharts/ammap/ammap.js"></script>
-    <script src="~/Content/global/plugins/amcharts/ammap/maps/js/worldLow.js"></script>
-    <script src="~/Content/global/plugins/amcharts/amstockcharts/amstock.js"></script>*@
-
 <script>
+    var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter))==""? "TL":@Html.Raw(Json.Encode(ViewBag.Kriter));
+    var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
+    if ($('.SirketIDk option').size() == 1) $(".SirketIDk").hide();
+    else $(".SirketIDk").val('@ViewBag.SirketKodu');
+    function Reloadk(v)
+    {
+        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie", 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ SirketKodu: v, miktarTutar: $('#toggle-three').prop('checked'), kriter: kriter_value }));
+    }
     $(document).ready(function (e) {
-        var x = '@ViewBag.MiktarTutar';
-        if(x=="Tutar")
+        $('#toggle-three').bootstrapToggle({on: 'Miktar',off: 'Tutar'});
+        if ('@ViewBag.MiktarTutar' == "Miktar")
         {
-            $(".kriter_durum_pie").show();
-        }
-        else{
+            $('#toggle-three').bootstrapToggle('on')
             $(".kriter_durum_pie").hide();
         }
-        var tip4 = x=="Miktar"?true:false;
-        $(".make-switch-pie").bootstrapSwitch();
-        $('.make-switch-pie').bootstrapSwitch('state', tip4);
-        $('.make-switch-pie').on('switchChange.bootstrapSwitch', function (event, state) {
-            if(state!=tip4)
-            {
-                if(state==false)
-                {
-                    $(".kriter_durum_pie").show();
-                    var BekleyenSiparisUrunGrubuMikKriterPie = "/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie";
-                    PartialView(BekleyenSiparisUrunGrubuMikKriterPie, 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ miktarTutar: state , kriter:kriter_value}));
-                }
-                else{
-                    $(".kriter_durum_pie").hide();
-                    var BekleyenSiparisUrunGrubuMikKriterPie = "/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie";
-                    PartialView(BekleyenSiparisUrunGrubuMikKriterPie, 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ miktarTutar: state , kriter:""}));
-                }
+        else
+        {
+            $('#toggle-three').bootstrapToggle('off')
+            $(".kriter_durum_pie").show();
+        }
+        $('#toggle-three').change(function () {
+            var state = $(this).prop('checked');
+            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie", 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, miktarTutar: state, kriter: kriter_value }));
+            if (state == false) {
+                $(".kriter_durum_pie").show();
             }
-        });
-
+            else {
+                $(".kriter_durum_pie").hide();
+            }
+        })
         var model = @Html.Raw(Json.Encode(Model));
-        //$(".cbox_MiktarTutar").dxSwitch({
-        //    onText: 'Miktar',
-        //    offText: 'Tutar',
-        //    value:tip4,
-        //    onValueChanged: function(data) {
-        //        //$(".cbox_MiktarTutar").dxSwitch("instance").option("value",tip4);
-        //        if(data.value!=tip4){
-        //        var BekleyenSiparisUrunGrubuMik = "/Home/PartialBekleyenSiparisUrunGrubuMiktar";
-        //        PartialView(BekleyenSiparisUrunGrubuMik, 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ miktarTutar:data.value }));
-
-        //        }
-        //    }
-        //});
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
             $.extend(model[i],{
                 color: color[i%color.length]
             });
         }
-        var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter))==""? "TL":@Html.Raw(Json.Encode(ViewBag.Kriter));
-        var doviz = [
-{ state: "TL"},
-{ state: "Döviz"},
-{ state: "Birim" },
-        ];
-
         $(".slct_bekleyen_siparis_kriter_pie").dxSelectBox({
             dataSource: doviz,
             valueExpr: 'state',
@@ -159,11 +71,10 @@
             value: kriter_value,
             onValueChanged: function (e) {
                 kriter_value=e.value;
-                var BekleyenSiparisUrunGrubuMikKriterPie = "/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie";
-                PartialView(BekleyenSiparisUrunGrubuMikKriterPie, 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ miktarTutar: false , kriter:kriter_value}));
+                PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie", 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, miktarTutar: false , kriter:kriter_value}));
             }
         });
-        var ChartsAmcharts = function () {
+        var ChartsAmcharts7 = function () {
             var initChartSample7 = function () {
                 var chart = AmCharts.makeChart("chart_7_mik_kriter_pie", {
                     "type": "pie",
@@ -172,26 +83,6 @@
                     "fontFamily": 'Open Sans',
 
                     "color": '#888',
-
-                    //"dataProvider": [{
-                    //    "Unvan": "Lithuania",
-                    //    "GenelTutar": 260
-                    //}, {
-                    //    "Unvan": "Ireland",
-                    //    "GenelTutar": 201
-                    //}, {
-                    //    "Unvan": "Germany",
-                    //    "GenelTutar": 65
-                    //}, {
-                    //    "Unvan": "Australia",
-                    //    "GenelTutar": 39
-                    //}, {
-                    //    "Unvan": "UK",
-                    //    "GenelTutar": 19
-                    //}, {
-                    //    "Unvan": "Latvia",
-                    //    "GenelTutar": 10
-                    //}],
                     "valueField": "KalanMiktar",
                     "titleField": "GrupKod",
                     "outlineAlpha": 0.4,
@@ -218,7 +109,6 @@
                     if (property == 'innerRadius') {
                         value += "%";
                     }
-
                     target[property] = value;
                     chart.validateNow();
                 });
@@ -227,21 +117,14 @@
                     chart.invalidateSize();
                 });
             }
-
-
             return {
-                //main function to initiate the module
-
                 init: function () {
                     initChartSample7();
-
                 }
-
             };
         }();
         jQuery(document).ready(function () {
-            ChartsAmcharts.init();
+            ChartsAmcharts7.init();
         });
     });
-
 </script>

@@ -119,7 +119,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Web References\WMSLocal\Reference.cs">
+    <Compile Include="Web References\TerminalService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -129,10 +129,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:3841/mobilservis.asmx">
+    <WebReferenceUrl Include="http://localhost:3841/service/terminal.asmx">
       <UrlBehavior>Static</UrlBehavior>
-      <RelPath>Web References\WMSLocal\</RelPath>
-      <UpdateFromURL>http://localhost:3841/mobilservis.asmx</UpdateFromURL>
+      <RelPath>Web References\TerminalService\</RelPath>
+      <UpdateFromURL>http://localhost:3841/service/terminal.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -144,41 +144,42 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web References\WMSLocal\MobilServis.wsdl" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Web References\WMSLocal\Durum.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WMSLocal\GetGorevlis_Result.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WMSLocal\GorevOzet.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WMSLocal\Login.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WMSLocal\MobilServis.disco" />
-    <None Include="Web References\WMSLocal\Reference.map">
+    <None Include="Web References\TerminalService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\WMSLocal\Result.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WMSLocal\Tip_GOREV.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WMSLocal\Tip_IRS.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\WMSLocal\Tip_STI.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
+    <None Include="Web References\TerminalService\terminal.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <None Include="Web References\TerminalService\Durum1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\TerminalService\GetGorevlis_Result1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\TerminalService\GorevOzet1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\TerminalService\Login1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\TerminalService\Result1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\TerminalService\terminal.disco" />
+    <None Include="Web References\TerminalService\Tip_GOREV1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\TerminalService\Tip_IRS1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\TerminalService\Tip_Malzeme1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\TerminalService\Tip_STI1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

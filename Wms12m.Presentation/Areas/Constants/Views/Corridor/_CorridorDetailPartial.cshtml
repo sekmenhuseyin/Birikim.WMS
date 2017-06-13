@@ -1,0 +1,63 @@
+﻿@model Koridor
+<div class="col-md-12">
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.KoridorAd + "  Koridor Düzenle" : "Koridor Ekle")
+            </div>
+        </div>
+        <div class="portlet-body form">
+            @using (Ajax.BeginForm("CorridorOperation", "Corridor", new { area = "Constants" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "CorridorFrom", OnSuccess = "CorridorReturn" }, new { @class = "form-horizontal" }))
+            {
+                @Html.HiddenFor(a => a.ID)
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="form-body">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Depo</label>
+                        <div class="col-md-4">
+                            @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control input-circle DepoID2", required = "required" })
+                            <span class="field-validation-valid" data-valmsg-for="DepoID" data-valmsg-replace="true" style="color:red;"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Koridor</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(a => a.KoridorAd, new { @class = "form-control input-circle", @placeholder = "Koridor", required = "required", @maxlength = "100" })
+                            <span class="field-validation-valid" data-valmsg-for="KoridorAd" data-valmsg-replace="true" style="color:red;"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Sıra</label>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control", required = "required" })
+                            <span class="field-validation-valid" data-valmsg-for="SiraNo" data-valmsg-replace="true" style="color:red;"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Durum</label>
+                        <div class="col-md-4">
+                            @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
+                            <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
+        @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}
+        $("#touchspin_11").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
+    });
+</script>

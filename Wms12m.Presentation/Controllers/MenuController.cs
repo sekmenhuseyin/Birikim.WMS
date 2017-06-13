@@ -56,6 +56,9 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Menu/SavePermission");
                 }
             }
+            //log
+            LogActions("", "Menu", "Permission", ComboItems.alEkle, "", "");
+            //return
             var mn = db.WebMenus.Where(m => m.ID == tablo.MenuNo).FirstOrDefault();
             if (mn.UstMenuID == null)
                 return Redirect("/Menu");
@@ -89,6 +92,8 @@ namespace Wms12m.Presentation.Controllers
                 webMenu.Sira = Convert.ToByte(sira + 1);
                 db.WebMenus.Add(webMenu);
                 db.SaveChanges();
+                //log
+                LogActions("", "Menu", "Create", ComboItems.alEkle, "", "");
                 return Redirect("/Menu/Permission/" + webMenu.ID);
             }
             return RedirectToAction("Index");
@@ -125,6 +130,8 @@ namespace Wms12m.Presentation.Controllers
                 db.Entry(webMenu).State = EntityState.Modified;
                 db.SaveChanges();
                 db.MenuSiralayici(webMenu.SiteTipiID, webMenu.MenuYeriID, webMenu.UstMenuID);
+                //log
+                LogActions("", "Menu", "Edit", ComboItems.alDüzenle, "", "");
             }
             if (webMenu.UstMenuID == null)
                 return RedirectToAction("Index");
@@ -161,31 +168,24 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Permissions()
         {
-            if (CheckPerm("Menü", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.MenuID = new SelectList(db.WebMenus.Select(m => new { m.ID, Ad = m.ComboItem_Name1.Name + ", " + m.ComboItem_Name.Name + ", " + (m.UstMenuID > 0 ? (m.WebMenu2.UstMenuID > 0 ? m.WebMenu2.WebMenu2.Ad + ", " : "") + m.WebMenu2.Ad + ", " : "") + m.Ad }).OrderBy(m => m.Ad), "ID", "Ad");
-            return View("Permissions");
+            if (CheckPerm("Menu", PermTypes.Reading) == false) return Redirect("/");
+            var list = db.GetMenuRoles().ToList();
+            ViewBag.Roles = Roles.GetList();
+            return View("Permissions", list);
         }
         /// <summary>
-        /// yetki oluşturma sayfası
-        /// </summary>
-        public PartialViewResult PermissionsList(int id)
-        {
-            if (CheckPerm("Menu", PermTypes.Reading) == false) return null;
-            var list = db.GetMenuRolesFor(id).ToList();
-            ViewBag.id = id;
-            return PartialView("PermissionsList", list);
-        }
-        /// <summary>
-        /// yetki oluştur
+        /// yetkileri kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public void Save(GetMenuRolesFor_Result tbl)
+        public void Save(GetMenuRoles_Result tbl)
         {
             if (ModelState.IsValid)
             {
                 if (CheckPerm("Menu", PermTypes.Writing) == true)
-                    try { db.MenuRolEkle(tbl.MenuID.ToShort(), tbl.RoleName); }
+                    try { db.MenuRolEkle(tbl.ID, tbl.RoleName); }
                     catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
+                //log
+                LogActions("", "Menu", "Save", ComboItems.alEkle, "", "");
             }
         }
     }

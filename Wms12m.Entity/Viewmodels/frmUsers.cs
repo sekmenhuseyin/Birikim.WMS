@@ -15,6 +15,7 @@
     public class Login
     {
         public int ID { get; set; }
+        public string Guid { get; set; }
         public string Kod { get; set; }
         public string AdSoyad { get; set; }
         public string DepoKodu { get; set; }
@@ -35,6 +36,7 @@
     {
         public int ID { get; set; }
         public string PermName { get; set; }
+        public string UserName { get; set; }
         public string RoleName { get; set; }
         public string Reading { get; set; }
         public string Writing { get; set; }

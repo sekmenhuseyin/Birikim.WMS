@@ -83,40 +83,61 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
             //return
-            int ID = id.ToInt32();
-            var username = db.Users.Where(m => m.ID == ID).Select(m => m.Kod).FirstOrDefault();
-            var list = db.UserPerms.Where(m => m.UserName == username).ToList();
+            var ID = id.ToInt32();
+            var list = db.GetUserPermsFor(ID).ToList();
             ViewBag.PermName = new SelectList(db.Perms.ToList(), "PermName", "PermName");
-            ViewBag.ID = ID;
-            ViewBag.username = username;
+            ViewBag.UserName = db.Users.Where(m => m.ID == ID).Select(m => m.Kod).FirstOrDefault();
             return PartialView("Perm", list);
         }
         /// <summary>
         /// yetkileri kaydet
         /// </summary>
         [HttpPost]
-        public PartialViewResult SavePerm(UserPerm tbl)
+        public void SavePerm(frmRolePerms rolePerm)
         {
-            if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false) return null;
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && rolePerm.PermName != "")
             {
-                try
+                if (CheckPerm("Kullanıcılar", PermTypes.Writing) == true)
                 {
-                    tbl.ModifiedDate = DateTime.Now;
-                    tbl.ModifiedUser = vUser.UserName;
-                    tbl.RecordDate = DateTime.Now;
-                    tbl.RecordUser = vUser.UserName;
-                    db.UserPerms.Add(tbl);
-                    db.SaveChanges();
+                    var tbl = db.UserPerms.Where(m => m.PermName == rolePerm.PermName && m.UserName == rolePerm.UserName).FirstOrDefault();
+                    if (tbl == null)//ilk defa kayıt olacak
+                    {
+                        tbl = new UserPerm()
+                        {
+                            PermName = rolePerm.PermName,
+                            UserName = rolePerm.UserName,
+                            Reading = rolePerm.Reading == "on" ? true : false,
+                            Writing = rolePerm.Writing == "on" ? true : false,
+                            Updating = rolePerm.Updating == "on" ? true : false,
+                            Deleting = rolePerm.Deleting == "on" ? true : false,
+                            RecordDate = DateTime.Now,
+                            RecordUser = vUser.UserName,
+                            ModifiedDate = DateTime.Now,
+                            ModifiedUser = vUser.UserName
+                        };
+                        if (tbl.Reading == true || tbl.Writing == true || tbl.Updating == true || tbl.Updating == true) db.UserPerms.Add(tbl);
+                    }
+                    else
+                    {
+                        if (rolePerm.Reading != "on" && rolePerm.Writing != "on" && rolePerm.Updating != "on" && rolePerm.Updating != "on")
+                            db.UserPerms.Remove(tbl);
+                        else
+                        {
+                            tbl.Reading = rolePerm.Reading == "on" ? true : false;
+                            tbl.Writing = rolePerm.Writing == "on" ? true : false;
+                            tbl.Updating = rolePerm.Updating == "on" ? true : false;
+                            tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
+                            tbl.ModifiedDate = DateTime.Now;
+                            tbl.ModifiedUser = vUser.UserName;
+                        }
+                    }
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (Exception) { }
                 }
-                catch (System.Exception) { }
             }
-            //return
-            var list = db.UserPerms.Where(m => m.UserName == tbl.UserName).ToList();
-            ViewBag.PermName = new SelectList(db.Perms.ToList(), "PermName", "PermName");
-            ViewBag.ID = db.Users.Where(m => m.Kod == tbl.UserName).Select(m => m.ID).FirstOrDefault();
-            ViewBag.username = tbl.UserName;
-            return PartialView("Perm", list);
         }
         /// <summary>
         /// yetkileri kaydet
@@ -134,6 +155,8 @@ namespace Wms12m.Presentation.Controllers
                 {
                     db.UserPerms.Remove(tbl);
                     db.SaveChanges();
+                    //log
+                    LogActions("", "Roles", "DeletePerm", ComboItems.alSil, Id.ToString(), "");
                 }
             }
             catch (System.Exception) { }
@@ -154,6 +177,11 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false || tbl.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Operation(tbl);
+            if (_Result.Status == true)
+            {
+                //log
+                LogActions("", "Roles", "Save", ComboItems.alDüzenle, tbl.ID.ToString(), "");
+            }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -172,6 +200,11 @@ namespace Wms12m.Presentation.Controllers
                     Sifre = tmp.Password
                 };
                 _Result = Persons.ChangePass(tbl);
+                if (_Result.Status == true)
+                {
+                    //log
+                    LogActions("", "Roles", "ChangePass", ComboItems.alDüzenle, tmp.ID.ToString(), "");
+                }
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -183,6 +216,11 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Kullanıcılar", PermTypes.Deleting) == false || Id == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Delete(Id);
+            if (_Result.Status == true)
+            {
+                //log
+                LogActions("", "Users", "Delete", ComboItems.alSil, Id.ToString(), "");
+            }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

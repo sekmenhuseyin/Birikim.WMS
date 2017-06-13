@@ -177,7 +177,12 @@ Login page
   margin: 0 auto 30px 0;
   padding: 10px;
   color: #7a8ca5;
-  font-size: 13px; }
+  font-size: 13px; 
+}
+.login .copyright a {
+    color: #fff;
+    font-weight: bold;
+}
 
 @media (max-width: 440px) {
   /***

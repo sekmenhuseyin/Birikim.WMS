@@ -1,0 +1,440 @@
+﻿@model List<RaporCHKSelect>
+@{
+    ViewBag.Title = "Teminat Tanım";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/devextreme/css/dx.light.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
+}
+<style>
+    .input_content {
+        margin-bottom: 3px;
+        height: 40px;
+        line-height: 20px;
+    }
+
+    .input_label {
+        float: left;
+        width: 25%;
+        font-weight: bold;
+        color: #5bc8d2;
+        font-size: 10px;
+        padding-top: 4px;
+    }
+
+    .input {
+        float: left;
+        width: 60%;
+        /*color: transparent;*/
+        font-size: 10px;
+        height: 30px;
+    }
+
+    .input_style {
+        background-color: rgba(245, 239, 239, 0.85);
+        padding: 10px;
+        margin: 0;
+    }
+
+    .dx-header-row{
+        background-color: #86d8ea;
+        color: window;
+    }
+    table{
+        margin:0 !important;
+    }
+</style>
+<div class="row">
+    <div>
+        <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg blue save-buton" style="width:95%; margin-bottom:10px;">Kaydet<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
+        <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg red sil-buton" style="width:95%; margin-bottom:10px;">Satır Sil<i class="fa fa-eraser" style="margin-left:5px;"></i></button></div>
+        <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg green durbun-buton" style="width:95%; margin-bottom:10px;">Dürbün<i class="fa fa-binoculars" style="margin-left:5px;"></i></button></div>
+        <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg purple bekleyen-durbun-buton" style="width:95%; margin-bottom:10px;">Bekleyenler<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
+        <div class="col-xs-8 col-sm-2"><button type="button" class="btn btn-lg yellow temizle-buton" style="width:95%; margin-bottom:10px;">Temizle<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
+    </div>
+</div>
+<hr />
+<div class="row input_style">
+    <div class="col-xs-12 col-sm-5">
+        <div class="input_content">
+            <div class="input_label">Hesap Kodu</div>
+            <div class="input select_chk"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Teminat Cinsi</div>
+            <div class="input select_teminat_cinsi"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Süreli/Süresiz</div>
+            <div class="input check_sureli_suresiz" style="margin-top: 4px;"></div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-5">
+        <div class="input_content">
+            <div class="input_label">Tarih</div>
+            <div class="input date_tarih"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Teminat Tutarı</div>
+            <div class="input teminat_tutar"></div>
+        </div>
+        <div class="input_content">
+            <div class="input_label">Vade Tarihi</div>
+            <div class="input date_vade_tarih"></div>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div id="teminat_tanim_data">
+    </div>
+</div>
+<div class="modal fade" id="x-modal-teminatdurbun" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#12ccee">TEMİNAT TANIM</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="grid_dürbün">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn red" data-dismiss="modal" id="mdlSilKapat">Kapat</button>
+                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="x-modal-teminatbekleyen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" style="width:950px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#12ccee">ONAY BEKLEYEN TEMİNATLAR</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="grid_bekleyen_teminat">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn red" data-dismiss="modal" id="mdlSilKapat">Kapat</button>
+                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
+    <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+    <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            var model = @Html.Raw(Json.Encode(Model));
+            var chk = "";
+            var yeniKayit = new Array();
+            var teminat_cinsi = [
+                { state: "TL"},
+                { state: "Döviz"},
+                { state: "Birim" },
+            ];
+            $(".select_chk").dxLookup({
+                dataSource: model,
+                searchEnabled: true,
+                pageLoadMode:"nextButton",
+                searchExpr: ["HesapKodu", "Unvan"],
+                valueExpr: 'HesapKodu',
+                displayExpr: 'Unvan',
+
+                onValueChanged: function (e) {
+                    chk = e.value;
+                },
+
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+                    if(itemIndex>0)
+                    {
+                        itemElement.css({ "margin-top":"-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+                    rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
+
+            $(".select_teminat_cinsi").dxSelectBox({
+                dataSource: teminat_cinsi,
+                valueExpr: 'state',
+                displayExpr: 'state',
+                onValueChanged: function (e) {
+                    //islemtip_value=e.value;
+                    //var PartialAylikSatisAnaliziKodTipDovizBar = "/Home/PartialAylikSatisAnaliziKodTipDovizBar";
+                    //PartialView(PartialAylikSatisAnaliziKodTipDovizBar, 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, doviz: f_tarih }));
+                }
+            });
+
+            $(".check_sureli_suresiz").dxCheckBox({
+                value: true,
+                width: 80,
+                text: ""
+            });
+
+            $(".date_tarih").dxDateBox({
+                format: 'date',
+                formatString: 'dd.MM.yyyy',
+                width:'60%'
+            });
+
+            $(".date_vade_tarih").dxDateBox({
+                format: 'date',
+                formatString: 'dd.MM.yyyy',
+                width:'60%'
+            });
+
+            $(".teminat_tutar").dxNumberBox({
+                min:0,
+                step:1,
+                value:0
+            });
+            //PartialView("/OnayTeminat/PartialTeminatTanim", 'teminat_tanim_data');
+        });
+
+        $('.durbun-buton').click(function () {
+            $('#x-modal-teminatdurbun').modal("show");
+            $.ajax({
+                url: window.location.origin + "/Approvals/Guarantee/Durbun",
+                data: {},
+                type: "post",
+                success: function (data)
+                {
+                    var result = JSON.parse(data);
+                    var columns = [
+                    { caption: 'Hesap Kodu', dataField: 'HesapKodu', width: '30%' },
+                    { caption: 'Unvan', dataField: 'Unvan', width: '70%' },
+                    ];
+                    _grid_quotations_detail = $('.grid_dürbün').dxDataGrid({
+                        dataSource: result,
+                        height: 200,
+                        onRowPrepared: function (e) {
+                            e.rowElement.css({ height: 20 });
+                        },
+                        paging: { pageSize: 5000 },
+                        columns: columns,
+                        headerFilter: {
+                            visible: true
+                        },
+                        popupDetailedWindow: true,
+                        pagingCounter: true,
+                        filterRow: {
+                            visible: true,
+                            applyFilter: 'auto',
+                            applyFilterText: 'Apply filter',
+                            resetOperationText: 'Reset'
+                        },
+                        scrolling: {
+                            scrollByContent: true,
+                            scrollByThumb: true
+                        },
+                        allowColumnReordering: true,
+                        allowColumnResizing: true,
+                        remoteOperations: true,
+                        showRowLines: true,
+                        hoverStateEnabled: true,
+                        rowAlternationEnabled: false,
+                        sorting: {
+                            mode: "multiple",
+                        },
+                        onRowClick: function (opt) {
+                            if (opt.rowType == "data") {
+                                var component = opt.component;
+                                var prevClickTime = component.lastClickTime;//take last clicked time
+                                component.lastClickTime = new Date();
+                                if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+                                    PartialView("/Approvals/Guarantee/TanimList", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));    
+                                }
+                            }
+                        },
+                    }).dxDataGrid("instance");
+
+                }
+            });
+        });
+
+        $('.bekleyen-durbun-buton').click(function () {
+            $('#x-modal-teminatbekleyen').modal("show");
+            $.ajax({
+                url: window.location.origin + "/Approvals/Guarantee/Bekleyen",
+                data: {},
+                type: "post",
+                success: function (data)
+                {
+                    var result = JSON.parse(data);
+                    var columns = [
+                    { caption: 'Hesap Kodu', dataField: 'HesapKodu'},
+                    { caption: 'Unvan', dataField: 'Unvan'},
+                    { caption: 'AltBayi', dataField: 'AltBayi' },
+                    { caption: 'Cins', dataField: 'Cins'},
+                    { caption: 'Tutar', dataField: 'Tutar',  },
+                    { caption: 'Süreli/Süresiz', dataField: 'SureliSuresiz' },
+                    { caption: 'Tarih', dataField: 'Tarih',
+                    customizeText: function (cellInfo) {
+                        if(cellInfo.value!=null)
+                            return formatDateFromJson(cellInfo.value);
+                        else
+                            return "";
+                    }
+                    },
+                    { caption: 'Vade Tarihi', dataField: 'VadeTarih',
+                        customizeText: function (cellInfo) {
+                            if(cellInfo.value!=null)
+                                return formatDateFromJson(cellInfo.value);
+                            else
+                                return "";
+                    }
+                    },
+                    { caption: 'Teminat Tutar', dataField: 'TeminatTutar' }
+                    ];
+                    _grid_quotations_detail = $('.grid_bekleyen_teminat').dxDataGrid({
+                        dataSource: result,
+                        height: 400,
+                        onRowPrepared: function (e) {
+                            e.rowElement.css({ height: 20 });
+                        },
+                        paging: { pageSize: 5000 },
+                        columns: columns,
+                        headerFilter: {
+                            visible: true
+                        },
+                        popupDetailedWindow: true,
+                        columnAutoWidth: true,
+                        pagingCounter: true,
+                        filterRow: {
+                            visible: true,
+                            applyFilter: 'auto',
+                            applyFilterText: 'Apply filter',
+                            resetOperationText: 'Reset'
+                        },
+                        scrolling: {
+                            scrollByContent: true,
+                            scrollByThumb: true
+                        },
+                        allowColumnReordering: true,
+                        allowColumnResizing: true,
+                        remoteOperations: true,
+                        showRowLines: true,
+                        hoverStateEnabled: true,
+                        rowAlternationEnabled: false,
+                        sorting: {
+                            mode: "multiple",
+                        },
+                        onRowClick: function (opt) {
+                            if (opt.rowType == "data") {
+                                var component = opt.component;
+                                var prevClickTime = component.lastClickTime;//take last clicked time
+                                component.lastClickTime = new Date();
+                                if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+                                    //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));    
+                                }
+                            }
+                        },
+                    }).dxDataGrid("instance");
+
+                }
+            });
+        });
+
+        $('.sil-buton').click(function () {
+            var silinecek = table.rows('.selected').data();
+            if(silinecek.length>0)
+            {
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Guarantee/Sil",
+                    data: {ID: silinecek[0].ID},
+                    type: "post",
+                    success: function (data)
+                    {
+                        if(data=="OK"){
+                            window.location.reload();
+                        }
+                        else {
+                            Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
+                            return;
+                        }
+                    }
+                });
+            }
+        });
+
+        $('.save-buton').click(function () {
+            var jObject = {};
+            jObject["HesapKodu"] = $(".select_chk").dxLookup("instance").option("value");
+            jObject["TeminatCinsi"] = $(".select_teminat_cinsi").dxSelectBox("instance").option("value");
+            jObject["TeminatTutari"] = $(".teminat_tutar").dxNumberBox("instance").option("value");
+            jObject["Tarih"] = $(".date_tarih").dxDateBox("instance").option("text");
+            jObject["AltBayi"] = "";
+            jObject["Unvan"] = $(".select_chk").dxLookup("instance").option("text");
+            jObject["SureliSuresiz"] = $(".check_sureli_suresiz").dxCheckBox("instance").option("value");
+            if (jObject["SureliSuresiz"]) {
+                jObject["VadeTarihi"] = $(".date_vade_tarih").dxDateBox("instance").option("value");
+            }
+            else {
+                jObject["VadeTarihi"] = null;
+            }
+
+            if (jObject["HesapKodu"] == null) {
+                Modaldialog("HesapKodu Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+                return;
+            }
+            if (jObject["TeminatCinsi"] == null) {
+                Modaldialog("Teminat Cinsi Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+                return;
+            }
+            if (jObject["TeminatTutari"] <= 0) {
+                Modaldialog("Teminat Tutarı Girmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+                return;
+            }
+            if (jObject["Tarih"] == null) {
+                Modaldialog("Tarih Seçmelisiniz", "Güncelleme İşlemi", "Tamam", "Uyarı");
+                return;
+            }
+            $.ajax({
+                url: window.location.origin + "/Approvals/Guarantee/TeminatTanimInsert",
+                data: { Data: JSON.stringify(jObject) },
+                type: "post",
+                success: function (data) {
+                    if (data == "OK") {
+                        window.location.reload();
+                    }
+                    else {
+                        Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
+                        return;
+                    }
+                }
+            });
+            return _dfd.promise();
+        });
+        $('.refresh-buton').click(function () {
+            window.location.href = '/Approvals/Invoice';
+        });
+
+    </script>
+}
+
+
+
+
+

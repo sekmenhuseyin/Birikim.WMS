@@ -1,22 +1,19 @@
 ﻿@model List<ChartAylikSatisAnalizi>
-
-    <div class="col-md-12">
+<div class="row">
+    <div class="col-md-12 m-t-40">
         <div class="portlet light portlet-fit bordered">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-layers font-green"></i>
                     <span class="caption-subject font-green bold uppercase">Aylık Satış Analizi <span style="color:#8888a7;">BAR CHART</span></span>
                 </div>
-                <div class="actions">
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-cloud-upload"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-wrench"></i>
-                    </a>
-                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;">
-                        <i class="icon-trash"></i>
-                    </a>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID7", @onchange = "Reload7(this.value)" })
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reload7('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -24,23 +21,20 @@
             </div>
         </div>
     </div>
-
-@*<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <link href="~/Content/dx.light.css" rel="stylesheet" />
-    <link href="~/Content/dx.common.css" rel="stylesheet" />
-    <script src="~/Content/global/plugins/morris/morris.min.js"></script>
-    <script src="~/Content/global/plugins/morris/raphael-min.js"></script>
-    <script src="~/Scripts/dx.web.debug.js"></script>
-    <script src="~/Scripts/moment.min.js"></script>*@
+</div>
 <script>
-
+    if ($('.SirketID7 option').size() == 1) $(".SirketID7").hide();
+    else $(".SirketID7").val('@ViewBag.SirketKodu');
+    function Reload7(v)
+    {
+        PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar', JSON.stringify({ SirketKodu: v }));
+    }
     var model = @Html.Raw(Json.Encode(Model));
     var aylar = new Array();
     var Yil2015 = new Array();
     var Yil2016 = new Array();
     var Yil2017 = new Array();
-    jQuery.each( model, function( i, val ) {
+    jQuery.each(model, function (i, val) {
         aylar.push(val.Ay);
         Yil2015.push(val.Yil2015);
         Yil2016.push(val.Yil2016);
@@ -53,29 +47,12 @@
         }
     });
 
-    // DEMOS
     require(
         [
             'echarts',
-            'echarts/chart/bar',
-            'echarts/chart/chord',
-            'echarts/chart/eventRiver',
-            'echarts/chart/force',
-            'echarts/chart/funnel',
-            'echarts/chart/gauge',
-            'echarts/chart/heatmap',
-            'echarts/chart/k',
-            'echarts/chart/line',
-            'echarts/chart/map',
-            'echarts/chart/pie',
-            'echarts/chart/radar',
-            'echarts/chart/scatter',
-            'echarts/chart/tree',
-            'echarts/chart/treemap',
-            'echarts/chart/venn',
-            'echarts/chart/wordCloud'
+            'echarts/chart/bar'
         ],
-        function(ec) {
+        function (ec) {
             //--- BAR ---
             var myChart = ec.init(document.getElementById('echarts_bar'));
             myChart.setOption({
@@ -84,28 +61,6 @@
                 },
                 legend: {
                     data: ['Yil2015', 'Yil2016', 'Yil2017']
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        mark: {
-                            show: true
-                        },
-                        dataView: {
-                            show: true,
-                            readOnly: false
-                        },
-                        magicType: {
-                            show: true,
-                            type: ['line', 'bar']
-                        },
-                        restore: {
-                            show: true
-                        },
-                        saveAsImage: {
-                            show: true
-                        }
-                    }
                 },
                 calculable: true,
                 xAxis: [{
@@ -122,63 +77,49 @@
                     name: '2015',
                     type: 'bar',
                     data: Yil2015,
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '2015'},
-                            {type : 'min', name: '2015'}
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: '2015' },
+                            { type: 'min', name: '2015' }
                         ]
                     },
-                    markLine : {
-                        data : [
-                            {type : 'average', name: '2015'}
+                    markLine: {
+                        data: [
+                            { type: 'average', name: '2015' }
                         ]
                     }
                 }, {
                     name: '2016',
                     type: 'bar',
                     data: Yil2016,
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '2016'},
-                            {type : 'min', name: '2016'}
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: '2016' },
+                            { type: 'min', name: '2016' }
                         ]
                     },
-                    markLine : {
-                        data : [
-                            {type : 'average', name: '2016'}
+                    markLine: {
+                        data: [
+                            { type: 'average', name: '2016' }
                         ]
                     }
                 }, {
                     name: '2017',
                     type: 'bar',
                     data: Yil2017,
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '2017'},
-                            {type : 'min', name: '2017'}
+                    markPoint: {
+                        data: [
+                            { type: 'max', name: '2017' },
+                            { type: 'min', name: '2017' }
                         ]
                     },
-                    markLine : {
-                        data : [
-                            {type : 'average', name: '2017'}
+                    markLine: {
+                        data: [
+                            { type: 'average', name: '2017' }
                         ]
                     }
                 }]
             });
-
         }
     );
-    //new Morris.Bar({
-    //    element: 'morris_chart_3',
-    //    data: model,
-    //    xkey: 'Ay',
-    //    ykeys: ['Yil2015', 'Yil2016', 'Yil2017'],
-    //    labels: ['2015', '2016', '2017'],
-    //    //lineWidth: '3px',
-    //    resize: true,
-    //    barColors:["#0D8ECF","#CD0D74","#FCD202"]
-    //});
 </script>
-
-
-

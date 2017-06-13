@@ -1,0 +1,142 @@
+﻿@model Depo
+@{
+    ViewBag.Title = "Depo Kartı işlemleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Depo İşlemleri</span></li></ul></div>
+<h1 class="page-title">Depo İşlemleri</h1>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row" id="CreateEdit">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.DepoAd + "  Depo Kartı Düzenle" : "Depo Ekle")
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        @using (Ajax.BeginForm("StoreOperation", "Storage", new { area = "Constants" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreFrom", OnSuccess = "StoreReturn" }, new { @class = "form-horizontal" }))
+                        {
+                            @Html.HiddenFor(a => a.ID)
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Depo Kodu</label>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(a => a.DepoKodu, new { @class = "form-control input-circle", @placeholder = "Depo Kodu", required = "required", @maxlength = "5" })
+                                        <span class="field-validation-valid" data-valmsg-for="StoreCode" data-valmsg-replace="true" style="color:red;"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Depo adı</label>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(a => a.DepoAd, new { @class = "form-control input-circle", @placeholder = "Depo adı", required = "required", @maxlength = "100" })
+                                        <span class="field-validation-valid" data-valmsg-for="DepoAd" data-valmsg-replace="true" style="color:red;"></span>
+                                    </div>
+                                </div>
+                                @if (ViewBag.mysql == true)
+	                            {
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Kablo Siparişi İçin Depo</label>
+                                        <div class="col-md-4">
+                                            @Html.DropDownList("KabloDepoID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                            <span class="field-validation-valid" data-valmsg-for="KabloDepoID" data-valmsg-replace="true" style="color:red;"></span>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Sıra</label>
+                                    <div class="col-md-4">
+                                        @Html.TextBoxFor(a => a.SiraNo, new { @id = "touchspin_11", @class = "form-control", required = "required" })
+                                        <span class="field-validation-valid" data-valmsg-for="SiraNo" data-valmsg-replace="true" style="color:red;"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Durum</label>
+                                    <div class="col-md-4">
+                                        @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
+                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Depo Kart Listesi
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <div class="form-horizontal">
+                        <div class="form-body">
+                            <div class="row">
+                                <label class="col-sm-1">
+                                    <label style="color:#32c5d2;">Durum</label>
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="Locked" /> Aktif
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="noLocked" /> Pasif
+                                </label>
+                                <label class="col-sm-1 radio-inline">
+                                    <input type="radio" name="Locked" value="All" checked /> Tümü
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="StoreGrid" style="padding:8px;"></div>
+                </div>
+            </div>           
+        </div>
+    </div>
+</div>
+@section Scripts{<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/datatables/dataTables.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/scripts/datatable.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var StoreGridUrl = '/Constants/Storage/StoreGridPartial';
+    var StoreDetailUrl = '/Constants/Storage/StoreDetailPartial';
+    var DeleteFunctionUrl = '/Constants/Storage/Delete';
+    $(document).ready(function () {
+        @if (ViewBag.mysql == true) {<text>$("#KabloDepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#KabloDepoID")[0].selectedIndex = 0;</text> }
+        $(".make-switch").bootstrapSwitch(); $("input[name='Aktif']").val(true);
+        $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
+        @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}
+        $("#touchspin_11").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
+        $('[name="Locked"]').click(function () { FuncSearchBtn(); });
+        FuncSearchBtn();
+    });
+    function StoreReturn(Data) {
+        FuncSearchBtn();
+        if (Data.Status == false) Modaldialog(Data.Message, "Hata", "Tamam", "btn-warning");
+        CreateEdit('0');
+    }
+    function CreateEdit(Id) {
+        PartialView(StoreDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id }));
+    }
+    function FuncSearchBtn() {
+        var Type = $("input[type='radio'][name='Locked']:checked").val();
+        PartialView(StoreGridUrl, 'StoreGrid', JSON.stringify({ Id: Type }));
+    }
+</script>
+}

@@ -20,6 +20,7 @@ namespace Wms12m.Entity.Models
             this.GorevYers = new HashSet<GorevYer>();
             this.Transfers = new HashSet<Transfer>();
             this.IRS = new HashSet<IR>();
+            this.GorevUsers = new HashSet<GorevUser>();
         }
     
         public int ID { get; set; }
@@ -39,8 +40,6 @@ namespace Wms12m.Entity.Models
         public Nullable<int> BitisTarihi { get; set; }
         public Nullable<int> BitisSaati { get; set; }
     
-        public virtual ComboItem_Name ComboItem_Name { get; set; }
-        public virtual ComboItem_Name ComboItem_Name1 { get; set; }
         public virtual Depo Depo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevYer> GorevYers { get; set; }
@@ -49,5 +48,9 @@ namespace Wms12m.Entity.Models
         public virtual IR IR { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IR> IRS { get; set; }
+        public virtual ComboItem_Name ComboItem_Name { get; set; }
+        public virtual ComboItem_Name ComboItem_Name1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevUser> GorevUsers { get; set; }
     }
 }

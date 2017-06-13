@@ -1,0 +1,8 @@
+﻿@model IEnumerable<BaglantiDetaySelect1>
+<tr style='background: transparent;'><th>Fiyat Listesi</th><th>Ürün Grubu</th><th>Ürün Kodu</th><th>Ürün Adı</th><th>Iskonto1</th><th>Iskonto2</th>
+    <th>Iskonto3</th><th>Iskonto4</th><th>Iskonto5</th>
+    </tr>
+@foreach (var item in Model)
+{<tr style='background: transparent;'><td>@item.Kod10</td><td>@item.MalKodGrup</td><td>@item.MalKod</td><td>@item.MalAdi</td><td>@item.Oran1</td><td>@item.Oran2</td>
+    <td>@item.Oran3</td><td>@item.Oran4</td><td>@item.Oran5</td>
+    </tr>}

@@ -23,7 +23,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult List(string id)
         {
             if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return null;
-            var list = db.GetRolePermsFor(id).ToList();
+            var list = db.GetRolePermsFor(id, "WMS").ToList();
             ViewBag.RoleName = id;
             return PartialView("List", list);
         }
@@ -40,12 +40,23 @@ namespace Wms12m.Presentation.Controllers
                     var tbl = db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
                     if (tbl != null)
                     {
-                        tbl.Reading = rolePerm.Reading == "on" ? true : false;
-                        tbl.Writing = rolePerm.Writing == "on" ? true : false;
-                        tbl.Updating = rolePerm.Updating == "on" ? true : false;
-                        tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
-                        tbl.ModifiedDate = DateTime.Now;
-                        tbl.ModifiedUser = vUser.UserName;
+                        if (rolePerm.Reading != "on" && rolePerm.Writing != "on" && rolePerm.Updating != "on" && rolePerm.Updating != "on")
+                        {
+                            db.RolePerms.Remove(tbl);
+                            //log
+                            LogActions("", "Perms", "Save", ComboItems.alSil, tbl.PermName, "");
+                        }
+                        else
+                        {
+                            tbl.Reading = rolePerm.Reading == "on" ? true : false;
+                            tbl.Writing = rolePerm.Writing == "on" ? true : false;
+                            tbl.Updating = rolePerm.Updating == "on" ? true : false;
+                            tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
+                            tbl.ModifiedDate = DateTime.Now;
+                            tbl.ModifiedUser = vUser.UserName;
+                            //log
+                            LogActions("", "Perms", "Save", ComboItems.alDüzenle, tbl.PermName, "");
+                        }
                     }
                     else
                     {
@@ -63,6 +74,8 @@ namespace Wms12m.Presentation.Controllers
                             ModifiedUser = vUser.UserName
                         };
                         db.RolePerms.Add(tbl);
+                        //log
+                        LogActions("", "Perms", "Save", ComboItems.alEkle, tbl.PermName, "");
                     }
                     if (tbl.Reading != false || tbl.Writing != false || tbl.Updating != false || tbl.Deleting != false || tbl.ID > 0)
                         try { db.SaveChanges(); }

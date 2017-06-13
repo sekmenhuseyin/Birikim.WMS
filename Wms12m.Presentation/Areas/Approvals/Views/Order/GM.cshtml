@@ -1,0 +1,166 @@
+﻿@model List<SMSiparisOnaySelect>
+@{
+    ViewBag.Title = "GM Sipariş Onay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li></li></ul></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Sipariş Onay GM
+                </div>
+                <div class="col-md-1 pull-right m-t-5" id="GMYenile">
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                </div>
+                <div class="col-md-1 pull-right m-t-5" id="GMOnayla">
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Onayla </a>
+                </div>
+                <div class="col-md-1 pull-right m-t-5" id="GMReddet">
+                    <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Reddet </a>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+
+
+                <table class="table table-striped table-bordered table-hover" id="sample_1">
+                    <thead>
+                        <tr>
+
+                            <th> Evrak No </th>
+                            <th> Tarih </th>
+                            <th> Hesap No </th>
+                            <th> Ünvan </th>
+                            <th> Teslim Yeri Kodu </th>
+                            <th>Teslim Yeri Ünvan</th>
+                            <th>Sipariş Tutarı</th>
+                            <th>Bakiye</th>
+                            <th>Risk Bakiyesi</th>
+                            <th>Toplam Bakiye</th>
+                            <th>Şahsi Çek Limiti</th>
+                            <th>Şahsi Çek Riski</th>
+                            <th>Müşteri Çek Limiti</th>
+                            <th>Müşteri Çek Riski</th>
+                            <th>Bekleyen Sipariş Tutarı</th>
+                            <th>Teminat</th>
+                            <th>Teminat Alt Bayi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+            {
+                            <tr onclick="toggle(this, '@item.EvrakNo')">
+
+                                <td> @item.EvrakNo</td>
+                                <td>
+                                    @item.Tarih
+                                </td>
+                                <td>
+                                    @item.HesapNo
+                                </td>
+                                <td> @item.Unvan</td>
+                                <td>
+                                    @item.TeslimYeriKodu
+                                </td>
+                                <td>
+                                    @item.TeslimYeriUnvan
+                                </td>
+                                <td>
+                                    @item.SiparisTutari
+                                </td>
+                                <td>
+                                    @item.Bakiye
+                                </td>
+                                <td>@item.RiskBakiyesi</td>
+                                <td>@item.ToplamBakiye</td>
+                                <td>@item.SahsiCekLimiti</td>
+                                <td>@item.SahsiCekRiski</td>
+                                <td>@item.MusteriCekLimiti</td>
+                                <td>@item.MusteriCekRiski</td>
+                                <td>@item.BekleyenSiparisTutari</td>
+                                <td>@item.Teminat</td>
+                                <td>@item.TeminatAltBayi</td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/scripts/datatable.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+    <script>
+        var secili_table = new Array();
+        $(document).ready(function () {
+            table = $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+
+            $('#GMOnayla').click(function (e) {
+
+                var x = table.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i][0]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Order/Onay",
+                    data: { Data: JSON.stringify(secili_table), OnaylandiMi: true, OnayTip: 3 },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
+
+                    }
+                });
+                return _dfd.promise();
+            });
+            $('#GMReddet').click(function (e) {
+
+                var x = table.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i][0]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Order/Onay",
+                    data: { Data: JSON.stringify(secili_table), OnaylandiMi: false, OnayTip: 3 },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
+
+                    }
+                });
+                return _dfd.promise();
+            });
+
+            $('#GMYenile').click(function (e) {
+                window.location.reload();
+
+            });
+
+        });
+        function toggle(row, id) {
+            $(row).toggleClass('selected');
+        }
+    </script>
+}

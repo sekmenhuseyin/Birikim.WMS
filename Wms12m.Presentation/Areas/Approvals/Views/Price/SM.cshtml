@@ -1,0 +1,263 @@
+﻿@{
+    ViewBag.Title = "Fiyat Onay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="form-horizontal">
+    <div class="form-body">
+        <div class="row">
+            <label class="col-sm-1" style="width:50%;">
+                <input type="checkbox" name="Locked" value="Koleksiyon" id="chkKoleksiyon" /> Koleksiyon ve Kaliteye Göre Onaylama
+            </label>
+            <label class="col-sm-1" style="width:50%;">
+                <input type="checkbox" name="Locked" value="Grup" id="chkGrup" /> Grup, Ebat ve Yüzeye Göre Onaylama
+            </label>
+        </div>
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Fiyat Onay SM
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle alayinisec-buton" href="#modalEditPage" data-toggle="modal"> Tümünü Seç </a>
+                </div>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default pull-right input-circle alayinikaldir-buton" href="#modalEditPage" data-toggle="modal"> Tümünü Kaldır </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="liste">
+                        </div>
+                        <div id="listekoleksiyon" style="display:none; ">
+                        </div>
+                        <div id="listegrup" style="display:none; ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        
+    </div>
+</div>
+@section Scripts{
+    <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/scripts/datatable.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+    <script>
+        PartialView("/Approvals/Price/SM_List", 'liste');
+
+        //PartialView("/Approvals/Price/GM_List_Grup", 'listegrup');
+        //  PartialView("/Approval/RiskTanimPartial", 'liste');
+        function FuncSearchBtn() {
+            var Type = $("input[type='checkbox'][name='Locked']:checked").val();
+            PartialView("/Approvals/Price/SM_List", 'liste', JSON.stringify({ Durum: Type }));
+        }
+
+        $(document).ready(function () {
+
+            $('#chkKoleksiyon').click(function () {
+                if (this.checked) {
+                    PartialView("/Approvals/Price/SM_List_Koleksiyon", 'listekoleksiyon');
+                    $("#listekoleksiyon").css("display", "block");
+                    $("#liste").css("display", "none");
+                    $("#listegrup").css("display", "none");
+                    $("#chkGrup").prop("checked", false);
+
+
+                }
+                else {
+                    $("#listekoleksiyon").css("display", "none");
+                    $("#liste").css("display", "block");
+                }
+
+
+            });
+
+            $('#chkGrup').click(function () {
+                if (this.checked) {
+                    PartialView("/Approvals/Price/SM_List_Grup", 'listegrup');
+                    $("#listegrup").css("display", "block");
+                    $("#liste").css("display", "none");
+                    $("#listekoleksiyon").css("display", false);
+                    $("#chkKoleksiyon").prop("checked", false);
+                }
+                else if ($("#chkKoleksiyon").prop("checked") == false) {
+                    $("#liste").css("display", "block");
+
+                }
+
+            });
+
+
+        });
+        $('.onay-buton').click(function () {
+            if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
+                var x = table.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Price/Onay_SM",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
+                    }
+                });
+                return _dfd.promise();
+            }
+            else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
+                var x = table2.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Price/Onay_Koleksiyon_SM",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
+                    }
+                });
+                return _dfd.promise();
+
+            }
+            else if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == true) {
+                var x = table3.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Price/Onay_Grup_SM",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }                    
+                    }
+                });
+                return _dfd.promise();
+            }
+
+        });
+
+        $('.reddet-buton').click(function () {
+            if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
+                var x = table.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Price/Red_SM",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
+                    }
+                });
+                return _dfd.promise();
+
+            }
+            else if ($("#chkKoleksiyon").prop("checked") == true && $("#chkGrup").prop("checked") == false) {
+                var x = table2.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Price/Red_Koleksiyon_SM",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
+                    }
+                });
+                return _dfd.promise();
+            }
+
+            else if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == true) {
+                var x = table3.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Price/Red_Grup_SM",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        }
+                    }
+                });
+                return _dfd.promise();
+            }
+        });
+
+        $('.yenile-buton').click(function () {
+            window.location.reload();
+        });
+
+        $('.alayinisec-buton').click(function () {
+            $('tbody tr').addClass('selected');
+        });
+        $('.alayinikaldir-buton').click(function () {
+            $('tbody tr').removeClass('selected');
+
+        });
+    </script>
+}

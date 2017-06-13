@@ -5,6 +5,7 @@ using Wms12m.Security;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.Script.Serialization;
+using System.Collections.Generic;
 
 namespace Wms12m.Presentation
 {
@@ -41,10 +42,23 @@ namespace Wms12m.Presentation
                 FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
                 var serializeModel = serializer.Deserialize<CustomPrincipalSerializeModel>(authTicket.UserData);
                 //create user
-                var newUser = new CustomPrincipal(authTicket.Name);
-                newUser.AppIdentity = serializeModel.AppIdentity;
+                var newUser = new CustomPrincipal(authTicket.Name)
+                {
+                    AppIdentity = serializeModel.AppIdentity
+                };
                 HttpContext.Current.User = newUser;
             }
+        }
+        // Parses custom parameters sent with the request.
+        public IDictionary<string, object> MyParseFunction(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            var p1 = Convert.ToString(bindingContext.ValueProvider.GetValue("param1").AttemptedValue);
+            var p2 = Convert.ToInt32(bindingContext.ValueProvider.GetValue("param2").AttemptedValue);
+            return new Dictionary<string, object>()
+            {
+                { "param1", p1 },
+                { "param2", p2 }
+            };
         }
     }
 }

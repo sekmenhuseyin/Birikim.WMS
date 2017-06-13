@@ -1,76 +1,47 @@
 ﻿@model List<ChartAylikSatisAnalizi>
-
-@*<style>
-        .gs_tarih_double_pie .dx-dropdowneditor-icon {
-            color: #44b6ae;
-        }
-
-            .gs_tarih_double_pie .dx-dropdowneditor-icon:before {
-                color: #44b6ae;
-            }
-    </style>*@
-<div class="col-md-12">
-    <!-- BEGIN CHART PORTLET-->
-    <div class="portlet light bordered">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="icon-bar-chart font-green-haze"></i>
-                <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Analizi GrupKod ve İşlemTip <span style="color:#8888a7;">3D PİE CHART</span></span>
-                @*<span class="caption-helper">3d cylinder chart</span>*@
-            </div>
-            <div class="tools" style="float:right;margin-left:20px;">
-                <a href="javascript:;" class="collapse"> </a>
-                <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                <a href="javascript:;" class="reload"> </a>
-                <a href="javascript:;" class="fullscreen"> </a>
-                <a href="javascript:;" class="remove"> </a>
-            </div>
-            <div style="float:right;margin-left:10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">İşlem Tip</span></div> <div class="slct_aylik_kriter_islemtip" style="float:left;width:130px; margin-left:10px;"></div></div>
-            <div style="float:right;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kriter </span></div> <div class="slct_aylik_kriter_doviz" style="float:left;width:130px; margin-left:10px;"></div></div>
-            <div style="float:right;margin-left: 10px;"><div style="float:left;line-height:36px;"> <span style="color:#0c09de;">Kod </span></div> <div class="slct_aylik_kriter_kod" style="float:left;width:130px; margin-left:10px;"></div></div>
-            <div class="portlet-body">
-                <div id="chart_5_gunluk_double_pie" class="chart" style="height: 400px;"> </div>
-                <div class="well margin-top-20">
-                    @*<div class="row">
-                            <div class="col-sm-3">
-                                <label class="text-left">Top Radius:</label>
-                                <input class="chart_7_chart_input" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01" />
-                            </div>
-                            <div class="col-sm-3">
-                                <label class="text-left">Angle:</label>
-                                <input class="chart_7_chart_input" data-property="angle" type="range" min="0" max="89" value="30" step="1" />
-                            </div>
-                            <div class="col-sm-3">
-                                <label class="text-left">Depth:</label>
-                                <input class="chart_7_chart_input" data-property="depth3D" type="range" min="1" max="120" value="40" step="1" />
-                            </div>
-                        </div>*@
+<div class="row">
+    <div class="col-md-12 m-t-40">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-haze"></i>
+                    <span class="caption-subject bold uppercase font-green-haze"> Aylık Satış Analizi GrupKod ve İşlemTip <span style="color:#8888a7;">3D PİE CHART</span></span>
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID9", @onchange = "Reload9(this.value)" })
+                </div>
+                <div class="col-md-1 p-l-10">
+                    <div class="slct_aylik_kriter_islemtip" style="width:130px;"></div>
+                </div>
+                <div class="col-md-1 p-l-10">
+                    <div class="slct_aylik_kriter_doviz" style="width:130px;"></div>
+                </div>
+                <div class="col-md-1 p-l-10">
+                    <div class="slct_aylik_kriter_kod" style="width:130px;"></div>
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reload9('@ViewBag.SirketKodu');"> </a>
                 </div>
             </div>
+            <div class="portlet-body">
+                <div id="echarts_bar2" class="chart" style="height: 400px;"> </div>
+            </div>
         </div>
-        <!-- END CHART PORTLET-->
     </div>
-    @*<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-        <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <link href="~/Content/dx.light.css" rel="stylesheet" />
-        <link href="~/Content/dx.common.css" rel="stylesheet" />
-        <script src="~/Scripts/dx.web.debug.js"></script>
-        <script src="~/Scripts/moment.min.js"></script>
-        <script src="~/Content/global/plugins/amcharts/amcharts/amcharts.js"></script>
-        <script src="~/Content/global/plugins/amcharts/amcharts/pie.js"></script>
-        <script src="~/Content/global/plugins/amcharts/amcharts/radar.js"></script>
-        <script src="~/Content/global/plugins/amcharts/amcharts/serial.js"></script>
-        <script src="~/Content/global/plugins/amcharts/amcharts/themes/light.js"></script>
-        <script src="~/Content/global/plugins/amcharts/amcharts/themes/patterns.js"></script>
-        <script src="~/Content/global/plugins/amcharts/amcharts/themes/chalk.js"></script>
-        <script src="~/Content/global/plugins/amcharts/ammap/ammap.js"></script>
-        <script src="~/Content/global/plugins/amcharts/ammap/maps/js/worldLow.js"></script>
-        <script src="~/Content/global/plugins/amcharts/amstockcharts/amstock.js"></script>*@
-
-    <script>
+</div>
+<script>
+    var islemtip_value= @ViewBag.IslemTip;
+    var doviz_value= @Html.Raw(Json.Encode(ViewBag.Doviz));
+    var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
+    if ($('.SirketID9 option').size() == 1) $(".SirketID9").hide();
+    else $(".SirketID9").val('@ViewBag.SirketKodu');
+    function Reload9(v)
+    {
+        PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: v, kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
+    }
     $(document).ready(function (e) {
-        var x = '@ViewBag.Tarih'.split("00");
-
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
@@ -92,24 +63,11 @@
             Yil2016.push(val.Yil2016);
             Yil2017.push(val.Yil2017);
         });
-        var islemtip_value= @ViewBag.IslemTip;
-        var doviz_value= @Html.Raw(Json.Encode(ViewBag.Doviz));
-        var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
-        var islemtip = [
-{ id: 0, state: "Tümü"},
-{ id: 1, state: "İç Piyasa"},
-{ id: 2, state: "Dış Piyasa" },
-        ];
-
-        var doviz = [
-{ state: "TL"},
-{ state: "Döviz"},
-{ state: "Birim" },
-        ];
-
+        var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
+        var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
         $.ajax({
-            url: window.location.origin + "/Home/AylikSatisAnaliziKodTipDovizKriter",
-            data: {},
+            url: "/Home/AylikSatisAnaliziKodTipDovizKriter",
+            data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
             {
@@ -121,8 +79,7 @@
                     onValueChanged: function (e) {
                         if(e.value!=kriter_value){
                             kriter_value=e.value;
-                            var PartialAylikSatisAnaliziKodTipDovizBar = "/Home/PartialAylikSatisAnaliziKodTipDovizBar";
-                            PartialView(PartialAylikSatisAnaliziKodTipDovizBar, 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, doviz: f_tarih }));
+                            PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
                         }
                     }
                 });
@@ -130,7 +87,6 @@
 
             }
         });
-
         $(".slct_aylik_kriter_islemtip").dxSelectBox({
             dataSource: islemtip,
             valueExpr: 'state',
@@ -138,8 +94,7 @@
             value: islemtip_value,
             onValueChanged: function (e) {
                 islemtip_value=e.value;
-                var PartialAylikSatisAnaliziKodTipDovizBar = "/Home/PartialAylikSatisAnaliziKodTipDovizBar";
-                PartialView(PartialAylikSatisAnaliziKodTipDovizBar, 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, doviz: f_tarih }));
+                PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
             }
         });
 
@@ -150,8 +105,7 @@
             value: doviz_value,
             onValueChanged: function (e) {
                 doviz_value=e.value;
-                var PartialAylikSatisAnaliziKodTipDovizBar = "/Home/PartialAylikSatisAnaliziKodTipDovizBar";
-                PartialView(PartialAylikSatisAnaliziKodTipDovizBar, 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
+                PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
             }
         });
 
@@ -166,54 +120,16 @@
             [
                 'echarts',
                 'echarts/chart/bar',
-                'echarts/chart/chord',
-                'echarts/chart/eventRiver',
-                'echarts/chart/force',
-                'echarts/chart/funnel',
-                'echarts/chart/gauge',
-                'echarts/chart/heatmap',
-                'echarts/chart/k',
-                'echarts/chart/line',
-                'echarts/chart/map',
-                'echarts/chart/pie',
-                'echarts/chart/radar',
-                'echarts/chart/scatter',
-                'echarts/chart/tree',
-                'echarts/chart/treemap',
-                'echarts/chart/venn',
-                'echarts/chart/wordCloud'
             ],
             function(ec) {
                 //--- BAR ---
-                var myChart = ec.init(document.getElementById('echarts_bar'));
+                var myChart = ec.init(document.getElementById('echarts_bar2'));
                 myChart.setOption({
                     tooltip: {
                         trigger: 'axis'
                     },
                     legend: {
                         data: ['Yil2015', 'Yil2016', 'Yil2017']
-                    },
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            mark: {
-                                show: true
-                            },
-                            dataView: {
-                                show: true,
-                                readOnly: false
-                            },
-                            magicType: {
-                                show: true,
-                                type: ['line', 'bar']
-                            },
-                            restore: {
-                                show: true
-                            },
-                            saveAsImage: {
-                                show: true
-                            }
-                        }
                     },
                     calculable: true,
                     xAxis: [{
@@ -273,13 +189,7 @@
                         }
                     }]
                 });
-
             }
         );
     });
-
-    </script>
-
-
-
-
+</script>

@@ -1,0 +1,78 @@
+﻿@model ProjeForm
+<div class="modal-content">
+    <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
+    <div class="container">
+        <div class="row" id="CreateEditAlt">
+            <div class="col-lg-12">
+                    <h4>Yeni Form</h4>
+                    @using (Ajax.BeginForm("Save", "SubProjectForm", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEditAltF('1');" }, new { @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="form-body">
+                            <div class="form-group row" style="display:none">
+                                @Html.LabelFor(model => model.PID, "PID", htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownList("PID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.PID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.MusteriID, "MusteriID", htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" ,@disabled="disabled" })
+                                    @Html.ValidationMessageFor(model => model.MusteriID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Proje, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.Proje, new { htmlAttributes = new { @class = "form-control input-circle", @readonly = "readonly", @disabled = "disabled" } })
+                                    @Html.ValidationMessageFor(model => model.Proje, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Form, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.Form, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                                    @Html.ValidationMessageFor(model => model.Form, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <input type="submit" value="Ekle" class="btn btn-circle green" />
+                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEditAltF('0')">Temizle</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+        </div>
+        <div id="listealt"></div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    PartialView("/ToDo/SubProjectForm/ListAlt/@ViewBag.id", 'listealt');
+    function CreateEditAltF(Id) {
+        if (Id == 0) {
+            $("#ID").val("0");
+            $("#Proje").val("");
+            $("#Sorumlu").val("");
+            $("#KarsiForumlu").val("");
+            $("#Aciklama").val("");
+            $("#MesaiKota").val("");
+        }
+        else {
+            { PartialView("/ToDo/SubProjectForm/Edit", 'ustform', JSON.stringify({ Id: Id })); }
+        }
+
+    }
+</script>

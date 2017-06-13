@@ -67,6 +67,7 @@ namespace Wms12m.Entity
     public class frmSiparisMalzemeOnay
     {
         public string ID { get; set; }
+        public int ROW_ID { get; set; }
         public string SirketID { get; set; }
         public string EvrakNo { get; set; }
         public string Chk { get; set; }
@@ -91,6 +92,7 @@ namespace Wms12m.Entity
     public class frmSiparisToplama
     {
         public string EvrakNo { get; set; }
+        public int KatID { get; set; }
         public int YerID { get; set; }
         public string MalKodu { get; set; }
         public decimal Miktar { get; set; }
@@ -99,5 +101,6 @@ namespace Wms12m.Entity
         public string Raf { get; set; }
         public string Bolum { get; set; }
         public string Kat { get; set; }
+        public decimal Stok { get; set; }
     }
 }

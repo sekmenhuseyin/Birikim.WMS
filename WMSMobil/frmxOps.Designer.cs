@@ -79,19 +79,19 @@
             // 
             // txtRafBarkod
             // 
-            this.txtRafBarkod.Location = new System.Drawing.Point(74, 24);
+            this.txtRafBarkod.Location = new System.Drawing.Point(74, 2);
             this.txtRafBarkod.Name = "txtRafBarkod";
             this.txtRafBarkod.Size = new System.Drawing.Size(106, 21);
-            this.txtRafBarkod.TabIndex = 1;
+            this.txtRafBarkod.TabIndex = 0;
             this.txtRafBarkod.Visible = false;
             this.txtRafBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
             // txtBarkod
             // 
-            this.txtBarkod.Location = new System.Drawing.Point(74, 2);
+            this.txtBarkod.Location = new System.Drawing.Point(74, 24);
             this.txtBarkod.Name = "txtBarkod";
             this.txtBarkod.Size = new System.Drawing.Size(106, 21);
-            this.txtBarkod.TabIndex = 0;
+            this.txtBarkod.TabIndex = 1;
             this.txtBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
             // btnUygula
@@ -102,7 +102,7 @@
             this.btnUygula.Name = "btnUygula";
             this.btnUygula.Size = new System.Drawing.Size(57, 43);
             this.btnUygula.TabIndex = 2;
-            this.btnUygula.Text = "Uygula";
+            this.btnUygula.Text = "Ekle";
             this.btnUygula.Click += new System.EventHandler(this.btnUygula_Click);
             // 
             // label7
@@ -110,7 +110,7 @@
             this.label7.BackColor = System.Drawing.Color.CadetBlue;
             this.label7.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label7.ForeColor = System.Drawing.SystemColors.Window;
-            this.label7.Location = new System.Drawing.Point(3, 24);
+            this.label7.Location = new System.Drawing.Point(3, 2);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 21);
             this.label7.Text = "Raf Okut";
@@ -121,7 +121,7 @@
             this.label4.BackColor = System.Drawing.Color.CadetBlue;
             this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.SystemColors.Window;
-            this.label4.Location = new System.Drawing.Point(3, 2);
+            this.label4.Location = new System.Drawing.Point(3, 24);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 21);
             this.label4.Text = "Mal Okut";
@@ -207,7 +207,7 @@
             this.label12.ForeColor = System.Drawing.SystemColors.Window;
             this.label12.Location = new System.Drawing.Point(483, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(70, 21);
+            this.label12.Size = new System.Drawing.Size(70, 18);
             this.label12.Text = "İşlemMiktar";
             this.label12.Visible = false;
             // 
@@ -217,8 +217,8 @@
             this.label6.ForeColor = System.Drawing.SystemColors.Window;
             this.label6.Location = new System.Drawing.Point(377, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(105, 21);
-            this.label6.Text = "YerlestirmeMiktari";
+            this.label6.Size = new System.Drawing.Size(105, 18);
+            this.label6.Text = "Yerleştirme Miktar";
             this.label6.Visible = false;
             // 
             // label5
@@ -227,7 +227,7 @@
             this.label5.ForeColor = System.Drawing.SystemColors.Window;
             this.label5.Location = new System.Drawing.Point(284, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(92, 21);
+            this.label5.Size = new System.Drawing.Size(92, 18);
             this.label5.Text = "Okutulan Miktar";
             // 
             // label11
@@ -237,7 +237,7 @@
             this.label11.ForeColor = System.Drawing.SystemColors.Window;
             this.label11.Location = new System.Drawing.Point(211, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(72, 21);
+            this.label11.Size = new System.Drawing.Size(72, 18);
             this.label11.Text = "Birim";
             // 
             // label10
@@ -247,7 +247,7 @@
             this.label10.ForeColor = System.Drawing.SystemColors.Window;
             this.label10.Location = new System.Drawing.Point(145, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(65, 21);
+            this.label10.Size = new System.Drawing.Size(65, 18);
             this.label10.Text = "Miktar";
             // 
             // label9
@@ -257,8 +257,8 @@
             this.label9.ForeColor = System.Drawing.SystemColors.Window;
             this.label9.Location = new System.Drawing.Point(64, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(80, 21);
-            this.label9.Text = "MalAdı";
+            this.label9.Size = new System.Drawing.Size(80, 18);
+            this.label9.Text = "Malzeme";
             // 
             // label8
             // 
@@ -267,8 +267,8 @@
             this.label8.ForeColor = System.Drawing.SystemColors.Window;
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 21);
-            this.label8.Text = "MalKodu";
+            this.label8.Size = new System.Drawing.Size(60, 18);
+            this.label8.Text = "Mal Kodu";
             // 
             // panelAlt
             // 

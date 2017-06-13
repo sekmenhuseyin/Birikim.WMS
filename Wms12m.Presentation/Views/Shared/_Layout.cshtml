@@ -1,6 +1,7 @@
 ﻿@{
-    if (ViewBag.Title != "") { ViewBag.Title += " | Yönetim Paneli"; }
-    else { ViewBag.Title = "Yönetim Paneli"; }
+    Setting setts = ViewBag.settings;
+    if (ViewBag.Title != "") { ViewBag.Title += " | " + setts.SiteName; }
+    else { ViewBag.Title = setts.SiteName; }
 }<!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
@@ -19,8 +20,8 @@
     <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
     <title>@ViewBag.Title</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/simple-line-icons/css/simple-line-icons.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/assets/global/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css" />
     <link href="~/Content/assets/global/css/plugins-md.min.css" rel="stylesheet" type="text/css" />
@@ -33,7 +34,7 @@
     <div class="page-header navbar navbar-fixed-top">
         <div class="page-header-inner ">
             <div class="page-logo">
-                <a href="@Url.Action("Index", "Home")"><img src="~/Content/assets/layouts/layout/img/Logo.png" alt="logo" class="logo-default m-t-10" /></a>
+                <a href="@Url.Action("Index", "Home")"><img src="~/Content/images/@setts.TopLogo" alt="logo" class="logo-default m-t-10" /></a>
             </div>
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
@@ -69,7 +70,7 @@
     <div id="div_loading" class="loader"></div>
     <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
     <script src="~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js"></script>
-    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+    <script src="~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js"></script>
     <script src="~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Content/assets/global/plugins/jquery-validation/jquery.unobtrusive-ajax.min.js"></script>

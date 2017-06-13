@@ -1,0 +1,114 @@
+﻿@model Yer
+<div class="modal-content">
+    <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="modal-body">
+                    <h4>Yeni Yeri Seçin</h4>
+                    @using (Ajax.BeginForm("ManualMovement", "Stock", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal", id = "frmNew" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Raf</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("RafID", null, htmlAttributes: new { @class = "form-control input-circle RafID", required = "required", @onchange = "getSection2(this.value);" })
+                                    <span class="field-validation-valid" data-valmsg-for="RafID" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Bölüm</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("BolumID", null, htmlAttributes: new { @class = "form-control input-circle BolumID", required = "required", @onchange = "getFloor2(this.value);" })
+                                    <span class="field-validation-valid" data-valmsg-for="BolumID" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Kat</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("KatID", null, htmlAttributes: new { @class = "form-control input-circle KatID", required = "required" })
+                                    <span class="field-validation-valid" data-valmsg-for="KatID" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Miktar</label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(a => a.Miktar, new { @class = "form-control touchspin", @placeholder = "Miktar", required = "required", type="number", min="1", max=ViewBag.Miktar })
+                                    <span class="field-validation-valid" data-valmsg-for="Miktar" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4 col-md-offset-3">
+                                    <input type="hidden" name="ID" id="ID" value="@ViewBag.Id" />
+                                    <input type="submit" class="hide" />
+                                    <button type="button" class="btn btn-circle btn-block green" id="submitter">Ekle</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-times"></i> Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".RafID").prepend("<option value=''>Seçiniz !!!</option>"); $(".RafID")[0].selectedIndex = 0;
+    $(".touchspin").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
+    $("#submitter").click(function () {
+        if ($("#Miktar").val() < 1 || $("#Miktar").val() > @String.Format("{0:0}", ViewBag.Miktar))
+        {
+            Modaldialog("Miktarı düzgün yazınız", 'Hata', 'Tamam', 'btn-danger');
+            return;
+        }
+        $('#frmNew').submit();
+    })
+    function getresult(e) {
+        if (e.Status == true)
+        {
+            Modaldialog("İşlem Tamamlandı", 'Başarı', 'Tamam', 'btn-success');
+            $('#modalEditPage').modal('toggle');
+        }
+        else
+            Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
+    };
+    function getSection2(id) {
+        $(".BolumID option").remove();
+        $(".KatID option").remove();
+        $.ajax({
+            url: "/Constants/Section/SectionList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('.BolumID').append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $(".BolumID").prepend("<option value=''>Seçiniz !!!</option>"); $(".BolumID")[0].selectedIndex = 0;
+                }
+            }
+        });
+    }
+    function getFloor2(id) {
+        $(".KatID option").remove();
+        $.ajax({
+            url: "/Constants/Floor/FloorList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('.KatID').append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $(".KatID").prepend("<option value=''>Seçiniz !!!</option>"); $(".KatID")[0].selectedIndex = 0;
+                }
+            }
+        });
+    }
+</script>

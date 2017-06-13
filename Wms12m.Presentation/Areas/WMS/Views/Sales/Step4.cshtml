@@ -1,0 +1,86 @@
+﻿@model IEnumerable<frmSiparisMalzeme>
+@{
+    ViewBag.Title = "Sipariş Planlama - 4. Adım";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string> Sirket = ViewBag.Sirket;
+}@section Styles{<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Sales">Sipariş Planlama</a><i class="fa fa-circle"></i></li><li><span>4. Adım</span></li></ul></div>
+<h1 class="page-title">Sipariş Planlama- 4. Adım</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="mt-element-step">
+            <div class="row step-line">
+                <div class="col-md-2 col-md-offset-1 mt-step-col first done">
+                    <div class="mt-step-number bg-white">1</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">SİPARİŞ SEÇİMİ</div>
+                    <div class="mt-step-content font-grey-cascade">Bir sipariş Seçin</div>
+                </div>
+                <div class="col-md-2 mt-step-col done">
+                    <div class="mt-step-number bg-white">2</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">MALZEME SEÇİMİ</div>
+                    <div class="mt-step-content font-grey-cascade">Malzemeleri Seçin</div>
+                </div>
+                <div class="col-md-2 mt-step-col done">
+                    <div class="mt-step-number bg-white">3</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">SİPARİŞ Detayları</div>
+                    <div class="mt-step-content font-grey-cascade">Detaylardan Seçin</div>
+                </div>
+                <div class="col-md-2 mt-step-col active">
+                    <div class="mt-step-number bg-white">4</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">Toplama Planı</div>
+                    <div class="mt-step-content font-grey-cascade">Kontrol</div>
+                </div>
+                <div class="col-md-2 mt-step-col last">
+                    <div class="mt-step-number bg-white">5</div>
+                    <div class="mt-step-title uppercase font-grey-cascade">ONAY</div>
+                    <div class="mt-step-content font-grey-cascade">Onaylayın</div>
+                </div>
+            </div>
+        </div>
+        <div class="portlet box green m-t-30">
+            <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Sipariş Seçimi</div></div>
+            <div class="portlet-body form p-30">
+                @using (Html.BeginForm("Step5", "Sales", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <table class="table table-striped table-bordered table-condensed" id="sample_2">
+                        <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Hücre</th><th class="text-right">Miktar</th><th class="text-right">Raf Stok</th><th class="text-right">Raf Kalan</th><th>Birim</th></tr></thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                string tmp = item.MalKodu.GetMalAdi(Sirket[0]);
+                                if (tmp == null) { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
+                                <tr>
+                                    <td>@item.MalKodu</td>
+                                    <td>@tmp</td>
+                                    <td>@item.HucreAd</td>
+                                    <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                                    <td align="right">@String.Format("{0:n}", item.Stok)</td>
+                                    <td align="right">@String.Format("{0:n}", item.Stok - item.Miktar)</td>
+                                    <td>@item.Birim</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="row m-t-20">
+                        <div class="col-md-2">
+                            <button class="btn btn-default btn-block" onclick="window.history.back();"><<< Geri</button>
+                        </div>
+                        <div class="col-md-1 col-md-offset-9">
+                            <input type="hidden" name="DepoID" value="@ViewBag.DepoID" />
+                            <input type="hidden" name="GorevID" value="@ViewBag.GorevID" />
+                            <input type="submit" class="btn btn-primary btn-block green" value="İleri >>>" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{<script src="~/Content/assets/global/plugins/datatables/dataTables.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/scripts/datatable.js" type="text/javascript"></script>
+<script>$(document).ready(function () { var table = $('#sample_2').DataTable({ ordering: false, "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>
+}
