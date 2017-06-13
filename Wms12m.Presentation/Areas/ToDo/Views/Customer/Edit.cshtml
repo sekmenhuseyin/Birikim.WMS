@@ -6,7 +6,7 @@
         </div>
     </div>
     <div class="portlet-body form">
-        @using (Ajax.BeginForm("Save", "Customer", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
+        @using (Ajax.BeginForm("Save", "Customer", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
         {
             @Html.HiddenFor(model => model.ID)
             @Html.AntiForgeryToken()

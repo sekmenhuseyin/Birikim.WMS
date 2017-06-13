@@ -61,7 +61,6 @@
                 @foreach (var item in Model)
                 {
                     <tr  data-ID="@item.ID">
-                        @*<td class="details-control" id="ilksutun"></td>*@
                         <td style="width:20px!important;" class="details-control"></td>
                         <td>
                             <a class="btn icon-pencil" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Duties/Edit/@item.ID')"> Düzenle </a>
@@ -100,8 +99,8 @@
                             @Html.DisplayFor(modelItem => item.TahminiBitis)
                         </td>
                         <td>
-                            <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/DutyWork/NewWork/@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
-                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Duties/List','liste','@item.ID')"> Sil </a>
+                            <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewWork/@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
+                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Duties/List','liste','@item.ID')"> Sil </a>
                         </td>
                     </tr>
                 }
@@ -110,9 +109,6 @@
         </table>
     </div>
 </div>
-
-@*<script>$(document).ready(function () { $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>*@
-
 <script language="text/javascript">
     $(document).ready(function () {
 
@@ -145,161 +141,7 @@
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
-            //var tr = $(this).closest('tr');
-            //$("tr").removeClass("aa");
-            //tr.addClass("aa");
-            //var x = table.rows('.aa').data();
-            //var row = table.row(tr);
-            //if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-            //else { console.log(x[0][0]); row.child(newrow(x[0][0])).show(); format(x[0][0].replace("/", "")); tr.addClass('shown'); }
         });
 
-    }); 
-
-    
-
+    });
 </script>
-@*@model IEnumerable<Gorevler>
-
-    @{
-        ViewBag.Title = "Görevler Form";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
-
-    <!DOCTYPE html>
-
-    <html>
-    <head>
-        <meta name="viewport" content="width=device-width" />
-        <title>Index</title>
-    </head>
-    <body>
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Sorumlu)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Sorumlu2)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Sorumlu3)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Gorev)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Aciklama)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OncelikID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DurumID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.GorevTipiID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DepartmanID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TahminiBitis)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BitisTarih)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IslemTip)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IslemSira)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Kaydeden)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.KayitTarih)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Degistiren)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DegisTarih)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProjeForm.Proje)
-                </th>
-                <th></th>
-            </tr>
-
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sorumlu)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sorumlu2)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sorumlu3)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Gorev)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Aciklama)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OncelikID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DurumID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GorevTipiID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DepartmanID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TahminiBitis)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BitisTarih)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IslemTip)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IslemSira)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Kaydeden)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KayitTarih)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Degistiren)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DegisTarih)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProjeForm.Proje)
-                </td>
-                <td>
-                    @Html.ActionLink("Düzenle", "Edit", new { id=item.ID }) |
-                    @Html.ActionLink("Detaylar", "Details", new { id=item.ID }) |
-                    @Html.ActionLink("Sil", "Delete", new { id=item.ID })
-                </td>
-            </tr>
-        }
-
-        </table>
-    </body>
-    </html>*@

@@ -632,8 +632,6 @@
     <Content Include="Areas\ToDo\Views\Duties\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\Create.cshtml" />
-    <Content Include="Areas\ToDo\Views\DutyWork\Delete.cshtml" />
-    <Content Include="Areas\ToDo\Views\DutyWork\Details.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\List.cshtml" />

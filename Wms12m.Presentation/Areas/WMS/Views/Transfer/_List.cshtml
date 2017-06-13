@@ -16,7 +16,7 @@
                 <td>
                     @if (item.Onay == false)
                     {
-                        using (Html.BeginForm("Approve", "Transfer", FormMethod.Post, new { @class = "form-horizontal pull-left" }))
+                        using (Html.BeginForm("Approve", "Transfer", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal pull-left" }))
                         {
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="ID" value="@item.ID" />

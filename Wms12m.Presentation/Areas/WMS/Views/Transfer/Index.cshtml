@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="portlet-body form">
-                @using (Html.BeginForm("Summary", "Transfer", FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("Summary", "Transfer", new { area = "WMS" }, FormMethod.Post, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -81,7 +81,7 @@
         jObject["listType"] = $("#listType").val();
         $('#liste').html("");
         $.ajax({
-            url: '/Transfer/Stock',
+            url: '/WMS/Transfer/Stock',
             type: 'POST',
             data: { Id: JSON.stringify(jObject) },
             success: function (data) {

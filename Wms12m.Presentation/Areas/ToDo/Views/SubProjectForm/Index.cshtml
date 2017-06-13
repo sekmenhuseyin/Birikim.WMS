@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div class="portlet-body form">
-                        @using (Ajax.BeginForm("Save", "ProjectForm", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
+                        @using (Ajax.BeginForm("Save", "ProjectForm", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
                         {
                             @Html.HiddenFor(model => model.ID)
                             @Html.AntiForgeryToken()
@@ -103,8 +103,8 @@
             }
         });
     });
-    var DeleteFunctionUrl = '@Url.Action("Delete", "SubProjectForm")';
-    PartialView("/SubProjectForm/List", 'liste');
+    var DeleteFunctionUrl = '/ToDo/SubProjectForm/Delete';
+    PartialView("/ToDo/SubProjectForm/List", 'liste');
     function CreateEdit(Id) {
         if (Id == 0) {
             $("#ID").val("0");
@@ -113,10 +113,10 @@
             $("#KarsiForumlu").val("");
             $("#Aciklama").val("");
             $("#MesaiKota").val("");
-            PartialView("/SubProjectForm/List", 'liste');
+            PartialView("/ToDo/SubProjectForm/List", 'liste');
         }
         else
-        { PartialView("/SubProjectForm/Edit", 'CreateEdit', JSON.stringify({ Id: Id })); }
+        { PartialView("/ToDo/SubProjectForm/Edit", 'CreateEdit', JSON.stringify({ Id: Id })); }
 
     }
     </script>
