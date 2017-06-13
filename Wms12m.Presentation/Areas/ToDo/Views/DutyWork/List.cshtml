@@ -1,0 +1,57 @@
+﻿@model IEnumerable<GorevCalisma>
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Görevler Listesi
+        </div>
+    </div>
+    <div class="portlet-body form p-40">
+        <table class="table table-striped table-bordered table-hover" id="sample_1">
+            <thead>
+                <tr>
+                    <th>
+                        Tarih
+                    </th>
+                    <th>
+                        Çalışma Süre
+                    </th>
+                    <th>
+                         Çalışma
+                    </th>
+                    <th>
+                       Sorumlu
+                    </th>
+
+                    <th></th>
+                </tr>
+
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tarih)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CalismaSure)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Calisma)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Gorevler.Sorumlu)
+                        </td>
+                        <td>
+                            <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Duties/List','liste','@item.ID')"> Sil </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+<script>$(document).ready(function () { $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>
