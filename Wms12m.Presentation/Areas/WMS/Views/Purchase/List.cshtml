@@ -20,7 +20,7 @@
                                     <td>
                                         <button class="btn btn-primary input-circle" onclick="CopyValues('@item.ID','@item.EvrakNo','@item.Tarih.FromOADateInt()')">Seç</button>
                                         @if (ViewBag.Yetki == true && item.Onay == false) {<button class="btn btn-default input-circle" onclick="ChangeMiktar('@item.EvrakNo','@item.ID')">Evrak No Değiştir</button>}
-                                        @if (ViewBag.Yetki2 == true && item.Onay == false) {<button class="btn btn-danger input-circle" onclick="Delete('@item.ID', '/WMS/Purchase/List/@ViewBag.id', 'modalEditPage', '0', '/Purchase/Delete1')">Sil</button>}
+                                        @if (ViewBag.Yetki2 == true && item.Onay == false) {<button class="btn btn-danger input-circle" onclick="Delete('@item.ID', '/WMS/Purchase/List/@ViewBag.id', 'modalEditPage', '0', '/WMS/Purchase/Delete1')">Sil</button>}
                                     </td>
                                 </tr>
                             }
