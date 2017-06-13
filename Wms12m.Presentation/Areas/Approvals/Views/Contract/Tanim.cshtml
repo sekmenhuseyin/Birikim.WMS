@@ -188,9 +188,9 @@
             </div>
 
             @*<div class="input_content vade_content">
-                <div class="input_label">Vade Tarihi</div>
-                <div class="input "><input class="form-control" id="p_vade_tarihi" name="date" type="text" style="font-size:10px;font-weight:bold;height:36px;"/></div>
-            </div>*@
+                    <div class="input_label">Vade Tarihi</div>
+                    <div class="input "><input class="form-control" id="p_vade_tarihi" name="date" type="text" style="font-size:10px;font-weight:bold;height:36px;"/></div>
+                </div>*@
 
             <div class="input_content valor_content">
                 <div class="input_label">Valor Gün</div>
@@ -315,6 +315,7 @@
         var satirsayisi = 0;
         var TempKalite = "";
         var element = new Array();
+        var srNo = "@ViewBag.SRNO"
         $(document).ready(function () {
             //var date_input = $('input[name="date"]'); //our date input has the name "date"
             var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
@@ -330,9 +331,9 @@
                 todayHighlight: true,
                 autoclose: true,
                 onSelect: function () {
-                   
+
                     //var dateTypeVar = $(this).datepicker('getDate');
-                    console.log($(this).datepicker({ dateFormat: 'yy-mm-dd' }).val()); 
+                    console.log($(this).datepicker({ dateFormat: 'yy-mm-dd' }).val());
                 }
             });
             //date_input.datepicker(options);
@@ -431,7 +432,7 @@
                 width: "25%"
             });
 
-            $(".txt_sira_no").dxTextBox("instance").option("value", "545");
+            $(".txt_sira_no").dxTextBox("instance").option("value", srNo);
             $(".numb_baglanti_tutari").dxTextBox({
                 mode: "fixed-point",
                 value: 0,
@@ -1001,7 +1002,7 @@
 
         $('.temizle-buton').click(function () {
             inputClear();
-            $(".txt_sira_no").dxTextBox("instance").option("value", "333");
+            $(".txt_sira_no").dxTextBox("instance").option("value", SRNO);
             $(".select_sozlesmeler").dxLookup("instance").option("value", null);
             $(".swtch_sozlesme_durumu").dxSwitch("instance").option("value", true);
             $(".swtch_vade_valor").dxSwitch("instance").option("value", true);

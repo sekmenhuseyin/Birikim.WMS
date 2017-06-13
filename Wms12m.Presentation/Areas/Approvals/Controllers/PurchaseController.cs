@@ -38,7 +38,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
             MyGlobalVariables.DovizDurum = false;
             MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", "17")).ToList();
-            return View(MyGlobalVariables.SipTalepList);
+            return View("GM_Onay", MyGlobalVariables.SipTalepList);
         }
 
         public PartialViewResult SipGMOnayList(string HesapKodu, int SipTalepNo)

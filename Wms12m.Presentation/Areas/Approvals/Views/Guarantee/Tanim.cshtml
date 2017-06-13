@@ -370,6 +370,10 @@
                         if(data=="OK"){
                             window.location.reload();
                         }
+                        else {
+                            Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
+                            return;
+                        }
                     }
                 });
             }
@@ -412,7 +416,13 @@
                 data: { Data: JSON.stringify(jObject) },
                 type: "post",
                 success: function (data) {
-
+                    if (data == "OK") {
+                        window.location.reload();
+                    }
+                    else {
+                        Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
+                        return;
+                    }
                 }
             });
             return _dfd.promise();
