@@ -20,6 +20,8 @@ namespace Wms12m.Presentation.Controllers
                 "WHERE (wms.Yer_Log.DepoID = {1}) AND (wms.Yer_Log.MalKodu = '{2}') " +
                 "ORDER BY wms.Yer_Log.KayitTarihi, wms.Yer_Log.KayitSaati", depoKodu, depoID, malkodu);
             var list = db.Database.SqlQuery<downStockHistory>(sql).ToList();
+            //log
+            LogActions("", "Download", "StockHistory", ComboItems.alİndir, "DepoID: " + depoID.ToString() + ", MalKodu: " + malkodu, "");
             //export
             Export export = new Export();
             export.ToExcel(Response, list, depoKodu + " depoda " + malkodu + "için Stok Hareketleri");
@@ -32,6 +34,8 @@ namespace Wms12m.Presentation.Controllers
             //listeyi getir
             string sql = string.Format("SELECT HucreAd, MalKodu, Birim, FORMAT(Miktar, 'N', 'tr-TR') AS Miktar FROM wms.Yer WHERE (KatID = {0}) ORDER BY MalKodu", KatID);
             var list = db.Database.SqlQuery<downStock>(sql).ToList();
+            //log
+            LogActions("", "Download", "Stock", ComboItems.alİndir, "KatID: " + KatID.ToString(), "");
             //export
             Export export = new Export();
             export.ToExcel(Response, list, "Stok");

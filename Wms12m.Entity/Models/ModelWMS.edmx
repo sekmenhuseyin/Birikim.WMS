@@ -1087,6 +1087,17 @@
         <Function Name="GetUserPermsFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
         </Function>
+        <Function Name="LogActions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Site" Type="varchar" Mode="In" />
+          <Parameter Name="Area" Type="varchar" Mode="In" />
+          <Parameter Name="Controller" Type="varchar" Mode="In" />
+          <Parameter Name="Action" Type="varchar" Mode="In" />
+          <Parameter Name="Type" Type="int" Mode="In" />
+          <Parameter Name="IpAddress" Type="varchar" Mode="In" />
+          <Parameter Name="Request" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Details" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="Machine" Type="varchar" Mode="In" />
@@ -1767,6 +1778,17 @@
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="ProjeForm1" EntitySet="ProjeForms" />
           </AssociationSet>
+          <FunctionImport Name="LogActions">
+            <Parameter Name="Site" Mode="In" Type="String" />
+            <Parameter Name="Area" Mode="In" Type="String" />
+            <Parameter Name="Controller" Mode="In" Type="String" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+            <Parameter Name="Type" Mode="In" Type="Int32" />
+            <Parameter Name="IpAddress" Mode="In" Type="String" />
+            <Parameter Name="Request" Mode="In" Type="String" />
+            <Parameter Name="Details" Mode="In" Type="String" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3585,6 +3607,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="LogActions" FunctionName="MModel.Store.LogActions" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

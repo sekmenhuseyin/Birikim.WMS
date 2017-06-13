@@ -43,6 +43,13 @@ namespace Wms12m.Presentation
             db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, inner, page);
         }
         /// <summary>
+        /// işlem kaydı
+        /// </summary>
+        public void LogActions(string area, string controller, string action, ComboItems type, string request, string details)
+        {
+            db.LogActions("WMS", area, controller, action, type.ToInt32(), fn.GetIPAddress(), request, details, vUser.UserName);
+        }
+        /// <summary>
         /// her bir sayfa için yetki kontrolü yapar
         /// </summary>
         public bool CheckPerm(string permName, PermTypes permtype)

@@ -10,16 +10,28 @@ namespace Wms12m
         /// </summary>
         public void Logger(string username, Exception ex, string page)
         {
-            WMSEntities db = new WMSEntities();
-            Functions fn = new Functions();
-            string inner = "";
-            if (ex.InnerException != null)
+            using (WMSEntities db = new WMSEntities())
             {
-                inner = ex.InnerException == null ? "" : ex.InnerException.Message;
-                if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+                Functions fn = new Functions();
+                string inner = "";
+                if (ex.InnerException != null)
+                {
+                    inner = ex.InnerException == null ? "" : ex.InnerException.Message;
+                    if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
+                }
+                db.Logger(username, "", fn.GetIPAddress(), ex.Message, inner, page);
             }
-            db.Logger(username, "", fn.GetIPAddress(), ex.Message, inner, page);
-            db.Dispose();
+        }
+        /// <summary>
+        /// işlem kaydı
+        /// </summary>
+        public void LogActions(string area, string controller, string action, ComboItems type, string request, string details, string username)
+        {
+            using (WMSEntities db = new WMSEntities())
+            {
+                Functions fn = new Functions();
+                db.LogActions("WMS", area, controller, action, type.ToInt32(), fn.GetIPAddress(), request, details, username);
+            }
         }
     }
 }
