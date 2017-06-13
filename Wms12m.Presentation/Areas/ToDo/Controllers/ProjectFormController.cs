@@ -102,33 +102,5 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }
-
-        //// GET: MainProjectForm/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    ProjeForm projeForm = db.ProjeForms.Find(id);
-        //    if (projeForm == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(projeForm);
-        //}
-
-
-        //// POST: MainProjectForm/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    ProjeForm projeForm = db.ProjeForms.Find(id);
-        //    db.ProjeForms.Remove(projeForm);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
-
     }
 }
