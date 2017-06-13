@@ -50,7 +50,7 @@
         var html = "<tr style='background: transparent;'><th>Müşteri</th><th>Miktar</th><th>Tarih</th></tr>";
         $.ajax({
             type: 'POST',
-            url: '/Stock/CableMovements',
+            url: '/WMS/Stock/CableMovements',
             data: { "ID": d },
             dataType: "json",
             success: function (data) {

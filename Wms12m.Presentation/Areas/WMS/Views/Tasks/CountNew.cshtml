@@ -6,7 +6,7 @@
                 <div class="modal-body">
                     <h4>Görev Ekle</h4>
                     <p>Buradan seçeceğiniz depoya bir kontrollü sayım görevi eklenecektir. Eğer seçili depoda böyle bir görev aktif olarak varsa yeniden eklenmeyecektir.</p>
-                    @using (Ajax.BeginForm("SaveNew", "Tasks", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresultnew", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal", id = "frmNew" }))
+                    @using (Ajax.BeginForm("SaveNew", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresultnew", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal", id = "frmNew" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

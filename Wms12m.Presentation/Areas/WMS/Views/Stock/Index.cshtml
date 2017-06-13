@@ -70,7 +70,7 @@
         $("#BolumID option").remove();
         $("#KatID option").remove();
         $.ajax({
-            url: "/Shelf/ShelfList2/" + id,
+            url: "/Constants/Shelf/ShelfList2/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -89,7 +89,7 @@
         $("#BolumID option").remove();
         $("#KatID option").remove();
         $.ajax({
-            url: "/Section/SectionList/" + id,
+            url: "/Constants/Section/SectionList/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -107,7 +107,7 @@
         $('#Grid').html("");
         $("#KatID option").remove();
         $.ajax({
-            url: "/Floor/FloorList/" + id,
+            url: "/Constants/Floor/FloorList/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',

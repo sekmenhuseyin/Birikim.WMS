@@ -18,7 +18,7 @@
                     <i class="fa fa-gift"></i>Ekle
                 </div>
                 <div class="col-md-1 pull-right m-t-5">
-                    @using (Ajax.BeginForm("Stock", "Uploads", null, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                    @using (Ajax.BeginForm("Stock", "Uploads", new { area = "WMS" }, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         <a id="linkUpload" class="btn btn-warning showlater">Yükle</a>
@@ -29,7 +29,7 @@
                 <div class="col-md-1 pull-right m-t-5"><a id="btnSablon" href="~/Content/StockSablon.xlsx" class="btn btn-default showlater">Şablon İndir</a></div>
            </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("ManualPlacement", "Stock", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "FuncSearchBtn()", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("ManualPlacement", "Stock", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "FuncSearchBtn()", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -149,7 +149,7 @@
         $("#KatID option").remove();
         checkEnabled();
         $.ajax({
-            url: "/Shelf/ShelfList2/" + id,
+            url: "/Constants/Shelf/ShelfList2/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -168,7 +168,7 @@
         $("#BolumID option").remove();
         $("#KatID option").remove();
         $.ajax({
-            url: "/Section/SectionList/" + id,
+            url: "/Constants/Section/SectionList/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -186,7 +186,7 @@
         $('#FloorGrid').html("");
         $("#KatID option").remove();
         $.ajax({
-            url: "/Floor/FloorList/" + id,
+            url: "/Constants/Floor/FloorList/" + id,
             type: 'POST',
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
@@ -207,7 +207,7 @@
     function getBirims(id) {
         $("#Birim option").remove();
         $.ajax({
-            url: "/Purchase/getBirim",
+            url: "/WMS/Purchase/getBirim",
             type: 'POST',
             data: JSON.stringify({ kod: id, s: @ViewBag.SirketID }),
             dataType: "json",
@@ -224,7 +224,7 @@
         });
     }
     $("#MalKodu").autocomplete({
-        source: "/Purchase/getMalzemebyCode/@ViewBag.SirketID",
+        source: "/WMS/Purchase/getMalzemebyCode/@ViewBag.SirketID",
             minLength: 2,
             select: function (event, ui) {
                 getBirims(ui.item.id);

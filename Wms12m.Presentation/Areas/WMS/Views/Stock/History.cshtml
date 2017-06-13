@@ -6,7 +6,7 @@
 <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/assets/global/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/datatables/extensions/Buttons/css/buttons.bootstrap.min.css" rel="stylesheet" />
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Stock">Stok</a><i class="fa fa-circle"></i></li><li><span>Hareketler</span></li></ul></div>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Stock">Stok</a><i class="fa fa-circle"></i></li><li><span>Hareketler</span></li></ul></div>
 <h1 class="page-title">Stok Hareketleri</h1>
 <div class="row">
     <div class="col-md-12">
@@ -58,10 +58,10 @@
     function FuncSearchBtn() {
         if ($("#MalKodu").val() == "" || $("#DepoID").val() == "") return;
         $('#Grid').html("");
-        PartialView('/Stock/HistoryList', 'Grid', JSON.stringify({ Id: $("#MalKodu").val() + "#" + $("#DepoID").val() }));
+        PartialView('//WMSStock/HistoryList', 'Grid', JSON.stringify({ Id: $("#MalKodu").val() + "#" + $("#DepoID").val() }));
     }
     $("#MalKodu").autocomplete({
-        source: "/Purchase/getMalzemebyCode/@ViewBag.SirketID",
+        source: "/WMS/Purchase/getMalzemebyCode/@ViewBag.SirketID",
         minLength: 2,
         select: function (event, ui) {
             getBirims(ui.item.id);
@@ -71,7 +71,7 @@
     function getBirims(id) {
         $("#Birim option").remove();
         $.ajax({
-            url: "/Purchase/getBirim",
+            url: "/WMS/Purchase/getBirim",
             type: 'POST',
             data: JSON.stringify({ kod: id, s: @ViewBag.SirketID }),
             dataType: "json",

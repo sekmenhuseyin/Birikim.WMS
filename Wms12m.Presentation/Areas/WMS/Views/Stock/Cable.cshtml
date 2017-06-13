@@ -7,7 +7,7 @@
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
 </style>
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Stock">Stok</a><i class="fa fa-circle"></i></li><li><span>Kablo Stok</span></li></ul></div>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Stock">Stok</a><i class="fa fa-circle"></i></li><li><span>Kablo Stok</span></li></ul></div>
 <h1 class="page-title">Kablo Stok</h1>
 <div class="row">
     <div class="col-md-12">
@@ -44,7 +44,7 @@
         var StoreId = $("#DepoID option:selected").val(); if (StoreId == null || StoreId == 0) StoreId = 0;
         $('#Grid').html("");
         if (StoreId == 0) return;
-        PartialView('/Stock/CableList', 'Grid', JSON.stringify({ Id: (StoreId) }));
+        PartialView('/WMS/Stock/CableList', 'Grid', JSON.stringify({ Id: (StoreId) }));
     }
 </script>
 }
