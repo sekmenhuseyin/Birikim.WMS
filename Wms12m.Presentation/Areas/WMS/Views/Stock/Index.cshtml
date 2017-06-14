@@ -124,7 +124,7 @@
     function FuncSearchBtn() {
         if ($("#KatID").val() == "" || $("#KatID").val() == null) return;
         $('#Grid').html("");
-        PartialView("/Stock/List", 'Grid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
+        PartialView("/WMS/Stock/List", 'Grid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
     }
 </script>
 }

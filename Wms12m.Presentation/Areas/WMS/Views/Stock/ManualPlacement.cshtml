@@ -202,7 +202,7 @@
     }
     function FuncSearchBtn() {
         $('#FloorGrid').html("");
-        PartialView("/Stock/List", 'FloorGrid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
+        PartialView("/WMS/Stock/List", 'FloorGrid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
     }
     function getBirims(id) {
         $("#Birim option").remove();
