@@ -491,17 +491,17 @@
                             for (var i = 0; i < silinecek.length; i++) {
                                 if (id == 3) {
                                     if (silinecek[i]["SatisFiyat1"] > 0) {
-                                        if (silinecek[i]["SF1Birim"]==null) {
+                                        if (silinecek[i]["SF1Birim"]=="") {
                                             Modaldialog("Birim Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
                                             return;
                                         }
                                     }
                                     if (silinecek[i]["DvzSatisFiyat1"] > 0) {
-                                        if (silinecek[i]["DovizSF1Birim"] == null) {
+                                        if (silinecek[i]["DovizSF1Birim"] == "") {
                                             Modaldialog("Döviz Birim Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
                                             return;
                                         }
-                                        if (silinecek[i]["SF1DovizCinsi"] == null) {
+                                        if (silinecek[i]["SF1DovizCinsi"] == "") {
                                             Modaldialog("Döviz Cinsi Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
                                             return;
                                         }
@@ -550,8 +550,3 @@
 
     </script>
 }
-
-
-
-
-

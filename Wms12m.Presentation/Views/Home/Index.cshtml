@@ -100,6 +100,18 @@
             </div>
         </div>
     </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 yellow-casablanca">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Techno IK Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Check/SPGMY">IK: <span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Check/MIGMY">ÜSGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Check/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Check/GM">GM: <span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></a></div>
+            </div>
+        </div>
+    </div>
 </div>
 @{
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true) {<div class="h-500" id="gunluk_satis"></div>}
