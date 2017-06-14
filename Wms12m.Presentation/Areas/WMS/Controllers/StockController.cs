@@ -166,6 +166,48 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 tmp2.Miktar += tbl.Miktar;
                 Yerlestirme.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
             }
+            //add to mysql
+            if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
+            {
+                string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
+                                            "FROM FINSAT6{0}.FINSAT6{0}.STK " +
+                                            "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", db.GetSirketDBs().FirstOrDefault(), tbl.MalKodu);
+                var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
+                if (stks.Count > 0)
+                {
+                    using (KabloEntities dbx = new KabloEntities())
+                    {
+                        string depo;
+                        var kbldepoID = db.Depoes.Where(m => m.ID == vUser.DepoId).Select(m => m.KabloDepoID).FirstOrDefault();
+                        if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
+                        else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
+                        foreach (var itemx in stks)
+                        {
+                            //sid bul
+                            int sid = dbx.indices.Where(m => m.cins == itemx.Nesne2 && m.kesit == itemx.Kod15).Select(m => m.id).FirstOrDefault();
+                            //stoğa kaydet
+                            stok tbls = new stok()
+                            {
+                                marka = itemx.MalAdi4,
+                                cins = itemx.Nesne2,
+                                kesit = itemx.Kod15,
+                                sid = sid,
+                                depo = depo,
+                                renk = "",
+                                makara = "KAPALI",
+                                rezerve = "0",
+                                sure = new TimeSpan(),
+                                tarih = DateTime.Now,
+                                tip = "",
+                                rmiktar = 0,
+                                miktar = tbl.Miktar
+                            };
+                            dbx.stoks.Add(tbls);
+                            dbx.SaveChanges();
+                        }
+                    }
+                }
+            }
             //return
             return Json(true, JsonRequestBehavior.AllowGet);
         }

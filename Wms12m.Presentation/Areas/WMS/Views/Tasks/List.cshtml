@@ -10,7 +10,7 @@
                 <td>@item.ID.GetEvrakNosForGorev()</td>
                 <td>@item.GorevNo</td>
                 <td>@item.ComboItem_Name1.Name</td>
-                <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/GorevliAta/@item.ID')"> @{if (item.Gorevli != null){ @item.Gorevli} else {<text>Görevli Ata</text>}} </a></td>
+                <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/GorevliAta/@item.ID')"> @{if (item.Gorevli != null){ @item.Gorevli} else {<text>Görevli Ata</text>}} </a></td>
                 <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
                 <td>@item.Bilgi</td>
