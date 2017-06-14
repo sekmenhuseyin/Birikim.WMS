@@ -103,7 +103,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                     tbl.IslemTip = 0;
                     tbl.IslemSira = null;
 
-
                 }
                 try
                 {
