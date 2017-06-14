@@ -1,14 +1,4 @@
-﻿@model IEnumerable<GorevDurum>
-<style>
-    td.details-control {
-        background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
-        cursor: pointer;
-    }
-
-    tr.shown td.details-control {
-        background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
-    }
-</style>
+﻿@model IEnumerable<Gorevler>
 <div class="portlet box green">
     <div class="portlet-title">
         <div class="caption">
@@ -23,42 +13,17 @@
                 {
                     <tr  data-ID="@item.ID">
                         <td style="width:20px!important;" class="details-control"></td>
-                        <td>
-                            <a class="btn icon-pencil" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/Duties/Edit/@item.ID')"> Düzenle </a>
-
-                        </td>
-                        <td>
-                            @item.Sorumlu
-                        </td>
-                        <td>
-                            @item.Sorumlu2
-                        </td>
-                        <td>
-                            @item.Sorumlu3
-                        </td>
-                        <td>
-                            @item.Gorev
-                        </td>
-                        <td>
-                            @item.Aciklama
-                        </td>
-
-                        <td>
-                            @item.Oncelik
-                        </td>
-                        <td>
-                            @item.Durum                        
-                                                      
-                        </td>
-                        <td>
-                            @item.GorevTipi
-                        </td>
-                        <td>
-                            @item.Departman
-                        </td>
-                        <td>
-                            @item.TahminiBitis
-                        </td>
+                        <td><a class="btn icon-pencil" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/Duties/Edit/@item.ID')"> Düzenle </a></td>
+                        <td>@item.Sorumlu</td>
+                        <td>@item.Sorumlu2</td>
+                        <td>@item.Sorumlu3</td>
+                        <td>@item.Gorev</td>
+                        <td>@item.Aciklama</td>
+                        <td>@item.ComboItem_Name3.Name</td>
+                        <td>@item.ComboItem_Name1.Name</td>
+                        <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name}</td>
+                        <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name}</td>
+                        <td>@item.TahminiBitis</td>
                         <td>
                             <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewWork/@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
                             <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Duties/List','liste','@item.ID')"> Sil </a>
