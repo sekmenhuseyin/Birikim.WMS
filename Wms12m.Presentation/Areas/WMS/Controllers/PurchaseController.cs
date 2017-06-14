@@ -140,7 +140,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 foreach (var item in tbl)
                 {
-                    string sql = String.Format("SELECT EvrakNo, Tarih, SiraNo, MalKodu, BirimMiktar, (BirimMiktar - TeslimMiktar - KapatilanMiktar) AS Miktar, Birim FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0) AND (MalKodu = '{2}') AND (Birim = '{3}') AND (EvrakNo = '{4}')", s, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo);
+                    string sql = String.Format("SELECT EvrakNo, Tarih, SiraNo, MalKodu, BirimMiktar, (BirimMiktar - TeslimMiktar - KapatilanMiktar) AS Miktar, Birim, DegisSaat FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0) AND (MalKodu = '{2}') AND (Birim = '{3}') AND (EvrakNo = '{4}')", s, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo);
                     try
                     {
                         var tempTbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
@@ -154,6 +154,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             KynkSiparisNo = tempTbl.EvrakNo,
                             KynkSiparisSiraNo = tempTbl.SiraNo,
                             KynkSiparisTarih = tempTbl.Tarih,
+                            KynkDegisSaat = tempTbl.DegisSaat,
                             MalKodu = tempTbl.MalKodu,
                             Miktar = item.Miktar > 0 ? item.Miktar : tempTbl.Miktar
                         };

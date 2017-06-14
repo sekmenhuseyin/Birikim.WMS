@@ -359,6 +359,7 @@
           <Property Name="KynkSiparisSiraNo" Type="smallint" />
           <Property Name="KynkSiparisTarih" Type="int" />
           <Property Name="KynkSiparisMiktar" Type="numeric" Precision="25" Scale="6" />
+          <Property Name="KynkDegisSaat" Type="int" />
           <Property Name="OkutulanMiktar" Type="numeric" Precision="25" Scale="6" />
           <Property Name="YerlestirmeMiktari" Type="numeric" Precision="25" Scale="6" />
         </EntityType>
@@ -2029,6 +2030,7 @@
           <Property Name="OkutulanMiktar" Type="Decimal" Precision="25" Scale="6" />
           <Property Name="YerlestirmeMiktari" Type="Decimal" Precision="25" Scale="6" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_IRS_Detay_IRS" FromRole="IRS_Detay" ToRole="IR" />
+          <Property Name="KynkDegisSaat" Type="Int32" />
         </EntityType>
         <EntityType Name="Koridor">
           <Key>
@@ -3186,6 +3188,7 @@
           <EntitySetMapping Name="IRS_Detay">
             <EntityTypeMapping TypeName="MModel.IRS_Detay">
               <MappingFragment StoreEntitySet="IRS_Detay">
+                <ScalarProperty Name="KynkDegisSaat" ColumnName="KynkDegisSaat" />
                 <ScalarProperty Name="YerlestirmeMiktari" ColumnName="YerlestirmeMiktari" />
                 <ScalarProperty Name="OkutulanMiktar" ColumnName="OkutulanMiktar" />
                 <ScalarProperty Name="KynkSiparisMiktar" ColumnName="KynkSiparisMiktar" />
