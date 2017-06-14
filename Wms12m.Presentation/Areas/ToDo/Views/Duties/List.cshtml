@@ -17,47 +17,8 @@
     </div>
     <div class="portlet-body form p-40">
         <table class="table table-striped table-responsive table-bordered" id="sample_1">
-            <thead>
-                <tr>
-                    <th>Çalışma</th>
-                    <th>Düzenle</th>
-                    <th>
-                        Sorumlu
-                    </th>
-                    <th>
-                        Sorumlu 2
-                    </th>
-                    <th>
-                        Sorumlu 3
-                    </th>
-                    <th>
-                       Görev
-                    </th>
-                    <th>
-                        Açıklama
-                    </th>
-                    <th>
-                        Öncelik
-                    </th>
-                    <th>
-                        Durum
-                    </th>
-                    <th>
-                        Görev Tipi
-                    </th>
-                    <th>
-                        Departman
-                    </th>
-                    <th>
-                        Tahmini Bitiş
-                    </th>
-
-                    <th></th>
-                </tr>
-
-            </thead>
+            <thead><tr><th>Çalışma</th><th>Düzenle</th><th>Sorumlu</th><th>Sorumlu 2</th><th>Sorumlu 3</th><th>Görev</th><th>Açıklama</th><th>Öncelik</th><th>Durum</th><th>Görev Tipi</th><th>Departman</th><th>Tahmini Bitiş</th><th></th></tr></thead>
             <tbody>
-
                 @foreach (var item in Model)
                 {
                     <tr  data-ID="@item.ID">
@@ -67,36 +28,36 @@
 
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Sorumlu)
+                            @item.Sorumlu
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Sorumlu2)
+                            @item.Sorumlu2
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Sorumlu3)
+                            @item.Sorumlu3
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Gorev)
+                            @item.Gorev
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Aciklama)
+                            @item.Aciklama
                         </td>
 
                         <td>
-                            @Html.DisplayFor(modelItem => item.Oncelik)
+                            @item.Oncelik
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Durum)                           
+                            @item.Durum                        
                                                       
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.GorevTipi)
+                            @item.GorevTipi
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Departman)
+                            @item.Departman
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.TahminiBitis)
+                            @item.TahminiBitis
                         </td>
                         <td>
                             <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewWork/@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
@@ -111,24 +72,16 @@
 </div>
 <script language="text/javascript">
     $(document).ready(function () {
-
-        setTimeout(function () { $('.details-control').removeClass("sorting_1"); }, 100);
-
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             initComplete: function () {
-
-                console.log("1");
-
                 this.api().columns([1, 2, 3, 4, 6, 7]).every(function () {
-                    console.log("2");
                     var column = this;
                     var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
                         .appendTo($(column.header()))
                         .on('change', function () {
-                            console.log("3");
                             var val = $.fn.dataTable.util.escapeRegex($(this).val());
                             column.search(val ? '^' + val + '$' : '', true, false).draw();
                         });
