@@ -203,7 +203,6 @@
                 displayExpr: 'FiyatListName',
 
                 onValueChanged: function (e) {
-                    console.log(e.value);
                     listeNo=e.value;
                 },
 
@@ -435,7 +434,6 @@
                             }
                         },
                         onCellPrepared: function (info) {
-                            console.log(info);
                             if (info.rowType == "data") {
                                 if (info.column.dataField == "Durum" && info.value == "Yeni Kayıt") {
                                     info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
@@ -475,8 +473,6 @@
             jObject["DovizCinsi"] = $(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
             jObject["GrupKod"] = GrupKod;
             jObject["Durum"] = id;
-            console.log(id);
-            console.log(sayac);
             if (id == 1 && (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || jObject["HesapKodu"] == null || (parseFloat(jObject["SatisFiyat"]) == 0 && parseFloat(jObject["DovizSatisFiyat"]) == 0) || (parseFloat(jObject["SatisFiyat"]) > 0 && jObject["Birim"] == null) || (parseFloat(jObject["DovizSatisFiyat"]) > 0 && jObject["DovizBirim"] == null && jObject["DovizCinsi"] == null))) {
                 Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
                 return;
@@ -495,20 +491,17 @@
                             for (var i = 0; i < silinecek.length; i++) {
                                 if (id == 3) {
                                     if (silinecek[i]["SatisFiyat1"] > 0) {
-                                        console.log(silinecek[i]["SF1Birim"]);
                                         if (silinecek[i]["SF1Birim"]=="") {
                                             Modaldialog("Birim Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
                                             return;
                                         }
                                     }
                                     if (silinecek[i]["DvzSatisFiyat1"] > 0) {
-                                        console.log(silinecek[i]["DovizSF1Birim"]);
                                         if (silinecek[i]["DovizSF1Birim"] == "") {
                                             Modaldialog("Döviz Birim Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
                                             return;
                                         }
                                         if (silinecek[i]["SF1DovizCinsi"] == "") {
-                                            console.log(silinecek[i]["SF1DovizCinsi"]);
                                             Modaldialog("Döviz Cinsi Girmelisiniz. Mal Kodu : " + silinecek[i]["MalKodu"], "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
                                             return;
                                         }
@@ -557,8 +550,3 @@
 
     </script>
 }
-
-
-
-
-

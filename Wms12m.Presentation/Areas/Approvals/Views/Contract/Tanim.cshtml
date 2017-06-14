@@ -317,26 +317,15 @@
         var element = new Array();
         var srNo = "@ViewBag.SRNO"
         $(document).ready(function () {
-            //var date_input = $('input[name="date"]'); //our date input has the name "date"
             var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-            //var options = {
-            //    format: 'mm/dd/yyyy',
-            //    container: container,
-            //    todayHighlight: true,
-            //    autoclose: true,
-            //};
             $('#p_vade_tarihi').datepicker({
                 format: 'mm-dd-yyyy',
                 container: container,
                 todayHighlight: true,
                 autoclose: true,
                 onSelect: function () {
-
-                    //var dateTypeVar = $(this).datepicker('getDate');
-                    console.log($(this).datepicker({ dateFormat: 'yy-mm-dd' }).val());
                 }
             });
-            //date_input.datepicker(options);
             $(".form-rounded").css("border-radius", "1rem");
             $(".sozlesme-guncelle-buton").addClass('disabled');
             DevExpress.ui.dxOverlay.baseZIndex(20000);
@@ -352,8 +341,6 @@
                 formatString: 'dd/MM/yyyy',
                 width: "60%",
                 onValueChanged: function (e) {
-                    console.log(e.value);
-                    //oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
                 }
             });
             $(".date_bitis_tarihi").dxDateBox({
@@ -447,14 +434,8 @@
                     }
                 },
                 onValueChanged: function (e) {
-                    //if (e.value.toString().indexOf(",") < 1) {
                     var deger = ondalikBinlik(e.value)
                     e.component.option("value", deger);
-                    //}
-                    //else {
-                    //    var deger = ondalikBinlik(e.value)
-                    //    e.component.option("value", deger);
-                    //}
                 }
 
             });

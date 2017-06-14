@@ -16,6 +16,9 @@ namespace Wms12m.Entity.Models
     {
         public int UserID { get; set; }
         public string Device { get; set; }
+        public System.DateTime FirsLoginDate { get; set; }
+        public System.DateTime LastLoginDate { get; set; }
+        public bool Approved { get; set; }
     
         public virtual User User { get; set; }
     }

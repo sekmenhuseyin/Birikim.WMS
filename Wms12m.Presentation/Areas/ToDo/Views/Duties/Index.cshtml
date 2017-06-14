@@ -11,6 +11,8 @@
 <style>
 .control-label {text-align: right;color: black;}
 textarea {border-radius: 1rem !important;}
+td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
 </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görevler</span></li></ul></div>
 <h1 class="page-title">Görev İşlemleri</h1>
@@ -48,9 +50,6 @@ textarea {border-radius: 1rem !important;}
         $('.date-picker').datepicker();
         $(".form-rounded").css("border-radius", "1rem");
     });
-    $('.form-rounded').click(function () {
-        console.log("qwer");
-    });
     var DeleteFunctionUrl = '/ToDo/Duties/Delete';
     PartialView("/ToDo/Duties/List", 'liste');
     function CreateEdit(Id) {
@@ -67,7 +66,6 @@ textarea {border-radius: 1rem !important;}
         }
         function newrow(id) { return "<table style='background:transparent;' id='new" + id + "'></table>"; }
         function format(d) {
-
             var html = "<tr style='background: transparent;'><th>Tarih</th > <th>Çalışma Süre</th><th>Çalışma</th><th>Sorumlu</th></tr >";
             $.ajax({
                 type: 'POST',
@@ -75,7 +73,6 @@ textarea {border-radius: 1rem !important;}
                 data: { "ID": d },
                 dataType: "html",
                 success: function (data) {
-                    console.log(data);
                     $('#new' + d).html(data);
                 }
             });

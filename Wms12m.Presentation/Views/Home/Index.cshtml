@@ -25,6 +25,35 @@
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 green" href="/Users">
+            <div class="visual"><i class="fa fa-shopping-cart"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.kull">@Model.kull</span></div>
+                <div class="desc"> Kullanıcı Sayısı </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 blue" href="/Tasks">
+            <div class="visual"><i class="fa fa-comments"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.gorev">@Model.gorev</span></div>
+                <div class="desc"> Açık Görevler </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 purple" href="/Transfer">
+            <div class="visual"><i class="fa fa-globe"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.transfer">@Model.transfer</span></div>
+                <div class="desc"> Depolar Arası Transfer </div>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a class="dashboard-stat dashboard-stat-v2 green" href="/Approvals/Stock">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details">
@@ -53,8 +82,6 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="dashboard-stat dashboard-stat-v2 blue-chambray">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
@@ -66,6 +93,8 @@
             </div>
         </div>
     </div>
+</div>
+<div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="dashboard-stat dashboard-stat-v2 green-jungle">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>

@@ -77,7 +77,6 @@
     else {
 
         $('tbody').last().remove();
-        @*@Html.Raw(Json.Encode(ViewBag.Satir));*@
         var elementt = @Html.Raw(Json.Encode(ViewBag.Satir));
         $(elementt).insertAfter($(".aaaaa"));
         setTimeout(function(){ $("#sample_1_info").text("Satır Eklendi"); }, 500);
