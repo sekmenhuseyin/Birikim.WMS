@@ -39,6 +39,13 @@ function fromOADate(oadate) {
     var tz = date.getTimezoneOffset();
     return formatDate(new Date(((oadate - 25569 + (tz / (60 * 24))) * 86400000)));
 };
+//tarih kutusundaki tarihi oadate yapar
+function toOADateFromString(date) {
+    var g = date.substr(0, 2);
+    var m = date.substr(3, 2) - 1;
+    var y = date.substr(6, 4);
+    return Math.ceil((new Date(Date.UTC(y, m, g)) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+};
 //oadate yapar
 function toOADate(date) {
     var timezoneOffset = date.getTimezoneOffset() / (60 * 24);

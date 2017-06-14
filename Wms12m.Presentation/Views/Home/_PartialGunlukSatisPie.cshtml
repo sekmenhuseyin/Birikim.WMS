@@ -1,8 +1,4 @@
 ﻿@model List<ChartGunlukSatisAnalizi>
-<style>
-    .gsp_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
-    .gsp_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
-</style>
 <div class="row">
     <div class="col-md-12 m-t-40">
         <div class="portlet light bordered">
@@ -15,7 +11,7 @@
                     @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID1", @onchange = "Reload1(this.value)" })
                 </div>
                 <div class="col-md-3 p-l-30">
-                    <div id="tarih" class="gsp_tarih" style="width:200px;"></div>
+                    <input type="text" class="form-control w-100" id="gsp_tarih" value="@ViewBag.tarih2" />
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
@@ -41,20 +37,16 @@
         PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: v, tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#gsp_tarih").datepicker().on("change", function (e) {
+            var oaDate = toOADateFromString(e.target.value);
+                PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
+        });
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
             $.extend(model[i],{ color: color[i%color.length] });
         }
-        $(".gsp_tarih").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd.MM.yyyy',
-            value:f_tarih,
-            onValueChanged: function (e) {
-                var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
-            }
-        });
         var ChartsAmchartsh = function () {
             var initChartSample7 = function () {
                 var chart = AmCharts.makeChart("chart_7", {
