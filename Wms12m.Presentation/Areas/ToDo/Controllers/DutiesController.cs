@@ -13,15 +13,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         // GET: MainProjectForm/Create
         public ActionResult Index()
         {
-            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
-            ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
-            ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
-            ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
-            ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje");
-            ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
-            ViewBag.Sorumlu2 = ViewBag.Sorumlu;
-            ViewBag.Sorumlu3 = ViewBag.Sorumlu;
-            return View(new Gorevler());
+            return View();
         }
 
         public PartialViewResult New()

@@ -30,19 +30,19 @@ namespace Wms12m
             var user = new User() { Kod = userID.Left(5), Sifre = sifre };
             //log in actions
             var person = new Persons();
-            var result = person.Login(user);
+            var result = person.Login(user, "Terminal");
             //check result
             if (result.Id > 0)
             {
                 if (db.Users.Where(m => m.ID == result.Id).FirstOrDefault().UserDetail == null)
                 {
-                    db.LogLogins(userID, "terminal", false, "Depoya ait bir yetkiniz yok!");
+                    db.LogLogins(userID, "Terminal", false, "Depoya ait bir yetkiniz yok!");
                     return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok!" };
                 }
                 else
                     try
                     {
-                        db.LogLogins(userID, "terminal", true, "");
+                        db.LogLogins(userID, "Terminal", true, "");
                         var tbl = db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, Guid = m.Guid.ToString(), AdSoyad = m.AdSoyad, DepoKodu = m.UserDetail.Depo.DepoKodu, DepoID = m.UserDetail.Depo.ID }).FirstOrDefault();
                         tbl.Guid = tbl.Guid.Sifrele();
                         return tbl;
@@ -50,11 +50,11 @@ namespace Wms12m
                     catch (Exception ex)
                     {
                         Logger(ex, "Service/Terminal/Login", userID);
-                        db.LogLogins(userID, "terminal", false, result.Message);
+                        db.LogLogins(userID, "Terminal", false, result.Message);
                     }
             }
             else
-                db.LogLogins(userID, "terminal", false, result.Message);
+                db.LogLogins(userID, "Terminal", false, result.Message);
             return new Login() { ID = 0, AdSoyad = "Hatalı Kullanıcı adı ve şifre!" };
         }
         /// <summary>
@@ -69,22 +69,22 @@ namespace Wms12m
             var tbl = db.Users.Where(m => m.ID == userID).FirstOrDefault();
             if (tbl == null)
             {
-                db.LogLogins(barkod, "terminal", false, "Hatalı barkod");
+                db.LogLogins(barkod, "Terminal", false, "Hatalı barkod");
                 return new Login() { ID = 0, AdSoyad = "Hatalı barkod" };
             }
             if (tbl.Guid.ToString().ToLower().Right(8) != guid)
             {
-                db.LogLogins(barkod, "terminal", false, "Hatalı barkod");
+                db.LogLogins(barkod, "Terminal", false, "Hatalı barkod");
                 return new Login() { ID = 0, AdSoyad = "Hatalı barkod" };
             }
             if (tbl.UserDetail == null)
             {
-                db.LogLogins(barkod, "terminal", false, "Depoya ait bir yetkiniz yok");
+                db.LogLogins(barkod, "Terminal", false, "Depoya ait bir yetkiniz yok");
                 return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok" };
             }
             else
             {
-                db.LogLogins(tbl.Kod, "terminal", true, "");
+                db.LogLogins(tbl.Kod, "Terminal", true, "");
                 return new Login { ID = tbl.ID, Kod = tbl.Kod, Guid = tbl.Guid.Sifrele(), AdSoyad = tbl.AdSoyad, DepoKodu = tbl.UserDetail.Depo.DepoKodu, DepoID = tbl.UserDetail.Depo.ID };
             }
         }

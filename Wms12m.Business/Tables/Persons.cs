@@ -102,30 +102,31 @@ namespace Wms12m.Business
         /// <summary>
         /// giriş işlemleri
         /// </summary>
-        public Result Login(User P)
+        public Result Login(User P, string device)
         {
             _Result = new Result()
             {
                 Status = false,
-                Message = "İşlem Hata !!!",
+                Message = "Hatalı kombinasyon",
                 Id = 0
             };
             try
             {
                 P.Kod = P.Kod.Left(5).ToLower();
                 var tbl = db.Users.Where(a => a.Kod.ToLower() == P.Kod && a.Aktif == true).FirstOrDefault();
-                if (tbl != null)
+                if (tbl != null)//if user exists
                 {
-                    if (P.Sifre == CryptographyExtension.Cozumle(tbl.Sifre))
+                    if (P.Sifre == CryptographyExtension.Cozumle(tbl.Sifre))//if password matches
                     {
+                        //update user device
+                        db.UpdateUserDevice(tbl.ID, device);
+                        //resturn result
                         _Result.Status = true;
                         _Result.Id = tbl.ID;
                         _Result.Message = "İşlem Başarılı";
                         _Result.Data = tbl;
                     }
                 }
-                else
-                    _Result.Message = "Hatalı kombinasyon";
             }
             catch (Exception ex)
             {

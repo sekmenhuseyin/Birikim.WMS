@@ -26,7 +26,7 @@ namespace Wms12m
             var user = new User() { Kod = userID.Left(5), Sifre = sifre };
             //log in actions
             var person = new Persons();
-            var result = person.Login(user);
+            var result = person.Login(user, "Mobile");
             //check result
             if (result.Id > 0)
             {
