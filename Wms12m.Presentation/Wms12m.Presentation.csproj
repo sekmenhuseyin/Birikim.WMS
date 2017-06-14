@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs8432.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs1A88.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs8432.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs1A88.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Charts.v17.1.Core, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
@@ -346,6 +346,7 @@
     <Content Include="Areas\Constants\Views\web.config" />
     <Content Include="Areas\WMS\Views\web.config" />
     <Content Include="Areas\ToDo\Views\web.config" />
+    <Content Include="Areas\Approvals\Views\Techno\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -392,6 +393,7 @@
     <Compile Include="Areas\Approvals\Controllers\OrderController.cs" />
     <Compile Include="Areas\Approvals\Controllers\PriceController.cs" />
     <Compile Include="Areas\Approvals\Controllers\StockController.cs" />
+    <Compile Include="Areas\Approvals\Controllers\TechnoController.cs" />
     <Compile Include="Areas\Constants\ConstantsAreaRegistration.cs" />
     <Compile Include="Areas\Constants\Controllers\CorridorController.cs" />
     <Compile Include="Areas\Constants\Controllers\ShelfController.cs" />
