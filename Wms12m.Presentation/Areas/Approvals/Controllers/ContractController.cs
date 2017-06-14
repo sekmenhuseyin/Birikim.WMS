@@ -1050,9 +1050,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 return "NO";
                             }
                         }
-                        var tempBagTutar = BaglantiTutari.ToString().Replace(@".", "x").Replace(@",", ".").Replace(@"x", ",").ToDecimal();
-
-                        db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, tempBagTutar));
+                        //var tempBagTutar = Convert.ToDecimal(BaglantiTutari.ToString().Replace(@".", "x").Replace(@",", ".").Replace(@"x", ","));
+                        //var tempBagTutar = Convert.ToDecimal(BaglantiTutari.ToString());
+                        string s = string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",","."));
+                        db.Database.ExecuteSqlCommand(s);
 
                         if (kontrol)
                             return SozlesmeSiraNo;
