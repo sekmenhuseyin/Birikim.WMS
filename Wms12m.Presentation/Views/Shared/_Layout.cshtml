@@ -34,14 +34,14 @@
     <div class="page-header navbar navbar-fixed-top">
         <div class="page-header-inner ">
             <div class="page-logo">
-                <a href="@Url.Action("Index", "Home")"><img src="~/Content/images/@setts.TopLogo" alt="logo" class="logo-default m-t-10" /></a>
+                <a href="/"><img src="~/Content/images/@setts.TopLogo" alt="logo" class="logo-default m-t-10" /></a>
             </div>
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
                     <li class="dropdown dropdown-user">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><span class="username username-hide-on-mobile">@ViewBag.User</span><i class="icon-arrow-down"></i></a>
                         <ul class="dropdown-menu dropdown-menu-default">
-                            <li><a href="@Url.Action("LogOut", "Security")"><i class="icon-key"></i> Çıkış</a></li>
+                            <li><a href="/Security/LogOut"><i class="icon-key"></i> Çıkış</a></li>
                         </ul>
                     </li>
 
