@@ -350,7 +350,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 db.SaveChanges();
             }
             //görevlere git
-            return Redirect("/Tasks");
+            return Redirect("/WMS/Tasks");
         }
         /// <summary>
         /// depo ve şirket seçince açık siparişler gelecek
