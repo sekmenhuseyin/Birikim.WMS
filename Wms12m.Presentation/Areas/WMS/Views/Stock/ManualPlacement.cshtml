@@ -72,7 +72,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Mal Adı</label>
                             <div class="col-md-4">
-                                <input class="form-control input-circle" id="MalAdi" name="MalAdi" type="text" readonly="readonly">
+                                <input class="form-control input-circle" id="MalAdi" name="MalAdi" type="text" placeholder="Mal Adı">
                                 <span class="field-validation-valid" data-valmsg-for="MalKodu" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                             <div class="col-md-4" id="MalAdi"></div>
@@ -225,12 +225,20 @@
     }
     $("#MalKodu").autocomplete({
         source: "/WMS/Purchase/getMalzemebyCode/@ViewBag.SirketID",
-            minLength: 2,
-            select: function (event, ui) {
-                getBirims(ui.item.id);
-                $("#MalAdi").val(ui.item.value);
-            }
-        });
+        minLength: 2,
+        select: function (event, ui) {
+            getBirims(ui.item.id);
+            $("#MalAdi").val(ui.item.value);
+        }
+    });
+    $("#MalAdi").autocomplete({
+        source: "/WMS/Purchase/GetMalzemebyName/@ViewBag.SirketID",
+        minLength: 2,
+        select: function (event, ui) {
+            getBirims(ui.item.id);
+            $("#MalAdi").val(ui.item.value);
+        }
+    });
     $(function () {
         $('#linkUpload').click(function () {
             if ($("#DID").val() != "")
