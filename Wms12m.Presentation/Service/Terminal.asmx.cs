@@ -394,6 +394,7 @@ namespace Wms12m
                 {
                     //finish
                     db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32());
+                    //add to stok
                     var KatID = db.GetHucreKatID(item.DepoID, "R-Z-R-V").FirstOrDefault();
                     if (KatID != null)
                     {
@@ -418,6 +419,45 @@ namespace Wms12m
                             {
                                 tmp2.Miktar += item2.Miktar.Value;
                                 stok.Update(tmp2, item.ID, KullID, false, item2.Miktar.Value);
+                            }
+                        }
+                    }
+                    //add to mysql
+                    if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
+                    {
+                        sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15, wms.IRS_Detay.Miktar " +
+                                                    "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                                                    "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", mGorev.IR.SirketKod, mGorev.IrsaliyeID);
+                        var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
+                        if (stks.Count > 0)
+                        {
+                            using (KabloEntities dbx = new KabloEntities())
+                            {
+                                string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
+                                foreach (var itemx in stks)
+                                {
+                                    //sid bul
+                                    int sid = dbx.indices.Where(m => m.cins == itemx.Nesne2 && m.kesit == itemx.Kod15).Select(m => m.id).FirstOrDefault();
+                                    //stoğa kaydet
+                                    stok tbls = new stok()
+                                    {
+                                        marka = itemx.MalAdi4,
+                                        cins = itemx.Nesne2,
+                                        kesit = itemx.Kod15,
+                                        sid = sid,
+                                        depo = depo,
+                                        renk = "",
+                                        makara = "KAPALI",
+                                        rezerve = "0",
+                                        sure = new TimeSpan(),
+                                        tarih = DateTime.Now,
+                                        tip = "",
+                                        rmiktar = 0,
+                                        miktar = itemx.Miktar
+                                    };
+                                    dbx.stoks.Add(tbls);
+                                    dbx.SaveChanges();
+                                }
                             }
                         }
                     }
@@ -529,42 +569,6 @@ namespace Wms12m
             var list = mGorev.IR.IRS_Detay.Where(m => m.IrsaliyeID == mGorev.IrsaliyeID && (m.YerlestirmeMiktari != m.Miktar || m.YerlestirmeMiktari == null)).FirstOrDefault();
             if (list.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
-            //get stk details from all mals
-            string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15, wms.IRS_Detay.Miktar " +
-                                        "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                                        "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", mGorev.IR.SirketKod, mGorev.IrsaliyeID);
-            var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
-            if (stks.Count > 0)
-            {
-                using (KabloEntities dbx = new KabloEntities())
-                {
-                    string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
-                    foreach (var item in stks)
-                    {
-                        //sid bul
-                        int sid = dbx.indices.Where(m => m.cins == item.Nesne2 && m.kesit == item.Kod15).Select(m => m.id).FirstOrDefault();
-                        //stoğa kaydet
-                        stok tbls = new stok()
-                        {
-                            marka = item.MalAdi4,
-                            cins = item.Nesne2,
-                            kesit = item.Kod15,
-                            sid = sid,
-                            depo = depo,
-                            renk = "",
-                            makara = "KAPALI",
-                            rezerve = "0",
-                            sure = new TimeSpan(),
-                            tarih = DateTime.Now,
-                            tip = "",
-                            rmiktar = 0,
-                            miktar = item.Miktar
-                        };
-                        dbx.stoks.Add(tbls);
-                        dbx.SaveChanges();
-                    }
-                }
-            }
             //görevi tamamla
             var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.RafaKaldır.ToInt32(), 0);
