@@ -39,7 +39,7 @@ namespace Wms12m.Presentation.Controllers
                     if (string.IsNullOrEmpty(P.Kod) || string.IsNullOrEmpty(P.Sifre)) { }
                     else
                     {
-                        _Result = _Person.Login(P);
+                        _Result = _Person.Login(P, fn.GetIPAddress());
                         if (_Result.Id > 0)
                         {
                             Authentication.CreateAuth((User)_Result.Data, RememberMe == "1" ? true : false);

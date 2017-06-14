@@ -530,5 +530,18 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.LogActions", siteParameter, areaParameter, controllerParameter, actionParameter, typeParameter, ipAddressParameter, requestParameter, detailsParameter, usernameParameter);
         }
+    
+        public virtual int UpdateUserDevice(Nullable<int> userID, string device)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var deviceParameter = device != null ?
+                new ObjectParameter("Device", device) :
+                new ObjectParameter("Device", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.UpdateUserDevice", userIDParameter, deviceParameter);
+        }
     }
 }
