@@ -563,6 +563,7 @@
     <Compile Include="Viewmodels\MobileTypes.cs" />
     <Compile Include="Viewmodels\RiskTanim.cs" />
     <Compile Include="Viewmodels\STI.cs" />
+    <Compile Include="Viewmodels\TechnoUcretList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
