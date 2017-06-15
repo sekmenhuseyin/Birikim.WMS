@@ -64,8 +64,9 @@ namespace Wms12m.Presentation.Controllers
                 LogActions("", "Roles", "Delete", ComboItems.alSil, id.ToInt32(), role.RoleName);
                 return Json(new Result(true, 1, ""), JsonRequestBehavior.AllowGet);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
+                Logger(ex, "Roles/Delete");
                 return Json(new Result(false, "Bu yetki kullanılıyor"), JsonRequestBehavior.AllowGet);
             }
         }

@@ -44,8 +44,9 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                     return PartialView("_ShelfGridPartial", _List);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Shelf/_ShelfGridPartial");
                 return PartialView("_ShelfGridPartial", _List);
             }
         }
@@ -95,8 +96,9 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 }
                 return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Shelf/ShelfList");
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }
@@ -125,8 +127,9 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 }
                 return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Shelf/ShelfList2");
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }

@@ -378,7 +378,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Sell/GetSiparis");
+                Logger(ex, "Cable/GetSiparis");
                 return null;
             }
         }
