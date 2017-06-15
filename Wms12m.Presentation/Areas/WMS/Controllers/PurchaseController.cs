@@ -415,7 +415,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     if (sql != "") sql += " UNION ";
                     sql += String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", item, kod);
                 }
-                sql = "SELECT TOP (20) id, value, label from (" + sql + ") t";
+                sql = "SELECT TOP (1) Birim1, Birim2, Birim3, Birim4 from (" + sql + ") t where Birim1 <> ''";
             }
             else
                 sql = String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", s, kod);
