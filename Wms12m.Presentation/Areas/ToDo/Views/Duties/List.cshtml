@@ -5,45 +5,56 @@
             <i class="fa fa-gift"></i>Görevler Listesi
         </div>
     </div>
-    <div class="portlet-body form p-40">
-        <table class="table table-striped table-responsive table-bordered" id="sample_1">
-            <thead><tr><th>Çalışma</th>
-                       @*<th>Düzenle</th>*@
-                       <th>Firma</th>
-                       <th>Proje</th>
-                       <th>Form</th>
-                       <th>Görev</th>
-                       <th>Sorumlu</th>                  
-                       <th>Açıklama</th>
-                       <th>Öncelik</th>
-                       <th>Durum</th>
-                       <th>Görev Tipi</th>
-                       <th>Departman</th>
-                       <th>Tahmini Bitiş</th>
-                <th></th></tr></thead>
+    <div class="portlet-body flip-scroll">
+        <table class="table table-bordered table-striped table-condensed flip-content" id="sample_1">
+            <thead class="flip-content" ><tr> 
+                       <th nowrap>Çalışma</th>                      
+                       <th nowrap>Firma</th>
+                       <th nowrap>Proje</th>
+                       <th nowrap>Form</th>
+                       <th nowrap>Görev</th>
+                       <th nowrap>Sorumlular</th>                  
+                       <th nowrap>Öncelik</th>
+                       <th nowrap>Durum</th>
+                       <th nowrap>Görev Tipi</th>
+                       <th nowrap>Departman</th>
+                       <th nowrap>Tahmini Bitiş</th>
+                       <th></th>
+                </tr>
+            </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr  data-ID="@item.ID" ondblclick="showEdit(@item.ID)">
-                        <td style="width:20px!important;" class="details-control"></td>
+                        <td class="details-control"></td>
+                        <td nowrap>@item.ProjeForm.Musteri.Firma</td>
+                        <td nowrap>@item.ProjeForm.Proje</td>
+                        <td nowrap>@item.ProjeForm.Form</td>
 
-                        @*<td><a class="btn icon-pencil" href="#modalEditPage" data-toggle="modal" 
-                               onclick="editInModal('/ToDo/Duties/Edit/@item.ID')"> Düzenle </a>
-                        </td>*@
-                        <td>@item.ProjeForm.Musteri.Firma</td>
-                        <td>@item.Sorumlu</td>
-                        <td>@item.Sorumlu</td>
-
-
-                        <td>@item.Gorev</td>
-                        <td>@item.Sorumlu,@item.Sorumlu2,@item.Sorumlu3</td>
-                        <td>@item.Aciklama</td>
+                        <td nowrap>@item.Gorev</td>
+                        <td nowrap>
+                        @{
+                            if (item.Sorumlu2.IsNullEmpty())
+                            {
+                                @item.Sorumlu
+                            }
+                            else if (item.Sorumlu3.IsNullEmpty())
+                            {
+                                @(item.Sorumlu + " - " + item.Sorumlu2)
+                            }
+                            else
+                            {
+                                @(item.Sorumlu + " - " + item.Sorumlu2 + " - " + item.Sorumlu3)
+                            }
+                        } 
+                        </td>
+                        
                         <td>@item.ComboItem_Name3.Name</td>
                         <td>@item.ComboItem_Name1.Name</td>
                         <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name}</td>
                         <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name}</td>
-                        <td>@item.TahminiBitis</td>
-                        <td>
+                        <td>@item.TahminiBitis.Value.ToString("dd MMM yyyy")</td>
+                        <td nowrap>
                             <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewWork/@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
                             <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Duties/List','liste','@item.ID')"> Sil </a>
                         </td>
@@ -58,13 +69,15 @@
     function showEdit(ID)
     {
         $('#modalEditPage').modal('toggle');
-
         editInModal('/ToDo/Duties/Edit/'+ID)
     }
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
-            "ordering": false,
+            "ordering": false,         
+            "columnDefs": [
+                { "width": "50px", "targets": 0 }
+            ],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             initComplete: function () {
                 this.api().columns([1, 2, 3, 4, 6, 7]).every(function () {
@@ -77,8 +90,9 @@
                         });
                     column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
                 });
-            }
+            },           
         });
+
         $('#sample_1 tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);

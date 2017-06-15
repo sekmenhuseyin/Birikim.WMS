@@ -57,8 +57,9 @@ namespace Wms12m.Presentation.Controllers
                         if (dr["Miktar"].ToString2().IsNumeric() == false) return Json(_result, JsonRequestBehavior.AllowGet);
                         if (dr["MalKodu"].ToString() == "") return Json(_result, JsonRequestBehavior.AllowGet);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Logger(ex, "Uploads/Malzeme");
                         return Json(_result, JsonRequestBehavior.AllowGet);
                     }
                     //satıcı malkodundan malkodunu getir
@@ -99,9 +100,10 @@ namespace Wms12m.Presentation.Controllers
                         //ekle
                         liste.Add(sti);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         _result.Message = "Hatalı satırlar var";
+                        Logger(ex, "Uploads/Malzeme");
                         return Json(_result, JsonRequestBehavior.AllowGet);
                     }
                 }
@@ -115,14 +117,14 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "Uploads/Irsaliye");
+                    Logger(ex, "Uploads/Malzeme");
                     _result.Message = "Hatalı satırlar var";
                     return Json(_result, JsonRequestBehavior.AllowGet);
                 }
             }
             var Unvan = db.Database.SqlQuery<string>(string.Format("SELECT Unvan1+' '+Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE HesapKodu = '{1}'", SID, Hesap)).FirstOrDefault();
             //log
-            LogActions("", "Uploads", "Irsaliye", ComboItems.alYükle, sonuc.GorevID.Value, "GörevID: " + sonuc.GorevID.Value + ", Satır Sayısı: " + liste.Count);
+            LogActions("", "Uploads", "Malzeme", ComboItems.alYükle, sonuc.GorevID.Value, "GörevID: " + sonuc.GorevID.Value + ", Satır Sayısı: " + liste.Count);
             //update görev
             var gorev = db.Gorevs.Where(m => m.ID == sonuc.GorevID.Value).FirstOrDefault();
             gorev.DurumID = ComboItems.Açık.ToInt32();
@@ -188,11 +190,12 @@ namespace Wms12m.Presentation.Controllers
                         hatalilar += i;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     hatali++;
                     if (hatalilar != "") hatalilar += ", ";
                     hatalilar += i;
+                    Logger(ex, "Uploads/Malzeme");
                 }
             }
             reader.Close();
@@ -280,11 +283,12 @@ namespace Wms12m.Presentation.Controllers
                             hatalilar += i;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         hatali++;
                         if (hatalilar != "") hatalilar += ", ";
                         hatalilar += i;
+                        Logger(ex, "Uploads/Stock");
                     }
                 }
                 reader.Close();

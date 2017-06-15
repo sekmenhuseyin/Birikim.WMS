@@ -43,8 +43,9 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 }
                 return PartialView("_CorridorGridPartial", _List);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Corridor/CorridorGridPartial");
                 return PartialView("_CorridorGridPartial", new List<Koridor>());
             }
 
@@ -93,18 +94,21 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 }
                 return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Corridor/CorridorList");
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }
         /// <summary>
         /// sil ss
         /// </summary>
-        public JsonResult Delete(string Id)
+        public JsonResult Delete(int Id)
         {
             if (CheckPerm("Koridor Kartı", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            Result _Result = Corridor.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
+            Result _Result = Corridor.Delete(Id);
+            if (_Result.Status == true)
+                LogActions("", "Corridor", "Delete", ComboItems.alSil, Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }

@@ -163,7 +163,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "Buy/FromSiparis");
+                        Logger(ex, "Purchase/FromSiparis");
                     }
                 }
                 if (eklenen > 0)
@@ -207,7 +207,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
             if (kontrol1 == false)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Purchase/New");
                 ViewBag.message = "Tarih yanlış";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
@@ -232,7 +232,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "Buy/New-varolan");
+                    Logger(ex, "Purchase/New-varolan");
                     return null;
                 }
             }
@@ -265,7 +265,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Buy/New-yeni");
+                Logger(ex, "Purchase/New-yeni");
                 return null;
             }
         }
@@ -322,7 +322,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Buy/getMalzemebyCode");
+                Logger(ex, "Purchase/getMalzemebyCode");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -338,7 +338,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Buy/getMalzemebyName");
+                Logger(ex, "Purchase/getMalzemebyName");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -356,7 +356,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Buy/getBirim");
+                Logger(ex, "Purchase/getBirim");
                 return Json(new List<frmBirims>(), JsonRequestBehavior.AllowGet);
             }
 

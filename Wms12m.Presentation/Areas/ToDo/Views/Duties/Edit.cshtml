@@ -31,7 +31,7 @@
                     <div class="form-group row">
                         @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-4">
-                            @Html.DropDownList("Sorumlu", null, htmlAttributes: new { @class = "form-control input-circle" })
+                            @Html.DropDownList("Sorumlu", null, Model.Sorumlu, htmlAttributes: new { @id="ddSorumlu", @class = "form-control input-circle" })
                             @Html.ValidationMessageFor(model => model.Sorumlu, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                     <div class="form-group row">
                         @Html.LabelFor(model => model.Sorumlu2, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-4">
-                            @Html.DropDownList("Sorumlu2", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
+                            @Html.DropDownList("Sorumlu2", null, Model.Sorumlu2, htmlAttributes: new { @id="ddSorumlu2", @class = "form-control input-circle" })
                             @Html.ValidationMessageFor(model => model.Sorumlu2, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                     <div class="form-group row">
                         @Html.LabelFor(model => model.Sorumlu3, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-4">
-                            @Html.DropDownList("Sorumlu3", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
+                            @Html.DropDownList("Sorumlu3", null, Model.Sorumlu3, htmlAttributes: new { @id="ddSorumlu3", @class = "form-control input-circle" })
                             @Html.ValidationMessageFor(model => model.Sorumlu3, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -124,5 +124,12 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.date-picker').datepicker();
+        ClearControl();
     });
+
+    function ClearControl() {
+        $("#ddSorumlu").val("");
+        $("#ddSorumlu2").val("");
+        $("#ddSorumlu3").val("");
+        }
 </script>

@@ -48,8 +48,9 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                     return PartialView("_SectionGridPartial", _List);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Floor/FloorList");
                 return PartialView("_SectionGridPartial", _List);
             }
         }
@@ -100,8 +101,9 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 }
                 return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Floor/SectionList");
                 return Json(_List, JsonRequestBehavior.AllowGet);
             }
         }

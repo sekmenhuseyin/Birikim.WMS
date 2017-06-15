@@ -115,12 +115,19 @@ namespace Wms12m.Presentation.Controllers
                             ModifiedDate = DateTime.Now,
                             ModifiedUser = vUser.UserName
                         };
-                        if (tbl.Reading == true || tbl.Writing == true || tbl.Updating == true || tbl.Updating == true) db.UserPerms.Add(tbl);
+                        if (tbl.Reading == true || tbl.Writing == true || tbl.Updating == true || tbl.Updating == true)
+                        {
+                            db.UserPerms.Add(tbl);
+                            LogActions("", "Users", "SavePerm", ComboItems.alEkle, 0, "PermName: " + tbl.PermName + ", UserName: " + tbl.UserName + ", R: " + tbl.Reading + ", W: " + tbl.Writing + ", U: " + tbl.Updating + ", D: " + tbl.Deleting);
+                        }
                     }
                     else
                     {
                         if (rolePerm.Reading != "on" && rolePerm.Writing != "on" && rolePerm.Updating != "on" && rolePerm.Updating != "on")
+                        {
                             db.UserPerms.Remove(tbl);
+                            LogActions("", "Users", "SavePerm", ComboItems.alSil, 0, "PermName: " + tbl.PermName + ", UserName: " + tbl.UserName);
+                        }
                         else
                         {
                             tbl.Reading = rolePerm.Reading == "on" ? true : false;
@@ -129,13 +136,17 @@ namespace Wms12m.Presentation.Controllers
                             tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
                             tbl.ModifiedDate = DateTime.Now;
                             tbl.ModifiedUser = vUser.UserName;
+                            LogActions("", "Users", "SavePerm", ComboItems.alDüzenle, 0, "PermName: " + tbl.PermName + ", UserName: " + tbl.UserName + ", R: " + tbl.Reading + ", W: " + tbl.Writing + ", U: " + tbl.Updating + ", D: " + tbl.Deleting);
                         }
                     }
                     try
                     {
                         db.SaveChanges();
                     }
-                    catch (Exception) { }
+                    catch (Exception ex)
+                    {
+                        Logger(ex, "Users/SavePerm");
+                    }
                 }
             }
         }
@@ -156,10 +167,13 @@ namespace Wms12m.Presentation.Controllers
                     db.UserPerms.Remove(tbl);
                     db.SaveChanges();
                     //log
-                    LogActions("", "Roles", "DeletePerm", ComboItems.alSil, 0, "PermName: " + pname + ", UserName: " + uname);
+                    LogActions("", "Users", "DeletePerm", ComboItems.alSil, 0, "PermName: " + pname + ", UserName: " + uname);
                 }
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                Logger(ex, "Users/DeletePerm");
+            }
             //return
             Result _Result = new Result()
             {
@@ -177,8 +191,6 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false || tbl.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Operation(tbl);
-            if (_Result.Status == true)
-                LogActions("", "Roles", "Save", ComboItems.alDüzenle, tbl.ID, tbl.AdSoyad + ", " + tbl.Email + ", " + tbl.Kod + ", " + tbl.RoleName);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -197,11 +209,6 @@ namespace Wms12m.Presentation.Controllers
                     Sifre = tmp.Password
                 };
                 _Result = Persons.ChangePass(tbl);
-                if (_Result.Status == true)
-                {
-                    //log
-                    LogActions("", "Roles", "ChangePass", ComboItems.alDüzenle, tmp.ID);
-                }
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -213,11 +220,6 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm("Kullanıcılar", PermTypes.Deleting) == false || Id == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Delete(Id);
-            if (_Result.Status == true)
-            {
-                //log
-                LogActions("", "Users", "Delete", ComboItems.alSil, Id);
-            }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }

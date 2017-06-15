@@ -24,7 +24,7 @@
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             initComplete: function () {
-                this.api().columns([1, 2, 3, 5, 6]).every(function () {
+                this.api().columns([1, 2, 3, 4, 5, 6]).every(function () {
                     var column = this;
                     var select = $('<br /><select class="form-control input-circle no-print" style="max-width:100px;"><option value=""></option></select>')
                         .appendTo($(column.header()))
