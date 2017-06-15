@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using Wms12m.Security;
+using System.Web.Optimization;
 using System.Web.Routing;
-using System.Web.Security;
 using System.Web.Script.Serialization;
-using System.Collections.Generic;
+using System.Web.Security;
+using Wms12m.Security;
 
 namespace Wms12m.Presentation
 {
@@ -18,6 +18,7 @@ namespace Wms12m.Presentation
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
         /// <summary>
         /// session start for user
@@ -48,17 +49,6 @@ namespace Wms12m.Presentation
                 };
                 HttpContext.Current.User = newUser;
             }
-        }
-        // Parses custom parameters sent with the request.
-        public IDictionary<string, object> MyParseFunction(ControllerContext controllerContext, ModelBindingContext bindingContext)
-        {
-            var p1 = Convert.ToString(bindingContext.ValueProvider.GetValue("param1").AttemptedValue);
-            var p2 = Convert.ToInt32(bindingContext.ValueProvider.GetValue("param2").AttemptedValue);
-            return new Dictionary<string, object>()
-            {
-                { "param1", p1 },
-                { "param2", p2 }
-            };
         }
     }
 }
