@@ -1,13 +1,18 @@
 ﻿@{
     ViewBag.Title = "Sözleşme Tanım";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/devextreme/css/dx.light.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+}@section Styles{<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
     <style>
+        td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+        }
         .input_content {
             margin-bottom: 3px;
             height: 40px;
@@ -49,19 +54,8 @@
                 background-color: #e0dede !important;
             }
 
-        table {
-            margin: 0 !important;
-        }
 
-        th {
-            width: auto !important;
-        }
-
-        td {
-            width: auto !important;
-        }
-
-        .dataTables_scrollHead {
+        /*.dataTables_scrollHead {
             width: 100% !important;
         }
 
@@ -71,7 +65,7 @@
 
         .dataTables_scrollBody {
             width: 100% !important;
-        }
+        }*/
         .btn {
             width: 120px;
             text-align: center;
@@ -188,29 +182,20 @@
     </div>
 </div>
 @section Scripts{
-    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
-    <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-    <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
-    <script src="~/Content/assets/global/scripts/datatable.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
-    <script src="~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js" type="text/javascript"></script>
+ <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="~/Content/assets/global/scripts/datatable.js"></script>
+<script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script type="text/javascript">
         PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data');
         PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data');
-        FuncSearchBtn();
-        function FuncSearchBtn() {
-            $('#liste').html("");
-            PartialView('/Approvals/Contract/GM_List', 'liste');
-        }
-        function newrow(listeno) { return "<table style='background:transparent;' id='new" + listeno + "'></table>"; }
+        function newrow(PERSONELID) { return "<table style='background:transparent;' id='new" + PERSONELID + "'></table>"; }
         function format(d) {
-            var html = "<tr style='background: transparent;'><th>Fiyat Listesi</th><th>Ürün Grubu</th><th>Ürün Kodu</th><th>Ürün Adı</th><th>Iskonto1</th><th>Iskonto2</th>< th > Iskonto3</th><th>Iskonto4</th> <th>Iskonto5</th></tr >";
+            var html = "<tr style='background: transparent;'><th>Geçerlilik Ayı</th><th>Geçerlilik Yılı</th><th>Degisim Tarihi</th><th>Ucret Tipi</th><th>Döviz Tipi</th><th>Birim Ücret</th>< th >Genel Aylık Ücret</th><th>Brüt/Net</th></tr >";
             $.ajax({
                 type: 'POST',
-                url: '/Approvals/Contract/GM_Details',
-                data: { "ListeNo": d },
+                url: '/Approvals/Techno/EskiUcretData',
+                data: { "PERSONELID": d },
                 dataType: "html",
                 success: function (data) {
                     $('#new' + d).html(data);

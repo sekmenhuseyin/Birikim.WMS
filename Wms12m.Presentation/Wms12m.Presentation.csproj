@@ -349,6 +349,7 @@
     <Content Include="Areas\Approvals\Views\Techno\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\Techno\Ucret_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Techno\Prim_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Techno\EskiUcretData.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
