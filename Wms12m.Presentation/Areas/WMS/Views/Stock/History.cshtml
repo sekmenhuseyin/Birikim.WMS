@@ -58,7 +58,7 @@
     function FuncSearchBtn() {
         if ($("#MalKodu").val() == "" || $("#DepoID").val() == "") return;
         $('#Grid').html("");
-        PartialView('//WMSStock/HistoryList', 'Grid', JSON.stringify({ Id: $("#MalKodu").val() + "#" + $("#DepoID").val() }));
+        PartialView('/WMS/Stock/HistoryList', 'Grid', JSON.stringify({ Id: $("#MalKodu").val() + "#" + $("#DepoID").val() }));
     }
     $("#MalKodu").autocomplete({
         source: "/WMS/Purchase/getMalzemebyCode/@ViewBag.SirketID",

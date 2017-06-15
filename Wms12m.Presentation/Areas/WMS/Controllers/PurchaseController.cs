@@ -66,6 +66,26 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
+        /// irs detay güncelle
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult UpdateList(int ID, decimal Miktar, string MakaraNo)
+        {
+            if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var tbl = IrsaliyeDetay.Detail(ID);
+            if (MakaraNo != "") tbl.MakaraNo = MakaraNo;
+            tbl.Miktar = Miktar;
+            try
+            {
+                db.SaveChanges();
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
         /// irsaliye listesi
         /// </summary>
         public PartialViewResult SiparisList()
@@ -282,6 +302,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.SirketID = irs.SirketKod;
             ViewBag.Yetki = CheckPerm("Mal Kabul", PermTypes.Writing);
             return PartialView("_GridPartial", list);
+        }
+        /// <summary>
+        /// irs detay düzenle
+        /// </summary>
+        public PartialViewResult EditList(int ID, string s)
+        {
+            if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return null;
+            var tbl = IrsaliyeDetay.Detail(ID);
+            ViewBag.SirketID = s;
+            return PartialView("EditList", tbl);
         }
         /// <summary>
         /// yeni malzeme
