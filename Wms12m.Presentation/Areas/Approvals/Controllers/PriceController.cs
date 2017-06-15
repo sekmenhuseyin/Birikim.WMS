@@ -1638,11 +1638,11 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                         var sonuc = sqlexper.AcceptChanges();
                         if (sonuc.Status == false)
                         {
-                            return "OK";
+                            return "NO";
                         }
                         else
                         {
-                            return "NO";
+                            return "OK";
                         }
                     }
                     else

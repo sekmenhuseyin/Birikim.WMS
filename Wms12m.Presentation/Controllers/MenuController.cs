@@ -50,14 +50,16 @@ namespace Wms12m.Presentation.Controllers
             if (ModelState.IsValid)
             {
                 if (CheckPerm("Menü", PermTypes.Writing) == false) return Redirect("/");
-                try { db.MenuRolEkle(tablo.MenuNo, tablo.RolNo); }
+                try {
+                    db.MenuRolEkle(tablo.MenuNo, tablo.RolNo);
+                    //log
+                    LogActions("", "Menu", "Permission", ComboItems.alEkle, tablo.MenuNo.ToInt32(), "RolNo: " + tablo.RolNo);
+                }
                 catch (Exception ex)
                 {
                     Logger(ex, "Menu/SavePermission");
                 }
             }
-            //log
-            LogActions("", "Menu", "Permission", ComboItems.alEkle, "", "");
             //return
             var mn = db.WebMenus.Where(m => m.ID == tablo.MenuNo).FirstOrDefault();
             if (mn.UstMenuID == null)
@@ -93,7 +95,7 @@ namespace Wms12m.Presentation.Controllers
                 db.WebMenus.Add(webMenu);
                 db.SaveChanges();
                 //log
-                LogActions("", "Menu", "Create", ComboItems.alEkle, "", "");
+                LogActions("", "Menu", "Create", ComboItems.alEkle, webMenu.ID, webMenu.Ad + ", " + webMenu.Url);
                 return Redirect("/Menu/Permission/" + webMenu.ID);
             }
             return RedirectToAction("Index");
@@ -131,7 +133,7 @@ namespace Wms12m.Presentation.Controllers
                 db.SaveChanges();
                 db.MenuSiralayici(webMenu.SiteTipiID, webMenu.MenuYeriID, webMenu.UstMenuID);
                 //log
-                LogActions("", "Menu", "Edit", ComboItems.alDüzenle, "", "");
+                LogActions("", "Menu", "Edit", ComboItems.alDüzenle, webMenu.ID, webMenu.Ad + ", " + webMenu.Url);
             }
             if (webMenu.UstMenuID == null)
                 return RedirectToAction("Index");
@@ -182,10 +184,13 @@ namespace Wms12m.Presentation.Controllers
             if (ModelState.IsValid)
             {
                 if (CheckPerm("Menu", PermTypes.Writing) == true)
-                    try { db.MenuRolEkle(tbl.ID, tbl.RoleName); }
+                    try
+                    {
+                        db.MenuRolEkle(tbl.ID, tbl.RoleName);
+                        //log
+                        LogActions("", "Menu", "Save", ComboItems.alEkle, tbl.ID, "RoleName " + tbl.RoleName);
+                    }
                     catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
-                //log
-                LogActions("", "Menu", "Save", ComboItems.alEkle, "", "");
             }
         }
     }

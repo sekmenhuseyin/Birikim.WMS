@@ -8,7 +8,6 @@
 <link href="~/Content/assets/global/plugins/devextreme/css/dx.light.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
 <style>
-    .h-500{min-height:500px!important;}
     .number2{font-size:16px!important;margin-top:0!important;padding-top:0!important;font-weight:bold!important;}
     .link,.link:hover,.link:active,.link:visited{text-decoration:none;color:white;}
 </style>
@@ -16,7 +15,7 @@
 <h1 class="page-title">Yönetim Paneli</h1>
 <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 red" href="/Storage">
+        <a class="dashboard-stat dashboard-stat-v2 red" href="/Constants/Storage">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details">
                 <div class="number"><span data-counter="counterup" data-value="@Model.depo">@Model.depo</span></div>
@@ -34,7 +33,7 @@
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 blue" href="/Tasks">
+        <a class="dashboard-stat dashboard-stat-v2 blue" href="/WMS/Tasks">
             <div class="visual"><i class="fa fa-comments"></i></div>
             <div class="details">
                 <div class="number"><span data-counter="counterup" data-value="@Model.gorev">@Model.gorev</span></div>
@@ -43,7 +42,7 @@
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 purple" href="/Transfer">
+        <a class="dashboard-stat dashboard-stat-v2 purple" href="/WMS/Transfer">
             <div class="visual"><i class="fa fa-globe"></i></div>
             <div class="details">
                 <div class="number"><span data-counter="counterup" data-value="@Model.transfer">@Model.transfer</span></div>
@@ -134,10 +133,10 @@
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details">
                 <div class="number number2">Techno IK Onayları</div>
-                <div class="desc"><a class="link" href="/Approvals/Check/SPGMY">IK: <span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Check/MIGMY">ÜSGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Check/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Check/GM">GM: <span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Techno">IK: <span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Techno">ÜSGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Techno">MIGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Techno">GM: <span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></a></div>
             </div>
         </div>
     </div>

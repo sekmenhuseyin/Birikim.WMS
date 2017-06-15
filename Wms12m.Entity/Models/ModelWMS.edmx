@@ -192,6 +192,7 @@
           <Property Name="Device" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="FirsLoginDate" Type="smalldatetime" Nullable="false" />
           <Property Name="LastLoginDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="LoginCount" Type="int" Nullable="false" />
           <Property Name="Approved" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserPerm">
@@ -354,6 +355,7 @@
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="MakaraNo" Type="varchar" MaxLength="50" />
           <Property Name="KynkSiparisID" Type="int" />
           <Property Name="KynkSiparisNo" Type="varchar" MaxLength="16" />
           <Property Name="KynkSiparisSiraNo" Type="smallint" />
@@ -474,8 +476,9 @@
           <Property Name="DepoID" Type="int" StoreGeneratedPattern="Computed" />
           <Property Name="HucreAd" Type="varchar" MaxLength="50" StoreGeneratedPattern="Computed" />
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
+          <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="MakaraNo" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Yer_Log">
           <Key>
@@ -1097,10 +1100,11 @@
           <Parameter Name="Controller" Type="varchar" Mode="In" />
           <Parameter Name="Action" Type="varchar" Mode="In" />
           <Parameter Name="Type" Type="int" Mode="In" />
-          <Parameter Name="IpAddress" Type="varchar" Mode="In" />
+          <Parameter Name="SelectedID" Type="int" Mode="In" />
           <Parameter Name="Request" Type="varchar(max)" Mode="In" />
           <Parameter Name="Details" Type="varchar(max)" Mode="In" />
           <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="IpAddress" Type="varchar" Mode="In" />
         </Function>
         <Function Name="Logger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
@@ -1786,20 +1790,21 @@
             <End Role="ProjeForm" EntitySet="ProjeForms" />
             <End Role="ProjeForm1" EntitySet="ProjeForms" />
           </AssociationSet>
+          <FunctionImport Name="UpdateUserDevice">
+            <Parameter Name="UserID" Mode="In" Type="Int32" />
+            <Parameter Name="Device" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="LogActions">
             <Parameter Name="Site" Mode="In" Type="String" />
             <Parameter Name="Area" Mode="In" Type="String" />
             <Parameter Name="Controller" Mode="In" Type="String" />
             <Parameter Name="Action" Mode="In" Type="String" />
             <Parameter Name="Type" Mode="In" Type="Int32" />
-            <Parameter Name="IpAddress" Mode="In" Type="String" />
+            <Parameter Name="SelectedID" Mode="In" Type="Int32" />
             <Parameter Name="Request" Mode="In" Type="String" />
             <Parameter Name="Details" Mode="In" Type="String" />
             <Parameter Name="Username" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="UpdateUserDevice">
-            <Parameter Name="UserID" Mode="In" Type="Int32" />
-            <Parameter Name="Device" Mode="In" Type="String" />
+            <Parameter Name="IpAddress" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2031,6 +2036,7 @@
           <Property Name="YerlestirmeMiktari" Type="Decimal" Precision="25" Scale="6" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_IRS_Detay_IRS" FromRole="IRS_Detay" ToRole="IR" />
           <Property Name="KynkDegisSaat" Type="Int32" />
+          <Property Name="MakaraNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Koridor">
           <Key>
@@ -2125,6 +2131,7 @@
           <NavigationProperty Name="GorevYers" Relationship="MModel.FK_GorevYer_Yer" FromRole="Yer" ToRole="GorevYer" />
           <NavigationProperty Name="Kat" Relationship="MModel.FK_Yer_Kat" FromRole="Yer" ToRole="Kat" />
           <Property Name="DepoID" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="MakaraNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Yer_Log">
           <Key>
@@ -2794,6 +2801,7 @@
           <Property Name="FirsLoginDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="LastLoginDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <Property Name="LoginCount" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_UserDevices_Users">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -3188,6 +3196,7 @@
           <EntitySetMapping Name="IRS_Detay">
             <EntityTypeMapping TypeName="MModel.IRS_Detay">
               <MappingFragment StoreEntitySet="IRS_Detay">
+                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
                 <ScalarProperty Name="KynkDegisSaat" ColumnName="KynkDegisSaat" />
                 <ScalarProperty Name="YerlestirmeMiktari" ColumnName="YerlestirmeMiktari" />
                 <ScalarProperty Name="OkutulanMiktar" ColumnName="OkutulanMiktar" />
@@ -3282,6 +3291,7 @@
           <EntitySetMapping Name="Yers">
             <EntityTypeMapping TypeName="MModel.Yer">
               <MappingFragment StoreEntitySet="Yer">
+                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
                 <ScalarProperty Name="DepoID" ColumnName="DepoID" />
                 <ScalarProperty Name="Miktar" ColumnName="Miktar" />
                 <ScalarProperty Name="Birim" ColumnName="Birim" />
@@ -3554,6 +3564,7 @@
           <EntitySetMapping Name="UserDevices">
             <EntityTypeMapping TypeName="MModel.UserDevice">
               <MappingFragment StoreEntitySet="UserDevices">
+                <ScalarProperty Name="LoginCount" ColumnName="LoginCount" />
                 <ScalarProperty Name="Approved" ColumnName="Approved" />
                 <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
                 <ScalarProperty Name="FirsLoginDate" ColumnName="FirsLoginDate" />
@@ -3627,8 +3638,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="LogActions" FunctionName="MModel.Store.LogActions" />
           <FunctionImportMapping FunctionImportName="UpdateUserDevice" FunctionName="MModel.Store.UpdateUserDevice" />
+          <FunctionImportMapping FunctionImportName="LogActions" FunctionName="MModel.Store.LogActions" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -156,10 +156,10 @@ namespace Wms12m.Presentation.Controllers
                     db.UserPerms.Remove(tbl);
                     db.SaveChanges();
                     //log
-                    LogActions("", "Roles", "DeletePerm", ComboItems.alSil, Id.ToString(), "");
+                    LogActions("", "Roles", "DeletePerm", ComboItems.alSil, 0, "PermName: " + pname + ", UserName: " + uname);
                 }
             }
-            catch (System.Exception) { }
+            catch (Exception) { }
             //return
             Result _Result = new Result()
             {
@@ -178,10 +178,7 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm("Kullanıcılar", PermTypes.Writing) == false || tbl.ID == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Operation(tbl);
             if (_Result.Status == true)
-            {
-                //log
-                LogActions("", "Roles", "Save", ComboItems.alDüzenle, tbl.ID.ToString(), "");
-            }
+                LogActions("", "Roles", "Save", ComboItems.alDüzenle, tbl.ID, tbl.AdSoyad + ", " + tbl.Email + ", " + tbl.Kod + ", " + tbl.RoleName);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
@@ -203,7 +200,7 @@ namespace Wms12m.Presentation.Controllers
                 if (_Result.Status == true)
                 {
                     //log
-                    LogActions("", "Roles", "ChangePass", ComboItems.alDüzenle, tmp.ID.ToString(), "");
+                    LogActions("", "Roles", "ChangePass", ComboItems.alDüzenle, tmp.ID);
                 }
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
@@ -219,7 +216,7 @@ namespace Wms12m.Presentation.Controllers
             if (_Result.Status == true)
             {
                 //log
-                LogActions("", "Users", "Delete", ComboItems.alSil, Id.ToString(), "");
+                LogActions("", "Users", "Delete", ComboItems.alSil, Id);
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

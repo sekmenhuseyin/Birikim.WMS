@@ -19,5 +19,6 @@ namespace Wms12m.Entity.Mysql
         public decimal miktar { get; set; }
         public string musteri { get; set; }
         public System.DateTime tarih { get; set; }
+        public string kaydigiren { get; set; }
     }
 }

@@ -39,6 +39,7 @@
           <Property Name="miktar" Type="decimal" Precision="10" Scale="0" Nullable="false" />
           <Property Name="musteri" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="tarih" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="kaydigiren" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="index">
           <Key>
@@ -118,6 +119,7 @@
           <Property Name="rmiktar" Type="decimal" Precision="8" Scale="0" />
           <Property Name="sure" Type="time" Precision="0" />
           <Property Name="tarih" Type="datetime" Precision="0" />
+          <Property Name="makarano" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="sure">
           <Key>
@@ -238,6 +240,7 @@ FROM `kblstok` AS `kblstok`</DefiningQuery>
           <Property Name="miktar" Type="Decimal" Nullable="false" />
           <Property Name="musteri" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="tarih" Type="DateTime" Nullable="false" />
+          <Property Name="kaydigiren" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="index">
           <Key>
@@ -317,6 +320,7 @@ FROM `kblstok` AS `kblstok`</DefiningQuery>
           <Property Name="rmiktar" Type="Decimal" />
           <Property Name="sure" Type="Time" />
           <Property Name="tarih" Type="DateTime" />
+          <Property Name="makarano" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="sure">
           <Key>
@@ -387,6 +391,7 @@ FROM `kblstok` AS `kblstok`</DefiningQuery>
           <EntitySetMapping Name="harekets">
             <EntityTypeMapping TypeName="KabloModel.hareket">
               <MappingFragment StoreEntitySet="hareket">
+                <ScalarProperty Name="kaydigiren" ColumnName="kaydigiren" />
                 <ScalarProperty Name="tarih" ColumnName="tarih" />
                 <ScalarProperty Name="musteri" ColumnName="musteri" />
                 <ScalarProperty Name="miktar" ColumnName="miktar" />
@@ -463,6 +468,7 @@ FROM `kblstok` AS `kblstok`</DefiningQuery>
           <EntitySetMapping Name="stoks">
             <EntityTypeMapping TypeName="KabloModel.stok">
               <MappingFragment StoreEntitySet="stok">
+                <ScalarProperty Name="makarano" ColumnName="makarano" />
                 <ScalarProperty Name="tarih" ColumnName="tarih" />
                 <ScalarProperty Name="sure" ColumnName="sure" />
                 <ScalarProperty Name="rmiktar" ColumnName="rmiktar" />

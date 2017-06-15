@@ -19,6 +19,7 @@ namespace Wms12m.Entity.Models
         public System.DateTime FirsLoginDate { get; set; }
         public System.DateTime LastLoginDate { get; set; }
         public bool Approved { get; set; }
+        public int LoginCount { get; set; }
     
         public virtual User User { get; set; }
     }
