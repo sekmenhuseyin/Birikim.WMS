@@ -16,7 +16,6 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public ActionResult Index()
         {
             if (CheckPerm("Boyut Kartı", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
             ViewBag.Yetki = CheckPerm("Boyut Kartı", PermTypes.Writing);
             return View("Index", new Olcu());
         }
@@ -53,7 +52,6 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             if (CheckPerm("Boyut Kartı", PermTypes.Reading) == false) return null;
             var tbl = Dimension.Detail(id);
             if (tbl == null) return null;
-            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
             return PartialView("_Edit", tbl);
         }
         /// <summary>

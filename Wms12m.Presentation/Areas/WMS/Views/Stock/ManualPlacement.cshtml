@@ -138,7 +138,7 @@
 <script>
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
     $("#MalKodu").autocomplete({
-        source: "/WMS/Purchase/getMalzemebyCode/@ViewBag.SirketID",
+        source: "/WMS/Purchase/getMalzemebyCode/0",
         minLength: 2,
         select: function (event, ui) {
             getBirims(ui.item.id);
@@ -146,7 +146,7 @@
         }
     });
     $("#MalAdi").autocomplete({
-        source: "/WMS/Purchase/GetMalzemebyName/@ViewBag.SirketID",
+        source: "/WMS/Purchase/GetMalzemebyName/0",
         minLength: 2,
         select: function (event, ui) {
             getBirims(ui.item.id);
@@ -238,7 +238,7 @@
         $.ajax({
             url: "/WMS/Purchase/getBirim",
             type: 'POST',
-            data: JSON.stringify({ kod: id, s: @ViewBag.SirketID }),
+            data: JSON.stringify({ kod: id, s: 0 }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             success: function (data) {

@@ -97,7 +97,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm("Stok", PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
-            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
             return View("History");
         }
         /// <summary>
@@ -138,7 +137,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
             ViewBag.KatID = new SelectList(Floor.GetList(0), "ID", "KatAd");
-            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
             return View("ManualPlacement", new Yer());
         }
         /// <summary>

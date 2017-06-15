@@ -344,7 +344,21 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+            string sql = "";
+            //generate sql
+            if (id.ToString() == "0")
+            {
+                var dblist = db.GetSirketDBs().ToList();
+                foreach (var item in dblist)
+                {
+                    if (sql != "") sql += " UNION ";
+                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ', ' + MalAdi AS value, MalKodu + ' ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu LIKE '{1}%')", item, term);
+                }
+                sql = "SELECT TOP (20) id,MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
+            }
+            else
+                sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+            //return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -360,7 +374,21 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'', @MalAdi = N'{1}'", id.ToString(), term);
+            string sql = "";
+            //generate sql
+            if (id.ToString() == "0")
+            {
+                var dblist = db.GetSirketDBs().ToList();
+                foreach (var item in dblist)
+                {
+                    if (sql != "") sql += " UNION ";
+                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ', ' + MalAdi AS value, MalKodu + ' ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalAdi LIKE '%{1}%')", item, term);
+                }
+                sql = "SELECT TOP (20) id, MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
+            }
+            else
+                sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+            //return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -378,7 +406,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult GetBirim(string kod, string s)
         {
-            string sql = String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", s, kod);
+            string sql = "";
+            if (s == "0")
+            {
+                var dblist = db.GetSirketDBs().ToList();
+                foreach (var item in dblist)
+                {
+                    if (sql != "") sql += " UNION ";
+                    sql += String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", item, kod);
+                }
+                sql = "SELECT TOP (20) id, value, label from (" + sql + ") t";
+            }
+            else
+                sql = String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", s, kod);
             try
             {
                 var list = db.Database.SqlQuery<frmBirims>(sql).ToList();
