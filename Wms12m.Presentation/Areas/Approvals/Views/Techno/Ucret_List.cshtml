@@ -32,43 +32,42 @@
                     </ul>
                 </div>
             </div>
-            <div>
-                <table class="table table-striped table-bordered" id="sample_1">
-                    <thead>
-                        <tr>
-                            <th style="display:none;"></th>
-                            <th>
-                                @*<label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
-                                    <span></span>
-                                </label>*@
-                            </th>
-
-                            <th nowrap>Ad</th>
-                            <th nowrap>Soyad</th>
-                            <th nowrap>IsyeriAdi</th>
-                            <th nowrap>BirimAdi</th>
-                            <th nowrap>PozisyonAdi</th>
-                            <th nowrap>GecerlilikAyi</th>
-                            <th nowrap>GecerlilikYili</th>
-                            <th nowrap>DegisimTarihi</th>
-                            <th nowrap>UcretTipi</th>
-                            <th nowrap>DovizTipi</th>
-                            <th nowrap>BirimUcret</th>
-                            <th nowrap>GenelAylikUcret</th>
-                            <th nowrap>KayitTarih</th>
-                            <th nowrap>KaydedenKullanici</th>
-                            <th nowrap>GuncellemeTarihi</th>
-                            <th nowrap>GuncelleyenKullanici</th>
-                            <th nowrap>Aciklama</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-
-
         </div>
     </div>
+    <table class="table table-striped table-bordered" id="sample_1">
+        <thead>
+            <tr>
+                <th style="display:none;"></th>
+                <th style="display:none;"></th>
+                <th style="display:none;"></th>
+                <th style="display:none;"></th>
+                <th>
+                    @*<label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                            <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                            <span></span>
+                        </label>*@
+                </th>
+
+                <th nowrap>Ad</th>
+                <th nowrap>Soyad</th>
+                <th nowrap>IsyeriAdi</th>
+                <th nowrap>BirimAdi</th>
+                <th nowrap>PozisyonAdi</th>
+                <th nowrap>GecerlilikAyi</th>
+                <th nowrap>GecerlilikYili</th>
+                <th nowrap>DegisimTarihi</th>
+                <th nowrap>UcretTipi</th>
+                <th nowrap>DovizTipi</th>
+                <th nowrap>BirimUcret</th>
+                <th nowrap>GenelAylikUcret</th>
+                <th nowrap>KayitTarih</th>
+                <th nowrap>KaydedenKullanici</th>
+                <th nowrap>GuncellemeTarihi</th>
+                <th nowrap>GuncelleyenKullanici</th>
+                <th nowrap>Aciklama</th>
+            </tr>
+        </thead>
+    </table>
 </div>
 <script>
     var table = "";
@@ -90,10 +89,13 @@
             "scrollX": true,
             "scrollY": '30vh',
             "scrollCollapse": true,
-            
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [12, 13] }, { "visible": false, "targets": 0 }],
+
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [12, 13] }, { "visible": false, "targets": [0,1,2,3] }],
             "columns": [
                 { "data": "PERSONELID" },
+                { "data": "IslemTip" },
+                { "data": "IslemTarih" },
+                { "data": "ButUcretID" },
                 { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
                 { "data": "Ad" },
                 { "data": "Soyad" },
@@ -147,14 +149,14 @@
             $(this).toggleClass('selected');
         });
     });
-    function Onayla() {
+    function UcretOnayla() {
         var x = table.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
         }
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approvals/Contract/Onay_GM",
+            url: window.location.origin + "/Approvals/Techno/Ucret_Onayla",
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
 
@@ -170,7 +172,7 @@
         });
         return _dfd.promise();
     }
-    function SozlesmeSil() {
+    function UcretReddet() {
         var x = table.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
