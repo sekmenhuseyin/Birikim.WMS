@@ -27,6 +27,7 @@ namespace Wms12m.Entity.Models
         public string Birim { get; set; }
         public decimal Miktar { get; set; }
         public Nullable<int> DepoID { get; set; }
+        public string MakaraNo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevYer> GorevYers { get; set; }
