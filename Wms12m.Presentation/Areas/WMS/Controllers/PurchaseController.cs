@@ -68,21 +68,21 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// <summary>
         /// irs detay güncelle
         /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult UpdateList(int ID, decimal Miktar, string MakaraNo)
+        [HttpPost]
+        public JsonResult UpdateList(int ID, decimal M, string mNo)
         {
             if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            var tbl = IrsaliyeDetay.Detail(ID);
-            if (MakaraNo != "") tbl.MakaraNo = MakaraNo;
-            tbl.Miktar = Miktar;
+            var tbl = db.IRS_Detay.Where(m => m.ID == ID).FirstOrDefault();
+            if (mNo != "") tbl.MakaraNo = mNo;
+            tbl.Miktar = M;
             try
             {
                 db.SaveChanges();
-                return Json(true, JsonRequestBehavior.AllowGet);
+                return Json(new Result(true), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
-                return Json(false, JsonRequestBehavior.AllowGet);
+                return Json(new Result(false, "Kayıtta hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
         /// <summary>
