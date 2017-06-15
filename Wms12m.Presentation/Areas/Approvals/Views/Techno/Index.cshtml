@@ -2,8 +2,10 @@
     ViewBag.Title = "Sözleşme Tanım";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
-<link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/devextreme/css/dx.light.min.css" rel="stylesheet" />
     <style>
         td.details-control {
             background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
@@ -13,6 +15,7 @@
         tr.shown td.details-control {
             background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
         }
+
         .input_content {
             margin-bottom: 3px;
             height: 40px;
@@ -72,57 +75,66 @@
         }
     </style>
 }
-<div class="form-horizontal">
-    <div class="form-body">
-        <div class="portlet box green">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>Techno Ücret Onayları
+<div class="row">
+    <div class="rdgrpOnayRed" style="float:left; margin-left:20px;">
+
+    </div>
+</div>
+<div class="row">
+    <div class="form-horizontal">
+        <div class="form-body">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Techno Ücret Onayları
+                    </div>
+                    <div class="col-md-2 pull-right m-t-5">
+                        <a class="btn btn-default pull-right input-circle ucret-yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                    </div>
+                    <div class="col-md-2 pull-right m-t-5">
+                        <a class="btn btn-default pull-right input-circle ucret-reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
+                    </div>
+                    <div class="col-md-2 pull-right m-t-5">
+                        <a class="btn btn-default pull-right input-circle ucret-onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
+                    </div>
                 </div>
-                <div class="col-md-2 pull-right m-t-5">
-                    <a class="btn btn-default pull-right input-circle ucret-yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
-                </div>
-                <div class="col-md-2 pull-right m-t-5">
-                    <a class="btn btn-default pull-right input-circle ucret-reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
-                </div>
-                <div class="col-md-2 pull-right m-t-5">
-                    <a class="btn btn-default pull-right input-circle ucret-onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
-                </div> 
-            </div>
-            <div class="portlet-body">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="row" id="techno_ucret_data">
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="row" id="techno_ucret_data">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
-
-
     </div>
 </div>
-<div class="form-horizontal">
-    <div class="form-body">
-        <div class="portlet box green">
-            <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>Techno Prim Onayları
+<div class="row">
+    <div class="form-horizontal">
+        <div class="form-body">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Techno Prim Onayları
+                    </div>
+                    <div class="col-md-2 pull-right m-t-5">
+                        <a class="btn btn-default pull-right input-circle prim-yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                    </div>
+                    <div class="col-md-2 pull-right m-t-5">
+                        <a class="btn btn-default pull-right input-circle prim-reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
+                    </div>
+                    <div class="col-md-2 pull-right m-t-5">
+                        <a class="btn btn-default pull-right input-circle prim-onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
+                    </div>
                 </div>
-                <div class="col-md-2 pull-right m-t-5">
-                    <a class="btn btn-default pull-right input-circle prim-yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
-                </div>
-                <div class="col-md-2 pull-right m-t-5">
-                    <a class="btn btn-default pull-right input-circle prim-reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
-                </div>
-                <div class="col-md-2 pull-right m-t-5">
-                    <a class="btn btn-default pull-right input-circle prim-onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
-                </div> 
-            </div>
-            <div class="portlet-body">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="row" id="techno_prim_data">
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="row" id="techno_prim_data">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -131,12 +143,12 @@
     </div>
 </div>
 @*<div class="row">
-    <div class="row" id="techno_ucret_data" style="padding:5px;border:1px solid #dad2d2;">
-    </div>
-    <br />
-    <div class="row" id="techno_prim_data" style="margin-top:10px;padding:5px;border:1px solid #dad2d2;">
-    </div>
-</div>*@
+        <div class="row" id="techno_ucret_data" style="padding:5px;border:1px solid #dad2d2;">
+        </div>
+        <br />
+        <div class="row" id="techno_prim_data" style="margin-top:10px;padding:5px;border:1px solid #dad2d2;">
+        </div>
+    </div>*@
 <div class="modal fade" id="x-modal-sozlesme-guncelle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog" style="width:950px;">
         <div class="modal-content" style="height:280px;">
@@ -180,13 +192,39 @@
     </div>
 </div>
 @section Scripts{
- <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="~/Content/assets/global/scripts/datatable.js"></script>
-<script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
-<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
+    <script src="~/Content/assets/global/scripts/datatable.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script type="text/javascript">
-        PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data');
-        PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data');
+        var rdrValue = "OnayBekleyenler";
+        var radioGroupItems = [
+            { text: "Onay Bekleyenler", value: "OnayBekleyenler" },
+            { text: "Reddedilenler", value: "Reddedilenler" }
+        ];
+        $(function () {
+            $(".rdgrpOnayRed").dxRadioGroup({
+                dataSource: radioGroupItems,
+                displayExpr: "text",
+                valueExpr: "value",
+                value: "OnayBekleyenler",
+                layout: "horizontal",
+                onValueChanged: function (e) {
+                    if (e.value == 'Reddedilenler') {
+                        $(".pull-right").css("display", "none");
+                    }
+                    else {
+                        $(".pull-right").css("display", "block");
+                    }
+                    rdrValue = e.value;
+                    PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
+                    PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
+                }
+            });
+        });
+        PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
+        PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
         function newrow(PERSONELID) { return "<table style='background:transparent;' id='new" + PERSONELID + "'></table>"; }
         function format(d) {
             var html = "<tr style='background: transparent;'><th>Geçerlilik Ayı</th><th>Geçerlilik Yılı</th><th>Degisim Tarihi</th><th>Ucret Tipi</th><th>Döviz Tipi</th><th>Birim Ücret</th>< th >Genel Aylık Ücret</th><th>Brüt/Net</th></tr >";

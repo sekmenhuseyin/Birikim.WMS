@@ -38,7 +38,8 @@
     <table class="table table-striped table-bordered" id="sample_2">
         <thead>
             <tr>
-                
+                <th style="display:none;"></th>
+                <th style="display:none;"></th>
                 <th></th>
                 <th nowrap>Ad</th>
                 <th nowrap>Soyad</th>
@@ -78,25 +79,26 @@
         </div>*@
 </div>
 <script>
-
+    var tip2 = "@ViewBag.Tip";
     var secili_satir = new Array();
     var secili_table = new Array();
     var table2 = $('#sample_2').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/Techno/PrimListData',
+            "url": '/Approvals/Techno/PrimListData?tip=' + tip2,
             "dataSrc": function (json) {
                 return json;
             },
         },
         //"responsive": true,
         "fixedHeader": true,
-        "columnDefs": [{ "visible": false, "targets": 0 }],
         "scrollX": true,
         "scrollY": '30vh',
         "scrollCollapse": true,
-        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6, 7] }],
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6, 7] }, { "visible": false, "targets": [0, 1] }],
         "columns": [
+            { "data": "PERSONELID" },
+            { "data": "ID" },
             { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
             { "data": "Ad" },
             { "data": "Soyad" },
@@ -146,13 +148,14 @@
         $(this).toggleClass('selected');
     });
     function PrimOnayla() {
-        var x = table.rows('.selected').data();
+        var x = table2.rows('.selected').data();
+        secili_table = [];
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
         }
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approvals/Contract/Onay_GM",
+            url: window.location.origin + "/Approvals/Techno/Prim_Onayla",
             data: { Data: JSON.stringify(secili_table) },
             type: "post",
 

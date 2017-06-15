@@ -74,11 +74,11 @@
     $(document).ready(function () {
 
         console.log("cvfd");
-
+        var tip1 = "@ViewBag.Tip";
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
-                "url": '/Approvals/Techno/UcretListData',
+                "url": '/Approvals/Techno/UcretListData?tip=' + tip1,
                 "dataSrc": function (json) {
                     return json;
                 },
