@@ -41,6 +41,9 @@ namespace Wms12m.Entity
         public short Yil { get; set; }
         public int PERSONELID { get; set; }
         public string BrutNet { get; set; }
+        public short IslemTip { get; set; }
+        public DateTime IslemTarih { get; set; }
+        public int ButUcretID { get; set; }
 
     }
 }
