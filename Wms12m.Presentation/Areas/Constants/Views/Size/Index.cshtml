@@ -44,7 +44,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.MalKodu, "Mal Adı", htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-4">
-                                <input class="form-control input-circle" id="MalAdi" name="MalAdi" disabled="disabled" type="text">
+                                <input class="form-control input-circle" id="MalAdi" name="MalAdi" type="text" placeholder="Mal Adı">
                             </div>
                         </div>
                         <div class="form-group">
@@ -128,7 +128,15 @@
         $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
         RefreshPage()
         $("#MalKodu").autocomplete({
-            source: "/WMS/Purchase/getMalzemebyCode/@ViewBag.SirketID",
+            source: "/WMS/Purchase/getMalzemebyCode/0",
+            minLength: 2,
+            select: function (event, ui) {
+                getBirims(ui.item.id);
+                $("#MalAdi").val(ui.item.value);
+            }
+        });
+        $("#MalAdi").autocomplete({
+            source: "/WMS/Purchase/GetMalzemebyName/0",
             minLength: 2,
             select: function (event, ui) {
                 getBirims(ui.item.id);
@@ -188,7 +196,7 @@
         $.ajax({
             url: "/WMS/Purchase/getBirim",
             type: 'POST',
-            data: JSON.stringify({ kod: id, s: @ViewBag.SirketID }),
+            data: JSON.stringify({ kod: id, s: 0 }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             success: function (data) {

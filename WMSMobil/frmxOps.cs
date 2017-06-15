@@ -159,44 +159,17 @@ namespace WMSMobil
         {
             this.Invoke((MethodInvoker)delegate()
             {
-                try
+                string okunan = scanDataCollection.GetFirst.Text;
+                if (okunan.Length > 12)
                 {
-                    string focuslandi = "";
-                    foreach (Control cont in panelUst.Controls)
-                    {
-                        if (cont.Focused)
-                        {
-                            //eğer raf ise direk yaz
-                            if (cont.Name == txtRafBarkod.Name)
-                            {
-                                txtRafBarkod.Text = scanDataCollection.GetFirst.Text;
-                                focuslandi = "txtRafBarkod";
-                            }
-                            //eğer odaklanana yer barkod ise barkoda göre malkodunu getir
-                            else if (cont.Name == txtBarkod.Name)
-                            {
-                                txtBarkod.Text = scanDataCollection.GetFirst.Text;
-                                focuslandi = "txtBarkod";
-                            }
-                        }
-                    }
-                    //eğer hiç bir yere odaklanmamışsa
-                    if (focuslandi == "")
-                    {
-                        Mesaj.Uyari("Lütfen önce bir yazı kutusuna tıklayın!");
-                        return;
-                    }
-                    else if (focuslandi == "txtRafBarkod")
-                        txtBarkod.Focus();
-                    else if (focuslandi == "txtRafBarkod")
-                    {
-                        if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
-                        else btnUygula_Click(Barkod, null);//uygula
-                    }
+                    txtRafBarkod.Text = okunan;
+                    txtBarkod.Focus();
                 }
-                catch (Exception ex)
+                else
                 {
-                    Mesaj.Hata(ex);
+                    txtBarkod.Text = okunan;
+                    if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
+                    else btnUygula_Click(Barkod, null);//uygula
                 }
             });
         }

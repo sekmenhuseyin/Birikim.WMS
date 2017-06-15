@@ -184,6 +184,22 @@
         $("#Tarih").attr("readonly", false);
         checkEnabled();
     }
+    function UpdateList(id)
+    {
+        $.ajax({
+            url: "/WMS/Purchase/UpdateList",
+            data: JSON.stringify({ ID: id, M: $("#Miktar"+id).val(), mNo: $("#MakaraNo"+id).val() }),
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data.Status = true)
+                    $('#submitForm').click();
+                else
+                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+            }
+        });
+    }
     $(function () {
         $('#linkUpload').click(function () {
             if ($("#SID").val() != "" && $("#DID").val() != "" && $("#Hesap").val() != "")

@@ -413,12 +413,12 @@ namespace Wms12m
                                     Birim = item2.Birim,
                                     Miktar = item2.Miktar.Value
                                 };
-                                stok.Insert(tmp2, item.ID, KullID);
+                                stok.Insert(tmp2, 0, KullID);
                             }
                             else
                             {
                                 tmp2.Miktar += item2.Miktar.Value;
-                                stok.Update(tmp2, item.ID, KullID, false, item2.Miktar.Value);
+                                stok.Update(tmp2, 0, KullID, false, item2.Miktar.Value);
                             }
                         }
                     }
