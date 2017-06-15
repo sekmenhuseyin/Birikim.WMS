@@ -2,7 +2,7 @@
 
 namespace Wms12m.Entity
 {
-    public class TechnoUcretList
+    public class TechnoList
     {
         public string Ad { get; set; }
         public string Soyad { get; set; }
@@ -21,5 +21,26 @@ namespace Wms12m.Entity
         public DateTime GuncellemeTarihi { get; set; }
         public string GuncelleyenKullanici { get; set; }
         public string Aciklama { get; set; }
+        public decimal TutarIsci { get; set; }
+        public decimal TutarMemur { get; set; }
+        public string DovizTipIsci { get; set; }
+        public string DovizTipMemur { get; set; }
+        public string OdenekKodu { get; set; }
+        public byte Ocak { get; set; }
+        public byte Subat { get; set; }
+        public byte Mart { get; set; }
+        public byte Nisan { get; set; }
+        public byte Mayis { get; set; }
+        public byte Haziran { get; set; }
+        public byte Temmuz { get; set; }
+        public byte Agustos { get; set; }
+        public byte Eylul { get; set; }
+        public byte Ekim { get; set; }
+        public byte Kasim { get; set; }
+        public byte Aralik { get; set; }
+        public short Yil { get; set; }
+        public int PERSONELID { get; set; }
+        public string BrutNet { get; set; }
+
     }
 }
