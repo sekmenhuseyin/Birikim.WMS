@@ -46,7 +46,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             List<TechnoList> ucretBilgi;
             try
             {
-                ucretBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR0312M].[dbo].[TCH_UcretOnaySelect]")).ToList();
+                ucretBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR0312M].[dbo].[TCH_UcretOnaySelect] @Birim='GM'")).ToList();
             }
             catch (Exception ex)
             {
@@ -84,10 +84,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    var IslemTip = insertObj["IslemTip"];
-                    var IslemTarih = insertObj["IslemTarih"];
-                    var ButUcretID = insertObj["ButUcretID"];
-                    var PersonelID = insertObj["PERSONELID"];
+                    var ID = insertObj["ID"];
+                    var OnayDerece = 1;
+                    string s = string.Format("[HR0312M].[dbo].[TCH_UcretOnayUpdate] @OnayDerece={0}, @ID={1}", OnayDerece, ID);
+                    var x = db.Database.SqlQuery<int>(s).ToList();
                 }
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";

@@ -39,8 +39,6 @@
             <tr>
                 <th style="display:none;"></th>
                 <th style="display:none;"></th>
-                <th style="display:none;"></th>
-                <th style="display:none;"></th>
                 <th>
                     @*<label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                             <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
@@ -90,12 +88,10 @@
             "scrollY": '30vh',
             "scrollCollapse": true,
 
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [12, 13] }, { "visible": false, "targets": [0,1,2,3] }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [12, 13] }, { "visible": false, "targets": [0,1] }],
             "columns": [
                 { "data": "PERSONELID" },
-                { "data": "IslemTip" },
-                { "data": "IslemTarih" },
-                { "data": "ButUcretID" },
+                { "data": "ID" },
                 { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
                 { "data": "Ad" },
                 { "data": "Soyad" },
