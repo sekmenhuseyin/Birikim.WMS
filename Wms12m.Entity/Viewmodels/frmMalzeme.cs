@@ -27,6 +27,9 @@ namespace Wms12m.Entity
 
         [DataMember, DisplayName("Birim"), Required(ErrorMessage = "Boş bırakmayınız")]
         public string Birim { get; set; }
+
+        [DataMember, DisplayName("Makara No")]
+        public string MakaraNo { get; set; }
     }
     /// <summary>
     /// malzeme arama

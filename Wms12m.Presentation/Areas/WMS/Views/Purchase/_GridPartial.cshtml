@@ -9,7 +9,7 @@ else
     {
         string tmp = ViewBag.SirketID;
         <table class="table table-striped table-bordered table-hover">
-            <thead><tr><th>Malzeme Kodu</th><th>Malzeme Adı</th><th>Miktar</th><th>Birim</th><th>İşlem</th></tr></thead>
+            <thead><tr><th>Malzeme Kodu</th><th>Malzeme Adı</th><th>Miktar</th><th>Birim</th><th>Makara No</th><th>İşlem</th></tr></thead>
             <tbody id="StoreFrom">
                 @{if (ViewBag.Onay == false) { Html.RenderAction("NewMalzemeForm", new { id = ViewBag.IrsaliyeId }); } }
                 @foreach (var item in Model)
@@ -19,6 +19,7 @@ else
                         <td>@item.MalKodu.GetMalAdi(tmp)</td>
                         <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                         <td>@item.Birim</td>
+                        <td>@item.MakaraNo</td>
                         <td>@if (ViewBag.Onay == false) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/WMS/Purchase/GridPartial','StoreGrid','@ViewBag.IrsaliyeId', '')"> Sil </a>}</td>
                     </tr>
                 }

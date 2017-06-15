@@ -6,5 +6,6 @@
     <td>@Html.TextBoxFor(a => a.MalAdi, new { @class = "form-control input-circle", @required = "" })</td>
     <td>@Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle", @required = "" })</td>
     <td><select name="Birim" id="Birim" class = "form-control input-circle" required></select></td>
+    <td>@Html.TextBoxFor(a => a.MakaraNo, new { @class = "form-control input-circle" })</td>
     <td><input type="hidden" name="IrsaliyeId" id="IrsaliyeId" value="@ViewBag.IrsaliyeId" /><input type="submit" class="btn btn-primary btn-block input-circle" value="Ekle" /></td>
 </tr>

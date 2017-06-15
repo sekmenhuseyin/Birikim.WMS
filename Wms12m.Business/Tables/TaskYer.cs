@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class TaskYer : abstractTables<GorevYer>, IDisposable
+    public class TaskYer : abstractTables<GorevYer>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
@@ -105,13 +99,6 @@ namespace Wms12m.Business
         public override List<GorevYer> GetList(int ParentId)
         {
             return db.GorevYers.Where(m => m.GorevID == ParentId).OrderBy(m => m.Sira).ThenBy(m => m.MalKodu).ToList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

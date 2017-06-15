@@ -159,6 +159,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     Birim = tbl.Birim,
                     Miktar = tbl.Miktar
                 };
+                if (tbl.MakaraNo != "") tmp2.MakaraNo = tbl.MakaraNo;
                 Yerlestirme.Insert(tmp2, 0, vUser.Id);
             }
             else
