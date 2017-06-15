@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Task : abstractTables<Gorev>, IDisposable
+    public class Task : abstractTables<Gorev>
     {
-        Result _Result;
-        Helpers helper = new Helpers();
-        WMSEntities db = new WMSEntities();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle/güncelle
         /// </summary>
@@ -177,33 +171,6 @@ namespace Wms12m.Business
             }
             return _Result;
         }
-        public Result DeleteSome()
-        {
-            _Result = new Result();
-            try
-            {
-                int Id = ComboItems.Başlamamış.ToInt32();
-                var tbl = db.Gorevs.Where(m => m.DurumID == Id).ToList();
-                if (tbl == null)
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
-                foreach (var item in tbl)
-                {
-                    db.DeleteFromGorev(item.ID);
-                }
-                _Result.Message = "İşlem Başarılı !!!";
-                _Result.Status = true;
-            }
-            catch (Exception ex)
-            {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Task/DeleteSome");
-                _Result.Message = ex.Message;
-                _Result.Status = false;
-            }
-            return _Result;
-        }
         /// <summary>
         /// ayrıntılar
         /// </summary>
@@ -257,13 +224,6 @@ namespace Wms12m.Business
         public List<Gorev> GetList(int TipID, int DurumID)
         {
             return db.Gorevs.Where(m => m.DurumID == DurumID && m.GorevTipiID == TipID).OrderByDescending(m => m.ID).ToList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

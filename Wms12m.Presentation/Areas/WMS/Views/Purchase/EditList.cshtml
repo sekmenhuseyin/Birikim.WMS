@@ -1,0 +1,18 @@
+﻿@model IRS_Detay
+@{string tmp = ViewBag.SirketID;}
+<td>@Model.MalKodu</td>
+<td>@Model.MalKodu.GetMalAdi(tmp)</td>
+<td>@Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle", @required = "", @onchange = "$('#Miktar" + Model.ID + "').val(this.value)" })</td>
+<td>@Model.Birim</td>
+<td>@Html.TextBoxFor(a => a.MakaraNo, new { @class = "form-control input-circle", @onchange = "$('#MakaraNo" + Model.ID + "').val(this.value)" })</td>
+<td>
+    @using (Ajax.BeginForm("UpdateList", "Purchase", new { area = "WMS" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "$('#submitForm').click();", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="ID" value="@Model.ID" />
+        <input type="hidden" name="Miktar" id="Miktar@{@Model.ID}" />
+        <input type="hidden" name="MakaraNo" id="MakaraNo@{@Model.ID}" />
+        <input class="btn btn-primary input-circle" type="submit" name="submit" value="Kaydet" />
+    }
+    <a class="btn btn-default input-circle" href="javascript:;" onclick="$('#submitForm').click();"> İptal </a>
+</td>

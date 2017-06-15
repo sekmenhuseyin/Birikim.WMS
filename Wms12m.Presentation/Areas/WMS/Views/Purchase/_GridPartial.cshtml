@@ -9,17 +9,22 @@ else
     {
         string tmp = ViewBag.SirketID;
         <table class="table table-striped table-bordered table-hover">
-            <thead><tr><th>Malzeme Kodu</th><th>Malzeme Adı</th><th>Miktar</th><th>Birim</th><th>İşlem</th></tr></thead>
+            <thead><tr><th>Malzeme Kodu</th><th>Malzeme Adı</th><th>Miktar</th><th>Birim</th><th>Makara No</th><th>İşlem</th></tr></thead>
             <tbody id="StoreFrom">
                 @{if (ViewBag.Onay == false) { Html.RenderAction("NewMalzemeForm", new { id = ViewBag.IrsaliyeId }); } }
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    <tr id="tr@{@item.ID}">
                         <td>@item.MalKodu</td>
                         <td>@item.MalKodu.GetMalAdi(tmp)</td>
                         <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                         <td>@item.Birim</td>
-                        <td>@if (ViewBag.Onay == false) {<a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/WMS/Purchase/GridPartial','StoreGrid','@ViewBag.IrsaliyeId', '')"> Sil </a>}</td>
+                        <td>@item.MakaraNo</td>
+                        <td>@if (ViewBag.Onay == false)
+                        {
+                            <a class="btn btn-default input-circle" href="javascript:;" onclick="editlist(@item.ID)"> Değiştir </a>
+                            <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/WMS/Purchase/GridPartial','StoreGrid','@ViewBag.IrsaliyeId', '')"> Sil </a>
+                        }</td>
                     </tr>
                 }
             </tbody>
@@ -46,13 +51,17 @@ else
                 $("#MalAdi").val(ui.item.value);
             }
         });
+        function editlist(id)
+        {
+            PartialView('/WMS/Purchase/EditList', 'tr' + id, JSON.stringify({ Id: id, s: $("#SirketID").val() }));
+        }
         function getBirims(id)
         {
             $("#Birim option").remove();
             $.ajax({
                 url: "/WMS/Purchase/GetBirim" ,
                 type: 'POST',
-                data: JSON.stringify({ kod: id,s:$("#SirketID").val() }),
+                data: JSON.stringify({ kod: id, s: $("#SirketID").val() }),
                 dataType: "json",
                 contentType: 'application/json; charset=utf-8',
                 success: function (data) {

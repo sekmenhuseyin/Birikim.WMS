@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Persons : abstractTables<User>, IDisposable
+    public class Persons : abstractTables<User>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        Functions fn = new Functions();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle, güncelle
         /// </summary>
@@ -209,7 +203,7 @@ namespace Wms12m.Business
         }
         public List<User> GetListWithoutTerminal()
         {
-            return db.Users.Where(m=>m.UserDetail == null).OrderBy(m => m.AdSoyad).ToList();
+            return db.Users.Where(m => m.UserDetail == null).OrderBy(m => m.AdSoyad).ToList();
         }
         /// <summary>
         /// sil
@@ -241,13 +235,6 @@ namespace Wms12m.Business
                 _Result.Status = false;
             }
             return _Result;
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Irsaliye : abstractTables<IR>, IDisposable
+    public class Irsaliye : abstractTables<IR>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle/güncelle
         /// </summary>
@@ -114,13 +108,6 @@ namespace Wms12m.Business
         public bool GetOnay(int ID)
         {
             return db.IRS.Where(m => m.ID == ID).Select(m => m.Onay).FirstOrDefault();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class IrsaliyeDetay : abstractTables<IRS_Detay>, IDisposable
+    public class IrsaliyeDetay : abstractTables<IRS_Detay>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle/güncelle
         /// </summary>
@@ -37,6 +31,7 @@ namespace Wms12m.Business
                 tmp.MalKodu = tbl.MalKodu;
                 tmp.Birim = tbl.Birim;
                 tmp.Miktar = tbl.Miktar;
+                if (tbl.MakaraNo != "") tmp.MakaraNo = tbl.MakaraNo;
                 if (tbl.YerlestirmeMiktari != null) tmp.YerlestirmeMiktari = tbl.YerlestirmeMiktari;
             }
             try
@@ -79,6 +74,7 @@ namespace Wms12m.Business
                         Birim = tbl.Birim,
                         Miktar = tbl.Miktar
                     };
+                    if (tbl.MakaraNo != "") tablo.MakaraNo = tbl.MakaraNo;
                     db.IRS_Detay.Add(tablo);
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";
@@ -155,13 +151,6 @@ namespace Wms12m.Business
         public override List<IRS_Detay> GetList(int ParentId)
         {
             return db.IRS_Detay.Where(m => m.IrsaliyeID == ParentId).OrderByDescending(m => m.ID).ToList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

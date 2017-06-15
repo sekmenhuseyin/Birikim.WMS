@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class ComboSub : abstractTables<ComboItem_Name>, IDisposable
+    public class ComboSub : abstractTables<ComboItem_Name>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
@@ -123,13 +117,6 @@ namespace Wms12m.Business
         public List<ComboItem_Name> GetList(int ParentId, bool visible)
         {
             return db.ComboItem_Name.Where(m => m.Visible == visible).Where(m => m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }
