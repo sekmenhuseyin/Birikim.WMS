@@ -45,7 +45,7 @@ namespace Wms12m.Presentation.Controllers
                 db.Roles.Add(role);
                 db.SaveChanges();
                 //log
-                LogActions("", "Roles", "Create", ComboItems.alEkle, role.RoleName, "");
+                LogActions("", "Roles", "Create", ComboItems.alEkle, role.ID, role.RoleName);
             }
             return RedirectToAction("Index");
         }
@@ -61,7 +61,7 @@ namespace Wms12m.Presentation.Controllers
                 db.Roles.Remove(role);
                 db.SaveChanges();
                 //log
-                LogActions("", "Roles", "Delete", ComboItems.alSil, role.RoleName, "");
+                LogActions("", "Roles", "Delete", ComboItems.alSil, id.ToInt32(), role.RoleName);
                 return Json(new Result(true, 1, ""), JsonRequestBehavior.AllowGet);
             }
             catch (System.Exception)

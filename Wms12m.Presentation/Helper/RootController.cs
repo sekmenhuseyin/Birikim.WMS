@@ -45,9 +45,9 @@ namespace Wms12m.Presentation
         /// <summary>
         /// işlem kaydı
         /// </summary>
-        public void LogActions(string area, string controller, string action, ComboItems type, string request, string details)
+        public void LogActions(string area, string controller, string action, ComboItems type, int ID, string details = "", string request = "")
         {
-            db.LogActions("WMS", area, controller, action, type.ToInt32(), fn.GetIPAddress(), request, details, vUser.UserName);
+            db.LogActions("WMS", area, controller, action, type.ToInt32(), ID, request, details, vUser.UserName, fn.GetIPAddress());
         }
         /// <summary>
         /// her bir sayfa için yetki kontrolü yapar

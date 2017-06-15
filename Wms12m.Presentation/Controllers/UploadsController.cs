@@ -122,7 +122,7 @@ namespace Wms12m.Presentation.Controllers
             }
             var Unvan = db.Database.SqlQuery<string>(string.Format("SELECT Unvan1+' '+Unvan2 AS Unvan FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE HesapKodu = '{1}'", SID, Hesap)).FirstOrDefault();
             //log
-            LogActions("", "Uploads", "Irsaliye", ComboItems.alYükle, "", "");
+            LogActions("", "Uploads", "Irsaliye", ComboItems.alYükle, sonuc.GorevID.Value, "GörevID: " + sonuc.GorevID.Value + ", Satır Sayısı: " + liste.Count);
             //update görev
             var gorev = db.Gorevs.Where(m => m.ID == sonuc.GorevID.Value).FirstOrDefault();
             gorev.DurumID = ComboItems.Açık.ToInt32();
@@ -200,7 +200,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 _Result.Message = basarili + " adet satır eklendi";
                 //log
-                LogActions("", "Uploads", "Olcu", ComboItems.alYükle, "", "");
+                LogActions("", "Uploads", "Olcu", ComboItems.alYükle, 0, "Satır Sayısı: " + basarili);
             }
             else
                 _Result.Message = "";
@@ -304,7 +304,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 _result.Message = basarili + " adet satır eklendi";
                 //log
-                LogActions("", "Uploads", "Stock", ComboItems.alYükle, "", "");
+                LogActions("", "Uploads", "Stock", ComboItems.alYükle, 0, "Satır Sayısı: " + basarili);
             }
             else
                 _result.Message = "";

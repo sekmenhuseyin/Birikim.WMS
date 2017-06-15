@@ -25,12 +25,12 @@ namespace Wms12m
         /// <summary>
         /// işlem kaydı
         /// </summary>
-        public void LogActions(string area, string controller, string action, ComboItems type, string request, string details, string username)
+        public void LogActions(string area, string controller, string action, ComboItems type, int ID, string request, string details, string username)
         {
             using (WMSEntities db = new WMSEntities())
             {
                 Functions fn = new Functions();
-                db.LogActions("WMS", area, controller, action, type.ToInt32(), fn.GetIPAddress(), request, details, username);
+                db.LogActions("WMS", area, controller, action, type.ToInt32(), ID, request, details, username, fn.GetIPAddress());
             }
         }
     }

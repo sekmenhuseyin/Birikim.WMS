@@ -44,7 +44,7 @@ namespace Wms12m.Presentation.Controllers
                         {
                             db.RolePerms.Remove(tbl);
                             //log
-                            LogActions("", "Perms", "Save", ComboItems.alSil, tbl.PermName, "");
+                            LogActions("", "Perms", "Save", ComboItems.alSil, tbl.ID, tbl.PermName);
                         }
                         else
                         {
@@ -55,7 +55,7 @@ namespace Wms12m.Presentation.Controllers
                             tbl.ModifiedDate = DateTime.Now;
                             tbl.ModifiedUser = vUser.UserName;
                             //log
-                            LogActions("", "Perms", "Save", ComboItems.alDüzenle, tbl.PermName, "");
+                            LogActions("", "Perms", "Save", ComboItems.alDüzenle, tbl.ID, tbl.PermName+ ": R:"+tbl.Reading+ ", W:" + tbl.Writing + ", U:" + tbl.Updating + ", D:" + tbl.Deleting);
                         }
                     }
                     else
@@ -75,7 +75,7 @@ namespace Wms12m.Presentation.Controllers
                         };
                         db.RolePerms.Add(tbl);
                         //log
-                        LogActions("", "Perms", "Save", ComboItems.alEkle, tbl.PermName, "");
+                        LogActions("", "Perms", "Save", ComboItems.alEkle, tbl.ID, tbl.PermName+ ": R:"+tbl.Reading+ ", W:" + tbl.Writing + ", U:" + tbl.Updating + ", D:" + tbl.Deleting);
                     }
                     if (tbl.Reading != false || tbl.Writing != false || tbl.Updating != false || tbl.Deleting != false || tbl.ID > 0)
                         try { db.SaveChanges(); }
