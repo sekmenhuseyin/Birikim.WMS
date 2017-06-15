@@ -175,41 +175,49 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
                 if (stks.Count > 0)
                 {
-                    using (KabloEntities dbx = new KabloEntities())
+                    try
                     {
-                        string depo;
-                        var kbldepoID = db.Depoes.Where(m => m.ID == vUser.DepoId).Select(m => m.KabloDepoID).FirstOrDefault();
-                        if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
-                        else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
-                        foreach (var itemx in stks)
+                        using (KabloEntities dbx = new KabloEntities())
                         {
-                            //sid bul
-                            int sid = dbx.indices.Where(m => m.cins == itemx.Nesne2 && m.kesit == itemx.Kod15).Select(m => m.id).FirstOrDefault();
-                            //stoğa kaydet
-                            stok tbls = new stok()
+                            string depo;
+                            var kbldepoID = db.Depoes.Where(m => m.ID == vUser.DepoId).Select(m => m.KabloDepoID).FirstOrDefault();
+                            if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
+                            else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
+                            foreach (var itemx in stks)
                             {
-                                marka = itemx.MalAdi4,
-                                cins = itemx.Nesne2,
-                                kesit = itemx.Kod15,
-                                sid = sid,
-                                depo = depo,
-                                renk = "",
-                                makara = "KAPALI",
-                                rezerve = "0",
-                                sure = new TimeSpan(),
-                                tarih = DateTime.Now,
-                                tip = "",
-                                rmiktar = 0,
-                                miktar = tbl.Miktar
-                            };
-                            dbx.stoks.Add(tbls);
-                            dbx.SaveChanges();
+                                //sid bul
+                                int sid = dbx.indices.Where(m => m.cins == itemx.Nesne2 && m.kesit == itemx.Kod15).Select(m => m.id).FirstOrDefault();
+                                //stoğa kaydet
+                                stok tbls = new stok()
+                                {
+                                    marka = itemx.MalAdi4,
+                                    cins = itemx.Nesne2,
+                                    kesit = itemx.Kod15,
+                                    sid = sid,
+                                    depo = depo,
+                                    renk = "",
+                                    makara = "KAPALI",
+                                    rezerve = "0",
+                                    sure = new TimeSpan(),
+                                    tarih = DateTime.Now,
+                                    tip = "",
+                                    rmiktar = 0,
+                                    miktar = tbl.Miktar
+                                };
+                                dbx.stoks.Add(tbls);
+                                dbx.SaveChanges();
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger(ex, "Stock/ManualPlacement");
+                        return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
                     }
                 }
             }
             //return
-            return Json(true, JsonRequestBehavior.AllowGet);
+            return Json(new Result(true), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// manual yer değiştir

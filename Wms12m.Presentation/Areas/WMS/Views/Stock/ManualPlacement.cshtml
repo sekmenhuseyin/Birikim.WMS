@@ -29,7 +29,7 @@
                 <div class="col-md-1 pull-right m-t-5"><a id="btnSablon" href="~/Content/StockSablon.xlsx" class="btn btn-default showlater">Şablon İndir</a></div>
            </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("ManualPlacement", "Stock", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "FuncSearchBtn()", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("ManualPlacement", "Stock", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "getresult", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -130,7 +130,33 @@
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 <script>
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+    $("#MalKodu").autocomplete({
+        source: "/WMS/Purchase/getMalzemebyCode/@ViewBag.SirketID",
+        minLength: 2,
+        select: function (event, ui) {
+            getBirims(ui.item.id);
+            $("#MalAdi").val(ui.item.value);
+        }
+    });
+    $("#MalAdi").autocomplete({
+        source: "/WMS/Purchase/GetMalzemebyName/@ViewBag.SirketID",
+        minLength: 2,
+        select: function (event, ui) {
+            getBirims(ui.item.id);
+            $("#MalAdi").val(ui.item.value);
+        }
+    });
     checkEnabled();
+    function getresult(e) {
+        if (e.Status == true)
+            FuncSearchBtn()
+        else
+            Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
+    };
+    function FuncSearchBtn() {
+        $('#FloorGrid').html("");
+        PartialView("/WMS/Stock/List", 'FloorGrid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
+    }
     function checkEnabled() {
         $("#DID").val($("#DepoID").val());
         if ($("#DepoID").val() == "") {
@@ -200,10 +226,6 @@
             }
         });
     }
-    function FuncSearchBtn() {
-        $('#FloorGrid').html("");
-        PartialView("/WMS/Stock/List", 'FloorGrid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
-    }
     function getBirims(id) {
         $("#Birim option").remove();
         $.ajax({
@@ -223,22 +245,6 @@
             }
         });
     }
-    $("#MalKodu").autocomplete({
-        source: "/WMS/Purchase/getMalzemebyCode/@ViewBag.SirketID",
-        minLength: 2,
-        select: function (event, ui) {
-            getBirims(ui.item.id);
-            $("#MalAdi").val(ui.item.value);
-        }
-    });
-    $("#MalAdi").autocomplete({
-        source: "/WMS/Purchase/GetMalzemebyName/@ViewBag.SirketID",
-        minLength: 2,
-        select: function (event, ui) {
-            getBirims(ui.item.id);
-            $("#MalAdi").val(ui.item.value);
-        }
-    });
     $(function () {
         $('#linkUpload').click(function () {
             if ($("#DID").val() != "")
