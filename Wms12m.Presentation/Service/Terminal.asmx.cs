@@ -431,33 +431,41 @@ namespace Wms12m
                         var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
                         if (stks.Count > 0)
                         {
-                            using (KabloEntities dbx = new KabloEntities())
+                            try
                             {
-                                string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
-                                foreach (var itemx in stks)
+                                using (KabloEntities dbx = new KabloEntities())
                                 {
-                                    //sid bul
-                                    int sid = dbx.indices.Where(m => m.cins == itemx.Nesne2 && m.kesit == itemx.Kod15).Select(m => m.id).FirstOrDefault();
-                                    //stoğa kaydet
-                                    stok tbls = new stok()
+                                    string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
+                                    foreach (var itemx in stks)
                                     {
-                                        marka = itemx.MalAdi4,
-                                        cins = itemx.Nesne2,
-                                        kesit = itemx.Kod15,
-                                        sid = sid,
-                                        depo = depo,
-                                        renk = "",
-                                        makara = "KAPALI",
-                                        rezerve = "0",
-                                        sure = new TimeSpan(),
-                                        tarih = DateTime.Now,
-                                        tip = "",
-                                        rmiktar = 0,
-                                        miktar = itemx.Miktar
-                                    };
-                                    dbx.stoks.Add(tbls);
-                                    dbx.SaveChanges();
+                                        //sid bul
+                                        int sid = dbx.indices.Where(m => m.cins == itemx.Nesne2 && m.kesit == itemx.Kod15).Select(m => m.id).FirstOrDefault();
+                                        //stoğa kaydet
+                                        stok tbls = new stok()
+                                        {
+                                            marka = itemx.MalAdi4,
+                                            cins = itemx.Nesne2,
+                                            kesit = itemx.Kod15,
+                                            sid = sid,
+                                            depo = depo,
+                                            renk = "",
+                                            makara = "KAPALI",
+                                            rezerve = "0",
+                                            sure = new TimeSpan(),
+                                            tarih = DateTime.Now,
+                                            tip = "",
+                                            rmiktar = 0,
+                                            miktar = itemx.Miktar
+                                        };
+                                        dbx.stoks.Add(tbls);
+                                        dbx.SaveChanges();
+                                    }
                                 }
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger(ex, "Service/Terminal/MalKabul_GoreviTamamla", kull);
+                                return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
                             }
                         }
                     }
@@ -715,49 +723,52 @@ namespace Wms12m
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
             db.SaveChanges();
             //kablo hareketlere kaydet
-            using (KabloEntities dbx = new KabloEntities())
-            {
-                //önce depo adını bul
-                string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
-                bool varmi = false;
-                foreach (var item in mGorev.IRS)
-                {
-                    foreach (var item2 in item.IRS_Detay)
-                    {
-                        //istenen stk bilgilerini bul
-                        sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
-                                              "FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) " +
-                                              "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')", item.SirketKod, item2.MalKodu);
-                        var stk = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
-                        if (stk != null)
-                        {
-                            //makarayı bul
-                            var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.MalAdi4 && m.cins == stk.Nesne2 && m.kesit == stk.Kod15 && m.id == item2.KynkSiparisID).FirstOrDefault();
-                            //kabloya açık yap
-                            if (kablo.miktar != item2.Miktar)
-                                kablo.makara = "AÇIK";
-                            //yeni hareket ekle
-                            hareket tblh = new hareket()
-                            {
-                                id = kablo.id,
-                                miktar = item2.Miktar,
-                                musteri = item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
-                                tarih = DateTime.Now
-                            };
-                            dbx.harekets.Add(tblh);
-                            varmi = true;
-                        }
-                    }
-                }
+            if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
                 try
                 {
-                    if (varmi == true) dbx.SaveChanges();
+                    using (KabloEntities dbx = new KabloEntities())
+                    {
+                        //önce depo adını bul
+                        string depo = dbx.depoes.Where(m => m.id == mGorev.Depo.KabloDepoID).Select(m => m.depo1).FirstOrDefault();
+                        bool varmi = false;
+                        foreach (var item in mGorev.IRS)
+                        {
+                            foreach (var item2 in item.IRS_Detay)
+                            {
+                                //istenen stk bilgilerini bul
+                                sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
+                                                      "FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) " +
+                                                      "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')", item.SirketKod, item2.MalKodu);
+                                var stk = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
+                                if (stk != null)
+                                {
+                                    //makarayı bul
+                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.MalAdi4 && m.cins == stk.Nesne2 && m.kesit == stk.Kod15 && m.id == item2.KynkSiparisID).FirstOrDefault();
+                                    //kabloya açık yap
+                                    if (kablo.miktar != item2.Miktar)
+                                        kablo.makara = "AÇIK";
+                                    //yeni hareket ekle
+                                    hareket tblh = new hareket()
+                                    {
+                                        id = kablo.id,
+                                        miktar = item2.Miktar,
+                                        musteri = item.HesapKodu.GetUnvan(item.SirketKod).Left(40),
+                                        tarih = DateTime.Now,
+                                        kaydigiren = tblx.AdSoyad
+                                    };
+                                    dbx.harekets.Add(tblh);
+                                    varmi = true;
+                                }
+                            }
+                        }
+                        if (varmi == true) dbx.SaveChanges();
+                    }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Logger(ex, "Service/Terminal/SiparisTopla_GoreviTamamla", kull.AdSoyad);
                     return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
                 }
-            }
             return new Result(true);
         }
         /// <summary>
