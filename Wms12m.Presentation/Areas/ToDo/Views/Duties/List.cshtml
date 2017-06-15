@@ -5,7 +5,7 @@
             <i class="fa fa-gift"></i>Görevler Listesi
         </div>
     </div>
-    <div class="portlet-body flip-content">
+    <div class="portlet-body flip-scroll">
         <table class="table table-bordered table-striped table-condensed flip-content" id="sample_1">
             <thead class="flip-content" ><tr>
                        <th nowrap>Çalışma</th>                      
@@ -53,7 +53,7 @@
                         <td>@item.ComboItem_Name1.Name</td>
                         <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name}</td>
                         <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name}</td>
-                        <td>@Html.DisplayFor(mItem => item.TahminiBitis)</td>
+                        <td>@item.TahminiBitis.Value.ToString("dd MMM yyyy")</td>
                         <td nowrap>
                             <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewWork/@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
                             <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Duties/List','liste','@item.ID')"> Sil </a>
