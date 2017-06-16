@@ -42,6 +42,7 @@ namespace Wms12m.Entity
         public int PERSONELID { get; set; }
         public string BrutNet { get; set; }
         public int ID { get; set; }
+        public string RedNedeni { get; set; }
 
     }
 }

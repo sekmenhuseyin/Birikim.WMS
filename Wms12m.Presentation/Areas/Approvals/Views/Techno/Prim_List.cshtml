@@ -52,6 +52,8 @@
                 <th nowrap>DovizTipMemur</th>
                 <th nowrap>OdenekKodu</th>
 
+                <th nowrap>RedNedeni</th>
+
                 <th nowrap>Ocak</th>
                 <th nowrap>Subat</th>
                 <th nowrap>Mart</th>
@@ -78,10 +80,38 @@
     @*</div>
         </div>*@
 </div>
+<div class="modal fade" id="x-modal-primred" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#3434cb">Techno Prim Red</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="redNeden">
+                    <div style="width:100%;">
+                        <h5 style="color:#de3838;">
+                            Red Nedeni
+                        </h5>
+                    </div>
+                    <div class="txtPrimRedNeden">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="mdlSilKapat">Kapat</button>
+                <button type="button" class="btn btn-primary" id="md2SilKayit" data-dismiss="modal">Kaydet</button>
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     var tip2 = "@ViewBag.Tip";
     var secili_satir = new Array();
     var secili_table = new Array();
+    $(".txtPrimRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
     var table2 = $('#sample_2').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
@@ -95,7 +125,7 @@
         "scrollX": true,
         "scrollY": '30vh',
         "scrollCollapse": true,
-        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6, 7] }, { "visible": false, "targets": [0, 1] }],
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [8, 9] }, { "visible": false, "targets": [0, 1] }],
         "columns": [
             { "data": "PERSONELID" },
             { "data": "ID" },
@@ -110,6 +140,8 @@
             { "data": "DovizTipIsci" },
             { "data": "DovizTipMemur" },
             { "data": "OdenekKodu" },
+
+            { "data": "RedNedeni" },
 
             { "data": "Ocak" },
             { "data": "Subat" },
@@ -142,7 +174,12 @@
             return nRow;
         }
     });
-
+    if (tip2 == 'Reddedilenler') {
+        table2.columns([15]).visible(true, true);
+    }
+    else {
+        table2.columns([15]).visible(false, false);
+    }
 
     $('#sample_2 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
@@ -161,33 +198,60 @@
 
             success: function (data) {
                 if (data.Status == true) {
-                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    window.location.reload();
+                    Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onay");
                 }
                 else {
-                    if (data.Message == "") data.Message = "Hata oluştu";
-                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
                 }
             }
         });
         return _dfd.promise();
     }
     function PrimReddet() {
-        var x = table.rows('.selected').data();
+        $('#x-modal-primred').modal("show");
+        //var x = table.rows('.selected').data();
+        //for (var i = 0; i < x.length; i++) {
+        //    secili_table.push(x[i]);
+        //}
+        //var _dfd = $.Deferred();
+        //$.ajax({
+        //    url: window.location.origin + "/Approvals/Techno/Prim_Rddet",
+        //    data: { Data: JSON.stringify(secili_table) },
+        //    type: "post",
+        //    success: function (data) {
+        //        if (data.Status == true) {
+        //            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+        //        }
+        //        else {
+        //            if (data.Message == "") data.Message = "Hata oluştu";
+        //            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+        //        }
+
+        //    }
+        //});
+        //return _dfd.promise();
+
+    }
+    function PrimRed() {
+        secili_table = [];
+        prim_redNeden = $(".txtPrimRedNeden").dxTextArea("instance").option("value");
+        var x = table2.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
         }
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approvals/Contract/Sil_GM",
-            data: { Data: JSON.stringify(secili_table) },
+            url: window.location.origin + "/Approvals/Techno/Prim_Reddet",
+            data: { Data: JSON.stringify(secili_table), RedNeden: prim_redNeden },
             type: "post",
             success: function (data) {
                 if (data.Status == true) {
-                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    window.location.reload();
+                    Modaldialog("İşlem Başarılı", "Red İşlemi", "Tamam", "Red");
                 }
                 else {
-                    if (data.Message == "") data.Message = "Hata oluştu";
-                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
                 }
 
             }
@@ -195,9 +259,10 @@
         return _dfd.promise();
 
     }
-
-
-
+    $(document).on("click", "#md2SilKayit", function () {
+        ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Kaydet", "redKayit", PrimRed, "Kapat", "redKapat", null);
+    });
+    
 </script>
 
 

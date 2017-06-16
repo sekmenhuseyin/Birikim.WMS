@@ -4,9 +4,9 @@
     /// list status
     /// </summary>
     public enum GetListStatus
-    {            
-        Refresh=0,
-        Close=1
+    {
+        Refresh = 0,
+        Close = 1
     }
     /// <summary>
     /// combo items
@@ -72,7 +72,9 @@
         alSil = 57,
         alZiyaret = 58,
         alİndir = 59,
-        alYükle = 60
+        alYükle = 60,
+        alOnayla = 61,
+        alRed = 62
     }
     /// <summary>
     /// combo item names

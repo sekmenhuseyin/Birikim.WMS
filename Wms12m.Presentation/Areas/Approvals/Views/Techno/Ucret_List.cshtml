@@ -58,6 +58,7 @@
                 <th nowrap>DovizTipi</th>
                 <th nowrap>BirimUcret</th>
                 <th nowrap>GenelAylikUcret</th>
+                <th nowrap>RedNedeni</th>
                 <th nowrap>KayitTarih</th>
                 <th nowrap>KaydedenKullanici</th>
                 <th nowrap>GuncellemeTarihi</th>
@@ -67,14 +68,40 @@
         </thead>
     </table>
 </div>
+<div class="modal fade" id="x-modal-ucretred" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#3434cb">Techno Ucret Red</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="redNeden">
+                    <div style="width:100%;">
+                        <h5 style="color:#de3838;">
+                            Red Nedeni
+                        </h5>
+                    </div>
+                    <div class="txtUcretRedNeden">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="mdlSilKapat">Kapat</button>
+                <button type="button" class="btn btn-primary" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     var table = "";
     var secili_satir = new Array();
     var secili_table = new Array();
     $(document).ready(function () {
-
-        console.log("cvfd");
         var tip1 = "@ViewBag.Tip";
+        $(".txtUcretRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
@@ -93,7 +120,7 @@
                 { "data": "PERSONELID" },
                 { "data": "ID" },
                 { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
-                { "data": "Ad" },
+                { "data": "Ad"},
                 { "data": "Soyad" },
                 { "data": "IsyeriAdi" },
                 { "data": "BirimAdi" },
@@ -105,6 +132,7 @@
                 { "data": "DovizTipi" },
                 { "data": "BirimUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "GenelAylikUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "RedNedeni" },
                 { "data": "KayitTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
                 { "data": "KaydedenKullanici" },
                 { "data": "GuncellemeTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
@@ -144,6 +172,13 @@
             $("tr").removeClass("selected");
             $(this).toggleClass('selected');
         });
+        if (tip1 == 'Reddedilenler') {
+            table.columns([15, 16, 17]).visible(true, true);
+        }
+        else {
+            table.columns([15, 16, 17]).visible(false, false);
+        }
+        //table.columns([3,4] ).visible(false,false);
     });
     function UcretOnayla() {
         var x = table.rows('.selected').data();
@@ -157,34 +192,40 @@
             type: "post",
 
             success: function (data) {
+                
                 if (data.Status == true) {
-                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    window.location.reload();
+                    Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onay");
                 }
                 else {
-                    if (data.Message == "") data.Message = "Hata oluştu";
-                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
                 }
             }
         });
         return _dfd.promise();
     }
     function UcretReddet() {
+        $('#x-modal-ucretred').modal("show");
+
+    }
+    function UCRETRED() {
+        ucret_redNeden = $(".txtUcretRedNeden").dxTextArea("instance").option("value");
         var x = table.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
         }
         var _dfd = $.Deferred();
         $.ajax({
-            url: window.location.origin + "/Approvals/Contract/Sil_GM",
-            data: { Data: JSON.stringify(secili_table) },
+            url: window.location.origin + "/Approvals/Techno/Ucret_Reddet",
+            data: { Data: JSON.stringify(secili_table), RedNeden: ucret_redNeden },
             type: "post",
             success: function (data) {
                 if (data.Status == true) {
-                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    window.location.reload();
+                    Modaldialog("İşlem Başarılı", "Red İşlemi", "Tamam", "Red");
                 }
                 else {
-                    if (data.Message == "") data.Message = "Hata oluştu";
-                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
                 }
 
             }
@@ -192,4 +233,8 @@
         return _dfd.promise();
 
     }
+
+    $(document).on("click", "#mdlSilKayit", function () {
+        ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Kaydet", "redKayit", UCRETRED, "Kapat", "redKapat", null);
+    });
 </script>
