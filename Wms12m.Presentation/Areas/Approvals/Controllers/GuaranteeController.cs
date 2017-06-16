@@ -92,7 +92,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelect1]", "17")).ToList();
             return View(CHK);
         }
-        public string durbun()
+        public string Durbun()
         {
             var DRBN = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[TeminatDurbunSelect]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(DRBN);

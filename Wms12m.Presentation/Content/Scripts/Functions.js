@@ -5,8 +5,8 @@ String.prototype.addAt = function (index, character) {
 // Sayılara ondalık binlik ayraçları eklemek için
 // Sonrasında ondalık miktarıda parametreden gelecek şekilde ayarlanabilir
 function ondalikBinlik(Val) {
-    if (Val == null || Val == undefined) {
-        return 0, 00;
+    if (Val == null || Val == undefined || Val == 0 ){
+        return 0;
     }
     else if (Val.toString().indexOf(",") < 1) {
         var b = new Array();

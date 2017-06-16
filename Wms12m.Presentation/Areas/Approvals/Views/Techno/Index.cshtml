@@ -198,6 +198,7 @@
     <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script type="text/javascript">
+        var Birim = "@ViewBag.Birim";
         var rdrValue = "OnayBekleyenler";
         var radioGroupItems = [
             { text: "Onay Bekleyenler", value: "OnayBekleyenler" },
@@ -215,12 +216,12 @@
                     PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
                     PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
                     if (e.value == 'Reddedilenler') {
-                        $(".pull-right").css("display", "none");
+                        //$(".pull-right").css("display", "none");
                         table.columns([17]).visible(true, true);
                         table2.columns([15]).visible(true, true);
                     }
                     else {
-                        $(".pull-right").css("display", "block");
+                        //$(".pull-right").css("display", "block");
                         table.columns([17]).visible(false, false);
                         table2.columns([15]).visible(false, false);
                     }
@@ -229,6 +230,12 @@
         });
         PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
         PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
+        if (Birim == 'IK') {
+            $(".pull-right").css("display", "none");
+        }
+        else {
+            $(".pull-right").css("display", "block");
+        }
         function newrow(PERSONELID) { return "<table style='background:transparent;' id='new" + PERSONELID + "'></table>"; }
         function format(d) {
             var html = "<tr style='background: transparent;'><th>Geçerlilik Ayı</th><th>Geçerlilik Yılı</th><th>Degisim Tarihi</th><th>Ucret Tipi</th><th>Döviz Tipi</th><th>Birim Ücret</th>< th >Genel Aylık Ücret</th><th>Brüt/Net</th></tr >";

@@ -445,6 +445,7 @@
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        console.log(info.component.option("value"));
                         var val = info.component.option("value");
                         var deger = ondalikBinlik(val)
                         info.component.option("value", deger);
@@ -719,6 +720,7 @@
                 //valueExpr: 'ID',
                 displayExpr: 'Tip',
                 onValueChanged: function (e) {
+
                     if (e.value == null)
                         return;
                     TempUrunGrup = e.value.ID;
@@ -890,6 +892,8 @@
                 //valueExpr: 'Kod',
                 displayExpr: 'Kod',
                 onValueChanged: function (e) {
+                    console.log(e.value.Aciklama);
+                    console.log("kod");
                     if (e.value == null) {
                         TempMalKod = "";
                         return;
@@ -1021,7 +1025,7 @@
             var EKOran3 = $(".numb_iskonto3").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto3").dxTextBox("instance").option("value");
             var EKOran4 = $(".numb_iskonto4").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto4").dxTextBox("instance").option("value");
             var EKOran5 = $(".numb_iskonto5").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto5").dxTextBox("instance").option("value");
-            var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td  align='right' nowrap>" + EKOran1 + "</td><td align='right' nowrap>" + EKOran2 + "</td><td align='right' nowrap>" + EKOran3 + "</td><td align='right' nowrap>" + EKOran4 + "</td><td align='right' nowrap>" + EKOran5 + "</td></tr>"
+            var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td  align='right' nowrap>" + EKOran1 + "</td><td align='right' nowrap>" + EKOran2 + "</td><td align='right' nowrap>" + EKOran3 + "</td><td align='right' nowrap>" + EKOran4 + "</td><td align='right' nowrap>" + EKOran5 + "</td></tr>"
             element.push(sss);
             var jsonElement = JSON.stringify(element);
             if ($("#fiyat_listesi_data table").length < 1) {

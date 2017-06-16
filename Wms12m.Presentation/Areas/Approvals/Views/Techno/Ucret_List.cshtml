@@ -100,6 +100,7 @@
     var secili_satir = new Array();
     var secili_table = new Array();
     $(document).ready(function () {
+        console.log("ssss");
         var tip1 = "@ViewBag.Tip";
         $(".txtUcretRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
         table = $('#sample_1').DataTable({
@@ -192,7 +193,6 @@
             type: "post",
 
             success: function (data) {
-                
                 if (data.Status == true) {
                     window.location.reload();
                     Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onay");

@@ -15,6 +15,31 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         // GET: Approvals/Techno
         public ActionResult Index()
         {
+            if (vUser.UserName.ToString() == "murat")
+            {
+                MyGlobalVariables.Birim = "GM";
+            }
+            else if (vUser.UserName.ToString() == "orhan")
+            {
+                MyGlobalVariables.Birim = "SPGMY";
+            }
+            else if (vUser.UserName.ToString() == "kenan")
+            {
+                MyGlobalVariables.Birim = "MIGMY";
+            }
+            else if (vUser.UserName.ToString() == "tunce")
+            {
+                MyGlobalVariables.Birim = "USGMY";
+            }
+            else if (vUser.UserName.ToString() == "ariza")
+            {
+                MyGlobalVariables.Birim = "ARTGMY";
+            }
+            else if (vUser.UserName.ToString() == "berke")
+            {
+                MyGlobalVariables.Birim = "IK";
+            }
+            ViewBag.Birim = MyGlobalVariables.Birim;
             return View();
         }
 
@@ -48,7 +73,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             List<TechnoList> ucretBilgi;
             try
             {
-                ucretBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR0312M].[dbo].[TCH_UcretOnaySelect] @Birim='IK', @Tip='{0}'", tip)).ToList();
+
+                ucretBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR0312M].[dbo].[TCH_UcretOnaySelect] @Birim='{1}', @Tip='{0}'", tip, MyGlobalVariables.Birim)).ToList();
             }
             catch (Exception ex)
             {
@@ -65,7 +91,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             List<TechnoList> primBilgi;
             try
             {
-                primBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR0312M].[dbo].[TCH_PrimOnaySelect] @Birim='IK', @Tip='{0}'", tip)).ToList();
+                primBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR0312M].[dbo].[TCH_PrimOnaySelect] @Birim='{1}', @Tip='{0}'", tip, MyGlobalVariables.Birim)).ToList();
             }
             catch (Exception ex)
             {
@@ -90,12 +116,18 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         var ID = insertObj["ID"];
                         var OnayDerece = 1;
-                        string s = string.Format("[HR0312M].[dbo].[TCH_UcretOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='GM'", OnayDerece, ID);
+                        string s = string.Format("[HR0312M].[dbo].[TCH_UcretOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='{2}'", OnayDerece, ID, MyGlobalVariables.Birim);
                         var x = db.Database.SqlQuery<int>(s).ToList();
-                        string ss = string.Format("[HR0312M].[dbo].[TCH_BUTUCRETINSERT] @ID={0}", ID);
-                        var xx = db.Database.SqlQuery<int>(ss).ToList();
                         LogActions("Approvals", "Techno", "Ucret_Onayla", ComboItems.alOnayla, ID.ToInt32(), insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + "'ın ücret değişimi onaylandı.");
-                        LogActions("Approvals", "Techno", "Ucret_Onayla", ComboItems.alEkle, ID.ToInt32(), "PERSONELID=" + insertObj["PERSONELID"].ToString() + "olan kayıt BUTUCRET tablosuna eklendi");
+                        if (MyGlobalVariables.Birim == "GM")
+                        {
+                            string ss = string.Format("[HR0312M].[dbo].[TCH_BUTUCRETINSERT] @ID={0}", ID);
+                            var xx = db.Database.SqlQuery<int>(ss).ToList();
+                            LogActions("Approvals", "Techno", "Ucret_Onayla", ComboItems.alEkle, ID.ToInt32(), "PERSONELID=" + insertObj["PERSONELID"].ToString() + "olan kayıt BUTUCRET tablosuna eklendi");
+                        }
+
+
+
                     }
                     _Result.Status = true;
                     _Result.Message = "İşlem Başarılı ";
@@ -135,12 +167,18 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         var ID = insertObj["ID"];
                         var OnayDerece = 1;
-                        string s = string.Format("[HR0312M].[dbo].[TCH_PrimOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='IK'", OnayDerece, ID);
+                        string s = string.Format("[HR0312M].[dbo].[TCH_PrimOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='{2}'", OnayDerece, ID, MyGlobalVariables.Birim);
                         var x = db.Database.SqlQuery<int>(s).ToList();
-                        string ss = string.Format("[HR0312M].[dbo].[TCH_BRDSKALAINSERT] @ID={0}", ID);
-                        var xx = db.Database.SqlQuery<int>(ss).ToList();
                         LogActions("Approvals", "Techno", "Prim_Onayla", ComboItems.alEkle, ID.ToInt32(), insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + "'ın prim değişimi onaylandı.");
-                        LogActions("Approvals", "Techno", "Prim_Onayla", ComboItems.alOnayla, ID.ToInt32(), "PERSONELID=" + insertObj["PERSONELID"].ToString() + "olan kayıt BRDSKALA tablosuna eklendi");
+                        if (MyGlobalVariables.Birim == "GM")
+                        {
+                            string ss = string.Format("[HR0312M].[dbo].[TCH_BRDSKALAINSERT] @ID={0}", ID);
+                            var xx = db.Database.SqlQuery<int>(ss).ToList();
+                            LogActions("Approvals", "Techno", "Prim_Onayla", ComboItems.alOnayla, ID.ToInt32(), "PERSONELID=" + insertObj["PERSONELID"].ToString() + "olan kayıt BRDSKALA tablosuna eklendi");
+                        }
+
+
+
                     }
                     _Result.Status = true;
                     _Result.Message = "İşlem Başarılı ";

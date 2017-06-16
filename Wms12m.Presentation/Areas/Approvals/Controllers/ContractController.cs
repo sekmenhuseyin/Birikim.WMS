@@ -852,7 +852,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             foreach (JObject bds in parameters)
             {
                 ISS_Temp isstmp = new ISS_Temp();
-                AktifPasif = bds["Unvan"].ToBool();
+                AktifPasif = bds["AktifPasif"].ToBool();
                 string ListeAdi = bds["Unvan"].ToString().Length >= 10 ? bds["Unvan"].ToString().Substring(0, 10) : bds["Unvan"].ToString();
                 if (bds["VadeTarihInt"].ToInt32() == 0)
                     isstmp.ValorGun = bds["ValorGun"].ToInt32();
@@ -1052,7 +1052,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         }
                         //var tempBagTutar = Convert.ToDecimal(BaglantiTutari.ToString().Replace(@".", "x").Replace(@",", ".").Replace(@"x", ","));
                         //var tempBagTutar = Convert.ToDecimal(BaglantiTutari.ToString());
-                        string s = string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",","."));
+                        string s = string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",", "."));
                         db.Database.ExecuteSqlCommand(s);
 
                         if (kontrol)

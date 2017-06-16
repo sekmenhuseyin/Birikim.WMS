@@ -169,6 +169,7 @@
             success: function (data) {
                 if (data == "OK") {
                     $(".selected").remove();
+                    inputClear();
                     element = [];
                     var jsonElement = JSON.stringify(element);
                     PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));

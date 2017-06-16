@@ -23,6 +23,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public static List<KKP_SPI> GridSource { get; set; }
         public static List<KKP_FTD> GridFTD { get; set; }
         public static bool DovizDurum { get; set; }
+        public static string Birim { get; set; }
 
     }
 
