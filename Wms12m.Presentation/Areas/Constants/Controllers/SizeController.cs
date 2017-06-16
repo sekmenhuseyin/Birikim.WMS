@@ -35,15 +35,6 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             return PartialView("_List", Dimension.GetList());
         }
         /// <summary>
-        /// yeni boyut kartı
-        /// </summary>
-        public PartialViewResult Create()
-        {
-            if (CheckPerm("Boyut Kartı", PermTypes.Reading) == false) return null;
-            ViewBag.SirketID = db.GetSirketDBs().FirstOrDefault();
-            return PartialView("_Create", new Olcu());
-        }
-        /// <summary>
         /// düzenleme
         /// </summary>
         public PartialViewResult Edit(int id)

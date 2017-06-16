@@ -168,11 +168,18 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //add to mysql
             if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
             {
-                string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
-                                            "FROM FINSAT6{0}.FINSAT6{0}.STK " +
-                                            "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", db.GetSirketDBs().FirstOrDefault(), tbl.MalKodu);
-                var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
-                if (stks.Count > 0)
+                var listedb = db.GetSirketDBs().ToList();
+                string sql = "";
+                foreach (var item in listedb)
+                {
+                    if (sql != "") sql += " UNION ";
+                    sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
+                                        "FROM FINSAT6{0}.FINSAT6{0}.STK " +
+                                        "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", item, tbl.MalKodu);
+                }
+                sql = "SELECT * from (" + sql + ") t";
+                var stks = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
+                if (stks != null)
                 {
                     try
                     {
@@ -182,30 +189,34 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             var kbldepoID = db.Depoes.Where(m => m.ID == vUser.DepoId).Select(m => m.KabloDepoID).FirstOrDefault();
                             if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
                             else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
-                            foreach (var itemx in stks)
+                            //sid bul
+                            var sid = dbx.indices.Where(m => m.cins == stks.Nesne2 && m.kesit == stks.Kod15).FirstOrDefault();
+                            if (sid == null)
                             {
-                                //sid bul
-                                int sid = dbx.indices.Where(m => m.cins == itemx.Nesne2 && m.kesit == itemx.Kod15).Select(m => m.id).FirstOrDefault();
-                                //stoğa kaydet
-                                stok tbls = new stok()
-                                {
-                                    marka = itemx.MalAdi4,
-                                    cins = itemx.Nesne2,
-                                    kesit = itemx.Kod15,
-                                    sid = sid,
-                                    depo = depo,
-                                    renk = "",
-                                    makara = "KAPALI",
-                                    rezerve = "0",
-                                    sure = new TimeSpan(),
-                                    tarih = DateTime.Now,
-                                    tip = "",
-                                    rmiktar = 0,
-                                    miktar = tbl.Miktar
-                                };
-                                dbx.stoks.Add(tbls);
+                                sid = new index() { cins = stks.Nesne2, kesit = stks.Kod15, agirlik = 0 };
+                                dbx.indices.Add(sid);
                                 dbx.SaveChanges();
                             }
+                            //stoğa kaydet
+                            stok tbls = new stok()
+                            {
+                                marka = stks.MalAdi4,
+                                cins = stks.Nesne2,
+                                kesit = stks.Kod15,
+                                sid = sid.id,
+                                depo = depo,
+                                renk = "",
+                                makara = "KAPALI",
+                                rezerve = "0",
+                                sure = new TimeSpan(),
+                                tarih = DateTime.Now,
+                                tip = "",
+                                rmiktar = 0,
+                                miktar = tbl.Miktar,
+                                makarano = tbl.MakaraNo
+                            };
+                            dbx.stoks.Add(tbls);
+                            dbx.SaveChanges();
                         }
                     }
                     catch (Exception ex)

@@ -25,7 +25,7 @@ namespace Wms12m
             using (WMSEntities db = new WMSEntities())
             {
                 var sonuc = db.GetKynkEvrakNosForGorev(GorevID).FirstOrDefault();
-                if (sonuc == null) sonuc = "";
+                if (sonuc == null || sonuc == "") sonuc = "";
                 else sonuc = sonuc = sonuc.Substring(0, sonuc.Length - 1);
                 return sonuc;
             }
@@ -38,7 +38,7 @@ namespace Wms12m
             using (WMSEntities db = new WMSEntities())
             {
                 var sonuc = db.GetKynkTarihsForGorev(GorevID).FirstOrDefault();
-                if (sonuc == null) sonuc = "";
+                if (sonuc == null || sonuc == "") sonuc = "";
                 else sonuc = sonuc = sonuc.Substring(0, sonuc.Length - 1);
                 return sonuc;
             }
