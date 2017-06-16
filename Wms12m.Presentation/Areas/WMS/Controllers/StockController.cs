@@ -144,27 +144,36 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// manual ekle
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult ManualPlacement(Yer tbl)
+        public JsonResult ManualPlacement(Yer tbl, bool GC)
         {
-            if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(false, JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Stok", PermTypes.Writing) == false || tbl.Miktar < 0) return Json(false, JsonRequestBehavior.AllowGet);
             //yerleştirme kaydı yapılır
-            var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
-            if (tmp2 == null)
+            if (GC == false)
             {
-                tmp2 = new Yer()
+                var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+                if (tmp2 == null)
                 {
-                    KatID = tbl.KatID,
-                    MalKodu = tbl.MalKodu,
-                    Birim = tbl.Birim,
-                    Miktar = tbl.Miktar
-                };
-                if (tbl.MakaraNo != "") tmp2.MakaraNo = tbl.MakaraNo;
-                Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                    tmp2 = new Yer()
+                    {
+                        KatID = tbl.KatID,
+                        MalKodu = tbl.MalKodu,
+                        Birim = tbl.Birim,
+                        Miktar = tbl.Miktar
+                    };
+                    if (tbl.MakaraNo != "") tmp2.MakaraNo = tbl.MakaraNo;
+                    Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                }
+                else
+                {
+                    tmp2.Miktar += tbl.Miktar;
+                    Yerlestirme.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
+                }
             }
             else
             {
-                tmp2.Miktar += tbl.Miktar;
-                Yerlestirme.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
+                var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+                tmp2.Miktar -= tbl.Miktar;
+                Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
             }
             //add to mysql
             if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
@@ -182,48 +191,54 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 var stks = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
                 if (stks != null)
                 {
-                    try
+                    using (KabloEntities dbx = new KabloEntities())
                     {
-                        using (KabloEntities dbx = new KabloEntities())
+                        string depo;
+                        var kbldepoID = db.Depoes.Where(m => m.ID == vUser.DepoId).Select(m => m.KabloDepoID).FirstOrDefault();
+                        if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
+                        else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
+                        try
                         {
-                            string depo;
-                            var kbldepoID = db.Depoes.Where(m => m.ID == vUser.DepoId).Select(m => m.KabloDepoID).FirstOrDefault();
-                            if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
-                            else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
-                            //sid bul
-                            var sid = dbx.indices.Where(m => m.cins == stks.Nesne2 && m.kesit == stks.Kod15).FirstOrDefault();
-                            if (sid == null)
+                            if (GC == false)
                             {
-                                sid = new index() { cins = stks.Nesne2, kesit = stks.Kod15, agirlik = 0 };
-                                dbx.indices.Add(sid);
-                                dbx.SaveChanges();
+                                //sid bul
+                                var sid = dbx.indices.Where(m => m.cins == stks.Nesne2 && m.kesit == stks.Kod15).FirstOrDefault();
+                                if (sid == null)
+                                {
+                                    sid = new index() { cins = stks.Nesne2, kesit = stks.Kod15, agirlik = 0 };
+                                    dbx.indices.Add(sid);
+                                    dbx.SaveChanges();
+                                }
+                                //stoğa kaydet
+                                stok tbls = new stok()
+                                {
+                                    marka = stks.MalAdi4,
+                                    cins = stks.Nesne2,
+                                    kesit = stks.Kod15,
+                                    sid = sid.id,
+                                    depo = depo,
+                                    renk = "",
+                                    makara = "KAPALI",
+                                    rezerve = "0",
+                                    sure = new TimeSpan(),
+                                    tarih = DateTime.Now,
+                                    tip = "",
+                                    rmiktar = 0,
+                                    miktar = tbl.Miktar,
+                                    makarano = tbl.MakaraNo
+                                };
+                                dbx.stoks.Add(tbls);
                             }
-                            //stoğa kaydet
-                            stok tbls = new stok()
+                            else
                             {
-                                marka = stks.MalAdi4,
-                                cins = stks.Nesne2,
-                                kesit = stks.Kod15,
-                                sid = sid.id,
-                                depo = depo,
-                                renk = "",
-                                makara = "KAPALI",
-                                rezerve = "0",
-                                sure = new TimeSpan(),
-                                tarih = DateTime.Now,
-                                tip = "",
-                                rmiktar = 0,
-                                miktar = tbl.Miktar,
-                                makarano = tbl.MakaraNo
-                            };
-                            dbx.stoks.Add(tbls);
+                            }
                             dbx.SaveChanges();
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger(ex, "Stock/ManualPlacement");
-                        return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
+                        catch (Exception ex)
+                        {
+                            Logger(ex, "Stock/ManualPlacement");
+                            return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
+                        }
                     }
                 }
             }

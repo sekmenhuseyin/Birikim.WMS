@@ -35,10 +35,6 @@
     var islemtip_value = @ViewBag.IslemTip;
     var kriter_value = @Html.Raw(Json.Encode(ViewBag.Kriter));
     var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
-    var arr = '@ViewBag.tarih2'.split(".");
-    arr[1] = (parseInt(arr[1]) - 1).toString();
-    arr[2] = arr[2].substr(0, 4);
-    var f_tarih = new Date(arr[2], arr[1], arr[0]);
     if ($('.SirketID6 option').size() == 1) $(".SirketID6").hide();
     else $(".SirketID6").val('@ViewBag.SirketKodu');
     function Reload6(v)

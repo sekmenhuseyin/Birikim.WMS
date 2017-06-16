@@ -12,7 +12,9 @@
                         <div class="col-md-2">
                             @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDo", @onchange = "Reloado(this.value)" })
                         </div>
-                        <div class="col-md-2 mdfp_tarih"></div>
+                        <div class="col-md-1 p-l-10">
+                            <input type="text" class="form-control w-100" id="mdfp_tarih" value="@ViewBag.tarih2" />
+                        </div>
                         <div class="tools">
                             <a href="javascript:;" class="collapse"> </a>
                             <a href="javascript:;" class="fullscreen"> </a>
@@ -28,10 +30,6 @@
     </div>
 </div>
 <script>
-    var arr = '@ViewBag.tarih2'.split(".");
-    arr[1] = (parseInt(arr[1]) - 1).toString();
-    arr[2] = arr[2].substr(0, 4);
-    var f_tarih = new Date(arr[2], arr[1], arr[0]);
     if ($('.SirketIDo option').size() == 1) $(".SirketIDo").hide();
     else $(".SirketIDo").val('@ViewBag.SirketKodu');
     function Reloado(v)
@@ -39,6 +37,11 @@
         PartialView("/Home/PartialGunlukMDFUretimiPie", 'gunluk_mdf_uretim_pie', JSON.stringify({ SirketKodu: v, tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#mdfp_tarih").datepicker().on("change", function (e) {
+            var oaDate = toOADateFromString(e.target.value);
+            PartialView("/Home/PartialGunlukMDFUretimiPie", 'gunluk_mdf_uretim_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
+        });
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
@@ -46,15 +49,6 @@
                 color: color[i%color.length]
             });
         }
-        $(".mdfp_tarih").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd.MM.yyyy',
-            value:f_tarih,
-            onValueChanged: function (e) {
-                var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                PartialView("/Home/PartialGunlukMDFUretimiPie", 'gunluk_mdf_uretim_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
-            }
-        });
         var ChartsAmchartsc = function () {
             var initChartSample7 = function () {
                 var chart = AmCharts.makeChart("chart_7_mdf", {

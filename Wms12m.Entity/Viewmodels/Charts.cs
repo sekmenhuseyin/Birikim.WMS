@@ -287,6 +287,12 @@ namespace Wms12m.Entity
         public string GrupKod { get; set; }
         public Nullable<decimal> KalanMiktar { get; set; }
     }
+    public class ChartSatisTemsilcisiAylikSatisAnalizi
+    {
+        public string Kod7 { get; set; }
+        public string Aciklama { get; set; }
+        public Nullable<decimal> GenelTutar { get; set; }
+    }
     public class ChartBakiyeRiskAnalizi
     {
         public string HesapKodu { get; set; }
