@@ -93,12 +93,13 @@ namespace Wms12m.Business
             _Result = new Result(false, 0);
             //kaydı bul
             Kat tbl = db.Kats.Where(m => m.ID == Id).FirstOrDefault();
-            var rkat = db.GetHucreKatID(tbl.Bolum.Raf.Koridor.DepoID, "R-Z-R-V").FirstOrDefault();
-            if (rkat.Value == tbl.ID)
-            {
-                _Result.Message = "Rezerv katı silemezsiniz.";
-                return _Result;
-            }
+            var rkat = db.GetHucreKatID(tbl.Bolum.Raf.Koridor.DepoID, "R-ZR-V").FirstOrDefault();
+            if (rkat != null)
+                if (rkat.Value == tbl.ID)
+                {
+                    _Result.Message = "Rezerv katı silemezsiniz.";
+                    return _Result;
+                }
             if (tbl != null)
             {
                 if (tbl.Yers.FirstOrDefault() == null)

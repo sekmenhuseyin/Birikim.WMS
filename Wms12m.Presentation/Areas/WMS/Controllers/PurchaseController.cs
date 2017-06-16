@@ -352,7 +352,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 foreach (var item in dblist)
                 {
                     if (sql != "") sql += " UNION ";
-                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ', ' + MalAdi AS value, MalKodu + ' ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu LIKE '{1}%')", item, term);
+                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ' - ' + MalAdi AS value, MalKodu + ' - ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu LIKE '{1}%')", item, term);
                 }
                 sql = "SELECT TOP (20) id,MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
             }
@@ -382,7 +382,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 foreach (var item in dblist)
                 {
                     if (sql != "") sql += " UNION ";
-                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ', ' + MalAdi AS value, MalKodu + ' ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalAdi LIKE '%{1}%')", item, term);
+                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ' - ' + MalAdi AS value, MalKodu + ' - ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalAdi LIKE '%{1}%')", item, term);
                 }
                 sql = "SELECT TOP (20) id, MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
             }

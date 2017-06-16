@@ -460,15 +460,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MenuGetirici_Result>("WMSEntities.MenuGetirici", webSiteTipiIDParameter, menuYeriIDParameter, roleNameParameter, ustMenuIDParameter, urlParameter);
         }
     
-        public virtual ObjectResult<string> GetEvrakNosForGorev(Nullable<int> gorevID)
-        {
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("GorevID", gorevID) :
-                new ObjectParameter("GorevID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetEvrakNosForGorev", gorevIDParameter);
-        }
-    
         public virtual int LogLogins(string userName, string ipAddress, Nullable<bool> loggedIn, string comment)
         {
             var userNameParameter = userName != null ?
@@ -546,6 +537,24 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("IpAddress", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.LogActions", siteParameter, areaParameter, controllerParameter, actionParameter, typeParameter, selectedIDParameter, requestParameter, detailsParameter, usernameParameter, ipAddressParameter);
+        }
+    
+        public virtual ObjectResult<string> GetKynkEvrakNosForGorev(Nullable<int> gorevID)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetKynkEvrakNosForGorev", gorevIDParameter);
+        }
+    
+        public virtual ObjectResult<string> GetKynkTarihsForGorev(Nullable<int> gorevID)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetKynkTarihsForGorev", gorevIDParameter);
         }
     }
 }

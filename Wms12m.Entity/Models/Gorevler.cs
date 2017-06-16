@@ -11,8 +11,7 @@ namespace Wms12m.Entity.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Gorevler
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -32,10 +31,7 @@ namespace Wms12m.Entity.Models
         public int DurumID { get; set; }
         public Nullable<int> GorevTipiID { get; set; }
         public Nullable<int> DepartmanID { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> TahminiBitis { get; set; }
-
         public Nullable<System.DateTime> BitisTarih { get; set; }
         public Nullable<short> IslemTip { get; set; }
         public Nullable<int> IslemSira { get; set; }
