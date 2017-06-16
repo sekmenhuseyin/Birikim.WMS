@@ -75,7 +75,7 @@
         }
     </style>
 }
-<div class="row">
+<div class="row" style="margin-bottom:10px;">
     <div class="rdgrpOnayRed" style="float:left; margin-left:20px;">
 
     </div>
@@ -211,15 +211,19 @@
                 value: "OnayBekleyenler",
                 layout: "horizontal",
                 onValueChanged: function (e) {
-                    if (e.value == 'Reddedilenler') {
-                        $(".pull-right").css("display", "none");
-                    }
-                    else {
-                        $(".pull-right").css("display", "block");
-                    }
                     rdrValue = e.value;
                     PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
                     PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
+                    if (e.value == 'Reddedilenler') {
+                        $(".pull-right").css("display", "none");
+                        table.columns([17]).visible(true, true);
+                        table2.columns([15]).visible(true, true);
+                    }
+                    else {
+                        $(".pull-right").css("display", "block");
+                        table.columns([17]).visible(false, false);
+                        table2.columns([15]).visible(false, false);
+                    }
                 }
             });
         });
