@@ -73,6 +73,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 var kblDepoID = Store.Detail(Id).KabloDepoID;
                 var depo = dbx.depoes.Where(m => m.id == kblDepoID).Select(m => m.depo1).FirstOrDefault();
+                //var list = (from s in dbx.kblstoks join s2 in dbx.stoks on s.id equals s2.id select new { s, s2.makarano }).ToList();
                 var list = dbx.kblstoks.Where(m => m.depo == depo).ToList();
                 return PartialView("CableList", list);
             }
