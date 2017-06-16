@@ -33,7 +33,6 @@ namespace Wms12m.Presentation
                 ;
             // styles
             styleBundle
-                .Include("~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css")
                 .Include("~/Content/assets/global/css/components-md.min.css")
                 .Include("~/Content/assets/global/css/plugins-md.min.css")
                 .Include("~/Content/assets/layouts/layout/css/layout.min.css")
