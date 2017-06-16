@@ -137,7 +137,7 @@ namespace Wms12m
             //return
             string sql = string.Format("SELECT MIN(IRS.ID) as ID, wms.Depo.DepoKodu AS DepoID, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih) AS Tarih, " +
                 "(SELECT Unvan1 + ' ' + Unvan2 AS Expr1 FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE (HesapKodu = IRS.HesapKodu)) AS Unvan, " +
-                "(SELECT wms.IRS.EvrakNo + ',' FROM wms.IRS WITH(nolock) INNER JOIN wms.GorevIRS WITH(nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID WHERE (wms.GorevIRS.GorevID = {1}) FOR XML PATH('')) as EvrakNo " +
+                "(SELECT wms.IRS.EvrakNo + '  ' FROM wms.IRS WITH(nolock) INNER JOIN wms.GorevIRS WITH(nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID WHERE (wms.GorevIRS.GorevID = {1}) FOR XML PATH('')) as EvrakNo " +
                 "FROM wms.IRS AS IRS WITH(nolock) INNER JOIN wms.Depo WITH(nolock) ON IRS.DepoID = wms.Depo.ID INNER JOIN wms.GorevIRS WITH(nolock) ON IRS.ID = wms.GorevIRS.IrsaliyeID " +
                 "WHERE (wms.GorevIRS.GorevID = {1}) " +
                 "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih)", mGorev.IR.SirketKod, mGorev.ID);
