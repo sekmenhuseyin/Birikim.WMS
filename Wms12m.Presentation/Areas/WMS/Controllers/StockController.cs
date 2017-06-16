@@ -73,6 +73,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 var kblDepoID = Store.Detail(Id).KabloDepoID;
                 var depo = dbx.depoes.Where(m => m.id == kblDepoID).Select(m => m.depo1).FirstOrDefault();
+                //var list = (from s in dbx.kblstoks join s2 in dbx.stoks on s.id equals s2.id select new { s, s2.makarano }).ToList();
                 var list = dbx.kblstoks.Where(m => m.depo == depo).ToList();
                 return PartialView("CableList", list);
             }
@@ -143,56 +144,78 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// manual ekle
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public JsonResult ManualPlacement(Yer tbl)
+        public JsonResult ManualPlacement(Yer tbl, bool GC)
         {
-            if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(false, JsonRequestBehavior.AllowGet);
+            if (CheckPerm("Stok", PermTypes.Writing) == false || tbl.Miktar < 0) return Json(false, JsonRequestBehavior.AllowGet);
             //yerleştirme kaydı yapılır
-            var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
-            if (tmp2 == null)
+            if (GC == false)
             {
-                tmp2 = new Yer()
+                var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+                if (tmp2 == null)
                 {
-                    KatID = tbl.KatID,
-                    MalKodu = tbl.MalKodu,
-                    Birim = tbl.Birim,
-                    Miktar = tbl.Miktar
-                };
-                if (tbl.MakaraNo != "") tmp2.MakaraNo = tbl.MakaraNo;
-                Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                    tmp2 = new Yer()
+                    {
+                        KatID = tbl.KatID,
+                        MalKodu = tbl.MalKodu,
+                        Birim = tbl.Birim,
+                        Miktar = tbl.Miktar
+                    };
+                    if (tbl.MakaraNo != "") tmp2.MakaraNo = tbl.MakaraNo;
+                    Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                }
+                else
+                {
+                    tmp2.Miktar += tbl.Miktar;
+                    Yerlestirme.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
+                }
             }
             else
             {
-                tmp2.Miktar += tbl.Miktar;
-                Yerlestirme.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
+                var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+                tmp2.Miktar -= tbl.Miktar;
+                Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
             }
             //add to mysql
             if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
             {
-                string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
-                                            "FROM FINSAT6{0}.FINSAT6{0}.STK " +
-                                            "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", db.GetSirketDBs().FirstOrDefault(), tbl.MalKodu);
-                var stks = db.Database.SqlQuery<frmCableStk>(sql).ToList();
-                if (stks.Count > 0)
+                var listedb = db.GetSirketDBs().ToList();
+                string sql = "";
+                foreach (var item in listedb)
                 {
-                    try
+                    if (sql != "") sql += " UNION ";
+                    sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
+                                        "FROM FINSAT6{0}.FINSAT6{0}.STK " +
+                                        "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", item, tbl.MalKodu);
+                }
+                sql = "SELECT * from (" + sql + ") t";
+                var stks = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
+                if (stks != null)
+                {
+                    using (KabloEntities dbx = new KabloEntities())
                     {
-                        using (KabloEntities dbx = new KabloEntities())
+                        string depo;
+                        var kbldepoID = db.Depoes.Where(m => m.ID == vUser.DepoId).Select(m => m.KabloDepoID).FirstOrDefault();
+                        if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
+                        else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
+                        try
                         {
-                            string depo;
-                            var kbldepoID = db.Depoes.Where(m => m.ID == vUser.DepoId).Select(m => m.KabloDepoID).FirstOrDefault();
-                            if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
-                            else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
-                            foreach (var itemx in stks)
+                            if (GC == false)
                             {
                                 //sid bul
-                                int sid = dbx.indices.Where(m => m.cins == itemx.Nesne2 && m.kesit == itemx.Kod15).Select(m => m.id).FirstOrDefault();
+                                var sid = dbx.indices.Where(m => m.cins == stks.Nesne2 && m.kesit == stks.Kod15).FirstOrDefault();
+                                if (sid == null)
+                                {
+                                    sid = new index() { cins = stks.Nesne2, kesit = stks.Kod15, agirlik = 0 };
+                                    dbx.indices.Add(sid);
+                                    dbx.SaveChanges();
+                                }
                                 //stoğa kaydet
                                 stok tbls = new stok()
                                 {
-                                    marka = itemx.MalAdi4,
-                                    cins = itemx.Nesne2,
-                                    kesit = itemx.Kod15,
-                                    sid = sid,
+                                    marka = stks.MalAdi4,
+                                    cins = stks.Nesne2,
+                                    kesit = stks.Kod15,
+                                    sid = sid.id,
                                     depo = depo,
                                     renk = "",
                                     makara = "KAPALI",
@@ -201,17 +224,21 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                                     tarih = DateTime.Now,
                                     tip = "",
                                     rmiktar = 0,
-                                    miktar = tbl.Miktar
+                                    miktar = tbl.Miktar,
+                                    makarano = tbl.MakaraNo
                                 };
                                 dbx.stoks.Add(tbls);
-                                dbx.SaveChanges();
                             }
+                            else
+                            {
+                            }
+                            dbx.SaveChanges();
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger(ex, "Stock/ManualPlacement");
-                        return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
+                        catch (Exception ex)
+                        {
+                            Logger(ex, "Stock/ManualPlacement");
+                            return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
+                        }
                     }
                 }
             }

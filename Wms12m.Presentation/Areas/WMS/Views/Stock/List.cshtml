@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Yer>
 @{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); bool ellemi = ViewBag.Manual; }
 <table class="table table-striped table-bordered" id="sample_1">
-    <thead><tr><th>Yer</th><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th class="text-right">Miktar</th>@{if (ellemi == true) { <th></th> } }</tr></thead>
+    <thead><tr><th>Yer</th><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th class="text-right">Miktar</th><th>Makara No</th>@{if (ellemi == true) { <th></th> } }</tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
@@ -17,11 +17,12 @@
                 tmp = malad[malkod.IndexOf(item.MalKodu)];
             }
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.HucreAd)</td>
-                <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
+                <td>@item.HucreAd</td>
+                <td>@item.MalKodu</td>
                 <td>@tmp</td>
-                <td>@Html.DisplayFor(modelItem => item.Birim)</td>
+                <td>@item.Birim</td>
                 <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                <td>@item.MakaraNo</td>
                 @{if (ellemi == true) { <td><a class="btn btn-default btn-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Stock/ManualNewPlace/@item.ID')"> Değiştir </a></td> } }
             </tr>
         }

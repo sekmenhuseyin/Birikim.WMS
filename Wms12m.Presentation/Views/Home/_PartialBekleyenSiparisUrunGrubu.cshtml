@@ -1,10 +1,4 @@
 ﻿@model List<ChartBekleyenSiparisUrunGrubu>
-<style>
-    .bas_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
-    .bas_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
-    .bit_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
-    .bit_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
-</style>
 <div class="row">
     <div class="col-md-12 m-t-40">
         <div class="portlet light bordered">
@@ -16,8 +10,12 @@
                 <div class="col-md-2">
                     @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDg", @onchange = "Reloadg(this.value)" })
                 </div>
-                <div class="col-md-2 bas_tarih"></div>
-                <div class="col-md-2 bit_tarih"></div>
+                <div class="col-md-1 p-l-10">
+                    <input type="text" class="form-control w-100" id="bas_tarih" value="@ViewBag.BasTarih2" />
+                </div>
+                <div class="col-md-1 p-l-10">
+                    <input type="text" class="form-control w-100" id="bit_tarih" value="@ViewBag.BitTarih2" />
+                </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
@@ -33,14 +31,6 @@
     </div>
 </div>
 <script>
-    var trh1 = '@ViewBag.BasTarih2'.split(".");
-    trh1[1] = (parseInt(trh1[1]) - 1).toString();
-    trh1[2] = trh1[2].substr(0, 4);
-    var bas_tarih = new Date(trh1[2], trh1[1], trh1[0]);
-    var trh2 = '@ViewBag.BitTarih2'.split(".");
-    trh2[1] = (parseInt(trh2[1]) - 1).toString();
-    trh2[2] = trh2[2].substr(0, 4);
-    var bit_tarih = new Date(trh2[2], trh2[1], trh2[0]);
     if ($('.SirketIDg option').size() == 1) $(".SirketIDg").hide();
     else $(".SirketIDg").val('@ViewBag.SirketKodu');
     function Reloadg(v)
@@ -48,6 +38,15 @@
         PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: v, bastarih: @ViewBag.BasTarih, bittarih: @ViewBag.BitTarih }));
     }
     $(document).ready(function (e) {
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#bas_tarih").datepicker().on("change", function (e) {
+            var oaDate = toOADateFromString(e.target.value);
+            PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', bastarih: oaDate, bittarih: @ViewBag.BitTarih }));
+        });
+        $("#bit_tarih").datepicker().on("change", function (e) {
+            var oaDate = toOADateFromString(e.target.value);
+            PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', basTarih: @ViewBag.BasTarih, bittarih: oaDate }));
+        });
         var model = @Html.Raw(Json.Encode(Model));
 
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
@@ -56,26 +55,6 @@
                 color: color[i%color.length]
             });
         }
-
-        $(".bas_tarih").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd.MM.yyyy',
-            value: bas_tarih,
-            onValueChanged: function (e) {
-                var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', bastarih: oaDate, bittarih: @ViewBag.BitTarih }));
-            }
-        });
-
-        $(".bit_tarih").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd.MM.yyyy',
-            value: bit_tarih,
-            onValueChanged: function (e) {
-                var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', basTarih: @ViewBag.BasTarih, bittarih: oaDate }));
-            }
-        });
         var ChartsAmchartsEski = function () {
 
             var initChartSample7Eski = function () {

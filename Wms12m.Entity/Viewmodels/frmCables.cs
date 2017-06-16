@@ -14,6 +14,7 @@
         public string MalAdi4 { get; set; }//marka
         public string Nesne2 { get; set; }//cins
         public string Kod15 { get; set; }//kesit
+        public string MakaraNo { get; set; }//kesit
         //renk de olacak
         public decimal Miktar { get; set; }
     }

@@ -319,7 +319,8 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialSatisTemsilcisiAylikSatisAnalizi(string SirketKodu, string kod, short tarih)
         {
             if (CheckPerm("ChartSatisTemsilcisiAylikSatisAnalizi", PermTypes.Reading) == false) return null;
-            var STASA = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[SatisTemsilcisi_AylikSatisAnalizi] @Ay = '{1}', @Kriter = '{2}'", SirketKodu, tarih, kod)).ToList();
+            string s = string.Format("[FINSAT6{0}].[wms].[SatisTemsilcisi_AylikSatisAnalizi] @Ay = '{1}', @Kriter = '{2}'", SirketKodu, tarih, kod);
+            var STASA = db.Database.SqlQuery<ChartSatisTemsilcisiAylikSatisAnalizi>(s).ToList();
             ViewBag.Tarih = tarih;
             ViewBag.Kriter = kod;
             ViewBag.SirketKodu = SirketKodu;
