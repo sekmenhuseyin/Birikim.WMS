@@ -1151,9 +1151,6 @@
           <Parameter Name="KoridorID" Type="int" Mode="In" />
           <Parameter Name="desc" Type="bit" Mode="In" />
         </Function>
-        <Function Name="GetEvrakNosForGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
-          <Parameter Name="GorevID" Type="int" Mode="In" />
-        </Function>
         <Function Name="GetGorevlis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
@@ -1172,6 +1169,12 @@
           <Parameter Name="GorevID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetKoridorIdFromGorevId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="GorevID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetKynkEvrakNosForGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="GorevID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetKynkTarihsForGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
         </Function>
         <Function Name="GetStock" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
@@ -1739,9 +1742,6 @@
             <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
             <Parameter Name="url" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetEvrakNosForGorev" ReturnType="Collection(String)">
-          <Parameter Name="GorevID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="Settings" EntityType="MModel.Setting" />
           <FunctionImport Name="LogLogins">
             <Parameter Name="UserName" Mode="In" Type="String" />
@@ -1805,6 +1805,12 @@
             <Parameter Name="Details" Mode="In" Type="String" />
             <Parameter Name="Username" Mode="In" Type="String" />
             <Parameter Name="IpAddress" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetKynkEvrakNosForGorev" ReturnType="Collection(String)">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetKynkTarihsForGorev" ReturnType="Collection(String)">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3524,7 +3530,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetEvrakNosForGorev" FunctionName="MModel.Store.GetEvrakNosForGorev" />
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
@@ -3640,6 +3645,8 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="UpdateUserDevice" FunctionName="MModel.Store.UpdateUserDevice" />
           <FunctionImportMapping FunctionImportName="LogActions" FunctionName="MModel.Store.LogActions" />
+          <FunctionImportMapping FunctionImportName="GetKynkEvrakNosForGorev" FunctionName="MModel.Store.GetKynkEvrakNosForGorev" />
+          <FunctionImportMapping FunctionImportName="GetKynkTarihsForGorev" FunctionName="MModel.Store.GetKynkTarihsForGorev" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
