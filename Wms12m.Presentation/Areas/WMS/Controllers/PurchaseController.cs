@@ -327,7 +327,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 //add new
                 Result _Result = IrsaliyeDetay.Insert(tbl);
                 //set aktif
-                if (_Result.Status == true) db.Database.ExecuteSqlCommand(string.Format("UPDATE wms.Gorev set DurumID = {0}, OlusturmaTarihi = {1}, OlusturmaSaati = {2} where ID IN (SELECT wms.Gorev.ID FROM wms.Gorev INNER JOIN wms.GorevIRS ON wms.Gorev.ID = wms.GorevIRS.GorevID WHERE wms.GorevIRS.IrsaliyeID = {3} AND (wms.Gorev.DurumID = {4}))", ComboItems.Açık.ToInt32(), fn.ToOADate(), fn.ToOATime(), tbl.IrsaliyeId, ComboItems.Başlamamış.ToInt32()));
+                string s = string.Format("UPDATE wms.Gorev set DurumID = {0}, OlusturmaTarihi = {1}, OlusturmaSaati = {2} where ID IN (SELECT wms.Gorev.ID FROM wms.Gorev INNER JOIN wms.GorevIRS ON wms.Gorev.ID = wms.GorevIRS.GorevID WHERE wms.GorevIRS.IrsaliyeID = {3} AND (wms.Gorev.DurumID = {4}))", ComboItems.Açık.ToInt32(), fn.ToOADate(), fn.ToOATime(), tbl.IrsaliyeId, ComboItems.Başlamamış.ToInt32());
+                if (_Result.Status == true) db.Database.ExecuteSqlCommand(s);
             }
             //get list
             var list = IrsaliyeDetay.GetList(tbl.IrsaliyeId);
