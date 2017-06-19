@@ -461,6 +461,7 @@
         function fiyatEdit(id) {
             var secili_table = new Array();
             var jObject = {};
+            var eklenecek = "";
             jObject["ListeNo"] = $(".select_list_no").dxLookup("instance").option("value");
             jObject["UrunKodu"] = $(".select_urun_kodu").dxLookup("instance").option("value");
             jObject["HesapKodu"] = $(".select_hesap_kod").dxLookup("instance").option("value");
@@ -477,6 +478,43 @@
                 Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
                 return;
             }
+            if (id == 1) {
+                if (sayac > 0) {
+                    eklenecek = table.rows().data();
+                    if (eklenecek.length > 0) {
+
+                        for (var i = 0; i < eklenecek.length; i++) {
+                            console.log(eklenecek[i]);
+                            //if (eklenecek[i])) {
+                            //    if (rt.MalKodu == lueMalKodu.EditValue.ToString() && rt.MusteriKodu == "") {
+                            //        MessageBasarili.Title = "Uyarı";
+                            //        MessageBasarili.lblText.Text = "Ürün Listede Mevcut";
+                            //        MessageBasarili.Show();
+                            //        return;
+                            //    }
+                            //}
+                            //else {
+                            //    if (rt.MalKodu == lueMalKodu.EditValue.ToString() && rt.MusteriKodu == lueHesapKodu.EditValue.ToString()) {
+                            //        MessageBasarili.Title = "Uyarı";
+                            //        MessageBasarili.lblText.Text = "Ürün Listede Mevcut";
+                            //        MessageBasarili.Show();
+                            //        return;
+                            //    }
+                            //}
+                        }
+                    }
+                    else {
+                        Modaldialog("Satır Seçmelisiniz.", "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                        return;
+                    }
+                }
+                else {
+                    Modaldialog("Satır Seçmelisiniz.", "Güncelleme & Silme İşlemi", "Tamam", "Guncel");
+                    return;
+                } 
+            }
+
+
             var silinecek = "";
             if (id == 2 || id == 3) {
                 if(sayac>0){
