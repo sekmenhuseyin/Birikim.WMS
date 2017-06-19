@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(ComboItem_Name tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             if (tbl.Name == "" || tbl.ComboID == 0)
             {
                 _Result.Id = 0;
@@ -25,6 +25,7 @@ namespace Wms12m.Business
             if (tbl.ID == 0)
             {
                 db.ComboItem_Name.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -36,6 +37,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "ComboSub", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.Name + ", CID: " + tbl.ComboID);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -63,6 +65,7 @@ namespace Wms12m.Business
                 {
                     db.ComboItem_Name.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Combo", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;

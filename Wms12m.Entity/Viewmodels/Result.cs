@@ -7,27 +7,23 @@
     {
         public Result()
         {
-
+            new Result(false, 0, "", null);
         }
         public Result(bool status)
         {
-            Status = status;
+            new Result(status, 0, "", null);
         }
         public Result(bool status, string message)
         {
-            Status = status;
-            Message = message;
+            new Result(status, 0, message, null);
         }
         public Result(bool status, int id)
         {
-            Status = status;
-            Id = id;
+            new Result(status, id, "", null);
         }
         public Result(bool status, int id, string message)
         {
-            Status = status;
-            Id = id;
-            Message = message;
+            new Result(status, id, message, null);
         }
         public Result(bool status, int id, string message, object data)
         {

@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Depo tbl)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result();
             //boş mu
             if (tbl.DepoAd == "" || tbl.DepoKodu == "")
             {
@@ -85,7 +85,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Delete(int Id)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result();
             //kaydı bul
             var tbl = db.Depoes.Where(m => m.ID == Id).FirstOrDefault();
             if (tbl != null)

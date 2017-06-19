@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Olcu tbl)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result(); bool eklemi = false;
             //kontrol
             if (tbl.MalKodu == "" || tbl.Birim == "" || (tbl.Boy == 0 && tbl.En == 0 && tbl.Derinlik == 0 && tbl.Agirlik == 0))
             {
@@ -35,6 +35,7 @@ namespace Wms12m.Business
                 tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Olcus.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -50,6 +51,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Dimension", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.MalKodu + ", H: " + tbl.En + "x" + tbl.Boy + "x" + tbl.Derinlik + ", A: " + tbl.Agirlik);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -75,6 +77,7 @@ namespace Wms12m.Business
                 {
                     db.Olcus.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Dimension", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -82,14 +85,12 @@ namespace Wms12m.Business
                 else
                 {
                     _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
                 }
             }
             catch (Exception ex)
             {
                 Logger(ex, "Business/Dimension/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }

@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Raf tbl)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result();
             //boş mu
             if (tbl.RafAd == "" || tbl.KoridorID == 0)
             {
@@ -84,7 +84,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Delete(int Id)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result();
             //kaydı bul
             Raf tbl = db.Rafs.Where(m => m.ID == Id).FirstOrDefault();
             if (tbl != null)

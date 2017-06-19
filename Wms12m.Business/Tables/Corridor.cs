@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Koridor tbl)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result(); bool eklemi = false;
             //boş mu
             if (tbl.KoridorAd == "" || tbl.DepoID == 0)
             {
@@ -51,6 +51,7 @@ namespace Wms12m.Business
                 tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Koridors.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -65,6 +66,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Corridor", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.KoridorAd);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -84,7 +86,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Delete(int Id)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result();
             //kaydı bul
             Koridor tbl = db.Koridors.Where(m => m.ID == Id).FirstOrDefault();
             if (tbl != null)
@@ -100,12 +102,13 @@ namespace Wms12m.Business
             else
             {
                 _Result.Message = "Kayıt Yok";
-                _Result.Status = false;
+                return _Result;
             }
             //sil
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Corridor", "Delete", ComboItems.alSil, tbl.ID);
                 _Result.Id = Id;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -114,7 +117,6 @@ namespace Wms12m.Business
             {
                 Logger(ex, "Business/Corridor/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }

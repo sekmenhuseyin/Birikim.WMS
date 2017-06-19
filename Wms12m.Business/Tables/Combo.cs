@@ -16,9 +16,7 @@ namespace Wms12m.Business
             _Result = new Result(); bool eklemi = false;
             if (tbl.ComboName == "")
             {
-                _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
-                _Result.Status = false;
                 return _Result;
             }
             //set details
@@ -35,6 +33,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Combo", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.ComboName);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -43,9 +42,7 @@ namespace Wms12m.Business
             catch (Exception ex)
             {
                 Logger(ex, "Business/Combo/Operation");
-                _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -62,6 +59,7 @@ namespace Wms12m.Business
                 {
                     db.Combo_Name.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Combo", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -69,14 +67,12 @@ namespace Wms12m.Business
                 else
                 {
                     _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
                 }
             }
             catch (Exception ex)
             {
                 Logger(ex, "Business/Combo/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }

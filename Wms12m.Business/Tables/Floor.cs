@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Kat tbl)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result(); bool eklemi = false;
             //boş mu
             if (tbl.KatAd == "" || tbl.BolumID == 0)
             {
@@ -51,6 +51,7 @@ namespace Wms12m.Business
                 tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Kats.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -71,6 +72,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Floor", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.KatAd + ", H: " + tbl.En + "x" + tbl.Boy + "x" + tbl.Derinlik + ", A: " + tbl.AgirlikKapasite);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -81,7 +83,6 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Floor/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -90,7 +91,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Delete(int Id)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result();
             //kaydı bul
             Kat tbl = db.Kats.Where(m => m.ID == Id).FirstOrDefault();
             var rkat = db.GetHucreKatID(tbl.Bolum.Raf.Koridor.DepoID, "R-ZR-V").FirstOrDefault();
@@ -113,12 +114,13 @@ namespace Wms12m.Business
             else
             {
                 _Result.Message = "Kayıt Yok";
-                _Result.Status = false;
+                return _Result;
             }
             //sil
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Floor", "Delete", ComboItems.alSil, tbl.ID);
                 _Result.Id = Id;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -127,7 +129,6 @@ namespace Wms12m.Business
             {
                 Logger(ex, "Business/Floor/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }

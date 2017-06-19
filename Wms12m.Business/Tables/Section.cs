@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Bolum tbl)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result();
             //boş mu
             if (tbl.BolumAd == "" || tbl.RafID == 0)
             {
