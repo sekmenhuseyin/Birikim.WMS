@@ -66,5 +66,15 @@ namespace WMSMobil
             Application.Exit();
             this.Close();
         }
+
+        private void btnIslemYap_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnLinkeAktar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

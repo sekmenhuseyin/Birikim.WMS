@@ -28,7 +28,7 @@ namespace Wms12m.Business
             {
                 if (HttpContext.Current.User is CustomPrincipal u)
                     return u.AppIdentity.User;
-                return null;
+                return new UserIdentity() { UserName = "Terminal" };
             }
         }
         /// <summary>
