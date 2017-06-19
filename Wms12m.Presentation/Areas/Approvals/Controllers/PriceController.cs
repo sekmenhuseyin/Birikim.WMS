@@ -253,9 +253,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         fyt.MalKodu = insertObj["MalKodu"].ToString();
                         fyt.BasTarih = BasTarih;
-                        fyt.BasSaat = 0;
+                        fyt.BasSaat = fn.ToOATime();
                         fyt.BitTarih = BitTarih;
-                        fyt.BitSaat = 0;
+                        fyt.BitSaat = fn.ToOATime();
 
                         if (FiyatMaxSiraNo.ContainsKey(insertObj["FiyatListNum"].ToString()))
                         {
@@ -348,12 +348,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         fyt.GuvenlikKod = "";
                         fyt.Kaydeden = vUser.UserName.ToString();
                         fyt.KayitTarih = (int)DateTime.Now.ToOADate();
-                        fyt.KayitSaat = 0;
+                        fyt.KayitSaat = fn.ToOATime();
                         fyt.KayitKaynak = 117;
                         fyt.KayitSurum = "8.10.100";
                         fyt.Degistiren = vUser.UserName.ToString();
                         fyt.DegisTarih = (int)DateTime.Now.ToOADate();
-                        fyt.DegisSaat = 0;
+                        fyt.DegisSaat = fn.ToOATime();
                         fyt.DegisKaynak = 117;
                         fyt.DegisSurum = "8.10.100";
                         fyt.CheckSum = 12;
@@ -508,9 +508,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             fyt.MalKodu = rts.MalKodu.ToString();
                             fyt.BasTarih = BasTarih;
-                            fyt.BasSaat = 0;
+                            fyt.BasSaat = fn.ToOATime();
                             fyt.BitTarih = BitTarih;
-                            fyt.BitSaat = 0;
+                            fyt.BitSaat = fn.ToOATime();
                             if (FiyatMaxSiraNo.ContainsKey(insertObj["FiyatListNum"].ToString()))
                             {
                                 fyt.SiraNo = Convert.ToInt16(FiyatMaxSiraNo[insertObj["FiyatListNum"].ToString()]);
@@ -601,12 +601,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             fyt.GuvenlikKod = "";
                             fyt.Kaydeden = vUser.UserName.ToString();
                             fyt.KayitTarih = (int)DateTime.Now.ToOADate();
-                            fyt.KayitSaat = 0;
+                            fyt.KayitSaat = fn.ToOATime();
                             fyt.KayitKaynak = 117;
                             fyt.KayitSurum = "8.10.100";
                             fyt.Degistiren = vUser.UserName.ToString();
                             fyt.DegisTarih = (int)DateTime.Now.ToOADate();
-                            fyt.DegisSaat = 0;
+                            fyt.DegisSaat = fn.ToOATime();
                             fyt.DegisKaynak = 117;
                             fyt.DegisSurum = "8.10.100";
                             fyt.CheckSum = 12;
@@ -762,9 +762,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             fyt.MalKodu = rts.MalKodu.ToString();
                             fyt.BasTarih = BasTarih;
-                            fyt.BasSaat = 0;
+                            fyt.BasSaat = fn.ToOATime();
                             fyt.BitTarih = BitTarih;
-                            fyt.BitSaat = 0;
+                            fyt.BitSaat = fn.ToOATime();
                             if (FiyatMaxSiraNo.ContainsKey(insertObj["FiyatListNum"].ToString()))
                             {
                                 fyt.SiraNo = Convert.ToInt16(FiyatMaxSiraNo[insertObj["FiyatListNum"].ToString()]);
@@ -855,12 +855,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             fyt.GuvenlikKod = "";
                             fyt.Kaydeden = vUser.UserName.ToString();
                             fyt.KayitTarih = (int)DateTime.Now.ToOADate();
-                            fyt.KayitSaat = 0;
+                            fyt.KayitSaat = fn.ToOATime();
                             fyt.KayitKaynak = 117;
                             fyt.KayitSurum = "8.10.100";
                             fyt.Degistiren = vUser.UserName.ToString();
                             fyt.DegisTarih = (int)DateTime.Now.ToOADate();
-                            fyt.DegisSaat = 0;
+                            fyt.DegisSaat = fn.ToOATime();
                             fyt.DegisKaynak = 117;
                             fyt.DegisSurum = "8.10.100";
                             fyt.CheckSum = 12;

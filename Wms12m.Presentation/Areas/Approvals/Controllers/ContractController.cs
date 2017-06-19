@@ -863,11 +863,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 isstmp.ListeNo = bds["ListeNo"].ToString();
                 isstmp.ListeAdi = bds["Unvan"].ToString().Length >= 30 ? bds["Unvan"].ToString().Substring(0, 30) : bds["Unvan"].ToString();
-                isstmp.BasTarih = bds["BasTarihInt"].ToInt32();
-                isstmp.BasSaat = 0;
+                isstmp.BasTarih = bds["BasTarih"].ToString() == "" ? (int)DateTime.Now.ToOADate() : bds["BasTarihInt"].ToInt32();
+                isstmp.BasSaat = fn.ToOATime();
                 // saati araştır
-                isstmp.BitTarih = bds["BitTarihInt"].ToInt32();
-                isstmp.BitSaat = 0;
+                isstmp.BitTarih = bds["BitTarih"].ToString() == "" ? (int)DateTime.Now.ToOADate() : bds["BitTarihInt"].ToInt32();
+                isstmp.BitSaat = fn.ToOATime();
                 isstmp.MusUygSekli = 1;
                 isstmp.MusKodGrup = 0;
                 isstmp.MusteriKod = bds["HesapKodu"] == null ? "" : bds["HesapKodu"].ToString();
@@ -950,12 +950,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 isstmp.GuvenlikKod = "12";
                 isstmp.Kaydeden = vUser.UserName.ToString();
                 isstmp.KayitTarih = (int)DateTime.Now.ToOADate();
-                isstmp.KayitSaat = 0;
+                isstmp.KayitSaat = fn.ToOATime();
                 isstmp.KayitKaynak = 136;
                 isstmp.KayitSurum = "8.00.001";
                 isstmp.Degistiren = vUser.UserName.ToString();
                 isstmp.DegisTarih = (int)DateTime.Now.ToOADate();
-                isstmp.DegisSaat = 0;
+                isstmp.DegisSaat = fn.ToOATime();
                 isstmp.DegisKaynak = 136;
                 isstmp.DegisSurum = "8.00.001";
                 isstmp.CheckSum = 12;
@@ -994,7 +994,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 isstmp.OnaylayanGenelMudur = "";
 
                 isstmp.CekTutari = Convert.ToDecimal(bds["CekTutari"].ToString());
-                isstmp.CekOrtalamaVadeTarih = bds["CekOrtVadeTarihi"].ToDatetime();
+                isstmp.CekOrtalamaVadeTarih = bds["CekOrtVadeTarihi"].ToString() == "" ? DateTime.Now : bds["CekOrtVadeTarihi"].ToDatetime();
                 isstmp.NakitTutari = Convert.ToDecimal(bds["NakitTutar"].ToString());
 
                 isstmp.BaglantiParaCinsi = bds["BaglantiParaCinsi"].ToString();

@@ -27,7 +27,7 @@ namespace Wms12m
         /// </summary>
         public int ToOATime()
         {
-            return DateTime.Today.ToOADateInt();
+            return DateTime.Now.ToOaTime();
         }
         /// <summary>
         /// iiif in c#
