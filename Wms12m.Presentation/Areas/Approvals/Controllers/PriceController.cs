@@ -1650,14 +1650,14 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                         JArray satirlar = JsonConvert.DeserializeObject<JArray>(Request["Satirlar"]);
                         foreach (JObject satir in satirlar)
                         {
-                            Fiyat fyt = new Fiyat();
-
-                            fyt.FiyatListNum = parameters["ListeNo"].ToString();
-                            fyt.HesapKodu = satir["MusteriKodu"].ToString();
-                            fyt.MalKodu = satir["MalKodu"].ToString();
-                            fyt.SatisFiyat1 = satir["SatisFiyat1"].ToDecimal();
-                            fyt.SatisFiyat1Birim = satir["SF1Birim"] == null ? "" : satir["SF1Birim"].ToString();
-
+                            Fiyat fyt = new Fiyat()
+                            {
+                                FiyatListNum = parameters["ListeNo"].ToString(),
+                                HesapKodu = satir["MusteriKodu"].ToString(),
+                                MalKodu = satir["MalKodu"].ToString(),
+                                SatisFiyat1 = satir["SatisFiyat1"].ToDecimal(),
+                                SatisFiyat1Birim = satir["SF1Birim"] == null ? "" : satir["SF1Birim"].ToString()
+                            };
                             if (satir["SatisFiyat1"].ToDecimal() > 0)
                             {
                                 if (satir["SF1Birim"].ToString().Trim() == satir["Birim1"].ToString().Trim())
