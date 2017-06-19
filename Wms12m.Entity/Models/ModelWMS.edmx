@@ -38,6 +38,14 @@
           <Property Name="SmtpPort" Type="int" />
           <Property Name="SmtpHost" Type="varchar" MaxLength="150" />
           <Property Name="SmtpSSL" Type="bit" Nullable="false" />
+          <Property Name="OnayStok" Type="bit" Nullable="false" />
+          <Property Name="OnayTeminat" Type="bit" Nullable="false" />
+          <Property Name="OnaySiparis" Type="bit" Nullable="false" />
+          <Property Name="OnaySozlesme" Type="bit" Nullable="false" />
+          <Property Name="OnayRisk" Type="bit" Nullable="false" />
+          <Property Name="OnayFiyat" Type="bit" Nullable="false" />
+          <Property Name="OnayCek" Type="bit" Nullable="false" />
+          <Property Name="OnayTekno" Type="bit" Nullable="false" />
           <Property Name="Version" Type="varchar" MaxLength="50" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
@@ -1807,10 +1815,10 @@
             <Parameter Name="IpAddress" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetKynkEvrakNosForGorev" ReturnType="Collection(String)">
-            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetKynkTarihsForGorev" ReturnType="Collection(String)">
-            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2780,6 +2788,14 @@
           <Property Name="SmtpSSL" Type="Boolean" Nullable="false" />
           <Property Name="Version" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
+          <Property Name="OnayStok" Type="Boolean" Nullable="false" />
+          <Property Name="OnayTeminat" Type="Boolean" Nullable="false" />
+          <Property Name="OnaySiparis" Type="Boolean" Nullable="false" />
+          <Property Name="OnaySozlesme" Type="Boolean" Nullable="false" />
+          <Property Name="OnayRisk" Type="Boolean" Nullable="false" />
+          <Property Name="OnayFiyat" Type="Boolean" Nullable="false" />
+          <Property Name="OnayCek" Type="Boolean" Nullable="false" />
+          <Property Name="OnayTekno" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="GorevCalisma">
           <Key>
@@ -3533,6 +3549,14 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="OnayTekno" ColumnName="OnayTekno" />
+                <ScalarProperty Name="OnayCek" ColumnName="OnayCek" />
+                <ScalarProperty Name="OnayFiyat" ColumnName="OnayFiyat" />
+                <ScalarProperty Name="OnayRisk" ColumnName="OnayRisk" />
+                <ScalarProperty Name="OnaySozlesme" ColumnName="OnaySozlesme" />
+                <ScalarProperty Name="OnaySiparis" ColumnName="OnaySiparis" />
+                <ScalarProperty Name="OnayTeminat" ColumnName="OnayTeminat" />
+                <ScalarProperty Name="OnayStok" ColumnName="OnayStok" />
                 <ScalarProperty Name="Aktif" ColumnName="Aktif" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="SmtpSSL" ColumnName="SmtpSSL" />

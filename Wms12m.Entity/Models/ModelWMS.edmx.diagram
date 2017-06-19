@@ -68,7 +68,7 @@
         <AssociationConnector Association="MModel.WebMenuRol" />
         <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="4" PointY="2" />
         <AssociationConnector Association="MModel.FK_GorevUsers_Gorev" />
-        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.625" PointY="2.375" />
+        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="1.375" />
         <EntityTypeShape EntityType="MModel.GorevCalisma" Width="1.5" PointX="30.875" PointY="5" />
         <EntityTypeShape EntityType="MModel.UserDevice" Width="1.5" PointX="22.375" PointY="13.375" />
         <AssociationConnector Association="MModel.FK_UserDevices_Users" />
