@@ -1738,6 +1738,15 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 {
                     return "NO";
                 }
+                try
+                {
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    return "NO";
+                }
             }
 
 

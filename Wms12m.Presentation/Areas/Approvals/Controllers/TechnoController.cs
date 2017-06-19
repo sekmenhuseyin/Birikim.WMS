@@ -142,6 +142,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 try
                 {
+                    db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
                 catch (Exception ex)
@@ -192,6 +193,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 }
                 try
                 {
+                    db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
                 catch (Exception ex)
@@ -234,6 +236,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 }
                 try
                 {
+                    db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
                 catch (Exception ex)
@@ -274,6 +277,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 }
                 try
                 {
+                    db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
                 catch (Exception ex)

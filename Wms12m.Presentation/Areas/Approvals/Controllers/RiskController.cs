@@ -431,6 +431,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     return "NO";
                 }
+                try
+                {
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    return "NO";
+                }
             }
         }
     }
