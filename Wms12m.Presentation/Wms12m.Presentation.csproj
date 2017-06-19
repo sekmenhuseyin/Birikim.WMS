@@ -23,6 +23,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,7 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vsF379.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs9B5A.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,9 +42,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vsF379.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs9B5A.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Charts.v17.1.Core, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -76,6 +80,12 @@
     <Reference Include="DevExpress.XtraGauges.v17.1.Core, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExtreme.AspNet.Data, Version=1.2.6.0, Culture=neutral, PublicKeyToken=982f5dab1439d0f7, processorArchitecture=MSIL">
+      <HintPath>..\packages\DevExtreme.AspNet.Data.1.2.6\lib\net40\DevExtreme.AspNet.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExtreme.AspNet.Mvc">
+      <HintPath>Lib\DevExtreme.AspNet.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="DevHelper, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -153,6 +163,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -166,6 +179,9 @@
     <Reference Include="TumFaturaKayit, Version=1.17.5.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\TumFaturaKayit.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -346,6 +362,11 @@
     <Content Include="Areas\Constants\Views\web.config" />
     <Content Include="Areas\WMS\Views\web.config" />
     <Content Include="Areas\ToDo\Views\web.config" />
+    <Content Include="Areas\Approvals\Views\Techno\Index.cshtml" />
+    <Content Include="Areas\Approvals\Views\Techno\Ucret_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Techno\Prim_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Techno\EskiUcretData.cshtml" />
+    <Content Include="Areas\WMS\Views\Purchase\EditList.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -382,6 +403,7 @@
     <Content Include="Views\Security\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Areas\Approvals\ApprovalsAreaRegistration.cs" />
     <Compile Include="Areas\Approvals\Controllers\CheckController.cs" />
     <Compile Include="Areas\Approvals\Controllers\ContractController.cs" />
@@ -392,6 +414,7 @@
     <Compile Include="Areas\Approvals\Controllers\OrderController.cs" />
     <Compile Include="Areas\Approvals\Controllers\PriceController.cs" />
     <Compile Include="Areas\Approvals\Controllers\StockController.cs" />
+    <Compile Include="Areas\Approvals\Controllers\TechnoController.cs" />
     <Compile Include="Areas\Constants\ConstantsAreaRegistration.cs" />
     <Compile Include="Areas\Constants\Controllers\CorridorController.cs" />
     <Compile Include="Areas\Constants\Controllers\ShelfController.cs" />
@@ -401,6 +424,8 @@
     <Compile Include="Areas\ToDo\Controllers\DutiesController.cs" />
     <Compile Include="Areas\ToDo\Controllers\DutyWorkController.cs" />
     <Compile Include="Areas\ToDo\Controllers\SubProjectFormController.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Reports\DsSatinalma.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -653,6 +678,11 @@
     <Content Include="Areas\ToDo\Views\DutyWork\NewWork.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\List.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\Duty_Details.cshtml" />
+    <Content Include="Views\Help\Index.cshtml" />
+    <Content Include="Views\Logs\Index.cshtml" />
+    <Content Include="Views\Logs\Login.cshtml" />
+    <Content Include="Views\Logs\Error.cshtml" />
+    <Content Include="Views\Logs\App.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

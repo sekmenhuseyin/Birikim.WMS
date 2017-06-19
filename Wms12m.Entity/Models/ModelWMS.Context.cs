@@ -460,15 +460,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MenuGetirici_Result>("WMSEntities.MenuGetirici", webSiteTipiIDParameter, menuYeriIDParameter, roleNameParameter, ustMenuIDParameter, urlParameter);
         }
     
-        public virtual ObjectResult<string> GetEvrakNosForGorev(Nullable<int> gorevID)
-        {
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("GorevID", gorevID) :
-                new ObjectParameter("GorevID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetEvrakNosForGorev", gorevIDParameter);
-        }
-    
         public virtual int LogLogins(string userName, string ipAddress, Nullable<bool> loggedIn, string comment)
         {
             var userNameParameter = userName != null ?
@@ -488,6 +479,82 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Comment", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.LogLogins", userNameParameter, ipAddressParameter, loggedInParameter, commentParameter);
+        }
+    
+        public virtual int UpdateUserDevice(Nullable<int> userID, string device)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            var deviceParameter = device != null ?
+                new ObjectParameter("Device", device) :
+                new ObjectParameter("Device", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.UpdateUserDevice", userIDParameter, deviceParameter);
+        }
+    
+        public virtual int LogActions(string site, string area, string controller, string action, Nullable<int> type, Nullable<int> selectedID, string request, string details, string username, string ipAddress)
+        {
+            var siteParameter = site != null ?
+                new ObjectParameter("Site", site) :
+                new ObjectParameter("Site", typeof(string));
+    
+            var areaParameter = area != null ?
+                new ObjectParameter("Area", area) :
+                new ObjectParameter("Area", typeof(string));
+    
+            var controllerParameter = controller != null ?
+                new ObjectParameter("Controller", controller) :
+                new ObjectParameter("Controller", typeof(string));
+    
+            var actionParameter = action != null ?
+                new ObjectParameter("Action", action) :
+                new ObjectParameter("Action", typeof(string));
+    
+            var typeParameter = type.HasValue ?
+                new ObjectParameter("Type", type) :
+                new ObjectParameter("Type", typeof(int));
+    
+            var selectedIDParameter = selectedID.HasValue ?
+                new ObjectParameter("SelectedID", selectedID) :
+                new ObjectParameter("SelectedID", typeof(int));
+    
+            var requestParameter = request != null ?
+                new ObjectParameter("Request", request) :
+                new ObjectParameter("Request", typeof(string));
+    
+            var detailsParameter = details != null ?
+                new ObjectParameter("Details", details) :
+                new ObjectParameter("Details", typeof(string));
+    
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            var ipAddressParameter = ipAddress != null ?
+                new ObjectParameter("IpAddress", ipAddress) :
+                new ObjectParameter("IpAddress", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.LogActions", siteParameter, areaParameter, controllerParameter, actionParameter, typeParameter, selectedIDParameter, requestParameter, detailsParameter, usernameParameter, ipAddressParameter);
+        }
+    
+        public virtual ObjectResult<string> GetKynkEvrakNosForGorev(Nullable<int> gorevID)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetKynkEvrakNosForGorev", gorevIDParameter);
+        }
+    
+        public virtual ObjectResult<string> GetKynkTarihsForGorev(Nullable<int> gorevID)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetKynkTarihsForGorev", gorevIDParameter);
         }
     }
 }

@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Floor : abstractTables<Kat>, IDisposable
+    public class Floor : abstractTables<Kat>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(Kat tbl)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result(); bool eklemi = false;
             //boş mu
             if (tbl.KatAd == "" || tbl.BolumID == 0)
             {
@@ -50,13 +44,14 @@ namespace Wms12m.Business
                 }
             }
             //set details
-            tbl.Degistiren = Users.AppIdentity.User.UserName;
+            tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             if (tbl.ID == 0)
             {
-                tbl.Kaydeden = Users.AppIdentity.User.UserName;
+                tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Kats.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -77,6 +72,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Floor", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.KatAd + ", H: " + tbl.En + "x" + tbl.Boy + "x" + tbl.Derinlik + ", A: " + tbl.AgirlikKapasite);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -84,10 +80,9 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Floor/Operation");
+                Logger(ex, "Business/Floor/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -96,15 +91,16 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Delete(int Id)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result();
             //kaydı bul
             Kat tbl = db.Kats.Where(m => m.ID == Id).FirstOrDefault();
-            var rkat = db.GetHucreKatID(tbl.Bolum.Raf.Koridor.DepoID, "R-Z-R-V").FirstOrDefault();
-            if (rkat.Value == tbl.ID)
-            {
-                _Result.Message = "Rezerv katı silemezsiniz.";
-                return _Result;
-            }
+            var rkat = db.GetHucreKatID(tbl.Bolum.Raf.Koridor.DepoID, "R-ZR-V").FirstOrDefault();
+            if (rkat != null)
+                if (rkat.Value == tbl.ID)
+                {
+                    _Result.Message = "Rezerv katı silemezsiniz.";
+                    return _Result;
+                }
             if (tbl != null)
             {
                 if (tbl.Yers.FirstOrDefault() == null)
@@ -118,21 +114,21 @@ namespace Wms12m.Business
             else
             {
                 _Result.Message = "Kayıt Yok";
-                _Result.Status = false;
+                return _Result;
             }
             //sil
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Floor", "Delete", ComboItems.alSil, tbl.ID);
                 _Result.Id = Id;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Floor/Delete");
+                Logger(ex, "Business/Floor/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -147,7 +143,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Floor/Detail");
+                Logger(ex, "Business/Floor/Detail");
                 return new Kat();
             }
 
@@ -165,13 +161,6 @@ namespace Wms12m.Business
         public override List<Kat> GetList(int ParentId)
         {
             return db.Kats.Where(m => m.BolumID == ParentId).ToList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

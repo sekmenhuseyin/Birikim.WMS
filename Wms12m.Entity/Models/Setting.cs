@@ -28,5 +28,13 @@ namespace Wms12m.Entity.Models
         public bool SmtpSSL { get; set; }
         public string Version { get; set; }
         public bool Aktif { get; set; }
+        public bool OnayStok { get; set; }
+        public bool OnayTeminat { get; set; }
+        public bool OnaySiparis { get; set; }
+        public bool OnaySozlesme { get; set; }
+        public bool OnayRisk { get; set; }
+        public bool OnayFiyat { get; set; }
+        public bool OnayCek { get; set; }
+        public bool OnayTekno { get; set; }
     }
 }

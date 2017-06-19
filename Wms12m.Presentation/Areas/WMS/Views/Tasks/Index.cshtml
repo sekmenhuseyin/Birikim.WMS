@@ -58,10 +58,8 @@
             }
         });
     }
-    var GorevGridUrl = '@Url.Action("GorevGridPartial", "Tasks")';
-    var GorevDetailUrl = '@Url.Action("GorevDetailPartial", "Tasks")';
     function CreateEdit(Id) {
-        PartialView(GorevDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+        PartialView('/WMS/Tasks/GorevDetailPartial', 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
         $("#CreateEdit").show();
     }
     function DuzenleIptal() {

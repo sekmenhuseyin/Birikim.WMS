@@ -1,4 +1,56 @@
-﻿//hepsini değiştir
+﻿// Stringe karakter eklemek için
+String.prototype.addAt = function (index, character) {
+    return this.substr(0, index) + character + this.substr(index + character.length - 1);
+}
+// Sayılara ondalık binlik ayraçları eklemek için
+// Sonrasında ondalık miktarıda parametreden gelecek şekilde ayarlanabilir
+function ondalikBinlik(Val) {
+    if (Val == null || Val == undefined || Val == 0 ){
+        return 0;
+    }
+    else if (Val.toString().indexOf(",") < 1) {
+        var b = new Array();
+        var decVal = Number(Val).toFixed(2).replace(".", ",");
+        var a = decVal.split(",")[0].length;
+        for (var i = a; i > 0; i = i - 3) {
+            var c = i % 3;
+            if (c == 0 && i != 3) {
+                b.push(i - 3);
+            }
+            else if (c != 0 && i > 3) {
+                b.push(i - 3);
+            }
+        }
+        $.each(b, function (index, value) {
+            decVal = decVal.addAt(value, '.');
+        });
+        return decVal;
+    }
+    else if (Val.toString().indexOf(".") < 1) {
+        return Val;
+    }
+    else {
+        var b = new Array();
+
+        var detVal = Val.split(",")[0].replace(/\./g, "");
+        var a = detVal.length;
+        for (var i = a; i > 0; i = i - 3) {
+            var c = i % 3;
+            if (c == 0 && i != 3) {
+                b.push(i - 3);
+            }
+            else if (c != 0 && i > 3) {
+                b.push(i - 3);
+            }
+        }
+        $.each(b, function (index, value) {
+            detVal = detVal.addAt(value, '.');
+        });
+        detVal += "," + Val.split(",")[1]
+        return detVal;
+    }
+}
+//hepsini değiştir
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
 };
@@ -38,6 +90,13 @@ function fromOADate(oadate) {
     var date = new Date(((oadate - 25569) * 86400000));
     var tz = date.getTimezoneOffset();
     return formatDate(new Date(((oadate - 25569 + (tz / (60 * 24))) * 86400000)));
+};
+//tarih kutusundaki tarihi oadate yapar
+function toOADateFromString(date) {
+    var g = date.substr(0, 2);
+    var m = date.substr(3, 2) - 1;
+    var y = date.substr(6, 4);
+    return Math.ceil((new Date(Date.UTC(y, m, g)) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
 };
 //oadate yapar
 function toOADate(date) {

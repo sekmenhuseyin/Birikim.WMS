@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class IrsaliyeDetay : abstractTables<IRS_Detay>, IDisposable
+    public class IrsaliyeDetay : abstractTables<IRS_Detay>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle/güncelle
         /// </summary>
         public override Result Operation(IRS_Detay tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             if (tbl.Miktar <= 0)
             {
                 _Result.Id = 0;
@@ -29,19 +23,24 @@ namespace Wms12m.Business
             }
             //set details
             if (tbl.ID == 0)
+            {
                 db.IRS_Detay.Add(tbl);
-            else
+                eklemi = true;
+            }
+           else
             {
                 var tmp = Detail(tbl.ID);
                 tmp.IrsaliyeID = tbl.IrsaliyeID;
                 tmp.MalKodu = tbl.MalKodu;
                 tmp.Birim = tbl.Birim;
                 tmp.Miktar = tbl.Miktar;
+                if (tbl.MakaraNo != "") tmp.MakaraNo = tbl.MakaraNo;
                 if (tbl.YerlestirmeMiktari != null) tmp.YerlestirmeMiktari = tbl.YerlestirmeMiktari;
             }
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "IrsaliyeDetay", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.MalKodu + ", " + tbl.Miktar);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -49,7 +48,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Operation");
+                Logger(ex, "Business/IrsaliyeDetay/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -79,15 +78,21 @@ namespace Wms12m.Business
                         Birim = tbl.Birim,
                         Miktar = tbl.Miktar
                     };
+                    if (tbl.MakaraNo != "") tablo.MakaraNo = tbl.MakaraNo;
                     db.IRS_Detay.Add(tablo);
                     db.SaveChanges();
+                    //set aktif
+                    string s = string.Format("UPDATE wms.Gorev set DurumID = {0}, OlusturmaTarihi = {1}, OlusturmaSaati = {2} where ID IN (SELECT wms.Gorev.ID FROM wms.Gorev INNER JOIN wms.GorevIRS ON wms.Gorev.ID = wms.GorevIRS.GorevID WHERE wms.GorevIRS.IrsaliyeID = {3} AND (wms.Gorev.DurumID = {4}))", ComboItems.Açık.ToInt32(), fn.ToOADate(), fn.ToOATime(), tbl.IrsaliyeId, ComboItems.Başlamamış.ToInt32());
+                    db.Database.ExecuteSqlCommand(s);
+                    //log
+                    LogActions("Business", "IrsaliyeDetay", "Operation", ComboItems.alEkle , tablo.ID, tbl.MalKodu + ", " + tbl.Miktar);
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
                     _Result.Id = tablo.ID;
                 }
                 catch (Exception ex)
                 {
-                    helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Insert");
+                    Logger(ex, "Business/IrsaliyeDetay/Insert");
                     _Result.Message = ex.Message;
                     _Result.Status = false;
                     _Result.Id = 0;
@@ -108,6 +113,7 @@ namespace Wms12m.Business
                 {
                     db.IRS_Detay.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "IrsaliyeDetay", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -120,7 +126,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Delete");
+                Logger(ex, "Business/IrsaliyeDetay/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -137,7 +143,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Detail");
+                Logger(ex, "Business/IrsaliyeDetay/Detail");
                 return new IRS_Detay();
             }
 
@@ -155,13 +161,6 @@ namespace Wms12m.Business
         public override List<IRS_Detay> GetList(int ParentId)
         {
             return db.IRS_Detay.Where(m => m.IrsaliyeID == ParentId).OrderByDescending(m => m.ID).ToList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

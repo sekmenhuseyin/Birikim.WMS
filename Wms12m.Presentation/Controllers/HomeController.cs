@@ -15,9 +15,10 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             var SirketKodu = db.GetSirketDBs().FirstOrDefault();
-            var ozet = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
-            ViewBag.BekleyenOnaylar = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
             ViewBag.SirketKodu = SirketKodu;
+            ViewBag.BekleyenOnaylar = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
+            ViewBag.Settings = db.Settings.FirstOrDefault();
+            var ozet = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
             return View("Index", ozet);
         }
         /// <summary>
@@ -116,7 +117,15 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialAylikSatisAnaliziBar(string SirketKodu)
         {
             if (CheckPerm("ChartAylikSatisAnaliziBar", PermTypes.Reading) == false) return null;
-            var ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", SirketKodu)).ToList();
+            List<ChartAylikSatisAnalizi> ASA;
+            try
+            {
+                ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", SirketKodu)).ToList();
+            }
+            catch (Exception)
+            {
+                ASA = new List<ChartAylikSatisAnalizi>();
+            }
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialAylikSatisAnaliziBar", ASA);
@@ -311,7 +320,8 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialSatisTemsilcisiAylikSatisAnalizi(string SirketKodu, string kod, short tarih)
         {
             if (CheckPerm("ChartSatisTemsilcisiAylikSatisAnalizi", PermTypes.Reading) == false) return null;
-            var STASA = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[SatisTemsilcisi_AylikSatisAnalizi] @Ay = '{1}', @Kriter = '{2}'", SirketKodu, tarih, kod)).ToList();
+            string s = string.Format("[FINSAT6{0}].[wms].[SatisTemsilcisi_AylikSatisAnalizi] @Ay = '{1}', @Kriter = '{2}'", SirketKodu, tarih, kod);
+            var STASA = db.Database.SqlQuery<ChartSatisTemsilcisiAylikSatisAnalizi>(s).ToList();
             ViewBag.Tarih = tarih;
             ViewBag.Kriter = kod;
             ViewBag.SirketKodu = SirketKodu;

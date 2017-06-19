@@ -1,30 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Transfers : abstractTables<Transfer>, IDisposable
+    public class Transfers : abstractTables<Transfer>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// save
         /// </summary>
         public override Result Operation(Transfer tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             //set details
             if (tbl.ID == 0)
             {
                 tbl.Onay = false;
                 db.Transfers.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -34,6 +29,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Transfers", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "CikisDepoID: "+tbl.CikisDepoID+ ", GirisDepoID: " + tbl.GirisDepoID + ", SirketKod: " + tbl.SirketKod);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -41,7 +37,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Transfers/Operation");
+                Logger(ex, "Business/Transfers/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -55,6 +51,7 @@ namespace Wms12m.Business
             {
                 db.Transfer_Detay.Add(tbl);
                 db.SaveChanges();
+                LogActions("Business", "Combo", "Operation", ComboItems.alEkle, tbl.ID, "TransferID: " + tbl.TransferID + ", MalKodu: " + tbl.MalKodu + ", Miktar: " + tbl.Miktar);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -62,10 +59,8 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Transfers/AddDetay");
-                _Result.Id = 0;
+                Logger(ex, "Business/Transfers/AddDetay");
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -82,6 +77,7 @@ namespace Wms12m.Business
                 {
                     db.Transfers.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Transfers", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -89,14 +85,12 @@ namespace Wms12m.Business
                 else
                 {
                     _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
                 }
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Transfers/Delete");
+                Logger(ex, "Business/Transfers/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -128,13 +122,6 @@ namespace Wms12m.Business
                 return db.Transfers.Where(m => m.Onay == onay).ToList();
             else
                 return db.Transfers.Where(m => m.Onay == onay && m.CikisDepoID == DepoId).ToList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Persons : abstractTables<User>, IDisposable
+    public class Persons : abstractTables<User>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        Functions fn = new Functions();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle, güncelle
         /// </summary>
         public override Result Operation(User tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             if (tbl.AdSoyad == "" || tbl.Kod == "" || (tbl.ID == 0 && tbl.Sifre.ToString2() == ""))
             {
                 _Result.Id = 0;
@@ -46,7 +40,7 @@ namespace Wms12m.Business
             if (tbl.Sifre.ToString2() != "") tbl.Sifre = CryptographyExtension.Sifrele(tbl.Sifre);
             tbl.Kod = tbl.Kod.Left(5);
             //set details
-            tbl.Degistiren = Users.AppIdentity.User.UserName;
+            tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             tbl.DegisSaat = DateTime.Now.ToOaTime();
             tbl.DegisKaynak = 0;
@@ -57,12 +51,13 @@ namespace Wms12m.Business
                 tbl.Sirket = "";
                 tbl.Email = tbl.Email.ToString2();
                 tbl.Tema = tbl.Tema.ToString2();
-                tbl.Kaydeden = Users.AppIdentity.User.UserName;
+                tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 tbl.KayitSaat = DateTime.Now.ToOaTime();
                 tbl.KayitKaynak = 0;
                 tbl.KayitSurum = "1.0.0";
                 db.Users.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -85,6 +80,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Persons", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.AdSoyad+", "+tbl.Email + ", " + tbl.RoleName + ", " + tbl.Kod);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -92,7 +88,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Operation");
+                Logger(ex, "Business/Persons/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -100,36 +96,67 @@ namespace Wms12m.Business
             return _Result;
         }
         /// <summary>
+        /// sil
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            User tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
+            if (tbl != null)
+                db.Users.Remove(tbl);
+            else
+            {
+                _Result.Message = "Kayıt Yok";
+                return _Result;
+            }
+            try
+            {
+                db.SaveChanges();
+                LogActions("Business", "Persons", "Delete", ComboItems.alSil, tbl.ID);
+                _Result.Id = Id;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Persons/Delete");
+                _Result.Message = ex.Message;
+            }
+            return _Result;
+        }
+        /// <summary>
         /// giriş işlemleri
         /// </summary>
-        public Result Login(User P)
+        public Result Login(User P, string device)
         {
             _Result = new Result()
             {
                 Status = false,
-                Message = "İşlem Hata !!!",
+                Message = "Hatalı kombinasyon",
                 Id = 0
             };
             try
             {
                 P.Kod = P.Kod.Left(5).ToLower();
                 var tbl = db.Users.Where(a => a.Kod.ToLower() == P.Kod && a.Aktif == true).FirstOrDefault();
-                if (tbl != null)
+                if (tbl != null)//if user exists
                 {
-                    if (P.Sifre == CryptographyExtension.Cozumle(tbl.Sifre))
+                    if (P.Sifre == CryptographyExtension.Cozumle(tbl.Sifre))//if password matches
                     {
+                        //update db
+                        db.LogLogins(P.Kod, device, true, "");
+                        db.UpdateUserDevice(tbl.ID, device);
+                        //resturn result
                         _Result.Status = true;
                         _Result.Id = tbl.ID;
                         _Result.Message = "İşlem Başarılı";
                         _Result.Data = tbl;
                     }
                 }
-                else
-                    _Result.Message = "Hatalı kombinasyon";
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Login");
+                Logger(ex, "Business/Persons/Login");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
             return _Result;
@@ -157,10 +184,11 @@ namespace Wms12m.Business
             {
                 var tmp = Detail(P.ID);
                 tmp.Sifre = P.Sifre ?? "";
-                tmp.Degistiren = Users.AppIdentity.User.UserName;
+                tmp.Degistiren = vUser.UserName;
                 tmp.DegisTarih = DateTime.Today.ToOADateInt();
                 tmp.DegisSaat = DateTime.Now.ToOaTime();
                 db.SaveChanges();
+                LogActions("Business", "Persons", "ChangePass", ComboItems.alDüzenle, P.ID);
                 //result
                 _Result.Id = P.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -168,7 +196,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/ChangePass");
+                Logger(ex, "Business/Persons/ChangePass");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
             return _Result;
@@ -184,7 +212,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Detail");
+                Logger(ex, "Business/Persons/Detail");
                 return new User();
             }
         }
@@ -208,45 +236,7 @@ namespace Wms12m.Business
         }
         public List<User> GetListWithoutTerminal()
         {
-            return db.Users.Where(m=>m.UserDetail == null).OrderBy(m => m.AdSoyad).ToList();
-        }
-        /// <summary>
-        /// sil
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                User tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.Users.Remove(tbl);
-                    db.SaveChanges();
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Delete");
-                _Result.Message = ex.Message;
-                _Result.Status = false;
-            }
-            return _Result;
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
+            return db.Users.Where(m => m.UserDetail == null).OrderBy(m => m.AdSoyad).ToList();
         }
     }
 }

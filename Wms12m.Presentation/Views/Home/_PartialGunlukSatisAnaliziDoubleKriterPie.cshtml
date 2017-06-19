@@ -1,8 +1,4 @@
 ﻿@model List<ChartGunlukSatisAnalizi>
-<style>
-    .gs_tarih_double_pie .dx-dropdowneditor-icon {color: #44b6ae;}
-    .gs_tarih_double_pie .dx-dropdowneditor-icon:before {color: #44b6ae;}
-</style>
 <div class="row">
     <div class="col-md-12 m-t-40">
         <div class="portlet light bordered">
@@ -21,7 +17,7 @@
                     <div class="slct_double-kriter_pie" style="width:130px;"></div>
                 </div>
                 <div class="col-md-1 p-l-10">
-                    <div class="gs_tarih_double_pie" style="width:130px;"></div>
+                    <input type="text" class="form-control w-100" id="gs_tarih_double_pie" value="@ViewBag.tarih2" />
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
@@ -39,10 +35,6 @@
     var islemtip_value = @ViewBag.IslemTip;
     var kriter_value = @Html.Raw(Json.Encode(ViewBag.Kriter));
     var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
-    var arr = '@ViewBag.tarih2'.split(".");
-    arr[1] = (parseInt(arr[1]) - 1).toString();
-    arr[2] = arr[2].substr(0, 4);
-    var f_tarih = new Date(arr[2], arr[1], arr[0]);
     if ($('.SirketID6 option').size() == 1) $(".SirketID6").hide();
     else $(".SirketID6").val('@ViewBag.SirketKodu');
     function Reload6(v)
@@ -50,6 +42,11 @@
         PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: v, kod: kriter_value, islemtip: islemtip_value, tarih: @ViewBag.tarih }));
     }
     $(document).ready(function (e) {
+         $.datepicker.setDefaults($.datepicker.regional["tr"]);
+         $("#gs_tarih_double_pie").datepicker().on("change", function (e) {
+            var oaDate = toOADateFromString(e.target.value);
+                PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
+        });
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
@@ -61,16 +58,6 @@
         {
             model = @Html.Raw(Json.Encode(null));
         }
-        $(".gs_tarih_double_pie").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd.MM.yyyy',
-            value:f_tarih,
-            onValueChanged: function (e) {
-                var oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, tarih: oaDate }));
-            }
-        });
-
         $.ajax({
             url: "/Home/GunlukSatisAnaliziDoubleKriter",
             data: { SirketKodu: '@ViewBag.SirketKodu'},

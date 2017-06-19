@@ -1,32 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Irsaliye : abstractTables<IR>, IDisposable
+    public class Irsaliye : abstractTables<IR>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle/güncelle
         /// </summary>
         public override Result Operation(IR tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             if (tbl.ID == 0)
             {
                 db.IRS.Add(tbl);
+                eklemi = true;
             }
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Irsaliye", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "EvrakNo: " + tbl.EvrakNo+", Şirket:"+tbl.SirketKod + ", Depo:" + tbl.Depo.DepoKodu);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -34,9 +30,40 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Irsaliye/Operation");
+                Logger(ex, "Business/Irsaliye/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
+            }
+            return _Result;
+        }
+        /// <summary>
+        /// silme
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            try
+            {
+                IR tbl = db.IRS.Where(m => m.ID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    int gid = db.Gorevs.Where(m => m.IrsaliyeID == Id).Select(m => m.ID).FirstOrDefault();
+                    db.DeleteFromGorev(gid);
+                    LogActions("Business", "Irsaliye", "Delete", ComboItems.alSil, tbl.ID);
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Irsaliye/Delete");
+                _Result.Message = ex.Message;
                 _Result.Status = false;
             }
             return _Result;
@@ -52,7 +79,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Irsaliye/Detail");
+                Logger(ex, "Business/Irsaliye/Detail");
                 return new IR();
             }
         }
@@ -78,49 +105,11 @@ namespace Wms12m.Business
             return db.IRS.Where(m => m.SirketKod == SirketKod && m.IslemTur == IslemTur && m.HesapKodu == HesapKodu && m.DepoID == DepoID).OrderByDescending(m => m.ID).ToList();
         }
         /// <summary>
-        /// silme
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                IR tbl = db.IRS.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    int gid = db.Gorevs.Where(m => m.IrsaliyeID == Id).Select(m => m.ID).FirstOrDefault();
-                    db.DeleteFromGorev(gid);
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Irsaliye/Delete");
-                _Result.Message = ex.Message;
-                _Result.Status = false;
-            }
-            return _Result;
-        }
-        /// <summary>
         /// irsaliye onayı bul
         /// </summary>
         public bool GetOnay(int ID)
         {
             return db.IRS.Where(m => m.ID == ID).Select(m => m.Onay).FirstOrDefault();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

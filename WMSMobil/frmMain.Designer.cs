@@ -44,6 +44,7 @@
             this.lblTransferOut = new System.Windows.Forms.Label();
             this.btnTransferOut = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnMalKabul
@@ -219,6 +220,18 @@
             this.btnBack.Text = "Kapat";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnRefresh.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular);
+            this.btnRefresh.ForeColor = System.Drawing.Color.White;
+            this.btnRefresh.Location = new System.Drawing.Point(3, 4);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(95, 22);
+            this.btnRefresh.TabIndex = 23;
+            this.btnRefresh.Text = "Güncelle";
+            this.btnRefresh.Click += new System.EventHandler(this.AnaForm_Activated);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -226,6 +239,7 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(240, 302);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.lblTransferOut);
             this.Controls.Add(this.btnTransferOut);
@@ -268,6 +282,7 @@
         private System.Windows.Forms.Label lblTransferOut;
         private System.Windows.Forms.Button btnTransferOut;
         private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.Button btnRefresh;
     }
 }
 

@@ -253,9 +253,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         fyt.MalKodu = insertObj["MalKodu"].ToString();
                         fyt.BasTarih = BasTarih;
-                        fyt.BasSaat = 0;
+                        fyt.BasSaat = fn.ToOATime();
                         fyt.BitTarih = BitTarih;
-                        fyt.BitSaat = 0;
+                        fyt.BitSaat = fn.ToOATime();
 
                         if (FiyatMaxSiraNo.ContainsKey(insertObj["FiyatListNum"].ToString()))
                         {
@@ -348,12 +348,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         fyt.GuvenlikKod = "";
                         fyt.Kaydeden = vUser.UserName.ToString();
                         fyt.KayitTarih = (int)DateTime.Now.ToOADate();
-                        fyt.KayitSaat = 0;
+                        fyt.KayitSaat = fn.ToOATime();
                         fyt.KayitKaynak = 117;
                         fyt.KayitSurum = "8.10.100";
                         fyt.Degistiren = vUser.UserName.ToString();
                         fyt.DegisTarih = (int)DateTime.Now.ToOADate();
-                        fyt.DegisSaat = 0;
+                        fyt.DegisSaat = fn.ToOATime();
                         fyt.DegisKaynak = 117;
                         fyt.DegisSurum = "8.10.100";
                         fyt.CheckSum = 12;
@@ -508,9 +508,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             fyt.MalKodu = rts.MalKodu.ToString();
                             fyt.BasTarih = BasTarih;
-                            fyt.BasSaat = 0;
+                            fyt.BasSaat = fn.ToOATime();
                             fyt.BitTarih = BitTarih;
-                            fyt.BitSaat = 0;
+                            fyt.BitSaat = fn.ToOATime();
                             if (FiyatMaxSiraNo.ContainsKey(insertObj["FiyatListNum"].ToString()))
                             {
                                 fyt.SiraNo = Convert.ToInt16(FiyatMaxSiraNo[insertObj["FiyatListNum"].ToString()]);
@@ -601,12 +601,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             fyt.GuvenlikKod = "";
                             fyt.Kaydeden = vUser.UserName.ToString();
                             fyt.KayitTarih = (int)DateTime.Now.ToOADate();
-                            fyt.KayitSaat = 0;
+                            fyt.KayitSaat = fn.ToOATime();
                             fyt.KayitKaynak = 117;
                             fyt.KayitSurum = "8.10.100";
                             fyt.Degistiren = vUser.UserName.ToString();
                             fyt.DegisTarih = (int)DateTime.Now.ToOADate();
-                            fyt.DegisSaat = 0;
+                            fyt.DegisSaat = fn.ToOATime();
                             fyt.DegisKaynak = 117;
                             fyt.DegisSurum = "8.10.100";
                             fyt.CheckSum = 12;
@@ -762,9 +762,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             fyt.MalKodu = rts.MalKodu.ToString();
                             fyt.BasTarih = BasTarih;
-                            fyt.BasSaat = 0;
+                            fyt.BasSaat = fn.ToOATime();
                             fyt.BitTarih = BitTarih;
-                            fyt.BitSaat = 0;
+                            fyt.BitSaat = fn.ToOATime();
                             if (FiyatMaxSiraNo.ContainsKey(insertObj["FiyatListNum"].ToString()))
                             {
                                 fyt.SiraNo = Convert.ToInt16(FiyatMaxSiraNo[insertObj["FiyatListNum"].ToString()]);
@@ -855,12 +855,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             fyt.GuvenlikKod = "";
                             fyt.Kaydeden = vUser.UserName.ToString();
                             fyt.KayitTarih = (int)DateTime.Now.ToOADate();
-                            fyt.KayitSaat = 0;
+                            fyt.KayitSaat = fn.ToOATime();
                             fyt.KayitKaynak = 117;
                             fyt.KayitSurum = "8.10.100";
                             fyt.Degistiren = vUser.UserName.ToString();
                             fyt.DegisTarih = (int)DateTime.Now.ToOADate();
-                            fyt.DegisSaat = 0;
+                            fyt.DegisSaat = fn.ToOATime();
                             fyt.DegisKaynak = 117;
                             fyt.DegisSurum = "8.10.100";
                             fyt.CheckSum = 12;
@@ -1576,67 +1576,180 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
 
 
-        public string SatirEkle(string Data)
+        public string SatirEkle(string Data, string Satirlar)
         {
             if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
+
             JObject parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-            try
+            using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-                Fiyat fyt = new Fiyat()
+                try
                 {
-                    FiyatListNum = parameters["ListeNo"].ToString(),
+                    if (parameters["Durum"].ToShort() == 1)
+                    {
+                        Fiyat fyt = new Fiyat()
+                        {
+                            FiyatListNum = parameters["ListeNo"].ToString(),
 
-                    HesapKodu = parameters["HesapKodu"].ToString(),
-                    MalKodu = parameters["UrunKodu"].ToString(),
-                    SatisFiyat1 = parameters["SatisFiyat"].ToDecimal(),
-                    SatisFiyat1Birim = parameters["Birim"].ToString(),
-                    SatisFiyat1BirimInt = parameters["BirimValue"].ToInt32(),
-                    DovizSatisFiyat1 = parameters["DovizSatisFiyat"].ToDecimal(),
-                    DovizSF1Birim = parameters["DovizBirim"].ToString(),
-                    DovizSF1BirimInt = parameters["DovizBirimValue"].ToInt32(),
-                    DovizCinsi = parameters["Birim"].ToString(),
-                    Durum = parameters["Durum"].ToShort(),
-                    ROW_ID = 0
-                };
-                if (fyt.MalKodu.Substring(0, 2) == "80" || fyt.MalKodu.Substring(0, 2) == "81"
-                       || fyt.MalKodu == "M60101000080" || fyt.MalKodu == "M60101000081")
-                {
-                    fyt.Onay = true;
-                    fyt.Onaylayan = "";
-                    fyt.SPGMYOnay = true;
-                    fyt.SPGMYOnaylayan = "";
-                    fyt.GMOnay = false;
-                    fyt.GMOnaylayan = "";
+                            HesapKodu = parameters["HesapKodu"].ToString(),
+                            MalKodu = parameters["UrunKodu"].ToString(),
+                            SatisFiyat1 = parameters["SatisFiyat"].ToDecimal(),
+                            SatisFiyat1Birim = parameters["Birim"].ToString(),
+                            SatisFiyat1BirimInt = parameters["BirimValue"].ToInt32(),
+                            DovizSatisFiyat1 = parameters["DovizSatisFiyat"].ToDecimal(),
+                            DovizSF1Birim = parameters["DovizBirim"].ToString(),
+                            DovizSF1BirimInt = parameters["DovizBirimValue"].ToInt32(),
+                            DovizCinsi = parameters["Birim"].ToString(),
+                            Durum = parameters["Durum"].ToShort(),
+                            ROW_ID = 0
+                        };
+                        if (fyt.MalKodu.Substring(0, 2) == "80" || fyt.MalKodu.Substring(0, 2) == "81"
+                               || fyt.MalKodu == "M60101000080" || fyt.MalKodu == "M60101000081")
+                        {
+                            fyt.Onay = true;
+                            fyt.Onaylayan = "";
+                            fyt.SPGMYOnay = true;
+                            fyt.SPGMYOnaylayan = "";
+                            fyt.GMOnay = false;
+                            fyt.GMOnaylayan = "";
+                        }
+                        /// Fiyatlar İçin KağıtFiltre Kontrolü
+                        else if (fyt.MalKodu.StartsWith("2800") || parameters["GrupKod"].ToString() == "FKAĞIT" || fyt.MalKodu == "M001001000017051" || fyt.MalKodu == "M001001000022051") ///2800% ile başlayan ve Navlun ile Sigorta  
+                        {
+                            ///Filtre kağıt önce SM sonra da GMye düşecek.
+                            fyt.Onay = false;
+                            fyt.Onaylayan = "OZ";  ///SMden Sadece Özgür Beye düşmesi için yapıldı. 
+                            fyt.SPGMYOnay = true;  ///SPGMY düşmemesi için direk true diyorum
+                            fyt.SPGMYOnaylayan = "";
+                            fyt.GMOnay = false;
+                            fyt.GMOnaylayan = "";
+                        }
+                        else
+                        {
+                            fyt.Onay = false;
+                            fyt.Onaylayan = "";
+                            fyt.SPGMYOnay = false;
+                            fyt.SPGMYOnaylayan = "";
+                            fyt.GMOnay = false;
+                            fyt.GMOnaylayan = "";
+                        }
+                        sqlexper.Insert(fyt);
+                        var sonuc = sqlexper.AcceptChanges();
+                        if (sonuc.Status == false)
+                        {
+                            return "NO";
+                        }
+                        else
+                        {
+                            return "OK";
+                        }
+                    }
+                    else
+                    {
+                        JArray satirlar = JsonConvert.DeserializeObject<JArray>(Request["Satirlar"]);
+                        foreach (JObject satir in satirlar)
+                        {
+                            Fiyat fyt = new Fiyat()
+                            {
+                                FiyatListNum = parameters["ListeNo"].ToString(),
+                                HesapKodu = satir["MusteriKodu"].ToString(),
+                                MalKodu = satir["MalKodu"].ToString(),
+                                SatisFiyat1 = satir["SatisFiyat1"].ToDecimal(),
+                                SatisFiyat1Birim = satir["SF1Birim"] == null ? "" : satir["SF1Birim"].ToString()
+                            };
+                            if (satir["SatisFiyat1"].ToDecimal() > 0)
+                            {
+                                if (satir["SF1Birim"].ToString().Trim() == satir["Birim1"].ToString().Trim())
+                                    fyt.SatisFiyat1BirimInt = 1;
+                                else if (satir["SF1Birim"].ToString().Trim() == satir["Birim2"].ToString().Trim())
+                                    fyt.SatisFiyat1BirimInt = 2;
+                                else if (satir["SF1Birim"].ToString().Trim() == satir["Birim3"].ToString().Trim())
+                                    fyt.SatisFiyat1BirimInt = 3;
+                                else
+                                    fyt.SatisFiyat1BirimInt = -1;
+                            }
+                            else
+                                fyt.SatisFiyat1BirimInt = -1;
+
+                            fyt.DovizSatisFiyat1 = satir["DvzSatisFiyat1"].ToDecimal();
+                            fyt.DovizSF1Birim = satir["DovizSF1Birim"] == null ? "" : satir["DovizSF1Birim"].ToString();
+
+                            if (satir["DvzSatisFiyat1"].ToDecimal() > 0)
+                            {
+                                if (satir["DovizSF1Birim"].ToString().Trim() == satir["Birim1"].ToString().Trim())
+                                    fyt.DovizSF1BirimInt = 1;
+                                else if (satir["DovizSF1Birim"].ToString().Trim() == satir["Birim2"].ToString().Trim())
+                                    fyt.DovizSF1BirimInt = 2;
+                                else if (satir["DovizSF1Birim"].ToString().Trim() == satir["Birim3"].ToString().Trim())
+                                    fyt.DovizSF1BirimInt = 3;
+                                else
+                                    fyt.DovizSF1BirimInt = -1;
+                            }
+                            else
+                                fyt.DovizSF1BirimInt = -1;
+
+                            fyt.DovizCinsi = satir["SF1DovizCinsi"] == null ? "" : satir["SF1DovizCinsi"].ToString();
+                            fyt.Durum = parameters["Durum"].ToShort();
+                            fyt.ROW_ID = satir["ROW_ID"].ToInt32();
+                            //if (fyt.MalKodu.Substring(0, 2) == "80" || fyt.MalKodu.Substring(0, 2) == "81" || fyt.MalKodu == "M60101000080" || fyt.MalKodu == "M60101000081")
+                            //{
+                            if (fyt.MalKodu == "M60101000080" || fyt.MalKodu == "M60101000081")
+                            {
+                                fyt.Onay = true;
+                                fyt.Onaylayan = "";
+                                fyt.SPGMYOnay = true;
+                                fyt.SPGMYOnaylayan = "";
+                                fyt.GMOnay = false;
+                                fyt.GMOnaylayan = "";
+                            }
+                            /// Fiyatlar İçin KağıtFiltre Kontrolü
+                            else if (fyt.MalKodu.StartsWith("2800") || satir["GrupKod"].ToString() == "FKAĞIT" || fyt.MalKodu == "M001001000017051" || fyt.MalKodu == "M001001000022051") ///2800% ile başlayan ve Navlun ile Sigorta  
+                            {
+                                ///Filtre kağıt önce SM sonra da GMye düşecek.
+                                fyt.Onay = false;
+                                fyt.Onaylayan = "OZ";
+                                fyt.SPGMYOnay = true;  ///SPGMY düşmemesi için direk true diyorum
+                                fyt.SPGMYOnaylayan = "";
+                                fyt.GMOnay = false;
+                                fyt.GMOnaylayan = "";
+                            }
+                            else
+                            {
+                                fyt.Onay = false;
+                                fyt.Onaylayan = "";
+                                fyt.SPGMYOnay = false;
+                                fyt.SPGMYOnaylayan = "";
+                                fyt.GMOnay = false;
+                                fyt.GMOnaylayan = "";
+                            }
+
+                            sqlexper.Insert(fyt);
+                            var sonuc = sqlexper.AcceptChanges();
+                            if (sonuc.Status == false)
+                            {
+                                return "NO";
+                            }
+                        }
+                        return "OK";
+                    }
                 }
-                /// Fiyatlar İçin KağıtFiltre Kontrolü
-                else if (fyt.MalKodu.StartsWith("2800") || parameters["GrupKod"].ToString() == "FKAĞIT" || fyt.MalKodu == "M001001000017051" || fyt.MalKodu == "M001001000022051") ///2800% ile başlayan ve Navlun ile Sigorta  
+                catch (Exception)
                 {
-                    ///Filtre kağıt önce SM sonra da GMye düşecek.
-                    fyt.Onay = false;
-                    fyt.Onaylayan = "OZ";  ///SMden Sadece Özgür Beye düşmesi için yapıldı. 
-                    fyt.SPGMYOnay = true;  ///SPGMY düşmemesi için direk true diyorum
-                    fyt.SPGMYOnaylayan = "";
-                    fyt.GMOnay = false;
-                    fyt.GMOnaylayan = "";
+                    return "NO";
                 }
-                else
+                try
                 {
-                    fyt.Onay = false;
-                    fyt.Onaylayan = "";
-                    fyt.SPGMYOnay = false;
-                    fyt.SPGMYOnaylayan = "";
-                    fyt.GMOnay = false;
-                    fyt.GMOnaylayan = "";
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
                 }
-                sqlexper.Insert(fyt);
-                var sonuc = sqlexper.AcceptChanges();
-                return "OK";
+                catch (Exception ex)
+                {
+                    return "NO";
+                }
             }
-            catch (Exception ex)
-            {
-                return "NO";
-            }
+
+
         }
     }
 }

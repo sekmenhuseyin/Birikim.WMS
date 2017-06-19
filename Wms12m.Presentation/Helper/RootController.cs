@@ -28,7 +28,7 @@ namespace Wms12m.Presentation
         public TaskYer TaskYer = new TaskYer();
         public Yerlestirme Yerlestirme = new Yerlestirme();
         public Transfers Transfers = new Transfers();
-        public PersonPerms PersonPerms = new PersonPerms();
+        public PersonDetails PersonDetails = new PersonDetails();
         /// <summary>
         /// hata kaydını tek yerden kontrol etmek için
         /// </summary>
@@ -41,6 +41,13 @@ namespace Wms12m.Presentation
                 if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
             }
             db.Logger(vUser.UserName, "", fn.GetIPAddress(), ex.Message, inner, page);
+        }
+        /// <summary>
+        /// işlem kaydı
+        /// </summary>
+        public void LogActions(string area, string controller, string action, ComboItems type, int ID, string details = "", string request = "")
+        {
+            db.LogActions("WMS", area, controller, action, type.ToInt32(), ID, request, details, vUser.UserName, fn.GetIPAddress());
         }
         /// <summary>
         /// her bir sayfa için yetki kontrolü yapar
@@ -111,7 +118,7 @@ namespace Wms12m.Presentation
                 TaskYer.Dispose();
                 Yerlestirme.Dispose();
                 Transfers.Dispose();
-                PersonPerms.Dispose();
+                PersonDetails.Dispose();
             }
             base.Dispose(disposing);
         }

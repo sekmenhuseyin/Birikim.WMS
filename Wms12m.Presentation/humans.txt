@@ -9,7 +9,7 @@ Fatih Bingöl
 Gizem Altıntaş
 Emre Ünal
 /* SITE */
-Name: WMS - Depo Yönetim Paneli
+Name: 12M Yönetim Paneli
 Language: Turkish
 Web: http://www.12mconsulting.com.tr/
-Last update: 2017/06/09
+Last update: 2017/06/19

@@ -208,7 +208,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public PartialViewResult GM_Details(string ListeNo)
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
             return PartialView(list);
         }
         #endregion
@@ -242,7 +242,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public PartialViewResult SM_Details(string ListeNo)
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
             return PartialView(list);
         }
         public JsonResult Onay_SM(string Data)
@@ -436,7 +436,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public PartialViewResult SPGMY_Details(string ListeNo)
         {
             if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect1] '{1}'", "17", ListeNo)).ToList();
+            var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
             return PartialView(list);
         }
         public JsonResult Onay_SPGMY(string Data)
@@ -627,10 +627,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string TanimListesiSelect(string listeNo)
         {
-            var STL = new List<BaglantiDetaySelect1>();
+            var STL = new List<BaglantiDetaySelect>();
             if (listeNo != "#12MConsulting#")
             {
-                STL = db.Database.SqlQuery<BaglantiDetaySelect1>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
+                STL = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect] @ListeNo='{1}'", "17", listeNo)).ToList();
             }
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
@@ -845,13 +845,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             bool filtreKagitVarmi = false;
-            ISS_Temp isstmp = new ISS_Temp();
+
             int SiraNo = 0;
             bool? AktifPasif = null;
             List<ISS_Temp> listiss = new List<ISS_Temp>();
             foreach (JObject bds in parameters)
             {
-                AktifPasif = bds["Unvan"].ToBool();
+                ISS_Temp isstmp = new ISS_Temp();
+                AktifPasif = bds["AktifPasif"].ToBool();
                 string ListeAdi = bds["Unvan"].ToString().Length >= 10 ? bds["Unvan"].ToString().Substring(0, 10) : bds["Unvan"].ToString();
                 if (bds["VadeTarihInt"].ToInt32() == 0)
                     isstmp.ValorGun = bds["ValorGun"].ToInt32();
@@ -862,11 +863,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 isstmp.ListeNo = bds["ListeNo"].ToString();
                 isstmp.ListeAdi = bds["Unvan"].ToString().Length >= 30 ? bds["Unvan"].ToString().Substring(0, 30) : bds["Unvan"].ToString();
-                isstmp.BasTarih = bds["BasTarihInt"].ToInt32();
-                isstmp.BasSaat = 0;
+                isstmp.BasTarih = bds["BasTarih"].ToString() == "" ? (int)DateTime.Now.ToOADate() : bds["BasTarihInt"].ToInt32();
+                isstmp.BasSaat = fn.ToOATime();
                 // saati araştır
-                isstmp.BitTarih = bds["BitTarihInt"].ToInt32();
-                isstmp.BitSaat = 0;
+                isstmp.BitTarih = bds["BitTarih"].ToString() == "" ? (int)DateTime.Now.ToOADate() : bds["BitTarihInt"].ToInt32();
+                isstmp.BitSaat = fn.ToOATime();
                 isstmp.MusUygSekli = 1;
                 isstmp.MusKodGrup = 0;
                 isstmp.MusteriKod = bds["HesapKodu"] == null ? "" : bds["HesapKodu"].ToString();
@@ -949,12 +950,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 isstmp.GuvenlikKod = "12";
                 isstmp.Kaydeden = vUser.UserName.ToString();
                 isstmp.KayitTarih = (int)DateTime.Now.ToOADate();
-                isstmp.KayitSaat = 0;
+                isstmp.KayitSaat = fn.ToOATime();
                 isstmp.KayitKaynak = 136;
                 isstmp.KayitSurum = "8.00.001";
                 isstmp.Degistiren = vUser.UserName.ToString();
                 isstmp.DegisTarih = (int)DateTime.Now.ToOADate();
-                isstmp.DegisSaat = 0;
+                isstmp.DegisSaat = fn.ToOATime();
                 isstmp.DegisKaynak = 136;
                 isstmp.DegisSurum = "8.00.001";
                 isstmp.CheckSum = 12;
@@ -993,7 +994,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 isstmp.OnaylayanGenelMudur = "";
 
                 isstmp.CekTutari = Convert.ToDecimal(bds["CekTutari"].ToString());
-                isstmp.CekOrtalamaVadeTarih = bds["CekOrtVadeTarihi"].ToDatetime();
+                isstmp.CekOrtalamaVadeTarih = bds["CekOrtVadeTarihi"].ToString() == "" ? DateTime.Now : bds["CekOrtVadeTarihi"].ToDatetime();
                 isstmp.NakitTutari = Convert.ToDecimal(bds["NakitTutar"].ToString());
 
                 isstmp.BaglantiParaCinsi = bds["BaglantiParaCinsi"].ToString();
@@ -1020,42 +1021,59 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             if (listiss.Count > 0)
             {
-                try
+                using (var dbContextTransaction = db.Database.BeginTransaction())
                 {
-                    bool kontrol = false;
-                    string SozlesmeSiraNo = "";
-
-                    SozlesmeSiraNo = "SÖZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeSiraNoSelect]", 17)).FirstOrDefault();
-                    string HesapKodu = "";
-                    string ListeNo = "";
-                    decimal BaglantiTutari = 0;
-                    foreach (ISS_Temp isstemp in listiss)
+                    try
                     {
-                        if (isstemp.Kod2.Trim() != SozlesmeSiraNo)
-                        {
-                            kontrol = true;
-                            isstemp.Kod2 = SozlesmeSiraNo;
-                        }
+                        bool kontrol = false;
+                        string SozlesmeSiraNo = "";
 
-                        HesapKodu = isstemp.MusteriKod;
-                        ListeNo = isstemp.ListeNo;
-                        BaglantiTutari = isstemp.Kod11;
-                        sqlexper.Insert(isstemp);
+                        SozlesmeSiraNo = "SÖZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeSiraNoSelect]", 17)).FirstOrDefault();
+                        string HesapKodu = "";
+                        string ListeNo = "";
+                        decimal BaglantiTutari = 0;
+                        foreach (ISS_Temp isstemp in listiss)
+                        {
+                            if (isstemp.Kod2.Trim() != SozlesmeSiraNo)
+                            {
+                                kontrol = true;
+                                isstemp.Kod2 = SozlesmeSiraNo;
+                            }
+
+                            HesapKodu = isstemp.MusteriKod;
+                            ListeNo = isstemp.ListeNo;
+                            BaglantiTutari = isstemp.Kod11;
+                            sqlexper.Insert(isstemp);
+                            var sonuc = sqlexper.AcceptChanges();
+                            if (sonuc.Status == false)
+                            {
+                                return "NO";
+                            }
+                        }
+                        //var tempBagTutar = Convert.ToDecimal(BaglantiTutari.ToString().Replace(@".", "x").Replace(@",", ".").Replace(@"x", ","));
+                        //var tempBagTutar = Convert.ToDecimal(BaglantiTutari.ToString());
+                        string s = string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",", "."));
+                        db.Database.ExecuteSqlCommand(s);
+
+                        if (kontrol)
+                            return SozlesmeSiraNo;
+                        else
+                            return "OK";
 
                     }
-                    var tempBagTutar = BaglantiTutari.ToString().Replace(@".", "x").Replace(@",", ".").Replace(@"x", ",").ToDecimal();
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, tempBagTutar));
-
-                    if (kontrol)
-                        return SozlesmeSiraNo;
-                    else
-                        return "OK";
-
-                }
-                catch (Exception hata)
-                {
-                    return hata.Message;
+                    catch (Exception hata)
+                    {
+                        return hata.Message;
+                    }
+                    try
+                    {
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        return "NO";
+                    }
                 }
 
             }

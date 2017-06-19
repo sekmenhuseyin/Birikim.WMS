@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class ComboSub : abstractTables<ComboItem_Name>, IDisposable
+    public class ComboSub : abstractTables<ComboItem_Name>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(ComboItem_Name tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             if (tbl.Name == "" || tbl.ComboID == 0)
             {
                 _Result.Id = 0;
@@ -31,6 +25,7 @@ namespace Wms12m.Business
             if (tbl.ID == 0)
             {
                 db.ComboItem_Name.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -42,6 +37,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "ComboSub", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.Name + ", CID: " + tbl.ComboID);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -49,7 +45,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/ComboSub/Operation");
+                Logger(ex, "Business/ComboSub/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -69,6 +65,7 @@ namespace Wms12m.Business
                 {
                     db.ComboItem_Name.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Combo", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -81,7 +78,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/ComboSub/Delete");
+                Logger(ex, "Business/ComboSub/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -98,7 +95,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/ComboSub/Detail");
+                Logger(ex, "Business/ComboSub/Detail");
                 return new ComboItem_Name();
             }
         }
@@ -123,13 +120,6 @@ namespace Wms12m.Business
         public List<ComboItem_Name> GetList(int ParentId, bool visible)
         {
             return db.ComboItem_Name.Where(m => m.Visible == visible).Where(m => m.ComboID == ParentId).OrderBy(m => m.Name).ToList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

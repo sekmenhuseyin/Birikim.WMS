@@ -4,9 +4,9 @@
     /// list status
     /// </summary>
     public enum GetListStatus
-    {            
-        Refresh=0,
-        Close=1
+    {
+        Refresh = 0,
+        Close = 1
     }
     /// <summary>
     /// combo items
@@ -66,7 +66,15 @@
         gytBilgiTalebi = 51,
         gytStandart = 52,
         gytGeliştirme = 53,
-        gytKaliteKontrol = 54
+        gytKaliteKontrol = 54,
+        alEkle = 55,
+        alDüzenle = 56,
+        alSil = 57,
+        alZiyaret = 58,
+        alİndir = 59,
+        alYükle = 60,
+        alOnayla = 61,
+        alRed = 62
     }
     /// <summary>
     /// combo item names
@@ -82,7 +90,8 @@
         GörevYönetimDurumları = 7,
         Öncelik = 8,
         Departman = 9,
-        GörevYönetimTipleri = 10
+        GörevYönetimTipleri = 10,
+        İşlemKayıtTipi = 11
     }
     /// <summary>
     /// permission types

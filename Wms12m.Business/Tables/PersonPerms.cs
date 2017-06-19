@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class PersonPerms : abstractTables<UserDetail>, IDisposable
+    public class PersonDetails : abstractTables<UserDetail>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle, güncelle
         /// </summary>
         public override Result Operation(UserDetail tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             if (tbl.UserID == 0 || tbl.DepoID == 0)
             {
                 _Result.Id = 0;
@@ -29,7 +23,10 @@ namespace Wms12m.Business
             }
             var tmp = Detail(tbl.UserID);
             if (tmp == null)
+            {
                 db.UserDetails.Add(tbl);
+                eklemi = true;
+            }
             else
             {
                 tmp.DepoID = tbl.DepoID;
@@ -42,6 +39,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "PersonPerms", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, 0, "UserID: " + tbl.UserID + ", DepoID: " + tbl.DepoID);
                 //result
                 _Result.Id = tbl.UserID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -49,9 +47,41 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/PersonPerms/Operation");
+                Logger(ex, "Business/PersonPerms/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
+                _Result.Status = false;
+            }
+            return _Result;
+        }
+        /// <summary>
+        /// sil
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            try
+            {
+                var tbl = db.UserDetails.Where(m => m.UserID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.UserDetails.Remove(tbl);
+                    db.SaveChanges();
+                    LogActions("Business", "Combo", "Delete", ComboItems.alSil, tbl.UserID);
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/PersonPerms/Delete");
+                _Result.Message = ex.Message;
                 _Result.Status = false;
             }
             return _Result;
@@ -76,44 +106,6 @@ namespace Wms12m.Business
         public override List<UserDetail> GetList(int ParentId)
         {
             return db.UserDetails.ToList();
-        }
-        /// <summary>
-        /// sil
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                var tbl = db.UserDetails.Where(m => m.UserID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.UserDetails.Remove(tbl);
-                    db.SaveChanges();
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/PersonPerms/Delete");
-                _Result.Message = ex.Message;
-                _Result.Status = false;
-            }
-            return _Result;
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

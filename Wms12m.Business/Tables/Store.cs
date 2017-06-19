@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Store : abstractTables<Depo>, IDisposable
+    public class Store : abstractTables<Depo>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(Depo tbl)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result(); bool eklemi = false;
             //boş mu
             if (tbl.DepoAd == "" || tbl.DepoKodu == "")
             {
@@ -50,13 +44,14 @@ namespace Wms12m.Business
                 }
             }
             //set details
-            tbl.Degistiren = Users.AppIdentity.User.UserName;
+            tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             if (tbl.ID == 0)
             {
-                tbl.Kaydeden = Users.AppIdentity.User.UserName;
+                tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Depoes.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -72,6 +67,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Store", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.DepoAd + ", " + tbl.DepoKodu);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -79,10 +75,8 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Store/Operation");
-                _Result.Id = 0;
+                Logger(ex, "Business/Store/Operation");
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -91,7 +85,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Delete(int Id)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result();
             //kaydı bul
             var tbl = db.Depoes.Where(m => m.ID == Id).FirstOrDefault();
             if (tbl != null)
@@ -113,13 +107,14 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Store", "Delete", ComboItems.alSil, tbl.ID);
                 _Result.Id = Id;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Store/Delete");
+                Logger(ex, "Business/Store/Delete");
                 _Result.Message = ex.Message;
             }
             return _Result;
@@ -135,7 +130,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Store/Detail");
+                Logger(ex, "Business/Store/Detail");
                 return new Depo();
             }
         }
@@ -147,7 +142,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Store/Detail");
+                Logger(ex, "Business/Store/Detail");
                 return new Depo();
             }
         }
@@ -181,13 +176,6 @@ namespace Wms12m.Business
                 return GetList();
             else
                 return db.Depoes.Where(m => m.ID == Id).ToList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

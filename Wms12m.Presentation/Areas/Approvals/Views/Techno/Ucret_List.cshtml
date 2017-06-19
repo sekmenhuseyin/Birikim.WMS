@@ -1,0 +1,240 @@
+﻿
+<div class="col-md-12" style="width:100%;">
+    <div class="table-toolbar">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="btn-group">
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="btn-group pull-right">
+                    <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">
+                        Tools
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-print"></i> Print
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-file-pdf-o"></i> Save as PDF
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <i class="fa fa-file-excel-o"></i> Export to Excel
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered" id="sample_1">
+        <thead>
+            <tr>
+                <th style="display:none;"></th>
+                <th style="display:none;"></th>
+                <th>
+                    @*<label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                            <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                            <span></span>
+                        </label>*@
+                </th>
+
+                <th nowrap>Ad</th>
+                <th nowrap>Soyad</th>
+                <th nowrap>IsyeriAdi</th>
+                <th nowrap>BirimAdi</th>
+                <th nowrap>PozisyonAdi</th>
+                <th nowrap>GecerlilikAyi</th>
+                <th nowrap>GecerlilikYili</th>
+                <th nowrap>DegisimTarihi</th>
+                <th nowrap>UcretTipi</th>
+                <th nowrap>DovizTipi</th>
+                <th nowrap>BirimUcret</th>
+                <th nowrap>GenelAylikUcret</th>
+                <th nowrap>RedNedeni</th>
+                <th nowrap>KayitTarih</th>
+                <th nowrap>KaydedenKullanici</th>
+                <th nowrap>GuncellemeTarihi</th>
+                <th nowrap>GuncelleyenKullanici</th>
+                <th nowrap>Aciklama</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div class="modal fade" id="x-modal-ucretred" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#3434cb">Techno Ucret Red</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="redNeden">
+                    <div style="width:100%;">
+                        <h5 style="color:#de3838;">
+                            Red Nedeni
+                        </h5>
+                    </div>
+                    <div class="txtUcretRedNeden">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="mdlSilKapat">Kapat</button>
+                <button type="button" class="btn btn-primary" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var table = "";
+    var secili_satir = new Array();
+    var secili_table = new Array();
+    $(document).ready(function () {
+        console.log("ssss");
+        var tip1 = "@ViewBag.Tip";
+        $(".txtUcretRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
+        table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "ajax": {
+                "url": '/Approvals/Techno/UcretListData?tip=' + tip1,
+                "dataSrc": function (json) {
+                    return json;
+                },
+            },
+            "fixedHeader": true,
+            "scrollX": true,
+            "scrollY": '30vh',
+            "scrollCollapse": true,
+
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [12, 13] }, { "visible": false, "targets": [0,1] }],
+            "columns": [
+                { "data": "PERSONELID" },
+                { "data": "ID" },
+                { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
+                { "data": "Ad"},
+                { "data": "Soyad" },
+                { "data": "IsyeriAdi" },
+                { "data": "BirimAdi" },
+                { "data": "PozisyonAdi" },
+                { "data": "GecerlilikAyi" },
+                { "data": "GecerlilikYili" },
+                { "data": "DegisimTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
+                { "data": "UcretTipi" },
+                { "data": "DovizTipi" },
+                { "data": "BirimUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "GenelAylikUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "RedNedeni" },
+                { "data": "KayitTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
+                { "data": "KaydedenKullanici" },
+                { "data": "GuncellemeTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
+                { "data": "GuncelleyenKullanici" },
+                { "data": "Aciklama" },
+            ],
+            "ordering": false,
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $('td', nRow).attr('nowrap', 'nowrap');
+                return nRow;
+            },
+            //    initComplete: function () {
+            //        this.api().columns([1, 2, 3, 4]).every(function () {
+            //        var column = this;
+            //        var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
+            //            .appendTo($(column.header()))
+            //            .on('change', function () {
+            //                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+            //                column.search(val ? '^' + val + '$' : '', true, false).draw();
+            //            });
+            //        column.data().unique().sort().each(function (d, j) {  select.append('<option value="' + d + '">' + d + '</option>') });
+            //    });
+            //}
+        });
+        $('#sample_1 tbody').on('click', '.details-control', function () {
+            var tr = $(this).closest('tr');
+            $("tr").removeClass("aa");
+            tr.addClass("aa");
+            setTimeout(function () { var x = table.rows('.aa').data(); }, 500);
+            var x = table.rows('.aa').data();
+            console.log(x[0]);
+            var row = table.row(tr);
+            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            else { row.child(newrow(x[0]["PERSONELID"])).show(); format(x[0]["PERSONELID"].toString().replace("/", "")); tr.addClass('shown'); }
+        });
+        $('#sample_1 tbody').on('click', 'tr', function () {
+            $("tr").removeClass("selected");
+            $(this).toggleClass('selected');
+        });
+        if (tip1 == 'Reddedilenler') {
+            table.columns([15, 16, 17]).visible(true, true);
+        }
+        else {
+            table.columns([15, 16, 17]).visible(false, false);
+        }
+        //table.columns([3,4] ).visible(false,false);
+    });
+    function UcretOnayla() {
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) {
+            secili_table.push(x[i]);
+        }
+        var _dfd = $.Deferred();
+        $.ajax({
+            url: window.location.origin + "/Approvals/Techno/Ucret_Onayla",
+            data: { Data: JSON.stringify(secili_table) },
+            type: "post",
+
+            success: function (data) {
+                if (data.Status == true) {
+                    window.location.reload();
+                    Modaldialog("İşlem Başarılı", "Onaylama İşlemi", "Tamam", "Onay");
+                }
+                else {
+                    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
+                }
+            }
+        });
+        return _dfd.promise();
+    }
+    function UcretReddet() {
+        $('#x-modal-ucretred').modal("show");
+
+    }
+    function UCRETRED() {
+        ucret_redNeden = $(".txtUcretRedNeden").dxTextArea("instance").option("value");
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) {
+            secili_table.push(x[i]);
+        }
+        var _dfd = $.Deferred();
+        $.ajax({
+            url: window.location.origin + "/Approvals/Techno/Ucret_Reddet",
+            data: { Data: JSON.stringify(secili_table), RedNeden: ucret_redNeden },
+            type: "post",
+            success: function (data) {
+                if (data.Status == true) {
+                    window.location.reload();
+                    Modaldialog("İşlem Başarılı", "Red İşlemi", "Tamam", "Red");
+                }
+                else {
+                    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
+                }
+
+            }
+        });
+        return _dfd.promise();
+
+    }
+
+    $(document).on("click", "#mdlSilKayit", function () {
+        ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Kaydet", "redKayit", UCRETRED, "Kapat", "redKapat", null);
+    });
+</script>

@@ -66,6 +66,7 @@ namespace Wms12m.Entity
     public class frmIrsaliyeMalzeme
     {
         public int ROW_ID { get; set; }
+        public int DegisSaat { get; set; }
         public string EvrakNo { get; set; }
         public string MalKodu { get; set; }
         public decimal Miktar { get; set; }

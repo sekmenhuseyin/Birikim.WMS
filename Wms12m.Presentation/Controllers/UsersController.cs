@@ -115,12 +115,19 @@ namespace Wms12m.Presentation.Controllers
                             ModifiedDate = DateTime.Now,
                             ModifiedUser = vUser.UserName
                         };
-                        if (tbl.Reading == true || tbl.Writing == true || tbl.Updating == true || tbl.Updating == true) db.UserPerms.Add(tbl);
+                        if (tbl.Reading == true || tbl.Writing == true || tbl.Updating == true || tbl.Updating == true)
+                        {
+                            db.UserPerms.Add(tbl);
+                            LogActions("", "Users", "SavePerm", ComboItems.alEkle, 0, "PermName: " + tbl.PermName + ", UserName: " + tbl.UserName + ", R: " + tbl.Reading + ", W: " + tbl.Writing + ", U: " + tbl.Updating + ", D: " + tbl.Deleting);
+                        }
                     }
                     else
                     {
                         if (rolePerm.Reading != "on" && rolePerm.Writing != "on" && rolePerm.Updating != "on" && rolePerm.Updating != "on")
+                        {
                             db.UserPerms.Remove(tbl);
+                            LogActions("", "Users", "SavePerm", ComboItems.alSil, 0, "PermName: " + tbl.PermName + ", UserName: " + tbl.UserName);
+                        }
                         else
                         {
                             tbl.Reading = rolePerm.Reading == "on" ? true : false;
@@ -129,13 +136,17 @@ namespace Wms12m.Presentation.Controllers
                             tbl.Deleting = rolePerm.Deleting == "on" ? true : false;
                             tbl.ModifiedDate = DateTime.Now;
                             tbl.ModifiedUser = vUser.UserName;
+                            LogActions("", "Users", "SavePerm", ComboItems.alDüzenle, 0, "PermName: " + tbl.PermName + ", UserName: " + tbl.UserName + ", R: " + tbl.Reading + ", W: " + tbl.Writing + ", U: " + tbl.Updating + ", D: " + tbl.Deleting);
                         }
                     }
                     try
                     {
                         db.SaveChanges();
                     }
-                    catch (Exception) { }
+                    catch (Exception ex)
+                    {
+                        Logger(ex, "Users/SavePerm");
+                    }
                 }
             }
         }
@@ -155,9 +166,14 @@ namespace Wms12m.Presentation.Controllers
                 {
                     db.UserPerms.Remove(tbl);
                     db.SaveChanges();
+                    //log
+                    LogActions("", "Users", "DeletePerm", ComboItems.alSil, 0, "PermName: " + pname + ", UserName: " + uname);
                 }
             }
-            catch (System.Exception) { }
+            catch (Exception ex)
+            {
+                Logger(ex, "Users/DeletePerm");
+            }
             //return
             Result _Result = new Result()
             {

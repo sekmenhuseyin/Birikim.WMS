@@ -377,6 +377,10 @@
                     }
                 });
             }
+            else {
+                Modaldialog("Satır Seçiniz", "Silme İşlemi", "Tamam", "Uyarı");
+                return;
+            }
         });
 
         $('.save-buton').click(function () {
@@ -427,8 +431,8 @@
             });
             return _dfd.promise();
         });
-        $('.refresh-buton').click(function () {
-            window.location.href = '/Approvals/Invoice';
+        $('.temizle-buton').click(function () {
+            window.location.reload();
         });
 
     </script>

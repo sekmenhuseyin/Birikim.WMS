@@ -1,36 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
     public class Combo : abstractTables<Combo_Name>, IDisposable
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(Combo_Name tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
+            //boş mu
             if (tbl.ComboName == "")
             {
-                _Result.Id = 0;
                 _Result.Message = "Eksik Bilgi Girdiniz";
-                _Result.Status = false;
                 return _Result;
             }
             //set details
             if (tbl.ID == 0)
             {
                 db.Combo_Name.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -40,6 +34,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Combo", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.ComboName);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -47,10 +42,8 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Combo/Operation");
-                _Result.Id = 0;
+                Logger(ex, "Business/Combo/Operation");
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -67,6 +60,7 @@ namespace Wms12m.Business
                 {
                     db.Combo_Name.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Combo", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -74,14 +68,12 @@ namespace Wms12m.Business
                 else
                 {
                     _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
                 }
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Combo/Delete");
+                Logger(ex, "Business/Combo/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -96,7 +88,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Combo/Detail");
+                Logger(ex, "Business/Combo/Detail");
                 return new Combo_Name();
             }
         }
@@ -113,13 +105,6 @@ namespace Wms12m.Business
         public override List<Combo_Name> GetList(int ParentId)
         {
             return GetList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

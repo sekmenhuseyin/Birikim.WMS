@@ -13,15 +13,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         // GET: MainProjectForm/Create
         public ActionResult Index()
         {
-            ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
-            ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
-            ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
-            ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
-            ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje");
-            ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
-            ViewBag.Sorumlu2 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", "");
-            ViewBag.Sorumlu3 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", "");
-            return View(new Gorevler());
+            return View();
         }
 
         public PartialViewResult New()
@@ -32,8 +24,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje");
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
-            ViewBag.Sorumlu2 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", "");
-            ViewBag.Sorumlu3 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", "");
+            ViewBag.Sorumlu2 = ViewBag.Sorumlu;
+            ViewBag.Sorumlu3 = ViewBag.Sorumlu;
             return PartialView(new Gorevler());
         }
 
@@ -48,12 +40,8 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         public PartialViewResult List()
         {
-            var list = db.Database.SqlQuery<GorevDurum>(string.Format("[BIRIKIM].[dbo].[SP_Gorev]")).ToList();
+            var list = db.Gorevlers.ToList();
             return PartialView(list);
-
-            //var gorevlers = db.Gorevlers.Include(g => g.ProjeForm);
-
-
         }
 
         // GET: MainProjectForm/Edit/5
@@ -95,26 +83,25 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 else
                 {
                     var tbl = db.Gorevlers.Where(m => m.ID == gorevler.ID).FirstOrDefault();
-                    tbl.Sorumlu = gorevler.Sorumlu;//
-                    tbl.Sorumlu2 = gorevler.Sorumlu2;//
-                    tbl.Sorumlu3 = gorevler.Sorumlu3;//
-                    tbl.Gorev = gorevler.Gorev;//
-                    tbl.Aciklama = gorevler.Aciklama;//
-                    tbl.OncelikID = gorevler.OncelikID;//
+                    tbl.Sorumlu = gorevler.Sorumlu;
+                    tbl.Sorumlu2 = gorevler.Sorumlu2;
+                    tbl.Sorumlu3 = gorevler.Sorumlu3;
+                    tbl.Gorev = gorevler.Gorev;
+                    tbl.Aciklama = gorevler.Aciklama;
+                    tbl.OncelikID = gorevler.OncelikID;
 
-                    tbl.DurumID = gorevler.DurumID;//
-                    tbl.GorevTipiID = gorevler.GorevTipiID;//
+                    tbl.DurumID = gorevler.DurumID;
+                    tbl.GorevTipiID = gorevler.GorevTipiID;
                     tbl.DepartmanID = gorevler.DepartmanID;
                     tbl.TahminiBitis = gorevler.TahminiBitis;
 
-                    tbl.DurumID = gorevler.DurumID;//
-                    tbl.GorevTipiID = gorevler.GorevTipiID;//
+                    tbl.DurumID = gorevler.DurumID;
+                    tbl.GorevTipiID = gorevler.GorevTipiID;
                     tbl.DepartmanID = gorevler.DepartmanID;
                     tbl.TahminiBitis = gorevler.TahminiBitis;
                     tbl.BitisTarih = null;
                     tbl.IslemTip = 0;
                     tbl.IslemSira = null;
-
 
                 }
                 try

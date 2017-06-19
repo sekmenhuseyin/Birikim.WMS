@@ -317,26 +317,15 @@
         var element = new Array();
         var srNo = "@ViewBag.SRNO"
         $(document).ready(function () {
-            //var date_input = $('input[name="date"]'); //our date input has the name "date"
             var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-            //var options = {
-            //    format: 'mm/dd/yyyy',
-            //    container: container,
-            //    todayHighlight: true,
-            //    autoclose: true,
-            //};
             $('#p_vade_tarihi').datepicker({
                 format: 'mm-dd-yyyy',
                 container: container,
                 todayHighlight: true,
                 autoclose: true,
                 onSelect: function () {
-
-                    //var dateTypeVar = $(this).datepicker('getDate');
-                    console.log($(this).datepicker({ dateFormat: 'yy-mm-dd' }).val());
                 }
             });
-            //date_input.datepicker(options);
             $(".form-rounded").css("border-radius", "1rem");
             $(".sozlesme-guncelle-buton").addClass('disabled');
             DevExpress.ui.dxOverlay.baseZIndex(20000);
@@ -352,8 +341,6 @@
                 formatString: 'dd/MM/yyyy',
                 width: "60%",
                 onValueChanged: function (e) {
-                    console.log(e.value);
-                    //oaDate = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
                 }
             });
             $(".date_bitis_tarihi").dxDateBox({
@@ -447,14 +434,8 @@
                     }
                 },
                 onValueChanged: function (e) {
-                    //if (e.value.toString().indexOf(",") < 1) {
                     var deger = ondalikBinlik(e.value)
                     e.component.option("value", deger);
-                    //}
-                    //else {
-                    //    var deger = ondalikBinlik(e.value)
-                    //    e.component.option("value", deger);
-                    //}
                 }
 
             });
@@ -464,6 +445,7 @@
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                        console.log(info.component.option("value"));
                         var val = info.component.option("value");
                         var deger = ondalikBinlik(val)
                         info.component.option("value", deger);
@@ -738,6 +720,7 @@
                 //valueExpr: 'ID',
                 displayExpr: 'Tip',
                 onValueChanged: function (e) {
+
                     if (e.value == null)
                         return;
                     TempUrunGrup = e.value.ID;
@@ -909,6 +892,8 @@
                 //valueExpr: 'Kod',
                 displayExpr: 'Kod',
                 onValueChanged: function (e) {
+                    console.log(e.value.Aciklama);
+                    console.log("kod");
                     if (e.value == null) {
                         TempMalKod = "";
                         return;
@@ -1040,7 +1025,7 @@
             var EKOran3 = $(".numb_iskonto3").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto3").dxTextBox("instance").option("value");
             var EKOran4 = $(".numb_iskonto4").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto4").dxTextBox("instance").option("value");
             var EKOran5 = $(".numb_iskonto5").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto5").dxTextBox("instance").option("value");
-            var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td  align='right' nowrap>" + EKOran1 + "</td><td align='right' nowrap>" + EKOran2 + "</td><td align='right' nowrap>" + EKOran3 + "</td><td align='right' nowrap>" + EKOran4 + "</td><td align='right' nowrap>" + EKOran5 + "</td></tr>"
+            var sss = "<tr><td></td><td nowrap>" + EKFiyatListesi + "</td><td nowrap>" + EKMalKodGrup + "</td><td nowrap>" + EKMalKod + "</td><td nowrap>" + EKMalAdi + "</td><td nowrap>" + EKKalite + "</td><td  align='right' nowrap>" + EKOran1 + "</td><td align='right' nowrap>" + EKOran2 + "</td><td align='right' nowrap>" + EKOran3 + "</td><td align='right' nowrap>" + EKOran4 + "</td><td align='right' nowrap>" + EKOran5 + "</td></tr>"
             element.push(sss);
             var jsonElement = JSON.stringify(element);
             if ($("#fiyat_listesi_data table").length < 1) {

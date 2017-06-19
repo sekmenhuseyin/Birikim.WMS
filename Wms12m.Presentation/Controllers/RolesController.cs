@@ -44,6 +44,8 @@ namespace Wms12m.Presentation.Controllers
             {
                 db.Roles.Add(role);
                 db.SaveChanges();
+                //log
+                LogActions("", "Roles", "Create", ComboItems.alEkle, role.ID, role.RoleName);
             }
             return RedirectToAction("Index");
         }
@@ -58,10 +60,13 @@ namespace Wms12m.Presentation.Controllers
                 Role role = db.Roles.Find(id);
                 db.Roles.Remove(role);
                 db.SaveChanges();
+                //log
+                LogActions("", "Roles", "Delete", ComboItems.alSil, id.ToInt32(), role.RoleName);
                 return Json(new Result(true, 1, ""), JsonRequestBehavior.AllowGet);
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
+                Logger(ex, "Roles/Delete");
                 return Json(new Result(false, "Bu yetki kullanılıyor"), JsonRequestBehavior.AllowGet);
             }
         }

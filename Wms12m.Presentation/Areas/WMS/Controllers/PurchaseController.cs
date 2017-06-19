@@ -66,6 +66,26 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
+        /// irs detay güncelle
+        /// </summary>
+        [HttpPost]
+        public JsonResult UpdateList(int ID, decimal M, string mNo)
+        {
+            if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var tbl = db.IRS_Detay.Where(m => m.ID == ID).FirstOrDefault();
+            if (mNo != "") tbl.MakaraNo = mNo;
+            tbl.Miktar = M;
+            try
+            {
+                db.SaveChanges();
+                return Json(new Result(true), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json(new Result(false, "Kayıtta hata oldu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
         /// irsaliye listesi
         /// </summary>
         public PartialViewResult SiparisList()
@@ -81,7 +101,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             string sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID AS ID, FINSAT6{0}.FINSAT6{0}.SPI.EvrakNo, FINSAT6{0}.FINSAT6{0}.SPI.Tarih, FINSAT6{0}.FINSAT6{0}.STK.MalAdi, FINSAT6{0}.FINSAT6{0}.STK.MalKodu, FINSAT6{0}.FINSAT6{0}.SPI.BirimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.TeslimMiktar - FINSAT6{0}.FINSAT6{0}.SPI.KapatilanMiktar AS AçıkMiktar, FINSAT6{0}.FINSAT6{0}.SPI.Birim " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON FINSAT6{0}.FINSAT6{0}.SPI.Chk = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                         "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.IslemTur = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.SiparisDurumu = 0) AND (FINSAT6{0}.FINSAT6{0}.SPI.KynkEvrakTip = 63) AND (FINSAT6{0}.FINSAT6{0}.SPI.Depo = '{1}') AND (FINSAT6{0}.FINSAT6{0}.SPI.Chk = '{2}') " +
-                                        "AND FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID NOT IN (SELECT ISNULL(KynkSiparisID,0) FROM wms.IRS_Detay GROUP BY ISNULL(KynkSiparisID,0))", tmp[0], depo, tmp[2]);
+                                        "AND FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID NOT IN (SELECT BIRIKIM.wms.IRS_Detay.KynkSiparisID FROM BIRIKIM.wms.IRS_Detay INNER JOIN BIRIKIM.wms.GorevIRS ON BIRIKIM.wms.IRS_Detay.IrsaliyeID = BIRIKIM.wms.GorevIRS.IrsaliyeID INNER JOIN BIRIKIM.wms.Gorev ON BIRIKIM.wms.GorevIRS.GorevID = BIRIKIM.wms.Gorev.ID WHERE (BIRIKIM.wms.Gorev.DurumID = 9 OR BIRIKIM.wms.Gorev.DurumID = 11) AND (NOT(BIRIKIM.wms.IRS_Detay.KynkSiparisID IS NULL)) GROUP BY BIRIKIM.wms.IRS_Detay.KynkSiparisID)", tmp[0], depo, tmp[2]);
             var list = db.Database.SqlQuery<frmSiparistenGelen>(sql).ToList();
             return PartialView("SiparisList", list);
         }
@@ -140,7 +160,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 foreach (var item in tbl)
                 {
-                    string sql = String.Format("SELECT EvrakNo, Tarih, SiraNo, MalKodu, BirimMiktar, (BirimMiktar - TeslimMiktar - KapatilanMiktar) AS Miktar, Birim FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0) AND (MalKodu = '{2}') AND (Birim = '{3}') AND (EvrakNo = '{4}')", s, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo);
+                    string sql = String.Format("SELECT EvrakNo, Tarih, SiraNo, MalKodu, BirimMiktar, (BirimMiktar - TeslimMiktar - KapatilanMiktar) AS Miktar, Birim, DegisSaat FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (ROW_ID = {1}) AND (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0) AND (MalKodu = '{2}') AND (Birim = '{3}') AND (EvrakNo = '{4}')", s, item.KynkSiparisID, item.MalKodu, item.Birim, item.KynkSiparisNo);
                     try
                     {
                         var tempTbl = db.Database.SqlQuery<frmIrsaliyeMalzeme>(sql).FirstOrDefault();
@@ -154,6 +174,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             KynkSiparisNo = tempTbl.EvrakNo,
                             KynkSiparisSiraNo = tempTbl.SiraNo,
                             KynkSiparisTarih = tempTbl.Tarih,
+                            KynkDegisSaat = tempTbl.DegisSaat,
                             MalKodu = tempTbl.MalKodu,
                             Miktar = item.Miktar > 0 ? item.Miktar : tempTbl.Miktar
                         };
@@ -162,7 +183,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "Buy/FromSiparis");
+                        Logger(ex, "Purchase/FromSiparis");
                     }
                 }
                 if (eklenen > 0)
@@ -206,7 +227,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             bool kontrol1 = DateTime.TryParse(tbl.Tarih, out DateTime tmpTarih);
             if (kontrol1 == false)
             {
-                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Buy/New");
+                db.Logger(vUser.UserName, "", fn.GetIPAddress(), "Tarih hatası: " + tbl.Tarih, "", "Purchase/New");
                 ViewBag.message = "Tarih yanlış";
                 return PartialView("_GridPartial", new List<IRS_Detay>());
             }
@@ -231,7 +252,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "Buy/New-varolan");
+                    Logger(ex, "Purchase/New-varolan");
                     return null;
                 }
             }
@@ -264,7 +285,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Buy/New-yeni");
+                Logger(ex, "Purchase/New-yeni");
                 return null;
             }
         }
@@ -283,6 +304,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             return PartialView("_GridPartial", list);
         }
         /// <summary>
+        /// irs detay düzenle
+        /// </summary>
+        public PartialViewResult EditList(int ID, string s)
+        {
+            if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return null;
+            var tbl = IrsaliyeDetay.Detail(ID);
+            ViewBag.SirketID = s;
+            return PartialView("EditList", tbl);
+        }
+        /// <summary>
         /// yeni malzeme
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
@@ -292,12 +323,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
             var irs = Irsaliye.Detail(tbl.IrsaliyeId);
             if (irs.Onay == false)
-            {
-                //add new
-                Result _Result = IrsaliyeDetay.Insert(tbl);
-                //set aktif
-                if (_Result.Status == true) db.Database.ExecuteSqlCommand(string.Format("UPDATE wms.Gorev set DurumID = {0}, OlusturmaTarihi = {1}, OlusturmaSaati = {2} where ID IN (SELECT wms.Gorev.ID FROM wms.Gorev INNER JOIN wms.GorevIRS ON wms.Gorev.ID = wms.GorevIRS.GorevID WHERE wms.GorevIRS.IrsaliyeID = {3} AND (wms.Gorev.DurumID = {4}))", ComboItems.Açık.ToInt32(), fn.ToOADate(), fn.ToOATime(), tbl.IrsaliyeId, ComboItems.Başlamamış.ToInt32()));
-            }
+                IrsaliyeDetay.Insert(tbl);
             //get list
             var list = IrsaliyeDetay.GetList(tbl.IrsaliyeId);
             ViewBag.IrsaliyeId = tbl.IrsaliyeId;
@@ -313,7 +339,21 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+            string sql = "";
+            //generate sql
+            if (id.ToString() == "0")
+            {
+                var dblist = db.GetSirketDBs().ToList();
+                foreach (var item in dblist)
+                {
+                    if (sql != "") sql += " UNION ";
+                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ' - ' + MalAdi AS value, MalKodu + ' - ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu LIKE '{1}%')", item, term);
+                }
+                sql = "SELECT TOP (20) id,MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
+            }
+            else
+                sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+            //return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -321,7 +361,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Buy/getMalzemebyCode");
+                Logger(ex, "Purchase/getMalzemebyCode");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -329,7 +369,21 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            string sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'', @MalAdi = N'{1}'", id.ToString(), term);
+            string sql = "";
+            //generate sql
+            if (id.ToString() == "0")
+            {
+                var dblist = db.GetSirketDBs().ToList();
+                foreach (var item in dblist)
+                {
+                    if (sql != "") sql += " UNION ";
+                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ' - ' + MalAdi AS value, MalKodu + ' - ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalAdi LIKE '%{1}%')", item, term);
+                }
+                sql = "SELECT TOP (20) id, MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
+            }
+            else
+                sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+            //return
             try
             {
                 var list = db.Database.SqlQuery<frmJson>(sql).ToList();
@@ -337,7 +391,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Buy/getMalzemebyName");
+                Logger(ex, "Purchase/getMalzemebyName");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -347,7 +401,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult GetBirim(string kod, string s)
         {
-            string sql = String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", s, kod);
+            string sql = "";
+            if (s == "0")
+            {
+                var dblist = db.GetSirketDBs().ToList();
+                foreach (var item in dblist)
+                {
+                    if (sql != "") sql += " UNION ";
+                    sql += String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", item, kod);
+                }
+                sql = "SELECT TOP (1) Birim1, Birim2, Birim3, Birim4 from (" + sql + ") t where Birim1 <> ''";
+            }
+            else
+                sql = String.Format("SELECT Birim1, Birim2, Birim3, Birim4 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", s, kod);
             try
             {
                 var list = db.Database.SqlQuery<frmBirims>(sql).ToList();
@@ -355,7 +421,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Buy/getBirim");
+                Logger(ex, "Purchase/getBirim");
                 return Json(new List<frmBirims>(), JsonRequestBehavior.AllowGet);
             }
 

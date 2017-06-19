@@ -1,28 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class TaskYer : abstractTables<GorevYer>, IDisposable
+    public class TaskYer : abstractTables<GorevYer>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(GorevYer tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             if (tbl.ID == 0)
             {
                 db.GorevYers.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -32,6 +27,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "TaskYer", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "GorevID: " + tbl.GorevID + ", YerID: " + tbl.YerID + ", MalKodu: " + tbl.MalKodu + ", Miktar: " + tbl.Miktar);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -39,7 +35,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/TaskYer/Operation");
+                Logger(ex, "Business/TaskYer/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -59,6 +55,7 @@ namespace Wms12m.Business
                 {
                     db.GorevYers.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "TaskYer", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -71,7 +68,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/TaskYer/Delete");
+                Logger(ex, "Business/TaskYer/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -88,7 +85,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/TaskYer/Detail");
+                Logger(ex, "Business/TaskYer/Detail");
                 return new GorevYer();
             }
         }
@@ -105,13 +102,6 @@ namespace Wms12m.Business
         public override List<GorevYer> GetList(int ParentId)
         {
             return db.GorevYers.Where(m => m.GorevID == ParentId).OrderBy(m => m.Sira).ThenBy(m => m.MalKodu).ToList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

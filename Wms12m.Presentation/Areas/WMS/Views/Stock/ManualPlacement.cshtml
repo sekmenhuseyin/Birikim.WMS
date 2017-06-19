@@ -8,14 +8,14 @@
 <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/assets/global/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/datatables/extensions/Buttons/css/buttons.bootstrap.min.css" rel="stylesheet" />
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Stock">Stok</a><i class="fa fa-circle"></i></li><li><span>Ekle</span></li></ul></div>
-<h1 class="page-title">Stok Ekle</h1>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/Stock">Stok</a><i class="fa fa-circle"></i></li><li><span>Düzelt</span></li></ul></div>
+<h1 class="page-title">Stok Düzeltme</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Ekle
+                    <i class="fa fa-gift"></i>Düzelt
                 </div>
                 <div class="col-md-1 pull-right m-t-5">
                     @using (Ajax.BeginForm("Stock", "Uploads", new { area = "WMS" }, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
@@ -29,7 +29,7 @@
                 <div class="col-md-1 pull-right m-t-5"><a id="btnSablon" href="~/Content/StockSablon.xlsx" class="btn btn-default showlater">Şablon İndir</a></div>
            </div>
             <div class="portlet-body form">
-                @using (Ajax.BeginForm("ManualPlacement", "Stock", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "FuncSearchBtn()", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                @using (Ajax.BeginForm("ManualPlacement", "Stock", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess= "getresult", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -72,7 +72,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Mal Adı</label>
                             <div class="col-md-4">
-                                <input class="form-control input-circle" id="MalAdi" name="MalAdi" type="text" readonly="readonly">
+                                <input class="form-control input-circle" id="MalAdi" name="MalAdi" type="text" placeholder="Mal Adı">
                                 <span class="field-validation-valid" data-valmsg-for="MalKodu" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                             <div class="col-md-4" id="MalAdi"></div>
@@ -87,13 +87,27 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">Miktar</label>
                             <div class="col-md-4">
-                                @Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle", @placeholder = "Miktar", required = "required" })
+                                @Html.TextBoxFor(a => a.Miktar, new { @class = "form-control input-circle", @placeholder = "Miktar", required = "required", min = "1" })
                                 <span class="field-validation-valid" data-valmsg-for="Miktar" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-3 control-label">İşlem Tipi</label>
+                            <div class="col-md-4">
+                                <select name="GC" id="GC" class="form-control input-circle" required><option value="false">Girdi</option><option value="true">Çıktı</option></select>
+                                <span class="field-validation-valid" data-valmsg-for="GC" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Makara No</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(a => a.MakaraNo, new { @class = "form-control input-circle", @placeholder = "MakaraNo" })
+                                <span class="field-validation-valid" data-valmsg-for="MakaraNo" data-valmsg-replace="true" style="color:red;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-md-4 col-md-offset-3">
-                                <button type="submit" class="btn btn-circle btn-block green">Ekle</button>
+                                <button type="submit" class="btn btn-circle btn-block green">Kaydet</button>
                             </div>
                         </div>
                     </div>
@@ -129,8 +143,34 @@
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.bootstrap.min.js"></script>
 <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
 <script>
-    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0; $("#GC")[0].selectedIndex = 0;
+    $("#MalKodu").autocomplete({
+        source: "/WMS/Purchase/getMalzemebyCode/0",
+        minLength: 2,
+        select: function (event, ui) {
+            getBirims(ui.item.id);
+            $("#MalAdi").val(ui.item.value);
+        }
+    });
+    $("#MalAdi").autocomplete({
+        source: "/WMS/Purchase/GetMalzemebyName/0",
+        minLength: 2,
+        select: function (event, ui) {
+            getBirims(ui.item.id);
+            $("#MalAdi").val(ui.item.value);
+        }
+    });
     checkEnabled();
+    function getresult(e) {
+        if (e.Status == true)
+            FuncSearchBtn()
+        else
+            Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
+    };
+    function FuncSearchBtn() {
+        $('#FloorGrid').html("");
+        PartialView("/WMS/Stock/List", 'FloorGrid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
+    }
     function checkEnabled() {
         $("#DID").val($("#DepoID").val());
         if ($("#DepoID").val() == "") {
@@ -200,16 +240,12 @@
             }
         });
     }
-    function FuncSearchBtn() {
-        $('#FloorGrid').html("");
-        PartialView("/Stock/List", 'FloorGrid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
-    }
     function getBirims(id) {
         $("#Birim option").remove();
         $.ajax({
             url: "/WMS/Purchase/getBirim",
             type: 'POST',
-            data: JSON.stringify({ kod: id, s: @ViewBag.SirketID }),
+            data: JSON.stringify({ kod: id, s: 0 }),
             dataType: "json",
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
@@ -223,14 +259,6 @@
             }
         });
     }
-    $("#MalKodu").autocomplete({
-        source: "/WMS/Purchase/getMalzemebyCode/@ViewBag.SirketID",
-            minLength: 2,
-            select: function (event, ui) {
-                getBirims(ui.item.id);
-                $("#MalAdi").val(ui.item.value);
-            }
-        });
     $(function () {
         $('#linkUpload').click(function () {
             if ($("#DID").val() != "")

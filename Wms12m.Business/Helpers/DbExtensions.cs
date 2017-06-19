@@ -17,12 +17,28 @@ namespace Wms12m
     /// </summary>
     public static class DbExtensions
     {
+        /// <summary>
+        /// görev listesindeki kaynak evrak noları gösterir
+        /// </summary>
         public static string GetEvrakNosForGorev(this int GorevID)
         {
             using (WMSEntities db = new WMSEntities())
             {
-                var sonuc = db.GetEvrakNosForGorev(GorevID).FirstOrDefault();
-                if (sonuc == null) sonuc = "";
+                var sonuc = db.GetKynkEvrakNosForGorev(GorevID).FirstOrDefault();
+                if (sonuc == null || sonuc == "") sonuc = "";
+                else sonuc = sonuc = sonuc.Substring(0, sonuc.Length - 1);
+                return sonuc;
+            }
+        }
+        /// <summary>
+        /// görev listesindeki kaynak evrak tarihlerini gösterir
+        /// </summary>
+        public static string GetEvrakTarihsForGorev(this int GorevID)
+        {
+            using (WMSEntities db = new WMSEntities())
+            {
+                var sonuc = db.GetKynkTarihsForGorev(GorevID).FirstOrDefault();
+                if (sonuc == null || sonuc == "") sonuc = "";
                 else sonuc = sonuc = sonuc.Substring(0, sonuc.Length - 1);
                 return sonuc;
             }

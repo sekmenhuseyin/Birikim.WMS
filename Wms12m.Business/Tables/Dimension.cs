@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Dimension : abstractTables<Olcu>, IDisposable
+    public class Dimension : abstractTables<Olcu>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle-kaydet
         /// </summary>
         public override Result Operation(Olcu tbl)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result(); bool eklemi = false;
             //kontrol
             if (tbl.MalKodu == "" || tbl.Birim == "" || (tbl.Boy == 0 && tbl.En == 0 && tbl.Derinlik == 0 && tbl.Agirlik == 0))
             {
@@ -34,13 +28,14 @@ namespace Wms12m.Business
                 return _Result;
             }
             //set details
-            tbl.Degistiren = Users.AppIdentity.User.UserName;
+            tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             if (tbl.ID == 0)
             {
-                tbl.Kaydeden = Users.AppIdentity.User.UserName;
+                tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Olcus.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -56,6 +51,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Dimension", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.MalKodu + ", H: " + tbl.En + "x" + tbl.Boy + "x" + tbl.Derinlik + ", A: " + tbl.Agirlik);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -63,7 +59,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Dimension/Operation");
+                Logger(ex, "Business/Dimension/Operation");
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
             }
             return _Result;
@@ -81,6 +77,7 @@ namespace Wms12m.Business
                 {
                     db.Olcus.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Dimension", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -88,14 +85,12 @@ namespace Wms12m.Business
                 else
                 {
                     _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
                 }
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Dimension/Delete");
+                Logger(ex, "Business/Dimension/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -110,7 +105,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Dimension/Detail");
+                Logger(ex, "Business/Dimension/Detail");
                 return new Olcu();
             }
         }
@@ -124,13 +119,6 @@ namespace Wms12m.Business
         public override List<Olcu> GetList(int ParentId)
         {
             return GetList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Section : abstractTables<Bolum>, IDisposable
+    public class Section : abstractTables<Bolum>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
         public override Result Operation(Bolum tbl)
         {
-            _Result = new Result(false, 0);
+            _Result = new Result(); bool eklemi = false;
             //boş mu
             if (tbl.BolumAd == "" || tbl.RafID == 0)
             {
@@ -50,13 +44,14 @@ namespace Wms12m.Business
                 }
             }
             //set details
-            tbl.Degistiren = Users.AppIdentity.User.UserName;
+            tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             if (tbl.ID == 0)
             {
-                tbl.Kaydeden = Users.AppIdentity.User.UserName;
+                tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Bolums.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -71,6 +66,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Section", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.BolumAd);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -78,7 +74,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Section/Operation");
+                Logger(ex, "Business/Section/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -98,6 +94,7 @@ namespace Wms12m.Business
                 {
                     db.Bolums.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Section", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -110,7 +107,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Section/Delete");
+                Logger(ex, "Business/Section/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -127,7 +124,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Section/Detail");
+                Logger(ex, "Business/Section/Detail");
                 return new Bolum();
             }
         }
@@ -144,13 +141,6 @@ namespace Wms12m.Business
         public override List<Bolum> GetList(int ParentId)
         {
             return db.Bolums.Where(m => m.RafID == ParentId).ToList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

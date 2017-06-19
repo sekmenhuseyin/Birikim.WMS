@@ -186,7 +186,7 @@ namespace Wms12m
             //listeyi dön
             using (WMSEntities db = new WMSEntities())
             {
-                string sql = String.Format("SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo,KynkSiparisTarih, KynkSiparisSiraNo  FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
+                string sql = String.Format("SELECT MalKodu, Miktar, Birim, KynkSiparisNo as EvrakNo, KynkSiparisTarih, KynkSiparisSiraNo  FROM wms.IRS_Detay WITH (NOLOCK) WHERE IrsaliyeID={0}", irsID);
                 var list = db.Database.SqlQuery<STIMax>(sql).ToList();
                 foreach (STIMax item in list)
                 {

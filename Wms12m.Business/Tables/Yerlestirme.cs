@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Yerlestirme : abstractTables<Yer>, IDisposable
+    public class Yerlestirme : abstractTables<Yer>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// stok ekleme
         /// </summary>
@@ -40,13 +34,14 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Yerlestirme", "Insert", ComboItems.alEkle, tbl.ID, "KatID: " + tbl.KatID + ", MalKodu" + tbl.MalKodu + ", Miktar" + tbl.Miktar);
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Id = tbl.ID;
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Insert");
+                Logger(ex, "Business/Yerlestirme/Insert");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -81,13 +76,14 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Yerlestirme", "Update", ComboItems.alDüzenle, tbl.ID, "KatID: " + tbl.KatID + ", MalKodu" + tbl.MalKodu + ", Miktar" + tbl.Miktar);
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Id = tbl.ID;
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Update");
+                Logger(ex, "Business/Yerlestirme/Update");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -127,13 +123,14 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Yerlestirme", "Update", ComboItems.alDüzenle, tbl.ID, "KatID: " + tbl.KatID + ", MalKodu" + tbl.MalKodu + ", Miktar" + tbl.Miktar);
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Id = tbl.ID;
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Remove");
+                Logger(ex, "Business/Yerlestirme/Remove");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -157,7 +154,7 @@ namespace Wms12m.Business
                     Birim = tbl.Birim,
                     Miktar = tbl.Miktar,
                     GC = true,
-                    Kaydeden = Users.AppIdentity.User.UserName,
+                    Kaydeden = vUser.UserName,
                     KayitTarihi = DateTime.Today.ToOADateInt(),
                     KayitSaati = DateTime.Now.ToOaTime()
                 };
@@ -166,20 +163,19 @@ namespace Wms12m.Business
             else
             {
                 _Result.Message = "Kayıt Yok";
-                _Result.Status = false;
             }
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Yerlestirme", "Delete", ComboItems.alSil, tbl.ID);
                 _Result.Id = Id;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Delete");
+                Logger(ex, "Business/Yerlestirme/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -211,13 +207,14 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Yerlestirme", "Delete", ComboItems.alSil, tbl.ID);
                 _Result.Id = Id;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Delete");
+                Logger(ex, "Business/Yerlestirme/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -234,7 +231,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Detail");
+                Logger(ex, "Business/Yerlestirme/Detail");
                 return new Yer();
             }
         }
@@ -284,13 +281,6 @@ namespace Wms12m.Business
         public override Result Operation(Yer tbl)
         {
             return new Result();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

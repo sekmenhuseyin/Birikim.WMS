@@ -3,12 +3,12 @@
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
     BekleyenOnaylar tbl = ViewBag.BekleyenOnaylar;
+    Setting tst = ViewBag.Settings;
 }@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/devextreme/css/dx.light.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
 <style>
-    .h-500{min-height:500px!important;}
     .number2{font-size:16px!important;margin-top:0!important;padding-top:0!important;font-weight:bold!important;}
     .link,.link:hover,.link:active,.link:visited{text-decoration:none;color:white;}
 </style>
@@ -16,7 +16,25 @@
 <h1 class="page-title">Yönetim Paneli</h1>
 <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 blue" href="/Tasks">
+        <a class="dashboard-stat dashboard-stat-v2 red" href="/Constants/Storage">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.depo">@Model.depo</span></div>
+                <div class="desc"> Depo Sayısı </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 green" href="/Users">
+            <div class="visual"><i class="fa fa-shopping-cart"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.kull">@Model.kull</span></div>
+                <div class="desc"> Kullanıcı Sayısı </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 blue" href="/WMS/Tasks">
             <div class="visual"><i class="fa fa-comments"></i></div>
             <div class="details">
                 <div class="number"><span data-counter="counterup" data-value="@Model.gorev">@Model.gorev</span></div>
@@ -25,83 +43,127 @@
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 green" href="/Approvals/Stock">
-            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+        <a class="dashboard-stat dashboard-stat-v2 purple" href="/WMS/Transfer">
+            <div class="visual"><i class="fa fa-globe"></i></div>
             <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@tbl.StokOnay">@tbl.StokOnay</span></div>
-                <div class="desc">Bekleyen Stok Onayları</div>
+                <div class="number"><span data-counter="counterup" data-value="@Model.transfer">@Model.transfer</span></div>
+                <div class="desc"> Depolar Arası Transfer </div>
             </div>
         </a>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 purple" href="/Approvals/Guarantee">
-            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-            <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@tbl.TeminatOnay">@tbl.TeminatOnay</span></div>
-                <div class="desc">Bekleyen Teminat Onayları</div>
-            </div>
-        </a>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat dashboard-stat-v2 red">
-            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-            <div class="details">
-                <div class="number number2">Bekleyen Sipariş Onayları</div>
-                <div class="desc"><a class="link" href="/Approvals/Order/SM">SM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SM">@tbl.SiparisOnay_SM</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Order/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SPGMY">@tbl.SiparisOnay_SPGMY</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Order/GM">GM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_GM">@tbl.SiparisOnay_GM</span></a></div>
-            </div>
-        </div>
-    </div>
 </div>
-<div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat dashboard-stat-v2 blue-chambray">
-            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-            <div class="details">
-                <div class="number number2">Bekleyen Sözleşme Onayları</div>
-                <div class="desc"><a class="link" href="/Approvals/Contract/SM">SM: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SM">@tbl.SozlesmeOnay_SM</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Contract/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SPGMY">@tbl.SozlesmeOnay_SPGMY</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Contract/GM">GM: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_GM">@tbl.SozlesmeOnay_GM</span></a></div>
+<div class="row">@{
+    if (tst.OnayStok == true)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 green" href="/Approvals/Stock">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.StokOnay">@tbl.StokOnay</span></div>
+                    <div class="desc">Bekleyen Stok Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (tst.OnayTeminat == true)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="dashboard-stat dashboard-stat-v2 purple" href="/Approvals/Guarantee">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number"><span data-counter="counterup" data-value="@tbl.TeminatOnay">@tbl.TeminatOnay</span></div>
+                    <div class="desc">Bekleyen Teminat Onayları</div>
+                </div>
+            </a>
+        </div>
+    }
+    else if (tst.OnaySiparis == true)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat dashboard-stat-v2 red">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number number2">Bekleyen Sipariş Onayları</div>
+                    <div class="desc"><a class="link" href="/Approvals/Order/SM">SM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SM">@tbl.SiparisOnay_SM</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Order/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SPGMY">@tbl.SiparisOnay_SPGMY</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Order/GM">GM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_GM">@tbl.SiparisOnay_GM</span></a></div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat dashboard-stat-v2 green-jungle">
-            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-            <div class="details">
-                <div class="number number2">Bekleyen Risk Limit Onayları</div>
-                <div class="desc"><a class="link" href="/Approvals/Risk/SM">SM: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_SM">@tbl.RiskLimitOnay_SM</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Risk/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_SPGMY">@tbl.RiskLimitOnay_SPGMY</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Risk/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_MIGMY">@tbl.RiskLimitOnay_MIGMY</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Risk/GM">GM: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_GM">@tbl.RiskLimitOnay_GM</span></a></div>
+    }
+    else if (tst.OnaySozlesme == true)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat dashboard-stat-v2 blue-chambray">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number number2">Bekleyen Sözleşme Onayları</div>
+                    <div class="desc"><a class="link" href="/Approvals/Contract/SM">SM: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SM">@tbl.SozlesmeOnay_SM</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Contract/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SPGMY">@tbl.SozlesmeOnay_SPGMY</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Contract/GM">GM: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_GM">@tbl.SozlesmeOnay_GM</span></a></div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat dashboard-stat-v2 purple-intense">
-            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-            <div class="details">
-                <div class="number number2">Bekleyen Fiyat Listesi Onayları</div>
-                <div class="desc"><a class="link" href="/Approvals/Price/SM">SM: <span data-counter="counterup" data-value="@tbl.FiyatOnay_SM">@tbl.FiyatOnay_SM</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Price/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.FiyatOnay_SPGMY">@tbl.FiyatOnay_SPGMY</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Price/GM">GM: <span data-counter="counterup" data-value="@tbl.FiyatOnay_GM">@tbl.FiyatOnay_GM</span></a></div>
+    }
+    else if (tst.OnayRisk == true)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat dashboard-stat-v2 green-jungle">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number number2">Bekleyen Risk Limit Onayları</div>
+                    <div class="desc"><a class="link" href="/Approvals/Risk/SM">SM: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_SM">@tbl.RiskLimitOnay_SM</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Risk/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_SPGMY">@tbl.RiskLimitOnay_SPGMY</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Risk/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_MIGMY">@tbl.RiskLimitOnay_MIGMY</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Risk/GM">GM: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_GM">@tbl.RiskLimitOnay_GM</span></a></div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat dashboard-stat-v2 yellow-casablanca">
-            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-            <div class="details">
-                <div class="number number2">Bekleyen Çek Onayları</div>
-                <div class="desc"><a class="link" href="/Approvals/Check/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Check/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
-                <div class="desc"><a class="link" href="/Approvals/Check/GM">GM: <span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></a></div>
+    }
+    else if (tst.OnayFiyat == true)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat dashboard-stat-v2 purple-intense">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number number2">Bekleyen Fiyat Listesi Onayları</div>
+                    <div class="desc"><a class="link" href="/Approvals/Price/SM">SM: <span data-counter="counterup" data-value="@tbl.FiyatOnay_SM">@tbl.FiyatOnay_SM</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Price/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.FiyatOnay_SPGMY">@tbl.FiyatOnay_SPGMY</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Price/GM">GM: <span data-counter="counterup" data-value="@tbl.FiyatOnay_GM">@tbl.FiyatOnay_GM</span></a></div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-@{
+    }
+    else if (tst.OnayCek == true)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat dashboard-stat-v2 yellow-casablanca">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number number2">Bekleyen Çek Onayları</div>
+                    <div class="desc"><a class="link" href="/Approvals/Check/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Check/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Check/GM">GM: <span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></a></div>
+                </div>
+            </div>
+        </div>
+    }
+    else if (tst.OnayTekno == true)
+    {
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat dashboard-stat-v2 yellow-soft">
+                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+                <div class="details">
+                    <div class="number number2">Techno IK Onayları</div>
+                    <div class="desc"><a class="link" href="/Approvals/Techno">IK: <span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Techno">ÜSGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Techno">MIGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
+                    <div class="desc"><a class="link" href="/Approvals/Techno">GM: <span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></a></div>
+                </div>
+            </div>
+        </div>
+    }
+}</div>@{
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true) {<div class="h-500" id="gunluk_satis"></div>}
     if (Model.yetki.Contains("'ChartGunlukSatisPie'") == true) {<div class="h-500" id="gunluk_satis_pie"></div>}
     if (Model.yetki.Contains("'ChartGunlukSatisYearToDay'") == true) {<div class="h-500" id="gunluk_satis_yeartoday"></div>}
@@ -146,21 +208,21 @@
     var dateVal = new Date(); dateVal.setHours(0, 0, 0);
     var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
 @{
-    if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis'), handler: function () { PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartGunlukSatisPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartGunlukSatisYearToDay'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_yeartoday'), handler: function () { PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartGunlukSatisYearToDayPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_yeartoday_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartGunlukSatisDoubleKriter'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_double_kriter'), handler: function () { PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", islemtip: 0, tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartGunlukSatisDoubleKriterPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_double_kriter_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", islemtip: 0, tarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartAylikSatisAnaliziBar'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('aylik_satis_bar'), handler: function () { PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartAylikSatisCHKAnaliziBar'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('aylik_satis_chk_bar'), handler: function () { PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', chk : '' })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartAylikSatisAnaliziKodTipDovizBar'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('aylik_satis_kod_tip_doviz_bar'), handler: function () { PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", islemtip: 0, doviz: "TL" })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartUrunGrubuSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('urun_grubu_satis'), handler: function () { PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartUrunGrubuSatisKriter'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('urun_grubu_satis_kriter'), handler: function () { PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1, kriter: "TL" })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartLokasyonSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('lokasyon_satis'), handler: function () { PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartLokasyonSatisKriter'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('lokasyon_satis_kriter'), handler: function () { PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1, kriter: "TL" })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartBakiyeRiskAnalizi'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bakiye_risk'), handler: function () { PartialView("/Home/PartialBakiyeRiskAnalizi", 'bakiye_risk', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%'  });</text>}
-    if(Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubu'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bekleyen_siparis_urun_grubu'), handler: function () { PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', bastarih: oaDate, bittarih: oaDate-7 })); this.destroy(); }, offset: '50%'  });</text>}
+    if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis'), handler: function () { PartialView("/Home/PartialGunlukSatis", 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartGunlukSatisPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisPie", 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartGunlukSatisYearToDay'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_yeartoday'), handler: function () { PartialView("/Home/PartialGunlukSatisYearToDay", 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartGunlukSatisYearToDayPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_yeartoday_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisYearToDayPie", 'gunluk_satis_yeartoday_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartGunlukSatisDoubleKriter'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_double_kriter'), handler: function () { PartialView("/Home/PartialGunlukSatisDoubleKriter", 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", islemtip: 0, tarih: oaDate })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartGunlukSatisDoubleKriterPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('gunluk_satis_double_kriter_pie'), handler: function () { PartialView("/Home/PartialGunlukSatisDoubleKriterPie", 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", islemtip: 0, tarih: oaDate })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartAylikSatisAnaliziBar'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('aylik_satis_bar'), handler: function () { PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartAylikSatisCHKAnaliziBar'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('aylik_satis_chk_bar'), handler: function () { PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', chk: '' })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartAylikSatisAnaliziKodTipDovizBar'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('aylik_satis_kod_tip_doviz_bar'), handler: function () { PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: "Tümü", islemtip: 0, doviz: "TL" })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartUrunGrubuSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('urun_grubu_satis'), handler: function () { PartialView("/Home/PartialUrunGrubuSatis", 'urun_grubu_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartUrunGrubuSatisKriter'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('urun_grubu_satis_kriter'), handler: function () { PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1, kriter: "TL" })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartLokasyonSatis'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('lokasyon_satis'), handler: function () { PartialView("/Home/PartialLokasyonSatis", 'lokasyon_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartLokasyonSatisKriter'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('lokasyon_satis_kriter'), handler: function () { PartialView("/Home/PartialLokasyonSatisKriter", 'lokasyon_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1, kriter: "TL" })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartBakiyeRiskAnalizi'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bakiye_risk'), handler: function () { PartialView("/Home/PartialBakiyeRiskAnalizi", 'bakiye_risk', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' })); this.destroy(); }, offset: '50%' });</text>}
+    if(Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubu'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bekleyen_siparis_urun_grubu'), handler: function () { PartialView("/Home/PartialBekleyenSiparisUrunGrubu", 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', bastarih: oaDate - 7, bittarih: oaDate })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubuMiktar'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bekleyen_siparis_urun_grubu_miktar'), handler: function () { PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktar", 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubuMiktarPie'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bekleyen_siparis_urun_grubu_miktar_pie'), handler: function () { PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarPie", 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true })); this.destroy(); }, offset: '50%'  });</text>}
     if(Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubuMiktarKriter'") == true){<text>var waypoint = new Waypoint({ element: document.getElementById('bekleyen_siparis_urun_grubu_miktar_kriter'), handler: function () { PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true, kriter: "TL" })); this.destroy(); }, offset: '50%'  });</text>}

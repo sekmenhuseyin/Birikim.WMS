@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
-using Wms12m.Security;
 
 namespace Wms12m.Business
 {
-    public class Roles : abstractTables<Role>, IDisposable
+    public class Roles : abstractTables<Role>
     {
-        Result _Result;
-        WMSEntities db = new WMSEntities();
-        Helpers helper = new Helpers();
-        CustomPrincipal Users = HttpContext.Current.User as CustomPrincipal;
         /// <summary>
         /// ekle ve güncelle
         /// </summary>
@@ -29,17 +23,11 @@ namespace Wms12m.Business
             }
             //set details
             if (tbl.ID == 0)
-            {
                 db.Roles.Add(tbl);
-            }
-            else
-            {
-                var tmp = Detail(tbl.ID);
-                tmp.RoleName = tbl.RoleName;
-            }
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Combo", "Operation", ComboItems.alEkle, tbl.ID, tbl.RoleName);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -47,7 +35,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Roles/Operation");
+                Logger(ex, "Business/Roles/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -67,6 +55,7 @@ namespace Wms12m.Business
                 {
                     db.Roles.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Roles", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -79,7 +68,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Roles/Delete");
+                Logger(ex, "Business/Roles/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -96,7 +85,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Roles/Detail");
+                Logger(ex, "Business/Roles/Detail");
                 return new Role();
             }
         }
@@ -113,13 +102,6 @@ namespace Wms12m.Business
         public override List<Role> GetList(int ParentId)
         {
             return GetList();
-        }
-        /// <summary>
-        /// dispose
-        /// </summary>
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

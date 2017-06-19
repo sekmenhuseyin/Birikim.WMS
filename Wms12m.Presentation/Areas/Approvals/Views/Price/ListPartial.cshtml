@@ -44,7 +44,6 @@
 <script type="text/javascript">
     $('#x-modal-teminatdurbun').modal("hide");
     var secili_satir = new Array();
-    var secili_table = new Array();
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
@@ -82,23 +81,6 @@
     });
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
-    });
-
-    $('.refresh-buton').click(function () {
-        var x = table.rows('.selected').data();
-        for (var i = 0; i < x.length; i++) {
-            secili_table.push(x[i]);
-        }
-        var _dfd = $.Deferred();
-        $.ajax({
-            url: window.location.origin + "/OnayRisk/OnayRiskInsert",
-            data: { Data: JSON.stringify(secili_table) },
-            type: "post",
-            success: function (data) {
-
-            }
-        });
-        return _dfd.promise();
     });
 </script>
 
