@@ -43,7 +43,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/ComboSub/Operation");
+                Logger(ex, "Business/ComboSub/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -75,7 +75,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/ComboSub/Delete");
+                Logger(ex, "Business/ComboSub/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -92,7 +92,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/ComboSub/Detail");
+                Logger(ex, "Business/ComboSub/Detail");
                 return new ComboItem_Name();
             }
         }

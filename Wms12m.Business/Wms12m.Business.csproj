@@ -68,7 +68,6 @@
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\Finsat.cs" />
     <Compile Include="Helpers\Functions.cs" />
-    <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="Helpers\MultipleResultSets.cs" />
     <Compile Include="Helpers\MyMail.cs" />
     <Compile Include="Helpers\SqlExper.cs" />

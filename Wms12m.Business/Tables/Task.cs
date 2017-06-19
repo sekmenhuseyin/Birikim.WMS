@@ -16,7 +16,7 @@ namespace Wms12m.Business
             _Result = new Result();
             if (tbl.ID == 0)
             {
-                tbl.Olusturan = Users.AppIdentity.User.UserName;
+                tbl.Olusturan = vUser.UserName;
                 tbl.OlusturmaTarihi = DateTime.Today.ToOADateInt();
                 tbl.OlusturmaSaati = DateTime.Now.ToOaTime();
                 tbl.DurumID = ComboItems.Açık.ToInt32();
@@ -32,7 +32,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Task/Operation");
+                Logger(ex, "Business/Task/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -56,7 +56,7 @@ namespace Wms12m.Business
                     GorevNo = gorevno,
                     GorevTipiID = ComboItems.MalKabul.ToInt32(),
                     DurumID = ComboItems.Açık.ToInt32(),
-                    Olusturan = Users.AppIdentity.User.UserName,
+                    Olusturan = vUser.UserName,
                     OlusturmaTarihi = DateTime.Today.ToOADateInt(),
                     OlusturmaSaati = DateTime.Now.ToOaTime(),
                     IrsaliyeID = tbl.IrsaliyeID,
@@ -70,7 +70,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Task/Insert");
+                Logger(ex, "Business/Task/Insert");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
                 _Result.Id = 0;
@@ -103,7 +103,7 @@ namespace Wms12m.Business
                 }
                 catch (Exception ex)
                 {
-                    helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Task/Update");
+                    Logger(ex, "Business/Task/Update");
                     _Result.Message = ex.Message;
                     _Result.Status = false;
                     _Result.Id = 0;
@@ -123,7 +123,7 @@ namespace Wms12m.Business
                 try
                 {
                     tmp.Gorevli = tbl.Gorevli;
-                    tmp.Atayan = Users.AppIdentity.User.UserName;
+                    tmp.Atayan = vUser.UserName;
                     tmp.AtamaTarihi = DateTime.Today.ToOADateInt();
                     db.SaveChanges();
                     _Result.Message = "İşlem Başarılı !!!";
@@ -132,7 +132,7 @@ namespace Wms12m.Business
                 }
                 catch (Exception ex)
                 {
-                    helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Task/UpdateGorevli");
+                    Logger(ex, "Business/Task/UpdateGorevli");
                     _Result.Message = ex.Message;
                     _Result.Status = false;
                     _Result.Id = 0;
@@ -165,7 +165,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Task/Delete");
+                Logger(ex, "Business/Task/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -182,7 +182,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Task/Detail");
+                Logger(ex, "Business/Task/Detail");
                 return new Gorev();
             }
         }

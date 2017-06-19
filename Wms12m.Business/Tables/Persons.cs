@@ -40,7 +40,7 @@ namespace Wms12m.Business
             if (tbl.Sifre.ToString2() != "") tbl.Sifre = CryptographyExtension.Sifrele(tbl.Sifre);
             tbl.Kod = tbl.Kod.Left(5);
             //set details
-            tbl.Degistiren = Users.AppIdentity.User.UserName;
+            tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             tbl.DegisSaat = DateTime.Now.ToOaTime();
             tbl.DegisKaynak = 0;
@@ -51,7 +51,7 @@ namespace Wms12m.Business
                 tbl.Sirket = "";
                 tbl.Email = tbl.Email.ToString2();
                 tbl.Tema = tbl.Tema.ToString2();
-                tbl.Kaydeden = Users.AppIdentity.User.UserName;
+                tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 tbl.KayitSaat = DateTime.Now.ToOaTime();
                 tbl.KayitKaynak = 0;
@@ -86,7 +86,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Operation");
+                Logger(ex, "Business/Persons/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -124,7 +124,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Login");
+                Logger(ex, "Business/Persons/Login");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
             return _Result;
@@ -152,7 +152,7 @@ namespace Wms12m.Business
             {
                 var tmp = Detail(P.ID);
                 tmp.Sifre = P.Sifre ?? "";
-                tmp.Degistiren = Users.AppIdentity.User.UserName;
+                tmp.Degistiren = vUser.UserName;
                 tmp.DegisTarih = DateTime.Today.ToOADateInt();
                 tmp.DegisSaat = DateTime.Now.ToOaTime();
                 db.SaveChanges();
@@ -163,7 +163,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/ChangePass");
+                Logger(ex, "Business/Persons/ChangePass");
                 _Result.Message = "İşlem Hata !!!" + ex.Message;
             }
             return _Result;
@@ -179,7 +179,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Detail");
+                Logger(ex, "Business/Persons/Detail");
                 return new User();
             }
         }
@@ -230,7 +230,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Persons/Delete");
+                Logger(ex, "Business/Persons/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }

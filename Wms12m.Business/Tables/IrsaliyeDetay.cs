@@ -44,7 +44,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Operation");
+                Logger(ex, "Business/IrsaliyeDetay/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -83,7 +83,7 @@ namespace Wms12m.Business
                 }
                 catch (Exception ex)
                 {
-                    helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Insert");
+                    Logger(ex, "Business/IrsaliyeDetay/Insert");
                     _Result.Message = ex.Message;
                     _Result.Status = false;
                     _Result.Id = 0;
@@ -116,7 +116,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Delete");
+                Logger(ex, "Business/IrsaliyeDetay/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -133,7 +133,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/IrsaliyeDetay/Detail");
+                Logger(ex, "Business/IrsaliyeDetay/Detail");
                 return new IRS_Detay();
             }
 

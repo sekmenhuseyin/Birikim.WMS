@@ -41,7 +41,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Roles/Operation");
+                Logger(ex, "Business/Roles/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -73,7 +73,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Roles/Delete");
+                Logger(ex, "Business/Roles/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -90,7 +90,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Roles/Detail");
+                Logger(ex, "Business/Roles/Detail");
                 return new Role();
             }
         }

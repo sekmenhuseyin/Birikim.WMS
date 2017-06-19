@@ -44,11 +44,11 @@ namespace Wms12m.Business
                 }
             }
             //set details
-            tbl.Degistiren = Users.AppIdentity.User.UserName;
+            tbl.Degistiren = vUser.UserName;
             tbl.DegisTarih = DateTime.Today.ToOADateInt();
             if (tbl.ID == 0)
             {
-                tbl.Kaydeden = Users.AppIdentity.User.UserName;
+                tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Bolums.Add(tbl);
             }
@@ -72,7 +72,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Section/Operation");
+                Logger(ex, "Business/Section/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -104,7 +104,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Section/Delete");
+                Logger(ex, "Business/Section/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -121,7 +121,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Section/Detail");
+                Logger(ex, "Business/Section/Detail");
                 return new Bolum();
             }
         }

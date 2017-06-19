@@ -43,7 +43,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/PersonPerms/Operation");
+                Logger(ex, "Business/PersonPerms/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -96,7 +96,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/PersonPerms/Delete");
+                Logger(ex, "Business/PersonPerms/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
