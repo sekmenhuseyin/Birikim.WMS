@@ -28,7 +28,7 @@ namespace WMSMobil.TerminalService {
         
         /// <remarks/>
         public Terminal() {
-            this.Url = "http://192.168.2.232:9080/service/terminal.asmx";
+            this.Url = "http://88.248.139.219/service/terminal.asmx";
         }
         
         /// <remarks/>
