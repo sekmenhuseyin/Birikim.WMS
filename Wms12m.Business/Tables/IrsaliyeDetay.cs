@@ -23,8 +23,11 @@ namespace Wms12m.Business
             }
             //set details
             if (tbl.ID == 0)
+            {
                 db.IRS_Detay.Add(tbl);
-            else
+                eklemi = true;
+            }
+           else
             {
                 var tmp = Detail(tbl.ID);
                 tmp.IrsaliyeID = tbl.IrsaliyeID;
@@ -37,6 +40,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "IrsaliyeDetay", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.MalKodu + ", " + tbl.Miktar);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -77,6 +81,7 @@ namespace Wms12m.Business
                     if (tbl.MakaraNo != "") tablo.MakaraNo = tbl.MakaraNo;
                     db.IRS_Detay.Add(tablo);
                     db.SaveChanges();
+                    LogActions("Business", "IrsaliyeDetay", "Operation", ComboItems.alEkle , tablo.ID, tbl.MalKodu + ", " + tbl.Miktar);
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
                     _Result.Id = tablo.ID;
@@ -104,6 +109,7 @@ namespace Wms12m.Business
                 {
                     db.IRS_Detay.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "IrsaliyeDetay", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;

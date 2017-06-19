@@ -28,7 +28,7 @@ namespace Wms12m.Presentation
         public TaskYer TaskYer = new TaskYer();
         public Yerlestirme Yerlestirme = new Yerlestirme();
         public Transfers Transfers = new Transfers();
-        public PersonPerms PersonPerms = new PersonPerms();
+        public PersonDetails PersonDetails = new PersonDetails();
         /// <summary>
         /// hata kaydını tek yerden kontrol etmek için
         /// </summary>
@@ -118,7 +118,7 @@ namespace Wms12m.Presentation
                 TaskYer.Dispose();
                 Yerlestirme.Dispose();
                 Transfers.Dispose();
-                PersonPerms.Dispose();
+                PersonDetails.Dispose();
             }
             base.Dispose(disposing);
         }

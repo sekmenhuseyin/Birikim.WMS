@@ -14,7 +14,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(User tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             if (tbl.AdSoyad == "" || tbl.Kod == "" || (tbl.ID == 0 && tbl.Sifre.ToString2() == ""))
             {
                 _Result.Id = 0;
@@ -57,6 +57,7 @@ namespace Wms12m.Business
                 tbl.KayitKaynak = 0;
                 tbl.KayitSurum = "1.0.0";
                 db.Users.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -79,6 +80,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Persons", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.AdSoyad+", "+tbl.Email + ", " + tbl.RoleName + ", " + tbl.Kod);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -89,6 +91,38 @@ namespace Wms12m.Business
                 Logger(ex, "Business/Persons/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
+                _Result.Status = false;
+            }
+            return _Result;
+        }
+        /// <summary>
+        /// sil
+        /// </summary>
+        public override Result Delete(int Id)
+        {
+            _Result = new Result();
+            try
+            {
+                User tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
+                if (tbl != null)
+                {
+                    db.Users.Remove(tbl);
+                    db.SaveChanges();
+                    LogActions("Business", "Persons", "Delete", ComboItems.alSil, tbl.ID);
+                    _Result.Id = Id;
+                    _Result.Message = "İşlem Başarılı !!!";
+                    _Result.Status = true;
+                }
+                else
+                {
+                    _Result.Message = "Kayıt Yok";
+                    _Result.Status = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Business/Persons/Delete");
+                _Result.Message = ex.Message;
                 _Result.Status = false;
             }
             return _Result;
@@ -112,7 +146,8 @@ namespace Wms12m.Business
                 {
                     if (P.Sifre == CryptographyExtension.Cozumle(tbl.Sifre))//if password matches
                     {
-                        //update user device
+                        //update db
+                        db.LogLogins(P.Kod, device, true, "");
                         db.UpdateUserDevice(tbl.ID, device);
                         //resturn result
                         _Result.Status = true;
@@ -156,6 +191,7 @@ namespace Wms12m.Business
                 tmp.DegisTarih = DateTime.Today.ToOADateInt();
                 tmp.DegisSaat = DateTime.Now.ToOaTime();
                 db.SaveChanges();
+                LogActions("Business", "Persons", "ChangePass", ComboItems.alDüzenle, P.ID);
                 //result
                 _Result.Id = P.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -204,37 +240,6 @@ namespace Wms12m.Business
         public List<User> GetListWithoutTerminal()
         {
             return db.Users.Where(m => m.UserDetail == null).OrderBy(m => m.AdSoyad).ToList();
-        }
-        /// <summary>
-        /// sil
-        /// </summary>
-        public override Result Delete(int Id)
-        {
-            _Result = new Result();
-            try
-            {
-                User tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.Users.Remove(tbl);
-                    db.SaveChanges();
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Business/Persons/Delete");
-                _Result.Message = ex.Message;
-                _Result.Status = false;
-            }
-            return _Result;
         }
     }
 }

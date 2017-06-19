@@ -33,7 +33,6 @@ namespace Wms12m
             {
                 try
                 {
-                    db.LogLogins(userID, "Mobile: " + AndroidID, true, "");
                     return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, Guid = m.Guid.ToString() }).FirstOrDefault();
                 }
                 catch (Exception ex)

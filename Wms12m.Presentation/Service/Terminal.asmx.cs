@@ -36,7 +36,6 @@ namespace Wms12m
             {
                 if (db.Users.Where(m => m.ID == result.Id).FirstOrDefault().UserDetail == null)
                 {
-                    db.LogLogins(userID, "Terminal", false, "Depoya ait bir yetkiniz yok!");
                     return new Login() { ID = 0, AdSoyad = "Depoya ait bir yetkiniz yok!" };
                 }
                 else
@@ -85,6 +84,7 @@ namespace Wms12m
             else
             {
                 db.LogLogins(tbl.Kod, "Terminal", true, "");
+                db.UpdateUserDevice(tbl.ID, "Terminal");
                 return new Login { ID = tbl.ID, Kod = tbl.Kod, Guid = tbl.Guid.Sifrele(), AdSoyad = tbl.AdSoyad, DepoKodu = tbl.UserDetail.Depo.DepoKodu, DepoID = tbl.UserDetail.Depo.ID };
             }
         }
