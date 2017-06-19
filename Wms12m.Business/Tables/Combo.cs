@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Combo_Name tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             if (tbl.ComboName == "")
             {
                 _Result.Id = 0;
@@ -25,6 +25,7 @@ namespace Wms12m.Business
             if (tbl.ID == 0)
             {
                 db.Combo_Name.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -41,7 +42,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Combo/Operation");
+                Logger(ex, "Business/Combo/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -73,7 +74,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Combo/Delete");
+                Logger(ex, "Business/Combo/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -90,7 +91,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Combo/Detail");
+                Logger(ex, "Business/Combo/Detail");
                 return new Combo_Name();
             }
         }

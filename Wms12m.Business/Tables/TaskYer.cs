@@ -33,7 +33,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/TaskYer/Operation");
+                Logger(ex, "Business/TaskYer/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -65,7 +65,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/TaskYer/Delete");
+                Logger(ex, "Business/TaskYer/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -82,7 +82,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/TaskYer/Detail");
+                Logger(ex, "Business/TaskYer/Detail");
                 return new GorevYer();
             }
         }

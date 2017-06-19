@@ -40,7 +40,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Insert");
+                Logger(ex, "Business/Yerlestirme/Insert");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -81,7 +81,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Update");
+                Logger(ex, "Business/Yerlestirme/Update");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -127,7 +127,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Remove");
+                Logger(ex, "Business/Yerlestirme/Remove");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -151,7 +151,7 @@ namespace Wms12m.Business
                     Birim = tbl.Birim,
                     Miktar = tbl.Miktar,
                     GC = true,
-                    Kaydeden = Users.AppIdentity.User.UserName,
+                    Kaydeden = vUser.UserName,
                     KayitTarihi = DateTime.Today.ToOADateInt(),
                     KayitSaati = DateTime.Now.ToOaTime()
                 };
@@ -171,7 +171,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Delete");
+                Logger(ex, "Business/Yerlestirme/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -211,7 +211,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Delete");
+                Logger(ex, "Business/Yerlestirme/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
@@ -228,7 +228,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Yerlestirme/Detail");
+                Logger(ex, "Business/Yerlestirme/Detail");
                 return new Yer();
             }
         }

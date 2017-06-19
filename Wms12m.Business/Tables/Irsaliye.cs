@@ -28,7 +28,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Irsaliye/Operation");
+                Logger(ex, "Business/Irsaliye/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -46,7 +46,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Irsaliye/Detail");
+                Logger(ex, "Business/Irsaliye/Detail");
                 return new IR();
             }
         }
@@ -96,7 +96,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Irsaliye/Delete");
+                Logger(ex, "Business/Irsaliye/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }

@@ -35,7 +35,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Transfers/Operation");
+                Logger(ex, "Business/Transfers/Operation");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -56,7 +56,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Transfers/AddDetay");
+                Logger(ex, "Business/Transfers/AddDetay");
                 _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
                 _Result.Status = false;
@@ -88,7 +88,7 @@ namespace Wms12m.Business
             }
             catch (Exception ex)
             {
-                helper.Logger(Users.AppIdentity.User.UserName, ex, "Business/Transfers/Delete");
+                Logger(ex, "Business/Transfers/Delete");
                 _Result.Message = ex.Message;
                 _Result.Status = false;
             }
