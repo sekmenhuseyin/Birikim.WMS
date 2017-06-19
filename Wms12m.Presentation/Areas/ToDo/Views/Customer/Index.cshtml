@@ -114,7 +114,7 @@
             }
         });
     });
-    var DeleteFunctionUrl = '@Url.Action("Delete", "Customer")';
+    var DeleteFunctionUrl = "/ToDo/Customer/Delete";
     PartialView("/ToDo/Customer/List", 'liste');
     function CreateEdit(Id) {
         if (Id == 0) {
