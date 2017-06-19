@@ -161,7 +161,7 @@ namespace Wms12m.Entity
         public string OrtalamaVade { get; set; }
         public decimal? BekleyenSiparisTutar { get; set; }
     }
-    public class BaglantiDetaySelect1
+    public class BaglantiDetaySelect
     {
         public string Kod10 { get; set; }
         public string MalKodGrup { get; set; }
