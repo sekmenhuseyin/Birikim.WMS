@@ -13,12 +13,13 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Transfer tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             //set details
             if (tbl.ID == 0)
             {
                 tbl.Onay = false;
                 db.Transfers.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -28,6 +29,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Transfers", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "CikisDepoID: "+tbl.CikisDepoID+ ", GirisDepoID: " + tbl.GirisDepoID + ", SirketKod: " + tbl.SirketKod);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -49,6 +51,7 @@ namespace Wms12m.Business
             {
                 db.Transfer_Detay.Add(tbl);
                 db.SaveChanges();
+                LogActions("Business", "Combo", "Operation", ComboItems.alEkle, tbl.ID, "TransferID: " + tbl.TransferID + ", MalKodu: " + tbl.MalKodu + ", Miktar: " + tbl.Miktar);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -57,9 +60,7 @@ namespace Wms12m.Business
             catch (Exception ex)
             {
                 Logger(ex, "Business/Transfers/AddDetay");
-                _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -76,6 +77,7 @@ namespace Wms12m.Business
                 {
                     db.Transfers.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Transfers", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
@@ -83,14 +85,12 @@ namespace Wms12m.Business
                 else
                 {
                     _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
                 }
             }
             catch (Exception ex)
             {
                 Logger(ex, "Business/Transfers/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }

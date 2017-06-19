@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Raf tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             //boş mu
             if (tbl.RafAd == "" || tbl.KoridorID == 0)
             {
@@ -51,6 +51,7 @@ namespace Wms12m.Business
                 tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Rafs.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -65,6 +66,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Shelf", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.RafAd);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -100,12 +102,13 @@ namespace Wms12m.Business
             else
             {
                 _Result.Message = "Kayıt Yok";
-                _Result.Status = false;
+                return _Result;
             }
             //sil
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Shelf", "Delete", ComboItems.alSil, tbl.ID);
                 _Result.Id = Id;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -114,7 +117,6 @@ namespace Wms12m.Business
             {
                 Logger(ex, "Business/Shelf/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }

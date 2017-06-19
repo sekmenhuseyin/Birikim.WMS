@@ -14,6 +14,7 @@ namespace Wms12m.Business
         public override Result Operation(Combo_Name tbl)
         {
             _Result = new Result(); bool eklemi = false;
+            //boş mu
             if (tbl.ComboName == "")
             {
                 _Result.Message = "Eksik Bilgi Girdiniz";

@@ -23,17 +23,11 @@ namespace Wms12m.Business
             }
             //set details
             if (tbl.ID == 0)
-            {
                 db.Roles.Add(tbl);
-            }
-            else
-            {
-                var tmp = Detail(tbl.ID);
-                tmp.RoleName = tbl.RoleName;
-            }
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Combo", "Operation", ComboItems.alEkle, tbl.ID, tbl.RoleName);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -61,6 +55,7 @@ namespace Wms12m.Business
                 {
                     db.Roles.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Roles", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;

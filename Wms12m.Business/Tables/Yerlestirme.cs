@@ -34,6 +34,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Yerlestirme", "Insert", ComboItems.alEkle, tbl.ID, "KatID: " + tbl.KatID + ", MalKodu" + tbl.MalKodu + ", Miktar" + tbl.Miktar);
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Id = tbl.ID;
@@ -75,6 +76,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Yerlestirme", "Update", ComboItems.alDüzenle, tbl.ID, "KatID: " + tbl.KatID + ", MalKodu" + tbl.MalKodu + ", Miktar" + tbl.Miktar);
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Id = tbl.ID;
@@ -121,6 +123,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Yerlestirme", "Update", ComboItems.alDüzenle, tbl.ID, "KatID: " + tbl.KatID + ", MalKodu" + tbl.MalKodu + ", Miktar" + tbl.Miktar);
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Id = tbl.ID;
@@ -160,11 +163,11 @@ namespace Wms12m.Business
             else
             {
                 _Result.Message = "Kayıt Yok";
-                _Result.Status = false;
             }
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Yerlestirme", "Delete", ComboItems.alSil, tbl.ID);
                 _Result.Id = Id;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
@@ -173,7 +176,6 @@ namespace Wms12m.Business
             {
                 Logger(ex, "Business/Yerlestirme/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -205,6 +207,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Yerlestirme", "Delete", ComboItems.alSil, tbl.ID);
                 _Result.Id = Id;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
