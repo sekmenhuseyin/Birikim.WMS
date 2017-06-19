@@ -416,7 +416,7 @@ namespace WMSMobil
                             {
                                 raf_var = true;
                                 itemPanel.Controls[5].Text = raf;
-                                itemPanel.Controls[6].Text = (itemPanel.Controls[6].Text.ToDecimal() + 1).ToString();//okutulan miktar farklı sütunda olduğu için burada yazdım kontorllü sayımı
+                                itemPanel.Controls[6].Text = itemPanel.Controls[3].Text;
                                 foreach (Control item in itemPanel.Controls)
                                     item.BackColor = Color.DarkOrange;
                             }
@@ -436,6 +436,7 @@ namespace WMSMobil
                         mal_var = true;
                         temp_sti.YerlestirmeMiktari = itemPanel.Controls[6].Text.ToDecimal();
                         temp_sti.Miktar = itemPanel.Controls[3].Text.ToDecimal();
+                        temp_sti.Barkod = itemPanel.Controls[0].Text;
                         temp_sti.MalKodu = itemPanel.Controls[1].Text;
                         temp_sti.Raf = raf;
                         temp_sti.Birim = itemPanel.Controls[4].Text;
@@ -445,7 +446,7 @@ namespace WMSMobil
                         {
                             raf_var = true;
                             itemPanel.Controls[5].Text = raf;
-                            itemPanel.Controls[7].Text = (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
+                            itemPanel.Controls[7].Text = itemPanel.Controls[3].Text;
                             foreach (Control item in itemPanel.Controls)
                                 item.BackColor = Color.DarkOrange;
                         }
@@ -647,8 +648,8 @@ namespace WMSMobil
                     tBirim.Text = temp_sti.Birim;
                     tMalAdi.Text = temp_sti.MalAdi;
                     tRaf.Text = temp_sti.Raf;
-                    tYerlestirmeMiktari.Text = temp_sti.YerlestirmeMiktari.ToString("N2");
-                    tIslemMiktar.Text = "1";
+                    tYerlestirmeMiktari.Text = tMiktar.Text;
+                    tIslemMiktar.Text = tMiktar.Text;
 
                     tMalKodu.Tag = temp_sti.ID.ToInt32();
 
@@ -657,7 +658,7 @@ namespace WMSMobil
                     panelSatir.MalKodu = temp_sti.MalKodu;
                     panelSatir.Miktar = temp_sti.Miktar;
                     panelSatir.Birim = temp_sti.Birim;
-                    panelSatir.IslemMiktar = 1;
+                    panelSatir.IslemMiktar = tMiktar.Text.ToDecimal();
                     panelSatir.YerlestirmeMiktari = temp_sti.YerlestirmeMiktari;
                     panelSatir.Raf = temp_sti.Raf;
 

@@ -81,6 +81,10 @@ namespace Wms12m.Business
                     if (tbl.MakaraNo != "") tablo.MakaraNo = tbl.MakaraNo;
                     db.IRS_Detay.Add(tablo);
                     db.SaveChanges();
+                    //set aktif
+                    string s = string.Format("UPDATE wms.Gorev set DurumID = {0}, OlusturmaTarihi = {1}, OlusturmaSaati = {2} where ID IN (SELECT wms.Gorev.ID FROM wms.Gorev INNER JOIN wms.GorevIRS ON wms.Gorev.ID = wms.GorevIRS.GorevID WHERE wms.GorevIRS.IrsaliyeID = {3} AND (wms.Gorev.DurumID = {4}))", ComboItems.Açık.ToInt32(), fn.ToOADate(), fn.ToOATime(), tbl.IrsaliyeId, ComboItems.Başlamamış.ToInt32());
+                    db.Database.ExecuteSqlCommand(s);
+                    //log
                     LogActions("Business", "IrsaliyeDetay", "Operation", ComboItems.alEkle , tablo.ID, tbl.MalKodu + ", " + tbl.Miktar);
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
