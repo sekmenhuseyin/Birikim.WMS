@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Gorev tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             if (tbl.ID == 0)
             {
                 tbl.Olusturan = vUser.UserName;
@@ -21,10 +21,12 @@ namespace Wms12m.Business
                 tbl.OlusturmaSaati = DateTime.Now.ToOaTime();
                 tbl.DurumID = ComboItems.Açık.ToInt32();
                 db.Gorevs.Add(tbl);
+                eklemi = true;
             }
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Task", "Insert", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "DepoID: " + tbl.DepoID + ", GorevNo: " + tbl.GorevNo + ", GorevTipiID: " + tbl.GorevTipiID + ", Bilgi: " + tbl.Bilgi);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -64,6 +66,7 @@ namespace Wms12m.Business
                 };
                 db.Gorevs.Add(gorev);
                 db.SaveChanges();
+                LogActions("Business", "Task", "Insert", ComboItems.alEkle, tbl.ID, "DepoID: " + tbl.DepoID + ", GorevNo: " + tbl.GorevNo + ", GorevTipiID: " + tbl.GorevTipiID + ", Bilgi: " + tbl.Bilgi);
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;
                 _Result.Id = gorev.ID;
@@ -72,8 +75,6 @@ namespace Wms12m.Business
             {
                 Logger(ex, "Business/Task/Insert");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
-                _Result.Id = 0;
             }
             return _Result;
         }
@@ -97,6 +98,7 @@ namespace Wms12m.Business
                         tmp.BitisSaati = DateTime.Now.ToOaTime();
                     }
                     db.SaveChanges();
+                    LogActions("Business", "Task", "Update", ComboItems.alDüzenle, tbl.ID, "DurumID: " + tbl.DurumID + ", Aciklama: " + tbl.Aciklama + ", Bilgi: " + tbl.Bilgi);
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
                     _Result.Id = tmp.ID;
@@ -105,8 +107,6 @@ namespace Wms12m.Business
                 {
                     Logger(ex, "Business/Task/Update");
                     _Result.Message = ex.Message;
-                    _Result.Status = false;
-                    _Result.Id = 0;
                 }
             }
             return _Result;
@@ -126,6 +126,7 @@ namespace Wms12m.Business
                     tmp.Atayan = vUser.UserName;
                     tmp.AtamaTarihi = DateTime.Today.ToOADateInt();
                     db.SaveChanges();
+                    LogActions("Business", "Task", "UpdateGorevli", ComboItems.alDüzenle, tbl.ID, "Görevli: " + tbl.Gorevli);
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
                     _Result.Id = tmp.ID;
@@ -134,8 +135,6 @@ namespace Wms12m.Business
                 {
                     Logger(ex, "Business/Task/UpdateGorevli");
                     _Result.Message = ex.Message;
-                    _Result.Status = false;
-                    _Result.Id = 0;
                 }
             }
             return _Result;
@@ -153,6 +152,7 @@ namespace Wms12m.Business
                 {
                     db.Gorevs.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Task", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Id = Id;
                     _Result.Status = true;
@@ -160,14 +160,13 @@ namespace Wms12m.Business
                 else
                 {
                     _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
+                    return _Result;
                 }
             }
             catch (Exception ex)
             {
                 Logger(ex, "Business/Task/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }

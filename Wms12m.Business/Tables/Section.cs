@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Bolum tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             //boş mu
             if (tbl.BolumAd == "" || tbl.RafID == 0)
             {
@@ -51,6 +51,7 @@ namespace Wms12m.Business
                 tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Bolums.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -65,6 +66,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Section", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.BolumAd);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -92,6 +94,7 @@ namespace Wms12m.Business
                 {
                     db.Bolums.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "Section", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;

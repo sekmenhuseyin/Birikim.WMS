@@ -13,7 +13,7 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(Depo tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             //boş mu
             if (tbl.DepoAd == "" || tbl.DepoKodu == "")
             {
@@ -51,6 +51,7 @@ namespace Wms12m.Business
                 tbl.Kaydeden = vUser.UserName;
                 tbl.KayitTarih = DateTime.Today.ToOADateInt();
                 db.Depoes.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -66,6 +67,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Store", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, tbl.DepoAd + ", " + tbl.DepoKodu);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -74,9 +76,7 @@ namespace Wms12m.Business
             catch (Exception ex)
             {
                 Logger(ex, "Business/Store/Operation");
-                _Result.Id = 0;
                 _Result.Message = "İşlem Hatalı: " + ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }
@@ -107,6 +107,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "Store", "Delete", ComboItems.alSil, tbl.ID);
                 _Result.Id = Id;
                 _Result.Message = "İşlem Başarılı !!!";
                 _Result.Status = true;

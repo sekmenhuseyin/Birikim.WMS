@@ -101,29 +101,26 @@ namespace Wms12m.Business
         public override Result Delete(int Id)
         {
             _Result = new Result();
+            User tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
+            if (tbl != null)
+                db.Users.Remove(tbl);
+            else
+            {
+                _Result.Message = "Kayıt Yok";
+                return _Result;
+            }
             try
             {
-                User tbl = db.Users.Where(m => m.ID == Id).FirstOrDefault();
-                if (tbl != null)
-                {
-                    db.Users.Remove(tbl);
-                    db.SaveChanges();
-                    LogActions("Business", "Persons", "Delete", ComboItems.alSil, tbl.ID);
-                    _Result.Id = Id;
-                    _Result.Message = "İşlem Başarılı !!!";
-                    _Result.Status = true;
-                }
-                else
-                {
-                    _Result.Message = "Kayıt Yok";
-                    _Result.Status = false;
-                }
+                db.SaveChanges();
+                LogActions("Business", "Persons", "Delete", ComboItems.alSil, tbl.ID);
+                _Result.Id = Id;
+                _Result.Message = "İşlem Başarılı !!!";
+                _Result.Status = true;
             }
             catch (Exception ex)
             {
                 Logger(ex, "Business/Persons/Delete");
                 _Result.Message = ex.Message;
-                _Result.Status = false;
             }
             return _Result;
         }

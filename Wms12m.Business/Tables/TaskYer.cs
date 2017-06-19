@@ -13,10 +13,11 @@ namespace Wms12m.Business
         /// </summary>
         public override Result Operation(GorevYer tbl)
         {
-            _Result = new Result();
+            _Result = new Result(); bool eklemi = false;
             if (tbl.ID == 0)
             {
                 db.GorevYers.Add(tbl);
+                eklemi = true;
             }
             else
             {
@@ -26,6 +27,7 @@ namespace Wms12m.Business
             try
             {
                 db.SaveChanges();
+                LogActions("Business", "TaskYer", "Operation", eklemi == true ? ComboItems.alEkle : ComboItems.alDüzenle, tbl.ID, "GorevID: " + tbl.GorevID + ", YerID: " + tbl.YerID + ", MalKodu: " + tbl.MalKodu + ", Miktar: " + tbl.Miktar);
                 //result
                 _Result.Id = tbl.ID;
                 _Result.Message = "İşlem Başarılı !!!";
@@ -53,6 +55,7 @@ namespace Wms12m.Business
                 {
                     db.GorevYers.Remove(tbl);
                     db.SaveChanges();
+                    LogActions("Business", "TaskYer", "Delete", ComboItems.alSil, tbl.ID);
                     _Result.Id = Id;
                     _Result.Message = "İşlem Başarılı !!!";
                     _Result.Status = true;
