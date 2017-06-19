@@ -65,6 +65,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu.";
                 }
+                try
+                {
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    _Result.Status = false;
+                    _Result.Message = "Hata Oluştu. ";
+                    return Json(_Result, JsonRequestBehavior.AllowGet);
+                }
             }
 
             return Json(_Result, JsonRequestBehavior.AllowGet);

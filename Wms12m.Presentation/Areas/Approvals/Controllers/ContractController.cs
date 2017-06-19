@@ -1065,6 +1065,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         return hata.Message;
                     }
+                    try
+                    {
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        return "NO";
+                    }
                 }
 
             }
