@@ -659,6 +659,8 @@
                 onValueChanged: function (e) {
                     var deger = ondalikBinlik(e.value)
                     e.component.option("value", deger);
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                 }
             });
             $(".numb_alinan_nakit_vb").dxTextBox({
@@ -677,6 +679,8 @@
                 onValueChanged: function (e) {
                     var deger = ondalikBinlik(e.value)
                     e.component.option("value", deger);
+                    //var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                 }
             });
             $(".numb_toplam_tahsilat").dxTextBox({

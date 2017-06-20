@@ -73,7 +73,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             List<TechnoList> ucretBilgi;
             try
             {
-
                 ucretBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR0312M].[dbo].[TCH_UcretOnaySelect] @Birim='{1}', @Tip='{0}'", tip, MyGlobalVariables.Birim)).ToList();
             }
             catch (Exception ex)
