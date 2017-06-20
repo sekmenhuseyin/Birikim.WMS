@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace Wms12m.Presentation.Controllers
+namespace Wms12m.Presentation.Areas.System.Controllers
 {
     public class LogsController : RootController
     {
