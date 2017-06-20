@@ -644,21 +644,26 @@
                 readOnly: true
             });
             $(".numb_alinan_cek_tutari").dxTextBox({
-                mode: "fixed-point",
+                //mode: "fixed-point",
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("value");
                         var deger = ondalikBinlik(val)
                         info.component.option("value", deger);
                         event.stopPropagation();
                         event.preventDefault();
                     }
+                    else if (event.keyCode == 44) {
+
+                    }
                 },
                 onValueChanged: function (e) {
                     var deger = ondalikBinlik(e.value)
                     e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
                     //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
                     //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                 }
@@ -668,7 +673,7 @@
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("value");
                         var deger = ondalikBinlik(val)
                         info.component.option("value", deger);

@@ -66,167 +66,169 @@ String.prototype.addAt = function (index, character) {
 //    }
 //}
 
+//function ondalikBinlik(Val) {
+//    if (Val == null || Val == undefined || Val == 0) {
+//        return 0;
+//    }
+//    else if (Val.toString().indexOf(",") < 1 && Val.toString().indexOf(".") > 0) {
+//        if (Val.toString().split(".").length < 3) {
+//            var b = new Array();
+//            var decVal = Number(Val).toFixed(2).replace(".", ",");
+//            var a = decVal.split(",")[0].length;
+//            for (var i = a; i > 0; i = i - 3) {
+//                var c = i % 3;
+//                if (c == 0 && i != 3) {
+//                    b.push(i - 3);
+//                }
+//                else if (c != 0 && i > 3) {
+//                    b.push(i - 3);
+//                }
+//            }
+//            $.each(b, function (index, value) {
+//                decVal = decVal.addAt(value, '.');
+//            });
+//            return decVal;
+//        } else {
+//            var b = new Array();
+//            var decVal = Val.toString().replace(/\./g, "");
+//            var a = decVal.length;
+//            for (var i = a; i > 0; i = i - 3) {
+//                var c = i % 3;
+//                if (c == 0 && i != 3) {
+//                    b.push(i - 3);
+//                }
+//                else if (c != 0 && i > 3) {
+//                    b.push(i - 3);
+//                }
+//            }
+//            $.each(b, function (index, value) {
+//                decVal = decVal.addAt(value, '.');
+//            });
+//            return decVal;
+//        }
+//    }
+//    else if (Val.toString().indexOf(".") < 1 && Val.toString().indexOf(",") > 0) {
+//        if (Val.toString().split(",").length < 3) {
+//            var b = new Array();
+//            var decVal = Number(Val.replace(",", ".")).toFixed(2).replace(".", ",");
+//            var a = decVal.split(",")[0].length;
+//            for (var i = a; i > 0; i = i - 3) {
+//                var c = i % 3;
+//                if (c == 0 && i != 3) {
+//                    b.push(i - 3);
+//                }
+//                else if (c != 0 && i > 3) {
+//                    b.push(i - 3);
+//                }
+//            }
+//            $.each(b, function (index, value) {
+//                decVal = decVal.addAt(value, '.');
+//            });
+//            return decVal;
+//        }
+//        else {
+//            var b = new Array();
+//            var decVal = Val.toString().replace(/\,/g, "");
+//            var a = decVal.length;
+//            for (var i = a; i > 0; i = i - 3) {
+//                var c = i % 3;
+//                if (c == 0 && i != 3) {
+//                    b.push(i - 3);
+//                }
+//                else if (c != 0 && i > 3) {
+//                    b.push(i - 3);
+//                }
+//            }
+//            $.each(b, function (index, value) {
+//                decVal = decVal.addAt(value, '.');
+//            });
+//            return decVal;
+//        }
+//    }
+
+
+
+
+//    //else if (Val.toString().indexOf(".") < 1) {
+//    //    var b = new Array();
+//    //    var decVal = Number(Val).toFixed(2).replace(".", ",");
+//    //    var a = decVal.split(",")[0].length;
+//    //    for (var i = a; i > 0; i = i - 3) {
+//    //        var c = i % 3;
+//    //        if (c == 0 && i != 3) {
+//    //            b.push(i - 3);
+//    //        }
+//    //        else if (c != 0 && i > 3) {
+//    //            b.push(i - 3);
+//    //        }
+//    //    }
+//    //    $.each(b, function (index, value) {
+//    //        decVal = decVal.addAt(value, '.');
+//    //    });
+//    //    return decVal;
+//    //}
+//    else if ((Val.toString().indexOf(".") > 0) && (Val.toString().indexOf(",") > 0) && (Val.toString().indexOf(".") > Val.toString().indexOf(","))) {
+//        var b = new Array();
+//        var detVal = Val.toString().replace(/\,/g, "");
+//        detVal = Number(detVal).toFixed(2).replace(".", ",");
+//        var a = detVal.split(",")[0].length;
+//        for (var i = a; i > 0; i = i - 3) {
+//            var c = i % 3;
+//            if (c == 0 && i != 3) {
+//                b.push(i - 3);
+//            }
+//            else if (c != 0 && i > 3) {
+//                b.push(i - 3);
+//            }
+//        }
+//        $.each(b, function (index, value) {
+//            detVal = detVal.addAt(value, '.');
+//        });
+//        //detVal += "," + Val.split(",")[1]
+//        return detVal;
+//    }
+//    else if ((Val.toString().indexOf(".") > 0) && (Val.toString().indexOf(",") > 0) && (Val.toString().indexOf(".") < Val.toString().indexOf(","))) {
+//        var b = new Array();
+//        var detVal = Val.toString().replace(/\./g, "").replace(",", ".");
+//        detVal = Number(detVal).toFixed(2).replace(".", ",");;
+//        var a = detVal.split(",")[0].length;
+//        for (var i = a; i > 0; i = i - 3) {
+//            var c = i % 3;
+//            if (c == 0 && i != 3) {
+//                b.push(i - 3);
+//            }
+//            else if (c != 0 && i > 3) {
+//                b.push(i - 3);
+//            }
+//        }
+//        $.each(b, function (index, value) {
+//            detVal = detVal.addAt(value, '.');
+//        });
+//        //detVal += "," + Val.split(",")[1]
+//        return detVal;
+//    }
+//    else {
+//        var b = new Array();
+//        detVal = Val;
+//        var a = detVal.length;
+//        for (var i = a; i > 0; i = i - 3) {
+//            var c = i % 3;
+//            if (c == 0 && i != 3) {
+//                b.push(i - 3);
+//            }
+//            else if (c != 0 && i > 3) {
+//                b.push(i - 3);
+//            }
+//        }
+//        $.each(b, function (index, value) {
+//            detVal = detVal.addAt(value, '.');
+//        });
+//        return detVal;
+//    }
+//}
 function ondalikBinlik(Val) {
-    if (Val == null || Val == undefined || Val == 0) {
-        return 0;
-    }
-    else if (Val.toString().indexOf(",") < 1 && Val.toString().indexOf(".") > 0) {
-        if (Val.toString().split(".").length < 3) {
-            var b = new Array();
-            var decVal = Number(Val).toFixed(2).replace(".", ",");
-            var a = decVal.split(",")[0].length;
-            for (var i = a; i > 0; i = i - 3) {
-                var c = i % 3;
-                if (c == 0 && i != 3) {
-                    b.push(i - 3);
-                }
-                else if (c != 0 && i > 3) {
-                    b.push(i - 3);
-                }
-            }
-            $.each(b, function (index, value) {
-                decVal = decVal.addAt(value, '.');
-            });
-            return decVal;
-        } else {
-            var b = new Array();
-            var decVal = Val.toString().replace(/\./g, "");
-            var a = decVal.length;
-            for (var i = a; i > 0; i = i - 3) {
-                var c = i % 3;
-                if (c == 0 && i != 3) {
-                    b.push(i - 3);
-                }
-                else if (c != 0 && i > 3) {
-                    b.push(i - 3);
-                }
-            }
-            $.each(b, function (index, value) {
-                decVal = decVal.addAt(value, '.');
-            });
-            return decVal;
-        }
-    }
-    else if (Val.toString().indexOf(".") < 1 && Val.toString().indexOf(",") > 0) {
-        if (Val.toString().split(",").length < 3) {
-            var b = new Array();
-            var decVal = Number(Val.replace(",", ".")).toFixed(2).replace(".", ",");
-            var a = decVal.split(",")[0].length;
-            for (var i = a; i > 0; i = i - 3) {
-                var c = i % 3;
-                if (c == 0 && i != 3) {
-                    b.push(i - 3);
-                }
-                else if (c != 0 && i > 3) {
-                    b.push(i - 3);
-                }
-            }
-            $.each(b, function (index, value) {
-                decVal = decVal.addAt(value, '.');
-            });
-            return decVal;
-        }
-        else {
-            var b = new Array();
-            var decVal = Val.toString().replace(/\,/g, "");
-            var a = decVal.length;
-            for (var i = a; i > 0; i = i - 3) {
-                var c = i % 3;
-                if (c == 0 && i != 3) {
-                    b.push(i - 3);
-                }
-                else if (c != 0 && i > 3) {
-                    b.push(i - 3);
-                }
-            }
-            $.each(b, function (index, value) {
-                decVal = decVal.addAt(value, '.');
-            });
-            return decVal;
-        }
-    }
 
-
-
-
-    //else if (Val.toString().indexOf(".") < 1) {
-    //    var b = new Array();
-    //    var decVal = Number(Val).toFixed(2).replace(".", ",");
-    //    var a = decVal.split(",")[0].length;
-    //    for (var i = a; i > 0; i = i - 3) {
-    //        var c = i % 3;
-    //        if (c == 0 && i != 3) {
-    //            b.push(i - 3);
-    //        }
-    //        else if (c != 0 && i > 3) {
-    //            b.push(i - 3);
-    //        }
-    //    }
-    //    $.each(b, function (index, value) {
-    //        decVal = decVal.addAt(value, '.');
-    //    });
-    //    return decVal;
-    //}
-    else if ((Val.toString().indexOf(".") > 0) && (Val.toString().indexOf(",") > 0) && (Val.toString().indexOf(".") > Val.toString().indexOf(","))) {
-        var b = new Array();
-        var detVal = Val.toString().replace(/\,/g, "");
-        detVal = Number(detVal).toFixed(2).replace(".", ",");
-        var a = detVal.split(",")[0].length;
-        for (var i = a; i > 0; i = i - 3) {
-            var c = i % 3;
-            if (c == 0 && i != 3) {
-                b.push(i - 3);
-            }
-            else if (c != 0 && i > 3) {
-                b.push(i - 3);
-            }
-        }
-        $.each(b, function (index, value) {
-            detVal = detVal.addAt(value, '.');
-        });
-        //detVal += "," + Val.split(",")[1]
-        return detVal;
-    }
-    else if ((Val.toString().indexOf(".") > 0) && (Val.toString().indexOf(",") > 0) && (Val.toString().indexOf(".") < Val.toString().indexOf(","))) {
-        var b = new Array();
-        var detVal = Val.toString().replace(/\./g, "").replace(",", ".");
-        detVal = Number(detVal).toFixed(2).replace(".", ",");;
-        var a = detVal.split(",")[0].length;
-        for (var i = a; i > 0; i = i - 3) {
-            var c = i % 3;
-            if (c == 0 && i != 3) {
-                b.push(i - 3);
-            }
-            else if (c != 0 && i > 3) {
-                b.push(i - 3);
-            }
-        }
-        $.each(b, function (index, value) {
-            detVal = detVal.addAt(value, '.');
-        });
-        //detVal += "," + Val.split(",")[1]
-        return detVal;
-    }
-    else {
-        var b = new Array();
-        detVal = Val;
-        var a = detVal.length;
-        for (var i = a; i > 0; i = i - 3) {
-            var c = i % 3;
-            if (c == 0 && i != 3) {
-                b.push(i - 3);
-            }
-            else if (c != 0 && i > 3) {
-                b.push(i - 3);
-            }
-        }
-        $.each(b, function (index, value) {
-            detVal = detVal.addAt(value, '.');
-        });
-        return detVal;
-    }
-}
-
+};
 // Ondalık Binliğe cevrilen değeri decimal'a çevirme
 // Sonrasında ondalık miktarıda parametreden gelecek şekilde ayarlanabilir
 function jDecimal(Val) {
