@@ -15,7 +15,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Koridor Kartı", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.KoridorKartı, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Index", new Koridor());
         }
@@ -24,7 +24,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public PartialViewResult CorridorGridPartial(string Id)
         {
-            if (CheckPerm("Koridor Kartı", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.KoridorKartı, PermTypes.Reading) == false) return null;
             List<Koridor> _List = new List<Koridor>();
             int StoreId = 0;
             string Locked = "";
@@ -55,7 +55,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public PartialViewResult CorridorDetailPartial(string Id)
         {
-            if (CheckPerm("Koridor Kartı", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.KoridorKartı, PermTypes.Reading) == false) return null;
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
@@ -77,7 +77,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            if (CheckPerm("Koridor Kartı", PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.KoridorKartı, PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             List<Koridor> _List = new List<Koridor>();
             try
             {
@@ -105,7 +105,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public JsonResult Delete(int Id)
         {
-            if (CheckPerm("Koridor Kartı", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.KoridorKartı, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Corridor.Delete(Id);
             if (_Result.Status == true)
                 LogActions("", "Corridor", "Delete", ComboItems.alSil, Id);
@@ -117,7 +117,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public JsonResult CorridorOperation(Koridor P)
         {
-            if (CheckPerm("Koridor Kartı", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.KoridorKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Corridor.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

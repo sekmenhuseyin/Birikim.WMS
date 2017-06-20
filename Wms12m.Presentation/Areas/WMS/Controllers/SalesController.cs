@@ -15,7 +15,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Genel Sipariş", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
             return View("Index");
         }
@@ -27,7 +27,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (tbl.DepoID == "0" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
-            if (CheckPerm("Genel Sipariş", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Redirect("/");
             //şirket id ve evrak nolar bulunur
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             string[] tmp = tbl.checkboxes.Split('#');
@@ -72,7 +72,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
                 return RedirectToAction("Index");
-            if (CheckPerm("Genel Sipariş", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return Redirect("/");
             var sirketler = new List<string>();
             var evraklar = new List<string>();
             int i;
@@ -108,7 +108,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var list = db.Database.SqlQuery<frmSiparisMalzemeDetay>(sql).ToList();
             ViewBag.EvrakNos = tbl.EvrakNos;
             ViewBag.DepoID = tbl.DepoID;
-            ViewBag.Yetki = CheckPerm("Genel Sipariş", PermTypes.Writing);
+            ViewBag.Yetki = CheckPerm(Perms.GenelSipariş, PermTypes.Writing);
             return View("Step3", list);
         }
         /// <summary>
@@ -119,7 +119,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (tbl.DepoID == "0" || tbl.EvrakNos == "" || tbl.checkboxes == "")
                 return RedirectToAction("Index");
-            if (CheckPerm("Genel Sipariş", PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm(Perms.GenelSipariş, PermTypes.Writing) == false) return Redirect("/");
             tbl.checkboxes = tbl.checkboxes.Left(tbl.checkboxes.Length - 1);
             var sirketler = new List<string>();
             var evraklar = new List<string>();
@@ -270,7 +270,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Step5(int GorevID, int DepoID)
         {
-            if (CheckPerm("Genel Sipariş", PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm(Perms.GenelSipariş, PermTypes.Writing) == false) return Redirect("/");
             //sıralama
             var lstKoridor = db.GetKoridorIdFromGorevId(GorevID).ToList();
             bool asc = false; int sira = 1;
@@ -310,7 +310,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Approve(int GorevID)
         {
-            if (CheckPerm("Genel Sipariş", PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm(Perms.GenelSipariş, PermTypes.Writing) == false) return Redirect("/");
             //görevi aç
             Gorev grv = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             grv.DurumID = ComboItems.Açık.ToInt32();
@@ -332,7 +332,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             tarihler = DateTime.TryParse(Ends, out DateTime EndDate); if (tarihler == false) return null;
             if (StartDate > EndDate) return null;
             //perm kontrol
-            if (CheckPerm("Genel Sipariş", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.GenelSipariş, PermTypes.Reading) == false) return null;
             string sql = "";
             //loop dbs
             var tmp = db.GetSirketDBs().ToList();
@@ -365,7 +365,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult Details(string ID)
         {
-            if (CheckPerm("Genel Sipariş", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.GenelSipariş, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             string[] tmp = ID.Split('-');
             string sql = String.Format("FINSAT6{0}.wms.getSiparisDetail @DepoKodu = '{1}', @EvrakNo = '{2}'", tmp[0], tmp[1], tmp[2]);
             var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();

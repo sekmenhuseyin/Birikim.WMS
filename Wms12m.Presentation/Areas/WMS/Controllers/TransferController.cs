@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Transfer", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             ViewBag.GirisDepo = new SelectList(Store.GetList(vUser.DepoId), "DepoKodu", "DepoAd");
             ViewBag.CikisDepo = new SelectList(Store.GetList(), "DepoKodu", "DepoAd");
@@ -28,7 +28,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult Stock(string Id)
         {
-            if (CheckPerm("Transfer", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return null;
             JObject parameters = JsonConvert.DeserializeObject<JObject>(Id);
             string SirketID = parameters["SirketID"].ToString(), GirisDepo = parameters["GirisDepo"].ToString(), CikisDepo = parameters["CikisDepo"].ToString(), listType = parameters["listType"].ToString();
             ViewBag.SirketID = SirketID;
@@ -58,7 +58,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Summary(frmTransferMalzemeApprove tbl)
         {
-            if (CheckPerm("Transfer", PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return Redirect("/");
             if (tbl.SirketID == "" || tbl.GirisDepo == "" || tbl.AraDepo == "" || tbl.CikisDepo == "" || tbl.checkboxes.ToString2() == "")
                 return RedirectToAction("Index");
             //liste oluştur
@@ -159,7 +159,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public ActionResult List()
         {
-            if (CheckPerm("Transfer", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return Redirect("/");
             return View("List");
         }
         /// <summary>
@@ -167,7 +167,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult ListDetail(bool Id)
         {
-            if (CheckPerm("Transfer", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return null;
             var list = Transfers.GetList(Id, vUser.DepoId);
             return PartialView("_List", list);
         }
@@ -177,7 +177,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult Details(int ID)
         {
-            if (CheckPerm("Transfer", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.Transfer, PermTypes.Reading) == false) return null;
             //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
@@ -193,7 +193,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Approve(int ID)
         {
-            if (CheckPerm("Transfer", PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm(Perms.Transfer, PermTypes.Writing) == false) return Redirect("/");
             //get and set transfer details
             var tbl = Transfers.Detail(ID);
             tbl.Onay = true;
@@ -209,7 +209,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public JsonResult Delete(int ID)
         {
-            if (CheckPerm("Transfer", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.Transfer, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result();
             try
             {

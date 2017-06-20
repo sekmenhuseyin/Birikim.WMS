@@ -81,7 +81,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         }
         public JsonResult Delete(string Id)
         {
-            if (CheckPerm("Görev", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             GorevCalisma gorevcalisma = db.GorevCalismas.Find(Id.ToInt32());
             db.GorevCalismas.Remove(gorevcalisma);
             db.SaveChanges();

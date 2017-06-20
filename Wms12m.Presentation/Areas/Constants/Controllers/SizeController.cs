@@ -15,8 +15,8 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Boyut Kartı", PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.Yetki = CheckPerm("Boyut Kartı", PermTypes.Writing);
+            if (CheckPerm(Perms.BoyutKartı, PermTypes.Reading) == false) return Redirect("/");
+            ViewBag.Yetki = CheckPerm(Perms.BoyutKartı, PermTypes.Writing);
             return View("Index", new Olcu());
         }
         /// <summary>
@@ -24,14 +24,14 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public PartialViewResult List()
         {
-            if (CheckPerm("Boyut Kartı", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.BoyutKartı, PermTypes.Reading) == false) return null;
             //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
             foreach (var item in list) { liste.Add(item); }
             ViewBag.Sirket = liste;
-            ViewBag.Yetki = CheckPerm("Boyut Kartı", PermTypes.Writing);
-            ViewBag.YetkiSil = CheckPerm("Boyut Kartı", PermTypes.Deleting);
+            ViewBag.Yetki = CheckPerm(Perms.BoyutKartı, PermTypes.Writing);
+            ViewBag.YetkiSil = CheckPerm(Perms.BoyutKartı, PermTypes.Deleting);
             return PartialView("_List", Dimension.GetList());
         }
         /// <summary>
@@ -40,7 +40,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         public PartialViewResult Edit(int id)
         {
             if (id == 0) return null;
-            if (CheckPerm("Boyut Kartı", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.BoyutKartı, PermTypes.Reading) == false) return null;
             var tbl = Dimension.Detail(id);
             if (tbl == null) return null;
             return PartialView("_Edit", tbl);
@@ -51,7 +51,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         [HttpPost]
         public JsonResult Save(Olcu tbl)
         {
-            if (CheckPerm("Boyut Kartı", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.BoyutKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Dimension.Operation(tbl);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -60,7 +60,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
-            if (CheckPerm("Boyut Kartı", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.BoyutKartı, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Dimension.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

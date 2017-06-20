@@ -122,7 +122,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         public JsonResult Delete(string Id)
         {
-            if (CheckPerm("Görev", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Gorevler gorev = db.Gorevlers.Find(Id.ToInt32());
             db.Gorevlers.Remove(gorev);
             db.SaveChanges();

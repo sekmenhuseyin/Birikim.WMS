@@ -15,12 +15,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region SPGMY
         public ActionResult SPGMY()
         {
-            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public string SPGMY_List()
         {
-            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnaySPGMY]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -28,7 +28,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_MIGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Çek Onaylama", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 
@@ -67,7 +67,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_MIGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Çek Onaylama", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 
@@ -107,12 +107,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region MIGMY
         public ActionResult MIGMY()
         {
-            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public string MIGMY_List()
         {
-            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnayMIGMY]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -120,7 +120,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Çek Onaylama", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 
@@ -159,7 +159,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Çek Onaylama", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 
@@ -199,12 +199,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region GM
         public ActionResult GM()
         {
-            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public string GM_List()
         {
-            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnayGM]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -212,7 +212,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_GM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Çek Onaylama", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 
@@ -251,7 +251,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_GM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Çek Onaylama", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 

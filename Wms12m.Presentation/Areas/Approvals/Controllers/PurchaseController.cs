@@ -31,12 +31,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     {
         public ActionResult GMOnayHTML()
         {
-            if (CheckPerm("Çek Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public ActionResult Satınalma_GM_Onay()
         {
-            if (CheckPerm("Risk Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             MyGlobalVariables.DovizDurum = false;
             MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", "17")).ToList();
             return View("GM_Onay", MyGlobalVariables.SipTalepList);
@@ -44,16 +44,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult SipGMOnayList(string HesapKodu, int SipTalepNo)
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
-            //var TMNT = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[dbo].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", "17", HesapKodu, SipTalepNo)).ToList();
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+
             ViewBag.HesapKodu = HesapKodu;
             ViewBag.SipTalepNo = SipTalepNo;
             return PartialView("SatinalmaSipGMOnay_List");
         }
         public PartialViewResult SipGMOnayListFTD(string HesapKodu, int SipTalepNo)
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
-            //var TMNT = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[dbo].[SatinAlmaGMOnayListData] @HesapKodu='{1}', @SipTalepNo={2} ", "17", HesapKodu, SipTalepNo)).ToList();
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+
             ViewBag.HesapKodu = HesapKodu;
             ViewBag.SipTalepNo = SipTalepNo;
             return PartialView("SatinalmaSipGMOnayFTD_List");
@@ -223,24 +223,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         {
                             MyGlobalVariables.SipEvrak.FTDHesapla(MyGlobalVariables.TalepSource[0].FTDDovizCinsi, kur);
                         }
-                        //else
-                        //{
-                        //    Mesaj.Uyari("Döviz Kuru 0'dan büyük bir değer olmalıdır!!");
-                        //    return;
-                        //}
                     }
-                    //SipEvrak.FTDHesapla();
-
-
-                    //kkp.UpdateChanges();
-                    //Mesaj.Basari(string.Format("İşlem başarılı bir şekilde gerçekleştirildi. Evrak No: {0}", evrakno));
-                    //gridLueSipTalepNo.EditValue = null;
-                    //Yenile();
 
                     int sipTarih = Convert.ToInt32(MyGlobalVariables.SipEvrak.Tarih.ToOADate());
-
-                    //SatTalep talep = (SatTalep)gridLueSipTalepNo.GetSelectedDataRow();
-                    //DbSat.SiparisOnayMailGonderim(SipEvrak.EvrakNo, SipEvrak.HesapKodu, sipTarih, Convert.ToInt32(SipEvrak.Satirlar[0].Kod4));
                     var sipEvrakNo = MyGlobalVariables.SipEvrak.EvrakNo;
                     var hesapKodu = MyGlobalVariables.SipEvrak.HesapKodu;
                     var teklifNo = Convert.ToInt32(MyGlobalVariables.SipEvrak.Satirlar[0].Kod4);
@@ -533,8 +518,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     }
                     catch (Exception ex)
                     {
-                        //if (Degiskenler.FromWinServis)
-                        //    throw ex;
                         _Result.Message = string.Format("Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!)");
                         _Result.Status = false;
                         return Json(_Result, JsonRequestBehavior.AllowGet);
@@ -574,7 +557,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (var item in MyGlobalVariables.TalepSource)
                 {
-                    //Durum 11: Sipariş Ön Onay; 15: Onaylı Sipariş; 13: Sipariş Onay İptal
                     string sql = @"UPDATE sta.Talep 
 SET GMOnaylayan='{0}', GMOnayTarih={1}, Durum=13
 , Degistiren='{0}', DegisTarih={1}, DegisSirKodu={3}, Aciklama2='{2}'

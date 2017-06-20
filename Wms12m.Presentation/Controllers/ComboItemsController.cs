@@ -11,7 +11,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult List()
         {
-            if (CheckPerm("ComboItems", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.Menü, PermTypes.Reading) == false) return Redirect("/");
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             if (id.ToString() == "0") return null;
@@ -23,7 +23,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult New()
         {
-            if (CheckPerm("ComboItems", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.Menü, PermTypes.Reading) == false) return null;
             return PartialView("New", new ComboItem_Name());
         }
         /// <summary>
@@ -31,7 +31,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult Edit(int id)
         {
-            if (CheckPerm("ComboItems", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.Menü, PermTypes.Reading) == false) return null;
             var tablo = ComboSub.Detail(id);
             ViewBag.ComboID = new SelectList(Combo.GetList(), "ID", "ComboName", tablo.ComboID);
             return PartialView("Edit", tablo);
@@ -42,7 +42,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Save(ComboItem_Name tbl)
         {
-            if (CheckPerm("ComboItems", PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm(Perms.Menü, PermTypes.Writing) == false) return Redirect("/");
             Result _Result = new Result();
             if (ModelState.IsValid)
                 _Result = ComboSub.Operation(tbl);
@@ -54,7 +54,7 @@ namespace Wms12m.Presentation.Controllers
         [HttpPost]
         public JsonResult Delete(int id)
         {
-            if (CheckPerm("ComboItems", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.Menü, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = ComboSub.Delete(id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

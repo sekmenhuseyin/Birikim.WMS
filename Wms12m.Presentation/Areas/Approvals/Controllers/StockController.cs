@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Stok Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.StokOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         /// <summary>
@@ -25,7 +25,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public PartialViewResult List()
         {
-            if (CheckPerm("Stok Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.StokOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         /// <summary>
@@ -33,7 +33,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public string OnayCek(string Durum)
         {
-            if (CheckPerm("Stok Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.StokOnaylama, PermTypes.Reading) == false) return null;
             int param = 1;
             if (Durum == "Tumu") { param = 0; }
             else if (Durum == "Onay") { param = 1; }
@@ -50,7 +50,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Stok Onaylama", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.StokOnaylama, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
@@ -79,7 +79,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Stok Onaylama", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.StokOnaylama, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 

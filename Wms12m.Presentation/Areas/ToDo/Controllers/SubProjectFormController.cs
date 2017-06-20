@@ -113,7 +113,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         public JsonResult Delete(string Id)
         {
-            if (CheckPerm("ProjeForm", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             ProjeForm projeform = db.ProjeForms.Find(Id.ToInt32());
             db.ProjeForms.Remove(projeform);
             db.SaveChanges();

@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Stok", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("Index");
         }
@@ -26,7 +26,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult List(string Id)
         {
-            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             //dbler tempe aktarılıyor
             var list = db.GetSirketDBs();
             List<string> liste = new List<string>();
@@ -58,7 +58,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public ActionResult Cable()
         {
-            if (CheckPerm("Stok", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetListCable(vUser.DepoId), "ID", "DepoAd");
             return View("Cable");
         }
@@ -68,7 +68,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult CableList(int Id)
         {
-            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             using (KabloEntities dbx = new KabloEntities())
             {
                 var kblDepoID = Store.Detail(Id).KabloDepoID;
@@ -83,7 +83,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult CableMovements(int ID)
         {
-            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             using (KabloEntities dbx = new KabloEntities())
             {
                 var list = dbx.harekets.Where(m => m.id == ID).OrderBy(m => m.tarih).ToList();
@@ -95,7 +95,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public ActionResult History()
         {
-            if (CheckPerm("Stok", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             return View("History");
         }
@@ -105,7 +105,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult HistoryList(string Id)
         {
-            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             if (Id.Contains("#") == false) return null;
             var ids = Id.Split('#');
             var depoID = ids[1].ToInt32();
@@ -132,7 +132,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public ActionResult ManualPlacement()
         {
-            if (CheckPerm("Stok", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
@@ -145,7 +145,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult ManualPlacement(Yer tbl, bool GC)
         {
-            if (CheckPerm("Stok", PermTypes.Writing) == false || tbl.Miktar < 0) return Json(false, JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.Stok, PermTypes.Writing) == false || tbl.Miktar < 0) return Json(false, JsonRequestBehavior.AllowGet);
             //yerleştirme kaydı yapılır
             if (GC == false)
             {
@@ -249,7 +249,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public ActionResult ManualMovement()
         {
-            if (CheckPerm("Stok", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(vUser.DepoId), "ID", "DepoAd");
             ViewBag.RafID = new SelectList(Shelf.GetList(0), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
@@ -262,7 +262,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public JsonResult ManualMovement(Yer tbl)
         {
-            if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.Stok, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             if (tbl.Miktar < 1) return Json(new Result(false, "Miktar hatalı"), JsonRequestBehavior.AllowGet);
             //burada görev oluştur
             var ilk = Yerlestirme.Detail(tbl.ID);
@@ -304,7 +304,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult ManualNewPlace(int Id)
         {
-            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             var tbl = Yerlestirme.Detail(Id);
             ViewBag.RafID = new SelectList(Shelf.GetListByDepo(tbl.DepoID.Value), "ID", "RafAd");
             ViewBag.BolumID = new SelectList(Section.GetList(0), "ID", "BolumAd");
@@ -321,7 +321,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
-            if (CheckPerm("Stok", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
             //listeyi getir
             var list = Irsaliye.Detail(id.ToInt32());
             if (list == null)
