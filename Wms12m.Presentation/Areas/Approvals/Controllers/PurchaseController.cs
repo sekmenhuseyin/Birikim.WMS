@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
@@ -169,8 +170,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     string evrakno = kkp.YeniEvrakNo(KKPKynkEvrakTip.AlımSiparişi, 1);
                     foreach (var item in MyGlobalVariables.TalepSource)
                     {
-                        //Durum 11: Sipariş Ön Onay; 15: Onaylı Sipariş
-                        string sql = string.Format(@"UPDATE sta.Talep 
+                        string sql = string.Format(@"UPDATE Kaynak.sta.Talep 
     SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo
     , SirketKodu='{0}'
     , Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
@@ -185,7 +185,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             new SqlParameter("SipEvrakNo", SqlDbType.VarChar){Value = evrakno}
                         };
 
-                        //kkp.ExecuteCommandOnUpdate(sql, true, paramlist);
                     }
 
 
@@ -208,7 +207,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     MyGlobalVariables.SipEvrak.HesapKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
                     MyGlobalVariables.SipEvrak.TeslimYeriKodu = MyGlobalVariables.TalepSource[0].HesapKodu;
                     MyGlobalVariables.SipEvrak.Tarih = DateTime.Today;
-                    //SipEvrak.IslemTip = (KKPIslemTipSPI)TalepSource[0].SipIslemTip;
                     MyGlobalVariables.SipEvrak.INIGuncellensin = true;
                     MyGlobalVariables.SipEvrak.TahTeslimTarihi = new DateTime(1900, 1, 1).AddDays(-2);
 
@@ -236,7 +234,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         if (string.IsNullOrEmpty(sipEvrakNo) || string.IsNullOrEmpty(hesapKodu))
                             throw new ArgumentException("parametreler hatalı!!");
 
-                        GenelAyarVeParams mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format("SELECT * FROM [BIRIKIM].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
+                        GenelAyarVeParams mailayar = db.Database.SqlQuery<GenelAyarVeParams>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 4 and Tip2 = 0")).FirstOrDefault();
                         if (mailayar == null)
                         {
                             _Result.Message = "Sipariş Onay Mail ayarları yapılandırılmamış!!";
@@ -244,9 +242,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
-                        //string sorgu = string.Format("SELECT /*SirketEMail*/ SatAlmaIslemEMail FROM FINSAT6{0}.FINSAT6{0}.CHK (nolock) WHERE HesapKodu='{1}'", Degiskenler.SirketKodu, hesapKodu);
 
-                        string sorgu = string.Format("SELECT sta.TedarikciMail('{0}')", hesapKodu);
+                        string sorgu = string.Format("SELECT Kaynak.sta.TedarikciMail('{0}')", hesapKodu);
 
                         string sirketemail = db.Database.SqlQuery<string>(sorgu).FirstOrDefault();
                         if (string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
@@ -257,7 +254,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
-                        string satinalmacimail = db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM sta.Talep(nolock) WHERE SipEvrakNo ={0} )", sipEvrakNo)).FirstOrDefault();
+                        string satinalmacimail = db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM Kaynak.sta.Talep(nolock) WHERE SipEvrakNo ={0} )", sipEvrakNo)).FirstOrDefault();
 
                         if ((string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
                             && (string.IsNullOrEmpty(satinalmacimail) || satinalmacimail.Trim() == ""))
@@ -267,7 +264,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
-                        SatTalep sipTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TOP (1) TalepNo, SipIslemTip FROM sta.Talep (nolock) WHERE SipEvrakNo={0}", sipEvrakNo)).FirstOrDefault();
+                        SatTalep sipTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo={0}", sipEvrakNo)).FirstOrDefault();
                         if (sipTalep == null)
                         {
                             _Result.Message = "Siparişin Talep ile ilişkisi bulunamadı!! (Sipariş Onay Mail Gönderim)";
@@ -281,21 +278,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
-                        //SatınalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true);
 
-                        //List<string> attachList = new List<string>();
-                        //attachList.Add(String.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo));
-
-                        List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
-
-                        //DosyaYukle yukle = new DosyaYukle(DosyaTip.SatTalep);
-                        //foreach (SatTalep talep in listTalep)
-                        //{
-                        //    string path = yukle.GetDosyaYolu(talep.TalepNo, talep.EkDosya);
-                        //    if (File.Exists(path))
-                        //        attachList.Add(path);
-                        //}
-
+                        List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
 
 
 
@@ -310,27 +294,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             icerik = "Purchase Order Items Information in Attachments";
                         }
 
-                        //GM NİN KENDİSİNİ DE EKLİYORDUK İPTAL ETTİK
-                        //if (Degiskenler.FromWinServis == false)
-                        //{
-                        //    if (!kime.Contains(Degiskenler.Kullanici.Email) && !mailayar.MailCc.Contains(Degiskenler.Kullanici.Email))
-                        //        mailayar.MailCc += ";" + Degiskenler.Kullanici.Email;
-                        //}
-
-
-                        //MyMail m = new MyMail(false);
-                        //m.MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!";
-                        //m.MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!!";
-                        //m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, null);
-
-                        //if (m.MailGonderimBasarili)
-                        //{
-                        //    db.Database.ExecuteSqlCommand(string.Format("UPDATE sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
-                        //}
-                        //else
-                        //{
-                        //    db.Database.ExecuteSqlCommand(string.Format("UPDATE sta.Talep SET MailGonder={0} WHERE TalepNo='{1}'", 0, sipTalep.TalepNo));
-                        //}
                         #endregion
 
                         #region Rapor oluşturma
@@ -494,7 +457,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                   <body>
                     " + x + "</body></html>";
 
-                        var bytes = System.Text.Encoding.UTF8.GetBytes(html);
+                        var bytes = Encoding.UTF8.GetBytes(html);
 
                         using (var input = new MemoryStream(bytes))
                         {
@@ -557,7 +520,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (var item in MyGlobalVariables.TalepSource)
                 {
-                    string sql = @"UPDATE sta.Talep 
+                    string sql = @"UPDATE Kaynak.sta.Talep 
 SET GMOnaylayan='{0}', GMOnayTarih={1}, Durum=13
 , Degistiren='{0}', DegisTarih={1}, DegisSirKodu={3}, Aciklama2='{2}'
 WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";

@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <div class="modal-body">@*Project Details Go Here*@
                     <h4>Düzenle</h4>
-                    @using (Html.BeginForm("Save", "ComboItems", FormMethod.Post, new { @class = "form-horizontal" }))
+                    @using (Html.BeginForm("Save", "ComboItems", "System", FormMethod.Post, new { @class = "form-horizontal" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="form-horizontal">

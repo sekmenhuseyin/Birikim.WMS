@@ -2,7 +2,7 @@
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
-namespace Wms12m.Presentation.Controllers
+namespace Wms12m.Presentation.Areas.System.Controllers
 {
     public class CombosController : RootController
     {

@@ -556,5 +556,22 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.GetKynkTarihsForGorev", gorevIDParameter);
         }
+    
+        public virtual int UpdateGorevDurum(Nullable<int> tarih, Nullable<int> saat, Nullable<int> irsID)
+        {
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("Tarih", tarih) :
+                new ObjectParameter("Tarih", typeof(int));
+    
+            var saatParameter = saat.HasValue ?
+                new ObjectParameter("Saat", saat) :
+                new ObjectParameter("Saat", typeof(int));
+    
+            var irsIDParameter = irsID.HasValue ?
+                new ObjectParameter("IrsID", irsID) :
+                new ObjectParameter("IrsID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.UpdateGorevDurum", tarihParameter, saatParameter, irsIDParameter);
+        }
     }
 }
