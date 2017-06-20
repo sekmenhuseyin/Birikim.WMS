@@ -33,7 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs9B5A.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs7E08.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,7 +42,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs9B5A.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs7E08.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -212,7 +212,6 @@
     <Content Include="Content\images\12M-Logo-30.png" />
     <Content Include="Content\images\12M-Logo-90.png" />
     <Content Include="Content\images\12M-Logo.png" />
-    <Content Include="Content\images\GMOnayHeader.png" />
     <Content Include="Content\images\iz-logo-30.png" />
     <Content Include="Content\images\iz-logo-90.png" />
     <Content Include="Content\images\tum-logo-30.png" />
@@ -424,6 +423,8 @@
     <Compile Include="Areas\ToDo\Controllers\DutiesController.cs" />
     <Compile Include="Areas\ToDo\Controllers\DutyWorkController.cs" />
     <Compile Include="Areas\ToDo\Controllers\SubProjectFormController.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Reports\DsSatinalma.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -676,6 +677,11 @@
     <Content Include="Areas\ToDo\Views\DutyWork\NewWork.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\List.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\Duty_Details.cshtml" />
+    <Content Include="Views\Help\Index.cshtml" />
+    <Content Include="Views\Logs\Index.cshtml" />
+    <Content Include="Views\Logs\Login.cshtml" />
+    <Content Include="Views\Logs\Error.cshtml" />
+    <Content Include="Views\Logs\App.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

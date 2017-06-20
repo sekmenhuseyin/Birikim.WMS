@@ -9,7 +9,7 @@
                 <td>@item.Depo.DepoAd</td>
                 <td>@item.ID.GetEvrakNosForGorev()</td>
                 <td>@item.ComboItem_Name1.Name</td>
-                <td><a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/GorevliAta/@item.ID')"> @{if (item.Gorevli != null){ @item.Gorevli} else {<text>Görevli Ata</text>}} </a></td>
+                <td>@if(item.ComboItem_Name1.Name != "Kontrollü Sayım"){<a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/GorevliAta/@item.ID')"> @{if (item.Gorevli != null){ @item.Gorevli} else {<text>Görevli Ata</text>}} </a>}</td>
                 <td>@item.ID.GetEvrakTarihsForGorev()</td>
                 <td>@item.OlusturmaTarihi.FromOADateInt()</td>
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>

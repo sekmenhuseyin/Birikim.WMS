@@ -15,9 +15,10 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             var SirketKodu = db.GetSirketDBs().FirstOrDefault();
-            var ozet = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
-            ViewBag.BekleyenOnaylar = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
             ViewBag.SirketKodu = SirketKodu;
+            ViewBag.BekleyenOnaylar = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
+            ViewBag.Settings = db.Settings.FirstOrDefault();
+            var ozet = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
             return View("Index", ozet);
         }
         /// <summary>
