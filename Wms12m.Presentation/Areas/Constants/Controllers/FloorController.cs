@@ -15,7 +15,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Kat Kartı", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.KatKartı, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             return View("Index");
         }
@@ -24,7 +24,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public PartialViewResult FloorGridPartial(string Id)
         {
-            if (CheckPerm("Kat Kartı", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.KatKartı, PermTypes.Reading) == false) return null;
             int StoreId = 0;
             int ShelfId = 0;
             int SectionId = 0;
@@ -58,7 +58,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public PartialViewResult FloorDetailPartial(string Id)
         {
-            if (CheckPerm("Kat Kartı", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.KatKartı, PermTypes.Reading) == false) return null;
             int tmp = Convert.ToInt32(Id);
             if (tmp == 0)
             {
@@ -86,7 +86,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
-            if (CheckPerm("Kat Kartı", PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.KatKartı, PermTypes.Reading) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             List<Kat> _List = new List<Kat>();
             try
             {
@@ -114,7 +114,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
-            if (CheckPerm("Kat Kartı", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.KatKartı, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Floor.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -123,7 +123,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public JsonResult FlooriOperation(Kat P)
         {
-            if (CheckPerm("Kat Kartı", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.KatKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Floor.Operation(P);
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

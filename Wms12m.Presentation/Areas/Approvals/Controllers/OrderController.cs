@@ -12,26 +12,26 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     {
         public ActionResult SM()
         {
-            if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return Redirect("/");
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", "17")).ToList();
             return View(KOD);
         }
         public ActionResult SPGMY()
         {
-            if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return Redirect("/");
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", "17")).ToList();
             return View(KOD);
         }
         public ActionResult GM()
         {
-            if (CheckPerm("Sipariş Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return Redirect("/");
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", "17")).ToList();
             return View(KOD);
         }
         public JsonResult Onay(string Data, int OnayTip, bool OnaylandiMi)
         {
 
-            if (CheckPerm("Sipariş Onaylama", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -70,7 +70,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     db.SaveChanges();
                     dbContextTransaction.Commit();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _Result.Status = false;
                     _Result.Message = "Hata Oluştu. ";

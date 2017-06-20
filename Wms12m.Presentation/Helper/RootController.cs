@@ -52,9 +52,9 @@ namespace Wms12m.Presentation
         /// <summary>
         /// her bir sayfa için yetki kontrolü yapar
         /// </summary>
-        public bool CheckPerm(string permName, PermTypes permtype)
+        public bool CheckPerm(Perms permName, PermTypes permtype)
         {
-            var sonuc = db.GetPermissionFor(vUser.Id, vUser.RoleName, permName, "WMS", permtype.ToString()).FirstOrDefault().Value;
+            var sonuc = db.GetPermissionFor(vUser.Id, vUser.RoleName, permName.ToString(), "WMS", permtype.ToString()).FirstOrDefault().Value;
             return sonuc;
         }
         /// <summary>

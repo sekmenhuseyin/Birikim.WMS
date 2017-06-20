@@ -18,7 +18,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Malzeme(string SID, int DID, string Hesap, HttpPostedFileBase file)
         {
-            if (CheckPerm("Mal Kabul", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _result = new Result(false, 0, "Hatalı dosya");
             if (file == null || file.ContentLength == 0) return Json(_result, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku
@@ -140,7 +140,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Olcu(HttpPostedFileBase file)
         {
-            if (CheckPerm("Boyut Kartı", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.BoyutKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var _Result = new Result(false, "Hatalı Kayıt !");
             if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku
@@ -220,7 +220,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public JsonResult Stock(int DID, HttpPostedFileBase file)
         {
-            if (CheckPerm("Stok", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.Stok, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _result = new Result(false, 0, "Hatalı dosya");
             if (file == null || file.ContentLength == 0) return Json(_result, JsonRequestBehavior.AllowGet);
             //gelen dosyayı oku

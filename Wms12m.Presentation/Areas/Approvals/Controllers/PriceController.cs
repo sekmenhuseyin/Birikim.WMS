@@ -15,17 +15,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     {
         public ActionResult GM()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult GM_List()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string GMOnayCek()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -33,12 +33,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult GM_List_Koleksiyon()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string GMOnayCekGMKoleksiyon()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM_Koleksiyon]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -46,12 +46,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult GM_List_Grup()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string GMOnayCekGMGrup()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM_GrupEbatYuzey]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -59,17 +59,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public ActionResult SPGMY()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult SPGMY_List()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string SPGMYOnayCek()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -77,12 +77,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult SPGMY_List_Koleksiyon()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string SPGMYOnayCekSPGMYKoleksiyon()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_Koleksiyon]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -91,12 +91,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult SPGMY_List_Grup()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string SPGMYOnayCekSPGMYGrup()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_GrupEbatYuzey]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -104,17 +104,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public ActionResult SM()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult SM_List()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string SMOnayCek()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -122,12 +122,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult SM_List_Koleksiyon()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string SMOnayCekSMKoleksiyon()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_Koleksiyon]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -135,12 +135,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult SM_List_Grup()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string SMOnayCekSMGrup()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_GrupEbatYuzey]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -149,7 +149,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public ActionResult List()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
             var LNO = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
             return View(LNO);
         }
@@ -170,7 +170,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult ListPartial(string listeNo)
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             //var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect]", "17")).ToList();
             ViewBag.ListeNo = listeNo;
             return PartialView();
@@ -193,10 +193,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay(string Data)//GM
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
             int BasTarih = 0;
@@ -416,7 +416,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 _Result.Status = false;
@@ -429,10 +429,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             Result _Result = new Result(true);
 
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
             int BasTarih = 0;
@@ -669,7 +669,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
@@ -679,10 +679,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_Grup(string Data)//GM
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
             int BasTarih = 0;
@@ -922,7 +922,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -935,10 +935,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
             try
@@ -962,7 +962,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 _Result.Status = false;
@@ -974,10 +974,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_Koleksiyon_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
             try
@@ -1016,7 +1016,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1027,10 +1027,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_Grup_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
             try
@@ -1075,7 +1075,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1086,10 +1086,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
             try
@@ -1113,7 +1113,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 _Result.Status = false;
@@ -1125,10 +1125,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_Koleksiyon_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
             try
@@ -1167,7 +1167,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1178,10 +1178,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_Grup_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
             try
@@ -1226,7 +1226,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1237,10 +1237,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
 
@@ -1255,7 +1255,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata oluştu";
                 _Result.Status = false;
@@ -1265,10 +1265,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_Koleksiyon(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
 
@@ -1288,14 +1288,14 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
                     var result = String.Join(", ", fiyatID.ToArray());
-                    //sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
+
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", "17", result));
                 }
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1305,10 +1305,10 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Grup(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
 
@@ -1332,14 +1332,13 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
                     var result = String.Join(", ", fiyatID.ToArray());
-                    //sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", "17", result));
                 }
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1351,10 +1350,10 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
 
@@ -1369,7 +1368,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1379,10 +1378,10 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Koleksiyon_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
 
@@ -1402,14 +1401,13 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
                     var result = String.Join(", ", fiyatID.ToArray());
-                    //sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", "17", result));
                 }
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1419,10 +1417,10 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Grup_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
 
@@ -1446,14 +1444,14 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
                     var result = String.Join(", ", fiyatID.ToArray());
-                    //sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
+
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", "17", result));
                 }
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1464,10 +1462,10 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
 
@@ -1482,7 +1480,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1492,10 +1490,10 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Koleksiyon_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
 
@@ -1515,14 +1513,14 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
                     var result = String.Join(", ", fiyatID.ToArray());
-                    //sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
+
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", "17", result));
                 }
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1532,10 +1530,9 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Grup_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
-            //string sql = string.Format(@"INSERT INTO FINSAT";
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            //JValue parameters = JsonConvert.<Newtonsoft.Json.Linq.JValue>(JsonConvert.SerializeObject(Data));
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
 
@@ -1559,14 +1556,13 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
                     var result = String.Join(", ", fiyatID.ToArray());
-                    //sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
 
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", "17", result));
                 }
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
@@ -1578,7 +1574,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public string SatirEkle(string Data, string Satirlar)
         {
-            if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
 
             JObject parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
@@ -1692,8 +1688,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                             fyt.DovizCinsi = satir["SF1DovizCinsi"] == null ? "" : satir["SF1DovizCinsi"].ToString();
                             fyt.Durum = parameters["Durum"].ToShort();
                             fyt.ROW_ID = satir["ROW_ID"].ToInt32();
-                            //if (fyt.MalKodu.Substring(0, 2) == "80" || fyt.MalKodu.Substring(0, 2) == "81" || fyt.MalKodu == "M60101000080" || fyt.MalKodu == "M60101000081")
-                            //{
                             if (fyt.MalKodu == "M60101000080" || fyt.MalKodu == "M60101000081")
                             {
                                 fyt.Onay = true;
@@ -1731,7 +1725,6 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                                 return "NO";
                             }
                         }
-                        return "OK";
                     }
                 }
                 catch (Exception)
@@ -1742,8 +1735,9 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                 {
                     db.SaveChanges();
                     dbContextTransaction.Commit();
+                    return "OK";
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return "NO";
                 }

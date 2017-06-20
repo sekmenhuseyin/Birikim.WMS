@@ -16,7 +16,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Depo Kartı", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.DepoKartı, PermTypes.Reading) == false) return Redirect("/");
             var mysql = db.Settings.Select(m => m.KabloSiparisMySql).FirstOrDefault();
             if (mysql)
             {
@@ -33,7 +33,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public PartialViewResult StoreGridPartial(string Id)
         {
-            if (CheckPerm("Depo Kartı", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.DepoKartı, PermTypes.Reading) == false) return null;
             List<Depo> _List = new List<Depo>();
             _List = Id == "Locked" ? Store.GetList().Where(a => a.Aktif == true).ToList() : Id == "noLocked" ? Store.GetList().Where(a => a.Aktif == false).ToList() : Store.GetList();
             return PartialView("_StoreGridPartial", _List);
@@ -43,7 +43,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public PartialViewResult StoreDetailPartial(string Id)
         {
-            if (CheckPerm("Depo Kartı", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.DepoKartı, PermTypes.Reading) == false) return null;
             var item = Convert.ToInt16(Id == "" ? "0" : Id) > 0 ? Store.Detail(Convert.ToInt16(Id)) : new Depo() { Aktif = false };
             var mysql = db.Settings.Select(m => m.KabloSiparisMySql).FirstOrDefault();
             if (mysql)
@@ -61,7 +61,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public JsonResult Delete(string Id)
         {
-            if (CheckPerm("Depo Kartı", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.DepoKartı, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Store.Delete(string.IsNullOrEmpty(Id) ? 0 : Convert.ToInt32(Id));
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
@@ -71,7 +71,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         /// </summary>
         public JsonResult StoreOperation(Depo P)
         {
-            if (CheckPerm("Depo Kartı", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.DepoKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result;
             if (P.ID == 0)//yeni depo ise mutlaka rezerv kat=koridor oluştur...
             {

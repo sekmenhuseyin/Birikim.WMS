@@ -70,7 +70,6 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         public JsonResult Delete(string Id)
         {
-            if (CheckPerm("Müşteri", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Musteri musteri = db.Musteris.Find(Id.ToInt32());
             db.Musteris.Remove(musteri);
             db.SaveChanges();

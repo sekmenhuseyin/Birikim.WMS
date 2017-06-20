@@ -17,7 +17,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
             return View("Index");
         }
@@ -26,7 +26,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult List(int Id)
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
             var list = Task.GetList(Id, vUser.DepoId);
             return PartialView("List", list);
         }
@@ -36,7 +36,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult Details(int ID)
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
             var list = db.GetIrsDetayfromGorev(ID);
             return PartialView("Details", list);
         }
@@ -45,7 +45,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult GorevDetailPartial(int id)
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
             var list = Task.Detail(id);
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GorevTipleri.ToInt32()), "ID", "Name", list.GorevTipiID);
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name", list.DurumID);
@@ -56,7 +56,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public JsonResult Update(frmGorev tbl)
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             //update
             var _Result = Task.Update(tbl);
             //get list
@@ -67,7 +67,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public JsonResult Delete(int ID)
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result();
             try
             {
@@ -88,7 +88,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult GorevliAta()
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             Int32 ID = Convert.ToInt32(id);
@@ -102,7 +102,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult GorevliKaydet(frmGorevli tbl)
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Redirect("/");
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Redirect("/");
             Task tmpTable = new Task();
             Result _Result = tmpTable.UpdateGorevli(tbl);
             return RedirectToAction("Index");
@@ -112,7 +112,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public ActionResult Count()
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GorevDurum.ToInt32()), "ID", "Name");
             return View("Count");
         }
@@ -122,7 +122,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult CountList(string Id)
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
             //id'ye göre liste döner
             var list = Task.GetList(ComboItems.KontrolSayım.ToInt32(), Id.ToInt32());
             return PartialView("CountList", list);
@@ -133,7 +133,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult New()
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
             ViewBag.DepoID = new SelectList(Store.GetList(), "ID", "DepoAd");
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("CountNew");
@@ -144,7 +144,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult SaveNew(int DepoID, string SirketID)
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result;
             //kontrol
             int açık = ComboItems.Açık.ToInt32();
@@ -184,7 +184,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult CountFark()
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
             string[] tmp = id.ToString().Split('-');
@@ -212,7 +212,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult CountCreate(int GorevID)
         {
             //kontrols
-            if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             int durumID = ComboItems.Tamamlanan.ToInt32();
             int tipID = ComboItems.KontrolSayım.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
@@ -287,7 +287,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public JsonResult CountCreateDiff(int GorevID)
         {
             //kontrols
-            if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             int durumID = ComboItems.Tamamlanan.ToInt32();
             int tipID = ComboItems.KontrolSayım.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();
@@ -425,7 +425,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public JsonResult Finish(int GorevID)
         {
-            if (CheckPerm("Görev Listesi", PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             int durumID = ComboItems.Açık.ToInt32();
             int tipID = ComboItems.KontrolSayım.ToInt32();
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.GorevTipiID == tipID && m.DurumID == durumID).FirstOrDefault();

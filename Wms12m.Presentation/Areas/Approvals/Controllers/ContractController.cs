@@ -16,17 +16,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region GM
         public ActionResult GM()
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult GM_List()
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string OnayCekGM()
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
             List<SozlesmeOnaySelect> RT;
             try
             {
@@ -42,8 +42,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_GM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
@@ -168,7 +168,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
@@ -179,8 +179,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Sil_GM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
@@ -196,7 +196,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
@@ -207,7 +207,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         [HttpPost]
         public PartialViewResult GM_Details(string ListeNo)
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
             return PartialView(list);
         }
@@ -215,17 +215,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region SM
         public ActionResult SM()
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult SM_List()
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string OnayCekSM()
         {
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
             List<SozlesmeOnaySelect> RT;
             try
             {
@@ -241,15 +241,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         [HttpPost]
         public PartialViewResult SM_Details(string ListeNo)
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
             return PartialView(list);
         }
         public JsonResult Onay_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
@@ -368,7 +368,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
@@ -379,8 +379,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Sil_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
@@ -396,7 +396,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 _Result.Status = false;
@@ -409,17 +409,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         #region SPGMY
         public ActionResult SPGMY()
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult SPGMY_List()
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string OnayCekSPGMY()
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
             List<SozlesmeOnaySelect> RT;
             try
             {
@@ -435,15 +435,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         [HttpPost]
         public PartialViewResult SPGMY_Details(string ListeNo)
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
             return PartialView(list);
         }
         public JsonResult Onay_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
@@ -562,7 +562,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
@@ -573,8 +573,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Sil_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
@@ -589,7 +589,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
@@ -601,19 +601,19 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public ActionResult Tanim()
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.SRNO = "SOZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeSiraNoSelect]", "17")).FirstOrDefault();
             return View();
         }
 
         public PartialViewResult Tanim_List(string listeNo, string satir)
         {
-            if (CheckPerm("Sözleşme Onaylama", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
             string sat = "";
             if (satir != null)
             {
                 sat = "<tbody>";
-                JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(satir);
+                JArray parameters = JsonConvert.DeserializeObject<JArray>(satir);
                 foreach (string insertObj in parameters)
                 {
                     sat += insertObj;
@@ -681,7 +681,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 chkBilgi = db.Database.SqlQuery<SozlesmeCariBilgileri>(string.Format("[FINSAT6{0}].[wms].[SozlesmeCariBilgileri] @HesapKodu='{2}', @ListeNo='{1}'", "17", ListeNo, HesapKodu)).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 chkBilgi = new List<Entity.SozlesmeCariBilgileri>();
             }
@@ -703,7 +703,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult ISS_TempUpdate_AktifPasif(string SozlesmeNo, bool AktifPasif)
         {
             Result _Result = new Result(true);
-            if (CheckPerm("Fiyat Onaylama", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
@@ -829,7 +829,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 _Result.Status = false;
@@ -841,8 +841,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string YeniSatirKayit(string Data)
         {
-            if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             bool filtreKagitVarmi = false;
 
@@ -1050,8 +1050,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 return "NO";
                             }
                         }
-                        //var tempBagTutar = Convert.ToDecimal(BaglantiTutari.ToString().Replace(@".", "x").Replace(@",", ".").Replace(@"x", ","));
-                        //var tempBagTutar = Convert.ToDecimal(BaglantiTutari.ToString());
                         string s = string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",", "."));
                         db.Database.ExecuteSqlCommand(s);
 
@@ -1070,7 +1068,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         db.SaveChanges();
                         dbContextTransaction.Commit();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         return "NO";
                     }
@@ -1086,7 +1084,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Sil(string SozlesmeNo)
         {
-            if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             Result _Result = new Result(true, "İşlem Başarılı.");
             try
             {
@@ -1104,7 +1102,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Guncelle(string SozlesmeNo, int BasTarih, short MusUygSekli, decimal YeniBaglantiTutari, int YeniBitisTarihi)
         {
-            if (CheckPerm("FiyatSatirEkle", PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             Result _Result = new Result(true, "İşlem Başarılı.");
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
@@ -1178,7 +1176,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 //db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp]  WHERE ListeNo = '{1}'", "17", SozlesmeNo));
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";

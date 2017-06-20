@@ -13,7 +13,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public ActionResult Index()
         {
-            if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.GrupYetkileri, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.RoleName = new SelectList(db.Roles.Where(m => m.RoleName != "").ToList(), "RoleName", "RoleName");
             return View("Index");
         }
@@ -22,7 +22,7 @@ namespace Wms12m.Presentation.Controllers
         /// </summary>
         public PartialViewResult List(string id)
         {
-            if (CheckPerm("Grup Yetkileri", PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.GrupYetkileri, PermTypes.Reading) == false) return null;
             var list = db.GetRolePermsFor(id, "WMS").ToList();
             ViewBag.RoleName = id;
             return PartialView("List", list);
@@ -35,7 +35,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (ModelState.IsValid && rolePerm.RoleName != "" && rolePerm.PermName != "")
             {
-                if (CheckPerm("Grup Yetkileri", PermTypes.Writing) == true)
+                if (CheckPerm(Perms.GrupYetkileri, PermTypes.Writing) == true)
                 {
                     var tbl = db.RolePerms.Where(m => m.ID == rolePerm.ID).FirstOrDefault();
                     if (tbl != null)
