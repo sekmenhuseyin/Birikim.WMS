@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
@@ -456,7 +457,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                   <body>
                     " + x + "</body></html>";
 
-                        var bytes = System.Text.Encoding.UTF8.GetBytes(html);
+                        var bytes = Encoding.UTF8.GetBytes(html);
 
                         using (var input = new MemoryStream(bytes))
                         {

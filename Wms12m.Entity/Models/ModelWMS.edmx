@@ -1223,6 +1223,11 @@
           <Parameter Name="GörevTipiID" Type="int" Mode="In" />
           <Parameter Name="YeniGorevTipiID" Type="int" Mode="In" />
         </Function>
+        <Function Name="UpdateGorevDurum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="Tarih" Type="int" Mode="In" />
+          <Parameter Name="Saat" Type="int" Mode="In" />
+          <Parameter Name="IrsID" Type="int" Mode="In" />
+        </Function>
         <Function Name="UpdateIrsaliye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="IrsID" Type="int" Mode="In" />
           <Parameter Name="EvrakNo" Type="varchar" Mode="In" />
@@ -1819,6 +1824,11 @@
           </FunctionImport>
           <FunctionImport Name="GetKynkTarihsForGorev" ReturnType="Collection(String)">
           <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateGorevDurum">
+            <Parameter Name="Tarih" Mode="In" Type="Int32" />
+            <Parameter Name="Saat" Mode="In" Type="Int32" />
+            <Parameter Name="IrsID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3671,6 +3681,7 @@
           <FunctionImportMapping FunctionImportName="LogActions" FunctionName="MModel.Store.LogActions" />
           <FunctionImportMapping FunctionImportName="GetKynkEvrakNosForGorev" FunctionName="MModel.Store.GetKynkEvrakNosForGorev" />
           <FunctionImportMapping FunctionImportName="GetKynkTarihsForGorev" FunctionName="MModel.Store.GetKynkTarihsForGorev" />
+          <FunctionImportMapping FunctionImportName="UpdateGorevDurum" FunctionName="MModel.Store.UpdateGorevDurum" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

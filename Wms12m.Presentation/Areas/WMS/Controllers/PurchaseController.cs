@@ -187,18 +187,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     }
                 }
                 if (eklenen > 0)
-                {
-                    //set aktif
-                    var grv = db.Database.SqlQuery<Gorev>("SELECT wms.Gorev.* FROM wms.Gorev INNER JOIN wms.GorevIRS ON wms.Gorev.ID = wms.GorevIRS.GorevID WHERE wms.GorevIRS.IrsaliyeID = " + irsaliyeID).FirstOrDefault();
-                    if (grv != null)
-                        if (grv.DurumID == ComboItems.Başlamamış.ToInt32())
-                        {
-                            grv.DurumID = ComboItems.Açık.ToInt32();
-                            grv.OlusturmaTarihi = fn.ToOADate();
-                            grv.OlusturmaSaati = fn.ToOATime();
-                            db.SaveChanges();
-                        }
-                }
+                    db.UpdateGorevDurum(fn.ToOADate(), fn.ToOATime(), irsaliyeID);
             }
             //get list
             var list = IrsaliyeDetay.GetList(irsaliyeID);
