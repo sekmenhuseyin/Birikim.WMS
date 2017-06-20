@@ -169,7 +169,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     string evrakno = kkp.YeniEvrakNo(KKPKynkEvrakTip.AlımSiparişi, 1);
                     foreach (var item in MyGlobalVariables.TalepSource)
                     {
-                        string sql = string.Format(@"UPDATE Kaynak.staTalep 
+                        string sql = string.Format(@"UPDATE Kaynak.sta.Talep 
     SET GMOnaylayan=@Degistiren, GMOnayTarih=@DegisTarih, Durum=15, SipEvrakNo=@SipEvrakNo
     , SirketKodu='{0}'
     , Degistiren=@Degistiren, DegisTarih=@DegisTarih, DegisSirKodu='{0}'
@@ -242,7 +242,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         }
 
 
-                        string sorgu = string.Format("SELECT Kaynak.staTedarikciMail('{0}')", hesapKodu);
+                        string sorgu = string.Format("SELECT Kaynak.sta.TedarikciMail('{0}')", hesapKodu);
 
                         string sirketemail = db.Database.SqlQuery<string>(sorgu).FirstOrDefault();
                         if (string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
@@ -253,7 +253,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
-                        string satinalmacimail = db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM Kaynak.staTalep(nolock) WHERE SipEvrakNo ={0} )", sipEvrakNo)).FirstOrDefault();
+                        string satinalmacimail = db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM Kaynak.sta.Talep(nolock) WHERE SipEvrakNo ={0} )", sipEvrakNo)).FirstOrDefault();
 
                         if ((string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
                             && (string.IsNullOrEmpty(satinalmacimail) || satinalmacimail.Trim() == ""))
@@ -263,7 +263,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
-                        SatTalep sipTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.staTalep (nolock) WHERE SipEvrakNo={0}", sipEvrakNo)).FirstOrDefault();
+                        SatTalep sipTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo={0}", sipEvrakNo)).FirstOrDefault();
                         if (sipTalep == null)
                         {
                             _Result.Message = "Siparişin Talep ile ilişkisi bulunamadı!! (Sipariş Onay Mail Gönderim)";
@@ -278,7 +278,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         }
 
 
-                        List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.staTalep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
+                        List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
 
 
 
@@ -519,7 +519,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (var item in MyGlobalVariables.TalepSource)
                 {
-                    string sql = @"UPDATE Kaynak.staTalep 
+                    string sql = @"UPDATE Kaynak.sta.Talep 
 SET GMOnaylayan='{0}', GMOnayTarih={1}, Durum=13
 , Degistiren='{0}', DegisTarih={1}, DegisSirKodu={3}, Aciklama2='{2}'
 WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
