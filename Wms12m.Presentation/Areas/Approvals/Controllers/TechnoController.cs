@@ -13,31 +13,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     public class TechnoController : RootController
     {
         // GET: Approvals/Techno
-        public ActionResult Index()
+        public ActionResult Index(string onayRed)
         {
-            if (vUser.UserName.ToString() == "murat")
+            MyGlobalVariables.Birim = vUser.RoleName;
+            if (onayRed == null)
             {
-                MyGlobalVariables.Birim = "GM";
+                ViewBag.OnayDurum = "OnayBekleyenler";
             }
-            else if (vUser.UserName.ToString() == "orhan")
+            else
             {
-                MyGlobalVariables.Birim = "SPGMY";
-            }
-            else if (vUser.UserName.ToString() == "kenan")
-            {
-                MyGlobalVariables.Birim = "MIGMY";
-            }
-            else if (vUser.UserName.ToString() == "tunce")
-            {
-                MyGlobalVariables.Birim = "USGMY";
-            }
-            else if (vUser.UserName.ToString() == "ariza")
-            {
-                MyGlobalVariables.Birim = "ARTGMY";
-            }
-            else if (vUser.UserName.ToString() == "berke")
-            {
-                MyGlobalVariables.Birim = "IK";
+                ViewBag.OnayDurum = onayRed;
             }
             ViewBag.Birim = MyGlobalVariables.Birim;
             return View();

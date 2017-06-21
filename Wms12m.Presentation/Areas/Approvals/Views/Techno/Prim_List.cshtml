@@ -38,41 +38,41 @@
     <table class="table table-striped table-bordered" id="sample_2">
         <thead>
             <tr>
-                <th style="display:none;"></th>
-                <th style="display:none;"></th>
-                <th></th>
+                <th nowrap style="display:none;"></th>
+                <th nowrap style="display:none;"></th>
+                <th nowrap></th>
                 <th nowrap>Ad</th>
                 <th nowrap>Soyad</th>
-                <th nowrap>IsyeriAdi</th>
-                <th nowrap>BirimAdi</th>
-                <th nowrap>PozisyonAdi</th>
-                <th nowrap>Tutarİşçi</th>
-                <th nowrap>TutarMemur</th>
-                <th nowrap>DovizTipIsci</th>
-                <th nowrap>DovizTipMemur</th>
-                <th nowrap>OdenekKodu</th>
+                <th nowrap>İşyeri Adı</th>
+                <th nowrap>Birim Adı</th>
+                <th nowrap>Pozisyon Adı</th>
+                <th nowrap>Tutar İşçi</th>
+                <th nowrap>Tutar Memur</th>
+                <th nowrap>Döviz Tipi İşçi</th>
+                <th nowrap>Döviz Tipi Memur</th>
+                <th nowrap>Ödenek Kodu</th>
 
-                <th nowrap>RedNedeni</th>
+                <th nowrap>Red Nedeni</th>
 
                 <th nowrap>Ocak</th>
-                <th nowrap>Subat</th>
+                <th nowrap>Şubat</th>
                 <th nowrap>Mart</th>
                 <th nowrap>Nisan</th>
-                <th nowrap>Mayis</th>
+                <th nowrap>Mayıs</th>
                 <th nowrap>Haziran</th>
                 <th nowrap>Temmuz</th>
-                <th nowrap>Agustos</th>
-                <th nowrap>Eylul</th>
+                <th nowrap>Ağustos</th>
+                <th nowrap>Eylül</th>
                 <th nowrap>Ekim</th>
-                <th nowrap>Kasim</th>
-                <th nowrap>Aralik</th>
-                <th nowrap>Yil</th>
+                <th nowrap>Kasım</th>
+                <th nowrap>Aralık</th>
+                <th nowrap>Yıl</th>
 
-                <th nowrap>KayitTarih</th>
-                <th nowrap>KaydedenKullanici</th>
-                <th nowrap>GuncellemeTarihi</th>
-                <th nowrap>GuncelleyenKullanici</th>
-                <th nowrap>Aciklama</th>
+                <th nowrap>Kayıt Tarihi</th>
+                <th nowrap>Kaydeden Kullanıcı</th>
+                <th nowrap>Güncelleme Tarihi</th>
+                <th nowrap>Güncelleyen Kullanıcı</th>
+                <th nowrap>Açıklama</th>
             </tr>
         </thead>
     </table>
@@ -113,10 +113,9 @@
     var secili_table = new Array();
     $(".txtPrimRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
     var simple_checkbox = function (data, type, full, meta) {
-        console.log(data);
         var is_checked = data == 1 ? "checked" : "";
-        return '<input type="checkbox" class="checkbox" disabled  ' +
-            is_checked + ' />';
+        return '<div style="width:100%;padding: 0 35%;"><input type="checkbox" class="checkbox" style="width: 20px;" disabled  ' +
+            is_checked + ' /></div>';
     }
     var table2 = $('#sample_2').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -169,6 +168,13 @@
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            console.log(aData["Ocak"]);
+            //console.log(nRow);
+            //console.log(iDisplayIndex);
+            if (aData["Mart"] == 1) {
+                console.log("aaaaaa");
+                $('td', nRow).eq(13).css('background-color', 'Red');
+            }
             $('td', nRow).attr('nowrap', 'nowrap');
             return nRow;
         }

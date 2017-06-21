@@ -37,9 +37,9 @@
     <table class="table table-striped table-bordered" id="sample_1">
         <thead>
             <tr>
-                <th style="display:none;"></th>
-                <th style="display:none;"></th>
-                <th>
+                <th nowrap style="display:none;"></th>
+                <th nowrap style="display:none;"></th>
+                <th nowrap>
                     @*<label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                             <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
                             <span></span>
@@ -48,22 +48,22 @@
 
                 <th nowrap>Ad</th>
                 <th nowrap>Soyad</th>
-                <th nowrap>IsyeriAdi</th>
-                <th nowrap>BirimAdi</th>
-                <th nowrap>PozisyonAdi</th>
-                <th nowrap>GecerlilikAyi</th>
-                <th nowrap>GecerlilikYili</th>
-                <th nowrap>DegisimTarihi</th>
-                <th nowrap>UcretTipi</th>
-                <th nowrap>DovizTipi</th>
-                <th nowrap>BirimUcret</th>
-                <th nowrap>GenelAylikUcret</th>
-                <th nowrap>RedNedeni</th>
-                <th nowrap>KayitTarih</th>
-                <th nowrap>KaydedenKullanici</th>
-                <th nowrap>GuncellemeTarihi</th>
-                <th nowrap>GuncelleyenKullanici</th>
-                <th nowrap>Aciklama</th>
+                <th nowrap>İşyeri Adı</th>
+                <th nowrap>Birim Adı</th>
+                <th nowrap>Pozisyon Adı</th>
+                <th nowrap>Geçerlilik Ayı</th>
+                <th nowrap>Geçerlilik Yılı</th>
+                <th nowrap>Değişim Tarihi</th>
+                <th nowrap>Ücret Tipi</th>
+                <th nowrap>Döviz Tipi</th>
+                <th nowrap>Birim Ücret</th>
+                <th nowrap>Genel Aylık Ücret</th>
+                <th nowrap>Red Nedeni</th>
+                <th nowrap>Kayıt Tarihi</th>
+                <th nowrap>Kaydeden Kullanıcı</th>
+                <th nowrap>Güncelleme Tarihi</th>
+                <th nowrap>Güncelleyen Kullanıcı</th>
+                <th nowrap>Açıklama</th>
             </tr>
         </thead>
     </table>
@@ -170,7 +170,7 @@
             else { row.child(newrow(x[0]["PERSONELID"])).show(); format(x[0]["PERSONELID"].toString().replace("/", "")); tr.addClass('shown'); }
         });
         $('#sample_1 tbody').on('click', 'tr', function () {
-            $("tr").removeClass("selected");
+            //$("tr").removeClass("selected");
             $(this).toggleClass('selected');
         });
         if (tip1 == 'Reddedilenler') {

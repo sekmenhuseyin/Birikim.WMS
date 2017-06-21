@@ -44,41 +44,17 @@
             margin: 0;
         }
 
-        .dx-header-row {
-            background-color: #86d8ea;
-            color: window;
-        }
-
-        .dx-state-readonly {
-            background-color: #e0dede !important;
-        }
-
-            .dx-state-readonly input {
-                background-color: #e0dede !important;
-            }
-
-
-        /*.dataTables_scrollHead {
-            width: 100% !important;
-        }
-
-        .dataTables_scrollHeadInner {
-            width: 100% !important;
-        }
-
-        .dataTables_scrollBody {
-            width: 100% !important;
-        }*/
         .btn {
             width: 120px;
             text-align: center;
         }
     </style>
 }
-<div class="row" style="margin-bottom:10px;">
+<div class="row" style="margin:10px 0;">
     <div class="rdgrpOnayRed" style="float:left; margin-left:20px;">
 
     </div>
+    <div style="width:120px;float:right;"><button type="button" class="btn btn-lg purple-intense yenile-buton" style="width:95%; margin-bottom:10px;">Yenile<i class="fa fa-refresh" style="margin-left:5px;"></i></button></div>
 </div>
 <div class="row">
     <div class="form-horizontal">
@@ -88,13 +64,13 @@
                     <div class="caption">
                         <i class="fa fa-gift"></i>Techno Ücret Onayları
                     </div>
-                    <div class="col-md-2 pull-right m-t-5">
+                    @*<div class="col-md-2 butondiv pull-right m-t-5">
                         <a class="btn btn-default pull-right input-circle ucret-yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
-                    </div>
-                    <div class="col-md-2 pull-right m-t-5">
+                    </div>*@
+                    <div class="col-md-2 butondiv pull-right m-t-5">
                         <a class="btn btn-default pull-right input-circle ucret-reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
                     </div>
-                    <div class="col-md-2 pull-right m-t-5">
+                    <div class="col-md-2 butondiv pull-right m-t-5">
                         <a class="btn btn-default pull-right input-circle ucret-onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
                     </div>
                 </div>
@@ -120,13 +96,13 @@
                     <div class="caption">
                         <i class="fa fa-gift"></i>Techno Prim Onayları
                     </div>
-                    <div class="col-md-2 pull-right m-t-5">
+                    @*<div class="col-md-2 butondiv pull-right m-t-5">
                         <a class="btn btn-default pull-right input-circle prim-yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
-                    </div>
-                    <div class="col-md-2 pull-right m-t-5">
+                    </div>*@
+                    <div class="col-md-2 butondiv pull-right m-t-5">
                         <a class="btn btn-default pull-right input-circle prim-reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
                     </div>
-                    <div class="col-md-2 pull-right m-t-5">
+                    <div class="col-md-2 butondiv pull-right m-t-5">
                         <a class="btn btn-default pull-right input-circle prim-onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
                     </div>
                 </div>
@@ -142,13 +118,13 @@
         </div>
     </div>
 </div>
-@*<div class="row">
-        <div class="row" id="techno_ucret_data" style="padding:5px;border:1px solid #dad2d2;">
-        </div>
-        <br />
-        <div class="row" id="techno_prim_data" style="margin-top:10px;padding:5px;border:1px solid #dad2d2;">
-        </div>
-    </div>*@
+<div class="row">
+    <div class="row" id="techno_ucret_data" style="padding:5px;border:1px solid #dad2d2;">
+    </div>
+    <br />
+    <div class="row" id="techno_prim_data" style="margin-top:10px;padding:5px;border:1px solid #dad2d2;">
+    </div>
+</div>
 <div class="modal fade" id="x-modal-sozlesme-guncelle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog" style="width:950px;">
         <div class="modal-content" style="height:280px;">
@@ -199,6 +175,7 @@
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script type="text/javascript">
         var Birim = "@ViewBag.Birim";
+        var OnayDurum = "@ViewBag.OnayDurum";
         var rdrValue = "OnayBekleyenler";
         var radioGroupItems = [
             { text: "Onay Bekleyenler", value: "OnayBekleyenler" },
@@ -209,7 +186,7 @@
                 dataSource: radioGroupItems,
                 displayExpr: "text",
                 valueExpr: "value",
-                value: "OnayBekleyenler",
+                value: OnayDurum,
                 layout: "horizontal",
                 onValueChanged: function (e) {
                     rdrValue = e.value;
@@ -231,10 +208,10 @@
         PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
         PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
         if (Birim == 'IK') {
-            $(".pull-right").css("display", "none");
+            $(".butondiv").css("display", "none");
         }
         else {
-            $(".pull-right").css("display", "block");
+            $(".butondiv").css("display", "block");
         }
         function newrow(PERSONELID) { return "<table style='background:transparent;' id='new" + PERSONELID + "'></table>"; }
         function format(d) {
@@ -266,6 +243,9 @@
         });
         $('.prim-yenile-buton').click(function () {
             window.location.reload();
+        });
+        $('.yenile-buton').click(function () {
+            window.location.href = '/Approvals/Techno/Index?onayRed=' + rdrValue;
         });
 
     </script>
