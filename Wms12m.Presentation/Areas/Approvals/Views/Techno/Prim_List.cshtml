@@ -168,13 +168,46 @@
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-            console.log(aData["Ocak"]);
+            console.log(aData["Mart"]);
             //console.log(nRow);
             //console.log(iDisplayIndex);
-            if (aData["Mart"] == 1) {
-                console.log("aaaaaa");
-                $('td', nRow).eq(13).css('background-color', 'Red');
+            if (aData["Ocak"] == 1) {
+                $('td', nRow).eq(11).css('background-color', '#32c5d2');
             }
+            if (aData["Subat"] == 1) {
+                $('td', nRow).eq(12).css('background-color', '#32c5d2');
+            }
+            if (aData["Mart"] == 1) {
+                $('td', nRow).eq(13).css('background-color', '#32c5d2');
+            }
+            if (aData["Nisan"] == 1) {
+                $('td', nRow).eq(14).css('background-color', '#32c5d2');
+            }
+            if (aData["Mayis"] == 1) {
+                $('td', nRow).eq(15).css('background-color', '#32c5d2');
+            }
+            if (aData["Haziran"] == 1) {
+                $('td', nRow).eq(16).css('background-color', '#32c5d2');
+            }
+            if (aData["Temmuz"] == 1) {
+                $('td', nRow).eq(17).css('background-color', '#32c5d2');
+            }
+            if (aData["Agustos"] == 1) {
+                $('td', nRow).eq(18).css('background-color', '#32c5d2');
+            }
+            if (aData["Eylul"] == 1) {
+                $('td', nRow).eq(19).css('background-color', '#32c5d2');
+            }
+            if (aData["Ekim"] == 1) {
+                $('td', nRow).eq(20).css('background-color', '#32c5d2');
+            }
+            if (aData["Kasim"] == 1) {
+                $('td', nRow).eq(21).css('background-color', '#32c5d2');
+            }
+            if (aData["Aralik"] == 1) {
+                $('td', nRow).eq(22).css('background-color', '#32c5d2');
+            }
+
             $('td', nRow).attr('nowrap', 'nowrap');
             return nRow;
         }
