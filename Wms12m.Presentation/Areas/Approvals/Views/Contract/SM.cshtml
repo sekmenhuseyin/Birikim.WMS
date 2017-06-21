@@ -1,10 +1,7 @@
 ﻿@{
     ViewBag.Title = "Sözleşme Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
-<link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
-<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-<style>
+}@section Styles{<style>
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
 </style>
@@ -38,11 +35,7 @@
 
     </div>
 </div>
-@section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="~/Content/assets/global/scripts/datatable.js"></script>
-<script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
-<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
-<script type="text/javascript">
+@section Scripts{<script type="text/javascript">
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#liste').html("");

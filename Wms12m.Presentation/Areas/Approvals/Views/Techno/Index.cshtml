@@ -1,85 +1,19 @@
 ﻿@{
     ViewBag.Title = "Sözleşme Tanım";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/devextreme/css/dx.light.min.css" rel="stylesheet" />
-    <style>
-        td.details-control {
-            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
-            cursor: pointer;
-        }
-
-        tr.shown td.details-control {
-            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
-        }
-
-        .input_content {
-            margin-bottom: 3px;
-            height: 40px;
-            line-height: 20px;
-        }
-
-        .input_label {
-            float: left;
-            width: 35%;
-            font-weight: bold;
-            color: #5bc8d2;
-            font-size: 9px;
-            padding-top: 4px;
-        }
-
-        .input {
-            float: left;
-            width: 60%;
-            font-size: 10px;
-            height: 30px;
-        }
-
-        .input_style {
-            background-color: rgba(245, 239, 239, 0.85);
-            padding: 10px;
-            margin: 0;
-        }
-
-        .dx-header-row {
-            background-color: #86d8ea;
-            color: window;
-        }
-
-        .dx-state-readonly {
-            background-color: #e0dede !important;
-        }
-
-            .dx-state-readonly input {
-                background-color: #e0dede !important;
-            }
-
-
-        /*.dataTables_scrollHead {
-            width: 100% !important;
-        }
-
-        .dataTables_scrollHeadInner {
-            width: 100% !important;
-        }
-
-        .dataTables_scrollBody {
-            width: 100% !important;
-        }*/
-        .btn {
-            width: 120px;
-            text-align: center;
-        }
-    </style>
-}
-<div class="row" style="margin-bottom:10px;">
-    <div class="rdgrpOnayRed" style="float:left; margin-left:20px;">
-
-    </div>
-</div>
+}@section Styles{<style>
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+    .input_content {margin-bottom: 3px;height: 40px;line-height: 20px;}
+    .input_label {float: left;width: 35%;font-weight: bold;color: #5bc8d2;font-size: 9px;padding-top: 4px;}
+    .input {float: left;width: 60%;font-size: 10px;height: 30px;}
+    .input_style {background-color: rgba(245, 239, 239, 0.85);padding: 10px;margin: 0;}
+    .dx-header-row {background-color: #86d8ea;color: window;}
+    .dx-state-readonly {background-color: #e0dede !important;}
+    .dx-state-readonly input {background-color: #e0dede !important;}
+    .btn {width: 120px;text-align: center;}
+</style>
+}<div class="row" style="margin-bottom:10px;"><div class="rdgrpOnayRed" style="float:left; margin-left:20px;"></div></div>
 <div class="row">
     <div class="form-horizontal">
         <div class="form-body">
@@ -107,8 +41,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
@@ -142,13 +74,6 @@
         </div>
     </div>
 </div>
-@*<div class="row">
-        <div class="row" id="techno_ucret_data" style="padding:5px;border:1px solid #dad2d2;">
-        </div>
-        <br />
-        <div class="row" id="techno_prim_data" style="margin-top:10px;padding:5px;border:1px solid #dad2d2;">
-        </div>
-    </div>*@
 <div class="modal fade" id="x-modal-sozlesme-guncelle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog" style="width:950px;">
         <div class="modal-content" style="height:280px;">
@@ -191,83 +116,74 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
-    <script src="~/Content/assets/global/scripts/datatable.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
-    <script type="text/javascript">
-        var Birim = "@ViewBag.Birim";
-        var rdrValue = "OnayBekleyenler";
-        var radioGroupItems = [
-            { text: "Onay Bekleyenler", value: "OnayBekleyenler" },
-            { text: "Reddedilenler", value: "Reddedilenler" }
-        ];
-        $(function () {
-            $(".rdgrpOnayRed").dxRadioGroup({
-                dataSource: radioGroupItems,
-                displayExpr: "text",
-                valueExpr: "value",
-                value: "OnayBekleyenler",
-                layout: "horizontal",
-                onValueChanged: function (e) {
-                    rdrValue = e.value;
-                    PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
-                    PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
-                    if (e.value == 'Reddedilenler') {
-                        //$(".pull-right").css("display", "none");
-                        table.columns([17]).visible(true, true);
-                        table2.columns([15]).visible(true, true);
-                    }
-                    else {
-                        //$(".pull-right").css("display", "block");
-                        table.columns([17]).visible(false, false);
-                        table2.columns([15]).visible(false, false);
-                    }
+@section Scripts{<script type="text/javascript">
+    var Birim = "@ViewBag.Birim";
+    var rdrValue = "OnayBekleyenler";
+    var radioGroupItems = [
+        { text: "Onay Bekleyenler", value: "OnayBekleyenler" },
+        { text: "Reddedilenler", value: "Reddedilenler" }
+    ];
+    $(function () {
+        $(".rdgrpOnayRed").dxRadioGroup({
+            dataSource: radioGroupItems,
+            displayExpr: "text",
+            valueExpr: "value",
+            value: "OnayBekleyenler",
+            layout: "horizontal",
+            onValueChanged: function (e) {
+                rdrValue = e.value;
+                PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
+                PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
+                if (e.value == 'Reddedilenler') {
+                    table.columns([17]).visible(true, true);
+                    table2.columns([15]).visible(true, true);
                 }
-            });
-        });
-        PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
-        PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
-        if (Birim == 'IK') {
-            $(".pull-right").css("display", "none");
-        }
-        else {
-            $(".pull-right").css("display", "block");
-        }
-        function newrow(PERSONELID) { return "<table style='background:transparent;' id='new" + PERSONELID + "'></table>"; }
-        function format(d) {
-            var html = "<tr style='background: transparent;'><th>Geçerlilik Ayı</th><th>Geçerlilik Yılı</th><th>Degisim Tarihi</th><th>Ucret Tipi</th><th>Döviz Tipi</th><th>Birim Ücret</th>< th >Genel Aylık Ücret</th><th>Brüt/Net</th></tr >";
-            $.ajax({
-                type: 'POST',
-                url: '/Approvals/Techno/EskiUcretData',
-                data: { "PERSONELID": d },
-                dataType: "html",
-                success: function (data) {
-                    $('#new' + d).html(data);
+                else {
+                    table.columns([17]).visible(false, false);
+                    table2.columns([15]).visible(false, false);
                 }
-            });
-        }
-        $('.ucret-onay-buton').click(function () {
-            UcretOnayla();
+            }
         });
-        $('.ucret-reddet-buton').click(function () {
-            UcretReddet();
+    });
+    PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
+    PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
+    if (Birim == 'IK') {
+        $(".pull-right").css("display", "none");
+    }
+    else {
+        $(".pull-right").css("display", "block");
+    }
+    function newrow(PERSONELID) { return "<table style='background:transparent;' id='new" + PERSONELID + "'></table>"; }
+    function format(d) {
+        var html = "<tr style='background: transparent;'><th>Geçerlilik Ayı</th><th>Geçerlilik Yılı</th><th>Degisim Tarihi</th><th>Ucret Tipi</th><th>Döviz Tipi</th><th>Birim Ücret</th>< th >Genel Aylık Ücret</th><th>Brüt/Net</th></tr >";
+        $.ajax({
+            type: 'POST',
+            url: '/Approvals/Techno/EskiUcretData',
+            data: { "PERSONELID": d },
+            dataType: "html",
+            success: function (data) {
+                $('#new' + d).html(data);
+            }
         });
-        $('.ucret-yenile-buton').click(function () {
-            window.location.reload();
-        });
-        $('.prim-onay-buton').click(function () {
-            PrimOnayla();
-        });
-        $('.prim-reddet-buton').click(function () {
-            PrimReddet();
-        });
-        $('.prim-yenile-buton').click(function () {
-            window.location.reload();
-        });
+    }
+    $('.ucret-onay-buton').click(function () {
+        UcretOnayla();
+    });
+    $('.ucret-reddet-buton').click(function () {
+        UcretReddet();
+    });
+    $('.ucret-yenile-buton').click(function () {
+        window.location.reload();
+    });
+    $('.prim-onay-buton').click(function () {
+        PrimOnayla();
+    });
+    $('.prim-reddet-buton').click(function () {
+        PrimReddet();
+    });
+    $('.prim-yenile-buton').click(function () {
+        window.location.reload();
+    });
 
-    </script>
+</script>
 }
-
