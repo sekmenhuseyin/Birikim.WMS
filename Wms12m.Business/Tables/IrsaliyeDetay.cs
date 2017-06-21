@@ -78,7 +78,16 @@ namespace Wms12m.Business
                         Birim = tbl.Birim,
                         Miktar = tbl.Miktar
                     };
-                    if (tbl.MakaraNo != "") tablo.MakaraNo = tbl.MakaraNo;
+                    if (tbl.MakaraNo != "")
+                    {
+                        var tmpx = db.IRS_Detay.Where(m => m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
+                        if (tmpx != null)
+                        {
+                            _Result.Message = "Bu makara no kullanılıyor";
+                            return _Result;
+                        }
+                        tablo.MakaraNo = tbl.MakaraNo;
+                    }
                     db.IRS_Detay.Add(tablo);
                     db.SaveChanges();
                     //set aktif
@@ -93,8 +102,6 @@ namespace Wms12m.Business
                 {
                     Logger(ex, "Business/IrsaliyeDetay/Insert");
                     _Result.Message = ex.Message;
-                    _Result.Status = false;
-                    _Result.Id = 0;
                 }
             }
             return _Result;

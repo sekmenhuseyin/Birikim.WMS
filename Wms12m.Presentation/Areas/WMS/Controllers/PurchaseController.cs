@@ -73,8 +73,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             var tbl = db.IRS_Detay.Where(m => m.ID == ID).FirstOrDefault();
-            if (mNo != "") tbl.MakaraNo = mNo;
             tbl.Miktar = M;
+            if (mNo != "")
+            {
+                var tmpx = db.IRS_Detay.Where(m => m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
+                if (tmpx != null)
+                    return Json(new Result(false, "Bu makara no kullanılıyor"), JsonRequestBehavior.AllowGet);
+                tbl.MakaraNo = mNo;
+            }
             try
             {
                 db.SaveChanges();

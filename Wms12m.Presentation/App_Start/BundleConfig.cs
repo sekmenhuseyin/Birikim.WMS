@@ -41,7 +41,7 @@ namespace Wms12m.Presentation
                 // JSZip for client side export
                 .Include("~/Content/assets/global/plugins/jszip.min.js")
                 // DevExtreme + extensions
-                .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.web.js")
+                //.Include("~/Content/assets/global/plugins/DevExtreme/js/dx.web.js")
                 .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.all.js")
                 .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.aspnet.data.js")
                 .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.aspnet.mvc.js")
