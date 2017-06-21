@@ -53,6 +53,7 @@
                 <th nowrap>Ödenek Kodu</th>
 
                 <th nowrap>Red Nedeni</th>
+                <th nowrap>Reddeden Kullanıcı</th>
 
                 <th nowrap>Ocak</th>
                 <th nowrap>Şubat</th>
@@ -146,6 +147,7 @@
             { "data": "DovizTipMemur" },
             { "data": "OdenekKodu" },
             { "data": "RedNedeni" },
+            { "data": "Reddeden" },
             { "data": "Ocak", "render": simple_checkbox, "className": "dt-center"},
             { "data": "Subat", "render": simple_checkbox, "className": "dt-center"},
             { "data": "Mart", "render": simple_checkbox, "className": "dt-center"},
@@ -214,9 +216,11 @@
     });
     if (tip2 == 'Reddedilenler') {
         table2.columns([13]).visible(true, true);
+        table2.columns([14]).visible(true, true);
     }
     else {
         table2.columns([13]).visible(false, false);
+        table2.columns([14]).visible(false, false);
     }
 
     $('#sample_2 tbody').on('click', 'tr', function () {

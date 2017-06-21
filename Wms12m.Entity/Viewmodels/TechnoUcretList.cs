@@ -43,6 +43,7 @@ namespace Wms12m.Entity
         public string BrutNet { get; set; }
         public int ID { get; set; }
         public string RedNedeni { get; set; }
+        public string Reddeden { get; set; }
 
     }
 }
