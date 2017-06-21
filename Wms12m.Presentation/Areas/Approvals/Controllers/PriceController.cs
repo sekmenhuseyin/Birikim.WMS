@@ -1726,19 +1726,13 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                             }
                         }
                     }
-                }
-                catch (Exception)
-                {
-                    return "NO";
-                }
-                try
-                {
                     db.SaveChanges();
                     dbContextTransaction.Commit();
                     return "OK";
                 }
                 catch (Exception)
                 {
+                    sqlexper.RollBack();
                     return "NO";
                 }
             }

@@ -204,7 +204,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         var ID = insertObj["ID"];
 
-                        string s = string.Format("[HR0312M].[dbo].[TCH_UcretRedUpdate] @ID={0},@RedNeden='{1}'", ID, RedNeden);
+                        string s = string.Format("[HR0312M].[dbo].[TCH_UcretRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Ucret_Reddet", ComboItems.alRed, ID.ToInt32(), insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + "'ın ücret değişimi reddedildi.");
                     }
@@ -245,7 +245,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     foreach (JObject insertObj in parameters)
                     {
                         var ID = insertObj["ID"];
-                        string s = string.Format("[HR0312M].[dbo].[TCH_PrimRedUpdate] @ID={0},@RedNeden='{1}'", ID, RedNeden);
+                        string s = string.Format("[HR0312M].[dbo].[TCH_PrimRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Prim_Reddet", ComboItems.alRed, ID.ToInt32(), insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + "'ın prim değişimi reddedildi.");
                     }
