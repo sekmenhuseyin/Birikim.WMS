@@ -1250,10 +1250,10 @@
   </wsdl:binding>
   <wsdl:service name="Terminal">
     <wsdl:port name="TerminalSoap" binding="tns:TerminalSoap">
-      <soap:address location="http://localhost:3841/service/terminal.asmx" />
+      <soap:address location="http://88.248.139.219/service/terminal.asmx" />
     </wsdl:port>
     <wsdl:port name="TerminalSoap12" binding="tns:TerminalSoap12">
-      <soap12:address location="http://localhost:3841/service/terminal.asmx" />
+      <soap12:address location="http://88.248.139.219/service/terminal.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

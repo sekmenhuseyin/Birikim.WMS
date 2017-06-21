@@ -126,7 +126,7 @@
     <script type="text/javascript">
         var Birim = "@ViewBag.Birim";
         var OnayDurum = "@ViewBag.OnayDurum";
-        var rdrValue = "OnayBekleyenler";
+        var rdrValue = OnayDurum;
         var radioGroupItems = [
             { text: "Onay Bekleyenler", value: "OnayBekleyenler" },
             { text: "Reddedilenler", value: "Reddedilenler" }
@@ -145,12 +145,14 @@
                     if (e.value == 'Reddedilenler') {
                         //$(".pull-right").css("display", "none");
                         table.columns([17]).visible(true, true);
+                        table.columns([18]).visible(true, true);
                         table2.columns([15]).visible(true, true);
                         table2.columns([16]).visible(true, true);
                     }
                     else {
                         //$(".pull-right").css("display", "block");
                         table.columns([17]).visible(false, false);
+                        table.columns([18]).visible(false, false);
                         table2.columns([15]).visible(false, false);
                         table2.columns([16]).visible(false, false);
                     }

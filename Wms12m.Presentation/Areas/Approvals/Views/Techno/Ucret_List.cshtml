@@ -59,6 +59,7 @@
                 <th nowrap>Birim Ücret</th>
                 <th nowrap>Genel Aylık Ücret</th>
                 <th nowrap>Red Nedeni</th>
+                <th nowrap>Reddeden Kullanıcı</th>
                 <th nowrap>Kayıt Tarihi</th>
                 <th nowrap>Kaydeden Kullanıcı</th>
                 <th nowrap>Güncelleme Tarihi</th>
@@ -134,6 +135,7 @@
                 { "data": "BirimUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "GenelAylikUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "RedNedeni" },
+                { "data": "Reddeden" },
                 { "data": "KayitTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
                 { "data": "KaydedenKullanici" },
                 { "data": "GuncellemeTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
@@ -174,10 +176,10 @@
             $(this).toggleClass('selected');
         });
         if (tip1 == 'Reddedilenler') {
-            table.columns([15, 16, 17]).visible(true, true);
+            table.columns([15, 16]).visible(true, true);
         }
         else {
-            table.columns([15, 16, 17]).visible(false, false);
+            table.columns([15, 16]).visible(false, false);
         }
         //table.columns([3,4] ).visible(false,false);
     });
