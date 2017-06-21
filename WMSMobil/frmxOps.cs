@@ -648,8 +648,8 @@ namespace WMSMobil
                     tBirim.Text = temp_sti.Birim;
                     tMalAdi.Text = temp_sti.MalAdi;
                     tRaf.Text = temp_sti.Raf;
-                    tYerlestirmeMiktari.Text = (sender == btnUygula) ? tMiktar.Text : "1";
-                    tIslemMiktar.Text = tMiktar.Text;
+                    tYerlestirmeMiktari.Text = tMiktar.Text;
+                    tIslemMiktar.Text = (sender == btnUygula) ? temp_sti.Miktar.ToString("N2") : "1";
 
                     tMalKodu.Tag = temp_sti.ID.ToInt32();
 
@@ -658,8 +658,8 @@ namespace WMSMobil
                     panelSatir.MalKodu = temp_sti.MalKodu;
                     panelSatir.Miktar = temp_sti.Miktar;
                     panelSatir.Birim = temp_sti.Birim;
-                    panelSatir.IslemMiktar = (sender == btnUygula) ? tMiktar.Text.ToInt32() : 1;
-                    panelSatir.YerlestirmeMiktari = temp_sti.YerlestirmeMiktari;
+                    panelSatir.IslemMiktar = temp_sti.YerlestirmeMiktari;
+                    panelSatir.YerlestirmeMiktari = (sender == btnUygula) ? tMiktar.Text.ToInt32() : 1;
                     panelSatir.Raf = temp_sti.Raf;
 
                     panelSatir.Controls.Add(tBarkod);
