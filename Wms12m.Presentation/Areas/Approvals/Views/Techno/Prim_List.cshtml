@@ -46,7 +46,7 @@
                 <th nowrap>IsyeriAdi</th>
                 <th nowrap>BirimAdi</th>
                 <th nowrap>PozisyonAdi</th>
-                <th nowrap>Tutar İşçi</th>
+                <th nowrap>Tutarİşçi</th>
                 <th nowrap>TutarMemur</th>
                 <th nowrap>DovizTipIsci</th>
                 <th nowrap>DovizTipMemur</th>
@@ -112,6 +112,12 @@
     var secili_satir = new Array();
     var secili_table = new Array();
     $(".txtPrimRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
+    var simple_checkbox = function (data, type, full, meta) {
+        console.log(data);
+        var is_checked = data == 1 ? "checked" : "";
+        return '<input type="checkbox" class="checkbox" disabled  ' +
+            is_checked + ' />';
+    }
     var table2 = $('#sample_2').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
@@ -121,11 +127,11 @@
             },
         },
         //"responsive": true,
-        "fixedHeader": true,
-        "scrollX": true,
-        "scrollY": '30vh',
-        "scrollCollapse": true,
-        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [8, 9] }, { "visible": false, "targets": [0, 1] }],
+        //"fixedHeader": true,
+        //"scrollX": true,
+        //"scrollY": '30vh',
+        //"scrollCollapse": true,
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [8, 9] }, { "visible": false, "targets": [0, 1] }, { "className": "dt-center", "targets": "_all" }],
         "columns": [
             { "data": "PERSONELID" },
             { "data": "ID" },
@@ -140,33 +146,26 @@
             { "data": "DovizTipIsci" },
             { "data": "DovizTipMemur" },
             { "data": "OdenekKodu" },
-
             { "data": "RedNedeni" },
-
-            { "data": "Ocak" },
-            { "data": "Subat" },
-            { "data": "Mart" },
-            { "data": "Nisan" },
-            { "data": "Mayis" },
-            { "data": "Haziran" },
-            { "data": "Temmuz" },
-            { "data": "Agustos" },
-            { "data": "Eylul" },
-            { "data": "Ekim" },
-            { "data": "Kasim" },
-            { "data": "Aralik" },
+            { "data": "Ocak", "render": simple_checkbox, "className": "dt-center"},
+            { "data": "Subat", "render": simple_checkbox, "className": "dt-center"},
+            { "data": "Mart", "render": simple_checkbox, "className": "dt-center"},
+            { "data": "Nisan", "render": simple_checkbox, "className": "dt-center" },
+            { "data": "Mayis", "render": simple_checkbox, "className": "dt-center"},
+            { "data": "Haziran", "render": simple_checkbox, "className": "dt-center" },
+            { "data": "Temmuz", "render": simple_checkbox, "className": "dt-center" },
+            { "data": "Agustos", "render": simple_checkbox, "className": "dt-center" },
+            { "data": "Eylul", "render": simple_checkbox, "className": "dt-center"},
+            { "data": "Ekim", "render": simple_checkbox, "className": "dt-center" },
+            { "data": "Kasim", "render": simple_checkbox, "className": "dt-center" },
+            { "data": "Aralik", "render": simple_checkbox, "className": "dt-center"},
             { "data": "Yil" },
 
             { "data": "KayitTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
             { "data": "KaydedenKullanici" },
             { "data": "GuncellemeTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
             { "data": "GuncelleyenKullanici" },
-            { "data": "Aciklama" },
-            //{
-            //    "render": function ( data, type, full, meta ) {
-            //        return table.saveContact(full);
-            //    }
-            //},
+            { "data": "Aciklama" }
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -175,10 +174,10 @@
         }
     });
     if (tip2 == 'Reddedilenler') {
-        table2.columns([15]).visible(true, true);
+        table2.columns([13]).visible(true, true);
     }
     else {
-        table2.columns([15]).visible(false, false);
+        table2.columns([13]).visible(false, false);
     }
 
     $('#sample_2 tbody').on('click', 'tr', function () {

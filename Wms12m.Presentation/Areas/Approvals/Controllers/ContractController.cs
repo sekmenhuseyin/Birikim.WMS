@@ -1051,8 +1051,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             }
                         }
                         string s = string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",", "."));
-                        db.Database.ExecuteSqlCommand(s);
-
+                        //db.Database.ExecuteSqlCommand(s);
+                        var xx = db.Database.SqlQuery<int>(s).ToList();
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
                         if (kontrol)
                             return SozlesmeSiraNo;
                         else
@@ -1063,15 +1065,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         return hata.Message;
                     }
-                    try
-                    {
-                        db.SaveChanges();
-                        dbContextTransaction.Commit();
-                    }
-                    catch (Exception)
-                    {
-                        return "NO";
-                    }
+                    //try
+                    //{
+
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    return "NO";
+                    //}
                 }
 
             }

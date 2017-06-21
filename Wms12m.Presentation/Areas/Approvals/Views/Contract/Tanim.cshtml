@@ -425,17 +425,30 @@
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
                         info.component.option("value", deger);
                         event.stopPropagation();
                         event.preventDefault();
                     }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
                 },
                 onValueChanged: function (e) {
                     var deger = ondalikBinlik(e.value)
                     e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                 }
 
             });
@@ -444,219 +457,21 @@
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        console.log(info.component.option("value"));
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                }
-            });
-            $(".numb_iskonto2").dxTextBox({
-                mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                }
-            });
-            $(".numb_iskonto3").dxTextBox({
-                mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                }
-            });
-            $(".numb_iskonto4").dxTextBox({
-                mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                }
-            });
-            $(".numb_iskonto5").dxTextBox({
-                mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                }
-            });
-            $(".numb_valor_gun").dxTextBox({
-                mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                }
-            });
-            $(".numb_kredi_limiti").dxTextBox({
-                mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                },
-                readOnly: true
-            });
-            $(".numb_bakiye").dxTextBox({
-                mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                },
-                readOnly: true
-            });
-            $(".numb_toplam_bakiye").dxTextBox({
-                mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                },
-                readOnly: true
-            });
-            $(".numb_bekleyen_siparis").dxTextBox({
-                mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                },
-                readOnly: true
-            });
-            $(".numb_alinan_bordro").dxTextBox({
-                mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                },
-                readOnly: true
-            });
-            $(".numb_alinan_cek_tutari").dxTextBox({
-                //mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
-                        var val = info.component.option("value");
+                        var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
                         info.component.option("value", deger);
                         event.stopPropagation();
                         event.preventDefault();
                     }
                     else if (event.keyCode == 44) {
-
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
                     }
                 },
                 onValueChanged: function (e) {
@@ -668,43 +483,415 @@
                     //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                 }
             });
+            $(".numb_iskonto2").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                }
+            });
+            $(".numb_iskonto3").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                }
+            });
+            $(".numb_iskonto4").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                }
+            });
+            $(".numb_iskonto5").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                }
+            });
+            $(".numb_valor_gun").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                }
+            });
+            $(".numb_kredi_limiti").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                },
+                readOnly: true
+            });
+            $(".numb_bakiye").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                },
+                readOnly: true
+            });
+            $(".numb_toplam_bakiye").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                },
+                readOnly: true
+            });
+            $(".numb_bekleyen_siparis").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                },
+                readOnly: true
+            });
+            $(".numb_alinan_bordro").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                },
+                readOnly: true
+            });
+            $(".numb_alinan_cek_tutari").dxTextBox({
+                mode: "fixed-point",
+                value: 0,
+                onKeyPress: function (info) {
+                    var event = info.jQueryEvent;
+                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                        var val = info.component.option("text");
+                        var deger = ondalikBinlik(val)
+                        info.component.option("value", deger);
+                        event.stopPropagation();
+                        event.preventDefault();
+                    }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                },
+                onValueChanged: function (e) {
+                    var deger = ondalikBinlik(e.value)
+                    e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                    event.stopPropagation();
+                    event.preventDefault();
+                
+                }
+            });
             $(".numb_alinan_nakit_vb").dxTextBox({
                 mode: "fixed-point",
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
-                        var val = info.component.option("value");
+                        var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
                         info.component.option("value", deger);
                         event.stopPropagation();
                         event.preventDefault();
                     }
+                    else if (event.keyCode == 44) {
+                        var val = info.component.option("text");
+                        if (val.toString().indexOf(",") > 0) {
+                            var deger = ondalikBinlik(val)
+                            info.component.option("value", deger);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
                 },
                 onValueChanged: function (e) {
                     var deger = ondalikBinlik(e.value)
                     e.component.option("value", deger);
-                    //var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                    event.stopPropagation();
+                    event.preventDefault();
+                    
                 }
             });
             $(".numb_toplam_tahsilat").dxTextBox({
-                mode: "fixed-point",
+                //mode: "fixed-point",
                 value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44 && event.keyCode != 46) {
-                        var val = info.component.option("value");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                },
+                //onKeyPress: function (info) {
+                //    var event = info.jQueryEvent;
+                //    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                //        var val = info.component.option("text");
+                //        var deger = ondalikBinlik(val)
+                //        info.component.option("value", deger);
+                //        event.stopPropagation();
+                //        event.preventDefault();
+                //    }
+                //    else if (event.keyCode == 44) {
+                //        var val = info.component.option("text");
+                //        if (val.toString().indexOf(",") > 0) {
+                //            var deger = ondalikBinlik(val)
+                //            info.component.option("value", deger);
+                //            event.stopPropagation();
+                //            event.preventDefault();
+                //        }
+                //    }
+                //},
+                //onValueChanged: function (e) {
+                //    var deger = ondalikBinlik(e.value)
+                //    e.component.option("value", deger);
+                //    event.stopPropagation();
+                //    event.preventDefault();
+                //    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                //    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+                //},
                 readOnly: true
             });
             var bagTipi = [{ Tip: "Peşin" }, { Tip: "Vadeli" }, { Tip: "Kredi Kart" }, { Tip: "Kampanya" }]
