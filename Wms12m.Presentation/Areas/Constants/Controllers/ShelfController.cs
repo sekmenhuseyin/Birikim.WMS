@@ -90,7 +90,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                     List.Add(new SelectListItem
                     {
                         Selected = false,
-                        Text = item.RafAd,
+                        Text = item.Koridor.KoridorAd + "-" + item.RafAd,
                         Value = item.ID.ToString()
                     });
                 }
@@ -121,7 +121,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                     List.Add(new SelectListItem
                     {
                         Selected = false,
-                        Text = item.RafAd,
+                        Text = item.Koridor.KoridorAd + "-" +item.RafAd,
                         Value = item.ID.ToString()
                     });
                 }
