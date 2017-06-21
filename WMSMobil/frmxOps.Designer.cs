@@ -32,7 +32,7 @@
             this.panelUst = new System.Windows.Forms.Panel();
             this.txtRafBarkod = new System.Windows.Forms.TextBox();
             this.txtBarkod = new System.Windows.Forms.TextBox();
-            this.btnUygula = new System.Windows.Forms.Button();
+            this.btnEkle = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -53,6 +53,7 @@
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnKaydet = new System.Windows.Forms.Button();
+            this.btnUygula = new System.Windows.Forms.Button();
             this.panelUst.SuspendLayout();
             this.panelOrta.SuspendLayout();
             this.panelAlt.SuspendLayout();
@@ -61,9 +62,10 @@
             // panelUst
             // 
             this.panelUst.BackColor = System.Drawing.Color.Transparent;
+            this.panelUst.Controls.Add(this.btnUygula);
             this.panelUst.Controls.Add(this.txtRafBarkod);
             this.panelUst.Controls.Add(this.txtBarkod);
-            this.panelUst.Controls.Add(this.btnUygula);
+            this.panelUst.Controls.Add(this.btnEkle);
             this.panelUst.Controls.Add(this.label7);
             this.panelUst.Controls.Add(this.label4);
             this.panelUst.Controls.Add(this.panel2);
@@ -94,16 +96,16 @@
             this.txtBarkod.TabIndex = 1;
             this.txtBarkod.GotFocus += new System.EventHandler(this.txt_GotFocus);
             // 
-            // btnUygula
+            // btnEkle
             // 
-            this.btnUygula.BackColor = System.Drawing.Color.SkyBlue;
-            this.btnUygula.ForeColor = System.Drawing.Color.Black;
-            this.btnUygula.Location = new System.Drawing.Point(181, 2);
-            this.btnUygula.Name = "btnUygula";
-            this.btnUygula.Size = new System.Drawing.Size(57, 43);
-            this.btnUygula.TabIndex = 2;
-            this.btnUygula.Text = "Ekle";
-            this.btnUygula.Click += new System.EventHandler(this.btnUygula_Click);
+            this.btnEkle.BackColor = System.Drawing.Color.SkyBlue;
+            this.btnEkle.ForeColor = System.Drawing.Color.Black;
+            this.btnEkle.Location = new System.Drawing.Point(181, 24);
+            this.btnEkle.Name = "btnEkle";
+            this.btnEkle.Size = new System.Drawing.Size(57, 21);
+            this.btnEkle.TabIndex = 2;
+            this.btnEkle.Text = "Ekle";
+            this.btnEkle.Click += new System.EventHandler(this.btnUygula_Click);
             // 
             // label7
             // 
@@ -303,6 +305,17 @@
             this.btnKaydet.Text = "Kaydet";
             this.btnKaydet.Click += new System.EventHandler(this.btnKaydet_Click);
             // 
+            // btnUygula
+            // 
+            this.btnUygula.BackColor = System.Drawing.Color.SkyBlue;
+            this.btnUygula.ForeColor = System.Drawing.Color.Black;
+            this.btnUygula.Location = new System.Drawing.Point(181, 2);
+            this.btnUygula.Name = "btnUygula";
+            this.btnUygula.Size = new System.Drawing.Size(57, 21);
+            this.btnUygula.TabIndex = 9;
+            this.btnUygula.Text = "+";
+            this.btnUygula.Click += new System.EventHandler(this.btnUygula_Click);
+            // 
             // frmxOps
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -343,12 +356,13 @@
         private System.Windows.Forms.Button btnKaydet;
         private System.Windows.Forms.TextBox txtBarkod;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnUygula;
+        private System.Windows.Forms.Button btnEkle;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtRafBarkod;
         private System.Windows.Forms.Label label7;
         public System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.Button btnUygula;
     }
 }

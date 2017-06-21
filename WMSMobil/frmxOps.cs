@@ -416,7 +416,7 @@ namespace WMSMobil
                             {
                                 raf_var = true;
                                 itemPanel.Controls[5].Text = raf;
-                                itemPanel.Controls[6].Text = itemPanel.Controls[3].Text;
+                                itemPanel.Controls[6].Text = (sender == btnUygula) ? itemPanel.Controls[3].Text : (itemPanel.Controls[6].Text.ToDecimal() + 1).ToString();//okutulan miktar farklı sütunda olduğu için burada yazdım kontorllü sayımı
                                 foreach (Control item in itemPanel.Controls)
                                     item.BackColor = Color.DarkOrange;
                             }
@@ -446,7 +446,7 @@ namespace WMSMobil
                         {
                             raf_var = true;
                             itemPanel.Controls[5].Text = raf;
-                            itemPanel.Controls[7].Text = itemPanel.Controls[3].Text;
+                            itemPanel.Controls[7].Text = (sender == btnUygula) ? itemPanel.Controls[3].Text : (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
                             foreach (Control item in itemPanel.Controls)
                                 item.BackColor = Color.DarkOrange;
                         }
@@ -541,7 +541,7 @@ namespace WMSMobil
                 panelSatir.MalKodu = tMalKodu.Text;
                 panelSatir.Miktar = 0;
                 panelSatir.Birim = malbilgileri.Birim;
-                panelSatir.YerlestirmeMiktari = 1;
+                panelSatir.YerlestirmeMiktari = (sender == btnUygula) ? tMiktar.Text.ToDecimal() : temp_sti.Miktar;
                 panelSatir.Raf = raf;
 
                 panelSatir.Controls.Add(tBarkod);
@@ -556,7 +556,7 @@ namespace WMSMobil
                 PanelVeriList.Add(panelSatir);
             }
             //bunlarda da aynı maldan yeni raf ekle
-            if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.TransferGiriş)
+            else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.TransferGiriş)
             {
                 if (raf_var)
                     return;
@@ -648,7 +648,7 @@ namespace WMSMobil
                     tBirim.Text = temp_sti.Birim;
                     tMalAdi.Text = temp_sti.MalAdi;
                     tRaf.Text = temp_sti.Raf;
-                    tYerlestirmeMiktari.Text = tMiktar.Text;
+                    tYerlestirmeMiktari.Text = (sender == btnUygula) ? tMiktar.Text : "1";
                     tIslemMiktar.Text = tMiktar.Text;
 
                     tMalKodu.Tag = temp_sti.ID.ToInt32();
@@ -658,7 +658,7 @@ namespace WMSMobil
                     panelSatir.MalKodu = temp_sti.MalKodu;
                     panelSatir.Miktar = temp_sti.Miktar;
                     panelSatir.Birim = temp_sti.Birim;
-                    panelSatir.IslemMiktar = tMiktar.Text.ToDecimal();
+                    panelSatir.IslemMiktar = (sender == btnUygula) ? tMiktar.Text.ToInt32() : 1;
                     panelSatir.YerlestirmeMiktari = temp_sti.YerlestirmeMiktari;
                     panelSatir.Raf = temp_sti.Raf;
 
@@ -675,6 +675,11 @@ namespace WMSMobil
                     PanelVeriList.Add(panelSatir);
                 }
                 else
+                    Mesaj.Uyari("Göreve ait böyle bir MalKodu bulunmamaktadır.");
+            }
+            else if (Ayarlar.MenuTip == MenuType.SiparisToplama)
+            { 
+                if (!raf_var || !mal_var)
                     Mesaj.Uyari("Göreve ait böyle bir MalKodu bulunmamaktadır.");
             }
         }
