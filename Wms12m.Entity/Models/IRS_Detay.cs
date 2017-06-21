@@ -19,15 +19,15 @@ namespace Wms12m.Entity.Models
         public string MalKodu { get; set; }
         public decimal Miktar { get; set; }
         public string Birim { get; set; }
+        public string MakaraNo { get; set; }
         public Nullable<int> KynkSiparisID { get; set; }
         public string KynkSiparisNo { get; set; }
         public Nullable<short> KynkSiparisSiraNo { get; set; }
         public Nullable<int> KynkSiparisTarih { get; set; }
         public Nullable<decimal> KynkSiparisMiktar { get; set; }
+        public Nullable<int> KynkDegisSaat { get; set; }
         public Nullable<decimal> OkutulanMiktar { get; set; }
         public Nullable<decimal> YerlestirmeMiktari { get; set; }
-        public Nullable<int> KynkDegisSaat { get; set; }
-        public string MakaraNo { get; set; }
     
         public virtual IR IR { get; set; }
     }

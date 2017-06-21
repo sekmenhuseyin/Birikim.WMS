@@ -37,7 +37,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Depo> Depoes { get; set; }
         public virtual DbSet<Gorev> Gorevs { get; set; }
         public virtual DbSet<GorevYer> GorevYers { get; set; }
-        public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
         public virtual DbSet<Koridor> Koridors { get; set; }
         public virtual DbSet<Olcu> Olcus { get; set; }
         public virtual DbSet<Raf> Rafs { get; set; }
@@ -59,6 +58,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Gorevler> Gorevlers { get; set; }
         public virtual DbSet<Musteri> Musteris { get; set; }
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
+        public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

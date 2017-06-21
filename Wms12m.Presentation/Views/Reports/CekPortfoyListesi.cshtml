@@ -1,10 +1,6 @@
 ﻿@{
     ViewBag.Title = "CekPortfoyListesi";
 }@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-<link href="~/Content/assets/global/plugins/devextreme/css/dx.common.min.css" rel="stylesheet" />
-<link href="~/Content/assets/global/plugins/devextreme/css/dx.light.min.css" rel="stylesheet" />
-<link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" />
-<link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
 <style>
     .dx-datagrid-headers .dx-row {
         color: white;
@@ -15,7 +11,6 @@
         background: -ms-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
         background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
     }
-
     .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
         color: white;
     }
@@ -47,11 +42,7 @@
 </div>
 <div id="cek-portfoy-grid" style="margin-top:20px;left:10px;"></div>
 @section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
 <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-<script src="~/Content/assets/global/scripts/datatable.js"></script>
-<script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
-<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
 <script>
     $(document).ready(function () {
         var dateVal = new Date();

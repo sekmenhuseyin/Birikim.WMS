@@ -3,7 +3,6 @@ String.prototype.addAt = function (index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length - 1);
 }
 // Sayılara ondalık binlik ayraçları eklemek için
-// Sonrasında ondalık miktarıda parametreden gelecek şekilde ayarlanabilir
 function ondalikBinlik(Val) {
     if (Val == null || Val == undefined || Val == 0) {
         return 0;
@@ -60,30 +59,10 @@ function ondalikBinlik(Val) {
     }
 };
 // Ondalık Binliğe cevrilen değeri decimal'a çevirme
-// Sonrasında ondalık miktarıda parametreden gelecek şekilde ayarlanabilir
 function jDecimal(Val) {
     var decVal = parseFloat(Val);
     decVal = Val.toString().replace(/\./g, "").replace(",", ".");
     return parseFloat(decVal);
-    //if ((Val.toString().indexOf(",") > 0) && (Val.toString().indexOf(".") > 0) && (Val.toString().indexOf(",") > Val.toString().indexOf("."))) {
-    //    decVal = Val.toString().replace(/\./g, "").replace(",", ".");
-    //    return parseFloat(decVal);
-    //}
-    //else if ((Val.toString().indexOf(",") > 0) && (Val.toString().indexOf(".") == -1)) {
-    //    decVal = Val.toString().replace(/\,/g, ".");
-    //    //decVal = decVal.repalce(/,/g , ".");
-    //    //console.log(parseFloat(decVal));
-    //    return parseFloat(decVal);
-    //}
-    //else if ((Val.toString().indexOf(",") > 0) && (Val.toString().indexOf(".") > 0) && (Val.toString().indexOf(",") < Val.toString().indexOf("."))) {
-    //    decVal = Val.toString(2).replace(/,/g, "");
-    //    //console.log(parseFloat(decVal));
-    //    return parseFloat(decVal);
-    //}
-    //else {
-    //    //console.log(parseFloat(decVal));
-    //    return parseFloat(decVal);
-    //}
 }
 //hepsini değiştir
 function replaceAll(str, find, replace) {

@@ -16,8 +16,21 @@ namespace Wms12m.Presentation
             var styleBundle = new StyleBundle(CssBundle);
             // scripts
             scriptBundle
+                // CLDR scripts
+                .Include("~/Content/assets/global/plugins/cldr/cldr.min.js")
+                .Include("~/Content/assets/global/plugins/cldr/event.min.js")
+                .Include("~/Content/assets/global/plugins/cldr/supplemental.min.js")
+                .Include("~/Content/assets/global/plugins/cldr/unresolved.min.js")
+                // Globalize 1.x
+                .Include("~/Content/assets/global/plugins/globalize/globalize.min.js")
+                .Include("~/Content/assets/global/plugins/globalize/number.min.js")
+                .Include("~/Content/assets/global/plugins/globalize/currency.min.js")
+                .Include("~/Content/assets/global/plugins/globalize/date.min.js")
+                .Include("~/Content/assets/global/plugins/globalize/message.min.js")
+                //jquery
                 .Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js")
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
+                //plugins
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.unobtrusive-ajax.min.js")
@@ -25,19 +38,38 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js")
                 .Include("~/Content/assets/global/plugins/bootbox/bootbox.min.js")
                 .Include("~/Content/assets/global/plugins/js.cookie.min.js")
+                // JSZip for client side export
+                .Include("~/Content/assets/global/plugins/jszip.min.js")
+                // DevExtreme + extensions
+                .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.all.js")
+                .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.aspnet.data.js")
+                .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.aspnet.mvc.js")
+                //datatables
+                .Include("~/Content/assets/global/plugins/datatables/dataTables.min.js")
+                .Include("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js")
+                .Include("~/Content/assets/global/scripts/datatable.min.js")
+                //theme scripts
                 .Include("~/Content/assets/global/scripts/app.min.js")
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
                 .Include("~/Content/Scripts/Operation.min.js")
                 .Include("~/Content/Scripts/MessageBox.min.js")
-                .Include("~/Content/Scripts/Functions.js")
+                .Include("~/Content/Scripts/Functions.min.js")
                 ;
             // styles
             styleBundle
+                // DevExtreme
+                .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.common.css")
+                .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.spa.css")
+                .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.light.css")
+                //theme
                 .Include("~/Content/assets/global/css/components-md.min.css")
                 .Include("~/Content/assets/global/css/plugins-md.min.css")
                 .Include("~/Content/assets/layouts/layout/css/layout.min.css")
                 .Include("~/Content/assets/layouts/layout/css/themes/darkblue.min.css")
                 .Include("~/Content/assets/layouts/layout/css/custom.min.css")
+                //datatables
+                .Include("~/Content/assets/global/plugins/datatables/dataTables.min.css")
+                .Include("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css")
                 ;
             // bundle
             bundles.Add(scriptBundle);
