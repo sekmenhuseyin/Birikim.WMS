@@ -476,7 +476,7 @@
           <Property Name="SayimSeri" Type="int" />
           <Property Name="GosterilecekSirket" Type="nvarchar" MaxLength="100" />
           <Property Name="GosterilecekDepo" Type="nvarchar" MaxLength="100" />
-          <Property Name="PasifKartlariGoster" Type="bit" />
+          <Property Name="PasifKartlariGoster" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Yer">
           <Key>
@@ -1660,15 +1660,6 @@
             <Parameter Name="EvrakNo" Mode="In" Type="String" />
             <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
-          <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="UserDetail" EntitySet="UserDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Depo_Users_Depo" Association="MModel.FK_Depo_Users_Depo">
-            <End Role="Depo" EntitySet="Depoes" />
-            <End Role="UserDetail" EntitySet="UserDetails" />
-          </AssociationSet>
           <FunctionImport Name="SettingsGorevNo" ReturnType="Collection(String)">
             <Parameter Name="tarih" Mode="In" Type="Int32" />
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
@@ -1833,6 +1824,15 @@
             <End Role="IR" EntitySet="IRS" />
             <End Role="IRS_Detay" EntitySet="IRS_Detay" />
           </AssociationSet>
+          <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
+          <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Depo_Users_Depo" Association="MModel.FK_Depo_Users_Depo">
+            <End Role="Depo" EntitySet="Depoes" />
+            <End Role="UserDetail" EntitySet="UserDetails" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1957,9 +1957,9 @@
           <NavigationProperty Name="Users1" Relationship="MModel.FK_Users_Users" FromRole="User" ToRole="User1" />
           <NavigationProperty Name="User1" Relationship="MModel.FK_Users_Users" FromRole="User1" ToRole="User" />
           <Property Name="Guid" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="UserDetail" Relationship="MModel.FK_Depo_Users_Users" FromRole="User" ToRole="UserDetail" />
           <NavigationProperty Name="Role" Relationship="MModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="UserDevices" Relationship="MModel.FK_UserDevices_Users" FromRole="User" ToRole="UserDevice" />
+          <NavigationProperty Name="UserDetail" Relationship="MModel.FK_Depo_Users_Users" FromRole="User" ToRole="UserDetail" />
         </EntityType>
         <EntityType Name="Bolum">
           <Key>
@@ -1997,8 +1997,8 @@
           <NavigationProperty Name="Transfers1" Relationship="MModel.FK_Transfer_Depo1" FromRole="Depo" ToRole="Transfer" />
           <NavigationProperty Name="Transfers2" Relationship="MModel.FK_Transfer_Depo2" FromRole="Depo" ToRole="Transfer" />
           <NavigationProperty Name="IRS" Relationship="MModel.FK_IRS_Depo" FromRole="Depo" ToRole="IR" />
-          <NavigationProperty Name="UserDetails" Relationship="MModel.FK_Depo_Users_Depo" FromRole="Depo" ToRole="UserDetail" />
           <NavigationProperty Name="GorevNoes" Relationship="MModel.FK_GorevNo_Depo" FromRole="Depo" ToRole="GorevNo" />
+          <NavigationProperty Name="UserDetails" Relationship="MModel.FK_Depo_Users_Depo" FromRole="Depo" ToRole="UserDetail" />
         </EntityType>
         <EntityType Name="Gorev">
           <Key>
@@ -2486,47 +2486,6 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="5" />
         </ComplexType>
-        <EntityType Name="UserDetail">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="DepoID" Type="Int32" Nullable="false" />
-          <Property Name="SatisIrsaliyeSeri" Type="Int32" />
-          <Property Name="SatisFaturaSeri" Type="Int32" />
-          <Property Name="TransferInSeri" Type="Int32" />
-          <Property Name="TransferOutSeri" Type="Int32" />
-          <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
-          <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
-          <Property Name="SayimSeri" Type="Int32" />
-          <Property Name="GosterilecekSirket" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="GosterilecekDepo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PasifKartlariGoster" Type="Boolean" />
-        </EntityType>
-        <Association Name="FK_Depo_Users_Users">
-          <End Type="MModel.User" Role="User" Multiplicity="1" />
-          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDetail">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Depo_Users_Depo">
-          <End Type="MModel.Depo" Role="Depo" Multiplicity="1" />
-          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Depo">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="UserDetail">
-              <PropertyRef Name="DepoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="MenuRolGetir_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="RoleName" Nullable="false" MaxLength="20" />
@@ -3022,6 +2981,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserDetail">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="DepoID" Type="Int32" Nullable="false" />
+          <Property Name="SatisIrsaliyeSeri" Type="Int32" />
+          <Property Name="SatisFaturaSeri" Type="Int32" />
+          <Property Name="TransferInSeri" Type="Int32" />
+          <Property Name="TransferOutSeri" Type="Int32" />
+          <Property Name="SayimSeri" Type="Int32" />
+          <Property Name="GosterilecekSirket" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GosterilecekDepo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PasifKartlariGoster" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
+          <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
+        </EntityType>
+        <Association Name="FK_Depo_Users_Users">
+          <End Type="MModel.User" Role="User" Multiplicity="1" />
+          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Depo_Users_Depo">
+          <End Type="MModel.Depo" Role="Depo" Multiplicity="1" />
+          <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3403,22 +3403,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UpdateIrsaliye" FunctionName="MModel.Store.UpdateIrsaliye" />
-          <EntitySetMapping Name="UserDetails">
-            <EntityTypeMapping TypeName="MModel.UserDetail">
-              <MappingFragment StoreEntitySet="UserDetails">
-                <ScalarProperty Name="PasifKartlariGoster" ColumnName="PasifKartlariGoster" />
-                <ScalarProperty Name="GosterilecekDepo" ColumnName="GosterilecekDepo" />
-                <ScalarProperty Name="GosterilecekSirket" ColumnName="GosterilecekSirket" />
-                <ScalarProperty Name="SayimSeri" ColumnName="SayimSeri" />
-                <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
-                <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
-                <ScalarProperty Name="SatisFaturaSeri" ColumnName="SatisFaturaSeri" />
-                <ScalarProperty Name="SatisIrsaliyeSeri" ColumnName="SatisIrsaliyeSeri" />
-                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SettingsGorevNo" FunctionName="MModel.Store.SettingsGorevNo" />
           <FunctionImportMapping FunctionImportName="MenuRolEkle" FunctionName="MModel.Store.MenuRolEkle" />
           <FunctionImportMapping FunctionImportName="MenuRolGetir" FunctionName="MModel.Store.MenuRolGetir">
@@ -3688,6 +3672,22 @@
                 <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
                 <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDetails">
+            <EntityTypeMapping TypeName="MModel.UserDetail">
+              <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="PasifKartlariGoster" ColumnName="PasifKartlariGoster" />
+                <ScalarProperty Name="GosterilecekDepo" ColumnName="GosterilecekDepo" />
+                <ScalarProperty Name="GosterilecekSirket" ColumnName="GosterilecekSirket" />
+                <ScalarProperty Name="SayimSeri" ColumnName="SayimSeri" />
+                <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
+                <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
+                <ScalarProperty Name="SatisFaturaSeri" ColumnName="SatisFaturaSeri" />
+                <ScalarProperty Name="SatisIrsaliyeSeri" ColumnName="SatisIrsaliyeSeri" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
