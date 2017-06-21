@@ -630,7 +630,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var STL = new List<BaglantiDetaySelect>();
             if (listeNo != "#12MConsulting#")
             {
-                STL = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect] @ListeNo='{1}'", "17", listeNo)).ToList();
+                STL = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
             }
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
