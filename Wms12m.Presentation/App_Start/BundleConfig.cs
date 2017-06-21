@@ -29,7 +29,7 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
                 .Include("~/Content/Scripts/Operation.min.js")
                 .Include("~/Content/Scripts/MessageBox.min.js")
-                .Include("~/Content/Scripts/Functions.js")
+                .Include("~/Content/Scripts/Functions.min.js")
                 ;
             // styles
             styleBundle

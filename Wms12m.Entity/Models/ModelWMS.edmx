@@ -474,6 +474,9 @@
           <Property Name="TransferInSeri" Type="int" />
           <Property Name="TransferOutSeri" Type="int" />
           <Property Name="SayimSeri" Type="int" />
+          <Property Name="GosterilecekSirket" Type="nvarchar" MaxLength="100" />
+          <Property Name="GosterilecekDepo" Type="nvarchar" MaxLength="100" />
+          <Property Name="PasifKartlariGoster" Type="bit" />
         </EntityType>
         <EntityType Name="Yer">
           <Key>
@@ -1531,7 +1534,6 @@
           <EntitySet Name="Depoes" EntityType="MModel.Depo" />
           <EntitySet Name="Gorevs" EntityType="MModel.Gorev" />
           <EntitySet Name="GorevYers" EntityType="MModel.GorevYer" />
-          <EntitySet Name="IRS_Detay" EntityType="MModel.IRS_Detay" />
           <EntitySet Name="Koridors" EntityType="MModel.Koridor" />
           <EntitySet Name="Olcus" EntityType="MModel.Olcu" />
           <EntitySet Name="Rafs" EntityType="MModel.Raf" />
@@ -1624,10 +1626,6 @@
           <AssociationSet Name="FK_GorevListesi_IRS" Association="MModel.FK_GorevListesi_IRS">
             <End Role="IR" EntitySet="IRS" />
             <End Role="Gorev" EntitySet="Gorevs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_IRS_Detay_IRS" Association="MModel.FK_IRS_Detay_IRS">
-            <End Role="IR" EntitySet="IRS" />
-            <End Role="IRS_Detay" EntitySet="IRS_Detay" />
           </AssociationSet>
           <AssociationSet Name="FK_Yer_Log_IRS" Association="MModel.FK_Yer_Log_IRS">
             <End Role="IR" EntitySet="IRS" />
@@ -1830,6 +1828,11 @@
             <Parameter Name="Saat" Mode="In" Type="Int32" />
             <Parameter Name="IrsID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="IRS_Detay" EntityType="MModel.IRS_Detay" />
+          <AssociationSet Name="FK_IRS_Detay_IRS" Association="MModel.FK_IRS_Detay_IRS">
+            <End Role="IR" EntitySet="IRS" />
+            <End Role="IRS_Detay" EntitySet="IRS_Detay" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2041,26 +2044,6 @@
           <Property Name="Sira" Type="Int32" />
           <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevYer_Gorev" FromRole="GorevYer" ToRole="Gorev" />
           <NavigationProperty Name="Yer" Relationship="MModel.FK_GorevYer_Yer" FromRole="GorevYer" ToRole="Yer" />
-        </EntityType>
-        <EntityType Name="IRS_Detay">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IrsaliyeID" Type="Int32" Nullable="false" />
-          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
-          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="KynkSiparisID" Type="Int32" />
-          <Property Name="KynkSiparisNo" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
-          <Property Name="KynkSiparisSiraNo" Type="Int16" />
-          <Property Name="KynkSiparisTarih" Type="Int32" />
-          <Property Name="KynkSiparisMiktar" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="OkutulanMiktar" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="YerlestirmeMiktari" Type="Decimal" Precision="25" Scale="6" />
-          <NavigationProperty Name="IR" Relationship="MModel.FK_IRS_Detay_IRS" FromRole="IRS_Detay" ToRole="IR" />
-          <Property Name="KynkDegisSaat" Type="Int32" />
-          <Property Name="MakaraNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Koridor">
           <Key>
@@ -2450,9 +2433,9 @@
           <Property Name="LinkEvrakNo" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_IRS_Depo" FromRole="IR" ToRole="Depo" />
           <NavigationProperty Name="Gorevs" Relationship="MModel.FK_GorevListesi_IRS" FromRole="IR" ToRole="Gorev" />
-          <NavigationProperty Name="IRS_Detay" Relationship="MModel.FK_IRS_Detay_IRS" FromRole="IR" ToRole="IRS_Detay" />
           <NavigationProperty Name="Yer_Log" Relationship="MModel.FK_Yer_Log_IRS" FromRole="IR" ToRole="Yer_Log" />
           <NavigationProperty Name="Gorevs1" Relationship="MModel.GorevIRS" FromRole="IR" ToRole="Gorev" />
+          <NavigationProperty Name="IRS_Detay" Relationship="MModel.FK_IRS_Detay_IRS" FromRole="IR" ToRole="IRS_Detay" />
         </EntityType>
         <Association Name="FK_IRS_Depo">
           <End Type="MModel.Depo" Role="Depo" Multiplicity="1" />
@@ -2474,18 +2457,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Gorev">
-              <PropertyRef Name="IrsaliyeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_IRS_Detay_IRS">
-          <End Type="MModel.IR" Role="IR" Multiplicity="1" />
-          <End Type="MModel.IRS_Detay" Role="IRS_Detay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="IR">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="IRS_Detay">
               <PropertyRef Name="IrsaliyeID" />
             </Dependent>
           </ReferentialConstraint>
@@ -2528,6 +2499,9 @@
           <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
           <Property Name="SayimSeri" Type="Int32" />
+          <Property Name="GosterilecekSirket" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GosterilecekDepo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PasifKartlariGoster" Type="Boolean" />
         </EntityType>
         <Association Name="FK_Depo_Users_Users">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -3016,6 +2990,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="IRS_Detay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IrsaliyeID" Type="Int32" Nullable="false" />
+          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Birim" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="MakaraNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KynkSiparisID" Type="Int32" />
+          <Property Name="KynkSiparisNo" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="KynkSiparisSiraNo" Type="Int16" />
+          <Property Name="KynkSiparisTarih" Type="Int32" />
+          <Property Name="KynkSiparisMiktar" Type="Decimal" Precision="25" Scale="6" />
+          <Property Name="KynkDegisSaat" Type="Int32" />
+          <Property Name="OkutulanMiktar" Type="Decimal" Precision="25" Scale="6" />
+          <Property Name="YerlestirmeMiktari" Type="Decimal" Precision="25" Scale="6" />
+          <NavigationProperty Name="IR" Relationship="MModel.FK_IRS_Detay_IRS" FromRole="IRS_Detay" ToRole="IR" />
+        </EntityType>
+        <Association Name="FK_IRS_Detay_IRS">
+          <End Type="MModel.IR" Role="IR" Multiplicity="1" />
+          <End Type="MModel.IRS_Detay" Role="IRS_Detay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IRS_Detay">
+              <PropertyRef Name="IrsaliyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3225,26 +3231,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="IRS_Detay">
-            <EntityTypeMapping TypeName="MModel.IRS_Detay">
-              <MappingFragment StoreEntitySet="IRS_Detay">
-                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
-                <ScalarProperty Name="KynkDegisSaat" ColumnName="KynkDegisSaat" />
-                <ScalarProperty Name="YerlestirmeMiktari" ColumnName="YerlestirmeMiktari" />
-                <ScalarProperty Name="OkutulanMiktar" ColumnName="OkutulanMiktar" />
-                <ScalarProperty Name="KynkSiparisMiktar" ColumnName="KynkSiparisMiktar" />
-                <ScalarProperty Name="KynkSiparisTarih" ColumnName="KynkSiparisTarih" />
-                <ScalarProperty Name="KynkSiparisSiraNo" ColumnName="KynkSiparisSiraNo" />
-                <ScalarProperty Name="KynkSiparisNo" ColumnName="KynkSiparisNo" />
-                <ScalarProperty Name="KynkSiparisID" ColumnName="KynkSiparisID" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Koridors">
             <EntityTypeMapping TypeName="MModel.Koridor">
               <MappingFragment StoreEntitySet="Koridor">
@@ -3420,6 +3406,9 @@
           <EntitySetMapping Name="UserDetails">
             <EntityTypeMapping TypeName="MModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="PasifKartlariGoster" ColumnName="PasifKartlariGoster" />
+                <ScalarProperty Name="GosterilecekDepo" ColumnName="GosterilecekDepo" />
+                <ScalarProperty Name="GosterilecekSirket" ColumnName="GosterilecekSirket" />
                 <ScalarProperty Name="SayimSeri" ColumnName="SayimSeri" />
                 <ScalarProperty Name="TransferOutSeri" ColumnName="TransferOutSeri" />
                 <ScalarProperty Name="TransferInSeri" ColumnName="TransferInSeri" />
@@ -3682,6 +3671,26 @@
           <FunctionImportMapping FunctionImportName="GetKynkEvrakNosForGorev" FunctionName="MModel.Store.GetKynkEvrakNosForGorev" />
           <FunctionImportMapping FunctionImportName="GetKynkTarihsForGorev" FunctionName="MModel.Store.GetKynkTarihsForGorev" />
           <FunctionImportMapping FunctionImportName="UpdateGorevDurum" FunctionName="MModel.Store.UpdateGorevDurum" />
+          <EntitySetMapping Name="IRS_Detay">
+            <EntityTypeMapping TypeName="MModel.IRS_Detay">
+              <MappingFragment StoreEntitySet="IRS_Detay">
+                <ScalarProperty Name="YerlestirmeMiktari" ColumnName="YerlestirmeMiktari" />
+                <ScalarProperty Name="OkutulanMiktar" ColumnName="OkutulanMiktar" />
+                <ScalarProperty Name="KynkDegisSaat" ColumnName="KynkDegisSaat" />
+                <ScalarProperty Name="KynkSiparisMiktar" ColumnName="KynkSiparisMiktar" />
+                <ScalarProperty Name="KynkSiparisTarih" ColumnName="KynkSiparisTarih" />
+                <ScalarProperty Name="KynkSiparisSiraNo" ColumnName="KynkSiparisSiraNo" />
+                <ScalarProperty Name="KynkSiparisNo" ColumnName="KynkSiparisNo" />
+                <ScalarProperty Name="KynkSiparisID" ColumnName="KynkSiparisID" />
+                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
