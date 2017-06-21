@@ -84,6 +84,7 @@ namespace Wms12m.Presentation.Controllers
                             Miktar = Convert.ToDecimal(dr["Miktar"]),
                             Birim = dr["Birim"].ToString()
                         };
+                        if (dr["Makara No"].ToString() != "") sti.MakaraNo = dr["Makara No"].ToString();
                         if (dr["Kaynak Sipariş No"].ToString() != "")
                         {
                             string sql = String.Format("SELECT ROW_ID, EvrakNo, Tarih, SiraNo, BirimMiktar FROM FINSAT6{0}.FINSAT6{0}.SPI WITH(NOLOCK) WHERE (IslemTur = 0) AND (KynkEvrakTip = 63) AND (SiparisDurumu = 0) AND (EvrakNo = '{1}') AND (MalKodu = '{2}') AND (Birim = '{3}') AND (Depo = '{4}')", SID, dr["Kaynak Sipariş No"].ToString(), malkodu, dr["Birim"].ToString(), depo.DepoKodu);
