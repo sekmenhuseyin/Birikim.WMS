@@ -255,7 +255,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SozlesmeSatisMuduruOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName));
+                    var s = string.Format("[FINSAT6{0}].[dbo].[SozlesmeSatisMuduruOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName);
+                    var xx = db.Database.ExecuteSqlCommand(s);
                     var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", insertObj["ListeNo"].ToString())).ToList();
                     foreach (ISS_Temp lst in list)
                     {

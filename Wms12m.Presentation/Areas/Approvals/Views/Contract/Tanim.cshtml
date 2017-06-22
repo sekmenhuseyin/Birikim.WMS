@@ -362,43 +362,83 @@ td {width: auto !important;}
             });
 
             $(".txt_sira_no").dxTextBox("instance").option("value", srNo);
-            $(".numb_baglanti_tutari").dxTextBox({
-                mode: "fixed-point",
-                value: 0,
-                onKeyPress: function (info) {
-                    var event = info.jQueryEvent;
-                    if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
-                        var val = info.component.option("text");
-                        var deger = ondalikBinlik(val)
-                        info.component.option("value", deger);
-                        event.stopPropagation();
-                        event.preventDefault();
-                    }
-                    else if (event.keyCode == 44) {
-                        var val = info.component.option("text");
-                        if (val.toString().indexOf(",") > 0) {
-                            var deger = ondalikBinlik(val)
-                            info.component.option("value", deger);
-                            event.stopPropagation();
-                            event.preventDefault();
-                        }
-                    }
-                },
-                onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
-                    e.component.option("value", deger);
-                    event.stopPropagation();
-                    event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
-                }
+            NumbBox(".numb_baglanti_tutari", false);
+            NumbBox(".numb_iskonto1", false);
+            NumbBox(".numb_iskonto2", false);
+            NumbBox(".numb_iskonto3", false);
+            NumbBox(".numb_iskonto4", false);
+            NumbBox(".numb_iskonto5", false);
+            NumbBox(".numb_valor_gun", false);
+            NumbBox(".numb_kredi_limiti", true);
+            NumbBox(".numb_bakiye", true);
+            NumbBox(".numb_toplam_bakiye", true);
+            NumbBox(".numb_bekleyen_siparis", true);
+            NumbBox(".numb_alinan_bordro", true);
+            NumbBox(".numb_alinan_cek_tutari", false);
+            NumbBox(".numb_alinan_nakit_vb", false);
+            //$(".numb_baglanti_tutari").dxTextBox({
+            //    mode: "fixed-point",
+            //    value: 0,
+            //    onKeyPress: function (info) {
+            //        var event = info.jQueryEvent;
 
-            });
+            //        if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+            //            var val = info.component.option("text");
+            //            var deger = ondalikBinlik(val)
+            //            info.component.option("value", deger);
+            //            event.stopPropagation();
+            //            event.preventDefault();
+            //        }
+            //        else if (event.keyCode == 44) {
+            //            var val = info.component.option("text");
+            //            if (val.toString().indexOf(",") > 0) {
+            //                var deger = ondalikBinlik(val)
+            //                info.component.option("value", deger);
+            //                event.stopPropagation();
+            //                event.preventDefault();
+            //            }
+            //        }
+            //    },
+            //    onValueChanged: function (e) {
+            //        var xx = e.value;
+            //        if (e.value.toString().indexOf(",") < 0) {
+            //            var deger = ondalikBinlik(e.value.toString())
+            //            if (deger.split(",")[0] == e.value.toString()) {
+            //                return;
+            //            }
+            //        }
+            //        if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+            //            xx = e.value.toString().substring(0, e.value.toString().length - 1)
+            //        }
+            //        var deger = ondalikBinlik(xx)
+            //        e.component.option("value", deger);
+            //        var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+            //        $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+            //        event.stopPropagation();
+            //        event.preventDefault();
+
+            //    },
+            //    onFocusIn: function (e) {
+            //        if (e.component.option("text").toString().indexOf(",") > 0) {
+            //            if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+            //                var val = e.component.option("text").toString().split(",")[0];
+            //                e.component.option("value", val);
+            //                event.stopPropagation();
+            //                event.preventDefault();
+            //            }
+            //        }
+            //        console.log(e.value);
+            //        console.log(e.component.option("text"));
+
+            //    }
+
+            //});
             $(".numb_iskonto1").dxTextBox({
                 mode: "fixed-point",
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -417,12 +457,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 }
             });
             $(".numb_iskonto2").dxTextBox({
@@ -430,6 +494,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -448,12 +513,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 }
             });
             $(".numb_iskonto3").dxTextBox({
@@ -461,6 +550,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -479,12 +569,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 }
             });
             $(".numb_iskonto4").dxTextBox({
@@ -492,6 +606,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -510,12 +625,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 }
             });
             $(".numb_iskonto5").dxTextBox({
@@ -523,6 +662,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -541,12 +681,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 }
             });
             $(".numb_valor_gun").dxTextBox({
@@ -554,6 +718,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -572,12 +737,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 }
             });
             $(".numb_kredi_limiti").dxTextBox({
@@ -585,6 +774,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -603,12 +793,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 },
                 readOnly: true
             });
@@ -617,6 +831,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -635,12 +850,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 },
                 readOnly: true
             });
@@ -649,6 +888,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -667,12 +907,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 },
                 readOnly: true
             });
@@ -681,6 +945,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -699,12 +964,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 },
                 readOnly: true
             });
@@ -713,6 +1002,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -731,12 +1021,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                    //var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
-                    //$(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 },
                 readOnly: true
             });
@@ -745,6 +1059,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -763,13 +1078,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length - 1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
-                    var x = jDecimal($(".numb_alinan_nakit_vb").dxTextBox("instance").option("value")) + jDecimal(e.value);
+                    var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
                     $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
-                
+
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 }
             });
             $(".numb_alinan_nakit_vb").dxTextBox({
@@ -777,6 +1115,7 @@ td {width: auto !important;}
                 value: 0,
                 onKeyPress: function (info) {
                     var event = info.jQueryEvent;
+                    
                     if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                         var val = info.component.option("text");
                         var deger = ondalikBinlik(val)
@@ -795,13 +1134,36 @@ td {width: auto !important;}
                     }
                 },
                 onValueChanged: function (e) {
-                    var deger = ondalikBinlik(e.value)
+                    var xx = e.value;
+                    if (e.value.toString().indexOf(",") < 0) {
+                        var deger = ondalikBinlik(e.value.toString())
+                        if (deger.split(",")[0] == e.value.toString()) {
+                            return ;
+                        }
+                    }
+                    if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                        xx = e.value.toString().substring(0, e.value.toString().length-1)
+                    }
+                    var deger = ondalikBinlik(xx)
                     e.component.option("value", deger);
                     var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
                     $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
                     event.stopPropagation();
                     event.preventDefault();
                     
+                },
+                onFocusIn: function (e) {
+                    if (e.component.option("text").toString().indexOf(",") > 0) {
+                        if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                            var val = e.component.option("text").toString().split(",")[0];
+                            e.component.option("value", val);
+                            event.stopPropagation();
+                            event.preventDefault();
+                        }
+                    }
+                    console.log(e.value);
+                    console.log(e.component.option("text"));
+
                 }
             });
             $(".numb_toplam_tahsilat").dxTextBox({

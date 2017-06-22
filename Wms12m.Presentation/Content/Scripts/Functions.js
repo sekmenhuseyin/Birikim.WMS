@@ -2,6 +2,69 @@
 String.prototype.addAt = function (index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length - 1);
 }
+
+//dxTextBoxları NumberBox'a çevirme
+function NumbBox(cls, readOnly) {
+    $(cls).dxTextBox({
+        mode: "fixed-point",
+        value: 0,
+        onKeyPress: function (info) {
+            var event = info.jQueryEvent;
+
+            if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
+                var val = info.component.option("text");
+                var deger = ondalikBinlik(val)
+                info.component.option("value", deger);
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            else if (event.keyCode == 44) {
+                var val = info.component.option("text");
+                if (val.toString().indexOf(",") > 0) {
+                    var deger = ondalikBinlik(val)
+                    info.component.option("value", deger);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            }
+        },
+        onValueChanged: function (e) {
+            var xx = e.value;
+            if (e.value.toString().indexOf(",") < 0) {
+                var deger = ondalikBinlik(e.value.toString())
+                if (deger.split(",")[0] == e.value.toString()) {
+                    return;
+                }
+            }
+            if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                xx = e.value.toString().substring(0, e.value.toString().length - 1)
+            }
+            var deger = ondalikBinlik(xx)
+            e.component.option("value", deger);
+            var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
+            $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
+            event.stopPropagation();
+            event.preventDefault();
+
+        },
+        onFocusIn: function (e) {
+            if (e.component.option("text").toString().indexOf(",") > 0) {
+                if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
+                    var val = e.component.option("text").toString().split(",")[0];
+                    e.component.option("value", val);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            }
+            console.log(e.value);
+            console.log(e.component.option("text"));
+
+        },
+        readOnly: readOnly
+
+    })
+}
+
 // Sayılara ondalık binlik ayraçları eklemek için
 function ondalikBinlik(Val) {
     if (Val == null || Val == undefined || Val == 0) {
