@@ -24,6 +24,7 @@ namespace Wms12m.Entity.Models
     
         public int ID { get; set; }
         public string RoleName { get; set; }
+        public string Aciklama { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RolePerm> RolePerms { get; set; }
