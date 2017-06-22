@@ -23,7 +23,13 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr><td>@item.RoleName</td><td>@item.Aciklama</td><td><button class="btn btn-danger input-circle" onclick="Delete('@item.RoleName', '/Roles/List', 'list', '0', '/Roles/Delete')">Sil</button></td></tr>
+                                    <tr>
+                                        <td>@item.RoleName</td><td>@item.Aciklama</td>
+                                        <td>
+                                            <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Roles/Edit/@item.ID')"> Düzenle </a>
+                                            <button class="btn btn-danger input-circle" onclick="Delete('@item.RoleName', '/Roles/List', 'list', '0', '/Roles/Delete')">Sil</button>
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>

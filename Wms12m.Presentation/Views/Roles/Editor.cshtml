@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="modal-body">
-                    <h4>Yeni</h4>
+                    <h4>@if (Model.ID == 0) { <text>Yeni</text> } else { <text>Düzenle</text> }</h4>
                     @using (Html.BeginForm("Save", "Roles", FormMethod.Post, new { @class = "form-horizontal" }))
                     {
                         <input id="ID" name="ID" type="hidden" value="@Model.ID">
@@ -40,4 +40,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>@if (Model.ID != 0) { <text><script>$("#RoleName").attr("disabled", true);</script></text> }

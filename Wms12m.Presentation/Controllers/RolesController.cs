@@ -31,7 +31,20 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult New()
         {
             if (CheckPerm(Perms.Gruplar, PermTypes.Reading) == false) return null;
-            return PartialView("Create", new Role());
+            return PartialView("Editor", new Role());
+        }
+        /// <summary>
+        /// rol düzenleme sayfası
+        /// </summary>
+        public PartialViewResult Edit()
+        {
+            if (CheckPerm(Perms.Gruplar, PermTypes.Reading) == false) return null;
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null || id.ToString2() == "") return null;
+            //return
+            var ID = id.ToInt32();
+            var tbl = db.Roles.Where(m => m.ID == ID).FirstOrDefault();
+            return PartialView("Editor", tbl);
         }
         /// <summary>
         /// yeni rolü kaydet
@@ -42,7 +55,15 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Gruplar, PermTypes.Writing) == false) return Redirect("/");
             if (ModelState.IsValid)
             {
-                db.Roles.Add(role);
+                if (role.ID == 0)
+                {
+                    db.Roles.Add(role);
+                }
+                else
+                {
+                    var tbl = db.Roles.Where(m => m.ID == role.ID).FirstOrDefault();
+                    tbl.Aciklama = role.Aciklama;
+                }
                 db.SaveChanges();
                 //log
                 LogActions("", "Roles", "Save", ComboItems.alEkle, role.ID, role.RoleName);
