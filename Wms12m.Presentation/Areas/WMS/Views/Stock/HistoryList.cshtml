@@ -3,7 +3,13 @@
 <div class="form-group">
     <div class="col-sm-3 control-label">Güneşteki Stok</div>
     <div class="col-sm-4">
-        <input class="form-control input-circle text-right" id="Stok" name="Stok" disabled="disabled" type="text" value="@String.Format("{0:n}", ViewBag.Stok)">
+        <input class="form-control input-circle text-right" disabled="disabled" type="text" value="@String.Format("{0:n}", ViewBag.Stok)">
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-3 control-label">Toplam Stok</div>
+    <div class="col-sm-4">
+        <input class="form-control input-circle text-right" id="Stok" name="Stok" disabled="disabled" type="text" value="">
     </div>
 </div>
 <div class="form-group">
@@ -32,6 +38,7 @@
     </table>
 </div>
 <script type="text/javascript">
+    $('#Stok').val('@String.Format("{0:n}", i)');
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",

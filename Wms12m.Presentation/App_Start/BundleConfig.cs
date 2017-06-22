@@ -17,16 +17,16 @@ namespace Wms12m.Presentation
             // scripts
             scriptBundle
                 // CLDR scripts
-                .Include("~/Content/assets/global/plugins/cldr/cldr.min.js")
-                .Include("~/Content/assets/global/plugins/cldr/event.min.js")
-                .Include("~/Content/assets/global/plugins/cldr/supplemental.min.js")
-                .Include("~/Content/assets/global/plugins/cldr/unresolved.min.js")
+                //.Include("~/Content/assets/global/plugins/cldr/cldr.min.js")
+                //.Include("~/Content/assets/global/plugins/cldr/event.min.js")
+                //.Include("~/Content/assets/global/plugins/cldr/supplemental.min.js")
+                //.Include("~/Content/assets/global/plugins/cldr/unresolved.min.js")
                 // Globalize 1.x
-                .Include("~/Content/assets/global/plugins/globalize/globalize.min.js")
-                .Include("~/Content/assets/global/plugins/globalize/number.min.js")
-                .Include("~/Content/assets/global/plugins/globalize/currency.min.js")
-                .Include("~/Content/assets/global/plugins/globalize/date.min.js")
-                .Include("~/Content/assets/global/plugins/globalize/message.min.js")
+                //.Include("~/Content/assets/global/plugins/globalize/globalize.min.js")
+                //.Include("~/Content/assets/global/plugins/globalize/number.min.js")
+                //.Include("~/Content/assets/global/plugins/globalize/currency.min.js")
+                //.Include("~/Content/assets/global/plugins/globalize/date.min.js")
+                //.Include("~/Content/assets/global/plugins/globalize/message.min.js")
                 //jquery
                 .Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js")
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
@@ -39,7 +39,7 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/bootbox/bootbox.min.js")
                 .Include("~/Content/assets/global/plugins/js.cookie.min.js")
                 // JSZip for client side export
-                .Include("~/Content/assets/global/plugins/jszip.min.js")
+                //.Include("~/Content/assets/global/plugins/jszip.min.js")
                 // DevExtreme + extensions
                 .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.web.js")
                 .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.aspnet.data.js")

@@ -178,7 +178,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\TakvimeBagliKisit.dll</HintPath>
     </Reference>
-    <Reference Include="TumFaturaKayit, Version=1.17.5.4, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="TumFaturaKayit, Version=1.17.6.9, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\TumFaturaKayit.dll</HintPath>
     </Reference>
@@ -564,7 +564,7 @@
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\Inbox\Index.cshtml" />
     <Content Include="Views\MyAccount\Index.cshtml" />
-    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Editor.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Users\Perm.cshtml" />
     <Content Include="Areas\WMS\Views\Tasks\CountNew.cshtml" />

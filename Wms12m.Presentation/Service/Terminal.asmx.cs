@@ -228,11 +228,11 @@ namespace Wms12m
                     sql += string.Format("SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.GorevYer.MalKodu)", item);
                     sql2 += string.Format("SELECT case when Barkod1='' then Barkod2 else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.GorevYer.MalKodu)", item);
                 }
-                sql = "(Select TOP(1) MalAdi from (" + sql + ") t)";
-                sql2 = "(Select TOP(1) Barkod from (" + sql2 + ") t)";
+                sql = "(Select TOP(1) MalAdi from (" + sql + ") t WHERE MalAdi <> '')";
+                sql2 = "(Select TOP(1) Barkod from (" + sql2 + ") t WHERE Barkod <> '')";
                 string sqltmp = ""; if (devamMi == true && mGorev.GorevTipiID != ComboItems.KontrolSayım.ToInt32()) sqltmp += "AND wms.GorevYer.Miktar>ISNULL(wms.GorevYer.YerlestirmeMiktari,0) ";
                 sql = string.Format("SELECT wms.GorevYer.ID, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.HucreAd AS Raf, ISNULL(wms.GorevYer.YerlestirmeMiktari,0) as YerlestirmeMiktari, " +
-                                    sql + " AS MalAdi, " + sql2 + " AS Barkod " +
+                                    "ISNULL(" + sql + ",'') AS MalAdi, ISNULL(" + sql2 + ",'') AS Barkod " +
                                     "FROM wms.GorevYer WITH(nolock) INNER JOIN wms.Yer WITH(nolock) ON wms.GorevYer.YerID = wms.Yer.ID " +
                                     "WHERE (wms.GorevYer.GorevID = {0}) {1}" +
                                     "ORDER BY wms.GorevYer.Sira", GorevID, sqltmp);
@@ -289,7 +289,7 @@ namespace Wms12m
                 if (malkodu != "") sql += string.Format("(MalKodu = '{0}')", malkodu);
                 else sql += string.Format("(BarKod1 = '{0}') OR (BarKod2 = '{0}')", barkod);
             }
-            sql = "SELECT MalKodu, MalAdi, Birim1 as Birim, Barkod from (" + sql + ") as t";
+            sql = "SELECT MalKodu, MalAdi, Birim1 as Birim, Barkod from (" + sql + ") as t where MalAdi<>''";
             return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
         }
         /// <summary>

@@ -32,10 +32,10 @@ namespace WMSMobil
             glbTip = tip;
             GorevTip=gorevtip;
             //barkod
-            Barkod = new Barcode2();
-            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            Barkod.EnableScanner = true;
-            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            //Barkod = new Barcode2();
+            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            //Barkod.EnableScanner = true;
+            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             try
             {
                 Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
@@ -677,11 +677,8 @@ namespace WMSMobil
                 else
                     Mesaj.Uyari("Göreve ait böyle bir MalKodu bulunmamaktadır.");
             }
-            else if (Ayarlar.MenuTip == MenuType.SiparisToplama)
-            { 
-                if (!raf_var || !mal_var)
-                    Mesaj.Uyari("Göreve ait böyle bir MalKodu bulunmamaktadır.");
-            }
+            else if (!mal_var)
+                Mesaj.Uyari("Göreve ait böyle bir MalKodu bulunmamaktadır.");
         }
         /// <summary>
         /// veritabanına kaydeder
