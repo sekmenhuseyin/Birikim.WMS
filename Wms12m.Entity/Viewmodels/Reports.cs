@@ -45,6 +45,7 @@ namespace Wms12m.Entity
         public int BasTarih { get; set; }
         public int BasSaat { get; set; }
         public int BitTarih { get; set; }
+        public int YeniBitTarih { get; set; }
         public int BitSaat { get; set; }
         public short MusUygSekli { get; set; }
         public short MusKodGrup { get; set; }
@@ -131,6 +132,7 @@ namespace Wms12m.Entity
         public string Kod9 { get; set; }
         public string Kod10 { get; set; }
         public decimal BaglantiTutar { get; set; }
+        public decimal YeniBaglantiTutar { get; set; }
         public decimal Kod12 { get; set; }
         public int? DevirTarih { get; set; }
         public decimal? DevirTutar { get; set; }
