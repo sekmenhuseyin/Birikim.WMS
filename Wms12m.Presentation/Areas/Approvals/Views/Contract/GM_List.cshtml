@@ -35,28 +35,27 @@
                 <thead>
                     <tr>
 
-                        <th>
+                        <th nowrap>
                             <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                 <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
                                 <span></span>
                             </label>
                         </th>
-                        <th>Liste No</th>
-                        <th>Sıra No</th>
-                        <th>Bağlantı Kodu</th>
-                        <th>Bağlantı Tutarı</th>
-                        <th>Başlangıç Tarihi</th>
-                        <th>Bitiş Tarihi</th>
-                        <th>Açıklama</th>
-                        <th>Kredi Limiti</th>
-                        <th>Bakiye</th>
-                        <th>Toplam Bakiye</th>
-                        <th>Bekleyen Sipariş Tutar</th>
-                        <th>Alınan Bordro</th>
-                        <th>Çek Tutarı</th>
-                        <th>Çek Ortalama Vade Tarih</th>
-                        <th>Çek Tutarı</th>
-                        <th>Alınan Nakit vb.</th>
+                        <th nowrap>Liste No</th>
+                        <th nowrap>Sıra No</th>
+                        <th nowrap>Bağlantı Kodu</th>
+                        <th nowrap>Bağlantı Tutarı</th>
+                        <th nowrap>Başlangıç Tarihi</th>
+                        <th nowrap>Bitiş Tarihi</th>
+                        <th nowrap>Açıklama</th>
+                        <th nowrap>Kredi Limiti</th>
+                        <th nowrap>Bakiye</th>
+                        <th nowrap>Toplam Bakiye</th>
+                        <th nowrap>Bekleyen Sipariş Tutar</th>
+                        <th nowrap>Alınan Bordro</th>
+                        <th nowrap>Çek Tutarı</th>
+                        <th nowrap>Çek Ortalama Vade Tarih</th>
+                        <th nowrap>Alınan Nakit vb.</th>
                     </tr>
                 </thead>
             </table>
@@ -76,27 +75,27 @@
                     return json;
                 },
             },
-            "fixedHeader": true,
-            "scrollX": true,
+            //"fixedHeader": true,
+            //"scrollX": true,
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4, 8,9,10,11,13,15] }],
             "columns": [
 
                 { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
-                { "data": "ListeNo", "sClass": "nowrap" },
-                { "data": "SiraNo", "sClass": "nowrap" },
-                { "data": "BaglantiKodu", "sClass": "nowrap" },
-                { "data": "BaglantiTutar", "sClass": "nowrap" },
-                { "data": "BasTarih", "sClass": "nowrap" },
-                { "data": "BitTarih", "sClass": "nowrap" },
-                { "data": "Aciklama", "sClass": "nowrap" },
-                { "data": "KrediLimiti", "sClass": "nowrap" },
-                { "data": "Bakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "ToplamBakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "BekleyenSiparisTutar", "sClass": "nowrap" },
-                { "data": "AlinanBordro", "sClass": "nowrap" },
-                { "data": "CekTutari", "sClass": "nowrap" },
+                { "data": "ListeNo"},
+                { "data": "SiraNo" },
+                { "data": "BaglantiKodu"},
+                { "data": "BaglantiTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') }, 
+                { "data": "BasTarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
+                { "data": "BitTarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
+                { "data": "Aciklama"},
+                { "data": "KrediLimiti", "render": $.fn.dataTable.render.number('.', ',', 2, '') }, 
+                { "data": "Bakiye", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
+                { "data": "ToplamBakiye", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
+                { "data": "BekleyenSiparisTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "AlinanBordro" },
+                { "data": "CekTutari", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "CekOrtalamaVadeTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
-                { "data": "CekTutari", "sClass": "nowrap" },
-                { "data": "NakitTutari", "sClass": "nowrap" },
+                { "data": "NakitTutari", "render": $.fn.dataTable.render.number('.', ',', 2, '') }
             ],
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {

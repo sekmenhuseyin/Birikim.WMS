@@ -9,7 +9,8 @@ function ondalikBinlik(Val) {
     }
     else if ((Val.toString().indexOf(",") > 0)) {
         var b = new Array();
-        var detVal = Val.split(",")[0].replace(/\./g, "");;
+        var detVal = Number(Val.toString().replace(/\./g, "").replace(",", ".")).toFixed(2).split(".")[0];
+        //var detVal = Val.split(",")[0].replace(/\./g, "");;
         var a = detVal.length;
         for (var i = a; i > 0; i = i - 3) {
             var c = i % 3;
@@ -40,9 +41,9 @@ function ondalikBinlik(Val) {
         return detVal;
     }
     else {
-        var detVal = Val.toString().replace(/\./g, "");
+        var detVal = Number(Val.toString().replace(/\./g, "")).toFixed(2).replace(".",",");
         var b = new Array();
-        var a = detVal.length;
+        var a = detVal.split(",")[0].length;
         for (var i = a; i > 0; i = i - 3) {
             var c = i % 3;
             if (c == 0 && i != 3) {
