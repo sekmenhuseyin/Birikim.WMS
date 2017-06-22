@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<kblstok>
 <table class="table table-striped table-bordered" id="sample_1">
-    <thead><tr><th></th><th>Marka</th><th>Cins</th><th>Kesit</th><th>Miktar</th><th>Renk</th><th>Makara</th></tr></thead>
+    <thead><tr><th></th><th>Marka</th><th>Cins</th><th>Kesit</th><th>Miktar</th><th>Renk</th><th>Makara No</th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
@@ -11,7 +11,7 @@
                 <td>@item.kesit</td>
                 <td align="right">@String.Format("{0:n}", item.miktar)</td>
                 <td>@item.renk</td>
-                <td>@item.makara</td>
+                <td>@item.makarano</td>
             </tr>
         }
     </tbody>

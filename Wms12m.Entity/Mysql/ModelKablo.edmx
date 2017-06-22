@@ -150,6 +150,7 @@ warning 6002: The table/view 'def.kablo.kblstok' does not have a primary key def
           <Property Name="depo" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="renk" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="makara" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="makarano" Type="varchar" MaxLength="50" />
           <Property Name="rezerve" Type="varchar" MaxLength="13" Nullable="false" />
           <Property Name="satici" Type="varchar" MaxLength="40" />
           <Property Name="sure" Type="time" Precision="0" />
@@ -179,6 +180,7 @@ warning 6002: The table/view 'def.kablo.kblstok' does not have a primary key def
 `kblstok`.`depo`, 
 `kblstok`.`renk`, 
 `kblstok`.`makara`, 
+`kblstok`.`makarano`, 
 `kblstok`.`rezerve`, 
 `kblstok`.`satici`, 
 `kblstok`.`sure`, 
@@ -353,6 +355,7 @@ FROM `kblstok` AS `kblstok`</DefiningQuery>
           <Property Name="satici" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="sure" Type="Time" />
           <Property Name="tarih" Type="DateTime" />
+          <Property Name="makarano" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -500,6 +503,7 @@ FROM `kblstok` AS `kblstok`</DefiningQuery>
           <EntitySetMapping Name="kblstoks">
             <EntityTypeMapping TypeName="KabloModel.kblstok">
               <MappingFragment StoreEntitySet="kblstok">
+                <ScalarProperty Name="makarano" ColumnName="makarano" />
                 <ScalarProperty Name="tarih" ColumnName="tarih" />
                 <ScalarProperty Name="sure" ColumnName="sure" />
                 <ScalarProperty Name="satici" ColumnName="satici" />

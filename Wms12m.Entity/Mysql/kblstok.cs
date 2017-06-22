@@ -26,5 +26,6 @@ namespace Wms12m.Entity.Mysql
         public string satici { get; set; }
         public Nullable<System.TimeSpan> sure { get; set; }
         public Nullable<System.DateTime> tarih { get; set; }
+        public string makarano { get; set; }
     }
 }
