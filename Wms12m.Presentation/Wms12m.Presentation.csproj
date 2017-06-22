@@ -178,10 +178,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\TakvimeBagliKisit.dll</HintPath>
     </Reference>
-    <Reference Include="TumFaturaKayit, Version=1.17.5.4, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\TumFaturaKayit.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -702,6 +698,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\C#\TumFaturaKayit\TumFaturaKayit\TumFaturaKayit.csproj">
+      <Project>{afceb7bc-8978-4f09-a259-6a1d89c029e1}</Project>
+      <Name>TumFaturaKayit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Wms12m.Business\Wms12m.Business.csproj">
       <Project>{3B9D880E-FEEC-4E24-9B47-B5F5DB860819}</Project>
       <Name>Wms12m.Business</Name>

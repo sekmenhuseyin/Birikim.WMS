@@ -191,7 +191,7 @@ namespace Wms12m
                 var list = db.Database.SqlQuery<STIMax>(sql).ToList();
                 foreach (STIMax item in list)
                 {
-                    sql = string.Format("SELECT SPI.Chk, SPI.Miktar, SPI.MalKodu, SPI.Fiyat, SPI.Birim, SPI.Depo, SPI.ToplamIskonto, SPI.KDV, SPI.KDVOran, SPI.IskontoOran1, SPI.IskontoOran2, SPI.IskontoOran3, SPI.IskontoOran4, SPI.IskontoOran5, " +
+                    sql = string.Format("SELECT SPI.Chk, SPI.IslemTip, SPI.Miktar, SPI.MalKodu, SPI.Fiyat, SPI.Birim, SPI.Depo, SPI.ToplamIskonto, SPI.KDV, SPI.KDVOran, SPI.IskontoOran1, SPI.IskontoOran2, SPI.IskontoOran3, SPI.IskontoOran4, SPI.IskontoOran5, " +
                                         "SPI.EvrakNo as KaynakSiparisNo, SPI.Tarih as KaynakSiparisTarih, SPI.SiraNo as SiparisSiraNo, SPI.Miktar as SiparisMiktar, SPI.TeslimMiktar, SPI.KapatilanMiktar, SPI.FytListeNo, SPI.ValorGun, SPI.Kod1, SPI.Kod2, SPI.Kod3, SPI.Kod10, SPI.Kod13, SPI.Kod14, SPI.KayitKaynak, SPI.KayitSurum, SPI.DegisKaynak, SPI.DegisSurum," +
                                         "CHK.EFatKullanici, STK.SatislarHesabi, CHK.EArsivTeslimSekli " +
                                         "FROM FINSAT6{0}.FINSAT6{0}.SPI WITH (NOLOCK) LEFT JOIN FINSAT671.FINSAT671.CHK WITH (NOLOCK) ON SPI.Chk=CHK.HesapKodu LEFT JOIN FINSAT671.FINSAT671.STK WITH (NOLOCK) ON STK.MalKodu=SPI.MalKodu " +
