@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Role>
 <table class="table table-striped table-bordered table-hover" id="sample_1">
-    <thead><tr><th>Ad</th><th></th></tr></thead>
+    <thead><tr><th>Kod</th><th>Ad</th><th></th></tr></thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr><td>@item.RoleName</td><td><button class="btn btn-danger input-circle" onclick="Delete('@item.RoleName', '/Roles/List', 'list', '0', '/Roles/Delete')">Sil</button></td></tr>
+            <tr><td>@item.RoleName</td><td>@item.Aciklama</td><td><button class="btn btn-danger input-circle" onclick="Delete('@item.RoleName', '/Roles/List', 'list', '0', '/Roles/Delete')">Sil</button></td></tr>
         }
     </tbody>
 </table>

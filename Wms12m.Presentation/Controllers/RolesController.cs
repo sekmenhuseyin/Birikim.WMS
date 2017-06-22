@@ -37,7 +37,7 @@ namespace Wms12m.Presentation.Controllers
         /// yeni rolü kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,RoleName")] Role role)
+        public ActionResult Save(Role role)
         {
             if (CheckPerm(Perms.Gruplar, PermTypes.Writing) == false) return Redirect("/");
             if (ModelState.IsValid)
@@ -45,7 +45,7 @@ namespace Wms12m.Presentation.Controllers
                 db.Roles.Add(role);
                 db.SaveChanges();
                 //log
-                LogActions("", "Roles", "Create", ComboItems.alEkle, role.ID, role.RoleName);
+                LogActions("", "Roles", "Save", ComboItems.alEkle, role.ID, role.RoleName);
             }
             return RedirectToAction("Index");
         }
