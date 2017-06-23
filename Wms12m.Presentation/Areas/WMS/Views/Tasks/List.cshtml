@@ -21,6 +21,18 @@
 </table>
 <script type="text/javascript">
     $(document).ready(function () {
+        //tarih alanları
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#SiparisTarihi").datepicker().on("change", function (e) {
+            filter(5, e.target.value);
+        });
+        $("#OlusturmaTarihi").datepicker().on("change", function (e) {
+            filter(6, e.target.value);
+        });
+        $("#BitirmeTarihi").datepicker().on("change", function (e) {
+            filter(7, e.target.value);
+        });
+        //datatable
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "ordering": false,
@@ -44,20 +56,9 @@
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
-        //tarih alanları
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#SiparisTarihi").datepicker().on("change", function (e) {
-            //alert(e.target.value);
-            //var filteredData = table
-            //    .column(5)
-            //    .data()
-            //    .filter(function (value, index) {
-            //        return value = e.target.value ? true : false;
-            //    });
-        });
-        $("#OlusturmaTarihi").datepicker().on("change", function (e) {
-        });
-        $("#BitirmeTarihi").datepicker().on("change", function (e) {
-        });
+        //filter fn
+        function filter(col, val) {
+            table.column(col).search(val).draw();
+        }
     });
 </script>

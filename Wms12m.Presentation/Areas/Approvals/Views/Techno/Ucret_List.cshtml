@@ -101,7 +101,6 @@
     var secili_satir = new Array();
     var secili_table = new Array();
     $(document).ready(function () {
-        console.log("ssss");
         var tip1 = "@ViewBag.Tip";
         $(".txtUcretRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
         table = $('#sample_1').DataTable({
@@ -112,11 +111,6 @@
                     return json;
                 },
             },
-            //"fixedHeader": true,
-            //"scrollX": true,
-            //"scrollY": '30vh',
-            //"scrollCollapse": true,
-
             "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [13, 14] }, { "visible": false, "targets": [0,1] }],
             "columns": [
                 { "data": "PERSONELID" },
@@ -166,13 +160,11 @@
             tr.addClass("aa");
             setTimeout(function () { var x = table.rows('.aa').data(); }, 500);
             var x = table.rows('.aa').data();
-            console.log(x[0]);
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(x[0]["PERSONELID"])).show(); format(x[0]["PERSONELID"].toString().replace("/", "")); tr.addClass('shown'); }
         });
         $('#sample_1 tbody').on('click', 'tr', function () {
-            //$("tr").removeClass("selected");
             $(this).toggleClass('selected');
         });
         if (tip1 == 'Reddedilenler') {
@@ -181,7 +173,6 @@
         else {
             table.columns([15, 16]).visible(false, false);
         }
-        //table.columns([3,4] ).visible(false,false);
     });
     function UcretOnayla() {
         var x = table.rows('.selected').data();
