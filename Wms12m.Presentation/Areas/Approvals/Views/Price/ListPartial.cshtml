@@ -76,8 +76,6 @@
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
             $('td', nRow).attr('nowrap', 'nowrap');
             $(nRow).on('mousedown', function (e) {
-                console.log(aData);
-                console.log(iDisplayIndex);
                 if (e.button == 2) {
                     if (aData["SatisFiyat1"] > 0) {
                         console.log(Math.round(4.34343,2));
