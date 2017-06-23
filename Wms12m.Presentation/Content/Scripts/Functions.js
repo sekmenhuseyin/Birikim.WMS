@@ -29,10 +29,15 @@ function NumbBox(cls, readOnly) {
             }
         },
         onValueChanged: function (e) {
+
+            
+            if (e.value == null) {
+                return;
+            }
             var xx = e.value;
             if (e.value.toString().indexOf(",") < 0) {
                 var deger = ondalikBinlik(e.value.toString())
-                if (deger.split(",")[0] == e.value.toString()) {
+                if (deger.toString().split(",")[0] == e.value.toString()) {
                     return;
                 }
             }
@@ -41,13 +46,14 @@ function NumbBox(cls, readOnly) {
             }
             var deger = ondalikBinlik(xx)
             e.component.option("value", deger);
-            var x = jDecimal($(".numb_alinan_cek_tutari").dxTextBox("instance").option("value")) + jDecimal(e.value);
-            $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", ondalikBinlik(x.toString()))
             event.stopPropagation();
             event.preventDefault();
 
         },
         onFocusIn: function (e) {
+            if (e.component.option("text") == null) {
+                return;
+            }
             if (e.component.option("text").toString().indexOf(",") > 0) {
                 if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
                     var val = e.component.option("text").toString().split(",")[0];
@@ -56,8 +62,6 @@ function NumbBox(cls, readOnly) {
                     event.preventDefault();
                 }
             }
-            console.log(e.value);
-            console.log(e.component.option("text"));
 
         },
         readOnly: readOnly
@@ -104,7 +108,8 @@ function ondalikBinlik(Val) {
         return detVal;
     }
     else {
-        var detVal = Number(Val.toString().replace(/\./g, "")).toFixed(2).replace(".",",");
+        var detVal = Number(Val.toString().replace(/\./g, "")).toFixed(2).replace(".", ",");
+        var ond = "00";
         var b = new Array();
         var a = detVal.split(",")[0].length;
         for (var i = a; i > 0; i = i - 3) {
