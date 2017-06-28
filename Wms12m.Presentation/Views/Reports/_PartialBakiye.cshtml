@@ -22,35 +22,35 @@
         </div>
 
         <div class="portlet-body">
-
-
-            <table class="table table-striped table-bordered table-hover" id="sample_1">
-                <thead>
-                    <tr>
-                        <th>Detay</th>
-                        <th>Hesap Kodu</th>
-                        <th>Ünvan</th>
-                        <th>Borç</th>
-                        <th>Alacak</th>
-                        <th>Bakiye</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-            {
+            <div class="row">
+                <table class="table table-striped table-bordered table-condensed" id="sample_1">
+                    <thead>
                         <tr>
-                            <td> </td>
-                            <td>@item.HesapKodu</td>
-                            <td>@item.Unvan</td>
-                            <td align="right">@item.Borc.ToOnFormat()</td>
-                            <td align="right">@item.Alacak.ToOnFormat()</td>
-                            <td align="right">@item.Bakiye.ToOnFormat()</td>
+                            <th nowrap>Detay</th>
+                            <th nowrap>Hesap Kodu</th>
+                            <th nowrap>Ünvan</th>
+                            <th nowrap>Borç</th>
+                            <th nowrap>Alacak</th>
+                            <th nowrap>Bakiye</th>
 
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+            {
+                            <tr>
+                                <td nowrap> </td>
+                                <td nowrap>@item.HesapKodu</td>
+                                <td nowrap>@item.Unvan</td>
+                                <td nowrap align="right">@item.Borc.ToOnFormat()</td>
+                                <td nowrap align="right">@item.Alacak.ToOnFormat()</td>
+                                <td nowrap align="right">@item.Bakiye.ToOnFormat()</td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
         </div>
     </div>

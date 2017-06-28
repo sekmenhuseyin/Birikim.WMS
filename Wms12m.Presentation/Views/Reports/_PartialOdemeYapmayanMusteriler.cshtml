@@ -24,14 +24,14 @@
         <div class="portlet-body">
 
 
-            <table class="table table-striped table-bordered table-hover" id="sample_1">
+            <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
                     <tr>
-                        <th>Hesap Kodu</th>
-                        <th>Ünvan</th>
-                        <th>Mal Kodu</th>
-                        <th>Mal Adı</th>
-                        <th>İşlem Tarihi</th>
+                        <th nowrap>Hesap Kodu</th>
+                        <th nowrap>Ünvan</th>
+                        <th nowrap>Mal Kodu</th>
+                        <th nowrap>Mal Adı</th>
+                        <th nowrap>İşlem Tarihi</th>
 
                     </tr>
                 </thead>
@@ -40,11 +40,11 @@
             {
                         <tr>
                           
-                            <td>@item.HesapKodu</td>
-                            <td>@item.Unvan1</td>
-                            <td align="right">@item.Bakiye.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.SonTahsilatTutari.ToDecimal().ToOnFormat()</td>
-                            <td>@item.SonTahsilatTarihi</td>
+                            <td nowrap>@item.HesapKodu</td>
+                            <td nowrap>@item.Unvan1</td>
+                            <td nowrap align="right">@item.Bakiye.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.SonTahsilatTutari.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.SonTahsilatTarihi</td>
 
 
                         </tr>
