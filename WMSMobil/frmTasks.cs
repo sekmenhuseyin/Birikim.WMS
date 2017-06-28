@@ -16,7 +16,7 @@ namespace WMSMobil
         Terminal Servis = new Terminal();
         Control focusPanel = new Control();
         int Sayac = 0, GorevID = 0, IrsaliyeID = 0;
-        decimal carpim;
+        decimal carpim = Ayarlar.KatSayi;
         bool aktif;
         /// <summary>
         /// form load
@@ -24,8 +24,6 @@ namespace WMSMobil
         public frmTasks()
         {            
             InitializeComponent();
-            carpim = Screen.PrimaryScreen.Bounds.Width / 240;
-            if (carpim > 4) carpim = 1;
             try
             {
 

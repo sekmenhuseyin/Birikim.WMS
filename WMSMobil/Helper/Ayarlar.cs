@@ -14,6 +14,7 @@ namespace WMSMobil
     public class Ayarlar
     {
         public static string AuthCode = "RJ0QdX5V5kWDkjTNR2oWmQdtoxbu2bdbWX4RLI6acw4P/LRTIjKzqaJlx1v76NJw9ngbH1bBDu65EqhU4He0IU2lfI05B8WhXJkMnhlZUNvO5IxKU8fSztlp7uziL6W27/q7v5lV0fXRB0f+RdNzXQIgqMheHhqNbp3z3Vf4VRI=";
+        public static decimal KatSayi;
         static string sirketKodu;
         public static string SirketKodu
         {
