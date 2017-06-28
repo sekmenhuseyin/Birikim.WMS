@@ -24,19 +24,19 @@
         <div class="portlet-body">
 
 
-            <table class="table table-striped table-bordered table-hover" id="sample_1">
+            <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
                     <tr>
-                        <th>Evrak No</th>
-                        <th>Tarih</th>
-                        <th>Hesap Kodu</th>
-                        <th>Ünvan</th>
-                        <th>Çeki Düzenleyen</th>
-                        <th>Tutar</th>
-                        <th>Vade Tarihi</th>
-                        <th>Son Pozisyon</th>
-                        <th>Verildiği Yer</th>
-                        <th>Verildiği Yer Ünvan</th>
+                        <th nowrap>Evrak No</th>
+                        <th nowrap>Tarih</th>
+                        <th nowrap>Hesap Kodu</th>
+                        <th nowrap>Ünvan</th>
+                        <th nowrap>Çeki Düzenleyen</th>
+                        <th nowrap>Tutar</th>
+                        <th nowrap>Vade Tarihi</th>
+                        <th nowrap>Son Pozisyon</th>
+                        <th nowrap>Verildiği Yer</th>
+                        <th nowrap>Verildiği Yer Ünvan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,16 +44,16 @@
             {
                         <tr>
                             
-                            <td>@item.Evrakno</td>
-                            <td>@item.Tarih</td>
-                            <td>@item.CHK</td>
-                            <td>@item.Unvan</td>
-                            <td>@item.CekiDuzenleyen</td>
-                            <td align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
-                            <td>@item.VadeTarih</td>
-                            <td>@item.SonPozisyon</td>
-                            <td>@item.VerildigiYer</td>
-                            <td>@item.VerildigiYerUnvan</td>
+                            <td nowrap>@item.Evrakno</td>
+                            <td nowrap>@item.Tarih</td>
+                            <td nowrap>@item.CHK</td>
+                            <td nowrap>@item.Unvan</td>
+                            <td nowrap>@item.CekiDuzenleyen</td>
+                            <td nowrap align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.VadeTarih</td>
+                            <td nowrap>@item.SonPozisyon</td>
+                            <td nowrap>@item.VerildigiYer</td>
+                            <td nowrap>@item.VerildigiYerUnvan</td>
 
                         </tr>
                     }

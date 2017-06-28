@@ -1582,21 +1582,41 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             {
                 try
                 {
+                    var FYTS = db.Database.SqlQuery<FiyatListSelect>(string.Format("[FINSAT6{0}].[dbo].[FiyatTanimVeOnay] @ListeNo='{1}'", "17", parameters["ListeNo"].ToString())).ToList();
+
                     if (parameters["Durum"].ToShort() == 1)
                     {
+                        foreach (FiyatListSelect item in FYTS)
+                        {
+                            if (parameters["HesapKodu"] == null)
+                            {
+                                if (item.MalKodu == parameters["UrunKodu"].ToString() && item.MusteriKodu == "")
+                                {
+                                    return "MEVCUT";
+                                }
+
+                            }
+                            else
+                            {
+                                if (item.MalKodu == parameters["UrunKodu"].ToString() && item.MusteriKodu == parameters["HesapKodu"].ToString())
+                                {
+                                    return "MEVCUT";
+                                }
+                            }
+                        }
                         Fiyat fyt = new Fiyat()
                         {
                             FiyatListNum = parameters["ListeNo"].ToString(),
 
                             HesapKodu = parameters["HesapKodu"].ToString(),
                             MalKodu = parameters["UrunKodu"].ToString(),
-                            SatisFiyat1 = parameters["SatisFiyat"].ToDecimal(),
+                            SatisFiyat1 = Convert.ToDecimal(parameters["SatisFiyat"].ToString()),
                             SatisFiyat1Birim = parameters["Birim"].ToString(),
                             SatisFiyat1BirimInt = parameters["BirimValue"].ToInt32(),
-                            DovizSatisFiyat1 = parameters["DovizSatisFiyat"].ToDecimal(),
+                            DovizSatisFiyat1 = Convert.ToDecimal(parameters["DovizSatisFiyat"].ToString()),
                             DovizSF1Birim = parameters["DovizBirim"].ToString(),
                             DovizSF1BirimInt = parameters["DovizBirimValue"].ToInt32(),
-                            DovizCinsi = parameters["Birim"].ToString(),
+                            DovizCinsi = parameters["DovizCinsi"].ToString(),
                             Durum = parameters["Durum"].ToShort(),
                             ROW_ID = 0
                         };

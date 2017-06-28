@@ -23,78 +23,104 @@
 
         <div class="portlet-body">
 
-
-            <table class="table table-striped table-bordered table-hover" id="sample_1">
-                <thead>
-                    <tr>
-                        <th>Hesap Kodu</th>
-                        <th>Ünvan</th>
-                        <th>Tarih</th>
-                        <th>Evrak No</th>
-                        <th>Bağlantı No</th>
-                        <th>Grup Kodu</th>
-                        <th>Mal Kodu</th>
-                        <th>Mal Adı</th>
-                        <th>Miktar</th>
-                        <th>Birim</th>
-                        <th>Ana Miktar</th>
-                        <th>Ana Birim</th>
-                        <th>Sevkedilen Miktar</th>
-                        <th>Kalan Miktar</th>
-                        <th>Kalan Ana Birim</th>
-                        <th>Net Fiyat</th>
-                        <th>Tutar</th>
-                        <th>Toplam İskonto</th>
-                        <th>KDV</th>
-                        <th>Kalan Birim Miktar</th>
-                        <th>KDVsiz Tutar</th>
-                        <th>KDVli Tutar</th>
-                        <th>Stok Miktar</th>
-                        <th>Stok Birim</th>
-                        <th>Stok Ana Miktar</th>
-                        <th>Stok Ana Birim</th>
-                        <th>Teslim Tarihi</th>
-                        <th>Teslim Tarihi Durum</th>
-                        <th>Satış Temsilcisi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
+            <div class="row">
+                <table class="table table-striped table-bordered table-condensed" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th nowrap>Hesap Kodu</th>
+                            <th nowrap>Ünvan</th>
+                            <th nowrap>Tarih</th>
+                            <th nowrap>Evrak No</th>
+                            <th nowrap>Bağlantı No</th>
+                            <th nowrap>Grup Kodu</th>
+                            <th nowrap>Mal Kodu</th>
+                            <th nowrap>Mal Adı</th>
+                            <th nowrap>Miktar</th>
+                            <th nowrap>Birim</th>
+                            <th nowrap>Ana Miktar</th>
+                            <th nowrap>Ana Birim</th>
+                            <th nowrap>Sevkedilen Miktar</th>
+                            <th nowrap>Kalan Miktar</th>
+                            <th nowrap>Kalan Birim</th>
+                            <th nowrap>Kalan Ana Miktar</th>
+                            <th nowrap>Kalan Ana Birim</th>
+                            <th nowrap>Net Fiyat</th>
+                            <th nowrap>Tutar</th>
+                            <th nowrap>Toplam İskonto</th>
+                            <th nowrap>KDV</th>
+                            <th nowrap>KDVsiz Tutar</th>
+                            <th nowrap>KDVli Tutar</th>
+                            <th nowrap>KDVsiz KalanTutar</th>
+                            <th nowrap>KDVli KalanTutar</th>
+                            <th nowrap>Stok Miktar</th>
+                            <th nowrap>Stok Birim</th>
+                            <th nowrap>Stok Ana Miktar</th>
+                            <th nowrap>Stok Ana Birim</th>
+                            <th nowrap>Teslim Tarihi</th>
+                            <th nowrap>Teslim Tarihi Durum</th>
+                            <th nowrap>Satış Temsilcisi</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th nowrap colspan="8"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap colspan="5" style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap colspan="7" style="text-align:right;"></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
             {
                         <tr>
-                            <td>@item.Chk</td>
-                            <td>@item.Unvan</td>
-                            <td>@item.Tarih</td>
-                            <td>@item.EvrakNo</td>
-                            <td>@item.GrupKod</td>
-                            <td>@item.MalKodu</td>
-                            <td>@item.MalAdi</td>
-                            <td align="right">@item.Miktar.ToDecimal().ToOnFormat()</td>
-                            <td>@item.Birim</td>
-                            <td align="right">@item.AnaMiktar.ToDecimal().ToOnFormat()</td>
-                            <td>@item.AnaBirim</td>
-                            <td align="right">@item.SevkedilenMiktar.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.KalanMiktar.ToDecimal().ToOnFormat()</td>
-                            <td>@item.KalanAnaBirim</td>
-                            <td align="right">@item.NetFiyat2.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
-                            <td>@item.ToplamIskonto</td>
-                            <td>@item.KDV</td>
-                            <td>@item.KalanBirimMiktar</td>
-                            <td>@item.KalanAnaBirim</td>
-                            <td align="right">@item.KDVSizTutar.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.KDVliTutar.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
-                            <td>@item.StokBirim</td>
-                            <td align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
-                            <td>@item.StokAnaBirim</td>
-                            <td>@item.TeslimTarih</td>
-                            <td>@item.TeslimTarihDurum</td>
-                            <td>@item.SatisTemsilcisi</td>
+                            <td nowrap>@item.Chk</td>
+                            <td nowrap>@item.Unvan</td>
+                            <td nowrap>@item.Tarih</td>
+                            <td nowrap>@item.EvrakNo</td>
+                            <td nowrap>@item.BaglantiNo</td>
+                            <td nowrap>@item.GrupKod</td>
+                            <td nowrap>@item.MalKodu</td>
+                            <td nowrap>@item.MalAdi</td>
+                            <td nowrap align="right">@item.Miktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.Birim</td>
+                            <td nowrap align="right">@item.AnaMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.AnaBirim</td>
+                            <td nowrap align="right">@item.SevkedilenMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.KalanMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.KalanAnaBirim</td>
+                            <td nowrap align="right">@item.KalanBirimMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.KalanAnaBirim</td>
+                            <td nowrap align="right">@item.NetFiyat2.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.ToplamIskonto.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.KDV.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.KDVSizTutar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.KDVliTutar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.KDVSizKalanTutar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.KDVliKalanTutar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.StokBirim</td>
+                            <td nowrap align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.StokAnaBirim</td>
+                            <td nowrap>@item.TeslimTarih</td>
+                            <td nowrap>@item.TeslimTarihDurum</td>
+                            <td nowrap>@item.SatisTemsilcisi</td>
                         </tr>
                     }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
     </div>
@@ -102,6 +128,111 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                };
+
+                // Total over all pages
+                miktartotal = api
+                    .column(8)
+                    .data()
+                    .reduce(function (a, b) {
+                        console.log(a);
+                        console.log(intVal(b));
+                        return a + intVal(b);
+                    }, 0);
+
+                anaMiktartotal = api
+                    .column(10)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                sevkedilentotal = api
+                    .column(12)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kalantotal = api
+                    .column(13)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+                anakalantotal = api
+                    .column(15)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kdvliTutartotal = api
+                    .column(21)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kdvsizTutartotal = api
+                    .column(22)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kdvlikalantotal = api
+                    .column(23)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+                kdvsizkalantotal = api
+                    .column(24)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+
+                // Update footer
+                $(api.column(8).footer()).html(
+                    ondalikBinlik(miktartotal, 6)
+                );
+                $(api.column(10).footer()).html(
+                    ondalikBinlik(anaMiktartotal, 6)
+                );
+                $(api.column(12).footer()).html(
+                    ondalikBinlik(sevkedilentotal, 6)
+                );
+                $(api.column(13).footer()).html(
+                    ondalikBinlik(kalantotal, 6)
+                );
+                $(api.column(15).footer()).html(
+                    ondalikBinlik(anakalantotal, 6)
+                );
+                $(api.column(21).footer()).html(
+                    ondalikBinlik(kdvliTutartotal, 6)
+                );
+                $(api.column(22).footer()).html(
+                    ondalikBinlik(kdvsizTutartotal, 6)
+                );
+                $(api.column(23).footer()).html(
+                    ondalikBinlik(kdvlikalantotal, 6)
+                );
+                $(api.column(24).footer()).html(
+                    ondalikBinlik(kdvsizkalantotal, 6)
+                );
+            }
+            });
+
     });
 </script>

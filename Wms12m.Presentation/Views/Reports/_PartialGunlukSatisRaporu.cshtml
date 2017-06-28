@@ -24,21 +24,27 @@
         <div class="portlet-body">
 
 
-            <table class="table table-striped table-bordered table-hover" id="sample_1">
+            <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
                     <tr>
-                        <th>Hesap Kodu</th>
-                        <th>Ünvan</th>
-                        <th>Mal Kodu</th>
-                        <th>Mal Adı</th>
-                        <th>İşlem Tarihi</th>
-                        <th>Evrak No</th>
-                        <th>Birim</th>
-                        <th>Birim Miktar</th>
-                        <th>Net Birim Fiyat</th>
-                        <th>Net Tutar</th>
-                        <th>KDV</th>
-                        <th>Genel Toplam</th>                       
+                        <th nowrap>Hesap Kodu</th>
+                        <th nowrap>Ünvan</th>
+                        <th nowrap>Bağlantı Tipi</th>
+                        <th nowrap>Bağlantı No</th>
+                        <th nowrap>Satış Temsilcisi</th>
+                        <th nowrap>Mal Kodu</th>
+                        <th nowrap>Mal Adı</th>
+                        <th nowrap>İşlem Tarihi</th>
+                        <th nowrap>Evrak No</th>
+
+                        
+
+                        <th nowrap>Birim</th>
+                        <th nowrap>Birim Miktar</th>
+                        <th nowrap>Net Birim Fiyat</th>
+                        <th nowrap>Net Tutar</th>
+                        <th nowrap>KDV</th>
+                        <th nowrap>Genel Toplam</th>                       
                     </tr>
                 </thead>
                 <tbody>
@@ -46,18 +52,23 @@
             {
                         <tr>
                             
-                            <td>@item.Chk</td>
-                            <td>@item.Unvan</td>
-                            <td>@item.MalKodu</td>
-                            <td>@item.MalAdi</td>
-                            <td>@item.IslemTarihi</td>
-                            <td>@item.EvrakNo</td>
-                            <td>@item.Birim</td>
-                            <td align="right">@item.BirimMiktar.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.NetBirimFiyat.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.NetTutar.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.KDV.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.GenelToplam.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.Chk</td>
+                            <td nowrap>@item.Unvan</td>
+                            <td nowrap>@item.BaglantiTipi</td>
+                            <td nowrap>@item.BaglantiNo</td>
+                            <td nowrap>@item.SatisTemsilcisi</td>
+                            <td nowrap>@item.MalKodu</td>
+                            <td nowrap>@item.MalAdi</td>
+                            <td nowrap>@item.IslemTarihi</td>
+                            <td nowrap>@item.EvrakNo</td>
+                            <td nowrap>@item.Birim</td>
+
+                            
+                            <td nowrap align="right">@item.BirimMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.NetBirimFiyat.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.NetTutar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.KDV.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.GenelToplam.ToDecimal().ToOnFormat()</td>
 
                         </tr>
                     }

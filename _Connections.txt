@@ -1,0 +1,19 @@
+http://raporlar.tumelektrik.com.tr/kablo/
+12M
+123456
+tumgrup
+tumgrup1978
+
+RDP BİLGİLERİ : 
+85.105.158.138:6666 
+Kullanıcı adı : 12M
+Şifre : Birikim12 
+
+MYSQL BİLGİLERİ: 
+Kullanıcı adı : root
+Şifre : birikim12
+
+SQL Server User : sa
+SQL Server sa password : Q46qg8q8r34d8rj
+
+autodiscover.sakaryaizreklam.com.tr:5236

@@ -24,32 +24,41 @@
         <div class="portlet-body">
 
 
-            <table class="table table-striped table-bordered table-hover" id="sample_1">
+            <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
                     <tr>
-                        <th>Tarih</th>
-                        <th>Evrak No</th>
-                        <th>İşlem Tipi</th>
-                        <th>Vade Tarihi</th>
-                        <th>Borç</th>
-                        <th>Alacak</th>
-                        <th>Borç Bakiye</th>
-                        <th>Alacak Bakiye</th>
+                        <th nowrap>Tarih</th>
+                        <th nowrap>Evrak No</th>
+                        <th nowrap>İşlem Tipi</th>
+                        <th nowrap>Vade Tarihi</th>
+                        <th nowrap>Borç</th>
+                        <th nowrap>Alacak</th>
+                        <th nowrap>Borç Bakiye</th>
+                        <th nowrap>Alacak Bakiye</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th nowrap colspan="4"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                    </tr>
+                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
             {
                         <tr>
                             
-                            <td>@item.Tarih</td>
-                            <td>@item.EvrakNo</td>
-                            <td>@item.IslemTip</td>
-                            <td>@item.VadeTarih</td>
-                            <td align="right">@item.Borc.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.Alacak.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.BorcBakiye.ToDecimal().ToOnFormat()</td>
-                            <td align="right">@item.AlacakBakiye.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.Tarih</td>
+                            <td nowrap>@item.EvrakNo</td>
+                            <td nowrap>@item.IslemTip</td>
+                            <td nowrap>@item.VadeTarih</td>
+                            <td nowrap align="right">@item.Borc.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.Alacak.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.BorcBakiye.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.AlacakBakiye.ToDecimal().ToOnFormat()</td>
 
                         </tr>
                     }
@@ -61,6 +70,41 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                };
+
+                // Total over all pages
+                alacaktotal = api
+                    .column(5)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                borctotal = api
+                    .column(4)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+
+                // Update footer
+                $(api.column(5).footer()).html(
+                    ondalikBinlik(alacaktotal,6)
+                );
+                $(api.column(4).footer()).html(
+                    ondalikBinlik(borctotal, 6)
+                );
+                console.log(borctotal);
+            }
+        });
     });
 </script>
