@@ -65,6 +65,7 @@
                 <th nowrap>Güncelleme Tarihi</th>
                 <th nowrap>Güncelleyen Kullanıcı</th>
                 <th nowrap>Açıklama</th>
+                <th nowrap style="display:none;"></th>
             </tr>
         </thead>
     </table>
@@ -111,7 +112,7 @@
                     return json;
                 },
             },
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [13, 14] }, { "visible": false, "targets": [0,1] }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [13, 14] }, { "visible": false, "targets": [0,1,22,23] }],
             "columns": [
                 { "data": "PERSONELID" },
                 { "data": "ID" },
@@ -135,6 +136,7 @@
                 { "data": "GuncellemeTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
                 { "data": "GuncelleyenKullanici" },
                 { "data": "Aciklama" },
+                { "data": "DBUTUCRETID" }
             ],
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {

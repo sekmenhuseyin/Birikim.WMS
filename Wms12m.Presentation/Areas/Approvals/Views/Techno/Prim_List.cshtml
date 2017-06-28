@@ -74,6 +74,7 @@
                 <th nowrap>Güncelleme Tarihi</th>
                 <th nowrap>Güncelleyen Kullanıcı</th>
                 <th nowrap>Açıklama</th>
+                <th nowrap style="display:none;"></th>
             </tr>
         </thead>
     </table>
@@ -167,6 +168,7 @@
             { "data": "GuncellemeTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
             { "data": "GuncelleyenKullanici" },
             { "data": "Aciklama" }
+            { "data": "DSKALAID" }
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
