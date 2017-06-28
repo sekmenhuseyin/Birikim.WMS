@@ -37,6 +37,15 @@
                         <th nowrap>Alacak Bakiye</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th nowrap colspan="4"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                    </tr>
+                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
             {
@@ -61,6 +70,41 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                };
+
+                // Total over all pages
+                alacaktotal = api
+                    .column(5)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                borctotal = api
+                    .column(4)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+
+                // Update footer
+                $(api.column(5).footer()).html(
+                    ondalikBinlik(alacaktotal,6)
+                );
+                $(api.column(4).footer()).html(
+                    ondalikBinlik(borctotal, 6)
+                );
+                console.log(borctotal);
+            }
+        });
     });
 </script>

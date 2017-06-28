@@ -41,14 +41,17 @@
                             <th nowrap>Ana Birim</th>
                             <th nowrap>Sevkedilen Miktar</th>
                             <th nowrap>Kalan Miktar</th>
+                            <th nowrap>Kalan Birim</th>
+                            <th nowrap>Kalan Ana Miktar</th>
                             <th nowrap>Kalan Ana Birim</th>
                             <th nowrap>Net Fiyat</th>
                             <th nowrap>Tutar</th>
                             <th nowrap>Toplam İskonto</th>
                             <th nowrap>KDV</th>
-                            <th nowrap>Kalan Birim Miktar</th>
                             <th nowrap>KDVsiz Tutar</th>
                             <th nowrap>KDVli Tutar</th>
+                            <th nowrap>KDVsiz KalanTutar</th>
+                            <th nowrap>KDVli KalanTutar</th>
                             <th nowrap>Stok Miktar</th>
                             <th nowrap>Stok Birim</th>
                             <th nowrap>Stok Ana Miktar</th>
@@ -58,6 +61,25 @@
                             <th nowrap>Satış Temsilcisi</th>
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr>
+                            <th nowrap colspan="8"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap colspan="5" style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap colspan="7" style="text-align:right;"></th>
+                        </tr>
+                    </tfoot>
                     <tbody>
                         @foreach (var item in Model)
             {
@@ -66,6 +88,7 @@
                             <td nowrap>@item.Unvan</td>
                             <td nowrap>@item.Tarih</td>
                             <td nowrap>@item.EvrakNo</td>
+                            <td nowrap>@item.BaglantiNo</td>
                             <td nowrap>@item.GrupKod</td>
                             <td nowrap>@item.MalKodu</td>
                             <td nowrap>@item.MalAdi</td>
@@ -76,14 +99,16 @@
                             <td nowrap align="right">@item.SevkedilenMiktar.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.KalanMiktar.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.KalanAnaBirim</td>
+                            <td nowrap align="right">@item.KalanBirimMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.KalanAnaBirim</td>
                             <td nowrap align="right">@item.NetFiyat2.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.ToplamIskonto.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.KDV.ToDecimal().ToOnFormat()</td>
-                            <td nowrap>@item.KalanBirimMiktar.ToDecimal().ToOnFormat()</td>
-                            <td nowrap>@item.KalanAnaBirim</td>
                             <td nowrap align="right">@item.KDVSizTutar.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.KDVliTutar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.KDVSizKalanTutar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.KDVliKalanTutar.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.StokBirim</td>
                             <td nowrap align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
@@ -103,6 +128,111 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                };
+
+                // Total over all pages
+                miktartotal = api
+                    .column(8)
+                    .data()
+                    .reduce(function (a, b) {
+                        console.log(a);
+                        console.log(intVal(b));
+                        return a + intVal(b);
+                    }, 0);
+
+                anaMiktartotal = api
+                    .column(10)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                sevkedilentotal = api
+                    .column(12)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kalantotal = api
+                    .column(13)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+                anakalantotal = api
+                    .column(15)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kdvliTutartotal = api
+                    .column(21)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kdvsizTutartotal = api
+                    .column(22)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kdvlikalantotal = api
+                    .column(23)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+                kdvsizkalantotal = api
+                    .column(24)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+
+                // Update footer
+                $(api.column(8).footer()).html(
+                    ondalikBinlik(miktartotal, 6)
+                );
+                $(api.column(10).footer()).html(
+                    ondalikBinlik(anaMiktartotal, 6)
+                );
+                $(api.column(12).footer()).html(
+                    ondalikBinlik(sevkedilentotal, 6)
+                );
+                $(api.column(13).footer()).html(
+                    ondalikBinlik(kalantotal, 6)
+                );
+                $(api.column(15).footer()).html(
+                    ondalikBinlik(anakalantotal, 6)
+                );
+                $(api.column(21).footer()).html(
+                    ondalikBinlik(kdvliTutartotal, 6)
+                );
+                $(api.column(22).footer()).html(
+                    ondalikBinlik(kdvsizTutartotal, 6)
+                );
+                $(api.column(23).footer()).html(
+                    ondalikBinlik(kdvlikalantotal, 6)
+                );
+                $(api.column(24).footer()).html(
+                    ondalikBinlik(kdvsizkalantotal, 6)
+                );
+            }
+            });
+
     });
 </script>

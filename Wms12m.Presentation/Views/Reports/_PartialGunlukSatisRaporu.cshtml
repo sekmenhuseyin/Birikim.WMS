@@ -29,10 +29,16 @@
                     <tr>
                         <th nowrap>Hesap Kodu</th>
                         <th nowrap>Ünvan</th>
+                        <th nowrap>Bağlantı Tipi</th>
+                        <th nowrap>Bağlantı No</th>
+                        <th nowrap>Satış Temsilcisi</th>
                         <th nowrap>Mal Kodu</th>
                         <th nowrap>Mal Adı</th>
                         <th nowrap>İşlem Tarihi</th>
                         <th nowrap>Evrak No</th>
+
+                        
+
                         <th nowrap>Birim</th>
                         <th nowrap>Birim Miktar</th>
                         <th nowrap>Net Birim Fiyat</th>
@@ -48,11 +54,16 @@
                             
                             <td nowrap>@item.Chk</td>
                             <td nowrap>@item.Unvan</td>
+                            <td nowrap>@item.BaglantiTipi</td>
+                            <td nowrap>@item.BaglantiNo</td>
+                            <td nowrap>@item.SatisTemsilcisi</td>
                             <td nowrap>@item.MalKodu</td>
                             <td nowrap>@item.MalAdi</td>
                             <td nowrap>@item.IslemTarihi</td>
                             <td nowrap>@item.EvrakNo</td>
                             <td nowrap>@item.Birim</td>
+
+                            
                             <td nowrap align="right">@item.BirimMiktar.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.NetBirimFiyat.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.NetTutar.ToDecimal().ToOnFormat()</td>
