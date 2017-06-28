@@ -19,7 +19,7 @@ namespace WMSMobil
         int GorevID, IrsaliyeID, GorevTip;
         string FocusPanelName = "";
         int Sayac = 0;
-        decimal carpim;
+        decimal carpim = Ayarlar.KatSayi;
         List<PanelEx> PanelVeriList = new List<PanelEx>();
         /// <summary>
         /// form load
@@ -27,8 +27,6 @@ namespace WMSMobil
         public frmxOps(int grvId, int irsID, bool tip, int gorevtip)
         {
             InitializeComponent();
-            carpim = Screen.PrimaryScreen.Bounds.Width / 240;
-            if (carpim > 4) carpim = 1;
             glbTip = tip;
             GorevTip=gorevtip;
             //barkod

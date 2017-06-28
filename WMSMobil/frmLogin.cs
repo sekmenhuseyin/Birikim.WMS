@@ -21,6 +21,8 @@ namespace WMSMobil
         public frmLogin()
         {
             InitializeComponent();
+            Ayarlar.KatSayi = (decimal)Screen.PrimaryScreen.Bounds.Width / (decimal)240;
+            if (Ayarlar.KatSayi > 4) Ayarlar.KatSayi = 1;
             //barkod
             //Barkod = new Barcode2();
             //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
