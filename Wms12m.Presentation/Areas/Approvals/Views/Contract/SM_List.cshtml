@@ -116,7 +116,7 @@
                     $('td', nRow).css('background-color', '#f9df63');
                 }
                 if (aData["CekTutari"] > 0 || aData["NakitTutari"] > 0) {
-                    $('td:last', nRow).text(ondalikBinlik(aData["CekTutari"] + aData["NakitTutari"]));
+                    $('td:last', nRow).text(ondalikBinlik(aData["CekTutari"] + aData["NakitTutari"]),2);
                 }
                 else {
                     $('td:last', nRow).text("0,00");

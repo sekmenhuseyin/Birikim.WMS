@@ -68,6 +68,12 @@ namespace Wms12m.Entity
         /// <summary> VarChar(81) (Not Null) </summary>
         public string Unvan { get; set; }
         /// <summary> VarChar(30) (Not Null) </summary>
+        public string BaglantiTipi { get; set; }
+        /// <summary> VarChar(30) (Not Null) </summary>
+        public string BaglantiNo { get; set; }
+        /// <summary> VarChar(50) (Not Null) </summary>
+        public string SatisTemsilcisi { get; set; }
+        /// <summary> VarChar(15) (Allow Null) </summary>
         public string MalKodu { get; set; }
         /// <summary> VarChar(50) (Not Null) </summary>
         public string MalAdi { get; set; }
@@ -187,6 +193,8 @@ namespace Wms12m.Entity
         public string EvrakNo { get; set; }
         /// <summary> VarChar(20) (Not Null) </summary>
         public string GrupKod { get; set; }
+        /// <summary> VarChar(20) (Not Null) </summary>
+        public string BaglantiNo { get; set; }
         /// <summary> VarChar(30) (Not Null) </summary>
         public string MalKodu { get; set; }
         /// <summary> VarChar(50) (Not Null) </summary>
@@ -224,6 +232,10 @@ namespace Wms12m.Entity
         /// <summary> Decimal(36,2) (Allow Null) </summary>
         public decimal? KDVliTutar { get; set; }
         /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? KDVSizKalanTutar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
+        public decimal? KDVliKalanTutar { get; set; }
+        /// <summary> Decimal(36,2) (Allow Null) </summary>
         public decimal? StokMiktar { get; set; }
         /// <summary> VarChar(4) (Not Null) </summary>
         public string StokBirim { get; set; }
@@ -244,7 +256,7 @@ namespace Wms12m.Entity
         public string Tarih { get; set; }
         public string Chk { get; set; }
         public string Unvan1 { get; set; }
-        public string Tutar { get; set; }
+        public decimal Tutar { get; set; }
         public string VadeTarih { get; set; }
         public string KayitTarih { get; set; }
         public string Pozisyon { get; set; }

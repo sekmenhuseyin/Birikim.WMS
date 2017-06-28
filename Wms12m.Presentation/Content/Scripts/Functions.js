@@ -70,13 +70,18 @@ function NumbBox(cls, readOnly) {
 }
 
 // Sayılara ondalık binlik ayraçları eklemek için
-function ondalikBinlik(Val) {
+function ondalikBinlik(Val,Ond) {
     if (Val == null || Val == undefined || Val == 0) {
-        return 0;
+        var ond = "";
+        for (var i = 0; i < Ond; i++) {
+            ond += "0";
+        }
+        console.log(ond);
+        return "0," + ond;
     }
     else if ((Val.toString().indexOf(",") > 0)) {
         var b = new Array();
-        var detVal = Number(Val.toString().replace(/\./g, "").replace(",", ".")).toFixed(2).split(".")[0];
+        var detVal = Number(Val.toString().replace(/\./g, "").replace(",", ".")).toFixed(Ond).split(".")[0];
         //var detVal = Val.split(",")[0].replace(/\./g, "");;
         var a = detVal.length;
         for (var i = a; i > 0; i = i - 3) {
@@ -92,14 +97,14 @@ function ondalikBinlik(Val) {
             detVal = detVal.addAt(value, '.');
         });
         var ond = Val.split(",")[1];
-        var sayac = 2 - ond.length;
-        if (ond.length < 2 && ond.length != 0) {
+        var sayac = Ond - ond.length;
+        if (ond.length < Ond && ond.length != 0) {
             for (var i = 0; i < sayac; i++) {
                 ond += "0";
             }
         }
-        else if (ond.length > 2) {
-            ond = ond.substring(0,2);
+        else if (ond.length > Ond) {
+            ond = ond.substring(0, Ond);
         }
         else if (ond.length == 0 ) {
             ond = "";
@@ -108,8 +113,18 @@ function ondalikBinlik(Val) {
         return detVal;
     }
     else {
-        var detVal = Number(Val.toString().replace(/\./g, "")).toFixed(2).replace(".", ",");
-        var ond = "00";
+        var detVal = "";
+        if (Val.toString().split(".").length>2){
+            detVal = Number(Val.toString().replace(/\./g, "")).toFixed(Ond).replace(".", ",");
+        }
+        else {
+            detVal =Number(Val.toString()).toFixed(Ond).replace(".", ",");
+        }
+        var ond = "";
+        for (var i = 0; i < Ond; i++) {
+            ond += "0";
+        }
+       
         var b = new Array();
         var a = detVal.split(",")[0].length;
         for (var i = a; i > 0; i = i - 3) {
