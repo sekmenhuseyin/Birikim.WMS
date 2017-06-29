@@ -116,6 +116,7 @@
                 $('td', nRow).attr('nowrap', 'nowrap');
                 if (aData["YeniBaglantiTutar"] > 1) {
                     $('td', nRow).css('background-color', '#f9df63');
+                    $('td', nRow).addClass("degisim");
                 }
                 if (aData["CekTutari"] > 0 || aData["NakitTutari"] > 0) {
                     $('td:last', nRow).text(ondalikBinlik(aData["CekTutari"] + aData["NakitTutari"]),2);
@@ -149,6 +150,9 @@
         });
         $('#sample_1 tbody').on('click', 'tr', function () {
             $("tr").removeClass("selected");
+            $("tr").find('td').not(".degisim").css('background-color', 'transparent');
+            $(".degisim").css('background-color', '#f9df63');
+            $(this).find('td').css('background-color', '#B0BED9');
             $(this).toggleClass('selected');
         });
     });

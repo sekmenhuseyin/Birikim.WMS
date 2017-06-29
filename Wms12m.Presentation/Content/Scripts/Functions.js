@@ -4,7 +4,7 @@ String.prototype.addAt = function (index, character) {
 }
 
 //dxTextBoxları NumberBox'a çevirme
-function NumbBox(cls, readOnly) {
+function NumbBox(cls, readOnly,ond) {
     $(cls).dxTextBox({
         mode: "fixed-point",
         value: 0,
@@ -13,7 +13,7 @@ function NumbBox(cls, readOnly) {
 
             if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 44/* && event.keyCode != 46*/) {
                 var val = info.component.option("text");
-                var deger = ondalikBinlik(val)
+                var deger = ondalikBinlik(val, ond)
                 info.component.option("value", deger);
                 event.stopPropagation();
                 event.preventDefault();
@@ -21,7 +21,7 @@ function NumbBox(cls, readOnly) {
             else if (event.keyCode == 44) {
                 var val = info.component.option("text");
                 if (val.toString().indexOf(",") > 0) {
-                    var deger = ondalikBinlik(val)
+                    var deger = ondalikBinlik(val, ond)
                     info.component.option("value", deger);
                     event.stopPropagation();
                     event.preventDefault();
@@ -36,7 +36,7 @@ function NumbBox(cls, readOnly) {
             }
             var xx = e.value;
             if (e.value.toString().indexOf(",") < 0) {
-                var deger = ondalikBinlik(e.value.toString())
+                var deger = ondalikBinlik(e.value.toString(), ond)
                 if (deger.toString().split(",")[0] == e.value.toString()) {
                     return;
                 }
@@ -44,7 +44,7 @@ function NumbBox(cls, readOnly) {
             if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
                 xx = e.value.toString().substring(0, e.value.toString().length - 1)
             }
-            var deger = ondalikBinlik(xx)
+            var deger = ondalikBinlik(xx, ond)
             e.component.option("value", deger);
             event.stopPropagation();
             event.preventDefault();

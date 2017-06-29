@@ -258,8 +258,8 @@
                var model = @Html.Raw(Json.Encode(Model));
             var brmData=new Array();
             var dvzCinsi=[{Cins:"USD"},{Cins:"EUR"}]
-            NumbBox(".numb_onc_satisfiyati", true);
-            NumbBox(".numb_yeni_satisfiyati", false);
+            NumbBox(".numb_onc_satisfiyati", true,2);
+            NumbBox(".numb_yeni_satisfiyati", false,2);
             $(".txt_onc_satisfiyat_birim").dxTextBox({readOnly: true });
             $(".slct_yeni_satisfiyati_birim").dxSelectBox({
                 valueExpr: 'Deger',
@@ -267,8 +267,8 @@
                 onValueChanged: function (e) {
                 }
             });
-            NumbBox(".numb_onc_dvzsatisfiyati", true);
-            NumbBox(".numb_yeni_dvzsatisfiyati", false);
+            NumbBox(".numb_onc_dvzsatisfiyati", true,2);
+            NumbBox(".numb_yeni_dvzsatisfiyati", false,2);
             $(".txt_onc_dvzsatisfiyat_birim").dxTextBox({ readOnly: true });
             $(".slct_yeni_dvzsatisfiyati_birim").dxSelectBox({
                 valueExpr: 'Deger',
@@ -394,8 +394,8 @@
                     itemElement.append(rightBlock);
                 }
             });
-            NumbBox(".numb-satis-fiyat", false);
-            NumbBox(".numb-doviz-satis-fiyat", false);
+            NumbBox(".numb-satis-fiyat", false,2);
+            NumbBox(".numb-doviz-satis-fiyat", false,2);
 
             $(".txt-doviz-birim").dxSelectBox({
                 valueExpr: 'Deger',

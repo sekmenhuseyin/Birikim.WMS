@@ -313,7 +313,11 @@ td {width: auto !important;}
                 width: "25%",
                 onValueChanged: function (data) {
                     inputClear();
+                    
                     if (data.value == true) {
+                        $(".satir-ekle-buton").removeClass('disabled');
+                        $(".satir-sil-buton").removeClass('disabled');
+                        $(".sozlesme-kaydet-buton").removeClass('disabled');
                         $.ajax({
                             url: window.location.origin + "/Approvals/Contract/List?tip=0",
                             data: {},
@@ -325,6 +329,9 @@ td {width: auto !important;}
                         });
                     }
                     else {
+                        $(".satir-ekle-buton").addClass('disabled');
+                        $(".satir-sil-buton").addClass('disabled');
+                        $(".sozlesme-kaydet-buton").addClass('disabled');
                         $.ajax({
                             url: window.location.origin + "/Approvals/Contract/List?tip=1",
                             data: {},
@@ -362,20 +369,20 @@ td {width: auto !important;}
             });
 
             $(".txt_sira_no").dxTextBox("instance").option("value", srNo);
-            NumbBox(".numb_baglanti_tutari", false);
-            NumbBox(".numb_iskonto1", false);
-            NumbBox(".numb_iskonto2", false);
-            NumbBox(".numb_iskonto3", false);
-            NumbBox(".numb_iskonto4", false);
-            NumbBox(".numb_iskonto5", false);
-            NumbBox(".numb_valor_gun", false);
-            NumbBox(".numb_kredi_limiti", true);
-            NumbBox(".numb_bakiye", true);
-            NumbBox(".numb_toplam_bakiye", true);
-            NumbBox(".numb_bekleyen_siparis", true);
-            NumbBox(".numb_alinan_bordro", true);
-            NumbBox(".numb_alinan_cek_tutari", false);
-            NumbBox(".numb_alinan_nakit_vb", false);
+            NumbBox(".numb_baglanti_tutari", false,2);
+            NumbBox(".numb_iskonto1", false,2);
+            NumbBox(".numb_iskonto2", false,2);
+            NumbBox(".numb_iskonto3", false,2);
+            NumbBox(".numb_iskonto4", false,2);
+            NumbBox(".numb_iskonto5", false,2);
+            NumbBox(".numb_valor_gun", false,0);
+            NumbBox(".numb_kredi_limiti", true,2);
+            NumbBox(".numb_bakiye", true,4);
+            NumbBox(".numb_toplam_bakiye", true,4);
+            NumbBox(".numb_bekleyen_siparis", true,2);
+            NumbBox(".numb_alinan_bordro", true,2);
+            NumbBox(".numb_alinan_cek_tutari", false,2);
+            NumbBox(".numb_alinan_nakit_vb", false,2);
           
             $(".numb_toplam_tahsilat").dxTextBox({
                 value: 0,
@@ -492,6 +499,7 @@ td {width: auto !important;}
                     }
                     if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
                         $(".sozlesme-guncelle-buton").removeClass('disabled');
+                        
                     }
                     else {
                         $(".sozlesme-guncelle-buton").addClass('disabled');
@@ -676,6 +684,8 @@ td {width: auto !important;}
         });
 
         $('.satir-ekle-buton').click(function () {
+            if ($(this).hasClass("disabled"))
+                return;
             //Kontrol
             if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly")) {
                 Modaldialog("Sözleşme Değiştirilemez.", "Satır Ekle", "Tamam", "Uyarı");
@@ -699,8 +709,8 @@ td {width: auto !important;}
             var EKFiyatListesi = listeNo;
             var EKMalKod = TempMalKod;
             var EKMalKodGrup = TempUrunGrupText;
-            var EKMalAdi = TempMalAdi;
-            var EKKalite = TempKalite;
+            var EKMalAdi = TempMalAdi == null ? "" : TempMalAdi;
+            var EKKalite = TempKalite == null ? "" : TempKalite;
             var EKOran1 = $(".numb_iskonto1").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto1").dxTextBox("instance").option("value");
             var EKOran2 = $(".numb_iskonto2").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto2").dxTextBox("instance").option("value");
             var EKOran3 = $(".numb_iskonto3").dxTextBox("instance").option("value") == null ? 0 : $(".numb_iskonto3").dxTextBox("instance").option("value");
@@ -721,10 +731,14 @@ td {width: auto !important;}
         });
 
         $('.satir-sil-buton').click(function () {
+            if ($(this).hasClass("disabled"))
+                return;
             SatirSil();
         });
 
         $('.sozlesme-kaydet-buton').click(function () {
+            if ($(this).hasClass("disabled"))
+                return;
             if ($(".txt_sozlesme_sira_no").dxTextBox("instance").option("value") == "") {
                 Modaldialog("Sözleşme Numarası Girmelisiniz.", "Satır Ekle", "Tamam", "Uyarı");
                 return;
@@ -847,14 +861,13 @@ td {width: auto !important;}
                     YeniBitisTarihi = Math.ceil((e.value - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
                 }
             });
-            $(".numb_yeni_baglanti_tutari").dxTextBox({
-                min: 0,
-                step: 1,
-                value: 0,
-                onValueChanged: function (e) {
-                    YeniBaglantiTutari = e.value;
-                }
-            });
+            NumbBox(".numb_yeni_baglanti_tutari", false,2);
+            //$(".numb_yeni_baglanti_tutari").dxTextBox("instance").option({
+            //    onValueChanged: function (e) {
+            //        console.log(e.value);
+            //        YeniBaglantiTutari = e.value;
+            //    }
+            //});
 
         });
 

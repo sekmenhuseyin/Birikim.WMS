@@ -92,9 +92,13 @@
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
         if($( this ).hasClass( "selected" )){
-        silinecek.push($( "tr" ).index( this )-1)
-        }else{
-            silinecek.splice($( "tr" ).index( this )-1, 1);
+            silinecek.push($("tr").index(this) - 1)
+        } else {
+            var ind = $("tr").index(this) - 1;
+            silinecek = jQuery.grep(silinecek, function (value) {
+                return value != ind;
+            });
+            //silinecek.splice($("tr").index(this), 1);
         }
     });
 
@@ -191,9 +195,11 @@
 
     }
 
-    function SatirSil(){
+    function SatirSil() {
+        silinecek.sort(function (a, b) { return b - a })
+        console.log(silinecek);
         for (var i = 0; i < silinecek.length; i++) {
-            element.splice(i, 1);
+            element.splice(silinecek[i], 1);
             var jsonElement = JSON.stringify(element);
             if ($("#fiyat_listesi_data table").length < 1) {
                 PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
