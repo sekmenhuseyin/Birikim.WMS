@@ -44,6 +44,8 @@ namespace Wms12m.Entity
         public int ID { get; set; }
         public string RedNedeni { get; set; }
         public string Reddeden { get; set; }
-
+        public int DSKALAID { get; set; }
+        public int DBUTUCRETID { get; set; }
+        
     }
 }

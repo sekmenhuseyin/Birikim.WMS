@@ -105,7 +105,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         LogActions("Approvals", "Techno", "Ucret_Onayla", ComboItems.alOnayla, ID.ToInt32(), insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + "'ın ücret değişimi onaylandı.");
                         if (MyGlobalVariables.Birim == "GM")
                         {
-                            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR0312M].[dbo].[BUTUCRET] WHERE  ListeNo = '{1}'", "17", insertObj["ListeNo"].ToString()));
+                            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR0312M].[dbo].[BUTUCRET] WHERE DBUTUCRETID={0} ", insertObj["DBUTUCRETID"].ToInt32()));
                             string ss = string.Format("[HR0312M].[dbo].[TCH_BUTUCRETINSERT] @ID={0}", ID);
                             var xx = db.Database.SqlQuery<int>(ss).ToList();
                             LogActions("Approvals", "Techno", "Ucret_Onayla", ComboItems.alEkle, ID.ToInt32(), "PERSONELID=" + insertObj["PERSONELID"].ToString() + "olan kayıt BUTUCRET tablosuna eklendi");
@@ -158,6 +158,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         LogActions("Approvals", "Techno", "Prim_Onayla", ComboItems.alEkle, ID.ToInt32(), insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + "'ın prim değişimi onaylandı.");
                         if (MyGlobalVariables.Birim == "GM")
                         {
+                            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR0312M].[dbo].[BRDSKALA] WHERE DSKALAID={0} ", insertObj["DSKALAID"].ToInt32()));
                             string ss = string.Format("[HR0312M].[dbo].[TCH_BRDSKALAINSERT] @ID={0}", ID);
                             var xx = db.Database.SqlQuery<int>(ss).ToList();
                             LogActions("Approvals", "Techno", "Prim_Onayla", ComboItems.alOnayla, ID.ToInt32(), "PERSONELID=" + insertObj["PERSONELID"].ToString() + "olan kayıt BRDSKALA tablosuna eklendi");
