@@ -46,6 +46,7 @@ namespace Wms12m.Entity
         public string Reddeden { get; set; }
         public int DSKALAID { get; set; }
         public int DBUTUCRETID { get; set; }
-        
+        public short IslemTipi { get; set; }
+        public int DSKALAANAID { get; set; }
     }
 }
