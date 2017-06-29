@@ -132,7 +132,7 @@
         //"scrollX": true,
         //"scrollY": '30vh',
         //"scrollCollapse": true,
-        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [8, 9] }, { "visible": false, "targets": [0, 1] }, { "className": "dt-center", "targets": "_all" }],
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [8, 9] }, { "visible": false, "targets": [0, 1,33] }, { "className": "dt-center", "targets": "_all" }],
         "columns": [
             { "data": "PERSONELID" },
             { "data": "ID" },
@@ -167,7 +167,7 @@
             { "data": "KaydedenKullanici" },
             { "data": "GuncellemeTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
             { "data": "GuncelleyenKullanici" },
-            { "data": "Aciklama" }
+            { "data": "Aciklama" },
             { "data": "DSKALAID" }
         ],
         "ordering": false,
