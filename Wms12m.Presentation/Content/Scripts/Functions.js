@@ -30,20 +30,32 @@ function NumbBox(cls, readOnly,ond) {
         },
         onValueChanged: function (e) {
 
-            
+            var xx = e.value;
             if (e.value == null) {
                 return;
             }
-            var xx = e.value;
+            if (e.value.toString().split(",").length < 3) {
+                xx = e.value;
+            }
+            else {
+                xx = "0";
+            }
+            
+            if (e.value.toString().split(",").length > 2) {
+                e.component.option("value", 0);
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            else if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
+                xx = e.value.toString().substring(0, e.value.toString().length - 1)
+            }
             if (e.value.toString().indexOf(",") < 0) {
                 var deger = ondalikBinlik(e.value.toString(), ond)
-                if (deger.toString().split(",")[0] == e.value.toString()) {
+                if (deger.toString().split(",")[0] == e.value.toString() && deger.toString().split(",")[0]!=0) {
                     return;
                 }
             }
-            if (e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == "," || e.value.toString().substring(e.value.toString().length - 1, e.value.toString().length) == ".") {
-                xx = e.value.toString().substring(0, e.value.toString().length - 1)
-            }
+            
             var deger = ondalikBinlik(xx, ond)
             e.component.option("value", deger);
             event.stopPropagation();
@@ -70,14 +82,14 @@ function NumbBox(cls, readOnly,ond) {
 }
 
 // Sayılara ondalık binlik ayraçları eklemek için
-function ondalikBinlik(Val,Ond) {
-    if (Val == null || Val == undefined || Val == 0) {
-        var ond = "";
-        for (var i = 0; i < Ond; i++) {
-            ond += "0";
-        }
-        console.log(ond);
-        return "0," + ond;
+function ondalikBinlik(Val, Ond) {
+    if (Val == null || Val == undefined || Val == 0 || Val.toString().split(",").length > 2) {
+        //var ond = "";
+        //for (var i = 0; i < Ond; i++) {
+        //    ond += "0";
+        //}
+        //return "0," + ond;
+        return 0;
     }
     else if ((Val.toString().indexOf(",") > 0)) {
         var b = new Array();
@@ -113,9 +125,19 @@ function ondalikBinlik(Val,Ond) {
         return detVal;
     }
     else {
+        if (Val.toString() == "0") {
+            return 0;
+        }
         var detVal = "";
         if (Val.toString().split(".").length>2){
             detVal = Number(Val.toString().replace(/\./g, "")).toFixed(Ond).replace(".", ",");
+        }
+        else if (Val.toString().split(".").length == 2 && Val.toString().split(".")[1] != undefined) {
+            if (Val.toString().split(".")[1].length==3)
+                return ;
+            else {
+                detVal = Number(Val.toString()).toFixed(Ond).replace(".", ",");
+            }
         }
         else {
             detVal =Number(Val.toString()).toFixed(Ond).replace(".", ",");
