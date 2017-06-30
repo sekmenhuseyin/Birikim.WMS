@@ -94,7 +94,7 @@
                 { "data": "YeniBaglantiTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') }, 
                 { "data": "BasTarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
                 { "data": "BitTarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
-                { "data": "YeniBitTarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
+                { "data": "YeniBitTarih", "render": function (data) { if (data != 0) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
                 { "data": "MusteriKod" },
                 { "data": "Aciklama" },
                 { "data": "KrediLimiti", "render": $.fn.dataTable.render.number('.', ',', 2, '') }, 
@@ -139,15 +139,23 @@
         });
         $('#sample_1 tbody').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');
-            $("tr").removeClass("aa");
+            table
+                .rows('.aa')
+                .nodes()
+                .to$()      // Convert to a jQuery object
+                .removeClass('aa');
             tr.addClass("aa");
             var x = table.rows('.aa').data();
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-            else { row.child(newrow(x[0].ListeNo)).show(); format(x[0].ListeNo.replace("/", "")); tr.addClass('shown'); }
+            else { row.child(newrow(x[0].ListeNo)).show(); format(x[0].ListeNo); tr.addClass('shown'); }
         });
         $('#sample_1 tbody').on('click', 'tr', function () {
-            $("tr").removeClass("selected");
+            table
+                .rows('.selected')
+                .nodes()
+                .to$()      // Convert to a jQuery object
+                .removeClass('selected');
             $("tr").find('td').not(".degisim").css('background-color', 'transparent');
             $(".degisim").css('background-color', '#f9df63');
             $(this).find('td').css('background-color', '#B0BED9');

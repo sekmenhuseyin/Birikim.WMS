@@ -864,7 +864,6 @@ td {width: auto !important;}
             NumbBox(".numb_yeni_baglanti_tutari", false,2);
             //$(".numb_yeni_baglanti_tutari").dxTextBox("instance").option({
             //    onValueChanged: function (e) {
-            //        console.log(e.value);
             //        YeniBaglantiTutari = e.value;
             //    }
             //});
@@ -874,7 +873,7 @@ td {width: auto !important;}
         $('.soz_gunc_kaydet').click(function () {
             var listeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
             var onc_bag_tut = $(".numb_onc_baglanti_tutari").dxTextBox("instance").option("value");
-            var yeni_bag_tut = YeniBaglantiTutari;
+            var yeni_bag_tut = Number($(".numb_yeni_baglanti_tutari").dxTextBox("instance").option("value").replace(/\./g, "").replace(",", "."));
             var onc_bit_tarih = $(".date_onc_bitis_tarihi").dxDateBox("instance").option("value");
             var yeni_bit_tarih = YeniBitisTarihi;
             var mus_uyg_sekli = MusteriUygunlukKodu;
