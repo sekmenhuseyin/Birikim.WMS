@@ -16,7 +16,7 @@
         MalKabul = 1,
         RafaKaldır = 2,
         SiparişTopla = 3,
-        KabloSiparişi = 4,
+        BarkodHazırla = 4,
         İrsaliyeKes = 5,
         Paketle = 6,
         Sevket = 7,

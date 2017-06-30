@@ -68,9 +68,9 @@
             this.btnGiris.BackColor = System.Drawing.Color.SteelBlue;
             this.btnGiris.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
             this.btnGiris.ForeColor = System.Drawing.Color.White;
-            this.btnGiris.Location = new System.Drawing.Point(23, 205);
+            this.btnGiris.Location = new System.Drawing.Point(0, 188);
             this.btnGiris.Name = "btnGiris";
-            this.btnGiris.Size = new System.Drawing.Size(194, 41);
+            this.btnGiris.Size = new System.Drawing.Size(171, 41);
             this.btnGiris.TabIndex = 2;
             this.btnGiris.Text = "GİRİŞ";
             this.btnGiris.Click += new System.EventHandler(this.btnGiris_Click);
@@ -96,10 +96,10 @@
             this.label4.BackColor = System.Drawing.Color.DimGray;
             this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label4.Location = new System.Drawing.Point(0, 278);
+            this.label4.Location = new System.Drawing.Point(0, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(240, 16);
-            this.label4.Text = "Versiyon : 170621";
+            this.label4.Text = "WMS Mobil v.170621";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel1
@@ -123,9 +123,9 @@
             this.btnBack.BackColor = System.Drawing.Color.Firebrick;
             this.btnBack.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.btnBack.ForeColor = System.Drawing.Color.White;
-            this.btnBack.Location = new System.Drawing.Point(167, 3);
+            this.btnBack.Location = new System.Drawing.Point(170, 188);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(70, 23);
+            this.btnBack.Size = new System.Drawing.Size(70, 41);
             this.btnBack.TabIndex = 3;
             this.btnBack.Text = "Kapat";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);

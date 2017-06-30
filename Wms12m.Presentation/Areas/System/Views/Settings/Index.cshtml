@@ -1,8 +1,249 @@
-﻿
+﻿@model Setting
 @{
-    ViewBag.Title = "Settings";
+    ViewBag.Title = "Ayarlar";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Ayarlar</span></li></ul></div>
+<h1 class="page-title">Ayarlar</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Ayarlar
+                </div>
+            </div>
+            <div class="portlet-body form">
+                    @using (Html.BeginForm("Index", "Settings", "System", FormMethod.Post, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.ID)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SiteName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SiteName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.SiteName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LoginLogo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.LoginLogo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.LoginLogo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TopLogo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TopLogo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.TopLogo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AllowNewUser, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.AllowNewUser, new { @checked = Model.AllowNewUser ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.AllowNewUser, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AllowForgotPass, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.AllowForgotPass, new { @checked = Model.AllowForgotPass ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.AllowForgotPass, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.KabloSiparisMySql, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.KabloSiparisMySql, new { @checked = Model.KabloSiparisMySql ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.KabloSiparisMySql, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SmtpEmail, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SmtpEmail, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.SmtpEmail, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SmtpPass, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SmtpPass, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.SmtpPass, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SmtpPort, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SmtpPort, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.SmtpPort, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SmtpHost, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SmtpHost, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.SmtpHost, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SmtpSSL, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.SmtpSSL, new { @checked = Model.SmtpSSL ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.SmtpSSL, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OnayStok, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.OnayStok, new { @checked = Model.OnayStok ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.OnayStok, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OnayTeminat, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.OnayTeminat, new { @checked = Model.OnayTeminat ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.OnayTeminat, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OnaySiparis, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.OnaySiparis, new { @checked = Model.OnaySiparis ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.OnaySiparis, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OnaySozlesme, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.OnaySozlesme, new { @checked = Model.OnaySozlesme ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.OnaySozlesme, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OnayRisk, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.OnayRisk, new { @checked = Model.OnayRisk ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.OnayRisk, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OnayFiyat, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.OnayFiyat, new { @checked = Model.OnayFiyat ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.OnayFiyat, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OnayCek, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.OnayCek, new { @checked = Model.OnayCek ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.OnayCek, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OnayTekno, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.OnayTekno, new { @checked = Model.OnayTekno ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.OnayTekno, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.homeDepo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.homeDepo, new { @checked = Model.homeDepo ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.homeDepo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.homeUser, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.homeUser, new { @checked = Model.homeUser ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.homeUser, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.homeTask, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.homeTask, new { @checked = Model.homeTask ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.homeTask, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.homeTransfer, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.homeTransfer, new { @checked = Model.homeTransfer ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.homeTransfer, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Version, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Version, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Version, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Aktif, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.Aktif, new { @checked = Model.Aktif ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.Aktif, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Kaydet" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".make-switch").bootstrapSwitch();
+    });
+</script>
 }
-
-<h2>Settings</h2>
-

@@ -370,6 +370,7 @@
     <Content Include="Areas\WMS\Views\Purchase\EditList.cshtml" />
     <Content Include="Areas\System\Views\web.config" />
     <Content Include="Areas\System\Views\Settings\Index.cshtml" />
+    <Content Include="Areas\WMS\Views\Tasks\Barcode.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
