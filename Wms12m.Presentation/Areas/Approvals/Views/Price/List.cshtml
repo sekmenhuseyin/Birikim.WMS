@@ -688,11 +688,11 @@
                         $(".txt-doviz-birim").dxSelectBox("instance").option("value", "");
                         $(".txt-doviz-cinsi").dxSelectBox("instance").option("value", "");
                         Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
-                        window.location.reload();
+                       setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else if (data == "NO") {
                         Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
-                        window.location.reload();
+                       setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else if (data == "MEVCUT") {
                         Modaldialog("Ürün Listede Mevcut.", "Güncelleme İşlemi", "Tamam", "Guncel");

@@ -337,7 +337,7 @@
                     success: function (data)
                     {
                         if(data=="OK"){
-                            window.location.reload();
+                           setTimeout(function () { window.location.reload(); }, 500);
                         }
                         else {
                             Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
@@ -390,7 +390,7 @@
                 type: "post",
                 success: function (data) {
                     if (data == "OK") {
-                        window.location.reload();
+                       setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else {
                         Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
@@ -401,7 +401,7 @@
             return _dfd.promise();
         });
         $('.temizle-buton').click(function () {
-            window.location.reload();
+           setTimeout(function () { window.location.reload(); }, 500);
         });
 
     </script>
