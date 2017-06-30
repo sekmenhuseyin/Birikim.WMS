@@ -38,6 +38,10 @@
           <Property Name="SmtpPort" Type="int" />
           <Property Name="SmtpHost" Type="varchar" MaxLength="150" />
           <Property Name="SmtpSSL" Type="bit" Nullable="false" />
+          <Property Name="homeDepo" Type="bit" Nullable="false" />
+          <Property Name="homeUser" Type="bit" Nullable="false" />
+          <Property Name="homeTask" Type="bit" Nullable="false" />
+          <Property Name="homeTransfer" Type="bit" Nullable="false" />
           <Property Name="OnayStok" Type="bit" Nullable="false" />
           <Property Name="OnayTeminat" Type="bit" Nullable="false" />
           <Property Name="OnaySiparis" Type="bit" Nullable="false" />
@@ -2741,6 +2745,10 @@
           <Property Name="OnayFiyat" Type="Boolean" Nullable="false" />
           <Property Name="OnayCek" Type="Boolean" Nullable="false" />
           <Property Name="OnayTekno" Type="Boolean" Nullable="false" />
+          <Property Name="homeDepo" Type="Boolean" Nullable="false" />
+          <Property Name="homeUser" Type="Boolean" Nullable="false" />
+          <Property Name="homeTask" Type="Boolean" Nullable="false" />
+          <Property Name="homeTransfer" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="GorevCalisma">
           <Key>
@@ -3535,6 +3543,10 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="homeTransfer" ColumnName="homeTransfer" />
+                <ScalarProperty Name="homeTask" ColumnName="homeTask" />
+                <ScalarProperty Name="homeUser" ColumnName="homeUser" />
+                <ScalarProperty Name="homeDepo" ColumnName="homeDepo" />
                 <ScalarProperty Name="OnayTekno" ColumnName="OnayTekno" />
                 <ScalarProperty Name="OnayCek" ColumnName="OnayCek" />
                 <ScalarProperty Name="OnayFiyat" ColumnName="OnayFiyat" />

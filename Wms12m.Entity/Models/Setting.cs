@@ -36,5 +36,9 @@ namespace Wms12m.Entity.Models
         public bool OnayFiyat { get; set; }
         public bool OnayCek { get; set; }
         public bool OnayTekno { get; set; }
+        public bool homeDepo { get; set; }
+        public bool homeUser { get; set; }
+        public bool homeTask { get; set; }
+        public bool homeTransfer { get; set; }
     }
 }
