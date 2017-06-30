@@ -756,6 +756,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_GorevPaketler_Gorev">
+          <End Role="Gorev" Type="Self.Gorev" Multiplicity="1" />
+          <End Role="GorevPaketler" Type="Self.GorevPaketler" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Gorev">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevPaketler">
+              <PropertyRef Name="GorevID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GorevPaketNo_Depo">
           <End Role="Depo" Type="Self.Depo" Multiplicity="1" />
           <End Role="GorevPaketNo" Type="Self.GorevPaketNo" Multiplicity="0..1" />
@@ -1407,6 +1419,10 @@
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="GorevPaketler" EntitySet="GorevPaketler" />
           </AssociationSet>
+          <AssociationSet Name="FK_GorevPaketler_Gorev" Association="Self.FK_GorevPaketler_Gorev">
+            <End Role="Gorev" EntitySet="Gorev" />
+            <End Role="GorevPaketler" EntitySet="GorevPaketler" />
+          </AssociationSet>
           <AssociationSet Name="FK_GorevPaketNo_Depo" Association="Self.FK_GorevPaketNo_Depo">
             <End Role="Depo" EntitySet="Depo" />
             <End Role="GorevPaketNo" EntitySet="GorevPaketNo" />
@@ -1921,6 +1937,10 @@
             <Parameter Name="GörevTipiID" Mode="In" Type="Int32" />
             <Parameter Name="YeniGorevTipiID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_GorevPaketler_Gorev" Association="MModel.FK_GorevPaketler_Gorev">
+            <End Role="Gorev" EntitySet="Gorevs" />
+            <End Role="GorevPaketler" EntitySet="GorevPaketlers" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2117,6 +2137,7 @@
           <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_Gorev_ComboItem_NameDurum" FromRole="Gorev" ToRole="ComboItem_Name" />
           <NavigationProperty Name="ComboItem_Name1" Relationship="MModel.FK_Gorev_ComboItem_NameOzellik" FromRole="Gorev" ToRole="ComboItem_Name" />
           <NavigationProperty Name="GorevUsers" Relationship="MModel.FK_GorevUsers_Gorev" FromRole="Gorev" ToRole="GorevUser" />
+          <NavigationProperty Name="GorevPaketler" Relationship="MModel.FK_GorevPaketler_Gorev" FromRole="Gorev" ToRole="GorevPaketler" />
         </EntityType>
         <EntityType Name="GorevYer">
           <Key>
@@ -3136,6 +3157,7 @@
           <Property Name="DegisTarih" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_GorevPaketler_ComboItem_Name" FromRole="GorevPaketler" ToRole="ComboItem_Name" />
           <Property Name="Adet" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevPaketler_Gorev" FromRole="GorevPaketler" ToRole="Gorev" />
         </EntityType>
         <Association Name="FK_GorevPaketler_ComboItem_Name">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
@@ -3167,6 +3189,18 @@
             </Principal>
             <Dependent Role="GorevPaketNo">
               <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GorevPaketler_Gorev">
+          <End Type="MModel.Gorev" Role="Gorev" Multiplicity="1" />
+          <End Type="MModel.GorevPaketler" Role="GorevPaketler" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Gorev">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevPaketler">
+              <PropertyRef Name="GorevID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

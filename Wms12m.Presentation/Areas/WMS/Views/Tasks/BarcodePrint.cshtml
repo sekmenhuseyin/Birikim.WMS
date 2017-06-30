@@ -3,6 +3,26 @@
     ViewBag.Title = "Barcode Print";
     Layout = "~/Views/Shared/_Layout.Null.cshtml";
 }
+<div class="row m-20">
+    <div class="col-md-12 text-center panel-title bold">@ViewBag.Sirket</div>
+</div>
+<div class="row m-20">
+    <div class="col-md-3 bold">Sevkiyat No</div>
+    <div class="col-md-3">@Model.SevkiyatNo</div>
+    <div class="col-md-3 bold">Sipariş No</div>
+    <div class="col-md-3">@Model.Gorev.IR.EvrakNo</div>
+</div>
+<div class="row m-20">
+    <div class="col-md-3 bold">Sevkiyat No</div>
+    <div class="col-md-9">@ViewBag.Sirket<br />@ViewBag.Adres</div>
+</div>
+<div class="row m-20">
+    <div class="col-md-3 bold">Alıcı</div>
+    <div class="col-md-9">@ViewBag.Alıcı</div>
+</div>
+<div class="row m-20">
+    <br /><br /><br /><br />
+</div>
 <div>
     <dl class="dl-horizontal">
         <dt>

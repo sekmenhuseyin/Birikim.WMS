@@ -87,6 +87,7 @@
         <AssociationConnector Association="MModel.FK_GorevPaketler_ComboItem_Name" />
         <EntityTypeShape EntityType="MModel.GorevPaketNo" Width="1.5" PointX="7.875" PointY="7.125" />
         <AssociationConnector Association="MModel.FK_GorevPaketNo_Depo" />
+        <AssociationConnector Association="MModel.FK_GorevPaketler_Gorev" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

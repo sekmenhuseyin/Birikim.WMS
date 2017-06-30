@@ -467,7 +467,10 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             tblx.Boy = tbl.Boy;
             tblx.Agirlik = tbl.Agirlik;
             db.SaveChanges();
-            return View("BarcodePrint", tbl);
+            ViewBag.Adres = db.Database.SqlQuery<string>(string.Format("SELECT Adres1 FROM FINSAT6{0}.FINSAT6{0}.DEP WHERE (Depo = '{1}')", tblx.Gorev.IR.SirketKod, tblx.Gorev.Depo.DepoKodu)).FirstOrDefault();
+            ViewBag.Alıcı = db.Database.SqlQuery<string>(string.Format("SELECT Unvan1 + ' ' + Unvan2 + ', ' + TeslimAdres1 + ' ' + TeslimAdres2 + ' ' + TeslimAdres3 AS s FROM FINSAT6{0}.FINSAT6{0}.CHK WHERE(HesapKodu = '{1}')", tblx.Gorev.IR.SirketKod, tblx.Gorev.Depo.DepoKodu)).FirstOrDefault();
+            ViewBag.Sirket = db.Database.SqlQuery<string>(string.Format("SELECT SIR.Unvan1 FROM SOLAR6.dbo.SDK INNER JOIN SOLAR6.dbo.SIR ON SOLAR6.dbo.SDK.SirketKod = SOLAR6.dbo.SIR.Kod WHERE(SOLAR6.dbo.SDK.Kod = '{0}')", tblx.Gorev.IR.SirketKod)).FirstOrDefault();
+            return View("BarcodePrint", tblx);
         }
     }
 }
