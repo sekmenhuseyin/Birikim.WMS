@@ -127,7 +127,7 @@
             return _dfd.promise();
         });
         $('#SMYenile').click(function (e) {
-            window.location.reload();
+           setTimeout(function () { window.location.reload(); }, 500);
         });
     });
     function toggle(row, id) {

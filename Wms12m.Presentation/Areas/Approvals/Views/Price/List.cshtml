@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/global/plugins/jQuery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet" />
     @*<link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
     <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />*@
     <style>
@@ -246,6 +247,7 @@
     @*<script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>*@
     <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
     <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jQuery-contextMenu/dist/jquery.contextMenu.min.js"></script>
     @*<script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>*@
     <script type="text/javascript">
@@ -541,6 +543,9 @@
             var dvzBirim = $(".slct_yeni_satisfiyati_birim").dxSelectBox("instance").option("text");
             table.cell(index, 6).data(dvzSatısFiyat);
             table.cell(index, 7).data(dvzBirim);
+            fiyatEdit(3);
+            $('#x-modal-dovizsatisfiyatduzenle').modal("hide");
+            $('#x-modal-satisfiyatduzenle').modal("hide");
 
         });
         $('.dvzsatisfiyat_duzenle').click(function () {
@@ -551,6 +556,9 @@
             table.cell(index, 8).data(dvzSatısFiyat);
             table.cell(index, 9).data(dvzBirim);
             table.cell(index, 10).data(dvzCins);
+            fiyatEdit(3);
+            $('#x-modal-dovizsatisfiyatduzenle').modal("hide");
+            $('#x-modal-satisfiyatduzenle').modal("hide");
 
         });
         $('.satisfiyat_iptal').click(function () {
@@ -576,7 +584,6 @@
             jObject["DovizCinsi"] = $(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
             jObject["GrupKod"] = GrupKod;
             jObject["Durum"] = id;
-            console.log(jObject);
             if (id == 1 && (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || (parseFloat(jObject["SatisFiyat"]) == 0 && parseFloat(jObject["DovizSatisFiyat"]) == 0) || (parseFloat(jObject["SatisFiyat"]) > 0 && jObject["Birim"] == null) || (parseFloat(jObject["DovizSatisFiyat"]) > 0 && jObject["DovizBirim"] == null && jObject["DovizCinsi"] == null))) {
                 Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
                 return;
@@ -681,9 +688,11 @@
                         $(".txt-doviz-birim").dxSelectBox("instance").option("value", "");
                         $(".txt-doviz-cinsi").dxSelectBox("instance").option("value", "");
                         Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
+                       setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else if (data == "NO") {
                         Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
+                       setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else if (data == "MEVCUT") {
                         Modaldialog("Ürün Listede Mevcut.", "Güncelleme İşlemi", "Tamam", "Guncel");

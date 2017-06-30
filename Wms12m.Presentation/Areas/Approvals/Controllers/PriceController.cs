@@ -395,11 +395,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         var fytGuncellenecek = db.Database.SqlQuery<FYT>(durum3sql).FirstOrDefault();
                         if (fytGuncellenecek != null)
                         {
-                            fytGuncellenecek.SatisFiyat1 = insertObj["SatisFiyat1"].ToDecimal();
-                            fytGuncellenecek.SF1Birim = insertObj["SatisFiyat1BirimInt"].ToShort();
-                            fytGuncellenecek.DvzSatisFiyat1 = insertObj["DvzSatisFiyat1"].ToDecimal();
-                            fytGuncellenecek.SF1DovizCinsi = insertObj["DovizCinsi"].ToString().Trim();
-                            fytGuncellenecek.DovizSF1Birim = insertObj["DovizSF1BirimInt"].ToShort();
+                            db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = " + insertObj["SatisFiyat1"].ToDecimal() + ", SF1Birim='" + insertObj["SatisFiyat1BirimInt"].ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", "17", insertObj["DvzSatisFiyat1"].ToDecimal(), insertObj["DovizCinsi"].ToString().Trim(), insertObj["DovizSF1BirimInt"].ToShort(), fytGuncellenecek.ROW_ID));
                         }
                         DateTime date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd");

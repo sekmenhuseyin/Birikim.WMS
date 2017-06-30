@@ -185,7 +185,7 @@
             UcretReddet();
         });
         $('.ucret-yenile-buton').click(function () {
-            window.location.reload();
+           setTimeout(function () { window.location.reload(); }, 500);
         });
         $('.prim-onay-buton').click(function () {
             PrimOnayla();
@@ -194,7 +194,7 @@
             PrimReddet();
         });
         $('.prim-yenile-buton').click(function () {
-            window.location.reload();
+           setTimeout(function () { window.location.reload(); }, 500);
         });
         $('.yenile-buton').click(function () {
             window.location.href = '/Approvals/Techno/Index?onayRed=' + rdrValue;
