@@ -1,13 +1,32 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Areas.System.Controllers
 {
     public class SettingsController : RootController
     {
-        // GET: System/Settings
+        /// <summary>
+        /// ayarlar
+        /// </summary>
         public ActionResult Index()
         {
-            return View();
+            if (CheckPerm(Perms.Menü, PermTypes.Reading) == false) return Redirect("/");
+            return View("Index", db.Settings.FirstOrDefault());
+        }
+        /// <summary>
+        /// kaydet
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Index(Setting tbl)
+        {
+            if (CheckPerm(Perms.Menü, PermTypes.Writing) == false) return Redirect("/");
+            if (ModelState.IsValid)
+            {
+                var tmp = db.Settings.FirstOrDefault();
+            }
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }
