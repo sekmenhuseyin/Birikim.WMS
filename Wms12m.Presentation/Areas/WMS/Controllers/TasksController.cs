@@ -438,5 +438,13 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             db.SaveChanges();
             return Json(new Result(true, mGorev.ID, "İşlem tamlandı!"), JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// paketleme sonrası, sevkiyat öncesi barkod hazırlama
+        /// </summary>
+        public PartialViewResult Barcode()
+        {
+
+            return PartialView("Barcode");
+        }
     }
 }
