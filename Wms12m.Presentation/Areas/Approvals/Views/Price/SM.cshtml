@@ -117,6 +117,10 @@
                 for (var i = 0; i < x.length; i++) {
                     secili_table.push(x[i]);
                 }
+                if (secili_table.length == 0) {
+                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                    return;
+                }
                 var _dfd = $.Deferred();
                 $.ajax({
                     url: window.location.origin + "/Approvals/Price/Onay_SM",
@@ -126,10 +130,13 @@
                     success: function (data) {
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                           
                         }
                         else {
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                            setTimeout(function () { window.location.reload(); }, 500);
                         }
                     }
                 });
@@ -140,6 +147,10 @@
                 for (var i = 0; i < x.length; i++) {
                     secili_table.push(x[i]);
                 }
+                if (secili_table.length == 0) {
+                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                    return;
+                }
                 var _dfd = $.Deferred();
                 $.ajax({
                     url: window.location.origin + "/Approvals/Price/Onay_Koleksiyon_SM",
@@ -148,10 +159,12 @@
                     success: function (data) {
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                            window.location.reload();
                         }
                         else {
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                            window.location.reload();
                         }
                     }
                 });
@@ -163,6 +176,10 @@
                 for (var i = 0; i < x.length; i++) {
                     secili_table.push(x[i]);
                 }
+                if (secili_table.length == 0) {
+                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                    return;
+                }
                 var _dfd = $.Deferred();
                 $.ajax({
                     url: window.location.origin + "/Approvals/Price/Onay_Grup_SM",
@@ -171,10 +188,12 @@
                     success: function (data) {
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                            window.location.reload();
                         }
                         else {
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                            window.location.reload();
                         }                    
                     }
                 });
@@ -189,6 +208,10 @@
                 for (var i = 0; i < x.length; i++) {
                     secili_table.push(x[i]);
                 }
+                if (secili_table.length == 0) {
+                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                    return;
+                }
                 var _dfd = $.Deferred();
                 $.ajax({
                     url: window.location.origin + "/Approvals/Price/Red_SM",
@@ -197,10 +220,12 @@
                     success: function (data) {
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                            window.location.reload();
                         }
                         else {
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                            window.location.reload();
                         }
                     }
                 });
@@ -212,6 +237,10 @@
                 for (var i = 0; i < x.length; i++) {
                     secili_table.push(x[i]);
                 }
+                if (secili_table.length == 0) {
+                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                    return;
+                }
                 var _dfd = $.Deferred();
                 $.ajax({
                     url: window.location.origin + "/Approvals/Price/Red_Koleksiyon_SM",
@@ -220,10 +249,12 @@
                     success: function (data) {
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                            window.location.reload();
                         }
                         else {
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                            window.location.reload();
                         }
                     }
                 });
@@ -235,6 +266,10 @@
                 for (var i = 0; i < x.length; i++) {
                     secili_table.push(x[i]);
                 }
+                if (secili_table.length == 0) {
+                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                    return;
+                }
                 var _dfd = $.Deferred();
                 $.ajax({
                     url: window.location.origin + "/Approvals/Price/Red_Grup_SM",
@@ -243,10 +278,12 @@
                     success: function (data) {
                         if (data.Status == true) {
                             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                            window.location.reload();
                         }
                         else {
                             if (data.Message == "") data.Message = "Hata oluştu";
                             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                            window.location.reload();
                         }
                     }
                 });

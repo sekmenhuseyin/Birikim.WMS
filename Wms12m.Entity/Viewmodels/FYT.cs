@@ -2,7 +2,7 @@
 using System.ComponentModel;
 
 namespace Wms12m.Entity
-{    
+{
     #region FYT Class 
 
     #region FYTE Enum 
@@ -1542,6 +1542,11 @@ namespace Wms12m.Entity
         public int ROW_ID
         {
             get { return this._ROW_ID; }
+            set
+            {
+                this._ROW_ID = value;
+                OnPropertyChanged("ROW_ID");
+            }
         }
 
         /// <summary> TIMESTAMP (8) * </summary>

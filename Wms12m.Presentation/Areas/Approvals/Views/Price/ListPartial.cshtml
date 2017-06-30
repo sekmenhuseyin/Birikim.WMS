@@ -76,31 +76,6 @@
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-            $('#sample_1 tr').on('mouseenter', function () {
-                $(this).contextMenu({
-                    selector: '.item-context',
-                    callback: function (key, options) {
-                        //var m = "clicked: " + key;
-                        //window.console && console.log(m) || alert(m);
-                    },
-                    items: {
-                        "edit": { name: "Edit", icon: "edit" },
-                        "cut": { name: "Cut", icon: "cut" },
-                        "copy": { name: "Copy", icon: "copy" },
-                        "paste": { name: "Paste", icon: "paste" },
-                        "delete": { name: "Delete", icon: "delete" },
-                    }
-                },
-                    function (action, el, pos) {
-                        alert(
-                            'Action: ' + action + '\n\n' +
-                            'Element ID: ' + $(el).attr('id') + '\n\n' +
-                            'X: ' + pos.x + '  Y: ' + pos.y + ' (relative to element)\n\n' +
-                            'X: ' + pos.docX + '  Y: ' + pos.docY + ' (relative to document)\n\n'
-                        );
-                    }
-                );
-            }); 
             $('td', nRow).attr('nowrap', 'nowrap');
             //$(nRow).on('mousedown', function (e) {
             //    if (e.button == 2) {
@@ -109,14 +84,14 @@
             //            var Birimler = new Array();
             //            var stsFiyat = ondalikBinlik(aData["SatisFiyat1"].toString().replace(".", ","),2);
             //            var stsBirim = aData["SF1Birim"];
-            //            if (aData["Birim1"].trim().length > 0) {
-            //                Birimler.push({ "Birim": aData["Birim1"], "Deger": 1 })
+            //            if (table.cell(rowIndex, 11).data().trim().length > 0) {
+            //                Birimler.push({ "Birim": table.cell(rowIndex, 11).data(), "Deger": 1 })
             //            }
-            //            if (aData["Birim2"].trim().length > 0) {
-            //                Birimler.push({ "Birim": aData["Birim2"], "Deger": 2 })
+            //            if (table.cell(rowIndex, 12).data().trim().length > 0) {
+            //                Birimler.push({ "Birim": table.cell(rowIndex, 12).data(), "Deger": 2 })
             //            }
-            //            if (aData["Birim3"].trim().length > 0) {
-            //                Birimler.push({ "Birim": aData["Birim3"], "Deger": 3 })
+            //            if (table.cell(rowIndex, 13).data().trim().length > 0) {
+            //                Birimler.push({ "Birim": table.cell(rowIndex, 13).data(), "Deger": 3 })
             //            }
             //            satisFiyatClear();
             //            dvzSatisFiyatClear()
@@ -133,14 +108,14 @@
             //            var stsFiyat = ondalikBinlik(aData["DvzSatisFiyat1"].toString().replace(".",","));
             //            var stsBirim = aData["DovizSF1Birim"];
             //            var stsDovizCinsi = aData["SF1DovizCinsi"];
-            //            if (aData["Birim1"].trim().length > 0) {
-            //                Birimler.push({ "Birim": aData["Birim1"], "Deger": 1 })
+            //            if (table.cell(rowIndex, 11).data().trim().length > 0) {
+            //                Birimler.push({ "Birim": table.cell(rowIndex, 11).data(), "Deger": 1 })
             //            }
-            //            if (aData["Birim2"].trim().length > 0) {
-            //                Birimler.push({ "Birim": aData["Birim2"], "Deger": 2 })
+            //            if (table.cell(rowIndex, 12).data().trim().length > 0) {
+            //                Birimler.push({ "Birim": table.cell(rowIndex, 12).data(), "Deger": 2 })
             //            }
-            //            if (aData["Birim3"].trim().length > 0) {
-            //                Birimler.push({ "Birim": aData["Birim3"], "Deger": 3 })
+            //            if (table.cell(rowIndex, 13).data().trim().length > 0) {
+            //                Birimler.push({ "Birim": table.cell(rowIndex, 13).data(), "Deger": 3 })
             //            }
             //            console.log(Birimler);
             //            satisFiyatClear();
@@ -160,7 +135,86 @@
         }
 
     });
+    $.contextMenu({
+        selector: '#sample_1 tbody td',
+        callback: function (key, options) {
+            var cellIndex = parseInt(options.$trigger[0].cellIndex),
+                row = table.row(options.$trigger[0].parentNode),
+                rowIndex = row.index();
 
+            switch (key) {
+                case 'edit':
+                    if (table.cell(rowIndex, 6).data() > 0) {
+                        var Birimler = new Array();
+                        var stsFiyat = ondalikBinlik(table.cell(rowIndex, 6).data().toString().replace(".", ","),2);
+                        var stsBirim = table.cell(rowIndex, 7).data() ;
+                        if (table.cell(rowIndex, 11).data().trim().length > 0) {
+                            Birimler.push({ "Birim": table.cell(rowIndex, 11).data(), "Deger": 1 })
+                        }
+                        if (table.cell(rowIndex, 12).data().trim().length > 0) {
+                            Birimler.push({ "Birim": table.cell(rowIndex, 12).data(), "Deger": 2 })
+                        }
+                        if (table.cell(rowIndex, 13).data().trim().length > 0) {
+                            Birimler.push({ "Birim": table.cell(rowIndex, 13).data(), "Deger": 3 })
+                        }
+                        satisFiyatClear();
+                        dvzSatisFiyatClear()
+                        $('#x-modal-dovizsatisfiyatduzenle').modal("hide");
+                        $('#x-modal-satisfiyatduzenle').modal("show");
+
+                        $(".numb_onc_satisfiyati").dxTextBox("instance").option("value", stsFiyat);
+                        $(".txt_onc_satisfiyat_birim").dxTextBox("instance").option("value", stsBirim);
+                        $(".slct_yeni_satisfiyati_birim").dxSelectBox("instance").option("dataSource", Birimler);
+                        $(".satisfiyat_duzenle").data("index", rowIndex);
+                        table
+                            .rows('.selected')
+                            .nodes()
+                            .to$()      // Convert to a jQuery object
+                            .removeClass('selected');
+                        $('tr').eq(rowIndex + 1).addClass('selected');
+
+                    }
+                    else {
+                        var Birimler = new Array();
+                        var stsFiyat = ondalikBinlik(table.cell(rowIndex, 8).data().toString().replace(".",","));
+                        var stsBirim = table.cell(rowIndex, 9).data();
+                        var stsDovizCinsi = table.cell(rowIndex, 10).data();
+                        if (table.cell(rowIndex, 11).data().trim().length > 0) {
+                            Birimler.push({ "Birim": table.cell(rowIndex, 11).data(), "Deger": 1 })
+                        }
+                        if (table.cell(rowIndex, 12).data().trim().length > 0) {
+                            Birimler.push({ "Birim": table.cell(rowIndex, 12).data(), "Deger": 2 })
+                        }
+                        if (table.cell(rowIndex, 13).data().trim().length > 0) {
+                            Birimler.push({ "Birim": table.cell(rowIndex, 13).data(), "Deger": 3 })
+                        }
+                        satisFiyatClear();
+                        dvzSatisFiyatClear()
+                        $('#x-modal-satisfiyatduzenle').modal("hide");
+                        $('#x-modal-dovizsatisfiyatduzenle').modal("show");
+
+                        $(".txt_onc_dvzsatisfiyat_dvzcins").dxTextBox("instance").option("value", stsDovizCinsi);
+                        $(".numb_onc_dvzsatisfiyati").dxTextBox("instance").option("value", stsFiyat);
+                        $(".txt_onc_dvzsatisfiyat_birim").dxTextBox("instance").option("value", stsBirim);
+                        $(".slct_yeni_dvzsatisfiyati_birim").dxSelectBox("instance").option("dataSource", Birimler);
+                        $(".dvzsatisfiyat_duzenle").data("index", rowIndex);
+                        table
+                            .rows('.selected')
+                            .nodes()
+                            .to$()      // Convert to a jQuery object
+                            .removeClass('selected');
+                        $('tr').eq(rowIndex + 1).addClass('selected');
+                      
+                    }
+                    break;
+                default:
+                    break;
+            }
+        },
+        items: {
+            "edit": { name: "Edit", icon: "edit" },
+        }
+    });
 
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
