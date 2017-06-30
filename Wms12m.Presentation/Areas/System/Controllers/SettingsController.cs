@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using System.Web.Mvc;
-using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Areas.System.Controllers
@@ -24,7 +24,8 @@ namespace Wms12m.Presentation.Areas.System.Controllers
             if (CheckPerm(Perms.Menü, PermTypes.Writing) == false) return Redirect("/");
             if (ModelState.IsValid)
             {
-                var tmp = db.Settings.FirstOrDefault();
+                db.Entry(tbl).State = EntityState.Modified;
+                db.SaveChanges();
             }
             return Redirect(Request.UrlReferrer.ToString());
         }
