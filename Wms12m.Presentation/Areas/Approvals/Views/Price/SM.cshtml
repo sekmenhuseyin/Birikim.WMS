@@ -87,6 +87,7 @@
 
                 }
                 else {
+                    $("#listegrup").css("display", "none");
                     $("#listekoleksiyon").css("display", "none");
                     $("#liste").css("display", "block");
                 }
@@ -99,10 +100,12 @@
                     PartialView("/Approvals/Price/SM_List_Grup", 'listegrup');
                     $("#listegrup").css("display", "block");
                     $("#liste").css("display", "none");
-                    $("#listekoleksiyon").css("display", false);
+                    $("#listekoleksiyon").css("display", "none");
                     $("#chkKoleksiyon").prop("checked", false);
                 }
                 else if ($("#chkKoleksiyon").prop("checked") == false) {
+                    $("#listegrup").css("display", "none");
+                    $("#listekoleksiyon").css("display", "none");
                     $("#liste").css("display", "block");
 
                 }

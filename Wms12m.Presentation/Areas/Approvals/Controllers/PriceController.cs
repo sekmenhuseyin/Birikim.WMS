@@ -370,7 +370,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
 
                         DateTime date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd");
+                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         sqlexper.Insert(fyt);
                         var sonuc = sqlexper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
@@ -384,7 +384,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", "17", insertObj["ROW_ID"].ToInt32()));
                         }
                         DateTime date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd");
+                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
 
 
@@ -398,7 +398,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = " + insertObj["SatisFiyat1"].ToDecimal() + ", SF1Birim='" + insertObj["SatisFiyat1BirimInt"].ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", "17", insertObj["DvzSatisFiyat1"].ToDecimal(), insertObj["DovizCinsi"].ToString().Trim(), insertObj["DovizSF1BirimInt"].ToShort(), fytGuncellenecek.ROW_ID));
                         }
                         DateTime date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd");
+                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
 
 
@@ -619,7 +619,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
 
                             DateTime date = DateTime.Now;
-                            var shortDate = date.ToString("yyyy-MM-dd");
+                            var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             sqlexper.Insert(fyt);
                             var sonuc = sqlexper.AcceptChanges();
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
@@ -636,7 +636,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", "17", rts.ROW_ID));
                             }
                             DateTime date = DateTime.Now;
-                            var shortDate = date.ToString("yyyy-MM-dd");
+                            var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
                         }
                         else if (rts.Durum == 3)//"Güncellenecek Kayıt"
@@ -645,14 +645,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             var fytGuncellenecek = db.Database.SqlQuery<FYT>(durum3sql).FirstOrDefault();
                             if (fytGuncellenecek != null)
                             {
-                                fytGuncellenecek.SatisFiyat1 = rts.SatisFiyat1;
-                                fytGuncellenecek.SF1Birim = (short)rts.SatisFiyat1BirimInt;
-                                fytGuncellenecek.DvzSatisFiyat1 = rts.DovizSatisFiyat1;
-                                fytGuncellenecek.SF1DovizCinsi = rts.DovizCinsi.Trim();
-                                fytGuncellenecek.DovizSF1Birim = (short)rts.DovizSF1BirimInt;
+                                //fytGuncellenecek.SatisFiyat1 = rts.SatisFiyat1;
+                                //fytGuncellenecek.SF1Birim = (short)rts.SatisFiyat1BirimInt;
+                                //fytGuncellenecek.DvzSatisFiyat1 = rts.DovizSatisFiyat1;
+                                //fytGuncellenecek.SF1DovizCinsi = rts.DovizCinsi.Trim();
+                                //fytGuncellenecek.DovizSF1Birim = (short)rts.DovizSF1BirimInt;
+                                db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = " + rts.SatisFiyat1.ToDecimal() + ", SF1Birim='" + rts.SatisFiyat1BirimInt.ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", "17", rts.DovizSatisFiyat1.ToDecimal(), rts.DovizCinsi.ToString().Trim(), rts.DovizSF1BirimInt.ToShort(), fytGuncellenecek.ROW_ID));
                             }
                             DateTime date = DateTime.Now;
-                            var shortDate = date.ToString("yyyy-MM-dd");
+                            var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
 
                         }
@@ -873,7 +874,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
 
                             DateTime date = DateTime.Now;
-                            var shortDate = date.ToString("yyyy-MM-dd");
+                            var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             sqlexper.Insert(fyt);
                             var sonuc = sqlexper.AcceptChanges();
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
@@ -890,7 +891,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[FYT] WHERE ROW_ID = {1}", "17", rts.ROW_ID));
                             }
                             DateTime date = DateTime.Now;
-                            var shortDate = date.ToString("yyyy-MM-dd");
+                            var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
                         }
                         else if (rts.Durum == 3)//"Güncellenecek Kayıt"
@@ -899,14 +900,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             var fytGuncellenecek = db.Database.SqlQuery<FYT>(durum3sql).FirstOrDefault();
                             if (fytGuncellenecek != null)
                             {
-                                fytGuncellenecek.SatisFiyat1 = rts.SatisFiyat1;
-                                fytGuncellenecek.SF1Birim = (short)rts.SatisFiyat1BirimInt;
-                                fytGuncellenecek.DvzSatisFiyat1 = rts.DovizSatisFiyat1;
-                                fytGuncellenecek.SF1DovizCinsi = rts.DovizCinsi.Trim();
-                                fytGuncellenecek.DovizSF1Birim = (short)rts.DovizSF1BirimInt;
+                                //fytGuncellenecek.SatisFiyat1 = rts.SatisFiyat1;
+                                //fytGuncellenecek.SF1Birim = (short)rts.SatisFiyat1BirimInt;
+                                //fytGuncellenecek.DvzSatisFiyat1 = rts.DovizSatisFiyat1;
+                                //fytGuncellenecek.SF1DovizCinsi = rts.DovizCinsi.Trim();
+                                //fytGuncellenecek.DovizSF1Birim = (short)rts.DovizSF1BirimInt;
+                                db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = " + rts.SatisFiyat1.ToDecimal() + ", SF1Birim='" + rts.SatisFiyat1BirimInt.ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", "17", rts.DovizSatisFiyat1.ToDecimal(), rts.DovizCinsi.ToString().Trim(), rts.DovizSF1BirimInt.ToShort(), fytGuncellenecek.ROW_ID));
                             }
                             DateTime date = DateTime.Now;
-                            var shortDate = date.ToString("yyyy-MM-dd");
+                            var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                             db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
 
                         }
@@ -944,7 +946,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
 
@@ -1000,7 +1002,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
 
                         DateTime date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd");
+                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         var sonuc = sqlexper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
 
@@ -1057,7 +1059,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
 
                         DateTime date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd");
+                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
 
                         var sonuc = sqlexper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
@@ -1095,7 +1097,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
 
@@ -1151,7 +1153,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
 
                         DateTime date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd");
+                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         var sonuc = sqlexper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
 
@@ -1208,7 +1210,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
 
                         DateTime date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd");
+                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
 
                         var sonuc = sqlexper.AcceptChanges();
                         db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
@@ -1616,8 +1618,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                             Durum = parameters["Durum"].ToShort(),
                             ROW_ID = 0
                         };
-                        if (fyt.MalKodu.Substring(0, 2) == "80" || fyt.MalKodu.Substring(0, 2) == "81"
-                               || fyt.MalKodu == "M60101000080" || fyt.MalKodu == "M60101000081")
+                        if (fyt.MalKodu == "M60101000080" || fyt.MalKodu == "M60101000081")
                         {
                             fyt.Onay = true;
                             fyt.Onaylayan = "";

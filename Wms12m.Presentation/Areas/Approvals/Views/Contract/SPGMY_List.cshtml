@@ -46,6 +46,7 @@
                         <th nowrap>Sıra No</th>
                         <th nowrap>Bağlantı Kodu</th>
                         <th nowrap>Bağlantı Tutarı</th>
+                        <th nowrap>Para Birimi</th>
                         <th nowrap>Yeni Bağlantı Tutarı</th>
                         <th nowrap>Başlangıç Tarihi</th>
                         <th nowrap>Bitiş Tarihi</th>
@@ -85,7 +86,7 @@
             },
             //"fixedHeader": true,
             //"scrollX": true,
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4, 5, 11, 12, 13, 14,16, 18, 20,21] }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4, 6, 12, 13, 14, 15, 17, 19, 21, 22] }],
             "columns": [
 
                 { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
@@ -93,6 +94,7 @@
                 { "data": "SiraNo" },
                 { "data": "BaglantiKodu" },
                 { "data": "BaglantiTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "BaglantiParaCinsi" },
                 { "data": "YeniBaglantiTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "BasTarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
                 { "data": "BitTarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },

@@ -57,10 +57,10 @@
                         <th> Liste Adı</th>
                         <th> Satış Fiyat</th>
                         <th> Satış Fiyat Birim</th>
-                        <th> Satış Fiyat Birim Sayı</th>
+                        <th  style="display:none;"></th>
                         <th> Döviz Satış Fiyat</th>
                         <th> Döviz Satış Fiyat Birim</th>
-                        <th> Döviz Satış Fiyat Birim Sayı</th>
+                        <th style="display:none;"></th>
                         <th> Döviz Cinsi</th>
 
 
@@ -86,25 +86,26 @@
             //"responsive": true,
             "fixedHeader": true,
             //"scrollX": true,
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [8, 11] }, { "visible": false, "targets": [10,13] }],
             "columns": [
                 { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
-                { "data": "GrupKod", "sClass": "nowrap" },
-                { "data": "Kalite", "sClass": "nowrap" },
-                { "data": "En", "sClass": "nowrap" },
-                { "data": "Boy", "sClass": "nowrap" },
-                { "data": "Kalinlik", "sClass": "nowrap" },
+                { "data": "GrupKod" },
+                { "data": "Kalite"},
+                { "data": "En"},
+                { "data": "Boy"},
+                { "data": "Kalinlik"},
 
-                { "data": "Yuzey", "sClass": "nowrap" },
-                { "data": "FiyatListNum", "sClass": "nowrap" },
+                { "data": "Yuzey"},
+                { "data": "FiyatListNum" },
 
-                { "data": "SatisFiyat1", "sClass": "nowrap" },
-                { "data": "SatisFiyat1Birim", "sClass": "nowrap" },
+                { "data": "SatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "SatisFiyat1Birim" },
 
-                { "data": "SatisFiyat1BirimInt", "sClass": "nowrap" },
-                { "data": "DovizSatisFiyat1", "sClass": "nowrap" },
-                { "data": "DovizSF1Birim", "sClass": "nowrap" },
-                { "data": "DovizSF1BirimInt", "sClass": "nowrap" },
-                { "data": "DovizCinsi", "sClass": "nowrap" },
+                { "data": "SatisFiyat1BirimInt" },
+                { "data": "DovizSatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "DovizSF1Birim" },
+                { "data": "DovizSF1BirimInt"},
+                { "data": "DovizCinsi"},
 
 
                 //{

@@ -48,14 +48,14 @@
                                 <span></span>
                             </label>
                         </th>
-                        <th> Kod 4</th>
+                        <th> Koleksiyon</th>
                         <th> Tip Kod</th>
                         <th> Liste Adı </th>
                         <th> Satış Fiyat </th>
                         <th> Satış Fiyat Birim </th>
                         <th> Döviz Satış Fiyat</th>
                         <th>Döviz SF Birim</th>
-                        <th>Döviz SF Birim Sayı</th>
+                        <th style="display:none;"></th>
                         <th>Döviz Cinsi</th>
 
 
@@ -81,19 +81,20 @@
             //"responsive": true,
             "fixedHeader": true,
             //"scrollX": true,
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4, 6] }, { "visible": false, "targets": [8] }],
             "columns": [
                 { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
-                { "data": "Kod4", "sClass": "nowrap" },
-                { "data": "TipKod", "sClass": "nowrap" },
-                { "data": "FiyatListNum", "sClass": "nowrap" },
-                { "data": "SatisFiyat1", "sClass": "nowrap" },
-                { "data": "SatisFiyat1Birim", "sClass": "nowrap" },
+                { "data": "Kod4"},
+                { "data": "TipKod"},
+                { "data": "FiyatListNum"},
+                { "data": "SatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "SatisFiyat1Birim"},
 
-                { "data": "DovizSatisFiyat1", "sClass": "nowrap" },
-                { "data": "DovizSF1Birim", "sClass": "nowrap" },
+                { "data": "DovizSatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "DovizSF1Birim" },
 
-                { "data": "SatisFiyat1BirimInt", "sClass": "nowrap" },
-                { "data": "DovizCinsi", "sClass": "nowrap" },
+                { "data": "SatisFiyat1BirimInt" },
+                { "data": "DovizCinsi"},
 
 
                 //{
