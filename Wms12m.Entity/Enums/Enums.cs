@@ -74,7 +74,14 @@
         alİndir = 59,
         alYükle = 60,
         alOnayla = 61,
-        alRed = 62
+        alRed = 62,
+        ptMakara = 63,
+        ptKoli = 64,
+        ptKangal = 65,
+        ptÇuval = 66,
+        ptBağ = 67,
+        ptPoşetPaket = 68,
+        ptPalet = 69
     }
     /// <summary>
     /// combo item names
@@ -91,7 +98,8 @@
         Öncelik = 8,
         Departman = 9,
         GörevYönetimTipleri = 10,
-        İşlemKayıtTipi = 11
+        İşlemKayıtTipi = 11,
+        PaketTipi = 12
     }
     /// <summary>
     /// permission types

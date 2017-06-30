@@ -1578,17 +1578,6 @@
             <Parameter Name="Birim" Mode="In" Type="String" />
             <Parameter Name="includeRezerv" Mode="In" Type="Boolean" />
           </FunctionImport>
-          <FunctionImport Name="TerminalFinishGorev">
-            <Parameter Name="GorevID" Mode="In" Type="Int32" />
-            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
-            <Parameter Name="YeniGorevNo" Mode="In" Type="String" />
-            <Parameter Name="BitisTarihi" Mode="In" Type="Int32" />
-            <Parameter Name="BitisSaati" Mode="In" Type="Int32" />
-            <Parameter Name="Kullanici" Mode="In" Type="String" />
-            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
-            <Parameter Name="GörevTipiID" Mode="In" Type="Int32" />
-            <Parameter Name="YeniGorevTipiID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="GetPermissionFor" ReturnType="Collection(Boolean)">
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="RoleName" Mode="In" Type="String" />
@@ -1920,6 +1909,17 @@
             <Parameter Name="GorevID" Mode="In" Type="Int32" />
             <Parameter Name="Username" Mode="In" Type="String" />
             <Parameter Name="Tarih" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TerminalFinishGorev" ReturnType="Collection(Int32)">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+            <Parameter Name="IrsaliyeID" Mode="In" Type="Int32" />
+            <Parameter Name="YeniGorevNo" Mode="In" Type="String" />
+            <Parameter Name="BitisTarihi" Mode="In" Type="Int32" />
+            <Parameter Name="BitisSaati" Mode="In" Type="Int32" />
+            <Parameter Name="Kullanici" Mode="In" Type="String" />
+            <Parameter Name="LinkEvrakNo" Mode="In" Type="String" />
+            <Parameter Name="GörevTipiID" Mode="In" Type="Int32" />
+            <Parameter Name="YeniGorevTipiID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3211,7 +3211,6 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetKoridorIdFromGorevId" FunctionName="MModel.Store.GetKoridorIdFromGorevId" />
           <FunctionImportMapping FunctionImportName="GetStock" FunctionName="MModel.Store.GetStock" />
-          <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
           <FunctionImportMapping FunctionImportName="GetPermissionFor" FunctionName="MModel.Store.GetPermissionFor" />
           <EntitySetMapping Name="Simges">
             <EntityTypeMapping TypeName="MModel.Simge">
@@ -3874,6 +3873,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SettingsPaketNo" FunctionName="MModel.Store.SettingsPaketNo" />
+          <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
