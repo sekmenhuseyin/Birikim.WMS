@@ -448,15 +448,26 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (id == null) return null;
             var ID = id.ToInt32();
             var tbl = db.GorevPaketlers.Where(m => m.GorevID == ID).FirstOrDefault();
-            return PartialView("Barcode");
+            if (tbl == null)
+                return PartialView("Barcode", new GorevPaketler());
+            ViewBag.PaketTipiID = new SelectList(ComboSub.GetList(Combos.PaketTipi.ToInt32()), "ID", "Name", tbl.PaketTipiID);
+            return PartialView("Barcode", tbl);
         }
         /// <summary>
         /// paketleme sonrası, sevkiyat öncesi barkod yazdırma
         /// </summary>
-        public PartialViewResult Barcode2Print()
+        public ViewResult PrintBarcode(GorevPaketler tbl)
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return null;
-            return PartialView("Barcode2Print");
+            var tblx = db.GorevPaketlers.Where(m => m.GorevID == tbl.GorevID).FirstOrDefault();
+            tblx.SevkiyatNo = tbl.SevkiyatNo;
+            tblx.PaketNo = tbl.PaketNo;
+            tblx.Adet = tbl.Adet;
+            tblx.En = tbl.En;
+            tblx.Boy = tbl.Boy;
+            tblx.Agirlik = tbl.Agirlik;
+            db.SaveChanges();
+            return View("BarcodePrint", tbl);
         }
     }
 }
