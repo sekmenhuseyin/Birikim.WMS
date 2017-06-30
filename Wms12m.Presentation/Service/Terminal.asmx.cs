@@ -48,7 +48,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "Service/Terminal/Login", userID);
+                        Logger(userID, "Terminal", ex, "Service/Terminal/Login");
                         db.LogLogins(userID, "Terminal", false, result.Message);
                     }
             }
@@ -333,7 +333,7 @@ namespace Wms12m
                     }
                     catch (Exception ex)
                     {
-                        Logger(ex, "Service/Terminal/Mal_Kabul", KullID.ToString());
+                        Logger(KullID.ToString(), "Terminal", ex, "Service/Terminal/Mal_Kabul");
                     }
                 }
             }
@@ -395,6 +395,7 @@ namespace Wms12m
                 {
                     //finish
                     db.TerminalFinishGorev(GorevID, item.ID, gorevNo, DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.MalKabul.ToInt32(), ComboItems.RafaKaldır.ToInt32());
+                    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "MalKabul_GoreviTamamla", ComboItems.alDüzenle, GorevID, "MalKabul => RafaKaldır");
                     //add to stok
                     var KatID = db.GetHucreKatID(item.DepoID, "R-ZR-V").FirstOrDefault();
                     if (KatID != null)
@@ -473,7 +474,7 @@ namespace Wms12m
                             }
                             catch (Exception ex)
                             {
-                                Logger(ex, "Service/Terminal/MalKabul_GoreviTamamla", kull);
+                                Logger(kull, "Terminal", ex, "Service/Terminal/MalKabul_GoreviTamamla");
                                 return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
                             }
                         }
@@ -589,6 +590,7 @@ namespace Wms12m
             //görevi tamamla
             var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.RafaKaldır.ToInt32(), 0);
+            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "RafaKaldir_GoreviTamamla", ComboItems.alDüzenle, GorevID, "RafaKaldır => -");
             //görev user tablosu
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
@@ -721,12 +723,15 @@ namespace Wms12m
                     db.UpdateIrsaliye(item.IrsaliyeID, irsNo, fatNo);
                     //yeni görev
                     string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
-                    var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, irsNo, item.Tarih, "Irs: " + irsNo + " Alıcı: " + item.HesapKodu.GetUnvan(item.SirketKod), true, ComboItems.Paketle.ToInt32(), kull.Kod, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "").FirstOrDefault();
+                    string alıcı = item.HesapKodu.GetUnvan(item.SirketKod);
+                    var x = db.InsertIrsaliye(item.SirketKod, mGorev.DepoID, gorevNo, irsNo, item.Tarih, "Irs: " + irsNo + " Alıcı: " + alıcı, true, ComboItems.Paketle.ToInt32(), kull.Kod, tarih, saat, item.HesapKodu, item.TeslimChk, item.ValorGun, "").FirstOrDefault();
+                    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SiparisTopla_GoreviTamamla", ComboItems.alEkle, x.GorevID.Value, "Irs: " + irsNo + " Alıcı: " + alıcı);
                 }
                 else
                     return new Result(false, sonuc.Message);
             }
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, saat, kull.Kod, "", ComboItems.SiparişTopla.ToInt32(), 0);
+            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SiparisTopla_GoreviTamamla", ComboItems.alDüzenle, GorevID, "SiparişTopla => -");
             //görev user tablosu
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
@@ -775,7 +780,7 @@ namespace Wms12m
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "Service/Terminal/SiparisTopla_GoreviTamamla", kull.AdSoyad);
+                    Logger(kull.AdSoyad, "Terminal", ex, "Service/Terminal/SiparisTopla_GoreviTamamla");
                     return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
                 }
             return new Result(true);
@@ -827,7 +832,7 @@ namespace Wms12m
             }
             catch (Exception ex)
             {
-                Logger(ex, "Service/Terminal/Paketle", KullID.ToString());
+                Logger(KullID.ToString(), "Terminal", ex, "Service/Terminal/Paketle");
                 return new Result(false, "Bir hata oldu");
             }
             return _result;
@@ -856,6 +861,9 @@ namespace Wms12m
             string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
             var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), kull, "", ComboItems.Paketle.ToInt32(), ComboItems.BarkodHazırla.ToInt32());
+            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "Paketle_GoreviTamamla", ComboItems.alDüzenle, GorevID, "Paketle => BarkodHazırla");
+            //paket bilgilerini hazırla
+            db.SettingsPaketNo(mGorev.DepoID, GorevID, kull, tarih);
             //görev user tablosu
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
@@ -882,6 +890,7 @@ namespace Wms12m
             int tarih = DateTime.Today.ToOADateInt();
             var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
             db.TerminalFinishGorev(GorevID, IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull, "", ComboItems.Sevket.ToInt32(), 0);
+            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "Sevkiyat_GoreviTamamla", ComboItems.alDüzenle, GorevID, "Sevkiyat => -");
             //görev user tablosu
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
@@ -917,6 +926,7 @@ namespace Wms12m
             if (transfer == null)//iç transfer
             {
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0);
+                LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferGiris_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferÇıkış => -");
                 //update gorev table
                 var id = mGorev.IR.LinkEvrakNo.ToInt32();
                 var tmp = db.Gorevs.Where(m => m.ID == id).FirstOrDefault();
@@ -937,6 +947,7 @@ namespace Wms12m
                 {
                     //finish
                     db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0);
+                    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferGiris_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferÇıkış => -");
                     //get depo details
                     var araDepo = db.Depoes.Where(m => m.ID == transfer.AraDepoID).Select(m => m.DepoKodu).FirstOrDefault();
                     var girisDepo = db.Depoes.Where(m => m.ID == transfer.GirisDepoID).Select(m => m.DepoKodu).FirstOrDefault();
@@ -992,6 +1003,7 @@ namespace Wms12m
             if (transfer == null)//iç transfer
             {
                 db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferÇıkış.ToInt32(), 0);
+                LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferGiris_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferÇıkış => -");
                 sonuc = new Result(true);
             }
             else//dış transfer
@@ -1004,6 +1016,7 @@ namespace Wms12m
                     db.UpdateIrsaliye(mGorev.IrsaliyeID, sonuc.Data.ToString(), "");
                     //finish
                     db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferGiriş.ToInt32(), 0);
+                LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferGiris_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferGiriş => -");
                     //görev user tablosu
                     var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
                     tbl.BitisTarihi = DateTime.Today.ToOADateInt();
@@ -1073,7 +1086,7 @@ namespace Wms12m
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "Service/Terminal/Kontrollu_Say", KullID.ToString());
+                    Logger(KullID.ToString(), "Terminal", ex, "Service/Terminal/Kontrollu_Say");
                 }
             }
             return new Result(true);
@@ -1100,6 +1113,7 @@ namespace Wms12m
                 tbl.BitisTarihi = DateTime.Today.ToOADateInt();
                 db.SaveChanges();
             }
+            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "KontrolluSay_GoreviTamamla", ComboItems.alDüzenle, GorevID, "KontrolluSay => -");
             return new Result(true);
         }
     }

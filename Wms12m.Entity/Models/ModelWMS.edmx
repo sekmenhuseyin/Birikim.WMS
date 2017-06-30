@@ -325,6 +325,7 @@
           <Property Name="GorevID" Type="int" Nullable="false" />
           <Property Name="SevkiyatNo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PaketNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Adet" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="PaketTipiID" Type="int" Nullable="false" />
           <Property Name="En" Type="numeric" Precision="25" Scale="6" />
           <Property Name="Boy" Type="numeric" Precision="25" Scale="6" />
@@ -1270,6 +1271,12 @@
           <Parameter Name="tarih" Type="int" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
+        <Function Name="SettingsPaketNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DepoID" Type="int" Mode="In" />
+          <Parameter Name="GorevID" Type="int" Mode="In" />
+          <Parameter Name="Username" Type="varchar" Mode="In" />
+          <Parameter Name="Tarih" Type="int" Mode="In" />
+        </Function>
         <Function Name="TerminalFinishGorev" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="GorevID" Type="int" Mode="In" />
           <Parameter Name="IrsaliyeID" Type="int" Mode="In" />
@@ -1908,6 +1915,12 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="GorevPaketNo" EntitySet="GorevPaketNoes" />
           </AssociationSet>
+          <FunctionImport Name="SettingsPaketNo">
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+            <Parameter Name="Username" Mode="In" Type="String" />
+            <Parameter Name="Tarih" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3122,6 +3135,7 @@
           <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="DegisTarih" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_GorevPaketler_ComboItem_Name" FromRole="GorevPaketler" ToRole="ComboItem_Name" />
+          <Property Name="Adet" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
         </EntityType>
         <Association Name="FK_GorevPaketler_ComboItem_Name">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
@@ -3833,6 +3847,7 @@
           <EntitySetMapping Name="GorevPaketlers">
             <EntityTypeMapping TypeName="MModel.GorevPaketler">
               <MappingFragment StoreEntitySet="GorevPaketler">
+                <ScalarProperty Name="Adet" ColumnName="Adet" />
                 <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
                 <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
@@ -3858,6 +3873,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SettingsPaketNo" FunctionName="MModel.Store.SettingsPaketNo" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

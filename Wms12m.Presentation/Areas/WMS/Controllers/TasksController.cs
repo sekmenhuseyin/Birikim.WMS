@@ -446,6 +446,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null) return null;
+            var ID = id.ToInt32();
+            var tbl = db.GorevPaketlers.Where(m => m.GorevID == ID).FirstOrDefault();
             return PartialView("Barcode");
         }
         /// <summary>

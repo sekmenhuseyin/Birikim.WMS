@@ -37,7 +37,7 @@ namespace Wms12m
                 }
                 catch (Exception ex)
                 {
-                    Logger(ex, "Service/Mobile/Login", userID);
+                    Logger(userID, "Mobile", ex, "Service/Mobile/Login");
                     db.LogLogins(userID, "Mobile", false, result.Message);
                 }
             }
