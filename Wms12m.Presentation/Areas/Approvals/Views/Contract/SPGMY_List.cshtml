@@ -178,10 +178,12 @@
             success: function (data) {
                 if (data.Status == true) {
                     Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    window.location.reload();
                 }
                 else {
                     if (data.Message == "") data.Message = "Hata oluştu";
                     Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    window.location.reload();
                 }
 
             }
@@ -203,10 +205,12 @@
             success: function (data) {
                 if (data.Status == true) {
                     Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    window.location.reload();
                 }
                 else {
                     if (data.Message == "") data.Message = "Hata oluştu";
                     Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    window.location.reload();
                 }
 
             }
