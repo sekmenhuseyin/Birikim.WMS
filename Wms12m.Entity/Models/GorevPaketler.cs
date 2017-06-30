@@ -30,5 +30,6 @@ namespace Wms12m.Entity.Models
         public decimal Adet { get; set; }
     
         public virtual ComboItem_Name ComboItem_Name { get; set; }
+        public virtual Gorev Gorev { get; set; }
     }
 }

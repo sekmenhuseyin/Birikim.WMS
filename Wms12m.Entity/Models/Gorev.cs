@@ -52,5 +52,6 @@ namespace Wms12m.Entity.Models
         public virtual ComboItem_Name ComboItem_Name1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GorevUser> GorevUsers { get; set; }
+        public virtual GorevPaketler GorevPaketler { get; set; }
     }
 }

@@ -1,0 +1,101 @@
+﻿@model GorevPaketler
+@{
+    ViewBag.Title = "Barcode Print";
+    Layout = "~/Views/Shared/_Layout.Null.cshtml";
+}
+<div class="row m-20">
+    <div class="col-md-12 text-center panel-title bold">@ViewBag.Sirket</div>
+</div>
+<div class="row m-20">
+    <div class="col-md-3 bold">Sevkiyat No</div>
+    <div class="col-md-3">@Model.SevkiyatNo</div>
+    <div class="col-md-3 bold">Sipariş No</div>
+    <div class="col-md-3">@Model.Gorev.IR.EvrakNo</div>
+</div>
+<div class="row m-20">
+    <div class="col-md-3 bold">Sevkiyat No</div>
+    <div class="col-md-9">@ViewBag.Sirket<br />@ViewBag.Adres</div>
+</div>
+<div class="row m-20">
+    <div class="col-md-3 bold">Alıcı</div>
+    <div class="col-md-9">@ViewBag.Alıcı</div>
+</div>
+<div class="row m-20">
+    <br /><br /><br /><br />
+</div>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SevkiyatNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SevkiyatNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaketNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaketNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaketTipiID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaketTipiID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.En)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.En)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Boy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Boy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Derinlik)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Derinlik)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Agirlik)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Agirlik)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Adet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ComboItem_Name.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ComboItem_Name.Name)
+        </dd>
+
+    </dl>
+</div>
