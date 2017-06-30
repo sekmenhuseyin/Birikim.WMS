@@ -855,7 +855,7 @@ namespace Wms12m
             int tarih = DateTime.Today.ToOADateInt();
             string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
             var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
-            db.TerminalFinishGorev(GorevID, IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), kull, "", ComboItems.Paketle.ToInt32(), ComboItems.Sevket.ToInt32());
+            db.TerminalFinishGorev(GorevID, IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), kull, "", ComboItems.Paketle.ToInt32(), ComboItems.BarkodHazırla.ToInt32());
             //görev user tablosu
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
