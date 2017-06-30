@@ -238,7 +238,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     foreach (JObject insertObj in parameters)
                     {
                         var ID = insertObj["ID"];
-                        var logDetay = "BUTUCRET_Temp tablosu ID: " + ID + " ,DPERSONELUID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + "'nun ücret bilgisi GM(" + vUser.UserName.ToString() + ") tarafından " + DateTime.Now + " da reddedildi.";
+                        var logDetay = "BUTUCRET_Temp tablosu ID: " + ID + " ,DPERSONELUID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + "'nun ücret bilgisi " + MyGlobalVariables.Birim + "(" + vUser.UserName.ToString() + ") tarafından " + DateTime.Now + " da reddedildi.";
                         string s = string.Format("[HR0312M].[dbo].[TCH_UcretRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Ucret_Reddet", ComboItems.alRed, ID.ToInt32(), logDetay);
@@ -280,7 +280,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     foreach (JObject insertObj in parameters)
                     {
                         var ID = insertObj["ID"];
-                        var logDetay = "BRDSKALA_Temp tablosu ID: " + ID + " , DSKALAANAID: " + insertObj["DSKALAANAID"].ToInt32() + ", DPERSONELID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + "'nun pozisyon primi ödeneği GM(" + vUser.UserName.ToString() + ") tarafından " + DateTime.Now + " da reddedildi.";
+                        var logDetay = "BRDSKALA_Temp tablosu ID: " + ID + " , DSKALAANAID: " + insertObj["DSKALAANAID"].ToInt32() + ", DPERSONELID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + "'nun pozisyon primi ödeneği " + MyGlobalVariables.Birim + "(" + vUser.UserName.ToString() + ") tarafından " + DateTime.Now + " da reddedildi.";
                         string s = string.Format("[HR0312M].[dbo].[TCH_PrimRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Prim_Reddet", ComboItems.alRed, ID.ToInt32(), logDetay);
