@@ -24,8 +24,8 @@ namespace Wms12m.Presentation.Areas.System.Controllers
             if (CheckPerm(Perms.Menü, PermTypes.Writing) == false) return Redirect("/");
             if (ModelState.IsValid)
             {
-                db.Entry(tbl).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(tbl).State = EntityState.Modified;
+                //db.SaveChanges();
             }
             return Redirect(Request.UrlReferrer.ToString());
         }

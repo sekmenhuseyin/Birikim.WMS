@@ -59,6 +59,8 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
         public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
+        public virtual DbSet<GorevPaketler> GorevPaketlers { get; set; }
+        public virtual DbSet<GorevPaketNo> GorevPaketNoes { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
@@ -572,6 +574,27 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("IrsID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.UpdateGorevDurum", tarihParameter, saatParameter, irsIDParameter);
+        }
+    
+        public virtual int SettingsPaketNo(Nullable<int> depoID, Nullable<int> gorevID, string username, Nullable<int> tarih)
+        {
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            var usernameParameter = username != null ?
+                new ObjectParameter("Username", username) :
+                new ObjectParameter("Username", typeof(string));
+    
+            var tarihParameter = tarih.HasValue ?
+                new ObjectParameter("Tarih", tarih) :
+                new ObjectParameter("Tarih", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.SettingsPaketNo", depoIDParameter, gorevIDParameter, usernameParameter, tarihParameter);
         }
     }
 }

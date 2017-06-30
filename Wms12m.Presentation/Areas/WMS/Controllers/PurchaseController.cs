@@ -269,6 +269,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             try
             {
                 var cevap = db.InsertIrsaliye(tbl.SirketID, tbl.DepoID, gorevno, tbl.EvrakNo, tarih, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan, false, ComboItems.MalKabul.ToInt32(), vUser.UserName, today, time, tbl.HesapKodu, "", 0, "").FirstOrDefault();
+                LogActions("WMS", "Purchase", "New", ComboItems.alEkle, cevap.GorevID.Value, "Irs: " + tbl.EvrakNo + ", Tedarikçi: " + tbl.Unvan);
                 //get list
                 var list = IrsaliyeDetay.GetList(cevap.IrsaliyeID.Value);
                 ViewBag.IrsaliyeId = cevap.IrsaliyeID;

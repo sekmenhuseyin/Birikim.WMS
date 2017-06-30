@@ -24,7 +24,7 @@ namespace Wms12m
         /// <summary>
         /// hata kaydını tek yerden kontrol etmek için
         /// </summary>
-        public void Logger(Exception ex, string page, string user)
+        public void Logger(string user, string machine, Exception ex, string page)
         {
             string inner = "";
             if (ex.InnerException != null)
@@ -32,7 +32,14 @@ namespace Wms12m
                 inner = ex.InnerException == null ? "" : ex.InnerException.Message;
                 if (ex.InnerException.InnerException != null) inner += ": " + ex.InnerException.InnerException.Message;
             }
-            db.Logger(user, "Android", "", ex.Message, inner, page);
+            db.Logger(user, machine, "", ex.Message, inner, page);
+        }
+        /// <summary>
+        /// işlem kaydı
+        /// </summary>
+        public void LogActions(string user, string machine, string area, string controller, string action, ComboItems type, int ID, string details = "", string request = "")
+        {
+            db.LogActions("WMS", area, controller, action, type.ToInt32(), ID, request, details, user, machine);
         }
     }
 }

@@ -52,5 +52,6 @@ namespace Wms12m.Entity.Models
         public virtual ICollection<Gorevler> Gorevlers2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorevler> Gorevlers3 { get; set; }
+        public virtual GorevPaketler GorevPaketler { get; set; }
     }
 }

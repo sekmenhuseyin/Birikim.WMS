@@ -54,5 +54,6 @@ namespace Wms12m.Entity.Models
         public virtual ICollection<GorevNo> GorevNoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserDetail> UserDetails { get; set; }
+        public virtual GorevPaketNo GorevPaketNo { get; set; }
     }
 }

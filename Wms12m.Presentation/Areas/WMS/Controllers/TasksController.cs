@@ -443,8 +443,20 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// </summary>
         public PartialViewResult Barcode()
         {
-
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            var ID = id.ToInt32();
+            var tbl = db.GorevPaketlers.Where(m => m.GorevID == ID).FirstOrDefault();
             return PartialView("Barcode");
+        }
+        /// <summary>
+        /// paketleme sonrası, sevkiyat öncesi barkod yazdırma
+        /// </summary>
+        public PartialViewResult Barcode2Print()
+        {
+            if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return null;
+            return PartialView("Barcode2Print");
         }
     }
 }
