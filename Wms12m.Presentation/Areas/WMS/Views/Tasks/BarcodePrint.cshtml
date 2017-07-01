@@ -2,100 +2,51 @@
 @{
     ViewBag.Title = "Barcode Print";
     Layout = "~/Views/Shared/_Layout.Null.cshtml";
+    string tmp = Model.PaketNo.GenerateBarcode();
 }
-<div class="row m-20">
-    <div class="col-md-12 text-center"><h1>@ViewBag.Sirket</h1></div>
-</div>
-<div class="row m-20">
-    <div class="col-md-3 bold">Sevkiyat No</div>
-    <div class="col-md-3">@Model.SevkiyatNo</div>
-    <div class="col-md-3 bold">Sipariş No</div>
-    <div class="col-md-3">@Model.Gorev.IR.EvrakNo</div>
-</div>
-<div class="row m-20">
-    <div class="col-md-3 bold">Sevkiyat No</div>
-    <div class="col-md-9">@ViewBag.Sirket<br />@ViewBag.Adres</div>
-</div>
-<div class="row m-20">
-    <div class="col-md-3 bold">Alıcı</div>
-    <div class="col-md-9">@ViewBag.Alıcı</div>
-</div>
-<div class="row m-20">
-    <br /><br /><br /><br />
-</div>
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.SevkiyatNo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SevkiyatNo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PaketNo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PaketNo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PaketTipiID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PaketTipiID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.En)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.En)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Boy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Boy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Derinlik)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Derinlik)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Agirlik)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Agirlik)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Adet)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Adet)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ComboItem_Name.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ComboItem_Name.Name)
-        </dd>
-
-    </dl>
-</div>
+<table>
+    <tr><td colspan="4" class="text-center bold"><h1>@ViewBag.Sirket</h1></td></tr>
+    <tr>
+        <td>Sevkiyat No</td>
+        <td>@Model.SevkiyatNo</td>
+        <td>Sipariş No</td>
+        <td>@Model.Gorev.IR.IRS_Detay.FirstOrDefault().KynkSiparisNo</td>
+    </tr>
+    <tr>
+        <td>İrsaliye No</td>
+        <td>@Model.Gorev.IR.EvrakNo</td>
+        <td>Ağırlık</td>
+        <td>@Model.Agirlik</td>
+    </tr>
+    <tr>
+        <td>İrs. Tarihi</td>
+        <td>@Model.Gorev.IR.Tarih.FromOADateInt()</td>
+        <td>Hacim</td>
+        <td>@Model.Hacim</td>
+    </tr>
+    <tr class="m-t-20">
+        <td valign="top">Gönderen</td>
+        <td colspan="3">@ViewBag.Sirket<br />@ViewBag.Adres</td>
+    </tr>
+    <tr class="m-t-20">
+        <td valign="top">Alıcı</td>
+        <td colspan="3">@ViewBag.Alıcı</td>
+    </tr>
+    <tr class="m-t-20">
+        <td valign="top">Sevk Adresi</td>
+        <td colspan="3">@ViewBag.Alıcı</td>
+    </tr>
+    <tr class="m-t-20">
+        <td>Paketleme</td>
+        <td>@Model.ComboItem_Name.Name</td>
+    </tr>
+    <tr class="m-t-20">
+        <td>Paket No</td>
+        <td>@Model.PaketNo</td>
+    </tr>
+    <tr class="m-t-20">
+        <td></td>
+        <td colspan="3"><img src="@Url.Content(tmp)" alt="@Model.PaketNo" width="400" /></td>
+    </tr>
+</table>
+<script>window.print();</script>
