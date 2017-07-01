@@ -323,6 +323,7 @@
             <PropertyRef Name="GorevID" />
           </Key>
           <Property Name="GorevID" Type="int" Nullable="false" />
+          <Property Name="SirketKodu" Type="varchar" MaxLength="2" Nullable="false" />
           <Property Name="SevkiyatNo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PaketNo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Adet" Type="numeric" Precision="25" Scale="6" Nullable="false" />
@@ -509,6 +510,10 @@
           <Property Name="GosterilecekSirket" Type="nvarchar" MaxLength="100" />
           <Property Name="GosterilecekDepo" Type="nvarchar" MaxLength="100" />
           <Property Name="PasifKartlariGoster" Type="bit" Nullable="false" />
+          <Property Name="GostCHKKodAlani" Type="varchar" MaxLength="50" />
+          <Property Name="GostCHKDeger" Type="varchar" MaxLength="150" />
+          <Property Name="GostSTKKodAlani" Type="varchar" MaxLength="50" />
+          <Property Name="GostSTKDeger" Type="varchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Yer">
           <Key>
@@ -3113,6 +3118,10 @@
           <Property Name="PasifKartlariGoster" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
+          <Property Name="GostCHKKodAlani" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GostCHKDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="GostSTKKodAlani" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GostSTKDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Depo_Users_Users">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -3179,6 +3188,7 @@
           <Property Name="DegisTarih" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_GorevPaketler_ComboItem_Name" FromRole="GorevPaketler" ToRole="ComboItem_Name" />
           <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevPaketler_Gorev" FromRole="GorevPaketler" ToRole="Gorev" />
+          <Property Name="SirketKodu" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_GorevPaketler_ComboItem_Name">
           <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
@@ -3864,6 +3874,10 @@
           <EntitySetMapping Name="UserDetails">
             <EntityTypeMapping TypeName="MModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="GostSTKDeger" ColumnName="GostSTKDeger" />
+                <ScalarProperty Name="GostSTKKodAlani" ColumnName="GostSTKKodAlani" />
+                <ScalarProperty Name="GostCHKDeger" ColumnName="GostCHKDeger" />
+                <ScalarProperty Name="GostCHKKodAlani" ColumnName="GostCHKKodAlani" />
                 <ScalarProperty Name="PasifKartlariGoster" ColumnName="PasifKartlariGoster" />
                 <ScalarProperty Name="GosterilecekDepo" ColumnName="GosterilecekDepo" />
                 <ScalarProperty Name="GosterilecekSirket" ColumnName="GosterilecekSirket" />
@@ -3891,6 +3905,7 @@
           <EntitySetMapping Name="GorevPaketlers">
             <EntityTypeMapping TypeName="MModel.GorevPaketler">
               <MappingFragment StoreEntitySet="GorevPaketler">
+                <ScalarProperty Name="SirketKodu" ColumnName="SirketKodu" />
                 <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
                 <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />

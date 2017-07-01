@@ -85,7 +85,7 @@
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         <EntityTypeShape EntityType="MModel.GorevPaketNo" Width="1.5" PointX="7.875" PointY="7.125" />
         <AssociationConnector Association="MModel.FK_GorevPaketNo_Depo" />
-        <EntityTypeShape EntityType="MModel.GorevPaketler" Width="1.5" PointX="6.5" PointY="1.375" />
+        <EntityTypeShape EntityType="MModel.GorevPaketler" Width="1.5" PointX="6.5" PointY="1.125" />
         <AssociationConnector Association="MModel.FK_GorevPaketler_ComboItem_Name" />
         <AssociationConnector Association="MModel.FK_GorevPaketler_Gorev" />
         </Diagram>

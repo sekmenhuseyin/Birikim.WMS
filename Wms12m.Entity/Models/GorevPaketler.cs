@@ -28,6 +28,7 @@ namespace Wms12m.Entity.Models
         public int KayitTarih { get; set; }
         public string Degistiren { get; set; }
         public int DegisTarih { get; set; }
+        public string SirketKodu { get; set; }
     
         public virtual ComboItem_Name ComboItem_Name { get; set; }
         public virtual Gorev Gorev { get; set; }

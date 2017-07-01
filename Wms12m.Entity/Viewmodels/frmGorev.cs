@@ -79,7 +79,7 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmPaketBarkod
     {
-        public string unvan { get; set; }
+        public string GonderenUnvan { get; set; }
         public string tel { get; set; }
         public string fax { get; set; }
         public string GonderenAdres { get; set; }
