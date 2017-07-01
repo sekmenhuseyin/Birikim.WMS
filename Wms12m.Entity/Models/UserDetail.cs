@@ -24,6 +24,10 @@ namespace Wms12m.Entity.Models
         public string GosterilecekSirket { get; set; }
         public string GosterilecekDepo { get; set; }
         public bool PasifKartlariGoster { get; set; }
+        public string GostCHKKodAlani { get; set; }
+        public string GostCHKDeger { get; set; }
+        public string GostSTKKodAlani { get; set; }
+        public string GostSTKDeger { get; set; }
     
         public virtual User User { get; set; }
         public virtual Depo Depo { get; set; }

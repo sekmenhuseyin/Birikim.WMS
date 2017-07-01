@@ -26,6 +26,7 @@ namespace Wms12m.Entity.Models
             this.Gorevlers1 = new HashSet<Gorevler>();
             this.Gorevlers2 = new HashSet<Gorevler>();
             this.Gorevlers3 = new HashSet<Gorevler>();
+            this.GorevPaketlers = new HashSet<GorevPaketler>();
         }
     
         public int ID { get; set; }
@@ -52,6 +53,7 @@ namespace Wms12m.Entity.Models
         public virtual ICollection<Gorevler> Gorevlers2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gorevler> Gorevlers3 { get; set; }
-        public virtual GorevPaketler GorevPaketler { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GorevPaketler> GorevPaketlers { get; set; }
     }
 }
