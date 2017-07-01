@@ -5,6 +5,7 @@
 <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/assets/global/plugins/jQuery-contextMenu/dist/jquery.contextMenu.min.css" rel="stylesheet" />
 <style>
     .dataTables_scrollHead {width: 100% !important;}
     .dataTables_scrollHeadInner {width: 100% !important;}
@@ -22,17 +23,106 @@
     <div id="risk_tanim_data">
     </div>
 </div>
+<div class="modal fade" id="x-modal-riskduzenle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" style="width:950px;">
+        <div class="modal-content" style="height:360px;width:480px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#12ccee">RİSK TANIM DÜZENLE</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
+                    <div style="float:left;width:35%;margin-left:10px;color:#12ccee"><span>Şahsi Çek Limiti</span></div>
+                    <div class="numb_onc_sahsiceklimiti" style="float:left;width:30%;margin-left:10px;"></div>
+                    <div style="float:left;width:25%;margin-left:10px;">
+                        <button type="button" class="btn btn-lg blue sahsiCekLimiti_duzenle" style="font-size:9px; margin-bottom:10px;width:100%;">
+                            Kaydet<i class="fa fa-save" style="margin-left:5px;"></i>
+                        </button>
+                    </div>
+                </div>
+                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
+                    <div style="float:left;width:35%;margin-left:10px;color:#12ccee"><span>Yeni Şahsi Çek Limiti</span></div>
+                    <div class="numb_yeni_sahsiceklimiti" style="float:left;width:30%;margin-left:10px;"></div>
+                    <div style="float:left;width:25%;margin-left:10px;">
+                        <button type="button" class="btn btn-lg red sahsiCekLimiti_iptal" style="font-size:9px; margin-bottom:10px;width:100%;">
+                            İptal<i class="fa fa-close" style="margin-left:5px;"></i>
+                        </button>
+                    </div>
+                </div>
+                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
+                    <div style="float:left;width:35%;margin-left:10px;color:#12ccee"><span>Müşteri Çek Limiti</span></div>
+                    <div class="txt_onc_mustericeklimiti" style="float:left;width:30%;margin-left:10px;"></div>
+                </div>
+                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
+                    <div style="float:left;width:35%;margin-left:10px;color:#12ccee"><span>Yeni Müşteri Çek Limiti</span></div>
+                    <div class="txt_yeni_mustericeklimiti" style="float:left;width:30%;margin-left:10px;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
 <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
 <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
+<script src="~/Content/assets/global/plugins/jQuery-contextMenu/dist/jquery.contextMenu.min.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
         PartialView("/Approvals/Risk/TanimPartial", 'risk_tanim_data');
+        NumbBox(".numb_yeni_sahsiceklimiti", false, 2);
+        NumbBox(".txt_yeni_mustericeklimiti", false, 2);
+        NumbBox(".numb_onc_sahsiceklimiti", true, 2);
+        NumbBox(".txt_onc_mustericeklimiti", true, 2);
+
+
+        $('.sahsiCekLimiti_duzenle').click(function () {
+            var index = $(".numb_onc_sahsiceklimiti").data("index");
+            var yeniSahsiCekLimiti = $(".numb_yeni_sahsiceklimiti").dxTextBox("instance").option("value").replace(/\./g, "").replace(",", ".");
+            var yeniMusteriCekLimiti = $(".txt_yeni_mustericeklimiti").dxTextBox("instance").option("value").replace(/\./g, "").replace(",", ".");
+            table.cell(index, 5).data(yeniSahsiCekLimiti);
+            table.cell(index, 6).data(yeniMusteriCekLimiti);
+            RiskTanımKayıt()
+            $('#x-modal-riskduzenle').modal("hide");
+
+        });
+
+        function RiskTanımKayıt() {
+            var x = table.rows('.selected').data();
+            console.log(x);
+            for (var i = 0; i < x.length; i++) {
+                secili_table.push(x[i]);
+            }
+            var _dfd = $.Deferred();
+            $.ajax({
+                url: window.location.origin + "/Approvals/Risk/OnayRiskInsert",
+                data: { Data: JSON.stringify(secili_table) },
+                type: "post",
+                success: function (data) {
+                    if (data == "OK") {
+                        Modaldialog("İşlem Başarılı.", "Risk Tanım Kayıt", "Tamam", "Mesaj");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else if (data == "EKSIK") {
+                        Modaldialog("Yeni Şahsi Çek Limiti 0 ve Altında Olan Satırlar Kaydedilmedi.", "Risk Tanım Kayıt", "Tamam", "Uyarı");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        Modaldialog("Kayıt Sırasında Bir Hata Oluştu.", "Risk Tanım Kayıt", "Tamam", "Uyarı");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                }
+            });
+            return _dfd.promise();
+        }
+        $('.sahsiCekLimiti_iptal').click(function () {
+            $('#x-modal-riskduzenle').modal("hide");
+        });
     });
+
 </script>
 }
 

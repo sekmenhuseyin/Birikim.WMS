@@ -367,7 +367,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 string sonucMessage = "OK";
                 foreach (JObject insertObj in parameters)
                 {
-                    if (insertObj["YeniSahsiCekLimiti"].ToDecimal() <= 0)
+                    if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) <= 0)
                     {
                         sonucMessage = "EKSIK";
                         continue;
@@ -377,8 +377,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         HesapKodu = insertObj["HesapKodu"].ToString(),
                         Unvan = insertObj["Unvan"].ToString(),
-                        SahsiCekLimiti = insertObj["SahsiCekLimiti"].ToDecimal(),
-                        MusteriCekLimiti = insertObj["MusteriCekLimiti"].ToDecimal(),
+                        SahsiCekLimiti = Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()),
+                        MusteriCekLimiti = Convert.ToDecimal(insertObj["YeniMusteriCekLimiti"].ToString()),
                         SMOnay = false,
                         SMOnaylayan = "",
                         SPGMYOnay = false,
@@ -389,23 +389,23 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         GMOnaylayan = "",
                         Durum = false
                     };
-                    if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 20000)
+                    if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) < 20000)
                     {
                         rsk.OnayTip = 0;
                     }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 100000)
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) < 100000)
                     {
                         rsk.OnayTip = 1;
                     }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 200000)
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) < 200000)
                     {
                         rsk.OnayTip = 2;
                     }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) < 500000)
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) < 500000)
                     {
                         rsk.OnayTip = 3;
                     }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"]) >= 500000)
+                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) >= 500000)
                     {
                         rsk.OnayTip = 4;
                     }

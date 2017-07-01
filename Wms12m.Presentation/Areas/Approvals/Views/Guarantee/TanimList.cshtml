@@ -41,6 +41,11 @@
 
 <script type="text/javascript">
     $('#x-modal-teminatdurbun').modal("hide");
+    var simple_checkbox = function (data, type, full, meta) {
+        var is_checked = data == 1 ? "checked" : "";
+        return '<div style="width:100%;padding: 0 40%;"><input type="checkbox" class="checkbox" style="width: 20px;height:20px;" disabled  ' +
+            is_checked + ' /></div>';
+    }
     var secili_satir = new Array();
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
@@ -53,7 +58,7 @@
         },
         "fixedHeader": true,
         "scrollX": true,
-        "columnDefs": [{ "visible": false, "targets": 0 }],
+        "columnDefs": [{ "visible": false, "targets": 0 }, { "type": "num-fmt", "className": "dt-right", "targets": [6] }],
         "columns": [
             { "data": "ID" },
             { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
@@ -61,8 +66,8 @@
             { "data": "Unvan"},
             { "data": "AltBayi" },
             { "data": "Cins" },
-            { "data": "Tutar"},
-            { "data": "SureliSuresiz"},
+            { "data": "Tutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "SureliSuresiz", "render": simple_checkbox, "className": "dt-center" },
             { "data": "Tarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
             { "data": "VadeTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
             { "data": "Onay"},
@@ -80,7 +85,7 @@
         $(this).toggleClass('selected');
     });
 
-   
+
     $(document).ready(function () {
 
     });

@@ -54,14 +54,15 @@
         },
         "fixedHeader": true,
         "scrollX": true,
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [3,4,5,6] }],
         "columns": [  
             {"data": null,"defaultContent": '',"className": 'select-checkbox',"orderable": false},
-            { "data": "HesapKodu", "sClass": "nowrap" },
-            { "data": "Unvan", "sClass": "nowrap" },
-            { "data": "SahsiCekLimiti", "sClass": "nowrap"  },
-            { "data": "MusteriCekLimiti" , "sClass": "nowrap" },
-            { "data": "YeniSahsiCekLimiti", "sClass": "nowrap" },
-            { "data": "YeniMusteriCekLimiti", "sClass": "nowrap" },
+            { "data": "HesapKodu"},
+            { "data": "Unvan" },
+            { "data": "SahsiCekLimiti", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "MusteriCekLimiti", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "YeniSahsiCekLimiti", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "YeniMusteriCekLimiti", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
         ],
         "ordering":false,
         "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
@@ -70,37 +71,55 @@
         }
 
     });
+    $.contextMenu({
+        selector: '#sample_1 tbody td',
+        callback: function (key, options) {
+            var cellIndex = parseInt(options.$trigger[0].cellIndex),
+                row = table.row(options.$trigger[0].parentNode),
+                rowIndex = row.index();
+
+            switch (key) {
+                case 'edit':
+                        var sahsiCekLimiti = ondalikBinlik(table.cell(rowIndex, 3).data().toString().replace(".", ","), 2);
+                        var musteriCekLimiti = ondalikBinlik(table.cell(rowIndex, 4).data().toString().replace(".", ","), 2);
+                        cekLimitClear();
+                        $('#x-modal-riskduzenle').modal("show");
+
+                        console.log(rowIndex);
+
+                        $(".numb_onc_sahsiceklimiti").dxTextBox("instance").option("value", sahsiCekLimiti);
+                        $(".txt_onc_mustericeklimiti").dxTextBox("instance").option("value", musteriCekLimiti);
+                        $(".numb_onc_sahsiceklimiti").data("index", rowIndex);
+                        table
+                            .rows('.selected')
+                            .nodes()
+                            .to$()      // Convert to a jQuery object
+                            .removeClass('selected');
+                        $('tr').eq(rowIndex + 2).addClass('selected');
+                    break;
+                default:
+                    break;
+            }
+        },
+        items: {
+            "edit": { name: "Edit", icon: "edit" },
+        }
+    });
+
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
 
-    $('.save-buton').click(function () {
-        var x = table.rows('.selected').data();
-        for (var i = 0; i < x.length; i++) {
-            secili_table.push(x[i]);
-        }
-        var _dfd = $.Deferred();
-        $.ajax({
-            url: window.location.origin + "/Approvals/Risk/OnayRiskInsert",
-            data: { Data: JSON.stringify(secili_table)},
-            type: "post",
-            success: function (data) {
-                if (data == "OK") {
-                    Modaldialog("İşlem Başarılı.", "Risk Tanım Kayıt", "Tamam", "Mesaj");
-                }
-                else if (data == "EKSIK") {
-                    Modaldialog("Yeni Şahsi Çek Limiti 0 ve Altında Olan Satırlar Kaydedilmedi.", "Risk Tanım Kayıt", "Tamam", "Uyarı");
-                }
-                else {
-                    Modaldialog("Kayıt Sırasında Bir Hata Oluştu.", "Risk Tanım Kayıt", "Tamam", "Uyarı");
-                }
-            }
-        });
-        return _dfd.promise();
-    });
+
     $('.refresh-buton').click(function () {
         PartialView("/Approvals/Risk/TanimPartial", 'risk_tanim_data');
     });
+    function cekLimitClear() {
+        $(".numb_onc_sahsiceklimiti").dxTextBox("instance").option("value", 0);
+        $(".numb_yeni_sahsiceklimiti").dxTextBox("instance").option("value", 0);
+        $(".txt_onc_mustericeklimiti").dxTextBox("instance").option("value", 0);
+        $(".txt_yeni_mustericeklimiti").dxTextBox("instance").option("value", 0);
+    }
     $(document).ready(function () {
 
     });

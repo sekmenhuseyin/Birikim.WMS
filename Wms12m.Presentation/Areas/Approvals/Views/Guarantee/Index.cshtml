@@ -94,7 +94,11 @@
     <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
     <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
     <script>
-
+        var simple_checkbox = function (data, type, full, meta) {
+            var is_checked = data == 1 ? "checked" : "";
+            return '<div style="width:100%;padding: 0 40%;"><input type="checkbox" class="checkbox" style="width: 20px;height:20px;" disabled  ' +
+                is_checked + ' /></div>';
+        }
         var secili_satir = new Array();
         var secili_table = new Array();
         var table = $('#sample_1').DataTable({
@@ -106,15 +110,15 @@
                 },
             },
             "fixedHeader": true,
-            "columnDefs": [{ "visible": false, "targets": 0 }],
+            "columnDefs": [{ "visible": false, "targets": 0 }, { "type": "num-fmt", "className": "dt-right", "targets": [4,5] }],
             "columns": [
                 { "data": "ID" },
                 { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
-                { "data": "HesapKodu", "sClass": "nowrap" },
-                { "data": "Unvan", "sClass": "nowrap" },
-                { "data": "Tutar", "sClass": "nowrap" },
-                { "data": "TeminatTutar", "sClass": "nowrap" },
-                { "data": "SureliSuresiz", "sClass": "nowrap" },
+                { "data": "HesapKodu"},
+                { "data": "Unvan"},
+                { "data": "Tutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "TeminatTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "SureliSuresiz", "render": simple_checkbox, "className": "dt-center" },
                 { "data": "Tarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
                 { "data": "VadeTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
             ],
@@ -145,10 +149,12 @@
                 success: function (data) {
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else {
                         if (data.Message == "") data.Message = "Hata oluştu";
                         Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        setTimeout(function () { window.location.reload(); }, 500);
                     }
 
                 }
@@ -172,10 +178,12 @@
                 success: function (data) {
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else {
                         if (data.Message == "") data.Message = "Hata oluştu";
                         Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        setTimeout(function () { window.location.reload(); }, 500);
                     }
 
                 }
@@ -185,7 +193,7 @@
 
         $('.yenile-buton').click(function () {
 
-           setTimeout(function () { window.location.reload(); }, 500);
+           window.location.reload();
         });
     </script>
 }

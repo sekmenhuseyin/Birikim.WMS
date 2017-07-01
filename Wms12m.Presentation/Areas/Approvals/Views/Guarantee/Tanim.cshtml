@@ -116,9 +116,9 @@
             var chk = "";
             var yeniKayit = new Array();
             var teminat_cinsi = [
-                { state: "TL"},
-                { state: "Döviz"},
-                { state: "Birim" },
+                { state: "Gayrimenkul İpoteği"},
+                { state: "Taşınır Rehni"},
+                { state: "Teminat Mektubu" },
             ];
             $(".select_chk").dxLookup({
                 dataSource: model,
@@ -173,12 +173,12 @@
                 formatString: 'dd.MM.yyyy',
                 width:'60%'
             });
-
-            $(".teminat_tutar").dxNumberBox({
-                min:0,
-                step:1,
-                value:0
-            });
+            NumbBox(".teminat_tutar", false,2);
+            //$(".teminat_tutar").dxNumberBox({
+            //    min:0,
+            //    step:1,
+            //    value:0
+            //});
             //PartialView("/OnayTeminat/PartialTeminatTanim", 'teminat_tanim_data');
         });
 
@@ -233,7 +233,7 @@
                                 var prevClickTime = component.lastClickTime;//take last clicked time
                                 component.lastClickTime = new Date();
                                 if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                    PartialView("/Approvals/Guarantee/TanimList", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));    
+                                    PartialView("/Approvals/Guarantee/TanimList", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
                                 }
                             }
                         },
@@ -316,7 +316,7 @@
                                 var prevClickTime = component.lastClickTime;//take last clicked time
                                 component.lastClickTime = new Date();
                                 if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                    //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));    
+                                    //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
                                 }
                             }
                         },
@@ -341,6 +341,7 @@
                         }
                         else {
                             Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
+                            setTimeout(function () { window.location.reload(); }, 500);
                             return;
                         }
                     }
@@ -356,7 +357,7 @@
             var jObject = {};
             jObject["HesapKodu"] = $(".select_chk").dxLookup("instance").option("value");
             jObject["TeminatCinsi"] = $(".select_teminat_cinsi").dxSelectBox("instance").option("value");
-            jObject["TeminatTutari"] = $(".teminat_tutar").dxNumberBox("instance").option("value");
+            jObject["TeminatTutari"] = $(".teminat_tutar").dxTextBox("instance").option("value");
             jObject["Tarih"] = $(".date_tarih").dxDateBox("instance").option("text");
             jObject["AltBayi"] = "";
             jObject["Unvan"] = $(".select_chk").dxLookup("instance").option("text");
@@ -394,6 +395,7 @@
                     }
                     else {
                         Modaldialog("Hata Oluştu", "Silme İşlemi", "Tamam", "Uyarı");
+                        setTimeout(function () { window.location.reload(); }, 500);
                         return;
                     }
                 }
@@ -401,7 +403,7 @@
             return _dfd.promise();
         });
         $('.temizle-buton').click(function () {
-           setTimeout(function () { window.location.reload(); }, 500);
+           window.location.reload();
         });
 
     </script>
