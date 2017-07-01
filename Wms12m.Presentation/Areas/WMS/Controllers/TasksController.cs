@@ -462,6 +462,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             var tblx = db.GorevPaketlers.Where(m => m.GorevID == tbl.GorevID).FirstOrDefault();
             tblx.SevkiyatNo = tbl.SevkiyatNo;
             tblx.PaketNo = tbl.PaketNo;
+            tblx.PaketTipiID = tbl.PaketTipiID;
             tblx.Adet = tbl.Adet;
             tblx.En = tbl.En;
             tblx.Boy = tbl.Boy;

@@ -16,17 +16,21 @@ namespace Wms12m.Presentation.Controllers
         {
             var SirketKodu = db.GetSirketDBs().FirstOrDefault();
             ViewBag.SirketKodu = SirketKodu;
+            var setts = db.Settings.FirstOrDefault();
             BekleyenOnaylar bo;
-            try
-            {
-                bo = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
-            }
-            catch (Exception)
-            {
+            if (setts.OnayCek == false  && setts.OnayFiyat==false && setts.OnayRisk == false && setts.OnaySiparis == false && setts.OnaySozlesme == false && setts.OnayStok == false && setts.OnayTekno == false && setts.OnayTeminat == false)
                 bo = new BekleyenOnaylar();
-            }
+            else
+                try
+                {
+                    bo = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
+                }
+                catch (Exception)
+                {
+                    bo = new BekleyenOnaylar();
+                }
+            ViewBag.Settings = setts;
             ViewBag.BekleyenOnaylar = bo;
-            ViewBag.Settings = db.Settings.FirstOrDefault();
             var ozet = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
             return View("Index", ozet);
         }
