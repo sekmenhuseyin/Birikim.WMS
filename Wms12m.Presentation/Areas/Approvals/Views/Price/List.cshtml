@@ -53,10 +53,10 @@
 <div class="row">
     <div>
         <div class="col-xs-6 col-sm-6" style="padding:0 2px 0 5px">
-            <div class="col-xs-12 col-sm-3" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg yellow yenile-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Yenile<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-3" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue satir-ekle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Ekle<i class="fa fa-eraser" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-3" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg purple satir-sil-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Sil<i class="fa fa-binoculars" style="margin-left:5px;"></i></button></div>
-            <div class="col-xs-12 col-sm-3" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg green satir-guncelle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Güncelle<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg yellow yenile-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Yenile<i class="fa fa-save" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg blue satir-ekle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Ekle<i class="fa fa-eraser" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg purple satir-sil-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Sil<i class="fa fa-binoculars" style="margin-left:5px;"></i></button></div>
+            <div class="col-xs-12 col-sm-3" style="padding:0 1px 0 1px;display:none;"><button type="button" class="btn btn-lg green satir-guncelle-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Satır Güncelle<i class="fa fa-hourglass-start" style="margin-left:5px;"></i></button></div>
         </div>
         <div class="col-xs-6 col-sm-6" style="padding:0 5px 0 2px">
             <div class="col-xs-12 col-sm-4" style="padding:0 1px 0 1px"><button type="button" class="btn btn-lg green-turquoise bekleyenler-buton" style="width:99%;font-size:9px; margin-bottom:10px;">Bekleyenler<i class="fa fa-paint-brush" style="margin-left:5px;"></i></button></div>
@@ -584,6 +584,10 @@
             jObject["DovizCinsi"] = $(".txt-doviz-cinsi").dxSelectBox("instance").option("value");
             jObject["GrupKod"] = GrupKod;
             jObject["Durum"] = id;
+            if (id == 1 && ( parseFloat(jObject["DovizSatisFiyat"]) > 0) && (parseFloat(jObject["SatisFiyat"]) > 0 )) {
+                Modaldialog("TL ve Döviz fiyat beraber girilemez.", "Güncelleme İşlemi", "Tamam", "Guncel");
+                return;
+            }
             if (id == 1 && (jObject["ListeNo"] == null || jObject["UrunKodu"] == null || (parseFloat(jObject["SatisFiyat"]) == 0 && parseFloat(jObject["DovizSatisFiyat"]) == 0) || (parseFloat(jObject["SatisFiyat"]) > 0 && jObject["Birim"] == null) || (parseFloat(jObject["DovizSatisFiyat"]) > 0 && jObject["DovizBirim"] == null && jObject["DovizCinsi"] == null))) {
                 Modaldialog("Girilen değerleri kontrol edin", "Güncelleme İşlemi", "Tamam", "Guncel");
                 return;

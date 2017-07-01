@@ -676,7 +676,7 @@ td {width: auto !important;}
 
         $('.temizle-buton').click(function () {
             inputClear();
-            $(".txt_sira_no").dxTextBox("instance").option("value", SRNO);
+            $(".txt_sira_no").dxTextBox("instance").option("value", srNo);
             $(".select_sozlesmeler").dxLookup("instance").option("value", null);
             $(".swtch_sozlesme_durumu").dxSwitch("instance").option("value", true);
             $(".swtch_vade_valor").dxSwitch("instance").option("value", true);
@@ -872,7 +872,7 @@ td {width: auto !important;}
 
         $('.soz_gunc_kaydet').click(function () {
             var listeNo = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
-            var onc_bag_tut = $(".numb_onc_baglanti_tutari").dxTextBox("instance").option("value");
+            var onc_bag_tut = Number($(".numb_onc_baglanti_tutari").dxTextBox("instance").option("value").replace(/\./g, "").replace(",", "."));
             var yeni_bag_tut = Number($(".numb_yeni_baglanti_tutari").dxTextBox("instance").option("value").replace(/\./g, "").replace(",", "."));
             var onc_bit_tarih = $(".date_onc_bitis_tarihi").dxDateBox("instance").option("value");
             var yeni_bit_tarih = YeniBitisTarihi;
@@ -994,6 +994,7 @@ td {width: auto !important;}
             $(".select_urun_kodu").dxLookup("instance").option("value", null);
             $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
             $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
+            $(".select_sozlesmeler").dxLookup("instance").option("value", null);
 
 
             $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", false);
@@ -1009,7 +1010,8 @@ td {width: auto !important;}
             $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
             $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
             $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", false);
-
+            $("#sozlesme_tanim_data").html("");
+            
 
         }
 

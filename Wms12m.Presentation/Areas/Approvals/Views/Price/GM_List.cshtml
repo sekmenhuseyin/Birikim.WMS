@@ -61,7 +61,8 @@
                         <th nowrap>Döviz Satış Fiyat</th>
                         <th nowrap>Döviz Satış Fiyat1 Birim</th>
                         <th nowrap>Döviz Cinsi</th>
-
+                        <th nowrap></th>
+                        <th nowrap></th>
                     </tr>
                 </thead>
             </table>
@@ -84,7 +85,7 @@
             //"responsive": true,
             //"fixedHeader": true,      
             //"scrollX": true,
-            "columnDefs": [{ "visible": false, "targets": [0, 1, 2] }, { "type": "num-fmt", "className": "dt-right", "targets": [10, 12] }],
+            "columnDefs": [{ "visible": false, "targets": [0, 1, 2,15,16] }, { "type": "num-fmt", "className": "dt-right", "targets": [10, 12] }],
             "columns": [
                 { "data": "ID" },
                 { "data": "BasTarih" },
@@ -100,7 +101,9 @@
                 { "data": "SatisFiyat1Birim"},
                 { "data": "DovizSatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 2, '') }, 
                 { "data": "DovizSF1Birim"},
-                { "data": "DovizCinsi"},
+                { "data": "DovizCinsi" },
+                { "data": "SatisFiyat1BirimInt" },
+                { "data": "DovizSF1BirimInt" },
                 //{
                 //    "render": function ( data, type, full, meta ) {
                 //        return table.saveContact(full);

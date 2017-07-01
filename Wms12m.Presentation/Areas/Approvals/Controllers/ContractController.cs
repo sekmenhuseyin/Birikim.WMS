@@ -61,6 +61,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         if (lst.OnayTip == 2)
                         {
+                            db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] SET Kod12=0, Kod9='' WHERE ListeNo='{1}'", "17", insertObj["ListeNo"].ToString()));
                             ISS insrt = new ISS()
                             {
                                 Aciklama = lst.Aciklama,

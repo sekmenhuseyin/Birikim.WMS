@@ -232,7 +232,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
                         FYT fyt = new FYT();
 
-                        if (fytData.FiyatListNum != null)
+                        if (fytData.FiyatListName != "")
                         {
                             ListeAdi = fytData.FiyatListName;
                             BasTarih = fytData.BasTarih;
@@ -323,12 +323,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         fyt.DovizSF1KDV = 0;
                         fyt.DovizSF2KDV = 0;
                         fyt.DovizSF3KDV = 0;
-                        fyt.SF1Birim = insertObj["SF1Birim"].ToShort();
+                        //fyt.SF1Birim = insertObj["SatisFiyat1Birim"] == null || insertObj["SatisFiyat1Birim"].ToString() == ""  ? Convert.ToInt16(-1) : insertObj["SatisFiyat1Birim"].ToShort();
+                        fyt.SF1Birim = insertObj["SatisFiyat1BirimInt"].ToShort();
                         fyt.SF2Birim = -1;
                         fyt.SF3Birim = -1;
                         fyt.SF4Birim = -1;
                         fyt.SF5Birim = -1;
                         fyt.SF6Birim = -1;
+                        //fyt.DovizSF1Birim = insertObj["DovizSF1Birim"] == null || insertObj["DovizSF1Birim"].ToString() == "" ? Convert.ToInt16(-1) : insertObj["DovizSF1Birim"].ToShort();
                         fyt.DovizSF1Birim = insertObj["DovizSF1BirimInt"].ToShort();
                         fyt.DovizSF2Birim = -1;
                         fyt.DovizSF3Birim = -1;
@@ -368,7 +370,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         fyt.Kod11 = 0;
                         fyt.Kod12 = 0;
 
-
+                        fyt.FiyatListeTipi = -1;
                         DateTime date = DateTime.Now;
                         var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                         sqlexper.Insert(fyt);
@@ -1602,22 +1604,33 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                                 }
                             }
                         }
-                        Fiyat fyt = new Fiyat()
-                        {
-                            FiyatListNum = parameters["ListeNo"].ToString(),
+                        Fiyat fyt = new Fiyat();
 
-                            HesapKodu = parameters["HesapKodu"].ToString(),
-                            MalKodu = parameters["UrunKodu"].ToString(),
-                            SatisFiyat1 = Convert.ToDecimal(parameters["SatisFiyat"].ToString()),
-                            SatisFiyat1Birim = parameters["Birim"].ToString(),
-                            SatisFiyat1BirimInt = parameters["BirimValue"].ToInt32(),
-                            DovizSatisFiyat1 = Convert.ToDecimal(parameters["DovizSatisFiyat"].ToString()),
-                            DovizSF1Birim = parameters["DovizBirim"].ToString(),
-                            DovizSF1BirimInt = parameters["DovizBirimValue"].ToInt32(),
-                            DovizCinsi = parameters["DovizCinsi"].ToString(),
-                            Durum = parameters["Durum"].ToShort(),
-                            ROW_ID = 0
-                        };
+                        fyt.FiyatListNum = parameters["ListeNo"].ToString();
+                        fyt.HesapKodu = parameters["HesapKodu"].ToString();
+                        fyt.MalKodu = parameters["UrunKodu"].ToString();
+                        fyt.Durum = parameters["Durum"].ToShort();
+                        fyt.ROW_ID = 0;
+
+                        if (Convert.ToDecimal(parameters["SatisFiyat"].ToString()) > 0)
+                        {
+                            fyt.SatisFiyat1 = Convert.ToDecimal(parameters["SatisFiyat"].ToString());
+                            fyt.SatisFiyat1Birim = parameters["Birim"].ToString();
+                            fyt.SatisFiyat1BirimInt = parameters["BirimValue"].ToInt32();
+                            fyt.DovizSF1Birim = "";
+                            fyt.DovizCinsi = "";
+                            fyt.DovizSF1BirimInt = -1;
+                        }
+                        else
+                        {
+                            fyt.DovizSatisFiyat1 = Convert.ToDecimal(parameters["DovizSatisFiyat"].ToString());
+                            fyt.DovizSF1Birim = parameters["DovizBirim"].ToString();
+                            fyt.DovizSF1BirimInt = parameters["DovizBirimValue"].ToInt32();
+                            fyt.DovizCinsi = parameters["DovizCinsi"].ToString();
+                            fyt.SatisFiyat1Birim = "";
+                            fyt.SatisFiyat1BirimInt = -1;
+                        }
+
                         if (fyt.MalKodu == "M60101000080" || fyt.MalKodu == "M60101000081")
                         {
                             fyt.Onay = true;
