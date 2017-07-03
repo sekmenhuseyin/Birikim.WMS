@@ -42,8 +42,8 @@ namespace Wms12m.Presentation
                 //.Include("~/Content/assets/global/plugins/jszip.min.js")
                 // DevExtreme + extensions
                 .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.web.js")
-                .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.aspnet.data.js")
-                .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.aspnet.mvc.js")
+                //.Include("~/Content/assets/global/plugins/DevExtreme/js/dx.aspnet.data.js")
+                //.Include("~/Content/assets/global/plugins/DevExtreme/js/dx.aspnet.mvc.js")
                 //datatables
                 .Include("~/Content/assets/global/plugins/datatables/dataTables.min.js")
                 .Include("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js")

@@ -6,6 +6,7 @@ Hüseyin Sekmenoğlu
 Derviş Akdeniz
 Ruhi Göktaş
 Fatih Bingöl
+Candan Altıntaş
 Gizem Altıntaş
 Emre Ünal
 /* SITE */

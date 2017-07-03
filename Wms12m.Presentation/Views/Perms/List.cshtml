@@ -36,7 +36,7 @@
             <input name="ID" type="hidden" value="@item.ID" />
             <input name="Updating" type="hidden" />
             <input name="RoleName" class="RoleName" type="hidden" value="@ViewBag.RoleName" required />
-            <div class="col-md-6 col-md-offset-2"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
+            <div class="col-md-6 col-md-offset-2"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName.Humanize()" required></div>
             <div class="checkbox col-md-1 text-center">
                 <label style="font-size: 1.5em">
                     <input class="Reading" name="Reading" type="checkbox" @{if (item.Reading == true) { <text> checked="checked" </text>   }} />
