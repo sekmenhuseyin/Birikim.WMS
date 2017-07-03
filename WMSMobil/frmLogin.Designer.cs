@@ -99,7 +99,7 @@
             this.label4.Location = new System.Drawing.Point(0, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(240, 16);
-            this.label4.Text = "WMS Mobil v.170621";
+            this.label4.Text = "WMS Mobil v.170703";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel1
