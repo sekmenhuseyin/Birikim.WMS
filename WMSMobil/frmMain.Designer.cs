@@ -45,6 +45,7 @@
             this.btnTransferOut = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnBarcode = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnMalKabul
@@ -100,7 +101,7 @@
             this.btnSayim.ForeColor = System.Drawing.Color.White;
             this.btnSayim.Location = new System.Drawing.Point(3, 235);
             this.btnSayim.Name = "btnSayim";
-            this.btnSayim.Size = new System.Drawing.Size(234, 56);
+            this.btnSayim.Size = new System.Drawing.Size(115, 56);
             this.btnSayim.TabIndex = 0;
             this.btnSayim.Tag = "8";
             this.btnSayim.Text = "Kontrollü Sayım";
@@ -157,7 +158,7 @@
             this.lblSayim.BackColor = System.Drawing.Color.Green;
             this.lblSayim.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblSayim.ForeColor = System.Drawing.Color.White;
-            this.lblSayim.Location = new System.Drawing.Point(104, 272);
+            this.lblSayim.Location = new System.Drawing.Point(44, 275);
             this.lblSayim.Name = "lblSayim";
             this.lblSayim.Size = new System.Drawing.Size(32, 16);
             this.lblSayim.Tag = "";
@@ -232,6 +233,17 @@
             this.btnRefresh.Text = "Güncelle";
             this.btnRefresh.Click += new System.EventHandler(this.AnaForm_Activated);
             // 
+            // btnBarcode
+            // 
+            this.btnBarcode.BackColor = System.Drawing.Color.Goldenrod;
+            this.btnBarcode.ForeColor = System.Drawing.Color.White;
+            this.btnBarcode.Location = new System.Drawing.Point(122, 235);
+            this.btnBarcode.Name = "btnBarcode";
+            this.btnBarcode.Size = new System.Drawing.Size(115, 56);
+            this.btnBarcode.TabIndex = 31;
+            this.btnBarcode.Tag = "6";
+            this.btnBarcode.Text = "Paket Barkod";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -239,6 +251,7 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(240, 302);
+            this.Controls.Add(this.btnBarcode);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.lblTransferOut);
@@ -283,6 +296,7 @@
         private System.Windows.Forms.Button btnTransferOut;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnBarcode;
     }
 }
 

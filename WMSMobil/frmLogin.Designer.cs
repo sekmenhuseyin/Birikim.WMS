@@ -68,9 +68,9 @@
             this.btnGiris.BackColor = System.Drawing.Color.SteelBlue;
             this.btnGiris.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
             this.btnGiris.ForeColor = System.Drawing.Color.White;
-            this.btnGiris.Location = new System.Drawing.Point(0, 188);
+            this.btnGiris.Location = new System.Drawing.Point(0, 226);
             this.btnGiris.Name = "btnGiris";
-            this.btnGiris.Size = new System.Drawing.Size(171, 41);
+            this.btnGiris.Size = new System.Drawing.Size(171, 68);
             this.btnGiris.TabIndex = 2;
             this.btnGiris.Text = "GİRİŞ";
             this.btnGiris.Click += new System.EventHandler(this.btnGiris_Click);
@@ -123,9 +123,9 @@
             this.btnBack.BackColor = System.Drawing.Color.Firebrick;
             this.btnBack.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.btnBack.ForeColor = System.Drawing.Color.White;
-            this.btnBack.Location = new System.Drawing.Point(170, 188);
+            this.btnBack.Location = new System.Drawing.Point(170, 226);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(70, 41);
+            this.btnBack.Size = new System.Drawing.Size(70, 68);
             this.btnBack.TabIndex = 3;
             this.btnBack.Text = "Kapat";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
