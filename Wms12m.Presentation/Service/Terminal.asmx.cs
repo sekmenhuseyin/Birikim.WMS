@@ -293,6 +293,22 @@ namespace Wms12m
             return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
         }
         /// <summary>
+        /// malzemeyi barkoda göre bulur
+        /// </summary>
+        [WebMethod]
+        public List<Tip_STI> GetMalzemeFromBarcode(string barkod, int KullID, string AuthGiven, string Guid)
+        {
+            //kontrol
+            if (AuthGiven.Cozumle() != AuthPass) return new List<Tip_STI>();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new List<Tip_STI>();
+            //return
+            string sql = "";
+            sql = "SELECT MalKodu, MalAdi, Birim1 as Birim, Barkod from (" + sql + ") as t where MalAdi<>''";
+            return db.Database.SqlQuery<Tip_STI>(sql).ToList();
+        }
+        /// <summary>
         /// mal kabul kayıt işlemleri
         /// </summary>
         [WebMethod]

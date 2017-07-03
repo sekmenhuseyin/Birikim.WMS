@@ -451,7 +451,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (tbl == null)
                 return PartialView("Barcode", new GorevPaketler());
             ViewBag.PaketTipiID = new SelectList(ComboSub.GetList(Combos.PaketTipi.ToInt32()), "ID", "Name", tbl.PaketTipiID);
-            ViewBag.SirketKodu = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad", tbl.SirketKodu);
             return PartialView("Barcode", tbl);
         }
         /// <summary>
@@ -461,18 +460,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Writing) == false) return null;
             var tblx = db.GorevPaketlers.Where(m => m.GorevID == tbl.GorevID).FirstOrDefault();
-            tblx.SirketKodu = tbl.SirketKodu;
             tblx.SevkiyatNo = tbl.SevkiyatNo;
             tblx.PaketNo = tbl.PaketNo;
             tblx.PaketTipiID = tbl.PaketTipiID;
             tblx.Adet = tbl.Adet;
-            tblx.En = tbl.En;
-            tblx.Boy = tbl.Boy;
-            tblx.Agirlik = tbl.Agirlik;
             tblx.DegisTarih = fn.ToOADate();
             tbl.Degistiren = vUser.UserName;
             db.SaveChanges();
-            ViewBag.Details = db.Database.SqlQuery<frmPaketBarkod>(string.Format("EXEC [FINSAT6{0}].[wms].[getBarcodeDetails] @SirketKodu = N'{1}', @DepoKodu = N'{2}', @EvrakNo = N'{3}'", tblx.Gorev.IR.SirketKod, tblx.SirketKodu, tblx.Gorev.Depo.DepoKodu, tblx.Gorev.IR.LinkEvrakNo)).FirstOrDefault();
+            ViewBag.Details = db.Database.SqlQuery<frmPaketBarkod>(string.Format("EXEC [FINSAT6{0}].[wms].[getBarcodeDetails] @SirketKodu = N'{0}', @DepoKodu = N'{1}', @EvrakNo = N'{2}'", tblx.Gorev.IR.SirketKod, tblx.Gorev.Depo.DepoKodu, tblx.Gorev.IR.LinkEvrakNo)).FirstOrDefault();
             return View("BarcodePrint", tblx);
         }
     }

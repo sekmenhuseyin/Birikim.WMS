@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.panelUst = new System.Windows.Forms.Panel();
-            this.txtRafBarkod = new System.Windows.Forms.TextBox();
+            this.txtBarkod = new System.Windows.Forms.TextBox();
             this.btnEkle = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -54,7 +54,7 @@
             // panelUst
             // 
             this.panelUst.BackColor = System.Drawing.Color.Transparent;
-            this.panelUst.Controls.Add(this.txtRafBarkod);
+            this.panelUst.Controls.Add(this.txtBarkod);
             this.panelUst.Controls.Add(this.btnEkle);
             this.panelUst.Controls.Add(this.label7);
             this.panelUst.Controls.Add(this.panel2);
@@ -68,12 +68,12 @@
             this.panelUst.Name = "panelUst";
             this.panelUst.Size = new System.Drawing.Size(240, 69);
             // 
-            // txtRafBarkod
+            // txtBarkod
             // 
-            this.txtRafBarkod.Location = new System.Drawing.Point(74, 2);
-            this.txtRafBarkod.Name = "txtRafBarkod";
-            this.txtRafBarkod.Size = new System.Drawing.Size(106, 21);
-            this.txtRafBarkod.TabIndex = 0;
+            this.txtBarkod.Location = new System.Drawing.Point(74, 2);
+            this.txtBarkod.Name = "txtBarkod";
+            this.txtBarkod.Size = new System.Drawing.Size(106, 21);
+            this.txtBarkod.TabIndex = 0;
             // 
             // btnEkle
             // 
@@ -84,6 +84,7 @@
             this.btnEkle.Size = new System.Drawing.Size(57, 21);
             this.btnEkle.TabIndex = 2;
             this.btnEkle.Text = "Oku";
+            this.btnEkle.Click += new System.EventHandler(this.btnEkle_Click);
             // 
             // label7
             // 
@@ -225,6 +226,7 @@
             this.btnBack.Size = new System.Drawing.Size(70, 23);
             this.btnBack.TabIndex = 1;
             this.btnBack.Text = "<<  Geri";
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // frmxPackage
             // 
@@ -247,7 +249,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panelUst;
-        private System.Windows.Forms.TextBox txtRafBarkod;
+        private System.Windows.Forms.TextBox txtBarkod;
         private System.Windows.Forms.Button btnEkle;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel2;
