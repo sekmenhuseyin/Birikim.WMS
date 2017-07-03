@@ -6,7 +6,6 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.MainMenu mainMenu1;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -29,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.panelUst = new System.Windows.Forms.Panel();
             this.txtRafBarkod = new System.Windows.Forms.TextBox();
             this.btnEkle = new System.Windows.Forms.Button();
@@ -41,13 +39,17 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.panelOrta = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.panelAlt = new System.Windows.Forms.Panel();
+            this.btnBack = new System.Windows.Forms.Button();
             this.panelUst.SuspendLayout();
+            this.panelOrta.SuspendLayout();
+            this.panelAlt.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // mainMenu1
-            // 
-            this.mainMenu1.MenuItems.Add(this.menuItem1);
             // 
             // panelUst
             // 
@@ -72,7 +74,6 @@
             this.txtRafBarkod.Name = "txtRafBarkod";
             this.txtRafBarkod.Size = new System.Drawing.Size(106, 21);
             this.txtRafBarkod.TabIndex = 0;
-            this.txtRafBarkod.Visible = false;
             // 
             // btnEkle
             // 
@@ -93,7 +94,6 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(70, 21);
             this.label7.Text = "Barkod";
-            this.label7.Visible = false;
             // 
             // panel2
             // 
@@ -155,21 +155,91 @@
             this.label1.Size = new System.Drawing.Size(70, 21);
             this.label1.Text = "Unvan";
             // 
-            // menuItem1
+            // panelOrta
             // 
-            this.menuItem1.Text = "<< Geri";
+            this.panelOrta.AutoScroll = true;
+            this.panelOrta.BackColor = System.Drawing.Color.White;
+            this.panelOrta.Controls.Add(this.label11);
+            this.panelOrta.Controls.Add(this.label10);
+            this.panelOrta.Controls.Add(this.label9);
+            this.panelOrta.Controls.Add(this.label8);
+            this.panelOrta.Location = new System.Drawing.Point(0, 70);
+            this.panelOrta.Name = "panelOrta";
+            this.panelOrta.Size = new System.Drawing.Size(240, 191);
+            // 
+            // label11
+            // 
+            this.label11.BackColor = System.Drawing.Color.CadetBlue;
+            this.label11.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label11.ForeColor = System.Drawing.SystemColors.Window;
+            this.label11.Location = new System.Drawing.Point(199, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(39, 18);
+            this.label11.Text = "Birim";
+            // 
+            // label10
+            // 
+            this.label10.BackColor = System.Drawing.Color.CadetBlue;
+            this.label10.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label10.ForeColor = System.Drawing.SystemColors.Window;
+            this.label10.Location = new System.Drawing.Point(145, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 18);
+            this.label10.Text = "Miktar";
+            // 
+            // label9
+            // 
+            this.label9.BackColor = System.Drawing.Color.CadetBlue;
+            this.label9.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label9.ForeColor = System.Drawing.SystemColors.Window;
+            this.label9.Location = new System.Drawing.Point(64, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(80, 18);
+            this.label9.Text = "Malzeme";
+            // 
+            // label8
+            // 
+            this.label8.BackColor = System.Drawing.Color.CadetBlue;
+            this.label8.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label8.ForeColor = System.Drawing.SystemColors.Window;
+            this.label8.Location = new System.Drawing.Point(3, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(60, 18);
+            this.label8.Text = "Mal Kodu";
+            // 
+            // panelAlt
+            // 
+            this.panelAlt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.panelAlt.Controls.Add(this.btnBack);
+            this.panelAlt.Location = new System.Drawing.Point(-1, 260);
+            this.panelAlt.Name = "panelAlt";
+            this.panelAlt.Size = new System.Drawing.Size(240, 33);
+            // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.Firebrick;
+            this.btnBack.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.btnBack.ForeColor = System.Drawing.Color.White;
+            this.btnBack.Location = new System.Drawing.Point(3, 5);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(70, 23);
+            this.btnBack.TabIndex = 1;
+            this.btnBack.Text = "<<  Geri";
             // 
             // frmxPackage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(240, 268);
+            this.ClientSize = new System.Drawing.Size(240, 294);
+            this.Controls.Add(this.panelAlt);
+            this.Controls.Add(this.panelOrta);
             this.Controls.Add(this.panelUst);
-            this.Menu = this.mainMenu1;
             this.Name = "frmxPackage";
-            this.Text = "frmxPackage";
+            this.Text = "Paket Oku";
             this.panelUst.ResumeLayout(false);
+            this.panelOrta.ResumeLayout(false);
+            this.panelAlt.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -187,6 +257,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.Panel panelOrta;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Panel panelAlt;
+        private System.Windows.Forms.Button btnBack;
     }
 }
