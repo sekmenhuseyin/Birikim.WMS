@@ -35,43 +35,30 @@ namespace WMSMobil
         public delegate void MethodInvoker();
         void Barkod_OnScan(Symbol.Barcode2.ScanDataCollection scanDataCollection)
         {
-            this.Invoke((MethodInvoker)delegate()
+            try
             {
-                bool focuslandi = false;
-                try
+                this.Invoke((MethodInvoker)delegate()
                 {
-                    foreach (Control cont in panel1.Controls)
+                    Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text, Ayarlar.AuthCode);
+                    if (login.ID != 0)
                     {
-                        if (cont.Focused && (cont.Name == txtKullaniciAdi.Name || cont.Name == txtParola.Name))
-                        {
-                            focuslandi = true;
-                            Login login = Servis.LoginKontrol2(scanDataCollection.GetFirst.Text, Ayarlar.AuthCode);
-                            if (login.ID != 0)
-                            {
-                                Ayarlar.Kullanici = login;
-                                frmMain anaForm = new frmMain();
-                                this.Enabled = true;
-                                anaForm.ShowDialog();
-                            }
-                            else
-                            {
-                                this.Enabled = true;
-                                Mesaj.Uyari(login.AdSoyad);
-                            }
-                        }
+                        Ayarlar.Kullanici = login;
+                        frmMain anaForm = new frmMain();
+                        this.Enabled = true;
+                        anaForm.ShowDialog();
                     }
-                }
-                catch (Exception ex)
-                {
-                    Mesaj.Hata(ex);
-                }
-                //eğer hiç bir yere odaklanmamışsa
-                if (!focuslandi)
-                {
-                    Mesaj.Uyari("Lütfen önce bir yazı kutusuna tıklayın!");
-                    return;
-                }
-            });
+                    else
+                    {
+                        this.Enabled = true;
+                        Mesaj.Uyari(login.AdSoyad);
+                    }
+                });
+            }
+            catch (Exception)
+            {
+                this.Enabled = true;
+                Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
+            }
         }
         /// <summary>
         /// entera basarsa

@@ -27,17 +27,25 @@ namespace WMSMobil
         /// </summary>
         private void AnaForm_Activated(object sender, EventArgs e)
         {
-            lblMalKabul.Text = ""; lblRafKaldirma.Text = ""; lblSiparisToplama.Text = ""; lblSayim.Text = ""; lblPaketleme.Text = ""; lblTransferIn.Text = ""; lblTransferOut.Text = "";
-            var tbl = Servis.GetGorevOzet(Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();
-            foreach (var item in tbl)
+            try
             {
-                if (item.ID == 1) { lblMalKabul.Text = "[" + item.Sayi.ToString() + "]"; }
-                else if (item.ID == 2) { lblRafKaldirma.Text = "[" + item.Sayi.ToString() + "]"; }
-                else if (item.ID == 3) { lblSiparisToplama.Text = "[" + item.Sayi.ToString() + "]"; }
-                else if (item.ID == 6) { lblPaketleme.Text = "[" + item.Sayi.ToString() + "]"; }
-                else if (item.ID == 8) { lblSayim.Text = "[" + item.Sayi.ToString() + "]"; }
-                else if (item.ID == 19) { lblTransferOut.Text = "[" + item.Sayi.ToString() + "]"; }
-                else if (item.ID == 20) { lblTransferIn.Text = "[" + item.Sayi.ToString() + "]"; }
+                lblMalKabul.Text = ""; lblRafKaldirma.Text = ""; lblSiparisToplama.Text = ""; lblSayim.Text = ""; lblPaketleme.Text = ""; lblTransferIn.Text = ""; lblTransferOut.Text = "";
+                var tbl = Servis.GetGorevOzet(Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();
+                foreach (var item in tbl)
+                {
+                    if (item.ID == 1) { lblMalKabul.Text = "[" + item.Sayi.ToString() + "]"; }
+                    else if (item.ID == 2) { lblRafKaldirma.Text = "[" + item.Sayi.ToString() + "]"; }
+                    else if (item.ID == 3) { lblSiparisToplama.Text = "[" + item.Sayi.ToString() + "]"; }
+                    else if (item.ID == 6) { lblPaketleme.Text = "[" + item.Sayi.ToString() + "]"; }
+                    else if (item.ID == 8) { lblSayim.Text = "[" + item.Sayi.ToString() + "]"; }
+                    else if (item.ID == 19) { lblTransferOut.Text = "[" + item.Sayi.ToString() + "]"; }
+                    else if (item.ID == 20) { lblTransferIn.Text = "[" + item.Sayi.ToString() + "]"; }
+                }
+            }
+            catch (Exception)
+            {
+                this.Enabled = true;
+                Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
             }
         }
         /// <summary>
@@ -48,6 +56,14 @@ namespace WMSMobil
             Button button = sender as Button;
             Ayarlar.MenuTipSet = button.Tag.ToInt32();
             frmTasks frm = new frmTasks();
+            frm.ShowDialog();
+        }
+        /// <summary>
+        /// barkod okuma sayfası
+        /// </summary>
+        private void btnBarcode_Click(object sender, EventArgs e)
+        {
+            frmxPackage frm = new frmxPackage();
             frm.ShowDialog();
         }
         /// <summary>
@@ -65,16 +81,6 @@ namespace WMSMobil
         {
             Application.Exit();
             this.Close();
-        }
-
-        private void btnIslemYap_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnLinkeAktar_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

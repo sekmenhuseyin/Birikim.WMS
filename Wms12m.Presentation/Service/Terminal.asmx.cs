@@ -639,17 +639,22 @@ namespace Wms12m
                     if (tmp2 != null)
                     {
                         var grvYer = db.GorevYers.Where(m => m.YerID == tmp2.ID && m.GorevID == item.GorevID && m.MalKodu == item.MalKodu && m.Birim == item.Birim).FirstOrDefault();
-                        if (tmp2.Miktar >= item.Miktar && item.Miktar <= (grvYer.Miktar - (grvYer.YerlestirmeMiktari ?? 0)))
+                        if (grvYer == null)
                         {
-                            //raftan indirdiğini kaydet
-                            grvYer.YerlestirmeMiktari = (grvYer.YerlestirmeMiktari ?? 0) + item.Miktar;
-                            db.SaveChanges();
-                            //yerlestirme tablosuna kaydet
-                            tmp2.Miktar -= item.Miktar;
-                            yerlestirme.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
+
                         }
                         else
-                            _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
+                            if (tmp2.Miktar >= item.Miktar && item.Miktar <= (grvYer.Miktar - (grvYer.YerlestirmeMiktari ?? 0)))
+                            {
+                                //raftan indirdiğini kaydet
+                                grvYer.YerlestirmeMiktari = (grvYer.YerlestirmeMiktari ?? 0) + item.Miktar;
+                                db.SaveChanges();
+                                //yerlestirme tablosuna kaydet
+                                tmp2.Miktar -= item.Miktar;
+                                yerlestirme.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
+                            }
+                            else
+                                _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
                     }
                     else
                         _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");

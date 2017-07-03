@@ -554,7 +554,7 @@ namespace WMSMobil
                 PanelVeriList.Add(panelSatir);
             }
             //bunlarda da aynı maldan yeni raf ekle
-            else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.TransferGiriş)
+            else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.TransferGiriş)// || Ayarlar.MenuTip == MenuType.SiparisToplama
             {
                 if (raf_var)
                     return;
@@ -673,10 +673,10 @@ namespace WMSMobil
                     PanelVeriList.Add(panelSatir);
                 }
                 else
-                    Mesaj.Uyari("Göreve ait böyle bir MalKodu bulunmamaktadır.");
+                    Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
             }
             else if (!mal_var)
-                Mesaj.Uyari("Göreve ait böyle bir MalKodu bulunmamaktadır.");
+                Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
         }
         /// <summary>
         /// veritabanına kaydeder
