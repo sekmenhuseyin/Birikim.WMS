@@ -89,7 +89,7 @@
                         <tr>
                             <td nowrap>@item.Chk</td>
                             <td nowrap>@item.Unvan</td>
-                            <td nowrap>@item.Tarih</td>
+                            <td nowrap>@item.Tarih.Value.ToString("dd/MM/yyyy")</td>
                             <td nowrap>@item.EvrakNo</td>
                             <td nowrap>@item.BaglantiNo</td>
                             <td nowrap>@item.GrupKod</td>
@@ -107,7 +107,7 @@
                             <td nowrap>@item.BaglantiTipi</td>
                             <td nowrap>@item.FiyatListeNo</td>
                             <td nowrap>@item.FYTDovizCinsi</td>
-                            <td nowrap align="right">@item.NetFiyat2.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.NetFiyat.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.ToplamIskonto.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.KDV.ToDecimal().ToOnFormat()</td>
@@ -119,6 +119,7 @@
                             <td nowrap>@item.StokBirim</td>
                             <td nowrap align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.StokAnaBirim</td>
+                            @*<td nowrap>@if (item.TeslimTarih != null) { @item.TeslimTarih.Value.ToString("dd/MM/yyyy")} else {}</td>*@
                             <td nowrap>@item.TeslimTarih</td>
                             <td nowrap>@item.TeslimTarihDurum</td>
                             <td nowrap>@item.SatisTemsilcisi</td>

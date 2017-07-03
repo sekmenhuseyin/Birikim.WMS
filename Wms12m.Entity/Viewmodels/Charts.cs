@@ -183,6 +183,86 @@ namespace Wms12m.Entity
     }
     public class RaporBekleyenSiparis
     {
+        public string Chk { get; set; }
+
+        public string Unvan { get; set; }
+
+        public System.Nullable<System.DateTime> Tarih { get; set; }
+
+        public string EvrakNo { get; set; }
+
+        public string BaglantiNo { get; set; }
+
+        public string GrupKod { get; set; }
+
+        public string MalKodu { get; set; }
+
+        public string MalAdi { get; set; }
+
+        public decimal Miktar { get; set; }
+
+        public string Birim { get; set; }
+
+        public decimal AnaMiktar { get; set; }
+
+        public string AnaBirim { get; set; }
+
+        public decimal SevkedilenMiktar { get; set; }
+
+        public System.Nullable<decimal> KalanMiktar { get; set; }
+
+        public string KalanBirim { get; set; }
+
+        public System.Nullable<double> KalanAnaMiktar { get; set; }
+
+        public string KalanAnaBirim { get; set; }
+
+        public string BaglantiTipi { get; set; }
+
+        public string FiyatListeNo { get; set; }
+
+        public System.Nullable<decimal> FYTFiyat { get; set; }
+
+        public string FYTDovizCinsi { get; set; }
+
+        public string SozlesmeSartlari { get; set; }
+
+        public System.Nullable<decimal> NetFiyat { get; set; }
+
+        public System.Nullable<decimal> NetFiyat2 { get; set; }
+
+        public decimal Tutar { get; set; }
+
+        public decimal ToplamIskonto { get; set; }
+
+        public decimal KDV { get; set; }
+
+        public System.Nullable<decimal> KalanBirimMiktar { get; set; }
+
+        public System.Nullable<decimal> KDVSizTutar { get; set; }
+
+        public System.Nullable<decimal> KDVliTutar { get; set; }
+
+        public System.Nullable<decimal> KDVSizKalanTutar { get; set; }
+
+        public System.Nullable<decimal> KDVliKalanTutar { get; set; }
+
+        public System.Nullable<double> StokMiktar { get; set; }
+
+        public string StokBirim { get; set; }
+
+        public System.Nullable<decimal> StokAnaMiktar { get; set; }
+
+        public string StokAnaBirim { get; set; }
+
+        public System.Nullable<System.DateTime> TeslimTarih { get; set; }
+
+        public string TeslimTarihDurum { get; set; }
+
+        public string SatisTemsilcisi { get; set; }
+    }
+    public class RaporBekleyenSiparis2
+    {
         /// <summary> VarChar(20) (Not Null) </summary>
         public string Chk { get; set; }
         /// <summary> VarChar(81) (Not Null) </summary>

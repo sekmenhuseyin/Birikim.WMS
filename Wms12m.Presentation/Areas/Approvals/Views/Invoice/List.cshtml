@@ -38,6 +38,9 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+        $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
         if($("#ListType").val()=="0")
             $(".item_red").hide();
         else
