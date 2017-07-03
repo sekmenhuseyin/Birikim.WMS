@@ -15,6 +15,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         // GET: Approvals/Techno
         public ActionResult Index(string onayRed)
         {
+            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Reading) == false) return null;
             MyGlobalVariables.Birim = vUser.RoleName;
             if (onayRed == null)
             {
@@ -30,21 +31,21 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult Ucret_List(string Tip)
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Reading) == false) return null;
             ViewBag.Tip = Tip;
             return PartialView();
         }
 
         public PartialViewResult Prim_List(string Tip)
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Reading) == false) return null;
             ViewBag.Tip = Tip;
             return PartialView();
         }
 
         public PartialViewResult EskiUcretData(string PERSONELID)
         {
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Reading) == false) return null;
             var list = db.Database.SqlQuery<TechnoList>(string.Format("[HR0312M].[dbo].[TCH_EskiUcretSelect] {0}", PERSONELID)).ToList();
             return PartialView(list);
         }
@@ -89,7 +90,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Ucret_Onayla(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -156,6 +157,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult Prim_Onayla(string Data)
         {
+            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true);
             if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
@@ -227,8 +229,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Ucret_Reddet(string Data, string RedNeden)
         {
+            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -269,8 +271,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public JsonResult Prim_Reddet(string Data, string RedNeden)
         {
+
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             using (var dbContextTransaction = db.Database.BeginTransaction())

@@ -13,6 +13,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public ActionResult Index()
         {
+            if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Reading) == false) return null;
             return View();
         }
         /// <summary>
@@ -20,6 +21,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public PartialViewResult List(string Refresh, string ListType)
         {
+            if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Reading) == false) return null;
             var FO = new List<FaturaOnay>();
             if (Refresh != "")
             {
@@ -33,6 +35,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public ActionResult Detail(string EvrakNo)
         {
+            if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Reading) == false) return null;
             FaturaDetayData _FDD = new FaturaDetayData()
             {
                 GENEL = new List<FaturaDetayGenel>(),
@@ -60,6 +63,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public string Onay(string EvrakNo, string CHK, string Tarih, short[] ChckSm)
         {
+            if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Writing) == false) return null;
             string chck = "";
             foreach (var item in ChckSm)
             {
@@ -87,6 +91,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public string Red(string EvrakNo, string CHK, string Tarih, string RedNeden, short[] ChckSm)
         {
+            if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Writing) == false) return null;
             string chck = "";
             foreach (var item in ChckSm)
             {

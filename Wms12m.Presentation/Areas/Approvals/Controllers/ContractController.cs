@@ -1079,7 +1079,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult Sil(string SozlesmeNo)
         {
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Deleting) == false) return null;
             Result _Result = new Result(true, "İşlem Başarılı.");
             try
             {

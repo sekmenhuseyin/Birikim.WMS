@@ -44,6 +44,7 @@
             $(".item_red").show();
     });
     function satir_click(evrakNo) {
+        if ($(".rdgrpOnayRed").dxRadioGroup("instance").option("value") =="OnayBekleyenler")
         window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + evrakNo;
     }
 </script>

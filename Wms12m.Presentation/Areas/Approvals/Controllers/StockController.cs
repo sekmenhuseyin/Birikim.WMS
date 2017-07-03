@@ -50,7 +50,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.StokOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.StokOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
@@ -79,7 +79,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.StokOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.StokOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 

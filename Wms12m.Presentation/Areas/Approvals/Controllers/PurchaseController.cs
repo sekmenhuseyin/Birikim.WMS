@@ -32,12 +32,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     {
         public ActionResult GMOnayHTML()
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public ActionResult Satınalma_GM_Onay()
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
             MyGlobalVariables.DovizDurum = false;
             MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", "17")).ToList();
             return View("GM_Onay", MyGlobalVariables.SipTalepList);
@@ -45,7 +45,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult SipGMOnayList(string HesapKodu, int SipTalepNo)
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
 
             ViewBag.HesapKodu = HesapKodu;
             ViewBag.SipTalepNo = SipTalepNo;
@@ -53,7 +53,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public PartialViewResult SipGMOnayListFTD(string HesapKodu, int SipTalepNo)
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
 
             ViewBag.HesapKodu = HesapKodu;
             ViewBag.SipTalepNo = SipTalepNo;
@@ -61,6 +61,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string SipGMOnayListData(string HesapKodu, int SipTalepNo)
         {
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
             if (MyGlobalVariables.GridSource == null)
                 MyGlobalVariables.GridSource = new List<KKP_SPI>();
             else
@@ -148,12 +149,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string SipGMOnayListFTDData(string HesapKodu, int SipTalepNo)
         {
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
             var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridFTD);
             return json;
         }
 
         public JsonResult SipGMOnayla()
         {
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true, "İşlem Başarılı");
             if (MyGlobalVariables.TalepSource == null)
             {
@@ -498,6 +501,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public JsonResult SipGMReddet(string redAciklama)
         {
+            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = new Result(true, "İşlem Başarılı");
 
             if (MyGlobalVariables.GridSource == null || MyGlobalVariables.GridSource.Count == 0 || MyGlobalVariables.SipEvrak == null)
