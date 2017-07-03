@@ -472,7 +472,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             tblx.DegisTarih = fn.ToOADate();
             tbl.Degistiren = vUser.UserName;
             db.SaveChanges();
-            ViewBag.Details = db.Database.SqlQuery<frmPaketBarkod>(string.Format("EXEC [FINSAT6{0}].[wms].[getBarcodeDetails] @SirketKodu = N'{0}', @DepoKodu = N'{1}', @EvrakNo = N'{2}'", tblx.SirketKodu, tblx.Gorev.Depo.DepoKodu, tblx.Gorev.IR.LinkEvrakNo)).FirstOrDefault();
+            ViewBag.Details = db.Database.SqlQuery<frmPaketBarkod>(string.Format("EXEC [FINSAT6{0}].[wms].[getBarcodeDetails] @SirketKodu = N'{1}', @DepoKodu = N'{2}', @EvrakNo = N'{3}'", tblx.Gorev.IR.SirketKod, tblx.SirketKodu, tblx.Gorev.Depo.DepoKodu, tblx.Gorev.IR.LinkEvrakNo)).FirstOrDefault();
             return View("BarcodePrint", tblx);
         }
     }
