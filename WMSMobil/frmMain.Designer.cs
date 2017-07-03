@@ -243,6 +243,7 @@
             this.btnBarcode.TabIndex = 31;
             this.btnBarcode.Tag = "6";
             this.btnBarcode.Text = "Paket Barkod";
+            this.btnBarcode.Click += new System.EventHandler(this.btnBarcode_Click);
             // 
             // frmMain
             // 
