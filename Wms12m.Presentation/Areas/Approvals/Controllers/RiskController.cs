@@ -31,7 +31,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -62,7 +62,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -113,7 +113,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_GM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -144,7 +144,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_GM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -193,7 +193,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -225,7 +225,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -277,7 +277,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_MIGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -310,7 +310,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_MIGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -359,7 +359,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string OnayRiskInsert(string Data)
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return null;
+
+            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return "NO";
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try

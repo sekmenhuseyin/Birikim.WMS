@@ -123,6 +123,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string Sil(int ID)
         {
+            if (CheckPerm(Perms.TeminatOnaylama, PermTypes.Deleting) == false) return null;
             var sonuc = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[TeminatSil] @ID={1}", "17", ID)).FirstOrDefault();
             if (sonuc == 1)
             {
