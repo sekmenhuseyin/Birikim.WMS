@@ -14,7 +14,7 @@
     .invoice-payment.genel h3 {color: rgba(62, 93, 183, 0.89);font-weight: bold;}
 </style>
 }<div class="page-bar"></div>
-<div style="padding:10px 15px">
+<div style="padding:10px 15px;width:100%;">
     <h1 class="page-title" style="color:rgba(62, 93, 183, 0.89);font-weight:bold;">Fatura Onay<small></small></h1>
     <div class="invoice">
         <div class="row invoice-logo" style="color:#d65252">
@@ -130,7 +130,7 @@
             </div>
             <div class="col-xs-10 col-sm-10">
                 <div class="well" style="display:inline-block;">
-                    <ul class="list-unstyled amounts" style="display: inline-block;width: 100%;margin: 5px 10%;">
+                    <ul class="list-unstyled amounts" style="display: inline-block;width: 80%;margin: 5px;">
                         <li class="col-xs-2 col-sm-2"></li>
                         <li class="col-xs-1 col-sm-1"><strong sty>Oran</strong></li>
                         <li class="col-xs-1 col-sm-1"><strong sty>Tutar</strong></li>
@@ -141,7 +141,7 @@
                     </ul>
                     @foreach (var item in Model.FTD)
                 {
-                        <ul class="list-unstyled amounts" style="display: inline-block;width: 100%;margin: 5px 10%;">
+                        <ul class="list-unstyled amounts" style="display: inline-block;width: 80%;margin: 5px;">
                             <li class="col-xs-2 col-sm-2"><strong sty>@item.Tip</strong></li>
                             <li class="col-xs-1 col-sm-1">@item.IskontoOran</li>
                             <li class="col-xs-1 col-sm-1">@item.Iskonto</li>

@@ -29,7 +29,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialBekleyenSiparis(int bastarih, int bittarih, int basteslimtarih, int bitteslimtarih)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var BSR = db.Database.SqlQuery<RaporBekleyenSiparis>(string.Format("[FINSAT6{0}].[wms].[BekleyenSiparisRaporu] @BasTarih = {1}, @BitTarih = {2},@BasTeslimTarih = {3}, @BitTeslimTarih = {4}", "17", bastarih, bittarih, basteslimtarih, bitteslimtarih)).ToList();
+            var BSR = db.Database.SqlQuery<RaporBekleyenSiparis>(string.Format("[FINSAT6{0}].[dbo].[BekleyenSiparisRaporu] @BasTarih = {1}, @BitTarih = {2},@BasTeslimTarih = {3}, @BitTeslimTarih = {4}", "17", bastarih, bittarih, basteslimtarih, bitteslimtarih)).ToList();
             return PartialView("_PartialBekleyenSiparis", BSR);
         }
 
@@ -96,7 +96,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialCekListesi(int pozisyon, int ay, int yil)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var CLR = db.Database.SqlQuery<RaporCekListesi>(string.Format("[FINSAT6{0}].[wms].[CekListesiRaporu] @Ay = {1}, @IslemTip = {2}, @Yil = {3}", "17", ay,pozisyon, yil)).ToList();
+            var CLR = db.Database.SqlQuery<RaporCekListesi>(string.Format("[FINSAT6{0}].[wms].[CekListesiRaporu] @Ay = {1}, @IslemTip = {2}, @Yil = {3}", "17", ay, pozisyon, yil)).ToList();
             return PartialView("_PartialCekListesi", CLR);
         }
 
