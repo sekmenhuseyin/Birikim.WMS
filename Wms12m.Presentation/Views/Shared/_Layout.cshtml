@@ -25,45 +25,47 @@
     <link href="~/Content/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     @Styles.Render(BundleConfig.CssBundle)@RenderSection("Styles", required: false)
 </head>
-<body class="page-header-fixed page-footer-fixed page-sidebar-closed-hide-logo page-content-white page-md page-sidebar-fixed">
-    <div class="page-header navbar navbar-fixed-top">
-        <div class="page-header-inner ">
-            <div class="page-logo">
-                <a href="/"><img src="~/Content/images/@setts.TopLogo" alt="logo" class="logo-default m-t-10" /></a>
-            </div>
-            <div class="top-menu">
-                <ul class="nav navbar-nav pull-right">
-                    <li class="dropdown dropdown-user">
-                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><span class="username username-hide-on-mobile">@ViewBag.User</span><i class="icon-arrow-down"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-default">
-                            <li><a href="/Security/LogOut"><i class="icon-key"></i> Çıkış</a></li>
-                        </ul>
-                    </li>
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-sidebar-fixed page-md">
+    <div class="page-wrapper">
+        <div class="page-header navbar navbar-fixed-top">
+            <div class="page-header-inner ">
+                <div class="page-logo">
+                    <a href="/"><img src="~/Content/images/@setts.TopLogo" alt="logo" class="logo-default m-t-10" /></a>
+                </div>
+                <div class="top-menu">
+                    <ul class="nav navbar-nav pull-right">
+                        <li class="dropdown dropdown-user">
+                            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><span class="username username-hide-on-mobile">@ViewBag.User</span><i class="icon-arrow-down"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-default">
+                                <li><a href="/Security/LogOut"><i class="icon-key"></i> Çıkış</a></li>
+                            </ul>
+                        </li>
 
-                </ul>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="clearfix"> </div>
-    <div class="page-container">
-        <div class="page-sidebar-wrapper">
-            <div class="page-sidebar navbar-collapse collapse">
-                @{Html.RenderAction("Menu", "Home", new { area = "", mYeri = ComboItems.SolMenü.ToInt32(), mUstNo = 0, url = Request.Url.AbsoluteUri }); }@*---------------------------------------Sidebar---------------------------------------*@
+        <div class="clearfix"> </div>
+        <div class="page-container">
+            <div class="page-sidebar-wrapper">
+                <div class="page-sidebar navbar-collapse collapse">
+                    @{Html.RenderAction("Menu", "Home", new { area = "", mYeri = ComboItems.SolMenü.ToInt32(), mUstNo = 0, url = Request.Url.AbsoluteUri }); }@*---------------------------------------Sidebar---------------------------------------*@
+                </div>
             </div>
-        </div>
-        <div class="page-content-wrapper">
-            <div class="page-content">
-                @RenderBody()
+            <div class="page-content-wrapper">
+                <div class="page-content">
+                    @RenderBody()
+                </div>
             </div>
+            <a href="javascript:;" class="page-quick-sidebar-toggler"><i class="icon-login"></i></a>
         </div>
-        <a href="javascript:;" class="page-quick-sidebar-toggler"><i class="icon-login"></i></a>
+        <div class="page-footer">
+            <div class="page-footer-inner">@DateTime.Today.Year &copy; <a href="http://www.12mconsulting.com.tr/" title="12M Consulting" target="_blank">12M Consulting</a></div>
+            <div class="scroll-to-top"><i class="icon-arrow-up"></i></div>
+        </div>
+        <div id="div_loading" class="loader"></div>
+        <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
     </div>
-    <div class="page-footer">
-        <div class="page-footer-inner">@DateTime.Today.Year &copy; <a href="http://www.12mconsulting.com.tr/" title="12M Consulting" target="_blank">12M Consulting</a></div>
-        <div class="scroll-to-top"><i class="icon-arrow-up"></i></div>
-    </div>
-    <div id="div_loading" class="loader"></div>
-    <div class="portfolio-modal modal fade" id="modalEditPage" tabindex="-1" role="dialog" aria-hidden="true"></div>
     @Scripts.Render(BundleConfig.JsBundle)@RenderSection("Scripts", required: false)
 </body>
 </html>
