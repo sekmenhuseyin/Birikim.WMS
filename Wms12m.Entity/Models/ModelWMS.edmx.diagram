@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="28.375" PointY="11" />
         <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="25.5" PointY="10.875" />
         <EntityTypeShape EntityType="MModel.UserPerm" Width="1.5" PointX="31.125" PointY="11" />
-        <EntityTypeShape EntityType="MModel.User" Width="1.5" PointX="20.125" PointY="11.125" />
+        <EntityTypeShape EntityType="MModel.User" Width="1.5" PointX="19.875" PointY="12" />
         <EntityTypeShape EntityType="MModel.Bolum" Width="1.5" PointX="16.25" PointY="20.625" />
         <EntityTypeShape EntityType="MModel.Depo" Width="1.5" PointX="15.625" PointY="8.5" />
         <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="4.125" PointY="4.625" />
@@ -50,7 +50,7 @@
         <EntityTypeShape EntityType="MModel.GorevNo" Width="1.5" PointX="6" PointY="7.375" />
         <AssociationConnector Association="MModel.FK_GorevNo_Depo" />
         <EntityTypeShape EntityType="MModel.Combo_Name" Width="1.5" PointX="14.5" PointY="2.625" />
-        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="16.75" PointY="2.5" />
+        <EntityTypeShape EntityType="MModel.ComboItem_Name" Width="1.5" PointX="16.75" PointY="2.625" />
         <EntityTypeShape EntityType="MModel.Role" Width="1.5" PointX="22.875" PointY="10.5" />
         <AssociationConnector Association="MModel.FK_ComboItemName_ComboName" />
         <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameDurum" />
@@ -80,13 +80,13 @@
         <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
         <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="7.5" PointY="17.625" />
         <AssociationConnector Association="MModel.FK_IRS_Detay_IRS" />
-        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="20" PointY="7" />
+        <EntityTypeShape EntityType="MModel.GorevPaketNo" Width="1.5" PointX="14.625" PointY="6.5" />
+        <AssociationConnector Association="MModel.FK_GorevPaketNo_Depo" />
+        <EntityTypeShape EntityType="MModel.GorevPaketler" Width="1.5" PointX="6.5" PointY="1.875" />
+        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="19.75" PointY="7.375" />
+        <AssociationConnector Association="MModel.FK_GorevPaketler_ComboItem_Name" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
-        <EntityTypeShape EntityType="MModel.GorevPaketNo" Width="1.5" PointX="7.875" PointY="7.125" />
-        <AssociationConnector Association="MModel.FK_GorevPaketNo_Depo" />
-        <EntityTypeShape EntityType="MModel.GorevPaketler" Width="1.5" PointX="6.5" PointY="1.125" />
-        <AssociationConnector Association="MModel.FK_GorevPaketler_ComboItem_Name" />
         <AssociationConnector Association="MModel.FK_GorevPaketler_Gorev" />
         </Diagram>
     </edmx:Diagrams>

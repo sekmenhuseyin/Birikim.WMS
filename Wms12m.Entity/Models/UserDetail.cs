@@ -15,7 +15,7 @@ namespace Wms12m.Entity.Models
     public partial class UserDetail
     {
         public int UserID { get; set; }
-        public int DepoID { get; set; }
+        public Nullable<int> DepoID { get; set; }
         public Nullable<int> SatisIrsaliyeSeri { get; set; }
         public Nullable<int> SatisFaturaSeri { get; set; }
         public Nullable<int> TransferInSeri { get; set; }
