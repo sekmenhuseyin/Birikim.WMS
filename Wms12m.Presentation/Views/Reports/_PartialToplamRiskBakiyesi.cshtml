@@ -37,6 +37,13 @@
 
                     </tr>
                 </thead>
+                @*<tfoot>
+                    <tr>
+                        <th nowrap colspan="4"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                    </tr>
+                </tfoot>*@
                 <tbody>
                     @foreach (var item in Model)
             {
@@ -46,8 +53,8 @@
                             <td nowrap>@item.Ünvan</td>
                             <td nowrap align="right">@item.Borç.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.Alacak.ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@item.ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@item.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.Bakiye.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@item.ToplamBakiye.ToDecimal().ToOnFormat()</td>
 
                         </tr>
                     }
@@ -60,6 +67,43 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            //"footerCallback": function (row, data, start, end, display) {
+            //    var api = this.api(), data;
+
+            //    // Remove the formatting to get integer data for summation
+            //    var intVal = function (i) {
+            //        return Number(i.toString().replace(/\./g, "").replace(",", "."))
+            //    };
+
+            //    // Total over all pages
+            //    miktartotal = api
+            //        .column(4)
+            //        .data()
+            //        .reduce(function (a, b) {
+            //            return a + intVal(b);
+            //        }, 0);
+
+            //    bakiyetotal = api
+            //        .column(5)
+            //        .data()
+            //        .reduce(function (a, b) {
+            //            console.log(a);
+            //            return a + intVal(b);
+            //        }, 0);
+
+
+
+            //    // Update footer
+            //    $(api.column(4).footer()).html(
+            //        ondalikBinlik(miktartotal, 2)
+            //    );
+            //    $(api.column(5).footer()).html(
+            //        bakiyetotal
+            //        //ondalikBinlik(bakiyetotal, 2)
+            //    );
+            }
+        });
     });
 </script>

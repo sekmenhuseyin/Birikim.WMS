@@ -39,6 +39,13 @@
                         <th nowrap>Verildiği Yer Ünvan</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th nowrap colspan="4"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap colspan="5"></th>
+                    </tr>
+                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
             {
@@ -66,6 +73,31 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                };
+
+                // Total over all pages
+                miktartotal = api
+                    .column(4)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+               
+
+                // Update footer
+                $(api.column(4).footer()).html(
+                    ondalikBinlik(miktartotal, 2)
+                );
+            }
+        });
     });
 </script>

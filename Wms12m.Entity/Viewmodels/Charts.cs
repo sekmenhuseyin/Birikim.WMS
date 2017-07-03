@@ -249,6 +249,12 @@ namespace Wms12m.Entity
         public string TeslimTarihDurum { get; set; }
         /// <summary> VarChar(100) (Allow Null) </summary>
         public string SatisTemsilcisi { get; set; }
+        /// <summary> VarChar(4) (Not Null) </summary>
+        public string BaglantiTipi { get; set; }
+        /// <summary> VarChar(4) (Not Null) </summary>
+        public string FiyatListeNo { get; set; }
+        /// <summary> VarChar(4) (Not Null) </summary>
+        public string FYTDovizCinsi { get; set; }
     }
     public class RaporCekListesi
     {
