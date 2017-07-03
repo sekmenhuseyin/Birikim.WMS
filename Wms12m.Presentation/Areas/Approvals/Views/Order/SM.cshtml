@@ -25,46 +25,46 @@
                 <table class="table table-striped table-bordered table-hover" id="sample_1">
                     <thead>
                         <tr>
-                            <th> Evrak No </th>
-                            <th> Tarih </th>
-                            <th> Hesap No </th>
-                            <th> Ünvan </th>
-                            <th> Teslim Yeri Kodu </th>
-                            <th>Teslim Yeri Ünvan</th>
-                            <th>Sipariş Tutarı</th>
-                            <th>Bakiye</th>
-                            <th>Risk Bakiyesi</th>
-                            <th>Toplam Bakiye</th>
-                            <th>Şahsi Çek Limiti</th>
-                            <th>Şahsi Çek Riski</th>
-                            <th>Müşteri Çek Limiti</th>
-                            <th>Müşteri Çek Riski</th>
-                            <th>Bekleyen Sipariş Tutarı</th>
-                            <th>Teminat</th>
-                            <th>Teminat Alt Bayi</th>
+                            <th nowrap> Evrak No </th>
+                            <th nowrap> Tarih </th>
+                            <th nowrap> Hesap No </th>
+                            <th nowrap> Ünvan </th>
+                            <th nowrap> Teslim Yeri Kodu </th>
+                            <th nowrap>Teslim Yeri Ünvan</th>
+                            <th nowrap>Sipariş Tutarı</th>
+                            <th nowrap>Bakiye</th>
+                            <th nowrap>Risk Bakiyesi</th>
+                            <th nowrap>Toplam Bakiye</th>
+                            <th nowrap>Şahsi Çek Limiti</th>
+                            <th nowrap>Şahsi Çek Riski</th>
+                            <th nowrap>Müşteri Çek Limiti</th>
+                            <th nowrap>Müşteri Çek Riski</th>
+                            <th nowrap>Bekleyen Sipariş Tutarı</th>
+                            <th nowrap>Teminat</th>
+                            <th nowrap>Teminat Alt Bayi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr onclick="toggle(this, '@item.EvrakNo')">
-                                <td> @item.EvrakNo</td>
-                                <td>@item.Tarih</td>
-                                <td>@item.HesapNo</td>
-                                <td>@item.Unvan</td>
-                                <td>@item.TeslimYeriKodu</td>
-                                <td>@item.TeslimYeriUnvan</td>
-                                <td>@item.SiparisTutari</td>
-                                <td>@item.Bakiye</td>
-                                <td>@item.RiskBakiyesi</td>
-                                <td>@item.ToplamBakiye</td>
-                                <td>@item.SahsiCekLimiti</td>
-                                <td>@item.SahsiCekRiski</td>
-                                <td>@item.MusteriCekLimiti</td>
-                                <td>@item.MusteriCekRiski</td>
-                                <td>@item.BekleyenSiparisTutari</td>
-                                <td>@item.Teminat</td>
-                                <td>@item.TeminatAltBayi</td>
+                                <td nowrap> @item.EvrakNo</td>
+                                <td nowrap>@item.Tarih</td>
+                                <td nowrap>@item.HesapNo</td>
+                                <td nowrap>@item.Unvan</td>
+                                <td nowrap>@item.TeslimYeriKodu</td>
+                                <td nowrap>@item.TeslimYeriUnvan</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.SiparisTutari)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.Bakiye)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.RiskBakiyesi)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.ToplamBakiye)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.SahsiCekLimiti)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.SahsiCekRiski)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.MusteriCekLimiti)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.MusteriCekRiski)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.BekleyenSiparisTutari)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.Teminat)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.TeminatAltBayi)</td>
 
                             </tr>
                         }
@@ -99,10 +99,12 @@
                 success: function (data) {
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                        setTimeout(function () { window.location.reload(); }, 500);
                     }
                     else {
                         if (data.Message == "") data.Message = "Hata oluştu";
                         Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        setTimeout(function () { window.location.reload(); }, 500);
                     }
 
                 }
@@ -121,13 +123,21 @@
                 data: { Data: JSON.stringify(secili_table), OnaylandiMi: false, OnayTip: 1 },
                 type: "post",
                 success: function (data) {
-
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Red İşlemi", "Tamam", "Red");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
                 }
             });
             return _dfd.promise();
         });
         $('#SMYenile').click(function (e) {
-           setTimeout(function () { window.location.reload(); }, 500);
+            window.location.reload(); 
         });
     });
     function toggle(row, id) {

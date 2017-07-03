@@ -96,7 +96,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialCekListesi(int pozisyon, int ay, int yil)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var CLR = db.Database.SqlQuery<RaporCekListesi>(string.Format("[FINSAT6{0}].[wms].[CekListesiRaporu] @Ay = {1}, @IslemTip = {2}, @Yil = {3}", "17", pozisyon, ay, yil)).ToList();
+            var CLR = db.Database.SqlQuery<RaporCekListesi>(string.Format("[FINSAT6{0}].[wms].[CekListesiRaporu] @Ay = {1}, @IslemTip = {2}, @Yil = {3}", "17", ay,pozisyon, yil)).ToList();
             return PartialView("_PartialCekListesi", CLR);
         }
 

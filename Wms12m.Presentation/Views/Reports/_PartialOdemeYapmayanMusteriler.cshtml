@@ -29,17 +29,25 @@
                     <tr>
                         <th nowrap>Hesap Kodu</th>
                         <th nowrap>Ünvan</th>
-                        <th nowrap>Mal Kodu</th>
-                        <th nowrap>Mal Adı</th>
+                        <th nowrap>Bakiye</th>
+                        <th nowrap>Son Tahsilat Tutarı</th>
                         <th nowrap>İşlem Tarihi</th>
 
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th nowrap colspan="2"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap></th>
+                    </tr>
+                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
             {
                         <tr>
-                          
+
                             <td nowrap>@item.HesapKodu</td>
                             <td nowrap>@item.Unvan1</td>
                             <td nowrap align="right">@item.Bakiye.ToDecimal().ToOnFormat()</td>
@@ -58,6 +66,42 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                };
+
+                // Total over all pages
+                miktartotal = api
+                    .column(2)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                bakiyetotal = api
+                    .column(3)
+                    .data()
+                    .reduce(function (a, b) {
+                        console.log(a);
+                        return a + intVal(b);
+                    }, 0);
+
+
+
+                // Update footer
+                $(api.column(2).footer()).html(
+                    ondalikBinlik(miktartotal, 2)
+                );
+                $(api.column(3).footer()).html(
+
+                    ondalikBinlik(bakiyetotal, 2)
+                );
+            }
     });
 </script>
