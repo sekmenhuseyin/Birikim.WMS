@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Humanizer;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -55,14 +56,14 @@ namespace Wms12m.Presentation.Controllers
                             tbl.ModifiedDate = DateTime.Now;
                             tbl.ModifiedUser = vUser.UserName;
                             //log
-                            LogActions("", "Perms", "Save", ComboItems.alDüzenle, tbl.ID, tbl.PermName+ ": R:"+tbl.Reading+ ", W:" + tbl.Writing + ", U:" + tbl.Updating + ", D:" + tbl.Deleting);
+                            LogActions("", "Perms", "Save", ComboItems.alDüzenle, tbl.ID, tbl.PermName + ": R:" + tbl.Reading + ", W:" + tbl.Writing + ", U:" + tbl.Updating + ", D:" + tbl.Deleting);
                         }
                     }
                     else
                     {
                         tbl = new RolePerm()
                         {
-                            PermName = rolePerm.PermName,
+                            PermName = rolePerm.PermName.Dehumanize(),
                             RoleName = rolePerm.RoleName,
                             Reading = rolePerm.Reading == "on" ? true : false,
                             Writing = rolePerm.Writing == "on" ? true : false,
@@ -75,7 +76,7 @@ namespace Wms12m.Presentation.Controllers
                         };
                         db.RolePerms.Add(tbl);
                         //log
-                        LogActions("", "Perms", "Save", ComboItems.alEkle, tbl.ID, tbl.PermName+ ": R:"+tbl.Reading+ ", W:" + tbl.Writing + ", U:" + tbl.Updating + ", D:" + tbl.Deleting);
+                        LogActions("", "Perms", "Save", ComboItems.alEkle, tbl.ID, tbl.PermName + ": R:" + tbl.Reading + ", W:" + tbl.Writing + ", U:" + tbl.Updating + ", D:" + tbl.Deleting);
                     }
                     if (tbl.Reading != false || tbl.Writing != false || tbl.Updating != false || tbl.Deleting != false || tbl.ID > 0)
                         try { db.SaveChanges(); }
