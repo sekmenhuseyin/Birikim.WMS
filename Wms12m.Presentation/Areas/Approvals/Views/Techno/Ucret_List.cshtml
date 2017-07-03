@@ -173,9 +173,11 @@
         });
         if (tip1 == 'Reddedilenler') {
             table.columns([15, 16]).visible(true, true);
+            $(".butondiv").css("display", "none");
         }
         else {
             table.columns([15, 16]).visible(false, false);
+            $(".butondiv").css("display", "block");
         }
     });
     function UcretOnayla() {

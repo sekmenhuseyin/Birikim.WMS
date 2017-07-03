@@ -220,10 +220,12 @@
     if (tip2 == 'Reddedilenler') {
         table2.columns([13]).visible(true, true);
         table2.columns([14]).visible(true, true);
+        $(".butondiv").css("display", "none");
     }
     else {
         table2.columns([13]).visible(false, false);
         table2.columns([14]).visible(false, false);
+        $(".butondiv").css("display", "block");
     }
 
     $('#sample_2 tbody').on('click', 'tr', function () {
