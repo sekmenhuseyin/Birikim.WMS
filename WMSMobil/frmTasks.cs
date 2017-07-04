@@ -242,8 +242,17 @@ namespace WMSMobil
             //sonuç
             if (sonuc.Status)
             {
-                Mesaj.Basari("İşlem başarıyla gerçekleşti.");
-                btnListele_Click(sender, e);
+                if (Ayarlar.MenuTip == MenuType.Paketle)
+                {
+                    Mesaj.Basari("İşlem gerçekleşti. Şimdi paket bilgilerini yazmanız gerekiyor.");
+                    frmxPackDetail frm = new frmxPackDetail(GorevID);
+                    frm.ShowDialog();
+                }
+                else
+                { 
+                    Mesaj.Basari("İşlem başarıyla gerçekleşti.");
+                    btnListele_Click(sender, e);
+                }
                 if (Ayarlar.Gorevler.Count == 0) this.Close();
             }
             else

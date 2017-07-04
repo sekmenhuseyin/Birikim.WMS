@@ -123,6 +123,32 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetPackageBarcodeDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GorevID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPackageBarcodeDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPackageBarcodeDetailsResult" type="tns:frmGorevPaket" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="frmGorevPaket">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SevkiyatNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaketNo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Adet" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaketTipiID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Agirlik" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetIrsaliyeFromBarcode">
         <s:complexType>
           <s:sequence>
@@ -235,6 +261,22 @@
           <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetPaketTip">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPaketTipResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPaketTipResult" type="tns:ArrayOfDurum" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetMalzemes">
         <s:complexType>
           <s:sequence>
@@ -615,6 +657,12 @@
   <wsdl:message name="GetIrsaliyeSoapOut">
     <wsdl:part name="parameters" element="tns:GetIrsaliyeResponse" />
   </wsdl:message>
+  <wsdl:message name="GetPackageBarcodeDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPackageBarcodeDetails" />
+  </wsdl:message>
+  <wsdl:message name="GetPackageBarcodeDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPackageBarcodeDetailsResponse" />
+  </wsdl:message>
   <wsdl:message name="GetIrsaliyeFromBarcodeSoapIn">
     <wsdl:part name="parameters" element="tns:GetIrsaliyeFromBarcode" />
   </wsdl:message>
@@ -638,6 +686,12 @@
   </wsdl:message>
   <wsdl:message name="GetDurumsSoapOut">
     <wsdl:part name="parameters" element="tns:GetDurumsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPaketTipSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPaketTip" />
+  </wsdl:message>
+  <wsdl:message name="GetPaketTipSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPaketTipResponse" />
   </wsdl:message>
   <wsdl:message name="GetMalzemesSoapIn">
     <wsdl:part name="parameters" element="tns:GetMalzemes" />
@@ -756,6 +810,10 @@
       <wsdl:input message="tns:GetIrsaliyeSoapIn" />
       <wsdl:output message="tns:GetIrsaliyeSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetPackageBarcodeDetails">
+      <wsdl:input message="tns:GetPackageBarcodeDetailsSoapIn" />
+      <wsdl:output message="tns:GetPackageBarcodeDetailsSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetIrsaliyeFromBarcode">
       <wsdl:input message="tns:GetIrsaliyeFromBarcodeSoapIn" />
       <wsdl:output message="tns:GetIrsaliyeFromBarcodeSoapOut" />
@@ -771,6 +829,10 @@
     <wsdl:operation name="GetDurums">
       <wsdl:input message="tns:GetDurumsSoapIn" />
       <wsdl:output message="tns:GetDurumsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPaketTip">
+      <wsdl:input message="tns:GetPaketTipSoapIn" />
+      <wsdl:output message="tns:GetPaketTipSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetMalzemes">
       <wsdl:input message="tns:GetMalzemesSoapIn" />
@@ -884,6 +946,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetPackageBarcodeDetails">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetPackageBarcodeDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetIrsaliyeFromBarcode">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliyeFromBarcode" style="document" />
       <wsdl:input>
@@ -913,6 +984,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetDurums">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/GetDurums" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPaketTip">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetPaketTip" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1112,6 +1192,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetPackageBarcodeDetails">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetPackageBarcodeDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetIrsaliyeFromBarcode">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliyeFromBarcode" style="document" />
       <wsdl:input>
@@ -1141,6 +1230,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetDurums">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetDurums" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPaketTip">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetPaketTip" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

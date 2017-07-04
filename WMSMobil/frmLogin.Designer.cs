@@ -43,7 +43,7 @@
             // txtKullaniciAdi
             // 
             this.txtKullaniciAdi.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.txtKullaniciAdi.Location = new System.Drawing.Point(33, 79);
+            this.txtKullaniciAdi.Location = new System.Drawing.Point(33, 104);
             this.txtKullaniciAdi.MaxLength = 50;
             this.txtKullaniciAdi.Name = "txtKullaniciAdi";
             this.txtKullaniciAdi.Size = new System.Drawing.Size(194, 21);
@@ -54,7 +54,7 @@
             // txtParola
             // 
             this.txtParola.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.txtParola.Location = new System.Drawing.Point(33, 134);
+            this.txtParola.Location = new System.Drawing.Point(33, 159);
             this.txtParola.MaxLength = 50;
             this.txtParola.Name = "txtParola";
             this.txtParola.PasswordChar = '*';
@@ -68,7 +68,7 @@
             this.btnGiris.BackColor = System.Drawing.Color.SteelBlue;
             this.btnGiris.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
             this.btnGiris.ForeColor = System.Drawing.Color.White;
-            this.btnGiris.Location = new System.Drawing.Point(-1, 173);
+            this.btnGiris.Location = new System.Drawing.Point(0, 235);
             this.btnGiris.Name = "btnGiris";
             this.btnGiris.Size = new System.Drawing.Size(171, 38);
             this.btnGiris.TabIndex = 2;
@@ -78,7 +78,7 @@
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(7, 61);
+            this.label3.Location = new System.Drawing.Point(7, 86);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(102, 15);
             this.label3.Text = "Kullanıcı Adı";
@@ -86,7 +86,7 @@
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(7, 116);
+            this.label1.Location = new System.Drawing.Point(7, 141);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(74, 15);
             this.label1.Text = "Parola";
@@ -96,10 +96,10 @@
             this.label4.BackColor = System.Drawing.Color.DimGray;
             this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label4.Location = new System.Drawing.Point(0, 0);
+            this.label4.Location = new System.Drawing.Point(0, 1);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(240, 18);
-            this.label4.Text = "WMS Mobil v.170703";
+            this.label4.Text = "WMS Mobil v.170704";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel1
@@ -123,7 +123,7 @@
             this.btnBack.BackColor = System.Drawing.Color.Firebrick;
             this.btnBack.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.btnBack.ForeColor = System.Drawing.Color.White;
-            this.btnBack.Location = new System.Drawing.Point(169, 173);
+            this.btnBack.Location = new System.Drawing.Point(170, 235);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(70, 38);
             this.btnBack.TabIndex = 3;

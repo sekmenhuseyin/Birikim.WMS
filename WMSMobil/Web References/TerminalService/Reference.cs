@@ -154,6 +154,32 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetPackageBarcodeDetails", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public frmGorevPaket GetPackageBarcodeDetails(int GorevID, int KullID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("GetPackageBarcodeDetails", new object[] {
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid});
+            return ((frmGorevPaket)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetPackageBarcodeDetails(int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetPackageBarcodeDetails", new object[] {
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public frmGorevPaket EndGetPackageBarcodeDetails(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((frmGorevPaket)(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetIrsaliyeFromBarcode", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Tip_IRS GetIrsaliyeFromBarcode(string barkod, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("GetIrsaliyeFromBarcode", new object[] {
@@ -257,6 +283,30 @@ namespace WMSMobil.TerminalService {
         
         /// <remarks/>
         public Durum[] EndGetDurums(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Durum[])(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetPaketTip", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Durum[] GetPaketTip(int KullID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("GetPaketTip", new object[] {
+                        KullID,
+                        AuthGiven,
+                        Guid});
+            return ((Durum[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetPaketTip(int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetPaketTip", new object[] {
+                        KullID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Durum[] EndGetPaketTip(System.IAsyncResult asyncResult) {
             object[] results = this.EndInvoke(asyncResult);
             return ((Durum[])(results[0]));
         }
@@ -1392,6 +1442,73 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.durumField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
+    public partial class frmGorevPaket {
+        
+        private string sevkiyatNoField;
+        
+        private string paketNoField;
+        
+        private decimal adetField;
+        
+        private int paketTipiIDField;
+        
+        private decimal agirlikField;
+        
+        /// <remarks/>
+        public string SevkiyatNo {
+            get {
+                return this.sevkiyatNoField;
+            }
+            set {
+                this.sevkiyatNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PaketNo {
+            get {
+                return this.paketNoField;
+            }
+            set {
+                this.paketNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal Adet {
+            get {
+                return this.adetField;
+            }
+            set {
+                this.adetField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PaketTipiID {
+            get {
+                return this.paketTipiIDField;
+            }
+            set {
+                this.paketTipiIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal Agirlik {
+            get {
+                return this.agirlikField;
+            }
+            set {
+                this.agirlikField = value;
             }
         }
     }

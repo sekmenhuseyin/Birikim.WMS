@@ -46,6 +46,10 @@
             this.label8 = new System.Windows.Forms.Label();
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
+            this.txtAgirlik = new System.Windows.Forms.TextBox();
+            this.txtTarih = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.panelUst.SuspendLayout();
             this.panelOrta.SuspendLayout();
             this.panelAlt.SuspendLayout();
@@ -54,6 +58,10 @@
             // panelUst
             // 
             this.panelUst.BackColor = System.Drawing.Color.Transparent;
+            this.panelUst.Controls.Add(this.txtAgirlik);
+            this.panelUst.Controls.Add(this.txtTarih);
+            this.panelUst.Controls.Add(this.label4);
+            this.panelUst.Controls.Add(this.label5);
             this.panelUst.Controls.Add(this.txtBarkod);
             this.panelUst.Controls.Add(this.btnEkle);
             this.panelUst.Controls.Add(this.label7);
@@ -66,7 +74,7 @@
             this.panelUst.Controls.Add(this.label1);
             this.panelUst.Location = new System.Drawing.Point(0, 0);
             this.panelUst.Name = "panelUst";
-            this.panelUst.Size = new System.Drawing.Size(240, 69);
+            this.panelUst.Size = new System.Drawing.Size(240, 91);
             // 
             // txtBarkod
             // 
@@ -164,9 +172,9 @@
             this.panelOrta.Controls.Add(this.label10);
             this.panelOrta.Controls.Add(this.label9);
             this.panelOrta.Controls.Add(this.label8);
-            this.panelOrta.Location = new System.Drawing.Point(0, 70);
+            this.panelOrta.Location = new System.Drawing.Point(0, 92);
             this.panelOrta.Name = "panelOrta";
-            this.panelOrta.Size = new System.Drawing.Size(240, 191);
+            this.panelOrta.Size = new System.Drawing.Size(240, 170);
             // 
             // label11
             // 
@@ -212,7 +220,7 @@
             // 
             this.panelAlt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.panelAlt.Controls.Add(this.btnBack);
-            this.panelAlt.Location = new System.Drawing.Point(-1, 260);
+            this.panelAlt.Location = new System.Drawing.Point(-1, 261);
             this.panelAlt.Name = "panelAlt";
             this.panelAlt.Size = new System.Drawing.Size(240, 33);
             // 
@@ -227,6 +235,42 @@
             this.btnBack.TabIndex = 1;
             this.btnBack.Text = "<<  Geri";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // txtAgirlik
+            // 
+            this.txtAgirlik.Location = new System.Drawing.Point(199, 68);
+            this.txtAgirlik.Name = "txtAgirlik";
+            this.txtAgirlik.ReadOnly = true;
+            this.txtAgirlik.Size = new System.Drawing.Size(40, 21);
+            this.txtAgirlik.TabIndex = 12;
+            // 
+            // txtTarih
+            // 
+            this.txtTarih.Location = new System.Drawing.Point(74, 68);
+            this.txtTarih.Name = "txtTarih";
+            this.txtTarih.ReadOnly = true;
+            this.txtTarih.Size = new System.Drawing.Size(72, 21);
+            this.txtTarih.TabIndex = 11;
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.Teal;
+            this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label4.ForeColor = System.Drawing.SystemColors.Window;
+            this.label4.Location = new System.Drawing.Point(147, 68);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 21);
+            this.label4.Text = "Ağırlık";
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Teal;
+            this.label5.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label5.ForeColor = System.Drawing.SystemColors.Window;
+            this.label5.Location = new System.Drawing.Point(3, 68);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(70, 21);
+            this.label5.Text = "P. Tarihi";
             // 
             // frmxPackage
             // 
@@ -266,5 +310,9 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Panel panelAlt;
         private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.TextBox txtAgirlik;
+        private System.Windows.Forms.TextBox txtTarih;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }

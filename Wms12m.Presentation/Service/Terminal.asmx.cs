@@ -144,6 +144,24 @@ namespace Wms12m
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
         /// <summary>
+        /// seçili irsaliyenin bilgileri
+        /// </summary>
+        [WebMethod]
+        public frmGorevPaket GetPackageBarcodeDetails(int GorevID, int KullID, string AuthGiven, string Guid)
+        {
+            //kontrol
+            if (AuthGiven.Cozumle() != AuthPass) return new frmGorevPaket();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new frmGorevPaket();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            if (mGorev.IsNull() || mGorev.IR == null)
+                return new frmGorevPaket();
+            //return
+            string sql = string.Format("SELECT SevkiyatNo, PaketNo, Adet, PaketTipiID, Agirlik FROM wms.GorevPaketler WHERE (GorevID = {0})", GorevID);
+            return db.Database.SqlQuery<frmGorevPaket>(sql).FirstOrDefault();
+        }
+        /// <summary>
         /// barkoddan irsaliyenin bilgileri
         /// </summary>
         [WebMethod]
@@ -159,12 +177,12 @@ namespace Wms12m
             //return
             string sql = string.Format("SELECT wms.IRS.SirketKod FROM wms.GorevPaketler INNER JOIN wms.GorevIRS ON wms.GorevPaketler.GorevID = wms.GorevIRS.GorevID INNER JOIN wms.IRS ON wms.GorevIRS.IrsaliyeID = wms.IRS.ID WHERE (wms.GorevPaketler.PaketNo = '{0}')", barkod);
             var sirketkodu =  db.Database.SqlQuery<string>(sql).FirstOrDefault();
-            sql = string.Format("SELECT MIN(GorevPaketler.GorevID) AS ID, wms.Depo.DepoKodu AS DepoID, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih) AS Tarih, " +
+            sql = string.Format("SELECT MIN(GorevPaketler.GorevID) AS ID, wms.Depo.DepoKodu AS DepoID, IRS.HesapKodu, CONVERT(varchar(15), wms.fnRoundUp(wms.GorevPaketler.Agirlik,2)) as TeslimCHK,  wms.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih) AS Tarih, " +
                 "(SELECT Unvan1 + ' ' + Unvan2 AS Expr1 FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE(HesapKodu = IRS.HesapKodu)) AS Unvan, " +
                 "(SELECT wms.IRS.EvrakNo + '  ' FROM wms.IRS WITH(nolock) INNER JOIN wms.GorevIRS WITH(nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN wms.GorevPaketler ON wms.GorevIRS.GorevID = wms.GorevPaketler.GorevID WHERE(wms.GorevPaketler.PaketNo = '{1}') FOR XML PATH('')) as EvrakNo " +
                 "FROM wms.IRS AS IRS WITH(nolock) INNER JOIN wms.Depo WITH(nolock) ON IRS.DepoID = wms.Depo.ID INNER JOIN wms.GorevIRS WITH(nolock) ON IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN wms.GorevPaketler ON wms.GorevIRS.GorevID = wms.GorevPaketler.GorevID " +
                 "WHERE (wms.GorevPaketler.PaketNo = '{1}') " +
-                "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih)", sirketkodu, barkod);
+                "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, CONVERT(varchar(15), wms.fnRoundUp(wms.GorevPaketler.Agirlik,2)), wms.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih)", sirketkodu, barkod);
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
         /// <summary>
@@ -221,6 +239,20 @@ namespace Wms12m
             return db.ComboItem_Name.Where(m => m.Visible == true).Where(m => m.ComboID == 2).Select(m => new Durum { ID = m.ID, Name = m.Name }).ToList();
         }
         /// <summary>
+        /// paket tiplerini listeler
+        /// </summary>
+        [WebMethod]
+        public List<Durum> GetPaketTip(int KullID, string AuthGiven, string Guid)
+        {
+            //kontrol
+            if (AuthGiven.Cozumle() != AuthPass) return new List<Durum>();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new List<Durum>();
+            //return
+            return db.ComboItem_Name.Where(m => m.Visible == true).Where(m => m.ComboID == 12).Select(m => new Durum { ID = m.ID, Name = m.Name }).ToList();
+        }
+        /// <summary>
         /// malzemeleri getir
         /// </summary>
         [WebMethod]
@@ -270,14 +302,11 @@ namespace Wms12m
                                     "WHERE (wms.GorevIRS.GorevID = {1}) AND (wms.Yer_Log.GC = 0 OR wms.Yer_Log.GC IS NULL) " +
                                     "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID);
                 if (devamMi == true)
-                    if (mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32())
-                        sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(OkutulanMiktar,0))";
-                    else //2 and 3
                         sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(YerlestirmeMiktari,0))";
             }
             else
             {
-                sql = (mGorev.GorevTipiID == ComboItems.Paketle.ToInt32()) ? "(wms.Yer_Log.GC = 1) " : "(wms.Yer_Log.GC = 0 OR wms.Yer_Log.GC IS NULL) ";
+                sql = (mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.BarkodHazırla.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32()) ? "(wms.Yer_Log.GC = 1) " : "(wms.Yer_Log.GC = 0 OR wms.Yer_Log.GC IS NULL) ";
                 sql = string.Format("SELECT wms.IRS_Detay.ID, wms.IRS.ID as irsID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0) AS OkutulanMiktar, wms.Yer_Log.HucreAd AS Raf, SUM(wms.Yer_Log.Miktar) as Raf, SUM(wms.Yer_Log.Miktar) AS YerMiktar, " +
                                     "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi, " +
                                     "ISNULL((SELECT case when Barkod1='' then Barkod2 else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS Barkod " +
@@ -287,7 +316,7 @@ namespace Wms12m
                 if (devamMi == true)
                     if (mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32())
                         sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(OkutulanMiktar,0))";
-                    else //2 and 3
+                    else
                         sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(YerlestirmeMiktari,0))";
             }
             return db.Database.SqlQuery<Tip_STI>(sql).ToList();

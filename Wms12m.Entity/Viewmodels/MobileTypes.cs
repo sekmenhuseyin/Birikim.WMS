@@ -28,4 +28,15 @@
         public string Birim1 { get; set; }
         public string Birim2 { get; set; }
     }
+    /// <summary>
+    /// Gorev Paketler
+    /// </summary>
+    public class frmGorevPaket
+    {
+        public string SevkiyatNo { get; set; }
+        public string PaketNo { get; set; }
+        public decimal Adet { get; set; }
+        public int PaketTipiID { get; set; }
+        public decimal Agirlik { get; set; }
+    }
 }

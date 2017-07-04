@@ -85,7 +85,7 @@
             // 
             // btnSiparisToplama
             // 
-            this.btnSiparisToplama.BackColor = System.Drawing.Color.DarkSlateBlue;
+            this.btnSiparisToplama.BackColor = System.Drawing.Color.Goldenrod;
             this.btnSiparisToplama.ForeColor = System.Drawing.Color.White;
             this.btnSiparisToplama.Location = new System.Drawing.Point(2, 109);
             this.btnSiparisToplama.Name = "btnSiparisToplama";
@@ -109,7 +109,7 @@
             // 
             // btnPaketleme
             // 
-            this.btnPaketleme.BackColor = System.Drawing.Color.Goldenrod;
+            this.btnPaketleme.BackColor = System.Drawing.Color.DarkSlateBlue;
             this.btnPaketleme.ForeColor = System.Drawing.Color.White;
             this.btnPaketleme.Location = new System.Drawing.Point(122, 109);
             this.btnPaketleme.Name = "btnPaketleme";
@@ -144,7 +144,7 @@
             // 
             // lblSiparisToplama
             // 
-            this.lblSiparisToplama.BackColor = System.Drawing.Color.DarkSlateBlue;
+            this.lblSiparisToplama.BackColor = System.Drawing.Color.Goldenrod;
             this.lblSiparisToplama.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblSiparisToplama.ForeColor = System.Drawing.Color.White;
             this.lblSiparisToplama.Location = new System.Drawing.Point(43, 146);
@@ -158,7 +158,7 @@
             this.lblSayim.BackColor = System.Drawing.Color.Green;
             this.lblSayim.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblSayim.ForeColor = System.Drawing.Color.White;
-            this.lblSayim.Location = new System.Drawing.Point(44, 275);
+            this.lblSayim.Location = new System.Drawing.Point(44, 272);
             this.lblSayim.Name = "lblSayim";
             this.lblSayim.Size = new System.Drawing.Size(32, 16);
             this.lblSayim.Tag = "";
@@ -166,7 +166,7 @@
             // 
             // lblPaketleme
             // 
-            this.lblPaketleme.BackColor = System.Drawing.Color.Goldenrod;
+            this.lblPaketleme.BackColor = System.Drawing.Color.DarkSlateBlue;
             this.lblPaketleme.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.lblPaketleme.ForeColor = System.Drawing.Color.White;
             this.lblPaketleme.Location = new System.Drawing.Point(163, 146);
@@ -235,7 +235,7 @@
             // 
             // btnBarcode
             // 
-            this.btnBarcode.BackColor = System.Drawing.Color.Goldenrod;
+            this.btnBarcode.BackColor = System.Drawing.Color.LightGreen;
             this.btnBarcode.ForeColor = System.Drawing.Color.White;
             this.btnBarcode.Location = new System.Drawing.Point(122, 235);
             this.btnBarcode.Name = "btnBarcode";
