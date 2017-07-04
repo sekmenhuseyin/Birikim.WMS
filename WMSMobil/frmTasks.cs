@@ -200,8 +200,10 @@ namespace WMSMobil
         private void btnIslemYap_Click(object sender, EventArgs e)
         {
             if (GorevID == 0) return;
-            frmxOps frm = new frmxOps(GorevID, IrsaliyeID, true, Ayarlar.MenuTip.ToInt32());
+            frmxPackDetail frm = new frmxPackDetail(GorevID);
             frm.ShowDialog();
+            //frmxOps frm = new frmxOps(GorevID, IrsaliyeID, true, Ayarlar.MenuTip.ToInt32());
+            //frm.ShowDialog();
         }
         /// <summary>
         /// linke aktara basınca

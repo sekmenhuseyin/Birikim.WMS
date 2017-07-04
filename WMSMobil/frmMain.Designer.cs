@@ -235,7 +235,7 @@
             // 
             // btnBarcode
             // 
-            this.btnBarcode.BackColor = System.Drawing.Color.LightGreen;
+            this.btnBarcode.BackColor = System.Drawing.Color.DarkViolet;
             this.btnBarcode.ForeColor = System.Drawing.Color.White;
             this.btnBarcode.Location = new System.Drawing.Point(122, 235);
             this.btnBarcode.Name = "btnBarcode";

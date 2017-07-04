@@ -28,7 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmxPackage));
             this.panelUst = new System.Windows.Forms.Panel();
+            this.txtAgirlik = new System.Windows.Forms.TextBox();
+            this.txtTarih = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.txtBarkod = new System.Windows.Forms.TextBox();
             this.btnEkle = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -46,10 +51,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
-            this.txtAgirlik = new System.Windows.Forms.TextBox();
-            this.txtTarih = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.panelUst.SuspendLayout();
             this.panelOrta.SuspendLayout();
             this.panelAlt.SuspendLayout();
@@ -75,6 +76,42 @@
             this.panelUst.Location = new System.Drawing.Point(0, 0);
             this.panelUst.Name = "panelUst";
             this.panelUst.Size = new System.Drawing.Size(240, 91);
+            // 
+            // txtAgirlik
+            // 
+            this.txtAgirlik.Location = new System.Drawing.Point(199, 68);
+            this.txtAgirlik.Name = "txtAgirlik";
+            this.txtAgirlik.ReadOnly = true;
+            this.txtAgirlik.Size = new System.Drawing.Size(40, 21);
+            this.txtAgirlik.TabIndex = 12;
+            // 
+            // txtTarih
+            // 
+            this.txtTarih.Location = new System.Drawing.Point(74, 68);
+            this.txtTarih.Name = "txtTarih";
+            this.txtTarih.ReadOnly = true;
+            this.txtTarih.Size = new System.Drawing.Size(72, 21);
+            this.txtTarih.TabIndex = 11;
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.Teal;
+            this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label4.ForeColor = System.Drawing.SystemColors.Window;
+            this.label4.Location = new System.Drawing.Point(147, 68);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 21);
+            this.label4.Text = "Ağırlık";
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Teal;
+            this.label5.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label5.ForeColor = System.Drawing.SystemColors.Window;
+            this.label5.Location = new System.Drawing.Point(3, 68);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(70, 21);
+            this.label5.Text = "P. Tarihi";
             // 
             // txtBarkod
             // 
@@ -236,42 +273,6 @@
             this.btnBack.Text = "<<  Geri";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
-            // txtAgirlik
-            // 
-            this.txtAgirlik.Location = new System.Drawing.Point(199, 68);
-            this.txtAgirlik.Name = "txtAgirlik";
-            this.txtAgirlik.ReadOnly = true;
-            this.txtAgirlik.Size = new System.Drawing.Size(40, 21);
-            this.txtAgirlik.TabIndex = 12;
-            // 
-            // txtTarih
-            // 
-            this.txtTarih.Location = new System.Drawing.Point(74, 68);
-            this.txtTarih.Name = "txtTarih";
-            this.txtTarih.ReadOnly = true;
-            this.txtTarih.Size = new System.Drawing.Size(72, 21);
-            this.txtTarih.TabIndex = 11;
-            // 
-            // label4
-            // 
-            this.label4.BackColor = System.Drawing.Color.Teal;
-            this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label4.ForeColor = System.Drawing.SystemColors.Window;
-            this.label4.Location = new System.Drawing.Point(147, 68);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(51, 21);
-            this.label4.Text = "Ağırlık";
-            // 
-            // label5
-            // 
-            this.label5.BackColor = System.Drawing.Color.Teal;
-            this.label5.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label5.ForeColor = System.Drawing.SystemColors.Window;
-            this.label5.Location = new System.Drawing.Point(3, 68);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(70, 21);
-            this.label5.Text = "P. Tarihi";
-            // 
             // frmxPackage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -281,6 +282,7 @@
             this.Controls.Add(this.panelAlt);
             this.Controls.Add(this.panelOrta);
             this.Controls.Add(this.panelUst);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmxPackage";
             this.Text = "Paket Oku";
             this.panelUst.ResumeLayout(false);

@@ -13,24 +13,53 @@ namespace WMSMobil
     public partial class frmxPackDetail : Form
     {
         Terminal Servis = new Terminal();
+        int GorevID;
         /// <summary>
         /// form load
         /// </summary>
-        public frmxPackDetail(int GorevID)
+        public frmxPackDetail(int gorevID)
         {
             InitializeComponent();
+            GorevID = gorevID;
             //paket tipi
-            Ayarlar.GorevDurumlari = Servis.GetDurums(Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();
+            Ayarlar.GorevDurumlari = Servis.GetPaketTip(Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();
             txtTip.ValueMember = "ID";
             txtTip.DisplayMember = "Name";
             txtTip.DataSource = Ayarlar.GorevDurumlari;
+            //paket ayrıntıları
+            var tbl = Servis.GetPackageBarcodeDetails(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            txtSevkNo.Text = tbl.SevkiyatNo;
+            txtPaketNo.Text = tbl.PaketNo;
+            txtMiktar.Text = String.Format("{0:n}", tbl.Adet);
+            txtTip.SelectedValue = tbl.PaketTipiID;
+            txtAgirlik.Text = String.Format("{0:n}", tbl.Agirlik);
         }
         /// <summary>
         /// kaydetme işlemleri
         /// </summary>
         private void btnKaydet_Click(object sender, EventArgs e)
         {
-
+            var miktar=txtMiktar.Text.ToDecimal();
+            var agirlik=txtAgirlik.Text.ToDecimal();
+            if (miktar == 0)
+            {
+                Mesaj.Uyari ("Lütfen miktarı yazınız");
+                return;
+            }
+            else if (agirlik == 0)
+            {
+                Mesaj.Uyari("Lütfen ağırlığı yazınız");
+                return;
+            }
+            var Sonuc = Servis.UpdatePackageBarcode(txtSevkNo.Text, txtPaketNo.Text, miktar, txtTip.SelectedValue.ToInt32(), agirlik, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            //sonuç işlemleri
+            if (Sonuc.Status == false)
+                Mesaj.Uyari(Sonuc.Message);
+            else
+            {
+                Mesaj.Basari("Kayıt tamamlandı");
+                this.Close();
+            }
         }
     }
 }

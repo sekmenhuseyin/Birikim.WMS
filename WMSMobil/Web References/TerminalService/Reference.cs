@@ -154,58 +154,6 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetPackageBarcodeDetails", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public frmGorevPaket GetPackageBarcodeDetails(int GorevID, int KullID, string AuthGiven, string Guid) {
-            object[] results = this.Invoke("GetPackageBarcodeDetails", new object[] {
-                        GorevID,
-                        KullID,
-                        AuthGiven,
-                        Guid});
-            return ((frmGorevPaket)(results[0]));
-        }
-        
-        /// <remarks/>
-        public System.IAsyncResult BeginGetPackageBarcodeDetails(int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("GetPackageBarcodeDetails", new object[] {
-                        GorevID,
-                        KullID,
-                        AuthGiven,
-                        Guid}, callback, asyncState);
-        }
-        
-        /// <remarks/>
-        public frmGorevPaket EndGetPackageBarcodeDetails(System.IAsyncResult asyncResult) {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((frmGorevPaket)(results[0]));
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetIrsaliyeFromBarcode", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Tip_IRS GetIrsaliyeFromBarcode(string barkod, int KullID, string AuthGiven, string Guid) {
-            object[] results = this.Invoke("GetIrsaliyeFromBarcode", new object[] {
-                        barkod,
-                        KullID,
-                        AuthGiven,
-                        Guid});
-            return ((Tip_IRS)(results[0]));
-        }
-        
-        /// <remarks/>
-        public System.IAsyncResult BeginGetIrsaliyeFromBarcode(string barkod, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
-            return this.BeginInvoke("GetIrsaliyeFromBarcode", new object[] {
-                        barkod,
-                        KullID,
-                        AuthGiven,
-                        Guid}, callback, asyncState);
-        }
-        
-        /// <remarks/>
-        public Tip_IRS EndGetIrsaliyeFromBarcode(System.IAsyncResult asyncResult) {
-            object[] results = this.EndInvoke(asyncResult);
-            return ((Tip_IRS)(results[0]));
-        }
-        
-        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetGorevList", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Tip_GOREV[] GetGorevList(int gorevli, int durum, int gorevtipi, int DepoID, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("GetGorevList", new object[] {
@@ -612,6 +560,94 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetPackageBarcodeDetails", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public frmGorevPaket GetPackageBarcodeDetails(int GorevID, int KullID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("GetPackageBarcodeDetails", new object[] {
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid});
+            return ((frmGorevPaket)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetPackageBarcodeDetails(int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetPackageBarcodeDetails", new object[] {
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public frmGorevPaket EndGetPackageBarcodeDetails(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((frmGorevPaket)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetIrsaliyeFromBarcode", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Tip_IRS GetIrsaliyeFromBarcode(string barkod, int KullID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("GetIrsaliyeFromBarcode", new object[] {
+                        barkod,
+                        KullID,
+                        AuthGiven,
+                        Guid});
+            return ((Tip_IRS)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginGetIrsaliyeFromBarcode(string barkod, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("GetIrsaliyeFromBarcode", new object[] {
+                        barkod,
+                        KullID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Tip_IRS EndGetIrsaliyeFromBarcode(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Tip_IRS)(results[0]));
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/UpdatePackageBarcode", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Result UpdatePackageBarcode(string SevkNo, string PaketNo, decimal Miktar, int Tip, decimal Agirlik, int GorevID, int KullID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("UpdatePackageBarcode", new object[] {
+                        SevkNo,
+                        PaketNo,
+                        Miktar,
+                        Tip,
+                        Agirlik,
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid});
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginUpdatePackageBarcode(string SevkNo, string PaketNo, decimal Miktar, int Tip, decimal Agirlik, int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("UpdatePackageBarcode", new object[] {
+                        SevkNo,
+                        PaketNo,
+                        Miktar,
+                        Tip,
+                        Agirlik,
+                        GorevID,
+                        KullID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public Result EndUpdatePackageBarcode(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((Result)(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Sevkiyat_GoreviTamamla", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result Sevkiyat_GoreviTamamla(int GorevID, int IrsaliyeID, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("Sevkiyat_GoreviTamamla", new object[] {
@@ -821,6 +857,73 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.depoIDField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
+    public partial class frmGorevPaket {
+        
+        private string sevkiyatNoField;
+        
+        private string paketNoField;
+        
+        private decimal adetField;
+        
+        private int paketTipiIDField;
+        
+        private decimal agirlikField;
+        
+        /// <remarks/>
+        public string SevkiyatNo {
+            get {
+                return this.sevkiyatNoField;
+            }
+            set {
+                this.sevkiyatNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PaketNo {
+            get {
+                return this.paketNoField;
+            }
+            set {
+                this.paketNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal Adet {
+            get {
+                return this.adetField;
+            }
+            set {
+                this.adetField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int PaketTipiID {
+            get {
+                return this.paketTipiIDField;
+            }
+            set {
+                this.paketTipiIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public decimal Agirlik {
+            get {
+                return this.agirlikField;
+            }
+            set {
+                this.agirlikField = value;
             }
         }
     }
@@ -1442,73 +1545,6 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.durumField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.12mconsulting.com.tr/")]
-    public partial class frmGorevPaket {
-        
-        private string sevkiyatNoField;
-        
-        private string paketNoField;
-        
-        private decimal adetField;
-        
-        private int paketTipiIDField;
-        
-        private decimal agirlikField;
-        
-        /// <remarks/>
-        public string SevkiyatNo {
-            get {
-                return this.sevkiyatNoField;
-            }
-            set {
-                this.sevkiyatNoField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string PaketNo {
-            get {
-                return this.paketNoField;
-            }
-            set {
-                this.paketNoField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public decimal Adet {
-            get {
-                return this.adetField;
-            }
-            set {
-                this.adetField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int PaketTipiID {
-            get {
-                return this.paketTipiIDField;
-            }
-            set {
-                this.paketTipiIDField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public decimal Agirlik {
-            get {
-                return this.agirlikField;
-            }
-            set {
-                this.agirlikField = value;
             }
         }
     }

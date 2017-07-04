@@ -144,48 +144,6 @@ namespace Wms12m
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
         /// <summary>
-        /// seçili irsaliyenin bilgileri
-        /// </summary>
-        [WebMethod]
-        public frmGorevPaket GetPackageBarcodeDetails(int GorevID, int KullID, string AuthGiven, string Guid)
-        {
-            //kontrol
-            if (AuthGiven.Cozumle() != AuthPass) return new frmGorevPaket();
-            Guid = Guid.Cozumle();
-            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
-            if (tbl == null) return new frmGorevPaket();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
-            if (mGorev.IsNull() || mGorev.IR == null)
-                return new frmGorevPaket();
-            //return
-            string sql = string.Format("SELECT SevkiyatNo, PaketNo, Adet, PaketTipiID, Agirlik FROM wms.GorevPaketler WHERE (GorevID = {0})", GorevID);
-            return db.Database.SqlQuery<frmGorevPaket>(sql).FirstOrDefault();
-        }
-        /// <summary>
-        /// barkoddan irsaliyenin bilgileri
-        /// </summary>
-        [WebMethod]
-        public Tip_IRS GetIrsaliyeFromBarcode(string barkod, int KullID, string AuthGiven, string Guid)
-        {
-            //kontrol
-            if (AuthGiven.Cozumle() != AuthPass) return new Tip_IRS();
-            Guid = Guid.Cozumle();
-            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
-            if (tbl == null) return new Tip_IRS();
-            if (barkod == "" || barkod == null)
-                return new Tip_IRS();
-            //return
-            string sql = string.Format("SELECT wms.IRS.SirketKod FROM wms.GorevPaketler INNER JOIN wms.GorevIRS ON wms.GorevPaketler.GorevID = wms.GorevIRS.GorevID INNER JOIN wms.IRS ON wms.GorevIRS.IrsaliyeID = wms.IRS.ID WHERE (wms.GorevPaketler.PaketNo = '{0}')", barkod);
-            var sirketkodu =  db.Database.SqlQuery<string>(sql).FirstOrDefault();
-            sql = string.Format("SELECT MIN(GorevPaketler.GorevID) AS ID, wms.Depo.DepoKodu AS DepoID, IRS.HesapKodu, CONVERT(varchar(15), wms.fnRoundUp(wms.GorevPaketler.Agirlik,2)) as TeslimCHK,  wms.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih) AS Tarih, " +
-                "(SELECT Unvan1 + ' ' + Unvan2 AS Expr1 FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE(HesapKodu = IRS.HesapKodu)) AS Unvan, " +
-                "(SELECT wms.IRS.EvrakNo + '  ' FROM wms.IRS WITH(nolock) INNER JOIN wms.GorevIRS WITH(nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN wms.GorevPaketler ON wms.GorevIRS.GorevID = wms.GorevPaketler.GorevID WHERE(wms.GorevPaketler.PaketNo = '{1}') FOR XML PATH('')) as EvrakNo " +
-                "FROM wms.IRS AS IRS WITH(nolock) INNER JOIN wms.Depo WITH(nolock) ON IRS.DepoID = wms.Depo.ID INNER JOIN wms.GorevIRS WITH(nolock) ON IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN wms.GorevPaketler ON wms.GorevIRS.GorevID = wms.GorevPaketler.GorevID " +
-                "WHERE (wms.GorevPaketler.PaketNo = '{1}') " +
-                "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, CONVERT(varchar(15), wms.fnRoundUp(wms.GorevPaketler.Agirlik,2)), wms.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih)", sirketkodu, barkod);
-            return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
-        }
-        /// <summary>
         /// görev listelerini filtreye göre getirir
         /// </summary>
         [WebMethod]
@@ -302,7 +260,7 @@ namespace Wms12m
                                     "WHERE (wms.GorevIRS.GorevID = {1}) AND (wms.Yer_Log.GC = 0 OR wms.Yer_Log.GC IS NULL) " +
                                     "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID);
                 if (devamMi == true)
-                        sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(YerlestirmeMiktari,0))";
+                    sql += "HAVING (wms.IRS_Detay.Miktar > ISNULL(YerlestirmeMiktari,0))";
             }
             else
             {
@@ -311,7 +269,7 @@ namespace Wms12m
                                     "ISNULL((SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS MalAdi, " +
                                     "ISNULL((SELECT case when Barkod1='' then Barkod2 else Barkod1 end Barkod FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = wms.IRS_Detay.MalKodu)),'') AS Barkod " +
                                     "FROM wms.IRS_Detay WITH (nolock) INNER JOIN wms.IRS WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.IRS.ID INNER JOIN wms.GorevIRS WITH (nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Yer_Log WITH (nolock) ON wms.IRS_Detay.IrsaliyeID = wms.Yer_Log.IrsaliyeID AND wms.IRS_Detay.MalKodu = wms.Yer_Log.MalKodu " +
-                                    "WHERE (wms.GorevIRS.GorevID = {1}) AND "+ sql +
+                                    "WHERE (wms.GorevIRS.GorevID = {1}) AND " + sql +
                                     "GROUP BY wms.IRS_Detay.ID, wms.IRS.ID, wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, ISNULL(wms.IRS_Detay.OkutulanMiktar, 0), ISNULL(wms.IRS_Detay.YerlestirmeMiktari, 0), wms.Yer_Log.HucreAd ", mGorev.IR.SirketKod, mGorev.ID, mGorev.DepoID);
                 if (devamMi == true)
                     if (mGorev.GorevTipiID == ComboItems.MalKabul.ToInt32() || mGorev.GorevTipiID == ComboItems.Paketle.ToInt32() || mGorev.GorevTipiID == ComboItems.Sevket.ToInt32())
@@ -698,16 +656,16 @@ namespace Wms12m
                         }
                         else
                             if (tmp2.Miktar >= item.Miktar && item.Miktar <= (grvYer.Miktar - (grvYer.YerlestirmeMiktari ?? 0)))
-                            {
-                                //raftan indirdiğini kaydet
-                                grvYer.YerlestirmeMiktari = (grvYer.YerlestirmeMiktari ?? 0) + item.Miktar;
-                                db.SaveChanges();
-                                //yerlestirme tablosuna kaydet
-                                tmp2.Miktar -= item.Miktar;
-                                yerlestirme.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
-                            }
-                            else
-                                _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
+                        {
+                            //raftan indirdiğini kaydet
+                            grvYer.YerlestirmeMiktari = (grvYer.YerlestirmeMiktari ?? 0) + item.Miktar;
+                            db.SaveChanges();
+                            //yerlestirme tablosuna kaydet
+                            tmp2.Miktar -= item.Miktar;
+                            yerlestirme.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
+                        }
+                        else
+                            _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
                     }
                     else
                         _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
@@ -914,18 +872,91 @@ namespace Wms12m
             var list = mIrsaliye.IRS_Detay.Where(m => m.IrsaliyeID == mGorev.IrsaliyeID && (m.OkutulanMiktar != m.Miktar || m.OkutulanMiktar == null)).FirstOrDefault();
             if (list.IsNotNull())
                 return new Result(false, "İşlem bitmemiş !");
-            //return
-            int tarih = DateTime.Today.ToOADateInt();
-            string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
-            var kull = db.Users.Where(m => m.ID == KullID).Select(m => m.Kod).FirstOrDefault();
-            var idx =  db.TerminalFinishGorev(GorevID, IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), kull, "", ComboItems.Paketle.ToInt32(), ComboItems.BarkodHazırla.ToInt32());
-            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "Paketle_GoreviTamamla", ComboItems.alDüzenle, idx.ToInt32(), "Paketle => BarkodHazırla");
             //paket bilgilerini hazırla
-            db.SettingsPaketNo(mGorev.DepoID, GorevID, kull, tarih);
+            int tarih = DateTime.Today.ToOADateInt();
+            db.SettingsPaketNo(mGorev.DepoID, GorevID, tblx.Kod, tarih);
+            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "Paketle_GoreviTamamla", ComboItems.alEkle, GorevID, "Paket Barkodu");
             //görev user tablosu
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
             db.SaveChanges();
+            //return
+            return new Result(true);
+
+        }
+        /// <summary>
+        /// seçili irsaliyenin bilgileri
+        /// </summary>
+        [WebMethod]
+        public frmGorevPaket GetPackageBarcodeDetails(int GorevID, int KullID, string AuthGiven, string Guid)
+        {
+            //kontrol
+            if (AuthGiven.Cozumle() != AuthPass) return new frmGorevPaket();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new frmGorevPaket();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            if (mGorev.IsNull() || mGorev.IR == null)
+                return new frmGorevPaket();
+            //return
+            string sql = string.Format("SELECT SevkiyatNo, PaketNo, Adet, PaketTipiID, Agirlik FROM wms.GorevPaketler WHERE (GorevID = {0})", GorevID);
+            return db.Database.SqlQuery<frmGorevPaket>(sql).FirstOrDefault();
+        }
+        /// <summary>
+        /// barkoddan irsaliyenin bilgileri
+        /// </summary>
+        [WebMethod]
+        public Tip_IRS GetIrsaliyeFromBarcode(string barkod, int KullID, string AuthGiven, string Guid)
+        {
+            //kontrol
+            if (AuthGiven.Cozumle() != AuthPass) return new Tip_IRS();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new Tip_IRS();
+            if (barkod == "" || barkod == null)
+                return new Tip_IRS();
+            //return
+            string sql = string.Format("SELECT wms.IRS.SirketKod FROM wms.GorevPaketler INNER JOIN wms.GorevIRS ON wms.GorevPaketler.GorevID = wms.GorevIRS.GorevID INNER JOIN wms.IRS ON wms.GorevIRS.IrsaliyeID = wms.IRS.ID WHERE (wms.GorevPaketler.PaketNo = '{0}')", barkod);
+            var sirketkodu = db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            sql = string.Format("SELECT MIN(GorevPaketler.GorevID) AS ID, wms.Depo.DepoKodu AS DepoID, IRS.HesapKodu, CONVERT(varchar(15), wms.fnRoundUp(wms.GorevPaketler.Agirlik,2)) as TeslimCHK,  wms.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih) AS Tarih, " +
+                "(SELECT Unvan1 + ' ' + Unvan2 AS Expr1 FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE(HesapKodu = IRS.HesapKodu)) AS Unvan, " +
+                "(SELECT wms.IRS.EvrakNo + '  ' FROM wms.IRS WITH(nolock) INNER JOIN wms.GorevIRS WITH(nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN wms.GorevPaketler ON wms.GorevIRS.GorevID = wms.GorevPaketler.GorevID WHERE(wms.GorevPaketler.PaketNo = '{1}') FOR XML PATH('')) as EvrakNo " +
+                "FROM wms.IRS AS IRS WITH(nolock) INNER JOIN wms.Depo WITH(nolock) ON IRS.DepoID = wms.Depo.ID INNER JOIN wms.GorevIRS WITH(nolock) ON IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN wms.GorevPaketler ON wms.GorevIRS.GorevID = wms.GorevPaketler.GorevID " +
+                "WHERE (wms.GorevPaketler.PaketNo = '{1}') " +
+                "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, CONVERT(varchar(15), wms.fnRoundUp(wms.GorevPaketler.Agirlik,2)), wms.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih)", sirketkodu, barkod);
+            return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
+        }
+        /// <summary>
+        /// paketle görevini tamamla
+        /// </summary>
+        [WebMethod]
+        public Result UpdatePackageBarcode(frmGorevPaket pkt, int GorevID, int KullID, string AuthGiven, string Guid)
+        {
+            //kontrol
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
+            int durumID = ComboItems.Açık.ToInt32();
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return new Result(false, "Görev bulunamadı !");
+            //görevi bitir
+            int tarih = DateTime.Today.ToOADateInt();
+            string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
+            var idx = db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), tblx.Kod, "", ComboItems.Paketle.ToInt32(), 0);
+            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "UpdatePackageBarcode", ComboItems.alDüzenle, idx.ToInt32(), "Paketle => Sevkiyat");
+            //update
+            var tbl = db.GorevPaketlers.Where(m => m.GorevID == GorevID).FirstOrDefault();
+            tbl.SevkiyatNo = pkt.SevkiyatNo;
+            tbl.PaketNo = pkt.PaketNo;
+            tbl.PaketTipiID = pkt.PaketTipiID;
+            tbl.Adet = pkt.Adet;
+            tbl.Agirlik = pkt.Agirlik;
+            tbl.Degistiren = tblx.Kod;
+            tbl.DegisTarih = tarih;
+            db.SaveChanges();
+            //return
             return new Result(true);
 
         }
@@ -1074,7 +1105,7 @@ namespace Wms12m
                     db.UpdateIrsaliye(mGorev.IrsaliyeID, sonuc.Data.ToString(), "");
                     //finish
                     db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferGiriş.ToInt32(), 0);
-                LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferGiris_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferGiriş => -");
+                    LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferGiris_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferGiriş => -");
                     //görev user tablosu
                     var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
                     tbl.BitisTarihi = DateTime.Today.ToOADateInt();
