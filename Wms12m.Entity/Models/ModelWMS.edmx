@@ -328,6 +328,7 @@
           <Property Name="Adet" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="PaketTipiID" Type="int" Nullable="false" />
           <Property Name="Agirlik" Type="numeric" Precision="25" Scale="6" />
+          <Property Name="Printed" Type="bit" Nullable="false" />
           <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="KayitTarih" Type="int" Nullable="false" />
           <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
@@ -3134,6 +3135,7 @@
           <Property Name="DegisTarih" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_GorevPaketler_ComboItem_Name" FromRole="GorevPaketler" ToRole="ComboItem_Name" />
           <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevPaketler_Gorev" FromRole="GorevPaketler" ToRole="Gorev" />
+          <Property Name="Printed" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="UserDetail">
           <Key>
@@ -3875,6 +3877,7 @@
           <EntitySetMapping Name="GorevPaketlers">
             <EntityTypeMapping TypeName="MModel.GorevPaketler">
               <MappingFragment StoreEntitySet="GorevPaketler">
+                <ScalarProperty Name="Printed" ColumnName="Printed" />
                 <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
                 <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
