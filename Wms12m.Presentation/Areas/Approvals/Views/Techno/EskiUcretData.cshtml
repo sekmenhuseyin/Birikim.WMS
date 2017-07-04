@@ -17,8 +17,8 @@
         @*<td>@{if (item.DegisimTarihi != null) { @item.DegisimTarihi.ToString("dd.MM.yyyy")};}</td>*@
         <td>@item.UcretTipi</td>
         <td>@item.DovizTipi</td>
-        <td align="right">@String.Format("{0:n}", item.BirimUcret)</td>
-        <td align="right">@String.Format("{0:n}", item.GenelAylikUcret)</td>
+        <td align="right">@String.Format("{0:n}", item.BirimUcret).ToDecimal().ToOnFormat()</td>
+        <td align="right">@String.Format("{0:n}", item.GenelAylikUcret).ToDecimal().ToOnFormat()</td>
         @*<td>@Math.Round(item.BirimUcret, 2)</td>
         <td>@Math.Round(item.GenelAylikUcret, 2)</td>*@
         <td>@item.BrutNet</td>

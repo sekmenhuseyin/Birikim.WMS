@@ -491,18 +491,18 @@
                         sorting: {
                             mode: "multiple",
                         },
-                        onRowPrepared: function (info) {
-                            if (info.rowType == 'data') {
+                        //onRowPrepared: function (info) {
+                        //    if (info.rowType == 'data') {
 
-                                if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
-                                    info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
-                                else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
-                                    info.rowElement.css({ "background-color": "green", "color": "white" });
-                                else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
-                                    info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
-                            }
+                        //        if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
+                        //            info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
+                        //        else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
+                        //            info.rowElement.css({ "background-color": "green", "color": "white" });
+                        //        else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
+                        //            info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
+                        //    }
 
-                        },
+                        //},
                         onRowClick: function (opt) {
                             if (opt.rowType == "data") {
                                 var component = opt.component;

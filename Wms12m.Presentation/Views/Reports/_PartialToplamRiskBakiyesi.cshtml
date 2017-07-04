@@ -37,13 +37,15 @@
 
                     </tr>
                 </thead>
-                @*<tfoot>
+                <tfoot>
                     <tr>
-                        <th nowrap colspan="4"></th>
+                        <th nowrap colspan="2"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
                         <th nowrap style="text-align:right;"></th>
                         <th nowrap style="text-align:right;"></th>
                     </tr>
-                </tfoot>*@
+                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
             {
@@ -51,10 +53,10 @@
 
                             <td nowrap>@item.HesapKodu</td>
                             <td nowrap>@item.Ünvan</td>
-                            <td nowrap align="right">@item.Borç.ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@item.Alacak.ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@item.Bakiye.ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@item.ToplamBakiye.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.Borç).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.Alacak).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.Bakiye).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.ToplamBakiye).ToDecimal().ToOnFormat()</td>
 
                         </tr>
                     }
@@ -69,41 +71,59 @@
         var model =  @Html.Raw(serializer.Serialize(Model));
         $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            //"footerCallback": function (row, data, start, end, display) {
-            //    var api = this.api(), data;
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
 
-            //    // Remove the formatting to get integer data for summation
-            //    var intVal = function (i) {
-            //        return Number(i.toString().replace(/\./g, "").replace(",", "."))
-            //    };
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                };
 
-            //    // Total over all pages
-            //    miktartotal = api
-            //        .column(4)
-            //        .data()
-            //        .reduce(function (a, b) {
-            //            return a + intVal(b);
-            //        }, 0);
+                // Total over all pages
+                miktartotal = api
+                    .column(2)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
 
-            //    bakiyetotal = api
-            //        .column(5)
-            //        .data()
-            //        .reduce(function (a, b) {
-            //            console.log(a);
-            //            return a + intVal(b);
-            //        }, 0);
+                bakiyetotal = api
+                    .column(3)
+                    .data()
+                    .reduce(function (a, b) {
+                        console.log(a);
+                        return a + intVal(b);
+                    }, 0);
+                aa = api
+                    .column(4)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                bb = api
+                    .column(5)
+                    .data()
+                    .reduce(function (a, b) {
+                        console.log(a);
+                        return a + intVal(b);
+                    }, 0);
 
 
-
-            //    // Update footer
-            //    $(api.column(4).footer()).html(
-            //        ondalikBinlik(miktartotal, 2)
-            //    );
-            //    $(api.column(5).footer()).html(
-            //        bakiyetotal
-            //        //ondalikBinlik(bakiyetotal, 2)
-            //    );
-            }
+                // Update footer
+                $(api.column(2).footer()).html(
+                    ondalikBinlik(miktartotal, 2)
+                );
+                $(api.column(3).footer()).html(
+                    ondalikBinlik(bakiyetotal, 2)
+                );
+                $(api.column(4).footer()).html(
+                    ondalikBinlik(aa, 2)
+                );
+                $(api.column(5).footer()).html(
+                    ondalikBinlik(bb, 2)
+                );
+        }
         });
     });
 </script>
