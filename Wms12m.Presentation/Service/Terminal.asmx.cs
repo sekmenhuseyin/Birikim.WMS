@@ -144,6 +144,30 @@ namespace Wms12m
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
         }
         /// <summary>
+        /// barkoddan irsaliyenin bilgileri
+        /// </summary>
+        [WebMethod]
+        public Tip_IRS GetIrsaliyeFromBarcode(string barkod, int KullID, string AuthGiven, string Guid)
+        {
+            //kontrol
+            if (AuthGiven.Cozumle() != AuthPass) return new Tip_IRS();
+            Guid = Guid.Cozumle();
+            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tbl == null) return new Tip_IRS();
+            if (barkod == "" || barkod == null)
+                return new Tip_IRS();
+            //return
+            string sql = string.Format("SELECT wms.IRS.SirketKod FROM wms.GorevPaketler INNER JOIN wms.GorevIRS ON wms.GorevPaketler.GorevID = wms.GorevIRS.GorevID INNER JOIN wms.IRS ON wms.GorevIRS.IrsaliyeID = wms.IRS.ID WHERE (wms.GorevPaketler.PaketNo = '{0}')", barkod);
+            var sirketkodu =  db.Database.SqlQuery<string>(sql).FirstOrDefault();
+            sql = string.Format("SELECT MIN(GorevPaketler.GorevID) AS ID, wms.Depo.DepoKodu AS DepoID, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih) AS Tarih, " +
+                "(SELECT Unvan1 + ' ' + Unvan2 AS Expr1 FROM FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) WHERE(HesapKodu = IRS.HesapKodu)) AS Unvan, " +
+                "(SELECT wms.IRS.EvrakNo + '  ' FROM wms.IRS WITH(nolock) INNER JOIN wms.GorevIRS WITH(nolock) ON wms.IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN wms.GorevPaketler ON wms.GorevIRS.GorevID = wms.GorevPaketler.GorevID WHERE(wms.GorevPaketler.PaketNo = '{1}') FOR XML PATH('')) as EvrakNo " +
+                "FROM wms.IRS AS IRS WITH(nolock) INNER JOIN wms.Depo WITH(nolock) ON IRS.DepoID = wms.Depo.ID INNER JOIN wms.GorevIRS WITH(nolock) ON IRS.ID = wms.GorevIRS.IrsaliyeID INNER JOIN wms.GorevPaketler ON wms.GorevIRS.GorevID = wms.GorevPaketler.GorevID " +
+                "WHERE (wms.GorevPaketler.PaketNo = '{1}') " +
+                "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, wms.fnFormatDateFromInt(IRS.Tarih)", sirketkodu, barkod);
+            return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
+        }
+        /// <summary>
         /// görev listelerini filtreye göre getirir
         /// </summary>
         [WebMethod]
@@ -291,22 +315,6 @@ namespace Wms12m
             }
             sql = "SELECT MalKodu, MalAdi, Birim1 as Birim, Barkod from (" + sql + ") as t where MalAdi<>''";
             return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
-        }
-        /// <summary>
-        /// malzemeyi barkoda göre bulur
-        /// </summary>
-        [WebMethod]
-        public List<Tip_STI> GetMalzemeFromBarcode(string barkod, int KullID, string AuthGiven, string Guid)
-        {
-            //kontrol
-            if (AuthGiven.Cozumle() != AuthPass) return new List<Tip_STI>();
-            Guid = Guid.Cozumle();
-            var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
-            if (tbl == null) return new List<Tip_STI>();
-            //return
-            string sql = "";
-            sql = "SELECT MalKodu, MalAdi, Birim1 as Birim, Barkod from (" + sql + ") as t where MalAdi<>''";
-            return db.Database.SqlQuery<Tip_STI>(sql).ToList();
         }
         /// <summary>
         /// mal kabul kayıt işlemleri

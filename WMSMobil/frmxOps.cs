@@ -36,13 +36,7 @@ namespace WMSMobil
             //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             try
             {
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
-                if (Ayarlar.STIKalemler.Count == 0 && gorevtip != 8)
-                    if (Mesaj.Soru("Bu görevin işleri bitmiş. Tüm listeye bakmak istiyor musunuz?") == DialogResult.Yes)
-                    {
-                        glbTip = false;
-                        Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
-                    }
+                //görev bilgilerini getir
                 Ayarlar.SeciliGorev = Servis.GetIrsaliye(grvId, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 txtUnvan.Text = Ayarlar.SeciliGorev.Unvan;
                 txtHesapKodu.Text = Ayarlar.SeciliGorev.HesapKodu;
@@ -50,6 +44,15 @@ namespace WMSMobil
                 txtEvrakno.Tag = Ayarlar.SeciliGorev.ID;
                 GorevID = grvId;
                 IrsaliyeID = irsID;
+                //ürün bilgilerini getir
+                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+                if (Ayarlar.STIKalemler.Count == 0 && gorevtip != 8)
+                    if (Mesaj.Soru("Bu görevin işleri bitmiş. Tüm listeye bakmak istiyor musunuz?") == DialogResult.Yes)
+                    {
+                        glbTip = false;
+                        Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+                    }
+                //listele
                 STIGetir();
             }
             catch (Exception ex)
@@ -172,7 +175,7 @@ namespace WMSMobil
             });
         }
         /// <summary>
-        /// irsaliye detaylarını getir
+        /// irsaliye detaylarını gösterir
         /// </summary>
         void STIGetir()
         {
