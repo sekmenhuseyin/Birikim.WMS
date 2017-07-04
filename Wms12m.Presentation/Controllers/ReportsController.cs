@@ -165,5 +165,38 @@ namespace Wms12m.Presentation.Controllers
             var CE = db.Database.SqlQuery<RaporCariEkstre>(string.Format("[FINSAT6{0}].[dbo].[DB_CariEkstre] @HesapKodu = '{1}'", "17", CHK)).ToList();
             return json.Serialize(CE);
         }
+
+        public string CariDetayCek(string CHK, string EvrakNo)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+            var CE = db.Database.SqlQuery<RaporCariEkstreCek>(string.Format("[FINSAT6{0}].[dbo].[BTB_RP_CariEkstreDetay_Cek] @Tip='', @HesapKodu = '{1}', @EvrakNo='{2}'", "17", CHK, EvrakNo)).ToList();
+            return json.Serialize(CE);
+        }
+
+        public string CariDetayFatura(string CHK, string EvrakNo)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+            var CE = db.Database.SqlQuery<RaporCariEkstreFatura>(string.Format("[FINSAT6{0}].[dbo].[BTB_RP_CariEkstreDetay_Fatura]  @Tip='', @HesapKodu = '{1}', @EvrakNo='{2}'", "17", CHK, EvrakNo)).ToList();
+            return json.Serialize(CE);
+        }
+
+        public string CariDetayDiger(string CHK, string EvrakNo)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+            var CE = db.Database.SqlQuery<RaporCariEkstreDiger>(string.Format("[FINSAT6{0}].[dbo].[BTB_RP_CariEkstreDetay_Diger]  @HesapKodu = '{1}', @EvrakNo='{2}'", "17", CHK, EvrakNo)).ToList();
+            return json.Serialize(CE);
+        }
     }
 }
