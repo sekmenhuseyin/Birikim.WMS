@@ -557,7 +557,7 @@ namespace WMSMobil
                 PanelVeriList.Add(panelSatir);
             }
             //bunlarda da aynı maldan yeni raf ekle
-            else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.TransferGiriş)// || Ayarlar.MenuTip == MenuType.SiparisToplama
+            else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.TransferGiriş || Ayarlar.MenuTip == MenuType.SiparisToplama)
             {
                 if (raf_var)
                     return;
