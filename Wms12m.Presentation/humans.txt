@@ -13,4 +13,4 @@ Emre Ünal
 Name: 12M Yönetim Paneli
 Language: Turkish
 Web: http://www.12mconsulting.com.tr/
-Last update: 2017/07/01
+Last update: 2017/07/04

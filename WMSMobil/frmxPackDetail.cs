@@ -40,10 +40,26 @@ namespace WMSMobil
         private void btnKaydet_Click(object sender, EventArgs e)
         {
             var miktar=txtMiktar.Text.ToDecimal();
-            var agirlik=txtAgirlik.Text.ToDecimal();
-            if (miktar == 0)
+            var agirlik = txtAgirlik.Text.ToDecimal();
+            var tip = txtTip.SelectedValue.ToInt32();
+            if (txtSevkNo.Text == "")
+            {
+                Mesaj.Uyari("Lütfen sevkiyat noyu yazınız");
+                return;
+            }
+            else if (txtPaketNo.Text == "")
+            {
+                Mesaj.Uyari("Lütfen paket noyu yazınız");
+                return;
+            }
+            else if (miktar == 0)
             {
                 Mesaj.Uyari ("Lütfen miktarı yazınız");
+                return;
+            }
+            else if (tip == 0)
+            {
+                Mesaj.Uyari("Lütfen paket tipini seçiniz");
                 return;
             }
             else if (agirlik == 0)
@@ -51,14 +67,13 @@ namespace WMSMobil
                 Mesaj.Uyari("Lütfen ağırlığı yazınız");
                 return;
             }
-            var pkt = new frmGorevPaket() { SevkiyatNo = txtSevkNo.Text, PaketNo = txtPaketNo.Text, Adet = miktar, Agirlik = agirlik, PaketTipiID = txtTip.SelectedValue.ToInt32() };
+            var pkt = new frmGorevPaket() { SevkiyatNo = txtSevkNo.Text, PaketNo = txtPaketNo.Text, Adet = miktar, Agirlik = agirlik, PaketTipiID = tip };
             var Sonuc = Servis.UpdatePackageBarcode(pkt, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             //sonuç işlemleri
             if (Sonuc.Status == false)
                 Mesaj.Uyari(Sonuc.Message);
             else
             {
-                Mesaj.Basari("Kayıt tamamlandı");
                 this.Close();
             }
         }
