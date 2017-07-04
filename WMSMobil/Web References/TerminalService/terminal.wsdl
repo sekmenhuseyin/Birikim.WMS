@@ -123,6 +123,23 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetIrsaliyeFromBarcode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="barkod" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetIrsaliyeFromBarcodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetIrsaliyeFromBarcodeResult" type="tns:Tip_IRS" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetGorevList">
         <s:complexType>
           <s:sequence>
@@ -598,6 +615,12 @@
   <wsdl:message name="GetIrsaliyeSoapOut">
     <wsdl:part name="parameters" element="tns:GetIrsaliyeResponse" />
   </wsdl:message>
+  <wsdl:message name="GetIrsaliyeFromBarcodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetIrsaliyeFromBarcode" />
+  </wsdl:message>
+  <wsdl:message name="GetIrsaliyeFromBarcodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetIrsaliyeFromBarcodeResponse" />
+  </wsdl:message>
   <wsdl:message name="GetGorevListSoapIn">
     <wsdl:part name="parameters" element="tns:GetGorevList" />
   </wsdl:message>
@@ -733,6 +756,10 @@
       <wsdl:input message="tns:GetIrsaliyeSoapIn" />
       <wsdl:output message="tns:GetIrsaliyeSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetIrsaliyeFromBarcode">
+      <wsdl:input message="tns:GetIrsaliyeFromBarcodeSoapIn" />
+      <wsdl:output message="tns:GetIrsaliyeFromBarcodeSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetGorevList">
       <wsdl:input message="tns:GetGorevListSoapIn" />
       <wsdl:output message="tns:GetGorevListSoapOut" />
@@ -850,6 +877,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetIrsaliye">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliye" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIrsaliyeFromBarcode">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliyeFromBarcode" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1069,6 +1105,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetIrsaliye">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliye" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetIrsaliyeFromBarcode">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliyeFromBarcode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
