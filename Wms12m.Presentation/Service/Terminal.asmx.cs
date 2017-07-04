@@ -943,9 +943,9 @@ namespace Wms12m
                 return new Result(false, "Görev bulunamadı !");
             //görevi bitir
             int tarih = DateTime.Today.ToOADateInt();
-            string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
-            var idx = db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), tblx.Kod, "", ComboItems.Paketle.ToInt32(), 0);
-            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "UpdatePackageBarcode", ComboItems.alDüzenle, idx.ToInt32(), "Paketle => Sevkiyat");
+            //string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
+            //var idx = db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), tblx.Kod, "", ComboItems.Paketle.ToInt32(), 0);
+            //LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "UpdatePackageBarcode", ComboItems.alDüzenle, idx.ToInt32(), "Paketle => Sevkiyat");
             //update
             var tbl = db.GorevPaketlers.Where(m => m.GorevID == GorevID).FirstOrDefault();
             tbl.SevkiyatNo = pkt.SevkiyatNo;

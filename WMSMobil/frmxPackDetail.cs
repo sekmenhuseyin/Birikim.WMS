@@ -51,7 +51,8 @@ namespace WMSMobil
                 Mesaj.Uyari("Lütfen ağırlığı yazınız");
                 return;
             }
-            var Sonuc = Servis.UpdatePackageBarcode(txtSevkNo.Text, txtPaketNo.Text, miktar, txtTip.SelectedValue.ToInt32(), agirlik, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            var pkt = new frmGorevPaket() { SevkiyatNo = txtSevkNo.Text, PaketNo = txtPaketNo.Text, Adet = miktar, Agirlik = agirlik, PaketTipiID = txtTip.SelectedValue.ToInt32() };
+            var Sonuc = Servis.UpdatePackageBarcode(pkt, GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             //sonuç işlemleri
             if (Sonuc.Status == false)
                 Mesaj.Uyari(Sonuc.Message);

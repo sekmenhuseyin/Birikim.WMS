@@ -613,13 +613,9 @@ namespace WMSMobil.TerminalService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/UpdatePackageBarcode", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Result UpdatePackageBarcode(string SevkNo, string PaketNo, decimal Miktar, int Tip, decimal Agirlik, int GorevID, int KullID, string AuthGiven, string Guid) {
+        public Result UpdatePackageBarcode(frmGorevPaket pkt, int GorevID, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("UpdatePackageBarcode", new object[] {
-                        SevkNo,
-                        PaketNo,
-                        Miktar,
-                        Tip,
-                        Agirlik,
+                        pkt,
                         GorevID,
                         KullID,
                         AuthGiven,
@@ -628,13 +624,9 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginUpdatePackageBarcode(string SevkNo, string PaketNo, decimal Miktar, int Tip, decimal Agirlik, int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginUpdatePackageBarcode(frmGorevPaket pkt, int GorevID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("UpdatePackageBarcode", new object[] {
-                        SevkNo,
-                        PaketNo,
-                        Miktar,
-                        Tip,
-                        Agirlik,
+                        pkt,
                         GorevID,
                         KullID,
                         AuthGiven,

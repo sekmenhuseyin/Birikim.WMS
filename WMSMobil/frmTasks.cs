@@ -200,10 +200,8 @@ namespace WMSMobil
         private void btnIslemYap_Click(object sender, EventArgs e)
         {
             if (GorevID == 0) return;
-            frmxPackDetail frm = new frmxPackDetail(GorevID);
+            frmxOps frm = new frmxOps(GorevID, IrsaliyeID, true, Ayarlar.MenuTip.ToInt32());
             frm.ShowDialog();
-            //frmxOps frm = new frmxOps(GorevID, IrsaliyeID, true, Ayarlar.MenuTip.ToInt32());
-            //frm.ShowDialog();
         }
         /// <summary>
         /// linke aktara basınca
@@ -250,11 +248,8 @@ namespace WMSMobil
                     frmxPackDetail frm = new frmxPackDetail(GorevID);
                     frm.ShowDialog();
                 }
-                else
-                { 
-                    Mesaj.Basari("İşlem başarıyla gerçekleşti.");
-                    btnListele_Click(sender, e);
-                }
+                Mesaj.Basari("İşlem başarıyla gerçekleşti.");
+                btnListele_Click(sender, e);
                 if (Ayarlar.Gorevler.Count == 0) this.Close();
             }
             else
