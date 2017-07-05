@@ -49,16 +49,19 @@ namespace Wms12m
         /// kullanıcıya ait müşterileri getir
         /// </summary>
         [WebMethod]
-        public List<string> GetClients(string user, int KullID, string AuthGiven, string Guid)
+        public List<frmMusteriler> GetClients(string search, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
-            if (AuthGiven.Cozumle() != AuthPass) return new List<string>();
+            if (AuthGiven.Cozumle() != AuthPass) return new List<frmMusteriler>();
             Guid = Guid.Cozumle();
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
-            if (tbl == null) return new List<string>();
+            if (tbl == null) return new List<frmMusteriler>();
             //return
-            var tblx = dby.CAR002.Where(m => m.CAR002_OzelKodu == user).Select(m => new { m.CAR002_HesapKodu, m.CAR002_Unvan1, CariTipi = m.CAR002_Kod2 }).ToList();
-            return new List<string>();
+            var tblx = dby.CAR002.Where(m => m.CAR002_OzelKodu == tbl.Kod);
+            if (search != "")
+                tblx = tblx.Where(m => m.CAR002_Unvan1.Contains(search));
+            var list = tblx.Select(m => new frmMusteriler { HesapKodu = m.CAR002_HesapKodu, Unvan = m.CAR002_Unvan1, CariTipi = m.CAR002_Kod2 }).Take(50).ToList();
+            return new List<frmMusteriler>();
         }
         /// <summary>
         /// malları getirir
@@ -72,7 +75,7 @@ namespace Wms12m
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new List<frmUrunler>();
             //return
-            var tmp = dby.STK004.Select(m => new frmUrunler { MalKodu = m.STK004_MalKodu, MalAdi = m.STK004_Aciklama, GrupKodu = m.STK004_GrupKodu, Birim1 = m.STK004_Birim1, Birim2 = m.STK004_Birim2 }).Take(20);
+            var tmp = dby.STK004.Select(m => new frmUrunler { MalKodu = m.STK004_MalKodu, MalAdi = m.STK004_Aciklama, GrupKodu = m.STK004_GrupKodu, Birim1 = m.STK004_Birim1, Birim2 = m.STK004_Birim2 }).Take(50);
             List<frmUrunler> tblx;
             if (search != "")
                 tblx = tmp.Where(m => m.MalKodu.Contains(search)).ToList();

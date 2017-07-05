@@ -29,6 +29,15 @@
         public string Birim2 { get; set; }
     }
     /// <summary>
+    /// mobil müşteri listesi
+    /// </summary>
+    public class frmMusteriler
+    {
+        public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+        public string CariTipi { get; set; }
+    }
+    /// <summary>
     /// Gorev Paketler
     /// </summary>
     public class frmGorevPaket
