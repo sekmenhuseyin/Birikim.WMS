@@ -49,7 +49,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             ViewBag.HesapKodu = HesapKodu;
             ViewBag.SipTalepNo = SipTalepNo;
-            return PartialView("SatinalmaSipGMOnay_List");
+            return PartialView("GMOnay_List");
         }
         public PartialViewResult SipGMOnayListFTD(string HesapKodu, int SipTalepNo)
         {
@@ -57,7 +57,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             ViewBag.HesapKodu = HesapKodu;
             ViewBag.SipTalepNo = SipTalepNo;
-            return PartialView("SatinalmaSipGMOnayFTD_List");
+            return PartialView("GMOnayFTD_List");
         }
         public string SipGMOnayListData(string HesapKodu, int SipTalepNo)
         {
@@ -188,7 +188,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             new SqlParameter("SipEvrakNo", SqlDbType.VarChar){Value = evrakno}
                         };
 
+                        kkp.ExecuteCommandOnUpdate(sql, true, paramlist);
+
                     }
+
 
 
                     foreach (var item in MyGlobalVariables.SipEvrak.Satirlar)
