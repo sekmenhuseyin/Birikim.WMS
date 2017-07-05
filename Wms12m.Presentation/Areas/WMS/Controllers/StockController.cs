@@ -171,6 +171,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             else
             {
                 var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+                if (tmp2 == null)
+                    return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
                 tmp2.Miktar -= tbl.Miktar;
                 Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
             }

@@ -33,7 +33,10 @@ namespace Wms12m
             {
                 try
                 {
-                    return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, Guid = m.Guid.ToString() }).FirstOrDefault();
+                    db.LogLogins(userID, AndroidID, true, "");
+                    var tbl = db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, Guid = m.Guid.ToString(), AdSoyad = m.AdSoyad }).FirstOrDefault();
+                    tbl.Guid = tbl.Guid.Sifrele();
+                    return tbl;
                 }
                 catch (Exception ex)
                 {
@@ -42,7 +45,7 @@ namespace Wms12m
                 }
             }
             else
-                db.LogLogins(userID, "Mobile", false, result.Message);
+                db.LogLogins(userID, AndroidID, false, result.Message);
             return new Login() { ID = 0, AdSoyad = "Hatalı Kullanıcı adı ve şifre" };
         }
         /// <summary>

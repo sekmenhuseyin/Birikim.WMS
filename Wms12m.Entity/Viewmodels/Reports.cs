@@ -235,4 +235,40 @@ namespace Wms12m.Entity
         public decimal Teminat { get; set; }
         public decimal TeminatAltBayi { get; set; }
     }
+
+    public class KampanyaliSatisRaporu
+    {
+        public string Chk { get; set; }
+        public string EvrakNo { get; set; }
+        public decimal ComfortMiktar { get; set; }
+        public decimal ComfortTeslimMiktar { get; set; }
+        public decimal ComfortTutar { get; set; }
+        public decimal ExculusiveMiktar { get; set; }
+        public decimal ExculusiveTeslimMiktar { get; set; }
+        public decimal ExculusiveTutar { get; set; }
+        public decimal GoldenMiktar { get; set; }
+        public decimal GoldenTeslimMiktar { get; set; }
+        public decimal GoldenTutar { get; set; }
+        public decimal LoftMiktar { get; set; }
+        public decimal LoftTeslimMiktar { get; set; }
+        public decimal LoftTutar { get; set; }
+        public decimal VintageMiktar { get; set; }
+        public decimal VintageTeslimMiktar { get; set; }
+        public decimal VintageTutar { get; set; }
+        public decimal PeliNeroFloorMiktar { get; set; }
+        public decimal PeliNeroFloorTeslimMiktar { get; set; }
+        public decimal PeliNeroFloorTutar { get; set; }
+        public decimal Bedelsiz6CmSupMiktar { get; set; }
+        public decimal Bedelsiz6CmSupTeslimMiktar { get; set; }
+        public decimal Bedelsiz6CmSupTutar { get; set; }
+        public decimal Bedelsiz8CmSupMiktar { get; set; }
+        public decimal Bedelsiz8CmSupTeslimMiktar { get; set; }
+        public decimal Bedelsiz8CmSupTutar { get; set; }
+        public decimal Bedelli6CmSupMiktar { get; set; }
+        public decimal Bedelli6CmSupTeslimMiktar { get; set; }
+        public decimal Bedelli6CmSupTutar { get; set; }
+        public decimal Bedelli8CmSupMiktar { get; set; }
+        public decimal Bedelli8CmSupTeslimMiktar { get; set; }
+        public decimal Bedelli8CmSupTutar { get; set; }
+    }
 }

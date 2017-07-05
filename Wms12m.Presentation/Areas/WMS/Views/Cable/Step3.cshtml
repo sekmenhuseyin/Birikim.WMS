@@ -81,15 +81,17 @@
                             <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />
                             <input type="hidden" name="checkboxes" id="checkboxes" value="" />
                             <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
-                            @{if (ViewBag.Yetki == true) { <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" /> } }
+                            @{if (ViewBag.Yetki == true)
+                                { <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" /> } }
                         </div>
                     </div>
-                }
+                                }
             </div>
         </div>
     </div>
 </div>
-@section Scripts{<script>
+@section Scripts{
+    <script>
     var selectall = true; var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
@@ -126,5 +128,5 @@
         list[id] = yeni;
         $(td).html(yeni.formatMoney(2));
     }
-</script>
+    </script>
 }

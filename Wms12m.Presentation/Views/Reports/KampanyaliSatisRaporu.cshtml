@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "KampanyaliSatisRaporu";
+}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <style>
+        td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+        }
+        .btn {
+            width: 120px;
+            text-align: center;
+        }
+    </style>
+}
+<div class="row" id="kampanyali-siparis-grid" style="margin-top:10px;"></div>
+@section Scripts{
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        var BekleyeSiparisRaporuUrl = "/Reports/PartialKampanyaliSatisRaporu";
+        PartialView(BekleyeSiparisRaporuUrl, 'kampanyali-siparis-grid');
+        });
+        function newrow(chk) { return "<table style='background:transparent;' id='new" + chk + "'></table>"; }
+        function format(d) {
+            $.ajax({
+                type: 'POST',
+                url: '/Reports/ChkKampanyaDetay',
+                data: { "CHK": d },
+                dataType: "html",
+                success: function (data) {
+                    $('#new' + d).html(data);
+                }
+            });
+        }
+    </script>
+}
+
+
+
+

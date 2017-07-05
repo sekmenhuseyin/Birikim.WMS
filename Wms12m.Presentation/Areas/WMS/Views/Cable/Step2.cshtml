@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Kablo Sipariş Planlama - 2. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int DepoID = ViewBag.KabloDepoID;
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Cable">Kablo Sipariş Planlama</a><i class="fa fa-circle"></i></li><li><span>2. Adım</span></li></ul></div>
 <h1 class="page-title">Kablo Sipariş Planlama- 2. Adım</h1>
 <div class="row">
@@ -81,55 +80,56 @@
         </div>
     </div>
 </div>
-@section Scripts{<script>
-    var selected = ""; var selectall = true;
-    $(document).ready(function () {
-        var table = $('#sample_2').DataTable({
-            "ordering": false,
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [7], "visible": false, "searchable": false }],
-            initComplete: function () {
-                this.api().columns([0, 1]).every(function () {
-                    var column = this;
-                    var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
-                        .appendTo($(column.header()))
-                        .on('change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            column.search(val ? '^' + val + '$' : '', true, false).draw();
-                        });
-                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
-                });
-            }
-        });
-        $("#selector").click(function () {
-            selected = "";
-            if (selectall == true) {
-                $("#selector").text("Seçimi İptal Et"); selectall = false;
-                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
-                    selected = selected + this.data()[0] + "#";
-                    this.select();
-                });
-            }
-            else {
-                $("#selector").text("Hepsini Seç"); selectall = true;
-                table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
-            }
-            $("#checkboxes").val(selected);
-        });
-        $(".submit").click(function () {
-            var result = false;
-            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-                result = true;
+@section Scripts{
+    <script>
+        var selected = ""; var selectall = true;
+        $(document).ready(function () {
+            var table = $('#sample_2').DataTable({
+                "ordering": false,
+                "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+                "columnDefs": [{ "targets": [7], "visible": false, "searchable": false }],
+                initComplete: function () {
+                    this.api().columns([0, 1]).every(function () {
+                        var column = this;
+                        var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
+                            .appendTo($(column.header()))
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                                column.search(val ? '^' + val + '$' : '', true, false).draw();
+                            });
+                        column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
+                    });
+                }
             });
-            if (result == true) $("#submit").click();
-            else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+            $("#selector").click(function () {
+                selected = "";
+                if (selectall == true) {
+                    $("#selector").text("Seçimi İptal Et"); selectall = false;
+                    table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
+                        selected = selected + this.data()[7] + "#";
+                        this.select();
+                    });
+                }
+                else {
+                    $("#selector").text("Hepsini Seç"); selectall = true;
+                    table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
+                }
+                $("#checkboxes").val(selected);
+            });
+            $(".submit").click(function () {
+                var result = false;
+                table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+                    result = true;
+                });
+                if (result == true) $("#submit").click();
+                else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+            });
         });
-    });
-    function toggle(row, id) {
-        $(row).toggleClass('selected');
-        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
-        else selected = selected.replace(id + "#", "");
-        $("#checkboxes").val(selected);
-    }
-</script>
+        function toggle(row, id) {
+            $(row).toggleClass('selected');
+            if ($(row).hasClass('selected') == true) selected = selected + id + "#";
+            else selected = selected.replace(id + "#", "");
+            $("#checkboxes").val(selected);
+        }
+    </script>
 }
