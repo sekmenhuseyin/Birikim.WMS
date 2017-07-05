@@ -1,0 +1,71 @@
+﻿@model IEnumerable<KampanyaliSatisRaporu>
+<tr style='background: transparent;'>
+    <th>Hesap Kodu</th>
+    <th>Evrak No</th>
+    <th>Comfort Miktar</th>
+    <th>Comfort Teslim Miktar</th>
+    <th>Comfort Tutar</th>
+    <th>Exculusive Miktar</th>
+    <th>Exculusive Teslim Miktar</th>
+    <th>Exculusive Tutar</th>
+    <th>Golden Miktar</th>
+    <th>Golden Teslim Miktar</th>
+    <th>Golden Tutar</th>
+    <th>Loft Miktar</th>
+    <th>Loft Teslim Miktar</th>
+    <th>Loft Tutar</th>
+    <th>Vintage Miktar</th>
+    <th>Vintage Teslim Miktar</th>
+    <th>Vintage Tutar</th>
+    <th>Peli NeroFloor Miktar</th>
+    <th>Peli NeroFloor Teslim Miktar</th>
+    <th>Peli NeroFloor Tutar</th>
+    <th>Bedelsiz 6cm Süpürgelik Miktar</th>
+    <th>Bedelsiz 6cm Süpürgelik Teslim Miktar</th>
+    <th>Bedelsiz 6cm Süpürgelik Tutar</th>
+    <th>Bedelsiz 8cm Süpürgelik Miktar</th>
+    <th>Bedelsiz 8cm Süpürgelik Teslim Miktar</th>
+    <th>Bedelsiz 8cm Süpürgelik Tutar</th>
+    <th>Bedelli 6cm Süpürgelik Miktar</th>
+    <th>Bedelli 6cm Süpürgelik Teslim Miktar</th>
+    <th>Bedelli 6cm Süpürgelik Tutar</th>
+    <th>Bedelli 8cm Süpürgelik Miktar</th>
+    <th>Bedelli 8cm Süpürgelik Teslim Miktar</th>
+    <th>Bedelli 8cm Süpürgelik Tutar</th>
+</tr>
+@foreach (var item in Model)
+{<tr style='background: transparent;'>
+     <td>@item.Chk</td>
+     <td>@item.EvrakNo</td>
+     <td  align="right">@String.Format("{0:0.00}", item.ComfortMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.ComfortTeslimMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.ComfortTutar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.ExculusiveMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.ExculusiveTeslimMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.ExculusiveTutar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.GoldenMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.GoldenTeslimMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.GoldenTutar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.LoftMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.LoftTeslimMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.LoftTutar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.VintageMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.VintageTeslimMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.VintageTutar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.PeliNeroFloorMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.PeliNeroFloorTeslimMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.PeliNeroFloorTutar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupTutar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupTutar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelli6CmSupMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelli6CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelli6CmSupTutar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
+     <td  align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupTutar).ToDecimal().ToOnFormat()</td>
+</tr>
+}
