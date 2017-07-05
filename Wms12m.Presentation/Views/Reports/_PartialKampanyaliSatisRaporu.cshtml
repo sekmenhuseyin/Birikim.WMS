@@ -261,7 +261,7 @@
             var x = table.rows('.aa').data();
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-            else { row.child(newrow(x[0][1].toString().replace(/\s/g, ''))).show(); format(x[0][1].toString().replace(/\s/g, '')); tr.addClass('shown'); }
+            else { row.child(newrow(x[0][1].toString().replace(/\s/g, ''))).show(); format(x[0][1]); tr.addClass('shown'); }
         });
         setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
     });

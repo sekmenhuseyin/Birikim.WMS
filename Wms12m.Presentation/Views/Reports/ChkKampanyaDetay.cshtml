@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<KampanyaliSatisRaporu>
-<tr style='background: transparent;'>
+<tr style='background: transparent;color:#c3a0a0;'>
     <th>Hesap Kodu</th>
     <th>Evrak No</th>
     <th>Comfort Miktar</th>
@@ -34,7 +34,7 @@
     <th>Bedelli 8cm Süpürgelik Tutar</th>
 </tr>
 @foreach (var item in Model)
-{<tr style='background: transparent;'>
+{<tr class="detay" style='background: transparent;'>
      <td>@item.Chk</td>
      <td>@item.EvrakNo</td>
      <td  align="right">@String.Format("{0:0.00}", item.ComfortMiktar).ToDecimal().ToOnFormat()</td>
@@ -69,3 +69,111 @@
      <td  align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupTutar).ToDecimal().ToOnFormat()</td>
 </tr>
 }
+<script>
+    $(".detay").dblclick(function () {
+        var CHK = $(this).find("td").eq(0).text();
+        var EvrakNo = $(this).find("td").eq(1).text();
+        $.ajax({
+            type: 'POST',
+            url: '/Reports/SiparisKampanyaDetay',
+            data: { "CHK": x[0][1], "EvrakNo": },
+            dataType: "html",
+            success: function (data) {
+                $('#x-modal-bakiye-detay').modal("show");
+                var result = JSON.parse(data);
+                var columns = [
+                    { caption: 'EvrakNo', dataField: 'EvrakNo' },
+                    { caption: 'EvrakNo', dataField: 'EvrakNo' },
+                    { caption: 'Borç', dataField: 'Borc', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak', dataField: 'Alacak', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Borç Bakiye', dataField: 'BorcBakiye', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak Bakiye', dataField: 'AlacakBakiye', format: 'fixedPoint', precision: 2 }
+                    { caption: 'Borç', dataField: 'Borc', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak', dataField: 'Alacak', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Borç Bakiye', dataField: 'BorcBakiye', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak Bakiye', dataField: 'AlacakBakiye', format: 'fixedPoint', precision: 2 }
+                    { caption: 'Borç', dataField: 'Borc', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak', dataField: 'Alacak', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Borç Bakiye', dataField: 'BorcBakiye', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak Bakiye', dataField: 'AlacakBakiye', format: 'fixedPoint', precision: 2 }
+                    { caption: 'Borç', dataField: 'Borc', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak', dataField: 'Alacak', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Borç Bakiye', dataField: 'BorcBakiye', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak Bakiye', dataField: 'AlacakBakiye', format: 'fixedPoint', precision: 2 }
+                    { caption: 'Borç', dataField: 'Borc', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak', dataField: 'Alacak', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Borç Bakiye', dataField: 'BorcBakiye', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak Bakiye', dataField: 'AlacakBakiye', format: 'fixedPoint', precision: 2 }
+                    { caption: 'Borç', dataField: 'Borc', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak', dataField: 'Alacak', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Borç Bakiye', dataField: 'BorcBakiye', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak Bakiye', dataField: 'AlacakBakiye', format: 'fixedPoint', precision: 2 }
+                    { caption: 'Borç', dataField: 'Borc', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Alacak', dataField: 'Alacak', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Borç Bakiye', dataField: 'BorcBakiye', format: 'fixedPoint', precision: 2 },
+                ];
+                _grid_quotations_detail = $('.grid_bakiye-detay').dxDataGrid({
+                    dataSource: result,
+                    height: 400,
+                    paging: { pageSize: 5000 },
+                    columns: columns,
+                    headerFilter: {
+                        visible: true
+                    },
+                    popupDetailedWindow: true,
+                    columnAutoWidth: true,
+                    pagingCounter: true,
+                    filterRow: {
+                        visible: true,
+                        applyFilter: 'auto',
+                        applyFilterText: 'Apply filter',
+                        resetOperationText: 'Reset'
+                    },
+                    scrolling: {
+                        scrollByContent: true,
+                        scrollByThumb: true
+                    },
+                    allowColumnReordering: true,
+                    allowColumnResizing: true,
+                    remoteOperations: true,
+                    showRowLines: true,
+                    hoverStateEnabled: true,
+                    rowAlternationEnabled: false,
+                    sorting: {
+                        mode: "multiple",
+                    },
+                    //onRowPrepared: function (info) {
+                    //    if (info.rowType == 'data') {
+
+                    //        if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
+                    //            info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
+                    //        else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
+                    //            info.rowElement.css({ "background-color": "green", "color": "white" });
+                    //        else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
+                    //            info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
+                    //    }
+
+                    //},
+                    onRowClick: function (opt) {
+                        if (opt.rowType == "data") {
+                            var component = opt.component;
+                            var prevClickTime = component.lastClickTime;//take last clicked time
+                            component.lastClickTime = new Date();
+                            if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+                                //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
+                            }
+                        }
+                    },
+                    onCellPrepared: function (info) {
+                        if (info.rowType == "data") {
+                            if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
+                                info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
+                            }
+                        }
+                    }
+                }).dxDataGrid("instance");
+            }
+        });
+    });
+
+</script>
