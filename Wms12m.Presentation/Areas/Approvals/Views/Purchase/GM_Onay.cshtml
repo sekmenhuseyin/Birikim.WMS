@@ -193,6 +193,15 @@
                 data: {},
                 type: "post",
                 success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Onay İşlemi", "Tamam", "Onay");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
                 }
             });
         });
@@ -203,6 +212,15 @@
                 data: {},
                 type: "post",
                 success: function (data) {
+                    if (data.Status == true) {
+                        Modaldialog(data.Message, "Red İşlemi", "Tamam", "Red");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
+                    else {
+                        if (data.Message == "") data.Message = "Hata oluştu";
+                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                        setTimeout(function () { window.location.reload(); }, 500);
+                    }
                 }
             });
         });
