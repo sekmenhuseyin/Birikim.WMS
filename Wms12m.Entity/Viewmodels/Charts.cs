@@ -63,6 +63,58 @@ namespace Wms12m.Entity
     }
     public class RaporGunlukSatis
     {
+        public string Chk { get; set; }
+
+        public string Chk2 { get; set; }
+
+        public string Unvan { get; set; }
+
+        public string BaglantiTipi { get; set; }
+
+        public string BaglantiNo { get; set; }
+
+        public string SatisTemsilcisi { get; set; }
+
+        public string GrupKod { get; set; }
+
+        public string MalKodu { get; set; }
+
+        public string MalAdi { get; set; }
+
+        public string Kalite { get; set; }
+
+        public System.Nullable<System.DateTime> IslemTarihi { get; set; }
+
+        public string EvrakNo { get; set; }
+
+        public string Birim { get; set; }
+
+        public decimal BirimMiktar { get; set; }
+
+        public string AnaBirim { get; set; }
+
+        public System.Nullable<double> AnaBirimMiktar { get; set; }
+
+        public decimal AdetCikisMiktar { get; set; }
+
+        public decimal M2CikisMiktar { get; set; }
+
+        public decimal KGCikisMiktar { get; set; }
+
+        public System.Nullable<decimal> M3CikisMiktar { get; set; }
+
+        public decimal MTCikisMiktar { get; set; }
+
+        public System.Nullable<decimal> NetBirimFiyat { get; set; }
+
+        public System.Nullable<decimal> NetTutar { get; set; }
+
+        public decimal KDV { get; set; }
+
+        public System.Nullable<decimal> GenelToplam { get; set; }
+    }
+    public class RaporGunlukSatis2
+    {
         /// <summary> VarChar(20) (Not Null) </summary>
         public string Chk { get; set; }
         /// <summary> VarChar(81) (Not Null) </summary>
@@ -121,6 +173,7 @@ namespace Wms12m.Entity
         public decimal KritikStok { get; set; }
         public string SonFaturaNo { get; set; }
         public string SonFaturaTarihi { get; set; }
+        public string SonUretimTarihi { get; set; }
         public decimal SonSatisMiktari { get; set; }
         public string SonSatisMiktariBirim { get; set; }
     }
@@ -157,6 +210,20 @@ namespace Wms12m.Entity
         public string Birim2 { get; set; }
         public Nullable<decimal> StokMiktarBirim3 { get; set; }
         public string Birim3 { get; set; }
+    }
+    public class RaporToplamRiskBakiyesi1
+    {
+        private string _HesapKodu;
+
+        private string _Ünvan;
+
+        private decimal _Borç;
+
+        private decimal _Alacak;
+
+        private decimal _Bakiye;
+
+        private System.Nullable<decimal> _ToplamBakiye;
     }
     public class RaporToplamRiskBakiyesi
     {
@@ -339,6 +406,32 @@ namespace Wms12m.Entity
     public class RaporCekListesi
     {
         public string EvrakNo { get; set; }
+
+        public System.Nullable<System.DateTime> Tarih { get; set; }
+
+        public string Chk { get; set; }
+
+        public string Unvan1 { get; set; }
+
+        public decimal Tutar { get; set; }
+
+        public System.Nullable<System.DateTime> VadeTarih { get; set; }
+
+        public System.Nullable<System.DateTime> KayitTarih { get; set; }
+
+        public string Pozisyon { get; set; }
+
+        public string BorcluUnvan1 { get; set; }
+
+        public string SonPozisyon { get; set; }
+
+        public string VerildigiYer { get; set; }
+
+        public string VerildigiYerUnvan { get; set; }
+    }
+    public class RaporCekListesi1
+    {
+        public string EvrakNo { get; set; }
         public string Tarih { get; set; }
         public string Chk { get; set; }
         public string Unvan1 { get; set; }
@@ -352,6 +445,95 @@ namespace Wms12m.Entity
         public string VerildigiYerUnvan { get; set; }
     }
     public class RaporCariEkstre
+    {
+        public int ID { get; set; }
+
+        public string EvrakNo { get; set; }
+
+        public System.Nullable<System.DateTime> Tarih { get; set; }
+
+        public string IslemTip { get; set; }
+
+        public System.Nullable<System.DateTime> VadeTarih { get; set; }
+
+        public System.Nullable<decimal> Borc { get; set; }
+
+        public System.Nullable<decimal> Alacak { get; set; }
+
+        public System.Nullable<decimal> BorcBakiye { get; set; }
+
+        public System.Nullable<decimal> AlacakBakiye { get; set; }
+    }
+
+    public class RaporCariEkstreCek
+    {
+        public string BorcluUnvan { get; set; }
+
+        public string Tutar { get; set; }
+
+        public string VadeTarihi { get; set; }
+
+        public string Sehir { get; set; }
+
+        public string Banka { get; set; }
+
+        public string Sube { get; set; }
+
+        public string CekNo { get; set; }
+    }
+    public class RaporCariEkstreFatura
+    {
+        public string EvrakNo { get; set; }
+
+        public string MalKodu { get; set; }
+
+        public string MalAdi { get; set; }
+
+        public string Miktar { get; set; }
+
+        public string Birim { get; set; }
+
+        public string BirimFiyat { get; set; }
+
+        public string Tutar { get; set; }
+
+        public string IskontoOran1 { get; set; }
+
+        public string IskontoOran2 { get; set; }
+
+        public string IskontoOran3 { get; set; }
+
+        public string IskontoOran4 { get; set; }
+
+        public string IskontoOran5 { get; set; }
+
+        public string ToplamIskonto { get; set; }
+
+        public string NetTutar { get; set; }
+    }
+    public class RaporCariEkstreDiger
+    {
+        public string HesapKodu { get; set; }
+
+        public string Unvan { get; set; }
+
+        public string EvrakNo { get; set; }
+
+        public string KarsiHesapKodu { get; set; }
+
+        public string KarsiEvrakNo { get; set; }
+
+        public string Aciklama { get; set; }
+
+        public string Tutar { get; set; }
+
+        public string VadeTarihi { get; set; }
+    }
+
+
+
+
+    public class RaporCariEkstre1
     {
         public int ID { get; set; }
         public string EvrakNo { get; set; }

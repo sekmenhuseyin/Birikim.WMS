@@ -9,14 +9,14 @@
             <div class="caption">
                 <i class="fa fa-gift"></i>Bakiye
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Yenile </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Export Data </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Export Data </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Temizle </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
             </div>
 
         </div>
@@ -26,7 +26,7 @@
                 <table class="table table-striped table-bordered table-condensed" id="sample_1">
                     <thead>
                         <tr>
-                            <th nowrap>Detay</th>
+                            <th nowrap  style="width:20px;"></th>
                             <th nowrap>Hesap Kodu</th>
                             <th nowrap>Ünvan</th>
                             <th nowrap>Borç</th>
@@ -35,16 +35,24 @@
 
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr>
+                            <th nowrap colspan="3"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                        </tr>
+                    </tfoot>
                     <tbody>
                         @foreach (var item in Model)
             {
                             <tr>
-                                <td nowrap> </td>
+                                <td nowrap class='details-control' style="width:20px;"> </td>
                                 <td nowrap>@item.HesapKodu</td>
                                 <td nowrap>@item.Unvan</td>
-                                <td nowrap align="right">@item.Borc.ToOnFormat()</td>
-                                <td nowrap align="right">@item.Alacak.ToOnFormat()</td>
-                                <td nowrap align="right">@item.Bakiye.ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.Borc).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.Alacak).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.Bakiye).ToDecimal().ToOnFormat()</td>
 
                             </tr>
                         }
@@ -57,7 +65,157 @@
 </div>
 <script>
     $(document).ready(function () {
+        DevExpress.ui.dxOverlay.baseZIndex(20000);
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        table =$('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                };
+
+                alacaktotal = api
+                    .column(3)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                borctotal = api
+                    .column(4)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+                aa = api
+                    .column(5)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+
+                // Update footer
+                $(api.column(3).footer()).html(
+                    ondalikBinlik(alacaktotal, 2)
+                );
+                $(api.column(4).footer()).html(
+                    ondalikBinlik(borctotal, 2)
+                );
+                $(api.column(5).footer()).html(
+                    ondalikBinlik(aa, 2)
+                );
+            }
+        });
+        $('#sample_1 tbody').on('click', '.details-control', function () {
+            var tr = $(this).closest('tr');
+            table
+                .rows('.aa')
+                .nodes()
+                .to$()      // Convert to a jQuery object
+                .removeClass('aa');
+            tr.addClass("aa");
+            var x = table.rows('.aa').data();
+            $.ajax({
+                type: 'POST',
+                url: '/Reports/BakiyeDetay',
+                data: { "CHK": x[0][1] },
+                dataType: "html",
+                success: function (data) {
+                    $('#x-modal-bakiye-detay').modal("show");
+                    var result = JSON.parse(data);
+                    var columns = [
+                        {
+                            caption: 'Tarih', dataField: 'Tarih',
+                            customizeText: function (cellInfo) {
+                                if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+                            }   
+                        },
+                        { caption: 'EvrakNo', dataField: 'EvrakNo' },
+                        { caption: 'İşlem Tipi', dataField: 'IslemTip' },
+                        {
+                            caption: 'Vade Tarihi', dataField: 'VadeTarih',
+                             customizeText: function (cellInfo) {
+                                if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+                            } 
+                        },
+                        { caption: 'Borç', dataField: 'Borc', format: 'fixedPoint',precision: 2 },
+                        { caption: 'Alacak', dataField: 'Alacak', format: 'fixedPoint', precision: 2  },
+                        { caption: 'Borç Bakiye', dataField: 'BorcBakiye', format: 'fixedPoint', precision: 2  },
+                        { caption: 'Alacak Bakiye', dataField: 'AlacakBakiye', format: 'fixedPoint', precision: 2  }
+                    ];
+                    _grid_quotations_detail = $('.grid_bakiye-detay').dxDataGrid({
+                        dataSource: result,
+                        height: 400,
+                        paging: { pageSize: 5000 },
+                        columns: columns,
+                        headerFilter: {
+                            visible: true
+                        },
+                        popupDetailedWindow: true,
+                        columnAutoWidth: true,
+                        pagingCounter: true,
+                        filterRow: {
+                            visible: true,
+                            applyFilter: 'auto',
+                            applyFilterText: 'Apply filter',
+                            resetOperationText: 'Reset'
+                        },
+                        scrolling: {
+                            scrollByContent: true,
+                            scrollByThumb: true
+                        },
+                        allowColumnReordering: true,
+                        allowColumnResizing: true,
+                        remoteOperations: true,
+                        showRowLines: true,
+                        hoverStateEnabled: true,
+                        rowAlternationEnabled: false,
+                        sorting: {
+                            mode: "multiple",
+                        },
+                        //onRowPrepared: function (info) {
+                        //    if (info.rowType == 'data') {
+
+                        //        if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
+                        //            info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
+                        //        else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
+                        //            info.rowElement.css({ "background-color": "green", "color": "white" });
+                        //        else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
+                        //            info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
+                        //    }
+
+                        //},
+                        onRowClick: function (opt) {
+                            if (opt.rowType == "data") {
+                                var component = opt.component;
+                                var prevClickTime = component.lastClickTime;//take last clicked time
+                                component.lastClickTime = new Date();
+                                if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+                                    //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
+                                }
+                            }
+                        },
+                        onCellPrepared: function (info) {
+                            if (info.rowType == "data") {
+                                if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
+                                    info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
+                                }
+                            }
+                        }
+                    }).dxDataGrid("instance");
+                }
+            });
+            //var row = table.row(tr);
+            //if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            //else { row.child(newrow(x[0][1].toString().replace(/ /g, ''))).show(); format(x[0][1].toString().replace("/", "")); tr.addClass('shown'); }
+        });
+
+    
+        setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
+        
     });
 </script>

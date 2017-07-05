@@ -4,6 +4,14 @@
     ViewBag.Title = "CariEkstre";
 }@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <style>
+    td.details-control {
+        background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+    }
     .dx-lookup {
         margin: 0;
         height: 29px;
@@ -41,14 +49,71 @@
     </div>
 
 </div>
-<div id="cari-extre-grid" style="margin-top:20px;"></div>
+<div class="row" id="cari-extre-grid" style="margin-top:20px;"></div>
+<div class="modal fade" id="x-modal-cari-detay-cek" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" style="width:950px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#12ccee">CARİ DETAY</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="grid_cari-detay-cek">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn red" data-dismiss="modal" id="mdlCekKapat">Kapat</button>
+                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="x-modal-cari-detay-fatura" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" style="width:950px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#12ccee">CARİ DETAY</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="grid_cari-detay-fatura">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn red" data-dismiss="modal" id="mdlFaturaKapat">Kapat</button>
+                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="x-modal-cari-detay-diger" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" style="width:950px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#12ccee">CARİ DETAY</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="grid_cari-detay-diger">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn red" data-dismiss="modal" id="mdlDigerKapat">Kapat</button>
+                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
 <script>
-
+    var chk = "";
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));
-        var chk = "";
+        
 
         $(".chk-select").dxLookup({
             dataSource: model,

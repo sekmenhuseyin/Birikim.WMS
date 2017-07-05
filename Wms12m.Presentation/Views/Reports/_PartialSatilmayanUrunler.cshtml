@@ -9,14 +9,14 @@
             <div class="caption">
                 <i class="fa fa-gift"></i>Satılmayan Ürünler
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Yenile </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Export Data </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Export Data </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Temizle </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
             </div>
 
         </div>
@@ -31,9 +31,25 @@
                         <th nowrap>Mal Adı</th>
                         <th nowrap>Birim</th>
                         <th nowrap>Stok Miktar</th>
+                        <th nowrap>Kriti Stok</th>
+                        <th nowrap>Son Fatura No</th>
+                        <th nowrap>Son Fatura Tarih</th>
+                        <th nowrap>Son Üretim Tarihi</th>
+                        <th nowrap>Son Satış Miktarı</th>
+                        <th nowrap>Son Satış Birimi</th>
 
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th nowrap colspan="3"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap colspan="3"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                    </tr>
+                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
             {
@@ -43,6 +59,12 @@
                             <td nowrap>@item.MalAdi</td>
                             <td nowrap>@item.Birim</td>
                             <td nowrap align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.KritikStok</td>
+                            <td nowrap>@item.SonFaturaNo</td>
+                            <td nowrap>@item.SonFaturaTarihi</td>
+                            <td nowrap align="right">@item.SonUretimTarihi</td>
+                            <td nowrap>@item.SonSatisMiktari</td>
+                            <td nowrap>@item.SonSatisMiktariBirim</td>
                         </tr>
                     }
                 </tbody>
@@ -54,6 +76,53 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                };
+
+                // Total over all pages
+                miktartotal = api
+                    .column(3)
+                    .data()
+                    .reduce(function (a, b) {
+                        console.log(a);
+                        console.log(intVal(b));
+                        return a + intVal(b);
+                    }, 0);
+
+                anaMiktartotal = api
+                    .column(4)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                sevkedilentotal = api
+                    .column(8)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+         
+
+                // Update footer
+                $(api.column(3).footer()).html(
+                    ondalikBinlik(miktartotal, 6)
+                );
+                $(api.column(4).footer()).html(
+                    ondalikBinlik(anaMiktartotal, 6)
+                );
+                $(api.column(8).footer()).html(
+                    ondalikBinlik(sevkedilentotal, 6)
+                );
+            }
+        });
     });
 </script>

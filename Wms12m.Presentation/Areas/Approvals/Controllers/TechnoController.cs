@@ -15,7 +15,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         // GET: Approvals/Techno
         public ActionResult Index(string onayRed)
         {
-            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Reading) == false) return Redirect("/");
             MyGlobalVariables.Birim = vUser.RoleName;
             if (onayRed == null)
             {

@@ -3,20 +3,21 @@
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
 }
+
 <div class="col-md-12" style="width:100%;">
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
                 <i class="fa fa-gift"></i>Bekleyen Sipariş
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Yenile </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Export Data </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Export Data </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Temizle </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
             </div>
 
         </div>
@@ -46,11 +47,10 @@
                             <th nowrap>Kalan Ana Birim</th>
                             <th nowrap>Bağlantı Tipi</th>
                             <th nowrap>Fiyat Liste No</th>
+                            <th nowrap>Liste Fiyatı</th>
                             <th nowrap>Döviz Cinsi</th>
+                            <th nowrap>Sözleşme Şartları</th>
                             <th nowrap>Net Fiyat</th>
-                            <th nowrap>Tutar</th>
-                            <th nowrap>Toplam İskonto</th>
-                            <th nowrap>KDV</th>
                             <th nowrap>KDVsiz Tutar</th>
                             <th nowrap>KDVli Tutar</th>
                             <th nowrap>KDVsiz KalanTutar</th>
@@ -59,6 +59,12 @@
                             <th nowrap>Stok Birim</th>
                             <th nowrap>Stok Ana Miktar</th>
                             <th nowrap>Stok Ana Birim</th>
+                            @*<th nowrap>Tutar</th>
+                            <th nowrap>Toplam İskonto</th>
+                            <th nowrap>KDV</th>*@
+                            
+                            
+                            
                             <th nowrap>Teslim Tarihi</th>
                             <th nowrap>Teslim Tarihi Durum</th>
                             <th nowrap>Satış Temsilcisi</th>
@@ -75,7 +81,7 @@
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
-                            <th nowrap colspan="5" style="text-align:right;"></th>
+                            <th nowrap colspan="7"></th>
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
@@ -101,16 +107,16 @@
                             <td nowrap>@item.AnaBirim</td>
                             <td nowrap align="right">@item.SevkedilenMiktar.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.KalanMiktar.ToDecimal().ToOnFormat()</td>
-                            <td nowrap>@item.KalanAnaBirim</td>
-                            <td nowrap align="right">@item.KalanBirimMiktar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.KalanBirim</td>
+                            <td nowrap align="right">@item.KalanAnaMiktar.ToDecimal().ToOnFormat()</td>
+                            @*<td nowrap align="right">@if (item.KalanAnaMiktar.ToString().Split(',').Length > 1) item.KalanAnaMiktar.ToDecimal().ToOnFormat()  else item.KalanAnaMiktar.ToString() + "000000"  </td>*@
                             <td nowrap>@item.KalanAnaBirim</td>
                             <td nowrap>@item.BaglantiTipi</td>
                             <td nowrap>@item.FiyatListeNo</td>
+                            <td nowrap align="right">@item.FYTFiyat.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.FYTDovizCinsi</td>
+                            <td nowrap>@item.SozlesmeSartlari</td>
                             <td nowrap align="right">@item.NetFiyat.ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
-                            <td nowrap>@item.ToplamIskonto.ToDecimal().ToOnFormat()</td>
-                            <td nowrap>@item.KDV.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.KDVSizTutar.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.KDVliTutar.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.KDVSizKalanTutar.ToDecimal().ToOnFormat()</td>
@@ -119,6 +125,12 @@
                             <td nowrap>@item.StokBirim</td>
                             <td nowrap align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.StokAnaBirim</td>
+                            @*<td nowrap align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.ToplamIskonto.ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.KDV.ToDecimal().ToOnFormat()</td>*@
+                          
+                            
+                           
                             @*<td nowrap>@if (item.TeslimTarih != null) { @item.TeslimTarih.Value.ToString("dd/MM/yyyy")} else {}</td>*@
                             <td nowrap>@item.TeslimTarih</td>
                             <td nowrap>@item.TeslimTarihDurum</td>
@@ -183,27 +195,27 @@
                     }, 0);
 
                 kdvliTutartotal = api
-                    .column(21)
+                    .column(23)
                     .data()
                     .reduce(function (a, b) {
                         return a + intVal(b);
                     }, 0);
 
                 kdvsizTutartotal = api
-                    .column(22)
+                    .column(24)
                     .data()
                     .reduce(function (a, b) {
                         return a + intVal(b);
                     }, 0);
 
                 kdvlikalantotal = api
-                    .column(23)
+                    .column(25)
                     .data()
                     .reduce(function (a, b) {
                         return a + intVal(b);
                     }, 0);
                 kdvsizkalantotal = api
-                    .column(24)
+                    .column(26)
                     .data()
                     .reduce(function (a, b) {
                         return a + intVal(b);
@@ -226,16 +238,16 @@
                 $(api.column(15).footer()).html(
                     ondalikBinlik(anakalantotal, 6)
                 );
-                $(api.column(21).footer()).html(
+                $(api.column(23).footer()).html(
                     ondalikBinlik(kdvliTutartotal, 6)
                 );
-                $(api.column(22).footer()).html(
+                $(api.column(24).footer()).html(
                     ondalikBinlik(kdvsizTutartotal, 6)
                 );
-                $(api.column(23).footer()).html(
+                $(api.column(25).footer()).html(
                     ondalikBinlik(kdvlikalantotal, 6)
                 );
-                $(api.column(24).footer()).html(
+                $(api.column(26).footer()).html(
                     ondalikBinlik(kdvsizkalantotal, 6)
                 );
             }

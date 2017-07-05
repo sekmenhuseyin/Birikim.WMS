@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<MenuGetirici_Result>
 @{ var ilkbittimi = false; }
-<ul class="@if (ViewBag.ustMenu == 0) {<text>page-sidebar-menu page-header-fixed</text>} else { <text>sub-menu</text> }">@{
+<ul class="@if (ViewBag.ustMenu == 0) {<text>page-sidebar-menu page-header-fixed</text>} else { <text>sub-menu</text> }" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">@{
 if (ViewBag.ustMenu == 0) {<text><li class="sidebar-toggler-wrapper hide"><div class="sidebar-toggler"><span></span></div></li></text>}
 foreach (var item in Model)
 {

@@ -455,9 +455,18 @@
                     { caption: 'Ürün Adı', dataField: 'MalAdi' },
                     { caption: 'Hesap Kodu', dataField: 'HesapKodu'},
                     { caption: 'Unvan', dataField: 'Unvan'},
-                    { caption: 'Satış Fiyat', dataField: 'SatisFiyat1' },
+                    {
+                        caption: 'Satış Fiyat', dataField: 'SatisFiyat1', format: 'fixedPoint', precision: 2,
+                        customizeText: function (cellInfo) {
+                            return ondalikBinlik(cellInfo.value, 2)
+                        }
+                    },
                     { caption: 'Satış Fiyat Birim', dataField: 'SatisFiyat1Birim'},
-                    { caption: 'Döviz Satış Fiyat', dataField: 'DovizSatisFiyat1',  },
+                    {
+                        caption: 'Döviz Satış Fiyat', dataField: 'DovizSatisFiyat1', format: 'fixedPoint', precision: 2,
+                        customizeText: function (cellInfo) {
+                            return ondalikBinlik(cellInfo.value,2)
+                        } },
                     { caption: 'Döviz Satış Fiyat Birim', dataField: 'DovizSF1Birim' },
                     { caption: 'Döviz Cinsi', dataField: 'DovizCinsi' },
                     ];
@@ -491,18 +500,18 @@
                         sorting: {
                             mode: "multiple",
                         },
-                        onRowPrepared: function (info) {
-                            if (info.rowType == 'data') {
+                        //onRowPrepared: function (info) {
+                        //    if (info.rowType == 'data') {
 
-                                if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
-                                    info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
-                                else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
-                                    info.rowElement.css({ "background-color": "green", "color": "white" });
-                                else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
-                                    info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
-                            }
+                        //        if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
+                        //            info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
+                        //        else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
+                        //            info.rowElement.css({ "background-color": "green", "color": "white" });
+                        //        else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
+                        //            info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
+                        //    }
 
-                        },
+                        //},
                         onRowClick: function (opt) {
                             if (opt.rowType == "data") {
                                 var component = opt.component;
@@ -512,14 +521,14 @@
                                     //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
                                 }
                             }
-                        },
-                        onCellPrepared: function (info) {
-                            if (info.rowType == "data") {
-                                if (info.column.dataField == "Durum" && info.value == "Yeni Kayıt") {
-                                    info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
-                                }
-                            }
                         }
+                        //onCellPrepared: function (info) {
+                        //    if (info.rowType == "data") {
+                        //        if (info.column.dataField == "Durum" && info.value == "Yeni Kayıt") {
+                        //            info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
+                        //        }
+                        //    }
+                        //}
                     }).dxDataGrid("instance");
 
                 }

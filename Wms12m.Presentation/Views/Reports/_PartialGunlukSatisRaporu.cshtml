@@ -9,14 +9,14 @@
             <div class="caption">
                 <i class="fa fa-gift"></i>Günlük Satış Raporu
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Yenile </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Export Data </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Export Data </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Temizle </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
             </div>
 
         </div>
@@ -32,8 +32,10 @@
                         <th nowrap>Bağlantı Tipi</th>
                         <th nowrap>Bağlantı No</th>
                         <th nowrap>Satış Temsilcisi</th>
+                        <th nowrap>Grup Kod</th>
                         <th nowrap>Mal Kodu</th>
                         <th nowrap>Mal Adı</th>
+                        <th nowrap>Kalite</th>
                         <th nowrap>İşlem Tarihi</th>
                         <th nowrap>Evrak No</th>
 
@@ -41,12 +43,38 @@
 
                         <th nowrap>Birim</th>
                         <th nowrap>Birim Miktar</th>
+
+                        <th nowrap>Ana Birim</th>
+                        <th nowrap>Ana Birim Miktar</th>
+                        <th nowrap>Adet Cikis Miktar</th>
+                        <th nowrap>MT Cikis Miktar</th>
+                        <th nowrap>M2 Cikis Miktar</th>
+                        <th nowrap>M3 Cikis Miktar</th>
+                        <th nowrap>KG Cikis Miktar</th>
+
                         <th nowrap>Net Birim Fiyat</th>
                         <th nowrap>Net Tutar</th>
                         <th nowrap>KDV</th>
                         <th nowrap>Genel Toplam</th>                       
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th nowrap colspan="12"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                    </tr>
+                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
             {
@@ -57,18 +85,29 @@
                             <td nowrap>@item.BaglantiTipi</td>
                             <td nowrap>@item.BaglantiNo</td>
                             <td nowrap>@item.SatisTemsilcisi</td>
+                            <td nowrap>@item.GrupKod</td>
                             <td nowrap>@item.MalKodu</td>
                             <td nowrap>@item.MalAdi</td>
+                            <td nowrap>@item.Kalite</td>
                             <td nowrap>@item.IslemTarihi</td>
                             <td nowrap>@item.EvrakNo</td>
                             <td nowrap>@item.Birim</td>
 
                             
-                            <td nowrap align="right">@item.BirimMiktar.ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@item.NetBirimFiyat.ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@item.NetTutar.ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@item.KDV.ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@item.GenelToplam.ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.BirimMiktar)</td>
+
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.AnaBirim).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.AnaBirimMiktar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.AdetCikisMiktar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.MTCikisMiktar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.M2CikisMiktar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.M3CikisMiktar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.KGCikisMiktar).ToDecimal().ToOnFormat()</td>
+
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.NetBirimFiyat).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.NetTutar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.KDV).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.GenelToplam).ToDecimal().ToOnFormat()</td>
 
                         </tr>
                     }
@@ -81,7 +120,129 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+        $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                };
+
+                // Total over all pages
+                miktartotal = api
+                    .column(12)
+                    .data()
+                    .reduce(function (a, b) {
+                        console.log(a);
+                        console.log(intVal(b));
+                        return a + intVal(b);
+                    }, 0);
+
+                anaMiktartotal = api
+                    .column(14)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                sevkedilentotal = api
+                    .column(15)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kalantotal = api
+                    .column(16)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+                anakalantotal = api
+                    .column(17)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kdvliTutartotal = api
+                    .column(18)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kdvsizTutartotal = api
+                    .column(19)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+                kdvlikalantotal = api
+                    .column(20)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+                kdvsizkalantotal = api
+                    .column(21)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+                aa = api
+                    .column(22)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+                bb = api
+                    .column(23)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+
+
+                // Update footer
+                $(api.column(12).footer()).html(
+                    ondalikBinlik(miktartotal, 6)
+                );
+                $(api.column(14).footer()).html(
+                    ondalikBinlik(anaMiktartotal, 6)
+                );
+                $(api.column(15).footer()).html(
+                    ondalikBinlik(sevkedilentotal, 6)
+                );
+                $(api.column(16).footer()).html(
+                    ondalikBinlik(kalantotal, 6)
+                );
+                $(api.column(17).footer()).html(
+                    ondalikBinlik(anakalantotal, 6)
+                );
+                $(api.column(18).footer()).html(
+                    ondalikBinlik(kdvliTutartotal, 6)
+                );
+                $(api.column(19).footer()).html(
+                    ondalikBinlik(kdvsizTutartotal, 6)
+                );
+                $(api.column(20).footer()).html(
+                    ondalikBinlik(kdvlikalantotal, 6)
+                );
+                $(api.column(21).footer()).html(
+                    ondalikBinlik(kdvsizkalantotal, 6)
+                );
+                $(api.column(22).footer()).html(
+                    ondalikBinlik(aa, 6)
+                );
+                $(api.column(23).footer()).html(
+                    ondalikBinlik(bb, 6)
+                );
+            }
+        });
     });
 
 </script>

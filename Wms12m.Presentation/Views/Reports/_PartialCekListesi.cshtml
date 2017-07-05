@@ -9,14 +9,14 @@
             <div class="caption">
                 <i class="fa fa-gift"></i>Çek Listesi Raporu
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Yenile </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Export Data </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Export Data </a>
             </div>
-            <div class="col-md-1 pull-right m-t-5">
-                <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal"> Temizle </a>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
             </div>
 
         </div>
@@ -31,9 +31,11 @@
                         <th nowrap>Tarih</th>
                         <th nowrap>Hesap Kodu</th>
                         <th nowrap>Ünvan</th>
+                        <th nowrap>Borçlu Ünvan</th>
                         <th nowrap>Tutar</th>
                         <th nowrap>Vade Tarihi</th>
                         <th nowrap>Kayıt Tarihi</th>
+                        <th nowrap>Pozisyon</th>
                         <th nowrap>Son Pozisyon</th>
                         <th nowrap>Verildiği Yer</th>
                         <th nowrap>Verildiği Yer Ünvan</th>
@@ -41,9 +43,9 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th nowrap colspan="4"></th>
-                        <th nowrap style="text-align:right;"></th>
                         <th nowrap colspan="5"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap colspan="6"></th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -52,12 +54,14 @@
                         <tr>
                            
                             <td nowrap>@item.EvrakNo</td>
-                            <td nowrap>@item.Tarih</td>
+                            <td nowrap>@item.Tarih.Value.ToString("dd/MM/yyyy")</td>
                             <td nowrap>@item.Chk</td>
                             <td nowrap>@item.Unvan1</td>
-                            <td nowrap align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
-                            <td nowrap>@item.VadeTarih</td>
-                            <td nowrap>@item.KayitTarih</td>
+                            <td nowrap>@item.BorcluUnvan1</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.Tutar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap>@item.VadeTarih.Value.ToString("dd/MM/yyyy")</td>
+                            <td nowrap>@item.KayitTarih.Value.ToString("dd/MM/yyyy")</td>
+                            <td nowrap>@item.Pozisyon</td>
                             <td nowrap>@item.SonPozisyon</td>
                             <td nowrap>@item.VerildigiYer</td>
                             <td nowrap>@item.VerildigiYerUnvan</td>
@@ -85,7 +89,7 @@
 
                 // Total over all pages
                 miktartotal = api
-                    .column(4)
+                    .column(5)
                     .data()
                     .reduce(function (a, b) {
                         return a + intVal(b);
@@ -94,7 +98,7 @@
                
 
                 // Update footer
-                $(api.column(4).footer()).html(
+                $(api.column(5).footer()).html(
                     ondalikBinlik(miktartotal, 2)
                 );
             }
