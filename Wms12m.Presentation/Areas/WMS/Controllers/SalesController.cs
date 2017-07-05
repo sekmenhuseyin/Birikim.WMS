@@ -169,7 +169,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             int today = fn.ToOADate(), time = fn.ToOATime(), valorgun = 0;
             int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.DepoID).Select(m => m.ID).FirstOrDefault();
             string GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
-            string alıcılar = "", chk = "", teslimchk = "";
+            string evraknolar = "", alıcılar = "", chk = "", teslimchk = "";
             InsertIrsaliye_Result cevap = new InsertIrsaliye_Result();
             Result _Result;
             //loop the list
@@ -183,11 +183,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     chk = item.Chk;
                     valorgun = item.ValorGun;
                     teslimchk = item.TeslimChk;
+                    evraknolar += GorevNo + ",";
                     alıcılar += item.Unvan + ",";
                 }
                 //get stok
-                var stokMiktari = db.GetStock(idDepo, item.MalKodu, item.Birim, true).FirstOrDefault().Value;
-                if (stokMiktari > 0)
+                var stokMiktari = db.GetStock(idDepo, item.MalKodu, item.Birim, true).FirstOrDefault();
+                if (stokMiktari != null)
                 {
                     var miktar = miktars[Array.FindIndex(tmp, m => m.Contains(item.ID))];
                     //sti tablosu
@@ -196,7 +197,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         IrsaliyeID = cevap.IrsaliyeID.Value,
                         MalKodu = item.MalKodu,
                         Birim = item.Birim,
-                        Miktar = miktar <= stokMiktari ? miktar : stokMiktari,
+                        Miktar = miktar <= stokMiktari.Value ? miktar : stokMiktari.Value,
                         KynkSiparisID = item.ROW_ID,
                         KynkSiparisNo = item.EvrakNo,
                         KynkSiparisSiraNo = item.SiraNo,
@@ -211,7 +212,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             //görev tablosu için tekrar yeni ve sade bir liste lazım
             Gorev grv = db.Gorevs.Where(m => m.ID == cevap.GorevID).FirstOrDefault();
-            grv.Bilgi = "Alıcılar: " + alıcılar;
+            grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
             db.SaveChanges();
             //get gorev details
             sql = string.Format("SELECT wms.IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, wms.IRS_Detay.Birim " +

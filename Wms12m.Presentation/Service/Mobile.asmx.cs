@@ -33,7 +33,7 @@ namespace Wms12m
             {
                 try
                 {
-                    return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, Guid = m.Guid.ToString() }).FirstOrDefault();
+                    return db.Users.Where(m => m.ID == result.Id).Select(m => new Login { ID = m.ID, Kod = m.Kod, AdSoyad = m.AdSoyad, Guid = m.Guid.Sifrele() }).FirstOrDefault();
                 }
                 catch (Exception ex)
                 {

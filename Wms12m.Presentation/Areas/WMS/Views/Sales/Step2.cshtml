@@ -121,7 +121,7 @@
             else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
         });
     });
-    function toggle(row,id) {
+    function toggle(row, id) {
         $(row).toggleClass('selected');
         if ($(row).hasClass('selected') == true) selected = selected + id + "#";
         else selected = selected.replace(id + "#", "");
