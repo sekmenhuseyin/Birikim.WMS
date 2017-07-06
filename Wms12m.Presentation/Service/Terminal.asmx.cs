@@ -224,7 +224,7 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new List<Tip_STI>();
-            var tu = mGorev.GorevUsers.Where(m => m.UserID == KullID).FirstOrDefault();
+            var tu = mGorev.GorevUsers.Where(m => m.UserName == tbl.Kod).FirstOrDefault();
             if (tu != null)
                 if (tu.BitisTarihi != null)
                     return new List<Tip_STI>();
@@ -320,12 +320,12 @@ namespace Wms12m
                 return new Result(false, "İrsaliye bulunamadı!");
             //return
             //add to gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
             {
                 tbl = new GorevUser()
                 {
-                    UserID = KullID,
+                    UserName = tblx.Kod,
                     GorevID = GorevID,
                     BaslamaTarihi = DateTime.Today.ToOADateInt()
                 };
@@ -496,7 +496,7 @@ namespace Wms12m
             }
             //return if all true: tüm israliyeler biterse görevi kapat
             //görev user ve görev tablosu
-            var tbl2 = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+            var tbl2 = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             tbl2.BitisTarihi = DateTime.Today.ToOADateInt();
             mGorev.DurumID = ComboItems.Tamamlanan.ToInt32();
             db.SaveChanges();
@@ -518,12 +518,12 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //add to gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
             {
                 tbl = new GorevUser()
                 {
-                    UserID = KullID,
+                    UserName = tblx.Kod,
                     GorevID = GorevID,
                     BaslamaTarihi = DateTime.Today.ToOADateInt()
                 };
@@ -603,7 +603,7 @@ namespace Wms12m
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", DateTime.Today.ToOADateInt(), DateTime.Now.ToOaTime(), kull, "", ComboItems.RafaKaldır.ToInt32(), 0).FirstOrDefault();
             LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "RafaKaldir_GoreviTamamla", ComboItems.alDüzenle, GorevID, "RafaKaldır => -");
             //görev user tablosu
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
             db.SaveChanges();
             return new Result(true);
@@ -624,12 +624,12 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //add to gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
             {
                 tbl = new GorevUser()
                 {
-                    UserID = KullID,
+                    UserName = tblx.Kod,
                     GorevID = GorevID,
                     BaslamaTarihi = DateTime.Today.ToOADateInt()
                 };
@@ -748,7 +748,7 @@ namespace Wms12m
             }
             db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, saat, kull.Kod, "", ComboItems.SiparişTopla.ToInt32(), 0).FirstOrDefault();
             //görev user tablosu
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
             db.SaveChanges();
             LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "SiparisTopla_GoreviTamamla", ComboItems.alDüzenle, GorevID, "SiparişTopla => -");
@@ -817,12 +817,12 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
             //add to gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
             {
                 tbl = new GorevUser()
                 {
-                    UserID = KullID,
+                    UserName = tblx.Kod,
                     GorevID = GorevID,
                     BaslamaTarihi = DateTime.Today.ToOADateInt()
                 };
@@ -877,7 +877,7 @@ namespace Wms12m
             db.SettingsPaketNo(mGorev.DepoID, GorevID, tblx.Kod, tarih);
             LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "Paketle_GoreviTamamla", ComboItems.alEkle, GorevID, "Paket Barkodu");
             //görev user tablosu
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
             db.SaveChanges();
             //return
@@ -982,7 +982,7 @@ namespace Wms12m
             db.TerminalFinishGorev(GorevID, IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull, "", ComboItems.Sevket.ToInt32(), 0).FirstOrDefault();
             LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "Sevkiyat_GoreviTamamla", ComboItems.alDüzenle, GorevID, "Sevkiyat => -");
             //görev user tablosu
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
             db.SaveChanges();
             return new Result(true);
@@ -1054,7 +1054,7 @@ namespace Wms12m
                     mGorev.IR.DepoID = transfer.GirisDepoID;
                     mGorev.IR.EvrakNo = sonuc.Data.ToString();
                     //görev user tablosu
-                    var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+                    var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
                     tbl.BitisTarihi = DateTime.Today.ToOADateInt();
                     db.SaveChanges();
                 }
@@ -1108,7 +1108,7 @@ namespace Wms12m
                     db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, "", tarih, DateTime.Now.ToOaTime(), kull.Kod, "", ComboItems.TransferGiriş.ToInt32(), 0).FirstOrDefault();
                     LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "TransferGiris_GoreviTamamla", ComboItems.alDüzenle, GorevID, "TransferGiriş => -");
                     //görev user tablosu
-                    var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+                    var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
                     tbl.BitisTarihi = DateTime.Today.ToOADateInt();
                     db.SaveChanges();
                 }
@@ -1131,12 +1131,12 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return new Result(false, "Görev bulunamadı !");
             //add to gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl == null)
             {
                 tbl = new GorevUser()
                 {
-                    UserID = KullID,
+                    UserName = tblx.Kod,
                     GorevID = GorevID,
                     BaslamaTarihi = DateTime.Today.ToOADateInt()
                 };
@@ -1197,7 +1197,7 @@ namespace Wms12m
             if (mGorev.IsNull())
                 return new Result(false, "Görev bulunamadı !");
             //update gorev user table
-            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserID == KullID).FirstOrDefault();
+            var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             if (tbl != null)
             {
                 tbl.BitisTarihi = DateTime.Today.ToOADateInt();
