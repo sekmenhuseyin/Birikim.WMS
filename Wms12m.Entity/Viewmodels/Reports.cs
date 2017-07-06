@@ -240,6 +240,14 @@ namespace Wms12m.Entity
     {
         public string Chk { get; set; }
         public string EvrakNo { get; set; }
+        public string ComfortBirim { get; set; }
+        public string ExculusiveBirim { get; set; }
+        public string PeliNeroFloorBirim { get; set; }
+        public string GoldenBirim { get; set; }
+        public string LoftBirim { get; set; }
+        public string VintageBirim { get; set; }
+        public string WoodBirim { get; set; }
+        public string SupurgelikBirim { get; set; }
         public decimal ComfortMiktar { get; set; }
         public decimal ComfortTeslimMiktar { get; set; }
         public decimal ComfortTutar { get; set; }
@@ -258,6 +266,9 @@ namespace Wms12m.Entity
         public decimal PeliNeroFloorMiktar { get; set; }
         public decimal PeliNeroFloorTeslimMiktar { get; set; }
         public decimal PeliNeroFloorTutar { get; set; }
+        public decimal WoodMiktar { get; set; }
+        public decimal WoodTeslimMiktar { get; set; }
+        public decimal WoodTutar { get; set; }
         public decimal Bedelsiz6CmSupMiktar { get; set; }
         public decimal Bedelsiz6CmSupTeslimMiktar { get; set; }
         public decimal Bedelsiz6CmSupTutar { get; set; }
@@ -270,5 +281,23 @@ namespace Wms12m.Entity
         public decimal Bedelli8CmSupMiktar { get; set; }
         public decimal Bedelli8CmSupTeslimMiktar { get; set; }
         public decimal Bedelli8CmSupTutar { get; set; }
+        public decimal HakKazanilan6cmSup { get; set; }
+        public decimal HakKazanilan8cmSup { get; set; }
+    }
+
+    public class KampanyaSiparisDetay
+    {
+        public string Chk { get; set; }
+        public string EvrakNo { get; set; }
+        public DateTime Tarih { get; set; }
+        public decimal Tutar { get; set; }
+        public decimal Miktar { get; set; }
+        public string Birim { get; set; }
+        public decimal TeslimMiktar { get; set; }
+        public string TeslimChk { get; set; }
+        public string Durum { get; set; }
+        public string GrupKod { get; set; }
+        public string Koleksiyon { get; set; }
+        public string SupTip { get; set; }
     }
 }
