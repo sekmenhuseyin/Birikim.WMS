@@ -50,6 +50,7 @@
           <Property Name="OnayFiyat" Type="bit" Nullable="false" />
           <Property Name="OnayCek" Type="bit" Nullable="false" />
           <Property Name="OnayTekno" Type="bit" Nullable="false" />
+          <Property Name="SevkiyatVarmi" Type="bit" Nullable="false" />
           <Property Name="Version" Type="varchar" MaxLength="50" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
@@ -2856,6 +2857,7 @@
           <Property Name="homeUser" Type="Boolean" Nullable="false" />
           <Property Name="homeTask" Type="Boolean" Nullable="false" />
           <Property Name="homeTransfer" Type="Boolean" Nullable="false" />
+          <Property Name="SevkiyatVarmi" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="GorevCalisma">
           <Key>
@@ -3716,6 +3718,7 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="SevkiyatVarmi" ColumnName="SevkiyatVarmi" />
                 <ScalarProperty Name="homeTransfer" ColumnName="homeTransfer" />
                 <ScalarProperty Name="homeTask" ColumnName="homeTask" />
                 <ScalarProperty Name="homeUser" ColumnName="homeUser" />

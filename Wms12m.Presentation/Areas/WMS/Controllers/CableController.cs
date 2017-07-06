@@ -245,10 +245,9 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
             db.SaveChanges();
             //get gorev details
-            sql = string.Format("SELECT wms.IRS_Detay.MalKodu, SUM(wms.IRS_Detay.Miktar) AS Miktar, wms.IRS_Detay.Birim " +
+            sql = string.Format("SELECT wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim " +
                                 "FROM wms.IRS_Detay INNER JOIN wms.GorevIRS ON wms.IRS_Detay.IrsaliyeID = wms.GorevIRS.IrsaliyeID " +
-                                "WHERE(wms.GorevIRS.GorevID = {0}) " +
-                                "GROUP BY wms.IRS_Detay.MalKodu, wms.IRS_Detay.Birim", cevap.GorevID);
+                                "WHERE(wms.GorevIRS.GorevID = {0})", cevap.GorevID);
             list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
             foreach (var item in list)
             {

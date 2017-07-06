@@ -24,8 +24,34 @@ namespace Wms12m.Presentation.Areas.System.Controllers
             if (CheckPerm(Perms.Menü, PermTypes.Writing) == false) return Redirect("/");
             if (ModelState.IsValid)
             {
-                //db.Entry(tbl).State = EntityState.Modified;
-                //db.SaveChanges();
+                var set = db.Settings.FirstOrDefault();
+                set.SiteName = tbl.SiteName;
+                set.LoginLogo = tbl.LoginLogo;
+                set.TopLogo = tbl.TopLogo;
+                set.AllowNewUser = tbl.AllowNewUser;
+                set.AllowForgotPass = tbl.AllowForgotPass;
+                set.KabloSiparisMySql = tbl.KabloSiparisMySql;
+                set.SmtpEmail = tbl.SmtpEmail;
+                set.SmtpPass = tbl.SmtpPass;
+                set.SmtpPort = tbl.SmtpPort;
+                set.SmtpHost = tbl.SmtpHost;
+                set.SmtpSSL = tbl.SmtpSSL;
+                set.homeDepo = tbl.homeDepo;
+                set.homeUser = tbl.homeUser;
+                set.homeTask = tbl.homeTask;
+                set.homeTransfer = tbl.homeTransfer;
+                set.OnayStok = tbl.OnayStok;
+                set.OnayTeminat = tbl.OnayTeminat;
+                set.OnaySiparis = tbl.OnaySiparis;
+                set.OnaySozlesme = tbl.OnaySozlesme;
+                set.OnayRisk = tbl.OnayRisk;
+                set.OnayFiyat = tbl.OnayFiyat;
+                set.OnayCek = tbl.OnayCek;
+                set.OnayTekno = tbl.OnayTekno;
+                set.SevkiyatVarmi = tbl.SevkiyatVarmi;
+                set.Version = tbl.Version;
+                set.Aktif = tbl.Aktif;
+                db.SaveChanges();
             }
             return Redirect(Request.UrlReferrer.ToString());
         }

@@ -214,6 +214,15 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            @Html.LabelFor(model => model.SevkiyatVarmi, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(a => a.SevkiyatVarmi, new { @checked = Model.SevkiyatVarmi ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
+                                    @Html.ValidationMessageFor(model => model.SevkiyatVarmi, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             @Html.LabelFor(model => model.Version, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.Version, new { htmlAttributes = new { @class = "form-control" } })
