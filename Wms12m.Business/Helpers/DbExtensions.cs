@@ -116,10 +116,10 @@ namespace Wms12m
             {
                 Font newFont = new Font("IDAutomationHC39M Free Version", 18, FontStyle.Regular);
                 PointF point = new PointF(2, 2);
-                SolidBrush balck = new SolidBrush(Color.Black);
+                SolidBrush black = new SolidBrush(Color.Black);
                 SolidBrush white = new SolidBrush(Color.White);
                 graphic.FillRectangle(white, 0, 0, objBitmap.Width, objBitmap.Height);
-                graphic.DrawString("*" + Code + "*", newFont, balck, point);
+                graphic.DrawString("*" + Code + "*", newFont, black, point);
             }
             using (MemoryStream Mmst = new MemoryStream())
             {
