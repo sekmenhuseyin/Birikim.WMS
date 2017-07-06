@@ -38,18 +38,19 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (string insertObj in parameters)
                 {
+                    var OTip = db.Database.SqlQuery<short>(string.Format("SELECT OnayTip FROM FINSAT6{0}.FINSAT6{0}.SiparisOnay WHERE EvrakNo='{1}'", "17", insertObj)).FirstOrDefault();
                     if (OnayTip == 3 && OnaylandiMi == true)//GMOnay
-                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 3, 1)); }
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", "17", insertObj, vUser.UserName, 3, 1, OTip)); }
                     else if (OnayTip == 2 && OnaylandiMi == true)//SPGMYOnay
-                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 2, 1)); }
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", "17", insertObj, vUser.UserName, 2, 1, OTip)); }
                     else if (OnayTip == 1 && OnaylandiMi == true)//SMOnay
-                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 1, 1)); }
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", "17", insertObj, vUser.UserName, 1, 1, OTip)); }
                     else if (OnayTip == 3 && OnaylandiMi == false)//GMRet
-                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 3, 0)); }
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", "17", insertObj, vUser.UserName, 3, 0, OTip)); }
                     else if (OnayTip == 2 && OnaylandiMi == false)//SPGMYRet
-                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 2, 0)); }
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", "17", insertObj, vUser.UserName, 2, 0, OTip)); }
                     else if (OnayTip == 1 && OnaylandiMi == false)//SMRet
-                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnayTip={3},@OnaylandiMi={4}", "17", insertObj, vUser.UserName, 1, 0)); }
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_SiparisOnay] @EvrakNo = '{1}',@Kullanici = '{2}',@OnaylayanTip={3},@OnaylandiMi={4},@OnayTip={5}", "17", insertObj, vUser.UserName, 1, 0, OTip)); }
                 }
 
                 try

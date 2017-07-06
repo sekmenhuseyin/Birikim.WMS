@@ -1,4 +1,4 @@
-﻿@model List<GerceklesenSevkiyatPlani>
+﻿@model List<SatisBaglatiRapru>
 @{
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
@@ -8,7 +8,7 @@
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-gift"></i>Gerçekleşen Sevkiyat Planı Raporu
+                <i class="fa fa-gift"></i>Satış Bağlantı Raporu
             </div>
             <div class="col-md-1 pull-right m-t-5" style="padding:0;">
                 <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Yenile </a>
@@ -54,17 +54,21 @@
                         @foreach (var item in Model)
             {
                             <tr>
-                                <td nowrap>@item.Tarih.Value.ToString("dd/MM/yyyy")</td>
-                                <td nowrap>@item.EvrakNo</td>
-                                <td nowrap>@item.Chk</td>
+                                <td nowrap>@item.HesapKodu</td>
                                 <td nowrap>@item.Unvan</td>
-                                <td nowrap>@item.SatisTemsilcisi</td>
-                                <td nowrap>@item.Malkodu</td>
-                                <td nowrap>@item.MalAdi</td>
-                                <td nowrap align="right">@item.Birimmiktar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap>@item.Birim</td>
-                                <td nowrap align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap>@item.StokBirim</td>
+                                <td nowrap>@item.Bakiye</td>
+                                <td nowrap>@item.BaglantiTarihi.Value.ToString("dd/MM/yyyy")</td>
+                                <td nowrap>@item.BaglantiNo</td>
+                                <td nowrap>@item.SozlesmeSiraNo</td>
+                                <td nowrap>@item.BaglantiTipi</td>
+                                <td nowrap align="right">@item.BaglantiTutari.ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.BaglantiParaCinsi</td>
+                                <td nowrap align="right">@item.ToplamSevkEdilenTutar.ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@item.KalanTutar.ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.DevirTarih</td>
+                                <td nowrap align="right">@item.DevirTutar.ToDecimal().ToOnFormat()
+                                <td nowrap>@item.SozlesmeSiraNo</td>
+                                <td nowrap>@item.BaglantiTipi</td>
                             </tr>
                         }
                     </tbody>
@@ -109,4 +113,5 @@
         });
     });
 </script>
+
 

@@ -246,5 +246,19 @@ namespace Wms12m.Presentation.Controllers
             var GSP = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[dbo].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
             return PartialView("_PartialGerceklesenSevkiyatPlani", GSP);
         }
+
+        public ActionResult SatisBaglantiRaporu()
+        {
+            ViewBag.Tip = 0;
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+
+        public PartialViewResult PartialSatisBaglantiRaporu(int tip)
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+            var SBR = db.Database.SqlQuery<SatisBaglatiRapru>(string.Format("[FINSAT6{0}].[dbo].[SatisBaglantiRaporu] @Tip={1}", "17", tip)).ToList();
+            return PartialView("_PartialSatisBaglantiRaporu", SBR);
+        }
     }
 }

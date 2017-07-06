@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "SatisBaglantiRaporu";
+}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <style>
+        td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+        }
+
+        .btn {
+            width: 120px;
+            text-align: center;
+        }
+
+        .detay:hover {
+            background-color: rgb(176, 190, 217) !important;
+        }
+    </style>
+}
+<div class="row control-content">
+    <div class="col-sm-6 col-xs-12" style="margin-top:10px;">
+        <div class="col-sm-4 col-xs-6" style="color:#32c5d2;font-weight:bold;">Başlangıç Tarihi</div>
+        <div class="col-sm-8 col-xs-6"><div class="basTarih" style="width:100%;"></div></div>
+    </div>
+    <div class="col-sm-3 col-xs-12" style="margin-top:10px;">
+        <div class="col-sm-10 col-xs-4">
+            <div class="btn btn-lg green listele-buton" style="width:100%; margin-bottom:10px;">Listele<i class="fa fa-check"></i></div>
+        </div>
+    </div>
+</div>
+<div class="row" id="gerceklesen-sevkiyat-plani-grid" style="margin-top:10px;"></div>
+@section Scripts{
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+    <script>
+        var tip = @ViewBag.Tip;
+        var tempTip = @ViewBag.Tip;
+        var radioGroupItems = [
+            { text: "Açık", value: 0 },
+            { text: "Kapalı", value: 1 },
+            { text: "Tümü", value: 2 }
+        ];
+        $(document).ready(function () {
+            $(".rdgrpOnayRed").dxRadioGroup({
+                dataSource: radioGroupItems,
+                displayExpr: "text",
+                valueExpr: "value",
+                value: "OnayBekleyenler",
+                layout: "horizontal",
+                onValueChanged: function (e) {
+                    tempTip = e.value;
+                }
+            });
+            var PartialSatisBaglantiRaporuUrl = "/Reports/PartialSatisBaglantiRaporu";
+            PartialView(PartialSatisBaglantiRaporuUrl, 'gerceklesen-sevkiyat-plani-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih}));
+        });
+        $(document).on("click", ".listele-buton", function () {
+            tip = tempTip;
+            var PartialSatisBaglantiRaporuUrl = "/Reports/PartialSatisBaglantiRaporu";
+            PartialSatisBaglantiRaporuUrl, 'gerceklesen-sevkiyat-plani-grid', JSON.stringify({ tip: tip });
+        });
+      
+
+    </script>
+}
+
+
+
+
+
+
+
+
