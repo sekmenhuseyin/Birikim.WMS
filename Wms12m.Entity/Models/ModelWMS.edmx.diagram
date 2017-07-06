@@ -61,8 +61,6 @@
         <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
         <AssociationConnector Association="MModel.FK_Users_Roles" />
         <AssociationConnector Association="MModel.WebMenuRol" />
-        <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="4" PointY="2" />
-        <AssociationConnector Association="MModel.FK_GorevUsers_Gorev" />
         <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.625" PointY="0.75" />
         <EntityTypeShape EntityType="MModel.GorevCalisma" Width="1.5" PointX="30.875" PointY="5" />
         <EntityTypeShape EntityType="MModel.UserDevice" Width="1.5" PointX="22.375" PointY="13.375" />
@@ -88,6 +86,8 @@
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         <AssociationConnector Association="MModel.FK_GorevPaketler_Gorev" />
+        <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="4.125" PointY="1.75" />
+        <AssociationConnector Association="MModel.FK_GorevUsers_Gorev" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
