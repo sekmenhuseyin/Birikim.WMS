@@ -36,7 +36,6 @@
             this.cmbGorevli = new System.Windows.Forms.ComboBox();
             this.panelOrta = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -98,7 +97,6 @@
             // 
             this.panelOrta.AutoScroll = true;
             this.panelOrta.Controls.Add(this.label8);
-            this.panelOrta.Controls.Add(this.label5);
             this.panelOrta.Controls.Add(this.label4);
             this.panelOrta.Controls.Add(this.label3);
             this.panelOrta.Controls.Add(this.label2);
@@ -111,29 +109,19 @@
             this.label8.BackColor = System.Drawing.Color.CadetBlue;
             this.label8.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label8.ForeColor = System.Drawing.SystemColors.Window;
-            this.label8.Location = new System.Drawing.Point(162, 0);
+            this.label8.Location = new System.Drawing.Point(203, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(80, 18);
+            this.label8.Size = new System.Drawing.Size(70, 18);
             this.label8.Text = "Oluşturma";
-            // 
-            // label5
-            // 
-            this.label5.BackColor = System.Drawing.Color.CadetBlue;
-            this.label5.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label5.ForeColor = System.Drawing.SystemColors.Window;
-            this.label5.Location = new System.Drawing.Point(304, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(60, 18);
-            this.label5.Text = "Durum";
             // 
             // label4
             // 
             this.label4.BackColor = System.Drawing.Color.CadetBlue;
             this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.SystemColors.Window;
-            this.label4.Location = new System.Drawing.Point(243, 0);
+            this.label4.Location = new System.Drawing.Point(157, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(60, 18);
+            this.label4.Size = new System.Drawing.Size(45, 18);
             this.label4.Text = "Görevli";
             // 
             // label3
@@ -141,7 +129,7 @@
             this.label3.BackColor = System.Drawing.Color.CadetBlue;
             this.label3.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.SystemColors.Window;
-            this.label3.Location = new System.Drawing.Point(61, 0);
+            this.label3.Location = new System.Drawing.Point(56, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 18);
             this.label3.Text = "Bilgiler";
@@ -153,7 +141,7 @@
             this.label2.ForeColor = System.Drawing.SystemColors.Window;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 18);
+            this.label2.Size = new System.Drawing.Size(55, 18);
             this.label2.Text = "GörevNo";
             // 
             // panel1
@@ -236,7 +224,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnIslemYap;
         private System.Windows.Forms.Button btnLinkeAktar;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnBack;
 

@@ -125,7 +125,7 @@ namespace WMSMobil
                 //sütun gorev no
                 TextBox tGorevNo = new TextBox();
                 tGorevNo.Font = font;
-                tGorevNo.Width = (60 * carpim).ToInt32();
+                tGorevNo.Width = (55 * carpim).ToInt32();
                 tGorevNo.Location = new Point(0, 0);
                 tGorevNo.ReadOnly = true;
                 tGorevNo.BackColor = Color.FromArgb(206, 223, 239);
@@ -134,51 +134,41 @@ namespace WMSMobil
                 TextBox tBilgi = new TextBox();
                 tBilgi.Font = font;
                 tBilgi.Width = (100 * carpim).ToInt32();
-                tBilgi.Location = new Point((61 * carpim).ToInt32(), 0);
+                tBilgi.Location = new Point((56 * carpim).ToInt32(), 0);
                 tBilgi.ReadOnly = true;
                 tBilgi.BackColor = Color.FromArgb(206, 223, 239);
                 tBilgi.GotFocus += new EventHandler(TextBoxlar_GotFocus);
-                //sütun oluşturma tarihi
-                TextBox tKayitTarihi = new TextBox();
-                tKayitTarihi.Font = font;
-                tKayitTarihi.Width = (80 * carpim).ToInt32();
-                tKayitTarihi.Location = new Point((162 * carpim).ToInt32(), 0);
-                tKayitTarihi.ReadOnly = true;
-                tKayitTarihi.BackColor = Color.FromArgb(206, 223, 239);
-                tKayitTarihi.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                 //sütun görevli
                 TextBox tGorevli = new TextBox();
                 tGorevli.Font = font;
-                tGorevli.Width = (60 * carpim).ToInt32();
-                tGorevli.Location = new Point((243 * carpim).ToInt32(), 0);
+                tGorevli.Width = (45 * carpim).ToInt32();
+                tGorevli.Location = new Point((157 * carpim).ToInt32(), 0);
                 tGorevli.ReadOnly = true;
                 tGorevli.BackColor = Color.FromArgb(206, 223, 239);
                 tGorevli.GotFocus += new EventHandler(TextBoxlar_GotFocus);
-                //sütun durum
-                TextBox tDurum = new TextBox();
-                tDurum.Font = font;
-                tDurum.Width = (60 * carpim).ToInt32();
-                tDurum.Location = new Point((304 * carpim).ToInt32(), 0);
-                tDurum.ReadOnly = true;
-                tDurum.BackColor = Color.FromArgb(206, 223, 239);
-                tDurum.GotFocus += new EventHandler(TextBoxlar_GotFocus);
+                //sütun oluşturma tarihi
+                TextBox tKayitTarihi = new TextBox();
+                tKayitTarihi.Font = font;
+                tKayitTarihi.Width = (70 * carpim).ToInt32();
+                tKayitTarihi.Location = new Point((203 * carpim).ToInt32(), 0);
+                tKayitTarihi.ReadOnly = true;
+                tKayitTarihi.BackColor = Color.FromArgb(206, 223, 239);
+                tKayitTarihi.GotFocus += new EventHandler(TextBoxlar_GotFocus);
                 //bilgileri yerleştir
                 tGorevNo.Text = grvItem.GorevNo.ToString();
                 tKayitTarihi.Text = grvItem.OlusturmaTarihi.ToString();
                 tGorevli.Text = grvItem.Gorevli != null ? grvItem.Gorevli.ToString() : "";
                 tBilgi.Text = grvItem.Bilgi;
-                tDurum.Text = grvItem.Durum;
                 //panel ekle
                 PanelGrv panelSatir = new PanelGrv();
                 panelSatir.Name = Sayac.ToString();
-                panelSatir.Size = new Size((370 * carpim).ToInt32(), (20 * carpim).ToInt32());
+                panelSatir.Size = new Size((273 * carpim).ToInt32(), (20 * carpim).ToInt32());
                 panelSatir.Location = new Point(0, (Sayac * 20 * carpim).ToInt32());
                 panelSatir.Tag = grvItem.ID + "-" + grvItem.IrsaliyeID;
                 panelSatir.Controls.Add(tGorevNo);
                 panelSatir.Controls.Add(tBilgi);
-                panelSatir.Controls.Add(tKayitTarihi);
                 panelSatir.Controls.Add(tGorevli);
-                panelSatir.Controls.Add(tDurum);
+                panelSatir.Controls.Add(tKayitTarihi);
                 //panel
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
