@@ -102,7 +102,7 @@
         $.ajax({
             type: 'POST',
             url: '/Reports/SiparisKampanyaDetay',
-            data: { "CHK": CHK, "EvrakNo": EvrakNo},
+            data: { "CHK": CHK, "EvrakNo": EvrakNo, "bastarih": basTarih, "bittarih": bitTarih},
             dataType: "html",
             success: function (data) {
                 $('#x-modal-evrakno-detay').modal("show");

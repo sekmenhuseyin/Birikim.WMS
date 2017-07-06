@@ -22,9 +22,10 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <table class="table table-striped table-bordered" id="sample_1">
                     <thead>
                         <tr>
+                            <th nowrap></th>
                             <th nowrap> Evrak No </th>
                             <th nowrap> Tarih </th>
                             <th nowrap> Hesap No </th>
@@ -48,6 +49,7 @@
                         @foreach (var item in Model)
                         {
                             <tr onclick="toggle(this, '@item.EvrakNo')">
+                                <td nowrap class="select-checkbox"></td>
                                 <td nowrap> @item.EvrakNo</td>
                                 <td nowrap>@item.Tarih</td>
                                 <td nowrap>@item.HesapNo</td>
@@ -151,6 +153,10 @@
     });
     function toggle(row, id) {
         $(row).toggleClass('selected');
+        setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
     }
+    $('#sample_1').on('draw.dt', function () {
+        setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
+    });
 </script>
 }
