@@ -50,7 +50,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Combo_Name> Combo_Name { get; set; }
         public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<GorevUser> GorevUsers { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<GorevCalisma> GorevCalismas { get; set; }
         public virtual DbSet<UserDevice> UserDevices { get; set; }
@@ -59,8 +58,9 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
         public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
         public virtual DbSet<GorevPaketNo> GorevPaketNoes { get; set; }
-        public virtual DbSet<GorevPaketler> GorevPaketlers { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
+        public virtual DbSet<GorevUser> GorevUsers { get; set; }
+        public virtual DbSet<GorevPaketler> GorevPaketlers { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
@@ -147,15 +147,6 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Kod", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.GetHucreKatID", depoIDParameter, kodParameter);
-        }
-    
-        public virtual ObjectResult<GetIrsDetayfromGorev_Result> GetIrsDetayfromGorev(Nullable<int> gorevID)
-        {
-            var gorevIDParameter = gorevID.HasValue ?
-                new ObjectParameter("GorevID", gorevID) :
-                new ObjectParameter("GorevID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsDetayfromGorev_Result>("WMSEntities.GetIrsDetayfromGorev", gorevIDParameter);
         }
     
         public virtual ObjectResult<Nullable<int>> GetKoridorIdFromGorevId(Nullable<int> gorevID)
@@ -595,6 +586,15 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("YeniGorevTipiID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.TerminalFinishGorev", gorevIDParameter, irsaliyeIDParameter, yeniGorevNoParameter, bitisTarihiParameter, bitisSaatiParameter, kullaniciParameter, linkEvrakNoParameter, görevTipiIDParameter, yeniGorevTipiIDParameter);
+        }
+    
+        public virtual ObjectResult<GetIrsDetayfromGorev_Result> GetIrsDetayfromGorev(Nullable<int> gorevID)
+        {
+            var gorevIDParameter = gorevID.HasValue ?
+                new ObjectParameter("GorevID", gorevID) :
+                new ObjectParameter("GorevID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsDetayfromGorev_Result>("WMSEntities.GetIrsDetayfromGorev", gorevIDParameter);
         }
     }
 }

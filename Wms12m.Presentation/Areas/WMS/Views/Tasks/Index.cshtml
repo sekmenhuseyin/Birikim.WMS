@@ -43,7 +43,7 @@
         DuzenleIptal();
         setTimeout(PartialView('/WMS/Tasks/List', 'GorevGrid', JSON.stringify({ Id: $('#DurumID').val() })), 500);
     }
-    function newrow(id) { return "<table style='background:transparent;' id='new"+id+"'></table>"; }
+    function newrow(id) { return "<div id='new" + id +"'></div>"; }
     function format(d) {
         var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr>";
         $.ajax({

@@ -20,6 +20,21 @@
         }
     </style>
 }
+<div class="row control-content">
+    <div class="col-sm-4 col-xs-12" style="margin-top:10px;">
+        <div class="col-sm-4 col-xs-6" style="color:#32c5d2;font-weight:bold;">Başlangıç Tarihi</div>
+        <div class="col-sm-8 col-xs-6"><div class="basTarih" style="width:100%;"></div></div>
+    </div>
+    <div class="col-sm-4 col-xs-12" style="margin-top:10px;">
+        <div class="col-sm-4 col-xs-6"  style="color:#32c5d2;font-weight:bold;">Bitiş Tarihi</div>
+        <div class="col-sm-8 col-xs-6"><div class="bitTarih" style="width:100%;"></div></div>
+    </div>
+    <div class="col-sm-3 col-xs-12" style="margin-top:10px;">
+        <div class="col-sm-10 col-xs-4">
+            <div class="btn btn-lg green listele-buton" style="width:100%; margin-bottom:10px;">Listele<i class="fa fa-check"></i></div>
+        </div>
+    </div>
+</div>
 <div class="row" id="kampanyali-siparis-grid" style="margin-top:10px;"></div>
 <div class="modal fade" id="x-modal-evrakno-detay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog" style="width:950px;">
@@ -44,16 +59,49 @@
     <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
     <script>
-    $(document).ready(function () {
+         var basTarih = @ViewBag.BasTarih;
+        var bitTarih = @ViewBag.BitTarih;
+        var tempbasTarih = @ViewBag.BasTarih;
+         var tempbitTarih = @ViewBag.BitTarih;
+        $(document).ready(function () {
+            var dateVal = new Date();
+            dateVal.setHours(0, 0, 0);
+
+            var bitTeslimTarih = bitTarih;
+
+            $(".basTarih").dxDateBox({
+                dataType: 'date',
+                displayFormat: 'dd/MM/yyyy',
+                value: '01/01/2000',
+                onValueChanged: function (e) {
+                    if(e.value!=null)
+                        tempbasTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+                }
+            });
+            $(".bitTarih").dxDateBox({
+                dataType: 'date',
+                displayFormat: 'dd/MM/yyyy',
+                value: '12/31/2020',
+                onValueChanged: function (e) {
+                    if (e.value != null)
+                        tempbitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+                }
+            });
         var BekleyeSiparisRaporuUrl = "/Reports/PartialKampanyaliSatisRaporu";
-        PartialView(BekleyeSiparisRaporuUrl, 'kampanyali-siparis-grid');
+        PartialView(BekleyeSiparisRaporuUrl, 'kampanyali-siparis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih}));
+        });
+        $(document).on("click", ".listele-buton", function () {
+            basTarih = tempbasTarih;
+            bitTarih = tempbitTarih;
+            var BekleyeSiparisRaporuUrl = "/Reports/PartialKampanyaliSatisRaporu";
+            PartialView(BekleyeSiparisRaporuUrl, 'kampanyali-siparis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih }));
         });
         function newrow(chk) { return "<table style='background:transparent;' id='new" + chk + "'></table>"; }
         function format(d) {
             $.ajax({
                 type: 'POST',
                 url: '/Reports/ChkKampanyaDetay',
-                data: { "CHK": d },
+                data: { "CHK": d, "bastarih": basTarih, "bittarih": bitTarih},
                 dataType: "html",
                 success: function (data) {
                     $('#new' + d.toString().replace(/\s/g, '')).html(data);

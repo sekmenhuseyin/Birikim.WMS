@@ -19,5 +19,6 @@ namespace Wms12m.Entity.Models
         public string MalKodu { get; set; }
         public Nullable<decimal> Miktar { get; set; }
         public string Birim { get; set; }
+        public string MakaraNo { get; set; }
     }
 }
