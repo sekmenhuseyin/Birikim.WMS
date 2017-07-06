@@ -102,8 +102,8 @@ namespace Wms12m
             //return
             string sql = string.Format("SELECT ComboItem_Name.ID, ComboItem_Name.Name AS Ad, COUNT(wms.Gorev.ID) AS Sayi " +
                 "FROM wms.Gorev INNER JOIN ComboItem_Name ON wms.Gorev.GorevTipiID = ComboItem_Name.ID LEFT OUTER JOIN wms.GorevUsers ON wms.Gorev.ID = wms.GorevUsers.GorevID " +
-                "WHERE (wms.Gorev.DepoID = {0}) AND (wms.GorevUsers.UserID = {1} OR wms.GorevUsers.UserID IS NULL) AND (wms.GorevUsers.BitisTarihi IS NULL) AND (wms.Gorev.DurumID = 9) " +
-                "GROUP BY ComboItem_Name.Name, ComboItem_Name.ID", ID, KullID);
+                "WHERE (wms.Gorev.DepoID = {0}) AND (wms.GorevUsers.UserName = '{1}' OR wms.GorevUsers.UserName IS NULL) AND (wms.GorevUsers.BitisTarihi IS NULL) AND (wms.Gorev.DurumID = 9) " +
+                "GROUP BY ComboItem_Name.Name, ComboItem_Name.ID", ID, tbl.Kod);
             return db.Database.SqlQuery<GorevOzet>(sql).ToList();
         }
         /// <summary>
@@ -147,7 +147,7 @@ namespace Wms12m
         /// görev listelerini filtreye göre getirir
         /// </summary>
         [WebMethod]
-        public List<Tip_GOREV> GetGorevList(int gorevli, int durum, int gorevtipi, int DepoID, int KullID, string AuthGiven, string Guid)
+        public List<Tip_GOREV> GetGorevList(string gorevli, int durum, int gorevtipi, int DepoID, int KullID, string AuthGiven, string Guid)
         {
             //kontrol
             if (AuthGiven.Cozumle() != AuthPass) return new List<Tip_GOREV>();
@@ -157,13 +157,16 @@ namespace Wms12m
             //return
             string gtipi = db.ComboItem_Name.Where(m => m.ID == gorevtipi).Select(m => m.Name).FirstOrDefault();
             gtipi = "Terminal" + gtipi.Replace(" ", "");
-            var kullanici = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
-            var yetkikontrol = db.GetPermissionFor(KullID, kullanici.RoleName, gtipi, "WMS", "Reading").FirstOrDefault().Value;
+            var yetkikontrol = db.GetPermissionFor(KullID, tbl.RoleName, gtipi, "WMS", "Reading").FirstOrDefault().Value;
             if (yetkikontrol == true)
             {
                 string sql = string.Format("SELECT Gorev.ID, ISNULL(Gorev.IrsaliyeID, 0) as IrsaliyeID, wms.fnFormatDateFromInt(Gorev.OlusturmaTarihi) AS OlusturmaTarihi, Gorev.Bilgi, Gorev.Aciklama, Gorev.GorevNo, ISNULL(wms.IRS.EvrakNo, '') as EvrakNo, wms.Depo.DepoKodu, Gorev.Atayan, Gorev.Gorevli, ComboItem_Name.[Name] AS Durum " +
                                         "FROM wms.Gorev WITH (nolock) INNER JOIN wms.Depo WITH (nolock) ON Gorev.DepoID = wms.Depo.ID INNER JOIN ComboItem_Name WITH (nolock) ON Gorev.DurumID = ComboItem_Name.ID LEFT OUTER JOIN wms.GorevUsers WITH (nolock) ON wms.Gorev.ID = wms.GorevUsers.GorevID LEFT OUTER JOIN usr.Users WITH (nolock) ON Gorev.Gorevli = usr.Users.Kod LEFT OUTER JOIN wms.IRS WITH (nolock) ON Gorev.IrsaliyeID = wms.IRS.ID " +
-                                        "WHERE (wms.GorevUsers.BitisTarihi IS NULL) AND (wms.Depo.ID = {3}) and case when ({0}>0) then case when (Gorev.GorevTipiID = {0}) then 1 else 0 end else 0 end = 1 AND (CASE WHEN ({1} > 0) THEN CASE WHEN (wms.GorevUsers.UserID = {1} OR wms.GorevUsers.UserID IS NULL) THEN 1 ELSE 0 END ELSE 1 END = 1) AND case when ({1}>0) then case when (usr.Users.ID = {1}) then 1 else 0 end else 1 end = 1 AND  case when ({2}>0) then case when (Gorev.DurumID = {2}) then 1 else 0 end else 1 end = 1", gorevtipi, gorevli, durum, DepoID);
+                                        "WHERE (wms.GorevUsers.BitisTarihi IS NULL) AND (wms.Depo.ID = {3}) and " +
+                                        "case when ({0}>0) then case when (Gorev.GorevTipiID = {0}) then 1 else 0 end else 0 end = 1 AND " +
+                                        "(CASE WHEN ('{1}' <> '') THEN CASE WHEN (wms.GorevUsers.UserName = '{1}' OR wms.GorevUsers.UserName IS NULL) THEN 1 ELSE 0 END ELSE 1 END = 1) AND " +
+                                        "case when ('{1}' <> '') then case when (usr.Users.Kod = '{1}') then 1 else 0 end else 1 end = 1 AND  " +
+                                        "case when ({2}>0) then case when (Gorev.DurumID = {2}) then 1 else 0 end else 1 end = 1", gorevtipi, gorevli, durum, DepoID);
                 return db.Database.SqlQuery<Tip_GOREV>(sql).ToList();
             }
             return new List<Tip_GOREV>();
@@ -899,9 +902,15 @@ namespace Wms12m
             if (mGorev.IsNull() || mGorev.IR == null)
                 return new frmGorevPaket();
             //gets
-            var list = db.GorevPaketlers.Where(m => m.GorevID == GorevID).Select(m => new frmGorevPaket { SevkiyatNo = m.SevkiyatNo, PaketNo = m.PaketNo, Adet = m.Adet, PaketTipiID = m.PaketTipiID, Agirlik = m.Agirlik, HepsiVar = true }).FirstOrDefault();
+            var list = db.GorevPaketlers.Where(m => m.GorevID == GorevID).Select(m => new frmGorevPaket { SevkiyatNo = m.SevkiyatNo, PaketNo = m.PaketNo, Adet = m.Adet, PaketTipiID = m.PaketTipiID, Agirlik = 0, HepsiVar = true }).FirstOrDefault();
             //get ağırlık
-
+            var ag = db.Database.SqlQuery<decimal>("SELECT ISNULL(wms.Olcu.Agirlik * wms.IRS_Detay.Miktar, 0) AS t FROM wms.IRS_Detay INNER JOIN wms.GorevIRS ON wms.IRS_Detay.IrsaliyeID = wms.GorevIRS.IrsaliyeID LEFT OUTER JOIN wms.Olcu ON wms.IRS_Detay.Birim = wms.Olcu.Birim AND wms.IRS_Detay.MalKodu = wms.Olcu.MalKodu WHERE wms.GorevIRS.GorevID = " + GorevID).ToList();
+            foreach (var item in ag)
+            {
+                if (item == 0)
+                    list.HepsiVar = false;
+                list.Agirlik += item;
+            }
             //return
             return list;
         }

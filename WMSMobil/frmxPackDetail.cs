@@ -33,6 +33,8 @@ namespace WMSMobil
             txtMiktar.Text = String.Format("{0:n}", tbl.Adet);
             txtTip.SelectedValue = tbl.PaketTipiID;
             txtAgirlik.Text = String.Format("{0:n}", tbl.Agirlik);
+            if (tbl.HepsiVar == false)
+                Mesaj.Uyari("Bazı ürünlerin ağırlığı eksik");
         }
         /// <summary>
         /// kaydetme işlemleri
