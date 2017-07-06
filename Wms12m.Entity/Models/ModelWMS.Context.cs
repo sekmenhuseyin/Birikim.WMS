@@ -58,9 +58,9 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
         public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
         public virtual DbSet<GorevPaketNo> GorevPaketNoes { get; set; }
-        public virtual DbSet<GorevPaketler> GorevPaketlers { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<GorevUser> GorevUsers { get; set; }
+        public virtual DbSet<GorevPaketler> GorevPaketlers { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {

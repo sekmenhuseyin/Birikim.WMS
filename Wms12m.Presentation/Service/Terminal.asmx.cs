@@ -899,13 +899,11 @@ namespace Wms12m
             if (mGorev.IsNull() || mGorev.IR == null)
                 return new frmGorevPaket();
             //gets
-            var list = db.GorevPaketlers.Where(m => m.GorevID == GorevID).Select(m => new frmGorevPaket { SevkiyatNo = m.SevkiyatNo, PaketNo = m.PaketNo, Adet = m.Adet, PaketTipiID = m.PaketTipiID, Agirlik = m.Agirlik, HepsiVar = true });
-            string sql = string.Format("SELECT SevkiyatNo, PaketNo, Adet, PaketTipiID, Agirlik FROM wms.GorevPaketler WHERE (GorevID = {0})", GorevID);
-            var liste = db.Database.SqlQuery<frmGorevPaket>(sql).FirstOrDefault();
+            var list = db.GorevPaketlers.Where(m => m.GorevID == GorevID).Select(m => new frmGorevPaket { SevkiyatNo = m.SevkiyatNo, PaketNo = m.PaketNo, Adet = m.Adet, PaketTipiID = m.PaketTipiID, Agirlik = m.Agirlik, HepsiVar = true }).FirstOrDefault();
             //get ağırlık
 
             //return
-            return liste;
+            return list;
         }
         /// <summary>
         /// barkoddan irsaliyenin bilgileri
