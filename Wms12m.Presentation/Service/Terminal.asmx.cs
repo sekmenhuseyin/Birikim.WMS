@@ -898,9 +898,14 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull() || mGorev.IR == null)
                 return new frmGorevPaket();
-            //return
+            //gets
+            var list = db.GorevPaketlers.Where(m => m.GorevID == GorevID).Select(m => new frmGorevPaket { SevkiyatNo = m.SevkiyatNo, PaketNo = m.PaketNo, Adet = m.Adet, PaketTipiID = m.PaketTipiID, Agirlik = m.Agirlik, HepsiVar = true });
             string sql = string.Format("SELECT SevkiyatNo, PaketNo, Adet, PaketTipiID, Agirlik FROM wms.GorevPaketler WHERE (GorevID = {0})", GorevID);
-            return db.Database.SqlQuery<frmGorevPaket>(sql).FirstOrDefault();
+            var liste = db.Database.SqlQuery<frmGorevPaket>(sql).FirstOrDefault();
+            //get ağırlık
+
+            //return
+            return liste;
         }
         /// <summary>
         /// barkoddan irsaliyenin bilgileri
@@ -945,7 +950,7 @@ namespace Wms12m
             int tarih = DateTime.Today.ToOADateInt();
             string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
             var sevkiyat = db.Settings.Select(m => m.SevkiyatVarmi).FirstOrDefault();
-            var idx = db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), tblx.Kod, "", ComboItems.Paketle.ToInt32(), sevkiyat ? ComboItems.Sevket.ToInt32(): 0).FirstOrDefault();
+            var idx = db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), tblx.Kod, "", ComboItems.Paketle.ToInt32(), sevkiyat ? ComboItems.Sevket.ToInt32() : 0).FirstOrDefault();
             LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "UpdatePackageBarcode", ComboItems.alDüzenle, idx.ToInt32(), "Paketle => Sevkiyat");
             //update
             var tbl = db.GorevPaketlers.Where(m => m.GorevID == GorevID).FirstOrDefault();
