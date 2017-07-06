@@ -429,6 +429,19 @@ namespace Wms12m
                                     Birim = item2.Birim,
                                     Miktar = item2.Miktar.Value
                                 };
+                                if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
+                                stok.Insert(tmp2, 0, KullID);
+                            }
+                            else if (tmp2.MakaraNo != item2.MakaraNo)
+                            {
+                                tmp2 = new Yer()
+                                {
+                                    KatID = KatID.Value,
+                                    MalKodu = item2.MalKodu,
+                                    Birim = item2.Birim,
+                                    Miktar = item2.Miktar.Value
+                                };
+                                if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
                                 stok.Insert(tmp2, 0, KullID);
                             }
                             else
@@ -556,6 +569,7 @@ namespace Wms12m
                         var tmp2 = stok.Detail(Rkat.Value, item.MalKodu, item.Birim);
                         tmp2.Miktar -= item.Miktar;
                         stok.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
+                        string makarano = tmp2.MakaraNo;
                         //yerleştirme kaydı yapılır
                         tmp2 = stok.Detail(kat.Value, item.MalKodu, item.Birim);
                         if (tmp2 == null)
@@ -567,6 +581,19 @@ namespace Wms12m
                                 Birim = item.Birim,
                                 Miktar = item.Miktar
                             };
+                            if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
+                            stok.Insert(tmp2, item.IrsID, KullID);
+                        }
+                        else if (tmp2.MakaraNo != makarano)
+                        {
+                            tmp2 = new Yer()
+                            {
+                                KatID = kat.Value,
+                                MalKodu = item.MalKodu,
+                                Birim = item.Birim,
+                                Miktar = item.Miktar
+                            };
+                            if (makarano != "" || makarano != null) tmp2.MakaraNo = makarano;
                             stok.Insert(tmp2, item.IrsID, KullID);
                         }
                         else
