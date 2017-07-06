@@ -217,5 +217,15 @@ namespace Wms12m.Presentation.Controllers
             var list = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[dbo].[ChkKampanyaDetay] @CHK='{1}'", "17", CHK)).ToList();
             return PartialView(list);
         }
+        public string SiparisKampanyaDetay(string CHK, string EvrakNo)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+            var list = db.Database.SqlQuery<KampanyaSiparisDetay>(string.Format("[FINSAT6{0}].[dbo].[SiparisKampanyaDetay] @CHK='{1}', @EvrakNo='{2}'", "17", CHK, EvrakNo)).ToList();
+            return json.Serialize(list);
+        }
     }
 }

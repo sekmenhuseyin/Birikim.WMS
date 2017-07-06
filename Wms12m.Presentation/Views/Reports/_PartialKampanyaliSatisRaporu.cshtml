@@ -31,26 +31,39 @@
                             <th nowrap style="width:20px;"></th>
                             <th nowrap>Hesap Kodu</th>
                             <th nowrap>Comfort Miktar</th>
+                            <th nowrap>Comfort Birim</th>
                             <th nowrap>Comfort Teslim Miktar</th>
                             <th nowrap>Comfort Tutar</th>
                             <th nowrap>Exculusive Miktar</th>
+                            <th nowrap>Exculusive Birim</th>
                             <th nowrap>Exculusive Teslim Miktar</th>
                             <th nowrap>Exculusive Tutar</th>
                             <th nowrap>Golden Miktar</th>
+                            <th nowrap>Golden Birim</th>
                             <th nowrap>Golden Teslim Miktar</th>
                             <th nowrap>Golden Tutar</th>
                             <th nowrap>Loft Miktar</th>
+                            <th nowrap>Loft Birim</th>
                             <th nowrap>Loft Teslim Miktar</th>
                             <th nowrap>Loft Tutar</th>
                             <th nowrap>Vintage Miktar</th>
+                            <th nowrap>Vintage Birim</th>
                             <th nowrap>Vintage Teslim Miktar</th>
                             <th nowrap>Vintage Tutar</th>
                             <th nowrap>Peli NeroFloor Miktar</th>
+                            <th nowrap>Peli NeroFloor Birim</th>
                             <th nowrap>Peli NeroFloor Teslim Miktar</th>
                             <th nowrap>Peli NeroFloor Tutar</th>
+                            <th nowrap>Wood Miktar</th>
+                            <th nowrap>Wood Birim</th>
+                            <th nowrap>Wood Teslim Miktar</th>
+                            <th nowrap>Wood Tutar</th>
+                            <th nowrap>Süpürgelik Birim</th>
+                            <th nowrap>Hak Edilen 6cm Süpürgelik Miktarı</th>
                             <th nowrap>Bedelsiz 6cm Süpürgelik Miktar</th>
                             <th nowrap>Bedelsiz 6cm Süpürgelik Teslim Miktar</th>
                             <th nowrap>Bedelsiz 6cm Süpürgelik Tutar</th>
+                            <th nowrap>Hak Edilen 8cm Süpürgelik Miktarı</th>
                             <th nowrap>Bedelsiz 8cm Süpürgelik Miktar</th>
                             <th nowrap>Bedelsiz 8cm Süpürgelik Teslim Miktar</th>
                             <th nowrap>Bedelsiz 8cm Süpürgelik Tutar</th>
@@ -96,6 +109,19 @@
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -105,26 +131,39 @@
                                 <td nowrap class='details-control' style="width:20px;"> </td>
                                 <td nowrap>@item.Chk</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.ComfortMiktar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.ComfortBirim</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.ComfortTeslimMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.ComfortTutar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.ExculusiveMiktar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.ExculusiveBirim</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.ExculusiveTeslimMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.ExculusiveTutar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.GoldenMiktar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.GoldenBirim</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.GoldenTeslimMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.GoldenTutar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.LoftMiktar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.LoftBirim</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.LoftTeslimMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.LoftTutar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.VintageMiktar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.VintageBirim</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.VintageTeslimMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.VintageTutar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.PeliNeroFloorMiktar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.PeliNeroFloorBirim</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.PeliNeroFloorTeslimMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.PeliNeroFloorTutar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.WoodMiktar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.WoodBirim</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.WoodTeslimMiktar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.WoodTutar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.SupurgelikBirim</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.HakKazanilan6cmSup).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupTutar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.HakKazanilan8cmSup).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupTutar).ToDecimal().ToOnFormat()</td>
@@ -134,8 +173,6 @@
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupTutar).ToDecimal().ToOnFormat()</td>
-
-                                
                             </tr>
                         }
                     </tbody>
