@@ -28,7 +28,7 @@
                             <th nowrap></th>
                             <th nowrap> Evrak No </th>
                             <th nowrap> Tarih </th>
-                            <th nowrap> Hesap No </th>
+                            <th nowrap> Hesap Kodu </th>
                             <th nowrap> Ünvan </th>
                             <th nowrap> Teslim Yeri Kodu </th>
                             <th nowrap>Teslim Yeri Ünvan</th>
@@ -52,7 +52,7 @@
                                 <td nowrap class="select-checkbox"></td>
                                 <td nowrap> @item.EvrakNo</td>
                                 <td nowrap>@item.Tarih</td>
-                                <td nowrap>@item.HesapNo</td>
+                                <td nowrap>@item.Chk</td>
                                 <td nowrap>@item.Unvan</td>
                                 <td nowrap>@item.TeslimYeriKodu</td>
                                 <td nowrap>@item.TeslimYeriUnvan</td>
@@ -92,7 +92,7 @@
         $('#SMOnayla').click(function (e) {
             var x = table.rows('.selected').data();
             for (var i = 0; i < x.length; i++) {
-                secili_table.push(x[i][0]);
+                secili_table.push(x[i][1]);
             }
             var _dfd = $.Deferred();
             $.ajax({
@@ -126,7 +126,7 @@
 
             var x = table.rows('.selected').data();
             for (var i = 0; i < x.length; i++) {
-                secili_table.push(x[i][0]);
+                secili_table.push(x[i][1]);
             }
             var _dfd = $.Deferred();
             $.ajax({
