@@ -201,21 +201,33 @@ namespace Wms12m.Presentation.Controllers
 
         public ActionResult KampanyaliSatisRaporu()
         {
+            ViewBag.BasTarih = 36526;
+            ViewBag.BitTarih = 44196;
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
 
-        public PartialViewResult PartialKampanyaliSatisRaporu()
+        public PartialViewResult PartialKampanyaliSatisRaporu(int bastarih, int bittarih)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var KSR = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[dbo].[KampanyaliSatisRaporu]", "17")).ToList();
+            var KSR = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[dbo].[KampanyaliSatisRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
             return PartialView("_PartialKampanyaliSatisRaporu", KSR);
         }
-        public PartialViewResult ChkKampanyaDetay(string CHK)
+        public PartialViewResult ChkKampanyaDetay(string CHK, int bastarih, int bittarih)
         {
             if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[dbo].[ChkKampanyaDetay] @CHK='{1}'", "17", CHK)).ToList();
+            var list = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[dbo].[ChkKampanyaDetay] @CHK='{1}', @BasTarih={2}, @BitTarih={3}", "17", CHK, bastarih, bittarih)).ToList();
             return PartialView(list);
+        }
+        public string SiparisKampanyaDetay(string CHK, string EvrakNo, int bastarih, int bittarih)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+            var list = db.Database.SqlQuery<KampanyaSiparisDetay>(string.Format("[FINSAT6{0}].[dbo].[SiparisKampanyaDetay] @CHK='{1}', @EvrakNo='{2}', @BasTarih={3}, @BitTarih={4}", "17", CHK, EvrakNo, bastarih, bittarih)).ToList();
+            return json.Serialize(list);
         }
     }
 }
