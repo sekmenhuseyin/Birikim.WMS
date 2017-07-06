@@ -198,5 +198,24 @@ namespace Wms12m.Presentation.Controllers
             var CE = db.Database.SqlQuery<RaporCariEkstreDiger>(string.Format("[FINSAT6{0}].[dbo].[BTB_RP_CariEkstreDetay_Diger]  @HesapKodu = '{1}', @EvrakNo='{2}'", "17", CHK, EvrakNo)).ToList();
             return json.Serialize(CE);
         }
+
+        public ActionResult KampanyaliSatisRaporu()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+
+        public PartialViewResult PartialKampanyaliSatisRaporu()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+            var KSR = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[dbo].[KampanyaliSatisRaporu]", "17")).ToList();
+            return PartialView("_PartialKampanyaliSatisRaporu", KSR);
+        }
+        public PartialViewResult ChkKampanyaDetay(string CHK)
+        {
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
+            var list = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[dbo].[ChkKampanyaDetay] @CHK='{1}'", "17", CHK)).ToList();
+            return PartialView(list);
+        }
     }
 }

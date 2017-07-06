@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "KampanyaliSatisRaporu";
+}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <style>
+        td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+        }
+        .btn {
+            width: 120px;
+            text-align: center;
+        }
+        .detay:hover {
+            background-color: rgb(176, 190, 217) !important;
+        }
+    </style>
+}
+<div class="row" id="kampanyali-siparis-grid" style="margin-top:10px;"></div>
+<div class="modal fade" id="x-modal-evrakno-detay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" style="width:950px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#12ccee">Sipariş Bazında Kampanya Detayı</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="grid_evrakno-detay">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn red" data-dismiss="modal" id="mdlSilKapat">Kapat</button>
+                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        var BekleyeSiparisRaporuUrl = "/Reports/PartialKampanyaliSatisRaporu";
+        PartialView(BekleyeSiparisRaporuUrl, 'kampanyali-siparis-grid');
+        });
+        function newrow(chk) { return "<table style='background:transparent;' id='new" + chk + "'></table>"; }
+        function format(d) {
+            $.ajax({
+                type: 'POST',
+                url: '/Reports/ChkKampanyaDetay',
+                data: { "CHK": d },
+                dataType: "html",
+                success: function (data) {
+                    $('#new' + d.toString().replace(/\s/g, '')).html(data);
+                }
+            });
+        }
+    </script>
+}
+
+
+
+
