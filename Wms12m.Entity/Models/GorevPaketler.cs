@@ -19,12 +19,12 @@ namespace Wms12m.Entity.Models
         public string PaketNo { get; set; }
         public decimal Adet { get; set; }
         public int PaketTipiID { get; set; }
-        public Nullable<decimal> Agirlik { get; set; }
+        public decimal Agirlik { get; set; }
+        public bool Printed { get; set; }
         public string Kaydeden { get; set; }
         public int KayitTarih { get; set; }
         public string Degistiren { get; set; }
         public int DegisTarih { get; set; }
-        public bool Printed { get; set; }
     
         public virtual ComboItem_Name ComboItem_Name { get; set; }
         public virtual Gorev Gorev { get; set; }

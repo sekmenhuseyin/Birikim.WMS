@@ -328,7 +328,7 @@
           <Property Name="PaketNo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Adet" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="PaketTipiID" Type="int" Nullable="false" />
-          <Property Name="Agirlik" Type="numeric" Precision="25" Scale="6" />
+          <Property Name="Agirlik" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="Printed" Type="bit" Nullable="false" />
           <Property Name="Kaydeden" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="KayitTarih" Type="int" Nullable="false" />
@@ -349,7 +349,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GorevID" Type="int" Nullable="false" />
-          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="BaslamaTarihi" Type="int" Nullable="false" />
           <Property Name="BitisTarihi" Type="int" />
         </EntityType>
@@ -1584,9 +1584,6 @@
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
             <Parameter Name="Kod" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetIrsDetayfromGorev" ReturnType="Collection(MModel.GetIrsDetayfromGorev_Result)">
-          <Parameter Name="GorevID" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="GetKoridorIdFromGorevId" ReturnType="Collection(Int32)">
           <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1807,11 +1804,6 @@
             <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetMenuRoles" ReturnType="Collection(MModel.GetMenuRoles_Result)" />
-          <EntitySet Name="GorevUsers" EntityType="MModel.GorevUser" />
-          <AssociationSet Name="FK_GorevUsers_Gorev" Association="MModel.FK_GorevUsers_Gorev">
-            <End Role="Gorev" EntitySet="Gorevs" />
-            <End Role="GorevUser" EntitySet="GorevUsers" />
-          </AssociationSet>
           <FunctionImport Name="GetRolePermsFor" ReturnType="Collection(MModel.GetRolePermsFor_Result)">
             <Parameter Name="RoleName" Mode="In" Type="String" />
             <Parameter Name="Group" Mode="In" Type="String" />
@@ -1925,12 +1917,7 @@
             <Parameter Name="GörevTipiID" Mode="In" Type="Int32" />
             <Parameter Name="YeniGorevTipiID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="GorevPaketlers" EntityType="MModel.GorevPaketler" />
           <EntitySet Name="UserDetails" EntityType="MModel.UserDetail" />
-          <AssociationSet Name="FK_GorevPaketler_ComboItem_Name" Association="MModel.FK_GorevPaketler_ComboItem_Name">
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="GorevPaketler" EntitySet="GorevPaketlers" />
-          </AssociationSet>
           <AssociationSet Name="FK_Depo_Users_Users" Association="MModel.FK_Depo_Users_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="UserDetail" EntitySet="UserDetails" />
@@ -1939,10 +1926,23 @@
             <End Role="Depo" EntitySet="Depoes" />
             <End Role="UserDetail" EntitySet="UserDetails" />
           </AssociationSet>
+          <EntitySet Name="GorevUsers" EntityType="MModel.GorevUser" />
+          <AssociationSet Name="FK_GorevUsers_Gorev" Association="MModel.FK_GorevUsers_Gorev">
+            <End Role="Gorev" EntitySet="Gorevs" />
+            <End Role="GorevUser" EntitySet="GorevUsers" />
+          </AssociationSet>
+          <EntitySet Name="GorevPaketlers" EntityType="MModel.GorevPaketler" />
+          <AssociationSet Name="FK_GorevPaketler_ComboItem_Name" Association="MModel.FK_GorevPaketler_ComboItem_Name">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="GorevPaketler" EntitySet="GorevPaketlers" />
+          </AssociationSet>
           <AssociationSet Name="FK_GorevPaketler_Gorev" Association="MModel.FK_GorevPaketler_Gorev">
             <End Role="Gorev" EntitySet="Gorevs" />
             <End Role="GorevPaketler" EntitySet="GorevPaketlers" />
           </AssociationSet>
+          <FunctionImport Name="GetIrsDetayfromGorev" ReturnType="Collection(MModel.GetIrsDetayfromGorev_Result)">
+            <Parameter Name="GorevID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -1951,14 +1951,6 @@
         <ComplexType Name="GetHucreAd_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Ad" Nullable="false" MaxLength="403" />
-        </ComplexType>
-        <ComplexType Name="GetIrsDetayfromGorev_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
-          <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
-          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
         </ComplexType>
         <EntityType Name="Simge">
           <Key>
@@ -2785,29 +2777,6 @@
           <Property Type="String" Name="Ad" Nullable="true" MaxLength="154" />
           <Property Type="String" Name="RoleName" Nullable="false" />
         </ComplexType>
-        <EntityType Name="GorevUser">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="GorevID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="BaslamaTarihi" Type="Int32" Nullable="false" />
-          <Property Name="BitisTarihi" Type="Int32" />
-          <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevUsers_Gorev" FromRole="GorevUser" ToRole="Gorev" />
-        </EntityType>
-        <Association Name="FK_GorevUsers_Gorev">
-          <End Type="MModel.Gorev" Role="Gorev" Multiplicity="1" />
-          <End Type="MModel.GorevUser" Role="GorevUser" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gorev">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevUser">
-              <PropertyRef Name="GorevID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="GetRolePermsFor_Result">
           <Property Type="String" Name="PermName" Nullable="false" MaxLength="50" />
           <Property Type="Int16" Name="Type" Nullable="false" />
@@ -3121,24 +3090,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="GorevPaketler">
-          <Key>
-            <PropertyRef Name="GorevID" />
-          </Key>
-          <Property Name="GorevID" Type="Int32" Nullable="false" />
-          <Property Name="SevkiyatNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PaketNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Adet" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
-          <Property Name="PaketTipiID" Type="Int32" Nullable="false" />
-          <Property Name="Agirlik" Type="Decimal" Precision="25" Scale="6" />
-          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
-          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_GorevPaketler_ComboItem_Name" FromRole="GorevPaketler" ToRole="ComboItem_Name" />
-          <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevPaketler_Gorev" FromRole="GorevPaketler" ToRole="Gorev" />
-          <Property Name="Printed" Type="Boolean" Nullable="false" />
-        </EntityType>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="UserID" />
@@ -3160,18 +3111,6 @@
           <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
         </EntityType>
-        <Association Name="FK_GorevPaketler_ComboItem_Name">
-          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
-          <End Type="MModel.GorevPaketler" Role="GorevPaketler" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItem_Name">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevPaketler">
-              <PropertyRef Name="PaketTipiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Depo_Users_Users">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
           <End Type="MModel.UserDetail" Role="UserDetail" Multiplicity="0..1" />
@@ -3196,6 +3135,59 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="GorevUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GorevID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="BaslamaTarihi" Type="Int32" Nullable="false" />
+          <Property Name="BitisTarihi" Type="Int32" />
+          <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevUsers_Gorev" FromRole="GorevUser" ToRole="Gorev" />
+        </EntityType>
+        <Association Name="FK_GorevUsers_Gorev">
+          <End Type="MModel.Gorev" Role="Gorev" Multiplicity="1" />
+          <End Type="MModel.GorevUser" Role="GorevUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gorev">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevUser">
+              <PropertyRef Name="GorevID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GorevPaketler">
+          <Key>
+            <PropertyRef Name="GorevID" />
+          </Key>
+          <Property Name="GorevID" Type="Int32" Nullable="false" />
+          <Property Name="SevkiyatNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PaketNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Adet" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="PaketTipiID" Type="Int32" Nullable="false" />
+          <Property Name="Agirlik" Type="Decimal" Nullable="false" Precision="25" Scale="6" />
+          <Property Name="Printed" Type="Boolean" Nullable="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_GorevPaketler_ComboItem_Name" FromRole="GorevPaketler" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevPaketler_Gorev" FromRole="GorevPaketler" ToRole="Gorev" />
+        </EntityType>
+        <Association Name="FK_GorevPaketler_ComboItem_Name">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.GorevPaketler" Role="GorevPaketler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevPaketler">
+              <PropertyRef Name="PaketTipiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GorevPaketler_Gorev">
           <End Type="MModel.Gorev" Role="Gorev" Multiplicity="1" />
           <End Type="MModel.GorevPaketler" Role="GorevPaketler" Multiplicity="0..1" />
@@ -3208,6 +3200,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetIrsDetayfromGorev_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="SirketKod" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="GorevNo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="MalKodu" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="MakaraNo" Nullable="false" MaxLength="1" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3235,18 +3236,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetHucreKatID" FunctionName="MModel.Store.GetHucreKatID" />
-          <FunctionImportMapping FunctionImportName="GetIrsDetayfromGorev" FunctionName="MModel.Store.GetIrsDetayfromGorev">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetIrsDetayfromGorev_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
-                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
-                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
-                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
-                <ScalarProperty Name="Birim" ColumnName="Birim" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetKoridorIdFromGorevId" FunctionName="MModel.Store.GetKoridorIdFromGorevId" />
           <FunctionImportMapping FunctionImportName="GetStock" FunctionName="MModel.Store.GetStock" />
           <FunctionImportMapping FunctionImportName="GetPermissionFor" FunctionName="MModel.Store.GetPermissionFor" />
@@ -3677,17 +3666,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="GorevUsers">
-            <EntityTypeMapping TypeName="MModel.GorevUser">
-              <MappingFragment StoreEntitySet="GorevUsers">
-                <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
-                <ScalarProperty Name="BaslamaTarihi" ColumnName="BaslamaTarihi" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetRolePermsFor" FunctionName="MModel.Store.GetRolePermsFor">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetRolePermsFor_Result">
@@ -3877,23 +3855,6 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SettingsPaketNo" FunctionName="MModel.Store.SettingsPaketNo" />
           <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
-          <EntitySetMapping Name="GorevPaketlers">
-            <EntityTypeMapping TypeName="MModel.GorevPaketler">
-              <MappingFragment StoreEntitySet="GorevPaketler">
-                <ScalarProperty Name="Printed" ColumnName="Printed" />
-                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
-                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="Agirlik" ColumnName="Agirlik" />
-                <ScalarProperty Name="PaketTipiID" ColumnName="PaketTipiID" />
-                <ScalarProperty Name="Adet" ColumnName="Adet" />
-                <ScalarProperty Name="PaketNo" ColumnName="PaketNo" />
-                <ScalarProperty Name="SevkiyatNo" ColumnName="SevkiyatNo" />
-                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserDetails">
             <EntityTypeMapping TypeName="MModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetails">
@@ -3914,6 +3875,47 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="GorevUsers">
+            <EntityTypeMapping TypeName="MModel.GorevUser">
+              <MappingFragment StoreEntitySet="GorevUsers">
+                <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
+                <ScalarProperty Name="BaslamaTarihi" ColumnName="BaslamaTarihi" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GorevPaketlers">
+            <EntityTypeMapping TypeName="MModel.GorevPaketler">
+              <MappingFragment StoreEntitySet="GorevPaketler">
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="Printed" ColumnName="Printed" />
+                <ScalarProperty Name="Agirlik" ColumnName="Agirlik" />
+                <ScalarProperty Name="PaketTipiID" ColumnName="PaketTipiID" />
+                <ScalarProperty Name="Adet" ColumnName="Adet" />
+                <ScalarProperty Name="PaketNo" ColumnName="PaketNo" />
+                <ScalarProperty Name="SevkiyatNo" ColumnName="SevkiyatNo" />
+                <ScalarProperty Name="GorevID" ColumnName="GorevID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetIrsDetayfromGorev" FunctionName="MModel.Store.GetIrsDetayfromGorev">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetIrsDetayfromGorev_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SirketKod" ColumnName="SirketKod" />
+                <ScalarProperty Name="GorevNo" ColumnName="GorevNo" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

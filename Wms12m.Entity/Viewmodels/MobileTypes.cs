@@ -47,5 +47,6 @@
         public decimal Adet { get; set; }
         public int PaketTipiID { get; set; }
         public decimal Agirlik { get; set; }
+        public bool HepsiVar { get; set; }
     }
 }

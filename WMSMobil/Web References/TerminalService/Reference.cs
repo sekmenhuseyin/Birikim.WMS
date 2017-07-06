@@ -28,7 +28,7 @@ namespace WMSMobil.TerminalService {
         
         /// <remarks/>
         public Terminal() {
-            this.Url = "http://88.248.139.219/service/terminal.asmx";
+            this.Url = "http://localhost:3841/service/terminal.asmx";
         }
         
         /// <remarks/>
@@ -155,7 +155,7 @@ namespace WMSMobil.TerminalService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/GetGorevList", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Tip_GOREV[] GetGorevList(int gorevli, int durum, int gorevtipi, int DepoID, int KullID, string AuthGiven, string Guid) {
+        public Tip_GOREV[] GetGorevList(string gorevli, int durum, int gorevtipi, int DepoID, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("GetGorevList", new object[] {
                         gorevli,
                         durum,
@@ -168,7 +168,7 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
-        public System.IAsyncResult BeginGetGorevList(int gorevli, int durum, int gorevtipi, int DepoID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+        public System.IAsyncResult BeginGetGorevList(string gorevli, int durum, int gorevtipi, int DepoID, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
             return this.BeginInvoke("GetGorevList", new object[] {
                         gorevli,
                         durum,
@@ -869,6 +869,8 @@ namespace WMSMobil.TerminalService {
         
         private decimal agirlikField;
         
+        private bool hepsiVarField;
+        
         /// <remarks/>
         public string SevkiyatNo {
             get {
@@ -916,6 +918,16 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.agirlikField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool HepsiVar {
+            get {
+                return this.hepsiVarField;
+            }
+            set {
+                this.hepsiVarField = value;
             }
         }
     }
