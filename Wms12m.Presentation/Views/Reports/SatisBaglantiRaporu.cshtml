@@ -8,8 +8,9 @@
             cursor: pointer;
         }
 
-        tr.shown td.details-control {
-            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+        td.hareket-control {
+            background: url('/Content/assets/global/plugins/datatables/images/back_enabled.png') no-repeat center center;
+            cursor: pointer;
         }
 
         .btn {
@@ -24,8 +25,8 @@
 }
 <div class="row control-content">
     <div class="col-sm-6 col-xs-12" style="margin-top:10px;">
-        <div class="col-sm-4 col-xs-6" style="color:#32c5d2;font-weight:bold;">Başlangıç Tarihi</div>
-        <div class="col-sm-8 col-xs-6"><div class="basTarih" style="width:100%;"></div></div>
+        <div class="col-sm-4 col-xs-6" style="color:#32c5d2;font-weight:bold;">Sözleşme Durumu</div>
+        <div class="col-sm-8 col-xs-6"><div class="sozDurum" style="width:100%;"></div></div>
     </div>
     <div class="col-sm-3 col-xs-12" style="margin-top:10px;">
         <div class="col-sm-10 col-xs-4">
@@ -33,7 +34,7 @@
         </div>
     </div>
 </div>
-<div class="row" id="gerceklesen-sevkiyat-plani-grid" style="margin-top:10px;"></div>
+<div class="row" id="satis-baglanti-raporu-grid" style="margin-top:10px;"></div>
 @section Scripts{
     <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
@@ -46,23 +47,23 @@
             { text: "Tümü", value: 2 }
         ];
         $(document).ready(function () {
-            $(".rdgrpOnayRed").dxRadioGroup({
+            $(".sozDurum").dxRadioGroup({
                 dataSource: radioGroupItems,
                 displayExpr: "text",
                 valueExpr: "value",
-                value: "OnayBekleyenler",
+                value: 0,
                 layout: "horizontal",
                 onValueChanged: function (e) {
                     tempTip = e.value;
                 }
             });
             var PartialSatisBaglantiRaporuUrl = "/Reports/PartialSatisBaglantiRaporu";
-            PartialView(PartialSatisBaglantiRaporuUrl, 'gerceklesen-sevkiyat-plani-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih}));
+            PartialView(PartialSatisBaglantiRaporuUrl, 'satis-baglanti-raporu-grid', JSON.stringify({ tip: tip }));
         });
         $(document).on("click", ".listele-buton", function () {
             tip = tempTip;
             var PartialSatisBaglantiRaporuUrl = "/Reports/PartialSatisBaglantiRaporu";
-            PartialSatisBaglantiRaporuUrl, 'gerceklesen-sevkiyat-plani-grid', JSON.stringify({ tip: tip });
+            PartialView(PartialSatisBaglantiRaporuUrl, 'satis-baglanti-raporu-grid', JSON.stringify({ tip: tip }));
         });
       
 
