@@ -1,3 +1,16 @@
 ﻿@model frmTaskDetails
-<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr>
-@foreach (var item in Model) {<tr style='background: transparent;'><td>@item.MalKodu</td><td>@item.MalKodu.GetMalAdi(item.SirketKod)</td><td align="right">@String.Format("{0:n}", item.Miktar)</td><td>@item.Birim</td></tr>}
+<h4>Görev Bilgileri</h4>
+<table class="table table-striped table-responsive table-bordered">
+    <thead><tr><th>Oluşturan</th><th>Oluşturma Zamanı</th><th>Çalışanlar</th><th>Atayan</th><th>Atama Tarihi</th><th>Bitiş Zamanı</th></tr></thead>
+    <tbody><tr><td>@Model.grv.Olusturan</td><td>@Model.grv.OlusturmaTarihi.FromOADateInt() @Model.grv.OlusturmaSaati.FromOaTime()</td><td>@string.Join(",", Model.grv.GorevUsers.FirstOrDefault().)</td><td>@Model.grv.Atayan</td><td>@{if (Model.grv.AtamaTarihi != null) { @Model.grv.AtamaTarihi.Value.FromOADateInt() } }</td><td>@{if (Model.grv.BitisTarihi != null) { @Model.grv.BitisTarihi.Value.FromOADateInt() <text> </text> @Model.grv.BitisSaati.Value.FromOaTime()} }</td></tr></tbody>
+</table>
+<h4>Görevdeki Ürünler</h4>
+<table class="table table-striped table-responsive table-bordered">
+    <thead><tr><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr></thead>
+    <tbody>
+        @foreach (var item in Model.irsdetay)
+        {
+            <tr><td>@item.MalKodu</td><td>@item.MalKodu.GetMalAdi(item.SirketKod)</td><td align="right">@String.Format("{0:n}", item.Miktar)</td><td>@item.Birim</td></tr>
+        }
+    </tbody>
+</table>
