@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
@@ -228,6 +229,22 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
             var list = db.Database.SqlQuery<KampanyaSiparisDetay>(string.Format("[FINSAT6{0}].[dbo].[SiparisKampanyaDetay] @CHK='{1}', @EvrakNo='{2}', @BasTarih={3}, @BitTarih={4}", "17", CHK, EvrakNo, bastarih, bittarih)).ToList();
             return json.Serialize(list);
+        }
+
+
+        public ActionResult GerceklesenSevkiyatPlani()
+        {
+            ViewBag.BasTarih = (int)DateTime.Now.ToOADate();
+            ViewBag.BitTarih = (int)DateTime.Now.ToOADate();
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+
+        public PartialViewResult PartialGerceklesenSevkiyatPlani(int bastarih, int bittarih)
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+            var GSP = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[dbo].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
+            return PartialView("_PartialGerceklesenSevkiyatPlani", GSP);
         }
     }
 }

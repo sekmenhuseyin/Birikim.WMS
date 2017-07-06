@@ -300,4 +300,29 @@ namespace Wms12m.Entity
         public string Koleksiyon { get; set; }
         public string SupTip { get; set; }
     }
+
+    public class GerceklesenSevkiyatPlani
+    {
+        public System.Nullable<System.DateTime> Tarih { get; set; }
+
+        public string EvrakNo { get; set; }
+
+        public string Chk { get; set; }
+
+        public string Unvan { get; set; }
+
+        public string SatisTemsilcisi { get; set; }
+
+        public string Malkodu { get; set; }
+
+        public string MalAdi { get; set; }
+
+        public decimal Birimmiktar { get; set; }
+
+        public string Birim { get; set; }
+
+        public System.Nullable<decimal> StokMiktar { get; set; }
+
+        public string StokBirim { get; set; }
+    }
 }
