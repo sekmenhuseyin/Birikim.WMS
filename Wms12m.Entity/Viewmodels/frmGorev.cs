@@ -1,9 +1,19 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Entity
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    public class frmTaskDetails
+    {
+        public List<GetIrsDetayfromGorev_Result> irsdetay { get; set; }
+        public Gorev grv { get; set; }
+    }
     /// <summary>
     /// tüm tablo
     /// </summary>
