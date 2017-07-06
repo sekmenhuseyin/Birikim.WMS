@@ -115,11 +115,12 @@
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
             $('td', nRow).attr('nowrap', 'nowrap');
             return nRow;
-        }/*,*/ 
-        //"dom": 'Bfrtip',
-        //"buttons": [
-        //     'excel', 'pdf'
-        //],
+        }
+        ,
+        "dom": 'Bfrtip',
+        "buttons": [
+            'excel', 'pdf'
+        ],
     });
 
 
@@ -127,7 +128,14 @@
         $(this).toggleClass('selected');
     });
 
-
+    //$(document).ready(function () {
+    //    $('#sample1').DataTable({
+    //        dom: 'Bfrtip',
+    //        buttons: [
+    //            'copy', 'csv', 'excel', 'pdf', 'print'
+    //        ]
+    //    });
+    //})
             
 </script>
 <script src= "https://code.jquery.com/jquery-1.12.4.js" ></script>
