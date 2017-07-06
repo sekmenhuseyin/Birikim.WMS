@@ -694,6 +694,8 @@
     <Content Include="Views\Reports\KampanyaliSatisRaporu.cshtml" />
     <Content Include="Views\Reports\_PartialKampanyaliSatisRaporu.cshtml" />
     <Content Include="Views\Reports\ChkKampanyaDetay.cshtml" />
+    <Content Include="Views\Reports\GerceklesenSevkiyatPlani.cshtml" />
+    <Content Include="Views\Reports\_PartialGerceklesenSevkiyatPlani.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
