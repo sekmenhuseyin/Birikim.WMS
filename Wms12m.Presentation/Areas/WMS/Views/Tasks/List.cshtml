@@ -15,7 +15,7 @@
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
                 <td>@item.Bilgi</td>
                 <td>
-                    @if(item.GorevTipiID == ComboItems.BarkodHazırla.ToInt32()){<a class="btn btn-primary input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/Barcode/@item.ID')">Barkod</a>}
+                    @if(item.DurumID == ComboItems.Tamamlanan.ToInt32() && item.GorevTipiID == ComboItems.Paketle.ToInt32()){<a class="btn btn-primary input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/Barcode/@item.ID')">Barkod</a>}
                     @if (item.DurumID != ComboItems.Tamamlanan.ToInt32()){<a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>}
                 </td>
             </tr>

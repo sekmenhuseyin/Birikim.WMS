@@ -37,7 +37,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult Details(int ID)
         {
             if (CheckPerm(Perms.GörevListesi, PermTypes.Reading) == false) return null;
-            var list = db.GetIrsDetayfromGorev(ID);
+            var list = new frmTaskDetails()
+            {
+                irsdetay = db.GetIrsDetayfromGorev(ID).ToList(),
+                grv = Task.Detail(ID)
+            };
             return PartialView("Details", list);
         }
         /// <summary>

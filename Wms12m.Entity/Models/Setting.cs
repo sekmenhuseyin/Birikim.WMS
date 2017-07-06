@@ -40,5 +40,6 @@ namespace Wms12m.Entity.Models
         public bool homeUser { get; set; }
         public bool homeTask { get; set; }
         public bool homeTransfer { get; set; }
+        public bool SevkiyatVarmi { get; set; }
     }
 }
