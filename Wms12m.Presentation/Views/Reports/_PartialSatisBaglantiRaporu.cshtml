@@ -28,19 +28,23 @@
                 <table class="table table-striped table-bordered table-condensed" id="sample_1">
                     <thead>
                         <tr>
-                            <th nowrap>Tarih</th>
-                            <th nowrap>Evrak No</th>
                             <th nowrap>Hesap Kodu</th>
                             <th nowrap>Unvan</th>
-                            <th nowrap>Satış Temsilcisi</th>
-                            <th nowrap>Mal Kodu</th>
-                            <th nowrap>Mal Adı</th>
-                            <th nowrap>Birim Miktar</th>
-                            <th nowrap>Birim</th>
-                            <th nowrap>Stok Miktar</th>
-                            <th nowrap>Stok Birim</th>
-                            <th style="width:20px;"></th>
-                            <th style="width:20px;"></th>
+                            <th nowrap>Bakiye</th>
+                            <th nowrap>Bağlantı Tarihi</th>
+                            <th nowrap>Bağlantı No</th>
+                            <th nowrap>Sözleşme Sıra No</th>
+                            <th nowrap>Bağlantı Tipi</th>
+                            <th nowrap>Bağlantı Tutarı</th>
+                            <th nowrap>Bağlantı Para Cinsi</th>
+                            <th nowrap>Toplam Sevkedilen Tutar</th>
+                            <th nowrap>Kalan Tutar</th>
+                            <th nowrap>Devir Tarihi</th>
+                            <th nowrap>Devir Tutarı</th>
+                            <th nowrap>Devirden Sonra Sevkedilen</th>
+                            <th nowrap>Bağlantı Bitiş Tarihi</th>
+                            <th style="width:20px;">Detay</th>
+                            <th style="width:20px;">Hareket</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -50,27 +54,30 @@
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap colspan="3"></th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach (var item in Model)
             {
                             <tr>
-                                
                                 <td nowrap>@item.HesapKodu</td>
                                 <td nowrap>@item.Unvan</td>
-                                <td nowrap>@item.Bakiye</td>
+                                <td nowrap>@String.Format("{0:0.00}", item.Bakiye).ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.BaglantiTarihi.Value.ToString("dd/MM/yyyy")</td>
                                 <td nowrap>@item.BaglantiNo</td>
                                 <td nowrap>@item.SozlesmeSiraNo</td>
                                 <td nowrap>@item.BaglantiTipi</td>
-                                <td nowrap align="right">@item.BaglantiTutari.ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.BaglantiTutari).ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.BaglantiParaCinsi</td>
-                                <td nowrap align="right">@item.ToplamSevkEdilenTutar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.KalanTutar.ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.ToplamSevkEdilenTutar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.KalanTutar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.DevirTarih</td>
-                                <td nowrap align="right">@item.DevirTutar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.DevirdenSonrakiSevkedilen.ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.DevirTutar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.DevirdenSonrakiSevkedilen).ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.BaglantiBitisTarihi.Value.ToString("dd/MM/yyyy")</td>
                                 <td nowrap class='details-control' style="width:20px;"> </td>
                                 <td nowrap class='hareket-control' style="width:20px;"> </td>
@@ -88,7 +95,7 @@
         var model =  @Html.Raw(serializer.Serialize(Model));
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-        "footerCallback": function (row, data, start, end, display) {
+            "footerCallback": function (row, data, start, end, display) {
 
                 var api = this.api(), data;
                 var intVal = function (i) {
@@ -108,11 +115,40 @@
                     .reduce(function (a, b) {
                         return a + intVal(b);
                     }, 0);
+                aa = api
+                    .column(10)
+                    .data()
+                    .reduce(function (a, b) {
+                        console.log(a + intVal(b));
+                        return a + intVal(b);
+                    }, 0);
+
+                bb = api
+                    .column(12)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+                cc = api
+                    .column(13)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
                 $(api.column(7).footer()).html(
-                    ondalikBinlik(Math.round(alacaktotal * 100) / 100 ,2)
+                    ondalikBinlik(Math.round(alacaktotal * 100) / 100, 2)
                 );
                 $(api.column(9).footer()).html(
-                    ondalikBinlik(Math.round(borctotal * 100) / 100 , 2)
+                    ondalikBinlik(Math.round(borctotal * 100) / 100, 2)
+                );
+                $(api.column(10).footer()).html(
+                    ondalikBinlik(Math.round(aa * 100) / 100, 2)
+                );
+                $(api.column(12).footer()).html(
+                    ondalikBinlik(Math.round(bb * 100) / 100, 2)
+                );
+                $(api.column(13).footer()).html(
+                    ondalikBinlik(Math.round(cc * 100) / 100, 2)
                 );
             }
         });
@@ -121,6 +157,7 @@
     $('#sample_1 tbody').on('click', '.details-control', function () {
         var tr = $(this).closest('tr');
         var hesKod = "";
+        var bagNo = "";
         table
             .rows('.aa')
             .nodes()
@@ -129,10 +166,246 @@
         tr.addClass("aa");
         var x = table.rows('.aa').data();
         jQuery.each(model, function (i, val) {
-            if (model[i]["EvrakNo"].toString().trim() == x[0][2]) {
-                hesKod = model[i]["EvrakNo"];
+            if (model[i]["HesapKodu"].toString().trim() == x[0][0]) {
+                hesKod = model[i]["HesapKodu"];
+            }
+            if (model[i]["BaglantiNo"].toString().trim() == x[0][4]) {
+                bagNo = model[i]["BaglantiNo"];
             }
         });
+        $(".form-rounded").css("border-radius", "1rem");
+        $(".valor_content").css("display", "none");
+        $(".txt_sira_no").dxTextBox({ readOnly: true });
+        $(".txt_sozlesme_sira_no").dxTextBox();
+        $(".txt_sozlesme_notu").dxTextBox();
+        $(".txt_ortalama_vade").dxTextBox({ readOnly: true });
+        $(".txt_alinan_bordro_ort").dxTextBox({ readOnly: true });
+        $(".date_baslangic_tarihi").dxDateBox();
+        $(".date_bitis_tarihi").dxTextBox();
+        $(".date_vade_tarihi").dxTextBox();
+        $(".date_alinan_cek_ort_vade").dxTextBox();
+        $(".swtch_vade_valor").dxTextBox();
+
+        $(".txt_sira_no").dxTextBox();
+        NumbBox(".numb_baglanti_tutari", false, 2);
+        NumbBox(".numb_valor_gun", false, 0);
+        NumbBox(".numb_kredi_limiti", true, 2);
+        NumbBox(".numb_bakiye", true, 4);
+        NumbBox(".numb_toplam_bakiye", true, 4);
+        NumbBox(".numb_bekleyen_siparis", true, 2);
+        NumbBox(".numb_alinan_bordro", true, 2);
+        NumbBox(".numb_alinan_cek_tutari", false, 2);
+        NumbBox(".numb_alinan_nakit_vb", false, 2);
+
+        $(".numb_toplam_tahsilat").dxTextBox({readOnly: true});
+        var bagTipi = [{ Tip: "Peşin" }, { Tip: "Vadeli" }, { Tip: "Kredi Kart" }, { Tip: "Kampanya" }]
+        $(".select_baglanti_tipi").dxTextBox({ readOnly: true});
+        var dvzCins = [{ Tip: "TL" }, { Tip: "EUR" }, { Tip: "USD" }]
+        $(".select_baglanti_tutari_doviz").dxTextBox({ readOnly: true });
+        $.ajax({
+            url: window.location.origin + "/Approvals/Contract/List?tip=0",
+            data: {},
+            type: "post",
+            success: function (data) {
+                var result = JSON.parse(data);
+                $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
+            }
+        });
+
+        $.ajax({
+            url: window.location.origin + "/Approvals/Price/HesapKoduSelect",
+            data: {},
+            type: "post",
+            success: function (data) {
+                var result = JSON.parse(data);
+                $(".select_musteri_kodu").dxLookup("instance").option("dataSource", result);
+            }
+        });
+
+        $(".select_sozlesmeler").dxLookup({
+            //dataSource: model,
+            searchEnabled: true,
+            fullScreen: true,
+            pageLoadMode: "nextButton",
+            searchExpr: ["ListeNo", "MusteriKod", "Unvan", "OnayMerci"],
+            valueExpr: 'ListeNo',
+            displayExpr: 'ListeNo',
+            value: bagNo,
+            onValueChanged: function (e) {
+                if (e.value == null) {
+                    $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", "");
+                    return;
+                }
+
+                PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Contract/ISSTempList?SozlesmeNo=" + e.value,
+                    data: {},
+                    type: "post",
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                        if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
+                            MusteriUygunlukKodu = result[0].MusUygSekli;
+                        }
+                        else {
+                            MusteriUygunlukKodu = "";
+                        }
+                        $(".numb_baglanti_tutari").dxTextBox("instance").option("value", result[0].Kod11);
+                        $(".select_fiyat_listesi").dxLookup("instance").option("value", null);
+                        $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
+                        $(".select_urun_kodu").dxLookup("instance").option("value", null);
+                        $(".txt_sira_no").dxTextBox("instance").option("value", result[0].Kod2);
+                        $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", result[0].ListeNo);
+                        $(".select_baglanti_tipi").dxSelectBox("instance").option("value", result[0].Kod1);
+                        if (result[0].BaglantiParaCinsi == null) {
+                            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", "TL");
+                        }
+                        else {
+                            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", result[0].BaglantiParaCinsi);
+                        }
+                        $(".date_baslangic_tarihi").dxDateBox("instance").option("value", new Date(((result[0].BasTarih - 25569) * 86400000)));
+                        $(".date_bitis_tarihi").dxDateBox("instance").option("value", new Date(((result[0].BitTarih - 25569) * 86400000)));
+                        $(".select_musteri_kodu").dxLookup("instance").option("value", result[0].MusteriKod);
+                        $(".txt_sozlesme_notu").dxTextBox("instance").option("value", result[0].Aciklama);
+                        $(".swtch_aktif_pasif").dxSwitch("instance").option("value", result[0].AktifPasif);
+                        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("value", result[0].CekTutari);
+                        $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value", new Date(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1)));
+                        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("value", result[0].NakitTutari);
+
+                        if (result[0].ValorGun > 1) {
+                            $(".numb_valor_gun").dxTextBox("instance").option("value", result[0].ValorGun);
+                            $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
+                            $(".vade_content").css("display", "none");
+                            $(".valor_content").css("display", "block");
+                        }
+                        else if (result[0].VadeTarihi != null) {
+                            $(".date_vade_tarihi").dxDateBox("instance").option("value", new Date(((result[0].VadeTarihi - 25569) * 86400000)));
+                            $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
+                            $(".valor_content").css("display", "none");
+                            $(".vade_content").css("display", "block");
+                        }
+                        else {
+                            $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
+                            $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
+                            $(".valor_content").css("display", "none");
+                            $(".vade_content").css("display", "block");
+                        }
+                        $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", (result[0].CekTutari == null ? 0 : result[0].CekTutari) + (result[0].NakitTutari == null ? 0 : result[0].NakitTutari));
+
+                    }
+                });
+            },
+
+            itemTemplate: function (itemData, itemIndex, itemElement) {
+                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                if (itemIndex > 0) {
+                    itemElement.css({ "margin-top": "-40px" });
+                }
+                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.Unvan + "</b></p>");
+                rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>ListeNo: <i style='font-weight:normal;'>" + itemData.ListeNo + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Musteri Kodu: <i style='font-weight:normal;'>" + itemData.MusteriKod + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>OnayMerci: <i style='font-weight:normal;'>" + itemData.OnayMerci + "</i></span></div>");
+                itemElement.append(rightBlock);
+            }
+        });
+        $(".select_urun_kodu").dxLookup({
+            //dataSource: result,
+            searchEnabled: true,
+            pageLoadMode: "nextButton",
+            searchExpr: ["Kod", "Aciklama"],
+            //valueExpr: 'Kod',
+            displayExpr: 'Kod',
+            onValueChanged: function (e) {
+                if (e.value == null) {
+                    TempMalKod = "";
+                    return;
+                }
+                TempMalKod = e.value.Kod;
+                if (TempUrunGrup == 0) {
+                    TempMalAdi = e.value.Aciklama
+                }
+            },
+            itemTemplate: function (itemData, itemIndex, itemElement) {
+                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                if (itemIndex > 0) {
+                    itemElement.css({ "margin-top": "-40px" });
+                }
+                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Aciklama + "</b></p>");
+                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Kod: <i>" + itemData.Kod + "</i></p></div>");
+                itemElement.append(rightBlock);
+            }
+        });
+        $(".select_fiyat_listesi").dxLookup({
+            //dataSource: model,
+            searchEnabled: true,
+            pageLoadMode: "nextButton",
+            searchExpr: ["FiyatListNum", "FiyatListName"],
+            valueExpr: 'FiyatListNum',
+            displayExpr: 'FiyatListName',
+
+            onValueChanged: function (e) {
+                if (e.value == null) {
+                    listeNo = "";
+                    return;
+                }
+                listeNo = e.value;
+            },
+
+            itemTemplate: function (itemData, itemIndex, itemElement) {
+                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                if (itemIndex > 0) {
+                    itemElement.css({ "margin-top": "-40px" });
+                }
+                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.FiyatListName + "</b></p>");
+                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Liste No: <i>" + itemData.FiyatListNum + "</i></p></div>");
+                itemElement.append(rightBlock);
+            }
+        });
+        $(".select_musteri_kodu").dxLookup({
+            //dataSource: model,
+            searchEnabled: true,
+            pageLoadMode: "nextButton",
+            searchExpr: ["HesapKodu", "Unvan"],
+            valueExpr: 'HesapKodu',
+            displayExpr: 'Unvan',
+
+            onValueChanged: function (e) {
+                if (e.value == null) {
+                    return;
+                }
+                var listeNo = $(".select_sozlesmeler").dxLookup("instance").option("value");
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Contract/CariBilgileri?ListeNo=" + listeNo + "&HesapKodu=" + e.value,
+                    data: {},
+                    type: "post",
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                        $(".numb_kredi_limiti").dxTextBox("instance").option("value", result[0].KrediLimiti);
+                        $(".numb_bakiye").dxTextBox("instance").option("value", result[0].Bakiye);
+                        $(".numb_toplam_bakiye").dxTextBox("instance").option("value", result[0].ToplamBakiye);
+                        $(".numb_bekleyen_siparis").dxTextBox("instance").option("value", result[0].BekleyenSiparisTutar);
+                        $(".numb_alinan_bordro").dxTextBox("instance").option("value", result[0].AlinanBordro);
+                        $(".txt_alinan_bordro_ort").dxTextBox("instance").option("value", result[0].AlinanBordroOrtalamaVade == null ? "" : result[0].AlinanBordroOrtalamaVade);
+                        $(".txt_ortalama_vade").dxTextBox("instance").option("value", result[0].OrtalamaVade == null ? "" : result[0].OrtalamaVade);
+                    }
+                });
+            },
+
+            itemTemplate: function (itemData, itemIndex, itemElement) {
+                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                if (itemIndex > 0) {
+                    itemElement.css({ "margin-top": "-40px" });
+                }
+                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Hesap Kodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+                itemElement.append(rightBlock);
+            }
+        });
+
+
+
         $.ajax({
             type: 'POST',
             url: '/Reports/CariDetayCek',

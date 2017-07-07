@@ -56,8 +56,8 @@
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approvals/Risk/Onay_GM",
-                data: { Data: JSON.stringify(secili_table) },
+                url: window.location.origin + "/Approvals/Risk/RiskOnay",
+                data: { Data: JSON.stringify(secili_table), Tip: 3 },
                 type: "post",
 
                 success: function (data) {

@@ -44,7 +44,7 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                        <thead><tr><td>Sipariş No</td><td>Evrak No</td><td>Mal Kodu</td><td>Mal Adı</td><td>Marka</td><td>Cins</td><td>Kesit</td><td>Renk</td><td>Makara</td><td>Miktar</td><td>Stok</td><td></td><td></td></tr></thead>
+                        <thead><tr><td>Sipariş No</td><td>Alıcı</td><td>Evrak No</td><td>Mal Kodu</td><td>Mal Adı</td><td>Marka</td><td>Cins</td><td>Kesit</td><td>Renk</td><td>Makara</td><td>Miktar</td><td>Stok</td><td></td><td></td></tr></thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
@@ -52,6 +52,7 @@
                                 list[x] = item.Miktar.ToString();
                                 <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                                     <td>@SiraNo</td>
+                                    <td>@item.Unvan</td>
                                     <td>@item.EvrakNo</td>
                                     <td>@item.MalKodu</td>
                                     <td>@item.MalAdi</td>

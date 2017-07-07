@@ -29,8 +29,142 @@
         <div class="col-sm-8 col-xs-6"><div class="sozDurum" style="width:100%;"></div></div>
     </div>
     <div class="col-sm-3 col-xs-12" style="margin-top:10px;">
-        <div class="col-sm-10 col-xs-4">
+        <div class="col-sm-10 col-xs-6">
             <div class="btn btn-lg green listele-buton" style="width:100%; margin-bottom:10px;">Listele<i class="fa fa-check"></i></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="x-modal-baglanti-detay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" style="width:950px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#12ccee">SÖZLEŞME DETAY</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="row input_style">
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="input_content">
+                            <div class="input_label">Sözleşmeler</div>
+                            <div class="input select_sozlesmeler"></div>
+                        </div>
+                        <div class="input_content">
+                            <div class="input_label">Sözleşme No</div>
+                            <div class="input txt_sozlesme_sira_no"></div>
+                        </div>
+                        <div class="input_content">
+                            <div class="input_label">Sıra No</div>
+                            <div class="input txt_sira_no"></div>
+                        </div>
+                        <div class="input_content">
+                            <div class="input_label">Bağlantı Tipi</div>
+                            <div class="input select_baglanti_tipi"></div>
+                        </div>
+                        <div class="input_content">
+                            <div class="input_label">Bağlantı Tutarı</div>
+                            <div class="input numb numb_baglanti_tutari"></div>
+                        </div>
+                        <div class="input_content">
+                            <div class="input_label">Bağlantı Tutarı Döviz</div>
+                            <div class="input select_baglanti_tutari_doviz"></div>
+                        </div>
+
+                        <div class="input_content">
+                            <div class="input_label">Başlangıç Tarihi</div>
+                            <div class="input date_baslangic_tarihi"></div>
+                        </div>
+                        <div class="input_content">
+                            <div class="input_label">Bitiş Tarihi</div>
+                            <div class="input date_bitis_tarihi"></div>
+                        </div>
+                        <div class="input_content">
+                            <div class="input_label">Müşteri Kodu</div>
+                            <div class="input select_musteri_kodu"></div>
+                        </div>
+                        <div class="input_content">
+                            <div class="input_label">Sözleşme Notu</div>
+                            <div class="input txt_sozlesme_notu"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        <div class="input_content">
+                            <div class="input_content">
+                                <div class="input_label">Kredi Limiti</div>
+                                <div class="input numb_kredi_limiti"></div>
+                            </div>
+                            <div class="input_content">
+                                <div class="input_label">Bakiye</div>
+                                <div class="input numb_bakiye"></div>
+                            </div>
+                            <div class="input_content">
+                                <div class="input_label">Toplam Bakiye</div>
+                                <div class="input numb_toplam_bakiye"></div>
+                            </div>
+                            <div class="input_content">
+                                <div class="input_label">Bekleyen Sipariş</div>
+                                <div class="input numb_bekleyen_siparis"></div>
+                            </div>
+                            <div class="input_content">
+                                <div class="input_label">Ortalama Vade</div>
+                                <div class="input txt_ortalama_vade"></div>
+                            </div>
+                            <div class="input_content">
+                                <div class="input_label">Alınan Bordro</div>
+                                <div class="input numb_alinan_bordro"></div>
+                            </div>
+                            <div class="input_content">
+                                <div class="input_label">Alınan Bordro Ort.</div>
+                                <div class="input txt_alinan_bordro_ort"></div>
+                            </div>
+
+                            <div class="input_content">
+                                <div class="input_label">Alınan Çek Tutarı</div>
+                                <div class="input numb_alinan_cek_tutari"></div>
+                            </div>
+                            <div class="input_content">
+                                <div class="input_label">Alınan Çek Ort. Vadesi</div>
+                                <div class="input date_alinan_cek_ort_vade"></div>
+                            </div>
+                            <div class="input_content">
+                                <div class="input_label">Alınan Nakit vb</div>
+                                <div class="input numb_alinan_nakit_vb"></div>
+                            </div>
+                            <div class="input_content">
+                                <div class="input_label">Toplam Tahsilat</div>
+                                <div class="input numb_toplam_tahsilat"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="grid_baglanti-detay">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn red" data-dismiss="modal" id="mdlCekKapat">Kapat</button>
+                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
+                <div class="label"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="x-modal-cari-detay-cek" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" style="width:950px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#12ccee">CARİ DETAY</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="grid_cari-detay-cek">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn red" data-dismiss="modal" id="mdlCekKapat">Kapat</button>
+                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
+                <div class="label"></div>
+            </div>
         </div>
     </div>
 </div>

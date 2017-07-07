@@ -81,8 +81,8 @@
 
         $('.sahsiCekLimiti_duzenle').click(function () {
             var index = $(".numb_onc_sahsiceklimiti").data("index");
-            var yeniSahsiCekLimiti = $(".numb_yeni_sahsiceklimiti").dxTextBox("instance").option("value").replace(/\./g, "").replace(",", ".");
-            var yeniMusteriCekLimiti = $(".txt_yeni_mustericeklimiti").dxTextBox("instance").option("value").replace(/\./g, "").replace(",", ".");
+            var yeniSahsiCekLimiti = $(".numb_yeni_sahsiceklimiti").dxTextBox("instance").option("value").toString().replace(/\./g, "").replace(",", ".");
+            var yeniMusteriCekLimiti = $(".txt_yeni_mustericeklimiti").dxTextBox("instance").option("value").toString().replace(/\./g, "").replace(",", ".");
             table.cell(index, 5).data(yeniSahsiCekLimiti);
             table.cell(index, 6).data(yeniMusteriCekLimiti);
             RiskTanımKayıt()
