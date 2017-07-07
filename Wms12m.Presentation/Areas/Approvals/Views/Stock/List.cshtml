@@ -1,35 +1,9 @@
 ﻿<div class="col-md-12" style="width:100%;">
     <div class="table-toolbar">
         <div class="row">
-            <div class="col-md-6">
-                <div class="btn-group">
 
-                </div>
-            </div>
             <div class="col-md-6">
-                <div class="btn-group pull-right">
-                    <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">
-                        Tools
-                        <i class="fa fa-angle-down"></i>
-                    </button>
-                    <ul class="dropdown-menu pull-right">
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-print"></i> Print
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-file-pdf-o"></i> Save as PDF
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-file-excel-o"></i> Export to Excel
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <div class="row" id="buttons" style="margin-bottom:5px; margin-top:5px;"></div>
             </div>
             <table class="table table-striped table-bordered table-hover" id="sample_1">
                 <thead>
@@ -116,5 +90,11 @@
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
+    var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+            { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+            { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+        ]
+    }).container().appendTo($('#buttons'));
     
 </script>
