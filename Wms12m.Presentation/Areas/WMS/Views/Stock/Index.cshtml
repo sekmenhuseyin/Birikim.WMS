@@ -117,8 +117,8 @@
         });
     }
     function FuncSearchBtn() {
-        //if ($("#KatID").val() == "" || $("#KatID").val() == null) return;
         $('#Grid').html("");
+        if (($("#DepoID").val() == "" || $("#DepoID").val() == null) && ($("#RafID").val() == "" || $("#RafID").val() == null) && ($("#KatID").val() == "" || $("#KatID").val() == null)) return;
         PartialView("/WMS/Stock/List", 'Grid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
     }
 </script>

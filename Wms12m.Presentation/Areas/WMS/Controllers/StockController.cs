@@ -32,17 +32,17 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             List<string> liste = new List<string>();
             foreach (var item in list) { liste.Add(item); }
             ViewBag.Sirket = liste;
+            ViewBag.Manual = false;
             //id'ye göre liste döner
             string[] ids = Id.Split('#');
-            string url = Request.Url.AbsoluteUri;
             try
             {
-                if (ids[2] != "0" && ids[2].ToString2() != "") //bir kattaki ait malzemeler
+                if (ids[2] != "0" && ids[2] != "null" && ids[2].ToString2() != "") //bir kattaki ait malzemeler
                 {
                     ViewBag.Manual = ids[3].ToBool();
                     return PartialView("List", Yerlestirme.GetList(ids[2].ToInt32()));
                 }
-                else if (ids[1] != "0" && ids[1].ToString2() != "") //bir raftaki ait malzemeler
+                else if (ids[1] != "0" && ids[1] != "null" && ids[1].ToString2() != "") //bir raftaki ait malzemeler
                     return PartialView("List", Yerlestirme.GetListFromRaf(ids[1].ToInt32()));
                 else// if (ids[0] != "0") //tüm depoya ait malzemeler: burada timeout verebilir
                     return PartialView("List", Yerlestirme.GetListFromDepo(ids[0].ToInt32()));
