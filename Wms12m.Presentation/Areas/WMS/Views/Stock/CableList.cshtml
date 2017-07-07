@@ -54,6 +54,12 @@
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
+        var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+            ]
+        }).container().appendTo($('#buttons'));
     });
     function newrow(id) {
         return "<table style='background:transparent;' id='new" + id + "'></table>";
@@ -73,11 +79,6 @@
             }
         });
     }
-    var table123 = $('#sample_1').DataTable();
-    var buttons = new $.fn.dataTable.Buttons(table123, {
-        buttons: [
-            { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
-            { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
-        ]
-    }).container().appendTo($('#buttons'));
+   // var table123 = $('#sample_1').DataTable();
+
 </script>
