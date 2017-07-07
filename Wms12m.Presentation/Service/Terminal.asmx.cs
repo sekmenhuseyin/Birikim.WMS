@@ -227,11 +227,6 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new List<Tip_STI>();
-            //var tu = mGorev.GorevUsers.Where(m => m.UserName == tbl.Kod).FirstOrDefault();
-            //if (tu != null)
-            //    if (tu.BitisTarihi != null)
-            //        return new List<Tip_STI>();
-            //return
             string sql = "", sql2 = "";
             if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())
             {
