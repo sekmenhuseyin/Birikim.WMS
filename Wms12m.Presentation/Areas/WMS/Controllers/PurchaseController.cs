@@ -313,20 +313,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         /// yeni malzeme
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public PartialViewResult InsertMalzeme(frmMalzeme tbl)
+        public JsonResult InsertMalzeme(frmMalzeme tbl)
         {
             if (CheckPerm(Perms.MalKabul, PermTypes.Writing) == false) return null;
             //sadece irsaliye daha onaylanmamışsa yani işlemleri bitmeişse ekle
             var irs = Irsaliye.Detail(tbl.IrsaliyeId);
             if (irs.Onay == false)
-                IrsaliyeDetay.Insert(tbl);
-            //get list
-            var list = IrsaliyeDetay.GetList(tbl.IrsaliyeId);
-            ViewBag.IrsaliyeId = tbl.IrsaliyeId;
-            ViewBag.Onay = irs.Onay;
-            ViewBag.SirketID = irs.SirketKod;
-            ViewBag.Yetki = true;
-            return PartialView("_GridPartial", list);
+                return Json(IrsaliyeDetay.Insert(tbl), JsonRequestBehavior.AllowGet);
+            return Json(new Result(false, "Bu irsaliyeye ürün eklenemez"), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// malzeme autocomplete

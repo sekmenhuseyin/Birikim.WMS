@@ -5,7 +5,7 @@
 }
 else
 {
-    using (Ajax.BeginForm("InsertMalzeme", "Purchase", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid" }, new { @class = "form-horizontal" }))
+    using (Ajax.BeginForm("InsertMalzeme", "Purchase", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid", OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
     {
         string tmp = ViewBag.SirketID;
         <table class="table table-striped table-bordered table-hover">
@@ -33,7 +33,7 @@ else
     <input type="hidden" id="IrsNo" value="@ViewBag.IrsaliyeId" />
     <script>
         disableAll()
-        @{if (ViewBag.Onay == false && ViewBag.Yetki == true) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
+        @{ if (ViewBag.Onay == false && ViewBag.Yetki == true) { <text>$(".showlater").show();</text> } else { <text>$(".showlater").hide();</text> } }
         $("#MalKodu").focus();
         $("#MalKodu").autocomplete({
             source: "/WMS/Purchase/GetMalzemebyCode/" + $("#SirketID").val(),
