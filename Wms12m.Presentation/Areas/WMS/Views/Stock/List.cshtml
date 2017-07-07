@@ -1,5 +1,13 @@
 ﻿@model IEnumerable<Yer>
 @{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); bool ellemi = ViewBag.Manual; }
+
+<div class="row" style="margin-bottom:5px;margin-left:5px;">
+    <div class="col-md-6">
+
+        <div id="buttons"></div>
+
+    </div>
+</div>
 <table class="table table-striped table-bordered" id="sample_1">
     <thead><tr><th>Yer</th><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th class="text-right">Miktar</th><th>Makara No</th>@{if (ellemi == true) { <th></th> } }</tr></thead>
     <tbody>
@@ -32,6 +40,12 @@
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
+                        
+            //"dom": 'Bfrtip',
+            //"buttons": [
+            //    { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+            //    { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+            //],
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             initComplete: function () {
@@ -48,4 +62,13 @@
             }
         });
     });
+
+
+    var table123 = $('#sample_1').DataTable();
+    var buttons = new $.fn.dataTable.Buttons(table123, {
+        buttons: [
+            { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+            { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+        ]
+    }).container().appendTo($('#buttons'));
 </script>

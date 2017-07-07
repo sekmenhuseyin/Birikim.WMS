@@ -22,7 +22,13 @@
         </div>
 
         <div class="portlet-body">
+            <div class="row" style="margin-bottom:5px;margin-left:5px;">
+                <div class="col-md-6">
 
+                    <div id="buttons"></div>
+
+                </div>
+            </div>
 
             <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
@@ -136,6 +142,20 @@
                 );
 
             }
+            //,
+            //"dom": 'Bfrtip',
+            //"buttons": [
+            //    { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+            //    { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+            //],
         });
     });
+
+    var table123 = $('#sample_1').DataTable();
+    var buttons = new $.fn.dataTable.Buttons(table123, {
+        buttons: [
+            { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+            { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+        ]
+    }).container().appendTo($('#buttons'));
 </script>

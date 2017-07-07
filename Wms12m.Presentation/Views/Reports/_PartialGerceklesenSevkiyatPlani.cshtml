@@ -61,9 +61,9 @@
                                 <td nowrap>@item.SatisTemsilcisi</td>
                                 <td nowrap>@item.Malkodu</td>
                                 <td nowrap>@item.MalAdi</td>
-                                <td nowrap>@String.Format("{0:0.00}", item.Birimmiktar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@item.Birimmiktar.ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.Birim</td>
-                                <td nowrap>@String.Format("{0:0.00}", item.StokMiktar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.StokBirim</td>
                             </tr>
                         }
@@ -89,6 +89,7 @@
                     .column(7)
                     .data()
                     .reduce(function (a, b) {
+                        console.log(a + intVal(b));
                         return a + intVal(b);
                     }, 0);
 
@@ -99,10 +100,10 @@
                         return a + intVal(b);
                     }, 0);
                 $(api.column(7).footer()).html(
-                    ondalikBinlik(alacaktotal,4)
+                    ondalikBinlik(Math.round(alacaktotal * 100) / 100 ,2)
                 );
                 $(api.column(9).footer()).html(
-                    ondalikBinlik(borctotal, 4)
+                    ondalikBinlik(Math.round(borctotal * 100) / 100 , 2)
                 );
             }
         });
