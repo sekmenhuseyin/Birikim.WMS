@@ -64,7 +64,7 @@ namespace Wms12m
             if (search != "")
                 tblx = tblx.Where(m => m.CAR002_Unvan1.Contains(search));
             var list = tblx.Select(m => new frmMusteriler { HesapKodu = m.CAR002_HesapKodu, Unvan = m.CAR002_Unvan1, CariTipi = m.CAR002_Kod2 }).Take(50).ToList();
-            return new List<frmMusteriler>();
+            return list;
         }
         /// <summary>
         /// malları getirir
