@@ -10,6 +10,7 @@ namespace Wms12m.Entity
         public string SirketID { get; set; }
         public int ROW_ID { get; set; }
         public short SiraNo { get; set; }
+        public string Unvan { get; set; }
         public string EvrakNo { get; set; }
         public string MalKodu { get; set; }
         public string MalAdi { get; set; }
@@ -29,6 +30,7 @@ namespace Wms12m.Entity
         public int ROW_ID { get; set; }
         public short SiraNo { get; set; }
         public string EvrakNo { get; set; }
+        public string Unvan { get; set; }
         public int id { get; set; }
         public string MalKodu { get; set; }
         public string MalAdi { get; set; }
