@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Yer>
 @{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); bool ellemi = ViewBag.Manual; }
+
 <table class="table table-striped table-bordered" id="sample_1">
     <thead><tr><th>Yer</th><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th class="text-right">Miktar</th><th>Makara No</th>@{if (ellemi == true) { <th></th> } }</tr></thead>
     <tbody>
@@ -34,6 +35,11 @@
             "pagingType": "full_numbers",
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "dom": 'Bfrtip',
+            "buttons": [
+                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+            ],
             initComplete: function () {
                 this.api().columns([0, 1, 2]).every(function () {
                     var column = this;

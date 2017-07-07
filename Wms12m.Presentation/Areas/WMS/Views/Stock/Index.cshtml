@@ -20,19 +20,19 @@
                             <div class="form-group">
                                 <div class="col-sm-3 control-label">Depo</div>
                                 <div class="col-sm-4">
-                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle", @onchange = "getShelf(this.value);" })
+                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle", @onchange = "getShelf(this.value);FuncSearchBtn();" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-3 control-label">Raf</div>
                                 <div class="col-sm-4">
-                                    <select id="RafID" class="form-control input-circle" onchange="getSection(this.value);"></select>
+                                    <select id="RafID" class="form-control input-circle" onchange="getSection(this.value);FuncSearchBtn();"></select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-3 control-label">Bölüm</div>
                                 <div class="col-sm-4">
-                                    <select id="BolumID" class="form-control input-circle" onchange="getFloor(this.value);"></select>
+                                    <select id="BolumID" class="form-control input-circle" onchange="getFloor(this.value);FuncSearchBtn();"></select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -117,8 +117,8 @@
         });
     }
     function FuncSearchBtn() {
-        if ($("#KatID").val() == "" || $("#KatID").val() == null) return;
         $('#Grid').html("");
+        if (($("#DepoID").val() == "" || $("#DepoID").val() == null) && ($("#RafID").val() == "" || $("#RafID").val() == null) && ($("#KatID").val() == "" || $("#KatID").val() == null)) return;
         PartialView("/WMS/Stock/List", 'Grid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
     }
 </script>

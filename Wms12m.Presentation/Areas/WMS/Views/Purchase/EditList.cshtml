@@ -6,7 +6,7 @@
 <td>@Model.Birim</td>
 <td>@Html.TextBoxFor(a => a.MakaraNo, new { @class = "form-control input-circle", @onchange = "$('#MakaraNo" + Model.ID + "').val(this.value)" })</td>
 <td>
-    @using (Ajax.BeginForm("UpdateList", "Purchase", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "tr" + Model.ID, HttpMethod = "POST", OnSuccess = "", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
+    @using (Ajax.BeginForm("UpdateList", "Purchase", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "tr" + Model.ID, HttpMethod = "POST", OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
     {
         @Html.AntiForgeryToken()
         <input type="hidden" name="ID" value="@Model.ID" />

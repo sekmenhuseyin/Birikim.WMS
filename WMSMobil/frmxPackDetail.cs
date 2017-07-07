@@ -79,5 +79,12 @@ namespace WMSMobil
                 this.Close();
             }
         }
+        /// <summary>
+        /// geri
+        /// </summary>
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

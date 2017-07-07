@@ -4,6 +4,7 @@
     serializer.MaxJsonLength = Int32.MaxValue;
 }
 <div class="col-md-12" style="width:100%;">
+
     <div class="portlet box green">
         <div class="portlet-title">
             <div class="caption">
@@ -22,7 +23,13 @@
         </div>
 
         <div class="portlet-body">
+            <div class="row" style="margin-bottom:5px;margin-left:5px;">
+                <div class="col-md-6">
 
+                    <div id="buttons"></div>
+
+                </div>
+            </div>
 
             <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
@@ -66,7 +73,7 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
-        $('#sample_1').DataTable({
+       var table123= $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
 
             "footerCallback": function (row, data, start, end, display) {
@@ -106,12 +113,16 @@
 
                     ondalikBinlik(bakiyetotal, 2)
                 );
-            },
-            "dom": 'Bfrtip',
-            "buttons": [
-                'excel', 'pdf'
-            ],
+            }
 
         });
+        var buttons = new $.fn.dataTable.Buttons(table123, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+            ]
+        }).container().appendTo($('#buttons'));
     });
+  //  var table123 = $('#sample_1').DataTable();
+
 </script>
