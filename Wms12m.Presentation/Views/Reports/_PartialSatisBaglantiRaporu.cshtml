@@ -1,0 +1,319 @@
+﻿@model List<SatisBaglatiRapru>
+@{
+    System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+}
+
+<div class="col-md-12" style="width:100%;">
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>Satış Bağlantı Raporu
+            </div>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+            </div>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Export Data </a>
+            </div>
+            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
+                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
+            </div>
+
+        </div>
+
+        <div class="portlet-body">
+
+            <div class="row">
+                <table class="table table-striped table-bordered table-condensed" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th nowrap>Tarih</th>
+                            <th nowrap>Evrak No</th>
+                            <th nowrap>Hesap Kodu</th>
+                            <th nowrap>Unvan</th>
+                            <th nowrap>Satış Temsilcisi</th>
+                            <th nowrap>Mal Kodu</th>
+                            <th nowrap>Mal Adı</th>
+                            <th nowrap>Birim Miktar</th>
+                            <th nowrap>Birim</th>
+                            <th nowrap>Stok Miktar</th>
+                            <th nowrap>Stok Birim</th>
+                            <th style="width:20px;"></th>
+                            <th style="width:20px;"></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th nowrap colspan="7"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+            {
+                            <tr>
+                                
+                                <td nowrap>@item.HesapKodu</td>
+                                <td nowrap>@item.Unvan</td>
+                                <td nowrap>@item.Bakiye</td>
+                                <td nowrap>@item.BaglantiTarihi.Value.ToString("dd/MM/yyyy")</td>
+                                <td nowrap>@item.BaglantiNo</td>
+                                <td nowrap>@item.SozlesmeSiraNo</td>
+                                <td nowrap>@item.BaglantiTipi</td>
+                                <td nowrap align="right">@item.BaglantiTutari.ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.BaglantiParaCinsi</td>
+                                <td nowrap align="right">@item.ToplamSevkEdilenTutar.ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@item.KalanTutar.ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.DevirTarih</td>
+                                <td nowrap align="right">@item.DevirTutar.ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@item.DevirdenSonrakiSevkedilen.ToDecimal().ToOnFormat()</td>
+                                <td nowrap>@item.BaglantiBitisTarihi.Value.ToString("dd/MM/yyyy")</td>
+                                <td nowrap class='details-control' style="width:20px;"> </td>
+                                <td nowrap class='hareket-control' style="width:20px;"> </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var model =  @Html.Raw(serializer.Serialize(Model));
+        table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "footerCallback": function (row, data, start, end, display) {
+
+                var api = this.api(), data;
+                var intVal = function (i) {
+                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                };
+                alacaktotal = api
+                    .column(7)
+                    .data()
+                    .reduce(function (a, b) {
+                        console.log(a + intVal(b));
+                        return a + intVal(b);
+                    }, 0);
+
+                borctotal = api
+                    .column(9)
+                    .data()
+                    .reduce(function (a, b) {
+                        return a + intVal(b);
+                    }, 0);
+                $(api.column(7).footer()).html(
+                    ondalikBinlik(Math.round(alacaktotal * 100) / 100 ,2)
+                );
+                $(api.column(9).footer()).html(
+                    ondalikBinlik(Math.round(borctotal * 100) / 100 , 2)
+                );
+            }
+        });
+ 
+    });
+    $('#sample_1 tbody').on('click', '.details-control', function () {
+        var tr = $(this).closest('tr');
+        var hesKod = "";
+        table
+            .rows('.aa')
+            .nodes()
+            .to$()      // Convert to a jQuery object
+            .removeClass('aa');
+        tr.addClass("aa");
+        var x = table.rows('.aa').data();
+        jQuery.each(model, function (i, val) {
+            if (model[i]["EvrakNo"].toString().trim() == x[0][2]) {
+                hesKod = model[i]["EvrakNo"];
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            url: '/Reports/CariDetayCek',
+            data: { "CHK": chk, "EvrakNo": hesKod },
+            dataType: "html",
+            success: function (data) {
+                $('#x-modal-cari-detay-cek').modal("show");
+                var result = JSON.parse(data);
+                var columns = [
+                    {
+                        caption: 'Borçlu Ünvan', dataField: 'BorcluUnvan',
+                        customizeText: function (cellInfo) {
+                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+                        }
+                    },
+                    { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
+                    {
+                        caption: 'Vade Tarihi', dataField: 'VadeTarihi',
+                        customizeText: function (cellInfo) {
+                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+                        }
+                    },
+                    { caption: 'Şehir', dataField: 'Sehir' },
+                    { caption: 'Banka', dataField: 'Banka' },
+                    { caption: 'Şube', dataField: 'Sube' },
+                    { caption: 'Çek No', dataField: 'CekNo' },
+                ];
+                _grid_quotations_detail = $('.grid_cari-detay-cek').dxDataGrid({
+                    dataSource: result,
+                    height: 400,
+                    paging: { pageSize: 5000 },
+                    columns: columns,
+                    headerFilter: {
+                        visible: true
+                    },
+                    popupDetailedWindow: true,
+                    columnAutoWidth: true,
+                    pagingCounter: true,
+                    filterRow: {
+                        visible: true,
+                        applyFilter: 'auto',
+                        applyFilterText: 'Apply filter',
+                        resetOperationText: 'Reset'
+                    },
+                    scrolling: {
+                        scrollByContent: true,
+                        scrollByThumb: true
+                    },
+                    allowColumnReordering: true,
+                    allowColumnResizing: true,
+                    remoteOperations: true,
+                    showRowLines: true,
+                    hoverStateEnabled: true,
+                    rowAlternationEnabled: false,
+                    sorting: {
+                        mode: "multiple",
+                    },
+
+                    onRowClick: function (opt) {
+                        if (opt.rowType == "data") {
+                            var component = opt.component;
+                            var prevClickTime = component.lastClickTime;//take last clicked time
+                            component.lastClickTime = new Date();
+                            if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+                                //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
+                            }
+                        }
+                    },
+                    onCellPrepared: function (info) {
+                        if (info.rowType == "data") {
+                            if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
+                                info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
+                            }
+                        }
+                    }
+                }).dxDataGrid("instance");
+            }
+        });
+
+
+    });
+    $('#sample_1 tbody').on('click', '.hareket-control', function () {
+        var tr = $(this).closest('tr');
+        var hesKod = "";
+        table
+            .rows('.aa')
+            .nodes()
+            .to$()      // Convert to a jQuery object
+            .removeClass('aa');
+        tr.addClass("aa");
+        var x = table.rows('.aa').data();
+        jQuery.each(model, function (i, val) {
+            if (model[i]["EvrakNo"].toString().trim() == x[0][2]) {
+                hesKod = model[i]["EvrakNo"];
+            }
+        });
+        $.ajax({
+            type: 'POST',
+            url: '/Reports/CariDetayCek',
+            data: { "CHK": chk, "EvrakNo": hesKod },
+            dataType: "html",
+            success: function (data) {
+                $('#x-modal-cari-detay-cek').modal("show");
+                var result = JSON.parse(data);
+                var columns = [
+                    {
+                        caption: 'Borçlu Ünvan', dataField: 'BorcluUnvan',
+                        customizeText: function (cellInfo) {
+                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+                        }
+                    },
+                    { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
+                    {
+                        caption: 'Vade Tarihi', dataField: 'VadeTarihi',
+                        customizeText: function (cellInfo) {
+                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+                        }
+                    },
+                    { caption: 'Şehir', dataField: 'Sehir' },
+                    { caption: 'Banka', dataField: 'Banka' },
+                    { caption: 'Şube', dataField: 'Sube' },
+                    { caption: 'Çek No', dataField: 'CekNo' },
+                ];
+                _grid_quotations_detail = $('.grid_cari-detay-cek').dxDataGrid({
+                    dataSource: result,
+                    height: 400,
+                    paging: { pageSize: 5000 },
+                    columns: columns,
+                    headerFilter: {
+                        visible: true
+                    },
+                    popupDetailedWindow: true,
+                    columnAutoWidth: true,
+                    pagingCounter: true,
+                    filterRow: {
+                        visible: true,
+                        applyFilter: 'auto',
+                        applyFilterText: 'Apply filter',
+                        resetOperationText: 'Reset'
+                    },
+                    scrolling: {
+                        scrollByContent: true,
+                        scrollByThumb: true
+                    },
+                    allowColumnReordering: true,
+                    allowColumnResizing: true,
+                    remoteOperations: true,
+                    showRowLines: true,
+                    hoverStateEnabled: true,
+                    rowAlternationEnabled: false,
+                    sorting: {
+                        mode: "multiple",
+                    },
+
+                    onRowClick: function (opt) {
+                        if (opt.rowType == "data") {
+                            var component = opt.component;
+                            var prevClickTime = component.lastClickTime;//take last clicked time
+                            component.lastClickTime = new Date();
+                            if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+                                //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
+                            }
+                        }
+                    },
+                    onCellPrepared: function (info) {
+                        if (info.rowType == "data") {
+                            if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
+                                info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
+                            }
+                        }
+                    }
+                }).dxDataGrid("instance");
+            }
+        });
+
+
+    });
+    setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
+    $('#sample_1').on('draw.dt', function () {
+        setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
+    });
+</script>
+
+

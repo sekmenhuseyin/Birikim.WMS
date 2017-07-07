@@ -325,4 +325,37 @@ namespace Wms12m.Entity
 
         public string StokBirim { get; set; }
     }
+
+    public class SatisBaglatiRapru
+    {
+        public string HesapKodu { get; set; }
+
+        public string Unvan { get; set; }
+
+        public System.Nullable<decimal> Bakiye { get; set; }
+
+        public string SozlesmeSiraNo { get; set; }
+
+        public string BaglantiNo { get; set; }
+
+        public string BaglantiTipi { get; set; }
+
+        public System.Nullable<System.DateTime> BaglantiBitisTarihi { get; set; }
+
+        public decimal BaglantiTutari { get; set; }
+
+        public string BaglantiParaCinsi { get; set; }
+
+        public System.Nullable<System.DateTime> BaglantiTarihi { get; set; }
+
+        public string DevirTarih { get; set; }
+
+        public System.Nullable<decimal> DevirTutar { get; set; }
+
+        public System.Nullable<decimal> ToplamSevkEdilenTutar { get; set; }
+
+        public System.Nullable<decimal> DevirdenSonrakiSevkedilen { get; set; }
+
+        public System.Nullable<decimal> KalanTutar { get; set; }
+    }
 }
