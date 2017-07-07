@@ -28,37 +28,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
-        public JsonResult Onay_SM(string Data)
-        {
-            Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-
-            try
-            {
-
-                foreach (JObject insertObj in parameters)
-                {
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] SET SMOnay = 1, SMOnaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
-                }
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
-            }
-            catch (Exception)
-            {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
         public JsonResult Red_SM(string Data)
         {
             Result _Result = new Result(true);
@@ -72,7 +41,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 foreach (JObject insertObj in parameters)
                 {
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", "17", insertObj["ID"].ToString()));
 
@@ -110,37 +79,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
-        public JsonResult Onay_GM(string Data)
-        {
-            Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-
-            try
-            {
-
-                foreach (JObject insertObj in parameters)
-                {
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
-                }
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
-            }
-            catch (Exception)
-            {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
         public JsonResult Red_GM(string Data)
         {
             Result _Result = new Result(true);
@@ -154,7 +92,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 foreach (JObject insertObj in parameters)
                 {
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", "17", insertObj["ID"].ToString()));
 
@@ -190,38 +128,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
-        public JsonResult Onay_SPGMY(string Data)
-        {
-            Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-
-            try
-            {
-
-                foreach (JObject insertObj in parameters)
-                {
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
-
-                }
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
-            }
-            catch (Exception)
-            {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
         public JsonResult Red_SPGMY(string Data)
         {
             Result _Result = new Result(true);
@@ -235,7 +141,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 foreach (JObject insertObj in parameters)
                 {
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", "17", insertObj["ID"].ToString()));
 
@@ -269,42 +175,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCekMIGMY()
         {
             if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]  where (OnayTip = 2 and SPGMYOnay = 1 and MIGMYOnay = 0) OR (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 0) and Durum = 0", "17")).ToList();
+            var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]  where ((OnayTip = 2 and SPGMYOnay = 1 and MIGMYOnay = 0) OR (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 0)) and Durum = 0", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
-        }
-
-        public JsonResult Onay_MIGMY(string Data)
-        {
-            Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
-            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-
-            try
-            {
-
-                foreach (JObject insertObj in parameters)
-                {
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] SET MIGMYOnay = 1, MIGMYOnaylayan='" + vUser.UserName + "', MIGMYOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
-
-                }
-
-                _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
-            }
-            catch (Exception)
-            {
-
-                _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Red_MIGMY(string Data)
@@ -320,7 +193,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 foreach (JObject insertObj in parameters)
                 {
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim] where ID = '{1}'", "17", insertObj["ID"].ToString()));
 
@@ -374,39 +247,37 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         continue;
                     }
 
-                    RiskTanim rsk = new RiskTanim()
-                    {
-                        HesapKodu = insertObj["HesapKodu"].ToString(),
-                        Unvan = insertObj["Unvan"].ToString(),
-                        SahsiCekLimiti = Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()),
-                        MusteriCekLimiti = Convert.ToDecimal(insertObj["YeniMusteriCekLimiti"].ToString()),
-                        SMOnay = false,
-                        SMOnaylayan = "",
-                        SPGMYOnay = false,
-                        SPGMYOnaylayan = "",
-                        MIGMYOnay = false,
-                        MIGMYOnaylayan = "",
-                        GMOnay = false,
-                        GMOnaylayan = "",
-                        Durum = false
-                    };
-                    if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) < 20000)
+                    RiskTanim rsk = new RiskTanim();
+                    rsk.HesapKodu = insertObj["HesapKodu"].ToString();
+                    rsk.Unvan = insertObj["Unvan"].ToString();
+                    rsk.SahsiCekLimiti = insertObj["YeniSahsiCekLimiti"].ToDecimal();
+                    rsk.MusteriCekLimiti = insertObj["YeniMusteriCekLimiti"].ToDecimal();
+                    rsk.SMOnay = false;
+                    rsk.SMOnaylayan = "";
+                    rsk.SPGMYOnay = false;
+                    rsk.SPGMYOnaylayan = "";
+                    rsk.MIGMYOnay = false;
+                    rsk.MIGMYOnaylayan = "";
+                    rsk.GMOnay = false;
+                    rsk.GMOnaylayan = "";
+                    rsk.Durum = false;
+                    if (insertObj["YeniSahsiCekLimiti"].ToDecimal() < 20000)
                     {
                         rsk.OnayTip = 0;
                     }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) < 100000)
+                    else if (insertObj["YeniSahsiCekLimiti"].ToDecimal() < 100000)
                     {
                         rsk.OnayTip = 1;
                     }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) < 200000)
+                    else if (insertObj["YeniSahsiCekLimiti"].ToDecimal() < 200000)
                     {
                         rsk.OnayTip = 2;
                     }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) < 500000)
+                    else if (insertObj["YeniSahsiCekLimiti"].ToDecimal() < 500000)
                     {
                         rsk.OnayTip = 3;
                     }
-                    else if (Convert.ToDecimal(insertObj["YeniSahsiCekLimiti"].ToString()) >= 500000)
+                    else if (insertObj["YeniSahsiCekLimiti"].ToDecimal() >= 500000)
                     {
                         rsk.OnayTip = 4;
                     }
@@ -428,6 +299,46 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 return "NO";
             }
+        }
+
+
+        public JsonResult RiskOnay(string Data, int Tip)
+        {
+            Result _Result = new Result(true);
+            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            string CHK = "";
+            int ID = 0;
+            try
+            {
+
+                foreach (JObject insertObj in parameters)
+                {
+                    CHK = insertObj["HesapKodu"].ToString();
+                    ID = insertObj["ID"].ToInt32();
+                    if (Tip == 3)//GMOnay
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", "17", CHK, Tip, vUser.UserName, ID)); }
+                    else if (Tip == 2)//MIGMYOnay
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", "17", CHK, Tip, vUser.UserName, ID)); }
+                    else if (Tip == 1)//SPGMYOnay
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", "17", CHK, Tip, vUser.UserName, ID)); }
+                    else if (Tip == 0)//SMOnay
+                    { db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SP_RiskOnay] @CHK = '{1}',@Tip={2},@Kullanici = '{3}',@ID={4}", "17", CHK, Tip, vUser.UserName, ID)); }
+                }
+
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+
+            }
+            catch (Exception)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }
