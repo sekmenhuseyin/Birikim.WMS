@@ -227,10 +227,10 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new List<Tip_STI>();
-            var tu = mGorev.GorevUsers.Where(m => m.UserName == tbl.Kod).FirstOrDefault();
-            if (tu != null)
-                if (tu.BitisTarihi != null)
-                    return new List<Tip_STI>();
+            //var tu = mGorev.GorevUsers.Where(m => m.UserName == tbl.Kod).FirstOrDefault();
+            //if (tu != null)
+            //    if (tu.BitisTarihi != null)
+            //        return new List<Tip_STI>();
             //return
             string sql = "", sql2 = "";
             if (mGorev.GorevTipiID == ComboItems.SiparişTopla.ToInt32() || mGorev.GorevTipiID == ComboItems.TransferÇıkış.ToInt32() || mGorev.GorevTipiID == ComboItems.KontrolSayım.ToInt32())
@@ -906,6 +906,11 @@ namespace Wms12m
             int tarih = DateTime.Today.ToOADateInt();
             db.SettingsPaketNo(mGorev.DepoID, GorevID, tblx.Kod, tarih);
             LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "Paketle_GoreviTamamla", ComboItems.alEkle, GorevID, "Paket Barkodu");
+            //finish gorev
+            string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
+            var sevkiyat = db.Settings.Select(m => m.SevkiyatVarmi).FirstOrDefault();
+            var idx = db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), tblx.Kod, "", ComboItems.Paketle.ToInt32(), sevkiyat ? ComboItems.Sevket.ToInt32() : 0).FirstOrDefault();
+            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "Paketle_GoreviTamamla", ComboItems.alDüzenle, idx.ToInt32(), "Paketle => Sevkiyat");
             //görev user tablosu
             var tbl = db.GorevUsers.Where(m => m.GorevID == GorevID && m.UserName == tblx.Kod).FirstOrDefault();
             tbl.BitisTarihi = DateTime.Today.ToOADateInt();
@@ -942,6 +947,36 @@ namespace Wms12m
             return list;
         }
         /// <summary>
+        /// paketle görevini tamamla
+        /// </summary>
+        [WebMethod]
+        public Result UpdatePackageBarcode(frmGorevPaket pkt, int GorevID, int KullID, string AuthGiven, string Guid)
+        {
+            //kontrol
+            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
+            Guid = Guid.Cozumle();
+            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
+            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
+            var mGorev = db.Gorevs.Where(m => m.ID == GorevID).FirstOrDefault();
+            if (mGorev.IsNull())
+                return new Result(false, "Görev bulunamadı !");
+            //update
+            var tbl = db.GorevPaketlers.Where(m => m.GorevID == GorevID).FirstOrDefault();
+            tbl.SevkiyatNo = pkt.SevkiyatNo;
+            tbl.PaketNo = pkt.PaketNo;
+            tbl.PaketTipiID = pkt.PaketTipiID;
+            tbl.Adet = pkt.Adet;
+            tbl.Agirlik = pkt.Agirlik;
+            tbl.Degistiren = tblx.Kod;
+            tbl.DegisTarih = DateTime.Today.ToOADateInt();
+            tbl.Printed = false;
+            db.SaveChanges();
+            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "UpdatePackageBarcode", ComboItems.alDüzenle, GorevID, "Paket Barkodu");
+            //return
+            return new Result(true);
+
+        }
+        /// <summary>
         /// barkoddan irsaliyenin bilgileri
         /// </summary>
         [WebMethod]
@@ -964,41 +999,6 @@ namespace Wms12m
                 "WHERE (wms.GorevPaketler.PaketNo = '{1}') " +
                 "GROUP BY wms.Depo.DepoKodu, IRS.HesapKodu, CONVERT(varchar(15), wms.fnRoundUp(wms.GorevPaketler.Agirlik,2)), wms.fnFormatDateFromInt(wms.GorevPaketler.KayitTarih)", sirketkodu, barkod);
             return db.Database.SqlQuery<Tip_IRS>(sql).FirstOrDefault();
-        }
-        /// <summary>
-        /// paketle görevini tamamla
-        /// </summary>
-        [WebMethod]
-        public Result UpdatePackageBarcode(frmGorevPaket pkt, int GorevID, int KullID, string AuthGiven, string Guid)
-        {
-            //kontrol
-            if (AuthGiven.Cozumle() != AuthPass) return new Result(false, "Yetkisiz giriş!");
-            Guid = Guid.Cozumle();
-            var tblx = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
-            if (tblx == null) return new Result(false, "Yetkisiz giriş!");
-            int durumID = ComboItems.Açık.ToInt32();
-            var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
-            if (mGorev.IsNull())
-                return new Result(false, "Görev bulunamadı !");
-            //görevi bitir
-            int tarih = DateTime.Today.ToOADateInt();
-            string gorevNo = db.SettingsGorevNo(tarih, mGorev.DepoID).FirstOrDefault();
-            var sevkiyat = db.Settings.Select(m => m.SevkiyatVarmi).FirstOrDefault();
-            var idx = db.TerminalFinishGorev(GorevID, mGorev.IrsaliyeID, gorevNo, tarih, DateTime.Now.ToOaTime(), tblx.Kod, "", ComboItems.Paketle.ToInt32(), sevkiyat ? ComboItems.Sevket.ToInt32() : 0).FirstOrDefault();
-            LogActions(KullID.ToString(), "Terminal", "Service", "Terminal", "UpdatePackageBarcode", ComboItems.alDüzenle, idx.ToInt32(), "Paketle => Sevkiyat");
-            //update
-            var tbl = db.GorevPaketlers.Where(m => m.GorevID == GorevID).FirstOrDefault();
-            tbl.SevkiyatNo = pkt.SevkiyatNo;
-            tbl.PaketNo = pkt.PaketNo;
-            tbl.PaketTipiID = pkt.PaketTipiID;
-            tbl.Adet = pkt.Adet;
-            tbl.Agirlik = pkt.Agirlik;
-            tbl.Degistiren = tblx.Kod;
-            tbl.DegisTarih = tarih;
-            db.SaveChanges();
-            //return
-            return new Result(true);
-
         }
         /// <summary>
         /// paketle görevini tamamla
