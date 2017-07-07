@@ -3208,6 +3208,7 @@
           <Property Type="Decimal" Name="Miktar" Nullable="true" Precision="38" Scale="6" />
           <Property Type="String" Name="Birim" Nullable="false" MaxLength="4" />
           <Property Type="String" Name="MakaraNo" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="Sira" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3913,6 +3914,7 @@
                 <ScalarProperty Name="Miktar" ColumnName="Miktar" />
                 <ScalarProperty Name="Birim" ColumnName="Birim" />
                 <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
