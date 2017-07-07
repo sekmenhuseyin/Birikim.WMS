@@ -1,11 +1,9 @@
 ﻿@{
     ViewBag.Title = "Kablo Stok";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<style>
-    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
-    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
-</style>
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Stock">Stok</a><i class="fa fa-circle"></i></li><li><span>Kablo Stok</span></li></ul></div>
+}@section Styles{<link href="~/Content/assets/global/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/global/plugins/datatables/extensions/Buttons/css/buttons.bootstrap.min.css" rel="stylesheet" />
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Kablo Stok</span></li></ul></div>
 <h1 class="page-title">Kablo Stok</h1>
 <div class="row">
     <div class="col-md-12">
@@ -22,10 +20,33 @@
                             <div class="form-group">
                                 <div class="col-sm-3 control-label">Depo</div>
                                 <div class="col-sm-4">
-                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle", @onchange = "FuncSearchBtn();" })
+                                    @Html.DropDownList("DepoID", null, htmlAttributes: new { @class = "form-control StoreListi input-circle", @onchange = "getShelf(this.value);FuncSearchBtn();" })
                                 </div>
                             </div>
-                            <div id="Grid" class="p-30"></div>
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">Raf</div>
+                                <div class="col-sm-4">
+                                    <select id="RafID" class="form-control input-circle" onchange="getSection(this.value);FuncSearchBtn();"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">Bölüm</div>
+                                <div class="col-sm-4">
+                                    <select id="BolumID" class="form-control input-circle" onchange="getFloor(this.value);FuncSearchBtn();"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 control-label">Kat</div>
+                                <div class="col-sm-4">
+                                    <select id="KatID" class="form-control input-circle" onchange="FuncSearchBtn();"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-3">
+                                    <button class="btn btn-default btn-block btn-circle" type="button" onclick="FuncSearchBtn()">Yenile <i class="icon-refresh"></i></button>
+                                </div>
+                            </div>
+                            <div id="Grid"><table id="myTable" class="table table-striped table-bordered table-hover"></table></div>
                         </div>
                     </div>
                 </div>
@@ -33,13 +54,73 @@
         </div>
     </div>
 </div>
-@section Scripts{<script type="text/javascript">
-    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
-    function FuncSearchBtn() {
-        var StoreId = $("#DepoID option:selected").val(); if (StoreId == null || StoreId == 0) StoreId = 0;
-        $('#Grid').html("");
-        if (StoreId == 0) return;
-        PartialView('/WMS/Stock/CableList', 'Grid', JSON.stringify({ Id: (StoreId) }));
-    }
-</script>
+@section Scripts{
+    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.bootstrap.min.js"></script>
+    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
+    <script type="text/javascript">
+        $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+        function getShelf(id) {
+            $('#Grid').html("");
+            $("#RafID option").remove();
+            $("#BolumID option").remove();
+            $("#KatID option").remove();
+            $.ajax({
+                url: "/Constants/Shelf/ShelfList2/" + id,
+                type: 'POST',
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data != "") {
+                        $.each(data, function (i, item) {
+                            $('#RafID').append($('<option>', { value: item.Value, text: item.Text }));
+                        });
+                        $("#RafID").prepend("<option value=''>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0;
+                    }
+                }
+            });
+        }
+        function getSection(id) {
+            $('#Grid').html("");
+            $("#BolumID option").remove();
+            $("#KatID option").remove();
+            $.ajax({
+                url: "/Constants/Section/SectionList/" + id,
+                type: 'POST',
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data != "") {
+                        $.each(data, function (i, item) {
+                            $('#BolumID').append($('<option>', { value: item.Value, text: item.Text }));
+                        });
+                        $("#BolumID").prepend("<option value=''>Seçiniz !!!</option>"); $("#BolumID")[0].selectedIndex = 0;
+                    }
+                }
+            });
+        }
+        function getFloor(id) {
+            $('#Grid').html("");
+            $("#KatID option").remove();
+            $.ajax({
+                url: "/Constants/Floor/FloorList/" + id,
+                type: 'POST',
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data != "") {
+                        $.each(data, function (i, item) {
+                            $('#KatID').append($('<option>', { value: item.Value, text: item.Text }));
+                        });
+                        $("#KatID").prepend("<option value=''>Seçiniz !!!</option>"); $("#KatID")[0].selectedIndex = 0;
+                    }
+                }
+            });
+        }
+        function FuncSearchBtn() {
+            $('#Grid').html("");
+            if (($("#DepoID").val() == "" || $("#DepoID").val() == null) && ($("#RafID").val() == "" || $("#RafID").val() == null) && ($("#KatID").val() == "" || $("#KatID").val() == null)) return;
+            PartialView("/WMS/Stock/CableList", 'Grid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
+        }
+    </script>
 }

@@ -23,4 +23,14 @@
         </tbody>
     </table>
 }else{<div>Kayıt Bulunamadı</div>}
-<script>$(document).ready(function () { $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>
+<script>$(document).ready(function () {
+    $('#sample_1').DataTable({
+        "pagingType": "full_numbers",
+        "dom": 'Bfrtip',
+        "buttons": [
+            { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+            { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+        ],
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+    });
+});</script>

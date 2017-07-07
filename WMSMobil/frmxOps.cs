@@ -410,6 +410,7 @@ namespace WMSMobil
                 {
                     if (itemPanel.Controls[0].Text == mal)
                     {
+                        mal_var = true;
                         //eğer kontrollü sayım ise rafı da doğru olmalı ki sayıyı arttırsın
                         if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
                         {
@@ -424,7 +425,7 @@ namespace WMSMobil
                         }//diğer görevlerde sadece sayıyı arttır
                         else
                         {
-                            itemPanel.Controls[5].Text = (itemPanel.Controls[5].Text.ToDecimal() + 1).ToString();
+                            itemPanel.Controls[5].Text = (sender == btnUygula) ? itemPanel.Controls[3].Text : (itemPanel.Controls[5].Text.ToDecimal() + 1).ToString();
                             foreach (Control item in itemPanel.Controls)
                                 item.BackColor = Color.DarkOrange;
                         }

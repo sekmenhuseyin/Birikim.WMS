@@ -1,4 +1,6 @@
-﻿namespace Wms12m.Entity
+﻿using System;
+
+namespace Wms12m.Entity
 {
     /// <summary>
     /// kablo siparişi için stk sütunları
@@ -40,5 +42,23 @@
         public string makara { get; set; }
         public string rezerve { get; set; }
         public string satici { get; set; }
+    }
+    /// <summary>
+    /// kablo stok sayfası
+    /// </summary>
+    public partial class frmCableStok
+    {
+        public int ID { get; set; }
+        public int KatID { get; set; }
+        public string HucreAd { get; set; }
+        public string MalKodu { get; set; }
+        public string Birim { get; set; }
+        public decimal Miktar { get; set; }
+        public int? DepoID { get; set; }
+        public string MakaraNo { get; set; }
+        public string marka { get; set; }
+        public string cins { get; set; }
+        public string kesit { get; set; }
+        public string renk { get; set; }
     }
 }
