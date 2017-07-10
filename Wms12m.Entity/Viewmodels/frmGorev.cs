@@ -82,6 +82,7 @@ namespace Wms12m.Entity
     /// </summary>
     public class frmStokList2
     {
+        public int ID { get; set; }
         public string DepoAd { get; set; }
         public decimal Miktar { get; set; }
     }

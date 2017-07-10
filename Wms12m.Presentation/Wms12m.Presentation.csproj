@@ -374,6 +374,7 @@
     <Content Include="Areas\WMS\Views\Tasks\Barcode.cshtml" />
     <Content Include="Areas\WMS\Views\Tasks\BarcodePrint.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\List2.cshtml" />
+    <Content Include="Areas\WMS\Views\Stock\Details2.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

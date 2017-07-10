@@ -183,8 +183,21 @@
     function getBirims(id) {
         $('#Grid').html("");
         if (($("#MalKodu").val() == "" || $("#MalKodu").val() == null) && (id == "" || id == null)) return;
-        PartialView("/WMS/Stock/List2", 'Grid', JSON.stringify({ Id: id }));
-        $("#MalKodu").val(id);
+        $.ajax({
+            url: "/WMS/Stock/List2",
+            type: 'POST',
+            data: JSON.stringify({ Id: id }),
+            dataType: "html",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data == "") {
+                    Modaldialog("Hata oluştu", "Hata", "Tamam", "btn-danger");
+                } else {
+                    $('#Grid').html(data);
+                }
+                $("#MalKodu").val(id);
+            }
+        });
     }
 </script>
 }
