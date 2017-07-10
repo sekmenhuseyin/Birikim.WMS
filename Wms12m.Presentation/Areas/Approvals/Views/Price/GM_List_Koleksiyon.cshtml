@@ -3,6 +3,7 @@
   
 
         <div class="portlet-body">
+            <div class="row" id="buttonskoleksiyon" style="margin-bottom:5px; margin-top:5px;"></div>
             <div class="table-toolbar">
                 <div class="row">
                     <div class="col-md-6">
@@ -114,6 +115,12 @@
         $('#sample_2 tbody').on('click', 'tr', function () {
             $(this).toggleClass('selected');
         });
+        var buttonskoleksiyon= new $.fn.dataTable.Buttons(table2, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+            ]
+        }).container().appendTo($('#buttonskoleksiyon'));
 
 
    

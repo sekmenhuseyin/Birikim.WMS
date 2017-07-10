@@ -1,8 +1,6 @@
 ﻿@{
     ViewBag.Title = "Kablo Stok";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/datatables/extensions/Buttons/css/buttons.dataTables.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/datatables/extensions/Buttons/css/buttons.bootstrap.min.css" rel="stylesheet" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Kablo Stok</span></li></ul></div>
 <h1 class="page-title">Kablo Stok</h1>
 <div class="row">
@@ -55,72 +53,69 @@
     </div>
 </div>
 @section Scripts{
-    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.bootstrap.min.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js"></script>
-    <script type="text/javascript">
-        $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
-        function getShelf(id) {
-            $('#Grid').html("");
-            $("#RafID option").remove();
-            $("#BolumID option").remove();
-            $("#KatID option").remove();
-            $.ajax({
-                url: "/Constants/Shelf/ShelfList2/" + id,
-                type: 'POST',
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    if (data != "") {
-                        $.each(data, function (i, item) {
-                            $('#RafID').append($('<option>', { value: item.Value, text: item.Text }));
-                        });
-                        $("#RafID").prepend("<option value=''>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0;
-                    }
+<script type="text/javascript">
+    $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
+    function getShelf(id) {
+        $('#Grid').html("");
+        $("#RafID option").remove();
+        $("#BolumID option").remove();
+        $("#KatID option").remove();
+        $.ajax({
+            url: "/Constants/Shelf/ShelfList2/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#RafID').append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#RafID").prepend("<option value=''>Seçiniz !!!</option>"); $("#RafID")[0].selectedIndex = 0;
                 }
-            });
-        }
-        function getSection(id) {
-            $('#Grid').html("");
-            $("#BolumID option").remove();
-            $("#KatID option").remove();
-            $.ajax({
-                url: "/Constants/Section/SectionList/" + id,
-                type: 'POST',
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    if (data != "") {
-                        $.each(data, function (i, item) {
-                            $('#BolumID').append($('<option>', { value: item.Value, text: item.Text }));
-                        });
-                        $("#BolumID").prepend("<option value=''>Seçiniz !!!</option>"); $("#BolumID")[0].selectedIndex = 0;
-                    }
+            }
+        });
+    }
+    function getSection(id) {
+        $('#Grid').html("");
+        $("#BolumID option").remove();
+        $("#KatID option").remove();
+        $.ajax({
+            url: "/Constants/Section/SectionList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#BolumID').append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#BolumID").prepend("<option value=''>Seçiniz !!!</option>"); $("#BolumID")[0].selectedIndex = 0;
                 }
-            });
-        }
-        function getFloor(id) {
-            $('#Grid').html("");
-            $("#KatID option").remove();
-            $.ajax({
-                url: "/Constants/Floor/FloorList/" + id,
-                type: 'POST',
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    if (data != "") {
-                        $.each(data, function (i, item) {
-                            $('#KatID').append($('<option>', { value: item.Value, text: item.Text }));
-                        });
-                        $("#KatID").prepend("<option value=''>Seçiniz !!!</option>"); $("#KatID")[0].selectedIndex = 0;
-                    }
+            }
+        });
+    }
+    function getFloor(id) {
+        $('#Grid').html("");
+        $("#KatID option").remove();
+        $.ajax({
+            url: "/Constants/Floor/FloorList/" + id,
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data != "") {
+                    $.each(data, function (i, item) {
+                        $('#KatID').append($('<option>', { value: item.Value, text: item.Text }));
+                    });
+                    $("#KatID").prepend("<option value=''>Seçiniz !!!</option>"); $("#KatID")[0].selectedIndex = 0;
                 }
-            });
-        }
-        function FuncSearchBtn() {
-            $('#Grid').html("");
-            if (($("#DepoID").val() == "" || $("#DepoID").val() == null) && ($("#RafID").val() == "" || $("#RafID").val() == null) && ($("#KatID").val() == "" || $("#KatID").val() == null)) return;
-            PartialView("/WMS/Stock/CableList", 'Grid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
-        }
-    </script>
+            }
+        });
+    }
+    function FuncSearchBtn() {
+        $('#Grid').html("");
+        if (($("#DepoID").val() == "" || $("#DepoID").val() == null) && ($("#RafID").val() == "" || $("#RafID").val() == null) && ($("#KatID").val() == "" || $("#KatID").val() == null)) return;
+        PartialView("/WMS/Stock/CableList", 'Grid', JSON.stringify({ Id: ($("#DepoID").val() + "#" + $("#RafID").val() + "#" + $("#KatID").val() + "#false") }));
+    }
+</script>
 }

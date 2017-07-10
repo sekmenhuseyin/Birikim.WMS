@@ -23,7 +23,7 @@
             </div>
 
             <div class="portlet-body">
-
+                <div class="row" id="buttons" style="margin-bottom:5px; margin-top:5px;"></div>
 
                 <table class="table table-striped table-bordered" id="sample_1">
                     <thead>
@@ -103,6 +103,12 @@
         var secili_table = new Array();
         $(document).ready(function () {
             table = $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+            var buttons = new $.fn.dataTable.Buttons(table, {
+                buttons: [
+                    { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+                    { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+                ]
+            }).container().appendTo($('#buttons'));
 
             $('#GMOnayla').click(function (e) {
 
