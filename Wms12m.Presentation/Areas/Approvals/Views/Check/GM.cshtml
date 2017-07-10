@@ -21,6 +21,7 @@
 
             </div>
             <div class="portlet-body">
+                <div id="buttons"></div>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="col-md-12" style="width:100%;">
@@ -196,6 +197,13 @@
         $('.yenile-buton').click(function () {
            setTimeout(function () { window.location.reload(); }, 500);
         });
+        var table12 = $('#sample_1').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table12, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+            ]
+        }).container().appendTo($('#buttons'));
     </script>
 }
 
