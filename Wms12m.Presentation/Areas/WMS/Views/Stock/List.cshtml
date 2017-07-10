@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<Yer>
 @{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); bool ellemi = ViewBag.Manual; }
-
 <table class="table table-striped table-bordered" id="sample_1">
     <thead><tr><th>Yer</th><th>Mal Kodu</th><th>Mal Adı</th><th>Birim</th><th class="text-right">Miktar</th><th>Makara No</th>@{if (ellemi == true) { <th></th> } }</tr></thead>
     <tbody>

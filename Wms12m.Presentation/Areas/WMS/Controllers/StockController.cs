@@ -54,6 +54,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
         }
         /// <summary>
+        /// ürün bazlı liste
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult List2(string Id)
+        {
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
+            var list = db.Database.SqlQuery<frmStokList2>(string.Format("SELECT wms.Depo.DepoAd AS DepoAd, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd", Id)).ToList();
+            return PartialView("List2", list);
+        }
+        /// <summary>
         /// kablo stok ana sayfası
         /// </summary>
         public ActionResult Cable()
