@@ -54,6 +54,16 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
         }
         /// <summary>
+        /// ürün bazlı liste
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult List2(string Id)
+        {
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
+            var list = db.Database.SqlQuery<frmStokList2>(string.Format("SELECT wms.Depo.DepoAd, wms.Depo.ID, SUM(wms.Yer.Miktar) AS Miktar FROM wms.Yer INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID WHERE (wms.Yer.MalKodu = '{0}') GROUP BY wms.Depo.DepoAd, wms.Depo.ID", Id)).ToList();
+            return PartialView("List2", list);
+        }
+        /// <summary>
         /// kablo stok ana sayfası
         /// </summary>
         public ActionResult Cable()
@@ -360,6 +370,15 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             if (list == null)
                 return null;
             return PartialView("Details", list);
+        }
+        /// <summary>
+        /// depoya bir ürünü listeler
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult Details2(int DepoID, string MalKodu)
+        {
+            if (CheckPerm(Perms.Stok, PermTypes.Reading) == false) return null;
+            return PartialView("Details2", Yerlestirme.GetMalListFromDepo(DepoID, MalKodu));
         }
     }
 }

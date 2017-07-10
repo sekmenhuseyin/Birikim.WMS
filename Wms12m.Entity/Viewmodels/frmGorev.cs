@@ -78,6 +78,15 @@ namespace Wms12m.Entity
         public string Gorevli { get; set; }
     }
     /// <summary>
+    /// görev id ve görevli id
+    /// </summary>
+    public class frmStokList2
+    {
+        public int ID { get; set; }
+        public string DepoAd { get; set; }
+        public decimal Miktar { get; set; }
+    }
+    /// <summary>
     /// şirket
     /// </summary>
     public class frmSirkets

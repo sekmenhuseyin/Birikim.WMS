@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Yer>
+<table class="table table-striped table-bordered">
+    <thead><tr><th>Yer</th><th class="text-right">Miktar</th><th>Makara No</th></tr></thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.HucreAd</td>
+                <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                <td>@item.MakaraNo</td>
+            </tr>
+        }
+    </tbody>
+</table>

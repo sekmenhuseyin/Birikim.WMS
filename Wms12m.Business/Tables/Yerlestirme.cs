@@ -265,7 +265,7 @@ namespace Wms12m.Business
         }
         public List<Yer> GetListFromDepo(int ParentId)
         {
-            return db.Yers.Where(m => m.Kat.Bolum.Raf.Koridor.DepoID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
+            return db.Yers.Where(m => m.DepoID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
         }
         public List<Yer> GetListFromKoridor(int ParentId)
         {
@@ -274,6 +274,10 @@ namespace Wms12m.Business
         public List<Yer> GetListFromRaf(int ParentId)
         {
             return db.Yers.Where(m => m.Kat.Bolum.RafID == ParentId && m.Miktar > 0).OrderBy(m => m.MalKodu).ToList();
+        }
+        public List<Yer> GetMalListFromDepo(int ParentId, string MalKodu)
+        {
+            return db.Yers.Where(m => m.DepoID == ParentId && m.MalKodu == MalKodu && m.Miktar > 0).OrderBy(m => m.HucreAd).ToList();
         }
         /// <summary>
         /// burada yok
