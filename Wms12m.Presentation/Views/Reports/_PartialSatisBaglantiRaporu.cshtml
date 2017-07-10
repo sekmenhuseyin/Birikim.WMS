@@ -91,8 +91,9 @@
     </div>
 </div>
 <script>
+      var model =  @Html.Raw(serializer.Serialize(Model));
     $(document).ready(function () {
-        var model =  @Html.Raw(serializer.Serialize(Model));
+
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "footerCallback": function (row, data, start, end, display) {
@@ -105,7 +106,6 @@
                     .column(7)
                     .data()
                     .reduce(function (a, b) {
-                        console.log(a + intVal(b));
                         return a + intVal(b);
                     }, 0);
 
@@ -119,7 +119,6 @@
                     .column(10)
                     .data()
                     .reduce(function (a, b) {
-                        console.log(a + intVal(b));
                         return a + intVal(b);
                     }, 0);
 
@@ -152,7 +151,7 @@
                 );
             }
         });
- 
+
     });
     $('#sample_1 tbody').on('click', '.details-control', function () {
         var tr = $(this).closest('tr');
@@ -165,39 +164,28 @@
             .removeClass('aa');
         tr.addClass("aa");
         var x = table.rows('.aa').data();
-        jQuery.each(model, function (i, val) {
-            if (model[i]["HesapKodu"].toString().trim() == x[0][0]) {
-                hesKod = model[i]["HesapKodu"];
-            }
-            if (model[i]["BaglantiNo"].toString().trim() == x[0][4]) {
-                bagNo = model[i]["BaglantiNo"];
-            }
-        });
+
         $(".form-rounded").css("border-radius", "1rem");
         $(".valor_content").css("display", "none");
         $(".txt_sira_no").dxTextBox({ readOnly: true });
-        $(".txt_sozlesme_sira_no").dxTextBox();
-        $(".txt_sozlesme_notu").dxTextBox();
+        $(".txt_sozlesme_sira_no").dxTextBox({ readOnly: true });
+        $(".txt_sozlesme_notu").dxTextBox({ readOnly: true });
         $(".txt_ortalama_vade").dxTextBox({ readOnly: true });
         $(".txt_alinan_bordro_ort").dxTextBox({ readOnly: true });
-        $(".date_baslangic_tarihi").dxDateBox();
-        $(".date_bitis_tarihi").dxTextBox();
-        $(".date_vade_tarihi").dxTextBox();
-        $(".date_alinan_cek_ort_vade").dxTextBox();
-        $(".swtch_vade_valor").dxTextBox();
+        $(".date_baslangic_tarihi").dxTextBox({ readOnly: true });
+        $(".date_bitis_tarihi").dxTextBox({ readOnly: true });
+        $(".date_alinan_cek_ort_vade").dxTextBox({ readOnly: true });
+        $(".swtch_vade_valor").dxTextBox({ readOnly: true });
 
-        $(".txt_sira_no").dxTextBox();
-        NumbBox(".numb_baglanti_tutari", false, 2);
-        NumbBox(".numb_valor_gun", false, 0);
+        $(".txt_sira_no").dxTextBox({ readOnly: true });
+        NumbBox(".numb_baglanti_tutari", true, 2);
+        NumbBox(".numb_valor_gun", true, 0);
         NumbBox(".numb_kredi_limiti", true, 2);
         NumbBox(".numb_bakiye", true, 4);
         NumbBox(".numb_toplam_bakiye", true, 4);
         NumbBox(".numb_bekleyen_siparis", true, 2);
         NumbBox(".numb_alinan_bordro", true, 2);
-        NumbBox(".numb_alinan_cek_tutari", false, 2);
-        NumbBox(".numb_alinan_nakit_vb", false, 2);
 
-        $(".numb_toplam_tahsilat").dxTextBox({readOnly: true});
         var bagTipi = [{ Tip: "Peşin" }, { Tip: "Vadeli" }, { Tip: "Kredi Kart" }, { Tip: "Kampanya" }]
         $(".select_baglanti_tipi").dxTextBox({ readOnly: true});
         var dvzCins = [{ Tip: "TL" }, { Tip: "EUR" }, { Tip: "USD" }]
@@ -209,6 +197,15 @@
             success: function (data) {
                 var result = JSON.parse(data);
                 $(".select_sozlesmeler").dxLookup("instance").option("dataSource", result);
+                jQuery.each(model, function (i, val) {
+                    if (model[i]["HesapKodu"].toString().trim() == x[0][0]) {
+                        hesKod = model[i]["HesapKodu"];
+                    }
+                    if (model[i]["BaglantiNo"].toString().trim() == x[0][4]) {
+                        bagNo = model[i]["BaglantiNo"];
+                    }
+                });
+                $(".select_sozlesmeler").dxLookup("instance").option("value", bagNo);
             }
         });
 
@@ -231,67 +228,106 @@
             valueExpr: 'ListeNo',
             displayExpr: 'ListeNo',
             value: bagNo,
+            readOnly: true ,
             onValueChanged: function (e) {
                 if (e.value == null) {
                     $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", "");
                     return;
                 }
 
-                PartialView("/Approvals/Contract/Tanim_List", 'sozlesme_tanim_data', JSON.stringify({ listeNo: e.value }));
                 $.ajax({
                     url: window.location.origin + "/Approvals/Contract/ISSTempList?SozlesmeNo=" + e.value,
                     data: {},
                     type: "post",
                     success: function (data) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Reports/SatBagSozlesmeDetayListesiSelect',
+                        data: { "listeNo": bagNo },
+                        dataType: "html",
+                        success: function (data) {
+                            var result = JSON.parse(data);
+                            var columns = [
+                                { caption: 'Fiyat Listesi', dataField: 'Kod10' },
+                                { caption: 'Ürün Grubu', dataField: 'MalKodGrup' },
+                                { caption: 'Ürün Kodu', dataField: 'MalKod' },
+                                { caption: 'Ürün Adı', dataField: 'MalAdi' },
+                                { caption: 'Kalite', dataField: 'Kalite' },
+                                { caption: 'İskonto1', dataField: 'Oran1', format: 'fixedPoint', precision: 5 },
+                                { caption: 'İskonto2', dataField: 'Oran2', format: 'fixedPoint', precision: 5 },
+                                { caption: 'İskonto3', dataField: 'Oran3', format: 'fixedPoint', precision: 5 },
+                                { caption: 'İskonto4', dataField: 'Oran4', format: 'fixedPoint', precision: 5 },
+                                { caption: 'İskonto5', dataField: 'Oran5', format: 'fixedPoint', precision: 5 },
+                            ];
+                            _grid_quotations_detail = $('.satis_baglanti_detay_data').dxDataGrid({
+                                dataSource: result,
+                                height: 400,
+                                paging: { pageSize: 5000 },
+                                columns: columns,
+                                headerFilter: {
+                                    visible: true
+                                },
+                                popupDetailedWindow: true,
+                                columnAutoWidth: true,
+                                pagingCounter: true,
+                                filterRow: {
+                                    visible: true,
+                                    applyFilter: 'auto',
+                                    applyFilterText: 'Apply filter',
+                                    resetOperationText: 'Reset'
+                                },
+                                scrolling: {
+                                    scrollByContent: true,
+                                    scrollByThumb: true
+                                },
+                                allowColumnReordering: true,
+                                allowColumnResizing: true,
+                                remoteOperations: true,
+                                showRowLines: true,
+                                hoverStateEnabled: true,
+                                rowAlternationEnabled: false,
+                                sorting: {
+                                    mode: "multiple",
+                                },
+
+                                onRowClick: function (opt) {
+                                    if (opt.rowType == "data") {
+                                        var component = opt.component;
+                                        var prevClickTime = component.lastClickTime;//take last clicked time
+                                        component.lastClickTime = new Date();
+                                        if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+                                            //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
+                                        }
+                                    }
+                                },
+                                onCellPrepared: function (info) {
+                                    if (info.rowType == "data") {
+                                        if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
+                                            info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
+                                        }
+                                    }
+                                }
+                            }).dxDataGrid("instance");
+                        }
+                    });
                         var result = JSON.parse(data);
-                        if ($(".swtch_sozlesme_durumu").dxSwitch("instance").option("value") == true) {
-                            MusteriUygunlukKodu = result[0].MusUygSekli;
-                        }
-                        else {
-                            MusteriUygunlukKodu = "";
-                        }
+                        if (result.length>0){
                         $(".numb_baglanti_tutari").dxTextBox("instance").option("value", result[0].Kod11);
-                        $(".select_fiyat_listesi").dxLookup("instance").option("value", null);
-                        $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
-                        $(".select_urun_kodu").dxLookup("instance").option("value", null);
                         $(".txt_sira_no").dxTextBox("instance").option("value", result[0].Kod2);
                         $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", result[0].ListeNo);
-                        $(".select_baglanti_tipi").dxSelectBox("instance").option("value", result[0].Kod1);
+                        $(".select_baglanti_tipi").dxTextBox("instance").option("value", result[0].Kod1);
                         if (result[0].BaglantiParaCinsi == null) {
-                            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", "TL");
+                            $(".select_baglanti_tutari_doviz").dxTextBox("instance").option("value", "TL");
                         }
                         else {
-                            $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", result[0].BaglantiParaCinsi);
+                            $(".select_baglanti_tutari_doviz").dxTextBox("instance").option("value", result[0].BaglantiParaCinsi);
                         }
-                        $(".date_baslangic_tarihi").dxDateBox("instance").option("value", new Date(((result[0].BasTarih - 25569) * 86400000)));
-                        $(".date_bitis_tarihi").dxDateBox("instance").option("value", new Date(((result[0].BitTarih - 25569) * 86400000)));
+                        $(".date_baslangic_tarihi").dxTextBox("instance").option("value", fromOADate(result[0].BasTarih));
+                        $(".date_bitis_tarihi").dxTextBox("instance").option("value", fromOADate(result[0].BitTarih));
                         $(".select_musteri_kodu").dxLookup("instance").option("value", result[0].MusteriKod);
                         $(".txt_sozlesme_notu").dxTextBox("instance").option("value", result[0].Aciklama);
-                        $(".swtch_aktif_pasif").dxSwitch("instance").option("value", result[0].AktifPasif);
-                        $(".numb_alinan_cek_tutari").dxTextBox("instance").option("value", result[0].CekTutari);
-                        $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value", new Date(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1)));
-                        $(".numb_alinan_nakit_vb").dxTextBox("instance").option("value", result[0].NakitTutari);
-
-                        if (result[0].ValorGun > 1) {
-                            $(".numb_valor_gun").dxTextBox("instance").option("value", result[0].ValorGun);
-                            $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
-                            $(".vade_content").css("display", "none");
-                            $(".valor_content").css("display", "block");
+                        $(".date_alinan_cek_ort_vade").dxTextBox("instance").option("value", new Date(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1)));               
                         }
-                        else if (result[0].VadeTarihi != null) {
-                            $(".date_vade_tarihi").dxDateBox("instance").option("value", new Date(((result[0].VadeTarihi - 25569) * 86400000)));
-                            $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
-                            $(".valor_content").css("display", "none");
-                            $(".vade_content").css("display", "block");
-                        }
-                        else {
-                            $(".numb_valor_gun").dxTextBox("instance").option("value", 0);
-                            $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
-                            $(".valor_content").css("display", "none");
-                            $(".vade_content").css("display", "block");
-                        }
-                        $(".numb_toplam_tahsilat").dxTextBox("instance").option("value", (result[0].CekTutari == null ? 0 : result[0].CekTutari) + (result[0].NakitTutari == null ? 0 : result[0].NakitTutari));
-
                     }
                 });
             },
@@ -307,61 +343,6 @@
                 itemElement.append(rightBlock);
             }
         });
-        $(".select_urun_kodu").dxLookup({
-            //dataSource: result,
-            searchEnabled: true,
-            pageLoadMode: "nextButton",
-            searchExpr: ["Kod", "Aciklama"],
-            //valueExpr: 'Kod',
-            displayExpr: 'Kod',
-            onValueChanged: function (e) {
-                if (e.value == null) {
-                    TempMalKod = "";
-                    return;
-                }
-                TempMalKod = e.value.Kod;
-                if (TempUrunGrup == 0) {
-                    TempMalAdi = e.value.Aciklama
-                }
-            },
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-                if (itemIndex > 0) {
-                    itemElement.css({ "margin-top": "-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Aciklama + "</b></p>");
-                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Kod: <i>" + itemData.Kod + "</i></p></div>");
-                itemElement.append(rightBlock);
-            }
-        });
-        $(".select_fiyat_listesi").dxLookup({
-            //dataSource: model,
-            searchEnabled: true,
-            pageLoadMode: "nextButton",
-            searchExpr: ["FiyatListNum", "FiyatListName"],
-            valueExpr: 'FiyatListNum',
-            displayExpr: 'FiyatListName',
-
-            onValueChanged: function (e) {
-                if (e.value == null) {
-                    listeNo = "";
-                    return;
-                }
-                listeNo = e.value;
-            },
-
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-                if (itemIndex > 0) {
-                    itemElement.css({ "margin-top": "-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.FiyatListName + "</b></p>");
-                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>Liste No: <i>" + itemData.FiyatListNum + "</i></p></div>");
-                itemElement.append(rightBlock);
-            }
-        });
         $(".select_musteri_kodu").dxLookup({
             //dataSource: model,
             searchEnabled: true,
@@ -369,7 +350,7 @@
             searchExpr: ["HesapKodu", "Unvan"],
             valueExpr: 'HesapKodu',
             displayExpr: 'Unvan',
-
+            readOnly: true,
             onValueChanged: function (e) {
                 if (e.value == null) {
                     return;
@@ -388,6 +369,7 @@
                         $(".numb_alinan_bordro").dxTextBox("instance").option("value", result[0].AlinanBordro);
                         $(".txt_alinan_bordro_ort").dxTextBox("instance").option("value", result[0].AlinanBordroOrtalamaVade == null ? "" : result[0].AlinanBordroOrtalamaVade);
                         $(".txt_ortalama_vade").dxTextBox("instance").option("value", result[0].OrtalamaVade == null ? "" : result[0].OrtalamaVade);
+                        $('#x-modal-baglanti-detay').modal("show");
                     }
                 });
             },
@@ -403,93 +385,17 @@
                 itemElement.append(rightBlock);
             }
         });
+   
+       
+      
+        $('#x-modal-baglanti-detay').modal("show");
 
-
-
-        $.ajax({
-            type: 'POST',
-            url: '/Reports/CariDetayCek',
-            data: { "CHK": chk, "EvrakNo": hesKod },
-            dataType: "html",
-            success: function (data) {
-                $('#x-modal-cari-detay-cek').modal("show");
-                var result = JSON.parse(data);
-                var columns = [
-                    {
-                        caption: 'Borçlu Ünvan', dataField: 'BorcluUnvan',
-                        customizeText: function (cellInfo) {
-                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-                        }
-                    },
-                    { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
-                    {
-                        caption: 'Vade Tarihi', dataField: 'VadeTarihi',
-                        customizeText: function (cellInfo) {
-                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-                        }
-                    },
-                    { caption: 'Şehir', dataField: 'Sehir' },
-                    { caption: 'Banka', dataField: 'Banka' },
-                    { caption: 'Şube', dataField: 'Sube' },
-                    { caption: 'Çek No', dataField: 'CekNo' },
-                ];
-                _grid_quotations_detail = $('.grid_cari-detay-cek').dxDataGrid({
-                    dataSource: result,
-                    height: 400,
-                    paging: { pageSize: 5000 },
-                    columns: columns,
-                    headerFilter: {
-                        visible: true
-                    },
-                    popupDetailedWindow: true,
-                    columnAutoWidth: true,
-                    pagingCounter: true,
-                    filterRow: {
-                        visible: true,
-                        applyFilter: 'auto',
-                        applyFilterText: 'Apply filter',
-                        resetOperationText: 'Reset'
-                    },
-                    scrolling: {
-                        scrollByContent: true,
-                        scrollByThumb: true
-                    },
-                    allowColumnReordering: true,
-                    allowColumnResizing: true,
-                    remoteOperations: true,
-                    showRowLines: true,
-                    hoverStateEnabled: true,
-                    rowAlternationEnabled: false,
-                    sorting: {
-                        mode: "multiple",
-                    },
-
-                    onRowClick: function (opt) {
-                        if (opt.rowType == "data") {
-                            var component = opt.component;
-                            var prevClickTime = component.lastClickTime;//take last clicked time
-                            component.lastClickTime = new Date();
-                            if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
-                            }
-                        }
-                    },
-                    onCellPrepared: function (info) {
-                        if (info.rowType == "data") {
-                            if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
-                                info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
-                            }
-                        }
-                    }
-                }).dxDataGrid("instance");
-            }
-        });
 
 
     });
     $('#sample_1 tbody').on('click', '.hareket-control', function () {
         var tr = $(this).closest('tr');
-        var hesKod = "";
+        var baglanti = "";
         table
             .rows('.aa')
             .nodes()
@@ -497,39 +403,52 @@
             .removeClass('aa');
         tr.addClass("aa");
         var x = table.rows('.aa').data();
+        console.log(x[0][4]);
+        console.log(model[5]["BaglantiNo"].toString().trim());
         jQuery.each(model, function (i, val) {
-            if (model[i]["EvrakNo"].toString().trim() == x[0][2]) {
-                hesKod = model[i]["EvrakNo"];
+            if (model[i]["BaglantiNo"].toString().trim() == x[0][4]) {
+                baglanti = model[i]["BaglantiNo"];
             }
         });
         $.ajax({
             type: 'POST',
-            url: '/Reports/CariDetayCek',
-            data: { "CHK": chk, "EvrakNo": hesKod },
+            url: '/Reports/SatBagHareketListesiSelect',
+            data: { "listeNo": baglanti},
             dataType: "html",
             success: function (data) {
                 $('#x-modal-cari-detay-cek').modal("show");
                 var result = JSON.parse(data);
+                console.log(result);
                 var columns = [
+                   
+                    { caption: 'Fiyat Listesi', dataField: 'SozlesmeNo' },
+                    { caption: 'Ürün Grubu', dataField: 'EvrakNo' },
                     {
-                        caption: 'Borçlu Ünvan', dataField: 'BorcluUnvan',
+                        caption: 'Tarih', dataField: 'Tarih',
                         customizeText: function (cellInfo) {
                             if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
                         }
                     },
-                    { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Ürün Kodu', dataField: 'KaynakSiparisNo' },
                     {
-                        caption: 'Vade Tarihi', dataField: 'VadeTarihi',
+                        caption: 'Tarih', dataField: 'KaynakSiparisTarih',
                         customizeText: function (cellInfo) {
                             if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
                         }
                     },
-                    { caption: 'Şehir', dataField: 'Sehir' },
-                    { caption: 'Banka', dataField: 'Banka' },
-                    { caption: 'Şube', dataField: 'Sube' },
-                    { caption: 'Çek No', dataField: 'CekNo' },
+                    { caption: 'Fiyat Liste Numarası', dataField: 'FytListeNo' },
+                    { caption: 'Depo', dataField: 'Depo' },
+                    { caption: 'MalKodu', dataField: 'MalKodu', format: 'fixedPoint', precision: 5 },
+                    { caption: 'Miktar', dataField: 'Miktar', format: 'fixedPoint', precision: 5 },
+                    { caption: 'Birim', dataField: 'Birim', format: 'fixedPoint', precision: 5 },
+                    { caption: 'Birim Fiyat', dataField: 'BirimFiyat', format: 'fixedPoint', precision: 5 },
+                    { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 5 },
+                    { caption: 'Toplam İskonto', dataField: 'ToplamIskonto', format: 'fixedPoint', precision: 5 },
+                    { caption: 'KDV Oran', dataField: 'KDVOran', format: 'fixedPoint', precision: 5 },
+                    { caption: 'KDV', dataField: 'KDV', format: 'fixedPoint', precision: 5 },
+                    { caption: 'Sevkedilen Tutar', dataField: 'SevkedilenTutar', format: 'fixedPoint', precision: 5 }
                 ];
-                _grid_quotations_detail = $('.grid_cari-detay-cek').dxDataGrid({
+                _grid_quotations_detail = $('.satis_baglanti_hareket_data').dxDataGrid({
                     dataSource: result,
                     height: 400,
                     paging: { pageSize: 5000 },
@@ -587,6 +506,7 @@
     $('#sample_1').on('draw.dt', function () {
         setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
     });
+
 </script>
 
 

@@ -1,0 +1,73 @@
+﻿@using Newtonsoft.Json;
+<div class="fiyat-list-data" style="width: 100%; box-shadow: 2px 4px 2px #5d5959;">
+    <div class="col-md-12" style="width:100%;">
+        <div class="portlet box green">
+            @*<div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Sözleşme Tanım Listesi
+                </div>
+            </div>*@
+
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table table-striped table-bordered table-condensed" id="sample_1">
+                            <thead class="aaaaa">
+                                <tr>
+                                    <th></th>
+                                    <th nowrap>Fiyat Listesi</th>
+                                    <th nowrap>Ürün Grubu</th>
+                                    <th nowrap>Ürün Kodu</th>
+                                    <th nowrap>Ürün Adı</th>
+                                    <th nowrap>Kalite</th>
+                                    <th nowrap>Iskonto1</th>
+                                    <th nowrap>Iskonto2</th>
+                                    <th nowrap>Iskonto3</th>
+                                    <th nowrap>Iskonto4</th>
+                                    <th nowrap>Iskonto5</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    console.log("aaaaaaaa");
+    var table = "";
+     table = $('#sample_1').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ajax": {
+            "url": '/Reports/SatBagSozlesmeDetayListesiSelect?listeNo=' + '@ViewBag.ListeNo',
+            "dataSrc": function (json) {
+                return json;
+            },
+        },
+        "fixedHeader": true,
+        "scrollX": true,
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6,7, 8,9,10] }],
+        "columns": [
+            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
+            { "data": "Kod10" },
+            { "data": "MalKodGrup" },
+            { "data": "MalKod" },
+            { "data": "MalAdi" },
+            { "data": "Kalite" },
+            { "data": "Oran1", "render": $.fn.dataTable.render.number('.', ',', 5, '')  },
+            { "data": "Oran2", "render": $.fn.dataTable.render.number('.', ',', 5, '')  },
+            { "data": "Oran3", "render": $.fn.dataTable.render.number('.', ',', 5, '')  },
+            { "data": "Oran4", "render": $.fn.dataTable.render.number('.', ',', 5, '')  },
+            { "data": "Oran5", "render": $.fn.dataTable.render.number('.', ',', 5, '')  }
+        ],
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        }
+
+    });
+
+
+</script>

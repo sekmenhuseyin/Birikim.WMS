@@ -3,6 +3,33 @@
     ViewBag.Title = "SatisBaglantiRaporu";
 }@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
     <style>
+        .input_content {
+            margin-bottom: 3px;
+            height: 40px;
+            line-height: 20px;
+        }
+
+        .input_label {
+            float: left;
+            width: 35%;
+            font-weight: bold;
+            color: #5bc8d2;
+            font-size: 9px;
+            padding-top: 4px;
+        }
+
+        .input {
+            float: left;
+            width: 60%;
+            font-size: 10px;
+            height: 30px;
+        }
+
+        .input_style {
+            background-color: rgba(245, 239, 239, 0.85);
+            padding: 10px;
+            margin: 0;
+        }
         td.details-control {
             background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
             cursor: pointer;
@@ -43,7 +70,7 @@
             </div>
             <div class="modal-body x-padding-inside" id="x-t-s-pe1">
                 <div class="row input_style">
-                    <div class="col-xs-12 col-sm-4">
+                    <div class="col-xs-12 col-sm-6">
                         <div class="input_content">
                             <div class="input_label">Sözleşmeler</div>
                             <div class="input select_sozlesmeler"></div>
@@ -86,7 +113,7 @@
                             <div class="input txt_sozlesme_notu"></div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-4">
+                    <div class="col-xs-12 col-sm-6">
                         <div class="input_content">
                             <div class="input_content">
                                 <div class="input_label">Kredi Limiti</div>
@@ -116,30 +143,17 @@
                                 <div class="input_label">Alınan Bordro Ort.</div>
                                 <div class="input txt_alinan_bordro_ort"></div>
                             </div>
-
-                            <div class="input_content">
-                                <div class="input_label">Alınan Çek Tutarı</div>
-                                <div class="input numb_alinan_cek_tutari"></div>
-                            </div>
                             <div class="input_content">
                                 <div class="input_label">Alınan Çek Ort. Vadesi</div>
                                 <div class="input date_alinan_cek_ort_vade"></div>
                             </div>
-                            <div class="input_content">
-                                <div class="input_label">Alınan Nakit vb</div>
-                                <div class="input numb_alinan_nakit_vb"></div>
-                            </div>
-                            <div class="input_content">
-                                <div class="input_label">Toplam Tahsilat</div>
-                                <div class="input numb_toplam_tahsilat"></div>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="grid_baglanti-detay">
+               
+                    <div class="satis_baglanti_detay_data" style="margin-top:10px;">
                     </div>
-                </div>
+      
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn red" data-dismiss="modal" id="mdlCekKapat">Kapat</button>
@@ -157,7 +171,7 @@
                 <h4 class="modal-title" style="color:#12ccee">CARİ DETAY</h4>
             </div>
             <div class="modal-body x-padding-inside" id="x-t-s-pe1">
-                <div class="grid_cari-detay-cek">
+                <div class="satis_baglanti_hareket_data">
                 </div>
             </div>
             <div class="modal-footer">

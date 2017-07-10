@@ -56,7 +56,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <table class="table table-striped table-bordered table-hover" id="sample_1">
+                                    <table class="table table-striped table-bordered" id="sample_1">
                                         <thead>
                                             <tr>
                                                 <th></th>
@@ -113,18 +113,18 @@
                 },
             },
             "fixedHeader": true,
-            "columnDefs": [{ "visible": false, "targets": 0 }],
+            "columnDefs": [{ "visible": false, "targets": 0 }, { "type": "num-fmt", "className": "dt-right", "targets": [7, 8] }],
             "columns": [
                 { "data": "ID" },
                 { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
-                { "data": "EvrakNo", "sClass": "nowrap" },
-                { "data": "Veren", "sClass": "nowrap" },
-                { "data": "Unvan", "sClass": "nowrap" },
-                { "data": "Borclu", "sClass": "nowrap" },
-                { "data": "BorcluUnvan", "sClass": "nowrap" },
-                { "data": "VadeTarihi", "sClass": "nowrap" },
-                { "data": "Tutar", "sClass": "nowrap" },
-                { "data": "BaglantiTutar", "sClass": "nowrap" },
+                { "data": "EvrakNo"},
+                { "data": "Veren"},
+                { "data": "Unvan"},
+                { "data": "Borclu"},
+                { "data": "BorcluUnvan"},
+                { "data": "VadeTarihi"},
+                { "data": "Tutar", "render": $.fn.dataTable.render.number('.', ',', 2, '')},
+                { "data": "BaglantiTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '')},
                 { "data": "BaglantininOrtalamaVadesi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
 
             ],

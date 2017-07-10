@@ -117,7 +117,8 @@
                             .nodes()
                             .to$()      // Convert to a jQuery object
                             .removeClass('selected');
-                        $('tr').eq(rowIndex + 1).addClass('selected');
+                        $(this).parent().toggleClass('selected');
+                        //$('tr').eq(rowIndex + 1).addClass('selected');
 
                     }
                     else {
@@ -149,7 +150,8 @@
                             .nodes()
                             .to$()      // Convert to a jQuery object
                             .removeClass('selected');
-                        $('tr').eq(rowIndex + 1).addClass('selected');
+                        $(this).parent().toggleClass('selected');
+                        //$('tr').eq(rowIndex + 1).addClass('selected');
                       
                     }
                     break;

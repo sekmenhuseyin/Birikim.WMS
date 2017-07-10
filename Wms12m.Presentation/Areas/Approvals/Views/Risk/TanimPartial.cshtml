@@ -85,7 +85,7 @@
                         cekLimitClear();
                         $('#x-modal-riskduzenle').modal("show");
 
-                        console.log(rowIndex);
+                        console.log((rowIndex % table.page.len()) + 2);
 
                         $(".numb_onc_sahsiceklimiti").dxTextBox("instance").option("value", sahsiCekLimiti);
                         $(".txt_onc_mustericeklimiti").dxTextBox("instance").option("value", musteriCekLimiti);
@@ -95,7 +95,8 @@
                             .nodes()
                             .to$()      // Convert to a jQuery object
                             .removeClass('selected');
-                        $('tr').eq(rowIndex + 2).addClass('selected');
+                        $(this).parent().toggleClass('selected');
+                        //$('tr', table).eq((rowIndex % table.page.len()) + 2).addClass('selected');
                     break;
                 default:
                     break;

@@ -92,10 +92,10 @@
 
         function RiskTanımKayıt() {
             var x = table.rows('.selected').data();
-            console.log(x);
             for (var i = 0; i < x.length; i++) {
                 secili_table.push(x[i]);
             }
+            console.log(secili_table);
             var _dfd = $.Deferred();
             $.ajax({
                 url: window.location.origin + "/Approvals/Risk/OnayRiskInsert",

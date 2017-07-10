@@ -27,7 +27,7 @@
         </div>
         <hr />
         <div class="row">
-            <div class="col-xs-4 invoice-payment genel">
+            <div class="col-xs-3 invoice-payment genel">
                 <h3>Hesap Bilgileri:</h3>
                 <ul class="list-unstyled genel">
                     <li><strong>Hesap Kodu:</strong> @Model.GENEL[0].Chk</li>
@@ -37,7 +37,7 @@
                     <li><strong>Tarih:</strong> @Model.GENEL[0].Tarih</li>
                 </ul>
             </div>
-            <div class="col-xs-4 invoice-payment genel">
+            <div class="col-xs-3 invoice-payment genel">
                 <h3>İşlem Bilgileri:</h3>
                 <ul class="list-unstyled genel">
                     <li><strong>İşlem Tipi:</strong> @Model.GENEL[0].IslemTip</li>
@@ -48,7 +48,7 @@
                     <li><strong>E-Fatura Tipi:</strong> @Model.GENEL[0].EFatTip</li>
                 </ul>
             </div>
-            <div class="col-xs-4 invoice-payment genel">
+            <div class="col-xs-3 invoice-payment genel">
                 <h3>Açıklamalar:</h3>
                 <ul class="list-unstyled genel">
                     <li><strong>Açıklama:</strong> @Model.GENEL[0].Aciklama</li>
@@ -59,6 +59,22 @@
                     <li><strong>Açıklama6:</strong> @Model.GENEL[0].Aciklama6</li>
                     <li><strong>Kaydeden:</strong> @Model.GENEL[0].Kaydeden</li>
                     <li><strong>Değiştiren:</strong> @Model.GENEL[0].Degistiren</li>
+                </ul>
+            </div>
+            <div class="col-xs-3 invoice-payment genel">
+                <h3>E-İhracat Bilgileri:</h3>
+                <ul class="list-unstyled genel">
+                    <li><strong>Teslim Şartı:</strong> @Model.GENEL[0].TeslimSarti</li>
+                    <li><strong>Gönderim Şekli:</strong> @Model.GENEL[0].GonderimSekli</li>
+                    <li><strong>Brüt Kilo:</strong> @Model.GENEL[0].BrutKilo</li>
+                    <li><strong>Net Kilo:</strong> @Model.GENEL[0].NetKilo</li>
+                    <li><strong>Ödeme Notu:</strong> @Model.GENEL[0].OdemeNotu</li>
+                    <li><strong>Ödeme Şekli:</strong> @Model.GENEL[0].OdemeSekli</li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-12 invoice-payment genel">
+                <ul class="list-unstyled genel">
+                    <li><strong>Fatura Notu:</strong> @Model.GENEL[0].EFatNot</li>
                 </ul>
             </div>
         </div>

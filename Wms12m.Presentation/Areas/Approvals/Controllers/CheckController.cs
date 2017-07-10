@@ -41,7 +41,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
 
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET MIGMYOnay = 1, MIGMYOnaylayan='" + vUser.UserName + "', MIGMYOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
 
@@ -80,7 +80,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
 
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET MIGMYOnay = 0, MIGMYOnaylayan='" + vUser.UserName + "', MIGMYOnayTarih='{2}', Durum = 1 where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
 
@@ -133,7 +133,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
 
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
 
@@ -172,7 +172,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
 
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET SPGMYOnay = 0, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}', Durum = 1 where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
 
@@ -225,9 +225,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
 
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}', Durum=1  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
 
 
 
@@ -264,7 +264,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
 
                     DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
                     db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET GMOnay = 0, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}', Durum = 1 where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
 
@@ -286,7 +286,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
-        } 
+        }
         #endregion
     }
 }

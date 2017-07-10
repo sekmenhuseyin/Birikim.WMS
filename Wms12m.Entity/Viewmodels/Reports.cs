@@ -358,4 +358,40 @@ namespace Wms12m.Entity
 
         public System.Nullable<decimal> KalanTutar { get; set; }
     }
+
+    public class SatisBaglantiHareketleri
+    {
+
+        public string SozlesmeNo { get; set; }
+
+        public string EvrakNo { get; set; }
+
+        public string Tarih { get; set; }
+
+        public string KaynakSiparisNo { get; set; }
+
+        public string KaynakSiparisTarih { get; set; }
+
+        public string FytListeNo { get; set; }
+
+        public string Depo { get; set; }
+
+        public string MalKodu { get; set; }
+
+        public decimal Miktar { get; set; }
+
+        public string Birim { get; set; }
+
+        public decimal BirimFiyat { get; set; }
+
+        public decimal Tutar { get; set; }
+
+        public decimal ToplamIskonto { get; set; }
+
+        public float KDVOran { get; set; }
+
+        public decimal KDV { get; set; }
+
+        public System.Nullable<decimal> SevkedilenTutar { get; set; }
+    }
 }

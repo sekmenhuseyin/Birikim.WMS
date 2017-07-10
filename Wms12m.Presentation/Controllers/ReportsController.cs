@@ -260,5 +260,21 @@ namespace Wms12m.Presentation.Controllers
             var SBR = db.Database.SqlQuery<SatisBaglatiRapru>(string.Format("[FINSAT6{0}].[dbo].[SatisBaglantiRaporu] @Tip={1}", "17", tip)).ToList();
             return PartialView("_PartialSatisBaglantiRaporu", SBR);
         }
+
+        public string SatBagSozlesmeDetayListesiSelect(string listeNo)
+        {
+
+            var STL = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
+            var json = new JavaScriptSerializer().Serialize(STL);
+            return json;
+        }
+
+        public string SatBagHareketListesiSelect(string listeNo)
+        {
+
+            var STL = db.Database.SqlQuery<SatisBaglantiHareketleri>(string.Format("[FINSAT6{0}].[dbo].[SatisBaglantiHareketleri] @SozlesmeNo='{1}'", "17", listeNo)).ToList();
+            var json = new JavaScriptSerializer().Serialize(STL);
+            return json;
+        }
     }
 }

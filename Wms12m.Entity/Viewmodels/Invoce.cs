@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Wms12m.Entity
 {
@@ -77,6 +73,24 @@ namespace Wms12m.Entity
         public string DovizKuru { get; set; }
         /// <summary> VarChar(100) (Not Null) </summary>
         public string EFatTip { get; set; }
+
+
+
+
+        /// <summary> VarChar(16) (Not Null) </summary>
+        public string EFatNot { get; set; }
+        /// <summary> VarChar(10) (Allow Null) </summary>
+        public string TeslimSarti { get; set; }
+        /// <summary> VarChar(100) (Allow Null) </summary>
+        public string GonderimSekli { get; set; }
+        /// <summary> VarChar(10) (Allow Null) </summary>
+        public decimal BrutKilo { get; set; }
+        /// <summary> VarChar(10) (Not Null) </summary>
+        public decimal NetKilo { get; set; }
+        /// <summary> VarChar(3) (Not Null) </summary>
+        public string OdemeNotu { get; set; }
+        /// <summary> VarChar(8000) (Allow Null) </summary>
+        public string OdemeSekli { get; set; }
 
     }
 

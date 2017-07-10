@@ -697,6 +697,7 @@
     <Content Include="Views\Reports\_PartialGerceklesenSevkiyatPlani.cshtml" />
     <Content Include="Views\Reports\SatisBaglantiRaporu.cshtml" />
     <Content Include="Views\Reports\_PartialSatisBaglantiRaporu.cshtml" />
+    <Content Include="Views\Reports\_PartialSatBagSozlesmeDetay.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
