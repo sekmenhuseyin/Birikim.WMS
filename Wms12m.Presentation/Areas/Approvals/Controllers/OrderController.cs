@@ -12,19 +12,19 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     {
         public ActionResult SM()
         {
-            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SiparişOnaylamaSM, PermTypes.Reading) == false) return Redirect("/");
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSM]", "17")).ToList();
             return View(KOD);
         }
         public ActionResult SPGMY()
         {
-            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SiparişOnaylamaSPGMY, PermTypes.Reading) == false) return Redirect("/");
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListSPGMY]", "17")).ToList();
             return View(KOD);
         }
         public ActionResult GM()
         {
-            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SiparişOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
             var KOD = db.Database.SqlQuery<SMSiparisOnaySelect>(string.Format("[FINSAT6{0}].[wms].[SiparisOnayListGM]", "17")).ToList();
             return View(KOD);
         }
