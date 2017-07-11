@@ -11,9 +11,9 @@ namespace Wms12m.Entity.Models
 {
     using System;
     
-    public partial class GetMenuRoles_Result
+    public partial class GetMenuRoleFor_Result
     {
-        public short ID { get; set; }
+        public Nullable<short> ID { get; set; }
         public string Ad { get; set; }
         public string RoleName { get; set; }
     }

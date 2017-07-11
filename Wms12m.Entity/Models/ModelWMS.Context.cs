@@ -369,11 +369,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter);
         }
     
-        public virtual ObjectResult<GetMenuRoles_Result> GetMenuRoles()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMenuRoles_Result>("WMSEntities.GetMenuRoles");
-        }
-    
         public virtual ObjectResult<GetRolePermsFor_Result> GetRolePermsFor(string roleName, string group)
         {
             var roleNameParameter = roleName != null ?
@@ -595,6 +590,15 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("GorevID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetIrsDetayfromGorev_Result>("WMSEntities.GetIrsDetayfromGorev", gorevIDParameter);
+        }
+    
+        public virtual ObjectResult<GetMenuRoleFor_Result> GetMenuRoleFor(string roleName)
+        {
+            var roleNameParameter = roleName != null ?
+                new ObjectParameter("RoleName", roleName) :
+                new ObjectParameter("RoleName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMenuRoleFor_Result>("WMSEntities.GetMenuRoleFor", roleNameParameter);
         }
     }
 }
