@@ -157,9 +157,23 @@
             });
 
             $(".check_sureli_suresiz").dxCheckBox({
-                value: true,
+                value: false,
                 width: 80,
-                text: ""
+                text: "",
+                onValueChanged: function (e) {
+                    console.log(e.value);
+                    switch (e.value) {
+                        case true:
+                            $(".date_vade_tarih").dxDateBox("instance").option("readOnly", false)
+                            break;
+                        case false:
+                            $(".date_vade_tarih").dxDateBox("instance").option("readOnly", true)
+                            break;
+                        default:
+                            $(".date_vade_tarih").dxDateBox("instance").option("readOnly", true)
+                            break;
+                    }
+                }
             });
 
             $(".date_tarih").dxDateBox({
@@ -171,7 +185,8 @@
             $(".date_vade_tarih").dxDateBox({
                 format: 'date',
                 formatString: 'dd.MM.yyyy',
-                width:'60%'
+                width: '60%',
+                readOnly:true
             });
             NumbBox(".teminat_tutar", false,2);
             //$(".teminat_tutar").dxNumberBox({
