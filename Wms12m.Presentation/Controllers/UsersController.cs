@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Humanizer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -99,6 +100,7 @@ namespace Wms12m.Presentation.Controllers
             {
                 if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == true)
                 {
+                    rolePerm.PermName = rolePerm.PermName.Dehumanize();
                     var tbl = db.UserPerms.Where(m => m.PermName == rolePerm.PermName && m.UserName == rolePerm.UserName).FirstOrDefault();
                     if (tbl == null)//ilk defa kayıt olacak
                     {
@@ -115,7 +117,7 @@ namespace Wms12m.Presentation.Controllers
                             ModifiedDate = DateTime.Now,
                             ModifiedUser = vUser.UserName
                         };
-                        if (tbl.Reading == true || tbl.Writing == true || tbl.Updating == true || tbl.Updating == true)
+                        if (tbl.Reading == true || tbl.Writing == true || tbl.Updating == true || tbl.Deleting == true)
                         {
                             db.UserPerms.Add(tbl);
                             LogActions("", "Users", "SavePerm", ComboItems.alEkle, 0, "PermName: " + tbl.PermName + ", UserName: " + tbl.UserName + ", R: " + tbl.Reading + ", W: " + tbl.Writing + ", U: " + tbl.Updating + ", D: " + tbl.Deleting);
@@ -123,7 +125,7 @@ namespace Wms12m.Presentation.Controllers
                     }
                     else
                     {
-                        if (rolePerm.Reading != "on" && rolePerm.Writing != "on" && rolePerm.Updating != "on" && rolePerm.Updating != "on")
+                        if (rolePerm.Reading != "on" && rolePerm.Writing != "on" && rolePerm.Updating != "on" && rolePerm.Deleting != "on")
                         {
                             db.UserPerms.Remove(tbl);
                             LogActions("", "Users", "SavePerm", ComboItems.alSil, 0, "PermName: " + tbl.PermName + ", UserName: " + tbl.UserName);
