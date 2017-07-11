@@ -82,29 +82,27 @@
                             <input type="hidden" name="EvrakNos" value="@ViewBag.EvrakNos" />
                             <input type="hidden" name="checkboxes" id="checkboxes" value="" />
                             <input type="submit" class="hide hidden" value="submit" name="submit" id="submit" />
-                            @{if (ViewBag.Yetki == true)
-                                { <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" /> } }
+                            @{if (ViewBag.Yetki == true) { <input type="button" class="btn btn-primary btn-block green submit" value="İleri >>>" /> } }
                         </div>
                     </div>
-                                }
+                }
             </div>
         </div>
     </div>
 </div>
-@section Scripts{
-    <script>
+@section Scripts{<script>
     var selectall = true; var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [11,12], "visible": false, "searchable": false }]
+            "columnDefs": [{ "targets": [12,13], "visible": false, "searchable": false }]
         });
         $(".submit").click(function () {
             var selected = ""; var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-                var miktar = parseFloat(list[this.data()[12]]);
-                selected = selected + this.data()[11] + "-" + miktar + "#";
+                var miktar = parseFloat(list[this.data()[13]]);
+                selected = selected + this.data()[12] + "-" + miktar + "#";
                 result = true;
             });
             $("#checkboxes").val(selected);
@@ -129,5 +127,5 @@
         list[id] = yeni;
         $(td).html(yeni.formatMoney(2));
     }
-    </script>
+</script>
 }

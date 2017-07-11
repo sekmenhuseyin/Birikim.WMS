@@ -13,17 +13,17 @@
 					</div>
 					<div class="row m-t-10">
 						<div class="col-md-1 col-md-offset-8 text-center">
-							<label style="font-size: 1.5em">
+							<label style="font-size: 1em">
 								<button id="Reading" type="button" onclick="checkboxChanger('Reading');"><i class="cr-icon fa fa-check"></i></button>
 							</label>
 						</div>
 						<div class="col-md-1 text-center">
-							<label style="font-size: 1.5em">
+							<label style="font-size: 1em">
 								<button id="Writing" type="button" onclick="checkboxChanger('Writing');"><i class="cr-icon fa fa-check"></i></button>
 							</label>
 						</div>
 						<div class="col-md-1 text-center">
-							<label style="font-size: 1.5em">
+							<label style="font-size: 1em">
 								<button id="Deleting" type="button" onclick="checkboxChanger('Deleting');"><i class="cr-icon fa fa-check"></i></button>
 							</label>
 						</div>
@@ -36,7 +36,7 @@
 								@Html.AntiForgeryToken()
 								<input name="UserName" type="hidden" value="@ViewBag.UserName" />
 								<input name="Updating" type="hidden" />
-								<div class="col-md-6 col-md-offset-2"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName" required></div>
+								<div class="col-md-6 col-md-offset-2"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName.Humanize()" required></div>
 								<div class="checkbox col-md-1 text-center">
 									<label style="font-size: 1.5em">
 										<input class="Reading" name="Reading" type="checkbox" @{if (item.Reading == true) { <text> checked="checked" </text>  }} />
@@ -85,7 +85,7 @@
 		if (biten == @i)
 		{
 			$("#div_loading").hide();
-			Modaldialog('Kaydedildi', 'Başarı', 'Tamam', 'btn-default');
+			Modaldialog('Kaydedildi', 'Başarı', 'Tamam', 'btn-success');
 			biten = 0;
 		}
 	}
