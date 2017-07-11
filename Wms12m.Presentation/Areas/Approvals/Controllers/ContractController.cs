@@ -1192,10 +1192,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 var workbookPart = workbook.AddWorkbookPart();
 
-                workbook.WorkbookPart.Workbook = new DocumentFormat.OpenXml.Spreadsheet.Workbook();
-
-                workbook.WorkbookPart.Workbook.Sheets = new DocumentFormat.OpenXml.Spreadsheet.Sheets();
-
+                workbook.WorkbookPart.Workbook = new DocumentFormat.OpenXml.Spreadsheet.Workbook()
+                {
+                    Sheets = new DocumentFormat.OpenXml.Spreadsheet.Sheets()
+                };
                 var sheetPart = workbook.WorkbookPart.AddNewPart<WorksheetPart>();
                 var sheetData = new DocumentFormat.OpenXml.Spreadsheet.SheetData();
                 sheetPart.Worksheet = new DocumentFormat.OpenXml.Spreadsheet.Worksheet(sheetData);
@@ -1220,9 +1220,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
                     columns.Add(column.ColumnName);
 
-                    DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell();
-                    cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
-                    cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(column.ColumnName);
+                    DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell()
+                    {
+                        DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String,
+                        CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(column.ColumnName)
+                    };
                     headerRow.AppendChild(cell);
                 }
 
@@ -1234,9 +1236,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DocumentFormat.OpenXml.Spreadsheet.Row newRow = new DocumentFormat.OpenXml.Spreadsheet.Row();
                     foreach (String col in columns)
                     {
-                        DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell();
-                        cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
-                        cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(dsrow[col].ToString()); //
+                        DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell()
+                        {
+                            DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String,
+                            CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(dsrow[col].ToString()) //
+                        };
                         newRow.AppendChild(cell);
                     }
 

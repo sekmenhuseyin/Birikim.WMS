@@ -169,30 +169,5 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// Yetkiler
         /// </summary>
-        public ActionResult Permissions()
-        {
-            if (CheckPerm(Perms.Menu, PermTypes.Reading) == false) return Redirect("/");
-            var list = db.GetMenuRoles().ToList();
-            ViewBag.Roles = Roles.GetList();
-            return View("Permissions", list);
-        }
-        /// <summary>
-        /// yetkileri kaydet
-        /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public void Save(GetMenuRoles_Result tbl)
-        {
-            if (ModelState.IsValid)
-            {
-                if (CheckPerm(Perms.Menu, PermTypes.Writing) == true)
-                    try
-                    {
-                        db.MenuRolEkle(tbl.ID, tbl.RoleName);
-                        //log
-                        LogActions("", "Menu", "Save", ComboItems.alEkle, tbl.ID, "RoleName " + tbl.RoleName);
-                    }
-                    catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
-            }
-        }
     }
 }

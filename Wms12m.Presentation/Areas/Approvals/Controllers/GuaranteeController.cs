@@ -143,15 +143,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try
             {
-                Teminat tmnt = new Teminat();
-
-                tmnt.HesapKodu = parameters["HesapKodu"].ToString();
-                tmnt.Cins = parameters["TeminatCinsi"].ToString();
-                tmnt.Tutar = Convert.ToDecimal(parameters["TeminatTutari"].ToString());
-                tmnt.Tarih = parameters["Tarih"].ToDatetime();
-                tmnt.AltBayi = parameters["AltBayi"].ToString();
-                tmnt.Unvan = parameters["Unvan"].ToString();
-                tmnt.SureliSuresiz = parameters["SureliSuresiz"].ToBool();
+                Teminat tmnt = new Teminat()
+                {
+                    HesapKodu = parameters["HesapKodu"].ToString(),
+                    Cins = parameters["TeminatCinsi"].ToString(),
+                    Tutar = Convert.ToDecimal(parameters["TeminatTutari"].ToString()),
+                    Tarih = parameters["Tarih"].ToDatetime(),
+                    AltBayi = parameters["AltBayi"].ToString(),
+                    Unvan = parameters["Unvan"].ToString(),
+                    SureliSuresiz = parameters["SureliSuresiz"].ToBool()
+                };
                 if (parameters["VadeTarihi"] != null && parameters["VadeTarihi"].ToString() != "")
                 {
                     tmnt.VadeTarih = parameters["VadeTarihi"].ToDatetime();
