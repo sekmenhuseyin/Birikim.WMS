@@ -1,6 +1,30 @@
 ﻿@{
     ViewBag.Title = "Çek Onay";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <style>
+        td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+        }
+        .dx-datagrid-headers .dx-row {
+            color: white;
+            border-bottom: 1px solid #D2D2D2;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
+            background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
+        }
+
+        .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
+            color: white;
+        }
+    </style>
 }
 <div class="form-horizontal">
     <div class="form-body">
@@ -76,6 +100,12 @@
                                                 <th> Tutar</th>
                                                 <th> Bağlantı Tutar</th>
                                                 <th> Bağlantının Ortalama Vadesi</th>
+                                                <th nowrap>
+                                                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                                        <span></span>
+                                                    </label>
+                                                </th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -91,6 +121,25 @@
         </div>
 
 
+    </div>
+</div>
+<div class="modal fade" id="x-modal-gm-cek-detay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" style="width:950px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="color:#12ccee">GM ÇEK DETAY</h4>
+            </div>
+            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
+                <div class="grid_gm-cek-detay">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn red" data-dismiss="modal" id="mdlCekKapat">Kapat</button>
+                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
+                <div class="label"></div>
+            </div>
+        </div>
     </div>
 </div>
 @section Scripts{
@@ -110,6 +159,7 @@
             "ajax": {
                 "url": '/Approvals/Check/GM_List',
                 "dataSrc": function (json) {
+                    model = json;
                     return json;
                 },
             },
@@ -127,7 +177,7 @@
                 { "data": "Tutar", "render": $.fn.dataTable.render.number('.', ',', 2, '')},
                 { "data": "BaglantiTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '')},
                 { "data": "BaglantininOrtalamaVadesi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
-
+                { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
             ],
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -138,6 +188,123 @@
 
         $('#sample_1 tbody').on('click', 'tr', function () {
             $(this).toggleClass('selected');
+        });
+        $('#sample_1 tbody').on('click', '.details-control', function () {
+            var tr = $(this).closest('tr');
+            var unvan = "";
+            table
+                .rows('.aa')
+                .nodes()
+                .to$()      // Convert to a jQuery object
+                .removeClass('aa');
+            tr.addClass("aa");
+            var x = table.rows('.aa').data();
+            console.log(x);
+            jQuery.each(model, function (i, val) {
+                if (model[i]["BorcluUnvan"].toString().trim() == x[0].BorcluUnvan.toString().trim()) {
+                    unvan = model[i]["BorcluUnvan"].toString().trim();
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: '/Approvals/Check/Onay_Details',
+                data: { "Unvan": unvan },
+                dataType: "html",
+                success: function (data) {
+                    $('#x-modal-gm-cek-detay').modal("show");
+                    var result = JSON.parse(data);
+                    var columns = [
+
+                        { caption: 'Evrak No', dataField: 'EvrakNo' },
+                        {
+                            caption: 'Tarih', dataField: 'Tarih',
+                            customizeText: function (cellInfo) {
+                                if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+                            }
+                        },
+                        { caption: 'Veren', dataField: 'Veren' },
+                        { caption: 'Veren Ünvan', dataField: 'VerenUnvan' },
+                        { caption: 'Borclu', dataField: 'Borclu' },
+                        { caption: 'Borclu Ünvan', dataField: 'BorcluUnvan' },
+                        { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
+                        {
+                            caption: 'Bağlantının Ortalama Vadesi', dataField: 'OrtalamaVade',
+                            customizeText: function (cellInfo) {
+                                if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+                            }
+                        },
+                        { caption: 'Bağlantı Tutarı', dataField: 'BaglantiTutari', format: 'fixedPoint', precision: 2 },
+                        {
+                            caption: 'Vade Tarih', dataField: 'VadeTarih',
+                            customizeText: function (cellInfo) {
+                                if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+                            }
+                        },
+                        { caption: 'Son Pozisyon', dataField: 'SonPozisyon' },
+
+                    ];
+                    _grid_quotations_detail = $('.grid_gm-cek-detay').dxDataGrid({
+                        dataSource: result,
+                        height: 400,
+                        paging: { pageSize: 5000 },
+                        columns: columns,
+                        headerFilter: {
+                            visible: true
+                        },
+                        popupDetailedWindow: true,
+                        columnAutoWidth: true,
+                        pagingCounter: true,
+                        filterRow: {
+                            visible: true,
+                            applyFilter: 'auto',
+                            applyFilterText: 'Apply filter',
+                            resetOperationText: 'Reset'
+                        },
+                        scrolling: {
+                            scrollByContent: true,
+                            scrollByThumb: true
+                        },
+                        allowColumnReordering: true,
+                        allowColumnResizing: true,
+                        remoteOperations: true,
+                        showRowLines: true,
+                        hoverStateEnabled: true,
+                        rowAlternationEnabled: false,
+                        sorting: {
+                            mode: "multiple",
+                        },
+                        //onRowPrepared: function (info) {
+                        //    if (info.rowType == 'data') {
+
+                        //        if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
+                        //            info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
+                        //        else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
+                        //            info.rowElement.css({ "background-color": "green", "color": "white" });
+                        //        else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
+                        //            info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
+                        //    }
+
+                        //},
+                        onRowClick: function (opt) {
+                            if (opt.rowType == "data") {
+                                var component = opt.component;
+                                var prevClickTime = component.lastClickTime;//take last clicked time
+                                component.lastClickTime = new Date();
+                                if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+                                    //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
+                                }
+                            }
+                        },
+                        //onCellPrepared: function (info) {
+                        //    if (info.rowType == "data") {
+                        //        if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
+                        //            info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
+                        //        }
+                        //    }
+                        //}
+                    }).dxDataGrid("instance");
+                }
+            });
         });
         $('.onay-buton').click(function () {
 

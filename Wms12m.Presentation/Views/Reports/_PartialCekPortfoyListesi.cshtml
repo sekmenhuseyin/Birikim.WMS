@@ -45,6 +45,13 @@
                         <th nowrap>Verildiği Yer Ünvan</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th nowrap colspan="5"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap colspan="4"></th>
+                    </tr>
+                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
             {
@@ -73,7 +80,34 @@
 
         $(document).ready(function () {
             var model =  @Html.Raw(serializer.Serialize(Model));
-           var tbl =  $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+            var tbl = $('#sample_1').DataTable({
+                "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return Math.round(Number(i.toString().replace(/\./g, "").replace(",", ".")) * 10000000000) / 10000000000;
+                    };
+
+                    // Total over all pages
+                    miktartotal = api
+                        .column(5)
+                        .data()
+                        .reduce(function (a, b) {
+                            console.log(a);
+                            console.log(intVal(b));
+                            return a + intVal(b);
+                        }, 0);
+
+
+                    // Update footer
+                    $(api.column(5).footer()).html(
+                        ondalikBinlik(Math.round(miktartotal * 100) / 100, 2)
+                        //ondalikBinlik(miktartotal, 6)
+                    );
+                }
+            });
            var buttons = new $.fn.dataTable.Buttons(tbl, {
                buttons: [
                    { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
