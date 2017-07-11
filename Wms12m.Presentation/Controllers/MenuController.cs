@@ -181,7 +181,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PermissionsList(string id)
         {
             if (CheckPerm(Perms.GrupYetkileri, PermTypes.Reading) == false) return null;
-            var list = db.GetMenuRoleFor(id, "WMS").ToList();
+            var list = db.GetMenuRoleFor(id).ToList();
             ViewBag.RoleName = id;
             return PartialView("PermissionsList", list);
         }
@@ -192,7 +192,6 @@ namespace Wms12m.Presentation.Controllers
         public void Save(GetMenuRoleFor_Result tbl)
         {
             if (ModelState.IsValid)
-            {
                 if (CheckPerm(Perms.Menu, PermTypes.Writing) == true)
                     try
                     {
@@ -201,7 +200,6 @@ namespace Wms12m.Presentation.Controllers
                         LogActions("", "Menu", "Save", ComboItems.alEkle, tbl.ID.ToInt32(), "RoleName " + tbl.RoleName);
                     }
                     catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
-            }
         }
     }
 }
