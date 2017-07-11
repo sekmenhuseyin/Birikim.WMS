@@ -14,12 +14,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     {
         public ActionResult Index()
         {
-            if (CheckPerm(Perms.TeminatOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.TeminatOnay, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public string List()
         {
-            if (CheckPerm(Perms.TeminatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.TeminatOnay, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<TeminatOnaySelect>(string.Format("[FINSAT6{0}].[wms].[TeminatOnayList]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -28,7 +28,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.TeminatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.TeminatOnay, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -59,7 +59,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.TeminatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.TeminatOnay, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -88,7 +88,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public ActionResult Tanim()
         {
-            if (CheckPerm(Perms.TeminatOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.TeminatTanim, PermTypes.Reading) == false) return Redirect("/");
             var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelect1]", "17")).ToList();
             return View(CHK);
         }
@@ -109,7 +109,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult TanimList(string chk)
         {
-            if (CheckPerm(Perms.TeminatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.TeminatTanim, PermTypes.Reading) == false) return null;
             ViewBag.CHK = chk;
             return PartialView("TanimList");
         }
@@ -123,7 +123,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string Sil(int ID)
         {
-            if (CheckPerm(Perms.TeminatOnaylama, PermTypes.Deleting) == false) return null;
+            if (CheckPerm(Perms.TeminatTanim, PermTypes.Deleting) == false) return null;
             var sonuc = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[TeminatSil] @ID={1}", "17", ID)).FirstOrDefault();
             if (sonuc == 1)
             {
@@ -138,7 +138,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string TeminatTanimInsert(string Data)
         {
-            if (CheckPerm(Perms.TeminatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.TeminatTanim, PermTypes.Writing) == false) return null;
             JObject parameters = JsonConvert.DeserializeObject<JObject>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try

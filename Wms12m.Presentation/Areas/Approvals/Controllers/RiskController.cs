@@ -13,17 +13,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
     {
         public ActionResult SM()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.RiskOnaylamaSM, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult SM_List()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylamaSM, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string OnayCekSM()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylamaSM, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where OnayTip = 0 and SMOnay = 0 and Durum = 0", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -31,7 +31,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.RiskOnaylamaSM, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -64,17 +64,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public ActionResult GM()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.RiskOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult GM_List()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylamaGM, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string OnayCekGM()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylamaGM, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]  where (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 1 and GMOnay=0) or (OnayTip = 4 and GMOnay = 0 ) and Durum =0", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -82,7 +82,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_GM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.RiskOnaylamaGM, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -113,17 +113,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public ActionResult SPGMY()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.RiskOnaylamaSPGMY, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult SPGMY_List()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylamaSPGMY, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string OnayCekSPGMY()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylamaSPGMY, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]   where (OnayTip = 1 and SPGMYOnay =0) OR (OnayTip = 2 and SPGMYOnay =0) OR (OnayTip = 3 and SPGMYOnay = 0) and Durum = 0", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -131,7 +131,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Red_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.RiskOnaylamaSPGMY, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -164,26 +164,25 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public ActionResult MIGMY()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.RiskOnaylamaMIGMY, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult MIGMY_List()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylamaMIGMY, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string OnayCekMIGMY()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.RiskOnaylamaMIGMY, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<RiskTanim>(string.Format("SELECT *   FROM [FINSAT6{0}].[FINSAT6{0}].[RiskTanim]  where ((OnayTip = 2 and SPGMYOnay = 1 and MIGMYOnay = 0) OR (OnayTip = 3 and SPGMYOnay = 1 and MIGMYOnay = 0)) and Durum = 0", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
-
         public JsonResult Red_MIGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.RiskOnaylamaMIGMY, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
@@ -215,17 +214,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public ActionResult Tanim()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.RiskTanim, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult TanimPartial()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.RiskTanim, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string CHKSelect()
         {
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.RiskTanim, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<RiskTanimToplu>(string.Format("[FINSAT6{0}].[wms].[CHKSelect2]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -233,7 +232,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayRiskInsert(string Data)
         {
 
-            if (CheckPerm(Perms.RiskOnaylama, PermTypes.Writing) == false) return "NO";
+            if (CheckPerm(Perms.RiskTanim, PermTypes.Writing) == false) return "NO";
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
             try

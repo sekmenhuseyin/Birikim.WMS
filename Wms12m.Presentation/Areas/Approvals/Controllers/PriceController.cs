@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -14,19 +13,20 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class PriceController : RootController
     {
+        #region GM
         public ActionResult GM()
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
         public PartialViewResult GM_List()
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string GMOnayCek()
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -34,12 +34,12 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult GM_List_Koleksiyon()
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string GMOnayCekGMKoleksiyon()
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM_Koleksiyon]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
@@ -47,154 +47,21 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public PartialViewResult GM_List_Grup()
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
             return PartialView();
         }
         public string GMOnayCekGMGrup()
         {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
             var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListGM_GrupEbatYuzey]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
-            return json;
-        }
-
-        public ActionResult SPGMY()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
-            return View();
-        }
-        public PartialViewResult SPGMY_List()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            return PartialView();
-        }
-        public string SPGMYOnayCek()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY]", "17")).ToList();
-            var json = new JavaScriptSerializer().Serialize(RT);
-            return json;
-        }
-
-        public PartialViewResult SPGMY_List_Koleksiyon()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            return PartialView();
-        }
-        public string SPGMYOnayCekSPGMYKoleksiyon()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_Koleksiyon]", "17")).ToList();
-            var json = new JavaScriptSerializer().Serialize(RT);
-            return json;
-        }
-
-
-        public PartialViewResult SPGMY_List_Grup()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            return PartialView();
-        }
-        public string SPGMYOnayCekSPGMYGrup()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_GrupEbatYuzey]", "17")).ToList();
-            var json = new JavaScriptSerializer().Serialize(RT);
-            return json;
-        }
-
-        public ActionResult SM()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
-            return View();
-        }
-        public PartialViewResult SM_List()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            return PartialView();
-        }
-        public string SMOnayCek()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList]", "17")).ToList();
-            var json = new JavaScriptSerializer().Serialize(RT);
-            return json;
-        }
-
-        public PartialViewResult SM_List_Koleksiyon()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            return PartialView();
-        }
-        public string SMOnayCekSMKoleksiyon()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_Koleksiyon]", "17")).ToList();
-            var json = new JavaScriptSerializer().Serialize(RT);
-            return json;
-        }
-
-        public PartialViewResult SM_List_Grup()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            return PartialView();
-        }
-        public string SMOnayCekSMGrup()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_GrupEbatYuzey]", "17")).ToList();
-            var json = new JavaScriptSerializer().Serialize(RT);
-            return json;
-        }
-
-
-        public ActionResult List()
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return Redirect("/");
-            var LNO = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
-            return View(LNO);
-        }
-
-        public string UrunGrupSelect()
-        {
-            var FUGS = db.Database.SqlQuery<FiyatUrunGrupSelect>(string.Format("[FINSAT6{0}].[dbo].[STKSelect1]", "17")).ToList();
-            var json = new JavaScriptSerializer().Serialize(FUGS);
-            return json;
-        }
-
-        public string HesapKoduSelect()
-        {
-            var FHKS = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelect1]", "17")).ToList();
-            var json = new JavaScriptSerializer().Serialize(FHKS);
-            return json;
-        }
-
-        public PartialViewResult ListPartial(string listeNo)
-        {
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Reading) == false) return null;
-            //var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect]", "17")).ToList();
-            ViewBag.ListeNo = listeNo;
-            return PartialView();
-        }
-
-        public string ListesiSelect(string listeNo)
-        {
-            var FYTS = db.Database.SqlQuery<FiyatListSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
-            var json = new JavaScriptSerializer().Serialize(FYTS);
-            return json;
-        }
-
-        public string ListesiBekleyen()
-        {
-            var FLB = db.Database.SqlQuery<BekleyenFiyatListesi>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListTumBekleyenler]", "17")).ToList();
-            var json = new JavaScriptSerializer().Serialize(FLB);
             return json;
         }
 
         public JsonResult Onay(string Data)//GM
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -399,7 +266,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         if (fytGuncellenecek != null)
                         {
                             string ss = Convert.ToDecimal(insertObj["SatisFiyat1"].ToString()).ToString().Replace(",", ".");
-                            string sss = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = {5}, SF1Birim='" + insertObj["SatisFiyat1BirimInt"].ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", "17", Convert.ToDecimal(insertObj["DovizSatisFiyat1"].ToString()), insertObj["DovizCinsi"].ToString().Trim(), insertObj["DovizSF1BirimInt"].ToShort(), fytGuncellenecek.ROW_ID,ss);
+                            string sss = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[FYT] SET SatisFiyat1 = {5}, SF1Birim='" + insertObj["SatisFiyat1BirimInt"].ToShort() + "', DvzSatisFiyat1={1}, SF1DovizCinsi='{2}', DovizSF1Birim={3}  where ROW_ID = '{4}'", "17", Convert.ToDecimal(insertObj["DovizSatisFiyat1"].ToString()), insertObj["DovizCinsi"].ToString().Trim(), insertObj["DovizSF1BirimInt"].ToShort(), fytGuncellenecek.ROW_ID, ss);
                             db.Database.ExecuteSqlCommand(sss);
                         }
                         DateTime date = DateTime.Now;
@@ -430,7 +297,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             Result _Result = new Result(true);
 
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -681,7 +548,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_Grup(string Data)//GM
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -933,89 +800,64 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-
-
-        public JsonResult Onay_SM(string Data)
+        public JsonResult Red(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
+
             try
             {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
                 {
-                    // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                    var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
 
 
-
-
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID = '{1}'", "17", insertObj["ID"].ToString()));
                 }
-                //return "OK";
-
+                _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
-                _Result.Message = "İşlem Başarılı ";
-
             }
             catch (Exception)
             {
-
+                _Result.Message = "Hata oluştu";
                 _Result.Status = false;
-                _Result.Message = "Hata Oluştu. ";
-
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult Onay_Koleksiyon_SM(string Data)
+        public JsonResult Red_Koleksiyon(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
+
             try
             {
-
                 foreach (JObject insertObj in parameters)
                 {
-
                     string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod = 'PARKE' AND F.FiyatListNum = '{1}'
                     AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
                     AND F.SatisFiyat1Birim = '{5}' AND F.SatisFiyat1BirimInt = {6}
                     AND F.DovizSatisFiyat1 = {7} AND F.DovizSF1Birim = '{8}' AND F.DovizSF1BirimInt = {9}
-                    AND F.DovizCinsi = '{10}' AND F.Onay = 0 AND F.GMOnay = 0 ", "17", insertObj["FiyatListNum"].ToString(), insertObj["Kod4"].ToString(),
-                    insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(), insertObj["SatisFiyat1BirimInt"].ToString(),
-                    insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
-                    );
+                    AND F.DovizCinsi = '{10}' AND F.Onay = 1 AND F.SPGMYOnay = 1 AND F.GMOnay = 0 ", "17", insertObj["FiyatListNum"].ToString(), insertObj["Kod4"].ToString(),
+insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(), insertObj["SatisFiyat1BirimInt"].ToString(),
+insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
+);
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
                     var result = String.Join(", ", fiyatID.ToArray());
-                    sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
-                    var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
-                    foreach (Fiyat rts in OnayFiyatList)
-                    {
-
-                        DateTime date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-                        var sonuc = sqlexper.AcceptChanges();
-                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
-
-                    }
 
 
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", "17", result));
                 }
-
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
             }
@@ -1025,23 +867,21 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Status = false;
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
-
         }
-        public JsonResult Onay_Grup_SM(string Data)
+        public JsonResult Red_Grup(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
+
             try
             {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
                 foreach (JObject insertObj in parameters)
                 {
-
                     string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
                     JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
                     WHERE S.GrupKod <> 'PARKE' AND S.GrupKod = '{1}' AND F.FiyatListNum = '{2}'
@@ -1049,7 +889,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     AND S.Kod8 ='{7}'
                     AND F.SatisFiyat1 = {8} AND F.SatisFiyat1Birim = '{9}' AND F.SatisFiyat1BirimInt = {10}
                     AND F.DovizSatisFiyat1 = {11} AND F.DovizSF1Birim = '{12}' AND F.DovizSF1BirimInt = {13}
-                    AND F.DovizCinsi = '{14}' AND F.Onay = 0 AND F.GMOnay = 0 ", "17", insertObj["GrupKod"].ToString(),
+                    AND F.DovizCinsi = '{14}' AND F.Onay = 1 AND F.SPGMYOnay = 1 AND F.GMOnay = 0 ", "17", insertObj["GrupKod"].ToString(),
                     insertObj["FiyatListNum"].ToString(), insertObj["Kalite"].ToString(),
                     insertObj["En"].ToString(), insertObj["Boy"].ToString(), insertObj["Kalinlik"].ToString(), insertObj["Yuzey"].ToString(),
                     insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(),
@@ -1058,22 +898,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     );
                     var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
                     var result = String.Join(", ", fiyatID.ToArray());
-                    sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
-                    var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
-                    foreach (Fiyat rts in OnayFiyatList)
-                    {
 
-                        DateTime date = DateTime.Now;
-                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
-
-                        var sonuc = sqlexper.AcceptChanges();
-                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
-
-
-
-                    }
-
-
+                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", "17", result));
                 }
                 _Result.Message = "İşlem Başarılı";
                 _Result.Status = true;
@@ -1082,14 +908,63 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
+
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+        #endregion
+
+        #region SPGMY
+        public ActionResult SPGMY()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+        public PartialViewResult SPGMY_List()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string SPGMYOnayCek()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
+        public PartialViewResult SPGMY_List_Koleksiyon()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string SPGMYOnayCekSPGMYKoleksiyon()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_Koleksiyon]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
+
+        public PartialViewResult SPGMY_List_Grup()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string SPGMYOnayCekSPGMYGrup()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListSPGMY_GrupEbatYuzey]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
 
         public JsonResult Onay_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1128,7 +1003,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_Koleksiyon_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1181,7 +1056,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onay_Grup_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1237,10 +1112,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Red(string Data)
+        public JsonResult Red_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1260,15 +1135,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             catch (Exception)
             {
-                _Result.Message = "Hata oluştu";
+                _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult Red_Koleksiyon(string Data)
+        public JsonResult Red_Koleksiyon_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1285,7 +1160,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
                     AND F.SatisFiyat1Birim = '{5}' AND F.SatisFiyat1BirimInt = {6}
                     AND F.DovizSatisFiyat1 = {7} AND F.DovizSF1Birim = '{8}' AND F.DovizSF1BirimInt = {9}
-                    AND F.DovizCinsi = '{10}' AND F.Onay = 1 AND F.SPGMYOnay = 1 AND F.GMOnay = 0 ", "17", insertObj["FiyatListNum"].ToString(), insertObj["Kod4"].ToString(),
+                    AND F.DovizCinsi = '{10}' AND F.Onay = 0 AND F.GMOnay = 0 ", "17", insertObj["FiyatListNum"].ToString(), insertObj["Kod4"].ToString(),
 insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(), insertObj["SatisFiyat1BirimInt"].ToString(),
 insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
 );
@@ -1305,13 +1180,12 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult Red_Grup(string Data)
+        public JsonResult Red_Grup_SPGMY(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaSPGMY, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
 
@@ -1326,7 +1200,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                     AND S.Kod8 ='{7}'
                     AND F.SatisFiyat1 = {8} AND F.SatisFiyat1Birim = '{9}' AND F.SatisFiyat1BirimInt = {10}
                     AND F.DovizSatisFiyat1 = {11} AND F.DovizSF1Birim = '{12}' AND F.DovizSF1BirimInt = {13}
-                    AND F.DovizCinsi = '{14}' AND F.Onay = 1 AND F.SPGMYOnay = 1 AND F.GMOnay = 0 ", "17", insertObj["GrupKod"].ToString(),
+                    AND F.DovizCinsi = '{14}' AND F.Onay = 1 AND F.GMOnay = 0 AND F.SPGMYOnay = 0 ", "17", insertObj["GrupKod"].ToString(),
                     insertObj["FiyatListNum"].ToString(), insertObj["Kalite"].ToString(),
                     insertObj["En"].ToString(), insertObj["Boy"].ToString(), insertObj["Kalinlik"].ToString(), insertObj["Yuzey"].ToString(),
                     insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(),
@@ -1345,7 +1219,204 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             {
                 _Result.Message = "Hata Oluştu";
                 _Result.Status = false;
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
 
+        #region SM
+        public ActionResult SM()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+        public PartialViewResult SM_List()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string SMOnayCek()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatOnayGMSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
+        public PartialViewResult SM_List_Koleksiyon()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string SMOnayCekSMKoleksiyon()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatKoleksiyonSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_Koleksiyon]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
+        public PartialViewResult SM_List_Grup()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string SMOnayCekSMGrup()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<FiyatGrupSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayList_GrupEbatYuzey]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
+
+        public JsonResult Onay_SM(string Data)
+        {
+            Result _Result = new Result(true);
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+
+            try
+            {
+                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
+                foreach (JObject insertObj in parameters)
+                {
+                    // var fytData = db.Database.SqlQuery<FYT>(string.Format("SELECT ISNULL(Max(FiyatListName),'') as FiyatListName,ISNULL(Max(BasTarih),0) as BasTarih,ISNULL(Max(BitTarih),0) as BitTarih FROM[FINSAT6{0}].[FINSAT6{0}].[FYT] where FiyatListNum = '{1}'", "17", insertObj["FiyatListNum"].ToString())).FirstOrDefault();
+                    DateTime date = DateTime.Now;
+                    var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
+                    var sonuc = sqlexper.AcceptChanges();
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
+
+
+
+
+                }
+                //return "OK";
+
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+
+            }
+            catch (Exception)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult Onay_Koleksiyon_SM(string Data)
+        {
+            Result _Result = new Result(true);
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+
+            try
+            {
+
+                foreach (JObject insertObj in parameters)
+                {
+
+                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
+                    WHERE S.GrupKod = 'PARKE' AND F.FiyatListNum = '{1}'
+                    AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
+                    AND F.SatisFiyat1Birim = '{5}' AND F.SatisFiyat1BirimInt = {6}
+                    AND F.DovizSatisFiyat1 = {7} AND F.DovizSF1Birim = '{8}' AND F.DovizSF1BirimInt = {9}
+                    AND F.DovizCinsi = '{10}' AND F.Onay = 0 AND F.GMOnay = 0 ", "17", insertObj["FiyatListNum"].ToString(), insertObj["Kod4"].ToString(),
+                    insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(), insertObj["SatisFiyat1BirimInt"].ToString(),
+                    insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
+                    );
+                    var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
+                    var result = String.Join(", ", fiyatID.ToArray());
+                    sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
+                    var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
+                    foreach (Fiyat rts in OnayFiyatList)
+                    {
+
+                        DateTime date = DateTime.Now;
+                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
+                        var sonuc = sqlexper.AcceptChanges();
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
+
+                    }
+
+
+                }
+
+                _Result.Message = "İşlem Başarılı";
+                _Result.Status = true;
+            }
+            catch (Exception)
+            {
+                _Result.Message = "Hata Oluştu";
+                _Result.Status = false;
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult Onay_Grup_SM(string Data)
+        {
+            Result _Result = new Result(true);
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
+
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+
+            try
+            {
+                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
+                foreach (JObject insertObj in parameters)
+                {
+
+                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
+                    JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
+                    WHERE S.GrupKod <> 'PARKE' AND S.GrupKod = '{1}' AND F.FiyatListNum = '{2}'
+                    AND S.TipKod = '{3}' AND S.Kod2 = '{4}' AND S.Kod3 = '{5}' AND S.Kod1 ='{6}'
+                    AND S.Kod8 ='{7}'
+                    AND F.SatisFiyat1 = {8} AND F.SatisFiyat1Birim = '{9}' AND F.SatisFiyat1BirimInt = {10}
+                    AND F.DovizSatisFiyat1 = {11} AND F.DovizSF1Birim = '{12}' AND F.DovizSF1BirimInt = {13}
+                    AND F.DovizCinsi = '{14}' AND F.Onay = 0 AND F.GMOnay = 0 ", "17", insertObj["GrupKod"].ToString(),
+                    insertObj["FiyatListNum"].ToString(), insertObj["Kalite"].ToString(),
+                    insertObj["En"].ToString(), insertObj["Boy"].ToString(), insertObj["Kalinlik"].ToString(), insertObj["Yuzey"].ToString(),
+                    insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(),
+                    insertObj["SatisFiyat1BirimInt"].ToInt32(), insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."),
+                    insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
+                    );
+                    var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
+                    var result = String.Join(", ", fiyatID.ToArray());
+                    sql = string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat] where ID in({1})", "17", result);
+                    var OnayFiyatList = db.Database.SqlQuery<Fiyat>(sql).ToList();
+                    foreach (Fiyat rts in OnayFiyatList)
+                    {
+
+                        DateTime date = DateTime.Now;
+                        var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
+
+                        var sonuc = sqlexper.AcceptChanges();
+                        db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[Fiyat] SET Onay = 1, Onaylayan='" + vUser.UserName + "', SMOnayTarih='{2}'  where ID = '{1}'", "17", rts.ID, shortDate));
+
+
+
+                    }
+
+
+                }
+                _Result.Message = "İşlem Başarılı";
+                _Result.Status = true;
+            }
+            catch (Exception)
+            {
+                _Result.Message = "Hata Oluştu";
+                _Result.Status = false;
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
@@ -1353,7 +1424,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1381,7 +1452,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Koleksiyon_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1420,7 +1491,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public JsonResult Red_Grup_SM(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FiyatOnaylamaSM, PermTypes.Writing) == false) return null;
 
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
 
@@ -1461,117 +1532,57 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+        #endregion
 
-        public JsonResult Red_SPGMY(string Data)
+        public ActionResult List()
         {
-            Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
-
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-
-
-            try
-            {
-                foreach (JObject insertObj in parameters)
-                {
-
-
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID = '{1}'", "17", insertObj["ID"].ToString()));
-                }
-                _Result.Message = "İşlem Başarılı";
-                _Result.Status = true;
-            }
-            catch (Exception)
-            {
-                _Result.Message = "Hata Oluştu";
-                _Result.Status = false;
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+            if (CheckPerm(Perms.FiyatTanim, PermTypes.Reading) == false) return Redirect("/");
+            var LNO = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
+            return View(LNO);
         }
-        public JsonResult Red_Koleksiyon_SPGMY(string Data)
+
+        public string UrunGrupSelect()
         {
-            Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
-
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-
-
-            try
-            {
-                foreach (JObject insertObj in parameters)
-                {
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
-                    JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
-                    WHERE S.GrupKod = 'PARKE' AND F.FiyatListNum = '{1}'
-                    AND S.Kod4 = '{2}' AND S.TipKod = '{3}' AND F.SatisFiyat1 = {4}
-                    AND F.SatisFiyat1Birim = '{5}' AND F.SatisFiyat1BirimInt = {6}
-                    AND F.DovizSatisFiyat1 = {7} AND F.DovizSF1Birim = '{8}' AND F.DovizSF1BirimInt = {9}
-                    AND F.DovizCinsi = '{10}' AND F.Onay = 0 AND F.GMOnay = 0 ", "17", insertObj["FiyatListNum"].ToString(), insertObj["Kod4"].ToString(),
-insertObj["TipKod"].ToString(), insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(), insertObj["SatisFiyat1BirimInt"].ToString(),
-insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
-);
-                    var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
-
-
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", "17", result));
-                }
-                _Result.Message = "İşlem Başarılı";
-                _Result.Status = true;
-            }
-            catch (Exception)
-            {
-                _Result.Message = "Hata Oluştu";
-                _Result.Status = false;
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+            var FUGS = db.Database.SqlQuery<FiyatUrunGrupSelect>(string.Format("[FINSAT6{0}].[dbo].[STKSelect1]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(FUGS);
+            return json;
         }
-        public JsonResult Red_Grup_SPGMY(string Data)
+
+        public string HesapKoduSelect()
         {
-            Result _Result = new Result(true);
-            if (CheckPerm(Perms.FiyatOnaylama, PermTypes.Writing) == false) return null;
-
-            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
-
-
-            try
-            {
-                foreach (JObject insertObj in parameters)
-                {
-                    string sql = string.Format(@"SELECT ID from [FINSAT6{0}].[FINSAT6{0}].[Fiyat] F
-                    JOIN[FINSAT6{0}].[FINSAT6{0}].[STK] S ON S.MalKodu = F.MalKodu
-                    WHERE S.GrupKod <> 'PARKE' AND S.GrupKod = '{1}' AND F.FiyatListNum = '{2}'
-                    AND S.TipKod = '{3}' AND S.Kod2 = '{4}' AND S.Kod3 = '{5}' AND S.Kod1 ='{6}'
-                    AND S.Kod8 ='{7}'
-                    AND F.SatisFiyat1 = {8} AND F.SatisFiyat1Birim = '{9}' AND F.SatisFiyat1BirimInt = {10}
-                    AND F.DovizSatisFiyat1 = {11} AND F.DovizSF1Birim = '{12}' AND F.DovizSF1BirimInt = {13}
-                    AND F.DovizCinsi = '{14}' AND F.Onay = 1 AND F.GMOnay = 0 AND F.SPGMYOnay = 0 ", "17", insertObj["GrupKod"].ToString(),
-                    insertObj["FiyatListNum"].ToString(), insertObj["Kalite"].ToString(),
-                    insertObj["En"].ToString(), insertObj["Boy"].ToString(), insertObj["Kalinlik"].ToString(), insertObj["Yuzey"].ToString(),
-                    insertObj["SatisFiyat1"].ToString().Replace(",", "."), insertObj["SatisFiyat1Birim"].ToString(),
-                    insertObj["SatisFiyat1BirimInt"].ToInt32(), insertObj["DovizSatisFiyat1"].ToString().Replace(",", "."),
-                    insertObj["DovizSF1Birim"].ToString(), insertObj["DovizSF1BirimInt"].ToInt32(), insertObj["DovizCinsi"].ToString()
-                    );
-                    var fiyatID = db.Database.SqlQuery<int>(sql).ToList();
-                    var result = String.Join(", ", fiyatID.ToArray());
-
-                    db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[Fiyat]  where ID in({1})", "17", result));
-                }
-                _Result.Message = "İşlem Başarılı";
-                _Result.Status = true;
-            }
-            catch (Exception)
-            {
-                _Result.Message = "Hata Oluştu";
-                _Result.Status = false;
-            }
-            return Json(_Result, JsonRequestBehavior.AllowGet);
+            var FHKS = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelect1]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(FHKS);
+            return json;
         }
+
+        public PartialViewResult ListPartial(string listeNo)
+        {
+            if (CheckPerm(Perms.FiyatTanim, PermTypes.Reading) == false) return null;
+            //var TMNT = db.Database.SqlQuery<TeminatSelect>(string.Format("[FINSAT6{0}].[dbo].[TeminatOnaySelect]", "17")).ToList();
+            ViewBag.ListeNo = listeNo;
+            return PartialView();
+        }
+
+        public string ListesiSelect(string listeNo)
+        {
+            var FYTS = db.Database.SqlQuery<FiyatListSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
+            var json = new JavaScriptSerializer().Serialize(FYTS);
+            return json;
+        }
+
+        public string ListesiBekleyen()
+        {
+            var FLB = db.Database.SqlQuery<BekleyenFiyatListesi>(string.Format("[FINSAT6{0}].[wms].[FiyatOnayListTumBekleyenler]", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(FLB);
+            return json;
+        }
+
+
+
+
+
+
+
 
 
 
