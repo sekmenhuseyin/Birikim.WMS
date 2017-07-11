@@ -109,6 +109,10 @@ namespace Wms12m.Entity
 
         public string SatisTemsilcisi { get; set; }
 
+        public string TeslimYeriUnvan { get; set; }
+
+        public string KrediLimiti { get; set; }
+
         public string GrupKod { get; set; }
 
         public string MalKodu { get; set; }

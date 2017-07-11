@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using DocumentFormat.OpenXml.Packaging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -1176,6 +1178,72 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 _Result.Status = false;
                 _Result.Message = "Hata Oluştu. ";
 
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ExcExport(string Data, string destination)
+        {
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            DataTable dt = JsonConvert.DeserializeObject<DataTable>(JsonConvert.DeserializeObject<JArray>(Request["Data"]).ToString());
+
+            Result _Result = new Result(true);
+            using (var workbook = SpreadsheetDocument.Create(Server.MapPath("/Uploads/temp.xlsx"), DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
+            {
+                var workbookPart = workbook.AddWorkbookPart();
+
+                workbook.WorkbookPart.Workbook = new DocumentFormat.OpenXml.Spreadsheet.Workbook();
+
+                workbook.WorkbookPart.Workbook.Sheets = new DocumentFormat.OpenXml.Spreadsheet.Sheets();
+
+                var sheetPart = workbook.WorkbookPart.AddNewPart<WorksheetPart>();
+                var sheetData = new DocumentFormat.OpenXml.Spreadsheet.SheetData();
+                sheetPart.Worksheet = new DocumentFormat.OpenXml.Spreadsheet.Worksheet(sheetData);
+
+                DocumentFormat.OpenXml.Spreadsheet.Sheets sheets = workbook.WorkbookPart.Workbook.GetFirstChild<DocumentFormat.OpenXml.Spreadsheet.Sheets>();
+                string relationshipId = workbook.WorkbookPart.GetIdOfPart(sheetPart);
+
+                uint sheetId = 1;
+                if (sheets.Elements<DocumentFormat.OpenXml.Spreadsheet.Sheet>().Count() > 0)
+                {
+                    sheetId =
+                        sheets.Elements<DocumentFormat.OpenXml.Spreadsheet.Sheet>().Select(s => s.SheetId.Value).Max() + 1;
+                }
+
+                DocumentFormat.OpenXml.Spreadsheet.Sheet sheet = new DocumentFormat.OpenXml.Spreadsheet.Sheet() { Id = relationshipId, SheetId = sheetId, Name = dt.TableName };
+                sheets.Append(sheet);
+
+                DocumentFormat.OpenXml.Spreadsheet.Row headerRow = new DocumentFormat.OpenXml.Spreadsheet.Row();
+
+                List<String> columns = new List<string>();
+                foreach (DataColumn column in dt.Columns)
+                {
+                    columns.Add(column.ColumnName);
+
+                    DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell();
+                    cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
+                    cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(column.ColumnName);
+                    headerRow.AppendChild(cell);
+                }
+
+
+                sheetData.AppendChild(headerRow);
+
+                foreach (DataRow dsrow in dt.Rows)
+                {
+                    DocumentFormat.OpenXml.Spreadsheet.Row newRow = new DocumentFormat.OpenXml.Spreadsheet.Row();
+                    foreach (String col in columns)
+                    {
+                        DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell();
+                        cell.DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String;
+                        cell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(dsrow[col].ToString()); //
+                        newRow.AppendChild(cell);
+                    }
+
+                    sheetData.AppendChild(newRow);
+                }
+
+                SpreadsheetDocument document = SpreadsheetDocument.Open(Server.MapPath("/Uploads/temp.xlsx"), true);
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }

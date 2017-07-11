@@ -370,8 +370,6 @@ namespace Wms12m.Entity
     #endregion /// RiskTanim Class
 
 
-    #region Teminat
-
     #region Teminat Class 
 
     #region TeminatE Enum 
@@ -598,7 +596,6 @@ namespace Wms12m.Entity
 
     }
     #endregion /// Teminat Class
-    #endregion
 
     #region Fiyat
     public class ListeNoSelect
@@ -1021,6 +1018,29 @@ namespace Wms12m.Entity
         public string Not5 { get; set; }
         public string TeklifAciklamasi { get; set; }
         public int ROW_ID { get; set; }
+    }
+    #endregion
+
+    #region Cek
+    public class CekOnayDetay
+    {
+        public string EvrakNo { get; set; }
+
+        public System.Nullable<System.DateTime> Tarih { get; set; }
+
+        public string Veren { get; set; }
+
+        public string VerenUnvan { get; set; }
+
+        public string Borclu { get; set; }
+
+        public string BorcluUnvan { get; set; }
+
+        public decimal Tutar { get; set; }
+
+        public System.Nullable<System.DateTime> VadeTarih { get; set; }
+
+        public string SonPozisyon { get; set; }
     }
     #endregion
 }

@@ -8,6 +8,13 @@
     .dataTables_scrollHeadInner {width: 100% !important;}
     .dataTables_scrollBody {width: 100% !important;}
     table {margin: 0 !important;}
+    .dx-state-readonly {
+        background-color: #e0dede !important;
+    }
+
+        .dx-state-readonly input {
+            background-color: #e0dede !important;
+        }
 </style>
 }<div class="row">
     <div>
@@ -114,6 +121,38 @@
         }
         $('.sahsiCekLimiti_iptal').click(function () {
             $('#x-modal-riskduzenle').modal("hide");
+        });
+        $('.export-buton').click(function () {
+            var tumData = new Array();
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                tumData.push(this.data());
+                //var data = this.data();
+                //console.log(data);
+                //for (var i = 0; i < data.length; i++) {
+                //    tumData.push(data[i]);
+                //}
+       
+            });
+            console.log(tumData);
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Contract/ExcExport",
+                    data: { Data: JSON.stringify(tumData), destination:"C:\\Derviş\aa"},
+                    type: "post",
+                    success: function (data) {
+                        if (data == "OK") {
+                            Modaldialog("İşlem Başarılı.", "Risk Tanım Kayıt", "Tamam", "Mesaj");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                        else if (data == "EKSIK") {
+                            Modaldialog("Yeni Şahsi Çek Limiti 0 ve Altında Olan Satırlar Kaydedilmedi.", "Risk Tanım Kayıt", "Tamam", "Uyarı");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                        else {
+                            Modaldialog("Kayıt Sırasında Bir Hata Oluştu.", "Risk Tanım Kayıt", "Tamam", "Uyarı");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                    }
+                });
         });
     });
 

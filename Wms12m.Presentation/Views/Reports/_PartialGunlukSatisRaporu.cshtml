@@ -133,7 +133,7 @@
 
                 // Remove the formatting to get integer data for summation
                 var intVal = function (i) {
-                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
+                    return Math.round(Number(i.toString().replace(/\./g, "").replace(",", ".")) * 10000000000) / 10000000000;
                 };
 
                 // Total over all pages
@@ -213,9 +213,12 @@
                     }, 0);
 
 
+                console.log(miktartotal);
+
                 // Update footer
                 $(api.column(12).footer()).html(
-                    ondalikBinlik(miktartotal, 6)
+                    ondalikBinlik(Math.round(miktartotal * 100) / 100 ,2)
+                    //ondalikBinlik(miktartotal, 6)
                 );
                 $(api.column(14).footer()).html(
                     ondalikBinlik(anaMiktartotal, 6)
