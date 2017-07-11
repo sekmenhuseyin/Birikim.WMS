@@ -172,15 +172,24 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Permissions()
         {
             if (CheckPerm(Perms.Menu, PermTypes.Reading) == false) return Redirect("/");
-            var list = db.GetMenuRoles().ToList();
-            ViewBag.Roles = Roles.GetList();
-            return View("Permissions", list);
+            ViewBag.RoleName = new SelectList(db.Roles.Where(m => m.RoleName != "").ToList(), "RoleName", "RoleName");
+            return View("Permissions");
+        }
+        /// <summary>
+        /// yetki oluşturma sayfası
+        /// </summary>
+        public PartialViewResult PermissionsList(string id)
+        {
+            if (CheckPerm(Perms.GrupYetkileri, PermTypes.Reading) == false) return null;
+            var list = db.GetMenuRoleFor(id, "WMS").ToList();
+            ViewBag.RoleName = id;
+            return PartialView("PermissionsList", list);
         }
         /// <summary>
         /// yetkileri kaydet
         /// </summary>
         [HttpPost, ValidateAntiForgeryToken]
-        public void Save(GetMenuRoles_Result tbl)
+        public void Save(GetMenuRoleFor_Result tbl)
         {
             if (ModelState.IsValid)
             {
@@ -189,7 +198,7 @@ namespace Wms12m.Presentation.Controllers
                     {
                         db.MenuRolEkle(tbl.ID, tbl.RoleName);
                         //log
-                        LogActions("", "Menu", "Save", ComboItems.alEkle, tbl.ID, "RoleName " + tbl.RoleName);
+                        LogActions("", "Menu", "Save", ComboItems.alEkle, tbl.ID.ToInt32(), "RoleName " + tbl.RoleName);
                     }
                     catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
             }
