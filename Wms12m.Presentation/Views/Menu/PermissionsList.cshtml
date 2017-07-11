@@ -1,0 +1,63 @@
+﻿@model IEnumerable<GetRolePermsFor_Result>
+@{
+    int i = 0;
+    short tip = 0;
+}<div class="row m-b-20">
+	<div class="col-md-6 col-md-offset-2 bold">Yetki Adı</div>
+    <div class="col-md-1 text-center bold checkbox">
+        <label style="font-size: 1em">
+            <button id="Reading" type="button" onclick="checkboxChanger();"><i class="cr-icon fa fa-check"></i></button>
+        </label>
+    </div>
+</div>
+@foreach (var item in Model)
+{
+    if (tip != item.Type)
+    {
+        tip = item.Type;
+        <div class="row m-t-10"><div class="col-md-12">&nbsp;</div></div>
+    }
+    using (Ajax.BeginForm("Save", "Menu", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
+    {
+		@Html.AntiForgeryToken()
+        <div class="row">
+            <input name="ID" type="hidden" value="@item.ID" />
+            <input name="Updating" type="hidden" />
+            <input name="RoleName" class="RoleName" type="hidden" value="@ViewBag.RoleName" required />
+            <div class="col-md-6 col-md-offset-2"><input class="form-control" name="PermName" type="text" readonly value="@item.PermName.Humanize()" required></div>
+            <div class="checkbox col-md-1 text-center">
+                <label style="font-size: 1.5em">
+                    <input class="Reading" name="Reading" type="checkbox" @{if (item.Reading == true) { <text> checked="checked" </text>   }} />
+                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                </label>
+            </div>
+        </div>
+    }
+    i++;
+}
+<div class="row m-t-30">
+	<div class="col-md-offset-7 col-md-4">
+		<button class="btn btn-primary btn-block" onclick="submit()">Kaydet</button>
+	</div>
+</div>
+<script>
+    var biten = 0; var r = false;
+	function submit()
+	{
+		@for (int j = 0; j < i; j++)
+		{
+			<text>$("#frm@{@j}").submit();</text>
+		}
+	}
+	function finished()
+	{
+		biten++;
+		if (biten == @i)
+			FuncSearchBtn();
+    }
+    function checkboxChanger()
+    {
+        r = r == true ? false : true;
+        $("." + k).prop("checked", r);
+    }
+</script>
