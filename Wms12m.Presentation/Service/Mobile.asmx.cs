@@ -78,7 +78,7 @@ namespace Wms12m
             var tbl = db.Users.Where(m => m.ID == KullID && m.Guid.ToString() == Guid).FirstOrDefault();
             if (tbl == null) return new List<frmUrunler>();
             //return
-            var tmp = dby.STK004.Select(m => new frmUrunler { MalKodu = m.STK004_MalKodu, MalAdi = m.STK004_Aciklama, GrupKodu = m.STK004_GrupKodu, Birim1 = m.STK004_Birim1, Birim2 = m.STK004_Birim2 }).Take(50);
+            var tmp = dby.STK004.Select(m => new frmUrunler { MalKodu = m.STK004_MalKodu, MalAdi = m.STK004_Aciklama, GrupKodu = m.STK004_GrupKodu, Birim1 = m.STK004_Birim1, Birim2 = m.STK004_Birim2, Fiyat = m.STK004_SatisFiyati1.Value }).Take(50);
             List<frmUrunler> tblx;
             if (search != "")
                 tblx = tmp.Where(m => m.MalKodu.Contains(search)).ToList();

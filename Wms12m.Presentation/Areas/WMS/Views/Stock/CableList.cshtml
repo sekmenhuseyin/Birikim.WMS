@@ -1,7 +1,20 @@
 ﻿@model IEnumerable<frmCableStok>
 @{ string tmp; List<string> Sirket = ViewBag.Sirket; var malkod = new List<String>(); var malad = new List<String>(); }
 <table class="table table-striped table-bordered" id="sample_1">
-    <thead><tr><th>Yer</th><th>Mal Kodu</th><th>Mal Adı</th><th>Marka</th><th>Cins</th><th>Kesit</th><th>Renk</th><th>Birim</th><th class="text-right">Miktar</th><th>Makara No</th></tr></thead>
+    <thead>
+        <tr>
+            <th>Yer<br /><input class="w-50 input-circle" type="text" id="Yer" /></th>
+            <th>Mal Kodu<br /><input class="w-50 input-circle" type="text" id="MalKodu" /></th>
+            <th>Mal Adı<br /><input class="w-50 input-circle" type="text" id="MalAdi" /></th>
+            <th>Marka<br /><input class="w-50 input-circle" type="text" id="Marka" /></th>
+            <th>Cins<br /><input class="w-50 input-circle" type="text" id="Cins" /></th>
+            <th>Kesit<br /><input class="w-50 input-circle" type="text" id="Kesit" /></th>
+            <th>Renk<br /><input class="w-50 input-circle" type="text" id="Renk" /></th>
+            <th>Birim</th>
+            <th class="text-right">Miktar<br /><input class="w-50 input-circle" type="text" id="Miktar" /></th>
+            <th>Makara No<br /><input class="w-50 input-circle" type="text" id="MakaraNo" /></th>
+        </tr>
+    </thead>
     <tbody>
         @foreach (var item in Model)
         {
@@ -33,6 +46,15 @@
 </table>
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#Yer").on("change paste keyup", function () { filter(0, $("#Yer").val()); });
+        $("#MalKodu").on("change paste keyup", function () { filter(1, $("#MalKodu").val()); });
+        $("#MalAdi").on("change paste keyup", function () { filter(2, $("#MalAdi").val()); });
+        $("#Marka").on("change paste keyup", function () { filter(3, $("#Marka").val()); });
+        $("#Cins").on("change paste keyup", function () { filter(4, $("#Cins").val()); });
+        $("#Kesit").on("change paste keyup", function () { filter(5, $("#Kesit").val()); });
+        $("#Renk").on("change paste keyup", function () { filter(6, $("#Renk").val()); });
+        $("#Saat").on("change paste keyup", function () { filter(8, $("#Miktar").val()); });
+        $("#MakaraNo").on("change paste keyup", function () { filter(9, $("#MakaraNo").val()); });
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "ordering": false,
@@ -41,19 +63,7 @@
             "buttons": [
                 { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
                 { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
-            ],
-            initComplete: function () {
-                this.api().columns([0, 1, 2, 3, 4, 5, 6]).every(function () {
-                    var column = this;
-                    var select = $('<br /><select class="form-control input-circle no-print" style="max-width:100px;"><option value=""></option></select>')
-                        .appendTo($(column.header()))
-                        .on('change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                            column.search(val ? '^' + val + '$' : '', true, false).draw();
-                        });
-                    column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
-                });
-            }
+            ]
         });
     });
 </script>

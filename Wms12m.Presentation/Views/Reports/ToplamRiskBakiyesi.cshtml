@@ -1,8 +1,7 @@
 ﻿@model List<RaporCHKSelect>
 @{
     ViewBag.Title = "ToplamRiskBakiyesi";
-}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-<style>
+}@section Styles{<style>
     .dx-datagrid-headers .dx-row {
         color: white;
         border-bottom: 1px solid #D2D2D2;
@@ -57,8 +56,7 @@
     <div class="btn-listele" style="float:left;right:20px;margin-left:15px; color:white; text-align:center; font-weight:bold; background-color:#1e5799; width:100px;height:40px;">Listele</div>
 </div>
 <div id="risk-bakiye-grid" style="margin-top:20px;margin-left:10px;"></div>
-@section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+@section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
 <script>
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));

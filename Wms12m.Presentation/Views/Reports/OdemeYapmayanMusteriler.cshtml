@@ -1,8 +1,7 @@
 ﻿@{
     ViewBag.Title = "OdemeYapmayanMusteriler";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-<style>
+}@section Styles{<style>
     .dx-datagrid-headers .dx-row {
         color: white;
         border-bottom: 1px solid #D2D2D2;
@@ -37,8 +36,7 @@
 <div class="row">
     <div id="odeme-yapmayanlar-grid" style="margin-top:20px;"></div>
 </div>
-@section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+@section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
 <script>
     $(document).ready(function () {
         $(".gun-sayisi").dxNumberBox({

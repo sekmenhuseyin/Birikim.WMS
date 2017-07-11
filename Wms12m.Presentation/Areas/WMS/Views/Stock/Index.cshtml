@@ -1,8 +1,7 @@
 ﻿@{
     ViewBag.Title = "Stok";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-<style>
+}@section Styles{<style>
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
 </style>
@@ -99,8 +98,7 @@
         </div>
     </div>
 </div>
-@section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-<script type="text/javascript">
+@section Scripts{<script type="text/javascript">
     $("#DepoID").prepend("<option value=''>Seçiniz !!!</option>"); $("#DepoID")[0].selectedIndex = 0;
     function getShelf(id) {
         $('#Grid').html("");

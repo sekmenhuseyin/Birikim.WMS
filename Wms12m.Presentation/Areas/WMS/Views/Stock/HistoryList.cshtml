@@ -19,7 +19,18 @@
 </div>
 <div class="p-30">
     <table class="table table-striped table-bordered" id="sample_1">
-        <thead><tr><th>Girdi-Çıktı</th><th>Tarih</th><th>Saat</th><th>Evrak No</th><th>Hücre Adı</th><th>Mal Kodu</th><th>Birim</th><th class="text-right">Miktar</th><th class="text-right">Stok</th></tr></thead>
+        <thead>
+            <tr>
+                <th>Girdi-Çıktı</th>
+                <th>Tarih<br /><input class="w-50 input-circle" type="text" id="Tarih" /></th>
+                <th>Saat<br /><input class="w-50 input-circle" type="text" id="Saat" /></th>
+                <th>Evrak No<br /><input class="w-50 input-circle" type="text" id="EvrakNo" /></th>
+                <th>Hücre Adı<br /><input class="w-50 input-circle" type="text" id="HücreAdi" /></th>
+                <th>Birim</th>
+                <th class="text-right">Miktar<br /><input class="w-50 input-circle" type="text" id="Miktar" /></th>
+                <th class="text-right">Stok<br /><input class="w-50 input-circle" type="text" id="Stok" /></th>
+            </tr>
+        </thead>
         <tbody>
             @foreach (var item in Model) {
                 <tr>
@@ -28,7 +39,6 @@
                     <td>@item.KayitSaati.FromOaTime()</td>
                     <td>@if (item.IR != null) {<a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Stock/Details/@item.IR.ID')"> @item.IR.EvrakNo </a>}</td>
                     <td>@Html.DisplayFor(modelItem => item.HucreAd)</td>
-                    <td>@Html.DisplayFor(modelItem => item.MalKodu)</td>
                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                     <td align="right">@String.Format("{0:n}", i)</td>
@@ -40,6 +50,13 @@
 <script type="text/javascript">
     $('#Stok').val('@String.Format("{0:n}", i)');
     $(document).ready(function () {
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#Tarih").datepicker().on("change", function (e) { filter(1, e.target.value); });
+        $("#Saat").on("change paste keyup", function () { filter(2, $("#Saat").val()); });
+        $("#EvrakNo").on("change paste keyup", function () { filter(3, $("#EvrakNo").val()); });
+        $("#HücreAdi").on("change paste keyup", function () { filter(4, $("#HücreAdi").val()); });
+        $("#Miktar").on("change paste keyup", function () { filter(6, $("#Miktar").val()); });
+        $("#Stok").on("change paste keyup", function () { filter(7, $("#Stok").val()); });
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "ordering": false,
@@ -50,7 +67,7 @@
                 { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
             ],
             initComplete: function () {
-                this.api().columns([0, 1, 2, 3, 4, 7]).every(function () {
+                this.api().columns([0]).every(function () {
                     var column = this;
                     var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
                         .appendTo($(column.header()))
@@ -62,5 +79,9 @@
                 });
             }
         });
+        //filter fn
+        function filter(col, val) {
+            table.column(col).search(val).draw();
+        }
     });
 </script>
