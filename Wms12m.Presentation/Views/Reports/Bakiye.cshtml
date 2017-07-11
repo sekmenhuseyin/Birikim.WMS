@@ -1,7 +1,7 @@
 ﻿@model List<RaporCHKSelect>
 @{
     ViewBag.Title = "Bakiye";
-}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+}@section Styles{
 <style>
     td.details-control {
         background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
@@ -87,8 +87,7 @@
         </div>
     </div>
 </div>
-@section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+@section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
 <script>
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));

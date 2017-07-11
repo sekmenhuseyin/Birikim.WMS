@@ -3,10 +3,7 @@
     ViewBag.Title = "Fatura Detay";
     Layout = "~/Views/Shared/_Layout.Null.cshtml";
     int ii = 1;
-}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
-<link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
-<link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
+}@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/assets/pages/css/invoice.min.css" rel="stylesheet" />
 <style>
 .list-unstyled.amounts li {font-size: 9px;text-align: left;float: left;}
@@ -198,13 +195,8 @@
         </div>
     </div>
 </div>
-@section Scripts{<script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script src="~/Content/assets/global/plugins/devextreme/js/dx.web.js"></script>
 <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
-<script src="~/Content/assets/global/scripts/datatable.js"></script>
-<script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
-<script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
 <script type="text/javascript">
     var f_evrakNo = '@ViewBag.EvrakNo';
     var f_chk= '@Model.GENEL[0].Chk';

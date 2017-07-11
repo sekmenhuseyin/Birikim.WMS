@@ -30,6 +30,9 @@ namespace Wms12m.Presentation
                 //jquery
                 .Include("~/Content/assets/global/plugins/jquery/jquery-3.1.1.min.js")
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js")
+                .Include("~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js")
+
                 //plugins
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.unobtrusive.min.js")
@@ -54,7 +57,7 @@ namespace Wms12m.Presentation
                 // JSZip for client side export
                 .Include("~/Content/assets/global/plugins/jszip.min.js")
                 .Include("~/Content/assets/global/plugins/pdfmake.min.js")
-                .Include( "~/Content/assets/global/plugins/vfs_fonts.js")
+                .Include("~/Content/assets/global/plugins/vfs_fonts.js")
                 //theme scripts
                 .Include("~/Content/assets/global/scripts/app.min.js")
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")
@@ -64,6 +67,8 @@ namespace Wms12m.Presentation
                 ;
             // styles
             styleBundle
+                //jquery
+                .Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css")
                 // DevExtreme
                 .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.common.css")
                 .Include("~/Content/assets/global/plugins/DevExtreme/css/dx.spa.css")
