@@ -41,7 +41,7 @@ namespace Wms12m.Entity.Models
         public bool SevkiyatVarmi { get; set; }
         public short MaliYil { get; set; }
         public short MaliYil1 { get; set; }
-        public short MailYil2 { get; set; }
+        public short MaliYil2 { get; set; }
         public string MaliYilDb { get; set; }
         public string MaliYilDb1 { get; set; }
         public string MaliYilDb2 { get; set; }

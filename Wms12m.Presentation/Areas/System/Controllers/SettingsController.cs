@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity.Models;
 
@@ -49,6 +48,12 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.OnayCek = tbl.OnayCek;
                 set.OnayTekno = tbl.OnayTekno;
                 set.SevkiyatVarmi = tbl.SevkiyatVarmi;
+                set.MaliYil = tbl.MaliYil;
+                set.MaliYil1 = tbl.MaliYil1;
+                set.MaliYil2 = tbl.MaliYil2;
+                set.MaliYilDb = tbl.MaliYilDb;
+                set.MaliYilDb1 = tbl.MaliYilDb1;
+                set.MaliYilDb2 = tbl.MaliYilDb2;
                 set.Version = tbl.Version;
                 set.Aktif = tbl.Aktif;
                 db.SaveChanges();

@@ -53,7 +53,7 @@
           <Property Name="SevkiyatVarmi" Type="bit" Nullable="false" />
           <Property Name="MaliYil" Type="smallint" Nullable="false" />
           <Property Name="MaliYil1" Type="smallint" Nullable="false" />
-          <Property Name="MailYil2" Type="smallint" Nullable="false" />
+          <Property Name="MaliYil2" Type="smallint" Nullable="false" />
           <Property Name="MaliYilDb" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="MaliYilDb1" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="MaliYilDb2" Type="varchar" MaxLength="50" Nullable="false" />
@@ -3219,7 +3219,7 @@
           <Property Name="SevkiyatVarmi" Type="Boolean" Nullable="false" />
           <Property Name="MaliYil" Type="Int16" Nullable="false" />
           <Property Name="MaliYil1" Type="Int16" Nullable="false" />
-          <Property Name="MailYil2" Type="Int16" Nullable="false" />
+          <Property Name="MaliYil2" Type="Int16" Nullable="false" />
           <Property Name="MaliYilDb" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="MaliYilDb1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="MaliYilDb2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -3909,7 +3909,7 @@
                 <ScalarProperty Name="MaliYilDb2" ColumnName="MaliYilDb2" />
                 <ScalarProperty Name="MaliYilDb1" ColumnName="MaliYilDb1" />
                 <ScalarProperty Name="MaliYilDb" ColumnName="MaliYilDb" />
-                <ScalarProperty Name="MailYil2" ColumnName="MailYil2" />
+                <ScalarProperty Name="MaliYil2" ColumnName="MaliYil2" />
                 <ScalarProperty Name="MaliYil1" ColumnName="MaliYil1" />
                 <ScalarProperty Name="MaliYil" ColumnName="MaliYil" />
                 <ScalarProperty Name="SevkiyatVarmi" ColumnName="SevkiyatVarmi" />
