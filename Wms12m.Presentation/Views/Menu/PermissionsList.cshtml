@@ -10,22 +10,25 @@
 </div>
 @foreach (var item in Model)
 {
-	using (Ajax.BeginForm("Save", "Menu", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "finished();", OnFailure = "finished();" }, new { @class = "form-horizontal", id = "frm" + i }))
-	{
 		@Html.AntiForgeryToken()
 		<div class="row">
-			<input name="ID" type="hidden" value="@item.ID" />
-            <input name="RoleName" type="hidden" value="@ViewBag.RoleName" />
-			<div class="col-md-6 col-md-offset-2"><input class="form-control" name="Ad" type="text" readonly value="@item.Ad.Humanize()" required></div>
+			<input name="ID" id="id@{@i}" type="hidden" value="@item.ID" />
+			<div class="col-md-6 col-md-offset-2"><input class="form-control clickable" onclick="YetkiClicker(@i)" name="Ad" type="text" readonly value="@item.Ad.Humanize()" required></div>
 			<div class="checkbox col-md-1 text-center">
 				<label style="font-size: 1.5em">
-					<input class="RoleName" name="Yetki" type="checkbox" @item.RoleName />
+					<input class="RoleName c@{@i}" id="ytk@{@i}" name="Yetki" type="checkbox" @item.RoleName />
 					<span class="cr"><i class="cr-icon fa fa-check"></i></span>
 				</label>
 			</div>
 		</div>
-	}
 	i++;
+}
+@using (Ajax.BeginForm("Save", "Menu", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresults", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "hide hidden", @id = "frmSaver" }))
+{
+	<input name="RoleName" type="hidden" value="@ViewBag.RoleName" />
+	<input name="Ad" id="Ad" type="hidden" value="0" />
+	<input name="ID" type="hidden" value="0" />
+	<input type="submit" class="hide hidden" value=" " />
 }
 <div class="row m-t-30">
 	<div class="col-md-offset-7 col-md-4">
@@ -33,19 +36,32 @@
 	</div>
 </div>
 <script>
-	var biten = 0; var r = false;
+	var r = false;
 	function submit()
 	{
-		@for (int j = 0; j < i; j++)
-		{
-			<text>$("#frm@{@j}").submit();</text>
+		var ids = "";
+		for (var i = 0; i < @i; i++) {
+			if ($('#ytk' + i).is(":checked") == true)
+				ids += $("#id" + i).val() + ",";
+
 		}
+		$("#Ad").val(ids)
+		$("#frmSaver").submit();
 	}
-	function finished()
-	{
-		biten++;
-		if (biten == @i)
+	function getresult(e) {
+		if (e.Status == true)
+		{
+			Modaldialog("Yetkiler kaydedildi", 'Başarı', 'Tamam', 'btn-success');
 			FuncSearchBtn();
+		}
+		else
+			Modaldialog(e.Message, 'Hata', 'Tamam', 'btn-danger');
+	};
+	function YetkiClicker(k) {
+		if ($('.c' + k).is(":checked") == true)
+			$(".c" + k).prop("checked", false);
+		else
+			$(".c" + k).prop("checked", true);
 	}
 	function checkboxChanger()
 	{
