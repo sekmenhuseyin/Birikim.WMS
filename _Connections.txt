@@ -16,4 +16,7 @@ Kullanıcı adı : root
 SQL Server User : sa
 SQL Server sa password : Q46qg8q8r34d8rj
 
+RDP BİLGİLERİ : 
 autodiscover.sakaryaizreklam.com.tr:5236
+12M\21mokan
+Okan12*
