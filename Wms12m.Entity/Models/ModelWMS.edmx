@@ -51,7 +51,13 @@
           <Property Name="OnayCek" Type="bit" Nullable="false" />
           <Property Name="OnayTekno" Type="bit" Nullable="false" />
           <Property Name="SevkiyatVarmi" Type="bit" Nullable="false" />
-          <Property Name="Version" Type="varchar" MaxLength="50" />
+          <Property Name="MaliYil" Type="smallint" Nullable="false" />
+          <Property Name="MaliYil1" Type="smallint" Nullable="false" />
+          <Property Name="MailYil2" Type="smallint" Nullable="false" />
+          <Property Name="MaliYilDb" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MaliYilDb1" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MaliYilDb2" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Version" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Aktif" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Simge">
@@ -1816,7 +1822,6 @@
             <Parameter Name="UstMenuID" Mode="In" Type="Int16" />
             <Parameter Name="url" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Settings" EntityType="MModel.Setting" />
           <FunctionImport Name="LogLogins">
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="IpAddress" Mode="In" Type="String" />
@@ -1945,8 +1950,9 @@
           <Parameter Name="GorevID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="GetMenuRoleFor" ReturnType="Collection(MModel.GetMenuRoleFor_Result)">
-            <Parameter Name="RoleName" Mode="In" Type="String" />
+          <Parameter Name="RoleName" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="Settings" EntityType="MModel.Setting" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2795,38 +2801,6 @@
           <Property Type="Int32" Name="AltmenuCount" Nullable="true" />
           <Property Type="Int32" Name="Aktif" Nullable="false" />
         </ComplexType>
-        <EntityType Name="Setting">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LoginLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="TopLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="AllowNewUser" Type="Boolean" Nullable="false" />
-          <Property Name="AllowForgotPass" Type="Boolean" Nullable="false" />
-          <Property Name="KabloSiparisMySql" Type="Boolean" Nullable="false" />
-          <Property Name="SmtpEmail" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="SmtpPass" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="SmtpPort" Type="Int32" />
-          <Property Name="SmtpHost" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="SmtpSSL" Type="Boolean" Nullable="false" />
-          <Property Name="Version" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Aktif" Type="Boolean" Nullable="false" />
-          <Property Name="OnayStok" Type="Boolean" Nullable="false" />
-          <Property Name="OnayTeminat" Type="Boolean" Nullable="false" />
-          <Property Name="OnaySiparis" Type="Boolean" Nullable="false" />
-          <Property Name="OnaySozlesme" Type="Boolean" Nullable="false" />
-          <Property Name="OnayRisk" Type="Boolean" Nullable="false" />
-          <Property Name="OnayFiyat" Type="Boolean" Nullable="false" />
-          <Property Name="OnayCek" Type="Boolean" Nullable="false" />
-          <Property Name="OnayTekno" Type="Boolean" Nullable="false" />
-          <Property Name="homeDepo" Type="Boolean" Nullable="false" />
-          <Property Name="homeUser" Type="Boolean" Nullable="false" />
-          <Property Name="homeTask" Type="Boolean" Nullable="false" />
-          <Property Name="homeTransfer" Type="Boolean" Nullable="false" />
-          <Property Name="SevkiyatVarmi" Type="Boolean" Nullable="false" />
-        </EntityType>
         <EntityType Name="GorevCalisma">
           <Key>
             <PropertyRef Name="ID" />
@@ -3214,6 +3188,44 @@
           <Property Type="String" Name="Ad" Nullable="true" MaxLength="154" />
           <Property Type="String" Name="RoleName" Nullable="false" MaxLength="8" />
         </ComplexType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoginLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="TopLogo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="AllowNewUser" Type="Boolean" Nullable="false" />
+          <Property Name="AllowForgotPass" Type="Boolean" Nullable="false" />
+          <Property Name="KabloSiparisMySql" Type="Boolean" Nullable="false" />
+          <Property Name="SmtpEmail" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpPass" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpPort" Type="Int32" />
+          <Property Name="SmtpHost" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SmtpSSL" Type="Boolean" Nullable="false" />
+          <Property Name="homeDepo" Type="Boolean" Nullable="false" />
+          <Property Name="homeUser" Type="Boolean" Nullable="false" />
+          <Property Name="homeTask" Type="Boolean" Nullable="false" />
+          <Property Name="homeTransfer" Type="Boolean" Nullable="false" />
+          <Property Name="OnayStok" Type="Boolean" Nullable="false" />
+          <Property Name="OnayTeminat" Type="Boolean" Nullable="false" />
+          <Property Name="OnaySiparis" Type="Boolean" Nullable="false" />
+          <Property Name="OnaySozlesme" Type="Boolean" Nullable="false" />
+          <Property Name="OnayRisk" Type="Boolean" Nullable="false" />
+          <Property Name="OnayFiyat" Type="Boolean" Nullable="false" />
+          <Property Name="OnayCek" Type="Boolean" Nullable="false" />
+          <Property Name="OnayTekno" Type="Boolean" Nullable="false" />
+          <Property Name="SevkiyatVarmi" Type="Boolean" Nullable="false" />
+          <Property Name="MaliYil" Type="Int16" Nullable="false" />
+          <Property Name="MaliYil1" Type="Int16" Nullable="false" />
+          <Property Name="MailYil2" Type="Int16" Nullable="false" />
+          <Property Name="MaliYilDb" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MaliYilDb1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MaliYilDb2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Version" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Aktif" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3689,39 +3701,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Settings">
-            <EntityTypeMapping TypeName="MModel.Setting">
-              <MappingFragment StoreEntitySet="Settings">
-                <ScalarProperty Name="SevkiyatVarmi" ColumnName="SevkiyatVarmi" />
-                <ScalarProperty Name="homeTransfer" ColumnName="homeTransfer" />
-                <ScalarProperty Name="homeTask" ColumnName="homeTask" />
-                <ScalarProperty Name="homeUser" ColumnName="homeUser" />
-                <ScalarProperty Name="homeDepo" ColumnName="homeDepo" />
-                <ScalarProperty Name="OnayTekno" ColumnName="OnayTekno" />
-                <ScalarProperty Name="OnayCek" ColumnName="OnayCek" />
-                <ScalarProperty Name="OnayFiyat" ColumnName="OnayFiyat" />
-                <ScalarProperty Name="OnayRisk" ColumnName="OnayRisk" />
-                <ScalarProperty Name="OnaySozlesme" ColumnName="OnaySozlesme" />
-                <ScalarProperty Name="OnaySiparis" ColumnName="OnaySiparis" />
-                <ScalarProperty Name="OnayTeminat" ColumnName="OnayTeminat" />
-                <ScalarProperty Name="OnayStok" ColumnName="OnayStok" />
-                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="SmtpSSL" ColumnName="SmtpSSL" />
-                <ScalarProperty Name="SmtpHost" ColumnName="SmtpHost" />
-                <ScalarProperty Name="SmtpPort" ColumnName="SmtpPort" />
-                <ScalarProperty Name="SmtpPass" ColumnName="SmtpPass" />
-                <ScalarProperty Name="SmtpEmail" ColumnName="SmtpEmail" />
-                <ScalarProperty Name="KabloSiparisMySql" ColumnName="KabloSiparisMySql" />
-                <ScalarProperty Name="AllowForgotPass" ColumnName="AllowForgotPass" />
-                <ScalarProperty Name="AllowNewUser" ColumnName="AllowNewUser" />
-                <ScalarProperty Name="TopLogo" ColumnName="TopLogo" />
-                <ScalarProperty Name="LoginLogo" ColumnName="LoginLogo" />
-                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="LogLogins" FunctionName="MModel.Store.LogLogins" />
           <EntitySetMapping Name="GorevCalismas">
             <EntityTypeMapping TypeName="MModel.GorevCalisma">
@@ -3922,6 +3901,45 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="MModel.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="MaliYilDb2" ColumnName="MaliYilDb2" />
+                <ScalarProperty Name="MaliYilDb1" ColumnName="MaliYilDb1" />
+                <ScalarProperty Name="MaliYilDb" ColumnName="MaliYilDb" />
+                <ScalarProperty Name="MailYil2" ColumnName="MailYil2" />
+                <ScalarProperty Name="MaliYil1" ColumnName="MaliYil1" />
+                <ScalarProperty Name="MaliYil" ColumnName="MaliYil" />
+                <ScalarProperty Name="SevkiyatVarmi" ColumnName="SevkiyatVarmi" />
+                <ScalarProperty Name="OnayTekno" ColumnName="OnayTekno" />
+                <ScalarProperty Name="OnayCek" ColumnName="OnayCek" />
+                <ScalarProperty Name="OnayFiyat" ColumnName="OnayFiyat" />
+                <ScalarProperty Name="OnayRisk" ColumnName="OnayRisk" />
+                <ScalarProperty Name="OnaySozlesme" ColumnName="OnaySozlesme" />
+                <ScalarProperty Name="OnaySiparis" ColumnName="OnaySiparis" />
+                <ScalarProperty Name="OnayTeminat" ColumnName="OnayTeminat" />
+                <ScalarProperty Name="OnayStok" ColumnName="OnayStok" />
+                <ScalarProperty Name="homeTransfer" ColumnName="homeTransfer" />
+                <ScalarProperty Name="homeTask" ColumnName="homeTask" />
+                <ScalarProperty Name="homeUser" ColumnName="homeUser" />
+                <ScalarProperty Name="homeDepo" ColumnName="homeDepo" />
+                <ScalarProperty Name="SmtpSSL" ColumnName="SmtpSSL" />
+                <ScalarProperty Name="SmtpHost" ColumnName="SmtpHost" />
+                <ScalarProperty Name="SmtpPort" ColumnName="SmtpPort" />
+                <ScalarProperty Name="SmtpPass" ColumnName="SmtpPass" />
+                <ScalarProperty Name="SmtpEmail" ColumnName="SmtpEmail" />
+                <ScalarProperty Name="KabloSiparisMySql" ColumnName="KabloSiparisMySql" />
+                <ScalarProperty Name="AllowForgotPass" ColumnName="AllowForgotPass" />
+                <ScalarProperty Name="AllowNewUser" ColumnName="AllowNewUser" />
+                <ScalarProperty Name="TopLogo" ColumnName="TopLogo" />
+                <ScalarProperty Name="LoginLogo" ColumnName="LoginLogo" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="82">
+      <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="MModel.Simge" Width="1.5" PointX="25.25" PointY="5.875" />
         <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="22.875" PointY="4.75" />
         <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="28.375" PointY="11" />
@@ -16,7 +16,7 @@
         <EntityTypeShape EntityType="MModel.Gorev" Width="1.5" PointX="4.125" PointY="4.625" />
         <EntityTypeShape EntityType="MModel.GorevYer" Width="1.5" PointX="3.125" PointY="10.75" />
         <EntityTypeShape EntityType="MModel.Koridor" Width="1.5" PointX="16" PointY="13.5" />
-        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="0.625" PointY="8" />
+        <EntityTypeShape EntityType="MModel.Olcu" Width="1.5" PointX="0.5" PointY="0.75" />
         <EntityTypeShape EntityType="MModel.Raf" Width="1.5" PointX="16.125" PointY="17.125" />
         <EntityTypeShape EntityType="MModel.Transfer" Width="1.5" PointX="12.5" PointY="9.375" />
         <EntityTypeShape EntityType="MModel.Transfer_Detay" Width="1.5" PointX="10.5" PointY="11.125" />
@@ -61,7 +61,6 @@
         <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
         <AssociationConnector Association="MModel.FK_Users_Roles" />
         <AssociationConnector Association="MModel.WebMenuRol" />
-        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.625" PointY="0.75" />
         <EntityTypeShape EntityType="MModel.GorevCalisma" Width="1.5" PointX="30.875" PointY="5" />
         <EntityTypeShape EntityType="MModel.UserDevice" Width="1.5" PointX="22.375" PointY="13.375" />
         <AssociationConnector Association="MModel.FK_UserDevices_Users" />
@@ -88,6 +87,7 @@
         <EntityTypeShape EntityType="MModel.GorevPaketler" Width="1.5" PointX="8.125" PointY="1.5" />
         <AssociationConnector Association="MModel.FK_GorevPaketler_ComboItem_Name" />
         <AssociationConnector Association="MModel.FK_GorevPaketler_Gorev" />
+        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="5.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
