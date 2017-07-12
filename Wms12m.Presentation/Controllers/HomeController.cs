@@ -18,7 +18,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.SirketKodu = SirketKodu;
             var setts = db.Settings.FirstOrDefault();
             BekleyenOnaylar bo;
-            if (setts.OnayCek == false  && setts.OnayFiyat==false && setts.OnayRisk == false && setts.OnaySiparis == false && setts.OnaySozlesme == false && setts.OnayStok == false && setts.OnayTekno == false && setts.OnayTeminat == false)
+            if (setts.OnayCek == false && setts.OnayFiyat == false && setts.OnayRisk == false && setts.OnaySiparis == false && setts.OnaySozlesme == false && setts.OnayStok == false && setts.OnayTekno == false && setts.OnayTeminat == false)
                 bo = new BekleyenOnaylar();
             else
                 try
