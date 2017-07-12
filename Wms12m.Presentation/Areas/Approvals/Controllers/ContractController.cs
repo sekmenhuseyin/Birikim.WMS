@@ -1246,7 +1246,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                     sheetData.AppendChild(newRow);
                 }
-
+                //for (int i = 1; i <= DocumentFormat.OpenXml.Spreadsheet.Dimension.Equals.columns(); i++)
+                //{
+                //    DocumentFormat.OpenXml.Spreadsheet.Column(i).AutoFit();
+                //}
                 SpreadsheetDocument document = SpreadsheetDocument.Open(Server.MapPath("/Uploads/temp.xlsx"), true);
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);

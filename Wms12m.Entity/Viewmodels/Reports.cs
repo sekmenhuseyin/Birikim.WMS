@@ -394,4 +394,32 @@ namespace Wms12m.Entity
 
         public System.Nullable<decimal> SevkedilenTutar { get; set; }
     }
+
+
+    public class ToplamRiskAnaliziRaporu
+    {
+        public string HesapKodu { get; set; }
+
+        public string Unvan { get; set; }
+
+        public System.Nullable<decimal> Bakiye { get; set; }
+
+        public decimal BekleyenSiparisTutari { get; set; }
+
+        public decimal SahsiCekRiski { get; set; }
+
+        public System.Nullable<decimal> ToplamSahsiRisk { get; set; }
+
+        public decimal SahsiCekLimiti { get; set; }
+
+        public decimal MusteriCekRiski { get; set; }
+
+        public System.Nullable<decimal> ToplamRisk { get; set; }
+
+        public System.Nullable<decimal> ToplamCekRiski { get; set; }
+
+        public decimal Teminat { get; set; }
+
+        public string SatisTemsilcisi { get; set; }
+    }
 }

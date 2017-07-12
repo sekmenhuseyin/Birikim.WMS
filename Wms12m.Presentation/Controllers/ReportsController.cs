@@ -276,5 +276,21 @@ namespace Wms12m.Presentation.Controllers
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
         }
+
+        public ActionResult ToplamRiskAnaliziRaporu()
+        {
+            ViewBag.BasChk = "";
+            ViewBag.BitChk = "ZZZZZZ";
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
+            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", "17")).ToList();
+            return View(CHK);
+        }
+
+        public PartialViewResult PartialToplamRiskAnaliziRaporu(string baschk, string bitchk)
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
+            var TRAR = db.Database.SqlQuery<ToplamRiskAnaliziRaporu>(string.Format("[FINSAT6{0}].[dbo].[ToplamRiskAnaliziRaporu] @BasHesapKodu='{1}', @BitHesapKodu='{2}'", "17", baschk, bitchk)).ToList();
+            return PartialView("_PartialToplamRiskAnaliziRaporu", TRAR);
+        }
     }
 }
