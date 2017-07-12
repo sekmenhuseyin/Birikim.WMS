@@ -23,7 +23,7 @@
 		</div>
 	i++;
 }
-@using (Ajax.BeginForm("Save", "Menu", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresults", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "hide hidden", @id = "frmSaver" }))
+@using (Ajax.BeginForm("Save", "Menu", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "hide hidden", @id = "frmSaver" }))
 {
 	<input name="RoleName" type="hidden" value="@ViewBag.RoleName" />
 	<input name="Ad" id="Ad" type="hidden" value="0" />

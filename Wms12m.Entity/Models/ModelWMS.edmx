@@ -1228,6 +1228,10 @@
           <Parameter Name="MenuYeriNo" Type="int" Mode="In" />
           <Parameter Name="UstMenuNo" Type="smallint" Mode="In" />
         </Function>
+        <Function Name="RolMenuEkle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RoleName" Type="varchar" Mode="In" />
+          <Parameter Name="MenuIDs" Type="varchar(max)" Mode="In" />
+        </Function>
         <Function Name="UpdateUserDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="Device" Type="varchar" Mode="In" />
@@ -1953,6 +1957,10 @@
           <Parameter Name="RoleName" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="Settings" EntityType="MModel.Setting" />
+          <FunctionImport Name="RolMenuEkle">
+            <Parameter Name="RoleName" Mode="In" Type="String" />
+            <Parameter Name="MenuIDs" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3940,6 +3948,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RolMenuEkle" FunctionName="MModel.Store.RolMenuEkle" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

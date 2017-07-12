@@ -600,5 +600,18 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMenuRoleFor_Result>("WMSEntities.GetMenuRoleFor", roleNameParameter);
         }
+    
+        public virtual int RolMenuEkle(string roleName, string menuIDs)
+        {
+            var roleNameParameter = roleName != null ?
+                new ObjectParameter("RoleName", roleName) :
+                new ObjectParameter("RoleName", typeof(string));
+    
+            var menuIDsParameter = menuIDs != null ?
+                new ObjectParameter("MenuIDs", menuIDs) :
+                new ObjectParameter("MenuIDs", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.RolMenuEkle", roleNameParameter, menuIDsParameter);
+        }
     }
 }
