@@ -387,7 +387,7 @@
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
-    <None Include="Content\STISablon.xlsx" />
+    <Content Include="Content\STISablon.xlsx" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
     <Content Include="Service\Mobile.asmx" />
