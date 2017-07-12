@@ -13,7 +13,7 @@
 		@Html.AntiForgeryToken()
 		<div class="row">
 			<input name="ID" id="id@{@i}" type="hidden" value="@item.ID" />
-			<div class="col-md-6 col-md-offset-2"><input class="form-control clickable" onclick="YetkiClicker(@i)" name="Ad" type="text" readonly value="@item.Ad.Humanize()" required></div>
+			<div class="col-md-6 col-md-offset-2"><input class="form-control clickable" onclick="YetkiClicker(@i)" name="Ad" type="text" readonly value="@item.Ad" required></div>
 			<div class="checkbox col-md-1 text-center">
 				<label style="font-size: 1.5em">
 					<input class="RoleName c@{@i}" id="ytk@{@i}" name="Yetki" type="checkbox" @item.RoleName />

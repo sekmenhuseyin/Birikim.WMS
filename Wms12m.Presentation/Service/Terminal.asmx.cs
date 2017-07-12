@@ -497,7 +497,7 @@ namespace Wms12m
                             catch (Exception ex)
                             {
                                 Logger(kull, "Terminal", ex, "Service/Terminal/MalKabul_GoreviTamamla");
-                                return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
+                                //return new Result(false, "Kablo kaydı hariç her şey tamamlandı!");
                             }
                         }
                     }
