@@ -236,7 +236,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialBakiyeRiskAnalizi(string SirketKodu)
         {
             if (CheckPerm(Perms.ChartBakiyeRiskAnalizi, PermTypes.Reading) == false) return null;
-            var BRA = db.Database.SqlQuery<ChartBakiyeRiskAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", "33")).ToList();
+            var BRA = db.Database.SqlQuery<ChartBakiyeRiskAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", SirketKodu)).ToList();
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialBakiyeRiskAnalizi", BRA);

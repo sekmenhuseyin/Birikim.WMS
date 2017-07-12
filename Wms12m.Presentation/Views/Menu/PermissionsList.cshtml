@@ -15,10 +15,11 @@
 		@Html.AntiForgeryToken()
 		<div class="row">
 			<input name="ID" type="hidden" value="@item.ID" />
+            <input name="RoleName" type="hidden" value="@ViewBag.RoleName" />
 			<div class="col-md-6 col-md-offset-2"><input class="form-control" name="Ad" type="text" readonly value="@item.Ad.Humanize()" required></div>
 			<div class="checkbox col-md-1 text-center">
 				<label style="font-size: 1.5em">
-					<input class="RoleName" name="RoleName" type="checkbox" @item.RoleName />
+					<input class="RoleName" name="Yetki" type="checkbox" @item.RoleName />
 					<span class="cr"><i class="cr-icon fa fa-check"></i></span>
 				</label>
 			</div>
@@ -49,6 +50,6 @@
 	function checkboxChanger()
 	{
 		r = r == true ? false : true;
-		$("." + k).prop("checked", r);
+		$(".RoleName").prop("checked", r);
 	}
 </script>
