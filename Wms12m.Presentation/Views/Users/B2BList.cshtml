@@ -10,7 +10,8 @@
                 <td>@item.YetkiliEMail</td>
                 <td>@item.Parola</td>
                 <td>
-                    @if (ViewBag.Yetki == true) {<a href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Users/Pass/@item.ID')"> Şifre Değiştir </a>}
+                    @if (ViewBag.Yetki == true) {<a class="btn btn-default input-circle" href="javascript:" onclick="degistir(@item.ID)"> Şifre Değiştir </a>}
+                    @if (ViewBag.Yetki2 == true) {<a class="btn btn-danger input-circle" href="javascript:" onclick="Delete('@item.ID','/Users/B2BList','liste','')"> Sil </a>}
                 </td>
             </tr>
         }
