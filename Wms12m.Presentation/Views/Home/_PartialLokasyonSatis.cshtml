@@ -1,8 +1,5 @@
 ﻿@model List<ChartUrunGrubuSatisAnalizi>
 <style>
-    .as_tarih .dx-dropdowneditor-icon {color: #44b6ae;}
-    .as_tarih .dx-dropdowneditor-icon:before {color: #44b6ae;}
-    .dx-dateviewroller-day {visibility: hidden;}
     .morris-hover {position: absolute;z-index: 1000;}
     .morris-hover.morris-default-style {border-radius: 10px;padding: 6px;color: #666;background: rgba(255, 255, 255, 0.8);border: solid 2px rgba(230, 230, 230, 0.8);font-family: sans-serif;font-size: 12px;text-align: center;}
     .morris-hover.morris-default-style .morris-hover-row-label {font-weight: bold;margin: 0.25em 0;}
@@ -15,7 +12,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-layers font-green"></i>
-                    <span class="caption-subject font-green bold uppercase">Lokasyon Bazlı Satış Analizi</span>
+                    <span class="caption-subject font-green bold uppercase">Lokasyon Bazlı Satış Analizi <span style="color:#8888a7;">BAR CHART</span></span>
                 </div>
                 <div class="col-md-2">
                     @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDd", @onchange = "Reloadd(this.value)" })
