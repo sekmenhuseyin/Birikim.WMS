@@ -715,6 +715,8 @@
     <Content Include="Views\Reports\ToplamRiskAnaliziRaporu.cshtml" />
     <Content Include="Views\Reports\_PartialToplamRiskAnaliziRaporu.cshtml" />
     <Content Include="Views\Home\Charts.cshtml" />
+    <Content Include="Views\Users\B2B.cshtml" />
+    <Content Include="Views\Users\B2BList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
