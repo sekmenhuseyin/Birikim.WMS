@@ -150,7 +150,6 @@
                 .removeClass('aa');
             tr.addClass("aa");
             var x = table.rows('.aa').data();
-            console.log(x);
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(x[0].ListeNo)).show(); format(x[0].ListeNo); tr.addClass('shown'); }

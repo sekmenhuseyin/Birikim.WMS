@@ -191,7 +191,6 @@
                 .removeClass('aa');
             tr.addClass("aa");
             var x = table.rows('.aa').data();
-            console.log(x);
             jQuery.each(model, function (i, val) {
                 if (model[i]["BorcluUnvan"].toString().trim() == x[0].BorcluUnvan.toString().trim()) {
                     unvan = model[i]["BorcluUnvan"].toString().trim();

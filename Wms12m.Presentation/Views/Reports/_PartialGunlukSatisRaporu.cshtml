@@ -141,8 +141,6 @@
                     .column(12)
                     .data()
                     .reduce(function (a, b) {
-                        console.log(a);
-                        console.log(intVal(b));
                         return a + intVal(b);
                     }, 0);
 
@@ -212,8 +210,6 @@
                         return a + intVal(b);
                     }, 0);
 
-
-                console.log(miktartotal);
 
                 // Update footer
                 $(api.column(12).footer()).html(

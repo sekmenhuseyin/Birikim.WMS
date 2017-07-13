@@ -85,8 +85,6 @@
                         cekLimitClear();
                         $('#x-modal-riskduzenle').modal("show");
 
-                        console.log((rowIndex % table.page.len()) + 2);
-
                         $(".numb_onc_sahsiceklimiti").dxTextBox("instance").option("value", sahsiCekLimiti);
                         $(".txt_onc_mustericeklimiti").dxTextBox("instance").option("value", musteriCekLimiti);
                         $(".numb_onc_sahsiceklimiti").data("index", rowIndex);
