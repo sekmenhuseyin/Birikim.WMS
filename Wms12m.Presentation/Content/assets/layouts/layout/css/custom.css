@@ -7,7 +7,10 @@
     cursor: pointer;
 }
 .h-500 {
-    min-height: 500px !important;
+    height: 500px !important;
+}
+.h-150 {
+    height: 150px !important;
 }
 .w-50 {
     width: 100px !important;
