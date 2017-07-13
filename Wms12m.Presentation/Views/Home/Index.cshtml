@@ -288,7 +288,7 @@ if (tst.OnayCek == true)
         </div>
     }
 }
-if (tst.OnayTekno == true)
+if (tst.OnayTekno == true && (ViewBag.RoleName == "GM" || ViewBag.RoleName == "YKU" || ViewBag.RoleName == "MIGMY" || ViewBag.RoleName == "SPGMY" || ViewBag.RoleName == "USGMY" || ViewBag.RoleName == "IKGM"))
 {
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a class="dashboard-stat dashboard-stat-v2 green-soft" href="/Approvals/Techno">
