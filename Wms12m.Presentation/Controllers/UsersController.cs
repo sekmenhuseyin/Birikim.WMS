@@ -20,7 +20,7 @@ namespace Wms12m.Presentation.Controllers
             return View("Index");
         }
         /// <summary>
-        /// kullanıcılar
+        /// kullanıcı listesi
         /// </summary>
         public PartialViewResult List()
         {
@@ -224,6 +224,28 @@ namespace Wms12m.Presentation.Controllers
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Deleting) == false || Id == 1) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             Result _Result = Persons.Delete(Id);
             return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// b2b kullanıcı sayfası
+        /// </summary>
+        public ActionResult B2B()
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return Redirect("/");
+            ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
+            return View("B2B");
+        }
+        /// <summary>
+        /// b2b kullanıcı listesi
+        /// </summary>
+        public PartialViewResult B2BList()
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
+            string sql = string.Format("SELECT solar6.dbo.B2B_User.ID, solar6.dbo.B2B_User.HesapKodu, FINSAT6{0}.CHK.Unvan1 as Unvan, solar6.dbo.B2B_User.YetkiliEMail, solar6.dbo.B2B_User.Parola " +
+                                "FROM solar6.dbo.B2B_User WITH(NOLOCK) INNER JOIN FINSAT6{0}.CHK WITH(NOLOCK) ON B2B.HesapKodu = FINSAT6{0}.CHK.HesapKodu " +
+                                "ORDER BY Unvan1", db.GetSirketDBs().FirstOrDefault());
+            var list = db.Database.SqlQuery<mdlB2BUsers>(sql).ToList();
+            ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
+            return PartialView("B2BList", list);
         }
     }
 }
