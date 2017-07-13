@@ -25,7 +25,7 @@ namespace Wms12m.Presentation.Controllers
                 {
                     bo = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     bo = new BekleyenOnaylar();
                 }
