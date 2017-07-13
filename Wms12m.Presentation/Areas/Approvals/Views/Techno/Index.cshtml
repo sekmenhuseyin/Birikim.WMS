@@ -127,7 +127,8 @@
         var rdrValue = OnayDurum;
         var radioGroupItems = [
             { text: "Onay Bekleyenler", value: "OnayBekleyenler" },
-            { text: "Reddedilenler", value: "Reddedilenler" }
+            { text: "Reddedilenler", value: "Reddedilenler" },
+            { text: "Onayladıklarım", value: "Onayladiklarim" }
         ];
         $(function () {
             $(".rdgrpOnayRed").dxRadioGroup({
@@ -148,13 +149,22 @@
                         table2.columns([16]).visible(true, true);
                         $(".butondiv").css("display", "none");
                     }
-                    else {
+                    else if (e.value == 'OnayBekleyenler'){
                         //$(".pull-right").css("display", "block");
                         table.columns([17]).visible(false, false);
                         table.columns([18]).visible(false, false);
                         table2.columns([15]).visible(false, false);
                         table2.columns([16]).visible(false, false);
                         $(".butondiv").css("display", "block");
+                    }
+                    else {
+                        //$(".pull-right").css("display", "none");
+                        $(".butondiv").css("display", "none");
+                        table.columns([17]).visible(false, false);
+                        table.columns([18]).visible(false, false);
+                        table2.columns([15]).visible(false, false);
+                        table2.columns([16]).visible(false, false);
+                      
                     }
                 }
             });
