@@ -48,5 +48,7 @@ namespace Wms12m.Entity
         public int DBUTUCRETID { get; set; }
         public short IslemTipi { get; set; }
         public int DSKALAANAID { get; set; }
+        public int DBIRIMID { get; set; }
+
     }
 }
