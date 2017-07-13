@@ -375,17 +375,5 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 return null;
             }
         }
-        /// <summary>
-        /// evrak noya ait mallar
-        /// </summary>
-        [HttpPost]
-        public JsonResult Details(string ID)
-        {
-            if (CheckPerm(Perms.KabloSiparişi, PermTypes.Reading) == false) return null;
-            string[] tmp = ID.Split('-');
-            string sql = String.Format("FINSAT6{0}.wms.getSiparisDetail @DepoKodu = '{1}', @EvrakNo = '{2}'", tmp[0], tmp[1], tmp[2]);
-            var list = db.Database.SqlQuery<frmSiparisMalzeme>(sql).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
-        }
     }
 }
