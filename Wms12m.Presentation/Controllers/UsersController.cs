@@ -243,9 +243,57 @@ namespace Wms12m.Presentation.Controllers
             string sql = string.Format("SELECT solar6.dbo.B2B_User.ID, solar6.dbo.B2B_User.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, solar6.dbo.B2B_User.YetkiliEMail, solar6.dbo.B2B_User.Parola " +
                                 "FROM solar6.dbo.B2B_User WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON solar6.dbo.B2B_User.HesapKodu = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                 "ORDER BY Unvan1", db.GetSirketDBs().FirstOrDefault());
-            var list = db.Database.SqlQuery<mdlB2BUsers>(sql).ToList();
+            List<mdlB2BUsers> list;
+            try
+            {
+                list = db.Database.SqlQuery<mdlB2BUsers>(sql).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Users/B2BList");
+                list = new List<mdlB2BUsers>();
+            }
             ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
+            ViewBag.Yetki2 = CheckPerm(Perms.Kullanıcılar, PermTypes.Deleting);
             return PartialView("B2BList", list);
+        }
+        /// <summary>
+        /// şifreyi değiştir
+        /// </summary>
+        [HttpPost]
+        public JsonResult B2BChangePass(int ID, string Pass)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            try
+            {
+                db.Database.ExecuteSqlCommand("UPDATE solar6.dbo.B2B_User SET Parola = '" + Pass + "' WHERE ID = " + ID);
+                LogActions("", "Users", "B2BChangePass", ComboItems.alDüzenle, ID);
+                return Json(new Result(true, ID), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Users/B2BChangePass");
+                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// sil
+        /// </summary>
+        [HttpPost]
+        public JsonResult B2BDelete(int ID)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            try
+            {
+                db.Database.ExecuteSqlCommand("DELETE FROM solar6.dbo.B2B_User WHERE ID = " + ID);
+                LogActions("", "Users", "B2BDelete", ComboItems.alDüzenle, ID);
+                return Json(new Result(true, ID), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Users/B2BDelete");
+                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

@@ -145,7 +145,7 @@
             type: 'POST',
             dataType: "html",
             success: function (data) { if (data != "") $("#liste").html(data); },
-            error: function (data) { Modaldialog("Lütfen Sayfayı Yenileyin", "Hata", "Tamam", "btn-default"); }
+            error: function (data) { Modaldialog("Lütfen Sayfayı Yenileyin", "Hata", "Tamam", "btn-danger"); }
         });
     }
     function CreateEdit(Id) {

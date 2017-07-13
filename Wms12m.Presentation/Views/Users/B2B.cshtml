@@ -24,10 +24,33 @@
     </div>
 </div>
 @section Scripts{<script type="text/javascript">
+    var DeleteFunctionUrl = '/Users/B2BDelete';
     FuncSearchBtn();
     function FuncSearchBtn() {
         $('#liste').html("");
         PartialView('/Users/B2BList', 'liste', "");
+    }
+    function degistir(id) {
+        var yeni = prompt("Yeni şifreyi yazınız");
+        if (yeni == null || yeni == undefined) return;
+        $.ajax({
+            type: 'POST',
+            url: "/Users/B2BChangePass",
+            data: { ID: id, Pass: yeni },
+            dataType: "html",
+            success: function (data) {
+                if (data.Status == false)
+                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                else
+                {
+                    Modaldialog("İşlem Başarıyla gerçekleşti", "Başarı", "Tamam", "btn-success");
+                    FuncSearchBtn();
+                }
+            },
+            error: function (data) {
+                Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");
+            }
+        });
     }
 </script>
 }

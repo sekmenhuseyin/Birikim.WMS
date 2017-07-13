@@ -91,11 +91,11 @@
             data: { DepoID: $('#DepoID').val(), Starts: $("#Starts").val(), Ends: $("#Ends").val() },
             dataType: "html",
             success: function (data) {
-                if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default"); $('#DepoID').val(""); }
+                if (data == "") { Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger"); $('#DepoID').val(""); }
                 $("#liste").html(data);
             },
             error: function (data) {
-                Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-default");
+                Modaldialog("Lütfen Tekrar Deneyin", "Hata", "Tamam", "btn-danger");
                 $('#DepoID').val(0);
             }
         });
