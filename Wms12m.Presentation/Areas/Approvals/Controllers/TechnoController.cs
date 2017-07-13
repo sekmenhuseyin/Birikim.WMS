@@ -46,7 +46,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public PartialViewResult EskiUcretData(string PERSONELID)
         {
             if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<TechnoList>(string.Format("[HR0312M].[dbo].[TCH_EskiUcretSelect] {0}", PERSONELID)).ToList();
+            var list = db.Database.SqlQuery<TechnoList>(string.Format("[HR03V01].[wms].[TCH_EskiUcretSelect] {0}", PERSONELID)).ToList();
             return PartialView(list);
         }
 
@@ -59,7 +59,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             List<TechnoList> ucretBilgi;
             try
             {
-                ucretBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR0312M].[dbo].[TCH_UcretOnaySelect] @Birim='{1}', @Tip='{0}'", tip, MyGlobalVariables.Birim)).ToList();
+                ucretBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR03V01].[wms].[TCH_UcretOnaySelect] @Birim='{1}', @Tip='{0}'", tip, MyGlobalVariables.Birim)).ToList();
             }
             catch (Exception ex)
             {
@@ -76,7 +76,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             List<TechnoList> primBilgi;
             try
             {
-                primBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR0312M].[dbo].[TCH_PrimOnaySelect] @Birim='{1}', @Tip='{0}'", tip, MyGlobalVariables.Birim)).ToList();
+                primBilgi = db.Database.SqlQuery<TechnoList>(string.Format("[HR03V01].[wms].[TCH_PrimOnaySelect] @Birim='{1}', @Tip='{0}'", tip, MyGlobalVariables.Birim)).ToList();
             }
             catch (Exception ex)
             {
@@ -132,14 +132,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 logDetay = "BUTUCRET_Temp tablosu ID: " + ID + " ,DPERSONELUID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki ücret değişimi " + vUser.UserName.ToString() + " kullanıcısı tarafından GM(Murat) onayına düşürülmüştür.";
                             }
                         }
-                        string s = string.Format("[HR0312M].[dbo].[TCH_UcretOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='{2}'", OnayDerece, ID, MyGlobalVariables.Birim);
+                        string s = string.Format("[HR03V01].[wms].[TCH_UcretOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='{2}'", OnayDerece, ID, MyGlobalVariables.Birim);
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Ucret_Onayla", ComboItems.alOnayla, ID.ToInt32(), logDetay);
                         if (MyGlobalVariables.Birim == "GM")
                         {
                             logDetay2 = "BUTUCRET_Temp tablosu ID: " + ID + " ,DPERSONELUID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + " isimli kullanıcının ücret bilgisi onay sürecinden geçmiştir, sisteme delete insert atılmıştır.";
-                            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR0312M].[dbo].[BUTUCRET] WHERE DBUTUCRETID={0} ", insertObj["DBUTUCRETID"].ToInt32()));
-                            string ss = string.Format("[HR0312M].[dbo].[TCH_BUTUCRETINSERT] @ID={0}", ID);
+                            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR03V01].[wms].[BUTUCRET] WHERE DBUTUCRETID={0} ", insertObj["DBUTUCRETID"].ToInt32()));
+                            string ss = string.Format("[HR03V01].[wms].[TCH_BUTUCRETINSERT] @ID={0}", ID);
                             var xx = db.Database.SqlQuery<int>(ss).ToList();
                             LogActions("Approvals", "Techno", "Ucret_Onayla", ComboItems.alEkle, ID.ToInt32(), logDetay2);
                         }
@@ -214,14 +214,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 logDetay = "BRDSKALA_Temp tablosu ID: " + ID + " , DSKALAANAID: " + insertObj["DSKALAANAID"].ToInt32() + ", DPERSONELID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki pozisyon primi ödeneği güncellenerek " + vUser.UserName.ToString() + " kullanıcısı tarafından GM(Murat) onayına düşürülmüştür.";
                             }
                         }
-                        string s = string.Format("[HR0312M].[dbo].[TCH_PrimOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='{2}'", OnayDerece, ID, MyGlobalVariables.Birim);
+                        string s = string.Format("[HR03V01].[wms].[TCH_PrimOnayUpdate] @OnayDerece={0}, @ID={1},@Birim='{2}'", OnayDerece, ID, MyGlobalVariables.Birim);
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Prim_Onayla", ComboItems.alEkle, ID.ToInt32(), logDetay);
                         if (MyGlobalVariables.Birim == "GM")
                         {
                             logDetay2 = "BRDSKALA_Temp tablosu ID: " + ID + " , DSKALAANAID: " + insertObj["DSKALAANAID"].ToInt32() + ", DPERSONELID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + " isimli kullanıcının pozisyon primi ödeneği onay sürecinden geçmiştir, sisteme delete insert atılmıştır.";
-                            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR0312M].[dbo].[BRDSKALA] WHERE DSKALAID={0} ", insertObj["DSKALAID"].ToInt32()));
-                            string ss = string.Format("[HR0312M].[dbo].[TCH_BRDSKALAINSERT] @ID={0}", ID);
+                            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR03V01].[wms].[BRDSKALA] WHERE DSKALAID={0} ", insertObj["DSKALAID"].ToInt32()));
+                            string ss = string.Format("[HR03V01].[wms].[TCH_BRDSKALAINSERT] @ID={0}", ID);
                             var xx = db.Database.SqlQuery<int>(ss).ToList();
                             LogActions("Approvals", "Techno", "Prim_Onayla", ComboItems.alOnayla, ID.ToInt32(), logDetay2);
                         }
@@ -268,7 +268,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         var ID = insertObj["ID"];
                         var logDetay = "BUTUCRET_Temp tablosu ID: " + ID + " ,DPERSONELUID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + " isimli kullanıcının ücret bilgisi " + MyGlobalVariables.Birim + "(" + vUser.UserName.ToString() + ") tarafından " + DateTime.Now + " da reddedildi.";
-                        string s = string.Format("[HR0312M].[dbo].[TCH_UcretRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
+                        string s = string.Format("[HR03V01].[wms].[TCH_UcretRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Ucret_Reddet", ComboItems.alRed, ID.ToInt32(), logDetay);
                     }
@@ -311,7 +311,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     {
                         var ID = insertObj["ID"];
                         var logDetay = "BRDSKALA_Temp tablosu ID: " + ID + " , DSKALAANAID: " + insertObj["DSKALAANAID"].ToInt32() + ", DPERSONELID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + " isimli kullanıcının pozisyon primi ödeneği " + MyGlobalVariables.Birim + "(" + vUser.UserName.ToString() + ") tarafından " + DateTime.Now + " da reddedildi.";
-                        string s = string.Format("[HR0312M].[dbo].[TCH_PrimRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
+                        string s = string.Format("[HR03V01].[wms].[TCH_PrimRedUpdate] @ID={0},@RedNeden='{1}',@Reddeden='{2}'", ID, RedNeden, vUser.UserName.ToString());
                         var x = db.Database.SqlQuery<int>(s).ToList();
                         LogActions("Approvals", "Techno", "Prim_Reddet", ComboItems.alRed, ID.ToInt32(), logDetay);
                     }
