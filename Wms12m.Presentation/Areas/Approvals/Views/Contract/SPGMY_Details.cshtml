@@ -1,4 +1,23 @@
 ﻿@model IEnumerable<BaglantiDetaySelect>
-<tr style='background: transparent;'><th>Fiyat Listesi</th><th>Ürün Grubu</th><th>Ürün Kodu</th><th>Ürün Adı</th><th>Kalite</th><th>Iskonto1</th><th>Iskonto2</th><th>Iskonto3</th><th>Iskonto4</th><th>Iskonto5</th></tr>
-@foreach (var item in Model)
-{<tr style='background: transparent;'><td>@item.Kod10</td><td>@item.MalKodGrup</td><td>@item.MalKod</td><td>@item.MalAdi</td><td>@item.Kalite</td><td>@item.Oran1</td><td>@item.Oran2</td><td>@item.Oran3</td><td>@item.Oran4</td><td>@item.Oran5</td></tr>}
+<table class="table table-striped table-bordered" id="tabledetails">
+    <thead>  <tr style='background: transparent;'><th>Fiyat Listesi</th><th>Ürün Grubu</th><th>Ürün Kodu</th><th>Ürün Adı</th><th>Kalite</th><th>Iskonto1</th><th>Iskonto2</th><th>Iskonto3</th><th>Iskonto4</th><th>Iskonto5</th><th></th></tr></thead>
+    @foreach (var item in Model)
+    {
+        <tr style='background: transparent;'><td>@item.Kod10</td><td>@item.MalKodGrup</td><td>@item.MalKod</td><td>@item.MalAdi</td><td>@item.Kalite</td><td>@item.Oran1</td><td>@item.Oran2</td><td>@item.Oran3</td><td>@item.Oran4</td><td>@item.Oran5</td><td><div class="col-md-1 pull-right m-t-5 p-0" id="buttonsdetails"></div></td></tr>}
+    </table>
+<script>
+
+        var table12 = $('#tabledetails').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table12, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o" style="font-size:15px;color:green"></span>', "className": 'btn btn-default btn-xs;' }
+            ]
+        }).container().appendTo($('#buttonsdetails'));
+
+        $(document).ready(function () {
+            $('.buttons-pdf').removeClass('btn btn-default');
+            $('.buttons-excel').removeClass('btn btn-default');
+        });
+
+</script>
