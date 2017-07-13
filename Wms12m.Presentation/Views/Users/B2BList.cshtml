@@ -4,7 +4,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr id="tr@{@item.ID} ">
                 <td>@item.HesapKodu</td>
                 <td>@item.Unvan</td>
                 <td>@item.YetkiliEMail</td>

@@ -117,7 +117,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.SiteTipiID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 5), "ID", "Name", webMenu.SiteTipiID);
             ViewBag.MenuYeriID = new SelectList(db.ComboItem_Name.Where(m => m.ComboID == 6), "ID", "Name", webMenu.MenuYeriID);
             ViewBag.UstMenuID = new SelectList(db.WebMenus.Select(m => new { m.ID, Ad = m.ComboItem_Name1.Name + ", " + m.ComboItem_Name.Name + ", " + (m.UstMenuID > 0 ? (m.WebMenu2.UstMenuID > 0 ? m.WebMenu2.WebMenu2.Ad + ", " : "") + m.WebMenu2.Ad + ", " : "") + m.Ad }).OrderBy(m => m.Ad), "ID", "Ad", webMenu.UstMenuID);
-            ViewBag.SimgeID = new SelectList(db.Simges.Select(m => new { m.ID, m.Icon }).OrderBy(m => m.Icon), "ID", "Icon", webMenu.SimgeID);
+            ViewBag.SimgeID = new SelectList(db.Simges.Select(m => new { m.ID, Icon = m.Icon.Replace("icon-", "") }).OrderBy(m => m.Icon), "ID", "Icon", webMenu.SimgeID);
             ViewBag.Simge = webMenu.Simge != null ? webMenu.Simge.Ad : "";
             return PartialView("New", webMenu);
         }

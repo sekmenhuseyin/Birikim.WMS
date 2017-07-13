@@ -240,8 +240,8 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult B2BList()
         {
             if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
-            string sql = string.Format("SELECT solar6.dbo.B2B_User.ID, solar6.dbo.B2B_User.HesapKodu, FINSAT6{0}.CHK.Unvan1 as Unvan, solar6.dbo.B2B_User.YetkiliEMail, solar6.dbo.B2B_User.Parola " +
-                                "FROM solar6.dbo.B2B_User WITH(NOLOCK) INNER JOIN FINSAT6{0}.CHK WITH(NOLOCK) ON B2B.HesapKodu = FINSAT6{0}.CHK.HesapKodu " +
+            string sql = string.Format("SELECT solar6.dbo.B2B_User.ID, solar6.dbo.B2B_User.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 as Unvan, solar6.dbo.B2B_User.YetkiliEMail, solar6.dbo.B2B_User.Parola " +
+                                "FROM solar6.dbo.B2B_User WITH(NOLOCK) INNER JOIN FINSAT6{0}.FINSAT6{0}.CHK WITH(NOLOCK) ON solar6.dbo.B2B_User.HesapKodu = FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu " +
                                 "ORDER BY Unvan1", db.GetSirketDBs().FirstOrDefault());
             var list = db.Database.SqlQuery<mdlB2BUsers>(sql).ToList();
             ViewBag.Yetki = CheckPerm(Perms.Kullanıcılar, PermTypes.Writing);
