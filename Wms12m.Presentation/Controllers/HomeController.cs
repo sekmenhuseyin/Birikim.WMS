@@ -31,6 +31,7 @@ namespace Wms12m.Presentation.Controllers
                 }
             ViewBag.Settings = setts;
             ViewBag.BekleyenOnaylar = bo;
+            ViewBag.RoleName = vUser.RoleName;
             var ozet = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
             return View("Index", ozet);
         }
