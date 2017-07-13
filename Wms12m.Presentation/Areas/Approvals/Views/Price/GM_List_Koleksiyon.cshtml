@@ -12,29 +12,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="btn-group pull-right">
-                            <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">
-                                Tools
-                                <i class="fa fa-angle-down"></i>
-                            </button>
-                            <ul class="dropdown-menu pull-right">
-                                <li>
-                                    <a href="javascript:;">
-                                        <i class="fa fa-print"></i> Print
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <i class="fa fa-file-pdf-o"></i> Save as PDF
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <i class="fa fa-file-excel-o"></i> Export to Excel
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                      
                     </div>
                 </div>
             </div>
@@ -117,13 +95,17 @@
         });
         var buttonskoleksiyon= new $.fn.dataTable.Buttons(table2, {
             buttons: [
-                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
-                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o" style="font-size:15px;color:green"></span>', "className": 'btn btn-default btn-xs;' }
             ]
         }).container().appendTo($('#buttonskoleksiyon'));
 
+        $(document).ready(function () {
+            $('#buttons').hide();
+            $('.buttons-pdf').removeClass('btn btn-default');
+            $('.buttons-excel').removeClass('btn btn-default');
+        });
 
-   
 
 </script>
 
