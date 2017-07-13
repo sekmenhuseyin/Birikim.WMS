@@ -67,6 +67,7 @@
                 <th nowrap>Açıklama</th>
                 <th nowrap style="display:none;"></th>
                 <th nowrap style="display:none;"></th>
+                <th nowrap style="display:none;"></th>
             </tr>
         </thead>
     </table>
@@ -113,7 +114,7 @@
                     return json;
                 },
             },
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [13, 14] }, { "visible": false, "targets": [0,1,22] }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [13, 14] }, { "visible": false, "targets": [0,1,22,24] }],
             "columns": [
                 { "data": "PERSONELID" },
                 { "data": "ID" },
@@ -138,7 +139,8 @@
                 { "data": "GuncelleyenKullanici" },
                 { "data": "Aciklama" },
                 { "data": "DBUTUCRETID" },
-                { "data": "IslemTipi" }
+                { "data": "IslemTipi" },
+                { "data": "DBIRIMID" },
             ],
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {

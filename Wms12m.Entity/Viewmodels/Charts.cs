@@ -35,6 +35,15 @@ namespace Wms12m.Entity
         public int YeniTahsisAdet { get; set; }
         public int NakliyeFiyatAdet { get; set; }
         public int SatinalmaSipTalepGMAdet { get; set; }
+
+
+        public int TechnoIKOnay_IK { get; set; }
+        public int TechnoIKOnay_IKGM { get; set; }
+        public int TechnoIKOnay_GM { get; set; }
+        public int TechnoIKOnay_SPGMY { get; set; }
+        public int TechnoIKOnay_USGMY { get; set; }
+        public int TechnoIKOnay_MIGMY { get; set; }
+        public int TechnoIKOnay_YKU { get; set; }
     }
     public class RaporVadesiGelmemisCekler
     {

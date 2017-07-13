@@ -54,7 +54,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 {
 
 
-                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SozlesmeGenelMudurOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName));
+                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SozlesmeGenelMudurOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName));
 
                     var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", insertObj["ListeNo"].ToString())).ToList();
 
@@ -258,7 +258,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 foreach (JObject insertObj in parameters)
                 {
-                    var s = string.Format("[FINSAT6{0}].[dbo].[SozlesmeSatisMuduruOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName);
+                    var s = string.Format("[FINSAT6{0}].[wms].[SozlesmeSatisMuduruOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName);
                     var xx = db.Database.ExecuteSqlCommand(s);
                     var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", insertObj["ListeNo"].ToString())).ToList();
                     foreach (ISS_Temp lst in list)
@@ -454,7 +454,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 foreach (JObject insertObj in parameters)
                 {
-                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[dbo].[SozlesmeFinansmanMuduruOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName));
+                    db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[SozlesmeFinansmanMuduruOnay] @SozlesmeNo = '{1}',@Kullanici = '{2}'", "17", insertObj["ListeNo"].ToString(), vUser.UserName));
                     var list = db.Database.SqlQuery<ISS_Temp>(string.Format("SELECT *  FROM [FINSAT6{0}].[FINSAT6{0}].[ISS_Temp] WHERE ListeNo='{1}'", "17", insertObj["ListeNo"].ToString())).ToList();
                     foreach (ISS_Temp lst in list)
                     {
@@ -606,7 +606,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult Tanim()
         {
             if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Reading) == false) return Redirect("/");
-            ViewBag.SRNO = "SOZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeSiraNoSelect]", "17")).FirstOrDefault();
+            ViewBag.SRNO = "SOZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[SozlesmeSiraNoSelect]", "17")).FirstOrDefault();
             return View();
         }
 
@@ -634,7 +634,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var STL = new List<BaglantiDetaySelect>();
             if (listeNo != "#12MConsulting#")
             {
-                STL = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[dbo].[BaglantiDetaySelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
+                STL = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] @ListeNo='{1}'", "17", listeNo)).ToList();
             }
             var json = new JavaScriptSerializer().Serialize(STL);
             return json;
@@ -645,11 +645,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var sozlesmeler = new List<SozlesmeListesi>();
             if (tip == 0)
             {
-                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeOnaylanmisList]", "17")).ToList();
+                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[wms].[SozlesmeOnaylanmisList]", "17")).ToList();
             }
             else
             {
-                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeOnaylanmamisList]", "17")).ToList();
+                sozlesmeler = db.Database.SqlQuery<SozlesmeListesi>(string.Format("[FINSAT6{0}].[wms].[SozlesmeOnaylanmamisList]", "17")).ToList();
             }
             var json = new JavaScriptSerializer().Serialize(sozlesmeler);
             return json;
@@ -670,7 +670,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 MaxJsonLength = int.MaxValue
             };
-            var FYTList = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
+            var FYTList = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[wms].[FYTSelect2]", "17")).ToList();
             return json.Serialize(FYTList);
         }
 
@@ -693,7 +693,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string UrunGrupSelect(int Index)
         {
-            var FUGS = db.Database.SqlQuery<UrunGrup>(string.Format("[FINSAT6{0}].[dbo].[STKSelect2] @Index={1}", "17", Index)).ToList();
+            var FUGS = db.Database.SqlQuery<UrunGrup>(string.Format("[FINSAT6{0}].[wms].[STKSelect2] @Index={1}", "17", Index)).ToList();
             var json = new JavaScriptSerializer().Serialize(FUGS);
             return json;
         }
@@ -1032,7 +1032,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         bool kontrol = false;
                         string SozlesmeSiraNo = "";
 
-                        SozlesmeSiraNo = "SÖZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[SozlesmeSiraNoSelect]", 17)).FirstOrDefault();
+                        SozlesmeSiraNo = "SÖZ " + db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[SozlesmeSiraNoSelect]", 17)).FirstOrDefault();
                         string HesapKodu = "";
                         string ListeNo = "";
                         decimal BaglantiTutari = 0;
@@ -1054,7 +1054,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                                 return "NO";
                             }
                         }
-                        string s = string.Format("[FINSAT6{0}].[dbo].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",", "."));
+                        string s = string.Format("[FINSAT6{0}].[wms].[SetSozlesmeOnayTip] @HesapKodu='{1}' , @ListeNo='{2}' , @BaglantiTutari={3}", "17", HesapKodu, ListeNo, BaglantiTutari.ToString().Replace(",", "."));
                         var xx = db.Database.ExecuteSqlCommand(s);
                         //var xx = db.Database.SqlQuery<int>(s).ToList();
                         db.SaveChanges();
@@ -1236,6 +1236,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DocumentFormat.OpenXml.Spreadsheet.Row newRow = new DocumentFormat.OpenXml.Spreadsheet.Row();
                     foreach (String col in columns)
                     {
+
                         DocumentFormat.OpenXml.Spreadsheet.Cell cell = new DocumentFormat.OpenXml.Spreadsheet.Cell()
                         {
                             DataType = DocumentFormat.OpenXml.Spreadsheet.CellValues.String,
@@ -1243,13 +1244,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         };
                         newRow.AppendChild(cell);
                     }
-
                     sheetData.AppendChild(newRow);
+
                 }
-                //for (int i = 1; i <= DocumentFormat.OpenXml.Spreadsheet.Dimension.Equals.columns(); i++)
-                //{
-                //    DocumentFormat.OpenXml.Spreadsheet.Column(i).AutoFit();
-                //}
                 SpreadsheetDocument document = SpreadsheetDocument.Open(Server.MapPath("/Uploads/temp.xlsx"), true);
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);

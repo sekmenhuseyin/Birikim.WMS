@@ -108,15 +108,15 @@
         return "<table style='background:transparent;' id='new" + id.replaceAll(" ", "") + "'></table>";
     }
     function format(d) {
-        var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th></tr>";
+        var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th><th>Stok</th><th>Durum</th></tr>";
         $.ajax({
             type: 'POST',
-            url: '/WMS/Cable/Details',
+            url: '/WMS/Sales/Details',
             data: { "ID": d },
             dataType: "json",
             success: function (data) {
                 for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td><td align=right>' + data[i].Miktar.formatMoney(2) + '</td><td>' + data[i].Birim + '</td></tr>';
+                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td><td align=right>' + data[i].Miktar.formatMoney(2) + '</td><td>' + data[i].Birim + '</td><td align=right>' + data[i].Stok.formatMoney(2) + '</td><td>' + data[i].HucreAd + '</td></tr>';
                 };
                 $('#new' + d.replaceAll(" ", "")).html(html);
             }

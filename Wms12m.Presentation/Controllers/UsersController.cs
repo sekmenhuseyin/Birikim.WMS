@@ -72,6 +72,7 @@ namespace Wms12m.Presentation.Controllers
             var id = Url.RequestContext.RouteData.Values["id"];
             if (id == null || id.ToString2() == "") return null;
             ViewBag.ID = id;
+            ViewBag.UserName = Persons.Detail(id.ToInt32()).Kod;
             return PartialView("Pass", new frmUserChangePass());
         }
         /// <summary>
@@ -87,7 +88,7 @@ namespace Wms12m.Presentation.Controllers
             var ID = id.ToInt32();
             var list = db.GetUserPermsFor(ID).ToList();
             ViewBag.PermName = new SelectList(db.Perms.ToList(), "PermName", "PermName");
-            ViewBag.UserName = db.Users.Where(m => m.ID == ID).Select(m => m.Kod).FirstOrDefault();
+            ViewBag.UserName = Persons.Detail(ID).Kod;
             return PartialView("Perm", list);
         }
         /// <summary>

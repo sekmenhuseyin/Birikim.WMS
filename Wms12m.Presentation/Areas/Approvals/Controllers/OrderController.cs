@@ -87,7 +87,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string BekleyenOnaylar()
         {
             if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Reading) == false) return null;
-            var BO = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[dbo].[DB_BekleyenOnaylar]", "17")).ToList();
+            var BO = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(BO);
             return json;
         }

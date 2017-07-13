@@ -111,7 +111,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 MaxJsonLength = int.MaxValue
             };
             if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return null;
-            var CE = db.Database.SqlQuery<CekOnayDetay>(string.Format("[FINSAT6{0}].[dbo].[CekOnayDetay] @Unvan = '{1}'", "17", Unvan)).ToList();
+            var CE = db.Database.SqlQuery<CekOnayDetay>(string.Format("[FINSAT6{0}].[wms].[CekOnayDetay] @Unvan = '{1}'", "17", Unvan)).ToList();
             return json.Serialize(CE);
         }
         #endregion

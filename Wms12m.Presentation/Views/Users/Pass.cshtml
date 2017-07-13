@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="modal-body">
-                    <h4>Şifre Değiştir</h4>
+                    <h4>@ViewBag.UserName için Şifre Değiştir</h4>
                     @using (Ajax.BeginForm("ChangePass", "Users", new { }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "modalEditPage", OnSuccess = "$('#modalEditPage').modal('toggle');" }, new { @class = "form-horizontal" }))
                     {
                         @Html.AntiForgeryToken()
