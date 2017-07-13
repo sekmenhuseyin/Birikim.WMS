@@ -13,164 +13,164 @@
 }<div class="page-bar"><ul class="page-breadcrumb"><li><span>Anasayfa</span></li></ul></div>
 <h1 class="page-title">Yönetim Paneli</h1>
 <div class="row">@{
-    if (tst.homeDepo == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <a class="dashboard-stat dashboard-stat-v2 red" href="/Constants/Storage">
-                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-                <div class="details">
-                    <div class="number"><span data-counter="counterup" data-value="@Model.depo">@Model.depo</span></div>
-                    <div class="desc"> Depo Sayısı </div>
-                </div>
-            </a>
-        </div>
-    }
-    if (tst.homeUser == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <a class="dashboard-stat dashboard-stat-v2 green" href="/Users">
-                <div class="visual"><i class="fa fa-shopping-cart"></i></div>
-                <div class="details">
-                    <div class="number"><span data-counter="counterup" data-value="@Model.kull">@Model.kull</span></div>
-                    <div class="desc"> Kullanıcı Sayısı </div>
-                </div>
-            </a>
-        </div>
-    }
-    if (tst.homeTask == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <a class="dashboard-stat dashboard-stat-v2 blue" href="/WMS/Tasks">
-                <div class="visual"><i class="fa fa-comments"></i></div>
-                <div class="details">
-                    <div class="number"><span data-counter="counterup" data-value="@Model.gorev">@Model.gorev</span></div>
-                    <div class="desc"> Açık Görevler </div>
-                </div>
-            </a>
-        </div>
-    }
-    if (tst.homeTransfer == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <a class="dashboard-stat dashboard-stat-v2 purple" href="/WMS/Transfer">
-                <div class="visual"><i class="fa fa-globe"></i></div>
-                <div class="details">
-                    <div class="number"><span data-counter="counterup" data-value="@Model.transfer">@Model.transfer</span></div>
-                    <div class="desc"> Depolar Arası Transfer </div>
-                </div>
-            </a>
-        </div>
-    }
-    if (tst.OnayStok == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <a class="dashboard-stat dashboard-stat-v2 green" href="/Approvals/Stock">
-                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-                <div class="details">
-                    <div class="number"><span data-counter="counterup" data-value="@tbl.StokOnay">@tbl.StokOnay</span></div>
-                    <div class="desc">Bekleyen Stok Onayları</div>
-                </div>
-            </a>
-        </div>
-    }
-    if (tst.OnayTeminat == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <a class="dashboard-stat dashboard-stat-v2 purple" href="/Approvals/Guarantee">
-                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-                <div class="details">
-                    <div class="number"><span data-counter="counterup" data-value="@tbl.TeminatOnay">@tbl.TeminatOnay</span></div>
-                    <div class="desc">Bekleyen Teminat Onayları</div>
-                </div>
-            </a>
-        </div>
-    }
-    if (tst.OnaySiparis == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="dashboard-stat dashboard-stat-v2 red">
-                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-                <div class="details">
-                    <div class="number number2">Bekleyen Sipariş Onayları</div>
-                    <div class="desc"><a class="link" href="/Approvals/Order/SM">SM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SM">@tbl.SiparisOnay_SM</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Order/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SPGMY">@tbl.SiparisOnay_SPGMY</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Order/GM">GM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_GM">@tbl.SiparisOnay_GM</span></a></div>
-                </div>
+if (tst.homeDepo == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 red" href="/Constants/Storage">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.depo">@Model.depo</span></div>
+                <div class="desc"> Depo Sayısı </div>
+            </div>
+        </a>
+    </div>
+}
+if (tst.homeUser == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 green" href="/Users">
+            <div class="visual"><i class="fa fa-shopping-cart"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.kull">@Model.kull</span></div>
+                <div class="desc"> Kullanıcı Sayısı </div>
+            </div>
+        </a>
+    </div>
+}
+if (tst.homeTask == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 blue" href="/WMS/Tasks">
+            <div class="visual"><i class="fa fa-comments"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.gorev">@Model.gorev</span></div>
+                <div class="desc"> Açık Görevler </div>
+            </div>
+        </a>
+    </div>
+}
+if (tst.homeTransfer == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 purple" href="/WMS/Transfer">
+            <div class="visual"><i class="fa fa-globe"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@Model.transfer">@Model.transfer</span></div>
+                <div class="desc"> Depolar Arası Transfer </div>
+            </div>
+        </a>
+    </div>
+}
+if (tst.OnayStok == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 green" href="/Approvals/Stock">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@tbl.StokOnay">@tbl.StokOnay</span></div>
+                <div class="desc">Bekleyen Stok Onayları</div>
+            </div>
+        </a>
+    </div>
+}
+if (tst.OnayTeminat == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 purple" href="/Approvals/Guarantee">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@tbl.TeminatOnay">@tbl.TeminatOnay</span></div>
+                <div class="desc">Bekleyen Teminat Onayları</div>
+            </div>
+        </a>
+    </div>
+}
+if (tst.OnaySiparis == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 red">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Bekleyen Sipariş Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Order/SM">SM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SM">@tbl.SiparisOnay_SM</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Order/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SiparisOnay_SPGMY">@tbl.SiparisOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Order/GM">GM: <span data-counter="counterup" data-value="@tbl.SiparisOnay_GM">@tbl.SiparisOnay_GM</span></a></div>
             </div>
         </div>
-    }
-    if (tst.OnaySozlesme == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="dashboard-stat dashboard-stat-v2 blue-chambray">
-                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-                <div class="details">
-                    <div class="number number2">Bekleyen Sözleşme Onayları</div>
-                    <div class="desc"><a class="link" href="/Approvals/Contract/SM">SM: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SM">@tbl.SozlesmeOnay_SM</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Contract/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SPGMY">@tbl.SozlesmeOnay_SPGMY</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Contract/GM">GM: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_GM">@tbl.SozlesmeOnay_GM</span></a></div>
-                </div>
+    </div>
+}
+if (tst.OnaySozlesme == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 blue-chambray">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Bekleyen Sözleşme Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Contract/SM">SM: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SM">@tbl.SozlesmeOnay_SM</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Contract/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_SPGMY">@tbl.SozlesmeOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Contract/GM">GM: <span data-counter="counterup" data-value="@tbl.SozlesmeOnay_GM">@tbl.SozlesmeOnay_GM</span></a></div>
             </div>
         </div>
-    }
-    if (tst.OnayRisk == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="dashboard-stat dashboard-stat-v2 green-jungle">
-                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-                <div class="details">
-                    <div class="number number2">Bekleyen Risk Limit Onayları</div>
-                    <div class="desc"><a class="link" href="/Approvals/Risk/SM">SM: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_SM">@tbl.RiskLimitOnay_SM</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Risk/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_SPGMY">@tbl.RiskLimitOnay_SPGMY</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Risk/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_MIGMY">@tbl.RiskLimitOnay_MIGMY</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Risk/GM">GM: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_GM">@tbl.RiskLimitOnay_GM</span></a></div>
-                </div>
+    </div>
+}
+if (tst.OnayRisk == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 green-jungle">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Bekleyen Risk Limit Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Risk/SM">SM: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_SM">@tbl.RiskLimitOnay_SM</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Risk/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_SPGMY">@tbl.RiskLimitOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Risk/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_MIGMY">@tbl.RiskLimitOnay_MIGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Risk/GM">GM: <span data-counter="counterup" data-value="@tbl.RiskLimitOnay_GM">@tbl.RiskLimitOnay_GM</span></a></div>
             </div>
         </div>
-    }
-    if (tst.OnayFiyat == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="dashboard-stat dashboard-stat-v2 purple-intense">
-                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-                <div class="details">
-                    <div class="number number2">Bekleyen Fiyat Listesi Onayları</div>
-                    <div class="desc"><a class="link" href="/Approvals/Price/SM">SM: <span data-counter="counterup" data-value="@tbl.FiyatOnay_SM">@tbl.FiyatOnay_SM</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Price/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.FiyatOnay_SPGMY">@tbl.FiyatOnay_SPGMY</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Price/GM">GM: <span data-counter="counterup" data-value="@tbl.FiyatOnay_GM">@tbl.FiyatOnay_GM</span></a></div>
-                </div>
+    </div>
+}
+if (tst.OnayFiyat == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 purple-intense">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Bekleyen Fiyat Listesi Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Price/SM">SM: <span data-counter="counterup" data-value="@tbl.FiyatOnay_SM">@tbl.FiyatOnay_SM</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Price/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.FiyatOnay_SPGMY">@tbl.FiyatOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Price/GM">GM: <span data-counter="counterup" data-value="@tbl.FiyatOnay_GM">@tbl.FiyatOnay_GM</span></a></div>
             </div>
         </div>
-    }
-    if (tst.OnayCek == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="dashboard-stat dashboard-stat-v2 yellow-casablanca">
-                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-                <div class="details">
-                    <div class="number number2">Bekleyen Çek Onayları</div>
-                    <div class="desc"><a class="link" href="/Approvals/Check/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Check/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Check/GM">GM: <span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></a></div>
-                </div>
+    </div>
+}
+if (tst.OnayCek == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 yellow-casablanca">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Bekleyen Çek Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Check/SPGMY">SPGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Check/MIGMY">MIGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Check/GM">GM: <span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></a></div>
             </div>
         </div>
-    }
-    if (tst.OnayTekno == true)
-    {
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="dashboard-stat dashboard-stat-v2 yellow-soft">
-                <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
-                <div class="details">
-                    <div class="number number2">Techno IK Onayları</div>
-                    <div class="desc"><a class="link" href="/Approvals/Techno">IK: <span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Techno">ÜSGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Techno">MIGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
-                    <div class="desc"><a class="link" href="/Approvals/Techno">GM: <span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></a></div>
-                </div>
+    </div>
+}
+if (tst.OnayTekno == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 yellow-soft">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details">
+                <div class="number number2">Techno IK Onayları</div>
+                <div class="desc"><a class="link" href="/Approvals/Techno">IK: <span data-counter="counterup" data-value="@tbl.CekOnay_SPGMY">@tbl.CekOnay_SPGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Techno">ÜSGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Techno">MIGMY: <span data-counter="counterup" data-value="@tbl.CekOnay_MIGMY">@tbl.CekOnay_MIGMY</span></a></div>
+                <div class="desc"><a class="link" href="/Approvals/Techno">GM: <span data-counter="counterup" data-value="@tbl.CekOnay_GM">@tbl.CekOnay_GM</span></a></div>
             </div>
         </div>
-    }
+    </div>
+}
 }</div>
 @Html.Partial("Charts", Model)
 @section Scripts{<script src="~/Content/assets/global/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
