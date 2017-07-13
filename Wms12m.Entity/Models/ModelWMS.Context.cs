@@ -613,5 +613,7 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.RolMenuEkle", roleNameParameter, menuIDsParameter);
         }
+
+        public System.Data.Entity.DbSet<Wms12m.Entity.mdlB2BUsers> mdlB2BUsers { get; set; }
     }
 }

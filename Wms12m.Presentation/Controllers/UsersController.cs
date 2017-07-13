@@ -286,12 +286,39 @@ namespace Wms12m.Presentation.Controllers
             try
             {
                 db.Database.ExecuteSqlCommand("DELETE FROM solar6.dbo.B2B_User WHERE ID = " + ID);
-                LogActions("", "Users", "B2BDelete", ComboItems.alDüzenle, ID);
+                LogActions("", "Users", "B2BDelete", ComboItems.alSil, ID);
                 return Json(new Result(true, ID), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 Logger(ex, "Users/B2BDelete");
+                return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// yeni form
+        /// </summary>
+        public PartialViewResult B2BNew()
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
+            return PartialView("B2BNew", new mdlB2BUsers());
+        }
+        /// <summary>
+        /// kaydet
+        /// </summary>
+        [HttpPost, ValidateAntiForgeryToken]
+        public JsonResult B2BSave(mdlB2BUsers tbl)
+        {
+            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            try
+            {
+                db.Database.ExecuteSqlCommand(string.Format("INSERT INTO solar6.dbo.B2B_User (HesapKodu, YetkiliEMail, Parola) VALUES ('{0}', '{1}', '{2}')", tbl.HesapKodu, tbl.YetkiliEMail, tbl.Parola));
+                LogActions("", "Users", "B2BSave", ComboItems.alEkle, 1);
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Users/B2BSave");
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
