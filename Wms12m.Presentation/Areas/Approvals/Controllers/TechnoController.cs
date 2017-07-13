@@ -138,7 +138,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         if (MyGlobalVariables.Birim == "GM")
                         {
                             logDetay2 = "BUTUCRET_Temp tablosu ID: " + ID + " ,DPERSONELUID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + " isimli kullanıcının ücret bilgisi onay sürecinden geçmiştir, sisteme delete insert atılmıştır.";
-                            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR0312M].[wms].[BUTUCRET] WHERE DBUTUCRETID={0} ", insertObj["DBUTUCRETID"].ToInt32()));
+                            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR0312M].[dbo].[BUTUCRET] WHERE DBUTUCRETID={0} ", insertObj["DBUTUCRETID"].ToInt32()));
                             string ss = string.Format("[HR0312M].[wms].[TCH_BUTUCRETINSERT] @ID={0}", ID);
                             var xx = db.Database.SqlQuery<int>(ss).ToList();
                             LogActions("Approvals", "Techno", "Ucret_Onayla", ComboItems.alEkle, ID.ToInt32(), logDetay2);
@@ -220,7 +220,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         if (MyGlobalVariables.Birim == "GM")
                         {
                             logDetay2 = "BRDSKALA_Temp tablosu ID: " + ID + " , DSKALAANAID: " + insertObj["DSKALAANAID"].ToInt32() + ", DPERSONELID: " + insertObj["PERSONELID"].ToString() + " – İlgili satırdaki  " + insertObj["Ad"].ToString() + ' ' + insertObj["Soyad"].ToString() + " isimli kullanıcının pozisyon primi ödeneği onay sürecinden geçmiştir, sisteme delete insert atılmıştır.";
-                            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR0312M].[wms].[BRDSKALA] WHERE DSKALAID={0} ", insertObj["DSKALAID"].ToInt32()));
+                            db.Database.ExecuteSqlCommand(string.Format("DELETE FROM [HR0312M].[dbo].[BRDSKALA] WHERE DSKALAID={0} ", insertObj["DSKALAID"].ToInt32()));
                             string ss = string.Format("[HR0312M].[wms].[TCH_BRDSKALAINSERT] @ID={0}", ID);
                             var xx = db.Database.SqlQuery<int>(ss).ToList();
                             LogActions("Approvals", "Techno", "Prim_Onayla", ComboItems.alOnayla, ID.ToInt32(), logDetay2);

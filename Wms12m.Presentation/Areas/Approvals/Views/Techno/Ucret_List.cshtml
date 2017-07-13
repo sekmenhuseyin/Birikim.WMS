@@ -58,6 +58,7 @@
                 <th nowrap>Döviz Tipi</th>
                 <th nowrap>Birim Ücret</th>
                 <th nowrap>Genel Aylık Ücret</th>
+                <th nowrap>Onay Sırası</th>
                 <th nowrap>Red Nedeni</th>
                 <th nowrap>Reddeden Kullanıcı</th>
                 <th nowrap>Kayıt Tarihi</th>
@@ -114,9 +115,7 @@
                     return json;
                 },
             },
-            "scrollY": 400,
-            "ordering": false,
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [13, 14] }, { "visible": false, "targets": [0,1,22,24] }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [13, 14] }, { "visible": false, "targets": [0,1,23,25] }],
             "columns": [
                 { "data": "PERSONELID" },
                 { "data": "ID" },
@@ -133,6 +132,7 @@
                 { "data": "DovizTipi" },
                 { "data": "BirimUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "GenelAylikUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "OnayindaBekleyen" },
                 { "data": "RedNedeni" },
                 { "data": "Reddeden" },
                 { "data": "KayitTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
@@ -175,17 +175,20 @@
         $('#sample_1 tbody').on('click', 'tr', function () {
             $(this).toggleClass('selected');
         });
-        if (tip1 == 'Reddedilenler') {
-            table.columns([15, 16]).visible(true, true);
-            $(".butondiv").css("display", "none");
-        }
-        else if (tip1 == 'Onayladiklarim') {
-            table.columns([15, 16]).visible(false, false);
-            $(".butondiv").css("display", "none");
-        }
-        else {
-            table.columns([15, 16]).visible(false, false);
-            $(".butondiv").css("display", "block");
+        if ($(".butondiv").css("display") != "none") {
+            console.log("aa");
+            if (tip1 == 'Reddedilenler') {
+                table.columns([15, 16]).visible(true, true);
+                $(".butondiv").css("display", "none");
+            }
+            else if (tip1 == 'Onayladiklarim') {
+                table.columns([15, 16]).visible(false, false);
+                $(".butondiv").css("display", "none");
+            }
+            else {
+                table.columns([15, 16]).visible(false, false);
+                $(".butondiv").css("display", "block");
+            }
         }
     });
     function UcretOnayla() {

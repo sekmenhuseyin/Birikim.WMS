@@ -49,6 +49,7 @@ namespace Wms12m.Entity
         public short IslemTipi { get; set; }
         public int DSKALAANAID { get; set; }
         public int DBIRIMID { get; set; }
+        public string OnayindaBekleyen { get; set; }
 
     }
 }
