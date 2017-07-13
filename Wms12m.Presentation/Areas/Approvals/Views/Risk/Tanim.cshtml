@@ -96,7 +96,6 @@
             for (var i = 0; i < x.length; i++) {
                 secili_table.push(x[i]);
             }
-            console.log(secili_table);
             var _dfd = $.Deferred();
             $.ajax({
                 url: window.location.origin + "/Approvals/Risk/OnayRiskInsert",
@@ -126,14 +125,7 @@
             var tumData = new Array();
             table.rows().every(function (rowIdx, tableLoop, rowLoop) {
                 tumData.push(this.data());
-                //var data = this.data();
-                //console.log(data);
-                //for (var i = 0; i < data.length; i++) {
-                //    tumData.push(data[i]);
-                //}
-       
             });
-            console.log(tumData);
                 $.ajax({
                     url: window.location.origin + "/Approvals/Contract/ExcExport",
                     data: { Data: JSON.stringify(tumData), destination:"C:\\Derviş\aa"},

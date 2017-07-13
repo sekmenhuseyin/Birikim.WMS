@@ -101,7 +101,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             }
             else// if (ids[0] != "0")
             {
-                sql = "DepoID";
+                sql = "wms.Yer.DepoID";
                 var = ids[0].ToString2();
             }
             try

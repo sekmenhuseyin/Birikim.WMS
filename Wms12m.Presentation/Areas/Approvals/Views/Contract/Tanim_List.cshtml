@@ -100,7 +100,6 @@
             });
             //silinecek.splice($("tr").index(this), 1);
         }
-        console.log(silinecek);
     });
 
     $('.refresh-buton').click(function () {
@@ -198,7 +197,6 @@
 
     function SatirSil() {
         silinecek.sort(function (a, b) { return b - a })
-        console.log(silinecek);
         for (var i = 0; i < silinecek.length; i++) {
             element.splice(silinecek[i], 1);
             var jsonElement = JSON.stringify(element);

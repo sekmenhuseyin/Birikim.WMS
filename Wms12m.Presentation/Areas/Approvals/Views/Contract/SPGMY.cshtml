@@ -47,7 +47,6 @@
     }
     function newrow(listeno) { return "<table style='background:transparent;' id='new" + listeno.replace("/", "") + "'></table>"; }
     function format(d) {
-        console.log(d);
         //var html = "<tr style='background: transparent;'><th>Fiyat Listesi</th><th>Ürün Grubu</th><th>Ürün Kodu</th><th>Ürün Adı</th><th>Iskonto1</th><th>Iskonto2</th>< th > Iskonto3</th><th>Iskonto4</th> <th>Iskonto5</th></tr >";
         $.ajax({
             type: 'POST',

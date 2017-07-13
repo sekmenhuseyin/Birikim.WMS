@@ -188,18 +188,23 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /// yetkileri kaydet
         /// </summary>
-        [HttpPost, ValidateAntiForgeryToken]
-        public void Save(GetMenuRoleFor_Result tbl)
+        [HttpPost]
+        public JsonResult Save(GetMenuRoleFor_Result tbl)
         {
             if (ModelState.IsValid)
                 if (CheckPerm(Perms.Menu, PermTypes.Writing) == true)
                     try
                     {
-                        db.MenuRolEkle(tbl.ID, tbl.RoleName);
+                        db.RolMenuEkle(tbl.RoleName, tbl.Ad);
                         //log
-                        LogActions("", "Menu", "Save", ComboItems.alEkle, tbl.ID.ToInt32(), "RoleName " + tbl.RoleName);
+                        LogActions("", "Menu", "Save", ComboItems.alEkle, 0, "RoleName: " + tbl.RoleName + ", Web IDs: "+ tbl.Ad);
+                        return Json(new Result(true, 1, ""), JsonRequestBehavior.AllowGet);
                     }
-                    catch (Exception ex) { Logger(ex, "Menu/SavePermission"); }
+                    catch (Exception ex) {
+                        Logger(ex, "Menu/Save");
+                        return Json(new Result(false, 0, ex.Message), JsonRequestBehavior.AllowGet);
+                    }
+            return Json(new Result(false, 0, "yetki hatası"), JsonRequestBehavior.AllowGet);
         }
     }
 }

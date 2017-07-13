@@ -50,7 +50,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Combo_Name> Combo_Name { get; set; }
         public virtual DbSet<ComboItem_Name> ComboItem_Name { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<GorevCalisma> GorevCalismas { get; set; }
         public virtual DbSet<UserDevice> UserDevices { get; set; }
         public virtual DbSet<Gorevler> Gorevlers { get; set; }
@@ -61,6 +60,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<GorevUser> GorevUsers { get; set; }
         public virtual DbSet<GorevPaketler> GorevPaketlers { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
@@ -599,6 +599,19 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("RoleName", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetMenuRoleFor_Result>("WMSEntities.GetMenuRoleFor", roleNameParameter);
+        }
+    
+        public virtual int RolMenuEkle(string roleName, string menuIDs)
+        {
+            var roleNameParameter = roleName != null ?
+                new ObjectParameter("RoleName", roleName) :
+                new ObjectParameter("RoleName", typeof(string));
+    
+            var menuIDsParameter = menuIDs != null ?
+                new ObjectParameter("MenuIDs", menuIDs) :
+                new ObjectParameter("MenuIDs", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("WMSEntities.RolMenuEkle", roleNameParameter, menuIDsParameter);
         }
     }
 }

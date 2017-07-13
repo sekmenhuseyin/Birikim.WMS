@@ -403,8 +403,6 @@
             .removeClass('aa');
         tr.addClass("aa");
         var x = table.rows('.aa').data();
-        console.log(x[0][4]);
-        console.log(model[5]["BaglantiNo"].toString().trim());
         jQuery.each(model, function (i, val) {
             if (model[i]["BaglantiNo"].toString().trim() == x[0][4]) {
                 baglanti = model[i]["BaglantiNo"];
@@ -418,7 +416,6 @@
             success: function (data) {
                 $('#x-modal-cari-detay-cek').modal("show");
                 var result = JSON.parse(data);
-                console.log(result);
                 var columns = [
                    
                     { caption: 'Fiyat Listesi', dataField: 'SozlesmeNo' },

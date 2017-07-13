@@ -3,6 +3,9 @@
         display: none !important;
     }
 }
+.clickable {
+    cursor: pointer;
+}
 .h-500 {
     min-height: 500px !important;
 }
