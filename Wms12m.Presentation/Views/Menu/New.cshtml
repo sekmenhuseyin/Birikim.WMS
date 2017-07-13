@@ -78,7 +78,7 @@
 </div>
 <script>
 	$("#SiteTipiID").prepend("<option value=''></option>"); $("#MenuYeriID").prepend("<option value=''></option>"); $("#UstMenuID").prepend("<option value=''></option>"); $("#SimgeID").prepend("<option value=''></option>");
-	function Iconize(sel) { $("#divIcon").removeClass(); $("#divIcon").addClass(sel.options[sel.selectedIndex].text); }
+	function Iconize(sel) { $("#divIcon").removeClass(); $("#divIcon").addClass("icon-" + sel.options[sel.selectedIndex].text); }
 	@{
 		if (Model.SiteTipiID == 0) { <text>$("#SiteTipiID")[0].selectedIndex = 0;</text> }
 		if (Model.MenuYeriID == 0) { <text>$("#MenuYeriID")[0].selectedIndex = 0;</text> }
