@@ -70,7 +70,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukSatisPie(string SirketKodu, int tarih)
         {
-            if (CheckPerm(Perms.ChartGunlukSatisPie, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ChartGunlukSatis, PermTypes.Reading) == false) return null;
             var GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnalizi] @Tarih = {1}", SirketKodu, tarih)).ToList();
             ViewBag.tarih = tarih;
             ViewBag.tarih2 = tarih.FromOADateInt();
@@ -100,7 +100,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukSatisYearToDayPie(string SirketKodu)
         {
-            if (CheckPerm(Perms.ChartGunlukSatisYearToDayPie, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ChartGunlukSatisYearToDay, PermTypes.Reading) == false) return null;
             int tarih = fn.ToOADate();
             List<ChartGunlukSatisAnalizi> GSA;
             try
@@ -132,7 +132,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukSatisDoubleKriterPie(string SirketKodu, string kod, int islemtip, int tarih)
         {
-            if (CheckPerm(Perms.ChartGunlukSatisDoubleKriterPie, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ChartGunlukSatisDoubleKriter, PermTypes.Reading) == false) return null;
             var GSADK = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziDoubleKriter] @Tarih = {1}, @IslemTip = {2}, @Grup = '{3}'", SirketKodu, tarih, islemtip, kod)).ToList();
             ViewBag.IslemTip = islemtip;
             ViewBag.Kriter = kod;
@@ -276,7 +276,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarPie(string SirketKodu, bool miktarTutar)
         {
-            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubuMiktarPie, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubuMiktar, PermTypes.Reading) == false) return null;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             if (miktarTutar == true)
@@ -316,7 +316,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriterPie(string SirketKodu, bool miktarTutar, string kriter)
         {
-            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubuMiktarKriterPie, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubuMiktarKriter, PermTypes.Reading) == false) return null;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             if (miktarTutar == true)
@@ -377,7 +377,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBaglantiUrunGrubuPie(string SirketKodu)
         {
-            if (CheckPerm(Perms.ChartBaglantiUrunGrubuPie, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return null;
             List<ChartBaglantiUrunGrup> BUGS;
             try
             {
@@ -405,7 +405,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialGunlukMDFUretimiPie(string SirketKodu, int tarih)
         {
-            if (CheckPerm(Perms.ChartGunlukMDFUretimiPie, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ChartGunlukMDFUretimi, PermTypes.Reading) == false) return null;
             string sql = string.Format("[FINSAT6{0}].[wms].[MDF_UretimRapor_Chart] @BasTarih = {1}, @BitTarih = {2}, @Tip={3}", SirketKodu, tarih, tarih, 1);
             var GSA = db.Database.SqlQuery<ChartGunlukMDFUretimi>(sql).ToList();
             ViewBag.SirketKodu = SirketKodu;
@@ -445,7 +445,7 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBolgeBazliSatisAnaliziPie(string SirketKodu, int ay, string kriter)
         {
-            if (CheckPerm(Perms.ChartBolgeBazliSatisAnaliziPie, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ChartBolgeBazliSatisAnalizi, PermTypes.Reading) == false) return null;
             ViewBag.Ay = ay;
             ViewBag.Kriter = kriter;
             ViewBag.SirketKodu = SirketKodu;
