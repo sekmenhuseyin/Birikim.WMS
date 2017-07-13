@@ -64,7 +64,7 @@
                         <th nowrap>Genel Toplam</th>                       
                     </tr>
                 </thead>
-                <tfoot>
+                @*<tfoot>
                     <tr>
                         <th nowrap colspan="12"></th>
                         <th nowrap style="text-align:right;"></th>
@@ -80,8 +80,8 @@
                         <th nowrap style="text-align:right;"></th>
                         <th nowrap style="text-align:right;"></th>
                     </tr>
-                </tfoot>
-                <tbody>
+                </tfoot>*@
+                @*<tbody>
                     @foreach (var item in Model)
             {
                         <tr>
@@ -117,7 +117,7 @@
 
                         </tr>
                     }
-                </tbody>
+                </tbody>*@
             </table>
 
         </div>
@@ -125,10 +125,51 @@
 </div>
 <script>
     $(document).ready(function () {
-        var model =  @Html.Raw(serializer.Serialize(Model));
+        console.log("tttt");
+     var model =  @Html.Raw(serializer.Serialize(Model));
      var table123 =  $('#sample_1').DataTable({
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "footerCallback": function (row, data, start, end, display) {
+         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+          "ajax": {
+            "url": '/Reports/List?bastarih='+ basTarih+', bittarih='+ bitTarih ,
+            "dataSrc": function (json) {
+                return json;
+            },
+        },
+        "fixedHeader": true,
+        "scrollX": true,
+        "columnDefs": [ { "type": "num-fmt", "className": "dt-right", "targets": [12,13,14,15,16,17,18,19,20,21,22,23] }],
+        "columns": [
+            { "data": "Chk" },
+            { "data": "Unvan"},
+            { "data": "BaglantiTipi"},
+            { "data": "BaglantiNo"},
+            { "data": "SatisTemsilcisi" },
+            { "data": "GrupKod" },
+            { "data": "MalKodu" },
+            { "data": "MalAdi" },
+            { "data": "Kalite" },
+            { "data": "IslemTarihi" },
+            { "data": "EvrakNo" }, ,
+            { "data": "Birim" },
+            { "data": "BirimMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "AnaBirim", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "AnaBirimMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "AdetCikisMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "MTCikisMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "M2CikisMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "M3CikisMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "KGCikisMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "NetBirimFiyat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "NetTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "KDV", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "GenelToplam", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+        ],
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        },
+        "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
 
                 // Remove the formatting to get integer data for summation
@@ -251,6 +292,7 @@
                     ondalikBinlik(bb, 6)
                 );
             }
+
         });
 
      var buttons = new $.fn.dataTable.Buttons(table123, {

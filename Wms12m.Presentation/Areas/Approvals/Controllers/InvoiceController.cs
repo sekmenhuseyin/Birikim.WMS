@@ -25,7 +25,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var FO = new List<FaturaOnay>();
             if (Refresh != "")
             {
-                FO = db.Database.SqlQuery<FaturaOnay>(string.Format("[FINSAT6{0}].[dbo].[FaturaOnay] @onayTip='{1}'", "17", ListType)).ToList();
+                FO = db.Database.SqlQuery<FaturaOnay>(string.Format("[FINSAT6{0}].[wms].[FaturaOnay] @onayTip='{1}'", "17", ListType)).ToList();
 
             }
             return PartialView("List", FO);
@@ -42,7 +42,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 STI = new List<FaturaDetaySTI>(),
                 FTD = new List<FaturaDetayFTD>()
             };
-            var FDD = db.MultipleResults(string.Format("[FINSAT6{0}].[dbo].[FaturaOnayDetay] @EvrakNo='{1}'", 17, EvrakNo)).With<FaturaDetayGenel>().With<FaturaDetaySTI>().With<FaturaDetayFTD>().Execute();
+            var FDD = db.MultipleResults(string.Format("[FINSAT6{0}].[wms].[FaturaOnayDetay] @EvrakNo='{1}'", 17, EvrakNo)).With<FaturaDetayGenel>().With<FaturaDetaySTI>().With<FaturaDetayFTD>().Execute();
             foreach (FaturaDetayGenel item in FDD[0])
             {
                 _FDD.GENEL.Add(item);
@@ -78,7 +78,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             try
             {
-                var x = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[FaturaOnayUpdate] @Tip={1}, @EvrakNo='{2}',@Chk='{3}',@Tarih={4},@RedNedeni='{5}',@Degistiren='{6}',@Degistarih={7}", "17", 1, EvrakNo, CHK, Convert.ToInt32(Convert.ToDateTime(Tarih.ToString()).ToOADate()), "", vUser.UserName, Convert.ToInt32(DateTime.Today.ToOADate()))).ToList();
+                var x = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[FaturaOnayUpdate] @Tip={1}, @EvrakNo='{2}',@Chk='{3}',@Tarih={4},@RedNedeni='{5}',@Degistiren='{6}',@Degistarih={7}", "17", 1, EvrakNo, CHK, Convert.ToInt32(Convert.ToDateTime(Tarih.ToString()).ToOADate()), "", vUser.UserName, Convert.ToInt32(DateTime.Today.ToOADate()))).ToList();
                 return "YES";
             }
             catch (Exception ex)
@@ -106,7 +106,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             try
             {
-                var x = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[dbo].[FaturaOnayUpdate] @Tip={1}, @EvrakNo='{2}',@Chk='{3}',@Tarih={4},@RedNedeni='{5}',@Degistiren='{6}',@Degistarih={7}", "17", 0, EvrakNo, CHK, Convert.ToInt32(Convert.ToDateTime(Tarih.ToString()).ToOADate()), RedNeden, vUser.UserName, Convert.ToInt32(DateTime.Today.ToOADate()))).ToList();
+                var x = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[FaturaOnayUpdate] @Tip={1}, @EvrakNo='{2}',@Chk='{3}',@Tarih={4},@RedNedeni='{5}',@Degistiren='{6}',@Degistarih={7}", "17", 0, EvrakNo, CHK, Convert.ToInt32(Convert.ToDateTime(Tarih.ToString()).ToOADate()), RedNeden, vUser.UserName, Convert.ToInt32(DateTime.Today.ToOADate()))).ToList();
                 return "YES";
             }
             catch (Exception ex)

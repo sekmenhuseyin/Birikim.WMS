@@ -79,12 +79,18 @@
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
-                            <th nowrap colspan="7"></th>
+                            <th nowrap colspan="3"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap colspan="2"></th>
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
                             <th nowrap style="text-align:right;"></th>
-                            <th nowrap colspan="7" style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap style="text-align:right;"></th>
+                            <th nowrap colspan="4" style="text-align:right;"></th>
                         </tr>
                     </tfoot>
                     <tbody>
@@ -93,7 +99,7 @@
                         <tr>
                             <td nowrap>@item.Chk</td>
                             <td nowrap>@item.Unvan</td>
-                            <td nowrap>@item.Tarih.Value.ToString("dd/MM/yyyy")</td>
+                            <td nowrap>@item.Tarih</td>
                             <td nowrap>@item.EvrakNo</td>
                             <td nowrap>@item.BaglantiNo</td>
                             <td nowrap>@item.GrupKod</td>
@@ -149,6 +155,7 @@
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
 
             "footerCallback": function (row, data, start, end, display) {
+                console.log("gftr");
                 var api = this.api(), data;
 
                 // Remove the formatting to get integer data for summation

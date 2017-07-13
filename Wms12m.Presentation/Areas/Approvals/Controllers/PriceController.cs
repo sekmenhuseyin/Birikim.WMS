@@ -1537,13 +1537,13 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
         public ActionResult List()
         {
             if (CheckPerm(Perms.FiyatTanim, PermTypes.Reading) == false) return Redirect("/");
-            var LNO = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect2]", "17")).ToList();
+            var LNO = db.Database.SqlQuery<ListeNoSelect>(string.Format("[FINSAT6{0}].[wms].[FYTSelect2]", "17")).ToList();
             return View(LNO);
         }
 
         public string UrunGrupSelect()
         {
-            var FUGS = db.Database.SqlQuery<FiyatUrunGrupSelect>(string.Format("[FINSAT6{0}].[dbo].[STKSelect1]", "17")).ToList();
+            var FUGS = db.Database.SqlQuery<FiyatUrunGrupSelect>(string.Format("[FINSAT6{0}].[wms].[STKSelect1]", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(FUGS);
             return json;
         }
@@ -1565,7 +1565,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
 
         public string ListesiSelect(string listeNo)
         {
-            var FYTS = db.Database.SqlQuery<FiyatListSelect>(string.Format("[FINSAT6{0}].[dbo].[FYTSelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
+            var FYTS = db.Database.SqlQuery<FiyatListSelect>(string.Format("[FINSAT6{0}].[wms].[FYTSelect1] @ListeNo='{1}'", "17", listeNo)).ToList();
             var json = new JavaScriptSerializer().Serialize(FYTS);
             return json;
         }
@@ -1596,7 +1596,7 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
             {
                 try
                 {
-                    var FYTS = db.Database.SqlQuery<FiyatListSelect>(string.Format("[FINSAT6{0}].[dbo].[FiyatTanimVeOnay] @ListeNo='{1}'", "17", parameters["ListeNo"].ToString())).ToList();
+                    var FYTS = db.Database.SqlQuery<FiyatListSelect>(string.Format("[FINSAT6{0}].[wms].[FiyatTanimVeOnay] @ListeNo='{1}'", "17", parameters["ListeNo"].ToString())).ToList();
 
                     if (parameters["Durum"].ToShort() == 1)
                     {
