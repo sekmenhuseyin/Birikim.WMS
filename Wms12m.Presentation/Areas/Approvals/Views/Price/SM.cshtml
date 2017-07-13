@@ -20,24 +20,26 @@
         </div>
         <div class="portlet box green">
             <div class="portlet-title">
-                <div class="caption col-xs-12 col-sm-2 ">
+                <div class="caption col-md-1">
                     <i class="fa fa-gift"></i>Fiyat Onay SM
                 </div>
-                <div class="col-xs-4 col-sm-2  m-t-5">
-                    <a class="btn btn-default input-circle yenile-buton" href="#modalEditPage" data-toggle="modal"> Yenile </a>
+                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+                <div class="col-md-2 pull-right  m-t-5">
+                    <a class="btn btn-default  input-circle alayinisec-buton fa fa-file-text" href="#modalEditPage" data-toggle="modal">Tüm Seç</a>
                 </div>
-                <div class="col-xs-4 col-sm-2  m-t-5">
-                    <a class="btn btn-default  input-circle onay-buton" href="#modalEditPage" data-toggle="modal"> Onayla </a>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default  input-circle alayinikaldir-buton fa fa-file-text-o" href="#modalEditPage" data-toggle="modal">Tüm Kaldır</a>
                 </div>
-                <div class="col-xs-4 col-sm-2  m-t-5">
-                    <a class="btn btn-default  input-circle reddet-buton" href="#modalEditPage" data-toggle="modal"> Reddet </a>
+                <div class="col-md-2 pull-right  m-t-5">
+                    <a class="btn btn-default input-circle yenile-buton glyphicon glyphicon-refresh" href="#modalEditPage" data-toggle="modal"> Yenile </a>
                 </div>
-                <div class="col-xs-4 col-sm-2  m-t-5">
-                    <a class="btn btn-default  input-circle alayinisec-buton" href="#modalEditPage" data-toggle="modal"> Tümünü Seç </a>
+                <div class="col-md-2 pull-right  m-t-5">
+                    <a class="btn btn-default  input-circle onay-buton glyphicon glyphicon-ok" href="#modalEditPage" data-toggle="modal">Onayla</a>
                 </div>
-                <div class="col-xs-4 col-sm-2  m-t-5">
-                    <a class="btn btn-default  input-circle alayinikaldir-buton" href="#modalEditPage" data-toggle="modal"> Tümünü Kaldır </a>
+                <div class="col-md-2 pull-right m-t-5">
+                    <a class="btn btn-default  input-circle reddet-buton glyphicon glyphicon-remove" href="#modalEditPage" data-toggle="modal">Reddet</a>
                 </div>
+
             </div>
             <div class="portlet-body">
                 <div class="row">
@@ -83,6 +85,7 @@
                     $("#listegrup").css("display", "none");
                     $("#listekoleksiyon").css("display", "none");
                     $("#liste").css("display", "block");
+                    $("#buttons").css("display", "block");
                 }
 
 
@@ -100,6 +103,7 @@
                     $("#listegrup").css("display", "none");
                     $("#listekoleksiyon").css("display", "none");
                     $("#liste").css("display", "block");
+                    $("#buttons").css("display", "block");
 
                 }
 
