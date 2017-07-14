@@ -385,6 +385,7 @@
     <Content Include="Areas\WMS\Views\Stock\List2.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\Details2.cshtml" />
     <Content Include="Areas\Reports\Views\web.config" />
+    <Content Include="Areas\Reports\Views\Crm\Meeting.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -754,7 +755,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Reports\Views\Crm\" />
     <Folder Include="Areas\Reports\Views\Financial\" />
     <Folder Include="Uploads\" />
   </ItemGroup>

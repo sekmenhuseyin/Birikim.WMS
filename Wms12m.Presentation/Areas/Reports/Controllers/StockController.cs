@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
@@ -19,7 +20,16 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult StokList(int Tarih, string BasGrupKod, string BitGrupKod, string BasTipKod, string BitTipKod, string BasOzelKod, string BitOzelKod, string BasKod1, string BitKod1, string BasKod2, string BitKod2, string BasKod3, string BitKod3)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var SR = db.Database.SqlQuery<RaporStokKodCase>(string.Format("[FINSAT6{0}].[wms].[StokRaporuKodCase] @Tarih = {1}, @BasGrupKod = '{2}',@BitGrupKod = '{3}', @BasTipKod = '{4}',@BitTipKod= '{5}', @BasOzelKod = '{6}', @BitOzelKod = '{7}',@BasKod1 = '{8}', @BitKod1 = '{9}',@BasKod2= '{10}', @BitKod2 = '{11}',@BasKod3= '{12}', @BitKod3 = '{13}'", "17", Tarih, BasGrupKod, BitGrupKod, BasTipKod, BitTipKod, BasOzelKod, BitOzelKod, BasKod1, BitKod1, BasKod2, BitKod2, BasKod3, BitKod3)).ToList();
+            List<RaporStokKodCase> SR;
+            try
+            {
+                SR = db.Database.SqlQuery<RaporStokKodCase>(string.Format("[FINSAT6{0}].[wms].[StokRaporuKodCase] @Tarih = {1}, @BasGrupKod = '{2}',@BitGrupKod = '{3}', @BasTipKod = '{4}',@BitTipKod= '{5}', @BasOzelKod = '{6}', @BitOzelKod = '{7}',@BasKod1 = '{8}', @BitKod1 = '{9}',@BasKod2= '{10}', @BitKod2 = '{11}',@BasKod3= '{12}', @BitKod3 = '{13}'", "17", Tarih, BasGrupKod, BitGrupKod, BasTipKod, BitTipKod, BasOzelKod, BitOzelKod, BasKod1, BitKod1, BasKod2, BitKod2, BasKod3, BitKod3)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Stock/StokList");
+                SR = new List<RaporStokKodCase>();
+            }
             return PartialView("StokList", SR);
         }
         /// <summary>
@@ -33,7 +43,16 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult BekleyenSiparisList(int bastarih, int bittarih, int basteslimtarih, int bitteslimtarih)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var BSR = db.Database.SqlQuery<RaporBekleyenSiparis>(string.Format("[FINSAT6{0}].[wms].[BekleyenSiparisRaporu] @BasTarih = {1}, @BitTarih = {2},@BasTeslimTarih = {3}, @BitTeslimTarih = {4}", "17", bastarih, bittarih, basteslimtarih, bitteslimtarih)).ToList();
+            List<RaporBekleyenSiparis> BSR;
+            try
+            {
+                BSR = db.Database.SqlQuery<RaporBekleyenSiparis>(string.Format("[FINSAT6{0}].[wms].[BekleyenSiparisRaporu] @BasTarih = {1}, @BitTarih = {2},@BasTeslimTarih = {3}, @BitTeslimTarih = {4}", "17", bastarih, bittarih, basteslimtarih, bitteslimtarih)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Stock/BekleyenSiparisList");
+                BSR = new List<RaporBekleyenSiparis>();
+            }
             return PartialView("BekleyenSiparisList", BSR);
         }
         /// <summary>
@@ -47,7 +66,16 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult SatilmayanUrunlerList(int gunsayisi)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var SU = db.Database.SqlQuery<RaporSatilmayanUrunler>(string.Format("[FINSAT6{0}].[wms].[SatilmayanUrunler] @Number = {1}", "17", gunsayisi)).ToList();
+            List<RaporSatilmayanUrunler> SU;
+            try
+            {
+                SU = db.Database.SqlQuery<RaporSatilmayanUrunler>(string.Format("[FINSAT6{0}].[wms].[SatilmayanUrunler] @Number = {1}", "17", gunsayisi)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Stock/SatilmayanUrunlerList");
+                SU = new List<RaporSatilmayanUrunler>();
+            }
             return PartialView("SatilmayanUrunlerList", SU);
         }
         /// <summary>
@@ -61,8 +89,17 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult GunlukSatisList(int bastarih, int bittarih)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var GS = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}", "17", bastarih, bittarih)).ToList();
-            return PartialView("GunlukSatisList", GS);
+            List<RaporGunlukSatis> SU;
+            try
+            {
+                SU = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}", "17", bastarih, bittarih)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Stock/GunlukSatisList");
+                SU = new List<RaporGunlukSatis>();
+            }
+            return PartialView("GunlukSatisList", SU);
         }
         /// <summary>
         /// kampanyalı satış
@@ -77,8 +114,17 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult KampanyaliSatisList(int bastarih, int bittarih)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var KSR = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[KampanyaliSatisRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
-            return PartialView("KampanyaliSatisList", KSR);
+            List<KampanyaliSatisRaporu> SU;
+            try
+            {
+                SU = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[KampanyaliSatisRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Stock/KampanyaliSatisList");
+                SU = new List<KampanyaliSatisRaporu>();
+            }
+            return PartialView("KampanyaliSatisList", SU);
         }
         public PartialViewResult KampanyaChkDetay(string CHK, int bastarih, int bittarih)
         {
@@ -99,8 +145,17 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public PartialViewResult GerceklesenSevkiyatPlaniList(int bastarih, int bittarih)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
-            var GSP = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
-            return PartialView("GerceklesenSevkiyatPlaniList", GSP);
+            List<GerceklesenSevkiyatPlani> SU;
+            try
+            {
+                SU = db.Database.SqlQuery<GerceklesenSevkiyatPlani>(string.Format("[FINSAT6{0}].[wms].[GerceklesenSevkiyatRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "/Reports/Stock/GerceklesenSevkiyatPlaniList");
+                SU = new List<GerceklesenSevkiyatPlani>();
+            }
+            return PartialView("GerceklesenSevkiyatPlaniList", SU);
         }
     }
 }
