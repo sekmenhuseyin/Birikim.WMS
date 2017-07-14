@@ -34,7 +34,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public PartialViewResult BidDetail(int ID)
         {
-            var list = db.CRM_TeklifAnaliz_Detay(ID).FirstOrDefault();
+            var list = db.CRM_TeklifAnaliz_Detay(ID).ToList();
             return PartialView("BidDetail", list);
         }
     }

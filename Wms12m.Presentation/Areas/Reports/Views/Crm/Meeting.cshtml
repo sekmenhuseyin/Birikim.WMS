@@ -9,7 +9,7 @@
         <div class="portlet box green">
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Görüşme Notları</div></div>
             <div class="portlet-body form p-30 p-t-15">
-                <table class="table table-striped table-bordered table-hover table-responsive" " id="sample_1">
+                <table class="table table-striped table-bordered table-hover table-responsive" id="sample_1">
                     <thead>
                         <tr>
                             <th>Görüşen Kişi</th>
@@ -49,7 +49,7 @@
 @section Scripts{<script>
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
-            "sorting": false,
+            "ordering": false,
             "pagingType": "full_numbers",
             "dom": 'Bfrtip',
             "buttons": [
@@ -76,4 +76,5 @@
         $("#Tarih").datepicker().on("change", function (e) { filter(table, 3, e.target.value); });
         $("#Tarih2").datepicker().on("change", function (e) { filter(table, 4, e.target.value); });
         $("#Tarih3").datepicker().on("change", function (e) { filter(table, 9, e.target.value); });
-    });</script>}
+    });
+</script>}

@@ -1,44 +1,5 @@
-﻿@model CRM_TeklifAnaliz_Detay_Result
+﻿@model IEnumerable<CRM_TeklifAnaliz_Detay_Result> 
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TeklifSahibi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Musteri)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.KONU)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TARIH)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GECERLILIKTARIHI)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ToplamTeklifTutari)
-        </th>
-    </tr>
-
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TeklifSahibi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Musteri)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.KONU)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TARIH)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GECERLILIKTARIHI)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ToplamTeklifTutari)
-        </td>
-    </tr>
+    <thead><tr><th>Ürün Kodu</th><th>Açıklama</th><th>Brim Fiyat</th><th>Miktar</th><th>İskonto Oran 1</th><th>İskonto Oran 2</th><th>KDV Oran</th><th>Tutar</th></tr></thead>
+    <tbody>@foreach (var item in Model) { <tr><td>@item.STOKKODU</td><td>@item.ACIKLAMA</td><td>@item.BIRIMFIYAT</td><td>@item.Miktar</td><td>@item.ISKORAN</td><td>@item.ISKORAN2</td><td>@item.KDVORANI</td><td>@item.TUTAR</td></tr> }</tbody>
 </table>
