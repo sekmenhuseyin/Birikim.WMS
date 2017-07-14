@@ -65,31 +65,40 @@
 <div class="row" id="gunluk-satis-grid" style="margin-top:20px;"></div>
 @section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
 <script>
-    var dateVal = new Date();
-    dateVal.setHours(0, 0, 0);
-    var basTarih = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-    var bitTarih = basTarih;
+
     $(document).ready(function () {
-    
+        var dateVal = new Date();
+        dateVal.setHours(0, 0, 0);
+        var basTarih = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+        var bitTarih = basTarih;
         $(".btn-listele").dxButton({
-            onClick: function() {
+            onClick: function () {
                 PartialView("/Reports/Stock/GunlukSatisList", 'gunluk-satis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih }));
             }
         });
+        //$(".tarih-bas-date").dxDateBox({
+        //    dataType: 'datetime',
+        //    formatString: 'dd/MM/yyyy',
+        //    value:new Date(),
+        //    onValueChanged: function (e) {
+        //         basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+        //    }
+        //});
         $(".tarih-bas-date").dxDateBox({
-            dataType: 'date',
+            dataType: 'datetime ',
             formatString: 'dd/MM/yyyy',
-            value:new Date(),
+            value: '@DateTime.Today.ToString("MM/dd/yyyy")',
             onValueChanged: function (e) {
-                 basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+                console.log(e.value);
+                basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
             }
         });
         $(".tarih-bit-date").dxDateBox({
             dataType: 'date',
             formatString: 'dd/MM/yyyy',
-            value: new Date(),
+            value: '@DateTime.Today.ToString("MM/dd/yyyy")',
             onValueChanged: function (e) {
-                bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+                bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
             }
         });
     });

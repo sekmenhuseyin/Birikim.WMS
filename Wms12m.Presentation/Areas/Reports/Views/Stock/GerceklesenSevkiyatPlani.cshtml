@@ -41,7 +41,7 @@
                 value: Date(Date.now()),
                 onValueChanged: function (e) {
                     if(e.value!=null)
-                        tempbasTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+                        tempbasTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
                 }
             });
             $(".bitTarih").dxDateBox({
@@ -50,7 +50,7 @@
                 value: Date(Date.now()),
                 onValueChanged: function (e) {
                     if (e.value != null)
-                        tempbitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+                        tempbitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
                 }
             });
             PartialView("/Reports/Stock/GerceklesenSevkiyatPlaniList", 'gerceklesen-sevkiyat-plani-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih}));

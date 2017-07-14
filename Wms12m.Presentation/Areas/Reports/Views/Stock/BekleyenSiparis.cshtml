@@ -47,7 +47,7 @@
             displayFormat: 'dd/MM/yyyy',
             value: '01/01/2000',
             onValueChanged: function (e) {
-                basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+                basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
             }
         });
         $(".tarih-bit-date").dxDateBox({
@@ -55,7 +55,7 @@
             displayFormat: 'dd/MM/yyyy',
             value: '12/31/2020',
             onValueChanged: function (e) {
-                bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+                bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
             }
         });
         $(".teslim-bas-date").dxDateBox({
@@ -63,7 +63,7 @@
             displayFormat: 'dd/MM/yyyy',
             value: '01/01/2000',
             onValueChanged: function (e) {
-                basTeslimTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+                basTeslimTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
             }
         });
         $(".teslim-bit-date").dxDateBox({
@@ -71,7 +71,7 @@
             displayFormat: 'dd/MM/yyyy',
             value: '12/31/2020',
             onValueChanged: function (e) {
-                bitTeslimTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))-1;
+                bitTeslimTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
             }
         });
     });

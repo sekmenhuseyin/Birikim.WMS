@@ -133,7 +133,8 @@
                     hesKod = model[i]["EvrakNo"];
                 }
             });
-            if (x[0][2] == "Cek" || x[0][2] == "Çek") {
+            console.log(x[0][3]);
+            if (x[0][3] == "Cek" || x[0][3] == "Çek") {
                 $.ajax({
                     type: 'POST',
                     url: '/Reports/Financial/CariDetayCek',
@@ -188,6 +189,12 @@
                             sorting: {
                                 mode: "multiple",
                             },
+                            //summary: {
+                            //    totalItems: [{
+                            //        column: "Tutar",
+                            //        summaryType: "count"
+                            //    }]
+                            //},
                             onRowClick: function (opt) {
                                 if (opt.rowType == "data") {
                                     var component = opt.component;
@@ -209,7 +216,7 @@
                     }
                 });
             }
-            else if (x[0][2] == "Fatura") {
+            else if (x[0][3] == "Fatura") {
                 $.ajax({
                     type: 'POST',
                     url: '/Reports/Financial/CariDetayFatura',
@@ -261,6 +268,12 @@
                             showRowLines: true,
                             hoverStateEnabled: true,
                             rowAlternationEnabled: false,
+                            //summary: {
+                            //    totalItems: [{
+                            //        column: "Tutar",
+                            //        summaryType: "count"
+                            //    }]
+                            //},
                             sorting: {
                                 mode: "multiple",
                             },
@@ -313,6 +326,13 @@
                             headerFilter: {
                                 visible: true
                             },
+                            //summary: {
+                            //    totalItems: [{
+                            //        column: "Tutar",
+                            //        summaryType: "sum",
+                            //        valueFormat: "currency"
+                            //    }]
+                            //},
                             popupDetailedWindow: true,
                             columnAutoWidth: true,
                             pagingCounter: true,
