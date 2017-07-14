@@ -46,15 +46,6 @@
 </table>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#Yer").on("change paste keyup", function () { filter(0, $("#Yer").val()); });
-        $("#MalKodu").on("change paste keyup", function () { filter(1, $("#MalKodu").val()); });
-        $("#MalAdi").on("change paste keyup", function () { filter(2, $("#MalAdi").val()); });
-        $("#Marka").on("change paste keyup", function () { filter(3, $("#Marka").val()); });
-        $("#Cins").on("change paste keyup", function () { filter(4, $("#Cins").val()); });
-        $("#Kesit").on("change paste keyup", function () { filter(5, $("#Kesit").val()); });
-        $("#Renk").on("change paste keyup", function () { filter(6, $("#Renk").val()); });
-        $("#Saat").on("change paste keyup", function () { filter(8, $("#Miktar").val()); });
-        $("#MakaraNo").on("change paste keyup", function () { filter(9, $("#MakaraNo").val()); });
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "ordering": false,
@@ -65,5 +56,14 @@
                 { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
             ]
         });
+        $("#Yer").on("change paste keyup", function () { filter(table, 0, $("#Yer").val()); });
+        $("#MalKodu").on("change paste keyup", function () { filter(table, 1, $("#MalKodu").val()); });
+        $("#MalAdi").on("change paste keyup", function () { filter(table, 2, $("#MalAdi").val()); });
+        $("#Marka").on("change paste keyup", function () { filter(table, 3, $("#Marka").val()); });
+        $("#Cins").on("change paste keyup", function () { filter(table, 4, $("#Cins").val()); });
+        $("#Kesit").on("change paste keyup", function () { filter(table, 5, $("#Kesit").val()); });
+        $("#Renk").on("change paste keyup", function () { filter(table, 6, $("#Renk").val()); });
+        $("#Saat").on("change paste keyup", function () { filter(table, 8, $("#Miktar").val()); });
+        $("#MakaraNo").on("change paste keyup", function () { filter(table, 9, $("#MakaraNo").val()); });
     });
 </script>

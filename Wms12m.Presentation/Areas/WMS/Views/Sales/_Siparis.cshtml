@@ -53,23 +53,23 @@
 <script>
     selected = ""; var selectall = true;
     $(document).ready(function () {
-        //tarih alanları
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#EvrakNo").on("change paste keyup", function () { filter(1, $("#EvrakNo").val()); });
-        $("#Tarih").datepicker().on("change", function (e) { filter(2, e.target.value); });
-        $("#Saat").on("change paste keyup", function () { filter(3, $("#Saat").val()); });
-        $("#Chk").on("change paste keyup", function () { filter(4, $("#Chk").val()); });
-        $("#Yer").on("change paste keyup", function () { filter(5, $("#Yer").val()); });
-        $("#GrupKod").on("change paste keyup", function () { filter(6, $("#GrupKod").val()); });
-        $("#FaturaAdres").on("change paste keyup", function () { filter(7, $("#FaturaAdres").val()); });
-        $("#Aciklama").on("change paste keyup", function () { filter(8, $("#Aciklama").val()); });
-        $("#Miktar").on("change paste keyup", function () { filter(10, $("#Miktar").val()); });
         var table = $('#sample_2').DataTable({
             "pagingType": "full_numbers",
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "columnDefs": [{ "targets": [11], "visible": false, "searchable": false }]
         });
+        //tarih alanları
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#EvrakNo").on("change paste keyup", function () { filter(table, 1, $("#EvrakNo").val()); });
+        $("#Tarih").datepicker().on("change", function (e) { filter(table, 2, e.target.value); });
+        $("#Saat").on("change paste keyup", function () { filter(table, 3, $("#Saat").val()); });
+        $("#Chk").on("change paste keyup", function () { filter(table, 4, $("#Chk").val()); });
+        $("#Yer").on("change paste keyup", function () { filter(table, 5, $("#Yer").val()); });
+        $("#GrupKod").on("change paste keyup", function () { filter(table, 6, $("#GrupKod").val()); });
+        $("#FaturaAdres").on("change paste keyup", function () { filter(table, 7, $("#FaturaAdres").val()); });
+        $("#Aciklama").on("change paste keyup", function () { filter(table, 8, $("#Aciklama").val()); });
+        $("#Miktar").on("change paste keyup", function () { filter(table, 10, $("#Miktar").val()); });
         $('#sample_2 tbody').on('click', 'td.details-control', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
@@ -99,10 +99,6 @@
             if (result == true) $("#submit").click();
             else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
         });
-        //filter fn
-        function filter(col, val) {
-            table.column(col).search(val).draw();
-        }
    });
     function newrow(id) {
         return "<table style='background:transparent;' id='new" + id.replaceAll(" ", "") + "'></table>";

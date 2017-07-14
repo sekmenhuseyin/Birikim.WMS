@@ -40,11 +40,6 @@
 </table>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#Yer").on("change paste keyup", function () { filter(0, $("#Yer").val()); });
-        $("#sMalKodu").on("change paste keyup", function () { filter(1, $("#sMalKodu").val()); });
-        $("#sMalAdi").on("change paste keyup", function () { filter(2, $("#sMalAdi").val()); });
-        $("#Miktar").on("change paste keyup", function () { filter(4, $("#Miktar").val()); });
-        $("#MakaraNo").on("change paste keyup", function () { filter(5, $("#MakaraNo").val()); });
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "ordering": false,
@@ -55,9 +50,10 @@
                 { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
             ]
         });
-        //filter fn
-        function filter(col, val) {
-            table.column(col).search(val).draw();
-        }
+        $("#Yer").on("change paste keyup", function () { filter(table, 0, $("#Yer").val()); });
+        $("#sMalKodu").on("change paste keyup", function () { filter(table, 1, $("#sMalKodu").val()); });
+        $("#sMalAdi").on("change paste keyup", function () { filter(table, 2, $("#sMalAdi").val()); });
+        $("#Miktar").on("change paste keyup", function () { filter(table, 4, $("#Miktar").val()); });
+        $("#MakaraNo").on("change paste keyup", function () { filter(table, 5, $("#MakaraNo").val()); });
     });
 </script>

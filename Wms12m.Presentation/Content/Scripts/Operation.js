@@ -1,6 +1,10 @@
 ﻿$(function () { $("#div_loading").hide(); });
 $(document).ajaxStart(function () { $("#div_loading").show(); });
 $(document).ajaxStop(function () { $("#div_loading").hide(); });
+//filter fn
+function filter(tbl, col, val) {
+    tbl.column(col).search(val).draw();
+}
 //personel ayrıntıları editleme sayfaları
 function editInModal(URL) {
     $("#modalEditPage").html("");
