@@ -9,13 +9,7 @@
             <div class="caption">
                 <i class="fa fa-gift"></i>Çek Listesi Raporu
             </div>
-            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
-                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Yenile </a>
-            </div>
-
-            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
-                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
-            </div>
+            <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
 
         </div>
 
@@ -62,7 +56,7 @@
                                 <td nowrap>@item.Chk</td>
                                 <td nowrap>@item.Unvan1</td>
                                 <td nowrap>@item.BorcluUnvan1</td>
-                                <td nowrap align="right">@String.Format("{0:0.00}", item.Tutar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.Tutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
                                 <td nowrap>@item.VadeTarih.Value.ToString("dd/MM/yyyy")</td>
                                 <td nowrap>@item.KayitTarih.Value.ToString("dd/MM/yyyy")</td>
                                 <td nowrap>@item.Pozisyon</td>
@@ -108,11 +102,14 @@
         var model =  @Html.Raw(serializer.Serialize(Model));
         var buttons = new $.fn.dataTable.Buttons(table123, {
             buttons: [
-                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
-                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o" style="font-size:15px;color:green"></span>', "className": 'btn btn-default btn-xs;' }
             ]
         }).container().appendTo($('#buttons'));
     });
-
+    $(document).ready(function () {
+        $('.buttons-pdf').removeClass('btn btn-default');
+        $('.buttons-excel').removeClass('btn btn-default');
+    });
 
 </script>
