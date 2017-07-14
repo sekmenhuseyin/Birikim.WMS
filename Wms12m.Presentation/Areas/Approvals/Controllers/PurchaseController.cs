@@ -120,8 +120,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 //spi.Depo = Degiskenler.SiparisDepo;
 
-                spi.Operator = (short)item.Operator.Value;
-                spi.Katsayi = item.Katsayi.Value;
+                spi.Operator = (short)(item.Operator != null ? item.Operator.Value : 0);
+                spi.Katsayi = item.Katsayi != null ? item.Katsayi.Value : 0;
 
                 MyGlobalVariables.SipEvrak.Ekle(spi);
                 MyGlobalVariables.GridSource.Add(spi);

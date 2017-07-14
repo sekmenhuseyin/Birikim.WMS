@@ -8,29 +8,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="btn-group pull-right">
-                    <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">
-                        Tools
-                        <i class="fa fa-angle-down"></i>
-                    </button>
-                    <ul class="dropdown-menu pull-right">
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-print"></i> Print
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-file-pdf-o"></i> Save as PDF
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-file-excel-o"></i> Export to Excel
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+          
             </div>
         </div>
     </div>
@@ -107,7 +85,7 @@
     $(document).ready(function () {
         var tip1 = "@ViewBag.Tip";
         $(".txtUcretRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
-        table = $('#sample_1').DataTable({
+       var table55 = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
                 "url": '/Approvals/Techno/UcretListData?tip=' + tip1,
@@ -247,4 +225,12 @@
     $(document).on("click", "#mdlSilKayit", function () {
         ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Kaydet", "redKayit", UCRETRED, "Kapat", "redKapat", null);
     });
+   
+    
+    var buttons = new $.fn.dataTable.Buttons(table55, {
+        buttons: [
+            { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
+            { "extend": 'excel', "text": '<span class="fa fa-file-excel-o" style="font-size:15px;color:green"></span>', "className": 'btn btn-default btn-xs;' }
+        ]
+    }).container().appendTo($('#buttons'));
 </script>
