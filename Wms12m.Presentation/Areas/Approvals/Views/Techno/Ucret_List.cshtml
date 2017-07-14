@@ -58,6 +58,7 @@
                 <th nowrap>Döviz Tipi</th>
                 <th nowrap>Birim Ücret</th>
                 <th nowrap>Genel Aylık Ücret</th>
+                <th nowrap>Brüt/Net</th>
                 <th nowrap>Onay Sırası</th>
                 <th nowrap>Red Nedeni</th>
                 <th nowrap>Reddeden Kullanıcı</th>
@@ -115,7 +116,7 @@
                     return json;
                 },
             },
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [13, 14] }, { "visible": false, "targets": [0,1,23,25] }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [13, 14] }, { "visible": false, "targets": [0,1,24,25,26] }],
             "columns": [
                 { "data": "PERSONELID" },
                 { "data": "ID" },
@@ -132,6 +133,7 @@
                 { "data": "DovizTipi" },
                 { "data": "BirimUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "GenelAylikUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "BrutNet" },
                 { "data": "OnayindaBekleyen" },
                 { "data": "RedNedeni" },
                 { "data": "Reddeden" },
