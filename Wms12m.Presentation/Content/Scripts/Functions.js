@@ -122,6 +122,9 @@ function ondalikBinlik(Val, Ond) {
             ond = "";
         }
         detVal += "," + ond;
+        if (detVal.toString().indexOf("-") == 0 && detVal.toString().indexOf("." == 1)) {
+            detVal = detVal.slice(0, 1) + detVal.slice(2);
+        }
         return detVal;
     }
     else {
@@ -161,6 +164,9 @@ function ondalikBinlik(Val, Ond) {
         $.each(b, function (index, value) {
             detVal = detVal.addAt(value, '.');
         });
+        if (detVal.toString().indexOf("-") == 0 && detVal.toString().indexOf("." == 1)) {
+            detVal=detVal.slice(0, 1) + detVal.slice(2);
+        }
         return detVal;
     }
 };

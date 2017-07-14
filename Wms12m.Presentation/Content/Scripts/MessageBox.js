@@ -76,13 +76,13 @@ function ModalPrompt(title, defaultvalue, YesLabel, NoLabel)
         callback: function (result) {
             Maincallback(result);
         },
-         buttons: {
-             confirm: {
-                 label: YesLabel
-             },
-           cancel: {
-               label: NoLabel
+        buttons: {
+            confirm: {
+                label: YesLabel
+            },
+            cancel: {
+                label: NoLabel
             }
         }
-   });
+    });
 }

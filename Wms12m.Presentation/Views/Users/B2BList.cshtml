@@ -1,0 +1,33 @@
+﻿@model IEnumerable<mdlB2BUsers>
+<table class="table table-striped table-bordered table-hover" id="sample_1">
+    <thead><tr><th>Hesap Kodu</th><th>Unvan</th><th>Yetkili Email</th><th>Parola</th><th></th></tr></thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="tr@{@item.ID} ">
+                <td>@item.HesapKodu</td>
+                <td>@item.Unvan</td>
+                <td>@item.YetkiliEMail</td>
+                <td>@item.Parola</td>
+                <td>
+                    @if (ViewBag.Yetki == true) {<a class="btn btn-default input-circle" href="javascript:" onclick="degistir(@item.ID)"> Şifre Değiştir </a>}
+                    @if (ViewBag.Yetki2 == true) {<a class="btn btn-danger input-circle" href="javascript:" onclick="Delete('@item.ID','/Users/B2BList','liste','')"> Sil </a>}
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#sample_1').DataTable({
+            "pagingType": "full_numbers",
+            "ordering": false,
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "dom": 'Bfrtip',
+            "buttons": [
+                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+            ]
+        });
+    });
+</script>

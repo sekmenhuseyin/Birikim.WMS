@@ -51,7 +51,7 @@
                 <th nowrap>Döviz Tipi İşçi</th>
                 <th nowrap>Döviz Tipi Memur</th>
                 <th nowrap>Ödenek Kodu</th>
-
+                <th nowrap>Onay Sırası</th>
                 <th nowrap>Red Nedeni</th>
                 <th nowrap>Reddeden Kullanıcı</th>
 
@@ -135,7 +135,7 @@
         //"scrollX": true,
         //"scrollY": '30vh',
         //"scrollCollapse": true,
-        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [8, 9] }, { "visible": false, "targets": [0, 1,33] }, { "className": "dt-center", "targets": "_all" }],
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [8, 9] }, { "visible": false, "targets": [0, 1,34] }, { "className": "dt-center", "targets": "_all" }],
         "columns": [
             { "data": "PERSONELID" },
             { "data": "ID" },
@@ -150,6 +150,7 @@
             { "data": "DovizTipIsci" },
             { "data": "DovizTipMemur" },
             { "data": "OdenekKodu" },
+            { "data": "OnayindaBekleyen" },
             { "data": "RedNedeni" },
             { "data": "Reddeden" },
             { "data": "Ocak", "render": simple_checkbox, "className": "dt-center"},
@@ -219,9 +220,14 @@
             return nRow;
         }
     });
+    if ($(".butondiv").css("display")!="none"){
     if (tip2 == 'Reddedilenler') {
         table2.columns([13]).visible(true, true);
         table2.columns([14]).visible(true, true);
+        $(".butondiv").css("display", "none");
+    }
+    else if (tip2 == 'Onayladiklarim') {
+        table.columns([13, 14]).visible(false, false);
         $(".butondiv").css("display", "none");
     }
     else {
@@ -229,7 +235,7 @@
         table2.columns([14]).visible(false, false);
         $(".butondiv").css("display", "block");
     }
-
+    }
     $('#sample_2 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
@@ -259,27 +265,6 @@
     }
     function PrimReddet() {
         $('#x-modal-primred').modal("show");
-        //var x = table.rows('.selected').data();
-        //for (var i = 0; i < x.length; i++) {
-        //    secili_table.push(x[i]);
-        //}
-        //var _dfd = $.Deferred();
-        //$.ajax({
-        //    url: window.location.origin + "/Approvals/Techno/Prim_Rddet",
-        //    data: { Data: JSON.stringify(secili_table) },
-        //    type: "post",
-        //    success: function (data) {
-        //        if (data.Status == true) {
-        //            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-        //        }
-        //        else {
-        //            if (data.Message == "") data.Message = "Hata oluştu";
-        //            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-        //        }
-
-        //    }
-        //});
-        //return _dfd.promise();
 
     }
     function PrimRed() {
