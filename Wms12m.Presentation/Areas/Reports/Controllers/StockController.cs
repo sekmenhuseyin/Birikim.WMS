@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Wms12m.Entity;
 
 namespace Wms12m.Presentation.Areas.Reports.Controllers
@@ -100,6 +101,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
                 SU = new List<RaporGunlukSatis>();
             }
             return PartialView("GunlukSatisList", SU);
+        }
+        public string List(int bastarih, int bittarih)
+        {
+            var GS = db.Database.SqlQuery<RaporGunlukSatis>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisRaporu] @BasTarih = {1}, @BitTarih = {2}", "17", bastarih, bittarih)).ToList();
+            var json = new JavaScriptSerializer().Serialize(GS);
+            return json;
         }
         /// <summary>
         /// kampanyalı satış

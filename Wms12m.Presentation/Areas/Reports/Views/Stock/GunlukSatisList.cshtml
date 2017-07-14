@@ -74,7 +74,7 @@
      var table123 =  $('#sample_1').DataTable({
          "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
           "ajax": {
-            "url": '/Reports/List?bastarih='+ basTarih+', bittarih='+ bitTarih ,
+            "url": '/Reports/Stock/List?bastarih='+ basTarih+', bittarih='+ bitTarih ,
             "dataSrc": function (json) {
                 return json;
             },

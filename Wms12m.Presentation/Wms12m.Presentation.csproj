@@ -472,7 +472,6 @@
     <Compile Include="Controllers\MyAccountController.cs" />
     <Compile Include="Controllers\PermsController.cs" />
     <Compile Include="Areas\ToDo\Controllers\ProjectFormController.cs" />
-    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Areas\Constants\Controllers\SectionController.cs" />
     <Compile Include="Areas\Constants\Controllers\FloorController.cs" />
@@ -603,28 +602,28 @@
     <Content Include="Areas\Approvals\Views\Price\SPGMY.cshtml" />
     <Content Include="Areas\Approvals\Views\Price\SM_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Price\SPGMY_List.cshtml" />
-    <Content Include="Views\Reports\Bakiye.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\Bakiye.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\BekleyenSiparis.cshtml" />
-    <Content Include="Views\Reports\CariEkstre.cshtml" />
-    <Content Include="Views\Reports\CekListesi.cshtml" />
-    <Content Include="Views\Reports\CekPortfoyListesi.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\CariEkstre.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\CekListesi.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\CekPortfoyListesi.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GunlukSatis.cshtml" />
-    <Content Include="Views\Reports\OdemeYapmayanMusteriler.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\OdemeYapmayanMusteriler.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SatilmayanUrunler.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\Stok.cshtml" />
-    <Content Include="Views\Reports\ToplamRiskBakiyesi.cshtml" />
-    <Content Include="Views\Reports\VadesiGelmemisCekler.cshtml" />
-    <Content Include="Views\Reports\_PartialBakiye.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\ToplamRiskBakiyesi.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\VadesiGelmemisCekler.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\_PartialBakiye.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\BekleyenSiparisList.cshtml" />
-    <Content Include="Views\Reports\_PartialCariEkstre.cshtml" />
-    <Content Include="Views\Reports\_PartialCekListesi.cshtml" />
-    <Content Include="Views\Reports\_PartialCekPortfoyListesi.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\_PartialCariEkstre.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\_PartialCekListesi.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\_PartialCekPortfoyListesi.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GunlukSatisList.cshtml" />
-    <Content Include="Views\Reports\_PartialOdemeYapmayanMusteriler.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\_PartialOdemeYapmayanMusteriler.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\SatilmayanUrunlerList.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\StokList.cshtml" />
-    <Content Include="Views\Reports\_PartialToplamRiskBakiyesi.cshtml" />
-    <Content Include="Views\Reports\_PartialVadesiGelmemisCekler.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\_PartialToplamRiskBakiyesi.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\_PartialVadesiGelmemisCekler.cshtml" />
     <Content Include="Areas\Approvals\Views\Risk\GM.cshtml" />
     <Content Include="Areas\Approvals\Views\Risk\MIGMY.cshtml" />
     <Content Include="Areas\Approvals\Views\Risk\SM.cshtml" />
@@ -714,12 +713,12 @@
     <Content Include="Areas\Reports\Views\Stock\KampanyaChkDetay.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GerceklesenSevkiyatPlani.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GerceklesenSevkiyatPlaniList.cshtml" />
-    <Content Include="Views\Reports\SatisBaglantiRaporu.cshtml" />
-    <Content Include="Views\Reports\_PartialSatisBaglantiRaporu.cshtml" />
-    <Content Include="Views\Reports\_PartialSatBagSozlesmeDetay.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\SatisBaglantiRaporu.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\_PartialSatisBaglantiRaporu.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\_PartialSatBagSozlesmeDetay.cshtml" />
     <Content Include="Views\Menu\PermissionsList.cshtml" />
-    <Content Include="Views\Reports\ToplamRiskAnaliziRaporu.cshtml" />
-    <Content Include="Views\Reports\_PartialToplamRiskAnaliziRaporu.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\ToplamRiskAnaliziRaporu.cshtml" />
+    <Content Include="Areas\Reports\Views\Financial\_PartialToplamRiskAnaliziRaporu.cshtml" />
     <Content Include="Views\Home\Charts.cshtml" />
     <Content Include="Views\Users\B2B.cshtml" />
     <Content Include="Views\Users\B2BList.cshtml" />
@@ -755,7 +754,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Reports\Views\Financial\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <PropertyGroup>
