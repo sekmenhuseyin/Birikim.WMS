@@ -322,5 +322,68 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
+        /// <summary>
+        /// malzeme autocomplete
+        /// </summary>
+        public JsonResult GetChKCode(string term)
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            string sql = "";
+            //generate sql
+            if (id.ToString() == "0")
+            {
+                var dblist = db.GetSirketDBs().ToList();
+                foreach (var item in dblist)
+                {
+                    if (sql != "") sql += " UNION ";
+                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ' - ' + MalAdi AS value, MalKodu + ' - ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu LIKE '{1}%')", item, term);
+                }
+                sql = "SELECT TOP (20) id,MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
+            }
+            else
+                sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+            //return
+            try
+            {
+                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Purchase/GetChKCode");
+                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult GetChKUnvan(string term)
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            string sql = "";
+            //generate sql
+            if (id.ToString() == "0")
+            {
+                var dblist = db.GetSirketDBs().ToList();
+                foreach (var item in dblist)
+                {
+                    if (sql != "") sql += " UNION ";
+                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ' - ' + MalAdi AS value, MalKodu + ' - ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalAdi LIKE '%{1}%')", item, term);
+                }
+                sql = "SELECT TOP (20) id, MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
+            }
+            else
+                sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+            //return
+            try
+            {
+                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Purchase/getMalzemebyName");
+                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
