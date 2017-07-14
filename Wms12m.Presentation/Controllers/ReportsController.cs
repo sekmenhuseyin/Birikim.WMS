@@ -72,7 +72,6 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
             var CE = db.Database.SqlQuery<RaporCariEkstre>(string.Format("[FINSAT6{0}].[wms].[DB_CariEkstre] @HesapKodu = '{1}'", "17", chk)).ToList();
-            //var CE = db.Database.SqlQuery<RaporCariEkstre>(string.Format("[FINSAT6{0}].[wms].[DB_CariEkstre] @HesapKodu = '{1}'", "17", chk)).ToList();
             return PartialView("_PartialCariEkstre", CE);
         }
 
