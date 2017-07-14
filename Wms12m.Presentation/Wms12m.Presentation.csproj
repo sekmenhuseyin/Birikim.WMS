@@ -222,6 +222,9 @@
     <Content Include="Content\images\12M-Logo.png" />
     <Content Include="Content\images\iz-logo-30.png" />
     <Content Include="Content\images\iz-logo-90.png" />
+    <Content Include="Content\images\peli-logo-30.png" />
+    <Content Include="Content\images\peli-logo-90.png" />
+    <Content Include="Content\images\peli-logo.png" />
     <Content Include="Content\images\tum-logo-30.png" />
     <Content Include="Content\images\tum-logo-90.png" />
     <Content Include="Content\images\tum-logo.png" />
