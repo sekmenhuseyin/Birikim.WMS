@@ -285,6 +285,7 @@
         ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Kaydet", "redKayit", PrimRed, "Kapat", "redKapat", null);
     });
     //var table13 = $('#sample_2').DataTable();
+    $("#buttons2").html("");
     var buttons2 = new $.fn.dataTable.Buttons(table2, {
         buttons: [
             {"extend": 'pdf', "exportOptions": {columns: ':visible'}, "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
