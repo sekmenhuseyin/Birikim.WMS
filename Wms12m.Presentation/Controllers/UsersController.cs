@@ -322,5 +322,50 @@ namespace Wms12m.Presentation.Controllers
                 return Json(new Result(false, "Hata oldu"), JsonRequestBehavior.AllowGet);
             }
         }
+        /// <summary>
+        /// malzeme autocomplete
+        /// </summary>
+        public JsonResult GetChKCode(string term)
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            string sql = "";
+            //generate sql
+            if (id.ToString() == "0")
+                id = db.GetSirketDBs().FirstOrDefault();
+            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 20", id.ToString(), term);
+            //return
+            try
+            {
+                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Purchase/GetChKCode");
+                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult GetChKUnvan(string term)
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            string sql = "";
+            //generate sql
+            if (id.ToString() == "0")
+                id = db.GetSirketDBs().FirstOrDefault();
+            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'', @Unvan = N'{1}', @top = 20", id.ToString(), term);
+            //return
+            try
+            {
+                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Purchase/getMalzemebyName");
+                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
