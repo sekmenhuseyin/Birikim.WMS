@@ -1,5 +1,6 @@
 ﻿@{
-    ViewBag.Title = "CekPortfoyListesi";
+    ViewBag.Title = "Çek Portfoy Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
     .dx-datagrid-headers .dx-row {
         color: white;
@@ -55,9 +56,7 @@
         var bitVadeTarih = 44196;
         $(".btn-listele").dxButton({
             onClick: function() {
-
-                var CekPortfoyRaporuUrl = "/Reports/PartialCekPortfoyListesi";
-                PartialView(CekPortfoyRaporuUrl, 'cek-portfoy-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih}));
+                PartialView("/Reports/Financial/CekPortfoyList", 'cek-portfoy-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih}));
             }
         });
         $(".tarih-bas-date").dxDateBox({

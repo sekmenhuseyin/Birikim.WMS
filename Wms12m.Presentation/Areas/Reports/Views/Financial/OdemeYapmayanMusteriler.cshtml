@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "OdemeYapmayanMusteriler";
+    ViewBag.Title = "Ödeme Yapmayan Müşteriler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
     .dx-datagrid-headers .dx-row {
@@ -44,14 +44,11 @@
             min: 1,
             placeholder: 'Gün sayısı girin'
         });
-
-
-
+    
         $(".btn-listele").dxButton({
             onClick: function() {
                 var gun = $(".gun-sayisi").dxNumberBox("instance").option("value");
-                var OdemeYapmayanMusterilerRaporuUrl = "/Reports/PartialOdemeYapmayanMusteriler";
-                PartialView(OdemeYapmayanMusterilerRaporuUrl, 'odeme-yapmayanlar-grid', JSON.stringify({ gunsayisi: gun }));
+                PartialView("/Reports/Financial/OdemeYapmayanMusterilerList", 'odeme-yapmayanlar-grid', JSON.stringify({ gunsayisi: gun }));
             }
         });
 

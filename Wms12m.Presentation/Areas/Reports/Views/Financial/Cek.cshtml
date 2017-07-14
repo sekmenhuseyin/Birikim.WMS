@@ -1,6 +1,6 @@
 ﻿@model List<RaporPozisyonCekSenet>
 @{
-    ViewBag.Title = "CekListesi";
+    ViewBag.Title = "Çek Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
     .dx-datagrid-headers .dx-row {
@@ -86,9 +86,7 @@
         ];
         $(".btn-listele").dxButton({
             onClick: function() {
-
-                var CekListesiRaporuUrl = "/Reports/PartialCekListesi";
-                PartialView(CekListesiRaporuUrl, 'cek-listesi-grid', JSON.stringify({ pozisyon: pozisyon, ay: ay, yil:yil }));
+                PartialView("/Reports/Financial/CekList", 'cek-listesi-grid', JSON.stringify({ pozisyon: pozisyon, ay: ay, yil:yil }));
             }
         });
         $(".pozisyon-select").dxSelectBox({

@@ -52,7 +52,7 @@
                 </tfoot>
                 <tbody>
                     @foreach (var item in Model)
-            {
+                    {
                         <tr>
 
                             <td nowrap>@item.HesapKodu</td>
@@ -71,8 +71,6 @@
     </div>
 </div>
 <script>
-  //  var table12 = $('#sample_1').DataTable();
-
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
        var table12 = $('#sample_1').DataTable({

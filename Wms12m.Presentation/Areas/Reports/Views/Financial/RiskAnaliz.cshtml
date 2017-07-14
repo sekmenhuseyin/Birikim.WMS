@@ -1,6 +1,7 @@
 ﻿@model List<RaporCHKSelect>
 @{
-    ViewBag.Title = "ToplamRiskAnaliziRaporu";
+    ViewBag.Title = "Toplam Risk Analiz Raporu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{
     <style>
         td.details-control {
@@ -89,14 +90,12 @@
                     itemElement.append(rightBlock);
                 }
             });
-            var PartialToplamRiskAnaliziRaporuUrl = "/Reports/PartialToplamRiskAnaliziRaporu";
-            PartialView(PartialToplamRiskAnaliziRaporuUrl, 'toplam-riskbakiye-analizi-grid', JSON.stringify({ baschk: basChk, bitchk: bitChk}));
+            PartialView("/Reports/Financial/RiskAnalizList", 'toplam-riskbakiye-analizi-grid', JSON.stringify({ baschk: basChk, bitchk: bitChk}));
         });
         $(document).on("click", ".listele-buton", function () {
             basChk = tempbasChk;
             bitChk = tempbitChk;
-            var PartialToplamRiskAnaliziRaporuUrl = "/Reports/PartialToplamRiskAnaliziRaporu";
-            PartialView(PartialToplamRiskAnaliziRaporuUrl, 'toplam-riskbakiye-analizi-grid', JSON.stringify({ baschk: basChk, bitchk: bitChk }));
+            PartialView("/Reports/Financial/RiskAnalizList", 'toplam-riskbakiye-analizi-grid', JSON.stringify({ baschk: basChk, bitchk: bitChk }));
         });
     </script>
 }

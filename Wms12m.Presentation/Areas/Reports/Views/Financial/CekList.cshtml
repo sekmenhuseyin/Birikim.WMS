@@ -54,7 +54,7 @@
                     </tfoot>
                     <tbody>
                         @foreach (var item in Model)
-            {
+                        {
                             <tr>
 
                                 <td nowrap>@item.EvrakNo</td>
@@ -99,8 +99,6 @@
                         return a + intVal(b);
                     }, 0);
 
-
-
                 // Update footer
                 $(api.column(5).footer()).html(
                     ondalikBinlik(miktartotal, 2)
@@ -108,16 +106,12 @@
             }
         });
         var model =  @Html.Raw(serializer.Serialize(Model));
-
-        //var table123 = $('#sample_1').DataTable();
         var buttons = new $.fn.dataTable.Buttons(table123, {
             buttons: [
                 { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
                 { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
             ]
         }).container().appendTo($('#buttons'));
-
-        //$('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
     });
 
 

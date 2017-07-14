@@ -44,7 +44,7 @@
                     </tfoot>
                     <tbody>
                         @foreach (var item in Model)
-            {
+                        {
                             <tr>
                                 <td nowrap class='details-control' style="width:20px;"> </td>
                                 <td nowrap>@item.HesapKodu</td>
@@ -122,7 +122,7 @@
             var x = table.rows('.aa').data();
             $.ajax({
                 type: 'POST',
-                url: '/Reports/BakiyeDetay',
+                url: '/Reports/Financial/BakiyeDetay',
                 data: { "CHK": x[0][1] },
                 dataType: "html",
                 success: function (data) {
@@ -178,18 +178,6 @@
                         sorting: {
                             mode: "multiple",
                         },
-                        //onRowPrepared: function (info) {
-                        //    if (info.rowType == 'data') {
-
-                        //        if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
-                        //            info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
-                        //        else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
-                        //            info.rowElement.css({ "background-color": "green", "color": "white" });
-                        //        else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
-                        //            info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
-                        //    }
-
-                        //},
                         onRowClick: function (opt) {
                             if (opt.rowType == "data") {
                                 var component = opt.component;
@@ -210,12 +198,7 @@
                     }).dxDataGrid("instance");
                 }
             });
-            //var row = table.row(tr);
-            //if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-            //else { row.child(newrow(x[0][1].toString().replace(/ /g, ''))).show(); format(x[0][1].toString().replace("/", "")); tr.addClass('shown'); }
-        });
-
-    
+        });    
         setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [

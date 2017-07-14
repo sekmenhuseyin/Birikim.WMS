@@ -1,6 +1,7 @@
 ﻿@model List<RaporCHKSelect>
 @{
-    ViewBag.Title = "ToplamRiskBakiyesi";
+    ViewBag.Title = "Toplam Risk Bakiyesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
     .dx-datagrid-headers .dx-row {
         color: white;
@@ -69,9 +70,7 @@
         var chk_bas="",chk_bit="ZZZZZZZZZZ";
         $(".btn-listele").dxButton({
             onClick: function() {
-
-                var ToplamRiskBakiyesiRaporuUrl = "/Reports/PartialToplamRiskBakiyesi";
-                PartialView(ToplamRiskBakiyesiRaporuUrl, 'risk-bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit }));
+                PartialView("/Reports/Financial/RiskBakiyeList", 'risk-bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit }));
             }
         });
         $(".tarih-bas-date").dxDateBox({

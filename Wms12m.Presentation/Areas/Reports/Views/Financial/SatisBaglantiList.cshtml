@@ -3,7 +3,6 @@
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
 }
-
 <div class="col-md-12" style="width:100%;">
     <div class="portlet box green">
         <div class="portlet-title">
@@ -19,11 +18,8 @@
             <div class="col-md-1 pull-right m-t-5" style="padding:0;">
                 <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
             </div>
-
         </div>
-
         <div class="portlet-body">
-
             <div class="row">
                 <table class="table table-striped table-bordered table-condensed" id="sample_1">
                     <thead>
@@ -62,7 +58,7 @@
                     </tfoot>
                     <tbody>
                         @foreach (var item in Model)
-            {
+                        {
                             <tr>
                                 <td nowrap>@item.HesapKodu</td>
                                 <td nowrap>@item.Unvan</td>
@@ -91,7 +87,7 @@
     </div>
 </div>
 <script>
-      var model =  @Html.Raw(serializer.Serialize(Model));
+    var model =  @Html.Raw(serializer.Serialize(Model));
     $(document).ready(function () {
 
         table = $('#sample_1').DataTable({
@@ -244,7 +240,7 @@
                     success: function (data) {
                     $.ajax({
                         type: 'POST',
-                        url: '/Reports/SatBagSozlesmeDetayListesiSelect',
+                        url: '/Reports/Financial/SatBagSozlesmeDetayListesiSelect',
                         data: { "listeNo": bagNo },
                         dataType: "html",
                         success: function (data) {
@@ -412,7 +408,7 @@
         });
         $.ajax({
             type: 'POST',
-            url: '/Reports/SatBagHareketListesiSelect',
+            url: '/Reports/Financial/SatBagHareketListesiSelect',
             data: { "listeNo": baglanti},
             dataType: "html",
             success: function (data) {

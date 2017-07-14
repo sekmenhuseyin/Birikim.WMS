@@ -19,18 +19,13 @@
             <div class="col-md-1 pull-right m-t-5" style="padding:0;">
                 <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
             </div>
-
         </div>
-
         <div class="portlet-body">
             <div class="row" style="margin-bottom:5px;margin-left:5px;">
                 <div class="col-md-6">
-
                     <div id="buttons"></div>
-
                 </div>
             </div>
-
             <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
                     <tr>
@@ -39,7 +34,6 @@
                         <th nowrap>Bakiye</th>
                         <th nowrap>Son Tahsilat Tutarı</th>
                         <th nowrap>İşlem Tarihi</th>
-
                     </tr>
                 </thead>
                 <tfoot>
@@ -52,21 +46,17 @@
                 </tfoot>
                 <tbody>
                     @foreach (var item in Model)
-            {
+                    {
                         <tr>
-
                             <td nowrap>@item.HesapKodu</td>
                             <td nowrap>@item.Unvan1</td>
                             <td nowrap align="right">@item.Bakiye.ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@item.SonTahsilatTutari.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.SonTahsilatTarihi</td>
-
-
                         </tr>
                     }
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>
@@ -83,10 +73,6 @@
                 var intVal = function (i) {
                     return Number(i.toString().replace(/\./g, "").replace(",", "."))
                 };
-
-
-
-
                 // Total over all pages
                 miktartotal = api
                     .column(2)
@@ -102,8 +88,6 @@
                         return a + intVal(b);
                     }, 0);
 
-
-
                 // Update footer
                 $(api.column(2).footer()).html(
                     ondalikBinlik(miktartotal, 2)
@@ -113,7 +97,6 @@
                     ondalikBinlik(bakiyetotal, 2)
                 );
             }
-
         });
         var buttons = new $.fn.dataTable.Buttons(table123, {
             buttons: [
@@ -122,6 +105,4 @@
             ]
         }).container().appendTo($('#buttons'));
     });
-  //  var table123 = $('#sample_1').DataTable();
-
 </script>

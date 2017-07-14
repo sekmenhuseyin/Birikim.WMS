@@ -1,5 +1,5 @@
-﻿
-@{
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "SatisBaglantiRaporu";
 }@section Styles{    <style>
         .input_content {
@@ -156,7 +156,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn red" data-dismiss="modal" id="mdlCekKapat">Kapat</button>
-                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
                 <div class="label"></div>
             </div>
         </div>
@@ -175,7 +174,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn red" data-dismiss="modal" id="mdlCekKapat">Kapat</button>
-                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
                 <div class="label"></div>
             </div>
         </div>
@@ -202,13 +200,11 @@
                     tempTip = e.value;
                 }
             });
-            var PartialSatisBaglantiRaporuUrl = "/Reports/PartialSatisBaglantiRaporu";
-            PartialView(PartialSatisBaglantiRaporuUrl, 'satis-baglanti-raporu-grid', JSON.stringify({ tip: tip }));
+            PartialView("/Reports/Financial/SatisBaglantiList", 'satis-baglanti-raporu-grid', JSON.stringify({ tip: tip }));
         });
         $(document).on("click", ".listele-buton", function () {
             tip = tempTip;
-            var PartialSatisBaglantiRaporuUrl = "/Reports/PartialSatisBaglantiRaporu";
-            PartialView(PartialSatisBaglantiRaporuUrl, 'satis-baglanti-raporu-grid', JSON.stringify({ tip: tip }));
+            PartialView("/Reports/Financial/SatisBaglantiList", 'satis-baglanti-raporu-grid', JSON.stringify({ tip: tip }));
         });
       
 

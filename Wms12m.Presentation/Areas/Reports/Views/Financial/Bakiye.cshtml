@@ -1,6 +1,7 @@
 ﻿@model List<RaporCHKSelect>
 @{
     ViewBag.Title = "Bakiye";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{
 <style>
     td.details-control {
@@ -81,7 +82,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn red" data-dismiss="modal" id="mdlSilKapat">Kapat</button>
-                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
                 <div class="label"></div>
             </div>
         </div>
@@ -98,21 +98,16 @@
         var bitTarih = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
         var bitVadeTarih = 44196;
         var chk_bas = "", chk_bit = "ZZZZZZZZZZ";
-
-       
-
         $(".bakiye").dxNumberBox({
             value: 1,
             min: 1,
             placeholder: 'Gün sayısı girin'
         });
 
-
         $(".btn-listele").dxButton({
             onClick: function() {
                 var bakiye = $(".bakiye").dxNumberBox("instance").option("value");
-                var BakiyeRaporuUrl = "/Reports/PartialBakiye";
-                PartialView(BakiyeRaporuUrl, 'bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit, bakiye: bakiye }));
+                PartialView("/Reports/Financial/BakiyeList", 'bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit, bakiye: bakiye }));
             }
         });
         $(".tarih-bas-date").dxDateBox({
@@ -197,7 +192,7 @@
         var html = "<tr style='background: transparent;'><th>Geçerlilik Ayı</th><th>Geçerlilik Yılı</th><th>Degisim Tarihi</th><th>Ucret Tipi</th><th>Döviz Tipi</th><th>Birim Ücret</th>< th >Genel Aylık Ücret</th><th>Brüt/Net</th></tr >";
         $.ajax({
             type: 'POST',
-            url: '/Reports/BakiyeDetay',
+            url: '/Reports/Financial/BakiyeDetay',
             data: { "CHK": d },
             dataType: "html",
             success: function (data) {

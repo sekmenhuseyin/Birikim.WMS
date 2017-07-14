@@ -1,5 +1,5 @@
 ﻿@{
-    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "VadesiGelmemisCekler";
 }@section Styles{<style>
     .dx-datagrid-headers .dx-row {
@@ -79,9 +79,7 @@
         var bitTarih = 44196;
         $(".btn-listele").dxButton({
             onClick: function () {
-
-                var VadesiGelmemisCeklerRaporuUrl = "/Reports/PartialVadesiGelmemisCekler";
-                PartialView(VadesiGelmemisCeklerRaporuUrl, 'vade-cek-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih }));
+                PartialView("/Reports/Financial/VadesiGelmemisCekList", 'vade-cek-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih }));
             }
         });
         $(".tarih-bas-date").dxDateBox({

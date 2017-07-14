@@ -64,7 +64,7 @@
                     </tfoot>
                     <tbody>
                         @foreach (var item in Model)
-            {
+                        {
                             <tr>
                                 <td nowrap>@item.HesapKodu</td>
                                 <td nowrap>@item.Unvan</td>
@@ -92,7 +92,7 @@
         var model =  @Html.Raw(serializer.Serialize(Model));
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-        "footerCallback": function (row, data, start, end, display) {
+            "footerCallback": function (row, data, start, end, display) {
 
                 var api = this.api(), data;
                 var intVal = function (i) {
@@ -192,8 +192,6 @@
             ]
         }).container().appendTo($('#buttons'));
     });
-    //var table123 = $('#sample_1').DataTable();
-
 </script>
 
 
