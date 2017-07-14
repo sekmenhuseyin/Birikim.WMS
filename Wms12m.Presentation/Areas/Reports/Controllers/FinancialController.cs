@@ -25,31 +25,31 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// <summary>
         /// Vadesi Gelmemis Cekler
         /// </summary>
-        public ActionResult VadesiGelmemisCekler()
+        public ActionResult VadesiGelmemisCek()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public PartialViewResult VadesiGelmemisCeklerList(int bastarih, int bittarih)
+        public PartialViewResult VadesiGelmemisCekList(int bastarih, int bittarih)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
             var VGC = db.Database.SqlQuery<RaporVadesiGelmemisCekler>(string.Format("[FINSAT6{0}].[wms].[VadesiGelmemisCekler] @BasTarih = {1}, @BitTarih = {2}", "17", bastarih, bittarih)).ToList();
-            return PartialView("VadesiGelmemisCeklerList", VGC);
+            return PartialView("VadesiGelmemisCekList", VGC);
         }
         /// <summary>
         /// çek listesi
         /// </summary>
-        public ActionResult CekListesi()
+        public ActionResult Cek()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             var PZ = db.Database.SqlQuery<RaporPozisyonCekSenet>(string.Format("[FINSAT6{0}].[wms].[PozisyonCekSenet]", "17")).ToList();
             return View(PZ);
         }
-        public PartialViewResult CekListesiList(int pozisyon, int ay, int yil)
+        public PartialViewResult CekList(int pozisyon, int ay, int yil)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
             var CLR = db.Database.SqlQuery<RaporCekListesi>(string.Format("[FINSAT6{0}].[wms].[CekListesiRaporu] @Ay = {1}, @IslemTip = {2}, @Yil = {3}", "17", ay, pozisyon, yil)).ToList();
-            return PartialView("CekListesiList", CLR);
+            return PartialView("CekList", CLR);
         }
         /// <summary>
         /// toplam risk bakiyesi
