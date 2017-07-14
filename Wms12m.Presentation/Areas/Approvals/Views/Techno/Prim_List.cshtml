@@ -205,7 +205,7 @@
         $(".butondiv").css("display", "none");
     }
     else if (tip2 == 'Onayladiklarim') {
-        table.columns([13, 14]).visible(false, false);
+        table2.columns([13, 14]).visible(false, false);
         $(".butondiv").css("display", "none");
     }
     else {
@@ -223,6 +223,7 @@
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
         }
+        if (secili_table.length > 0) {
         var _dfd = $.Deferred();
         $.ajax({
             url: window.location.origin + "/Approvals/Techno/Prim_Onayla",
@@ -240,6 +241,9 @@
             }
         });
         return _dfd.promise();
+        } else {
+            Modaldialog("Satır Seçiniz", "Hata", "Tamam", "btn-danger");
+        }
     }
     function PrimReddet() {
         $('#x-modal-primred').modal("show");
@@ -274,8 +278,8 @@
     $(document).on("click", "#md2SilKayit", function () {
         ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Kaydet", "redKayit", PrimRed, "Kapat", "redKapat", null);
     });
-    var table13 = $('#sample_2').DataTable();
-    var buttons2 = new $.fn.dataTable.Buttons(table13, {
+    //var table13 = $('#sample_2').DataTable();
+    var buttons2 = new $.fn.dataTable.Buttons(table2, {
         buttons: [
             { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
             { "extend": 'excel', "text": '<span class="fa fa-file-excel-o" style="font-size:15px;color:green"></span>', "className": 'btn btn-default btn-xs;' }

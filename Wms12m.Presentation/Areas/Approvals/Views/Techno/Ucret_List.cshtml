@@ -80,10 +80,9 @@
     </div>
 </div>
 <script>
-    var table = "";
+    //var table = "";
     var secili_satir = new Array();
-    var secili_table = new Array();
-    $(document).ready(function () {
+    var secili_table = new Array()
         var tip1 = "@ViewBag.Tip";
         $(".txtUcretRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
        var table55 = $('#sample_1').DataTable({
@@ -146,9 +145,9 @@
             var tr = $(this).closest('tr');
             $("tr").removeClass("aa");
             tr.addClass("aa");
-            setTimeout(function () { var x = table.rows('.aa').data(); }, 500);
-            var x = table.rows('.aa').data();
-            var row = table.row(tr);
+            setTimeout(function () { var x = table55.rows('.aa').data(); }, 500);
+            var x = table55.rows('.aa').data();
+            var row = table55.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(x[0]["PERSONELID"])).show(); format(x[0]["PERSONELID"].toString().replace("/", "")); tr.addClass('shown'); }
         });
@@ -158,24 +157,24 @@
         if ($(".butondiv").css("display") != "none") {
             console.log("aa");
             if (tip1 == 'Reddedilenler') {
-                table.columns([15, 16]).visible(true, true);
+                table55.columns([15, 16]).visible(true, true);
                 $(".butondiv").css("display", "none");
             }
             else if (tip1 == 'Onayladiklarim') {
-                table.columns([15, 16]).visible(false, false);
+                table55.columns([15, 16]).visible(false, false);
                 $(".butondiv").css("display", "none");
             }
             else {
-                table.columns([15, 16]).visible(false, false);
+                table55.columns([15, 16]).visible(false, false);
                 $(".butondiv").css("display", "block");
             }
         }
-    });
     function UcretOnayla() {
-        var x = table.rows('.selected').data();
+        var x = table55.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
         }
+        if (secili_table.length>0){
         var _dfd = $.Deferred();
         $.ajax({
             url: window.location.origin + "/Approvals/Techno/Ucret_Onayla",
@@ -193,6 +192,9 @@
             }
         });
         return _dfd.promise();
+        } else {
+            Modaldialog("Satır Seçiniz", "Hata", "Tamam", "btn-danger");
+        }
     }
     function UcretReddet() {
         $('#x-modal-ucretred').modal("show");
@@ -200,7 +202,7 @@
     }
     function UCRETRED() {
         ucret_redNeden = $(".txtUcretRedNeden").dxTextArea("instance").option("value");
-        var x = table.rows('.selected').data();
+        var x = table55.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
         }
