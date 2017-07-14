@@ -10,12 +10,7 @@
             <div class="caption">
                 <i class="fa fa-gift"></i>Gerçekleşen Sevkiyat Planı Raporu
             </div>
-            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
-                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Yenile </a>
-            </div>
-            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
-                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
-            </div>
+            <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
 
         </div>
 
@@ -68,15 +63,15 @@
                             <tr>
                                 <td nowrap>@item.HesapKodu</td>
                                 <td nowrap>@item.Unvan</td>
-                                <td nowrap align="right">@item.Bakiye.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.BekleyenSiparisTutari.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.SahsiCekRiski.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.ToplamSahsiRisk.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.SahsiCekLimiti.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.MusteriCekRiski.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.ToplamRisk.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.ToplamCekRiski.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.Teminat.ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@item.Bakiye.ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@item.BekleyenSiparisTutari.ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@item.SahsiCekRiski.ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@item.ToplamSahsiRisk.ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@item.SahsiCekLimiti.ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@item.MusteriCekRiski.ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@item.ToplamRisk.ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@item.ToplamCekRiski.ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@item.Teminat.ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
                                 <td nowrap>@item.SatisTemsilcisi</td>
                             </tr>
                         }
@@ -185,12 +180,15 @@
                 );
             }
         });
+
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
-                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
-                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o" style="font-size:15px;color:green"></span>', "className": 'btn btn-default btn-xs;' }
             ]
         }).container().appendTo($('#buttons'));
+        $('.buttons-pdf').removeClass('btn btn-default');
+        $('.buttons-excel').removeClass('btn btn-default');
     });
 </script>
 
