@@ -9,18 +9,14 @@
             <div class="caption">
                 <i class="fa fa-gift"></i>Gerçekleşen Sevkiyat Planı Raporu
             </div>
-            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
-                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Yenile </a>
-            </div>
-            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
-                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
-            </div>
+            <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+
         </div>
         <div class="portlet-body">
 
             <div class="row" style="margin-bottom:5px;margin-left:5px;">
                 <div class="col-md-6">
-                    <div id="buttons"></div>
+               
 
                 </div>
             </div>
@@ -61,9 +57,9 @@
                                 <td nowrap>@item.SatisTemsilcisi</td>
                                 <td nowrap>@item.Malkodu</td>
                                 <td nowrap>@item.MalAdi</td>
-                                <td nowrap align="right">@item.Birimmiktar.ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@item.Birimmiktar.ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
                                 <td nowrap>@item.Birim</td>
-                                <td nowrap align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@item.StokMiktar.ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
                                 <td nowrap>@item.StokBirim</td>
                             </tr>
                         }
@@ -95,10 +91,14 @@
                 );
             }
         });
+        $(document).ready(function () {
+            $('.buttons-pdf').removeClass('btn btn-default');
+            $('.buttons-excel').removeClass('btn btn-default');
+        });
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
-                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
-                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o" style="font-size:15px;color:green"></span>', "className": 'btn btn-default btn-xs;' }
             ]
         }).container().appendTo($('#buttons'));
     });

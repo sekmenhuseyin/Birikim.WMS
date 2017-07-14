@@ -1,194 +1,217 @@
 ﻿@model IEnumerable<KampanyaliSatisRaporu>
-<tr style='background: transparent;color:#c3a0a0;'>
-    <th>Hesap Kodu</th>
-    <th>Evrak No</th>
-    <th>Comfort Miktar</th>
-    <th>Comfort Birim</th>
-    <th>Comfort Teslim Miktar</th>
-    <th>Comfort Tutar</th>
-    <th>Exculusive Miktar</th>
-    <th>Exculusive Birim</th>
-    <th>Exculusive Teslim Miktar</th>
-    <th>Exculusive Tutar</th>
-    <th>Golden Miktar</th>
-    <th>Golden Birim</th>
-    <th>Golden Teslim Miktar</th>
-    <th>Golden Tutar</th>
-    <th>Loft Miktar</th>
-    <th>Loft Birim</th>
-    <th>Loft Teslim Miktar</th>
-    <th>Loft Tutar</th>
-    <th>Vintage Miktar</th>
-    <th>Vintage Birim</th>
-    <th>Vintage Teslim Miktar</th>
-    <th>Vintage Tutar</th>
-    <th>Peli NeroFloor Miktar</th>
-    <th>Peli NeroFloor Birim</th>
-    <th>Peli NeroFloor Teslim Miktar</th>
-    <th>Peli NeroFloor Tutar</th>
-    <th>Wood Miktar</th>
-    <th>Wood Birim</th>
-    <th>Wood Teslim Miktar</th>
-    <th>Wood Tutar</th>
-    <th>Süpürgelik Birim</th>
-    <th>Hak Edilen 6cm Süpürgelik Miktarı</th>
-    <th>Bedelsiz 6cm Süpürgelik Miktar</th>
-    <th>Bedelsiz 6cm Süpürgelik Teslim Miktar</th>
-    <th>Bedelsiz 6cm Süpürgelik Tutar</th>
-    <th>Hak Edilen 8cm Süpürgelik Miktarı</th>
-    <th>Bedelsiz 8cm Süpürgelik Miktar</th>
-    <th>Bedelsiz 8cm Süpürgelik Teslim Miktar</th>
-    <th>Bedelsiz 8cm Süpürgelik Tutar</th>
-    <th>Bedelli 6cm Süpürgelik Miktar</th>
-    <th>Bedelli 6cm Süpürgelik Teslim Miktar</th>
-    <th>Bedelli 6cm Süpürgelik Tutar</th>
-    <th>Bedelli 8cm Süpürgelik Miktar</th>
-    <th>Bedelli 8cm Süpürgelik Teslim Miktar</th>
-    <th>Bedelli 8cm Süpürgelik Tutar</th>
-</tr>
-@foreach (var item in Model)
-{<tr class="detay" style='background: transparent;'>
-     <td>@item.Chk</td>
-     <td>@item.EvrakNo</td>
-     <td  align="right">@String.Format("{0:0.00}", item.ComfortMiktar).ToDecimal().ToOnFormat()</td>
-     <td>@item.ComfortBirim</td>
-     <td  align="right">@String.Format("{0:0.00}", item.ComfortTeslimMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.ComfortTutar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.ExculusiveMiktar).ToDecimal().ToOnFormat()</td>
-     <td>@item.ExculusiveBirim</td>
-     <td  align="right">@String.Format("{0:0.00}", item.ExculusiveTeslimMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.ExculusiveTutar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.GoldenMiktar).ToDecimal().ToOnFormat()</td>
-     <td>@item.GoldenBirim</td>
-     <td  align="right">@String.Format("{0:0.00}", item.GoldenTeslimMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.GoldenTutar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.LoftMiktar).ToDecimal().ToOnFormat()</td>
-     <td>@item.LoftBirim</td>
-     <td  align="right">@String.Format("{0:0.00}", item.LoftTeslimMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.LoftTutar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.VintageMiktar).ToDecimal().ToOnFormat()</td>
-     <td>@item.VintageBirim</td>
-     <td  align="right">@String.Format("{0:0.00}", item.VintageTeslimMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.VintageTutar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.PeliNeroFloorMiktar).ToDecimal().ToOnFormat()</td>
-     <td>@item.PeliNeroFloorBirim</td>
-     <td  align="right">@String.Format("{0:0.00}", item.PeliNeroFloorTeslimMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.PeliNeroFloorTutar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.WoodMiktar).ToDecimal().ToOnFormat()</td>
-     <td>@item.WoodBirim</td>
-     <td  align="right">@String.Format("{0:0.00}", item.WoodTeslimMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.WoodTutar).ToDecimal().ToOnFormat()</td>
-     <td>@item.SupurgelikBirim</td>
-     <td  align="right">@String.Format("{0:0.00}", item.HakKazanilan6cmSup).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupTutar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.HakKazanilan8cmSup).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupTutar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelli6CmSupMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelli6CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelli6CmSupTutar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
-     <td  align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupTutar).ToDecimal().ToOnFormat()</td>
-</tr>
-}
-<script>
-    $(".detay").dblclick(function () {
-        var CHK = $(this).find("td").eq(0).text();
-        var EvrakNo = $(this).find("td").eq(1).text();
-        $.ajax({
-            type: 'POST',
-            url: '/Reports/SiparisKampanyaDetay',
-            data: { "CHK": CHK, "EvrakNo": EvrakNo, "bastarih": basTarih, "bittarih": bitTarih},
-            dataType: "html",
-            success: function (data) {
-                $('#x-modal-evrakno-detay').modal("show");
-                var result = JSON.parse(data);
-                var columns = [
-                    { caption: 'EvrakNo', dataField: 'EvrakNo' },
-                    { caption: 'Hesap Kodu', dataField: 'Chk' },
-                    {
-                        caption: 'Tarih', dataField: 'Tarih',
-                        customizeText: function (cellInfo) {
-                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-                        }
-                    },
-                    { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
-                    { caption: 'Miktar', dataField: 'Miktar', format: 'fixedPoint', precision: 4 },
-                    { caption: 'Birim', dataField: 'Birim', format: 'fixedPoint', precision: 4 },
-                    { caption: 'Teslim Miktar', dataField: 'TeslimMiktar', format: 'fixedPoint', precision: 4 },
-                    { caption: 'Teslim Yeri', dataField: 'TeslimChk' },
-                    { caption: 'Durum', dataField: 'Durum' },
-                    { caption: 'Grup Kodu', dataField: 'GrupKod'},
-                    { caption: 'Koleksiyon', dataField: 'Koleksiyon' },
-                    { caption: 'Süpürgelik Türü', dataField: 'SupTip'}
-                  
-                ];
-                _grid_quotations_detail = $('.grid_evrakno-detay').dxDataGrid({
-                    dataSource: result,
-                    height: 400,
-                    paging: { pageSize: 5000 },
-                    columns: columns,
-                    headerFilter: {
-                        visible: true
-                    },
-                    popupDetailedWindow: true,
-                    columnAutoWidth: true,
-                    pagingCounter: true,
-                    filterRow: {
-                        visible: true,
-                        applyFilter: 'auto',
-                        applyFilterText: 'Apply filter',
-                        resetOperationText: 'Reset'
-                    },
-                    scrolling: {
-                        scrollByContent: true,
-                        scrollByThumb: true
-                    },
-                    allowColumnReordering: true,
-                    allowColumnResizing: true,
-                    remoteOperations: true,
-                    showRowLines: true,
-                    hoverStateEnabled: true,
-                    rowAlternationEnabled: false,
-                    sorting: {
-                        mode: "multiple",
-                    },
-                    //onRowPrepared: function (info) {
-                    //    if (info.rowType == 'data') {
+<table class="table table-striped table-bordered" id="tabledetails">
+    <thead>
+        <tr style='background: transparent;color:#c3a0a0;'>
+            <th>Hesap Kodu</th>
+            <th>Evrak No</th>
+            <th>Comfort Miktar</th>
+            <th>Comfort Birim</th>
+            <th>Comfort Teslim Miktar</th>
+            <th>Comfort Tutar</th>
+            <th>Exculusive Miktar</th>
+            <th>Exculusive Birim</th>
+            <th>Exculusive Teslim Miktar</th>
+            <th>Exculusive Tutar</th>
+            <th>Golden Miktar</th>
+            <th>Golden Birim</th>
+            <th>Golden Teslim Miktar</th>
+            <th>Golden Tutar</th>
+            <th>Loft Miktar</th>
+            <th>Loft Birim</th>
+            <th>Loft Teslim Miktar</th>
+            <th>Loft Tutar</th>
+            <th>Vintage Miktar</th>
+            <th>Vintage Birim</th>
+            <th>Vintage Teslim Miktar</th>
+            <th>Vintage Tutar</th>
+            <th>Peli NeroFloor Miktar</th>
+            <th>Peli NeroFloor Birim</th>
+            <th>Peli NeroFloor Teslim Miktar</th>
+            <th>Peli NeroFloor Tutar</th>
+            <th>Wood Miktar</th>
+            <th>Wood Birim</th>
+            <th>Wood Teslim Miktar</th>
+            <th>Wood Tutar</th>
+            <th>Süpürgelik Birim</th>
+            <th>Hak Edilen 6cm Süpürgelik Miktarı</th>
+            <th>Bedelsiz 6cm Süpürgelik Miktar</th>
+            <th>Bedelsiz 6cm Süpürgelik Teslim Miktar</th>
+            <th>Bedelsiz 6cm Süpürgelik Tutar</th>
+            <th>Hak Edilen 8cm Süpürgelik Miktarı</th>
+            <th>Bedelsiz 8cm Süpürgelik Miktar</th>
+            <th>Bedelsiz 8cm Süpürgelik Teslim Miktar</th>
+            <th>Bedelsiz 8cm Süpürgelik Tutar</th>
+            <th>Bedelli 6cm Süpürgelik Miktar</th>
+            <th>Bedelli 6cm Süpürgelik Teslim Miktar</th>
+            <th>Bedelli 6cm Süpürgelik Tutar</th>
+            <th>Bedelli 8cm Süpürgelik Miktar</th>
+            <th>Bedelli 8cm Süpürgelik Teslim Miktar</th>
+            <th>Bedelli 8cm Süpürgelik Tutar</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr class="detay" style='background: transparent;'>
+            <td>@item.Chk</td>
+            <td>@item.EvrakNo</td>
+            <td align="right">@String.Format("{0:0.00}", item.ComfortMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td>@item.ComfortBirim</td>
+            <td align="right">@String.Format("{0:0.00}", item.ComfortTeslimMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.ComfortTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.ExculusiveMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td>@item.ExculusiveBirim</td>
+            <td align="right">@String.Format("{0:0.00}", item.ExculusiveTeslimMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.ExculusiveTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.GoldenMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td>@item.GoldenBirim</td>
+            <td align="right">@String.Format("{0:0.00}", item.GoldenTeslimMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.GoldenTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.LoftMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td>@item.LoftBirim</td>
+            <td align="right">@String.Format("{0:0.00}", item.LoftTeslimMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.LoftTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.VintageMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td>@item.VintageBirim</td>
+            <td align="right">@String.Format("{0:0.00}", item.VintageTeslimMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.VintageTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.PeliNeroFloorMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td>@item.PeliNeroFloorBirim</td>
+            <td align="right">@String.Format("{0:0.00}", item.PeliNeroFloorTeslimMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.PeliNeroFloorTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.WoodMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td>@item.WoodBirim</td>
+            <td align="right">@String.Format("{0:0.00}", item.WoodTeslimMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.WoodTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td>@item.SupurgelikBirim</td>
+            <td align="right">@String.Format("{0:0.00}", item.HakKazanilan6cmSup).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupTeslimMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelsiz6CmSupTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.HakKazanilan8cmSup).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupTeslimMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelsiz8CmSupTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelli6CmSupMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelli6CmSupTeslimMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelli6CmSupTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupTeslimMiktar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+            <td><div class="col-md-1 pull-right m-t-5 p-0" id="buttonsdetails"></div></td>
+        </tr>
 
-                    //        if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
-                    //            info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
-                    //        else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
-                    //            info.rowElement.css({ "background-color": "green", "color": "white" });
-                    //        else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
-                    //            info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
-                    //    }
+    }
+</table>
 
-                    //},
-                    onRowClick: function (opt) {
-                        if (opt.rowType == "data") {
-                            var component = opt.component;
-                            var prevClickTime = component.lastClickTime;//take last clicked time
-                            component.lastClickTime = new Date();
-                            if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
+    <script>
+        $(".detay").dblclick(function () {
+            var CHK = $(this).find("td").eq(0).text();
+            var EvrakNo = $(this).find("td").eq(1).text();
+            $.ajax({
+                type: 'POST',
+                url: '/Reports/SiparisKampanyaDetay',
+                data: { "CHK": CHK, "EvrakNo": EvrakNo, "bastarih": basTarih, "bittarih": bitTarih },
+                dataType: "html",
+                success: function (data) {
+                    $('#x-modal-evrakno-detay').modal("show");
+                    var result = JSON.parse(data);
+                    var columns = [
+                        { caption: 'EvrakNo', dataField: 'EvrakNo' },
+                        { caption: 'Hesap Kodu', dataField: 'Chk' },
+                        {
+                            caption: 'Tarih', dataField: 'Tarih',
+                            customizeText: function (cellInfo) {
+                                if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+                            }
+                        },
+                        { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
+                        { caption: 'Miktar', dataField: 'Miktar', format: 'fixedPoint', precision: 4 },
+                        { caption: 'Birim', dataField: 'Birim', format: 'fixedPoint', precision: 4 },
+                        { caption: 'Teslim Miktar', dataField: 'TeslimMiktar', format: 'fixedPoint', precision: 4 },
+                        { caption: 'Teslim Yeri', dataField: 'TeslimChk' },
+                        { caption: 'Durum', dataField: 'Durum' },
+                        { caption: 'Grup Kodu', dataField: 'GrupKod' },
+                        { caption: 'Koleksiyon', dataField: 'Koleksiyon' },
+                        { caption: 'Süpürgelik Türü', dataField: 'SupTip' }
+
+                    ];
+                    _grid_quotations_detail = $('.grid_evrakno-detay').dxDataGrid({
+                        dataSource: result,
+                        height: 400,
+                        paging: { pageSize: 5000 },
+                        columns: columns,
+                        headerFilter: {
+                            visible: true
+                        },
+                        popupDetailedWindow: true,
+                        columnAutoWidth: true,
+                        pagingCounter: true,
+                        filterRow: {
+                            visible: true,
+                            applyFilter: 'auto',
+                            applyFilterText: 'Apply filter',
+                            resetOperationText: 'Reset'
+                        },
+                        scrolling: {
+                            scrollByContent: true,
+                            scrollByThumb: true
+                        },
+                        allowColumnReordering: true,
+                        allowColumnResizing: true,
+                        remoteOperations: true,
+                        showRowLines: true,
+                        hoverStateEnabled: true,
+                        rowAlternationEnabled: false,
+                        sorting: {
+                            mode: "multiple",
+                        },
+                        //onRowPrepared: function (info) {
+                        //    if (info.rowType == 'data') {
+
+                        //        if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
+                        //            info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
+                        //        else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
+                        //            info.rowElement.css({ "background-color": "green", "color": "white" });
+                        //        else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
+                        //            info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
+                        //    }
+
+                        //},
+                        onRowClick: function (opt) {
+                            if (opt.rowType == "data") {
+                                var component = opt.component;
+                                var prevClickTime = component.lastClickTime;//take last clicked time
+                                component.lastClickTime = new Date();
+                                if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+                                    //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
+                                }
+                            }
+                        },
+                        onCellPrepared: function (info) {
+                            if (info.rowType == "data") {
+                                if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
+                                    info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
+                                }
                             }
                         }
-                    },
-                    onCellPrepared: function (info) {
-                        if (info.rowType == "data") {
-                            if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
-                                info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
-                            }
-                        }
-                    }
-                }).dxDataGrid("instance");
-            }
+                    }).dxDataGrid("instance");
+                }
+            });
         });
-    });
 
-</script>
+
+        var table12 = $('#tabledetails').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table12, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o" style="font-size:15px;color:green"></span>', "className": 'btn btn-default btn-xs;' }
+            ]
+        }).container().appendTo($('#buttonsdetails'));
+
+        $(document).ready(function () {
+            $('.buttons-pdf').removeClass('btn btn-default');
+            $('.buttons-excel').removeClass('btn btn-default');
+        });
+
+    </script>
