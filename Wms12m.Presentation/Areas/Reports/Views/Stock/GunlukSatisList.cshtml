@@ -64,62 +64,7 @@
                         <th nowrap>Genel Toplam</th>                       
                     </tr>
                 </thead>
-                @*<tfoot>
-                    <tr>
-                        <th nowrap colspan="12"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                    </tr>
-                </tfoot>*@
-                @*<tbody>
-                    @foreach (var item in Model)
-            {
-                        <tr>
-                            
-                            <td nowrap>@item.Chk</td>
-                            <td nowrap>@item.Unvan</td>
-                            <td nowrap>@item.BaglantiTipi</td>
-                            <td nowrap>@item.BaglantiNo</td>
-                            <td nowrap>@item.SatisTemsilcisi</td>
-                            <td nowrap>@item.GrupKod</td>
-                            <td nowrap>@item.MalKodu</td>
-                            <td nowrap>@item.MalAdi</td>
-                            <td nowrap>@item.Kalite</td>
-                            <td nowrap>@item.IslemTarihi</td>
-                            <td nowrap>@item.EvrakNo</td>
-                            <td nowrap>@item.Birim</td>
-
-                            
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.BirimMiktar)</td>
-
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.AnaBirim).ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.AnaBirimMiktar).ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.AdetCikisMiktar).ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.MTCikisMiktar).ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.M2CikisMiktar).ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.M3CikisMiktar).ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.KGCikisMiktar).ToDecimal().ToOnFormat()</td>
-
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.NetBirimFiyat).ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.NetTutar).ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.KDV).ToDecimal().ToOnFormat()</td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.GenelToplam).ToDecimal().ToOnFormat()</td>
-
-                        </tr>
-                    }
-                </tbody>*@
             </table>
-
         </div>
     </div>
 </div>
@@ -290,15 +235,11 @@
 
         });
 
-     var buttons = new $.fn.dataTable.Buttons(table123, {
-         buttons: [
-             { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
-             { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
-         ]
-     }).container().appendTo($('#buttons'));
-    });
-
-
-
-
+        var buttons = new $.fn.dataTable.Buttons(table123, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+            ]
+        }).container().appendTo($('#buttons'));
+    });    
 </script>

@@ -146,12 +146,6 @@ namespace Wms12m.Presentation.Controllers
             var CE = db.Database.SqlQuery<RaporCariEkstreDiger>(string.Format("[FINSAT6{0}].[wms].[BTB_RP_CariEkstreDetay_Diger]  @HesapKodu = '{1}', @EvrakNo='{2}'", "17", CHK, EvrakNo)).ToList();
             return json.Serialize(CE);
         }
-        public PartialViewResult ChkKampanyaDetay(string CHK, int bastarih, int bittarih)
-        {
-            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
-            var list = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[ChkKampanyaDetay] @CHK='{1}', @BasTarih={2}, @BitTarih={3}", "17", CHK, bastarih, bittarih)).ToList();
-            return PartialView(list);
-        }
         public string SiparisKampanyaDetay(string CHK, string EvrakNo, int bastarih, int bittarih)
         {
             JavaScriptSerializer json = new JavaScriptSerializer()

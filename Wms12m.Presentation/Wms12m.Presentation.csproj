@@ -710,7 +710,7 @@
     <Content Include="Areas\System\Views\Logs\App.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\KampanyaliSatis.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\KampanyaliSatisList.cshtml" />
-    <Content Include="Views\Reports\ChkKampanyaDetay.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\KampanyaChkDetay.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GerceklesenSevkiyatPlani.cshtml" />
     <Content Include="Areas\Reports\Views\Stock\GerceklesenSevkiyatPlaniList.cshtml" />
     <Content Include="Views\Reports\SatisBaglantiRaporu.cshtml" />

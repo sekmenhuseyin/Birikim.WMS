@@ -12,13 +12,8 @@
         background: -ms-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
         background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
     }
-    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
-        color: white;
-    }
-    .btn {
-        width: 120px;
-        text-align: center;
-    }
+    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {color: white;}
+    .btn {width: 120px;text-align: center;}
 </style>
 }<div class="row">
     <div class="control-content col-lg-11 col-md-12 col-sm-8">
@@ -136,8 +131,7 @@
         $(".btnListele").dxButton({
             onClick: function() {
                 var Tarih = oaDate!="" ? oaDate: Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                var StokRaporuUrl = "/Reports/PartialStokRaporu";
-                PartialView(StokRaporuUrl, 'stok-raporu-grid', JSON.stringify({ Tarih:Tarih, BasGrupKod:grupKod1, BitGrupKod:grupKod2, BasTipKod:tipKod1, BitTipKod:tipKod2, BasOzelKod:ozelKod1, BitOzelKod:ozelKod2, BasKod1:kod11, BitKod1:kod12, BasKod2:kod21, BitKod2:kod22, BasKod3:kod31, BitKod3:kod32 }));
+                PartialView("/Reports/Stock/StokList", 'stok-raporu-grid', JSON.stringify({ Tarih:Tarih, BasGrupKod:grupKod1, BitGrupKod:grupKod2, BasTipKod:tipKod1, BitTipKod:tipKod2, BasOzelKod:ozelKod1, BitOzelKod:ozelKod2, BasKod1:kod11, BitKod1:kod12, BasKod2:kod21, BitKod2:kod22, BasKod3:kod31, BitKod3:kod32 }));
             }
         });
         $(".tarih").dxDateBox({

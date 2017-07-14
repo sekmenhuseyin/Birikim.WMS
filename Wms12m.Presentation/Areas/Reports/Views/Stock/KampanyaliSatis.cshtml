@@ -1,30 +1,13 @@
-﻿
-@{
-    ViewBag.Title = "KampanyaliSatisRaporu";
-}@section Styles{    <style>
-        td.details-control {
-            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
-            cursor: pointer;
-        }
-
-    td.sorting_1 {
-        background: url('/Content/assets/global/plugins/datatables/images/details_open.png') !important no-repeat center center;
-        cursor: pointer !important;
-    }
-
-        tr.shown td.details-control {
-            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
-        }
-        .btn {
-            width: 120px;
-            text-align: center;
-        }
-        .detay:hover {
-            background-color: rgb(176, 190, 217) !important;
-        }
-    </style>
-}
-<div class="row control-content">
+﻿@{
+    ViewBag.Title = "Kampanyalı Satış Raporu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<style>
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+    .btn {width: 120px;text-align: center;}
+    .detay:hover {background-color: rgb(176, 190, 217) !important;}
+</style>
+}<div class="row control-content">
     <div class="col-sm-4 col-xs-12" style="margin-top:10px;">
         <div class="col-sm-4 col-xs-6" style="color:#32c5d2;font-weight:bold;">Başlangıç Tarihi</div>
         <div class="col-sm-8 col-xs-6"><div class="basTarih" style="width:100%;"></div></div>
@@ -58,58 +41,56 @@
         </div>
     </div>
 </div>
-@section Scripts{    <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-    <script>
-         var basTarih = @ViewBag.BasTarih;
-        var bitTarih = @ViewBag.BitTarih;
-        var tempbasTarih = @ViewBag.BasTarih;
-         var tempbitTarih = @ViewBag.BitTarih;
-        $(document).ready(function () {
-            var dateVal = new Date();
-            dateVal.setHours(0, 0, 0);
+@section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+<script>
+        var basTarih = @ViewBag.BasTarih;
+    var bitTarih = @ViewBag.BitTarih;
+    var tempbasTarih = @ViewBag.BasTarih;
+        var tempbitTarih = @ViewBag.BitTarih;
+    $(document).ready(function () {
+        var dateVal = new Date();
+        dateVal.setHours(0, 0, 0);
 
-            var bitTeslimTarih = bitTarih;
+        var bitTeslimTarih = bitTarih;
 
-            $(".basTarih").dxDateBox({
-                dataType: 'date',
-                displayFormat: 'dd/MM/yyyy',
-                value: '01/01/2000',
-                onValueChanged: function (e) {
-                    if(e.value!=null)
-                        tempbasTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                }
-            });
-            $(".bitTarih").dxDateBox({
-                dataType: 'date',
-                displayFormat: 'dd/MM/yyyy',
-                value: '12/31/2020',
-                onValueChanged: function (e) {
-                    if (e.value != null)
-                        tempbitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                }
-            });
-        var BekleyeSiparisRaporuUrl = "/Reports/PartialKampanyaliSatisRaporu";
-        PartialView(BekleyeSiparisRaporuUrl, 'kampanyali-siparis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih}));
+        $(".basTarih").dxDateBox({
+            dataType: 'date',
+            displayFormat: 'dd/MM/yyyy',
+            value: '01/01/2000',
+            onValueChanged: function (e) {
+                if(e.value!=null)
+                    tempbasTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            }
         });
-        $(document).on("click", ".listele-buton", function () {
-            basTarih = tempbasTarih;
-            bitTarih = tempbitTarih;
-            var BekleyeSiparisRaporuUrl = "/Reports/PartialKampanyaliSatisRaporu";
-            PartialView(BekleyeSiparisRaporuUrl, 'kampanyali-siparis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih }));
+        $(".bitTarih").dxDateBox({
+            dataType: 'date',
+            displayFormat: 'dd/MM/yyyy',
+            value: '12/31/2020',
+            onValueChanged: function (e) {
+                if (e.value != null)
+                    tempbitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+            }
         });
-        function newrow(chk) { return "<table style='background:transparent;' id='new" + chk + "'></table>"; }
-        function format(d) {
-            $.ajax({
-                type: 'POST',
-                url: '/Reports/ChkKampanyaDetay',
-                data: { "CHK": d, "bastarih": basTarih, "bittarih": bitTarih},
-                dataType: "html",
-                success: function (data) {
-                    $('#new' + d.toString().replace(/\s/g, '')).html(data);
-                }
-            });
-        }
-    </script>
+    PartialView("/Reports/Stock/KampanyaliSatisList", 'kampanyali-siparis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih}));
+    });
+    $(document).on("click", ".listele-buton", function () {
+        basTarih = tempbasTarih;
+        bitTarih = tempbitTarih;
+        PartialView("/Reports/Stock/KampanyaliSatisList", 'kampanyali-siparis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih }));
+    });
+    function newrow(chk) { return "<table style='background:transparent;' id='new" + chk + "'></table>"; }
+    function format(d) {
+        $.ajax({
+            type: 'POST',
+            url: '/Reports/Stock/KampanyaChkDetay',
+            data: { "CHK": d, "bastarih": basTarih, "bittarih": bitTarih},
+            dataType: "html",
+            success: function (data) {
+                $('#new' + d.toString().replace(/\s/g, '')).html(data);
+            }
+        });
+    }
+</script>
 }
 
 

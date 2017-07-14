@@ -18,18 +18,13 @@
             <div class="col-md-1 pull-right m-t-5" style="padding:0;">
                 <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
             </div>
-
         </div>
-
         <div class="portlet-body">
             <div class="row" style="margin-bottom:5px;margin-left:5px;">
                 <div class="col-md-6">
-
                     <div id="buttons"></div>
-
                 </div>
             </div>
-
             <table class="table table-striped table-bordered table-condensed" id="sample_1">
                 <thead>
                     <tr>
@@ -49,7 +44,6 @@
                         <th nowrap>Birim 2</th>
                         <th nowrap>Stok Birim Miktar 3</th>
                         <th nowrap>Birim 3</th>
-
                     </tr>
                 </thead>
                 <tfoot>
@@ -63,7 +57,7 @@
                 </tfoot>
                 <tbody>
                     @foreach (var item in Model)
-            {
+                    {
                         <tr>
                             
                             <td nowrap>@item.MalKodu</td>
@@ -82,7 +76,6 @@
                             <td nowrap align="right">@item.Birim2</td>
                             <td nowrap align="right">@item.StokMiktarBirim3.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.Birim3</td>
-
 
                         </tr>
                     }
@@ -140,12 +133,6 @@
                 );
 
             }
-            //,
-            //"dom": 'Bfrtip',
-            //"buttons": [
-            //    { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
-            //    { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
-            //],
         });
         var buttons = new $.fn.dataTable.Buttons(table123, {
             buttons: [
@@ -154,7 +141,4 @@
             ]
         }).container().appendTo($('#buttons'));
     });
-
-  //  var table123 = $('#sample_1').DataTable();
-
 </script>

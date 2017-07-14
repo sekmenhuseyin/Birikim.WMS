@@ -80,6 +80,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var KSR = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[KampanyaliSatisRaporu] @BasTarih={1}, @BitTarih={2}", "17", bastarih, bittarih)).ToList();
             return PartialView("KampanyaliSatisList", KSR);
         }
+        public PartialViewResult KampanyaChkDetay(string CHK, int bastarih, int bittarih)
+        {
+            if (CheckPerm(Perms.SözleşmeOnaylama, PermTypes.Reading) == false) return null;
+            var list = db.Database.SqlQuery<KampanyaliSatisRaporu>(string.Format("[FINSAT6{0}].[wms].[ChkKampanyaDetay] @CHK='{1}', @BasTarih={2}, @BitTarih={3}", "17", CHK, bastarih, bittarih)).ToList();
+            return PartialView(list);
+        }
         /// <summary>
         /// gerçekleşen sevkiyat
         /// </summary>

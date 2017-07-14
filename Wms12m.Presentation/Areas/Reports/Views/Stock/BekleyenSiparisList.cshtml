@@ -3,7 +3,6 @@
     System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
     serializer.MaxJsonLength = Int32.MaxValue;
 }
-
 <div class="col-md-12" style="width:100%;">
     <div class="portlet box green">
         <div class="portlet-title">
@@ -57,12 +56,6 @@
                             <th nowrap>Stok Birim</th>
                             <th nowrap>Stok Ana Miktar</th>
                             <th nowrap>Stok Ana Birim</th>
-                            @*<th nowrap>Tutar</th>
-                            <th nowrap>Toplam İskonto</th>
-                            <th nowrap>KDV</th>*@
-                            
-                            
-                            
                             <th nowrap>Teslim Tarihi</th>
                             <th nowrap>Teslim Tarihi Durum</th>
                             <th nowrap>Satış Temsilcisi</th>
@@ -94,8 +87,8 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in Model)
-            {
+                    @foreach (var item in Model)
+                    {
                         <tr>
                             <td nowrap>@item.Chk</td>
                             <td nowrap>@item.Unvan</td>
@@ -113,7 +106,6 @@
                             <td nowrap align="right">@item.KalanMiktar.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.KalanBirim</td>
                             <td nowrap align="right">@item.KalanAnaMiktar.ToDecimal().ToOnFormat()</td>
-                            @*<td nowrap align="right">@if (item.KalanAnaMiktar.ToString().Split(',').Length > 1) item.KalanAnaMiktar.ToDecimal().ToOnFormat()  else item.KalanAnaMiktar.ToString() + "000000"  </td>*@
                             <td nowrap>@item.KalanAnaBirim</td>
                             <td nowrap>@item.BaglantiTipi</td>
                             <td nowrap>@item.FiyatListeNo</td>
@@ -129,13 +121,6 @@
                             <td nowrap>@item.StokBirim</td>
                             <td nowrap align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
                             <td nowrap>@item.StokAnaBirim</td>
-                            @*<td nowrap align="right">@item.Tutar.ToDecimal().ToOnFormat()</td>
-                            <td nowrap>@item.ToplamIskonto.ToDecimal().ToOnFormat()</td>
-                            <td nowrap>@item.KDV.ToDecimal().ToOnFormat()</td>*@
-                          
-                            
-                           
-                            @*<td nowrap>@if (item.TeslimTarih != null) { @item.TeslimTarih.Value.ToString("dd/MM/yyyy")} else {}</td>*@
                             <td nowrap>@item.TeslimTarih</td>
                             <td nowrap>@item.TeslimTarihDurum</td>
                             <td nowrap>@item.SatisTemsilcisi</td>
@@ -263,6 +248,4 @@
         }).container().appendTo($('#buttons'));
 
     });
-  //  var table12 = $('#sample_1').DataTable();
-
 </script>

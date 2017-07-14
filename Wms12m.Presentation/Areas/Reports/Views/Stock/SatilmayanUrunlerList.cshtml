@@ -18,15 +18,11 @@
             <div class="col-md-1 pull-right m-t-5" style="padding:0;">
                 <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
             </div>
-
         </div>
-
         <div class="portlet-body">
             <div class="row" style="margin-bottom:5px;margin-left:5px;">
                 <div class="col-md-6">
-
                     <div id="buttons"></div>
-
                 </div>
             </div>
 
@@ -58,7 +54,7 @@
                 </tfoot>
                 <tbody>
                     @foreach (var item in Model)
-            {
+                    {
                         <tr>
                            
                             <td nowrap>@item.MalKodu</td>
@@ -135,7 +131,4 @@
             ]
         }).container().appendTo($('#buttons'));
     });
-
-
-
 </script>

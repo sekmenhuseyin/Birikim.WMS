@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "GunlukSatis";
+    ViewBag.Title = "Günlük Satış";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
     .dx-datagrid-headers .dx-row {
@@ -11,13 +11,8 @@
         background: -ms-linear-gradient(top, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
         background: linear-gradient(to bottom, #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
     }
-    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
-        color: white;
-    }
-    .btn {
-        width: 120px;
-        text-align: center;
-    }
+    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {color: white;}
+    .btn {width: 120px;text-align: center;}
 </style>
 }<div class="row">
     <div class="control-content col-md-11 col-lg-9">
@@ -78,9 +73,7 @@
     
         $(".btn-listele").dxButton({
             onClick: function() {
-
-                var GunlukSatisRaporuUrl = "/Reports/PartialGunlukSatis";
-                PartialView(GunlukSatisRaporuUrl, 'gunluk-satis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih }));
+                PartialView("/Reports/Stock/GunlukSatisList", 'gunluk-satis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih }));
             }
         });
         $(".tarih-bas-date").dxDateBox({
