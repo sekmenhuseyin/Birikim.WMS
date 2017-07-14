@@ -65,7 +65,7 @@
         dateVal.setHours(0, 0, 0);
         var basTarih = 36526;
         var basVadeTarih = 36526;
-        var bitTarih = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+        var bitTarih = Math.ceil((new Date('@DateTime.Today.ToString("dd/MM/yyyy")') - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
         var bitVadeTarih = 44196;
         var chk_bas="",chk_bit="ZZZZZZZZZZ";
         $(".btn-listele").dxButton({
@@ -84,7 +84,7 @@
         $(".tarih-bit-date").dxDateBox({
             dataType: 'date',
             formatString: 'dd/MM/yyyy',
-            value: dateVal,
+            value: '@DateTime.Today.ToString("MM/dd/yyyy")',
             onValueChanged: function (e) {
                 bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
             }
