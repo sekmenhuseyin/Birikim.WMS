@@ -437,6 +437,10 @@
     <Compile Include="Areas\Constants\Controllers\CorridorController.cs" />
     <Compile Include="Areas\Constants\Controllers\ShelfController.cs" />
     <Compile Include="Areas\Constants\Controllers\StorageController.cs" />
+    <Compile Include="Areas\Reports\Controllers\CrmController.cs" />
+    <Compile Include="Areas\Reports\Controllers\CurrentController.cs" />
+    <Compile Include="Areas\Reports\Controllers\OrdersController.cs" />
+    <Compile Include="Areas\Reports\Controllers\StockController.cs" />
     <Compile Include="Areas\Reports\ReportsAreaRegistration.cs" />
     <Compile Include="Areas\System\Controllers\SettingsController.cs" />
     <Compile Include="Areas\System\SystemAreaRegistration.cs" />
@@ -751,9 +755,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Reports\Controllers\" />
-    <Folder Include="Areas\Reports\Models\" />
-    <Folder Include="Areas\Reports\Views\Shared\" />
+    <Folder Include="Areas\Reports\Views\Crm\" />
+    <Folder Include="Areas\Reports\Views\Current\" />
+    <Folder Include="Areas\Reports\Views\Orders\" />
+    <Folder Include="Areas\Reports\Views\Stock\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <PropertyGroup>
