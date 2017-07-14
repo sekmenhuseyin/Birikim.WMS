@@ -79,7 +79,8 @@
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
        var table12 = $('#sample_1').DataTable({
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+           "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+           "scrollY": 350,
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
 
@@ -114,13 +115,13 @@
 
                 // Update footer
                 $(api.column(3).footer()).html(
-                    ondalikBinlik(miktartotal, 6)
+                    ondalikBinlik(miktartotal, 2)
                 );
                 $(api.column(4).footer()).html(
-                    ondalikBinlik(anaMiktartotal, 6)
+                    ondalikBinlik(anaMiktartotal, 2)
                 );
                 $(api.column(8).footer()).html(
-                    ondalikBinlik(sevkedilentotal, 6)
+                    ondalikBinlik(sevkedilentotal, 2)
                 );
             }
         });

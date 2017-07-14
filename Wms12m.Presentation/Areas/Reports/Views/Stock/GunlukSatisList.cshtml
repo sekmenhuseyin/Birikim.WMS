@@ -45,7 +45,7 @@
                         <th nowrap>İşlem Tarihi</th>
                         <th nowrap>Evrak No</th>
 
-                        
+
 
                         <th nowrap>Birim</th>
                         <th nowrap>Birim Miktar</th>
@@ -61,59 +61,74 @@
                         <th nowrap>Net Birim Fiyat</th>
                         <th nowrap>Net Tutar</th>
                         <th nowrap>KDV</th>
-                        <th nowrap>Genel Toplam</th>                       
+                        <th nowrap>Genel Toplam</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th nowrap colspan="12"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                        <th nowrap style="text-align:right;"></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+
+                            <td nowrap>@item.Chk</td>
+                            <td nowrap>@item.Unvan</td>
+                            <td nowrap>@item.BaglantiTipi</td>
+                            <td nowrap>@item.BaglantiNo</td>
+                            <td nowrap>@item.SatisTemsilcisi</td>
+                            <td nowrap>@item.GrupKod</td>
+                            <td nowrap>@item.MalKodu</td>
+                            <td nowrap>@item.MalAdi</td>
+                            <td nowrap>@item.Kalite</td>
+                            <td nowrap>@item.IslemTarihi</td>
+                            <td nowrap>@item.EvrakNo</td>
+                            <td nowrap>@item.Birim</td>
+
+
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.BirimMiktar)</td>
+
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.AnaBirim).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.AnaBirimMiktar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.AdetCikisMiktar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.MTCikisMiktar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.M2CikisMiktar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.M3CikisMiktar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.KGCikisMiktar).ToDecimal().ToOnFormat()</td>
+
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.NetBirimFiyat).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.NetTutar).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.KDV).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.GenelToplam).ToDecimal().ToOnFormat()</td>
+
+                        </tr>
+                    }
+                </tbody>
             </table>
+
         </div>
     </div>
 </div>
 <script>
     $(document).ready(function () {
-     var model =  @Html.Raw(serializer.Serialize(Model));
+        var model =  @Html.Raw(serializer.Serialize(Model));
      var table123 =  $('#sample_1').DataTable({
-         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-          "ajax": {
-            "url": '/Reports/Stock/List?bastarih='+ basTarih+', bittarih='+ bitTarih ,
-            "dataSrc": function (json) {
-                return json;
-            },
-        },
-        "fixedHeader": true,
-        "scrollX": true,
-        "columnDefs": [ { "type": "num-fmt", "className": "dt-right", "targets": [12,13,14,15,16,17,18,19,20,21,22,23] }],
-        "columns": [
-            { "data": "Chk" },
-            { "data": "Unvan"},
-            { "data": "BaglantiTipi"},
-            { "data": "BaglantiNo"},
-            { "data": "SatisTemsilcisi" },
-            { "data": "GrupKod" },
-            { "data": "MalKodu" },
-            { "data": "MalAdi" },
-            { "data": "Kalite" },
-            { "data": "IslemTarihi" },
-            { "data": "EvrakNo" }, ,
-            { "data": "Birim" },
-            { "data": "BirimMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "AnaBirim", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "AnaBirimMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "AdetCikisMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "MTCikisMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "M2CikisMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "M3CikisMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "KGCikisMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "NetBirimFiyat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "NetTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "KDV", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "GenelToplam", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-        ],
-        "ordering": false,
-        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-            $('td', nRow).attr('nowrap', 'nowrap');
-            return nRow;
-        },
-        "footerCallback": function (row, data, start, end, display) {
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
 
                 // Remove the formatting to get integer data for summation
@@ -126,6 +141,8 @@
                     .column(12)
                     .data()
                     .reduce(function (a, b) {
+                        console.log(a);
+                        console.log(intVal(b));
                         return a + intVal(b);
                     }, 0);
 
@@ -196,6 +213,8 @@
                     }, 0);
 
 
+                console.log(miktartotal);
+
                 // Update footer
                 $(api.column(12).footer()).html(
                     ondalikBinlik(Math.round(miktartotal * 100) / 100 ,2)
@@ -232,14 +251,17 @@
                     ondalikBinlik(bb, 6)
                 );
             }
-
         });
 
-        var buttons = new $.fn.dataTable.Buttons(table123, {
-            buttons: [
-                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
-                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
-            ]
-        }).container().appendTo($('#buttons'));
-    });    
+     var buttons = new $.fn.dataTable.Buttons(table123, {
+         buttons: [
+             { "extend": 'pdf', "exportOptions": { columns: ':visible' }, "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
+             { "extend": 'excel', "exportOptions": { columns: ':visible' }, "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+         ]
+     }).container().appendTo($('#buttons'));
+    });
+
+
+
+
 </script>
