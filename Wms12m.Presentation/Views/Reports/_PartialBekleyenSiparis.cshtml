@@ -153,7 +153,8 @@
         var model =  @Html.Raw(serializer.Serialize(Model));
        var table12 = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-
+            "scrollY": 300,
+            "ordering": false,
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
 
@@ -227,31 +228,31 @@
 
                 // Update footer
                 $(api.column(8).footer()).html(
-                    ondalikBinlik(miktartotal, 6)
+                    ondalikBinlik(miktartotal, 2)
                 );
                 $(api.column(10).footer()).html(
-                    ondalikBinlik(anaMiktartotal, 6)
+                    ondalikBinlik(anaMiktartotal, 2)
                 );
                 $(api.column(12).footer()).html(
-                    ondalikBinlik(sevkedilentotal, 6)
+                    ondalikBinlik(sevkedilentotal, 2)
                 );
                 $(api.column(13).footer()).html(
-                    ondalikBinlik(kalantotal, 6)
+                    ondalikBinlik(kalantotal, 2)
                 );
                 $(api.column(15).footer()).html(
-                    ondalikBinlik(anakalantotal, 6)
+                    ondalikBinlik(anakalantotal, 2)
                 );
                 $(api.column(23).footer()).html(
-                    ondalikBinlik(kdvliTutartotal, 6)
+                    ondalikBinlik(kdvliTutartotal, 2)
                 );
                 $(api.column(24).footer()).html(
-                    ondalikBinlik(kdvsizTutartotal, 6)
+                    ondalikBinlik(kdvsizTutartotal, 2)
                 );
                 $(api.column(25).footer()).html(
-                    ondalikBinlik(kdvlikalantotal, 6)
+                    ondalikBinlik(kdvlikalantotal, 2)
                 );
                 $(api.column(26).footer()).html(
-                    ondalikBinlik(kdvsizkalantotal, 6)
+                    ondalikBinlik(kdvsizkalantotal, 2)
                 );
             }
         });
