@@ -100,7 +100,7 @@
                             <td nowrap>@item.Birim</td>
 
 
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.BirimMiktar)</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.BirimMiktar).ToDecimal().ToOnFormat()</td>
 
                             <td nowrap align="right">@String.Format("{0:0.00}", item.AnaBirim).ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@String.Format("{0:0.00}", item.AnaBirimMiktar).ToDecimal().ToOnFormat()</td>
@@ -126,129 +126,61 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
+        var BirimMiktar = 0, AnaBirim = 0, AnaBirimMiktar = 0, AdetCikisMiktar = 0, MTCikisMiktar = 0, M2CikisMiktar = 0, M3CikisMiktar = 0, KGCikisMiktar = 0, NetBirimFiyat = 0, NetTutar = 0, KDV = 0, GenelToplam = 0;
+        jQuery.each(model, function (i, val) {
+            BirimMiktar += val.BirimMiktar;
+            AnaBirim += val.AnaBirim;
+            AnaBirimMiktar += val.AnaBirimMiktar;
+            AdetCikisMiktar += val.AdetCikisMiktar;
+            MTCikisMiktar += val.MTCikisMiktar;
+            M2CikisMiktar += val.M2CikisMiktar;
+            M3CikisMiktar += val.M3CikisMiktar;
+            KGCikisMiktar += val.KGCikisMiktar;
+            NetBirimFiyat += val.NetBirimFiyat;
+            NetTutar += val.NetTutar;
+            KDV += val.KDV;
+            GenelToplam += val.GenelToplam;
+        });
      var table123 =  $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
 
                 // Remove the formatting to get integer data for summation
-                var intVal = function (i) {
-                    return Math.round(Number(i.toString().replace(/\./g, "").replace(",", ".")) * 10000000000) / 10000000000;
-                };
-
-                // Total over all pages
-                miktartotal = api
-                    .column(12)
-                    .data()
-                    .reduce(function (a, b) {
-                        console.log(a);
-                        console.log(intVal(b));
-                        return a + intVal(b);
-                    }, 0);
-
-                anaMiktartotal = api
-                    .column(14)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                sevkedilentotal = api
-                    .column(15)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                kalantotal = api
-                    .column(16)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                anakalantotal = api
-                    .column(17)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                kdvliTutartotal = api
-                    .column(18)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                kdvsizTutartotal = api
-                    .column(19)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                kdvlikalantotal = api
-                    .column(20)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                kdvsizkalantotal = api
-                    .column(21)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                aa = api
-                    .column(22)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                bb = api
-                    .column(23)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-
-                console.log(miktartotal);
-
+              
                 // Update footer
                 $(api.column(12).footer()).html(
-                    ondalikBinlik(Math.round(miktartotal * 100) / 100 ,2)
-                    //ondalikBinlik(miktartotal, 6)
+                    ondalikBinlik(Math.round(BirimMiktar * 100) / 100 ,2)
                 );
                 $(api.column(14).footer()).html(
-                    ondalikBinlik(anaMiktartotal, 6)
+                    ondalikBinlik(Math.round(AnaBirimMiktar * 100) / 100, 2)
                 );
                 $(api.column(15).footer()).html(
-                    ondalikBinlik(sevkedilentotal, 6)
+                    ondalikBinlik(Math.round(AdetCikisMiktar * 100) / 100, 2)
                 );
                 $(api.column(16).footer()).html(
-                    ondalikBinlik(kalantotal, 6)
+                    ondalikBinlik(Math.round(MTCikisMiktar * 100) / 100, 2)
                 );
                 $(api.column(17).footer()).html(
-                    ondalikBinlik(anakalantotal, 6)
+                    ondalikBinlik(Math.round(M2CikisMiktar * 100) / 100, 2)
                 );
                 $(api.column(18).footer()).html(
-                    ondalikBinlik(kdvliTutartotal, 6)
+                    ondalikBinlik(Math.round(M3CikisMiktar * 100) / 100, 2)
                 );
                 $(api.column(19).footer()).html(
-                    ondalikBinlik(kdvsizTutartotal, 6)
+                    ondalikBinlik(Math.round(KGCikisMiktar * 100) / 100, 2)
                 );
                 $(api.column(20).footer()).html(
-                    ondalikBinlik(kdvlikalantotal, 6)
+                    ondalikBinlik(Math.round(NetBirimFiyat * 100) / 100, 2)
                 );
                 $(api.column(21).footer()).html(
-                    ondalikBinlik(kdvsizkalantotal, 6)
+                    ondalikBinlik(Math.round(NetTutar * 100) / 100, 2)
                 );
                 $(api.column(22).footer()).html(
-                    ondalikBinlik(aa, 6)
+                    ondalikBinlik(Math.round(KDV * 100) / 100, 2)
                 );
                 $(api.column(23).footer()).html(
-                    ondalikBinlik(bb, 6)
+                    ondalikBinlik(Math.round(GenelToplam * 100) / 100, 2)
                 );
             }
         });
@@ -259,6 +191,8 @@
              { "extend": 'excel', "exportOptions": { columns: ':visible' }, "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
          ]
      }).container().appendTo($('#buttons'));
+     $('.buttons-pdf').removeClass('btn btn-default');
+     $('.buttons-excel').removeClass('btn btn-default');
     });
 
 

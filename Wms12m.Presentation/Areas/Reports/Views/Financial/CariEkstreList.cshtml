@@ -60,7 +60,6 @@
                             <td nowrap align="right">@String.Format("{0:0.00}", item.Alacak).ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@String.Format("{0:0.00}", item.BorcBakiye).ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@String.Format("{0:0.00}", item.AlacakBakiye).ToDecimal().ToOnFormat()</td>
-
                         </tr>
                     }
                 </tbody>
@@ -83,6 +82,13 @@
         });
         var edit_date_col_num = $('th:contains("Tarih")').index();
         var model =  @Html.Raw(serializer.Serialize(Model));
+        var Borc = 0, Alacak = 0, BorcBakiye = 0, AlacakBakiye = 0;
+        jQuery.each(model, function (i, val) {
+            Borc += val.Borc;
+            Alacak += val.Alacak;
+            BorcBakiye = val.BorcBakiye;
+            AlacakBakiye = val.AlacakBakiye;
+        });
         table = $('#sample_1').DataTable({
             //"order": [[0, "asc"]],
             "scrollY": 400,
@@ -95,33 +101,19 @@
 
                 var api = this.api(), data;
 
-                // Remove the formatting to get integer data for summation
-                var intVal = function (i) {
-                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
-                };
-
-                // Total over all pages
-                alacaktotal = api
-                    .column(6)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                borctotal = api
-                    .column(5)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
 
                 // Update footer
-                $(api.column(6).footer()).html(
-                    ondalikBinlik(alacaktotal,6)
-                );
                 $(api.column(5).footer()).html(
-                    ondalikBinlik(borctotal, 6)
+                    ondalikBinlik(Math.round(Borc * 100) / 100, 2)
+                );
+                $(api.column(6).footer()).html(
+                    ondalikBinlik(Math.round(Alacak * 100) / 100, 2)
+                );
+                $(api.column(7).footer()).html(
+                    ondalikBinlik(Math.round(BorcBakiye * 100) / 100, 2)
+                );
+                $(api.column(8).footer()).html(
+                    ondalikBinlik(Math.round(AlacakBakiye * 100) / 100, 2)
                 );
             }
 
