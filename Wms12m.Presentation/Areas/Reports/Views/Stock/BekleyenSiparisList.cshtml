@@ -9,16 +9,10 @@
             <div class="caption">
                 <i class="fa fa-gift"></i>Bekleyen Sipariş
             </div>
-            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
-                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Yenile </a>
-            </div>
-
-            <div class="col-md-1 pull-right m-t-5" style="padding:0;">
-                <a class="btn btn-default pull-right input-circle" style="width:100%;" href="#modalEditPage" data-toggle="modal"> Temizle </a>
-            </div>
+            <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
 
         </div>
-        <div id="buttons"></div>
+      
         <div class="portlet-body">
 
             <div class="row">
@@ -241,10 +235,14 @@
                 );
             }
         });
+       $(document).ready(function () {
+           $('.buttons-pdf').removeClass('btn btn-default');
+           $('.buttons-excel').removeClass('btn btn-default');
+       });
         var buttons = new $.fn.dataTable.Buttons(table12, {
             buttons: [
-                { "extend": 'pdf', "text": '<span class="glyphicon glyphicon-file">PDF</span>', "className": 'btn btn-default btn-xs' },
-                { "extend": 'excel', "text": '<span class="glyphicon glyphicon-pencil">XLS</span>', "className": 'btn btn-default btn-xs' }
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o" style="font-size:15px;color:green"></span>', "className": 'btn btn-default btn-xs;' }
             ]
         }).container().appendTo($('#buttons'));
 
