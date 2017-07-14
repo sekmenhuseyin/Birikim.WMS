@@ -438,8 +438,7 @@
     <Compile Include="Areas\Constants\Controllers\ShelfController.cs" />
     <Compile Include="Areas\Constants\Controllers\StorageController.cs" />
     <Compile Include="Areas\Reports\Controllers\CrmController.cs" />
-    <Compile Include="Areas\Reports\Controllers\CurrentController.cs" />
-    <Compile Include="Areas\Reports\Controllers\OrdersController.cs" />
+    <Compile Include="Areas\Reports\Controllers\FinancialController.cs" />
     <Compile Include="Areas\Reports\Controllers\StockController.cs" />
     <Compile Include="Areas\Reports\ReportsAreaRegistration.cs" />
     <Compile Include="Areas\System\Controllers\SettingsController.cs" />
@@ -604,25 +603,25 @@
     <Content Include="Areas\Approvals\Views\Price\SM_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Price\SPGMY_List.cshtml" />
     <Content Include="Views\Reports\Bakiye.cshtml" />
-    <Content Include="Views\Reports\BekleyenSiparis.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\BekleyenSiparis.cshtml" />
     <Content Include="Views\Reports\CariEkstre.cshtml" />
     <Content Include="Views\Reports\CekListesi.cshtml" />
     <Content Include="Views\Reports\CekPortfoyListesi.cshtml" />
-    <Content Include="Views\Reports\GunlukSatis.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\GunlukSatis.cshtml" />
     <Content Include="Views\Reports\OdemeYapmayanMusteriler.cshtml" />
-    <Content Include="Views\Reports\SatilmayanUrunler.cshtml" />
-    <Content Include="Views\Reports\Stok.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\SatilmayanUrunler.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\Stok.cshtml" />
     <Content Include="Views\Reports\ToplamRiskBakiyesi.cshtml" />
     <Content Include="Views\Reports\VadesiGelmemisCekler.cshtml" />
     <Content Include="Views\Reports\_PartialBakiye.cshtml" />
-    <Content Include="Views\Reports\_PartialBekleyenSiparis.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\BekleyenSiparisList.cshtml" />
     <Content Include="Views\Reports\_PartialCariEkstre.cshtml" />
     <Content Include="Views\Reports\_PartialCekListesi.cshtml" />
     <Content Include="Views\Reports\_PartialCekPortfoyListesi.cshtml" />
-    <Content Include="Views\Reports\_PartialGunlukSatisRaporu.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\GunlukSatisList.cshtml" />
     <Content Include="Views\Reports\_PartialOdemeYapmayanMusteriler.cshtml" />
-    <Content Include="Views\Reports\_PartialSatilmayanUrunler.cshtml" />
-    <Content Include="Views\Reports\_PartialStokRaporu.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\SatilmayanUrunlerList.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\StokList.cshtml" />
     <Content Include="Views\Reports\_PartialToplamRiskBakiyesi.cshtml" />
     <Content Include="Views\Reports\_PartialVadesiGelmemisCekler.cshtml" />
     <Content Include="Areas\Approvals\Views\Risk\GM.cshtml" />
@@ -709,11 +708,11 @@
     <Content Include="Areas\System\Views\Logs\Login.cshtml" />
     <Content Include="Areas\System\Views\Logs\Error.cshtml" />
     <Content Include="Areas\System\Views\Logs\App.cshtml" />
-    <Content Include="Views\Reports\KampanyaliSatisRaporu.cshtml" />
-    <Content Include="Views\Reports\_PartialKampanyaliSatisRaporu.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\KampanyaliSatis.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\KampanyaliSatisList.cshtml" />
     <Content Include="Views\Reports\ChkKampanyaDetay.cshtml" />
-    <Content Include="Views\Reports\GerceklesenSevkiyatPlani.cshtml" />
-    <Content Include="Views\Reports\_PartialGerceklesenSevkiyatPlani.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\GerceklesenSevkiyatPlani.cshtml" />
+    <Content Include="Areas\Reports\Views\Stock\GerceklesenSevkiyatPlaniList.cshtml" />
     <Content Include="Views\Reports\SatisBaglantiRaporu.cshtml" />
     <Content Include="Views\Reports\_PartialSatisBaglantiRaporu.cshtml" />
     <Content Include="Views\Reports\_PartialSatBagSozlesmeDetay.cshtml" />
@@ -756,9 +755,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Reports\Views\Crm\" />
-    <Folder Include="Areas\Reports\Views\Current\" />
-    <Folder Include="Areas\Reports\Views\Orders\" />
-    <Folder Include="Areas\Reports\Views\Stock\" />
+    <Folder Include="Areas\Reports\Views\Financial\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <PropertyGroup>

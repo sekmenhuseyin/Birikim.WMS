@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace Wms12m.Presentation.Areas.Reports.Controllers
 {
-    public class OrdersController : RootController
+    public class FinancialController : RootController
     {
-        // GET: Reports/Orders
+        // GET: Reports/Financial
         public ActionResult Index()
         {
             return View();
