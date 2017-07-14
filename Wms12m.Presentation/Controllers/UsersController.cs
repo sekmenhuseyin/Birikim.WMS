@@ -342,7 +342,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Purchase/GetChKCode");
+                Logger(ex, "Users/GetChKCode");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
@@ -363,7 +363,7 @@ namespace Wms12m.Presentation.Controllers
             }
             catch (Exception ex)
             {
-                Logger(ex, "Purchase/getMalzemebyName");
+                Logger(ex, "Users/GetChKCode");
                 return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
             }
         }
