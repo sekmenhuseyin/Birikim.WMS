@@ -639,5 +639,7 @@ namespace Wms12m.Entity.Models
         }
 
         public System.Data.Entity.DbSet<Wms12m.Entity.Models.CRM_GorusmeNotlari_Result> CRM_GorusmeNotlari_Result { get; set; }
+
+        public System.Data.Entity.DbSet<Wms12m.Entity.Models.CRM_TeklifAnaliz_Result> CRM_TeklifAnaliz_Result { get; set; }
     }
 }
