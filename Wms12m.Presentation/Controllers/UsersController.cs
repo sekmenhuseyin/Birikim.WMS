@@ -332,17 +332,8 @@ namespace Wms12m.Presentation.Controllers
             string sql = "";
             //generate sql
             if (id.ToString() == "0")
-            {
-                var dblist = db.GetSirketDBs().ToList();
-                foreach (var item in dblist)
-                {
-                    if (sql != "") sql += " UNION ";
-                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ' - ' + MalAdi AS value, MalKodu + ' - ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu LIKE '{1}%')", item, term);
-                }
-                sql = "SELECT TOP (20) id,MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
-            }
-            else
-                sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+                id = db.GetSirketDBs().FirstOrDefault();
+            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 20", id.ToString(), term);
             //return
             try
             {
@@ -362,17 +353,8 @@ namespace Wms12m.Presentation.Controllers
             string sql = "";
             //generate sql
             if (id.ToString() == "0")
-            {
-                var dblist = db.GetSirketDBs().ToList();
-                foreach (var item in dblist)
-                {
-                    if (sql != "") sql += " UNION ";
-                    sql += string.Format("SELECT MalKodu AS id, MalKodu + ' - ' + MalAdi AS value, MalKodu + ' - ' + MalAdi AS label FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalAdi LIKE '%{1}%')", item, term);
-                }
-                sql = "SELECT TOP (20) id, MIN(value) as value, MIN(label) as value from (" + sql + ") t GROUP BY id";
-            }
-            else
-                sql = String.Format("FINSAT6{0}.[wms].[getMalzemeByCodeOrName] @MalKodu = N'{1}', @MalAdi = N''", id.ToString(), term);
+                id = db.GetSirketDBs().FirstOrDefault();
+            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'', @Unvan = N'{1}', @top = 20", id.ToString(), term);
             //return
             try
             {
