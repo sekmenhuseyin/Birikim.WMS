@@ -243,6 +243,7 @@
         return _dfd.promise();
         } else {
             Modaldialog("Satır Seçiniz", "Hata", "Tamam", "btn-danger");
+            return;
         }
     }
     function PrimReddet() {
@@ -256,6 +257,7 @@
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
         }
+        if (secili_table.length > 0) {
         var _dfd = $.Deferred();
         $.ajax({
             url: window.location.origin + "/Approvals/Techno/Prim_Reddet",
@@ -273,6 +275,10 @@
             }
         });
         return _dfd.promise();
+        } else {
+            Modaldialog("Satır Seçiniz", "Hata", "Tamam", "btn-danger");
+            return;
+        }
 
     }
     $(document).on("click", "#md2SilKayit", function () {
@@ -281,11 +287,13 @@
     //var table13 = $('#sample_2').DataTable();
     var buttons2 = new $.fn.dataTable.Buttons(table2, {
         buttons: [
-            { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
-            { "extend": 'excel', "text": '<span class="fa fa-file-excel-o" style="font-size:15px;color:green"></span>', "className": 'btn btn-default btn-xs;' }
+            {"extend": 'pdf', "exportOptions": {columns: ':visible'}, "text": '<span class="fa fa-file-pdf-o" style="font-size:15px;color:red;"></span>', "className": 'btn btn-default btn-xs;' },
+            { "extend": 'excel', "exportOptions": { columns: ':visible' }, "text": '<span class="fa fa-file-excel-o" style="font-size:15px;color:green"></span>', "className": 'btn btn-default btn-xs;' }
         ]
     }).container().appendTo($('#buttons2'));
-    
+
+    $('.buttons-pdf').removeClass('btn btn-default');
+    $('.buttons-excel').removeClass('btn btn-default');
 </script>
 
 
