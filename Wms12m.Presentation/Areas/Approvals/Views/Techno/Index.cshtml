@@ -127,8 +127,7 @@
         var rdrValue = OnayDurum;
         var radioGroupItems = [
             { text: "Onay Bekleyenler", value: "OnayBekleyenler" },
-            { text: "Reddedilenler", value: "Reddedilenler" },
-            { text: "Onayladıklarım", value: "Onayladiklarim" }
+            { text: "Reddedilenler", value: "Reddedilenler" }
         ];
         $(function () {
             $(".rdgrpOnayRed").dxRadioGroup({
@@ -138,43 +137,49 @@
                 value: OnayDurum,
                 layout: "horizontal",
                 onValueChanged: function (e) {
+                    console.log("rte");
                     rdrValue = e.value;
                     PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
                     PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
-                    if (e.value == 'Reddedilenler') {
-                        //$(".pull-right").css("display", "none");
-                        table.columns([17]).visible(true, true);
-                        table.columns([18]).visible(true, true);
-                        table2.columns([15]).visible(true, true);
-                        table2.columns([16]).visible(true, true);
-                        $(".butondiv").css("display", "none");
-                    }
-                    else if (e.value == 'OnayBekleyenler'){
-                        //$(".pull-right").css("display", "block");
-                        table.columns([17]).visible(false, false);
-                        table.columns([18]).visible(false, false);
-                        table2.columns([15]).visible(false, false);
-                        table2.columns([16]).visible(false, false);
-                        $(".butondiv").css("display", "block");
-                    }
-                    else {
-                        //$(".pull-right").css("display", "none");
-                        $(".butondiv").css("display", "none");
-                        table.columns([17]).visible(false, false);
-                        table.columns([18]).visible(false, false);
-                        table2.columns([15]).visible(false, false);
-                        table2.columns([16]).visible(false, false);
-                      
+                    if (Birim!="IK") {
+                        if (e.value == 'Reddedilenler') {
+                            //$(".pull-right").css("display", "none");
+                            table.columns([17]).visible(true, true);
+                            table.columns([18]).visible(true, true);
+                            table2.columns([15]).visible(true, true);
+                            table2.columns([16]).visible(true, true);
+                            $(".butondiv").css("display", "none");
+                        }
+                        else if (e.value == 'OnayBekleyenler') {
+                            //$(".pull-right").css("display", "block");
+                            table.columns([17]).visible(false, false);
+                            table.columns([18]).visible(false, false);
+                            table2.columns([15]).visible(false, false);
+                            table2.columns([16]).visible(false, false);
+                            $(".butondiv").css("display", "block");
+                        }
+                        else {
+                            //$(".pull-right").css("display", "none");
+                            $(".butondiv").css("display", "none");
+                            table.columns([17]).visible(false, false);
+                            table.columns([18]).visible(false, false);
+                            table2.columns([15]).visible(false, false);
+                            table2.columns([16]).visible(false, false);
+
+                        }
                     }
                 }
             });
         });
+        $(".dx-item.dx-radiobutton").css("display", "none");
         PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
         PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
         if (Birim == 'IK') {
+          
             $(".butondiv").css("display", "none");
         }
         else {
+            radioGroupItems.push({ text: "Onayladıklarım", value: "Onayladiklarim" })
             $(".butondiv").css("display", "block");
         }
         function newrow(PERSONELID) { return "<table style='background:transparent;' id='new" + PERSONELID + "'></table>"; }

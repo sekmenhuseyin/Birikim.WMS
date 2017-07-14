@@ -34,10 +34,10 @@
                     <a class="btn btn-default input-circle yenile-buton glyphicon glyphicon-refresh" href="#modalEditPage" data-toggle="modal"> Yenile </a>
                 </div>
                 <div class="col-md-2 pull-right  m-t-5">
-                    <a class="btn btn-default  input-circle onay-buton glyphicon glyphicon-ok" href="#modalEditPage" data-toggle="modal">Onayla</a>
+                    <a class="btn btn-default  input-circle onay-buton glyphicon glyphicon-ok" href="#modalEditPage" data-toggle="modal" style="background-color:#40bf40">Onayla</a>
                 </div>
                 <div class="col-md-2 pull-right m-t-5">
-                    <a class="btn btn-default  input-circle reddet-buton glyphicon glyphicon-remove" href="#modalEditPage" data-toggle="modal">Reddet</a>
+                    <a class="btn btn-default  input-circle reddet-buton glyphicon glyphicon-remove" href="#modalEditPage" data-toggle="modal" style="background-color:#ff4d4d">Reddet</a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -106,7 +106,10 @@
                 }
 
             });
-
+            $(document).ready(function () {
+                $('.buttons-pdf').removeClass('btn btn-default');
+                $('.buttons-excel').removeClass('btn btn-default');
+            });
 
         });
         $('.onay-buton').click(function () {
