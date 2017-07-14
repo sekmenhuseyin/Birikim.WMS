@@ -85,98 +85,51 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
+        var Bakiye = 0, BekleyenSiparisTutari = 0, SahsiCekRiski = 0, ToplamSahsiRisk = 0, SahsiCekLimiti = 0, MusteriCekRiski = 0, ToplamRisk = 0,  ToplamCekRiski = 0, Teminat = 0;
+        jQuery.each(model, function (i, val) {
+            Bakiye += val.Bakiye;
+            BekleyenSiparisTutari += val.BekleyenSiparisTutari;
+            SahsiCekRiski += val.SahsiCekRiski;
+            ToplamSahsiRisk += val.ToplamSahsiRisk;
+            SahsiCekLimiti += val.SahsiCekLimiti;
+            MusteriCekRiski += val.MusteriCekRiski;
+            ToplamRisk += val.ToplamRisk;
+            ToplamCekRiski += val.ToplamCekRiski;
+            Teminat += val.Teminat;
+        
+        });
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "footerCallback": function (row, data, start, end, display) {
 
                 var api = this.api(), data;
-                var intVal = function (i) {
-                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
-                };
-                alacaktotal = api
-                    .column(2)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
 
-                borctotal = api
-                    .column(3)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                a = api
-                    .column(4)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                aa = api
-                    .column(5)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                aaa = api
-                    .column(6)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                aaaa = api
-                    .column(7)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                aaaaa = api
-                    .column(8)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                aaaaaa = api
-                    .column(9)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                aaaaaaa = api
-                    .column(10)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
                 $(api.column(2).footer()).html(
-                    ondalikBinlik(Math.round(alacaktotal * 100) / 100 ,2)
+                    ondalikBinlik(Math.round(Bakiye * 100) / 100 ,2)
                 );
                 $(api.column(3).footer()).html(
-                    ondalikBinlik(Math.round(borctotal * 100) / 100 , 2)
+                    ondalikBinlik(Math.round(BekleyenSiparisTutari * 100) / 100 , 2)
                 );
                 $(api.column(4).footer()).html(
-                    ondalikBinlik(Math.round(a * 100) / 100, 2)
+                    ondalikBinlik(Math.round(SahsiCekRiski * 100) / 100, 2)
                 );
                 $(api.column(5).footer()).html(
-                    ondalikBinlik(Math.round(aa * 100) / 100, 2)
+                    ondalikBinlik(Math.round(ToplamSahsiRisk * 100) / 100, 2)
                 );
                 $(api.column(6).footer()).html(
-                    ondalikBinlik(Math.round(aaa * 100) / 100, 2)
+                    ondalikBinlik(Math.round(SahsiCekLimiti * 100) / 100, 2)
                 );
                 $(api.column(7).footer()).html(
-                    ondalikBinlik(Math.round(aaaa * 100) / 100, 2)
+                    ondalikBinlik(Math.round(MusteriCekRiski * 100) / 100, 2)
                 );
                 $(api.column(8).footer()).html(
-                    ondalikBinlik(Math.round(aaaaa * 100) / 100, 2)
+                    ondalikBinlik(Math.round(ToplamRisk * 100) / 100, 2)
                 );
                 $(api.column(9).footer()).html(
-                    ondalikBinlik(Math.round(aaaaaa * 100) / 100, 2)
+                    ondalikBinlik(Math.round(ToplamCekRiski * 100) / 100, 2)
                 );
                 $(api.column(10).footer()).html(
-                    ondalikBinlik(Math.round(aaaaaaa * 100) / 100, 2)
+                    ondalikBinlik(Math.round(Teminat * 100) / 100, 2)
                 );
             }
         });
