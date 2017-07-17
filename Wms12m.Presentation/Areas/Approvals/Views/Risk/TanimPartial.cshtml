@@ -7,7 +7,11 @@
                 <div class="caption">
                     <i class="fa fa-gift"></i>Risk Tanım
                 </div>
-
+                
+                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+                <div class="col-md-1 pull-right m-t-5"><a class="btn btn-default input-circle refresh-buton glyphicon glyphicon-refresh" style="margin-bottom:10px;">Yenile</a></div>
+                <div class="col-md-1 pull-right m-t-5"><a class="btn btn-default  input-circle save-buton glyphicon glyphicon-ok" style="margin-bottom:10px; background-color:#40bf40">Kaydet</a></div>
+                
             </div>
 
             <div class="portlet-body">
@@ -120,6 +124,13 @@
         $(".txt_yeni_mustericeklimiti").dxTextBox("instance").option("value", 0);
     }
     $(document).ready(function () {
+       
+        var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+            ]
+        }).container().appendTo($('#buttons'));
 
     });
 

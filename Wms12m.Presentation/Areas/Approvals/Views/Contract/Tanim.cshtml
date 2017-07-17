@@ -28,6 +28,9 @@
     .dx-switch-on-value .dx-switch-handle:before {
         background-color: #32c5d2 !important;
     }
+    .sag .dx-texteditor-input {
+        text-align: right;
+    }
 
 
 </style>
@@ -160,36 +163,36 @@
         <div class="input_content">
             <div class="input_content">
                 <div class="input_label">Kredi Limiti</div>
-                <div class="input numb_kredi_limiti"></div>
+               <div class="input numb_kredi_limiti sag"></div>
             </div>
             <div class="input_content">
                 <div class="input_label">Bakiye</div>
-               <div class="input numb_bakiye"></div>
+               <div class="input numb_bakiye sag"></div>
             </div>
             <div class="input_content">
                 <div class="input_label">Toplam Bakiye</div>
-                <div class="input numb_toplam_bakiye"></div>
+                <div class="input numb_toplam_bakiye sag"></div>
             </div>
             <div class="input_content">
                 <div class="input_label">Bekleyen Sipariş</div>
-                <div class="input numb_bekleyen_siparis"></div>
+                <div class="input numb_bekleyen_siparis sag"></div>
             </div>
             <div class="input_content">
                 <div class="input_label">Ortalama Vade</div>
-                <div class="input txt_ortalama_vade"></div>
+                <div class="input txt_ortalama_vade sag"></div>
             </div>
             <div class="input_content">
                 <div class="input_label">Alınan Bordro</div>
-                <div class="input numb_alinan_bordro"></div>
+                <div class="input numb_alinan_bordro sag"></div>
             </div>
             <div class="input_content">
                 <div class="input_label">Alınan Bordro Ort.</div>
-                <div class="input txt_alinan_bordro_ort"></div>
+                <div class="input txt_alinan_bordro_ort sag"></div>
             </div>
 
             <div class="input_content">
                 <div class="input_label">Alınan Çek Tutarı</div>
-                <div class="input numb_alinan_cek_tutari"></div>
+                <div class="input numb_alinan_cek_tutari sag"></div>
             </div>
             <div class="input_content">
                 <div class="input_label">Alınan Çek Ort. Vadesi</div>
@@ -197,11 +200,11 @@
             </div>
             <div class="input_content">
                 <div class="input_label">Alınan Nakit vb</div>
-                <div class="input numb_alinan_nakit_vb"></div>
+                <div class="input numb_alinan_nakit_vb sag"></div>
             </div>
             <div class="input_content">
                 <div class="input_label">Toplam Tahsilat</div>
-                <div class="input numb_toplam_tahsilat"></div>
+                <div class="input numb_toplam_tahsilat sag"></div>
             </div>
         </div>
     </div>
@@ -393,8 +396,8 @@
             NumbBox(".numb_iskonto5", false,2);
             NumbBox(".numb_valor_gun", false,0);
             NumbBox(".numb_kredi_limiti", true,2);
-            NumbBox(".numb_bakiye", true,4);
-            NumbBox(".numb_toplam_bakiye", true,4);
+            NumbBox(".numb_bakiye", true,2);
+            NumbBox(".numb_toplam_bakiye", true,2);
             NumbBox(".numb_bekleyen_siparis", true,2);
             NumbBox(".numb_alinan_bordro", true,2);
             NumbBox(".numb_alinan_cek_tutari", false,2);
