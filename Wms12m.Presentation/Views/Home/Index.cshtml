@@ -84,7 +84,7 @@ if (tst.OnayTeminat == true)
 }
 if (tst.OnaySiparis == true)
 {
-    if (ViewBag.RoleName == "GM")
+    if (ViewBag.RoleName == "GM" || ViewBag.Id == 1)
     {
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a class="dashboard-stat dashboard-stat-v2 blue-oleo" href="/Approvals/Order/GM">
@@ -123,7 +123,7 @@ if (tst.OnaySiparis == true)
 }
 if (tst.OnaySozlesme == true)
 {
-    if (ViewBag.RoleName == "GM")
+    if (ViewBag.RoleName == "GM" || ViewBag.Id == 1)
     {
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a class="dashboard-stat dashboard-stat-v2 blue-chambray" href="/Approvals/Contract/GM">
@@ -162,7 +162,7 @@ if (tst.OnaySozlesme == true)
 }
 if (tst.OnayRisk == true)
 {
-    if (ViewBag.RoleName == "GM")
+    if (ViewBag.RoleName == "GM" || ViewBag.Id == 1)
     {
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a class="dashboard-stat dashboard-stat-v2 green-jungle" href="/Approvals/Risk/GM">
@@ -213,7 +213,7 @@ if (tst.OnayRisk == true)
 }
 if (tst.OnayFiyat == true)
 {
-    if (ViewBag.RoleName == "GM")
+    if (ViewBag.RoleName == "GM" || ViewBag.Id == 1)
     {
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a class="dashboard-stat dashboard-stat-v2 purple-intense" href="/Approvals/Price/GM">
@@ -252,7 +252,7 @@ if (tst.OnayFiyat == true)
 }
 if (tst.OnayCek == true)
 {
-    if (ViewBag.RoleName == "GM")
+    if (ViewBag.RoleName == "GM" || ViewBag.Id == 1)
     {
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a class="dashboard-stat dashboard-stat-v2 yellow" href="/Approvals/Check/GM">
@@ -289,13 +289,13 @@ if (tst.OnayCek == true)
         </div>
     }
 }
-if (tst.OnayTekno == true && (ViewBag.RoleName == "GM" || ViewBag.RoleName == "YKU" || ViewBag.RoleName == "MIGMY" || ViewBag.RoleName == "SPGMY" || ViewBag.RoleName == "USGMY" || ViewBag.RoleName == "IKGM"))
+if (tst.OnayTekno == true && (ViewBag.RoleName == "GM" || ViewBag.Id == 1 || ViewBag.RoleName == "YKU" || ViewBag.RoleName == "MIGMY" || ViewBag.RoleName == "SPGMY" || ViewBag.RoleName == "USGMY" || ViewBag.RoleName == "IKGM"))
 {
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a class="dashboard-stat dashboard-stat-v2 green-soft" href="/Approvals/Techno">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details">
-                @if (ViewBag.RoleName == "GM")
+                @if (ViewBag.RoleName == "GM" || ViewBag.Id == 1)
                 {
                 <div class="number"><span data-counter="counterup" data-value="@tbl.TechnoIKOnay_GM">@tbl.TechnoIKOnay_GM</span></div>
                 }

@@ -43,9 +43,9 @@
                                 <td nowrap class='details-control' style="width:20px;"> </td>
                                 <td nowrap>@item.HesapKodu</td>
                                 <td nowrap>@item.Unvan</td>
-                                <td nowrap align="right">@String.Format("{0:0.00}", item.Borc).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
-                                <td nowrap align="right">@String.Format("{0:0.00}", item.Alacak).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
-                                <td nowrap align="right">@String.Format("{0:0.00}", item.Bakiye).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.Borc).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.Alacak).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.Bakiye).ToDecimal().ToOnFormat()</td>
 
                             </tr>
                         }

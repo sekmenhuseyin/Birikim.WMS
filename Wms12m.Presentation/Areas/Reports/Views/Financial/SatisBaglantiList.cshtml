@@ -54,18 +54,18 @@
                             <tr>
                                 <td nowrap>@item.HesapKodu</td>
                                 <td nowrap>@item.Unvan</td>
-                                <td nowrap>@String.Format("{0:0.00}", item.Bakiye).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap>@String.Format("{0:0.00}", item.Bakiye).ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.BaglantiTarihi.Value.ToString("dd/MM/yyyy")</td>
                                 <td nowrap>@item.BaglantiNo</td>
                                 <td nowrap>@item.SozlesmeSiraNo</td>
                                 <td nowrap>@item.BaglantiTipi</td>
-                                <td nowrap align="right">@String.Format("{0:0.00}", item.BaglantiTutari).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.BaglantiTutari).ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.BaglantiParaCinsi</td>
-                                <td nowrap align="right">@String.Format("{0:0.00}", item.ToplamSevkEdilenTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
-                                <td nowrap align="right">@String.Format("{0:0.00}", item.KalanTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.ToplamSevkEdilenTutar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.KalanTutar).ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.DevirTarih</td>
-                                <td nowrap align="right">@String.Format("{0:0.00}", item.DevirTutar).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
-                                <td nowrap align="right">@String.Format("{0:0.00}", item.DevirdenSonrakiSevkedilen).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.DevirTutar).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.DevirdenSonrakiSevkedilen).ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.BaglantiBitisTarihi.Value.ToString("dd/MM/yyyy")</td>
                                 <td nowrap class='details-control' style="width:20px;"> </td>
                                 <td nowrap class='hareket-control' style="width:20px;"> </td>

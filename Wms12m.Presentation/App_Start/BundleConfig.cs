@@ -42,22 +42,20 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/bootbox/bootbox.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js")
                 .Include("~/Content/assets/global/plugins/js.cookie.min.js")
-                // DevExtreme + extensions
-                .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.web.js")
-                //.Include("~/Content/assets/global/plugins/DevExtreme/js/dx.aspnet.data.js")
-                //.Include("~/Content/assets/global/plugins/DevExtreme/js/dx.aspnet.mvc.js")
                 //datatables
                 .Include("~/Content/assets/global/plugins/datatables/dataTables.min.js")
                 .Include("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js")
                 .Include("~/Content/assets/global/scripts/datatable.min.js")
                 .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js")
-                .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.min.js")
-                .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js")
+                .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js")
+                .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js")
                 .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.print.min.js")
                 // JSZip for client side export
                 .Include("~/Content/assets/global/plugins/jszip.min.js")
                 .Include("~/Content/assets/global/plugins/pdfmake.min.js")
                 .Include("~/Content/assets/global/plugins/vfs_fonts.js")
+                // dx.web
+                .Include("~/Content/assets/global/plugins/DevExtreme/js/dx.web.js")
                 //theme scripts
                 .Include("~/Content/assets/global/scripts/app.min.js")
                 .Include("~/Content/assets/layouts/layout/scripts/layout.min.js")

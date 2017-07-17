@@ -50,10 +50,10 @@
                             <td nowrap>@item.EvrakNo</td>
                             <td nowrap>@item.IslemTip</td>
                             <td nowrap>@item.VadeTarih.Value.ToString("dd/MM/yyyy")</td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.Borc).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.Alacak).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.BorcBakiye).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
-                            <td nowrap align="right">@String.Format("{0:0.00}", item.AlacakBakiye).ToDecimal().ToOnFormat()<div class="hidden">.</div></td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.Borc).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.Alacak).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.BorcBakiye).ToDecimal().ToOnFormat()</td>
+                            <td nowrap align="right">@String.Format("{0:0.00}", item.AlacakBakiye).ToDecimal().ToOnFormat()</td>
                         </tr>
                     }
                 </tbody>

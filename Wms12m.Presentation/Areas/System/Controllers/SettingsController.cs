@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Areas.System.Controllers
@@ -12,7 +11,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
         public ActionResult Index()
         {
             if (CheckPerm(Perms.Menü, PermTypes.Reading) == false) return Redirect("/");
-            return View("Index", db.Settings.FirstOrDefault());
+            return View("Index", ViewBag.settings);
         }
         /// <summary>
         /// kaydet
@@ -23,7 +22,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
             if (CheckPerm(Perms.Menü, PermTypes.Writing) == false) return Redirect("/");
             if (ModelState.IsValid)
             {
-                var set = db.Settings.FirstOrDefault();
+                var set = ViewBag.settings;
                 set.SiteName = tbl.SiteName;
                 set.LoginLogo = tbl.LoginLogo;
                 set.TopLogo = tbl.TopLogo;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Controllers
 {
@@ -16,7 +17,7 @@ namespace Wms12m.Presentation.Controllers
         {
             var SirketKodu = db.GetSirketDBs().FirstOrDefault();
             ViewBag.SirketKodu = SirketKodu;
-            var setts = db.Settings.FirstOrDefault();
+            Setting setts = ViewBag.settings;
             BekleyenOnaylar bo;
             if (setts.OnayCek == false && setts.OnayFiyat == false && setts.OnayRisk == false && setts.OnaySiparis == false && setts.OnaySozlesme == false && setts.OnayStok == false && setts.OnayTekno == false && setts.OnayTeminat == false)
                 bo = new BekleyenOnaylar();
@@ -32,6 +33,7 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.Settings = setts;
             ViewBag.BekleyenOnaylar = bo;
             ViewBag.RoleName = vUser.RoleName;
+            ViewBag.Id = vUser.Id;
             var ozet = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
             return View("Index", ozet);
         }
