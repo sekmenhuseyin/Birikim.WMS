@@ -69,20 +69,26 @@
             { "data": "GrupKod", "sClass": "nowrap" },
             { "data": "TipKod", "sClass": "nowrap" },
             { "data": "OzelKod", "sClass": "nowrap" },
-            { "data": "Kod1", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "Kod2", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "Kod3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "Kod4", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "Kod8", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "KatSayi2", "render": $.fn.dataTable.render.number('.', ',', 2, '')},
-            { "data": "KatSayi3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "Kod1", "sClass": "nowrap" },
+            { "data": "Kod2", "sClass": "nowrap" },
+            { "data": "Kod3", "sClass": "nowrap" },
+            { "data": "Kod4", "sClass": "nowrap" },
+            { "data": "Kod8", "sClass": "nowrap" },
+            { "data": "KatSayi2", "sClass": "nowrap" },
+            { "data": "KatSayi3", "sClass": "nowrap" },
             { "data": "Operator2", "sClass": "nowrap" },
             { "data": "Operator3", "sClass": "nowrap" },
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
             $('td', nRow).attr('nowrap', 'nowrap');
-            $('td:eq(10)', nRow).html($('td:eq(10)', nRow).html()+'<div class="hidden">.</div>');
+            $('td:eq(9)', nRow).html($('td:eq(9)', nRow).html() + '.');
+            $('td:eq(10)', nRow).html($('td:eq(10)', nRow).html() + '.');
+            $('td:eq(11)', nRow).html($('td:eq(11)', nRow).html() + '.');
+            $('td:eq(12)', nRow).html($('td:eq(12)', nRow).html() + '.');
+            $('td:eq(13)', nRow).html($('td:eq(13)', nRow).html() + '.');
+            $('td:eq(14)', nRow).html($('td:eq(14)', nRow).html() + '.');
+            $('td:eq(15)', nRow).html($('td:eq(15)', nRow).html() + '.');
             return nRow;
         }
     });

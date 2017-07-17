@@ -29,7 +29,7 @@
             <div class="gun-sayisi" style="width:90%;"></div>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-3" style="margin-top:10px;">
-            <div class="btn-listele" style="background-color: #32c5d2;height: 36px;width: 70%;line-height:36px;text-align:center;color: white;font-weight: bold;">Listele</div>
+            <div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div>
         </div>
        
     </div>
@@ -52,6 +52,7 @@
                 PartialView("/Reports/Financial/OdemeYapmayanMusterilerList", 'odeme-yapmayanlar-grid', JSON.stringify({ gunsayisi: gun }));
             }
         });
+        $(".btn-listele").removeClass("dx-button");
 
 
     });

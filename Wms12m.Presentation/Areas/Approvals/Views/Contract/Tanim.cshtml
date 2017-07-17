@@ -4,18 +4,32 @@
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 <style>
     .input_content {margin-bottom: 3px;height: 40px;line-height: 20px;}
-    .input_label {float: left;width: 35%;font-weight: bold;color: #5bc8d2;font-size: 9px;padding-top: 4px;}
+    .input_label {float: left;width: 35%;font-weight: bold;color: #5bc8d2;font-size: 11px;padding-top: 4px;}
     .input {float: left;width: 60%;font-size: 10px;height: 30px;}
-    .input_style {background-color: rgba(245, 239, 239, 0.85);padding: 10px;margin: 0;}
+    .input_style {background-color: white;padding: 10px;margin: 0;}
     .dx-header-row {background-color: #86d8ea;color: window;}
     .dx-state-readonly {background-color: #e0dede !important;}
-    .dx-state-readonly input {background-color: #e0dede !important;}
+    .dx-state-readonly input {background-color: #e0dede !important; }
+
+
     table {margin: 0 !important;}
     th {width: auto !important;}
     td {width: auto !important;}
     .dataTables_scrollHead {width: 100% !important;}
     .dataTables_scrollHeadInner {width: 100% !important;}
     .dataTables_scrollBody {width: 100% !important;}
+    .dx-item-content .dx-popup-cancel {
+        background-color: #ff4d4d !important;
+        color: white !important;
+    }
+    .dx-switch-handle:before {
+        background-color: #F1C40F !important;
+    }
+    .dx-switch-on-value .dx-switch-handle:before {
+        background-color: #32c5d2 !important;
+    }
+
+
 </style>
 }<div class="row">
     <div>
@@ -150,7 +164,7 @@
             </div>
             <div class="input_content">
                 <div class="input_label">Bakiye</div>
-                <div class="input numb_bakiye"></div>
+               <div class="input numb_bakiye"></div>
             </div>
             <div class="input_content">
                 <div class="input_label">Toplam Bakiye</div>
@@ -265,6 +279,7 @@
                 onSelect: function () {
                 }
             });
+
             $(".form-rounded").css("border-radius", "1rem");
             $(".sozlesme-guncelle-buton").addClass('disabled');
             DevExpress.ui.dxOverlay.baseZIndex(20000);
@@ -303,6 +318,7 @@
                 onValueChanged: function (e) {
                 }
             });
+
             $(".swtch_sozlesme_durumu").dxSwitch({
                 onText: "Onaylanmış",
                 offText: "Onaylanmamış",
@@ -342,6 +358,7 @@
                     }
                 }
             });
+
             $(".swtch_vade_valor").dxSwitch({
                 onText: "Vade Tarihi",
                 offText: "Valor Gün",
@@ -351,10 +368,12 @@
                     if (data.value == true) {
                         $(".valor_content").css("display", "none");
                         $(".vade_content").css("display", "block");
+
                     }
                     else {
                         $(".valor_content").css("display", "block");
                         $(".vade_content").css("display", "none");
+
                     }
                 }
             });

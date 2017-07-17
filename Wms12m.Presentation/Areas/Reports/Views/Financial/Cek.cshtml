@@ -51,7 +51,7 @@
             <table>
                 <tr style="padding:8px;">
                     <td style="width:120px;"></td>
-                    <td style="width:200px;"><span class="btn-listele" style="float:right;margin-right:20px; color:white; text-align:center; font-weight:bold; background-color:#32c5d2; width:100px;height:40px;">Listele</span></td>
+                    <td style="width:200px;"><div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div></td>
                 </tr>
             </table>
         </div>
@@ -89,6 +89,7 @@
                 PartialView("/Reports/Financial/CekList", 'cek-listesi-grid', JSON.stringify({ pozisyon: pozisyon, ay: ay, yil:yil }));
             }
         });
+        $(".btn-listele").removeClass("dx-button");
         $(".pozisyon-select").dxSelectBox({
             dataSource: model,
             valueExpr: 'ID',
