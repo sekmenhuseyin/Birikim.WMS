@@ -30,6 +30,8 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)";
     transform: rotate(-90.0deg);
 }
+span .red {color:red;}
+span .green {color:green;}
 /*checkboxes*/
 .checkbox label:after, .radio label:after {
     content: '';
