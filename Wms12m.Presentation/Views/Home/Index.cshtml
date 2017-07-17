@@ -327,16 +327,16 @@ if (tst.OnayTekno == true && (ViewBag.RoleName == "GM" || ViewBag.Id == 1 || Vie
 if (tst.CrmOzet == true)
 {
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <div class="dashboard-stat dashboard-stat-v2 red" href="javascript:">
+        <div class="dashboard-stat dashboard-stat-v2 blue-hoki" href="javascript:" style="height:150px;">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details p-r-40">
-                <div class="desc f-s-20"> CRM Özet </div>
+                <div class="desc f-s-20 m-t-15"> CRM Özet </div>
                 <div class="row desc f-s-12">
                     <div class="col-md-offset-6 col-md-2">Tümü</div>
                     <div class="col-md-2">Hafta</div>
                     <div class="col-md-2">Bugün</div>
                 </div>
-                <div class="row desc f-s-12">
+                <div class="row desc f-s-14">
                     <a href="/Reports/CRM/Institution" class="white">
                         <div class="col-md-6">Kurum Kartları</div>
                         <div class="col-md-2">@tbl.KurumKartlari</div>
@@ -344,7 +344,7 @@ if (tst.CrmOzet == true)
                         <div class="col-md-2">@tbl.KurumKartlariBugun</div>
                     </a>
                 </div>
-                <div class="row desc f-s-12">
+                <div class="row desc f-s-14">
                     <a href="/Reports/CRM/Meeting" class="white">
                         <div class="col-md-6">Görüşme Notu</div>
                         <div class="col-md-2">@tbl.GorusmeNotlari</div>
@@ -352,7 +352,7 @@ if (tst.CrmOzet == true)
                         <div class="col-md-2">@tbl.GorusmeNotlariBugun</div>
                     </a>
                 </div>
-                <div class="row desc f-s-12">
+                <div class="row desc f-s-14">
                     <a href="/Reports/CRM/Bid" class="white">
                         <div class="col-md-6">Teklif Analiz</div>
                         <div class="col-md-2">@tbl.TeklifAnalizi</div>
