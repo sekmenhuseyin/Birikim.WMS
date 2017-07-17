@@ -228,7 +228,7 @@
         window.location.href = '/Approvals/Invoice';
     });
     $(document).on("click", ".onayla-buton", function () {
-        ModalYesNoClick("Onaylamak istediğinize emin misiniz?", "Onay Uyarı", "Kaydet", "onayKayit", Onayla, "Kapat", "onayKapat", null);
+        ModalYesNoClick("Onaylamak istediğinize emin misiniz?", "Onay Uyarı", "Onayla", "btn-primary", Onayla, "İptal", "btn-danger", null);
     });
     function Onayla() {
         var _dfd = $.Deferred();
@@ -238,20 +238,20 @@
             type: "post",
             success: function (data) {
                 if (data == "YES") {
-                    Modaldialog("İşlem Başarılı.", "Güncelleme İşlemi", "Tamam", "Guncel");
+                    Modaldialog("İşlem Başarılı.", "Güncelleme İşlemi", "Tamam", "btn-success");
                     setTimeout(function () { window.location.href = '/Approvals/Invoice'; }, 500);
                 }
                 else if (data == "NO") {
-                    Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
+                    Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "btn-danger");
                 }
                 else if (data == "DEGISIM") {
-                    Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "Guncel");
+                    Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "btn-danger");
                     setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + f_evrakNo; }, 500);
                     
 
                 }
                 else {
-                    Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
+                    Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "btn-danger");
                     setTimeout(function () { window.location.href = '/Approvals/Invoice'; }, 500);
                 }
             }
@@ -267,7 +267,7 @@
 
     });
     $(document).on("click", "#mdlSilKayit", function () {
-        ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Kaydet", "redKayit", Red, "Kapat", "redKapat", null);
+        ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Reddet", "btn-primary", Red, "İptal", "btn-danger", null);
     });
 
     function Red() {
@@ -281,16 +281,16 @@
             success: function (data) {
 
                 if (data == "NO") {
-                    Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
+                    Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "btn-dange");
                 }
                 else if (data == "DEGISIM") {
-                    Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "Guncel");
+                    Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "btn-dange");
                     setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + evrakNo; }, 500);
                     
 
                 }
                 else {
-                    Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
+                    Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-dange");
                     setTimeout(function () { window.location.href = '/Approvals/Invoice';}, 500);
                     
                 }
