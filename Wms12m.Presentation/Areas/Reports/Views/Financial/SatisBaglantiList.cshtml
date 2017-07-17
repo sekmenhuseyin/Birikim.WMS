@@ -80,7 +80,14 @@
 </div>
 <script>
     var model =  @Html.Raw(serializer.Serialize(Model));
-    $(document).ready(function () {
+    var BaglantiTutari = 0, ToplamSevkEdilenTutar = 0, KalanTutar = 0, DevirTutar = 0, DevirdenSonrakiSevkedilen = 0;
+        jQuery.each(model, function (i, val) {
+            BaglantiTutari += val.BaglantiTutari;
+            ToplamSevkEdilenTutar += val.ToplamSevkEdilenTutar;
+            KalanTutar += val.KalanTutar;
+            DevirTutar += val.DevirTutar;
+            DevirdenSonrakiSevkedilen += val.DevirdenSonrakiSevkedilen;
+        });
 
         var table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -89,55 +96,21 @@
             "footerCallback": function (row, data, start, end, display) {
 
                 var api = this.api(), data;
-                var intVal = function (i) {
-                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
-                };
-                alacaktotal = api
-                    .column(7)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
 
-                borctotal = api
-                    .column(9)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                aa = api
-                    .column(10)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                bb = api
-                    .column(12)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                cc = api
-                    .column(13)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
                 $(api.column(7).footer()).html(
-                    ondalikBinlik(Math.round(alacaktotal * 100) / 100, 2)
+                    ondalikBinlik(Math.round(BaglantiTutari * 100) / 100, 2)
                 );
                 $(api.column(9).footer()).html(
-                    ondalikBinlik(Math.round(borctotal * 100) / 100, 2)
+                    ondalikBinlik(Math.round(ToplamSevkEdilenTutar * 100) / 100, 2)
                 );
                 $(api.column(10).footer()).html(
-                    ondalikBinlik(Math.round(aa * 100) / 100, 2)
+                    ondalikBinlik(Math.round(KalanTutar * 100) / 100, 2)
                 );
                 $(api.column(12).footer()).html(
-                    ondalikBinlik(Math.round(bb * 100) / 100, 2)
+                    ondalikBinlik(Math.round(DevirTutar * 100) / 100, 2)
                 );
                 $(api.column(13).footer()).html(
-                    ondalikBinlik(Math.round(cc * 100) / 100, 2)
+                    ondalikBinlik(Math.round(DevirdenSonrakiSevkedilen * 100) / 100, 2)
                 );
             }
         });
@@ -149,7 +122,6 @@
             ]
         }).container().appendTo($('#buttons'));
 
-    });
     $('#sample_1 tbody').on('click', '.details-control', function () {
         var tr = $(this).closest('tr');
         var hesKod = "";
@@ -323,7 +295,7 @@
                         $(".date_bitis_tarihi").dxTextBox("instance").option("value", fromOADate(result[0].BitTarih));
                         $(".select_musteri_kodu").dxLookup("instance").option("value", result[0].MusteriKod);
                         $(".txt_sozlesme_notu").dxTextBox("instance").option("value", result[0].Aciklama);
-                        $(".date_alinan_cek_ort_vade").dxTextBox("instance").option("value", new Date(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1)));               
+                        $(".date_alinan_cek_ort_vade").dxTextBox("instance").option("value", new Date(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1)));
                         }
                     }
                 });
@@ -382,9 +354,9 @@
                 itemElement.append(rightBlock);
             }
         });
-   
-       
-      
+
+
+
         $('#x-modal-baglanti-detay').modal("show");
 
 
@@ -414,16 +386,16 @@
                 $('#x-modal-cari-detay-cek').modal("show");
                 var result = JSON.parse(data);
                 var columns = [
-                   
+
                     { caption: 'Fiyat Listesi', dataField: 'SozlesmeNo' },
-                    { caption: 'Ürün Grubu', dataField: 'EvrakNo' },
+                    { caption: 'Evrak No', dataField: 'EvrakNo' },
                     {
                         caption: 'Tarih', dataField: 'Tarih',
                         customizeText: function (cellInfo) {
                             if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
                         }
                     },
-                    { caption: 'Ürün Kodu', dataField: 'KaynakSiparisNo' },
+                    { caption: 'Kaynak Sipariş No', dataField: 'KaynakSiparisNo' },
                     {
                         caption: 'Tarih', dataField: 'KaynakSiparisTarih',
                         customizeText: function (cellInfo) {

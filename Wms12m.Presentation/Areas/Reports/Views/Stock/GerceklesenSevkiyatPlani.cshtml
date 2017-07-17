@@ -32,14 +32,15 @@
         $(document).ready(function () {
             var dateVal = new Date();
             dateVal.setHours(0, 0, 0);
-
-            var bitTeslimTarih = bitTarih;
+            //var sayac = 0;
+            var bitTeslimTarih = '@DateTime.Today.ToString("MM/dd/yyyy")';
 
             $(".basTarih").dxDateBox({
                 dataType: 'date',
                 displayFormat: 'dd/MM/yyyy',
-                value: Date(Date.now()),
+                value: '@DateTime.Today.ToString("MM/dd/yyyy")',
                 onValueChanged: function (e) {
+                    console.log("ccc");
                     if(e.value!=null)
                         tempbasTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
                 }
@@ -47,13 +48,13 @@
             $(".bitTarih").dxDateBox({
                 dataType: 'date',
                 displayFormat: 'dd/MM/yyyy',
-                value: Date(Date.now()),
+                value: '@DateTime.Today.ToString("MM/dd/yyyy")',
                 onValueChanged: function (e) {
+                    console.log("aaa");
                     if (e.value != null)
                         tempbitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
                 }
             });
-            PartialView("/Reports/Stock/GerceklesenSevkiyatPlaniList", 'gerceklesen-sevkiyat-plani-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih}));
         });
         $(document).on("click", ".listele-buton", function () {
             basTarih = tempbasTarih;

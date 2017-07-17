@@ -75,27 +75,18 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
+        var Tutar = 0;
+        jQuery.each(model, function (i, val) {
+            Tutar += val.Tutar;
+        });
        var table123= $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
 
-                // Remove the formatting to get integer data for summation
-                var intVal = function (i) {
-                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
-                };
-
-                // Total over all pages
-                miktartotal = api
-                    .column(5)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
                 // Update footer
                 $(api.column(5).footer()).html(
-                    ondalikBinlik(miktartotal, 2)
+                    ondalikBinlik(Math.round(Tutar * 100) / 100, 2)
                 );
             }
         });

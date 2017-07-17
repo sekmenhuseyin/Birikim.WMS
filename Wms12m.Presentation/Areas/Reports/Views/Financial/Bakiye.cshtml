@@ -74,7 +74,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" style="color:#12ccee">BAKİYE DETAY</h4>
+                <div style="float:left"><h4 class="modal-title" style="color:#12ccee">BAKİYE DETAY</h4></div><div class="unvan-text" style="float:right;padding-right:20px;"></div>
             </div>
             <div class="modal-body x-padding-inside" id="x-t-s-pe1">
                 <div class="grid_bakiye-detay">
@@ -99,8 +99,8 @@
         var bitVadeTarih = 44196;
         var chk_bas = "", chk_bit = "ZZZZZZZZZZ";
         $(".bakiye").dxNumberBox({
-            value: 1,
-            min: 1,
+            value: 0,
+            min: 0,
             placeholder: 'Gün sayısı girin'
         });
 

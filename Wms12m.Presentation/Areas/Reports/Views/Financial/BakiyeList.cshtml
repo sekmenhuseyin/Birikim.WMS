@@ -60,6 +60,12 @@
     $(document).ready(function () {
         DevExpress.ui.dxOverlay.baseZIndex(20000);
         var model =  @Html.Raw(serializer.Serialize(Model));
+        var Borc = 0, Alacak = 0, Bakiye = 0;
+        jQuery.each(model, function (i, val) {
+            Borc += val.Borc;
+            Alacak += val.Alacak;
+            Bakiye += val.Bakiye;
+        });
         table =$('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "scrollY": 400,
@@ -67,41 +73,15 @@
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
 
-                // Remove the formatting to get integer data for summation
-                var intVal = function (i) {
-                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
-                };
-
-                alacaktotal = api
-                    .column(3)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                borctotal = api
-                    .column(4)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-                aa = api
-                    .column(5)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-
                 // Update footer
                 $(api.column(3).footer()).html(
-                    ondalikBinlik(alacaktotal, 2)
+                    ondalikBinlik(Math.round(Borc * 100) / 100, 2)
                 );
                 $(api.column(4).footer()).html(
-                    ondalikBinlik(borctotal, 2)
+                    ondalikBinlik(Math.round(Alacak * 100) / 100, 2)
                 );
                 $(api.column(5).footer()).html(
-                    ondalikBinlik(aa, 2)
+                    ondalikBinlik(Math.round(Bakiye * 100) / 100, 2)
                 );
             }
         });
@@ -114,6 +94,7 @@
                 .removeClass('aa');
             tr.addClass("aa");
             var x = table.rows('.aa').data();
+            $(".unvan-text").text(x[0][2] + "   Hesap Extresi");
             $.ajax({
                 type: 'POST',
                 url: '/Reports/Financial/BakiyeDetay',

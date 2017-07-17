@@ -153,7 +153,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// <summary>
         /// toplam risk analiz raporu
         /// </summary>
-        public ActionResult RiskAnalizi()
+        public ActionResult RiskAnaliz()
         {
             ViewBag.BasChk = "";
             ViewBag.BitChk = "ZZZZZZ";
@@ -161,11 +161,11 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", "17")).ToList();
             return View(CHK);
         }
-        public PartialViewResult RiskAnaliziList(string baschk, string bitchk)
+        public PartialViewResult RiskAnalizList(string baschk, string bitchk)
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
             var TRAR = db.Database.SqlQuery<ToplamRiskAnaliziRaporu>(string.Format("[FINSAT6{0}].[wms].[ToplamRiskAnaliziRaporu] @BasHesapKodu='{1}', @BitHesapKodu='{2}'", "17", baschk, bitchk)).ToList();
-            return PartialView("RiskAnaliziList", TRAR);
+            return PartialView("RiskAnalizList", TRAR);
         }
         /// <summary>
         /// cari detay

@@ -69,7 +69,7 @@
     $(document).ready(function () {
         var dateVal = new Date();
         dateVal.setHours(0, 0, 0);
-        var basTarih = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+        var basTarih = Math.ceil((new Date('@DateTime.Today.ToString("MM/dd/yyyy")') - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
         var bitTarih = basTarih;
         $(".btn-listele").dxButton({
             onClick: function () {

@@ -127,7 +127,8 @@
         });
         var dateVal = new Date();
         dateVal.setHours(0, 0, 0);
-        var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+        var oaDate = Math.ceil((new Date(dateVal) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
+        console.log(oaDate);
         $(".btnListele").dxButton({
             onClick: function() {
                 var Tarih = oaDate!="" ? oaDate: Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));

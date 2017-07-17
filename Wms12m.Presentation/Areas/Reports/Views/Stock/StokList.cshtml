@@ -81,48 +81,29 @@
 <script>
     $(document).ready(function () {
         var model =  @Html.Raw(serializer.Serialize(Model));
+        var GirMiktar = 0, CikMiktar = 0, StokMiktar = 0;
+        jQuery.each(model, function (i, val) {
+            GirMiktar += val.GirMiktar;
+            CikMiktar += val.CikMiktar;
+            StokMiktar += val.StokMiktar;
+
+        });
       var table123=  $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
 
                 // Remove the formatting to get integer data for summation
-                var intVal = function (i) {
-                    return Number(i.toString().replace(/\./g, "").replace(",", "."))
-                };
-
-                // Total over all pages
-                miktartotal = api
-                    .column(9)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                anaMiktartotal = api
-                    .column(10)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-                sevkedilentotal = api
-                    .column(11)
-                    .data()
-                    .reduce(function (a, b) {
-                        return a + intVal(b);
-                    }, 0);
-
-       
+         
                 // Update footer
                 $(api.column(9).footer()).html(
-                    ondalikBinlik(miktartotal, 6)
+                    ondalikBinlik(Math.round(GirMiktar * 100) / 100, 2)
                 );
                 $(api.column(10).footer()).html(
-                    ondalikBinlik(anaMiktartotal, 6)
+                    ondalikBinlik(Math.round(CikMiktar * 100) / 100, 2)
                 );
                 $(api.column(11).footer()).html(
-                    ondalikBinlik(sevkedilentotal, 6)
+                    ondalikBinlik(Math.round(StokMiktar * 100) / 100, 2)
                 );
 
             }
