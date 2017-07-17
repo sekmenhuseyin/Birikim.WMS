@@ -1,26 +1,22 @@
-@media print {
-    .no-print, .no-print * {
-        display: none !important;
-    }
-}
-.clickable {
-    cursor: pointer;
-}
-.h-500 {
-    height: 500px !important;
-}
-.h-150 {
-    height: 150px !important;
-}
-.w-50 {
-    width: 100px !important;
-}
-.w-100 {
-    width: 100px !important;
-}
-.w-200 {
-    width: 200px !important;
-}
+@media print {.no-print, .no-print * {display: none !important;}}
+.clickable {cursor: pointer;}
+.h-500 {height: 500px !important;}
+.h-150 {height: 150px !important;}
+.w-50 {width: 100px !important;}
+.w-100 {width: 100px !important;}
+.w-200 {width: 200px !important;}
+.f-s-21{font-size:21px !important;} 
+.f-s-22{font-size:22px !important;} 
+.f-s-23{font-size:23px !important;} 
+.f-s-24{font-size:24px !important;} 
+.f-s-25{font-size:25px !important;} 
+.f-s-26{font-size:26px !important;} 
+.f-s-27{font-size:27px !important;} 
+.f-s-28{font-size:28px !important;} 
+.f-s-29{font-size:29px !important;} 
+.f-s-30{font-size:30px !important;} 
+span .red {color:red;}
+span .green {color:green;}
 .rotate {
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
@@ -30,8 +26,6 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)";
     transform: rotate(-90.0deg);
 }
-span .red {color:red;}
-span .green {color:green;}
 /*checkboxes*/
 .checkbox label:after, .radio label:after {
     content: '';

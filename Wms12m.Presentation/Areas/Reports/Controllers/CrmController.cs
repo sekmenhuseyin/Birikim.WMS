@@ -22,6 +22,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return View("Institution", list);
         }
         /// <summary>
+        /// teklif analiz detay
+        /// </summary>
+        public PartialViewResult InstitutionDetail(int ID)
+        {
+            return PartialView("InstitutionDetail");
+        }
+        /// <summary>
         /// teklif analizi
         /// </summary>
         public ActionResult Bid()
