@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 
 namespace Wms12m.Presentation.Areas.System.Controllers
 {
@@ -7,19 +8,23 @@ namespace Wms12m.Presentation.Areas.System.Controllers
         // GET: Logs
         public ActionResult Index()
         {
-            return View();
+            var list = db.GetELMAH_Error().ToList();
+            return View("Index", list);
         }
         public ActionResult Error()
         {
-            return View();
+            var list = db.GetErrorLog().ToList();
+            return View("Error", list);
         }
         public ActionResult Login()
         {
-            return View();
+            var list = db.GetLoginLog().ToList();
+            return View("Login", list);
         }
         public ActionResult App()
         {
-            return View();
+            var list = db.GetAppLog().ToList();
+            return View("App", list);
         }
     }
 }
