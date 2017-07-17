@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<CRM_TeklifAnaliz_Detay_Result> 
 <table class="table">
-    <thead><tr><th>Ürün Kodu</th><th>Açıklama</th><th>Brim Fiyat</th><th>Miktar</th><th>İskonto Oran 1</th><th>İskonto Oran 2</th><th>KDV Oran</th><th>Tutar</th></tr></thead>
-    <tbody>@foreach (var item in Model) { <tr><td>@item.STOKKODU</td><td>@item.ACIKLAMA</td><td>@item.BIRIMFIYAT</td><td>@item.Miktar</td><td>@item.ISKORAN</td><td>@item.ISKORAN2</td><td>@item.KDVORANI</td><td>@item.TUTAR</td></tr> }</tbody>
+    <thead><tr><th>Ürün Kodu</th><th>Açıklama</th><th>Brim Fiyat</th><th>Miktar</th><th>İskonto Oran 1</th><th>İskonto Oran 2</th><th>KDV Oran</th><th class="text-right">Tutar</th></tr></thead>
+    <tbody>@foreach (var item in Model) { <tr><td>@item.STOKKODU</td><td>@item.ACIKLAMA</td><td>@item.BIRIMFIYAT</td><td>@item.Miktar</td><td>@item.ISKORAN</td><td>@item.ISKORAN2</td><td>@item.KDVORANI</td><td align="right">@String.Format("{0:n}", item.TUTAR)</td></tr> }</tbody>
 </table>

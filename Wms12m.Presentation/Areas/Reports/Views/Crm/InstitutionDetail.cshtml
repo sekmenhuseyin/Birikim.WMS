@@ -1,0 +1,67 @@
+﻿@model CRM_KurumKartiSearch_Result
+<div>
+<dl class="dl-horizontal">
+<dt>Kurum Kodu</dt>
+<dd>@Model.Kodu</dd>
+<dt>Ünvanı</dt>
+<dd>@Model.KisaAdi</dd>
+<dt>Hesap Kodu</dt>
+<dd>@Model.CariHesapKodu</dd>
+<dt>Unvan</dt>
+<dd>@Model.Unvan</dd>
+<dt>Web Sayfası</dt>
+<dd>@Model.WEBSAYFASI</dd>
+<dt>Email</dt>
+<dd>@Model.EMAIL</dd>
+<dt>Sektör</dt>
+<dd>@Model.Sektor</dd>
+<dt>Adres</dt>
+<dd>@Model.Adres</dd>
+<dt>Posta Kodu</dt>
+<dd>@Model.PostaKodu</dd>
+<dt>Ülke</dt>
+<dd>@Model.Ulke</dd>
+<dt>İl</dt>
+<dd>@Model.Il</dd>
+<dt>İlçe</dt>
+<dd>@Model.Ilce</dd>
+<dt>Bayi Tipi</dt>
+<dd>@Model.BayiTipi</dd>
+<dt>Bölge</dt>
+<dd>@Model.Bolge</dd>
+<dt>Müşteri Tipi</dt>
+<dd>@Model.MusteriTipi</dd>
+<dt>Parke</dt>
+<dd>@if (Model.Parke == true) { <text>Var</text> }</dd>
+<dt>Plaka</dt>
+<dd>@if (Model.Plaka == true) { <text>Var</text> }</dd>
+<dt>Kontraplak</dt>
+<dd>@if (Model.Kontraplak == true) { <text>Var</text> }</dd>
+<dt>Mutfak Tezgahı</dt>
+<dd>@if (Model.MutfakTezgahi == true) { <text>Var</text> }</dd>
+<dt>Kartela</dt>
+<dd>@if (Model.Kartela == true) { <text>Var</text> }</dd>
+<dt>Stand</dt>
+<dd>@if (Model.Stand == true) { <text>Var</text> }</dd>
+<dt>Filtre Kağıt</dt>
+<dd>@if (Model.FiltreKagit == true) { <text>Var</text> }</dd>
+<dt>Emprenyeli Kağıt</dt>
+<dd>@if (Model.EmprenyeliKagit == true) { <text>Var</text> }</dd>
+<dt>Tutkal</dt>
+<dd>@if (Model.Tutkal == true) { <text>Var</text> }</dd>
+<dt>Palet</dt>
+<dd>@if (Model.Palet == true) { <text>Var</text> }</dd>
+<dt>Ahşap Kiriş</dt>
+<dd>@if (Model.AhsapKiris == true) { <text>Var</text> }</dd>
+<dt>Kereste</dt>
+<dd>@if (Model.Kereste == true) { <text>Var</text> }</dd>
+<dt>Ticari Mal</dt>
+<dd>@if (Model.TicariMal == true) { <text>Var</text> }</dd>
+<dt>Formaldehit</dt>
+<dd>@if (Model.Formaldehit == true) { <text>Var</text> }</dd>
+<dt>Kaydeden</dt>
+<dd>@Model.Kaydeden</dd>
+<dt>Kayıt Tarihi</dt>
+<dd>@Model.KayitTarih</dd>
+</dl>
+</div>

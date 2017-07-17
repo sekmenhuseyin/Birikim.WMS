@@ -1243,6 +1243,9 @@
         </Function>
         <Function Name="CRM_GorusmeNotlari" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms" />
         <Function Name="CRM_KurumKarti" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms" />
+        <Function Name="CRM_KurumKartiSearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="term" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="CRM_TeklifAnaliz" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms" />
         <Function Name="CRM_TeklifAnaliz_Detay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="TeklifID" Type="int" Mode="In" />
@@ -1982,6 +1985,9 @@
           <FunctionImport Name="GetELMAH_Error" ReturnType="Collection(MModel.GetELMAH_Error_Result)" />
           <FunctionImport Name="GetErrorLog" ReturnType="Collection(MModel.GetErrorLog_Result)" />
           <FunctionImport Name="GetLoginLog" ReturnType="Collection(MModel.GetLoginLog_Result)" />
+          <FunctionImport Name="CRM_KurumKartiSearch" ReturnType="Collection(MModel.CRM_KurumKartiSearch_Result)">
+            <Parameter Name="term" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3367,6 +3373,39 @@
           <Property Type="Boolean" Name="LoggedIn" Nullable="false" />
           <Property Type="String" Name="Comment" Nullable="true" MaxLength="150" />
         </ComplexType>
+        <ComplexType Name="CRM_KurumKartiSearch_Result">
+          <Property Type="String" Name="Kodu" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="KisaAdi" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="CariHesapKodu" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Unvan" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="WEBSAYFASI" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="EMAIL" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Sektor" Nullable="true" MaxLength="270" />
+          <Property Type="String" Name="Adres" Nullable="true" MaxLength="302" />
+          <Property Type="String" Name="PostaKodu" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Ulke" Nullable="true" MaxLength="270" />
+          <Property Type="String" Name="Il" Nullable="true" MaxLength="270" />
+          <Property Type="String" Name="Ilce" Nullable="true" MaxLength="270" />
+          <Property Type="String" Name="BayiTipi" Nullable="true" MaxLength="270" />
+          <Property Type="String" Name="Bolge" Nullable="true" MaxLength="270" />
+          <Property Type="String" Name="MusteriTipi" Nullable="true" MaxLength="270" />
+          <Property Type="Boolean" Name="Parke" Nullable="true" />
+          <Property Type="Boolean" Name="Plaka" Nullable="true" />
+          <Property Type="Boolean" Name="Kontraplak" Nullable="true" />
+          <Property Type="Boolean" Name="MutfakTezgahi" Nullable="true" />
+          <Property Type="Boolean" Name="Kartela" Nullable="true" />
+          <Property Type="Boolean" Name="Stand" Nullable="true" />
+          <Property Type="Boolean" Name="FiltreKagit" Nullable="true" />
+          <Property Type="Boolean" Name="EmprenyeliKagit" Nullable="true" />
+          <Property Type="Boolean" Name="Tutkal" Nullable="true" />
+          <Property Type="Boolean" Name="Palet" Nullable="true" />
+          <Property Type="Boolean" Name="AhsapKiris" Nullable="true" />
+          <Property Type="Boolean" Name="Kereste" Nullable="true" />
+          <Property Type="Boolean" Name="TicariMal" Nullable="true" />
+          <Property Type="Boolean" Name="Formaldehit" Nullable="true" />
+          <Property Type="String" Name="Kaydeden" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="KayitTarih" Nullable="true" Precision="23" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4223,6 +4262,43 @@
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
                 <ScalarProperty Name="LoggedIn" ColumnName="LoggedIn" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CRM_KurumKartiSearch" FunctionName="MModel.Store.CRM_KurumKartiSearch">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CRM_KurumKartiSearch_Result">
+                <ScalarProperty Name="Kodu" ColumnName="Kodu" />
+                <ScalarProperty Name="KisaAdi" ColumnName="KisaAdi" />
+                <ScalarProperty Name="CariHesapKodu" ColumnName="CariHesapKodu" />
+                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
+                <ScalarProperty Name="WEBSAYFASI" ColumnName="WEBSAYFASI" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="Sektor" ColumnName="Sektor" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="PostaKodu" ColumnName="PostaKodu" />
+                <ScalarProperty Name="Ulke" ColumnName="Ulke" />
+                <ScalarProperty Name="Il" ColumnName="Il" />
+                <ScalarProperty Name="Ilce" ColumnName="Ilce" />
+                <ScalarProperty Name="BayiTipi" ColumnName="BayiTipi" />
+                <ScalarProperty Name="Bolge" ColumnName="Bolge" />
+                <ScalarProperty Name="MusteriTipi" ColumnName="MusteriTipi" />
+                <ScalarProperty Name="Parke" ColumnName="Parke" />
+                <ScalarProperty Name="Plaka" ColumnName="Plaka" />
+                <ScalarProperty Name="Kontraplak" ColumnName="Kontraplak" />
+                <ScalarProperty Name="MutfakTezgahi" ColumnName="MutfakTezgahi" />
+                <ScalarProperty Name="Kartela" ColumnName="Kartela" />
+                <ScalarProperty Name="Stand" ColumnName="Stand" />
+                <ScalarProperty Name="FiltreKagit" ColumnName="FiltreKagit" />
+                <ScalarProperty Name="EmprenyeliKagit" ColumnName="EmprenyeliKagit" />
+                <ScalarProperty Name="Tutkal" ColumnName="Tutkal" />
+                <ScalarProperty Name="Palet" ColumnName="Palet" />
+                <ScalarProperty Name="AhsapKiris" ColumnName="AhsapKiris" />
+                <ScalarProperty Name="Kereste" ColumnName="Kereste" />
+                <ScalarProperty Name="TicariMal" ColumnName="TicariMal" />
+                <ScalarProperty Name="Formaldehit" ColumnName="Formaldehit" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
