@@ -4,21 +4,25 @@
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 }
 <div class="row fatura-content" style="padding: 10px; width: 100%;">
-    <div class="bidding-header-menu" style="height:20px; float:left; margin-left: 15px;">
+
+
+    <div class="rdgrpOnayRed col-md-5" style="float:left; margin-left:20px;">
+
+
+    </div>
+    <div class="bidding-header-menu col-md-5" style="float:left; margin-left: 15px;">
         <div class="reset-onay-filter" title="Sıfırla">
-            <span class="REFRESH" style="text-align:'center';"><i class="icon-refresh" style="text-align:center; font-size:24px; color:#e2505a; cursor:pointer;"></i></span>
+            @*<span class="REFRESH" style="text-align:'center';"><i class="icon-refresh" style="text-align:center; font-size:24px; color:#e2505a; cursor:pointer;"></i></span>*@
+            <div class="btn btn-lg green REFRESH" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div>
         </div>
-    </div>
-
-    <div class="rdgrpOnayRed" style="float:left; margin-left:20px;">
-
-    </div>
-    @using (Ajax.BeginForm("List", "Invoice", new { area = "Approvals" }, new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "fatura_data" }))
+    </div>    @using (Ajax.BeginForm("List", "Invoice", new { area = "Approvals" }, new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "fatura_data" }))
     {
         <div id="fatura_data" class="m-t-30"></div>
         <input type="submit" id="RefreshBtn" style="display:none;" />
         <input type="hidden" id="Refresh" name="Refresh" />
+
         <input type="hidden" id="ListType" name="ListType" />
+
     }
 </div>
 @section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
