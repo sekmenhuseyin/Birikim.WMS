@@ -11,7 +11,10 @@
 <style>
     .list-unstyled.amounts li {font-size: 9px;text-align: left;float: left;}
     .list-unstyled.genel strong {color: rgba(214, 60, 60, 0.95)}
-    .invoice-payment.genel h3 {color: rgba(62, 93, 183, 0.89);font-weight: bold;}
+    .invoice-payment.genel h3 {
+        color: #32c5d2;
+        font-weight: bold;
+    }
 </style>
 }<div class="page-bar"></div>
 <div style="padding:10px 15px;width:100%;">
@@ -28,7 +31,7 @@
         <hr />
         <div class="row">
             <div class="col-xs-3 invoice-payment genel">
-                <h3>Hesap Bilgileri:</h3>
+                <h3 style:"background-color:#32c5d2!important">Hesap Bilgilerim:</h3>
                 <ul class="list-unstyled genel">
                     <li><strong>Hesap Kodu:</strong> @Model.GENEL[0].Chk</li>
                     <li><strong>Ünvan:</strong> @Model.GENEL[0].Unvan</li>
@@ -82,7 +85,7 @@
             <div class="col-xs-12">
                 <table class="table table-striped table-bordered table-condensed" id="sample_1">
                     <thead>
-                        <tr style="background-color: rgba(9, 208, 241, 0.65);color:rgba(247, 238, 238, 0.85);">
+                        <tr style="background-color: #32c5d2;color:rgba(247, 238, 238, 0.85);">
                             <th> # </th>
                             <th> Mal Kodu </th>
                             <th> Mal Adı </th>
@@ -148,23 +151,23 @@
             <div class="col-xs-10 col-sm-10">
                 <div class="row">
                     <div class="col-xs-3 col-sm-3"></div>
-                    <div class="col-xs-1 col-sm-1 bold">Oran</div>
-                    <div class="col-xs-1 col-sm-1 bold">Tutar</div>
-                    <div class="col-xs-1 col-sm-1 bold">Döviz/TL</div>
-                    <div class="col-xs-1 col-sm-1 bold">Döviz Cinsi</div>
-                    <div class="col-xs-1 col-sm-1 bold">Döviz Kuru</div>
-                    <div class="col-xs-1 col-sm-1 bold">Döviz Tutar</div>
+                    <div class="col-xs-1 col-sm-1 bold text-center">Oran</div>
+                    <div class="col-xs-1 col-sm-1 bold text-center">Tutar</div>
+                    <div class="col-xs-1 col-sm-1 bold text-center">Döviz/TL</div>
+                    <div class="col-xs-1 col-sm-1 bold text-center">Döviz Cinsi</div>
+                    <div class="col-xs-1 col-sm-1 bold text-center">Döviz Kuru</div>
+                    <div class="col-xs-1 col-sm-1 bold text-center">Döviz Tutar</div>
                 </div>
                 @foreach (var item in Model.FTD)
                 {
                     <div class="row">
-                        <div class="col-xs-3 col-sm-3 bold">@item.Tip</div>
-                        <div class="col-xs-1 col-sm-1">@item.IskontoOran</div>
-                        <div class="col-xs-1 col-sm-1">@item.Iskonto</div>
-                        <div class="col-xs-1 col-sm-1">@item.DvzTL</div>
+                        <div class="col-xs-3 col-sm-3 bold text-right">@item.Tip</div>
+                        <div class="col-xs-1 col-sm-1 text-right">@item.IskontoOran</div>
+                        <div class="col-xs-1 col-sm-1 text-right">@item.Iskonto</div>
+                        <div class="col-xs-1 col-sm-1 text-right">@item.DvzTL</div>
                         <div class="col-xs-1 col-sm-1">@item.DovizCinsi</div>
-                        <div class="col-xs-1 col-sm-1">@item.DovizKuru</div>
-                        <div class="col-xs-1 col-sm-1">@item.DovizTutar</div>
+                        <div class="col-xs-1 col-sm-1 text-right">@item.DovizKuru</div>
+                        <div class="col-xs-1 col-sm-1 text-right">@item.DovizTutar</div>
                     </div>
                 }
             </div>
