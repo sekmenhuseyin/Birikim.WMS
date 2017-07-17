@@ -1618,14 +1618,14 @@ insertObj["DovizSatisFiyat1"].ToInt32(), insertObj["DovizSF1Birim"].ToString(), 
                                 }
                             }
                         }
-                        Fiyat fyt = new Fiyat();
-
-                        fyt.FiyatListNum = parameters["ListeNo"].ToString();
-                        fyt.HesapKodu = parameters["HesapKodu"].ToString();
-                        fyt.MalKodu = parameters["UrunKodu"].ToString();
-                        fyt.Durum = parameters["Durum"].ToShort();
-                        fyt.ROW_ID = 0;
-
+                        Fiyat fyt = new Fiyat()
+                        {
+                            FiyatListNum = parameters["ListeNo"].ToString(),
+                            HesapKodu = parameters["HesapKodu"].ToString(),
+                            MalKodu = parameters["UrunKodu"].ToString(),
+                            Durum = parameters["Durum"].ToShort(),
+                            ROW_ID = 0
+                        };
                         if (Convert.ToDecimal(parameters["SatisFiyat"].ToString()) > 0)
                         {
                             fyt.SatisFiyat1 = Convert.ToDecimal(parameters["SatisFiyat"].ToString());

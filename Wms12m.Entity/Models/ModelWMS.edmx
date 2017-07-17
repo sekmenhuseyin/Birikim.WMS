@@ -50,6 +50,7 @@
           <Property Name="OnayFiyat" Type="bit" Nullable="false" />
           <Property Name="OnayCek" Type="bit" Nullable="false" />
           <Property Name="OnayTekno" Type="bit" Nullable="false" />
+          <Property Name="CrmOzet" Type="bit" Nullable="false" />
           <Property Name="SevkiyatVarmi" Type="bit" Nullable="false" />
           <Property Name="MaliYil" Type="smallint" Nullable="false" />
           <Property Name="MaliYil1" Type="smallint" Nullable="false" />
@@ -1971,7 +1972,7 @@
           <FunctionImport Name="CRM_KurumKarti" ReturnType="Collection(MModel.CRM_KurumKarti_Result)" />
           <FunctionImport Name="CRM_TeklifAnaliz" ReturnType="Collection(MModel.CRM_TeklifAnaliz_Result)" />
           <FunctionImport Name="CRM_TeklifAnaliz_Detay" ReturnType="Collection(MModel.CRM_TeklifAnaliz_Detay_Result)">
-            <Parameter Name="TeklifID" Mode="In" Type="Int32" />
+          <Parameter Name="TeklifID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3245,6 +3246,7 @@
           <Property Name="MaliYilDb2" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Version" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Aktif" Type="Boolean" Nullable="false" />
+          <Property Name="CrmOzet" Type="Boolean" Nullable="false" />
         </EntityType>
         <ComplexType Name="CRM_GorusmeNotlari_Result">
           <Property Type="Int32" Name="ID" Nullable="false" />
@@ -3990,6 +3992,7 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="MModel.Setting">
               <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="CrmOzet" ColumnName="CrmOzet" />
                 <ScalarProperty Name="Aktif" ColumnName="Aktif" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="MaliYilDb2" ColumnName="MaliYilDb2" />

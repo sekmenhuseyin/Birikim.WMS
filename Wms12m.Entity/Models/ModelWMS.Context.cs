@@ -637,9 +637,5 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRM_TeklifAnaliz_Detay_Result>("WMSEntities.CRM_TeklifAnaliz_Detay", teklifIDParameter);
         }
-
-        public System.Data.Entity.DbSet<Wms12m.Entity.Models.CRM_GorusmeNotlari_Result> CRM_GorusmeNotlari_Result { get; set; }
-
-        public System.Data.Entity.DbSet<Wms12m.Entity.Models.CRM_TeklifAnaliz_Result> CRM_TeklifAnaliz_Result { get; set; }
     }
 }

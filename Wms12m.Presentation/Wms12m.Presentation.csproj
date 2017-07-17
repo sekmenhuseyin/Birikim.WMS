@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs4294.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs528C.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs4294.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim1\AppData\Local\Temp\vs528C.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -79,12 +79,6 @@
     <Reference Include="DevExpress.XtraGauges.v17.1.Core, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v17.1, Version=17.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="DevExtreme.AspNet.Data, Version=1.2.7.0, Culture=neutral, PublicKeyToken=982f5dab1439d0f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\DevExtreme.AspNet.Data.1.2.7\lib\net40\DevExtreme.AspNet.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExtreme.AspNet.Mvc">
-      <HintPath>Lib\DevExtreme.AspNet.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="DevHelper, Version=1.3.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -386,7 +380,9 @@
     <Content Include="Areas\WMS\Views\Tasks\BarcodePrint.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\List2.cshtml" />
     <Content Include="Areas\WMS\Views\Stock\Details2.cshtml" />
-    <Content Include="Areas\Reports\Views\web.config" />
+    <Content Include="Areas\Reports\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Areas\Reports\Views\Crm\Meeting.cshtml" />
     <Content Include="Areas\Reports\Views\Crm\Bid.cshtml" />
     <Content Include="Areas\Reports\Views\Crm\Institution.cshtml" />
