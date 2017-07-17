@@ -141,7 +141,6 @@
                 value: OnayDurum,
                 layout: "horizontal",
                 onValueChanged: function (e) {
-                    console.log("rte");
                     rdrValue = e.value;
                     PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
                     PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
