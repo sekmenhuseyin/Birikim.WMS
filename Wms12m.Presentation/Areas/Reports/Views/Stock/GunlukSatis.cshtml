@@ -56,7 +56,7 @@
                 </tr>
                 <tr style="height:10px"><td colspan="6"></td></tr>
                 <tr style="padding:8px;">
-                    <td style="width:120px;"><div class="btn-listele" style="right:20px; color:white; text-align:center; font-weight:bold; background-color:#32c5d2; width:100px;height:40px;"><span>Listele</span></div></td>
+                    <td style="width:120px;"><div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div></td>
                 </tr>
             </table>
         </div>
@@ -76,6 +76,7 @@
                 PartialView("/Reports/Stock/GunlukSatisList", 'gunluk-satis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih }));
             }
         });
+        $(".btn-listele").removeClass("dx-button");
         //$(".tarih-bas-date").dxDateBox({
         //    dataType: 'datetime',
         //    formatString: 'dd/MM/yyyy',
@@ -100,6 +101,7 @@
                 bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
             }
         });
+
     });
 </script>
 }

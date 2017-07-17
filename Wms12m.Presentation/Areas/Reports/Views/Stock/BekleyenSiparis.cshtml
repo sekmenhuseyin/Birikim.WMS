@@ -16,6 +16,7 @@
                 <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Tarih</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
                 <td style="width:200px;"><div class="tarih-bas-date" style="float:left;width:90%;"></div></td>
                 <td style="width:200px;"><div class="tarih-bit-date" style="float:left;width:90%;"></div></td>
+                <td valign="top"><div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div></td>
             </tr>
             <tr style="height:5px"><td colspan="6"></td></tr>
             <tr style="padding:15px;">
@@ -25,7 +26,8 @@
             </tr>
         </table>
     </div>
-    <div class="btn-listele" style="float:left;right:20px;margin:15px; color:white; text-align:center; font-weight:bold; background-color:#32c5d2; width:100px;height:40px;">Listele</div>
+   
+
 </div>
 <div class="row" id="bekleyen-siparis-grid" style="margin-top:10px;"></div>
 @section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
@@ -42,6 +44,7 @@
                 PartialView("/Reports/Stock/BekleyenSiparisList", 'bekleyen-siparis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basteslimtarih: basTeslimTarih, bitteslimtarih: bitTeslimTarih }));
             }
         });
+        $(".btn-listele").removeClass("dx-button");
         $(".tarih-bas-date").dxDateBox({
             dataType: 'date',
             displayFormat: 'dd/MM/yyyy',
