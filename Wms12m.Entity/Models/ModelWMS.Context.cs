@@ -637,5 +637,25 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRM_TeklifAnaliz_Detay_Result>("WMSEntities.CRM_TeklifAnaliz_Detay", teklifIDParameter);
         }
+    
+        public virtual ObjectResult<GetAppLog_Result> GetAppLog()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAppLog_Result>("WMSEntities.GetAppLog");
+        }
+    
+        public virtual ObjectResult<GetELMAH_Error_Result> GetELMAH_Error()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetELMAH_Error_Result>("WMSEntities.GetELMAH_Error");
+        }
+    
+        public virtual ObjectResult<GetErrorLog_Result> GetErrorLog()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetErrorLog_Result>("WMSEntities.GetErrorLog");
+        }
+    
+        public virtual ObjectResult<GetLoginLog_Result> GetLoginLog()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetLoginLog_Result>("WMSEntities.GetLoginLog");
+        }
     }
 }

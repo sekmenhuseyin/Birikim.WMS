@@ -184,6 +184,15 @@
     <Compile Include="Models\GEN14STK.cs">
       <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetAppLog_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetELMAH_Error_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetErrorLog_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetGorevlis_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -194,6 +203,9 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetIrsDetayfromGorev_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetLoginLog_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetMenuRoleFor_Result.cs">
