@@ -5,6 +5,7 @@
     BekleyenOnaylar tbl = ViewBag.BekleyenOnaylar;
     Setting tst = ViewBag.Settings;
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
+<style>.white{color:white!important;}</style>
 <script>var dateVal = new Date(); dateVal.setHours(0, 0, 0); var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));</script>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><span>Anasayfa</span></li></ul></div>
 <h1 class="page-title">Yönetim Paneli</h1>
@@ -321,6 +322,46 @@ if (tst.OnayTekno == true && (ViewBag.RoleName == "GM" || ViewBag.RoleName == "Y
                 <div class="desc">Techno IK Onayları</div>
             </div>
         </a>
+    </div>
+}
+if (tst.CrmOzet == true)
+{
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat dashboard-stat-v2 red" href="javascript:">
+            <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+            <div class="details p-r-40">
+                <div class="desc f-s-20"> CRM Özet </div>
+                <div class="row desc f-s-12">
+                    <div class="col-md-offset-6 col-md-2">Tümü</div>
+                    <div class="col-md-2">Hafta</div>
+                    <div class="col-md-2">Bugün</div>
+                </div>
+                <div class="row desc f-s-12">
+                    <a href="/Reports/CRM/Institution" class="white">
+                        <div class="col-md-6">Kurum Kartları</div>
+                        <div class="col-md-2">@tbl.KurumKartlari</div>
+                        <div class="col-md-2">@tbl.KurumKartlariBuHafta</div>
+                        <div class="col-md-2">@tbl.KurumKartlariBugun</div>
+                    </a>
+                </div>
+                <div class="row desc f-s-12">
+                    <a href="/Reports/CRM/Meeting" class="white">
+                        <div class="col-md-6">Görüşme Notu</div>
+                        <div class="col-md-2">@tbl.GorusmeNotlari</div>
+                        <div class="col-md-2">@tbl.GorusmeNotlariBuHafta</div>
+                        <div class="col-md-2">@tbl.GorusmeNotlariBugun</div>
+                    </a>
+                </div>
+                <div class="row desc f-s-12">
+                    <a href="/Reports/CRM/Bid" class="white">
+                        <div class="col-md-6">Teklif Analiz</div>
+                        <div class="col-md-2">@tbl.TeklifAnalizi</div>
+                        <div class="col-md-2">@tbl.TeklifAnaliziBuHafta</div>
+                        <div class="col-md-2">@tbl.TeklifAnaliziBugun</div>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 }
 }</div>
