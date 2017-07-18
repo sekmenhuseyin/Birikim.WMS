@@ -12,7 +12,6 @@
     </div>
     <div class="bidding-header-menu col-md-5" style="float:left; margin-left: 15px;">
         <div class="reset-onay-filter" title="Sıfırla">
-            @*<span class="REFRESH" style="text-align:'center';"><i class="icon-refresh" style="text-align:center; font-size:24px; color:#e2505a; cursor:pointer;"></i></span>*@
             <div class="btn btn-lg green REFRESH" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div>
         </div>
     </div>    @using (Ajax.BeginForm("List", "Invoice", new { area = "Approvals" }, new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "fatura_data" }))
