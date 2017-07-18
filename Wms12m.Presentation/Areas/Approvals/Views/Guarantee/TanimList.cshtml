@@ -17,17 +17,17 @@
                                 <tr>
                                     <th></th>
                                     <th></th>
-                                    <th nowrap>Hesap Kodu</th>
-                                    <th nowrap>Ünvan</th>
-                                    <th nowrap>AltBayi</th>
-                                    <th nowrap>Cins</th>
-                                    <th nowrap>Tutar</th>
-                                    <th nowrap>Süreli/Süresiz</th>
-                                    <th nowrap>Tarih</th>
-                                    <th nowrap>Vade Tarihi</th>
-                                    <th nowrap>Onay</th>
-                                    <th nowrap>Onaylayan</th>
-                                    <th nowrap>Onay Tarihi</th>
+                                    <th>Hesap Kodu</th>
+                                    <th>Ünvan</th>
+                                    <th>AltBayi</th>
+                                    <th>Cins</th>
+                                    <th>Tutar</th>
+                                    <th>Süreli/Süresiz</th>
+                                    <th>Tarih</th>
+                                    <th>Vade Tarihi</th>
+                                    <th>Onay</th>
+                                    <th>Onaylayan</th>
+                                    <th>Onay Tarihi</th>
                                 </tr>
                             </thead>
                         </table>
@@ -56,8 +56,7 @@
                 return json;
             },
         },
-        "fixedHeader": true,
-        "scrollX": true,
+        //"scrollX": true,
         "columnDefs": [{ "visible": false, "targets": [0,1]}, { "type": "num-fmt", "className": "dt-right", "targets": [6] }],
         "columns": [
             { "data": "ID" },
@@ -67,7 +66,7 @@
             { "data": "AltBayi" },
             { "data": "Cins" },
             { "data": "Tutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "SureliSuresiz", "render": simple_checkbox, "className": "dt-center" },
+            { "data": "SureliSuresiz", "render": function (data) { if (data == true) return "Süreli"; else return "Süresiz" } },
             { "data": "Tarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
             { "data": "VadeTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
             { "data": "Onay"},

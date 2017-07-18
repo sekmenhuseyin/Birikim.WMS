@@ -14,35 +14,35 @@
                 <thead>
                     <tr>
 
-                        <th nowrap>
+                        <th>
                             <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                                 <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
                                 <span></span>
                             </label>
                         </th>
 
-                        <th nowrap>Liste No</th>
-                        <th nowrap>Sıra No</th>
-                        <th nowrap>Bağlantı Kodu</th>
-                        <th nowrap>Bağlantı Tutarı</th>
-                        <th nowrap>Para Birimi</th>
-                        <th nowrap>Yeni Bağlantı Tutarı</th>
-                        <th nowrap>Başlangıç Tarihi</th>
-                        <th nowrap>Bitiş Tarihi</th>
-                        <th nowrap>Yeni Bitiş Tarihi</th>
-                        <th nowrap>Müşteri Kodu</th>
-                        <th nowrap>Sözleşme Notu</th>
-                        <th nowrap>Kredi Limiti</th>
-                        <th nowrap>Bakiye</th>
-                        <th nowrap>Toplam Bakiye</th>
-                        <th nowrap>Bekleyen Sipariş Tutar</th>
-                        <th nowrap>Ortalama Vade</th>
-                        <th nowrap>Alınan Bordro</th>
-                        <th nowrap>Alınan Bordro Ort. Vade</th>
-                        <th nowrap>Çek Tutarı</th>
-                        <th nowrap>Çek Ortalama Vade Tarih</th>
-                        <th nowrap>Alınan Nakit vb.</th>
-                        <th nowrap>Toplam Tahsilat</th>
+                        <th>Liste No</th>
+                        <th>Sıra No</th>
+                        <th>Bağlantı Kodu</th>
+                        <th>Bağlantı Tutarı</th>
+                        <th>Para Birimi</th>
+                        <th>Yeni Bağlantı Tutarı</th>
+                        <th>Başlangıç Tarihi</th>
+                        <th>Bitiş Tarihi</th>
+                        <th>Yeni Bitiş Tarihi</th>
+                        <th>Müşteri Kodu</th>
+                        <th>Sözleşme Notu</th>
+                        <th>Kredi Limiti</th>
+                        <th>Bakiye</th>
+                        <th>Toplam Bakiye</th>
+                        <th>Bekleyen Sipariş Tutar</th>
+                        <th>Ortalama Vade</th>
+                        <th>Alınan Bordro</th>
+                        <th>Alınan Bordro Ort. Vade</th>
+                        <th>Çek Tutarı</th>
+                        <th>Çek Ortalama Vade Tarih</th>
+                        <th>Alınan Nakit vb.</th>
+                        <th>Toplam Tahsilat</th>
                     </tr>
                 </thead>
             </table>
@@ -63,8 +63,6 @@
                     return json;
                 },
             },
-            //"fixedHeader": true,
-            //"scrollX": true,
             "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4, 6, 12, 13, 14, 15, 17, 19, 21, 22] }],
             "columns": [
 
@@ -81,8 +79,8 @@
                 { "data": "MusteriKod" },
                 { "data": "Aciklama" },
                 { "data": "KrediLimiti", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "Bakiye", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
-                { "data": "ToplamBakiye", "render": $.fn.dataTable.render.number('.', ',', 4, '') },
+                { "data": "Bakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "ToplamBakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "BekleyenSiparisTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "OrtalamaVade" },
                 { "data": "AlinanBordro", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
@@ -106,19 +104,7 @@
                     $('td:last', nRow).text("0");
                 }
                 return nRow;
-            },
-            //initComplete: function () {
-            //    this.api().columns([1, 2, 3, 4]).every(function () {
-            //        var column = this;
-            //        var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
-            //            .appendTo($(column.header()))
-            //            .on('change', function () {
-            //                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-            //                column.search(val ? '^' + val + '$' : '', true, false).draw();
-            //            });
-            //        column.data().unique().sort().each(function (d, j) { select.append('<option value="' + d + '">' + d + '</option>') });
-            //    });
-            //}
+            }
         });
         $('#sample_1 tbody').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');

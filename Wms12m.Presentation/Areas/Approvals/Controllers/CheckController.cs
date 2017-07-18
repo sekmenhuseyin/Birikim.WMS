@@ -104,16 +104,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
 
-        public string Onay_Details(string Unvan)
-        {
-            JavaScriptSerializer json = new JavaScriptSerializer()
-            {
-                MaxJsonLength = int.MaxValue
-            };
-            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return null;
-            var CE = db.Database.SqlQuery<CekOnayDetay>(string.Format("[FINSAT6{0}].[wms].[CekOnayDetay] @Unvan = '{1}'", "17", Unvan)).ToList();
-            return json.Serialize(CE);
-        }
         #endregion
         #region MIGMY
         public ActionResult MIGMY()
@@ -301,5 +291,15 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
 
         #endregion
+        public string Onay_Details(string Unvan)
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
+            if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return null;
+            var CE = db.Database.SqlQuery<CekOnayDetay>(string.Format("[FINSAT6{0}].[wms].[CekOnayDetay] @Unvan = '{1}'", "17", Unvan)).ToList();
+            return json.Serialize(CE);
+        }
     }
 }
