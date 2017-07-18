@@ -20,25 +20,13 @@
         </div>
         <div class="portlet box green">
             <div class="portlet-title">
-                <div class="caption col-md-1 ">
+                <div class="caption">
                     <i class="fa fa-gift"></i>Fiyat Onay SPGMY
                 </div>
                 <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
-                <div class="col-md-2 pull-right  m-t-5">
-                    <button class="btn btn-default  input-circle alayinisec-buton fa fa-file-text">Tüm Seç</button>
-                </div>
-                <div class="col-md-2 pull-right m-t-5">
-                    <button class="btn btn-default  input-circle alayinikaldir-buton fa fa-file-text-o">Tüm Kaldır</button>
-                </div>
-                <div class="col-md-2 pull-right  m-t-5">
-                    <button class="btn btn-default input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button>
-                </div>
-                <div class="col-md-2 pull-right  m-t-5">
-                    <button class="btn btn-sucess  input-circle onay-buton glyphicon glyphicon-ok">Onayla</button>
-                </div>
-                <div class="col-md-2 pull-right m-t-5">
-                    <button class="btn btn-danger  input-circle reddet-buton glyphicon glyphicon-remove">Reddet</button>
-                </div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
             </div>
             <div class="portlet-body">
                 <div class="row">
@@ -51,6 +39,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-1 col-md-offset-10">
+                        <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -59,9 +52,6 @@
 @section Scripts{
     <script>
         PartialView("/Approvals/Price/SPGMY_List", 'liste');
-
-        //PartialView("/Approvals/Price/GM_List_Grup", 'listegrup');
-        //  PartialView("/Approval/RiskTanimPartial", 'liste');
         function FuncSearchBtn() {
             var Type = $("input[type='checkbox'][name='Locked']:checked").val();
             PartialView("/Approvals/Price/SPGMY_List", 'liste', JSON.stringify({ Durum: Type }));
@@ -106,11 +96,6 @@
                 }
 
             });
-            $(document).ready(function () {
-                $('.buttons-pdf').removeClass('btn btn-default');
-                $('.buttons-excel').removeClass('btn btn-default');
-            });
-
         });
         $('.onay-buton').click(function () {
             if ($("#chkKoleksiyon").prop("checked") == false && $("#chkGrup").prop("checked") == false) {
@@ -296,13 +281,6 @@
 
         $('.yenile-buton').click(function () {
            setTimeout(function () { window.location.reload(); }, 500);
-        });
-
-        $('.alayinisec-buton').click(function () {
-            $('tbody tr').addClass('selected');
-        });
-        $('.alayinikaldir-buton').click(function () {
-            $('tbody tr').removeClass('selected');
         });
     </script>
 }

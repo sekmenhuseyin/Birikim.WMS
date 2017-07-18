@@ -1,45 +1,35 @@
 ﻿<div class="col-md-12" style="width:100%;">
-    @*<div class="portlet box green">
-
-
-        <div class="portlet-body">*@
     <div id="buttons"></div>
-            <div class="table-toolbar">
+    <table class="table table-striped table-bordered table-hover" id="sample_1">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>
+                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                        <span></span>
+                    </label>
+                </th>
+                <th>Liste No </th>
+                <th>Durum </th>
+                <th>Ürün Kodu </th>
+                <th>Ürün Adı </th>
+                <th>Müşteri Kodu </th>
+                <th>Ünvan</th>
+                <th>Satış Fiyat1</th>
+                <th>Satış Fiyat1 Birim</th>
+                <th>Döviz Satış Fiyat</th>
+                <th>Döviz Satış Fiyat1 Birim</th>
+                <th>Döviz Cinsi</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
 
-            </div>
-
-            <table class="table table-striped table-bordered table-hover" id="sample_1">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>
-                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                                <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
-                                <span></span>
-                            </label>
-                        </th>
-                        <th>Liste No </th>
-                        <th>Durum </th>
-                        <th>Ürün Kodu </th>
-                        <th>Ürün Adı </th>
-                        <th>Müşteri Kodu </th>
-                        <th>Ünvan</th>
-                        <th>Satış Fiyat1</th>
-                        <th>Satış Fiyat1 Birim</th>
-                        <th>Döviz Satış Fiyat</th>
-                        <th>Döviz Satış Fiyat1 Birim</th>
-                        <th>Döviz Cinsi</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-            </table>
-
-        </div>
-    @*</div>
-</div>*@
+</div>
 <script>
 
     var secili_satir = new Array();
@@ -52,10 +42,6 @@
                 return json;
             },
         },
-    
-        //"responsive": true,
-        //"fixedHeader": true,
-        //"scrollX": true,
         "columnDefs": [{ "visible": false, "targets": [0, 1, 2, 15, 16] }, { "type": "num-fmt", "className": "dt-right", "targets": [10, 12] }],
         "columns": [
             { "data": "ID" },
@@ -82,12 +68,9 @@
             return nRow;
         }
     });
-
-
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
-
     var buttons = new $.fn.dataTable.Buttons(table, {
         buttons: [
             { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
@@ -107,5 +90,4 @@
             table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
         }
     });
-            
 </script>
