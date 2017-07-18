@@ -212,7 +212,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SözleşmeOnaylamaGM, PermTypes.Reading) == false) return null;
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
-            return PartialView(list);
+            return PartialView("Details", list);
         }
         #endregion
         #region SM
@@ -246,7 +246,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SözleşmeOnaylamaSM, PermTypes.Reading) == false) return null;
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
-            return PartialView(list);
+            return PartialView("Details", list);
         }
         public JsonResult Onay_SM(string Data)
         {
@@ -441,7 +441,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SözleşmeOnaylamaSPGMY, PermTypes.Reading) == false) return null;
             var list = db.Database.SqlQuery<BaglantiDetaySelect>(string.Format("[FINSAT6{0}].[wms].[BaglantiDetaySelect] '{1}'", "17", ListeNo)).ToList();
-            return PartialView(list);
+            return PartialView("Details", list);
         }
         public JsonResult Onay_SPGMY(string Data)
         {

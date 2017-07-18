@@ -246,36 +246,7 @@
                         rowAlternationEnabled: false,
                         sorting: {
                             mode: "multiple",
-                        },
-                        //onRowPrepared: function (info) {
-                        //    if (info.rowType == 'data') {
-
-                        //        if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
-                        //            info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
-                        //        else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
-                        //            info.rowElement.css({ "background-color": "green", "color": "white" });
-                        //        else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
-                        //            info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
-                        //    }
-
-                        //},
-                        onRowClick: function (opt) {
-                            if (opt.rowType == "data") {
-                                var component = opt.component;
-                                var prevClickTime = component.lastClickTime;//take last clicked time
-                                component.lastClickTime = new Date();
-                                if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                    //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
-                                }
-                            }
-                        },
-                        //onCellPrepared: function (info) {
-                        //    if (info.rowType == "data") {
-                        //        if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
-                        //            info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
-                        //        }
-                        //    }
-                        //}
+                        }
                     }).dxDataGrid("instance");
                 }
             });
