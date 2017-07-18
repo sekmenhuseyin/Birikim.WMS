@@ -74,12 +74,7 @@
             { "data": "DovizSF1Birim" },
             { "data": "DovizCinsi" },
             { "data": "SatisFiyat1BirimInt" },
-            { "data": "DovizSF1BirimInt" },
-            //{
-            //    "render": function ( data, type, full, meta ) {
-            //        return table.saveContact(full);
-            //    }
-            //},
+            { "data": "DovizSF1BirimInt" }
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -93,23 +88,24 @@
         $(this).toggleClass('selected');
     });
 
-    var table12 = $('#sample_1').DataTable();
-    var buttons = new $.fn.dataTable.Buttons(table12, {
+    var buttons = new $.fn.dataTable.Buttons(table, {
         buttons: [
-            { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
-            { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+            { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+            { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
         ]
     }).container().appendTo($('#buttons'));
-
-    //$(document).ready(function () {
-    //    $('#sample1').DataTable({
-    //        dom: 'Bfrtip',
-    //        buttons: [
-    //            'copy', 'csv', 'excel', 'pdf', 'print'
-    //        ]
-    //    });
-    //})
-
-
+    var selectall = true;
+    $("#selector").click(function () {
+        if (selectall == true) {
+            $("#selector").text("Seçimi İptal Et"); selectall = false;
+            table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
+                this.select();
+            });
+        }
+        else {
+            $("#selector").text("Hepsini Seç"); selectall = true;
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
+        }
+    });
             
 </script>
