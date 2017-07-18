@@ -1103,6 +1103,7 @@ var excelStrings = {
 // via an API in future?
 var _excelSpecials = [
     { match: /^.$/, style: 56, fmt: function (d) { return d.replace('.', '').replace('.', '').replace('.', '').replace('.', ''); } }, // .
+    { match: /^\-?\d+%$/, style: 57, fmt: function (d) { return d.replace('.', '').replace('.', '').replace('.', '').replace('.', ''); } }, // Precent with d.p.
 ];
 
 
