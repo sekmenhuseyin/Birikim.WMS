@@ -36,12 +36,8 @@
                         <th>Kalite</th>
                         <th>İşlem Tarihi</th>
                         <th>Evrak No</th>
-
-
-
                         <th>Birim</th>
                         <th>Birim Miktar</th>
-
                         <th>Ana Birim</th>
                         <th>Ana Birim Miktar</th>
                         <th>Adet Cikis Miktar</th>
@@ -49,7 +45,6 @@
                         <th>M2 Cikis Miktar</th>
                         <th>M3 Cikis Miktar</th>
                         <th>KG Cikis Miktar</th>
-
                         <th>Net Birim Fiyat</th>
                         <th>Net Tutar</th>
                         <th>KDV</th>
@@ -58,24 +53,24 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th nowrap colspan="12"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
-                        <th nowrap style="text-align:right;"></th>
+                        <th colspan="12"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
                     </tr>
                 </tfoot>
                 <tbody>
                     @foreach (var item in Model)
-            {
+                    {
                         <tr>
 
                             <td nowrap>@item.Chk</td>
@@ -90,10 +85,7 @@
                             <td nowrap>@item.IslemTarihi</td>
                             <td nowrap>@item.EvrakNo</td>
                             <td nowrap>@item.Birim</td>
-
-
                             <td nowrap align="right">@String.Format("{0:0.00}", item.BirimMiktar).ToDecimal().ToOnFormat()</td>
-
                             <td nowrap align="right">@String.Format("{0:0.00}", item.AnaBirim).ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@String.Format("{0:0.00}", item.AnaBirimMiktar).ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@String.Format("{0:0.00}", item.AdetCikisMiktar).ToDecimal().ToOnFormat()</td>
@@ -101,7 +93,6 @@
                             <td nowrap align="right">@String.Format("{0:0.00}", item.M2CikisMiktar).ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@String.Format("{0:0.00}", item.M3CikisMiktar).ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@String.Format("{0:0.00}", item.KGCikisMiktar).ToDecimal().ToOnFormat()</td>
-
                             <td nowrap align="right">@String.Format("{0:0.00}", item.NetBirimFiyat).ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@String.Format("{0:0.00}", item.NetTutar).ToDecimal().ToOnFormat()</td>
                             <td nowrap align="right">@String.Format("{0:0.00}", item.KDV).ToDecimal().ToOnFormat()</td>
