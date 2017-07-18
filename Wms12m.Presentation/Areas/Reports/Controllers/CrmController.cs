@@ -25,14 +25,6 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return View("Institution", list);
         }
         /// <summary>
-        /// teklif analiz detay
-        /// </summary>
-        public PartialViewResult InstitutionDetail(string term)
-        {
-            var tbl = db.CRM_KurumKartiSearch(term).FirstOrDefault();
-            return PartialView("InstitutionDetail", tbl);
-        }
-        /// <summary>
         /// kurum adı arama
         /// </summary>
         public JsonResult GetKurumbyName(string term)

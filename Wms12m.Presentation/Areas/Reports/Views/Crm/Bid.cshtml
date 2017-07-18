@@ -46,6 +46,13 @@
 </div>
 @section Scripts{<script>
     $(document).ready(function () {
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#Teklif").on("change paste keyup", function () { filterx(1, $("#Teklif").val()); });
+        $("#Musteri").on("change paste keyup", function () { filterx(2, $("#Musteri").val()); });
+        $("#Konu").on("change paste keyup", function () { filterx(3, $("#Konu").val()); });
+        $("#Tarih").datepicker().on("change", function (e) { filterx(4, e.target.value); });
+        $("#Tarih2").datepicker().on("change", function (e) { filterx(5, e.target.value); });
+        $("#Tutar").on("change paste keyup", function () { filterx(6, $("#Tutar").val()); });
         var table = $('#sample_1').DataTable({
             "ordering": false,
             "pagingType": "full_numbers",
@@ -62,14 +69,8 @@
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#Teklif").on("change paste keyup", function () { filter(table, 1, $("#Teklif").val()); });
-        $("#Musteri").on("change paste keyup", function () { filter(table, 2, $("#Musteri").val()); });
-        $("#Konu").on("change paste keyup", function () { filter(table, 3, $("#Konu").val()); });
-        $("#Tarih").datepicker().on("change", function (e) { filter(table, 4, e.target.value); });
-        $("#Tarih2").datepicker().on("change", function (e) { filter(table, 5, e.target.value); });
-        $("#Tutar").on("change paste keyup", function () { filter(table, 6, $("#Tutar").val()); });
     });
+    function filterx(a, b) { filter(table, a, b); }
     function newrow(id) { return "<div id='new" + id + "'></div>"; }
     function format(d) {
         $.ajax({

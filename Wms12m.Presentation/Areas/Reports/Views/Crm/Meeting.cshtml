@@ -48,8 +48,15 @@
 </div>
 @section Scripts{<script>
     $(document).ready(function () {
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#Kurum").on("change paste keyup", function () { filterx(1, $("#Kurum").val()); });
+        $("#Kisi").on("change paste keyup", function () { filterx(2, $("#Kisi").val()); });
+        $("#Tarih").datepicker().on("change", function (e) { filterx(3, e.target.value); });
+        $("#Tarih2").datepicker().on("change", function (e) { filterx(4, e.target.value); });
+        $("#Tarih3").datepicker().on("change", function (e) { filterx(9, e.target.value); });
         var table = $('#sample_1').DataTable({
             "ordering": false,
+            "scrollX": true,
             "pagingType": "full_numbers",
             "dom": 'Bfrtip',
             "buttons": [
@@ -70,11 +77,6 @@
                 });
             }
         });
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#Kurum").on("change paste keyup", function () { filter(table, 1, $("#Kurum").val()); });
-        $("#Kisi").on("change paste keyup", function () { filter(table, 2, $("#Kisi").val()); });
-        $("#Tarih").datepicker().on("change", function (e) { filter(table, 3, e.target.value); });
-        $("#Tarih2").datepicker().on("change", function (e) { filter(table, 4, e.target.value); });
-        $("#Tarih3").datepicker().on("change", function (e) { filter(table, 9, e.target.value); });
+        function filterx(a, b) { filter(table, a, b); }
     });
 </script>}

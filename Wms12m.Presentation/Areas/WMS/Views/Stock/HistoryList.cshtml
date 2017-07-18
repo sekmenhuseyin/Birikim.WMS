@@ -50,6 +50,13 @@
 <script type="text/javascript">
     $('#Stok').val('@String.Format("{0:n}", i)');
     $(document).ready(function () {
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#Tarih").datepicker().on("change", function (e) { filterx(1, e.target.value); });
+        $("#Saat").on("change paste keyup", function () { filterx(2, $("#Saat").val()); });
+        $("#EvrakNo").on("change paste keyup", function () { filterx(3, $("#EvrakNo").val()); });
+        $("#HücreAdi").on("change paste keyup", function () { filterx(4, $("#HücreAdi").val()); });
+        $("#Miktar").on("change paste keyup", function () { filterx(6, $("#Miktar").val()); });
+        $("#Stok").on("change paste keyup", function () { filterx(7, $("#Stok").val()); });
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "ordering": false,
@@ -72,12 +79,6 @@
                 });
             }
         });
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#Tarih").datepicker().on("change", function (e) { filter(table, 1, e.target.value); });
-        $("#Saat").on("change paste keyup", function () { filter(table, 2, $("#Saat").val()); });
-        $("#EvrakNo").on("change paste keyup", function () { filter(table, 3, $("#EvrakNo").val()); });
-        $("#HücreAdi").on("change paste keyup", function () { filter(table, 4, $("#HücreAdi").val()); });
-        $("#Miktar").on("change paste keyup", function () { filter(table, 6, $("#Miktar").val()); });
-        $("#Stok").on("change paste keyup", function () { filter(table, 7, $("#Stok").val()); });
+        function filterx(a, b) { filter(table, a, b); }
     });
 </script>
