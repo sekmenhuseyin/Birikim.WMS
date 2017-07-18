@@ -4,24 +4,14 @@
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
 }
 <div class="row fatura-content" style="padding: 10px; width: 100%;">
-
-
-    <div class="rdgrpOnayRed col-md-5" style="float:left; margin-left:20px;">
-
-
-    </div>
-    <div class="bidding-header-menu col-md-5" style="float:left; margin-left: 15px;">
-        <div class="reset-onay-filter" title="Sıfırla">
-            <div class="btn btn-lg green REFRESH" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div>
-        </div>
-    </div>    @using (Ajax.BeginForm("List", "Invoice", new { area = "Approvals" }, new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "fatura_data" }))
+    <div class="rdgrpOnayRed col-md-3" style="float:left; margin-left:20px;"></div>
+    <div class="col-md-2"><button class="btn btn-default input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+    @using (Ajax.BeginForm("List", "Invoice", new { area = "Approvals" }, new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "fatura_data" }))
     {
         <div id="fatura_data" class="m-t-30"></div>
-        <input type="submit" id="RefreshBtn" style="display:none;" />
+        <input type="submit" id="RefreshBtn" class="hidden" />
         <input type="hidden" id="Refresh" name="Refresh" />
-
         <input type="hidden" id="ListType" name="ListType" />
-
     }
 </div>
 @section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
@@ -31,7 +21,7 @@
         $("#ListType").val("0");
         $("#Refresh").val("Refresh");
         $("#RefreshBtn").click();
-        $(".reset-onay-filter").click(function () {
+        $(".yenile-buton").click(function () {
             var rdbValue = $(".rdgrpOnayRed").dxRadioGroup("instance").option("value");
             $("#ListType").val(rdbValue == "OnayBekleyenler" ? "0" : "1");
             $("#Refresh").val("Refresh");

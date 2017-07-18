@@ -1,5 +1,4 @@
-﻿
-<div class="col-md-12" style="width:100%;">
+﻿<div class="col-md-12" style="width:100%;">
     <div class="table-toolbar">
         <div class="row">
             <div class="col-md-6">
@@ -17,12 +16,7 @@
             <tr>
                 <th nowrap style="display:none;"></th>
                 <th nowrap style="display:none;"></th>
-                <th>
-                    @*<label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                            <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
-                            <span></span>
-                        </label>*@
-                </th>
+                <th></th>
 
                 <th>Ad</th>
                 <th>Soyad</th>
@@ -80,7 +74,6 @@
     </div>
 </div>
 <script>
-    //var table = "";
     var secili_satir = new Array();
     var secili_table = new Array()
         var tip1 = "@ViewBag.Tip";
@@ -127,19 +120,7 @@
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
                 return nRow;
-            },
-            //    initComplete: function () {
-            //        this.api().columns([1, 2, 3, 4]).every(function () {
-            //        var column = this;
-            //        var select = $('<br /><select class="form-control input-circle" style="max-width:100px;"><option value=""></option></select>')
-            //            .appendTo($(column.header()))
-            //            .on('change', function () {
-            //                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-            //                column.search(val ? '^' + val + '$' : '', true, false).draw();
-            //            });
-            //        column.data().unique().sort().each(function (d, j) {  select.append('<option value="' + d + '">' + d + '</option>') });
-            //    });
-            //}
+            }
         });
         $('#sample_1 tbody').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');
@@ -234,13 +215,12 @@
 
     $(document).on("click", "#mdlSilKayit", function () {
         ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Kaydet", "redKayit", UCRETRED, "Kapat", "redKapat", null);
-    });
-   
+    });   
     $("#buttons").html("");
     var buttons = new $.fn.dataTable.Buttons(table55, {
         buttons: [
-            { "extend": 'pdf', "exportOptions": { columns: ':visible' }, "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
-            { "extend": 'excel', "exportOptions": { columns: ':visible' }, "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+            { "extend": 'pdf', "exportOptions": { columns: ':visible' }, "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+            { "extend": 'excel', "exportOptions": { columns: ':visible' }, "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
         ]
     }).container().appendTo($('#buttons'));
 
