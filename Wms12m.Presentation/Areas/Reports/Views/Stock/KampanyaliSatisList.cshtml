@@ -116,7 +116,7 @@
                     </tfoot>
                     <tbody>
                         @foreach (var item in Model)
-            {
+                        {
                             <tr>
                                 <td nowrap class='details-control'  style="width:20px;"> </td>
                                 <td nowrap>@item.Chk</td>
@@ -177,9 +177,7 @@
         var model =  @Html.Raw(serializer.Serialize(Model));
         table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "scrollY": 400,
-            "ordering": false,
-
+            "ordering": false
         });
         $('#sample_1 tbody').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');
@@ -195,14 +193,10 @@
             else { row.child(newrow(x[0][1].toString().replace(/\s/g, ''))).show(); format(x[0][1]); tr.addClass('shown'); }
         });
         setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
-        $(document).ready(function () {
-            $('.buttons-pdf').removeClass('btn btn-default');
-            $('.buttons-excel').removeClass('btn btn-default');
-        });
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
             ]
         }).container().appendTo($('#buttons'));
     });
