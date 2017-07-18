@@ -20,9 +20,9 @@
         <div class="col-xs-12 col-sm-12 col-lg-5">
             <table>
                 <tr style="padding:8px;">
-                    <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Tarih</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
+                    <td style="width:500px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Tarih</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
                     <td style="width:160px;"><div class="tarih" style="float:left;width:90%;"></div></td>
-                    <td style="width:160px;"></td>
+                    <td style="width:160px;"><div class="btn btn-lg green btnListele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div></td>
                 </tr>
                 <tr style="height:10px"><td colspan="6"></td></tr>
                 <tr style="padding:8px;">
@@ -84,9 +84,7 @@
                 </tr>
             </table>
         </div>
-        <div class="col-lg-1 col-sm-12 col-xs-12">
-            <div class="btnListele" style="margin-top:15px;height:36px;text-align:center;background-color:#32c5d2;color:white;line-height:36px;">Listele<i class="fa fa-check"></i></div>
-        </div>
+
     </div>
     
 </div>
@@ -238,6 +236,7 @@
                 kod32=e.value;
             }
         });
+        $(".btnListele").removeClass("dx-button");
     });
 </script>
 }
