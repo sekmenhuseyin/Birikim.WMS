@@ -104,10 +104,10 @@
                                 <td nowrap>@item.FYTDovizCinsi</td>
                                 <td nowrap>@item.SozlesmeSartlari</td>
                                 <td nowrap align="right">@item.NetFiyat.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.KDVSizTutar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.KDVliTutar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.KDVSizKalanTutar.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.KDVliKalanTutar.ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.KDVSizTutar)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.KDVliTutar)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.KDVSizKalanTutar)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.KDVliKalanTutar)</td>
                                 <td nowrap align="right">@item.StokMiktar.ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.StokBirim</td>
                                 <td nowrap align="right">@item.StokAnaMiktar.ToDecimal().ToOnFormat()</td>
