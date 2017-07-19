@@ -17,6 +17,10 @@
 .f-s-30{font-size:30px !important;} 
 span .red {color:red;}
 span .green {color:green;}
+.dateboxbg {
+    background: url('/Content/assets/pages/img/texbox-cal.png') right center no-repeat;
+    padding-right: 30px;
+}
 .rotate {
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
