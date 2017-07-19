@@ -213,12 +213,12 @@
     var check_sum = new Array();
 
     var model = @Html.Raw(Json.Encode(Model));
-       
+
     for (var i = 0; i < model.STI.length; i++) {
         check_sum.push(model.STI[i].CheckSum);
     }
     var sayac = 1;
-    $('#sample_1').DataTable({ 
+    $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
     });
 
@@ -236,7 +236,8 @@
         var _dfd = $.Deferred();
         $.ajax({
             url: window.location.origin + "/Approvals/Invoice/Onay",
-            data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, ChckSm: check_sum},
+            data: JSON.stringify({ EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, ChckSm: check_sum }),
+            contentType: "application/json",
             type: "post",
             success: function (data) {
                 if (data == "YES") {
@@ -249,7 +250,7 @@
                 else if (data == "DEGISIM") {
                     Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "btn-danger");
                     setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + f_evrakNo; }, 500);
-                    
+
 
                 }
                 else {
@@ -288,13 +289,13 @@
                 else if (data == "DEGISIM") {
                     Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "btn-dange");
                     setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + evrakNo; }, 500);
-                    
+
 
                 }
                 else {
                     Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-dange");
                     setTimeout(function () { window.location.href = '/Approvals/Invoice';}, 500);
-                    
+
                 }
             }
         });

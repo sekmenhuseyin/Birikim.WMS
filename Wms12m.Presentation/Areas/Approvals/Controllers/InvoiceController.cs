@@ -63,7 +63,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public string Onay(string EvrakNo, string CHK, string Tarih, short[] ChckSm)
         {
-            if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Writing) == false) return "NO";
             string chck = "";
             foreach (var item in ChckSm)
             {
@@ -91,7 +91,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         /// </summary>
         public string Red(string EvrakNo, string CHK, string Tarih, string RedNeden, short[] ChckSm)
         {
-            if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Writing) == false) return null;
+            if (CheckPerm(Perms.FaturaOnaylama, PermTypes.Writing) == false) return "NO";
             string chck = "";
             foreach (var item in ChckSm)
             {

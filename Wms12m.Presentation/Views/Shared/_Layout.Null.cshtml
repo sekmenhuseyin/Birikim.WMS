@@ -44,5 +44,15 @@
     <script src="~/Content/Scripts/MessageBox.min.js"></script>
     <script src="~/Content/Scripts/Functions.min.js"></script>
     @RenderSection("Scripts", required: false)
+    <script>
+        var $buoop = { vs: { i: 10, f: -8, o: -8, s: 8, c: -8 }, api: 4 };
+        function $buo_f() {
+            var e = document.createElement("script");
+            e.src = "//browser-update.org/update.min.js";
+            document.body.appendChild(e);
+        };
+        try { document.addEventListener("DOMContentLoaded", $buo_f, false) }
+        catch (e) { window.attachEvent("onload", $buo_f) }
+    </script>
 </body>
 </html>
