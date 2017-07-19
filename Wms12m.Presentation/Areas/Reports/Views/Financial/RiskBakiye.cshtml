@@ -29,40 +29,46 @@
         color: white !important;
     }
 </style>
-}<div class="row control-content">
-    <div style="float:left; padding-left:15px;">
-        <table>
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Toplam Risk Bakiyesi</span></li></ul>
+   </div>
+<h1 class="page-title"> Toplam Risk Bakiyesi</h1>
+    <div class="row control-content">
+        <div style="float:left; padding-left:15px;">
+            <table>
 
-            <tr style="padding:8px;">
-                <td style="width:120px;"><span></span></td>
-                <td style="width:300px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Başlangıç</div></td>
-                <td style="width:300px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Bitiş</div></td>
-            </tr>
-            <tr style="height:10px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Hesap Kodu</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:300px;"><div class="chk-bas-select" style="float:left;width:90%;height:29px;"></div></td>
-                <td style="width:300px;"><div class="chk-bit-select" style="float:left;width:90%;height:29px;"></div></td>
-            </tr>
-            <tr style="height:10px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Tarih</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:300px;"><div class="tarih-bas-date" style="float:left;width:90%;"></div></td>
-                <td style="width:300px;"><div class="tarih-bit-date" style="float:left;width:90%;"></div></td>
-            </tr>
-            <tr style="height:5px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Vade Tarihi</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:300px;"><div class="vade-bas-date" style="float:left;width:90%;"></div></td>
-                <td style="width:300px;"><div class="vade-bit-date" style="float:left;width:90%;"></div></td>
-            </tr>
-        </table>
+                <tr style="padding:8px;">
+                    <td style="width:120px;"><span></span></td>
+                    <td style="width:300px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Başlangıç</div></td>
+                    <td style="width:300px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Bitiş</div></td>
+                </tr>
+                <tr style="height:10px"><td colspan="6"></td></tr>
+                <tr style="padding:8px;">
+                    <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Hesap Kodu</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
+                    <td style="width:300px;"><div class="chk-bas-select" style="float:left;width:90%;height:29px;"></div></td>
+                    <td style="width:300px;"><div class="chk-bit-select" style="float:left;width:90%;height:29px;"></div></td>
+                </tr>
+                <tr style="height:10px"><td colspan="6"></td></tr>
+                <tr style="padding:8px;">
+                    <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Tarih</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
+                    <td style="width:300px;"><div class="tarih-bas-date" style="float:left;width:90%;"></div></td>
+                    <td style="width:300px;"><div class="tarih-bit-date" style="float:left;width:90%;"></div></td>
+                </tr>
+                <tr style="height:5px"><td colspan="6"></td></tr>
+                <tr style="padding:8px;">
+                    <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Vade Tarihi</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
+                    <td style="width:300px;"><div class="vade-bas-date" style="float:left;width:90%;"></div></td>
+                    <td style="width:300px;"><div class="vade-bit-date" style="float:left;width:90%;"></div></td>
+                </tr>
+            </table>
+        </div>
+        <div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div>
     </div>
-    <div class="btn-listele" style="float:left;right:20px;margin-left:15px; color:white; text-align:center; font-weight:bold; background-color:#32c5d2; width:100px;height:40px;">Listele</div>
-</div>
-<div id="risk-bakiye-grid" style="margin-top:20px;margin-left:10px;"></div>
-@section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-<script>
+    <div id="risk-bakiye-grid" style="margin-top:20px;margin-left:10px;"></div>
+    @section Scripts{
+        <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+        <script>
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));
         var dateVal = new Date();
@@ -76,7 +82,8 @@
             onClick: function () {
                 PartialView("/Reports/Financial/RiskBakiyeList", 'risk-bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit }));
             }
-        });
+            });
+            $(".btn-listele").removeClass("dx-button");
         $(".tarih-bas-date").dxDateBox({
             dataType: 'date',
             formatString: 'dd/MM/yyyy',
@@ -156,5 +163,5 @@
             }
         });
     });
-</script>
-}
+        </script>
+    }

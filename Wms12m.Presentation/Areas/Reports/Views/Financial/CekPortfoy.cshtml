@@ -19,7 +19,12 @@
         text-align: center;
     }
 </style>
-}<div class="row control-content">
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Çek Portfoy Listesi</span></li></ul>
+</div>
+<h1 class="page-title">Çek Portfoy Listesi</h1>
+<div class="row control-content">
     <div style="float:left;padding-left:15px;">
         <table>
 
@@ -59,6 +64,7 @@
                 PartialView("/Reports/Financial/CekPortfoyList", 'cek-portfoy-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih}));
             }
         });
+        $(".btn-listele").removeClass("dx-button");
         $(".tarih-bas-date").dxDateBox({
             dataType: 'date',
             formatString: 'dd/MM/yyyy',

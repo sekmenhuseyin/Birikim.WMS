@@ -20,48 +20,55 @@
         width: 120px;
         text-align: center;
     }
-</style>
-}<div class="control-content row">
-    <div style="float:left;">
-        <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
-            <table>
-                <tr style="padding:8px;">
-                    <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Pozisyon</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                    <td style="width:200px;"><div class="pozisyon-select" style="float:left;width:90%;"></div></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
-            <table>
-                <tr style="padding:8px;">
-                    <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Vade Ay</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                    <td style="width:200px;"><div class="ay-select" style="float:left;width:90%;"></div></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
-            <table>
-                <tr style="padding:8px;">
-                    <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Vade Yıl</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                    <td style="width:200px;"><div class="yil-select" style="float:left;width:90%;"></div></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
-            <table>
-                <tr style="padding:8px;">
-                    <td style="width:120px;"></td>
-                    <td style="width:200px;"><div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div></td>
-                </tr>
-            </table>
+    
+</style>}
+
+<div class="page-bar">
+    <ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Çek Listesi</span></li></ul>
+    </div>
+    <h1 class="page-title">Çek Listesi</h1>
+    <div class="control-content row">
+        <div style="float:left;">
+            <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
+                <table>
+                    <tr style="padding:8px;">
+                        <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Pozisyon</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
+                        <td style="width:200px;"><div class="pozisyon-select" style="float:left;width:90%;"></div></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
+                <table>
+                    <tr style="padding:8px;">
+                        <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Vade Ay</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
+                        <td style="width:200px;"><div class="ay-select" style="float:left;width:90%;"></div></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
+                <table>
+                    <tr style="padding:8px;">
+                        <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Vade Yıl</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
+                        <td style="width:200px;"><div class="yil-select" style="float:left;width:90%;"></div></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-xs-12 col-sm-3" style="margin-top:10px;">
+                <table>
+                    <tr style="padding:8px;">
+                        <td style="width:120px;"></td>
+                        <td style="width:200px;"><div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-<div class="row" style="margin-top:20px;">
-    <div id="cek-listesi-grid"></div>
-</div>
-@section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-<script>
+    <div class="row" style="margin-top:20px;">
+        <div id="cek-listesi-grid"></div>
+    </div>
+    @section Scripts{
+        <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+        <script>
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));
         var ay, yil, pozisyon;
@@ -119,5 +126,5 @@
         });
 
     });
-</script>
-}
+        </script>
+    }
