@@ -6,9 +6,10 @@
                 <div class="caption">
                     <i class="fa fa-gift"></i>Sözleşme Detay
                 </div>
-                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+                
             </div>
             <div class="portlet-body">
+                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons2">asasdf</div>
                 <div class="row">
                     <div class="col-xs-12">
                         <table class="table table-striped table-bordered table-condensed" id="sample_1">
@@ -67,15 +68,17 @@
         }
 
     });
-
      var buttons = new $.fn.dataTable.Buttons(table, {
          buttons: [
              { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
              { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
          ]
-     }).container().appendTo($('#buttons'));
-     $('.buttons-pdf').removeClass('btn btn-default');
-     $('.buttons-excel').removeClass('btn btn-default');
+     }).container().appendTo($('#buttons2'));
+     $(document).ready(function () {
+
+         $('.buttons-pdf').removeClass('btn btn-default');
+         $('.buttons-excel').removeClass('btn btn-default');
+     });
 
 
 </script>
