@@ -10,8 +10,6 @@
     .dx-header-row {background-color: #86d8ea;color: window;}
     .dx-state-readonly {background-color: #e0dede !important;}
     .dx-state-readonly input {background-color: #e0dede !important; }
-
-
     table {margin: 0 !important;}
     th {width: auto !important;}
     td {width: auto !important;}
@@ -31,8 +29,6 @@
     .sag .dx-texteditor-input {
         text-align: right;
     }
-
-
 </style>
 }<div class="row">
     <div>
@@ -147,12 +143,6 @@
                 <div class="input_label">Vade Tarihi</div>
                 <div class="input date_vade_tarihi"></div>
             </div>
-
-            @*<div class="input_content vade_content">
-                    <div class="input_label">Vade Tarihi</div>
-                    <div class="input "><input class="form-control" id="p_vade_tarihi" name="date" type="text" style="font-size:10px;font-weight:bold;height:36px;"/></div>
-                </div>*@
-
             <div class="input_content valor_content">
                 <div class="input_label">Valor Gün</div>
                 <div class="input numb_valor_gun"></div>
@@ -274,15 +264,6 @@
         var srNo = "@ViewBag.SRNO"
         $(document).ready(function () {
             var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
-            $('#p_vade_tarihi').datepicker({
-                format: 'mm-dd-yyyy',
-                container: container,
-                todayHighlight: true,
-                autoclose: true,
-                onSelect: function () {
-                }
-            });
-
             $(".form-rounded").css("border-radius", "1rem");
             $(".sozlesme-guncelle-buton").addClass('disabled');
             DevExpress.ui.dxOverlay.baseZIndex(20000);

@@ -170,12 +170,10 @@
 
      var buttons = new $.fn.dataTable.Buttons(table123, {
          buttons: [
-             { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
-             { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+             { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+             { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
          ]
      }).container().appendTo($('#buttons'));
-     $('.buttons-pdf').removeClass('btn btn-default');
-     $('.buttons-excel').removeClass('btn btn-default');
     });
 
 
