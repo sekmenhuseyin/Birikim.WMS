@@ -117,8 +117,8 @@
 
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": ' btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": ' btn-xs;' }
             ]
         }).container().appendTo($('#buttons'));
 
@@ -222,11 +222,11 @@
                                 { caption: 'Ürün Kodu', dataField: 'MalKod' },
                                 { caption: 'Ürün Adı', dataField: 'MalAdi' },
                                 { caption: 'Kalite', dataField: 'Kalite' },
-                                { caption: 'İskonto1', dataField: 'Oran1', format: 'fixedPoint', precision: 5 },
-                                { caption: 'İskonto2', dataField: 'Oran2', format: 'fixedPoint', precision: 5 },
-                                { caption: 'İskonto3', dataField: 'Oran3', format: 'fixedPoint', precision: 5 },
-                                { caption: 'İskonto4', dataField: 'Oran4', format: 'fixedPoint', precision: 5 },
-                                { caption: 'İskonto5', dataField: 'Oran5', format: 'fixedPoint', precision: 5 },
+                                { caption: 'İskonto1', dataField: 'Oran1', format: 'fixedPoint', precision: 2 },
+                                { caption: 'İskonto2', dataField: 'Oran2', format: 'fixedPoint', precision: 2 },
+                                { caption: 'İskonto3', dataField: 'Oran3', format: 'fixedPoint', precision: 2 },
+                                { caption: 'İskonto4', dataField: 'Oran4', format: 'fixedPoint', precision: 2 },
+                                { caption: 'İskonto5', dataField: 'Oran5', format: 'fixedPoint', precision: 2 },
                             ];
                             _grid_quotations_detail = $('.satis_baglanti_detay_data').dxDataGrid({
                                 dataSource: result,
@@ -295,7 +295,7 @@
                         $(".date_bitis_tarihi").dxTextBox("instance").option("value", fromOADate(result[0].BitTarih));
                         $(".select_musteri_kodu").dxLookup("instance").option("value", result[0].MusteriKod);
                         $(".txt_sozlesme_notu").dxTextBox("instance").option("value", result[0].Aciklama);
-                        $(".date_alinan_cek_ort_vade").dxTextBox("instance").option("value", new Date(new Date(result[0].CekOrtalamaVadeTarih.match(/\d+/)[0] * 1)));
+                        $(".date_alinan_cek_ort_vade").dxTextBox("instance").option("value", formatDateFromJson(result[0].CekOrtalamaVadeTarih));
                         }
                     }
                 });
@@ -354,13 +354,8 @@
                 itemElement.append(rightBlock);
             }
         });
-
-
-
+        
         $('#x-modal-baglanti-detay').modal("show");
-
-
-
     });
     $('#sample_1 tbody').on('click', '.hareket-control', function () {
         var tr = $(this).closest('tr');
@@ -472,13 +467,7 @@
     $('#sample_1').on('draw.dt', function () {
         setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
     });
-
-    $(document).ready(function () {
-
-        $('.buttons-pdf').removeClass('btn btn-default');
-        $('.buttons-excel').removeClass('btn btn-default');
-    });
-
+    
 </script>
 
 

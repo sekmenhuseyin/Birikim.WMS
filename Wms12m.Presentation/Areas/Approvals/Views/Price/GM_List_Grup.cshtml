@@ -1,10 +1,6 @@
 ﻿<div class="col-md-12" style="width:100%;">
     <div>
-
-
         <div class="portlet-body">
-            <div class="row" id="buttonsgrup" style="margin-bottom:5px; margin-top:5px;"></div>
-
             <table class="table table-striped table-bordered table-hover" id="sample_3">
                 <thead>
                     <tr>
@@ -34,6 +30,11 @@
                     </tr>
                 </thead>
             </table>
+            <div class="row">
+                <div class="col-md-1 col-md-offset-10">
+                    <button type="button" class="btn btn-default m-r-20" id="selector3">Hepsini Seç</button>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -95,15 +96,21 @@
 
         var buttonsgrup = new $.fn.dataTable.Buttons(table3, {
             buttons: [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
             ]
-        }).container().appendTo($('#buttonsgrup'));
-
-        $(document).ready(function () {
-            $('#buttons').hide();
-            $('.buttons-pdf').removeClass('btn btn-default');
-            $('.buttons-excel').removeClass('btn btn-default');
+        }).container().appendTo($('#buttons2'));
+        $("#selector3").click(function () {
+            if (selectall == true) {
+                $("#selector3").text("Seçimi İptal Et"); selectall = false;
+                table3.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
+                    this.select();
+                });
+            }
+            else {
+                $("#selector3").text("Hepsini Seç"); selectall = true;
+                table3.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
+            }
         });
 
 
