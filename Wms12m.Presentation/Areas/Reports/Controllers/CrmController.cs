@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using Wms12m.Entity;
+using System.Web.Script.Serialization;
 
 namespace Wms12m.Presentation.Areas.Reports.Controllers
 {
@@ -21,26 +19,16 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public ActionResult Institution()
         {
-            var list = db.CRM_KurumKarti().ToList();
-            return View("Institution", list);
+            return View("Institution");
         }
-        /// <summary>
-        /// kurum adı arama
-        /// </summary>
-        public JsonResult GetKurumbyName(string term)
+        public string InstitutionList()
         {
-            string sql = "SELECT KODU + ' ' + ADI as value, KODU + ' ' + ADI as lable, KODU as id FROM CAMPUSLNK1.dbo.TBLKURUM WHERE (ADI like '%" + term+ "%') OR (KODU like '%" + term + "%')";
-            //return
-            try
+            JavaScriptSerializer json = new JavaScriptSerializer()
             {
-                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Reports/CRM/InstitutionDetail");
-                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
-            }
+                MaxJsonLength = int.MaxValue
+            };
+            var list = db.CRM_KurumKarti().ToList();
+            return json.Serialize(list);
         }
         /// <summary>
         /// teklif analizi
