@@ -385,7 +385,6 @@
     <Content Include="Areas\Reports\Views\Crm\Bid.cshtml" />
     <Content Include="Areas\Reports\Views\Crm\Institution.cshtml" />
     <Content Include="Areas\Reports\Views\Crm\BidDetail.cshtml" />
-    <Content Include="Areas\Reports\Views\Crm\InstitutionDetail.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using Wms12m.Entity;
+using System.Web.Script.Serialization;
 
 namespace Wms12m.Presentation.Areas.Reports.Controllers
 {
@@ -21,34 +19,16 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public ActionResult Institution()
         {
+            return View("Institution");
+        }
+        public string InstitutionList()
+        {
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
             var list = db.CRM_KurumKarti().ToList();
-            return View("Institution", list);
-        }
-        /// <summary>
-        /// teklif analiz detay
-        /// </summary>
-        public PartialViewResult InstitutionDetail(string term)
-        {
-            var tbl = db.CRM_KurumKartiSearch(term).FirstOrDefault();
-            return PartialView("InstitutionDetail", tbl);
-        }
-        /// <summary>
-        /// kurum adı arama
-        /// </summary>
-        public JsonResult GetKurumbyName(string term)
-        {
-            string sql = "SELECT KODU + ' ' + ADI as value, KODU + ' ' + ADI as lable, KODU as id FROM CAMPUSLNK1.dbo.TBLKURUM WHERE (ADI like '%" + term+ "%') OR (KODU like '%" + term + "%')";
-            //return
-            try
-            {
-                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Reports/CRM/InstitutionDetail");
-                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
-            }
+            return json.Serialize(list);
         }
         /// <summary>
         /// teklif analizi

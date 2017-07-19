@@ -56,7 +56,11 @@
                 return json;
             },
         },
-        //"scrollX": true,
+        "dom": 'Bfrtip',
+        "buttons": [
+            { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
+            { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
+        ],
         "columnDefs": [{ "visible": false, "targets": [0,1]}, { "type": "num-fmt", "className": "dt-right", "targets": [6] }],
         "columns": [
             { "data": "ID" },
@@ -83,12 +87,6 @@
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
-
-
-    $(document).ready(function () {
-
-    });
-
 </script>
 
 

@@ -37,6 +37,14 @@
 </table>
 <script type="text/javascript">
     $(document).ready(function () {
+        //tarih alanları
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#EvrakNo").on("change paste keyup", function () { filterx(2, $("#EvrakNo").val()); });
+        $("#Görevli").on("change paste keyup", function () { filterx(4, $("#Görevli").val()); });
+        $("#SiparisTarihi").datepicker().on("change", function (e) { filterx(5, e.target.value); });
+        $("#OlusturmaTarihi").datepicker().on("change", function (e) { filterx(6, e.target.value); });
+        $("#BitirmeTarihi").datepicker().on("change", function (e) { filterx(7, e.target.value); });
+        $("#Bilgi").on("change paste keyup", function () { filterx(8, $("#Bilgi").val()); });
         //datatable
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
@@ -61,13 +69,6 @@
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
-        //tarih alanları
-        $.datepicker.setDefaults($.datepicker.regional["tr"]);
-        $("#EvrakNo").on("change paste keyup", function () { filter(table, 2, $("#EvrakNo").val()); });
-        $("#Görevli").on("change paste keyup", function () { filter(table, 4, $("#Görevli").val()); });
-        $("#SiparisTarihi").datepicker().on("change", function (e) { filter(table, 5, e.target.value); });
-        $("#OlusturmaTarihi").datepicker().on("change", function (e) { filter(table, 6, e.target.value); });
-        $("#BitirmeTarihi").datepicker().on("change", function (e) { filter(table, 7, e.target.value); });
-        $("#Bilgi").on("change paste keyup", function () { filter(table, 8, $("#Bilgi").val()); });
+        function filterx(a, b) { filter(table, a, b); }
     });
 </script>

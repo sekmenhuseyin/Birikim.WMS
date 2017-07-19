@@ -182,6 +182,7 @@ function replaceAll(str, find, replace) {
 };
 //www.developer.com/net/dealing-with-json-dates-in-asp.net-mvc.html
 function ToJavaScriptDate(value) {
+    if (value == null) return "";
     var pattern = /Date\(([^)]+)\)/;
     var results = pattern.exec(value);
     var dt = new Date(parseFloat(results[1]));

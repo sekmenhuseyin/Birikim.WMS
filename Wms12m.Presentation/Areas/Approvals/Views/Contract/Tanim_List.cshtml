@@ -41,43 +41,43 @@
     var silinecek = new Array();
     var table = "";
     if ("@ViewBag.ListeNo" != "#12MConsulting#")
-        {
-     table = $('#sample_1').DataTable({
-        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-        "ajax": {
-            "url": '/Approvals/Contract/TanimListesiSelect?listeNo=' + '@ViewBag.ListeNo',
-            "dataSrc": function (json) {
-                return json;
+    {
+         table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "ajax": {
+                "url": '/Approvals/Contract/TanimListesiSelect?listeNo=' + '@ViewBag.ListeNo',
+                "dataSrc": function (json) {
+                    return json;
+                },
             },
-        },
-       // "fixedHeader": true,
-       // "scrollX": true,
-       // "scrollY": 400,
-        "ordering": false,
-        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6,7, 8,9,10] }],
-        "columns": [
-            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
-            { "data": "Kod10" },
-            { "data": "MalKodGrup" },
-            { "data": "MalKod" },
-            { "data": "MalAdi" },
-            { "data": "Kalite" },
-            { "data": "Oran1", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
-            { "data": "Oran2", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
-            { "data": "Oran3", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
-            { "data": "Oran4", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
-            { "data": "Oran5", "render": $.fn.dataTable.render.number('.', ',', 2, '')  }
-        ],
-        "ordering": false,
-        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-            $('td', nRow).attr('nowrap', 'nowrap');
-            return nRow;
-        }
+            "dom": 'Bfrtip',
+            "buttons": [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
+            ],
+            "ordering": false,
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [6,7, 8,9,10] }],
+            "columns": [
+                { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
+                { "data": "Kod10" },
+                { "data": "MalKodGrup" },
+                { "data": "MalKod" },
+                { "data": "MalAdi" },
+                { "data": "Kalite" },
+                { "data": "Oran1", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
+                { "data": "Oran2", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
+                { "data": "Oran3", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
+                { "data": "Oran4", "render": $.fn.dataTable.render.number('.', ',', 2, '')  },
+                { "data": "Oran5", "render": $.fn.dataTable.render.number('.', ',', 2, '')  }
+            ],
+            "ordering": false,
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $('td', nRow).attr('nowrap', 'nowrap');
+                return nRow;
+            }
 
-    });
-    }
-    else {
-
+        });
+    } else {
         $('tbody').last().remove();
         var elementt = @Html.Raw(Json.Encode(ViewBag.Satir));
         $(elementt).insertAfter($(".aaaaa"));
@@ -100,7 +100,6 @@
             silinecek = jQuery.grep(silinecek, function (value) {
                 return value != ind;
             });
-            //silinecek.splice($("tr").index(this), 1);
         }
     });
 
@@ -120,12 +119,8 @@
         });
         return _dfd.promise();
     });
-    $(document).ready(function () {
-
-    });
     function dddd() {
         $("tr").toggleClass('selected');
-
         var x = table.rows('.selected').data();
         for (var i = 0; i < x.length; i++) {
             var jObject = {};
