@@ -118,6 +118,7 @@
                 PartialView("/Reports/Financial/BakiyeList", 'bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit, bakiye: bakiye }));
             }
         });
+     $(".btn-listele").removeClass("dx-button");
         $(".tarih-bas-date").dxDateBox({
             dataType: 'date',
             formatString: 'dd/MM/yyyy',

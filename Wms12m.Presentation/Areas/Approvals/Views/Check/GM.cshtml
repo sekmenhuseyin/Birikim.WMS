@@ -121,6 +121,7 @@
     <script>
         var secili_satir = new Array();
         var secili_table = new Array();
+        var BaglantiTutari = 0, Tutar = 0;
         var table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ajax": {
@@ -149,7 +150,18 @@
             "ordering": false,
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 $('td', nRow).attr('nowrap', 'nowrap');
+                Tutar += parseFloat($('td:eq(8)', nRow).html());
+                BaglantiTutari += parseFloat($('td:eq(9)', nRow).html());
                 return nRow;
+            },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+                $(api.column(8).footer()).html(
+                    ondalikBinlik(Math.round(Tutar * 100) / 100, 2)
+                );
+                $(api.column(9).footer()).html(
+                    ondalikBinlik(Math.round(BaglantiTutari * 100) / 100, 2)
+                );
             }
         });
 
