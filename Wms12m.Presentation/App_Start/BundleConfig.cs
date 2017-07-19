@@ -16,7 +16,6 @@ namespace Wms12m.Presentation
             var styleBundle = new StyleBundle(CssBundle);
             // scripts
             scriptBundle
-                .Include("~/Content/assets/global/plugins/html5shim/html5shiv.js")
                 // CLDR scripts
                 //.Include("~/Content/assets/global/plugins/cldr/cldr.min.js")
                 //.Include("~/Content/assets/global/plugins/cldr/event.min.js")
