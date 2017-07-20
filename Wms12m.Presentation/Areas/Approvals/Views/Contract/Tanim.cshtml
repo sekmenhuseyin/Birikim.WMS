@@ -382,12 +382,8 @@
             NumbBox(".numb_bekleyen_siparis", true,2);
             NumbBox(".numb_alinan_bordro", true,2);
             NumbBox(".numb_alinan_cek_tutari", false,2);
-            NumbBox(".numb_alinan_nakit_vb", false,2);
-          
-            $(".numb_toplam_tahsilat").dxTextBox({
-                value: 0,
-                readOnly: true
-            });
+            NumbBox(".numb_alinan_nakit_vb", false, 2);
+            NumbBox(".numb_toplam_tahsilat", false,2);
             var bagTipi = [{ Tip: "Peşin" }, { Tip: "Vadeli" }, { Tip: "Kredi Kart" }, { Tip: "Kampanya" }]
             $(".select_baglanti_tipi").dxSelectBox({
                 dataSource: bagTipi,
@@ -939,6 +935,7 @@
             $(".numb_valor_gun").dxTextBox("instance").option("readOnly", true);
             $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", true);
             $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", true);
+            $(".numb_toplam_tahsilat").dxTextBox("instance").option("readOnly", true);
             $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", true);
             $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", true);
             $(".select_musteri_kodu").dxLookup("instance").option("readOnly", true);
@@ -955,6 +952,7 @@
             $(".numb_valor_gun").dxTextBox("instance").option("readOnly", false);
             $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", false);
             $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", false);
+            $(".numb_toplam_tahsilat").dxTextBox("instance").option("readOnly", false);
             $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", false);
             $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
             $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
@@ -1006,6 +1004,7 @@
             $(".numb_valor_gun").dxTextBox("instance").option("readOnly", false);
             $(".numb_alinan_cek_tutari").dxTextBox("instance").option("readOnly", false);
             $(".numb_alinan_nakit_vb").dxTextBox("instance").option("readOnly", false);
+            $(".numb_toplam_tahsilat").dxTextBox("instance").option("readOnly", false);
             $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", false);
             $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
             $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);

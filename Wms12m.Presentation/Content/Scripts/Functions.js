@@ -8,6 +8,7 @@ function NumbBox(cls, readOnly,ond) {
     $(cls).dxTextBox({
         mode: "fixed-point",
         value: 0,
+        readOnly: readOnly,
         onKeyPress: function (info) {
             var event = info.jQueryEvent;
 
@@ -29,12 +30,11 @@ function NumbBox(cls, readOnly,ond) {
             }
         },
         onValueChanged: function (e) {
-
             var xx = e.value;
             if (e.value == null) {
                 return;
             }
-            if (e.value.toString().split(",").length < 3) {
+            else if (e.value.toString().split(",").length < 3) {
                 xx = e.value;
             }
             else {
@@ -66,7 +66,7 @@ function NumbBox(cls, readOnly,ond) {
             if (e.component.option("text") == null) {
                 return;
             }
-            if (e.component.option("text").toString().indexOf(",") > 0) {
+            else if (e.component.option("text").toString().indexOf(",") > 0) {
                 if (Number(e.component.option("text").toString().split(",")[1]) == 0) {
                     var val = e.component.option("text").toString().split(",")[0];
                     e.component.option("value", val);
@@ -75,8 +75,7 @@ function NumbBox(cls, readOnly,ond) {
                 }
             }
 
-        },
-        readOnly: readOnly
+        }
 
     })
 }
