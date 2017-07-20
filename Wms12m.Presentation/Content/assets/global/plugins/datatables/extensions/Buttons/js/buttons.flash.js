@@ -1107,7 +1107,8 @@ var _excelSpecials = [
     { match: /^\-?\$[\d,]+.?\d*$/, style: 57 }, // Dollars
     { match: /^\-?£[\d,]+.?\d*$/, style: 58 }, // Pounds
     { match: /^\-?€[\d,]+.?\d*$/, style: 59 }, // Euros
-    { match: /^\-?\d+$/, style: 65 }, // Numbers without thousand separators
+    { match: /^\d+$/, style: 65, fmt: function (d) { return '0.0' + d; } }, // Numbers without thousand separators
+    { match: /^\-\d+$/, style: 65, fmt: function (d) { return '-0.0' + (d*(-1)); } }, // Numbers without thousand separators
     { match: /^\-?\d+\.\d{2}$/, style: 66 }, // Numbers 2 d.p. without thousands separators
     { match: /^\([\d,]+\)$/, style: 61, fmt: function (d) { return -1 * d.replace(/[\(\)]/g, ''); } },  // Negative numbers indicated by brackets
     { match: /^\([\d,]+\.\d{2}\)$/, style: 62, fmt: function (d) { return -1 * d.replace(/[\(\)]/g, ''); } },  // Negative numbers indicated by brackets - 2d.p.
