@@ -1,110 +1,28 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Vadesi Gelmemiş Çekler";
-}@section Styles{<style>
-    .dx-datagrid-headers .dx-row {
-        color: white;
-        border-bottom: 1px solid #D2D2D2;
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#32c5d2), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
-        background: linear-gradient(to bottom, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
-    }
-    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
-        color: white;
-    }
-    .btn {
-        width: 120px;
-        text-align: center;
-    }
-</style>
-    }
-<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Vadesi Gelmemiş Çekler</span></li></ul></div>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Vadesi Gelmemiş Çekler</span></li></ul></div>
 <h1 class="page-title">Vadesi Gelmemiş Çekler</h1>
-
-
-<div class="row">
-    <div class="control-content col-md-11 col-lg-9">
-        <div class="col-md-1 col-sm-2 col-xs-12">
-            <table>
-                <tr style="padding:8px;">
-                    <td style="width:120px;"><span></span></td>
-                </tr>
-                <tr style="height:10px"><td colspan="6"></td></tr>
-                <tr style="padding:8px;">
-                    <td style="width:120px;"><span style="width:90%;color:#32c5d2;font-weight:bold;">Vade Tarih</span><span style="width:10%;right:0;color:#32c5d2;font-weight:bold;">:</span></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-md-3 col-sm-3 col-xs-12">
-            <table>
-                <tr style="padding:8px;">
-                    <td style="width:200px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Başlangıç</div></td>
-                </tr>
-                <tr style="height:10px"><td colspan="6"></td></tr>
-                <tr style="padding:8px;">
-                    <td style="width:200px;padding:4px;"><div class="tarih-bas-date" style="float:left;width:80%;"></div></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-md-3 col-sm-3 col-xs-12">
-            <table>
-                <tr style="padding:8px;">
-                    <td style="width:200px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Bitiş</div></td>
-                </tr>
-                <tr style="height:10px"><td colspan="6"></td></tr>
-                <tr style="padding:8px;">
-                    <td style="width:200px;padding:4px;"><div class="tarih-bit-date" style="float:left;width:80%;"></div></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-md-2 col-sm-3 col-xs-12">
-            <table>
-                <tr style="padding:8px;">
-                    <td style="width:120px;"><span></span></td>
-                </tr>
-                <tr style="height:10px"><td colspan="6"></td></tr>
-                <tr style="padding:8px;">
-                    <td style="width:120px;"><div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div></td>
-                </tr>
-            </table>
-        </div>
-    </div>
+<div class="row m-t-20">
+    <div class="col-md-offset-2 col-md-2 p-0 m-t-5 color-blue-light bold">Başlangıç: </div>
+    <div class="col-md-2 p-0 m-t-5 color-blue-light bold">Bitiş: </div>
 </div>
-<div class="row" style="margin-top:10px;">
-    <div id="vade-cek-grid"></div>
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Vade Tarihi: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToShortDateString()" /></div>
+    <div class="col-md-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
 </div>
+<div class="row m-t-20" id="vade-cek-grid"></div>
 @section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
 <script>
     $(document).ready(function () {
-        var dateVal = new Date();
-        dateVal.setHours(0, 0, 0);
-        var basTarih = 36526;
-        var bitTarih = 44196;
-        $(".btn-listele").dxButton({
-            onClick: function () {
-                PartialView("/Reports/Financial/VadesiGelmemisCekList", 'vade-cek-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih }));
-            }
-        });
-        $(".tarih-bas-date").dxDateBox({
-            dataType: 'datetime ',
-            formatString: 'dd/MM/yyyy',
-            value: '01/01/2000',
-            onValueChanged: function (e) {
-                basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
-        $(".tarih-bit-date").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            value: '12/31/2020',
-            onValueChanged: function (e) {
-                bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
-        $(".btn-listele").removeClass("dx-button");
-
+        var basTarih = @DateTime.Today.ToOADateInt();
+        var bitTarih = basTarih;
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
+        $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });
+        $("#btnListele").click(function () { PartialView("/Reports/Financial/VadesiGelmemisCekList", 'vade-cek-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih })); });
     });
 </script>
 }

@@ -87,12 +87,6 @@
             KalanTutar += val.KalanTutar;
             DevirTutar += val.DevirTutar;
             DevirdenSonrakiSevkedilen += val.DevirdenSonrakiSevkedilen;
-            Miktar += val.Miktar;
-            Tutar += val.Tutar;
-            ToplamIskonto += val.ToplamIskonto;
-            KDV += val.KDV;
-            SevkedilenTutar += val.SevkedilenTutar;
-
         });
 
         var table = $('#sample_1').DataTable({
@@ -375,6 +369,7 @@
         var x = table.rows('.aa').data();
         baglanti = x[0][4];
         var Miktar = 0, Tutar = 0, ToplamIskonto = 0, KDV = 0, SevkedilenTutar = 0;
+        $('#x-modal-cari-detay-cek').modal("show");    
         $('#tblsample_cari').html("<table id='sample_cari' class='table table-striped table-bordered table-condensed'><thead><tr><th>Fiyat Liste Numarası</th><th>Depo</th><th>MalKodu</th><th>Miktar</th><th>Birim</th><th>Birim Fiyat</th><th>Tutar</th><th>Toplam İskonto</th><th>KDV Oran</th><th>KDV</th><th>Sevkedilen Tutar</th></tr></thead> <tfoot><tr><th colspan='3'></th><th class='text-right'></th><th></th><th class='text-right'></th><th class='text-right'></th><th></th><th class='text-right'></th><th class='text-right'></th></tr></tfoot></table>");
         var table2 = $('#sample_cari').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -404,6 +399,13 @@
                 { "data": "KDV", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "SevkedilenTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             ],
+            "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                Miktar += aData[3];
+                Tutar += aData[5];
+                ToplamIskonto += aData[6];
+                KDV += aData[8];
+                SevkedilenTutar += aData[9];
+            },
             "footerCallback": function (row, data, start, end, display) {
 
                 var api = this.api(), data;
@@ -425,104 +427,6 @@
                 );
             }
         });
-        });
-
-        $('#x-modal-cari-detay-cek').modal("show");
-
-
-        
-
-
-        //$.ajax({
-        //    type: 'POST',
-        //    url: '/Reports/Financial/SatBagHareketListesiSelect',
-        //    data: { "listeNo": baglanti},
-        //    dataType: "html",
-        //    success: function (data) {
-        //        
-        //        var result = JSON.parse(data);
-        //        var columns = [
-
-        //            { caption: 'Fiyat Listesi', dataField: 'SozlesmeNo' },
-        //            { caption: 'Evrak No', dataField: 'EvrakNo' },
-        //            {
-        //                caption: 'Tarih', dataField: 'Tarih',
-        //                customizeText: function (cellInfo) {
-        //                    if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-        //                }
-        //            },
-        //            { caption: 'Kaynak Sipariş No', dataField: 'KaynakSiparisNo' },
-        //            {
-        //                caption: 'Tarih', dataField: 'KaynakSiparisTarih',
-        //                customizeText: function (cellInfo) {
-        //                    if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-        //                }
-        //            },
-        //            { caption: 'Fiyat Liste Numarası', dataField: 'FytListeNo' },
-        //            { caption: 'Depo', dataField: 'Depo' },
-        //            { caption: 'MalKodu', dataField: 'MalKodu', format: 'fixedPoint', precision: 2 },
-        //            { caption: 'Miktar', dataField: 'Miktar', format: 'fixedPoint', precision: 2 },
-        //            { caption: 'Birim', dataField: 'Birim', format: 'fixedPoint', precision: 2 },
-        //            { caption: 'Birim Fiyat', dataField: 'BirimFiyat', format: 'fixedPoint', precision: 2 },
-        //            { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
-        //            { caption: 'Toplam İskonto', dataField: 'ToplamIskonto', format: 'fixedPoint', precision: 2 },
-        //            { caption: 'KDV Oran', dataField: 'KDVOran', format: 'fixedPoint', precision: 2 },
-        //            { caption: 'KDV', dataField: 'KDV', format: 'fixedPoint', precision: 2 },
-        //            { caption: 'Sevkedilen Tutar', dataField: 'SevkedilenTutar', format: 'fixedPoint', precision: 2 }
-        //        ];
-        //        _grid_quotations_detail = $('.satis_baglanti_hareket_data').dxDataGrid({
-        //            dataSource: result,
-        //            height: 400,
-        //            paging: { pageSize: 5000 },
-        //            columns: columns,
-        //            headerFilter: {
-        //                visible: true
-        //            },
-        //            popupDetailedWindow: true,
-        //            columnAutoWidth: true,
-        //            pagingCounter: true,
-        //            filterRow: {
-        //                visible: true,
-        //                applyFilter: 'auto',
-        //                applyFilterText: 'Apply filter',
-        //                resetOperationText: 'Reset'
-        //            },
-        //            scrolling: {
-        //                scrollByContent: true,
-        //                scrollByThumb: true
-        //            },
-        //            allowColumnReordering: true,
-        //            allowColumnResizing: true,
-        //            remoteOperations: true,
-        //            showRowLines: true,
-        //            hoverStateEnabled: true,
-        //            rowAlternationEnabled: false,
-        //            sorting: {
-        //                mode: "multiple",
-        //            },
-
-        //            onRowClick: function (opt) {
-        //                if (opt.rowType == "data") {
-        //                    var component = opt.component;
-        //                    var prevClickTime = component.lastClickTime;//take last clicked time
-        //                    component.lastClickTime = new Date();
-        //                    if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-        //                        //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
-        //                    }
-        //                }
-        //            },
-        //            onCellPrepared: function (info) {
-        //                if (info.rowType == "data") {
-        //                    if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
-        //                        info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
-        //                    }
-        //                }
-        //            }
-        //        }).dxDataGrid("instance");
-        //    }
-        //});
-
-
     });
 </script>
 
