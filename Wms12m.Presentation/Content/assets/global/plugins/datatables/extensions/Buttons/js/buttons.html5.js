@@ -797,6 +797,17 @@ var excelStrings = {
 // Ref: section 3.8.30 - built in formatters in open spreadsheet
 //   https://www.ecma-international.org/news/TC45_current_work/Office%20Open%20XML%20Part%204%20-%20Markup%20Language%20Reference.pdf
 var _excelSpecials = [
+    { match: /^\-?\d+\.\d%$/, style: 60, fmt: function (d) { return d / 100; } }, // Precent with d.p.
+    { match: /^\-?\d+\.?\d*%$/, style: 56, fmt: function (d) { return d / 100; } }, // Percent
+    { match: /^\-?\$[\d,]+.?\d*$/, style: 57 }, // Dollars
+    { match: /^\-?£[\d,]+.?\d*$/, style: 58 }, // Pounds
+    { match: /^\-?€[\d,]+.?\d*$/, style: 59 }, // Euros
+    { match: /^\-?\d+$/, style: 65 }, // Numbers without thousand separators
+    { match: /^\-?\d+\.\d{2}$/, style: 66 }, // Numbers 2 d.p. without thousands separators
+    { match: /^\([\d,]+\)$/, style: 61, fmt: function (d) { return -1 * d.replace(/[\(\)]/g, ''); } },  // Negative numbers indicated by brackets
+    { match: /^\([\d,]+\.\d{2}\)$/, style: 62, fmt: function (d) { return -1 * d.replace(/[\(\)]/g, ''); } },  // Negative numbers indicated by brackets - 2d.p.
+    { match: /^\-?[\d,]+$/, style: 63 }, // Numbers with thousand separators
+    { match: /^\-?[\d,]+\.\d{2}$/, style: 64 }  // Numbers with 2 d.p. and thousands separators
 ];
 
 
