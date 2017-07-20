@@ -113,8 +113,6 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public ActionResult KampanyaliSatis()
         {
-            ViewBag.BasTarih = 36526;
-            ViewBag.BitTarih = 44196;
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
