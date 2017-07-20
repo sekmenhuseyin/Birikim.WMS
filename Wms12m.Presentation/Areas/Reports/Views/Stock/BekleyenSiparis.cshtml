@@ -1,84 +1,37 @@
 ﻿@{
     ViewBag.Title = "Bekleyen Sipariş Raporu";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<style>.btn {width: 120px;text-align: center;}</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Bekleyen Sipariş Raporu</span></li></ul></div>
 <h1 class="page-title">Bekleyen Sipariş Raporu</h1>
-<div class="row control-content">
-    <div style="float:left;padding:15px;">
-        <table>
-
-            <tr style="padding:15px;">
-                <td style="width:120px;"><span></span></td>
-                <td style="width:200px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Başlangıç</div></td>
-                <td style="width:200px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Bitiş</div></td>
-            </tr>
-            <tr style="height:10px"><td colspan="6"></td></tr>
-            <tr style="padding:15px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Tarih</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:200px;"><div class="tarih-bas-date" style="float:left;width:90%;"></div></td>
-                <td style="width:200px;"><div class="tarih-bit-date" style="float:left;width:90%;"></div></td>
-                <td valign="top"><div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div></td>
-            </tr>
-            <tr style="height:5px"><td colspan="6"></td></tr>
-            <tr style="padding:15px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Teslim Tarihi</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:200px;"><div class="teslim-bas-date" style="float:left;width:90%;"></div></td>
-                <td style="width:200px;"><div class="teslim-bit-date" style="float:left;width:90%;"></div></td>
-            </tr>
-        </table>
-    </div>
-   
-
+<div class="row m-t-20">
+    <div class="col-md-offset-2 col-md-2 p-0 m-t-5 color-blue-light bold">Başlangıç: </div>
+    <div class="col-md-2 p-0 m-t-5 color-blue-light bold">Bitiş: </div>
 </div>
-<div class="row" id="bekleyen-siparis-grid" style="margin-top:10px;"></div>
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Tarih: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToShortDateString()" /></div>
+    <div class="col-md-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
+</div>
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Teslim Tarihi: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtTeslimBaslangic" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtTeslimBitis" value="@DateTime.Today.ToShortDateString()" /></div>
+</div>
+<div class="row" id="bekleyen-siparis-grid" style="margin-top:20px;"></div>
 @section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
 <script>
     $(document).ready(function () {
-        var dateVal = new Date();
-        dateVal.setHours(0, 0, 0);
-        var basTarih = 36526;
-        var basTeslimTarih = 36526;
-        var bitTarih = 44196;
+        var basTarih = @DateTime.Today.AddMonths(-1).ToOADateInt();
+        var bitTarih = @DateTime.Today.ToOADateInt();
+        var basTeslimTarih = basTarih;
         var bitTeslimTarih = bitTarih;
-        $(".btn-listele").dxButton({
-            onClick: function() {
-                PartialView("/Reports/Stock/BekleyenSiparisList", 'bekleyen-siparis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basteslimtarih: basTeslimTarih, bitteslimtarih: bitTeslimTarih }));
-            }
-        });
-        $(".btn-listele").removeClass("dx-button");
-        $(".tarih-bas-date").dxDateBox({
-            dataType: 'date',
-            displayFormat: 'dd/MM/yyyy',
-            value: '01/01/2000',
-            onValueChanged: function (e) {
-                basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
-        $(".tarih-bit-date").dxDateBox({
-            dataType: 'date',
-            displayFormat: 'dd/MM/yyyy',
-            value: '12/31/2020',
-            onValueChanged: function (e) {
-                bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
-        $(".teslim-bas-date").dxDateBox({
-            dataType: 'date',
-            displayFormat: 'dd/MM/yyyy',
-            value: '01/01/2000',
-            onValueChanged: function (e) {
-                basTeslimTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
-        $(".teslim-bit-date").dxDateBox({
-            dataType: 'date',
-            displayFormat: 'dd/MM/yyyy',
-            value: '12/31/2020',
-            onValueChanged: function (e) {
-                bitTeslimTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
+        $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });
+        $("#txtTeslimBaslangic").datepicker().on("change", function (e) { basTeslimTarih = toOADateFromString(e.target.value); });
+        $("#txtTeslimBitis").datepicker().on("change", function (e) { bitTeslimTarih = toOADateFromString(e.target.value); });
+        $("#btnListele").click(function () { PartialView("/Reports/Stock/BekleyenSiparisList", 'bekleyen-siparis-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basteslimtarih: basTeslimTarih, bitteslimtarih: bitTeslimTarih })); });
     });
 </script>
 }
