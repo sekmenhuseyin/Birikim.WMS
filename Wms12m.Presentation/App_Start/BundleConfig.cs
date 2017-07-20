@@ -86,11 +86,11 @@ namespace Wms12m.Presentation
             bundles.Add(scriptBundle);
             bundles.Add(styleBundle);
             // EnableOptimizations
-#if DEBUG
+//#if DEBUG
             BundleTable.EnableOptimizations = false;
-#else
-            BundleTable.EnableOptimizations = true;
-#endif
+//#else
+//            BundleTable.EnableOptimizations = true;
+//#endif
         }
     }
 }
