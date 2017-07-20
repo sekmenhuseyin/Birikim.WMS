@@ -2,79 +2,35 @@
 @{
     ViewBag.Title = "Bakiye";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{
-<style>
-    td.details-control {
-        background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
-        cursor: pointer;
-    }
-
-    tr.shown td.details-control {
-        background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
-    }
-    .dx-datagrid-headers .dx-row {
-        color: white;
-        border-bottom: 1px solid #D2D2D2;
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#32c5d2), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
-        background: linear-gradient(to bottom, #32c5d2 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
-    }
-
-    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
-        color: white;
-    }
-
-    .btn {
-        width: 120px;
-        text-align: center;
-    }
-    .dx-item-content .dx-popup-cancel {
-        background-color: #ff4d4d !important;
-        color: white !important;
-    }
+}@section Styles{<style>
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
 </style>
-}
-<div class="page-bar">
-    <ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Bakiye</span></li></ul>
-</div>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Bakiye</span></li></ul></div>
 <h1 class="page-title">Bakiye</h1>
-<div class="row control-content">
-    <div style="float:left;padding-left:15px;">
-        <table>
-            <tr style="padding:8px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Bakiye</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:240px;"><div class="bakiye" style="float:left;width:90%;"></div></td>
-                <td style="width:240px;"></td>
-            </tr>
-            <tr style="height:10px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;">
-                <td style="width:120px;"><span></span></td>
-                <td style="width:240px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Başlangıç</div></td>
-                <td style="width:240px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Bitiş</div></td>
-            </tr>
-            <tr style="height:10px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;height:36px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Hesap Kodu</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:240px;height:36px;"><div class="chk-bas-select" style="float:left;width:90%;height:100%;"></div></td>
-                <td style="width:240px;height:36px;"><div class="chk-bit-select" style="float:left;width:90%;height:100%;"></div></td>
-            </tr>
-            <tr style="height:10px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Tarih</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:240px;"><div class="tarih-bas-date" style="float:left;width:90%;"></div></td>
-                <td style="width:240px;"><div class="tarih-bit-date" style="float:left;width:90%;"></div></td>
-            </tr>
-            <tr style="height:5px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Vade Tarihi</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:240px;"><div class="vade-bas-date" style="float:left;width:90%;"></div></td>
-                <td style="width:240px;"><div class="vade-bit-date" style="float:left;width:90%;"></div></td>
-            </tr>
-        </table>
-    </div>
-    <div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div>
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Bakiye: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><div class="bakiye"></div></div>
+    <div class="col-md-2 col-md-offset-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
+</div>
+<div class="row m-t-20">
+    <div class="col-md-offset-2 col-md-2 p-0 m-t-5 color-blue-light bold">Başlangıç: </div>
+    <div class="col-md-2 p-0 m-t-5 color-blue-light bold">Bitiş: </div>
+</div>
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Hesap Kodu: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><div class="form-control chk-bas-select"></div></div>
+    <div class="col-md-2 p-l-5 p-r-0"><div class="form-control chk-bit-select"></div></div>
+</div>
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Tarih: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToShortDateString()" /></div>
+</div>
+<div class="row m-t-20">
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Vade Tarihi: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtTeslimBaslangic" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtTeslimBitis" value="@DateTime.Today.ToShortDateString()" /></div>
 </div>
 <div class="row" id="bakiye-grid" style="margin-top:20px;"></div>
 <div class="modal fade" id="x-modal-bakiye-detay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
@@ -95,62 +51,24 @@
         </div>
     </div>
 </div>
-@section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-<script>
+@section Scripts{<script>
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));
-        var dateVal = new Date();
-        dateVal.setHours(0, 0, 0);
-        var basTarih = 36526;
-        var basVadeTarih = 36526;
-        var bitTarih = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-        var bitVadeTarih = 44196;
+        var basTarih = @DateTime.Today.AddMonths(-1).ToOADateInt();
+        var bitTarih = @DateTime.Today.ToOADateInt();
+        var basVadeTarih = basTarih;
+        var bitVadeTarih = bitTarih;
         var chk_bas = "", chk_bit = "ZZZZZZZZZZ";
-        $(".bakiye").dxNumberBox({
-            value: 0,
-            min: 0,
-            placeholder: 'Gün sayısı girin'
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
+        $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });
+        $("#txtTeslimBaslangic").datepicker().on("change", function (e) { basVadeTarih = toOADateFromString(e.target.value); });
+        $("#txtTeslimBitis").datepicker().on("change", function (e) { bitVadeTarih = toOADateFromString(e.target.value); });
+        $("#btnListele").click(function () {
+            var bakiye = $(".bakiye").dxNumberBox("instance").option("value");
+            PartialView("/Reports/Financial/BakiyeList", 'bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit, bakiye: bakiye }));
         });
-
-        $(".btn-listele").dxButton({
-            onClick: function() {
-                var bakiye = $(".bakiye").dxNumberBox("instance").option("value");
-                PartialView("/Reports/Financial/BakiyeList", 'bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit, bakiye: bakiye }));
-            }
-        });
-     $(".btn-listele").removeClass("dx-button");
-        $(".tarih-bas-date").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            value: '01/01/2000',
-            onValueChanged: function (e) {
-                 basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
-        $(".tarih-bit-date").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            value: '@DateTime.Today.ToString("MM/dd/yyyy")',
-            onValueChanged: function (e) {
-                bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
-        $(".vade-bas-date").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            value: '01/01/2000',
-            onValueChanged: function (e) {
-                basVadeTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
-        $(".vade-bit-date").dxDateBox({
-            dataType: 'date',
-            formatString: 'dd/MM/yyyy',
-            value: '12/31/2020',
-            onValueChanged: function (e) {
-                bitVadeTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            }
-        });
+        $(".bakiye").dxNumberBox({ value: 0, min: 0, placeholder: 'Gün sayısı girin' });        
         $(".chk-bas-select").dxLookup({
             dataSource: model,
             searchEnabled: true,

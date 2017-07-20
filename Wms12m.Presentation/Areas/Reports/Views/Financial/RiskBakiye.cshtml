@@ -10,8 +10,8 @@
 </div>
 <div class="row m-t-20">
     <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Hesap Kodu: </div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtCHK1" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" /></div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtCHK2" value="@DateTime.Today.ToShortDateString()" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><div class="form-control chk-bas-select"></div></div>
+    <div class="col-md-2 p-l-5 p-r-0"><div class="form-control chk-bit-select"></div></div>
     <div class="col-md-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
 </div>
 <div class="row m-t-20">
@@ -20,137 +20,71 @@
     <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToShortDateString()" /></div>
 </div>
 <div class="row m-t-20">
-    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Teslim Tarihi: </div>
+    <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Vade Tarihi: </div>
     <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtTeslimBaslangic" value="@DateTime.Today.AddMonths(-1).ToShortDateString()" /></div>
     <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtTeslimBitis" value="@DateTime.Today.ToShortDateString()" /></div>
 </div>
-<div id="risk-bakiye-grid" style="margin-top:20px;margin-left:10px;"></div>
-
-<div class="row control-content">
-    <div style="float:left; padding-left:15px;">
-        <table>
-
-            <tr style="padding:8px;">
-                <td style="width:120px;"><span></span></td>
-                <td style="width:300px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Başlangıç</div></td>
-                <td style="width:300px;"><div style="width:200px;text-align:center;color:#32c5d2;font-weight:bold;">Bitiş</div></td>
-            </tr>
-            <tr style="height:10px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Hesap Kodu</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:300px;"><div class="chk-bas-select" style="float:left;width:90%;height:29px;"></div></td>
-                <td style="width:300px;"><div class="chk-bit-select" style="float:left;width:90%;height:29px;"></div></td>
-            </tr>
-            <tr style="height:10px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Tarih</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:300px;"><div class="tarih-bas-date" style="float:left;width:90%;"></div></td>
-                <td style="width:300px;"><div class="tarih-bit-date" style="float:left;width:90%;"></div></td>
-            </tr>
-            <tr style="height:5px"><td colspan="6"></td></tr>
-            <tr style="padding:8px;">
-                <td style="width:120px;"><div style="width:90%;float:left;color:#32c5d2;font-weight:bold;">Vade Tarihi</div><div style="width:10%;float:left;right:0;color:#32c5d2;font-weight:bold;">:</div></td>
-                <td style="width:300px;"><div class="vade-bas-date" style="float:left;width:90%;"></div></td>
-                <td style="width:300px;"><div class="vade-bit-date" style="float:left;width:90%;"></div></td>
-            </tr>
-        </table>
-    </div>
-    <div class="btn btn-lg green btn-listele" style="width:222px;height:33px;">Listele<i class="fa fa-check"></i></div>
-</div>
+<div id="risk-bakiye-grid" class="m-t-20"></div>
 @section Scripts{<script>
-$(document).ready(function () {
-    var model = @Html.Raw(Json.Encode(Model));
-    var dateVal = new Date();
-    dateVal.setHours(0, 0, 0);
-    var basTarih = 36526;
-    var basVadeTarih = 36526;
-    var bitTarih = Math.ceil((new Date(dateVal) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-    var bitVadeTarih = 44196;
-    var chk_bas="",chk_bit="ZZZZZZZZZZ";
-    $(".btn-listele").dxButton({
-        onClick: function () {
-            PartialView("/Reports/Financial/RiskBakiyeList", 'risk-bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit }));
-        }
+    $(document).ready(function () {
+        var model = @Html.Raw(Json.Encode(Model));
+        var basTarih = @DateTime.Today.AddMonths(-1).ToOADateInt();
+        var bitTarih = @DateTime.Today.ToOADateInt();
+        var basVadeTarih = basTarih;
+        var bitVadeTarih = bitTarih;
+        var chk_bas = "", chk_bit = "ZZZZZZZZZZ";
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
+        $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });
+        $("#txtTeslimBaslangic").datepicker().on("change", function (e) { basVadeTarih = toOADateFromString(e.target.value); });
+        $("#txtTeslimBitis").datepicker().on("change", function (e) { bitVadeTarih = toOADateFromString(e.target.value); });
+        $("#btnListele").click(function () { PartialView("/Reports/Financial/RiskBakiyeList", 'risk-bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit })); });
+        $(".chk-bas-select").dxLookup({
+            dataSource: model,
+            searchEnabled: true,
+            pageLoadMode:"nextButton",
+            searchExpr: ["HesapKodu", "Unvan"],
+            valueExpr: 'HesapKodu',
+            displayExpr: 'Unvan',
+            onValueChanged: function (e) {
+                chk_bas = e.value;
+            },
+
+            itemTemplate: function (itemData, itemIndex, itemElement) {
+                itemElement.css({"text-align":"left", "border-bottom":"1px solid #32c5d2"});
+                if(itemIndex>0)
+                {
+                    itemElement.css({ "margin-top":"-40px" });
+                }
+                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+                itemElement.append(rightBlock);
+            }
         });
-        $(".btn-listele").removeClass("dx-button");
-    $(".tarih-bas-date").dxDateBox({
-        dataType: 'date',
-        formatString: 'dd/MM/yyyy',
-        value: '01/01/2000',
-        onValueChanged: function (e) {
-            basTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-        }
-    });
-    $(".tarih-bit-date").dxDateBox({
-        dataType: 'date',
-        formatString: 'dd/MM/yyyy',
-        value: '@DateTime.Today.ToString("MM/dd/yyyy")',
-        onValueChanged: function (e) {
-            bitTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-        }
-    });
-    $(".vade-bas-date").dxDateBox({
-        dataType: 'date',
-        formatString: 'dd/MM/yyyy',
-        value: '01/01/2000',
-        onValueChanged: function (e) {
-            basVadeTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-        }
-    });
-    $(".vade-bit-date").dxDateBox({
-        dataType: 'date',
-        formatString: 'dd/MM/yyyy',
-        value: '12/31/2020',
-        onValueChanged: function (e) {
-            bitVadeTarih = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-        }
-    });
-    $(".chk-bas-select").dxLookup({
-        dataSource: model,
-        searchEnabled: true,
-        pageLoadMode:"nextButton",
-        searchExpr: ["HesapKodu", "Unvan"],
-        valueExpr: 'HesapKodu',
-        displayExpr: 'Unvan',
-        onValueChanged: function (e) {
-            chk_bas = e.value;
-        },
+        $(".chk-bit-select").dxLookup({
+            dataSource: model,
+            searchEnabled: true,
+            pageLoadMode:"nextButton",
+            searchExpr: ["HesapKodu", "Unvan"],
+            valueExpr: 'HesapKodu',
+            displayExpr: 'Unvan',
+            onValueChanged: function (e) {
+                chk_bit = e.value;
+            },
 
-        itemTemplate: function (itemData, itemIndex, itemElement) {
-            itemElement.css({"text-align":"left", "border-bottom":"1px solid #32c5d2"});
-            if(itemIndex>0)
-            {
-                itemElement.css({ "margin-top":"-40px" });
+            itemTemplate: function (itemData, itemIndex, itemElement) {
+                itemElement.css({"text-align":"left", "border-bottom":"1px solid #32c5d2"});
+                if(itemIndex>0)
+                {
+                    itemElement.css({ "margin-top":"-40px" });
+                }
+                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+                itemElement.append(rightBlock);
             }
-            var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-            rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
-            rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
-            itemElement.append(rightBlock);
-        }
+        });
     });
-    $(".chk-bit-select").dxLookup({
-        dataSource: model,
-        searchEnabled: true,
-        pageLoadMode:"nextButton",
-        searchExpr: ["HesapKodu", "Unvan"],
-        valueExpr: 'HesapKodu',
-        displayExpr: 'Unvan',
-        onValueChanged: function (e) {
-            chk_bit = e.value;
-        },
-
-        itemTemplate: function (itemData, itemIndex, itemElement) {
-            itemElement.css({"text-align":"left", "border-bottom":"1px solid #32c5d2"});
-            if(itemIndex>0)
-            {
-                itemElement.css({ "margin-top":"-40px" });
-            }
-            var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-            rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
-            rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
-            itemElement.append(rightBlock);
-        }
-    });
-});
 </script>
 }
