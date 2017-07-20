@@ -1102,8 +1102,6 @@ var excelStrings = {
 // Pattern matching for special number formats. Perhaps this should be exposed
 // via an API in future?
 var _excelSpecials = [
-    { match: /^.$/, style: 56, fmt: function (d) { return "0.0" + d.replace('.', '').replace('.', '').replace('.', '').replace('.', ''); } }, // .
-    { match: /^\-?\d+%$/, style: 57, fmt: function (d) { return "0.0" + d.replace('.', '').replace('.', '').replace('.', '').replace('.', ''); } }, // Precent with d.p.
 ];
 
 
