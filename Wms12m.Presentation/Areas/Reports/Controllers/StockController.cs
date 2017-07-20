@@ -142,8 +142,6 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public ActionResult GerceklesenSevkiyatPlani()
         {
-            ViewBag.BasTarih = (int)DateTime.Now.ToOADate();
-            ViewBag.BitTarih = (int)DateTime.Now.ToOADate();
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }

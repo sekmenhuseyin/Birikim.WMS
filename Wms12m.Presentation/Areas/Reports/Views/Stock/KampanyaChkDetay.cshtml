@@ -47,7 +47,6 @@
             <th>Bedelli 8cm Süpürgelik Miktar</th>
             <th>Bedelli 8cm Süpürgelik Teslim Miktar</th>
             <th>Bedelli 8cm Süpürgelik Tutar</th>
-            <th></th>
         </tr>
     </thead>
     @foreach (var item in Model)
@@ -98,102 +97,81 @@
             <td align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupMiktar).ToDecimal().ToOnFormat()</td>
             <td align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupTeslimMiktar).ToDecimal().ToOnFormat()</td>
             <td align="right">@String.Format("{0:0.00}", item.Bedelli8CmSupTutar).ToDecimal().ToOnFormat()</td>
-            <td><div class="col-md-1 pull-right m-t-5 p-0" id="buttonsdetails"></div></td>
         </tr>
-
     }
 </table>
 
-    <script>
-        $(".detay").dblclick(function () {
-            var CHK = $(this).find("td").eq(0).text();
-            var EvrakNo = $(this).find("td").eq(1).text();
-            $.ajax({
-                type: 'POST',
-                url: '/Reports/SiparisKampanyaDetay',
-                data: { "CHK": CHK, "EvrakNo": EvrakNo, "bastarih": basTarih, "bittarih": bitTarih },
-                dataType: "html",
-                success: function (data) {
-                    $('#x-modal-evrakno-detay').modal("show");
-                    var result = JSON.parse(data);
-                    var columns = [
-                        { caption: 'EvrakNo', dataField: 'EvrakNo' },
-                        { caption: 'Hesap Kodu', dataField: 'Chk' },
-                        {
-                            caption: 'Tarih', dataField: 'Tarih',
-                            customizeText: function (cellInfo) {
-                                if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-                            }
-                        },
-                        { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
-                        { caption: 'Miktar', dataField: 'Miktar', format: 'fixedPoint', precision: 4 },
-                        { caption: 'Birim', dataField: 'Birim', format: 'fixedPoint', precision: 4 },
-                        { caption: 'Teslim Miktar', dataField: 'TeslimMiktar', format: 'fixedPoint', precision: 4 },
-                        { caption: 'Teslim Yeri', dataField: 'TeslimChk' },
-                        { caption: 'Durum', dataField: 'Durum' },
-                        { caption: 'Grup Kodu', dataField: 'GrupKod' },
-                        { caption: 'Koleksiyon', dataField: 'Koleksiyon' },
-                        { caption: 'Süpürgelik Türü', dataField: 'SupTip' }
+<script>
+    $(".detay").dblclick(function () {
+        var CHK = $(this).find("td").eq(0).text();
+        var EvrakNo = $(this).find("td").eq(1).text();
+        $.ajax({
+            type: 'POST',
+            url: '/Reports/SiparisKampanyaDetay',
+            data: { "CHK": CHK, "EvrakNo": EvrakNo, "bastarih": basTarih, "bittarih": bitTarih },
+            dataType: "html",
+            success: function (data) {
+                $('#x-modal-evrakno-detay').modal("show");
+                var result = JSON.parse(data);
+                var columns = [
+                    { caption: 'EvrakNo', dataField: 'EvrakNo' },
+                    { caption: 'Hesap Kodu', dataField: 'Chk' },
+                    {
+                        caption: 'Tarih', dataField: 'Tarih',
+                        customizeText: function (cellInfo) {
+                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+                        }
+                    },
+                    { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
+                    { caption: 'Miktar', dataField: 'Miktar', format: 'fixedPoint', precision: 4 },
+                    { caption: 'Birim', dataField: 'Birim', format: 'fixedPoint', precision: 4 },
+                    { caption: 'Teslim Miktar', dataField: 'TeslimMiktar', format: 'fixedPoint', precision: 4 },
+                    { caption: 'Teslim Yeri', dataField: 'TeslimChk' },
+                    { caption: 'Durum', dataField: 'Durum' },
+                    { caption: 'Grup Kodu', dataField: 'GrupKod' },
+                    { caption: 'Koleksiyon', dataField: 'Koleksiyon' },
+                    { caption: 'Süpürgelik Türü', dataField: 'SupTip' }
 
-                    ];
-                    _grid_quotations_detail = $('.grid_evrakno-detay').dxDataGrid({
-                        dataSource: result,
-                        height: 400,
-                        paging: { pageSize: 5000 },
-                        columns: columns,
-                        headerFilter: {
-                            visible: true
-                        },
-                        popupDetailedWindow: true,
-                        columnAutoWidth: true,
-                        pagingCounter: true,
-                        filterRow: {
-                            visible: true,
-                            applyFilter: 'auto',
-                            applyFilterText: 'Apply filter',
-                            resetOperationText: 'Reset'
-                        },
-                        scrolling: {
-                            scrollByContent: true,
-                            scrollByThumb: true
-                        },
-                        allowColumnReordering: true,
-                        allowColumnResizing: true,
-                        remoteOperations: true,
-                        showRowLines: true,
-                        hoverStateEnabled: true,
-                        rowAlternationEnabled: false,
-                        sorting: {
-                            mode: "multiple",
-                        }
-                        onRowClick: function (opt) {
-                            if (opt.rowType == "data") {
-                                var component = opt.component;
-                                var prevClickTime = component.lastClickTime;//take last clicked time
-                                component.lastClickTime = new Date();
-                                if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                    //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
-                                }
-                            }
-                        },
-                        onCellPrepared: function (info) {
-                            if (info.rowType == "data") {
-                                if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
-                                    info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
-                                }
+                ];
+                _grid_quotations_detail = $('.grid_evrakno-detay').dxDataGrid({
+                    dataSource: result,
+                    height: 400,
+                    paging: { pageSize: 5000 },
+                    columns: columns,
+                    headerFilter: {
+                        visible: true
+                    },
+                    popupDetailedWindow: true,
+                    columnAutoWidth: true,
+                    pagingCounter: true,
+                    filterRow: {
+                        visible: true,
+                        applyFilter: 'auto',
+                        applyFilterText: 'Apply filter',
+                        resetOperationText: 'Reset'
+                    },
+                    scrolling: {
+                        scrollByContent: true,
+                        scrollByThumb: true
+                    },
+                    allowColumnReordering: true,
+                    allowColumnResizing: true,
+                    remoteOperations: true,
+                    showRowLines: true,
+                    hoverStateEnabled: true,
+                    rowAlternationEnabled: false,
+                    sorting: {
+                        mode: "multiple",
+                    },
+                    onCellPrepared: function (info) {
+                        if (info.rowType == "data") {
+                            if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
+                                info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
                             }
                         }
-                    }).dxDataGrid("instance");
-                }
-            });
+                    }
+                }).dxDataGrid("instance");
+            }
         });
-
-
-        var table12 = $('#tabledetails').DataTable();
-        var buttons = new $.fn.dataTable.Buttons(table12, {
-            buttons: [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
-            ]
-        }).container().appendTo($('#buttonsdetails'));
-    </script>
+    });
+</script>
