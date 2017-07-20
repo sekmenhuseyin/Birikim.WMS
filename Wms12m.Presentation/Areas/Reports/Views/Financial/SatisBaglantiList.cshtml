@@ -354,7 +354,7 @@
                 itemElement.append(rightBlock);
             }
         });
-        
+
         $('#x-modal-baglanti-detay').modal("show");
     });
     $('#sample_1 tbody').on('click', '.hareket-control', function () {
@@ -367,107 +367,134 @@
             .removeClass('aa');
         tr.addClass("aa");
         var x = table.rows('.aa').data();
-        jQuery.each(model, function (i, val) {
-            if (model[i]["BaglantiNo"].toString().trim() == x[0][4]) {
-                baglanti = model[i]["BaglantiNo"];
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '/Reports/Financial/SatBagHareketListesiSelect',
-            data: { "listeNo": baglanti},
-            dataType: "html",
-            success: function (data) {
-                $('#x-modal-cari-detay-cek').modal("show");
-                var result = JSON.parse(data);
-                var columns = [
-
-                    { caption: 'Fiyat Listesi', dataField: 'SozlesmeNo' },
-                    { caption: 'Evrak No', dataField: 'EvrakNo' },
-                    {
-                        caption: 'Tarih', dataField: 'Tarih',
-                        customizeText: function (cellInfo) {
-                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-                        }
-                    },
-                    { caption: 'Kaynak Sipariş No', dataField: 'KaynakSiparisNo' },
-                    {
-                        caption: 'Tarih', dataField: 'KaynakSiparisTarih',
-                        customizeText: function (cellInfo) {
-                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-                        }
-                    },
-                    { caption: 'Fiyat Liste Numarası', dataField: 'FytListeNo' },
-                    { caption: 'Depo', dataField: 'Depo' },
-                    { caption: 'MalKodu', dataField: 'MalKodu', format: 'fixedPoint', precision:2 },
-                    { caption: 'Miktar', dataField: 'Miktar', format: 'fixedPoint', precision: 2 },
-                    { caption: 'Birim', dataField: 'Birim', format: 'fixedPoint', precision: 2 },
-                    { caption: 'Birim Fiyat', dataField: 'BirimFiyat', format: 'fixedPoint', precision: 2 },
-                    { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
-                    { caption: 'Toplam İskonto', dataField: 'ToplamIskonto', format: 'fixedPoint', precision: 2 },
-                    { caption: 'KDV Oran', dataField: 'KDVOran', format: 'fixedPoint', precision: 2 },
-                    { caption: 'KDV', dataField: 'KDV', format: 'fixedPoint', precision: 2 },
-                    { caption: 'Sevkedilen Tutar', dataField: 'SevkedilenTutar', format: 'fixedPoint', precision: 2 }
-                ];
-                _grid_quotations_detail = $('.satis_baglanti_hareket_data').dxDataGrid({
-                    dataSource: result,
-                    height: 400,
-                    paging: { pageSize: 5000 },
-                    columns: columns,
-                    headerFilter: {
-                        visible: true
-                    },
-                    popupDetailedWindow: true,
-                    columnAutoWidth: true,
-                    pagingCounter: true,
-                    filterRow: {
-                        visible: true,
-                        applyFilter: 'auto',
-                        applyFilterText: 'Apply filter',
-                        resetOperationText: 'Reset'
-                    },
-                    scrolling: {
-                        scrollByContent: true,
-                        scrollByThumb: true
-                    },
-                    allowColumnReordering: true,
-                    allowColumnResizing: true,
-                    remoteOperations: true,
-                    showRowLines: true,
-                    hoverStateEnabled: true,
-                    rowAlternationEnabled: false,
-                    sorting: {
-                        mode: "multiple",
-                    },
-
-                    onRowClick: function (opt) {
-                        if (opt.rowType == "data") {
-                            var component = opt.component;
-                            var prevClickTime = component.lastClickTime;//take last clicked time
-                            component.lastClickTime = new Date();
-                            if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
-                            }
-                        }
-                    },
-                    onCellPrepared: function (info) {
-                        if (info.rowType == "data") {
-                            if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
-                                info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
-                            }
-                        }
-                    }
-                }).dxDataGrid("instance");
-            }
+        baglanti = x[0][4];
+        var table2 = $('#sample_cari').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "ordering": false,
+            "ajax": {
+                "url": '/Reports/Financial/SatBagHareketListesiSelect',
+                data: { "listeNo": baglanti },
+                "dataSrc": function (json) {
+                    return json;
+                },
+            },
+            "dom": 'Bfrtip',
+            "buttons": [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
+            ],
+            "columns": [
+                { "data": "FytListeNo" },
+                { "data": "Depo" },
+                { "data": "MalKodu" },
+                { "data": "Miktar" },
+                { "data": "Birim" },
+                { "data": "BirimFiyat" },
+                { "data": "Tutar" },
+                { "data": "ToplamIskonto" },
+                { "data": "KDVOran" },
+                { "data": "KDV" },
+                { "data": "SevkedilenTutar" },
+            ]
         });
 
 
+
+
+
+
+
+        //$.ajax({
+        //    type: 'POST',
+        //    url: '/Reports/Financial/SatBagHareketListesiSelect',
+        //    data: { "listeNo": baglanti},
+        //    dataType: "html",
+        //    success: function (data) {
+        //        $('#x-modal-cari-detay-cek').modal("show");
+        //        var result = JSON.parse(data);
+        //        var columns = [
+
+        //            { caption: 'Fiyat Listesi', dataField: 'SozlesmeNo' },
+        //            { caption: 'Evrak No', dataField: 'EvrakNo' },
+        //            {
+        //                caption: 'Tarih', dataField: 'Tarih',
+        //                customizeText: function (cellInfo) {
+        //                    if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+        //                }
+        //            },
+        //            { caption: 'Kaynak Sipariş No', dataField: 'KaynakSiparisNo' },
+        //            {
+        //                caption: 'Tarih', dataField: 'KaynakSiparisTarih',
+        //                customizeText: function (cellInfo) {
+        //                    if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
+        //                }
+        //            },
+        //            { caption: 'Fiyat Liste Numarası', dataField: 'FytListeNo' },
+        //            { caption: 'Depo', dataField: 'Depo' },
+        //            { caption: 'MalKodu', dataField: 'MalKodu', format: 'fixedPoint', precision: 2 },
+        //            { caption: 'Miktar', dataField: 'Miktar', format: 'fixedPoint', precision: 2 },
+        //            { caption: 'Birim', dataField: 'Birim', format: 'fixedPoint', precision: 2 },
+        //            { caption: 'Birim Fiyat', dataField: 'BirimFiyat', format: 'fixedPoint', precision: 2 },
+        //            { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2 },
+        //            { caption: 'Toplam İskonto', dataField: 'ToplamIskonto', format: 'fixedPoint', precision: 2 },
+        //            { caption: 'KDV Oran', dataField: 'KDVOran', format: 'fixedPoint', precision: 2 },
+        //            { caption: 'KDV', dataField: 'KDV', format: 'fixedPoint', precision: 2 },
+        //            { caption: 'Sevkedilen Tutar', dataField: 'SevkedilenTutar', format: 'fixedPoint', precision: 2 }
+        //        ];
+        //        _grid_quotations_detail = $('.satis_baglanti_hareket_data').dxDataGrid({
+        //            dataSource: result,
+        //            height: 400,
+        //            paging: { pageSize: 5000 },
+        //            columns: columns,
+        //            headerFilter: {
+        //                visible: true
+        //            },
+        //            popupDetailedWindow: true,
+        //            columnAutoWidth: true,
+        //            pagingCounter: true,
+        //            filterRow: {
+        //                visible: true,
+        //                applyFilter: 'auto',
+        //                applyFilterText: 'Apply filter',
+        //                resetOperationText: 'Reset'
+        //            },
+        //            scrolling: {
+        //                scrollByContent: true,
+        //                scrollByThumb: true
+        //            },
+        //            allowColumnReordering: true,
+        //            allowColumnResizing: true,
+        //            remoteOperations: true,
+        //            showRowLines: true,
+        //            hoverStateEnabled: true,
+        //            rowAlternationEnabled: false,
+        //            sorting: {
+        //                mode: "multiple",
+        //            },
+
+        //            onRowClick: function (opt) {
+        //                if (opt.rowType == "data") {
+        //                    var component = opt.component;
+        //                    var prevClickTime = component.lastClickTime;//take last clicked time
+        //                    component.lastClickTime = new Date();
+        //                    if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
+        //                        //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
+        //                    }
+        //                }
+        //            },
+        //            onCellPrepared: function (info) {
+        //                if (info.rowType == "data") {
+        //                    if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
+        //                        info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
+        //                    }
+        //                }
+        //            }
+        //        }).dxDataGrid("instance");
+        //    }
+        //});
+
+
     });
-    setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
-    $('#sample_1').on('draw.dt', function () {
-        setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);
-    });
-    
 </script>
 
 
