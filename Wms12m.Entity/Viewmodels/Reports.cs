@@ -422,4 +422,15 @@ namespace Wms12m.Entity
 
         public string SatisTemsilcisi { get; set; }
     }
+    public partial class CariCiroRaporuResult
+    {
+        public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+        public decimal? ToplamBorc { get; set; }
+        public decimal ToplamAlacak { get; set; }
+        public decimal? ToplamBakiye { get; set; }
+        public decimal? ToplamBorcOD { get; set; }
+        public decimal? ToplamAlacakOD { get; set; }
+        public decimal? ToplamBakiyeOD { get; set; }
+    }
 }

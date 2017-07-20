@@ -8,6 +8,15 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
     public class FinancialController : RootController
     {
         /// <summary>
+        /// cari ciro
+        /// </summary>
+        public ActionResult CariCiro()
+        {
+            if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
+            var CHK = db.Database.SqlQuery<CariCiroRaporuResult>(string.Format("[FINSAT6{0}].[wms].[CariCiroRaporu]", "17")).ToList();
+            return View(CHK);
+        }
+        /// <summary>
         /// cari ekstre
         /// </summary>
         public ActionResult CariEkstre()
