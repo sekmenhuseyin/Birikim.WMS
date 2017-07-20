@@ -797,8 +797,8 @@ var excelStrings = {
 // Ref: section 3.8.30 - built in formatters in open spreadsheet
 //   https://www.ecma-international.org/news/TC45_current_work/Office%20Open%20XML%20Part%204%20-%20Markup%20Language%20Reference.pdf
 var _excelSpecials = [
-	{ match: /^.$/, style: 56, fmt: function (d) { return d.replace('.', '').replace('.', '').replace('.', '').replace('.', ''); } }, // .
-    { match: /^\-?\d+%$/, style: 57, fmt: function (d) { return d.replace('.', '').replace('.', '').replace('.', '').replace('.', ''); } }, // Precent with d.p.
+    { match: /^.$/, style: 56, fmt: function (d) { return "0.0" + d.replace('.', '').replace('.', '').replace('.', '').replace('.', ''); } }, // .
+    { match: /^\-?\d+%$/, style: 57, fmt: function (d) { return "0.0" + d.replace('.', '').replace('.', '').replace('.', '').replace('.', ''); } }, // Precent with d.p.
 ];
 
 
