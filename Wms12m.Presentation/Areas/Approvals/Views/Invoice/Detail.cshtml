@@ -29,58 +29,70 @@
             </div>
         </div>
         <hr />
-        <div class="row">
-            <div class="col-xs-3 invoice-payment genel">
-                <h3 style:"background-color:#32c5d2!important">Hesap Bilgilerim:</h3>
-                <ul class="list-unstyled genel">
-                    <li><strong>Hesap Kodu:</strong> @Model.GENEL[0].Chk</li>
-                    <li><strong>Teslim Yeri Kodu:</strong> @Model.GENEL[0].TeslimYeriKodu</li>
-                    <li><strong>Ünvan:</strong> @Model.GENEL[0].Unvan</li>
-                    <li><strong>Evrak No:</strong> @Model.GENEL[0].EvrakNo</li>
-                    <li><strong>Tarih:</strong> @Model.GENEL[0].Tarih</li>
-                </ul>
-            </div>
-            <div class="col-xs-3 invoice-payment genel">
-                <h3>İşlem Bilgileri:</h3>
-                <ul class="list-unstyled genel">
-                    <li><strong>İşlem Tipi:</strong> @Model.GENEL[0].IslemTip</li>
-                    <li><strong>Vade Tarihi:</strong> @Model.GENEL[0].VadeTarih</li>
-                    <li><strong>Döviz/TL:</strong> @Model.GENEL[0].DvzTL</li>
-                    <li><strong>Döviz Cinsi:</strong> @Model.GENEL[0].DovizCinsi</li>
-                    <li><strong>Döviz Kuru:</strong> @Model.GENEL[0].DovizKuru</li>
-                    <li><strong>E-Fatura Tipi:</strong> @Model.GENEL[0].EFatTip</li>
-                </ul>
-            </div>
-            <div class="col-xs-3 invoice-payment genel">
-                <h3>Açıklamalar:</h3>
-                <ul class="list-unstyled genel">
-                    <li><strong>Açıklama:</strong> @Model.GENEL[0].Aciklama</li>
-                    <li><strong>Açıklama2:</strong> @Model.GENEL[0].Aciklama2</li>
-                    <li><strong>Açıklama3:</strong> @Model.GENEL[0].Aciklama3</li>
-                    <li><strong>Açıklama4:</strong> @Model.GENEL[0].Aciklama4</li>
-                    <li><strong>Açıklama5:</strong> @Model.GENEL[0].Aciklama5</li>
-                    <li><strong>Açıklama6:</strong> @Model.GENEL[0].Aciklama6</li>
-                    <li><strong>Kaydeden:</strong> @Model.GENEL[0].Kaydeden</li>
-                    <li><strong>Değiştiren:</strong> @Model.GENEL[0].Degistiren</li>
-                </ul>
-            </div>
-            <div class="col-xs-3 invoice-payment genel">
-                <h3>E-İhracat Bilgileri:</h3>
-                <ul class="list-unstyled genel">
-                    <li><strong>Teslim Şartı:</strong> @Model.GENEL[0].TeslimSarti</li>
-                    <li><strong>Gönderim Şekli:</strong> @Model.GENEL[0].GonderimSekli</li>
-                    <li><strong>Brüt Kilo:</strong> @Model.GENEL[0].BrutKilo</li>
-                    <li><strong>Net Kilo:</strong> @Model.GENEL[0].NetKilo</li>
-                    <li><strong>Ödeme Notu:</strong> @Model.GENEL[0].OdemeNotu</li>
-                    <li><strong>Ödeme Şekli:</strong> @Model.GENEL[0].OdemeSekli</li>
-                </ul>
-            </div>
-            <div class="col-xs-12 col-sm-12 invoice-payment genel">
-                <ul class="list-unstyled genel">
-                    <li><strong>Fatura Notu:</strong> @Model.GENEL[0].EFatNot</li>
-                </ul>
-            </div>
-        </div>
+
+        <table class="table table-striped table-bordered table-hover">
+            <tr><th><h3 style:"background-color:#32c5d2!important">Hesap Bilgilerim:</h3></th>
+            <th><h3>İşlem Bilgileri:</h3></th>
+            <th><h3>Açıklamalar:</h3></th>
+            <th><h3>E-İhracat Bilgileri:</h3></th>
+            </tr>
+            <tr>
+                <td><strong>Hesap Kodu:</strong> @Model.GENEL[0].Chk</td>
+                <td><strong>İşlem Tipi:</strong> @Model.GENEL[0].IslemTip</td>
+                <td><strong>Açıklama:</strong> @Model.GENEL[0].Aciklama</td>
+                <td><strong>Teslim Şartı:</strong> @Model.GENEL[0].TeslimSarti</td>
+            </tr>
+            <tr>
+                <td><strong>Teslim Yeri Kodu:</strong> @Model.GENEL[0].TeslimYeriKodu</td>
+                <td><strong>Vade Tarihi:</strong> @Model.GENEL[0].VadeTarih</td>
+                <td><strong>Açıklama2:</strong> @Model.GENEL[0].Aciklama2</td>
+                <td><strong>Gönderim Şekli:</strong> @Model.GENEL[0].GonderimSekli</td>
+            </tr>
+            <tr>
+                <td><strong>Ünvan:</strong> @Model.GENEL[0].Unvan</td>
+                <td><strong>Döviz/TL:</strong> @Model.GENEL[0].DvzTL</td>
+                <td><strong>Açıklama3:</strong> @Model.GENEL[0].Aciklama3</td>
+                <td><strong>Brüt Kilo:</strong> @Model.GENEL[0].BrutKilo</td>
+            </tr>
+            <tr>
+                <td><strong>Evrak No:</strong> @Model.GENEL[0].EvrakNo</td>
+                <td><strong>Döviz Cinsi:</strong> @Model.GENEL[0].DovizCinsi</td>
+                <td><strong>Açıklama4:</strong> @Model.GENEL[0].Aciklama4</td>
+                <td><strong>Net Kilo:</strong> @Model.GENEL[0].NetKilo</td>
+            </tr>
+            <tr>
+                <td><strong>Tarih:</strong> @Model.GENEL[0].Tarih</td>
+                <td><strong>Döviz Kuru:</strong> @Model.GENEL[0].DovizKuru</td>
+                <td><strong>Açıklama5:</strong> @Model.GENEL[0].Aciklama5</td>
+                <td><strong>Ödeme Notu:</strong> @Model.GENEL[0].OdemeNotu</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><strong>E-Fatura Tipi:</strong> @Model.GENEL[0].EFatTip</td>
+                <td><strong>Açıklama6:</strong> @Model.GENEL[0].Aciklama6</td>
+                <td><strong>Ödeme Şekli:</strong> @Model.GENEL[0].OdemeSekli</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><strong>Kaydeden:</strong> @Model.GENEL[0].Kaydeden</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><strong>Kaydeden:</strong> @Model.GENEL[0].Kaydeden</td>
+                <td><strong>Değiştiren:</strong> @Model.GENEL[0].Degistiren</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><strong>Fatura Notu:</strong> @Model.GENEL[0].EFatNot</td>
+            </tr>
+
+        </table>
+
         <div class="row">
             <div class="col-xs-12">
                 <table class="table table-striped table-bordered table-condensed" id="sample_1">
@@ -147,29 +159,33 @@
                 <div class="btn btn-lg red red-buton" style="width:100%; margin-bottom:10px;">Reddet<i class="fa fa-close"></i></div>
                 <div class="btn btn-lg default geri-buton" style="width:100%; margin-bottom:10px;">Geri Dön<i class="fa fa-mail-reply"></i></div>
             </div>
-            <div class="col-xs-10 col-sm-10">
-                <div class="row">
-                    <div class="col-xs-3 col-sm-3"></div>
-                    <div class="col-xs-1 col-sm-1 bold text-center">Oran</div>
-                    <div class="col-xs-1 col-sm-1 bold text-center">Tutar</div>
-                    <div class="col-xs-1 col-sm-1 bold text-center">Döviz/TL</div>
-                    <div class="col-xs-1 col-sm-1 bold text-center">Döviz Cinsi</div>
-                    <div class="col-xs-1 col-sm-1 bold text-center">Döviz Kuru</div>
-                    <div class="col-xs-1 col-sm-1 bold text-center">Döviz Tutar</div>
-                </div>
-                @foreach (var item in Model.FTD)
-                {
-                    <div class="row">
-                        <div class="col-xs-3 col-sm-3 bold text-right">@item.Tip</div>
-                        <div class="col-xs-1 col-sm-1 text-right">@item.IskontoOran</div>
-                        <div class="col-xs-1 col-sm-1 text-right">@item.Iskonto</div>
-                        <div class="col-xs-1 col-sm-1 text-right">@item.DvzTL</div>
-                        <div class="col-xs-1 col-sm-1">@item.DovizCinsi</div>
-                        <div class="col-xs-1 col-sm-1 text-right">@item.DovizKuru</div>
-                        <div class="col-xs-1 col-sm-1 text-right">@item.DovizTutar</div>
-                    </div>
-                }
-            </div>
+            <table class="table table-striped  table-bordered table-hover">
+                <tr>
+                <th></th>
+                <th>Oran</th>
+                <th>Tutar</th>
+                <th>Döviz/TL</th>
+                <th>Döviz Cinsi</th>
+                <th>Döviz Kuru</th>
+                <th>Döviz Tutar</th>
+                </tr>
+@foreach (var item in Model.FTD)
+{
+                <tr>
+                <td class="text-right">@item.Tip</td>
+                <td class="text-right">@item.IskontoOran</td>
+                <td class="text-right">@item.Iskonto</td>
+                <td class="text-right">@item.DvzTL</td>
+                <td>@item.DovizCinsi</td>
+                <td class="text-right">@item.DovizKuru</td>
+                <td class="text-right">@item.DovizTutar</td>
+       </tr>
+}
+
+
+            </table>
+
+
         </div>
     </div>
     <div class="modal fade" id="x-modal-faturared" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
