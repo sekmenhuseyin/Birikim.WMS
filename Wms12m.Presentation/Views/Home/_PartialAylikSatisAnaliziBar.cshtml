@@ -1,4 +1,4 @@
-﻿@model List<ChartAylikSatisAnalizi>
+﻿@model List<ChartAylikSatisAnalizi2>
 <div class="row">
     <div class="col-md-12 m-t-40">
         <div class="portlet light portlet-fit bordered">
@@ -30,17 +30,20 @@
         PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar', JSON.stringify({ SirketKodu: v }));
     }
     var model = @Html.Raw(Json.Encode(Model));
+    if (model == []) break;
     var aylar = new Array();
     var Yil2015 = new Array();
     var Yil2016 = new Array();
     var Yil2017 = new Array();
     jQuery.each(model, function (i, val) {
-        aylar.push(val.Ay);
-        Yil2015.push(val.Yil2015);
-        Yil2016.push(val.Yil2016);
-        Yil2017.push(val.Yil2017);
+        if (aylar.indexOf(val.Ay) === -1) aylar.push(val.Ay);
+        if (val.Yil == "@DateTime.Today.Year")
+            Yil2017.push(val.Tutar);
+        else if (val.Yil == "@DateTime.Today.AddYears(-1).Year")
+            Yil2016.push(val.Tutar);
+        else
+            Yil2015.push(val.Tutar);
     });
-
     require.config({
         paths: {
             echarts: '/content/assets/global/plugins/echarts'
@@ -85,7 +88,7 @@
                     },
                     markLine: {
                         data: [
-                            { type: 'average', name: '2015' }
+                            { type: 'average', name: '2015 Ortalama' }
                         ]
                     }
                 }, {
@@ -100,7 +103,7 @@
                     },
                     markLine: {
                         data: [
-                            { type: 'average', name: '2016' }
+                            { type: 'average', name: '2016 Ortalama' }
                         ]
                     }
                 }, {
@@ -115,7 +118,7 @@
                     },
                     markLine: {
                         data: [
-                            { type: 'average', name: '2017' }
+                            { type: 'average', name: '2017 Ortalama' }
                         ]
                     }
                 }]
