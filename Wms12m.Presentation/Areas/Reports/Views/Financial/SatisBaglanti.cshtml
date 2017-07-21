@@ -145,35 +145,33 @@ td.hareket-control {background: url('/Content/assets/global/plugins/datatables/i
     </div>
 </div>
 <div class="row" id="satis-baglanti-raporu-grid" style="margin-top:10px;"></div>
-@section Scripts{    <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
-    <script>
-        var tip = @ViewBag.Tip;
-        var tempTip = @ViewBag.Tip;
-        var radioGroupItems = [
-            { text: "Açık", value: 0 },
-            { text: "Kapalı", value: 1 },
-            { text: "Tümü", value: 2 }
-        ];
-        $(document).ready(function () {
-            $(".sozDurum").dxRadioGroup({
-                dataSource: radioGroupItems,
-                displayExpr: "text",
-                valueExpr: "value",
-                value: 0,
-                layout: "horizontal",
-                onValueChanged: function (e) {
-                    tempTip = e.value;
-                }
-            });
-            PartialView("/Reports/Financial/SatisBaglantiList", 'satis-baglanti-raporu-grid', JSON.stringify({ tip: tip }));
+@section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+<script>
+    var tip = 0;
+    var tempTip = 0;
+    var radioGroupItems = [
+        { text: "Açık", value: 0 },
+        { text: "Kapalı", value: 1 },
+        { text: "Tümü", value: 2 }
+    ];
+    $(document).ready(function () {
+        $(".sozDurum").dxRadioGroup({
+            dataSource: radioGroupItems,
+            displayExpr: "text",
+            valueExpr: "value",
+            value: 0,
+            layout: "horizontal",
+            onValueChanged: function (e) {
+                tempTip = e.value;
+            }
         });
-        $(document).on("click", ".listele-buton", function () {
-            tip = tempTip;
-            PartialView("/Reports/Financial/SatisBaglantiList", 'satis-baglanti-raporu-grid', JSON.stringify({ tip: tip }));
-        });
-      
-
-    </script>
+        PartialView("/Reports/Financial/SatisBaglantiList", 'satis-baglanti-raporu-grid', JSON.stringify({ tip: tip }));
+    });
+    $(document).on("click", ".listele-buton", function () {
+        tip = tempTip;
+        PartialView("/Reports/Financial/SatisBaglantiList", 'satis-baglanti-raporu-grid', JSON.stringify({ tip: tip }));
+    });      
+</script>
 }
 
 
