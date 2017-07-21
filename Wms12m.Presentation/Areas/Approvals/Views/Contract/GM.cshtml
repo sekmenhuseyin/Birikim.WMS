@@ -49,7 +49,7 @@
             data: { "ListeNo": d },
             dataType: "html",
             success: function (data) {
-                $('#new' + d).html(data);
+                $('#new' + d.replace("/", "")).html(data);
             }
         });
     }
