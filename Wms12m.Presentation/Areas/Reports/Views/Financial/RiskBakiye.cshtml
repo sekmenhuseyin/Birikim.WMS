@@ -1,5 +1,4 @@
-﻿@model List<RaporCHKSelect>
-@{
+﻿@{
     ViewBag.Title = "Toplam Risk Bakiyesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Raporlar</span><i class="fa fa-circle"></i></li><li><span>Toplam Risk Bakiyesi</span></li></ul></div>
@@ -10,8 +9,8 @@
 </div>
 <div class="row m-t-20">
     <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Hesap Kodu: </div>
-    <div class="col-md-2 p-l-5 p-r-0"><div class="form-control chk-bas-select"></div></div>
-    <div class="col-md-2 p-l-5 p-r-0"><div class="form-control chk-bit-select"></div></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="txtHesapBas" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="txtHesapBit" /></div>
     <div class="col-md-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
 </div>
 <div class="row m-t-20">
@@ -27,63 +26,34 @@
 <div id="risk-bakiye-grid" class="m-t-20"></div>
 @section Scripts{<script>
     $(document).ready(function () {
-        var model = @Html.Raw(Json.Encode(Model));
         var basTarih = @DateTime.Today.AddMonths(-1).ToOADateInt();
         var bitTarih = @DateTime.Today.ToOADateInt();
         var basVadeTarih = basTarih;
         var bitVadeTarih = bitTarih;
-        var chk_bas = "", chk_bit = "ZZZZZZZZZZ";
+        var chk_bas = "", chk_bit = "";
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
         $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });
         $("#txtTeslimBaslangic").datepicker().on("change", function (e) { basVadeTarih = toOADateFromString(e.target.value); });
         $("#txtTeslimBitis").datepicker().on("change", function (e) { bitVadeTarih = toOADateFromString(e.target.value); });
-        $("#btnListele").click(function () { PartialView("/Reports/Financial/RiskBakiyeList", 'risk-bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit })); });
-        $(".chk-bas-select").dxLookup({
-            dataSource: model,
-            searchEnabled: true,
-            pageLoadMode:"nextButton",
-            searchExpr: ["HesapKodu", "Unvan"],
-            valueExpr: 'HesapKodu',
-            displayExpr: 'Unvan',
-            onValueChanged: function (e) {
-                chk_bas = e.value;
-            },
-
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({"text-align":"left", "border-bottom":"1px solid #32c5d2"});
-                if(itemIndex>0)
-                {
-                    itemElement.css({ "margin-top":"-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
-                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
-                itemElement.append(rightBlock);
+        $("#txtHesapBas").autocomplete({
+            source: "/Reports/Financial/GetChKCode/0",
+            minLength: 2,
+            select: function (event, ui) {
+                chk_bas = ui.item.id;
             }
         });
-        $(".chk-bit-select").dxLookup({
-            dataSource: model,
-            searchEnabled: true,
-            pageLoadMode:"nextButton",
-            searchExpr: ["HesapKodu", "Unvan"],
-            valueExpr: 'HesapKodu',
-            displayExpr: 'Unvan',
-            onValueChanged: function (e) {
-                chk_bit = e.value;
-            },
-
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({"text-align":"left", "border-bottom":"1px solid #32c5d2"});
-                if(itemIndex>0)
-                {
-                    itemElement.css({ "margin-top":"-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
-                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
-                itemElement.append(rightBlock);
+        $("#txtHesapBit").autocomplete({
+            source: "/Reports/Financial/GetChKCode/0",
+            minLength: 2,
+            select: function (event, ui) {
+                chk_bit = ui.item.id;
             }
+        });
+        $("#btnListele").click(function () {
+            if (chk_bas == "" || chk_bit == "")
+                Modaldialog("Başlangıç ve bitiş hesap kodlarını seçin ", "Hata", "Tamam", "btn-danger");
+            PartialView("/Reports/Financial/RiskBakiyeList", 'risk-bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit }));
         });
     });
 </script>

@@ -106,6 +106,12 @@
                 return nRow;
             }
         });
+        var buttons = new $.fn.dataTable.Buttons(table, {
+            buttons: [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+            ]
+        }).container().appendTo($('#buttons'));
         $('#sample_1 tbody').on('click', '.details-control', function () {
             var tr = $(this).closest('tr');
             table
@@ -117,7 +123,7 @@
             var x = table.rows('.aa').data();
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-            else {; row.child(newrow(x[0].ListeNo)).show(); format(x[0].ListeNo); tr.addClass('shown'); }
+            else { row.child(newrow(x[0].ListeNo.replace("/", ""))).show(); format(x[0].ListeNo); tr.addClass('shown'); }
         });
         $('#sample_1 tbody').on('click', 'tr', function () {
             table
@@ -130,14 +136,6 @@
             $(this).find('td').css('background-color', '#B0BED9');
             $(this).toggleClass('selected');
         });
-
-        var buttons = new $.fn.dataTable.Buttons(table, {
-            buttons: [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
-            ]
-        }).container().appendTo($('#buttons'));
-
     });
     function Onayla() {
         var x = table.rows('.selected').data();
@@ -192,8 +190,4 @@
         });
         return _dfd.promise();
     }
-    $(document).ready(function () {
-        $('.buttons-pdf').removeClass('btn btn-default');
-        $('.buttons-excel').removeClass('btn btn-default');
-    });
 </script>

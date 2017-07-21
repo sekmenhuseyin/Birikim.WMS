@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
@@ -66,8 +68,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         public ActionResult RiskBakiye()
         {
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", "17")).ToList();
-            return View(CHK);
+            return View();
         }
         public PartialViewResult RiskBakiyeList(int bastarih, int bittarih, int basvadetarih, int bitvadetarih, string chk_bas, string chk_bit)
         {
@@ -132,10 +133,8 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// <summary>
         /// satış bağlantı
         /// </summary>
-        /// <returns></returns>
         public ActionResult SatisBaglanti()
         {
-            ViewBag.Tip = 0;
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
@@ -164,11 +163,8 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public ActionResult RiskAnaliz()
         {
-            ViewBag.BasChk = "";
-            ViewBag.BitChk = "ZZZZZZ";
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return Redirect("/");
-            var CHK = db.Database.SqlQuery<RaporCHKSelect>(string.Format("[FINSAT6{0}].[wms].[CHKSelectKartTip]", "17")).ToList();
-            return View(CHK);
+            return View();
         }
         public PartialViewResult RiskAnalizList(string baschk, string bitchk)
         {
@@ -210,7 +206,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return json.Serialize(CE);
         }
         /// <summary>
-        /// sipraiş kampanya
+        /// sipariş kampanya
         /// </summary>
         public string SiparisKampanyaDetay(string CHK, string EvrakNo, int bastarih, int bittarih)
         {
@@ -221,6 +217,27 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             if (CheckPerm(Perms.Raporlar, PermTypes.Reading) == false) return null;
             var list = db.Database.SqlQuery<KampanyaSiparisDetay>(string.Format("[FINSAT6{0}].[wms].[SiparisKampanyaDetay] @CHK='{1}', @EvrakNo='{2}', @BasTarih={3}, @BitTarih={4}", "17", CHK, EvrakNo, bastarih, bittarih)).ToList();
             return json.Serialize(list);
+        }
+        public JsonResult GetChKCode(string term)
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            if (id == null) return null;
+            string sql = "";
+            //generate sql
+            if (id.ToString() == "0")
+                id = db.GetSirketDBs().FirstOrDefault();
+            sql = String.Format("FINSAT6{0}.[wms].[CHKSearch] @HesapKodu = N'{1}', @Unvan = N'', @top = 200", id.ToString(), term);
+            //return
+            try
+            {
+                var list = db.Database.SqlQuery<frmJson>(sql).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Reports/Financial/GetChKCode");
+                return Json(new List<frmJson>(), JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

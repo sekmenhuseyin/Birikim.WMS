@@ -1,37 +1,34 @@
 ﻿@{
-    ViewBag.Title = "Çek Onay";
+    ViewBag.Title = "Çek Onay SPGMY";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}@section Styles{<link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-    <style>
-        td.details-control {
-            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
-            cursor: pointer;
-        }
-
-        tr.shown td.details-control {
-            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
-        }
-        .dx-datagrid-headers .dx-row {
-            color: white;
-            border-bottom: 1px solid #D2D2D2;
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#32c5d2), color-stop(50%,#32c5d2), color-stop(51%,#32c5d2), color-stop(100%,#32c5d2)); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top, #32c5d2 0%,#32c5d2 50%,#207cca 51%,#32c5d2 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top, #32c5d2 0%,#32c5d2 50%,#32c5d2 51%,#32c5d2 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(top, #32c5d2 0%,#32c5d2 50%,#32c5d2 51%,#32c5d2 100%); /* IE10+ */
-            background: linear-gradient(to bottom, #32c5d2 0%,#32c5d2 50%,#32c5d2 51%,#32c5d2 100%); /* W3C */
-        }
-
-        .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
-            color: white;
-        }
-    </style>
+}@section Styles{<style>
+    td.details-control {
+        background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+    tr.shown td.details-control {
+        background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+    }
+    .dx-datagrid-headers .dx-row {
+        color: white;
+        border-bottom: 1px solid #D2D2D2;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#32c5d2), color-stop(50%,#32c5d2), color-stop(51%,#32c5d2), color-stop(100%,#32c5d2)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #32c5d2 0%,#32c5d2 50%,#207cca 51%,#32c5d2 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #32c5d2 0%,#32c5d2 50%,#32c5d2 51%,#32c5d2 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, #32c5d2 0%,#32c5d2 50%,#32c5d2 51%,#32c5d2 100%); /* IE10+ */
+        background: linear-gradient(to bottom, #32c5d2 0%,#32c5d2 50%,#32c5d2 51%,#32c5d2 100%); /* W3C */
+    }
+    .dx-datagrid .dx-column-indicators .dx-sort.dx-header-filter:after, .dx-datagrid .dx-column-indicators .dx-header-filter.dx-header-filter:before {
+        color: white;
+    }
+</style>
 }
 <div class="form-horizontal">
     <div class="form-body">
         <div class="portlet box green">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>Cek Onay SPGMY
+                    <i class="fa fa-gift"></i>Çek Onay SPGMY
                 </div>
                 <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
                 <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
@@ -113,235 +110,147 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn red" data-dismiss="modal" id="mdlCekKapat">Kapat</button>
-                @*<button type="button" class="btn red" id="mdlSilKayit" data-dismiss="modal">Kaydet</button>*@
                 <div class="label"></div>
             </div>
         </div>
     </div>
 </div>
-@section Scripts{
-    <link href="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" />
-    <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" />
-    <script src="~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="~/Content/assets/global/scripts/datatable.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/datatables.min.js"></script>
-    <script src="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js"></script>
-    <script>
-        var model ;
-        var secili_satir = new Array();
-        var secili_table = new Array();
-        var table = $('#sample_1').DataTable({
+@section Scripts{<script>
+    var model ;
+    var secili_satir = new Array();
+    var secili_table = new Array();
+    var table = $('#sample_1').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ajax": {
+            "url": '/Approvals/Check/SPGMY_List',
+            "dataSrc": function (json) {
+                model = json;
+                return json;
+            },
+        },
+        "fixedHeader": true,
+        "columnDefs": [{ "visible": false, "targets": 0 }, { "type": "num-fmt", "className": "dt-right", "targets": [7, 8] }],
+        "columns": [
+            { "data": "ID" },
+            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
+            { "data": "EvrakNo"},
+            { "data": "Veren"},
+            { "data": "Unvan"},
+            { "data": "Borclu"},
+            { "data": "BorcluUnvan"},
+            { "data": "VadeTarihi"},
+            { "data": "Tutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "BaglantiTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "BaglantininOrtalamaVadesi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
+            { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
+        ],
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        }
+    });
+
+    $('#sample_1 tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
+
+    $('#sample_1 tbody').on('click', '.details-control', function () {
+        var tr = $(this).closest('tr');
+        var unvan = "";
+        table
+            .rows('.aa')
+            .nodes()
+            .to$()      // Convert to a jQuery object
+            .removeClass('aa');
+        tr.addClass("aa");
+        var x = table.rows('.aa').data();
+        var Tutar = 0;
+        tEvrakNo = x[0].EvrakNo.toString()            
+        $('#x-modal-spgmy-cek-detay').modal("show");
+        $('#tblcek_detay').html("<table id='sample_cekdetay' class='table table-striped table-bordered table-condensed'><thead><tr><th>Evrak No</th><th>Tarih</th><th>Veren</th><th>Veren Ünvan</th><th>Borçlu</th><th>Borçlu Ünvan</th><th>Tutar</th><th>Vade Tarihi</th><th>Son Pozisyon</th></tr></thead> <tfoot><tr><th colspan='6'></th><th class='text-right'></th><th colspan='2'></th></tr></tfoot></table>");
+        var table2 = $('#sample_cekdetay').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "ordering": false,
             "ajax": {
-                "url": '/Approvals/Check/SPGMY_List',
+                type: 'POST',
+                url: '/Approvals/Check/Onay_Details',
+                data: { "EvrakNo": tEvrakNo },
                 "dataSrc": function (json) {
-                    model = json;
+                    jQuery.each(json, function (i, val) {
+                        Tutar += val.Tutar;
+                    });
                     return json;
                 },
             },
-            "fixedHeader": true,
-            "columnDefs": [{ "visible": false, "targets": 0 }, { "type": "num-fmt", "className": "dt-right", "targets": [7, 8] }],
-            "columns": [
-                { "data": "ID" },
-                { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
-                { "data": "EvrakNo"},
-                { "data": "Veren"},
-                { "data": "Unvan"},
-                { "data": "Borclu"},
-                { "data": "BorcluUnvan"},
-                { "data": "VadeTarihi"},
-                { "data": "Tutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "BaglantiTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                { "data": "BaglantininOrtalamaVadesi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; }, "sClass": "nowrap" },
-                { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
+            "dom": 'Bfrtip',
+            "buttons": [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs' }
             ],
-            "ordering": false,
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                $('td', nRow).attr('nowrap', 'nowrap');
-                return nRow;
+            "columns": [
+                { "data": "EvrakNo" },
+                { "data": "Tarih", "render": function (data) { return formatDateFromJson(data); } },
+                { "data": "Veren" },
+                { "data": "VerenUnvan" },
+                { "data": "Borclu" },
+                { "data": "BorcluUnvan" },
+                { "data": "Tutar", "className": "dt-right", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "VadeTarih", "render": function (data) { return formatDateFromJson(data); } },
+                { "data": "SonPozisyon" },
+            ],
+            "footerCallback": function (row, data, start, end, display) {
+
+                var api = this.api(), data;
+
+
+                $(api.column(6).footer()).html(
+                    ondalikBinlik(Math.round(Tutar * 100) / 100, 2)
+                );
+
+            }
+
+        });
+    });
+    $('.onay-buton').click(function () {
+
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) {
+            secili_table.push(x[i]);
+        }
+        var _dfd = $.Deferred();
+        $.ajax({
+            url: window.location.origin + "/Approvals/Check/Onay_SPGMY",
+            data: { Data: JSON.stringify(secili_table) },
+            type: "post",
+
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+                else {
+                    if (data.Message == "") data.Message = "Hata oluştu";
+                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
             }
         });
 
-        $('#sample_1 tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-        });
+        return _dfd.promise();
+    });
 
-        $('#sample_1 tbody').on('click', '.details-control', function () {
-            var tr = $(this).closest('tr');
-            var unvan = "";
-            table
-                .rows('.aa')
-                .nodes()
-                .to$()      // Convert to a jQuery object
-                .removeClass('aa');
-            tr.addClass("aa");
-            var x = table.rows('.aa').data();
-            var Tutar = 0;
-            jQuery.each(model, function (i, val) {
-                if (model[i]["BorcluUnvan"].toString().trim() == x[0].BorcluUnvan.toString().trim()) {
-                    unvan = model[i]["BorcluUnvan"].toString().trim();
-                }
-            });
-            $('#x-modal-spgmy-cek-detay').modal("show");
-            $('#tblcek_detay').html("<table id='sample_cekdetay' class='table table-striped table-bordered table-condensed'><thead><tr><th>Evrak No</th><th>Tarih</th><th>Veren</th><th>Veren Ünvan</th><th>Borçlu</th><th>Borçlu Ünvan</th><th>Tutar</th><th>Vade Tarihi</th><th>Son Pozisyon</th></tr></thead> <tfoot><tr><th colspan='6'></th><th class='text-right'></th><th colspan='2'></th></tr></tfoot></table>");
-            var table2 = $('#sample_cekdetay').DataTable({
-                "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-                "ordering": false,
-                "ajax": {
-                    type: 'POST',
-                    url: '/Approvals/Check/Onay_Details',
-                    data: { "Unvan": unvan },
-                    "dataSrc": function (json) {
-                        jQuery.each(json, function (i, val) {
-                            Tutar += val.Tutar;
-                        });
-                        return json;
-                    },
-                },
-                "dom": 'Bfrtip',
-                "buttons": [
-                    { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs' },
-                    { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs' }
-                ],
-                "columns": [
-                    { "data": "EvrakNo" },
-                    { "data": "Tarih", "render": function (data) { return formatDateFromJson(data); } },
-                    { "data": "Veren" },
-                    { "data": "VerenUnvan" },
-                    { "data": "Borclu" },
-                    { "data": "BorcluUnvan" },
-                    { "data": "Tutar", "className": "dt-right", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-                    { "data": "VadeTarih", "render": function (data) { return formatDateFromJson(data); } },
-                    { "data": "SonPozisyon" },
-                ],
-                "footerCallback": function (row, data, start, end, display) {
-
-                    var api = this.api(), data;
-
-
-                    $(api.column(6).footer()).html(
-                        ondalikBinlik(Math.round(Tutar * 100) / 100, 2)
-                    );
-
-                }
-
-            });
-        });
-        //        $.ajax({
-        //            type: 'POST',
-        //            url: '/Approvals/Check/Onay_Details',
-        //            data: { "Unvan": unvan},
-        //            dataType: "html",
-        //            success: function (data) {
-        //                $('#x-modal-spgmy-cek-detay').modal("show");
-        //                var result = JSON.parse(data);
-        //                var columns = [
-                          
-        //                    { caption: 'Evrak No', dataField: 'EvrakNo' },
-        //                    {
-        //                        caption: 'Tarih', dataField: 'Tarih',
-        //                        customizeText: function (cellInfo) {
-        //                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-        //                        }
-        //                    },
-        //                    { caption: 'Veren', dataField: 'Veren' },
-        //                    { caption: 'Veren Ünvan', dataField: 'VerenUnvan' },
-        //                    { caption: 'Borclu', dataField: 'Borclu' },
-        //                    { caption: 'Borclu Ünvan', dataField: 'BorcluUnvan' }, 
-        //                    { caption: 'Tutar', dataField: 'Tutar', format: 'fixedPoint', precision: 2  },
-        //                    {
-        //                        caption: 'Bağlantının Ortalama Vadesi', dataField: 'OrtalamaVade',
-        //                        customizeText: function (cellInfo) {
-        //                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-        //                        }
-        //                    },
-        //                    { caption: 'Bağlantı Tutarı', dataField: 'BaglantiTutari', format: 'fixedPoint', precision: 2 }, 
-        //                    {
-        //                        caption: 'Vade Tarih', dataField: 'VadeTarih',
-        //                        customizeText: function (cellInfo) {
-        //                            if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-        //                        }
-        //                    },
-        //                    { caption: 'Son Pozisyon', dataField: 'SonPozisyon'},
-  
-        //                ];
-        //                _grid_quotations_detail = $('.grid_spgmy-cek-detay').dxDataGrid({
-        //                    dataSource: result,
-        //                    height: 400,
-        //                    paging: { pageSize: 5000 },
-        //                    columns: columns,
-        //                    headerFilter: {
-        //                        visible: true
-        //                    },
-        //                    popupDetailedWindow: true,
-        //                    columnAutoWidth: true,
-        //                    pagingCounter: true,
-        //                    filterRow: {
-        //                        visible: true,
-        //                        applyFilter: 'auto',
-        //                        applyFilterText: 'Apply filter',
-        //                        resetOperationText: 'Reset'
-        //                    },
-        //                    scrolling: {
-        //                        scrollByContent: true,
-        //                        scrollByThumb: true
-        //                    },
-        //                    allowColumnReordering: true,
-        //                    allowColumnResizing: true,
-        //                    remoteOperations: true,
-        //                    showRowLines: true,
-        //                    hoverStateEnabled: true,
-        //                    rowAlternationEnabled: false,
-        //                    sorting: {
-        //                        mode: "multiple",
-        //                    },
-        //                    //onRowPrepared: function (info) {
-        //                    //    if (info.rowType == 'data') {
-
-        //                    //        if (info.rowType != 'header' && info.data.Durum == "Yeni Kayıt")
-        //                    //            info.rowElement.css({ "background-color":"#77e27f", "color":"white"});
-        //                    //        else if (info.rowType != 'header' && info.data.Durum == "Silinecek Kayıt")
-        //                    //            info.rowElement.css({ "background-color": "green", "color": "white" });
-        //                    //        else if (info.rowType != 'header' && info.data.Durum == "Güncellenecek Kayıt")
-        //                    //            info.rowElement.css({ "background-color": "#a4a4d8", "color": "white" });
-        //                    //    }
-
-        //                    //},
-        //                    onRowClick: function (opt) {
-        //                        if (opt.rowType == "data") {
-        //                            var component = opt.component;
-        //                            var prevClickTime = component.lastClickTime;//take last clicked time
-        //                            component.lastClickTime = new Date();
-        //                            if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-        //                                //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
-        //                            }
-        //                        }
-        //                    },
-        //                    //onCellPrepared: function (info) {
-        //                    //    if (info.rowType == "data") {
-        //                    //        if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
-        //                    //            info.cellElement.css({ "background-color": "#ea3d75", "color": "white" });
-        //                    //        }
-        //                    //    }
-        //                    //}
-        //                }).dxDataGrid("instance");
-        //            }
-        //        });
-        //});
-
-        $('.onay-buton').click(function () {
-
+    $('.reddet-buton').click(function () {
+            
             var x = table.rows('.selected').data();
             for (var i = 0; i < x.length; i++) {
                 secili_table.push(x[i]);
             }
             var _dfd = $.Deferred();
             $.ajax({
-                url: window.location.origin + "/Approvals/Check/Onay_SPGMY",
+                url: window.location.origin + "/Approvals/Check/Red_SPGMY",
                 data: { Data: JSON.stringify(secili_table) },
                 type: "post",
-
                 success: function (data) {
                     if (data.Status == true) {
                         Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
@@ -354,46 +263,18 @@
                     }
                 }
             });
-
             return _dfd.promise();
-        });
-
-        $('.reddet-buton').click(function () {
             
-                var x = table.rows('.selected').data();
-                for (var i = 0; i < x.length; i++) {
-                    secili_table.push(x[i]);
-                }
-                var _dfd = $.Deferred();
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Check/Red_SPGMY",
-                    data: { Data: JSON.stringify(secili_table) },
-                    type: "post",
-                    success: function (data) {
-                        if (data.Status == true) {
-                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                            setTimeout(function () { window.location.reload(); }, 500);
-                        }
-                        else {
-                            if (data.Message == "") data.Message = "Hata oluştu";
-                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                            setTimeout(function () { window.location.reload(); }, 500);
-                        }
-                    }
-                });
-                return _dfd.promise();
-            
-        });
+    });
 
-        $('.yenile-buton').click(function () {
-           setTimeout(function () { window.location.reload(); }, 500);
-        });
-        var table12 = $('#sample_1').DataTable();
-        var buttons = new $.fn.dataTable.Buttons(table12, {
-            buttons: [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
-            ]
-        }).container().appendTo($('#buttons'));
-    </script>
+    $('.yenile-buton').click(function () {
+        setTimeout(function () { window.location.reload(); }, 500);
+    });
+    var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+            { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
+            { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+        ]
+    }).container().appendTo($('#buttons'));
+</script>
 }
