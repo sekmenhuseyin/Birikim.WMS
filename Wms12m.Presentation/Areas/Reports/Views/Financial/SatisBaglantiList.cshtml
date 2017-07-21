@@ -91,7 +91,7 @@
 
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-        // "scrollY": 400,
+        "pagingType": "full_numbers",
         "ordering": false,
         "footerCallback": function (row, data, start, end, display) {
 
@@ -259,16 +259,6 @@
                                     mode: "multiple",
                                 },
 
-                                onRowClick: function (opt) {
-                                    if (opt.rowType == "data") {
-                                        var component = opt.component;
-                                        var prevClickTime = component.lastClickTime;//take last clicked time
-                                        component.lastClickTime = new Date();
-                                        if (prevClickTime && (component.lastClickTime - prevClickTime < 300)) {//check their difference, if less than 300  it is a double click
-                                            //PartialView("/Approval/PartialTeminatTanim", 'teminat_tanim_data', JSON.stringify({ chk: opt.data.HesapKodu }));
-                                        }
-                                    }
-                                },
                                 onCellPrepared: function (info) {
                                     if (info.rowType == "data") {
                                         if (info.column.dataField == "Tarih" && info.value == "VadeTarih") {
@@ -371,6 +361,7 @@
         $('#tblsample_cari').html("<table id='sample_cari' class='table table-striped table-bordered table-condensed'><thead><tr><th>Fiyat Listesi</th><th>Evrak No</th><th>Tarih</th><th>Kaynak Sipariş No</th><th>Kaynak Sipariş Tarih</th><th>Fiyat Liste Numarası</th><th>Depo</th><th>Mal Kodu</th><th>Miktar</th><th>Birim</th><th>Birim Fiyat</th><th>Tutar</th><th>Toplam İskonto</th><th>KDV Oran</th><th>KDV</th><th>Sevkedilen Tutar</th></tr></thead> <tfoot><tr><th colspan='8'></th><th class='text-right'></th><th></th><th class='text-right'></th><th class='text-right'></th><th class='text-right'></th><th></th><th class='text-right'></th><th></th></tr></tfoot></table>");
         var table2 = $('#sample_cari').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "pagingType": "full_numbers",
             "scrollX": true,
             "ordering": false,
             "ajax": {

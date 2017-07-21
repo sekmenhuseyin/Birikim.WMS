@@ -60,6 +60,7 @@
         table =$('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "scrollY": 400,
+            "pagingType": "full_numbers",
             "ordering": false,
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
@@ -99,7 +100,7 @@
                             caption: 'Tarih', dataField: 'Tarih',
                             customizeText: function (cellInfo) {
                                 if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-                            }   
+                            }
                         },
                         { caption: 'EvrakNo', dataField: 'EvrakNo' },
                         { caption: 'İşlem Tipi', dataField: 'IslemTip' },
@@ -107,7 +108,7 @@
                             caption: 'Vade Tarihi', dataField: 'VadeTarih',
                              customizeText: function (cellInfo) {
                                 if (cellInfo.value != null) return formatDateFromJson(cellInfo.value); else return "";
-                            } 
+                            }
                         },
                         { caption: 'Borç', dataField: 'Borc', format: 'fixedPoint',precision: 2 },
                         { caption: 'Alacak', dataField: 'Alacak', format: 'fixedPoint', precision: 2  },
@@ -154,7 +155,7 @@
                     }).dxDataGrid("instance");
                 }
             });
-        });    
+        });
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },

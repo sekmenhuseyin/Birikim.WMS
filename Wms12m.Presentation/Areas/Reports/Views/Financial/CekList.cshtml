@@ -81,6 +81,7 @@
         });
        var table123= $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "pagingType": "full_numbers",
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
 
@@ -93,14 +94,9 @@
         var model =  @Html.Raw(serializer.Serialize(Model));
         var buttons = new $.fn.dataTable.Buttons(table123, {
             buttons: [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
             ]
         }).container().appendTo($('#buttons'));
     });
-    $(document).ready(function () {
-        $('.buttons-pdf').removeClass('btn btn-default');
-        $('.buttons-excel').removeClass('btn btn-default');
-    });
-
 </script>
