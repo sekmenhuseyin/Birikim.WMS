@@ -201,13 +201,13 @@
                 ],
                 "columns": [
                     { "data": "EvrakNo" },
-                    { "data": "Tarih" },
+                    { "data": "Tarih", "render": function (data) { return formatDateFromJson(data); } },
                     { "data": "Veren" },
                     { "data": "VerenUnvan"},
                     { "data": "Borclu" },
                     { "data": "BorcluUnvan"},
                     { "data": "Tutar", "className": "dt-right", "render": $.fn.dataTable.render.number('.', ',', 2, '') },    
-                    { "data": "VadeTarih"},
+                    { "data": "VadeTarih", "render": function (data) { return formatDateFromJson(data); } },
                     { "data": "SonPozisyon"},
                 ],
                 "footerCallback": function (row, data, start, end, display) {
