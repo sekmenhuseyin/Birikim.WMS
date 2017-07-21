@@ -84,8 +84,7 @@
             AlacakBakiye = val.AlacakBakiye;
         });
         table = $('#sample_1').DataTable({
-            //"order": [[0, "asc"]],
-           // "scrollY": 400,
+            "pagingType": "full_numbers",
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "columnDefs": [
@@ -309,7 +308,7 @@
                             { caption: 'Acıklama', dataField: 'Aciklama' },
                             { caption: 'Tutar', dataField: 'Tutar', alignment: 'right', format: 'fixedPoint', precision: 2 },
                             { caption: 'Vade Tarihi', dataField: 'VadeTarihi' },
-                         
+
                         ];
                         _grid_quotations_detail = $('.grid_cari-detay-diger').dxDataGrid({
                             dataSource: result,
@@ -369,7 +368,7 @@
                     }
                 });
             }
-          
+
         });
 
         var buttons = new $.fn.dataTable.Buttons(table, {
@@ -380,7 +379,7 @@
         }).container().appendTo($('#buttons'));
         $('.buttons-pdf').removeClass('btn btn-default');
         $('.buttons-excel').removeClass('btn btn-default');
-        
+
     });
     $('#sample_1').on('draw.dt', function () {
         setTimeout(function () { $("td").removeClass('sorting_1'); }, 0);

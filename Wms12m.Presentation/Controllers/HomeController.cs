@@ -28,6 +28,7 @@ namespace Wms12m.Presentation.Controllers
                 }
                 catch (Exception ex)
                 {
+                    Logger(ex, "Home/Index");
                     bo = new BekleyenOnaylar();
                 }
             ViewBag.Settings = setts;
@@ -91,8 +92,9 @@ namespace Wms12m.Presentation.Controllers
             {
                 GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", SirketKodu, tarih)).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Home/PartialGunlukSatisPie");
                 GSA = new List<ChartGunlukSatisAnalizi>();
             }
             ViewBag.tarih = tarih;
@@ -110,8 +112,9 @@ namespace Wms12m.Presentation.Controllers
             {
                 GSA = db.Database.SqlQuery<ChartGunlukSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", SirketKodu, tarih)).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Home/PartialGunlukSatisYearToDayPie");
                 GSA = new List<ChartGunlukSatisAnalizi>();
             }
             ViewBag.tarih = tarih;
@@ -149,14 +152,15 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialAylikSatisAnaliziBar(string SirketKodu)
         {
             if (CheckPerm(Perms.ChartAylikSatisAnaliziBar, PermTypes.Reading) == false) return null;
-            List<ChartAylikSatisAnalizi> ASA;
+            List<ChartAylikSatisAnalizi2> ASA;
             try
             {
-                ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", SirketKodu)).ToList();
+                ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi2>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi2]", SirketKodu)).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ASA = new List<ChartAylikSatisAnalizi>();
+                Logger(ex, "Home/PartialAylikSatisAnaliziBar");
+                ASA = new List<ChartAylikSatisAnalizi2>();
             }
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
@@ -182,8 +186,9 @@ namespace Wms12m.Presentation.Controllers
             {
                 GSADK = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = '{1}', @Kriter = '{2}', @IslemTip = '{3}'", SirketKodu, kod, doviz, islemtip)).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Home/PartialAylikSatisAnaliziKodTipDovizBar");
                 GSADK = new List<ChartAylikSatisAnalizi>();
             }
             ViewBag.Doviz = doviz;
@@ -369,8 +374,9 @@ namespace Wms12m.Presentation.Controllers
             {
                 BUGS = db.Database.SqlQuery<ChartBaglantiUrunGrup>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", SirketKodu)).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Home/PartialBaglantiUrunGrubu");
                 BUGS = new List<ChartBaglantiUrunGrup>();
             }
             ViewBag.SirketKodu = SirketKodu;
@@ -386,8 +392,9 @@ namespace Wms12m.Presentation.Controllers
             {
                 BUGS = db.Database.SqlQuery<ChartBaglantiUrunGrup>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", SirketKodu)).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Home/PartialBaglantiUrunGrubuPie");
                 BUGS = new List<ChartBaglantiUrunGrup>();
             }
             ViewBag.SirketKodu = SirketKodu;
@@ -426,8 +433,9 @@ namespace Wms12m.Presentation.Controllers
             {
                 BUGS = db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_BaglantiLogGetir]", SirketKodu)).ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger(ex, "Home/PartialBaglantiZamanCizelgesi");
                 BUGS = new List<ChartBaglantiZaman>();
             }
             ViewBag.SirketKodu = SirketKodu;

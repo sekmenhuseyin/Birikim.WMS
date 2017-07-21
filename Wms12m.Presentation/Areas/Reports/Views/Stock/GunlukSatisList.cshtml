@@ -124,59 +124,52 @@
             KDV += val.KDV;
             GenelToplam += val.GenelToplam;
         });
-     var table123 =  $('#sample_1').DataTable({
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "footerCallback": function (row, data, start, end, display) {
-                var api = this.api(), data;
+         var table123 =  $('#sample_1').DataTable({
+                "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+                "pagingType": "full_numbers",
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+                    $(api.column(12).footer()).html(
+                        ondalikBinlik(Math.round(BirimMiktar * 100) / 100 ,2)
+                    );
+                    $(api.column(14).footer()).html(
+                        ondalikBinlik(Math.round(AnaBirimMiktar * 100) / 100, 2)
+                    );
+                    $(api.column(15).footer()).html(
+                        ondalikBinlik(Math.round(AdetCikisMiktar * 100) / 100, 2)
+                    );
+                    $(api.column(16).footer()).html(
+                        ondalikBinlik(Math.round(MTCikisMiktar * 100) / 100, 2)
+                    );
+                    $(api.column(17).footer()).html(
+                        ondalikBinlik(Math.round(M2CikisMiktar * 100) / 100, 2)
+                    );
+                    $(api.column(18).footer()).html(
+                        ondalikBinlik(Math.round(M3CikisMiktar * 100) / 100, 2)
+                    );
+                    $(api.column(19).footer()).html(
+                        ondalikBinlik(Math.round(KGCikisMiktar * 100) / 100, 2)
+                    );
+                    $(api.column(20).footer()).html(
+                        ondalikBinlik(Math.round(NetBirimFiyat * 100) / 100, 2)
+                    );
+                    $(api.column(21).footer()).html(
+                        ondalikBinlik(Math.round(NetTutar * 100) / 100, 2)
+                    );
+                    $(api.column(22).footer()).html(
+                        ondalikBinlik(Math.round(KDV * 100) / 100, 2)
+                    );
+                    $(api.column(23).footer()).html(
+                        ondalikBinlik(Math.round(GenelToplam * 100) / 100, 2)
+                    );
+                }
+            });
 
-                // Remove the formatting to get integer data for summation
-              
-                // Update footer
-                $(api.column(12).footer()).html(
-                    ondalikBinlik(Math.round(BirimMiktar * 100) / 100 ,2)
-                );
-                $(api.column(14).footer()).html(
-                    ondalikBinlik(Math.round(AnaBirimMiktar * 100) / 100, 2)
-                );
-                $(api.column(15).footer()).html(
-                    ondalikBinlik(Math.round(AdetCikisMiktar * 100) / 100, 2)
-                );
-                $(api.column(16).footer()).html(
-                    ondalikBinlik(Math.round(MTCikisMiktar * 100) / 100, 2)
-                );
-                $(api.column(17).footer()).html(
-                    ondalikBinlik(Math.round(M2CikisMiktar * 100) / 100, 2)
-                );
-                $(api.column(18).footer()).html(
-                    ondalikBinlik(Math.round(M3CikisMiktar * 100) / 100, 2)
-                );
-                $(api.column(19).footer()).html(
-                    ondalikBinlik(Math.round(KGCikisMiktar * 100) / 100, 2)
-                );
-                $(api.column(20).footer()).html(
-                    ondalikBinlik(Math.round(NetBirimFiyat * 100) / 100, 2)
-                );
-                $(api.column(21).footer()).html(
-                    ondalikBinlik(Math.round(NetTutar * 100) / 100, 2)
-                );
-                $(api.column(22).footer()).html(
-                    ondalikBinlik(Math.round(KDV * 100) / 100, 2)
-                );
-                $(api.column(23).footer()).html(
-                    ondalikBinlik(Math.round(GenelToplam * 100) / 100, 2)
-                );
-            }
-        });
-
-     var buttons = new $.fn.dataTable.Buttons(table123, {
-         buttons: [
-             { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
-             { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
-         ]
-     }).container().appendTo($('#buttons'));
+         var buttons = new $.fn.dataTable.Buttons(table123, {
+             buttons: [
+                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+             ]
+         }).container().appendTo($('#buttons'));
     });
-
-
-
-
 </script>

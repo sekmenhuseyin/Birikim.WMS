@@ -8,10 +8,10 @@
                     <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID2", @onchange = "Reload2(this.value)" })
+                    <input type="text" class="form-control dateboxbg" id="gstarih" value="@ViewBag.tarih2" />
                 </div>
-                <div class="col-md-1 p-l-10">
-                    <input type="text" class="form-control w-100 dateboxbg" id="gstarih" value="@ViewBag.tarih2" />
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID2", @onchange = "Reload2(this.value)" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
