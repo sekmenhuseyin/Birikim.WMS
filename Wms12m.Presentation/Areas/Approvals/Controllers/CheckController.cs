@@ -291,14 +291,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
 
         #endregion
-        public string Onay_Details(string Unvan)
+        public string Onay_Details(string EvrakNo)
         {
             JavaScriptSerializer json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
             if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return null;
-            var CE = db.Database.SqlQuery<CekOnayDetay>(string.Format("[FINSAT6{0}].[wms].[CekOnayDetay] @Unvan = '{1}'", "17", Unvan)).ToList();
+            var CE = db.Database.SqlQuery<CekOnayDetay>(string.Format("[FINSAT6{0}].[wms].[CekOnayDetay] @EvrakNo = '{1}'", "17", EvrakNo)).ToList();
             return json.Serialize(CE);
         }
     }
