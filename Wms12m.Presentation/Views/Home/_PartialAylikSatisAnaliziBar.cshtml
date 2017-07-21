@@ -1,4 +1,4 @@
-﻿@model List<ChartAylikSatisAnalizi2>
+﻿@model List<ChartAylikSatisAnalizi>
 <div class="row">
     <div class="col-md-12 m-t-40">
         <div class="portlet light portlet-fit bordered">
@@ -31,18 +31,14 @@
     }
     var model = @Html.Raw(Json.Encode(Model));
     var aylar = new Array();
-    var yillar = new Array();
     var Yil2015 = new Array();
     var Yil2016 = new Array();
     var Yil2017 = new Array();
     jQuery.each(model, function (i, val) {
-        if (aylar.indexOf(val.Ay) === -1) aylar.push(val.Ay);
-        if (val.Yil == "@DateTime.Today.Year")
-            Yil2017.push(val.Tutar);
-        else if (val.Yil == "@DateTime.Today.AddYears(-1).Year")
-            Yil2016.push(val.Tutar);
-        else
-            Yil2015.push(val.Tutar);
+        aylar.push(val.Ay);
+        Yil2015.push(val.Yil2015);
+        Yil2016.push(val.Yil2016);
+        Yil2017.push(val.Yil2017);
     });
 
     require.config({
