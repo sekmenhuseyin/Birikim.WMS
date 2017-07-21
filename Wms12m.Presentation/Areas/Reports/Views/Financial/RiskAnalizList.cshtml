@@ -63,15 +63,15 @@
                             <tr>
                                 <td nowrap>@item.HesapKodu</td>
                                 <td nowrap>@item.Unvan</td>
-                                <td nowrap align="right">@item.Bakiye.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.BekleyenSiparisTutari.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.SahsiCekRiski.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.ToplamSahsiRisk.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.SahsiCekLimiti.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.MusteriCekRiski.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.ToplamRisk.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.ToplamCekRiski.ToDecimal().ToOnFormat()</td>
-                                <td nowrap align="right">@item.Teminat.ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.Bakiye).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.BekleyenSiparisTutari).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.SahsiCekRiski).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.ToplamSahsiRisk).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.SahsiCekLimiti).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.MusteriCekRiski).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.ToplamRisk).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.ToplamCekRiski).ToDecimal().ToOnFormat()</td>
+                                <td nowrap align="right">@String.Format("{0:0.00}", item.Teminat).ToDecimal().ToOnFormat()</td>
                                 <td nowrap>@item.SatisTemsilcisi</td>
                             </tr>
                         }
