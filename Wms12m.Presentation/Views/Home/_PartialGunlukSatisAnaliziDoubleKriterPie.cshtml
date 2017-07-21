@@ -7,17 +7,17 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Analizi GrupKod ve İşlemTip <span style="color:#8888a7;">3D PIE CHART</span></span>
                 </div>
+                <div class="col-md-1">
+                    <div class="slct_islemtip_pie"></div>
+                </div>
+                <div class="col-md-1">
+                    <div class="slct_double-kriter_pie"></div>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control dateboxbg" id="gs_tarih_double_pie" value="@ViewBag.tarih2" />
+                </div>
                 <div class="col-md-2">
                     @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID6", @onchange = "Reload6(this.value)" })
-                </div>
-                <div class="col-md-1 p-l-10">
-                    <div class="slct_islemtip_pie" style="width:130px;"></div>
-                </div>
-                <div class="col-md-1 p-l-10">
-                    <div class="slct_double-kriter_pie" style="width:130px;"></div>
-                </div>
-                <div class="col-md-1 p-l-10">
-                    <input type="text" class="form-control w-100 dateboxbg" id="gs_tarih_double_pie" value="@ViewBag.tarih2" />
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
@@ -66,6 +66,7 @@
             {
                 $(".slct_double-kriter_pie").dxSelectBox({
                     dataSource: $.parseJSON(data),
+                    width: 85,
                     valueExpr: 'Kriter',
                     displayExpr: 'Kriter',
                     value: kriter_value,
@@ -80,6 +81,7 @@
         });
         $(".slct_islemtip_pie").dxSelectBox({
             dataSource: islemtip,
+            width: 85,
             valueExpr: 'id',
             displayExpr: 'state',
             value: islemtip_value,
