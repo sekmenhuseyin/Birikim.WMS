@@ -31,64 +31,100 @@
         <hr />
 
         <table class="table table-striped table-bordered table-hover">
-            <tr><th><h3 style:"background-color:#32c5d2!important">Hesap Bilgilerim:</h3></th>
-            <th><h3>İşlem Bilgileri:</h3></th>
-            <th><h3>Açıklamalar:</h3></th>
-            <th><h3>E-İhracat Bilgileri:</h3></th>
+            <tr><th><h3 style:"background-color:#32c5d2!important">Hesap Bilgilerim:</h3></th><th></th>
+            <th><h3>İşlem Bilgileri:</h3></th><th></th>
+            <th><h3>Açıklamalar:</h3></th><th></th>
+            <th><h3>E-İhracat Bilgileri:</h3></th><th></th>
             </tr>
             <tr>
-                <td><strong>Hesap Kodu:</strong> @Model.GENEL[0].Chk</td>
-                <td><strong>İşlem Tipi:</strong> @Model.GENEL[0].IslemTip</td>
-                <td><strong>Açıklama:</strong> @Model.GENEL[0].Aciklama</td>
-                <td><strong>Teslim Şartı:</strong> @Model.GENEL[0].TeslimSarti</td>
+                <td><strong>Hesap Kodu:</strong></td>
+                <td> @Model.GENEL[0].Chk</td>
+                <td><strong>İşlem Tipi:</strong></td>
+                <td> @Model.GENEL[0].IslemTip</td>
+                <td><strong>Açıklama:</strong></td>
+                <td> @Model.GENEL[0].Aciklama</td>
+                <td><strong>Teslim Şartı:</strong></td>
+                <td> @Model.GENEL[0].TeslimSarti</td>
             </tr>
             <tr>
-                <td><strong>Teslim Yeri Kodu:</strong> @Model.GENEL[0].TeslimYeriKodu</td>
-                <td><strong>Vade Tarihi:</strong> @Model.GENEL[0].VadeTarih</td>
-                <td><strong>Açıklama2:</strong> @Model.GENEL[0].Aciklama2</td>
-                <td><strong>Gönderim Şekli:</strong> @Model.GENEL[0].GonderimSekli</td>
+                <td><strong>Teslim Yeri Kodu:</strong></td>
+                <td> @Model.GENEL[0].TeslimYeriKodu</td>
+                <td><strong>Vade Tarihi:</strong></td>
+                <td> @Model.GENEL[0].VadeTarih</td>
+                <td><strong>Açıklama2:</strong></td>
+                <td> @Model.GENEL[0].Aciklama2</td>
+                <td><strong>Gönderim Şekli:</strong></td>
+                <td> @Model.GENEL[0].GonderimSekli</td>
             </tr>
             <tr>
-                <td><strong>Ünvan:</strong> @Model.GENEL[0].Unvan</td>
-                <td><strong>Döviz/TL:</strong> @Model.GENEL[0].DvzTL</td>
-                <td><strong>Açıklama3:</strong> @Model.GENEL[0].Aciklama3</td>
-                <td><strong>Brüt Kilo:</strong> @Model.GENEL[0].BrutKilo</td>
+                <td><strong>Ünvan:</strong></td>
+                <td> @Model.GENEL[0].Unvan</td>
+                <td><strong>Döviz/TL:</strong> </td>
+                <td>@Model.GENEL[0].DvzTL</td>
+                <td><strong>Açıklama3:</strong></td>
+                <td> @Model.GENEL[0].Aciklama3</td>
+                <td><strong>Brüt Kilo:</strong></td>
+                <td> @Model.GENEL[0].BrutKilo</td>
             </tr>
             <tr>
-                <td><strong>Evrak No:</strong> @Model.GENEL[0].EvrakNo</td>
-                <td><strong>Döviz Cinsi:</strong> @Model.GENEL[0].DovizCinsi</td>
-                <td><strong>Açıklama4:</strong> @Model.GENEL[0].Aciklama4</td>
-                <td><strong>Net Kilo:</strong> @Model.GENEL[0].NetKilo</td>
+                <td><strong>Evrak No:</strong></td>
+                <td> @Model.GENEL[0].EvrakNo</td>
+                <td><strong>Döviz Cinsi:</strong></td>
+                <td> @Model.GENEL[0].DovizCinsi</td>
+                <td><strong>Açıklama4:</strong></td>
+                <td> @Model.GENEL[0].Aciklama4</td>
+                <td><strong>Net Kilo:</strong></td>
+                <td> @Model.GENEL[0].NetKilo</td>
             </tr>
             <tr>
-                <td><strong>Tarih:</strong> @Model.GENEL[0].Tarih</td>
-                <td><strong>Döviz Kuru:</strong> @Model.GENEL[0].DovizKuru</td>
-                <td><strong>Açıklama5:</strong> @Model.GENEL[0].Aciklama5</td>
-                <td><strong>Ödeme Notu:</strong> @Model.GENEL[0].OdemeNotu</td>
+                <td><strong>Tarih:</strong></td>
+                <td> @Model.GENEL[0].Tarih</td>
+                <td><strong>Döviz Kuru:</strong></td>
+                <td> @Model.GENEL[0].DovizKuru</td>
+                <td><strong>Açıklama5:</strong></td>
+                <td> @Model.GENEL[0].Aciklama5</td>
+                <td><strong>Ödeme Notu:</strong></td>
+                <td> @Model.GENEL[0].OdemeNotu</td>
             </tr>
             <tr>
                 <td></td>
-                <td><strong>E-Fatura Tipi:</strong> @Model.GENEL[0].EFatTip</td>
-                <td><strong>Açıklama6:</strong> @Model.GENEL[0].Aciklama6</td>
-                <td><strong>Ödeme Şekli:</strong> @Model.GENEL[0].OdemeSekli</td>
-            </tr>
-            <tr>
                 <td></td>
-                <td></td>
-                <td><strong>Kaydeden:</strong> @Model.GENEL[0].Kaydeden</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td><strong>Kaydeden:</strong> @Model.GENEL[0].Kaydeden</td>
-                <td><strong>Değiştiren:</strong> @Model.GENEL[0].Degistiren</td>
+                <td><strong>E-Fatura Tipi:</strong></td>
+                <td> @Model.GENEL[0].EFatTip</td>
+                <td><strong>Açıklama6:</strong></td>
+                <td> @Model.GENEL[0].Aciklama6</td>
+                <td><strong>Ödeme Şekli:</strong></td>
+                <td> @Model.GENEL[0].OdemeSekli</td>
             </tr>
             <tr>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><strong>Fatura Notu:</strong> @Model.GENEL[0].EFatNot</td>
+                <td></td>
+                <td><strong>Kaydeden:</strong></td>
+                <td> @Model.GENEL[0].Kaydeden</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><strong>Kaydeden:</strong></td>
+                <td> @Model.GENEL[0].Kaydeden</td>
+                <td><strong>Değiştiren:</strong></td>
+                <td> @Model.GENEL[0].Degistiren</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><strong>Fatura Notu:</strong></td>
+                <td> @Model.GENEL[0].EFatNot</td>
             </tr>
 
         </table>
