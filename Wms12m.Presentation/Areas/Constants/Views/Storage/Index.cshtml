@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/assets/global/plugins/jquery-file-upload/css/jquery.fileupload.css" rel="stylesheet" />
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Depo İşlemleri</span></li></ul></div>
 <h1 class="page-title">Depo İşlemleri</h1>
 <div class="row" id="CreateEdit">
@@ -116,6 +117,9 @@
 </div>
 @section Scripts{<script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.iframe-transport.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
+<script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
 <script type="text/javascript">
     var StoreGridUrl = '/Constants/Storage/StoreGridPartial';
     var StoreDetailUrl = '/Constants/Storage/StoreDetailPartial';
@@ -141,5 +145,22 @@
         var Type = $("input[type='radio'][name='Locked']:checked").val();
         PartialView(StoreGridUrl, 'StoreGrid', JSON.stringify({ Id: Type }));
     }
+    $(function () {
+        $('#linkUpload').click(function () {
+            $("#btnUpload").click();
+        });
+        $('#fileupload').fileupload({
+            maxFileSize: 2000000,
+            acceptFileTypes: /(\.|\/)(xlsx)$/i,
+            dataType: 'json',
+            add: function (e, data) { data.submit(); },
+            done: function (e, data) {
+                if (data.result.Status == false)
+                    Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
+                else
+                    Modaldialog("Liste başarıyla yüklendi", "Başarı", "Tamam", "btn-success");
+            }
+        });
+    });
 </script>
 }
