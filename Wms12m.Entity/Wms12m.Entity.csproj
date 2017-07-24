@@ -561,6 +561,7 @@
     <Compile Include="Viewmodels\frmCables.cs" />
     <Compile Include="Viewmodels\frmTransfer.cs" />
     <Compile Include="Viewmodels\Fiyat.cs" />
+    <Compile Include="Viewmodels\frmWood.cs" />
     <Compile Include="Viewmodels\FYT.cs" />
     <Compile Include="Viewmodels\Invoce.cs" />
     <Compile Include="Viewmodels\ISS.cs" />
