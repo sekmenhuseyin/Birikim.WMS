@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string[] list; list = new string[Model.Count()]; int x = 0; int SiraNo = 0; string evrakSira = "";
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Sell">Kablo Sipariş Planlama</a><i class="fa fa-circle"></i></li><li><span>3. Adım</span></li></ul></div>
-<h1 class="page-title">Kablo Sipariş Planlama- 3. Adım</h1>
+<h1 class="page-title">Kablo Sipariş Planlama - 3. Adım</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="mt-element-step">
@@ -44,7 +44,7 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                        <thead><tr><td>Sipariş No</td><td>Alıcı</td><td>Evrak No</td><td>Mal Kodu</td><td>Mal Adı</td><td>Marka</td><td>Cins</td><td>Kesit</td><td>Renk</td><td>Makara</td><td>Miktar</td><td>Stok</td><td></td><td></td></tr></thead>
+                        <thead><tr><th>Sipariş No</th><th>Alıcı</th><th>Evrak No</th><th>Tarih</th><th>Saat</th><th>Mal Kodu</th><th>Mal Adı</th><th>Marka</th><th>Cins</th><th>Kesit</th><th>Renk</th><th>Makara</th><th>Miktar</th><th>Stok</th><th></th><th></th></tr></thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
@@ -54,6 +54,8 @@
                                     <td>@SiraNo</td>
                                     <td>@item.Unvan</td>
                                     <td>@item.EvrakNo</td>
+                                    <td>@item.Tarih.FromOADateInt()</td>
+                                    <td>@item.Saat.FromOaTime()</td>
                                     <td>@item.MalKodu</td>
                                     <td>@item.MalAdi</td>
                                     <td>@item.marka</td>
@@ -95,14 +97,15 @@
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
             "ordering": false,
+            "pagingType": "full_numbers",
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [12,13], "visible": false, "searchable": false }]
+            "columnDefs": [{ "targets": [14,15], "visible": false, "searchable": false }]
         });
         $(".submit").click(function () {
             var selected = ""; var result = false;
             table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-                var miktar = parseFloat(list[this.data()[13]]);
-                selected = selected + this.data()[12] + "-" + miktar + "#";
+                var miktar = parseFloat(list[this.data()[15]]);
+                selected = selected + this.data()[14] + "-" + miktar + "#";
                 result = true;
             });
             $("#checkboxes").val(selected);

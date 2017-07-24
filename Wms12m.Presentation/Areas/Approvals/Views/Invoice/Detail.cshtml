@@ -8,14 +8,7 @@
 <link href="~/Content/assets/pages/css/invoice.min.css" rel="stylesheet" />
 <link href="~/Content/assets/global/plugins/datatables/dataTables.min.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet" type="text/css" />
-<style>
-    .list-unstyled.amounts li {font-size: 9px;text-align: left;float: left;}
-    .list-unstyled.genel strong {color: rgba(214, 60, 60, 0.95)}
-    .invoice-payment.genel h3 {
-        color: #32c5d2;
-        font-weight: bold;
-    }
-</style>
+<style>table tr td strong {color: rgba(214, 60, 60, 0.95)}</style>
 }<div class="page-bar"></div>
 <div style="padding:10px 15px;width:100%;">
     <h1 class="page-title" style="color:rgba(62, 93, 183, 0.89);font-weight:bold;">Fatura Onay<small></small></h1>
@@ -28,71 +21,88 @@
                 <p>@Model.GENEL[0].EvrakNo / @Model.GENEL[0].Tarih<span class="muted">  </span></p>
             </div>
         </div>
-        <hr />
-
-        <table class="table table-striped table-bordered table-hover">
-            <tr><th><h3 style:"background-color:#32c5d2!important">Hesap Bilgilerim:</h3></th><th></th>
-            <th><h3>İşlem Bilgileri:</h3></th><th></th>
-            <th><h3>Açıklamalar:</h3></th><th></th>
-            <th><h3>E-İhracat Bilgileri:</h3></th><th></th>
+        <table class="table">
+            <tr>
+                <th colspan="3"><h3 class="color-blue-light bold">Hesap Bilgilerim:</h3></th>
+                <th colspan="3"><h3 class="color-blue-light bold">İşlem Bilgileri:</h3></th>
+                <th colspan="3"><h3 class="color-blue-light bold">Açıklamalar:</h3></th>
+                <th colspan="2"><h3 class="color-blue-light bold">E-İhracat Bilgileri:</h3></th>
             </tr>
             <tr>
                 <td><strong>Hesap Kodu:</strong></td>
                 <td> @Model.GENEL[0].Chk</td>
+                <td>&nbsp;</td>
                 <td><strong>İşlem Tipi:</strong></td>
                 <td> @Model.GENEL[0].IslemTip</td>
+                <td>&nbsp;</td>
                 <td><strong>Açıklama:</strong></td>
                 <td> @Model.GENEL[0].Aciklama</td>
+                <td>&nbsp;</td>
                 <td><strong>Teslim Şartı:</strong></td>
                 <td> @Model.GENEL[0].TeslimSarti</td>
             </tr>
             <tr>
-                <td><strong>Teslim Yeri Kodu:</strong></td>
-                <td> @Model.GENEL[0].TeslimYeriKodu</td>
+                <td><strong>Ünvan:</strong></td>
+                <td> @Model.GENEL[0].Unvan</td>
+                <td>&nbsp;</td>
                 <td><strong>Vade Tarihi:</strong></td>
                 <td> @Model.GENEL[0].VadeTarih</td>
+                <td>&nbsp;</td>
                 <td><strong>Açıklama2:</strong></td>
                 <td> @Model.GENEL[0].Aciklama2</td>
+                <td>&nbsp;</td>
                 <td><strong>Gönderim Şekli:</strong></td>
                 <td> @Model.GENEL[0].GonderimSekli</td>
             </tr>
             <tr>
-                <td><strong>Ünvan:</strong></td>
-                <td> @Model.GENEL[0].Unvan</td>
+                <td><strong>Teslim Yeri Kodu:</strong></td>
+                <td> @Model.GENEL[0].TeslimYeriKodu</td>
+                <td>&nbsp;</td>
                 <td><strong>Döviz/TL:</strong> </td>
                 <td>@Model.GENEL[0].DvzTL</td>
+                <td>&nbsp;</td>
                 <td><strong>Açıklama3:</strong></td>
                 <td> @Model.GENEL[0].Aciklama3</td>
+                <td>&nbsp;</td>
                 <td><strong>Brüt Kilo:</strong></td>
                 <td> @Model.GENEL[0].BrutKilo</td>
             </tr>
             <tr>
-                <td><strong>Evrak No:</strong></td>
-                <td> @Model.GENEL[0].EvrakNo</td>
+                <td><strong>Teslim Yeri Ünvanı:</strong></td>
+                <td> @Model.GENEL[0].TeslimYeriUnvan</td>
+                <td>&nbsp;</td>
                 <td><strong>Döviz Cinsi:</strong></td>
                 <td> @Model.GENEL[0].DovizCinsi</td>
+                <td>&nbsp;</td>
                 <td><strong>Açıklama4:</strong></td>
                 <td> @Model.GENEL[0].Aciklama4</td>
+                <td>&nbsp;</td>
                 <td><strong>Net Kilo:</strong></td>
                 <td> @Model.GENEL[0].NetKilo</td>
             </tr>
             <tr>
-                <td><strong>Tarih:</strong></td>
-                <td> @Model.GENEL[0].Tarih</td>
+                <td><strong>Evrak No:</strong></td>
+                <td> @Model.GENEL[0].EvrakNo</td>
+                <td>&nbsp;</td>
                 <td><strong>Döviz Kuru:</strong></td>
                 <td> @Model.GENEL[0].DovizKuru</td>
+                <td>&nbsp;</td>
                 <td><strong>Açıklama5:</strong></td>
                 <td> @Model.GENEL[0].Aciklama5</td>
+                <td>&nbsp;</td>
                 <td><strong>Ödeme Notu:</strong></td>
                 <td> @Model.GENEL[0].OdemeNotu</td>
             </tr>
             <tr>
-                <td></td>
+                <td><strong>Tarih:</strong></td>
+                <td> @Model.GENEL[0].Tarih</td>
                 <td></td>
                 <td><strong>E-Fatura Tipi:</strong></td>
                 <td> @Model.GENEL[0].EFatTip</td>
+                <td>&nbsp;</td>
                 <td><strong>Açıklama6:</strong></td>
                 <td> @Model.GENEL[0].Aciklama6</td>
+                <td>&nbsp;</td>
                 <td><strong>Ödeme Şekli:</strong></td>
                 <td> @Model.GENEL[0].OdemeSekli</td>
             </tr>
@@ -101,30 +111,26 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><strong>Kaydeden:</strong></td>
-                <td> @Model.GENEL[0].Kaydeden</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td><strong>Kaydeden:</strong></td>
                 <td> @Model.GENEL[0].Kaydeden</td>
-                <td><strong>Değiştiren:</strong></td>
-                <td> @Model.GENEL[0].Degistiren</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
                 <td></td>
                 <td><strong>Fatura Notu:</strong></td>
                 <td> @Model.GENEL[0].EFatNot</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><strong>Değiştiren:</strong></td>
+                <td> @Model.GENEL[0].Degistiren</td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
 
         </table>
@@ -190,38 +196,36 @@
             </div>
         </div>
         <div class="row m-t-20">
-            <div class="col-xs-2 col-sm-2" style="text-align:center;">
-                <div class="btn btn-lg green onayla-buton" style="width:100%; margin-bottom:10px;">Onayla<i class="fa fa-check"></i></div>
-                <div class="btn btn-lg red red-buton" style="width:100%; margin-bottom:10px;">Reddet<i class="fa fa-close"></i></div>
-                <div class="btn btn-lg default geri-buton" style="width:100%; margin-bottom:10px;">Geri Dön<i class="fa fa-mail-reply"></i></div>
+            <div class="col-xs-2 col-sm-2 text-center">
+                <div class="btn btn-block green onayla-buton m-b-10">Onayla<i class="fa fa-check"></i></div>
+                <div class="btn btn-block red red-buton m-b-10">Reddet<i class="fa fa-close"></i></div>
+                <div class="btn btn-block default geri-buton m-b-10">Geri Dön<i class="fa fa-mail-reply"></i></div>
             </div>
-            <table class="table table-striped  table-bordered table-hover">
-                <tr>
-                <th></th>
-                <th>Oran</th>
-                <th>Tutar</th>
-                <th>Döviz/TL</th>
-                <th>Döviz Cinsi</th>
-                <th>Döviz Kuru</th>
-                <th>Döviz Tutar</th>
-                </tr>
-@foreach (var item in Model.FTD)
-{
-                <tr>
-                <td class="text-right">@item.Tip</td>
-                <td class="text-right">@item.IskontoOran</td>
-                <td class="text-right">@item.Iskonto</td>
-                <td class="text-right">@item.DvzTL</td>
-                <td>@item.DovizCinsi</td>
-                <td class="text-right">@item.DovizKuru</td>
-                <td class="text-right">@item.DovizTutar</td>
-       </tr>
-}
-
-
-            </table>
-
-
+            <div class="col-xs-10 col-sm-10">
+                <table class="table m-t-0">
+                    <tr>
+                        <th></th>
+                        <th class="text-right">Oran</th>
+                        <th class="text-right">Tutar</th>
+                        <th class="text-right">Döviz/TL</th>
+                        <th>Döviz Cinsi</th>
+                        <th class="text-right">Döviz Kuru</th>
+                        <th class="text-right">Döviz Tutar</th>
+                    </tr>
+                    @foreach (var item in Model.FTD)
+                    {
+                        <tr>
+                            <td class="col-xs-3 col-sm-3 text-right bold">@item.Tip</td>
+                            <td class="col-xs-1 col-sm-1 text-right">@item.IskontoOran</td>
+                            <td class="col-xs-1 col-sm-1 text-right">@item.Iskonto</td>
+                            <td class="col-xs-1 col-sm-1 text-right">@item.DvzTL</td>
+                            <td class="col-xs-1 col-sm-1 ">@item.DovizCinsi</td>
+                            <td class="col-xs-1 col-sm-1 text-right">@item.DovizKuru</td>
+                            <td class="col-xs-1 col-sm-1 text-right">@item.DovizTutar</td>
+                        </tr>
+                    }
+                </table>
+            </div>
         </div>
     </div>
     <div class="modal fade" id="x-modal-faturared" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
@@ -301,13 +305,13 @@
                 }
                 else if (data == "DEGISIM") {
                     Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "btn-danger");
-                    setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + f_evrakNo; }, 500);
+                    //setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + f_evrakNo; }, 500);
 
 
                 }
                 else {
                     Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "btn-danger");
-                    setTimeout(function () { window.location.href = '/Approvals/Invoice'; }, 500);
+                    //setTimeout(function () { window.location.href = '/Approvals/Invoice'; }, 500);
                 }
             }
         });
@@ -331,7 +335,7 @@
         f_redNeden = $(".txtRedNeden").dxTextArea("instance").option("value");
         $.ajax({
             url: window.location.origin + "/Approvals/Invoice/Red",
-            data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, RedNeden: f_redNeden, ChckSm: check_sum },
+            data: JSON.stringify({ EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, RedNeden: f_redNeden, ChckSm: check_sum }),
             type: "post",
             success: function (data) {
 
@@ -340,7 +344,7 @@
                 }
                 else if (data == "DEGISIM") {
                     Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "btn-dange");
-                    setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + evrakNo; }, 500);
+                    //setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + evrakNo; }, 500);
 
 
                 }

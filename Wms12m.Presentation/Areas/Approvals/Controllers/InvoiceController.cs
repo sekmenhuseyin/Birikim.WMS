@@ -76,6 +76,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 return "DEGISIM";
             }
+            CHK = db.Database.SqlQuery<string>(string.Format("SELECT Chk FROM [FINSAT6{0}].[FINSAT6{0}].STI WHERE (EvrakNo = '{1}')", "17", EvrakNo)).FirstOrDefault();
             try
             {
                 var x = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[Fatura_OnayUpdate] @Tip={1}, @EvrakNo='{2}',@Chk='{3}',@Tarih={4},@RedNedeni='{5}',@Degistiren='{6}',@Degistarih={7}", "17", 1, EvrakNo, CHK, Convert.ToInt32(Convert.ToDateTime(Tarih.ToString()).ToOADate()), "", vUser.UserName, Convert.ToInt32(DateTime.Today.ToOADate()))).ToList();
@@ -104,6 +105,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             {
                 return "DEGISIM";
             }
+            CHK = db.Database.SqlQuery<string>(string.Format("SELECT Chk FROM [FINSAT6{0}].[FINSAT6{0}].STI WHERE (EvrakNo = '{1}')", "17", EvrakNo)).FirstOrDefault();
             try
             {
                 var x = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[Fatura_OnayUpdate] @Tip={1}, @EvrakNo='{2}',@Chk='{3}',@Tarih={4},@RedNedeni='{5}',@Degistiren='{6}',@Degistarih={7}", "17", 0, EvrakNo, CHK, Convert.ToInt32(Convert.ToDateTime(Tarih.ToString()).ToOADate()), RedNeden, vUser.UserName, Convert.ToInt32(DateTime.Today.ToOADate()))).ToList();
