@@ -5,12 +5,14 @@
 }
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Fatura</span></li></ul></div>
 <h1 class="page-title">Fatura</h1>
-<div class="row fatura-content p-10">
+<div class="row p-10">
     <div class="rdgrpOnayRed m-col-md-4 m-l-20 pull-left"></div>
     <div class="col-md-2"><button class="btn btn-default input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+</div>
+<div class="row m-t-20">
     @using (Ajax.BeginForm("List", "Invoice", new { area = "Approvals" }, new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "fatura_data" }))
     {
-        <div id="fatura_data" class="m-t-30"></div>
+        <div id="fatura_data"></div>
         <input type="submit" id="RefreshBtn" class="hidden" />
         <input type="hidden" id="Refresh" name="Refresh" />
         <input type="hidden" id="ListType" name="ListType" />
