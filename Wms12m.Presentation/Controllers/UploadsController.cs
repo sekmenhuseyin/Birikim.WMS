@@ -324,5 +324,50 @@ namespace Wms12m.Presentation.Controllers
                 _result.Status = true;
             return Json(_result, JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// boyut kartı için toplu giriş yapar
+        /// </summary>
+        public JsonResult Kat(HttpPostedFileBase file)
+        {
+            if (CheckPerm(Perms.KatKartı, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            var _Result = new Result(false, "Hatalı Kayıt !");
+            if (file == null || file.ContentLength == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
+            //gelen dosyayı oku
+            Stream stream = file.InputStream;
+            IExcelDataReader reader;
+            //dosya tipini bul
+            if (file.FileName.EndsWith(".xlsx"))
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            else
+                return Json(_Result, JsonRequestBehavior.AllowGet);
+            //ilk satır başlık
+            reader.IsFirstRowAsColumnNames = true;
+            //exceldeki bilgileri datasete aktar
+            DataSet result = reader.AsDataSet();
+            //kontrol
+            if (result.Tables.Count == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
+            if (result.Tables[0].Rows == null) return Json(_Result, JsonRequestBehavior.AllowGet);
+            //her satırı tek tek kaydet
+            int basarili = 0, hatali = 0; string hatalilar = "";
+            for (int i = 0; i < result.Tables[0].Rows.Count; i++)
+            {
+            }
+            reader.Close();
+            if (basarili > 0)
+            {
+                _Result.Message = basarili + " adet satır eklendi";
+                //log
+                LogActions("", "Uploads", "Kat", ComboItems.alYükle, 0, "Satır Sayısı: " + basarili);
+            }
+            else
+                _Result.Message = "";
+            if (basarili > 0 && hatali > 0)
+                _Result.Message += ", ";
+            if (hatali > 0)
+                _Result.Message += hatali + " satır hata verdi. Hatalı satırlar: \n" + hatalilar;
+            else
+                _Result.Status = true;
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
