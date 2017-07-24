@@ -47,8 +47,8 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.min.js")
                 .Include("~/Content/assets/global/scripts/datatable.min.js")
                 .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js")
-                .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js")
-                .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js")
+                //.Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.flash.js")
+                //.Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.html5.js")
                 .Include("~/Content/assets/global/plugins/datatables/extensions/Buttons/js/buttons.print.min.js")
                 // JSZip for client side export
                 .Include("~/Content/assets/global/plugins/jszip.min.js")
@@ -86,11 +86,11 @@ namespace Wms12m.Presentation
             bundles.Add(scriptBundle);
             bundles.Add(styleBundle);
             // EnableOptimizations
-//#if DEBUG
+#if DEBUG
             BundleTable.EnableOptimizations = false;
-//#else
-//            BundleTable.EnableOptimizations = true;
-//#endif
+#else
+            BundleTable.EnableOptimizations = true;
+#endif
         }
     }
 }
