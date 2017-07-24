@@ -152,15 +152,15 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialAylikSatisAnaliziBar(string SirketKodu)
         {
             if (CheckPerm(Perms.ChartAylikSatisAnaliziBar, PermTypes.Reading) == false) return null;
-            List<ChartAylikSatisAnalizi2> ASA;
+            List<ChartAylikSatisAnalizi> ASA;
             try
             {
-                ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi2>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi2]", SirketKodu)).ToList();
+                ASA = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi2]", SirketKodu)).ToList();
             }
             catch (Exception ex)
             {
                 Logger(ex, "Home/PartialAylikSatisAnaliziBar");
-                ASA = new List<ChartAylikSatisAnalizi2>();
+                ASA = new List<ChartAylikSatisAnalizi>();
             }
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
