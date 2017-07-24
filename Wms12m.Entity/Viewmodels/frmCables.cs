@@ -9,6 +9,8 @@ namespace Wms12m.Entity
     {
         public string SirketID { get; set; }
         public int ROW_ID { get; set; }
+        public int Tarih { get; set; }
+        public int Saat { get; set; }
         public short SiraNo { get; set; }
         public string Unvan { get; set; }
         public string EvrakNo { get; set; }
@@ -32,6 +34,8 @@ namespace Wms12m.Entity
         public string EvrakNo { get; set; }
         public string Unvan { get; set; }
         public int id { get; set; }
+        public int Tarih { get; set; }
+        public int Saat { get; set; }
         public string MalKodu { get; set; }
         public string MalAdi { get; set; }
         public decimal Miktar { get; set; }

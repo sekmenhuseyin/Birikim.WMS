@@ -48,6 +48,7 @@
                                 <th>Alıcı<br /><input class="w-50 input-circle" type="text" id="Alici" /></th>
                                 <th>Evrak No<br /><input class="w-50 input-circle" type="text" id="EvrakNo" /></th>
                                 <th>Tarih<br /><input class="w-50 input-circle" type="text" id="Tarih" /></th>
+                                <th>Saat</th>
                                 <th>Mal Kodu<br /><input class="w-50 input-circle" type="text" id="MalKodu" /></th>
                                 <th>Mal Adı<br /><input class="w-50 input-circle" type="text" id="MalAdi" /></th>
                                 <th class="text-right">Miktar</th>
@@ -63,6 +64,7 @@
                                     <td>@item.Unvan</td>
                                     <td>@item.EvrakNo</td>
                                     <td>@item.Tarih.FromOADateInt()</td>
+                                    <td>@item.Saat.FromOaTime()</td>
                                     <td>@item.MalKodu</td>
                                     <td>@item.MalAdi</td>
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
@@ -102,13 +104,13 @@
             $("#Alici").on("change paste keyup", function () { filterx(0, $("#Alici").val()); });
             $("#EvrakNo").on("change paste keyup", function () { filterx(1, $("#EvrakNo").val()); });
             $("#Tarih").datepicker().on("change", function (e) { filterx(2, e.target.value); });
-            $("#MalKodu").on("change paste keyup", function () { filterx(3, $("#MalKodu").val()); });
-            $("#MalAdi").on("change paste keyup", function () { filterx(4, $("#MalAdi").val()); });
+            $("#MalKodu").on("change paste keyup", function () { filterx(4, $("#MalKodu").val()); });
+            $("#MalAdi").on("change paste keyup", function () { filterx(5, $("#MalAdi").val()); });
             var table = $('#sample_2').DataTable({
                 "ordering": false,
                 "pagingType": "full_numbers",
                 "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-                "columnDefs": [{ "targets": [8], "visible": false, "searchable": false }]
+                "columnDefs": [{ "targets": [9], "visible": false, "searchable": false }]
             });
             function filterx(a, b) { filter(table, a, b); }
             $("#selector").click(function () {
@@ -116,7 +118,7 @@
                 if (selectall == true) {
                     $("#selector").text("Seçimi İptal Et"); selectall = false;
                     table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
-                        selected = selected + this.data()[8] + "#";
+                        selected = selected + this.data()[9] + "#";
                         this.select();
                     });
                 }
