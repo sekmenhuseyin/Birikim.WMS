@@ -305,13 +305,13 @@
                 }
                 else if (data == "DEGISIM") {
                     Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "btn-danger");
-                    setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + f_evrakNo; }, 500);
+                    //setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + f_evrakNo; }, 500);
 
 
                 }
                 else {
                     Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "btn-danger");
-                    setTimeout(function () { window.location.href = '/Approvals/Invoice'; }, 500);
+                    //setTimeout(function () { window.location.href = '/Approvals/Invoice'; }, 500);
                 }
             }
         });
@@ -335,7 +335,7 @@
         f_redNeden = $(".txtRedNeden").dxTextArea("instance").option("value");
         $.ajax({
             url: window.location.origin + "/Approvals/Invoice/Red",
-            data: { EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, RedNeden: f_redNeden, ChckSm: check_sum },
+            data: JSON.stringify({ EvrakNo: f_evrakNo, CHK: f_chk, Tarih: f_tarih, RedNeden: f_redNeden, ChckSm: check_sum }),
             type: "post",
             success: function (data) {
 
@@ -344,7 +344,7 @@
                 }
                 else if (data == "DEGISIM") {
                     Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "btn-dange");
-                    setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + evrakNo; }, 500);
+                    //setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + evrakNo; }, 500);
 
 
                 }
