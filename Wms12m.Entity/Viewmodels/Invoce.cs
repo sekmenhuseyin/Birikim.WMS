@@ -41,6 +41,7 @@ namespace Wms12m.Entity
         public string Unvan { get; set; }
         /// <summary> VarChar(20) (Not Null) </summary>
         public string TeslimYeriKodu { get; set; }
+        public string TeslimYeriUnvan { get; set; }
         /// <summary> VarChar(5) (Not Null) </summary>
         public string Kaydeden { get; set; }
         /// <summary> VarChar(5) (Not Null) </summary>
