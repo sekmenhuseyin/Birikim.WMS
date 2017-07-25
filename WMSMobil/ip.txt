@@ -1,0 +1,1 @@
+﻿http://192.168.2.232:9080/Service/terminal.asmx

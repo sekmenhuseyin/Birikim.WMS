@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using WMSMobil.TerminalService;
 using Symbol.Barcode2.Design;
+using System.IO;
 
 namespace WMSMobil
 {
@@ -23,6 +24,14 @@ namespace WMSMobil
             InitializeComponent();
             Ayarlar.KatSayi = (decimal)Screen.PrimaryScreen.Bounds.Width / (decimal)240;
             if (Ayarlar.KatSayi > 4) Ayarlar.KatSayi = 1;
+            //get servis url
+            FileStream Dosya = new FileStream(@"\Program Files\12M Bilgisayar\TumMobilOtomasyon\db.txt", FileMode.Open);
+            StreamReader Oku = new StreamReader(Dosya);
+            Ayarlar.ServisURL = Oku.ReadLine();
+            Oku.Close();
+            Dosya.Close();
+            //set servis
+            Servis.Url = Ayarlar.ServisURL;
             //barkod
             //Barkod = new Barcode2();
             //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;

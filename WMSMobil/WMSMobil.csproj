@@ -150,7 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <WebReferenceUrl Include="http://88.248.139.219/service/terminal.asmx">
-      <UrlBehavior>Static</UrlBehavior>
+      <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\TerminalService\</RelPath>
       <UpdateFromURL>http://88.248.139.219/service/terminal.asmx</UpdateFromURL>
       <ServiceLocationURL>
@@ -172,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
+    <Content Include="ip.txt" />
     <None Include="Web References\TerminalService\Durum1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
