@@ -156,7 +156,7 @@ namespace Wms12m.Presentation.Controllers
             if (ASA.Count == 0)
                 try
                 {
-                    ASA = db.Database.SqlQuery<GetCachedChartMonthly_Result>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi2]", SirketKodu)).ToList();
+                    ASA = db.Database.SqlQuery<GetCachedChartMonthly_Result>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi]", SirketKodu)).ToList();
                 }
                 catch (Exception ex)
                 {
