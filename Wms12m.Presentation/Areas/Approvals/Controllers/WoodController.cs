@@ -40,7 +40,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
            
             try
             {
-                Dictionary<string, int> FiyatMaxSiraNo = new Dictionary<string, int>();
+                
                 foreach (JObject insertObj in parameters)
                 {
                     DateTime date = DateTime.Now;
@@ -88,6 +88,54 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
+        }
+        public JsonResult Red(string Data)
+        {
+            Result _Result = new Result(true);
+            //  if (CheckPerm(Perms.TeminatOnay, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+
+            try
+            {
+               
+                foreach (JObject insertObj in parameters)
+                {
+                    string s = string.Format("DELETE FROM [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] where ID = {1} AND Onay=0", "17", insertObj["ID"].ToString());
+                    db.Database.ExecuteSqlCommand(s);
+                }
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+
+            }
+            catch (Exception ex)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        public ActionResult TahsisliAlim()
+        {
+            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+        public PartialViewResult TahsisliAlim_List()
+        {
+            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string TahsisliAlimCek()
+        {
+           
+            var RT = db.Database.SqlQuery<IHLTAHKayitResult>(string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 0, @Yil=2017, @Hafta=23, @HesapKodu=NULL", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
         }
     }
 }

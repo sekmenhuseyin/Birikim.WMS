@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Tahsisli Alım Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <style>
+        .btn {
+            width: 120px;
+            text-align: center;
+        }
+    </style>
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Odun</span></li></ul></div>
+<h1 class="page-title">Tahsisli Alım Listesi</h1>
+<div class="form-horizontal">
+    <div class="form-body">
+
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Tahsisli Alım Listesi
+                </div>
+                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div id="liste">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        PartialView("/Approvals/Wood/TahsisliAlim_List", 'liste');
+        function FuncSearchBtn() {
+            var Type = $("input[type='checkbox'][name='Locked']:checked").val();
+            PartialView("/Approvals/Wood/TahsisliAlim_List", 'liste', JSON.stringify({ Durum: Type }));
+        }
+
+        $(document).ready(function () {
+
+
+
+
+        });
+
+    </script>
+}
