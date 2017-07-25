@@ -151,22 +151,44 @@
             return nRow;
         }
     });
-    if ($(".butondiv").css("display")!="none"){
-    if (tip2 == 'Reddedilenler') {
-        table2.columns([13]).visible(true, true);
+    if (tip1 == 'Reddedilenler') {
+        $(".butondiv").hide();
         table2.columns([14]).visible(true, true);
-        $(".butondiv").css("display", "none");
+        table2.columns([15]).visible(true, true);
     }
-    else if (tip2 == 'Onayladiklarim') {
-        table2.columns([13, 14]).visible(false, false);
-        $(".butondiv").css("display", "none");
+    else if (tip1 == 'OnayBekleyenler') {
+        $(".butondiv").show();
+        table2.columns([14]).visible(false, false);
+        table2.columns([15]).visible(false, false);
     }
     else {
-        table2.columns([13]).visible(false, false);
+
+        console.log("fghtre");
+
+        $(".butondiv").hide();
         table2.columns([14]).visible(false, false);
-        $(".butondiv").css("display", "block");
+        table2.columns([15]).visible(false, false);
+
     }
+    if (Birim == "IK") {
+        $(".butondiv").hide();
     }
+    //if ($(".butondiv").css("display")!="none"){
+    //if (tip2 == 'Reddedilenler') {
+    //    table2.columns([13]).visible(true, true);
+    //    table2.columns([14]).visible(true, true);
+    //    $(".butondiv").css("display", "none");
+    //}
+    //else if (tip2 == 'Onayladiklarim') {
+    //    table2.columns([13, 14]).visible(false, false);
+    //    $(".butondiv").css("display", "none");
+    //}
+    //else {
+    //    table2.columns([13]).visible(false, false);
+    //    table2.columns([14]).visible(false, false);
+    //    $(".butondiv").css("display", "block");
+    //}
+    //}
     $('#sample_2 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });
@@ -210,8 +232,7 @@
         for (var i = 0; i < x.length; i++) {
             secili_table.push(x[i]);
         }
-        if (secili_table.length > 0) {
-        var _dfd = $.Deferred();
+
         $.ajax({
             url: window.location.origin + "/Approvals/Techno/Prim_Reddet",
             data: { Data: JSON.stringify(secili_table), RedNeden: prim_redNeden },
@@ -227,12 +248,6 @@
 
             }
         });
-        return _dfd.promise();
-        } else {
-            Modaldialog("Satır Seçiniz", "Hata", "Tamam", "btn-danger");
-            return;
-        }
-
     }
     $(document).on("click", "#md2SilKayit", function () {
         ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Kaydet", "redKayit", PrimRed, "Kapat", "redKapat", null);
