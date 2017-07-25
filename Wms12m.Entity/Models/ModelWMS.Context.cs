@@ -666,5 +666,10 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRM_KurumKartiSearch_Result>("WMSEntities.CRM_KurumKartiSearch", termParameter);
         }
+    
+        public virtual ObjectResult<GetCachedChartMonthly_Result> GetCachedChartMonthly()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartMonthly_Result>("WMSEntities.GetCachedChartMonthly");
+        }
     }
 }

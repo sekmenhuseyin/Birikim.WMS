@@ -1258,6 +1258,7 @@
           <Parameter Name="KoridorID" Type="int" Mode="In" />
           <Parameter Name="desc" Type="bit" Mode="In" />
         </Function>
+        <Function Name="GetCachedChartMonthly" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms" />
         <Function Name="GetGorevlis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
@@ -1986,8 +1987,9 @@
           <FunctionImport Name="GetErrorLog" ReturnType="Collection(MModel.GetErrorLog_Result)" />
           <FunctionImport Name="GetLoginLog" ReturnType="Collection(MModel.GetLoginLog_Result)" />
           <FunctionImport Name="CRM_KurumKartiSearch" ReturnType="Collection(MModel.CRM_KurumKartiSearch_Result)">
-            <Parameter Name="term" Mode="In" Type="String" />
+          <Parameter Name="term" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="GetCachedChartMonthly" ReturnType="Collection(MModel.GetCachedChartMonthly_Result)" />
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3406,6 +3408,12 @@
           <Property Type="String" Name="Kaydeden" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="KayitTarih" Nullable="true" Precision="23" />
         </ComplexType>
+        <ComplexType Name="GetCachedChartMonthly_Result">
+          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Yil2015" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4299,6 +4307,16 @@
                 <ScalarProperty Name="Formaldehit" ColumnName="Formaldehit" />
                 <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
                 <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCachedChartMonthly" FunctionName="MModel.Store.GetCachedChartMonthly">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetCachedChartMonthly_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="Yil2015" ColumnName="Yil2015" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
