@@ -5,6 +5,18 @@
             <div class="caption">
                 <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.DepoAd + "  Depo Kartı Düzenle" : "Depo Ekle")
             </div>
+            @{if (ViewBag.Yetki == true)
+            {
+                <div class="col-md-1 pull-right m-t-5">
+                    @using (Ajax.BeginForm("Kat", "Uploads", new { area = "" }, new AjaxOptions { HttpMethod = "post" }, htmlAttributes: new { @class = "form", enctype = "multipart/form-data", id = "fileupload", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a id="linkUpload" class="btn btn-warning">Yükle</a>
+                        <input id="btnUpload" type="file" name="file" />
+                    }
+                </div>
+                <div class="col-md-1 pull-right m-t-5"><a id="btnSablon" href="~/Content/KatSablon.xlsx" class="btn btn-default">Şablon İndir</a></div>
+            }}
         </div>
         <div class="portlet-body form">
             @using (Ajax.BeginForm("StoreOperation", "Storage", new { area = "Constants" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreFrom", OnSuccess = "StoreReturn" }, new { @class = "form-horizontal" }))
@@ -70,5 +82,22 @@
         $('.make-switch').on('switchChange.bootstrapSwitch', function (event, state) { $("input[name='Aktif']").val(state) });
         @if (Model.Aktif == false) {<text> $(".make-switch").bootstrapSwitch('state', true); $("input[name='Aktif']").val(true); </text>}
         $("#touchspin_11").TouchSpin({ buttondown_class: "btn blue", buttonup_class: "btn red" });
+    });
+    $(function () {
+        $('#linkUpload').click(function () {
+            $("#btnUpload").click();
+        });
+        $('#fileupload').fileupload({
+            maxFileSize: 2000000,
+            acceptFileTypes: /(\.|\/)(xlsx)$/i,
+            dataType: 'json',
+            add: function (e, data) { data.submit(); },
+            done: function (e, data) {
+                if (data.result.Status == false)
+                    Modaldialog(data.result.Message, "Hata", "Tamam", "btn-danger");
+                else
+                    Modaldialog("Liste başarıyla yüklendi", "Başarı", "Tamam", "btn-success");
+            }
+        });
     });
 </script>

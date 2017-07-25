@@ -20,6 +20,7 @@ namespace WMSMobil
         public frmxPackDetail(int gorevID)
         {
             InitializeComponent();
+            Servis.Url = Ayarlar.ServisURL;
             GorevID = gorevID;
             //paket tipi
             Ayarlar.GorevDurumlari = Servis.GetPaketTip(Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid).ToList();

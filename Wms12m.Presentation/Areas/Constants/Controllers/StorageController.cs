@@ -55,6 +55,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                 }
             }
             ViewBag.mysql = mysql;
+            ViewBag.Yetki = CheckPerm(Perms.DepoKartı, PermTypes.Writing);
             return PartialView("_StoreDetailPartial", item);
         }
         /// <summary>

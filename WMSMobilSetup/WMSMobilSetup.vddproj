@@ -32,8 +32,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_192316F97BA711F2389C65DFC75CFBB5"
+        "MsmKey" = "8:_15CE8F4AF42C26A6BC0C92CCD1862ECB"
         "OwnerKey" = "8:_8E1884A51088480992E2FA9B95EE056B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_22CDF615A753426A96C76D298212EA61"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -81,7 +87,7 @@
         "Entry"
         {
         "MsmKey" = "8:_DA9FC929823137CB05DEDA063B1D05BD"
-        "OwnerKey" = "8:_192316F97BA711F2389C65DFC75CFBB5"
+        "OwnerKey" = "8:_15CE8F4AF42C26A6BC0C92CCD1862ECB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -135,7 +141,7 @@
         "Entry"
         {
         "MsmKey" = "8:_F6A93A6DD51ECBDC662BAE3D4EB958CF"
-        "OwnerKey" = "8:_192316F97BA711F2389C65DFC75CFBB5"
+        "OwnerKey" = "8:_15CE8F4AF42C26A6BC0C92CCD1862ECB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -215,7 +221,7 @@
             "SourcePath" = "8:System.Xml.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "Folder" = "8:_19005643B4D244E5AA29F9848560B676"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -228,13 +234,13 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_192316F97BA711F2389C65DFC75CFBB5"
+            "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_15CE8F4AF42C26A6BC0C92CCD1862ECB"
             {
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:Symbol.Barcode2.DesignCF35, Version=2.5.0.5, Culture=neutral, PublicKeyToken=68ec8db391f150ca"
                 "ScatterAssemblies"
                 {
-                    "_192316F97BA711F2389C65DFC75CFBB5"
+                    "_15CE8F4AF42C26A6BC0C92CCD1862ECB"
                     {
                     "Name" = "8:Symbol.Barcode2.DesignCF35.dll"
                     "Attributes" = "3:512"
@@ -243,7 +249,7 @@
             "SourcePath" = "8:Symbol.Barcode2.DesignCF35.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "Folder" = "8:_9DC09D7200194CD18675623CA7152D30"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -254,6 +260,24 @@
             "Register" = "3:0"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_22CDF615A753426A96C76D298212EA61"
+            {
+            "SourcePath" = "8:..\\WMSMobil\\ip.txt"
+            "TargetName" = "8:ip.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_9DC09D7200194CD18675623CA7152D30"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_32B4E422774B92BDB157103B29D09DA2"
@@ -271,7 +295,7 @@
             "SourcePath" = "8:System.Web.Services.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "Folder" = "8:_19005643B4D244E5AA29F9848560B676"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -299,7 +323,7 @@
             "SourcePath" = "8:System.Windows.Forms.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "Folder" = "8:_19005643B4D244E5AA29F9848560B676"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -327,7 +351,7 @@
             "SourcePath" = "8:System.Drawing.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "Folder" = "8:_19005643B4D244E5AA29F9848560B676"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -355,7 +379,7 @@
             "SourcePath" = "8:System.Core.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "Folder" = "8:_19005643B4D244E5AA29F9848560B676"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -383,7 +407,7 @@
             "SourcePath" = "8:mscorlib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "Folder" = "8:_19005643B4D244E5AA29F9848560B676"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -411,7 +435,7 @@
             "SourcePath" = "8:System.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "Folder" = "8:_19005643B4D244E5AA29F9848560B676"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -439,7 +463,7 @@
             "SourcePath" = "8:System.Data.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "Folder" = "8:_19005643B4D244E5AA29F9848560B676"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -481,15 +505,6 @@
             "Property" = "8:%InstallDir%"
                 "Folders"
                 {
-                    "{5943FCFD-5B64-4EE4-96C9-4618EC95352A}:_8C3E8201F56D4D569AC4E249ECA36EDD"
-                    {
-                    "Name" = "8:12M Consulting"
-                    "Condition" = "8:"
-                    "Property" = "8:_ADEB602D970D47BDB97C89D166E9C5D1"
-                        "Folders"
-                        {
-                        }
-                    }
                 }
             }
             "{F6DFDB62-1DD1-498B-89B7-27BAC542EE5A}:_D81E0C5E6AAF4DD8A1FBADA15A77489C"
@@ -499,6 +514,24 @@
             "Property" = "8:%CE1%"
                 "Folders"
                 {
+                    "{5943FCFD-5B64-4EE4-96C9-4618EC95352A}:_19005643B4D244E5AA29F9848560B676"
+                    {
+                    "Name" = "8:12M Consulting"
+                    "Condition" = "8:"
+                    "Property" = "8:_ADEB602D970D47BDB97C89D166E9C5D1"
+                        "Folders"
+                        {
+                            "{5943FCFD-5B64-4EE4-96C9-4618EC95352A}:_9DC09D7200194CD18675623CA7152D30"
+                            {
+                            "Name" = "8:WMSMobil"
+                            "Condition" = "8:"
+                            "Property" = "8:_07952A282B8F41E38E570757948E3E62"
+                                "Folders"
+                                {
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -520,7 +553,7 @@
             "SourcePath" = "8:..\\WMSMobil\\obj\\Debug\\WMSMobil.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "Folder" = "8:_9DC09D7200194CD18675623CA7152D30"
             "Condition" = "8:"
             "Vital" = "11:TRUE"
             "ReadOnly" = "11:FALSE"
@@ -614,27 +647,7 @@
             "ShowCmd" = "3:1"
             "Target" = "8:_8E1884A51088480992E2FA9B95EE056B"
             "Folder" = "8:_751C3AED782446AD9C31F4915EBF846F"
-            "WorkingFolder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
-            }
-            "{971D45E9-E38C-49AC-B36E-4C5BEA533350}:_9B803023DB694D0F9ED2F1B08D94ABAF"
-            {
-            "Name" = "8:WMSMobil"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "Target" = "8:_8E1884A51088480992E2FA9B95EE056B"
-            "Folder" = "8:_D81E0C5E6AAF4DD8A1FBADA15A77489C"
-            "WorkingFolder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
-            }
-            "{971D45E9-E38C-49AC-B36E-4C5BEA533350}:_F8704A65801A43CBBFF9D70A8D1A73D5"
-            {
-            "Name" = "8:WMSMobil"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "Target" = "8:_8E1884A51088480992E2FA9B95EE056B"
-            "Folder" = "8:_967D36ED004D4F62BF89F927CD6E442E"
-            "WorkingFolder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "WorkingFolder" = "8:_19005643B4D244E5AA29F9848560B676"
             }
         }
     }

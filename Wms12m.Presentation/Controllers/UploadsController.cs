@@ -348,9 +348,105 @@ namespace Wms12m.Presentation.Controllers
             if (result.Tables.Count == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(_Result, JsonRequestBehavior.AllowGet);
             //her satırı tek tek kaydet
-            int basarili = 0, hatali = 0; string hatalilar = "";
+            int basarili = 0, hatali = 0, ozelliktipi = Combos.Özellik.ToInt32(); string hatalilar = "";
             for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
+                DataRow dr = result.Tables[0].Rows[i];
+                //kontrol
+                try
+                {
+                    string tdepo = dr["Depo"].ToString();
+                    string tkoridor = dr["Koridor"].ToString();
+                    string traf = dr["Raf Grubu"].ToString();
+                    string tbolum = dr["Bölüm"].ToString();
+                    string tkat = dr["Rafın Katı"].ToString();
+                    string tozellik = dr["Özellik"].ToString();
+                    string taciklama = dr["Açıklama"].ToString();
+                    if (tdepo != "" && tkoridor != "" && traf != "" && tbolum != "" && tkat != "" && tozellik != ""  &&
+                        (dr["Genişlik (mm)"].ToString2().IsNumeric() != false || dr["Genişlik (mm)"].ToString2() == "*") &&
+                        (dr["Derinlik (mm)"].ToString2().IsNumeric() != false || dr["Derinlik (mm)"].ToString2() == "*") &&
+                        (dr["Yükseklik (mm)"].ToString2().IsNumeric() != false || dr["Yükseklik (mm)"].ToString2() == "*") &&
+                        (dr["Kapasite (kg)"].ToString2().IsNumeric() != false || dr["Kapasite (kg)"].ToString2() == "*"))
+                    {
+                        var dp = db.Depoes.Where(m => m.DepoKodu == tdepo).FirstOrDefault();
+                        if (dp == null)
+                        {
+                            _Result.Message = "Önce depoyu ekleyin";
+                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            var kr = db.Koridors.Where(m => m.KoridorAd == tkoridor).FirstOrDefault();
+                            if (kr == null)
+                            {
+                                kr = new Koridor() { DepoID = dp.ID, KoridorAd = tkoridor, SiraNo = 0, Aktif = true, Kaydeden = vUser.UserName, KayitTarih = fn.ToOADate(), Degistiren = vUser.UserName, DegisTarih = fn.ToOADate() };
+                                db.Koridors.Add(kr);
+                                db.SaveChanges();
+                            }
+                            var rf = db.Rafs.Where(m => m.RafAd == traf).FirstOrDefault();
+                            if (rf == null)
+                            {
+                                rf = new Raf() { KoridorID = kr.ID, RafAd = traf, SiraNo = 0, Aktif = true, Kaydeden = vUser.UserName, KayitTarih = fn.ToOADate(), Degistiren = vUser.UserName, DegisTarih = fn.ToOADate() };
+                                db.Rafs.Add(rf);
+                                db.SaveChanges();
+                            }
+                            var bl = db.Bolums.Where(m => m.BolumAd == tbolum).FirstOrDefault();
+                            if (bl == null)
+                            {
+                                bl = new Bolum() { RafID = kr.ID, BolumAd = tbolum, SiraNo = 0, Aktif = true, Kaydeden = vUser.UserName, KayitTarih = fn.ToOADate(), Degistiren = vUser.UserName, DegisTarih = fn.ToOADate() };
+                                db.Bolums.Add(bl);
+                                db.SaveChanges();
+                            }
+                            var kt = db.Kats.Where(m => m.KatAd == tkat).FirstOrDefault();
+                            if (kt == null)
+                            {
+                                var ozellik = db.ComboItem_Name.Where(m => m.Name == tozellik && m.ComboID == ozelliktipi).FirstOrDefault();
+                                if (ozellik == null)
+                                {
+                                    hatali++;
+                                    if (hatalilar != "") hatalilar += ", ";
+                                    hatalilar += i;
+                                }
+                                else
+                                {
+                                    kt = new Kat()
+                                    {
+                                        BolumID = kr.ID,
+                                        KatAd = tkat,
+                                        Boy = dr["Yükseklik (mm)"].ToDecimal(),
+                                        En = dr["Genişlik (mm)"].ToDecimal(),
+                                        Derinlik = dr["Derinlik (mm)"].ToDecimal(),
+                                        AgirlikKapasite = dr["Kapasite (kg)"].ToDecimal(),
+                                        OzellikID = ozellik.ID,
+                                        SiraNo = 0,
+                                        Aktif = true,
+                                        Kaydeden = vUser.UserName,
+                                        KayitTarih = fn.ToOADate(),
+                                        Degistiren = vUser.UserName,
+                                        DegisTarih = fn.ToOADate()
+                                    };
+                                    if (taciklama != "") kt.Aciklama = taciklama;
+                                    db.Kats.Add(kt);
+                                    db.SaveChanges();
+                                }
+                            }
+                            basarili++;
+                        }
+                    }
+                    else
+                    {
+                        hatali++;
+                        if (hatalilar != "") hatalilar += ", ";
+                        hatalilar += (i+1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    hatali++;
+                    if (hatalilar != "") hatalilar += ", ";
+                    hatalilar += (i + 1);
+                    Logger(ex, "Uploads/Kat");
+                }
             }
             reader.Close();
             if (basarili > 0)

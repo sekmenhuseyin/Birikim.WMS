@@ -24,6 +24,7 @@ namespace WMSMobil
         public frmTasks()
         {            
             InitializeComponent();
+            Servis.Url = Ayarlar.ServisURL;
             try
             {
 

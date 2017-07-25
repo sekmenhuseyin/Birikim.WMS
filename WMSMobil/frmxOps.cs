@@ -27,6 +27,7 @@ namespace WMSMobil
         public frmxOps(int grvId, int irsID, bool tip, int gorevtip)
         {
             InitializeComponent();
+            Servis.Url = Ayarlar.ServisURL;
             glbTip = tip;
             GorevTip=gorevtip;
             //barkod
