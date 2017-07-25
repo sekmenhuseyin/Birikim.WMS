@@ -27,14 +27,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string TahsisliOnayCek()
         {
             if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<TahsisOnayOdun>(string.Format("[FINSAT6{0}].[dbo].[IHLTAHOnaydaBekleyen] @Tip = 0", "17")).ToList();
+            var RT = db.Database.SqlQuery<TahsisOnayOdun>(string.Format("[FINSAT6{0}].[dbo].[IHLTAHOnaydaBekleyen] @Tip = 2", "17")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
         public JsonResult Onay(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.TeminatOnay, PermTypes.Writing) == false) return null;
+          //  if (CheckPerm(Perms.TeminatOnay, PermTypes.Writing) == false) return null;
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
            
@@ -53,7 +53,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     string sql = "";
                     if (insertObj["Tip"].ToShort() == (short)0)
                     {
-                        sql = ",TavanMiktar=" + insertObj["TavanMiktar"].ToDecimal() + ", TavanFiyat=" + insertObj["TavanFiyat"].ToDecimal();
+                        if (insertObj["TavanMiktar"].ToDecimal() > 0)
+                            sql = ",TavanMiktar=" + insertObj["TavanMiktar"].ToString().Replace(',', '.').ToDecimal(); 
+                        if (insertObj["TavanMiktar"].ToDecimal() > 0)
+                            sql+= ", TavanFiyat=" + insertObj["TavanFiyat"].ToString().Replace(',', '.').ToDecimal();
                         //ihltah1[0].TavanMiktar = item.TavanMiktar;
                         //ihltah1[0].TavanFiyat = item.TavanFiyat;
 
@@ -69,14 +72,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                     //    }
                     //}
-
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] SET Onay = 1, Onaylayan='" + vUser.UserName + "', OnayTarih='{2}',DegisTarih='{2}''{3}'  where ID = '{1}' AND Onay=0", "17", insertObj["ID"].ToString(), shortDate, sql));
+                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[IHLTAH] SET Onay = 1, Onaylayan='" + vUser.UserName + "', OnayTarih='{2}',DegisTarih='{2}'{3}  where ID = {1} AND Onay=0", "17", insertObj["ID"].ToString(), shortDate, sql);
+                    db.Database.ExecuteSqlCommand(s);
                 }
                 _Result.Status = true;
                 _Result.Message = "İşlem Başarılı ";
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 _Result.Status = false;
