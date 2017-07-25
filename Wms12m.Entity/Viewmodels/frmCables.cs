@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Wms12m.Entity
+﻿namespace Wms12m.Entity
 {
     /// <summary>
     /// kablo siparişi için stk sütunları
@@ -16,12 +14,12 @@ namespace Wms12m.Entity
         public string EvrakNo { get; set; }
         public string MalKodu { get; set; }
         public string MalAdi { get; set; }
-        public string MalAdi4 { get; set; }//marka
-        public string Nesne2 { get; set; }//cins
-        public string Kod15 { get; set; }//kesit
-        public string MakaraNo { get; set; }//kesit
-        //renk de olacak
+        public string Marka { get; set; }
+        public string Cins { get; set; }
+        public string Kesit { get; set; }
+        public string MakaraNo { get; set; }
         public decimal Miktar { get; set; }
+        public decimal Stok { get; set; }
     }
     /// <summary>
     /// kablo siparişi için stk sütunları

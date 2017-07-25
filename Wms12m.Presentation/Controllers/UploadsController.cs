@@ -363,10 +363,10 @@ namespace Wms12m.Presentation.Controllers
                     string tozellik = dr["Özellik"].ToString();
                     string taciklama = dr["Açıklama"].ToString();
                     if (tdepo != "" && tkoridor != "" && traf != "" && tbolum != "" && tkat != "" && tozellik != ""  &&
-                        (dr["Genişlik (mm)"].ToString2().IsNumeric() != false || dr["Genişlik (mm)"].ToString2() == "*") &&
-                        (dr["Derinlik (mm)"].ToString2().IsNumeric() != false || dr["Derinlik (mm)"].ToString2() == "*") &&
-                        (dr["Yükseklik (mm)"].ToString2().IsNumeric() != false || dr["Yükseklik (mm)"].ToString2() == "*") &&
-                        (dr["Kapasite (kg)"].ToString2().IsNumeric() != false || dr["Kapasite (kg)"].ToString2() == "*"))
+                    (dr["Genişlik (mm)"].ToString2().IsNumeric() != false || dr["Genişlik (mm)"].ToString2() == "*") &&
+                    (dr["Derinlik (mm)"].ToString2().IsNumeric() != false || dr["Derinlik (mm)"].ToString2() == "*") &&
+                    (dr["Yükseklik (mm)"].ToString2().IsNumeric() != false || dr["Yükseklik (mm)"].ToString2() == "*") &&
+                    (dr["Kapasite (kg)"].ToString2().IsNumeric() != false || dr["Kapasite (kg)"].ToString2() == "*"))
                     {
                         var dp = db.Depoes.Where(m => m.DepoKodu == tdepo).FirstOrDefault();
                         if (dp == null)
@@ -376,59 +376,51 @@ namespace Wms12m.Presentation.Controllers
                         }
                         else
                         {
-                            var kr = db.Koridors.Where(m => m.KoridorAd == tkoridor).FirstOrDefault();
+                            var kr = db.Koridors.Where(m => m.KoridorAd == tkoridor && m.DepoID == dp.ID).FirstOrDefault();
                             if (kr == null)
                             {
                                 kr = new Koridor() { DepoID = dp.ID, KoridorAd = tkoridor, SiraNo = 0, Aktif = true, Kaydeden = vUser.UserName, KayitTarih = fn.ToOADate(), Degistiren = vUser.UserName, DegisTarih = fn.ToOADate() };
                                 db.Koridors.Add(kr);
                                 db.SaveChanges();
                             }
-                            var rf = db.Rafs.Where(m => m.RafAd == traf).FirstOrDefault();
+                            var rf = db.Rafs.Where(m => m.RafAd == traf && m.KoridorID == kr.ID).FirstOrDefault();
                             if (rf == null)
                             {
                                 rf = new Raf() { KoridorID = kr.ID, RafAd = traf, SiraNo = 0, Aktif = true, Kaydeden = vUser.UserName, KayitTarih = fn.ToOADate(), Degistiren = vUser.UserName, DegisTarih = fn.ToOADate() };
                                 db.Rafs.Add(rf);
                                 db.SaveChanges();
                             }
-                            var bl = db.Bolums.Where(m => m.BolumAd == tbolum).FirstOrDefault();
+                            var bl = db.Bolums.Where(m => m.BolumAd == tbolum && m.RafID == rf.ID).FirstOrDefault();
                             if (bl == null)
                             {
-                                bl = new Bolum() { RafID = kr.ID, BolumAd = tbolum, SiraNo = 0, Aktif = true, Kaydeden = vUser.UserName, KayitTarih = fn.ToOADate(), Degistiren = vUser.UserName, DegisTarih = fn.ToOADate() };
+                                bl = new Bolum() { RafID = rf.ID, BolumAd = tbolum, SiraNo = 0, Aktif = true, Kaydeden = vUser.UserName, KayitTarih = fn.ToOADate(), Degistiren = vUser.UserName, DegisTarih = fn.ToOADate() };
                                 db.Bolums.Add(bl);
                                 db.SaveChanges();
                             }
-                            var kt = db.Kats.Where(m => m.KatAd == tkat).FirstOrDefault();
+                            var kt = db.Kats.Where(m => m.KatAd == tkat && m.BolumID == bl.ID).FirstOrDefault();
                             if (kt == null)
                             {
-                                var ozellik = db.ComboItem_Name.Where(m => m.Name == tozellik && m.ComboID == ozelliktipi).FirstOrDefault();
-                                if (ozellik == null)
+                                var ozellik = db.ComboItem_Name.Where(m => m.Name == tozellik && m.ComboID == ozelliktipi).Select(m => m.ID).FirstOrDefault();
+                                if (ozellik == 0) ozellik = 14;
+                                kt = new Kat()
                                 {
-                                    hatali++;
-                                    if (hatalilar != "") hatalilar += ", ";
-                                    hatalilar += i;
-                                }
-                                else
-                                {
-                                    kt = new Kat()
-                                    {
-                                        BolumID = kr.ID,
-                                        KatAd = tkat,
-                                        Boy = dr["Yükseklik (mm)"].ToDecimal(),
-                                        En = dr["Genişlik (mm)"].ToDecimal(),
-                                        Derinlik = dr["Derinlik (mm)"].ToDecimal(),
-                                        AgirlikKapasite = dr["Kapasite (kg)"].ToDecimal(),
-                                        OzellikID = ozellik.ID,
-                                        SiraNo = 0,
-                                        Aktif = true,
-                                        Kaydeden = vUser.UserName,
-                                        KayitTarih = fn.ToOADate(),
-                                        Degistiren = vUser.UserName,
-                                        DegisTarih = fn.ToOADate()
-                                    };
-                                    if (taciklama != "") kt.Aciklama = taciklama;
-                                    db.Kats.Add(kt);
-                                    db.SaveChanges();
-                                }
+                                    BolumID = bl.ID,
+                                    KatAd = tkat,
+                                    Boy = dr["Yükseklik (mm)"].ToDecimal(),
+                                    En = dr["Genişlik (mm)"].ToDecimal(),
+                                    Derinlik = dr["Derinlik (mm)"].ToDecimal(),
+                                    AgirlikKapasite = dr["Kapasite (kg)"].ToDecimal(),
+                                    OzellikID = ozellik,
+                                    SiraNo = 0,
+                                    Aktif = true,
+                                    Kaydeden = vUser.UserName,
+                                    KayitTarih = fn.ToOADate(),
+                                    Degistiren = vUser.UserName,
+                                    DegisTarih = fn.ToOADate()
+                                };
+                                if (taciklama != "") kt.Aciklama = taciklama;
+                                db.Kats.Add(kt);
+                                db.SaveChanges();
                             }
                             basarili++;
                         }
