@@ -400,35 +400,27 @@ namespace Wms12m.Presentation.Controllers
                             var kt = db.Kats.Where(m => m.KatAd == tkat).FirstOrDefault();
                             if (kt == null)
                             {
-                                var ozellik = db.ComboItem_Name.Where(m => m.Name == tozellik && m.ComboID == ozelliktipi).FirstOrDefault();
-                                if (ozellik == null)
+                                var ozellik = db.ComboItem_Name.Where(m => m.Name == tozellik && m.ComboID == ozelliktipi).Select(m => m.ID).FirstOrDefault();
+                                if (ozellik == 0) ozellik = 14;
+                                kt = new Kat()
                                 {
-                                    hatali++;
-                                    if (hatalilar != "") hatalilar += ", ";
-                                    hatalilar += i;
-                                }
-                                else
-                                {
-                                    kt = new Kat()
-                                    {
-                                        BolumID = kr.ID,
-                                        KatAd = tkat,
-                                        Boy = dr["Yükseklik (mm)"].ToDecimal(),
-                                        En = dr["Genişlik (mm)"].ToDecimal(),
-                                        Derinlik = dr["Derinlik (mm)"].ToDecimal(),
-                                        AgirlikKapasite = dr["Kapasite (kg)"].ToDecimal(),
-                                        OzellikID = ozellik.ID,
-                                        SiraNo = 0,
-                                        Aktif = true,
-                                        Kaydeden = vUser.UserName,
-                                        KayitTarih = fn.ToOADate(),
-                                        Degistiren = vUser.UserName,
-                                        DegisTarih = fn.ToOADate()
-                                    };
-                                    if (taciklama != "") kt.Aciklama = taciklama;
-                                    db.Kats.Add(kt);
-                                    db.SaveChanges();
-                                }
+                                    BolumID = bl.ID,
+                                    KatAd = tkat,
+                                    Boy = dr["Yükseklik (mm)"].ToDecimal(),
+                                    En = dr["Genişlik (mm)"].ToDecimal(),
+                                    Derinlik = dr["Derinlik (mm)"].ToDecimal(),
+                                    AgirlikKapasite = dr["Kapasite (kg)"].ToDecimal(),
+                                    OzellikID = ozellik,
+                                    SiraNo = 0,
+                                    Aktif = true,
+                                    Kaydeden = vUser.UserName,
+                                    KayitTarih = fn.ToOADate(),
+                                    Degistiren = vUser.UserName,
+                                    DegisTarih = fn.ToOADate()
+                                };
+                                if (taciklama != "") kt.Aciklama = taciklama;
+                                db.Kats.Add(kt);
+                                db.SaveChanges();
                             }
                             basarili++;
                         }

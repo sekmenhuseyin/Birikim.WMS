@@ -225,7 +225,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 foreach (var item in listedb)
                 {
                     if (sql != "") sql += " UNION ";
-                    sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
+                    sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit" +
                                         "FROM FINSAT6{0}.FINSAT6{0}.STK " +
                                         "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", item, tbl.MalKodu);
                 }
@@ -244,19 +244,19 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             if (GC == false)
                             {
                                 //sid bul
-                                var sid = dbx.indices.Where(m => m.cins == stks.Nesne2 && m.kesit == stks.Kod15).FirstOrDefault();
+                                var sid = dbx.indices.Where(m => m.cins == stks.Cins && m.kesit == stks.Kesit).FirstOrDefault();
                                 if (sid == null)
                                 {
-                                    sid = new index() { cins = stks.Nesne2, kesit = stks.Kod15, agirlik = 0 };
+                                    sid = new index() { cins = stks.Cins, kesit = stks.Kesit, agirlik = 0 };
                                     dbx.indices.Add(sid);
                                     dbx.SaveChanges();
                                 }
                                 //stoğa kaydet
                                 stok tbls = new stok()
                                 {
-                                    marka = stks.MalAdi4,
-                                    cins = stks.Nesne2,
-                                    kesit = stks.Kod15,
+                                    marka = stks.Marka,
+                                    cins = stks.Cins,
+                                    kesit = stks.Kesit,
                                     sid = sid.id,
                                     depo = depo,
                                     renk = "",

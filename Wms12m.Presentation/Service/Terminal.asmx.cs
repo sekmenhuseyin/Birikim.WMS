@@ -454,7 +454,7 @@ namespace Wms12m
                         foreach (var itemd in listedb)
                         {
                             if (sql != "") sql += " UNION ";
-                            sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo " +
+                            sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit, wms.IRS_Detay.Miktar, wms.IRS_Detay.MakaraNo " +
                                                         "FROM wms.IRS_Detay INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.IRS_Detay.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
                                                         "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (wms.IRS_Detay.IrsaliyeID = {1}) AND (wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim1 OR wms.IRS_Detay.Birim = FINSAT6{0}.FINSAT6{0}.STK.Birim2)", itemd, mGorev.IrsaliyeID);
                         }
@@ -470,13 +470,13 @@ namespace Wms12m
                                     foreach (var itemx in stks)
                                     {
                                         //sid bul
-                                        int sid = dbx.indices.Where(m => m.cins == itemx.Nesne2 && m.kesit == itemx.Kod15).Select(m => m.id).FirstOrDefault();
+                                        int sid = dbx.indices.Where(m => m.cins == itemx.Cins && m.kesit == itemx.Kesit).Select(m => m.id).FirstOrDefault();
                                         //stoğa kaydet
                                         stok tbls = new stok()
                                         {
-                                            marka = itemx.MalAdi4,
-                                            cins = itemx.Nesne2,
-                                            kesit = itemx.Kod15,
+                                            marka = itemx.Marka,
+                                            cins = itemx.Cins,
+                                            kesit = itemx.Kesit,
                                             sid = sid,
                                             depo = depo,
                                             renk = "",
@@ -791,14 +791,14 @@ namespace Wms12m
                             foreach (var item2 in item.IRS_Detay)
                             {
                                 //istenen stk bilgilerini bul
-                                sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4, FINSAT6{0}.FINSAT6{0}.STK.Nesne2, FINSAT6{0}.FINSAT6{0}.STK.Kod15 " +
+                                sql = String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
                                                       "FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) " +
                                                       "WHERE (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}') AND (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO')", item.SirketKod, item2.MalKodu);
                                 var stk = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
                                 if (stk != null)
                                 {
                                     //makarayı bul
-                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.MalAdi4 && m.cins == stk.Nesne2 && m.kesit == stk.Kod15 && m.id == item2.KynkSiparisID).FirstOrDefault();
+                                    var kablo = dbx.stoks.Where(m => m.depo == depo && m.marka == stk.Marka && m.cins == stk.Cins && m.kesit == stk.Kesit && m.id == item2.KynkSiparisID).FirstOrDefault();
                                     //kabloya açık yap
                                     if (kablo.miktar != item2.Miktar)
                                         kablo.makara = "AÇIK";
