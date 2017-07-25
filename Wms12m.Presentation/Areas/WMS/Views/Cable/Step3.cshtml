@@ -53,7 +53,7 @@
                             @foreach (var item in Model)
                             {
                                 list[x] = item.Miktar.ToString();
-                                <tr data-ID="@item.SirketID@item.ROW_ID" style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
+                                <tr data-ID="@ViewBag.DepoID-@item.SirketID-@item.ROW_ID" style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                                     <td style="width:20px!important;" class="details-control"></td>
                                     <td>@item.Unvan</td>
                                     <td>@item.EvrakNo</td>

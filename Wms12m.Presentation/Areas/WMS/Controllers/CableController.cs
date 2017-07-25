@@ -360,8 +360,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult Step3Details(string id)
         {
-            string dbname = id.Left(2), rowid = id.Substring(2);
-            string sql = string.Format("[FINSAT6{0}].[wms].[getSiparisList] @SirketKodu = N'{0}', @DepoKodu = N'{1}', @isKable = 1, @BasTarih = 0, @BitTarih = 0", dbname, 0);
+            string[] tmp = id.Split('-');
+            string depoid = tmp[0], dbname = tmp[1], rowid = tmp[2];
+            string sql = string.Format("SELECT wms.Yer.ID, wms.Yer.KatID, wms.Yer.HucreAd, wms.Yer.MalKodu, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo " +
+                "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
+                "WHERE (FINSAT6{0}.FINSAT6{0}.STK.ROW_ID = {1}) AND (wms.Yer.DepoID = {2})", dbname, rowid, depoid);
             try
             {
                 var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
