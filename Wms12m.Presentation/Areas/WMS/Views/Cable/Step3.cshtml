@@ -2,7 +2,11 @@
 @{
     ViewBag.Title = "Kablo Sipariş Planlama - 3. Adım";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string[] list; list = new string[Model.Count()]; int x = 0; int SiraNo = 0; string evrakSira = "";
+    string[] list; list = new string[Model.Count()]; int x = 0;
+}@section Styles{<style>
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/WMS/Sell">Kablo Sipariş Planlama</a><i class="fa fa-circle"></i></li><li><span>3. Adım</span></li></ul></div>
 <h1 class="page-title">Kablo Sipariş Planlama - 3. Adım</h1>
 <div class="row">
@@ -44,14 +48,13 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <table class="table table-striped table-bordered table-condensed" id="sample_2">
-                        <thead><tr><th>Sipariş No</th><th>Alıcı</th><th>Evrak No</th><th>Tarih</th><th>Saat</th><th>Mal Kodu</th><th>Mal Adı</th><th>Marka</th><th>Cins</th><th>Kesit</th><th>Makara</th><th>Miktar</th><th>Stok</th><th></th><th></th></tr></thead>
+                        <thead><tr><th></th><th>Alıcı</th><th>Evrak No</th><th>Tarih</th><th>Saat</th><th>Mal Kodu</th><th>Mal Adı</th><th>Marka</th><th>Cins</th><th>Kesit</th><th>Makara</th><th>Miktar</th><th>Stok</th><th></th><th></th></tr></thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                if (evrakSira != item.EvrakNo + item.SiraNo.ToString()) { SiraNo++; evrakSira = item.EvrakNo + item.SiraNo.ToString(); }
                                 list[x] = item.Miktar.ToString();
                                 <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
-                                    <td>@SiraNo</td>
+                                    <td style="width:20px!important;" class="details-control"></td>
                                     <td>@item.Unvan</td>
                                     <td>@item.EvrakNo</td>
                                     <td>@item.Tarih.FromOADateInt()</td>
@@ -61,7 +64,7 @@
                                     <td>@item.Marka</td>
                                     <td>@item.Cins</td>
                                     <td>@item.Kesit</td>
-                                    <td>@item.MakaraNo</td>
+                                    <td id="mkr@{@item.ROW_ID}"></td>
                                     <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Miktar', '@x')" align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok)</td>
                                     <td>@item.SirketID-@item.ROW_ID</td>
@@ -120,6 +123,12 @@
                 table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
             }
         });
+        $('#sample_2 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
+        });
     });
     function ChangeMiktar(td, mal, miktar, id) {
         var yeni = prompt(mal + " için yeni miktarı giriniz", miktar);
@@ -128,6 +137,18 @@
         yeni = parseFloat(yeni);
         list[id] = yeni;
         $(td).html(yeni.formatMoney(2));
+    }
+    function newrow(id) { return "<div id='new" + id + "'></div>"; }
+    function format(d) {
+        $.ajax({
+            type: 'POST',
+            url: '/WMS/Tasks/Details',
+            data: { "ID": d },
+            dataType: "html",
+            success: function (data) {
+                $('#new' + d).html(data);
+            }
+        });
     }
 </script>
 }
