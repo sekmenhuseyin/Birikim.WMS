@@ -122,19 +122,41 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public ActionResult TahsisliAlim()
         {
+
+            string sorgu = string.Format(@"SELECT HesapKodu, (Unvan1+' '+Unvan2) AS Unvan 
+	                                        FROM FINSAT6{0}.FINSAT6{0}.CHK(NOLOCK) 
+	                                        WHERE HesapKodu Like '320%'", "17");
+            var slctIsletme = db.Database.SqlQuery<CHKSelect1Result>(sorgu).ToList();
+
+            string sorgu1 = string.Format(@"SELECT DISTINCT Yil, Hafta 
+	                                        FROM FINSAT6{0}.FINSAT6{0}.IHLTAH(NOLOCK)", "17");
+            var slctHafta = db.Database.SqlQuery<IHLTAH>(sorgu1).ToList();
+
+
+            ViewBag.Hafta = new SelectList(slctHafta, "Yil", "Hafta");
+            ViewBag.Isletme = new SelectList(slctIsletme, "HesapKodu", "Unvan");
+
             // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public PartialViewResult TahsisliAlim_List()
+        public PartialViewResult TahsisliAlim_List(string Hafta, string Isletme)
         {
-            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            ViewBag.Hafta = Isletme;
+            ViewBag.Isletme = Hafta;
             return PartialView();
         }
-        public string TahsisliAlimCek()
+        public string TahsisliAlimCek(string Hafta, string Isletme)
         {
-           
-            var RT = db.Database.SqlQuery<IHLTAHKayitResult>(string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 0, @Yil=2017, @Hafta=23, @HesapKodu=NULL", "17")).ToList();
+            string s;
+            if (Hafta == "")
+                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 2, @Yil=0, @Hafta=0, @HesapKodu='{1}'", "17", Isletme);
+            else
+                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 2, @Yil={1}, @Hafta={2}, @HesapKodu=NULL", "17", DateTime.Today.Year, Hafta);
+
+
+            var RT = db.Database.SqlQuery<IHLTAHKayitResult>(s).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
+
             return json;
         }
     }

@@ -67,6 +67,7 @@
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approvals/Wood/TahsisliAlimCek',
+            "data": JSON.stringify({ Hafta: '@ViewBag.Hafta', Isletme: '@ViewBag.Isletme' }),
             "dataSrc": function (json) {
                 return json;
             },
@@ -77,7 +78,7 @@
             { "data": "OrmIsltUnvan" },
             { "data": "IbreliMiktarSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "IbreliMiktarM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "YaprakliSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "YaprakliMiktarSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "YaprakliMiktarM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "Miktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "TahBirimFiyat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
@@ -111,7 +112,7 @@
             { "data": "TahTemMektupDosya" },
             { "data": "TahTemMektupKargo" },
             { "data": "TahTemMektupKargoNo" },
-            { "data": "TahPesDokBankaAd" },
+            { "data": "TahPesDekontBankaAd" },
             { "data": "TahPesDekontTarih" },
             { "data": "TahPesDekontDosya" },
             { "data": "EvrakNo" },
