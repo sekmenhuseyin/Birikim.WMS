@@ -340,7 +340,6 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         public PartialViewResult GetSiparis(string DepoID)
         {
             if (DepoID == "0") return null;
-            if (CheckPerm(Perms.KabloSiparişi, PermTypes.Reading) == false) return null;
             var item = db.GetSirketDBs().FirstOrDefault();
             string sql = string.Format("[FINSAT6{0}].[wms].[getSiparisList] @SirketKodu = N'{0}', @DepoKodu = N'{1}', @isKable = 1, @BasTarih = 0, @BitTarih = 0", item, DepoID);
             ViewBag.Depo = DepoID;
@@ -352,6 +351,25 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             catch (Exception ex)
             {
                 Logger(ex, "Cable/GetSiparis");
+                return null;
+            }
+        }
+        /// <summary>
+        /// depo ve şirket seçince açık siparişler gelecek
+        /// </summary>
+        [HttpPost]
+        public PartialViewResult Step3Details(string id)
+        {
+            string dbname = id.Left(2), rowid = id.Substring(2);
+            string sql = string.Format("[FINSAT6{0}].[wms].[getSiparisList] @SirketKodu = N'{0}', @DepoKodu = N'{1}', @isKable = 1, @BasTarih = 0, @BitTarih = 0", dbname, 0);
+            try
+            {
+                var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
+                return PartialView("Step3Details", list);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Cable/Step3Details");
                 return null;
             }
         }

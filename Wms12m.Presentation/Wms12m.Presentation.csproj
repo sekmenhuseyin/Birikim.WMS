@@ -390,6 +390,7 @@
     <Content Include="Areas\Approvals\Views\Wood\TahsisliOnay_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Wood\TahsisliAlim.cshtml" />
     <Content Include="Areas\Approvals\Views\Wood\TahsisliAlim_List.cshtml" />
+    <Content Include="Areas\WMS\Views\Cable\Step3Details.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

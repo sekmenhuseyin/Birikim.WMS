@@ -53,7 +53,7 @@
                             @foreach (var item in Model)
                             {
                                 list[x] = item.Miktar.ToString();
-                                <tr style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
+                                <tr data-ID="@item.SirketID@item.ROW_ID" style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                                     <td style="width:20px!important;" class="details-control"></td>
                                     <td>@item.Unvan</td>
                                     <td>@item.EvrakNo</td>
@@ -64,7 +64,7 @@
                                     <td>@item.Marka</td>
                                     <td>@item.Cins</td>
                                     <td>@item.Kesit</td>
-                                    <td id="mkr@{@item.ROW_ID}"></td>
+                                    <td id="mkr@{@item.SirketID@item.ROW_ID}"></td>
                                     <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Miktar', '@x')" align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok)</td>
                                     <td>@item.SirketID-@item.ROW_ID</td>
@@ -142,7 +142,7 @@
     function format(d) {
         $.ajax({
             type: 'POST',
-            url: '/WMS/Tasks/Details',
+            url: '/WMS/Cable/Step3Details',
             data: { "ID": d },
             dataType: "html",
             success: function (data) {
