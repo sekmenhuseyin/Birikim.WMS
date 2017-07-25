@@ -667,9 +667,13 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRM_KurumKartiSearch_Result>("WMSEntities.CRM_KurumKartiSearch", termParameter);
         }
     
-        public virtual ObjectResult<GetCachedChartMonthly_Result> GetCachedChartMonthly()
+        public virtual ObjectResult<GetCachedChartMonthly_Result> GetCachedChartMonthly(string dB)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartMonthly_Result>("WMSEntities.GetCachedChartMonthly");
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartMonthly_Result>("WMSEntities.GetCachedChartMonthly", dBParameter);
         }
     }
 }

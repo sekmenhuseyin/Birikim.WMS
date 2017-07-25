@@ -1258,7 +1258,9 @@
           <Parameter Name="KoridorID" Type="int" Mode="In" />
           <Parameter Name="desc" Type="bit" Mode="In" />
         </Function>
-        <Function Name="GetCachedChartMonthly" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms" />
+        <Function Name="GetCachedChartMonthly" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetGorevlis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
@@ -1989,7 +1991,9 @@
           <FunctionImport Name="CRM_KurumKartiSearch" ReturnType="Collection(MModel.CRM_KurumKartiSearch_Result)">
           <Parameter Name="term" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetCachedChartMonthly" ReturnType="Collection(MModel.GetCachedChartMonthly_Result)" />
+          <FunctionImport Name="GetCachedChartMonthly" ReturnType="Collection(MModel.GetCachedChartMonthly_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />

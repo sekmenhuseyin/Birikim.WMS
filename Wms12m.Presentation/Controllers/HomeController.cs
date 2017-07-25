@@ -152,7 +152,7 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialAylikSatisAnaliziBar(string SirketKodu)
         {
             if (CheckPerm(Perms.ChartAylikSatisAnaliziBar, PermTypes.Reading) == false) return null;
-            var ASA = db.GetCachedChartMonthly().ToList();
+            var ASA = db.GetCachedChartMonthly(SirketKodu).ToList();
             if (ASA.Count == 0)
                 try
                 {
