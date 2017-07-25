@@ -38,6 +38,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_22CDF615A753426A96C76D298212EA61"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_32B4E422774B92BDB157103B29D09DA2"
         "OwnerKey" = "8:_8E1884A51088480992E2FA9B95EE056B"
         "MsmSig" = "8:_UNDEFINED"
@@ -254,6 +260,24 @@
             "Register" = "3:0"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{BA458234-9B71-4F46-8107-E91156377184}:_22CDF615A753426A96C76D298212EA61"
+            {
+            "SourcePath" = "8:..\\WMSMobil\\ip.txt"
+            "TargetName" = "8:ip.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_8C3E8201F56D4D569AC4E249ECA36EDD"
+            "Condition" = "8:"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "Register" = "3:0"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{E4F2F62A-3940-4BF5-A031-F7FA98CAAFFA}:_32B4E422774B92BDB157103B29D09DA2"

@@ -24,6 +24,7 @@ namespace WMSMobil
         public frmxPackage()
         {
             InitializeComponent();
+            Servis.Url = Ayarlar.ServisURL;
             //barkod
             Barkod = new Barcode2();
             Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;

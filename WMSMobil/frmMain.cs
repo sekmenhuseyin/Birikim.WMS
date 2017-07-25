@@ -20,6 +20,7 @@ namespace WMSMobil
         public frmMain()
         {
             InitializeComponent();
+            Servis.Url = Ayarlar.ServisURL;
         }
         /// <summary>
         /// her form aktif olduğunda görevleri güncelle
