@@ -388,6 +388,8 @@
     <Content Include="Areas\Reports\Views\Financial\CariCiro.cshtml" />
     <Content Include="Areas\Approvals\Views\Wood\TahsisliOnay.cshtml" />
     <Content Include="Areas\Approvals\Views\Wood\TahsisliOnay_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\TahsisliAlim.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\TahsisliAlim_List.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
