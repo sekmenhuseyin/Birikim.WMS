@@ -29,8 +29,8 @@
                         <i class="fa fa-gift"></i>Techno Ücret Onayları
                     </div>   
                     <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
-                    <div class="col-md-2 butondiv pull-right m-t-5"><button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
-                    <div class="col-md-2 butondiv pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
+                    <div class="col-md-2 butondiv pull-right m-t-5"><button class="btn btn-success pull-right input-circle ucret-onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
+                    <div class="col-md-2 butondiv pull-right m-t-5"><button class="btn btn-danger pull-right input-circle ucret-reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
                 </div>
                 <div class="portlet-body">
                     <div class="row">
@@ -130,42 +130,22 @@
                     rdrValue = e.value;
                     PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
                     PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
-                    if (Birim!="IK") {
-                        if (e.value == 'Reddedilenler') {
-                            $(".butondiv").hide();
-                            table.columns([17]).visible(true, true);
-                            table.columns([18]).visible(true, true);
-                            table2.columns([15]).visible(true, true);
-                            table2.columns([16]).visible(true, true);
-                        }
-                        else if (e.value == 'OnayBekleyenler') {
-                            $(".butondiv").show();
-                            table.columns([17]).visible(false, false);
-                            table.columns([18]).visible(false, false);
-                            table2.columns([15]).visible(false, false);
-                            table2.columns([16]).visible(false, false);
-                        }
-                        else {
-                            $(".butondiv").hide();
-                            table.columns([17]).visible(false, false);
-                            table.columns([18]).visible(false, false);
-                            table2.columns([15]).visible(false, false);
-                            table2.columns([16]).visible(false, false);
-
-                        }
-                    }
+                    
                 }
             });
         });
         $(".dx-item.dx-radiobutton").hide();
         PartialView("/Approvals/Techno/Ucret_List", 'techno_ucret_data', JSON.stringify({ Tip: rdrValue }));
         PartialView("/Approvals/Techno/Prim_List", 'techno_prim_data', JSON.stringify({ Tip: rdrValue }));
-        if (Birim == 'IK') {
-            $(".butondiv").hide();
-        }
-        else {
-            radioGroupItems.push({ text: "Onayladıklarım", value: "Onayladiklarim" })
-            $(".butondiv").show();
+        //if (Birim == 'IK') {
+        //    $(".butondiv").hide();
+        //}
+        //else {
+        //    radioGroupItems.push({ text: "Onayladıklarım", value: "Onayladiklarim" })
+        //    $(".butondiv").show();
+        //}
+         if (Birim != 'IK') {
+             radioGroupItems.push({ text: "Onayladıklarım", value: "Onayladiklarim" })
         }
         function newrow(PERSONELID) { return "<table style='background:transparent;' id='new" + PERSONELID + "'></table>"; }
         function format(d) {
@@ -184,7 +164,14 @@
             UcretOnayla();
         });
         $('.ucret-reddet-buton').click(function () {
-            UcretReddet();
+            var x = table55.rows('.selected').data();
+            if (x.length > 0) {
+                UcretReddet();
+            }
+            else {
+                Modaldialog("Satır Seçiniz", "Hata", "Tamam", "btn-danger");
+                return;
+            }
         });
         $('.ucret-yenile-buton').click(function () {
            setTimeout(function () { window.location.reload(); }, 500);
@@ -193,7 +180,15 @@
             PrimOnayla();
         });
         $('.prim-reddet-buton').click(function () {
-            PrimReddet();
+            var x = table2.rows('.selected').data();
+            if (x.length > 0) {
+                PrimReddet();
+            }
+            else {
+                Modaldialog("Satır Seçiniz", "Hata", "Tamam", "btn-danger");
+                return;
+            }
+            
         });
         $('.prim-yenile-buton').click(function () {
            setTimeout(function () { window.location.reload(); }, 500);
