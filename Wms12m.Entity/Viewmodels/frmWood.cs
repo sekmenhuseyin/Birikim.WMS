@@ -483,4 +483,9 @@ namespace Wms12m.Entity
 
         public System.Nullable<System.DateTime>  Tarih2{get;set;}
     }
+    public class CHKSelect1Result {
+        public string HesapKodu { get; set; }
+
+        public string Unvan { get; set; }
+    }
 }
