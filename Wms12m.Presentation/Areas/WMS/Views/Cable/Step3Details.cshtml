@@ -1,1 +1,24 @@
-﻿Step3Details
+﻿@model IEnumerable<Yer>
+<table>
+    <thead>
+        <tr>
+            <th>Yer</th>
+            <th>Makara No</th>
+            <th>Miktar</th>
+            <th>Birim</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.HucreAd</td>
+                <td>@item.MakaraNo</td>
+                <td>@item.Miktar</td>
+                <td>@item.Birim</td>
+                <td><button class="btn btn-default" onclick="alert(@item.ID);">Seç</button></td>
+            </tr>
+        }
+    </tbody>
+</table>

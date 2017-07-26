@@ -363,11 +363,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             string[] tmp = id.Split('-');
             string depoid = tmp[0], dbname = tmp[1], rowid = tmp[2];
             string sql = string.Format("SELECT wms.Yer.ID, wms.Yer.KatID, wms.Yer.HucreAd, wms.Yer.MalKodu, wms.Yer.Miktar, wms.Yer.Birim, wms.Yer.MakaraNo " +
-                "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.STK ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu " +
-                "WHERE (FINSAT6{0}.FINSAT6{0}.STK.ROW_ID = {1}) AND (wms.Yer.DepoID = {2})", dbname, rowid, depoid);
+                "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID " +
+                "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID = {1}) AND (wms.Depo.DepoKodu = '{2}')", dbname, rowid, depoid);
             try
             {
-                var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
+                var list = db.Database.SqlQuery<Yer>(sql).ToList();
                 return PartialView("Step3Details", list);
             }
             catch (Exception ex)
