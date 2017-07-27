@@ -1,4 +1,5 @@
-﻿// Stringe karakter eklemek için
+﻿numeral.locale('tr');
+// Stringe karakter eklemek için
 String.prototype.addAt = function (index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length - 1);
 }

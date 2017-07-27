@@ -32,6 +32,7 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js")
+                .Include("~/Content/assets/global/plugins/Numeral/Numeral.js")
 
                 //plugins
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")
@@ -62,7 +63,6 @@ namespace Wms12m.Presentation
                 .Include("~/Content/Scripts/Operation.min.js")
                 .Include("~/Content/Scripts/MessageBox.min.js")
                 .Include("~/Content/Scripts/Functions.js")
-                .Include("~/Content/assets/global/plugins/jquery.formatCurrency.js")
                 ;
             // styles
             styleBundle
