@@ -101,17 +101,32 @@
         require(
             [
                 'echarts',
-                'echarts/chart/bar',
+                'echarts/chart/line',
+                'echarts/chart/bar'
             ],
             function(ec) {
                 //--- BAR ---
                 var myChart = ec.init(document.getElementById('echarts_bar_lokasyon_kriter'));
                 myChart.setOption({
                     tooltip: {
-                        trigger: 'axis'
+                        show: true
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            magicType: {
+                                show: true,
+                                title: 'Dönüştür',
+                                type: ['line', 'bar']
+                            },
+                            saveAsImage: {
+                                title: 'Resim olarak kaydet',
+                                show: true
+                            }
+                        }
                     },
                     legend: {
-                        data: ['Yil2016', 'Yil2017']
+                        data: ['2016', '2017']
                     },
                     calculable: true,
                     xAxis: [{

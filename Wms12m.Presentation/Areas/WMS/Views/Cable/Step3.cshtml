@@ -53,7 +53,7 @@
                             @foreach (var item in Model)
                             {
                                 list[x] = item.Miktar.ToString();
-                                <tr data-ID="@item.SirketID@item.ROW_ID" style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
+                                <tr data-ID="@ViewBag.DepoID-@item.SirketID-@item.ROW_ID-@x" style="cursor:pointer;" onclick="$(this).toggleClass('selected');">
                                     <td style="width:20px!important;" class="details-control"></td>
                                     <td>@item.Unvan</td>
                                     <td>@item.EvrakNo</td>
@@ -64,7 +64,7 @@
                                     <td>@item.Marka</td>
                                     <td>@item.Cins</td>
                                     <td>@item.Kesit</td>
-                                    <td id="mkr@{@item.SirketID@item.ROW_ID}"></td>
+                                    <td id="mkr@{@x}"></td>
                                     <td ondblclick="ChangeMiktar(this, '@item.MalKodu', '@item.Miktar', '@x')" align="right">@String.Format("{0:n}", item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", item.Stok)</td>
                                     <td>@item.SirketID-@item.ROW_ID</td>
@@ -96,40 +96,50 @@
 </div>
 @section Scripts{<script>
     var selectall = true; var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
-    $(document).ready(function () {
-        var table = $('#sample_2').DataTable({
-            "ordering": false,
-            "pagingType": "full_numbers",
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "columnDefs": [{ "targets": [14,13], "visible": false, "searchable": false }]
-        });
-        $(".submit").click(function () {
-            var selected = ""; var result = false;
-            table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-                var miktar = parseFloat(list[this.data()[14]]);
-                selected = selected + this.data()[13] + "-" + miktar + "#";
-                result = true;
-            });
-            $("#checkboxes").val(selected);
-            if (result == true) $("#submit").click();
-        });
-        $("#selector").click(function () {
-            if (selectall == true) {
-                $("#selector").text("Seçimi İptal Et"); selectall = false;
-                table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
-            }
-            else {
-                $("#selector").text("Hepsini Seç"); selectall = true;
-                table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
-            }
-        });
-        $('#sample_2 tbody').on('click', 'td.details-control', function () {
-            var tr = $(this).closest('tr');
-            var row = table.row(tr);
-            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-            else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
-        });
+    var table = $('#sample_2').DataTable({
+        "ordering": false,
+        "pagingType": "full_numbers",
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "columnDefs": [{ "targets": [14,13], "visible": false, "searchable": false }]
     });
+    $(".submit").click(function () {
+        var selected = ""; var result = false, cont = true;
+        table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
+            if (this.data()[10] == "") {
+                Modaldialog("Lütfen makara seçin", "Hata", "Tamam", "btn-danger");
+                cont = false;
+            }
+            var miktar = parseFloat(list[this.data()[14]]);
+            selected = selected + this.data()[13] + "-" + this.data()[10] + "-" + miktar + "#";
+            result = true;
+        });
+        $("#checkboxes").val(selected);
+        if (cont == true)
+            if (result == true) $("#submit").click();
+            else Modaldialog("Lütfen sipariş seçin", "Hata", "Tamam", "btn-danger");
+    });
+    $("#selector").click(function () {
+        if (selectall == true) {
+            $("#selector").text("Seçimi İptal Et"); selectall = false;
+            table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) { this.select(); });
+        }
+        else {
+            $("#selector").text("Hepsini Seç"); selectall = true;
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
+        }
+    });
+    $('#sample_2 tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+        if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+        else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
+    });
+    function SelectMakara(id, row) {
+        $("#mkr" + row).html(id);
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            if (this.data()[14] == row) this.data()[10] = id;
+        });
+    }
     function ChangeMiktar(td, mal, miktar, id) {
         var yeni = prompt(mal + " için yeni miktarı giriniz", miktar);
         if (yeni == null || yeni == undefined) return;

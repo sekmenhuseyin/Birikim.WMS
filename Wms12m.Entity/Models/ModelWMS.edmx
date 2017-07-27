@@ -1261,6 +1261,9 @@
         <Function Name="GetCachedChartMonthly" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GetCachedChartYear2Day" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetGorevlis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
@@ -1992,6 +1995,9 @@
           <Parameter Name="term" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetCachedChartMonthly" ReturnType="Collection(MModel.GetCachedChartMonthly_Result)">
+          <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetCachedChartYear2Day" ReturnType="Collection(MModel.GetCachedChartYear2Day_Result)">
             <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
@@ -3418,6 +3424,11 @@
           <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
           <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
+        <ComplexType Name="GetCachedChartYear2Day_Result">
+          <Property Type="String" Name="CHK" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Unvan" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="GenelTutar" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4321,6 +4332,15 @@
                 <ScalarProperty Name="Yil2015" ColumnName="Yil2015" />
                 <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
                 <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCachedChartYear2Day" FunctionName="MModel.Store.GetCachedChartYear2Day">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetCachedChartYear2Day_Result">
+                <ScalarProperty Name="CHK" ColumnName="CHK" />
+                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
+                <ScalarProperty Name="GenelTutar" ColumnName="GenelTutar" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

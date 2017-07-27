@@ -193,6 +193,9 @@
     <Compile Include="Models\GetCachedChartMonthly_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetCachedChartYear2Day_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetELMAH_Error_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

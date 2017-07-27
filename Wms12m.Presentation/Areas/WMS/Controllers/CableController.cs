@@ -225,38 +225,25 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             grv.Bilgi = "Irs: " + evraknolar + " Alıcı: " + alıcılar;
             db.SaveChanges();
             //get gorev details
-            sql = string.Format("SELECT wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim " +
+            sql = string.Format("SELECT wms.IRS_Detay.MalKodu, wms.IRS_Detay.Miktar, wms.IRS_Detay.Birim, wms.IRS_Detay.KynkSiparisID as ROW_ID " +
                                 "FROM wms.IRS_Detay INNER JOIN wms.GorevIRS ON wms.IRS_Detay.IrsaliyeID = wms.GorevIRS.IrsaliyeID " +
                                 "WHERE(wms.GorevIRS.GorevID = {0})", cevap.GorevID);
             list = db.Database.SqlQuery<frmSiparisMalzemeOnay>(sql).ToList();
             foreach (var item in list)
             {
-                var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.DepoID && m.Miktar > 0).OrderBy(m => m.Miktar).ToList();
-                decimal toplam = 0, miktar = 0;
-                if (tmpYer != null)
+                var tyerid = rowids[Array.FindIndex(tmp, m => m.Contains(item.ROW_ID.ToString()))].ToInt32();
+                var miktar = miktars[Array.FindIndex(tmp, m => m.Contains(item.ROW_ID.ToString()))];
+                //miktarı tabloya ekle
+                GorevYer tblyer = new GorevYer()
                 {
-                    foreach (var itemyer in tmpYer)
-                    {
-                        if (itemyer.Miktar >= (item.Miktar - toplam))
-                            miktar = item.Miktar - toplam;
-                        else
-                            miktar = itemyer.Miktar;
-                        toplam += miktar;
-                        //miktarı tabloya ekle
-                        GorevYer tblyer = new GorevYer()
-                        {
-                            GorevID = cevap.GorevID.Value,
-                            YerID = itemyer.ID,
-                            MalKodu = item.MalKodu,
-                            Birim = item.Birim,
-                            Miktar = miktar,
-                            GC = true
-                        };
-                        TaskYer.Operation(tblyer);
-                        //toplam yeterli miktardaysa
-                        if (toplam == item.Miktar) break;
-                    }
-                }
+                    GorevID = cevap.GorevID.Value,
+                    YerID = tyerid,
+                    MalKodu = item.MalKodu,
+                    Birim = item.Birim,
+                    Miktar = miktar,
+                    GC = true
+                };
+                TaskYer.Operation(tblyer);
             }
             //listeyi getir
             sql = string.Format("SELECT wms.Yer.HucreAd, wms.GorevYer.MalKodu, wms.GorevYer.Miktar, wms.GorevYer.Birim, wms.Yer.Miktar AS Stok " +
@@ -360,11 +347,15 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
         [HttpPost]
         public PartialViewResult Step3Details(string id)
         {
-            string dbname = id.Left(2), rowid = id.Substring(2);
-            string sql = string.Format("[FINSAT6{0}].[wms].[getSiparisList] @SirketKodu = N'{0}', @DepoKodu = N'{1}', @isKable = 1, @BasTarih = 0, @BitTarih = 0", dbname, 0);
+            string[] tmp = id.Split('-');
+            string depoid = tmp[0], dbname = tmp[1], rowid = tmp[2];
+            ViewBag.satir = tmp[3];
+            string sql = string.Format("SELECT wms.Yer.* " +
+                "FROM wms.Yer INNER JOIN FINSAT6{0}.FINSAT6{0}.SPI ON wms.Yer.MalKodu = FINSAT6{0}.FINSAT6{0}.SPI.MalKodu INNER JOIN wms.Depo ON wms.Yer.DepoID = wms.Depo.ID " +
+                "WHERE (FINSAT6{0}.FINSAT6{0}.SPI.ROW_ID = {1}) AND (wms.Depo.DepoKodu = '{2}') AND (wms.Yer.Miktar > 0)", dbname, rowid, depoid);
             try
             {
-                var list = db.Database.SqlQuery<frmSiparisler>(sql).ToList();
+                var list = db.Database.SqlQuery<Yer>(sql).ToList();
                 return PartialView("Step3Details", list);
             }
             catch (Exception ex)
