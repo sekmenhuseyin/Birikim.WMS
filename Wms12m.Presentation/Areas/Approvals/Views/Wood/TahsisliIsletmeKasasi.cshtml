@@ -94,113 +94,92 @@
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Odun</span></li></ul></div>
 <h1 class="page-title">Tahsisli İşletme Kasası</h1>
 
-<div class="form-horizontal">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row input_style">
+<div class="row">
+    <div class="col-md-2">
+        <div class="input_label">Tah. Evrak No</div>
+        <div class="input select_evrakno"></div>
+    </div>
 
-                <div class="input_content col-md-2">
-                    <div class="input_label">Tah. Evrak No</div>
-                    <div class="input select_evrakno"></div>
+    <div class="col-md-2">
+        <div class="input_label">Hesap Kodu</div>
+        <div class="input select_hesapkodu"></div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="input_label">Ünvan</div>
+        <div class="input select_unvan"></div>
+    </div>
+
+    <div class="col-md-6">
+        <table class="table-striped table-bordered">
+            <tr><th></th><th>Tutar</th><th>Kullanılan</th><th>Kalan</th></tr>
+            <tr>
+                <td>Mektup</td>
+                <td><div class="input select_mektuptutar"></div></td>
+                <td><div class="input select_mektupkullanilan"></div></td>
+                <td><div class="input select_mektupkalan"></div></td>
+            </tr>
+            <tr>
+                <td>Peşinat</td>
+                <td><div class="input select_pesinattutar"></div></td>
+                <td><div class="input select_pesinatkullanilan"></div></td>
+                <td><div class="input select_pesinatkalan"></div></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table-striped table-bordered">
+            <tr><th></th><th>Miktar</th><th>Kullanılan</th><th>Kalan</th></tr>
+            <tr>
+                <td>İbreli(Ster)</td>
+                <td><div class="input select_ibrelistermiktar"></div></td>
+                <td><div class="input select_ibrelisterkullanilan"></div></td>
+                <td><div class="input select_ibrelisterkalan"></div></td>
+            </tr>
+            <tr>
+                <td>İbreli(M3)</td>
+                <td><div class="input select_ibrelim3miktar"></div></td>
+                <td><div class="input select_ibrelim3kullanilan"></div></td>
+                <td><div class="input select_ibrelim3kalan"></div></td>
+            </tr>
+            <tr>
+                <td>Yapraklı(Ster)</td>
+                <td><div class="input select_yapraklistermiktar"></div></td>
+                <td><div class="input select_yapraklisterkullanilan"></div></td>
+                <td><div class="input select_yapraklisterkalan"></div></td>
+            </tr>
+            <tr>
+                <td>Yapraklı(M3)</td>
+                <td><div class="input select_yapraklim3miktar"></div></td>
+                <td><div class="input select_yapraklim3kullanilan"></div></td>
+                <td><div class="input select_yapraklim3kalan"></div></td>
+            </tr>
+
+        </table>
+
+    </div>
+</div>
+<div class="row">
+<div class="col-md-12 m-t-30">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Tahsisli İşletme Kasası
                 </div>
-
-                <div class="input_content col-md-2">
-                    <div class="input_label">Hesap Kodu</div>
-                    <div class="input select_hesapkodu"></div>
-                </div>
-
-                <div class="input_content col-md-2">
-                    <div class="input_label">Ünvan</div>
-                    <div class="input select_unvan"></div>
-                </div>
-
-                <div class="input_content col-md-6">
-                    <table class="table-striped table-bordered table-hover">
-                        <tr><th></th><th>Tutar</th><th>Kullanılan</th><th>Kalan</th></tr>
-                        <tr>
-                            <td>Mektup</td>
-                            <td><div class="input select_mektuptutar"></div></td>
-                            <td><div class="input select_mektupkullanilan"></div></td>
-                            <td><div class="input select_mektupkalan"></div></td>
-                        </tr>
-                        <tr>
-                            <td>Peşinat</td>
-                            <td><div class="input select_pesinattutar"></div></td>
-                            <td><div class="input select_pesinatkullanilan"></div></td>
-                            <td><div class="input select_pesinatkalan"></div></td>
-                        </tr>
-                    </table>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-xs-12" id="liste"></div>
                 </div>
 
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="row input_style">
-                <div class="input_content">
-                    <table class="table-striped table-bordered table-hover">
-                        <tr><th></th><th>Miktar</th><th>Kullanılan</th><th>Kalan</th></tr>
-                        <tr>
-                            <td>İbreli(Ster)</td>
-                            <td><div class="input select_ibrelistermiktar"></div></td>
-                            <td><div class="input select_ibrelisterkullanilan"></div></td>
-                            <td><div class="input select_ibrelisterkalan"></div></td>
-                        </tr>
-                        <tr>
-                            <td>İbreli(M3)</td>
-                            <td><div class="input select_ibrelim3miktar"></div></td>
-                            <td><div class="input select_ibrelim3kullanilan"></div></td>
-                            <td><div class="input select_ibrelim3kalan"></div></td>
-                        </tr>
-                        <tr>
-                            <td>Yapraklı(Ster)</td>
-                            <td><div class="input select_yapraklistermiktar"></div></td>
-                            <td><div class="input select_yapraklisterkullanilan"></div></td>
-                            <td><div class="input select_yapraklisterkalan"></div></td>
-                        </tr>
-                        <tr>
-                            <td>Yapraklı(M3)</td>
-                            <td><div class="input select_yapraklim3miktar"></div></td>
-                            <td><div class="input select_yapraklim3kullanilan"></div></td>
-                            <td><div class="input select_yapraklim3kalan"></div></td>
-                        </tr>
-
-                    </table>
-                </div>
-
-
-
-
-            </div>
-
         </div>
     </div>
-    <div class="form-body">
-
-
-            <div class="portlet box green">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-gift"></i>Tahsisli İşletme Kasası
-                    </div>
-                    <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
-
-                </div>
-                <div class="portlet-body">
-                    <div class="row">
-                        <div class="col-xs-12">
-
-                            <div id="liste">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
 </div>
 @section Scripts{
     <script>
-        PartialView("/Approvals/Wood/TahsisliIsletmeKasasi_Grid", 'liste');
         $(document).ready(function () {
             $(".select_hesapkodu").dxTextBox({ readOnly: true });
             $(".select_unvan").dxTextBox({ readOnly: true });
@@ -222,8 +201,6 @@
             $(".select_yapraklim3miktar").dxTextBox({ readOnly: true });
             $(".select_yapraklim3kullanilan").dxTextBox({ readOnly: true });
             $(".select_yapraklim3kalan").dxTextBox({ readOnly: true });
-
-            
         });
 
         $.ajax({
@@ -237,15 +214,11 @@
         });
 
         $(".select_evrakno").dxLookup({
-            //dataSource: model,
             searchEnabled: true,
             fullScreen: true,
             pageLoadMode: "nextButton",
             searchExpr: ["EvrakNo", "OrmIslt", "OrmIsltUnvan", "Yil","Hafta"],
-            //valueExpr: 'EvrakNo',
             displayExpr: 'EvrakNo',
-
-
             onValueChanged: function (e) {
                 if (e.value == null) {
                     return;
@@ -257,7 +230,9 @@
                 $(".select_ibrelistermiktar").dxTextBox("instance").option("value",e.value.IbreliMiktarSter);
                 $(".select_ibrelim3miktar").dxTextBox("instance").option("value",e.value.IbreliMiktarM3);
                 $(".select_yapraklistermiktar").dxTextBox("instance").option("value",e.value.YaprakliMiktarSter);
-                $(".select_yapraklim3miktar").dxTextBox("instance").option("value",e.value.YaprakliMiktarM3);
+                $(".select_yapraklim3miktar").dxTextBox("instance").option("value", e.value.YaprakliMiktarM3);
+
+                PartialView("/Approvals/Wood/TahsisliIsletmeKasasi_List", 'liste', JSON.stringify({ EvrakNo: e.value.EvrakNo, HesapKodu: e.value.OrmIslt }));
                 
                 $.ajax({
                     url: window.location.origin + "/Approvals/Wood/KasaEvrakCekEvrakNoIle?EvrakNo=" + e.value.EvrakNo + "&HesapKodu=" + e.value.OrmIslt,
@@ -272,9 +247,6 @@
                             mekkal = val.TahTopMektupTutar - val.mekkul;
                             pesKul += val.Kod14;
                             pesKal = val.Kod14 - val.pesKul;
-                            
-                            
-
                         });
                  
                         $(".select_pesinatkullanilan").dxTextBox("instance").option("value",pesKul);//Kullanılan
@@ -282,14 +254,14 @@
                         $(".select_mektupkullanilan").dxTextBox("instance").option("value", mekkul);//?Kullanılan
                         $(".select_mektupkalan").dxTextBox("instance").option("value", mekkal);//?Kalan
 
-                        $(".select_ibrelisterkullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKul);//Kullanilan
-                        $(".select_ibrelisterkalan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKalan);//Kalan
-                        $(".select_ibrelim3kullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikM3Kul);//Kullanilan
-                        $(".select_ibrelim3kalan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikM3Kalan);//Kalan
-                        $(".select_yapraklisterkullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKul);//Kullanilan
-                        $(".select_yapraklisterkalan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKalan);//Kalan
-                        $(".select_yapraklim3kullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamYaprakliMikM3Kul);//Kullanilan
-                        $(".select_yapraklim3kalan").dxTextBox("instance").option("value", result[0].TahFatToplamYaprakliMikM3Kalan);//Kalan
+                        //$(".select_ibrelisterkullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKul);//Kullanilan
+                        //$(".select_ibrelisterkalan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKalan);//Kalan
+                        //$(".select_ibrelim3kullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikM3Kul);//Kullanilan
+                        //$(".select_ibrelim3kalan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikM3Kalan);//Kalan
+                        //$(".select_yapraklisterkullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKul);//Kullanilan
+                        //$(".select_yapraklisterkalan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKalan);//Kalan
+                        //$(".select_yapraklim3kullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamYaprakliMikM3Kul);//Kullanilan
+                        //$(".select_yapraklim3kalan").dxTextBox("instance").option("value", result[0].TahFatToplamYaprakliMikM3Kalan);//Kalan
 
                     }
                 });
