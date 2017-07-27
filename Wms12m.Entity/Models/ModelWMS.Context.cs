@@ -684,5 +684,14 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartYear2Day_Result>("WMSEntities.GetCachedChartYear2Day", dBParameter);
         }
+    
+        public virtual ObjectResult<GetCachedChartBakiyeRisk_Result> GetCachedChartBakiyeRisk(string dB)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartBakiyeRisk_Result>("WMSEntities.GetCachedChartBakiyeRisk", dBParameter);
+        }
     }
 }
