@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<MyChi>
-<table class="table table-striped table-bordered table-hover" id="sample_1">
+@{
+    System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+}<table class="table table-striped table-bordered table-hover" id="sample_1">
     <thead>
         <tr>
             <th nowrap>Evrak No</th>
@@ -14,6 +17,20 @@
             <th nowrap>Toplam Yapraklı Mik. M3</th>
         </tr>
     </thead>
+     <tfoot>
+         <tr>
+             <th></th>
+             <th></th>
+             <th></th>
+             <th></th>
+             <th class="text-right"></th>
+             <th class="text-right"></th>
+             <th class="text-right"></th>
+             <th class="text-right"></th>
+             <th class="text-right"></th>
+             <th class="text-right"></th>
+         </tr>
+     </tfoot>
     <tbody>
         @foreach (var item in Model)
         {
@@ -22,27 +39,64 @@
                 <td nowrap>@item.HesapKodu</td>
                 <td nowrap>@item.Unvan</td>
                 <td nowrap>@item.EvrakNo2</td>
-                <td nowrap>@item.Kod13</td>
-                <td nowrap>@item.Kod14</td>
-                <td nowrap>item.FaturaToplamIbreliMikSter</td>
-                <td nowrap>item.FaturaToplamIbreliMikM3</td>
-                <td nowrap>item.FaturaToplamYaprakliMikSter</td>
-                <td nowrap>item.FaturaToplamYaprakliMikM3</td>
+                <td nowrap align="right">@String.Format("{0:n}", item.Kod13)</td>
+                <td nowrap align="right">@String.Format("{0:n}", item.Kod14)</td>
+                <td nowrap align="right">@String.Format("{0:n}", item.topSterIbre)</td>
+                <td nowrap align="right">@String.Format("{0:n}", item.topM3Ibre)</td>
+                <td nowrap align="right">@String.Format("{0:n}", item.topSterYaprak)</td>
+                <td nowrap align="right">@String.Format("{0:n}", item.topM3Yaprak)</td>
             </tr>
         }
     </tbody>
 </table>
 <script type="text/javascript">
+    var model =  @Html.Raw(serializer.Serialize(Model));
+    var Kod13 = 0, Kod14 = 0, topSterIbre = 0, topM3Ibre = 0, topSterYaprak = 0, topM3Yaprak = 0;
+    jQuery.each(model, function (i, val) {
+        Kod13 += val.Kod13;
+        Kod14 += val.Kod14;
+        topSterIbre = val.topSterIbre;
+        topM3Ibre = val.topM3Ibre;
+        topSterYaprak = val.topSterYaprak;
+        topM3Yaprak = val.topM3Yaprak;
+    });
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "scrollX": true,
             "dom": 'Bfrtip',
             "buttons": [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
-            ]
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs' }
+            ],
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+                $(api.column(4).footer()).html(Kod13);
+                $(api.column(5).footer()).html(Kod14);
+                $(api.column(6).footer()).html(topSterIbre);
+                $(api.column(7).footer()).html(topM3Ibre);
+                $(api.column(8).footer()).html(topSterYaprak);
+                $(api.column(9).footer()).html(topM3Yaprak);
+
+                $(".select_mektuptutar").digits();
+                $(".select_pesinattutar").digits();
+                $(".select_ibrelistermiktar").digits();
+                $(".select_ibrelim3miktar").digits();
+                $(".select_yapraklistermiktar").digits();
+                $(".select_yapraklim3miktar").digits();
+                FormatProperNumber($(".select_pesinatkullanilan"), Kod14, 2);
+                FormatProperNumber($(".select_pesinatkalan"), select_pesinattutar - Kod14, 2);
+                FormatProperNumber($(".select_mektupkullanilan"), Kod13, 2);
+                FormatProperNumber($(".select_mektupkalan"), select_mektuptutar - Kod13, 2);
+                FormatProperNumber($(".select_ibrelisterkullanilan"), topSterIbre, 2);
+                FormatProperNumber($(".select_ibrelisterkalan"), select_ibrelistermiktar - topSterIbre, 2);
+                FormatProperNumber($(".select_ibrelim3kullanilan"), topM3Ibre, 2);
+                FormatProperNumber($(".select_ibrelim3kalan"), select_ibrelim3miktar - topM3Ibre, 2);
+                FormatProperNumber($(".select_yapraklisterkullanilan"), topSterYaprak, 2);
+                FormatProperNumber($(".select_yapraklisterkalan"), select_yapraklistermiktar - topSterYaprak, 2);
+                FormatProperNumber($(".select_yapraklim3kullanilan"), topM3Yaprak, 2);
+                FormatProperNumber($(".select_yapraklim3kalan"), select_yapraklim3miktar - topM3Yaprak, 2);
+            }
         });
     });
 </script>

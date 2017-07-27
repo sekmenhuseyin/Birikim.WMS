@@ -1,117 +1,32 @@
 ﻿@{
     ViewBag.Title = "Tahsisli İşletme Kasası";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@section Styles{
-    <style>
-        .btn {
-            width: 120px;
-            text-align: center;
-        }
-        .input_content {
-            margin-bottom: 3px;
-            height: 40px;
-            line-height: 20px;
-        }
-
-        .input_label {
-            float: left;
-            width: 35%;
-            font-weight: bold;
-            color: #5bc8d2;
-            font-size: 11px;
-            padding-top: 4px;
-        }
-
-        .input {
-            float: left;
-            width: 60%;
-            font-size: 10px;
-            height: 30px;
-        }
-
-        .input_style {
-            background-color: white;
-            padding: 10px;
-            margin: 0;
-        }
-
-        .dx-header-row {
-            background-color: #86d8ea;
-            color: window;
-        }
-
-        .dx-state-readonly {
-            background-color: #e0dede !important;
-        }
-
-            .dx-state-readonly input {
-                background-color: #e0dede !important;
-            }
-
-        table {
-            margin: 0 !important;
-        }
-
-        th {
-            width: auto !important;
-        }
-
-        td {
-            width: auto !important;
-        }
-
-        .dataTables_scrollHead {
-            width: 100% !important;
-        }
-
-        .dataTables_scrollHeadInner {
-            width: 100% !important;
-        }
-
-        .dataTables_scrollBody {
-            width: 100% !important;
-        }
-
-        .dx-item-content .dx-popup-cancel {
-            background-color: #ff4d4d !important;
-            color: white !important;
-        }
-
-        .dx-switch-handle:before {
-            background-color: #F1C40F !important;
-        }
-
-        .dx-switch-on-value .dx-switch-handle:before {
-            background-color: #32c5d2 !important;
-        }
-
-        .sag .dx-texteditor-input {
-            text-align: right;
-        }
-    </style>
-}
-<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Odun</span></li></ul></div>
+}@section Styles{<style>.table-condensed td{padding:3px!important;}</style>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Odun</span></li></ul></div>
 <h1 class="page-title">Tahsisli İşletme Kasası</h1>
-
 <div class="row">
     <div class="col-md-2">
-        <div class="input_label">Tah. Evrak No</div>
-        <div class="input select_evrakno"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input_label">Tah. Evrak No</div>
+                <div class="input select_evrakno"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input_label">Hesap Kodu</div>
+                <div class="input select_hesapkodu"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input_label">Ünvan</div>
+                <div class="input select_unvan"></div>
+            </div>
+        </div>
     </div>
-
-    <div class="col-md-2">
-        <div class="input_label">Hesap Kodu</div>
-        <div class="input select_hesapkodu"></div>
-    </div>
-
-    <div class="col-md-2">
-        <div class="input_label">Ünvan</div>
-        <div class="input select_unvan"></div>
-    </div>
-
-    <div class="col-md-6">
-        <table class="table-striped table-bordered">
+    <div class="col-md-10">
+        <table class="table table-condensed">
             <tr><th></th><th>Tutar</th><th>Kullanılan</th><th>Kalan</th></tr>
             <tr>
                 <td>Mektup</td>
@@ -128,9 +43,9 @@
         </table>
     </div>
 </div>
-<div class="row">
+<div class="row m-t-15">
     <div class="col-md-12">
-        <table class="table-striped table-bordered">
+        <table class="table table-condensed">
             <tr><th></th><th>Miktar</th><th>Kullanılan</th><th>Kalan</th></tr>
             <tr>
                 <td>İbreli(Ster)</td>
@@ -178,106 +93,54 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    <script>
-        $(document).ready(function () {
-            $(".select_hesapkodu").dxTextBox({ readOnly: true });
-            $(".select_unvan").dxTextBox({ readOnly: true });
-            $(".select_mektuptutar").dxTextBox({ readOnly: true });
-            $(".select_mektupkullanilan").dxTextBox({ readOnly: true });
-            $(".select_pesinatkalan").dxTextBox({ readOnly: true });
-            $(".select_mektupkalan").dxTextBox({ readOnly: true });
-            $(".select_pesinattutar").dxTextBox({ readOnly: true });
-            $(".select_pesinatkullanilan").dxTextBox({ readOnly: true });
-            $(".select_ibrelistermiktar").dxTextBox({ readOnly: true });
-            $(".select_ibrelisterkullanilan").dxTextBox({ readOnly: true });
-            $(".select_ibrelisterkalan").dxTextBox({ readOnly: true });
-            $(".select_ibrelim3miktar").dxTextBox({ readOnly: true });
-            $(".select_ibrelim3kullanilan").dxTextBox({ readOnly: true });
-            $(".select_ibrelim3kalan").dxTextBox({ readOnly: true });
-            $(".select_yapraklistermiktar").dxTextBox({ readOnly: true });
-            $(".select_yapraklisterkullanilan").dxTextBox({ readOnly: true });
-            $(".select_yapraklisterkalan").dxTextBox({ readOnly: true });
-            $(".select_yapraklim3miktar").dxTextBox({ readOnly: true });
-            $(".select_yapraklim3kullanilan").dxTextBox({ readOnly: true });
-            $(".select_yapraklim3kalan").dxTextBox({ readOnly: true });
-        });
+@section Scripts{<script>
+    var select_mektuptutar, select_pesinattutar, select_ibrelistermiktar, select_ibrelim3miktar, select_yapraklistermiktar, select_yapraklim3miktar;
+    $.ajax({
+        url: window.location.origin + "/Approvals/Wood/KasaEvrakCek",
+        data: {},
+        type: "post",
+        success: function (data) {
+            var result = JSON.parse(data);
+            $(".select_evrakno").dxLookup("instance").option("dataSource", result);
+        }
+    });
 
-        $.ajax({
-            url: window.location.origin + "/Approvals/Wood/KasaEvrakCek",
-            data: {},
-            type: "post",
-            success: function (data) {
-                var result = JSON.parse(data);
-                $(".select_evrakno").dxLookup("instance").option("dataSource", result);
+    $(".select_evrakno").dxLookup({
+        searchEnabled: true,
+        fullScreen: true,
+        pageLoadMode: "nextButton",
+        searchExpr: ["EvrakNo", "OrmIslt", "OrmIsltUnvan", "Yil","Hafta"],
+        displayExpr: 'EvrakNo',
+        onValueChanged: function (e) {
+            if (e.value == null) return;
+            $(".select_hesapkodu").html(e.value.OrmIslt);
+            $(".select_unvan").html(e.value.OrmIsltUnvan);
+            $(".select_mektuptutar").html(e.value.TahTopMektupTutar);
+            $(".select_pesinattutar").html(e.value.TahPesinat);
+            $(".select_ibrelistermiktar").html(e.value.IbreliMiktarSter);
+            $(".select_ibrelim3miktar").html( e.value.IbreliMiktarM3);
+            $(".select_yapraklistermiktar").html(e.value.YaprakliMiktarSter);
+            $(".select_yapraklim3miktar").html(e.value.YaprakliMiktarM3);
+            select_mektuptutar = e.value.TahTopMektupTutar;
+            select_pesinattutar = e.value.TahPesinat;
+            select_ibrelistermiktar = e.value.IbreliMiktarSter;
+            select_ibrelim3miktar = e.value.IbreliMiktarM3;
+            select_yapraklistermiktar = e.value.YaprakliMiktarSter;
+            select_yapraklim3miktar = e.value.YaprakliMiktarM3;
+            PartialView("/Approvals/Wood/TahsisliIsletmeKasasi_List", 'liste', JSON.stringify({ EvrakNo: e.value.EvrakNo, HesapKodu: e.value.OrmIslt }));
+        },
+
+        itemTemplate: function (itemData, itemIndex, itemElement) {
+            itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+            if (itemIndex > 0) {
+                itemElement.css({ "margin-top": "-40px" });
             }
-        });
+            var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+            rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.EvrakNo + "</b></p>");
+            rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>ListeNo: <i style='font-weight:normal;'>" + itemData.OrmIslt + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Ünvan: <i style='font-weight:normal;'>" + itemData.OrmIsltUnvan + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Yıl: <i style='font-weight:normal;'>" + itemData.Yil + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Hafta: <i style='font-weight:normal;'>" + itemData.Hafta + "</i></span></div>");
+            itemElement.append(rightBlock);
+        }
+    });
 
-        $(".select_evrakno").dxLookup({
-            searchEnabled: true,
-            fullScreen: true,
-            pageLoadMode: "nextButton",
-            searchExpr: ["EvrakNo", "OrmIslt", "OrmIsltUnvan", "Yil","Hafta"],
-            displayExpr: 'EvrakNo',
-            onValueChanged: function (e) {
-                if (e.value == null) {
-                    return;
-                }
-                $(".select_hesapkodu").dxTextBox("instance").option("value",e.value.OrmIslt);
-                $(".select_unvan").dxTextBox("instance").option("value",e.value.OrmIsltUnvan);
-                $(".select_mektuptutar").dxTextBox("instance").option("value",e.value.TahTopMektupTutar);
-                $(".select_pesinattutar").dxTextBox("instance").option("value",e.value.TahPesinat);
-                $(".select_ibrelistermiktar").dxTextBox("instance").option("value",e.value.IbreliMiktarSter);
-                $(".select_ibrelim3miktar").dxTextBox("instance").option("value",e.value.IbreliMiktarM3);
-                $(".select_yapraklistermiktar").dxTextBox("instance").option("value",e.value.YaprakliMiktarSter);
-                $(".select_yapraklim3miktar").dxTextBox("instance").option("value", e.value.YaprakliMiktarM3);
-
-                PartialView("/Approvals/Wood/TahsisliIsletmeKasasi_List", 'liste', JSON.stringify({ EvrakNo: e.value.EvrakNo, HesapKodu: e.value.OrmIslt }));
-                
-                $.ajax({
-                    url: window.location.origin + "/Approvals/Wood/KasaEvrakCekEvrakNoIle?EvrakNo=" + e.value.EvrakNo + "&HesapKodu=" + e.value.OrmIslt,
-                    data: {},
-                    type: "post",
-                    success: function (data) {
-                        var result = JSON.parse(data);
-                        
-                        var mekkul = 0, pesKul = 0, mekkal = 0, pesKal = 0;
-                        jQuery.each(result, function (i, val) {
-                            mekkul += val.Kod13;
-                            mekkal = val.TahTopMektupTutar - val.mekkul;
-                            pesKul += val.Kod14;
-                            pesKal = val.Kod14 - val.pesKul;
-                        });
-                 
-                        $(".select_pesinatkullanilan").dxTextBox("instance").option("value",pesKul);//Kullanılan
-                        $(".select_pesinatkalan").dxTextBox("instance").option("value", pesKal);//Kalan
-                        $(".select_mektupkullanilan").dxTextBox("instance").option("value", mekkul);//?Kullanılan
-                        $(".select_mektupkalan").dxTextBox("instance").option("value", mekkal);//?Kalan
-
-                        //$(".select_ibrelisterkullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKul);//Kullanilan
-                        //$(".select_ibrelisterkalan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKalan);//Kalan
-                        //$(".select_ibrelim3kullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikM3Kul);//Kullanilan
-                        //$(".select_ibrelim3kalan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikM3Kalan);//Kalan
-                        //$(".select_yapraklisterkullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKul);//Kullanilan
-                        //$(".select_yapraklisterkalan").dxTextBox("instance").option("value", result[0].TahFatToplamIbreliMikSterKalan);//Kalan
-                        //$(".select_yapraklim3kullanilan").dxTextBox("instance").option("value", result[0].TahFatToplamYaprakliMikM3Kul);//Kullanilan
-                        //$(".select_yapraklim3kalan").dxTextBox("instance").option("value", result[0].TahFatToplamYaprakliMikM3Kalan);//Kalan
-
-                    }
-                });
-            },
-
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-                if (itemIndex > 0) {
-                    itemElement.css({ "margin-top": "-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.EvrakNo + "</b></p>");
-                rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>ListeNo: <i style='font-weight:normal;'>" + itemData.OrmIslt + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Ünvan: <i style='font-weight:normal;'>" + itemData.OrmIsltUnvan + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Yıl: <i style='font-weight:normal;'>" + itemData.Yil + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Hafta: <i style='font-weight:normal;'>" + itemData.Hafta + "</i></span></div>");
-                itemElement.append(rightBlock);
-            }
-        });
-
-    </script>
+</script>
 }

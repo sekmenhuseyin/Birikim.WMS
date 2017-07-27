@@ -171,32 +171,35 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public PartialViewResult TahsisliIsletmeKasasi_List(string EvrakNo,string HesapKodu)
         {
-            var RT = db.Database.SqlQuery<MyChi>(string.Format(@"SELECT DISTINCT CHI.HesapKodu, CHK.Unvan1 as Unvan, CHI.EvrakNo, CHI.EvrakNo2
-                                                                , CAST(CHI.Tarih-2 as smalldatetime) as Tarih, CHI.Kod13, CHI.Kod14 
+            string sql = string.Format(@"SELECT DISTINCT FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu, FINSAT6{0}.FINSAT6{0}.CHK.Unvan1 AS Unvan, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo, FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2, CAST(FINSAT6{0}.FINSAT6{0}.CHI.Tarih - 2 AS smalldatetime) 
+                                                             AS Tarih, FINSAT6{0}.FINSAT6{0}.CHI.Kod13, FINSAT6{0}.FINSAT6{0}.CHI.Kod14,
+                                                                 (SELECT        ISNULL(SUM(FINSAT6{0}.FINSAT6{0}.STI.BirimMiktar), 0) AS Expr1
+                                                                   FROM            FINSAT6{0}.FINSAT6{0}.STI INNER JOIN
+                                                                                             FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.STI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+                                                                   WHERE        (FINSAT6{0}.FINSAT6{0}.STK.MalAdi LIKE 'İBRE%') AND (FINSAT6{0}.FINSAT6{0}.STI.Birim = 'Ster') AND (FINSAT6{0}.FINSAT6{0}.STI.EvrakNo = CHI.EvrakNo)) AS topSterIbre,
+                                                                 (SELECT        ISNULL(SUM(FINSAT6{0}.FINSAT6{0}.STI.BirimMiktar), 0) AS Expr1
+                                                                   FROM            FINSAT6{0}.FINSAT6{0}.STI INNER JOIN
+                                                                                             FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.STI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+                                                                   WHERE        (FINSAT6{0}.FINSAT6{0}.STK.MalAdi LIKE 'Yaprak%') AND (FINSAT6{0}.FINSAT6{0}.STI.Birim = 'Ster') AND (FINSAT6{0}.FINSAT6{0}.STI.EvrakNo = CHI.EvrakNo)) AS topSterYaprak,
+                                                                 (SELECT        ISNULL(SUM(FINSAT6{0}.FINSAT6{0}.STI.BirimMiktar), 0) AS Expr1
+                                                                   FROM            FINSAT6{0}.FINSAT6{0}.STI INNER JOIN
+                                                                                             FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.STI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+                                                                   WHERE        (FINSAT6{0}.FINSAT6{0}.STK.MalAdi LIKE 'İBRE%') AND (FINSAT6{0}.FINSAT6{0}.STI.Birim = 'M3') AND (FINSAT6{0}.FINSAT6{0}.STI.EvrakNo = CHI.EvrakNo)) AS topM3Ibre,
+                                                                 (SELECT        ISNULL(SUM(FINSAT6{0}.FINSAT6{0}.STI.BirimMiktar), 0) AS Expr1
+                                                                   FROM            FINSAT6{0}.FINSAT6{0}.STI INNER JOIN
+                                                                                             FINSAT6{0}.FINSAT6{0}.STK ON FINSAT6{0}.FINSAT6{0}.STI.MalKodu = FINSAT6{0}.FINSAT6{0}.STK.MalKodu
+                                                                   WHERE        (FINSAT6{0}.FINSAT6{0}.STK.MalAdi LIKE 'Yaprak%') AND (FINSAT6{0}.FINSAT6{0}.STI.Birim = 'M3') AND (FINSAT6{0}.FINSAT6{0}.STI.EvrakNo = CHI.EvrakNo)) AS topM3Yaprak
 
-                                                                FROM FINSAT6{0}.FINSAT6{0}.CHI (nolock)
-                                                                LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) ON CHK.HesapKodu=CHI.HesapKodu
-                                                                WHERE CHI.KynkEvrakTip=4 AND CHI.Kod13>0 AND CHI.Kod14>0 
-                                                                AND CHI.EvrakNo2='{1}' AND CHI.HesapKodu='{2}' ", "17", EvrakNo, HesapKodu)).ToList();
+                                    FROM            FINSAT6{0}.FINSAT6{0}.CHI WITH (nolock) LEFT OUTER JOIN
+                                                             FINSAT6{0}.FINSAT6{0}.CHK WITH (nolock) ON FINSAT6{0}.FINSAT6{0}.CHK.HesapKodu = FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu
+                                    WHERE        (FINSAT6{0}.FINSAT6{0}.CHI.KynkEvrakTip = 4) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod13 > 0) AND (FINSAT6{0}.FINSAT6{0}.CHI.Kod14 > 0) AND 
+                                    (FINSAT6{0}.FINSAT6{0}.CHI.EvrakNo2 = '{1}') AND  (FINSAT6{0}.FINSAT6{0}.CHI.HesapKodu = '{2}')", "17", EvrakNo, HesapKodu);
+            var RT = db.Database.SqlQuery<MyChi>(sql).ToList();
 
-            var RT1 = db.Database.SqlQuery<MySti>(string.Format(@"SELECT STI.EvrakNo, STI.Tarih, STI.Chk, STI.MalKodu, STK.MalAdi, STI.BirimMiktar, STI.Birim 
-                                                                  FROM FINSAT6{0}.FINSAT6{0}.STI (nolock)
-                                                                INNER JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) ON STK.MalKodu=STI.MalKodu
-                                                                WHERE STI.KynkEvrakTip=4 AND STI.Chk='{2}' AND STI.EvrakNo IN  
-                                                                (
-                                                                    SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.CHI (nolock) 
-                                                                    WHERE KynkEvrakTip=4 AND Kod13>0 AND Kod14>0 AND EvrakNo2='{1}' 
-                                                                    AND HesapKodu='{2}' AND BirimMiktar>0
-                                                                 )", "17", EvrakNo, HesapKodu)).ToList();
-
-
-            foreach (MyChi chi in RT)
-            {
-                chi.FaturaDetay = RT1.FindAll(t => t.EvrakNo == chi.EvrakNo);
-            }
             return PartialView(RT);
         }
-        public string KasaEvrakCek()
+
+       public string KasaEvrakCek()
         {
             var RT = db.Database.SqlQuery<TahsisliIsletmeKasa>(string.Format(@"SELECT IHL.EvrakNo, IHL.OrmIslt, CHK.Unvan1 as OrmIsltUnvan, IHL.Yil, IHL.Hafta 
                                                                         , IHL.TahTopMektupTutar, IHL.TahPesinat

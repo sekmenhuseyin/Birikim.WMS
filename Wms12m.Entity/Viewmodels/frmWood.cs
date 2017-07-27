@@ -523,28 +523,15 @@ namespace Wms12m.Entity
     {
         public string HesapKodu { get; set; }
         public string Unvan { get; set; }
-
-        /// <summary>
-        /// Fatura No
-        /// </summary>
         public string EvrakNo { get; set; }
-        /// <summary>
-        /// Fatura Tarih
-        /// </summary>
         public DateTime Tarih { get; set; }
-        /// <summary>
-        /// Tahsis Evrak No
-        /// </summary>
         public string EvrakNo2 { get; set; }
-
-        /// <summary>
-        /// Mektup Tutar
-        /// </summary>
         public decimal Kod13 { get; set; }
-        /// <summary>
-        /// Peşinat Tutar
-        /// </summary>
         public decimal Kod14 { get; set; }
+        public decimal topSterIbre { get; set; }
+        public decimal topSterYaprak { get; set; }
+        public decimal topM3Ibre { get; set; }
+        public decimal topM3Yaprak { get; set; }
 
         public override string ToString()
         {
