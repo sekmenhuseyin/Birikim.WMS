@@ -128,12 +128,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 	                                        WHERE HesapKodu Like '320%'", "17");
             var slctIsletme = db.Database.SqlQuery<CHKSelect1Result>(sorgu).ToList();
 
-            string sorgu1 = string.Format(@"SELECT DISTINCT Yil, Hafta 
-	                                        FROM FINSAT6{0}.FINSAT6{0}.IHLTAH(NOLOCK)", "17");
+            string sorgu1 = string.Format(@"SELECT DISTINCT CONVERT(varchar, Yil) + '-' + CONVERT(varchar, Hafta) AS value,  CONVERT(varchar, Hafta) + '. Hafta (' +  CONVERT(varchar, Yil) + ')' AS name, Yil, Hafta
+                                        FROM            FINSAT6{0}.FINSAT6{0}.IHLTAH WITH (NOLOCK)
+                                        WHERE        (Tip = 2)
+                                        ORDER BY Yil, Hafta", "17");
             var slctHafta = db.Database.SqlQuery<IHLTAH>(sorgu1).ToList();
 
 
-            ViewBag.Hafta = new SelectList(slctHafta, "Yil", "Hafta");
+            ViewBag.Hafta = new SelectList(slctHafta, "value", "name");
             ViewBag.Isletme = new SelectList(slctIsletme, "HesapKodu", "Unvan");
 
             // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
@@ -148,15 +150,84 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string TahsisliAlimCek(string Hafta, string Isletme)
         {
             string s;
-            if (Hafta == "")
-                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 2, @Yil=0, @Hafta=0, @HesapKodu='{1}'", "17", Isletme);
+            if (Hafta != "")
+            {
+                string[] tmp = Hafta.Split('-');
+                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 2, @Yil={1}, @Hafta={2}, @HesapKodu=NULL", "17", tmp[0], tmp[1]);
+            }
             else
-                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 2, @Yil={1}, @Hafta={2}, @HesapKodu=NULL", "17", DateTime.Today.Year, Hafta);
+                s = string.Format("[FINSAT6{0}].[dbo].[IHLTAHKayit] @Tip = 2, @Yil=0, @Hafta=0, @HesapKodu='{1}'", "17", Isletme);
 
 
             var RT = db.Database.SqlQuery<IHLTAHKayitResult>(s).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
 
+            return json;
+        }
+
+        public ActionResult TahsisliIsletmeKasasi()
+        {
+            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+        public PartialViewResult TahsisliIsletmeKasasi_List()
+        {
+            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+
+        public PartialViewResult TahsisliIsletmeKasasi_Grid()
+        {
+            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string KasaEvrakCek()
+        {
+            //if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<TahsisliIsletmeKasa>(string.Format(@"SELECT IHL.EvrakNo, IHL.OrmIslt, CHK.Unvan1 as OrmIsltUnvan, IHL.Yil, IHL.Hafta 
+                                                                        , IHL.TahTopMektupTutar, IHL.TahPesinat
+                                                                        , IHL.IbreliMiktarSter, IHL.IbreliMiktarM3
+                                                                        , IHL.YaprakliMiktarSter, IHL.YaprakliMiktarM3
+
+                                                                        FROM FINSAT6{0}.FINSAT6{0}.IHLTAH (nolock) AS IHL
+                                                                        LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) ON CHK.HesapKodu=IHL.OrmIslt
+                                                                        WHERE IHL.Tip=2
+                                                                        ORDER BY IHL.Yil DESC, IHL.Hafta DESC", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+   
+
+        public string KasaEvrakCekEvrakNoIle(string EvrakNo,string HesapKodu)
+        {
+            //if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<MyChi>(string.Format(@"SELECT DISTINCT CHI.HesapKodu, CHK.Unvan1 as Unvan, CHI.EvrakNo, CHI.EvrakNo2
+                                                                , CAST(CHI.Tarih-2 as smalldatetime) as Tarih, CHI.Kod13, CHI.Kod14 
+
+                                                                FROM FINSAT6{0}.FINSAT6{0}.CHI (nolock)
+                                                                LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) ON CHK.HesapKodu=CHI.HesapKodu
+                                                                WHERE CHI.KynkEvrakTip=4 AND CHI.Kod13>0 AND CHI.Kod14>0 
+                                                                AND CHI.EvrakNo2='{1}' AND CHI.HesapKodu='{2}' ", "17",EvrakNo,HesapKodu)).ToList();
+           
+            var RT1 = db.Database.SqlQuery<MySti>(string.Format(@"SELECT STI.EvrakNo, STI.Tarih, STI.Chk, STI.MalKodu, STK.MalAdi, STI.BirimMiktar, STI.Birim 
+                                                                  FROM FINSAT6{0}.FINSAT6{0}.STI (nolock)
+                                                                INNER JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) ON STK.MalKodu=STI.MalKodu
+                                                                WHERE STI.KynkEvrakTip=4 AND STI.Chk='{2}' AND STI.EvrakNo IN  
+                                                                (
+                                                                    SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.CHI (nolock) 
+                                                                    WHERE KynkEvrakTip=4 AND Kod13>0 AND Kod14>0 AND EvrakNo2='{1}' 
+                                                                    AND HesapKodu='{2}' AND BirimMiktar>0
+                                                                 )", "17", EvrakNo, HesapKodu)).ToList();
+
+
+            foreach (MyChi chi in RT)
+            {
+                chi.FaturaDetay = RT1.FindAll(t => t.EvrakNo == chi.EvrakNo);
+            }
+
+            
+
+            var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
     }

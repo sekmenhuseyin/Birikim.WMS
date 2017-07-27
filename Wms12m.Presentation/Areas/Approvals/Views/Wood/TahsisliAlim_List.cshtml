@@ -67,7 +67,7 @@
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approvals/Wood/TahsisliAlimCek',
-            "data": JSON.stringify({ Hafta: '@ViewBag.Hafta', Isletme: '@ViewBag.Isletme' }),
+            "data":{ Hafta: '@ViewBag.Hafta', Isletme: '@ViewBag.Isletme' },
             "dataSrc": function (json) {
                 return json;
             },
