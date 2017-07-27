@@ -247,7 +247,9 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialBakiyeRiskAnalizi(string SirketKodu)
         {
             if (CheckPerm(Perms.ChartBakiyeRiskAnalizi, PermTypes.Reading) == false) return null;
-            var BRA = db.Database.SqlQuery<ChartBakiyeRiskAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", SirketKodu)).ToList();
+            var BRA = db.GetCachedChartBakiyeRisk(SirketKodu).ToList();
+            if (BRA == null)
+                BRA = db.Database.SqlQuery<GetCachedChartBakiyeRisk_Result>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", SirketKodu)).ToList();
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialBakiyeRiskAnalizi", BRA);
@@ -262,7 +264,16 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.BitTarih2 = bittarih.FromOADateInt();
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            var BSUG = db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu] @BasTarih = {1}, @BitTarih = {2}", SirketKodu, bastarih, bittarih)).ToList();
+            List<ChartBekleyenSiparisUrunGrubu> BSUG;
+            try
+            {
+                BSUG= db.Database.SqlQuery<ChartBekleyenSiparisUrunGrubu>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu] @BasTarih = {1}, @BitTarih = {2}", SirketKodu, bastarih, bittarih)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Home/PartialBekleyenSiparisUrunGrubu");
+                BSUG = new List<ChartBekleyenSiparisUrunGrubu>();
+            }
             return PartialView("_PartialBekleyenSiparisUrunGrubu", BSUG);
         }
 
