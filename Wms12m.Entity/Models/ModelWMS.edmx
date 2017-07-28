@@ -1264,6 +1264,9 @@
         <Function Name="GetCachedChartMonthly" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GetCachedChartSatisBaglanti" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetCachedChartYear2Day" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
@@ -2004,6 +2007,9 @@
           <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetCachedChartBakiyeRisk" ReturnType="Collection(MModel.GetCachedChartBakiyeRisk_Result)">
+          <Parameter Name="DB" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetCachedChartSatisBaglanti" ReturnType="Collection(MModel.GetCachedChartSatisBaglanti_Result)">
             <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
@@ -3442,6 +3448,10 @@
           <Property Type="Decimal" Name="Alacak" Nullable="false" Precision="25" Scale="6" />
           <Property Type="Decimal" Name="Bakiye" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
+        <ComplexType Name="GetCachedChartSatisBaglanti_Result">
+          <Property Type="String" Name="MalKod" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="KalanTutar" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4365,6 +4375,14 @@
                 <ScalarProperty Name="Borc" ColumnName="Borc" />
                 <ScalarProperty Name="Alacak" ColumnName="Alacak" />
                 <ScalarProperty Name="Bakiye" ColumnName="Bakiye" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCachedChartSatisBaglanti" FunctionName="MModel.Store.GetCachedChartSatisBaglanti">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetCachedChartSatisBaglanti_Result">
+                <ScalarProperty Name="MalKod" ColumnName="MalKod" />
+                <ScalarProperty Name="KalanTutar" ColumnName="KalanTutar" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

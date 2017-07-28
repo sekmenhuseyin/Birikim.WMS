@@ -693,5 +693,14 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartBakiyeRisk_Result>("WMSEntities.GetCachedChartBakiyeRisk", dBParameter);
         }
+    
+        public virtual ObjectResult<GetCachedChartSatisBaglanti_Result> GetCachedChartSatisBaglanti(string dB)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartSatisBaglanti_Result>("WMSEntities.GetCachedChartSatisBaglanti", dBParameter);
+        }
     }
 }

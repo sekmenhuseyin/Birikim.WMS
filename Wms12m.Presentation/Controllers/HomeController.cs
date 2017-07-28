@@ -383,16 +383,17 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialBaglantiUrunGrubu(string SirketKodu)
         {
             if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return null;
-            List<ChartBaglantiUrunGrup> BUGS;
-            try
-            {
-                BUGS = db.Database.SqlQuery<ChartBaglantiUrunGrup>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", SirketKodu)).ToList();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Home/PartialBaglantiUrunGrubu");
-                BUGS = new List<ChartBaglantiUrunGrup>();
-            }
+            var BUGS = db.GetCachedChartSatisBaglanti(SirketKodu).ToList();
+            if (BUGS == null)
+                try
+                {
+                    BUGS = db.Database.SqlQuery<GetCachedChartSatisBaglanti_Result>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", SirketKodu)).ToList();
+                }
+                catch (Exception ex)
+                {
+                    Logger(ex, "Home/PartialBaglantiUrunGrubu");
+                    BUGS = new List<GetCachedChartSatisBaglanti_Result>();
+                }
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialBaglantiUrunGrubu", BUGS);
