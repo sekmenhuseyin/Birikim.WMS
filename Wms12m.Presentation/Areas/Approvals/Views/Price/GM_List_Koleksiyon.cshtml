@@ -48,71 +48,64 @@
     </div>
 </div>
 <script>
-
-            var secili_satir = new Array();
-            var secili_table = new Array();
-        var table2 = $('#sample_2').DataTable({
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "ajax": {
-                "url": '/Approvals/Price/GMOnayCekGMKoleksiyon',
-                "dataSrc": function (json) {
-                    return json;
-                },
+    var secili_satir = new Array();
+    var secili_table = new Array();
+    var table2 = $('#sample_2').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ajax": {
+            "url": '/Approvals/Price/GMOnayCekGMKoleksiyon',
+            "dataSrc": function (json) {
+                return json;
             },
-            //"responsive": true,
-            "fixedHeader": true,
-            //"scrollX": true,
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4, 6] }, { "visible": false, "targets": [8] }],
-            "columns": [
-                { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
-                { "data": "Kod4"},
-                { "data": "TipKod"},
-                { "data": "FiyatListNum"},
-                { "data": "SatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
-                { "data": "SatisFiyat1Birim"},
+        },
+        //"responsive": true,
+        "fixedHeader": true,
+        //"scrollX": true,
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4, 6] }, { "visible": false, "targets": [8] }],
+        "columns": [
+            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
+            { "data": "Kod4"},
+            { "data": "TipKod"},
+            { "data": "FiyatListNum"},
+            { "data": "SatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
+            { "data": "SatisFiyat1Birim"},
 
-                { "data": "DovizSatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
-                { "data": "DovizSF1Birim" },
+            { "data": "DovizSatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
+            { "data": "DovizSF1Birim" },
 
-                { "data": "SatisFiyat1BirimInt" },
-                { "data": "DovizCinsi"},
+            { "data": "SatisFiyat1BirimInt" },
+            { "data": "DovizCinsi"},
 
-
-                //{
-                //    "render": function ( data, type, full, meta ) {
-                //        return table.saveContact(full);
-                //    }
-                //},
-            ],
-            "ordering": false,
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                $('td', nRow).attr('nowrap', 'nowrap');
-                return nRow;
-            }
-        });
+        ],
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        }
+    });
 
 
-        $('#sample_2 tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-        });
-        var buttonskoleksiyon= new $.fn.dataTable.Buttons(table2, {
-            buttons: [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
-            ]
-        }).container().appendTo($('#buttons2'));
-        $("#selector2").click(function () {
-            if (selectall == true) {
-                $("#selector2").text("Seçimi İptal Et"); selectall = false;
-                table2.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
-                    this.select();
-                });
-            }
-            else {
-                $("#selector2").text("Hepsini Seç"); selectall = true;
-                table2.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
-            }
-        });
+    $('#sample_2 tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
+    var buttonskoleksiyon= new $.fn.dataTable.Buttons(table2, {
+        buttons: [
+            { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+            { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+        ]
+    }).container().appendTo($('#buttons2'));
+    $("#selector2").click(function () {
+        if (selectall == true) {
+            $("#selector2").text("Seçimi İptal Et"); selectall = false;
+            table2.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
+                this.select();
+            });
+        }
+        else {
+            $("#selector2").text("Hepsini Seç"); selectall = true;
+            table2.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
+        }
+    });
 
 </script>
 
