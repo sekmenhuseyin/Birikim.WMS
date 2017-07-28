@@ -29,6 +29,9 @@
     .sag .dx-texteditor-input {
         text-align: right;
     }
+    .dx-popup-normal{
+        width:600px !important;
+    }
 </style>
 }
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Sözleşme</span></li></ul></div>
@@ -271,6 +274,7 @@
             $(".form-rounded").css("border-radius", "1rem");
             $(".sozlesme-guncelle-buton").addClass('disabled');
             DevExpress.ui.dxOverlay.baseZIndex(20000);
+          
             $(".urun_kalite_content").css("display", "none");
             $(".valor_content").css("display", "none");
             $(".txt_sira_no").dxTextBox({ readOnly: true });
@@ -314,7 +318,7 @@
                 width: "25%",
                 onValueChanged: function (data) {
                     inputClear();
-                    
+                    showToast();
                     if (data.value == true) {
                         $(".satir-ekle-buton").removeClass('disabled');
                         $(".satir-sil-buton").removeClass('disabled');
@@ -482,6 +486,9 @@
                     $(".select_urun_kodu").dxLookup("instance").option("dataSource", result);
                 }
             });
+
+
+
 
             $(".select_sozlesmeler").dxLookup({
                 //dataSource: model,
@@ -1018,6 +1025,7 @@
 
         }
 
+      
 
     </script>
 }
