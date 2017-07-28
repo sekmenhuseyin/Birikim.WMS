@@ -197,6 +197,7 @@ namespace Wms12m.Entity
         public short Operator2 { get; set; }
         public short Operator3 { get; set; }
         public int? AktifPasif { get; set; }
+        public string KartTip { get; set; }
     }
     public class TeminatOnaySelect
     {
