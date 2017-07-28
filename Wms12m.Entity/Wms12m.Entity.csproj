@@ -575,6 +575,7 @@
     <Compile Include="Viewmodels\Fiyat.cs" />
     <Compile Include="Viewmodels\frmWood.cs" />
     <Compile Include="Viewmodels\FYT.cs" />
+    <Compile Include="Viewmodels\GenelAyarVeParam.cs" />
     <Compile Include="Viewmodels\Invoce.cs" />
     <Compile Include="Viewmodels\ISS.cs" />
     <Compile Include="Viewmodels\ISS_Temp.cs" />
