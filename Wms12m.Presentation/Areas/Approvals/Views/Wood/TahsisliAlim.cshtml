@@ -14,6 +14,20 @@
 <h1 class="page-title">Tahsisli Alım Listesi</h1>
 <div class="form-horizontal">
     <div class="form-body">
+        <div class="row">
+            <div class="col-md-4">
+                <label class="col-sm-6 col-xs-12" style="margin:10px 0;color:#f31a1a;font-weight:bold;">
+                    <input type="checkbox" name="Locked" value="Hafta" id="chkHafta" /> Hafta Bazlı
+                </label>
+                <label class="col-sm-6 col-xs-12" style="margin:10px 0;color:#f31a1a;font-weight:bold;">
+                    <input type="checkbox" name="Locked" value="Isletme" id="chkIsletme" /> İşletme Bazlı
+                </label>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("Hafta", null, htmlAttributes: new { @class = "form-control", @onchange = "ReloadI(this.value)",@id="dropdownhafta" })
+                @Html.DropDownList("Isletme", null, htmlAttributes: new { @class = "form-control", @onchange = "ReloadH(this.value)", @id = "dropdownisletme" })
+            </div>
+        </div>
 
         <div class="portlet box green">
             <div class="portlet-title">
@@ -38,18 +52,73 @@
 </div>
 @section Scripts{
     <script>
-        PartialView("/Approvals/Wood/TahsisliAlim_List", 'liste');
-        function FuncSearchBtn() {
-            var Type = $("input[type='checkbox'][name='Locked']:checked").val();
-            PartialView("/Approvals/Wood/TahsisliAlim_List", 'liste', JSON.stringify({ Durum: Type }));
-        }
-
         $(document).ready(function () {
+            $("#dropdownhafta").css("display", "block");
+            $("#dropdownisletme").css("display", "none");
+            $("#chkHafta").prop("checked", true);
+            $('#chkHafta').click(function () {
+               
 
+                if (this.checked) {
+
+                    $("#dropdownhafta").css("display", "block");
+                    $("#dropdownisletme").css("display", "none");
+                    $("#chkIsletme").prop("checked", false);
+
+
+                }
+                else {
+
+                   
+                    $("#dropdownhafta").css("display", "none");
+                    $("#dropdownisletme").css("display", "block");
+                    $("#chkIsletme").prop("checked", true);
+                    
+
+                }
+
+
+            });
+
+
+            $('#chkIsletme').click(function () {
+              
+                if (this.checked) {
+
+                    $("#dropdownhafta").css("display", "none");
+                    $("#dropdownisletme").css("display", "block");
+                    $("#chkHafta").prop("checked", false);
+
+
+                }
+                else {
+                  
+
+                    $("#dropdownhafta").css("display", "block");
+                    $("#dropdownisletme").css("display", "none");
+                    $("#chkHafta").prop("checked", true);
+                 
+
+                }
+
+
+            });
 
 
 
         });
+
+            function ReloadH(v)
+            {
+                $("#buttons").html("");
+                PartialView("/Approvals/Wood/TahsisliAlim_List", 'liste', JSON.stringify({ Hafta: v}));
+            }
+
+
+            function ReloadI(v) {
+                $("#buttons").html("");
+                PartialView("/Approvals/Wood/TahsisliAlim_List", 'liste', JSON.stringify({ Isletme: v }));
+            }
 
     </script>
 }

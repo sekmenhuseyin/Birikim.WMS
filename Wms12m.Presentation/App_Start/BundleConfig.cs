@@ -32,6 +32,8 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/jquery/jquery-migrate-3.0.0.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-ui/jquery-ui.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-ui/datepicker-tr.js")
+                .Include("~/Content/assets/global/plugins/Numeral/numeral.js")
+                .Include("~/Content/assets/global/plugins/Numeral/locales.js")
 
                 //plugins
                 .Include("~/Content/assets/global/plugins/jquery-validation/jquery.validate.min.js")

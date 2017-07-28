@@ -1,4 +1,5 @@
-﻿// Stringe karakter eklemek için
+﻿numeral.locale('tr');
+// Stringe karakter eklemek için
 String.prototype.addAt = function (index, character) {
     return this.substr(0, index) + character + this.substr(index + character.length - 1);
 }
@@ -79,7 +80,6 @@ function NumbBox(cls, readOnly,ond) {
 
     })
 }
-
 // Sayılara ondalık binlik ayraçları eklemek için
 function ondalikBinlik(Val, Ond) {
     if (Val == null || Val == undefined || Val == 0 || Val.toString().split(",").length > 2) {
@@ -174,6 +174,30 @@ function jDecimal(Val) {
     var decVal = parseFloat(Val);
     decVal = Val.toString().replace(/\./g, "").replace(",", ".");
     return parseFloat(decVal);
+}
+//format to proper number
+function FormatProperNumber(jqueryClass, num, scale)
+{
+    jqueryClass.html(roundNumber(num, scale));
+    jqueryClass.html(jqueryClass.html().replace(".",","));
+    jqueryClass.digits();
+}
+function roundNumber(num, scale) {
+    if (!("" + num).includes("e")) {
+        return +(Math.round(num + "e+" + scale) + "e-" + scale);
+    } else {
+        var arr = ("" + num).split("e");
+        var sig = ""
+        if (+arr[1] + scale > 0) {
+            sig = "+";
+        }
+        return +(Math.round(+arr[0] + "e" + sig + (+arr[1] + scale)) + "e-" + scale);
+    }
+}
+$.fn.digits = function () {
+    return this.each(function () {
+        $(this).text($(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1."));
+    })
 }
 //hepsini değiştir
 function replaceAll(str, find, replace) {

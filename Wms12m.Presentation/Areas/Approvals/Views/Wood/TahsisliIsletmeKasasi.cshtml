@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "Tahsisli İşletme Kasası";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<style>.table-condensed td{padding:3px!important;}</style>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Odun</span></li></ul></div>
+<h1 class="page-title">Tahsisli İşletme Kasası</h1>
+<div class="row">
+    <div class="col-md-2">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input_label">Tah. Evrak No</div>
+                <div class="input select_evrakno"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input_label">Hesap Kodu</div>
+                <div class="input select_hesapkodu"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input_label">Ünvan</div>
+                <div class="input select_unvan"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <table class="table table-condensed">
+            <tr><th></th><th>Tutar</th><th>Kullanılan</th><th>Kalan</th></tr>
+            <tr>
+                <td>Mektup</td>
+                <td><div class="input select_mektuptutar"></div></td>
+                <td><div class="input select_mektupkullanilan"></div></td>
+                <td><div class="input select_mektupkalan"></div></td>
+            </tr>
+            <tr>
+                <td>Peşinat</td>
+                <td><div class="input select_pesinattutar"></div></td>
+                <td><div class="input select_pesinatkullanilan"></div></td>
+                <td><div class="input select_pesinatkalan"></div></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row m-t-15">
+    <div class="col-md-12">
+        <table class="table table-condensed">
+            <tr><th></th><th>Miktar</th><th>Kullanılan</th><th>Kalan</th></tr>
+            <tr>
+                <td>İbreli(Ster)</td>
+                <td><div class="input select_ibrelistermiktar"></div></td>
+                <td><div class="input select_ibrelisterkullanilan"></div></td>
+                <td><div class="input select_ibrelisterkalan"></div></td>
+            </tr>
+            <tr>
+                <td>İbreli(M3)</td>
+                <td><div class="input select_ibrelim3miktar"></div></td>
+                <td><div class="input select_ibrelim3kullanilan"></div></td>
+                <td><div class="input select_ibrelim3kalan"></div></td>
+            </tr>
+            <tr>
+                <td>Yapraklı(Ster)</td>
+                <td><div class="input select_yapraklistermiktar"></div></td>
+                <td><div class="input select_yapraklisterkullanilan"></div></td>
+                <td><div class="input select_yapraklisterkalan"></div></td>
+            </tr>
+            <tr>
+                <td>Yapraklı(M3)</td>
+                <td><div class="input select_yapraklim3miktar"></div></td>
+                <td><div class="input select_yapraklim3kullanilan"></div></td>
+                <td><div class="input select_yapraklim3kalan"></div></td>
+            </tr>
+
+        </table>
+
+    </div>
+</div>
+<div class="row">
+<div class="col-md-12 m-t-30">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Tahsisli İşletme Kasası
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-xs-12" id="liste"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{<script>
+    var select_mektuptutar, select_pesinattutar, select_ibrelistermiktar, select_ibrelim3miktar, select_yapraklistermiktar, select_yapraklim3miktar;
+    $.ajax({
+        url: window.location.origin + "/Approvals/Wood/KasaEvrakCek",
+        data: {},
+        type: "post",
+        success: function (data) {
+            var result = JSON.parse(data);
+            $(".select_evrakno").dxLookup("instance").option("dataSource", result);
+        }
+    });
+
+    $(".select_evrakno").dxLookup({
+        searchEnabled: true,
+        fullScreen: true,
+        pageLoadMode: "nextButton",
+        searchExpr: ["EvrakNo", "OrmIslt", "OrmIsltUnvan", "Yil","Hafta"],
+        displayExpr: 'EvrakNo',
+        onValueChanged: function (e) {
+            if (e.value == null) return;
+            $(".select_hesapkodu").html(e.value.OrmIslt);
+            $(".select_unvan").html(e.value.OrmIsltUnvan);
+            $(".select_mektuptutar").html(e.value.TahTopMektupTutar);
+            $(".select_pesinattutar").html(e.value.TahPesinat);
+            $(".select_ibrelistermiktar").html(e.value.IbreliMiktarSter);
+            $(".select_ibrelim3miktar").html( e.value.IbreliMiktarM3);
+            $(".select_yapraklistermiktar").html(e.value.YaprakliMiktarSter);
+            $(".select_yapraklim3miktar").html(e.value.YaprakliMiktarM3);
+            select_mektuptutar = e.value.TahTopMektupTutar;
+            select_pesinattutar = e.value.TahPesinat;
+            select_ibrelistermiktar = e.value.IbreliMiktarSter;
+            select_ibrelim3miktar = e.value.IbreliMiktarM3;
+            select_yapraklistermiktar = e.value.YaprakliMiktarSter;
+            select_yapraklim3miktar = e.value.YaprakliMiktarM3;
+            PartialView("/Approvals/Wood/TahsisliIsletmeKasasi_List", 'liste', JSON.stringify({ EvrakNo: e.value.EvrakNo, HesapKodu: e.value.OrmIslt }));
+        },
+
+        itemTemplate: function (itemData, itemIndex, itemElement) {
+            itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+            if (itemIndex > 0) {
+                itemElement.css({ "margin-top": "-40px" });
+            }
+            var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+            rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.EvrakNo + "</b></p>");
+            rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>ListeNo: <i style='font-weight:normal;'>" + itemData.OrmIslt + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Ünvan: <i style='font-weight:normal;'>" + itemData.OrmIsltUnvan + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Yıl: <i style='font-weight:normal;'>" + itemData.Yil + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Hafta: <i style='font-weight:normal;'>" + itemData.Hafta + "</i></span></div>");
+            itemElement.append(rightBlock);
+        }
+    });
+
+</script>
+}

@@ -128,6 +128,11 @@ namespace Wms12m.Entity
     }
     public class IHLTAH
     {
+        /// <summary> VarChar(20) (Not Null) </summary>
+        public string value { get; set; }
+        /// <summary> VarChar(20) (Not Null) </summary>
+        public string name { get; set; }
+
         /// <summary> Int (Not Null) </summary>
         public int ID { get; set; }
         /// <summary> SmallInt (Not Null) </summary>
@@ -482,5 +487,95 @@ namespace Wms12m.Entity
         public string  EmvalCinsiAdi{get;set;}
 
         public System.Nullable<System.DateTime>  Tarih2{get;set;}
+    }
+    public class CHKSelect1Result {
+        public string HesapKodu { get; set; }
+
+        public string Unvan { get; set; }
+    }
+    public class TahsisliIsletmeKasa {
+        /// <summary> VarChar(16) (Allow Null) </summary>
+        public string EvrakNo { get; set; }
+        /// <summary> VarChar(20) (Not Null) </summary>
+        public string OrmIslt { get; set; }
+        /// <summary> VarChar(40) (Allow Null) </summary>
+        public string OrmIsltUnvan { get; set; }
+        /// <summary> Int (Not Null) </summary>
+        public int Yil { get; set; }
+        /// <summary> Int (Not Null) </summary>
+        public int Hafta { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahTopMektupTutar { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahPesinat { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? IbreliMiktarSter { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? IbreliMiktarM3 { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? YaprakliMiktarSter { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? YaprakliMiktarM3 { get; set; }
+
+    }
+
+    public class MyChi
+    {
+        public string HesapKodu { get; set; }
+        public string Unvan { get; set; }
+        public string EvrakNo { get; set; }
+        public DateTime Tarih { get; set; }
+        public string EvrakNo2 { get; set; }
+        public decimal Kod13 { get; set; }
+        public decimal Kod14 { get; set; }
+        public decimal topSterIbre { get; set; }
+        public decimal topSterYaprak { get; set; }
+        public decimal topM3Ibre { get; set; }
+        public decimal topM3Yaprak { get; set; }
+
+        public override string ToString()
+        {
+            return Unvan;
+        }
+
+        public List<MySti> FaturaDetay { get; set; }
+
+    }
+    public class MySti
+    {
+        public string Chk { get; set; }
+        public string EvrakNo { get; set; }
+        public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
+        public int Tarih { get; set; }
+
+        public short SiraNo { get; set; }
+        public string Birim { get; set; }
+        public decimal BirimMiktar { get; set; }
+        public decimal BirimFiyat { get; set; }
+        public decimal Tutar { get; set; }
+        public string Depo { get; set; }
+
+        public string Unvan { get; set; }
+        public string DepoAdi { get; set; }
+
+        public short KynkEvrakTip { get; set; }
+
+
+        /// <summary>
+        /// STok Yaşlandırma Raporunda MalKodu + " "+Depo Stok mİktarını Tutuyoruz. 
+        /// </summary>
+        public string Kod1 { get; set; }
+        public string Kod2 { get; set; }
+
+        /// <summary>
+        /// Stok Yaşlandırma Raporunda Depo Stok Miktarını Tututyoruz.
+        /// </summary>
+        public decimal Kod13 { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1}", MalKodu, MalAdi);
+        }
     }
 }

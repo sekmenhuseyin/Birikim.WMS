@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Yer>
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>Yer</th>
+            <th>Makara No</th>
+            <th>Miktar</th>
+            <th>Birim</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.HucreAd</td>
+                <td>@item.MakaraNo</td>
+                <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                <td>@item.Birim</td>
+                <td><button class="btn btn-default btn-sm" type="button" onclick="SelectMakara(@item.ID, @ViewBag.satir);">Seç</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
