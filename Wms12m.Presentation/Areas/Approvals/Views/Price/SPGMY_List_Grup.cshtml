@@ -41,73 +41,62 @@
     </div>
 </div>
 <script>
-
-            var secili_satir = new Array();
-            var secili_table = new Array();
-        var table3 = $('#sample_3').DataTable({
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "ajax": {
-                "url": '/Approvals/Price/SPGMYOnayCekSPGMYGrup',
-                "dataSrc": function (json) {
-                    return json;
-                },
+    var secili_satir = new Array();
+    var secili_table = new Array();
+    var table3 = $('#sample_3').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ajax": {
+            "url": '/Approvals/Price/SPGMYOnayCekSPGMYGrup',
+            "dataSrc": function (json) {
+                return json;
             },
-            //"responsive": true,
-            "fixedHeader": true,
-            //"scrollX": true,
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [8, 11] },{ "visible": false, "targets": [10, 13] }],
-            "columns": [
-                { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
-                { "data": "GrupKod"},
-                { "data": "Kalite"},
-                { "data": "En"},
-                { "data": "Boy"},
-                { "data": "Kalinlik"},
+        },
+        //"responsive": true,
+        "fixedHeader": true,
+        //"scrollX": true,
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [8, 11] },{ "visible": false, "targets": [10, 13] }],
+        "columns": [
+            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
+            { "data": "GrupKod"},
+            { "data": "Kalite"},
+            { "data": "En"},
+            { "data": "Boy"},
+            { "data": "Kalinlik"},
 
-                { "data": "Yuzey"},
-                { "data": "FiyatListNum"},
+            { "data": "Yuzey"},
+            { "data": "FiyatListNum"},
 
-                { "data": "SatisFiyat1","render": $.fn.dataTable.render.number('.', ',', 6, '')  },
-                { "data": "SatisFiyat1Birim" },
+            { "data": "SatisFiyat1","render": $.fn.dataTable.render.number('.', ',', 6, '')  },
+            { "data": "SatisFiyat1Birim" },
 
-                { "data": "SatisFiyat1BirimInt"},
-                { "data": "DovizSatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 6, '')  },
-                { "data": "DovizSF1Birim" },
-                { "data": "DovizSF1BirimInt" },
-                { "data": "DovizCinsi"},
+            { "data": "SatisFiyat1BirimInt"},
+            { "data": "DovizSatisFiyat1", "render": $.fn.dataTable.render.number('.', ',', 6, '')  },
+            { "data": "DovizSF1Birim" },
+            { "data": "DovizSF1BirimInt" },
+            { "data": "DovizCinsi"},
 
-
-                //{
-                //    "render": function ( data, type, full, meta ) {
-                //        return table.saveContact(full);
-                //    }
-                //},
-            ],
-            "ordering": false,
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                $('td', nRow).attr('nowrap', 'nowrap');
-                return nRow;
-            }
-        });
+        ],
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        }
+    });
 
 
-        $('#sample_3 tbody').on('click', 'tr', function () {
-            $(this).toggleClass('selected');
-        });
+    $('#sample_3 tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
 
-        var buttonsgrup = new $.fn.dataTable.Buttons(table3, {
-            buttons: [
-                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
-                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
-            ]
-        }).container().appendTo($('#buttonsgrup'));
-        $(document).ready(function () {
-            $('#buttons').hide();
-            $('.buttons-pdf').removeClass('btn btn-default');
-            $('.buttons-excel').removeClass('btn btn-default');
-        });
-
-
-
+    var buttonsgrup = new $.fn.dataTable.Buttons(table3, {
+        buttons: [
+            { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs;' },
+            { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs;' }
+        ]
+    }).container().appendTo($('#buttonsgrup'));
+    $(document).ready(function () {
+        $('#buttons').hide();
+        $('.buttons-pdf').removeClass('btn btn-default');
+        $('.buttons-excel').removeClass('btn btn-default');
+    });
 </script>
-
