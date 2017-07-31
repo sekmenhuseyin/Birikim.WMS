@@ -22,8 +22,7 @@ namespace Wms12m.Entity.Models
         public string GorusmeBicimi { get; set; }
         public string GorusmeNedeni { get; set; }
         public string GorusmeNotuDurumu { get; set; }
-        public string GorusmeNotu { get; set; }
         public string Kaydeden { get; set; }
-        public Nullable<System.DateTime> KayitTarih { get; set; }
+        public System.DateTime KayitTarih { get; set; }
     }
 }

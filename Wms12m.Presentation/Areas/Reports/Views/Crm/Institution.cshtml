@@ -1,16 +1,20 @@
 ﻿@{
     ViewBag.Title = "Kurum Kartları";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<style>
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/">CRM</a><i class="fa fa-circle"></i></li><li><span>Kurum Kartları</span></li></ul></div>
 <h1 class="page-title">Kurum Kartları</h1>
 <div class="row m-t-20">
-    <div class="col-md-1 text-right p-0 m-t-5 color-blue-light bold">Başlangıç: </div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.ToShortDateString()" /></div>
-    <div class="col-md-1 text-right p-0 m-t-5 color-blue-light bold">Bitiş: </div>
-    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToShortDateString()" /></div>
+    <div class="col-md-1 text-right p-0 m-t-5 color-blue-light bold">Başlangıç: <input type="checkbox" id="cmbBaslangic" @if (ViewBag.id != "0") { <text> checked</text> } /> </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" /></div>
+    <div class="col-md-1 text-right p-0 m-t-5 color-blue-light bold">Bitiş: <input type="checkbox" id="cmbBitis" @if (ViewBag.id != "0") { <text> checked</text> } /> </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" /></div>
     <div class="col-md-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
 </div>
-<div class="row">
+<div class="row m-t-20">
     <div class="col-md-12">
         <div class="portlet box green">
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Kurum Kartları</div></div>
@@ -19,5 +23,32 @@
     </div>
 </div>
  @section Scripts{<script>
-        function filterx(a, b) { filter(table, a, b); }
+    $(document).ready(function () {
+        var basTarih = '@if (ViewBag.id == "0") { @DateTime.Today.AddYears(-10).ToShortDateString() }else if(ViewBag.id == "1") { @DateTime.Today.AddDays(-7).ToShortDateString() }else{ @DateTime.Today.ToShortDateString() }';
+        var bitTarih = '@DateTime.Today.ToShortDateString()';
+        $("#txtBaslangic").val(basTarih);
+        $("#txtBitis").val(bitTarih);
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = e.target.value; });
+        $("#txtBitis").datepicker().on("change", function (e) { bitTarih = e.target.value; });
+        $("#cmbBaslangic").change(function () {
+            if (this.checked)
+                $("#txtBaslangic").prop("disabled", false);
+            else
+                $("#txtBaslangic").prop("disabled", true);
+        });
+        $("#cmbBitis").change(function () {
+            if (this.checked)
+                $("#txtBitis").prop("disabled", false);
+            else
+                $("#txtBitis").prop("disabled", true);
+        });
+        $("#btnListele").click(function () {
+            var tmpBas = $("#cmbBaslangic").is(':checked') == true ? $("#txtBaslangic").val() : null;
+            var tmpBit = $("#cmbBitis").is(':checked') == true ? $("#txtBitis").val() : null;
+            PartialView("/Reports/CRM/InstitutionList", 'liste', JSON.stringify({ Start: tmpBas, End: tmpBit }));
+        });
+        $("#btnListele").click();
+    });
+    @if (ViewBag.id == "0") { <text>$("#txtBaslangic").prop("disabled", true); $("#txtBitis").prop("disabled", true);</text> }
 </script>}

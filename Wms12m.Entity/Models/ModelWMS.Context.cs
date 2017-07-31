@@ -683,19 +683,6 @@ namespace Wms12m.Entity.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartBekleyenUrunMiktarFiyat_Result>("WMSEntities.GetCachedChartBekleyenUrunMiktarFiyat", dBParameter, miktarmiParameter);
         }
     
-        public virtual ObjectResult<CRM_GorusmeNotlari_Result> CRM_GorusmeNotlari(Nullable<System.DateTime> baslangic, Nullable<System.DateTime> bitis)
-        {
-            var baslangicParameter = baslangic.HasValue ?
-                new ObjectParameter("Baslangic", baslangic) :
-                new ObjectParameter("Baslangic", typeof(System.DateTime));
-    
-            var bitisParameter = bitis.HasValue ?
-                new ObjectParameter("Bitis", bitis) :
-                new ObjectParameter("Bitis", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRM_GorusmeNotlari_Result>("WMSEntities.CRM_GorusmeNotlari", baslangicParameter, bitisParameter);
-        }
-    
         public virtual ObjectResult<CRM_KurumKarti_Result> CRM_KurumKarti(Nullable<System.DateTime> baslangic, Nullable<System.DateTime> bitis)
         {
             var baslangicParameter = baslangic.HasValue ?
@@ -729,6 +716,28 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("TeklifID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRM_TeklifAnaliz_Detay_Result>("WMSEntities.CRM_TeklifAnaliz_Detay", teklifIDParameter);
+        }
+    
+        public virtual ObjectResult<string> CRM_GorusmeNotlariDetay(Nullable<int> iD)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("WMSEntities.CRM_GorusmeNotlariDetay", iDParameter);
+        }
+    
+        public virtual ObjectResult<CRM_GorusmeNotlari_Result> CRM_GorusmeNotlari(Nullable<System.DateTime> baslangic, Nullable<System.DateTime> bitis)
+        {
+            var baslangicParameter = baslangic.HasValue ?
+                new ObjectParameter("Baslangic", baslangic) :
+                new ObjectParameter("Baslangic", typeof(System.DateTime));
+    
+            var bitisParameter = bitis.HasValue ?
+                new ObjectParameter("Bitis", bitis) :
+                new ObjectParameter("Bitis", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRM_GorusmeNotlari_Result>("WMSEntities.CRM_GorusmeNotlari", baslangicParameter, bitisParameter);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿<table class="table table-striped table-bordered table-responsive" id="sample_1">
+﻿@model IEnumerable<CRM_TeklifAnaliz_Result>
+<table class="table table-striped table-bordered table-responsive" id="sample_1">
     <thead>
         <tr>
             <th></th>
@@ -50,5 +51,6 @@
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
+        function filterx(a, b) { filter(table, a, b); }
     });
 </script>
