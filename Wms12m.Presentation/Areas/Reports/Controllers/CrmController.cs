@@ -53,9 +53,9 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// <summary>
         /// teklif analiz detay
         /// </summary>
-        public PartialViewResult MeetingDetail(int ID)
+        public JsonResult MeetingDetail(int ID)
         {
-            return PartialView("BidDetail");
+            return Json(db.CRM_GorusmeNotlariDetay(ID).FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// kurum kartları
