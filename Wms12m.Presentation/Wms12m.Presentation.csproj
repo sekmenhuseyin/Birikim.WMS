@@ -393,6 +393,12 @@
     <Content Include="Areas\WMS\Views\Cable\Step3Details.cshtml" />
     <Content Include="Areas\Approvals\Views\Wood\TahsisliIsletmeKasasi_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Wood\TahsisliIsletmeKasasi.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\IhaleliOnay.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\IhaleliAlim_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\IhaleAlim.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\IhaleAlim_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\IhaleliIsletmeKasasi.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\IhaleliIsletmeKasasi_List.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

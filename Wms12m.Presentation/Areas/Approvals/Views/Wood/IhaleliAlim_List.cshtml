@@ -1,0 +1,128 @@
+﻿<div class="col-md-12" style="width:100%;">
+    <div id="buttons"></div>
+    <table class="table table-striped table-bordered table-hover" id="sample_1">
+        <thead>
+            <tr>
+
+                <th>
+                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                        <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                        <span></span>
+                    </label>
+                </th>
+                <th>Hafta </th>
+                <th>Tarih </th>
+                <th>Orman İşletmesi </th>
+                <th>Orman İşletme Ünvan </th>
+                <th>Emval Cinsi</th>
+                <th>Emval Cinsi Adı</th>
+                <th>Miktar</th>
+                <th>Birim</th>
+                <th>Muh. Bdl 1</th>
+                <th>Muh. Bdl 2</th>
+                <th>Nrd. Kull</th>
+                <th>Stok Durum</th>
+                <th>Nak. Fiyatı</th>
+                <th>Tavan Mik.</th>
+                <th>Tavan Fiyatı</th>
+                <th>Açıklama</th>
+
+
+
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th colspan="7" class="text-right"></th>
+                <th class="text-right" style="text-align:'right !important';width:100%;padding:8px 10px !important;"></th>
+                <th colspan="9" class="text-right"></th>
+
+            </tr>
+        </tfoot>
+    </table>
+    <div class="row">
+        <div class="col-md-1 col-md-offset-10">
+            <button type="button" class="btn btn-default m-r-20" id="selector">Hepsini Seç</button>
+        </div>
+    </div>
+
+</div>
+<script>
+    var Miktar = 0;
+    var secili_satir = new Array();
+    var secili_table = new Array();
+    var table = $('#sample_1').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ajax": {
+            "url": '/Approvals/Wood/IhaleliAlimOnayCek',
+            "dataSrc": function (json) {
+                jQuery.each(json, function (i, val) {
+                    Miktar += val.Miktar;
+                });
+                return json;
+            },
+        },
+        "columnDefs": [{ "visible": false, "targets": [0] }, { "type": "num-fmt", "className": "dt-right", "targets": [7,8,9,10,13,14,15,16] }],
+        "columns": [
+            { "data": "ID" },
+            { "data": "Hafta" },
+            { "data": "Tarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
+            { "data": "OrmIslt" },
+            { "data": "OrmIsltUnvan" },
+            { "data": "EmvalCinsi" },
+            { "data": "EmvalCinsiAdi" },
+            { "data": "Miktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "Birim" },
+            { "data": "MuhBdl1", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "MuhBdl2", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "NrdKull" },
+            { "data": "StkDrm" },
+            { "data": "NakFiyati", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "TavanMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "TavanFiyat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "Aciklama", "render": $.fn.dataTable.render.number('.', ',', 2, '') }
+            
+
+
+
+        ],
+
+        "footerCallback": function (row, data, start, end, display) {
+
+            var api = this.api(), data;
+
+
+            $(api.column(7).footer()).html(
+                ondalikBinlik(Math.round(Miktar * 100) / 100, 2)
+            );
+
+        },
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        }
+    });
+    $('#sample_1 tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
+    var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+            { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+            { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+        ]
+    }).container().appendTo($('#buttons'));
+    var selectall = true;
+    $("#selector").click(function () {
+        if (selectall == true) {
+            $("#selector").text("Seçimi İptal Et"); selectall = false;
+            table.rows({ filter: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
+                this.select();
+            });
+        }
+        else {
+            $("#selector").text("Hepsini Seç"); selectall = true;
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
+        }
+    });
+</script>
