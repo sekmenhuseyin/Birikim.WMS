@@ -45,73 +45,15 @@
     <div id="satinalma_gm_onay_ftd_data">
     </div>
 </div>
-<div class="modal fade" id="x-modal-bekleyen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-    <div class="modal-dialog" style="width:950px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" style="color:#12ccee">ONAY BEKLEYEN FİYAT LİSTELERİ</h4>
-            </div>
-            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
-                <div class="grid_bekleyen_fiyat_listeleri">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn red" data-dismiss="modal" id="mdlSilKapat">Kapat</button>
-                <div class="label"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="x-modal-sozlesme-guncelle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-    <div class="modal-dialog" style="width:950px;">
-        <div class="modal-content" style="height:280px;">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" style="color:#12ccee">SÖZLEŞME GÜNCELLE</h4>
-            </div>
-            <div class="modal-body x-padding-inside" id="x-t-s-pe1">
-                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
-                    <div style="float:left;width:18%;margin-left:10px;color:#12ccee"><span>Önceki Bağlantı Tutarı</span></div>
-                    <div class="numb_onc_baglanti_tutari" style="float:left;width:20%;margin-left:10px;"></div>
-                    <div class="txt_onc_bag_tutar_doviz" style="float:left;width:5%;margin-left:10px;"></div>
-                    <div style="float:left;width:15%;margin-left:10px;">
-                        <button type="button" class="btn btn-lg blue soz_gunc_kaydet" style="font-size:9px; margin-bottom:10px;width:100%;">
-                            Kaydet<i class="fa fa-save" style="margin-left:5px;"></i>
-                        </button>
-                    </div>
-                </div>
-                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
-                    <div style="float:left;width:18%;margin-left:10px;color:#12ccee"><span>Yeni Bağlantı Tutarı</span></div>
-                    <div class="numb_yeni_baglanti_tutari" style="float:left;width:20%;margin-left:10px;"></div>
-                    <div class="txt_onc_bag_tutar_doviz" style="float:left;width:5%;margin-left:10px;"></div>
-                    <div style="float:left;width:15%;margin-left:10px;">
-                        <button type="button" class="btn btn-lg red soz_gunc_iptal" style="font-size:9px; margin-bottom:10px;width:100%;">
-                            İptal<i class="fa fa-close" style="margin-left:5px;"></i>
-                        </button>
-                    </div>
-                </div>
-                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
-                    <div style="float:left;width:18%;margin-left:10px;color:#12ccee"><span>Önceki Bitiş Tarihi</span></div>
-                    <div class="date_onc_bitis_tarihi" style="float:left;width:20%;margin-left:10px;"></div>
-                </div>
-                <div style="position:relative;margin-top:10px;width:100%;height:40px;">
-                    <div style="float:left;width:18%;margin-left:10px;color:#12ccee"><span>Yeni Bitiş Tarihi</span></div>
-                    <div class="date_yeni_bitis_tarihi" style="float:left;width:20%;margin-left:10px;"></div>
-                </div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
-</div>
+
 
 @section Scripts{<script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
 <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-
+    var CHK = "", TLP = "";
     $(document).ready(function () {
         var model = @Html.Raw(Json.Encode(Model));
+      
         $(".musteri_unvan").hide();
         $(".txt_geri_cevirme_aciklamasi").dxTextBox({
             maxLength: 250
@@ -128,10 +70,28 @@
                 if (e.value == null) {
                     return;
                 }
-                $(".musteri_unvan").text(e.value.Unvan);
-                $(".musteri_unvan").show();
-                PartialView("/Approvals/Purchase/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo:e.value.SipTalepNo }));
-                PartialView("/Approvals/Purchase/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data',JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo:e.value.SipTalepNo }));
+                CHK = e.value.HesapKodu;
+                TLP = e.value.SipTalepNo;
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Purchase/BirimDegisimKontrol",
+                    data: { hesapKodu: e.value.HesapKodu, talepNo: e.value.SipTalepNo },
+                    type: "post",
+                    success: function (data) {
+                        if (data == 0) {
+                            CHK = "";
+                            TLP = "";
+                            Modaldialog("Stok kartında birim güncellemesi bulunmaktadır. Mevcut talebin reddedilip yeniden oluşturulması gerekmektedir.", "Onay İşlemi", "Tamam", "Onay");
+                            setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                        else {
+                            $(".musteri_unvan").text(e.value.Unvan);
+                            $(".musteri_unvan").show();
+                            PartialView("/Approvals/Purchase/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
+                            PartialView("/Approvals/Purchase/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
+                        }
+                    }
+                });
+               
             },
             itemTemplate: function (itemData, itemIndex, itemElement) {
                 itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
@@ -149,21 +109,36 @@
 
     $('.onayla-buton').click(function () {
         $.ajax({
-            url: window.location.origin + "/Approvals/Purchase/SipGMOnayla",
-            data: {},
+            url: window.location.origin + "/Approvals/Purchase/BirimDegisimKontrol",
+            data: { hesapKodu: CHK, talepNo: TLP },
             type: "post",
             success: function (data) {
-                if (data.Status == true) {
-                    Modaldialog(data.Message, "Onay İşlemi", "Tamam", "Onay");
+                console.log(data);
+                if (data == 0) {
+                    Modaldialog("Stok kartında birim güncellemesi bulunmaktadır. Mevcut talebin reddedilip yeniden oluşturulması gerekmektedir.", "Onay İşlemi", "Tamam", "Onay");
                     setTimeout(function () { window.location.reload(); }, 500);
                 }
                 else {
-                    if (data.Message == "") data.Message = "Hata oluştu";
-                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                    setTimeout(function () { window.location.reload(); }, 500);
+                    $.ajax({
+                        url: window.location.origin + "/Approvals/Purchase/SipGMOnayla",
+                        data: {},
+                        type: "post",
+                        success: function (data) {
+                            if (data.Status == true) {
+                                Modaldialog(data.Message, "Onay İşlemi", "Tamam", "Onay");
+                                setTimeout(function () { window.location.reload(); }, 500);
+                            }
+                            else {
+                                if (data.Message == "") data.Message = "Hata oluştu";
+                                Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                                setTimeout(function () { window.location.reload(); }, 500);
+                            }
+                        }
+                    });
                 }
             }
         });
+        
     });
 
     $('.reddet-buton').click(function () {
@@ -185,88 +160,10 @@
         });
     });
 
-    function inputDisable() {
-        $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", true);
-        $(".date_baslangic_tarihi").dxDateBox("instance").option("readOnly", true);
-        $(".date_bitis_tarihi").dxDateBox("instance").option("readOnly", true);
-        $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", true);
-        $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", true);
-        $(".numb_baglanti_tutari").dxNumberBox("instance").option("readOnly", true);
-        $(".numb_valor_gun").dxNumberBox("instance").option("readOnly", true);
-        $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("readOnly", true);
-        $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("readOnly", true);
-        $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", true);
-        $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", true);
-        $(".select_musteri_kodu").dxLookup("instance").option("readOnly", true);
-        $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", true);
-    }
+    $('.yenile-buton').click(function () {
+        window.location.reload(); 
+    });
 
-    function inputVisible() {
-        $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", false);
-        $(".date_baslangic_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_bitis_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", false);
-        $(".numb_baglanti_tutari").dxNumberBox("instance").option("readOnly", false);
-        $(".numb_valor_gun").dxNumberBox("instance").option("readOnly", false);
-        $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("readOnly", false);
-        $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("readOnly", false);
-        $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", false);
-        $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
-        $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
-        $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", true);
-    }
-
-    function inputClear() {
-        $(".txt_sozlesme_notu").dxTextBox("instance").option("value", "");
-        $(".date_baslangic_tarihi").dxDateBox("instance").option("value", null);
-        $(".date_bitis_tarihi").dxDateBox("instance").option("value", null);
-        $(".date_vade_tarihi").dxDateBox("instance").option("value", 0);
-        $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value", null);
-        $(".numb_baglanti_tutari").dxNumberBox("instance").option("value", 0);
-        $(".numb_valor_gun").dxNumberBox("instance").option("value", 0);
-        $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("value", 0);
-        $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("value", 0);
-        $(".select_baglanti_tipi").dxSelectBox("instance").option("value", null);
-        $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value", null);
-        $(".select_musteri_kodu").dxLookup("instance").option("value", null);
-        $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value", "");
-        $(".select_fiyat_listesi").dxLookup("instance").option("value", null);
-        $(".select_urun_grubu").dxSelectBox("instance").option("value", null);
-        $(".select_urun_kodu").dxLookup("instance").option("value", null);
-        $(".txt_sozlesme_notu").dxTextBox("instance").option("value", "");
-        $(".swtch_aktif_pasif").dxSwitch("instance").option("value", true);
-        $(".numb_valor_gun").dxNumberBox("instance").option("value", 0);
-        $(".date_vade_tarihi").dxDateBox("instance").option("value", null);
-        $(".numb_toplam_tahsilat").dxNumberBox("instance").option("value", 0);
-        $(".numb_bakiye").dxNumberBox("instance").option("value", 0);
-        $(".numb_toplam_bakiye").dxNumberBox("instance").option("value", 0);
-        $(".numb_bekleyen_siparis").dxNumberBox("instance").option("value", 0);
-        $(".txt_alinan_bordro_ort").dxTextBox("instance").option("value", "");
-        $(".txt_ortalama_vade").dxTextBox("instance").option("value", "");
-        $(".numb_iskonto1").dxNumberBox("instance").option("value", 0);
-        $(".numb_iskonto2").dxNumberBox("instance").option("value", 0);
-        $(".numb_iskonto3").dxNumberBox("instance").option("value", 0);
-        $(".numb_iskonto4").dxNumberBox("instance").option("value", 0);
-        $(".numb_iskonto5").dxNumberBox("instance").option("value", 0);
-        $(".select_urun_kodu").dxLookup("instance").option("value", null);
-        $(".select_urun_kalite").dxSelectBox("instance").option("value", null);
-
-
-        $(".txt_sozlesme_notu").dxTextBox("instance").option("readOnly", false);
-        $(".date_baslangic_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_bitis_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_vade_tarihi").dxDateBox("instance").option("readOnly", false);
-        $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("readOnly", false);
-        $(".numb_baglanti_tutari").dxNumberBox("instance").option("readOnly", false);
-        $(".numb_valor_gun").dxNumberBox("instance").option("readOnly", false);
-        $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("readOnly", false);
-        $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("readOnly", false);
-        $(".select_baglanti_tipi").dxSelectBox("instance").option("readOnly", false);
-        $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("readOnly", false);
-        $(".select_musteri_kodu").dxLookup("instance").option("readOnly", false);
-        $(".txt_sozlesme_sira_no").dxTextBox("instance").option("readOnly", false);
-    }
 
 
 </script>

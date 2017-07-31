@@ -1,8 +1,6 @@
 ﻿using KurumsalKaynakPlanlaması12M;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using Wms12m.Entity;
@@ -31,7 +29,6 @@ namespace Wms12m
             bool hata = false;
             int say = 1;
             Nullable<DateTime> sipTarih = null;
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString);
             SatinalmaRaporData _FDD = new SatinalmaRaporData()
             {
                 FTDD = new List<RaporFTD>(),
@@ -40,7 +37,7 @@ namespace Wms12m
                 TLP = new List<SatTalep>()
             };
             decimal ftdMalBedeli = 0, ftdKDV = 0, ftdToplam = 0;
-            var RPR = db.MultipleResults(string.Format("[FINSAT6{0}].[wms].[Satinalma_RaporDetay] @EvrakNo='{1}',@HesapKodu='{2}',@Siptarih={3}", sipEvrakNo, hesapKodu, siparisTarih)).With<RaporFTD>().With<RaporSiparis>().With<RaporCHK>().With<SatTalep>().Execute();
+            var RPR = db.MultipleResults(string.Format("[FINSAT6{0}].[wms].[Satinalma_RaporDetay] @EvrakNo='{1}',@HesapKodu='{2}',@Siptarih={3}", 17, sipEvrakNo, hesapKodu, siparisTarih)).With<RaporFTD>().With<RaporSiparis>().With<KKP_CHK>().With<SatTalep>().Execute();
             foreach (RaporFTD item in RPR[0])
             {
                 _FDD.FTDD.Add(item);
@@ -111,8 +108,6 @@ namespace Wms12m
             }
             try
             {
-                con.Open();
-
                 foreach (var item in dset.Siparis)
                 {
                     if (talep.IstenenTarih != null)
@@ -125,7 +120,6 @@ namespace Wms12m
                 hata = true;
 
             }
-            con.Dispose();
             if (hata)
                 return;
 
@@ -141,16 +135,17 @@ namespace Wms12m
                 //Entity.GenelAyarVeParam gmy = ent.GenelAyarVeParams.Where(t => t.Tip == 1 && t.Tip2 == 1
                 //    && t.SiparisSorumlu == talep.GMYMaliOnaylayan).FirstOrDefault();
 
+                WMSEntities dbb = new WMSEntities();
 
-                GenelAyarVeParam satisUzmani = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=0 AND t.SiparisSorumlu == '{1}'", "17", talep.Kaydeden)).FirstOrDefault();
-                GenelAyarVeParam gmy = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=1 AND t.SiparisSorumlu == '{1}'", "17", talep.GMYMaliOnaylayan)).FirstOrDefault();
+                GenelAyarVeParam satisUzmani = dbb.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=0 AND SiparisSorumlu = '{1}'", "17", talep.Kaydeden)).FirstOrDefault();
+                GenelAyarVeParam gmy = dbb.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=1 AND SiparisSorumlu = '{1}'", "17", talep.GMYMaliOnaylayan)).FirstOrDefault();
 
                 if (islemTip == (short)KKPIslemTipSPI.İçPiyasa)
                 {
                     SatSipForm rep = new SatSipForm();
                     if (satisUzmani != null)
                     {
-                        User user = db.Users.Where(m => m.Kod == satisUzmani.SiparisSorumlu).FirstOrDefault();
+                        User user = dbb.Users.Where(m => m.Kod == satisUzmani.SiparisSorumlu).FirstOrDefault();
                         if (user != null)
                         {
                             rep.lblBirinciKisiAd.Text = user.AdSoyad;
@@ -160,7 +155,7 @@ namespace Wms12m
 
                     if (gmy != null)
                     {
-                        User user = db.Users.Where(m => m.Kod == gmy.SiparisSorumlu).FirstOrDefault();
+                        User user = dbb.Users.Where(m => m.Kod == gmy.SiparisSorumlu).FirstOrDefault();
                         if (user != null)
                         {
                             //rep.lblikinciKisiAd.Text = user.AdSoyad;
@@ -170,10 +165,10 @@ namespace Wms12m
 
                     if (talep.GMOnaylayan != null)
                     {
-                        GenelAyarVeParam gm = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=2 AND t.SiparisSorumlu == '{1}'", "17", (talep.GMOnaylayan ?? "-1"))).FirstOrDefault();
+                        GenelAyarVeParam gm = dbb.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=2 AND SiparisSorumlu = '{1}'", "17", (talep.GMOnaylayan ?? "-1"))).FirstOrDefault();
                         if (gm != null)
                         {
-                            User user = db.Users.Where(m => m.Kod == gm.SiparisSorumlu).FirstOrDefault();
+                            User user = dbb.Users.Where(m => m.Kod == gm.SiparisSorumlu).FirstOrDefault();
                             if (user != null)
                             {
                                 //rep.lblUcuncuKisiAd.Text = user.AdSoyad;
@@ -215,7 +210,7 @@ namespace Wms12m
 
                     if (satisUzmani != null)
                     {
-                        User user = db.Users.Where(m => m.Kod == satisUzmani.SiparisSorumlu).FirstOrDefault();
+                        User user = dbb.Users.Where(m => m.Kod == satisUzmani.SiparisSorumlu).FirstOrDefault();
                         if (user != null)
                         {
                             rep.lblBirinciKisiAd.Text = user.AdSoyad;
@@ -225,7 +220,7 @@ namespace Wms12m
 
                     if (gmy != null)
                     {
-                        User user = db.Users.Where(m => m.Kod == gmy.SiparisSorumlu).FirstOrDefault();
+                        User user = dbb.Users.Where(m => m.Kod == gmy.SiparisSorumlu).FirstOrDefault();
                         if (user != null)
                         {
                             //rep.lblikinciKisiAd.Text = user.AdSoyad;
@@ -235,10 +230,10 @@ namespace Wms12m
 
                     if (talep.GMOnaylayan != null)
                     {
-                        GenelAyarVeParam gm = db.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [FINSAT6{0}].[FINSAT6{0}].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=2 AND t.SiparisSorumlu == '{1}'", "17", (talep.GMOnaylayan ?? "-1"))).FirstOrDefault();
+                        GenelAyarVeParam gm = dbb.Database.SqlQuery<GenelAyarVeParam>(string.Format("SELECT * FROM [Kaynak].[sta].[GenelAyarVeParams] WHERE Tip=1 AND Tip2=2 AND SiparisSorumlu = '{1}'", "17", (talep.GMOnaylayan ?? "-1"))).FirstOrDefault();
                         if (gm != null)
                         {
-                            User user = db.Users.Where(m => m.Kod == gm.SiparisSorumlu).FirstOrDefault();
+                            User user = dbb.Users.Where(m => m.Kod == gm.SiparisSorumlu).FirstOrDefault();
                             if (user != null)
                             {
                                 //rep.lblUcuncuKisiAd.Text = user.AdSoyad;
