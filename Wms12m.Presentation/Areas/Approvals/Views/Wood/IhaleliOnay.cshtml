@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "İhaleli Alım Onayı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <style>
+        .btn {
+            width: 120px;
+            text-align: center;
+        }
+    </style>
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Odun</span></li></ul></div>
+<h1 class="page-title">Tahsisli Alım Onayı</h1>
+<div class="form-horizontal">
+    <div class="form-body">
+
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>İhaleli Alım Onayda Bekleyenler
+                </div>
+                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div id="liste">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        PartialView("/Approvals/Wood/IhaleliAlim_List", 'liste');
+        function FuncSearchBtn() {
+            var Type = $("input[type='checkbox'][name='Locked']:checked").val();
+            PartialView("/Approvals/Wood/IhaleliAlim_List", 'liste', JSON.stringify({ Durum: Type }));
+        }
+
+        $(document).ready(function () {
+
+
+
+
+        });
+        $('.onay-buton').click(function () {
+
+                var x = table.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                if (secili_table.length == 0) {
+                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                    return;
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Wood/IhaleliOnayla",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                           setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                           setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                    }
+                });
+
+                return _dfd.promise();
+
+
+
+
+
+        });
+
+        $('.reddet-buton').click(function () {
+
+                var x = table.rows('.selected').data();
+                for (var i = 0; i < x.length; i++) {
+                    secili_table.push(x[i]);
+                }
+                if (secili_table.length == 0) {
+                    Modaldialog("Satır Seçiniz", "Onay", "Tamam", "Onay");
+                    return;
+                }
+                var _dfd = $.Deferred();
+                $.ajax({
+                    url: window.location.origin + "/Approvals/Wood/IhaleliRed",
+                    data: { Data: JSON.stringify(secili_table) },
+                    type: "post",
+                    success: function (data) {
+                        if (data.Status == true) {
+                            Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                           setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                        else {
+                            if (data.Message == "") data.Message = "Hata oluştu";
+                            Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                           setTimeout(function () { window.location.reload(); }, 500);
+                        }
+                    }
+                });
+                return _dfd.promise();
+
+
+
+
+
+        });
+
+        $('.yenile-buton').click(function () {
+           setTimeout(function () { window.location.reload(); }, 500);
+        });
+    </script>
+}

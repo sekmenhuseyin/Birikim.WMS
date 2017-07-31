@@ -148,9 +148,6 @@
     <Compile Include="Models\CRM_GorusmeNotlari_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CRM_KurumKartiSearch_Result.cs">
-      <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CRM_KurumKarti_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

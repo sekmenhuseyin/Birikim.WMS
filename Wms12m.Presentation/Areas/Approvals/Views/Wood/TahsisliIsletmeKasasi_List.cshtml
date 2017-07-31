@@ -71,12 +71,12 @@
             ],
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
-                $(api.column(4).footer()).html(Kod13);
-                $(api.column(5).footer()).html(Kod14);
-                $(api.column(6).footer()).html(topSterIbre);
-                $(api.column(7).footer()).html(topM3Ibre);
-                $(api.column(8).footer()).html(topSterYaprak);
-                $(api.column(9).footer()).html(topM3Yaprak);
+                $(api.column(4).footer()).html(numeral(Kod13).format('0,0.00'));
+                $(api.column(5).footer()).html(numeral(Kod14).format('0,0.00'));
+                $(api.column(6).footer()).html(numeral(topSterIbre).format('0,0.00'));
+                $(api.column(7).footer()).html(numeral(topM3Ibre).format('0,0.00'));
+                $(api.column(8).footer()).html(numeral(topSterYaprak).format('0,0.00'));
+                $(api.column(9).footer()).html(numeral(topM3Yaprak).format('0,0.00'));
 
                 $(".select_mektuptutar").digits();
                 $(".select_pesinattutar").digits();
