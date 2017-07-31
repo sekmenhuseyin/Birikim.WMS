@@ -124,7 +124,7 @@ namespace Wms12m
 
         public string Birim { get; set; }
 
-        public int Vade { get; set; }
+        public short Vade { get; set; }
 
         public string TeslimYeri { get; set; }
 

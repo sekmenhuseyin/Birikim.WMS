@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -131,7 +132,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             else
             {
-                decimal kur = MyGlobalVariables.TalepSource[0].FTDDovizKuru.Value;
+                decimal kur = MyGlobalVariables.TalepSource[0].FTDDovizKuru ?? 0;
                 if (kur > 0)
                 {
                     MyGlobalVariables.SipEvrak.FTDHesapla(MyGlobalVariables.TalepSource[0].FTDDovizCinsi, kur);
@@ -225,6 +226,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         }
                     }
 
+                    kkp.UpdateChanges();
+
+
                     int sipTarih = Convert.ToInt32(MyGlobalVariables.SipEvrak.Tarih.ToOADate());
                     var sipEvrakNo = MyGlobalVariables.SipEvrak.EvrakNo;
                     var hesapKodu = MyGlobalVariables.SipEvrak.HesapKodu;
@@ -253,7 +257,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             //if (Degiskenler.FromWinServis == false)
                             _Result.Message = string.Format("Tedarikçiye ait mail bulunamadı!! (Hesap Kodu: {0})", hesapKodu);
                             _Result.Status = false;
-                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                            //return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
                         string satinalmacimail = db.Database.SqlQuery<string>(string.Format("SELECT Email FROM usr.Users (nolock) WHERE Kod IN (SELECT TOP(1) Satinalmaci FROM Kaynak.sta.Talep(nolock) WHERE SipEvrakNo ={0} )", sipEvrakNo)).FirstOrDefault();
@@ -263,7 +267,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         {
                             _Result.Message = "Ne Şirket Maili nede Satınalmacı maili yapılandırılmamış. Mail gönderilemedi";
                             _Result.Status = false;
-                            return Json(_Result, JsonRequestBehavior.AllowGet);
+                            //return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
 
                         SatTalep sipTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TOP (1) TalepNo, SipIslemTip FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo={0}", sipEvrakNo)).FirstOrDefault();
@@ -280,6 +284,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
                         SatınalmaSiparisFormu.SatinalmaSiparisFormu(sipEvrakNo, hesapKodu, sipTarih, true);
+
+                        List<string> attachList = new List<string>();
+                        attachList.Add(String.Format("{0}{1}.pdf", Path.GetTempPath(), sipEvrakNo));
 
                         List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
 
