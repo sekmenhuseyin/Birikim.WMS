@@ -34,6 +34,43 @@
             <th>Kayıt Tarihi<br /><input class="w-50 input-circle" type="text" id="Tarih" /></th>
         </tr>
     </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Kodu</td>
+                <td>@item.CariHesapKodu</td>
+                <td>@item.KisaAdi</td>
+                <td>@item.WEBSAYFASI</td>
+                <td>@item.EMAIL</td>
+                <td>@item.Sektor</td>
+                <td>@item.Adres</td>
+                <td>@item.PostaKodu</td>
+                <td>@item.Ulke</td>
+                <td>@item.Il</td>
+                <td>@item.Ilce</td>
+                <td>@item.BayiTipi</td>
+                <td>@item.Bolge</td>
+                <td>@item.MusteriTipi</td>
+                <td>@if (item.Parke == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Plaka == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Kontraplak == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.MutfakTezgahi == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Kartela == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Stand == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.FiltreKagit == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.EmprenyeliKagit == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Tutkal == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Palet == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.AhsapKiris == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Kereste == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.TicariMal == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Formaldehit == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@item.Kaydeden</td>
+                <td>@item.KayitTarih</td>
+            </tr>
+        }
+    </tbody>
 </table>
 <script>
     $(document).ready(function () {
@@ -76,50 +113,8 @@
                 { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
                 { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
             ],
-            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-            "ajax": {
-                "url": '/Reports/CRM/InstitutionList',
-                "dataSrc": function (json) {
-                    model = json;
-                    return json;
-                },
-            },
-            "columns": [
-                { "data": "Kodu" },
-                { "data": "CariHesapKodu" },
-                { "data": "KisaAdi" },
-                { "data": "WEBSAYFASI" },
-                { "data": "EMAIL" },
-                { "data": "Sektor" },
-                { "data": "Adres" },
-                { "data": "PostaKodu" },
-                { "data": "Ulke" },
-                { "data": "Il" },
-                { "data": "Ilce" },
-                { "data": "BayiTipi" },
-                { "data": "Bolge" },
-                { "data": "MusteriTipi" },
-                { "data": "Parke", "render": function (data) { if (data == true) return "Var"; else return "Yok"; } },
-                { "data": "Plaka", "render": function (data) { if (data == true) return "Var"; else return "Yok"; } },
-                { "data": "Kontraplak", "render": function (data) { if (data == true) return "Var"; else return "Yok"; } },
-                { "data": "MutfakTezgahi", "render": function (data) { if (data == true) return "Var"; else return "Yok"; } },
-                { "data": "Kartela", "render": function (data) { if (data == true) return "Var"; else return "Yok"; } },
-                { "data": "Stand", "render": function (data) { if (data == true) return "Var"; else return "Yok"; }},
-                { "data": "FiltreKagit", "render": function (data) { if (data == true) return "Var"; else return "Yok"; } },
-                { "data": "EmprenyeliKagit", "render": function (data) { if (data == true) return "Var"; else return "Yok"; } },
-                { "data": "Tutkal", "render": function (data) { if (data == true) return "Var"; else return "Yok"; }},
-                { "data": "Palet", "render": function (data) { if (data == true) return "Var"; else return "Yok"; } },
-                { "data": "AhsapKiris", "render": function (data) { if (data == true) return "Var"; else return "Yok"; } },
-                { "data": "Kereste", "render": function (data) { if (data == true) return "Var"; else return "Yok"; } },
-                { "data": "TicariMal", "render": function (data) { if (data == true) return "Var"; else return "Yok"; }},
-                { "data": "Formaldehit", "render": function (data) { if (data == true) return "Var"; else return "Yok"; } },
-                { "data": "Kaydeden" },
-                { "data": "KayitTarih", "render": function (data) { return ToJavaScriptDate(data) } }
-            ],
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                $('td', nRow).attr('nowrap', 'nowrap');
-                return nRow;
-            }
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
         });
+        function filterx(a, b) { filter(table, a, b); }
     });
 </script>

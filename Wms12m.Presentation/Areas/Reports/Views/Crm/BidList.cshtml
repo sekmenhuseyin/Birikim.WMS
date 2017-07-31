@@ -51,5 +51,6 @@
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
         });
+        function filterx(a, b) { filter(table, a, b); }
     });
 </script>
