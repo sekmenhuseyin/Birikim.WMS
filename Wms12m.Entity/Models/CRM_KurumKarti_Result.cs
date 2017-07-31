@@ -43,6 +43,6 @@ namespace Wms12m.Entity.Models
         public Nullable<bool> TicariMal { get; set; }
         public Nullable<bool> Formaldehit { get; set; }
         public string Kaydeden { get; set; }
-        public Nullable<System.DateTime> KayitTarih { get; set; }
+        public System.DateTime KayitTarih { get; set; }
     }
 }
