@@ -265,7 +265,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                         if ((string.IsNullOrEmpty(sirketemail) || sirketemail.Trim() == "")
                             && (string.IsNullOrEmpty(satinalmacimail) || satinalmacimail.Trim() == ""))
                         {
-                            _Result.Message = "Ne Şirket Maili nede Satınalmacı maili yapılandırılmamış. Mail gönderilemedi";
+                            _Result.Message = "Ne Şirket Maili ne de Satınalmacı maili yapılandırılmamış. Mail gönderilemedi";
                             _Result.Status = false;
                             //return Json(_Result, JsonRequestBehavior.AllowGet);
                         }
@@ -290,7 +290,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                         List<SatTalep> listTalep = db.Database.SqlQuery<SatTalep>(string.Format("SELECT TalepNo, MalKodu, EkDosya FROM Kaynak.sta.Talep (nolock) WHERE SipEvrakNo ='{0}' AND HesapKodu = '{1}' AND ISNULL(EkDosya,'')<> '' ", sipEvrakNo, hesapKodu)).ToList();
 
+                        string dosyaYolu = db.Database.SqlQuery<string>(string.Format("SELECT DosyaYolu FROM [Kaynak].[sta].[GenelAyarVeParams]  where Tip = 7 and DosyaYolu IS NOT NULL")).FirstOrDefault();
 
+                        foreach (SatTalep talep in listTalep)
+                        {
+                            string yol = String.Format("{0}{1}\\{2}", dosyaYolu, "SatTalep", talep.EkDosya);
+                            if (yol.FileExists())
+                                attachList.Add(yol);
+                        }
 
                         string kime = String.Format("{0};{1};{2}", sirketemail, satinalmacimail, mailayar.MailTo);
                         string gorunenIsim = "Sipariş Onay";
@@ -301,6 +308,20 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                             gorunenIsim = "Purchase Order Approval";
                             konu = "Purchase Order Approval";
                             icerik = "Purchase Order Items Information in Attachments";
+                        }
+
+                        MyMail m = new MyMail(false);
+                        m.MailHataMesajı = "Sipariş Onay Maili Gönderiminde hata oluştu!! Mail Gönderilelemedi!!";
+                        m.MailBasariMesajı = "Sipariş Onay Maili başarılı bir şekilde gönderildi!!";
+                        m.Gonder(kime, mailayar.MailCc, gorunenIsim, konu, icerik, attachList);
+
+                        if (m.MailGonderimBasarili)
+                        {
+                            db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder=-1 WHERE TalepNo='{0}'", sipTalep.TalepNo));
+                        }
+                        else
+                        {
+                            db.Database.ExecuteSqlCommand(string.Format("UPDATE Kaynak.sta.Talep SET MailGonder={0} WHERE TalepNo='{1}'", 0, sipTalep.TalepNo));
                         }
 
                         #endregion
@@ -375,6 +396,34 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
             }
             con.Dispose();
             return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+
+        public int BirimDegisimKontrol(string talepNo, string hesapKodu)
+        {
+            List<int> brmContList = null;
+            string query = string.Format(
+   @"SELECT (CASE WHEN ST.Birim = STK.Birim1 THEN 1
+        WHEN ST.Birim = STK.Birim2 THEN 1
+        WHEN ST.Birim = STK.Birim3 THEN 1 
+        WHEN ST.Birim = STK.Birim4 THEN 1 
+		ELSE 0 END ) AS Miktar
+
+FROM Kaynak.sta.Talep as ST (nolock)
+LEFT JOIN FINSAT617.FINSAT617.STK (nolock) on ST.MalKodu=STK.MalKodu
+WHERE ST.Durum=11 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'
+GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
+        WHEN ST.Birim = STK.Birim2 THEN 1
+        WHEN ST.Birim = STK.Birim3 THEN 1 
+        WHEN ST.Birim = STK.Birim4 THEN 1 
+		ELSE 0 END )"
+      , "17"
+      , talepNo, hesapKodu);
+            brmContList = db.Database.SqlQuery<int>(query).ToList();
+
+            if (brmContList.Count > 1 || brmContList[0] == 0)
+                return 0;
+            else
+                return 1;
         }
     }
 }

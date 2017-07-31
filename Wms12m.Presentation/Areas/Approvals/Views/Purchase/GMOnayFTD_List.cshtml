@@ -16,7 +16,6 @@
                         <table class="table table-striped table-bordered table-condensed" id="sample_2">
                             <thead class="aaaaa">
                                 <tr>
-                                    <th></th>
                                     <th>Aciklama</th>
                                     <th>Oran</th>
                                     <th>Tutar</th>
@@ -50,9 +49,8 @@
         },
         "fixedHeader": true,
         "scrollX": true,
-        "columnDefs": [{ "visible": false, "width": "10%", "targets": [7, 8, 9] }, { "width": "18%", "targets": [1, 2, 3, 4, 5, 6] }],
+        "columnDefs": [{ "visible": false, "width": "10%", "targets": [6,7, 8] }, { "width": "18%", "targets": [0,1, 2, 3, 4, 5] }],
         "columns": [
-            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
             { "data": "Aciklama" },
             { "data": "IskontoOran" },
             { "data": "Iskonto" },
@@ -72,14 +70,6 @@
 
      });
 
-    $('#sample_2 tbody').on('click', 'tr', function () {
-        $(this).toggleClass('selected');
-        if($( this ).hasClass( "selected" )){
-        silinecek.push($( "tr" ).index( this )-1)
-        }else{
-            silinecek.splice($( "tr" ).index( this )-1, 1);
-        }
-    });
     $(document).ready(function () {
         var buttons2 = new $.fn.dataTable.Buttons(table2, {
             buttons: [
