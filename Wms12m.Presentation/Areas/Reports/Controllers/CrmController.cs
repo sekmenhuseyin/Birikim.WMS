@@ -6,6 +6,32 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
     public class CrmController : RootController
     {
         /// <summary>
+        /// teklif analizi
+        /// </summary>
+        public ActionResult Bid()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"].ToString2();
+            if (id == null || id == "") id = "0";
+            ViewBag.id = id;
+            return View("Bid");
+        }
+        /// <summary>
+        /// teklif analizi listesi
+        /// </summary>
+        public PartialViewResult BidList(string Start, string End)
+        {
+            var list = db.CRM_TeklifAnaliz(null, null).ToList();
+            return PartialView("BidList", list);
+        }
+        /// <summary>
+        /// teklif analiz detay
+        /// </summary>
+        public PartialViewResult BidDetail(int ID)
+        {
+            var list = db.CRM_TeklifAnaliz_Detay(ID).ToList();
+            return PartialView("BidDetail", list);
+        }
+        /// <summary>
         /// görüşme notları
         /// </summary>
         public ActionResult Meeting()
@@ -16,12 +42,19 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return View("Meeting");
         }
         /// <summary>
-        /// irsaliye listesi
+        /// görüşme notları listesi
         /// </summary>
-        public PartialViewResult MeetingList()
+        public PartialViewResult MeetingList(string Start, string End)
         {
             var list = db.CRM_GorusmeNotlari(null, null).ToList();
             return PartialView("MeetingList", list);
+        }
+        /// <summary>
+        /// teklif analiz detay
+        /// </summary>
+        public PartialViewResult MeetingDetail(int ID)
+        {
+            return PartialView("BidDetail");
         }
         /// <summary>
         /// kurum kartları
@@ -34,22 +67,12 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
             return View("Institution");
         }
         /// <summary>
-        /// teklif analizi
+        /// kurum kartları listesi
         /// </summary>
-        public ActionResult Bid()
+        public PartialViewResult InstitutionList(string Start, string End)
         {
-            var id = Url.RequestContext.RouteData.Values["id"].ToString2();
-            if (id == null || id == "") id = "0";
-            ViewBag.id = id;
-            return View("Bid");
-        }
-        /// <summary>
-        /// teklif analiz detay
-        /// </summary>
-        public PartialViewResult BidDetail(int ID)
-        {
-            var list = db.CRM_TeklifAnaliz_Detay(ID).ToList();
-            return PartialView("BidDetail", list);
+            var list = db.CRM_KurumKarti(null, null).ToList();
+            return PartialView("InstitutionList", list);
         }
     }
 }
