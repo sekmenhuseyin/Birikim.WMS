@@ -193,7 +193,13 @@
     <Compile Include="Models\GetCachedChartBakiyeRisk_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetCachedChartBekleyenUrunMiktarFiyat_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetCachedChartMonthly_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetCachedChartSatisBaglanti_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetCachedChartYear2Day_Result.cs">
@@ -572,6 +578,7 @@
     <Compile Include="Viewmodels\Fiyat.cs" />
     <Compile Include="Viewmodels\frmWood.cs" />
     <Compile Include="Viewmodels\FYT.cs" />
+    <Compile Include="Viewmodels\GenelAyarVeParam.cs" />
     <Compile Include="Viewmodels\Invoce.cs" />
     <Compile Include="Viewmodels\ISS.cs" />
     <Compile Include="Viewmodels\ISS_Temp.cs" />

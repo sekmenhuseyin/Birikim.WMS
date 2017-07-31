@@ -32,83 +32,75 @@
     </div>
 </div>
 @section Scripts{
-    <script>
-        PartialView("/Approvals/Risk/SPGMY_List", 'liste');
+<script>
+    PartialView("/Approvals/Risk/SPGMY_List", 'liste');
 
-        function FuncSearchBtn() {
-            var Type = $("input[type='checkbox'][name='Locked']:checked").val();
-            PartialView("/Approvals/Risk/SPGMY_List", 'liste', JSON.stringify({ Durum: Type }));
+    function FuncSearchBtn() {
+        var Type = $("input[type='checkbox'][name='Locked']:checked").val();
+        PartialView("/Approvals/Risk/SPGMY_List", 'liste', JSON.stringify({ Durum: Type }));
+    }
+    $('.onay-buton').click(function () {
+
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) {
+            secili_table.push(x[i]);
         }
+        var _dfd = $.Deferred();
+        $.ajax({
+            url: window.location.origin + "/Approvals/Risk/RiskOnay",
+            data: { Data: JSON.stringify(secili_table), Tip: 1 },
+            type: "post",
 
-        $(document).ready(function () {
-
-
-
-
-
-        });
-        $('.onay-buton').click(function () {
-
-            var x = table.rows('.selected').data();
-            for (var i = 0; i < x.length; i++) {
-                secili_table.push(x[i]);
-            }
-            var _dfd = $.Deferred();
-            $.ajax({
-                url: window.location.origin + "/Approvals/Risk/RiskOnay",
-                data: { Data: JSON.stringify(secili_table), Tip: 1 },
-                type: "post",
-
-                success: function (data) {
-                    if (data.Status == true) {
-                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                        setTimeout(function () { window.location.reload(); }, 500);
-                    }
-                    else {
-                        if (data.Message == "") data.Message = "Hata oluştu";
-                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        setTimeout(function () { window.location.reload(); }, 500);
-                    }
-
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    setTimeout(function () { window.location.reload(); }, 500);
                 }
-            });
-
-            return _dfd.promise();
-        });
-
-        $('.reddet-buton').click(function () {
-
-            var x = table.rows('.selected').data();
-            for (var i = 0; i < x.length; i++) {
-                secili_table.push(x[i]);
-            }
-            var _dfd = $.Deferred();
-            $.ajax({
-                url: window.location.origin + "/Approvals/Risk/Red_SPGMY",
-                data: { Data: JSON.stringify(secili_table) },
-                type: "post",
-                success: function (data) {
-                    if (data.Status == true) {
-                        Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
-                        setTimeout(function () { window.location.reload(); }, 500);
-                    }
-                    else {
-                        if (data.Message == "") data.Message = "Hata oluştu";
-                        Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-                        setTimeout(function () { window.location.reload(); }, 500);
-                    }
-
+                else {
+                    if (data.Message == "") data.Message = "Hata oluştu";
+                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    setTimeout(function () { window.location.reload(); }, 500);
                 }
-            });
-            return _dfd.promise();
 
-
-
+            }
         });
 
-        $('.yenile-buton').click(function () {
+        return _dfd.promise();
+    });
 
-           window.location.reload();
+    $('.reddet-buton').click(function () {
+
+        var x = table.rows('.selected').data();
+        for (var i = 0; i < x.length; i++) {
+            secili_table.push(x[i]);
+        }
+        var _dfd = $.Deferred();
+        $.ajax({
+            url: window.location.origin + "/Approvals/Risk/Red_SPGMY",
+            data: { Data: JSON.stringify(secili_table) },
+            type: "post",
+            success: function (data) {
+                if (data.Status == true) {
+                    Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Guncel");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+                else {
+                    if (data.Message == "") data.Message = "Hata oluştu";
+                    Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
+                    setTimeout(function () { window.location.reload(); }, 500);
+                }
+
+            }
         });
-    </script>
+        return _dfd.promise();
+
+
+
+    });
+
+    $('.yenile-buton').click(function () {
+
+        window.location.reload();
+    });
+</script>
 }

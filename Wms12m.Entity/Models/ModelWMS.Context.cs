@@ -693,5 +693,27 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartBakiyeRisk_Result>("WMSEntities.GetCachedChartBakiyeRisk", dBParameter);
         }
+    
+        public virtual ObjectResult<GetCachedChartSatisBaglanti_Result> GetCachedChartSatisBaglanti(string dB)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartSatisBaglanti_Result>("WMSEntities.GetCachedChartSatisBaglanti", dBParameter);
+        }
+    
+        public virtual ObjectResult<GetCachedChartBekleyenUrunMiktarFiyat_Result> GetCachedChartBekleyenUrunMiktarFiyat(string dB, Nullable<bool> miktarmi)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var miktarmiParameter = miktarmi.HasValue ?
+                new ObjectParameter("Miktarmi", miktarmi) :
+                new ObjectParameter("Miktarmi", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartBekleyenUrunMiktarFiyat_Result>("WMSEntities.GetCachedChartBekleyenUrunMiktarFiyat", dBParameter, miktarmiParameter);
+        }
     }
 }
