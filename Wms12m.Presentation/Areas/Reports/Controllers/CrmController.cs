@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 
 namespace Wms12m.Presentation.Areas.Reports.Controllers
 {
@@ -11,8 +10,8 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public ActionResult Meeting()
         {
-            var list = db.CRM_GorusmeNotlari().ToList();
-            return View("Meeting", list);
+            //var list = db.CRM_GorusmeNotlari().ToList();
+            return View("Meeting");
         }
         /// <summary>
         /// kurum kartları
@@ -21,22 +20,13 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         {
             return View("Institution");
         }
-        public string InstitutionList()
-        {
-            JavaScriptSerializer json = new JavaScriptSerializer()
-            {
-                MaxJsonLength = int.MaxValue
-            };
-            var list = db.CRM_KurumKarti().ToList();
-            return json.Serialize(list);
-        }
         /// <summary>
         /// teklif analizi
         /// </summary>
         public ActionResult Bid()
         {
-            var list = db.CRM_TeklifAnaliz().ToList();
-            return View("Bid", list);
+            //var list = db.CRM_TeklifAnaliz().ToList();
+            return View("Bid");
         }
         /// <summary>
         /// teklif analiz detay
