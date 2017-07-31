@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = "Görüşme Notları";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<style>
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/">CRM</a><i class="fa fa-circle"></i></li><li><span>Görüşme Notları</span></li></ul></div>
 <h1 class="page-title">Görüşme Notları</h1>
 <div class="row">
@@ -12,6 +16,7 @@
                 <table class="table table-striped table-bordered table-hover table-responsive" id="sample_1">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Görüşen Kişi</th>
                             <th>Görüşülen Kurum<br /><input class="w-50 input-circle" type="text" id="Kurum" /></th>
                             <th>Görüşülen Kişi<br /><input class="w-50 input-circle" type="text" id="Kisi" /></th>
@@ -28,6 +33,7 @@
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td style="width:20px!important;" class="details-control">&nbsp;</td>
                                 <td>@item.GorusenKisi</td>
                                 <td>@item.GorusulenKurum</td>
                                 <td>@item.GorusulenKisi</td>
@@ -77,6 +83,24 @@
                 });
             }
         });
-        function filterx(a, b) { filter(table, a, b); }
+        $('#sample_1 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
+        });
     });
+    function filterx(a, b) { filter(table, a, b); }
+    function newrow(id) { return "<div id='new" + id + "'></div>"; }
+    function format(d) {
+        $.ajax({
+            type: 'POST',
+            url: '/Reports/CRM/MeetingDetail',
+            data: { "ID": d },
+            dataType: "html",
+            success: function (data) {
+                $('#new' + d).html(data);
+            }
+        });
+    }
 </script>}
