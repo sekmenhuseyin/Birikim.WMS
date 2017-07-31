@@ -37,6 +37,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,10 +97,10 @@
             this.label4.BackColor = System.Drawing.Color.DimGray;
             this.label4.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label4.Location = new System.Drawing.Point(0, 0);
+            this.label4.Location = new System.Drawing.Point(0, 4);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(240, 18);
-            this.label4.Text = "WMS Mobil v.1.70.725";
+            this.label4.Text = "WMS Mobil v.1.70.731";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel1
@@ -113,6 +114,7 @@
             this.panel1.Controls.Add(this.btnGiris);
             this.panel1.Controls.Add(this.txtParola);
             this.panel1.Controls.Add(this.txtKullaniciAdi);
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
@@ -129,6 +131,16 @@
             this.btnBack.TabIndex = 3;
             this.btnBack.Text = "Kapat";
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.DimGray;
+            this.label2.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label2.Location = new System.Drawing.Point(0, 1);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(240, 18);
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // frmLogin
             // 
@@ -156,6 +168,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.Label label2;
 
     }
 }

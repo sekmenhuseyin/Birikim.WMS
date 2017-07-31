@@ -31,10 +31,10 @@ namespace WMSMobil
             glbTip = tip;
             GorevTip=gorevtip;
             //barkod
-            Barkod = new Barcode2();
-            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            Barkod.EnableScanner = true;
-            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            //Barkod = new Barcode2();
+            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            //Barkod.EnableScanner = true;
+            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             try
             {
                 //görev bilgilerini getir
