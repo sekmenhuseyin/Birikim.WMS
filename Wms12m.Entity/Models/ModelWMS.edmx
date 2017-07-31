@@ -1245,6 +1245,9 @@
           <Parameter Name="Baslangic" Type="date" Mode="In" />
           <Parameter Name="Bitis" Type="date" Mode="In" />
         </Function>
+        <Function Name="CRM_GorusmeNotlariDetay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
         <Function Name="CRM_KurumKarti" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="Baslangic" Type="date" Mode="In" />
           <Parameter Name="Bitis" Type="date" Mode="In" />
@@ -2014,10 +2017,6 @@
             <Parameter Name="DB" Mode="In" Type="String" />
             <Parameter Name="Miktarmi" Mode="In" Type="Boolean" />
           </FunctionImport>
-          <FunctionImport Name="CRM_GorusmeNotlari" ReturnType="Collection(MModel.CRM_GorusmeNotlari_Result)">
-            <Parameter Name="Baslangic" Mode="In" Type="DateTime" />
-            <Parameter Name="Bitis" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="CRM_KurumKarti" ReturnType="Collection(MModel.CRM_KurumKarti_Result)">
             <Parameter Name="Baslangic" Mode="In" Type="DateTime" />
             <Parameter Name="Bitis" Mode="In" Type="DateTime" />
@@ -2027,7 +2026,14 @@
             <Parameter Name="Bitis" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="CRM_TeklifAnaliz_Detay" ReturnType="Collection(MModel.CRM_TeklifAnaliz_Detay_Result)">
-            <Parameter Name="TeklifID" Mode="In" Type="Int32" />
+          <Parameter Name="TeklifID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CRM_GorusmeNotlariDetay" ReturnType="Collection(String)">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="CRM_GorusmeNotlari" ReturnType="Collection(MModel.CRM_GorusmeNotlari_Result)">
+            <Parameter Name="Baslangic" Mode="In" Type="DateTime" />
+            <Parameter Name="Bitis" Mode="In" Type="DateTime" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3374,20 +3380,6 @@
           <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="150" />
           <Property Type="Decimal" Name="KalanMiktar" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
-        <ComplexType Name="CRM_GorusmeNotlari_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="GorusenKisi" Nullable="true" MaxLength="201" />
-          <Property Type="String" Name="GorusulenKurum" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="GorusulenKisi" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="GorusmeTarihi" Nullable="true" Precision="23" />
-          <Property Type="DateTime" Name="YenidenGorusmeTarihi" Nullable="true" Precision="23" />
-          <Property Type="String" Name="GorusmeBicimi" Nullable="true" MaxLength="270" />
-          <Property Type="String" Name="GorusmeNedeni" Nullable="true" MaxLength="270" />
-          <Property Type="String" Name="GorusmeNotuDurumu" Nullable="true" MaxLength="270" />
-          <Property Type="String" Name="GorusmeNotu" Nullable="true" MaxLength="3000" />
-          <Property Type="String" Name="Kaydeden" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="KayitTarih" Nullable="true" Precision="23" />
-        </ComplexType>
         <ComplexType Name="CRM_KurumKarti_Result">
           <Property Type="String" Name="Kodu" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="KisaAdi" Nullable="true" MaxLength="200" />
@@ -3439,6 +3431,19 @@
           <Property Type="Decimal" Name="ISKORAN2" Nullable="true" Precision="15" Scale="2" />
           <Property Type="Decimal" Name="KDVORANI" Nullable="true" Precision="15" Scale="2" />
           <Property Type="Decimal" Name="TUTAR" Nullable="true" Precision="14" Scale="5" />
+        </ComplexType>
+        <ComplexType Name="CRM_GorusmeNotlari_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="GorusenKisi" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="GorusulenKurum" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="GorusulenKisi" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="GorusmeTarihi" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="YenidenGorusmeTarihi" Nullable="true" Precision="23" />
+          <Property Type="String" Name="GorusmeBicimi" Nullable="true" MaxLength="270" />
+          <Property Type="String" Name="GorusmeNedeni" Nullable="true" MaxLength="270" />
+          <Property Type="String" Name="GorusmeNotuDurumu" Nullable="true" MaxLength="270" />
+          <Property Type="String" Name="Kaydeden" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="KayitTarih" Nullable="false" Precision="23" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4262,24 +4267,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="CRM_GorusmeNotlari" FunctionName="MModel.Store.CRM_GorusmeNotlari">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.CRM_GorusmeNotlari_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="GorusenKisi" ColumnName="GorusenKisi" />
-                <ScalarProperty Name="GorusulenKurum" ColumnName="GorusulenKurum" />
-                <ScalarProperty Name="GorusulenKisi" ColumnName="GorusulenKisi" />
-                <ScalarProperty Name="GorusmeTarihi" ColumnName="GorusmeTarihi" />
-                <ScalarProperty Name="YenidenGorusmeTarihi" ColumnName="YenidenGorusmeTarihi" />
-                <ScalarProperty Name="GorusmeBicimi" ColumnName="GorusmeBicimi" />
-                <ScalarProperty Name="GorusmeNedeni" ColumnName="GorusmeNedeni" />
-                <ScalarProperty Name="GorusmeNotuDurumu" ColumnName="GorusmeNotuDurumu" />
-                <ScalarProperty Name="GorusmeNotu" ColumnName="GorusmeNotu" />
-                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
-                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="CRM_KurumKarti" FunctionName="MModel.Store.CRM_KurumKarti">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.CRM_KurumKarti_Result">
@@ -4341,6 +4328,24 @@
                 <ScalarProperty Name="ISKORAN2" ColumnName="ISKORAN2" />
                 <ScalarProperty Name="KDVORANI" ColumnName="KDVORANI" />
                 <ScalarProperty Name="TUTAR" ColumnName="TUTAR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CRM_GorusmeNotlariDetay" FunctionName="MModel.Store.CRM_GorusmeNotlariDetay" />
+          <FunctionImportMapping FunctionImportName="CRM_GorusmeNotlari" FunctionName="MModel.Store.CRM_GorusmeNotlari">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.CRM_GorusmeNotlari_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="GorusenKisi" ColumnName="GorusenKisi" />
+                <ScalarProperty Name="GorusulenKurum" ColumnName="GorusulenKurum" />
+                <ScalarProperty Name="GorusulenKisi" ColumnName="GorusulenKisi" />
+                <ScalarProperty Name="GorusmeTarihi" ColumnName="GorusmeTarihi" />
+                <ScalarProperty Name="YenidenGorusmeTarihi" ColumnName="YenidenGorusmeTarihi" />
+                <ScalarProperty Name="GorusmeBicimi" ColumnName="GorusmeBicimi" />
+                <ScalarProperty Name="GorusmeNedeni" ColumnName="GorusmeNedeni" />
+                <ScalarProperty Name="GorusmeNotuDurumu" ColumnName="GorusmeNotuDurumu" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
