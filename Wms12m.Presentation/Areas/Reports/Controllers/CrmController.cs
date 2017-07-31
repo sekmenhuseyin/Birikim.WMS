@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace Wms12m.Presentation.Areas.Reports.Controllers
@@ -20,7 +21,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public PartialViewResult BidList(string Start, string End)
         {
-            var list = db.CRM_TeklifAnaliz(null, null).ToList();
+            var list = db.CRM_TeklifAnaliz(Start == null ? DateTime.Today.AddYears(-10) : Start.ToDatetime(), End == null ? DateTime.Today.AddYears(10) : End.ToDatetime()).ToList();
             return PartialView("BidList", list);
         }
         /// <summary>
@@ -46,7 +47,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public PartialViewResult MeetingList(string Start, string End)
         {
-            var list = db.CRM_GorusmeNotlari(null, null).ToList();
+            var list = db.CRM_GorusmeNotlari(Start == null ? DateTime.Today.AddYears(-10) : Start.ToDatetime(), End == null ? DateTime.Today.AddYears(10) : End.ToDatetime()).ToList();
             return PartialView("MeetingList", list);
         }
         /// <summary>
@@ -71,7 +72,7 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public PartialViewResult InstitutionList(string Start, string End)
         {
-            var list = db.CRM_KurumKarti(null, null).ToList();
+            var list = db.CRM_KurumKarti(Start == null ? DateTime.Today.AddYears(-10) : Start.ToDatetime(), End == null ? DateTime.Today.AddYears(10) : End.ToDatetime()).ToList();
             return PartialView("InstitutionList", list);
         }
     }

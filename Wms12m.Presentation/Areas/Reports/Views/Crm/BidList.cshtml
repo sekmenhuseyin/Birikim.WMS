@@ -20,7 +20,7 @@
                 <td>@item.KONU</td>
                 <td>@item.TARIH</td>
                 <td>@item.GECERLILIKTARIHI</td>
-                <td align="right">@String.Format("{0:n}", item.ToplamTeklifTutari)</td>
+                <td align="right">@if(item.ToplamTeklifTutari!=null){@String.Format("{0:n}", item.ToplamTeklifTutari)}</td>
             </tr>
         }
     </tbody>

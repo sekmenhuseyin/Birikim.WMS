@@ -45,11 +45,11 @@
                 $("#txtBitis").prop("disabled", true);
         });
         $("#btnListele").click(function () {
-            alert($("#cmbBaslangic").checked);
-            var tmpBas = $("#cmbBaslangic").checked == true ? $("#txtBaslangic").val() : null;
-            var tmpBit = $("#cmbBitis").checked == true ? $("#txtBitis").val() : null;
-            //PartialView("/Reports/CRM/BidList", 'liste', JSON.stringify({ Start: tmpBas, End: tmpBit }));
+            var tmpBas = $("#cmbBaslangic").is(':checked') == true ? $("#txtBaslangic").val() : null;
+            var tmpBit = $("#cmbBitis").is(':checked') == true ? $("#txtBitis").val() : null;
+            PartialView("/Reports/CRM/BidList", 'liste', JSON.stringify({ Start: tmpBas, End: tmpBit }));
         });
+        $("#btnListele").click();
     });
     @if (ViewBag.id == "0") { <text>$("#txtBaslangic").prop("disabled", true); $("#txtBitis").prop("disabled", true);</text> }
     function filterx(a, b) { filter(table, a, b); }
