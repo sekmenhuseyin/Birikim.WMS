@@ -10,14 +10,27 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public ActionResult Meeting()
         {
-            //var list = db.CRM_GorusmeNotlari().ToList();
+            var id = Url.RequestContext.RouteData.Values["id"].ToString2();
+            if (id == null || id == "") id = "0";
+            ViewBag.id = id;
             return View("Meeting");
+        }
+        /// <summary>
+        /// irsaliye listesi
+        /// </summary>
+        public PartialViewResult MeetingList()
+        {
+            var list = db.CRM_GorusmeNotlari(null, null).ToList();
+            return PartialView("MeetingList", list);
         }
         /// <summary>
         /// kurum kartları
         /// </summary>
         public ActionResult Institution()
         {
+            var id = Url.RequestContext.RouteData.Values["id"].ToString2();
+            if (id == null || id == "") id = "0";
+            ViewBag.id = id;
             return View("Institution");
         }
         /// <summary>
@@ -25,7 +38,9 @@ namespace Wms12m.Presentation.Areas.Reports.Controllers
         /// </summary>
         public ActionResult Bid()
         {
-            //var list = db.CRM_TeklifAnaliz().ToList();
+            var id = Url.RequestContext.RouteData.Values["id"].ToString2();
+            if (id == null || id == "") id = "0";
+            ViewBag.id = id;
             return View("Bid");
         }
         /// <summary>

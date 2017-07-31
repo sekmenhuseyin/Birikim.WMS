@@ -3,6 +3,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><a href="/">CRM</a><i class="fa fa-circle"></i></li><li><span>Kurum Kartları</span></li></ul></div>
 <h1 class="page-title">Kurum Kartları</h1>
+<div class="row m-t-20">
+    <div class="col-md-1 text-right p-0 m-t-5 color-blue-light bold">Başlangıç: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.ToShortDateString()" /></div>
+    <div class="col-md-1 text-right p-0 m-t-5 color-blue-light bold">Bitiş: </div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToShortDateString()" /></div>
+    <div class="col-md-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box green">
