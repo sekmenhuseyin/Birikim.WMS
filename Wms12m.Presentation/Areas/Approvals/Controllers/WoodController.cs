@@ -444,37 +444,164 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
-        //public string IhaleEvrakCekEvrakNoIle(string EvrakNo, string HesapKodu)
-        //{
-        //    var RT = db.Database.SqlQuery<MyChi>(string.Format(@"SELECT DISTINCT CHI.HesapKodu, CHK.Unvan1 as Unvan, CHI.EvrakNo, CHI.EvrakNo2
-        //                                                        , CAST(CHI.Tarih-2 as smalldatetime) as Tarih, CHI.Kod13, CHI.Kod14 
 
-        //                                                        FROM FINSAT6{0}.FINSAT6{0}.CHI (nolock)
-        //                                                        LEFT JOIN FINSAT6{0}.FINSAT6{0}.CHK (nolock) ON CHK.HesapKodu=CHI.HesapKodu
-        //                                                        WHERE CHI.KynkEvrakTip=4 AND CHI.Kod13>0 AND CHI.Kod14>0 
-        //                                                        AND CHI.EvrakNo2='{1}' AND CHI.HesapKodu='{2}' ", "17", EvrakNo, HesapKodu)).ToList();
+        public ActionResult NakliyeFiyatOnay()
+        {
+            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+        public PartialViewResult NakliyeFiyat_List()
+        {
+            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string NakliyeFiyatOnayCek()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<MyDep>(string.Format("SELECT *  FROM[FINSAT6{0}].[FINSAT6{0}].[DEP]  WHERE Depo LIKE 'H%' AND Kod2<>''", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+        public JsonResult NakliyeFiyatOnayla(string Data)
+        {
+            Result _Result = new Result(true);
+            //  if (CheckPerm(Perms.TeminatOnay, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
 
-        //    var RT1 = db.Database.SqlQuery<MySti>(string.Format(@"SELECT STI.EvrakNo, STI.Tarih, STI.Chk, STI.MalKodu, STK.MalAdi, STI.BirimMiktar, STI.Birim 
-        //                                                          FROM FINSAT6{0}.FINSAT6{0}.STI (nolock)
-        //                                                        INNER JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) ON STK.MalKodu=STI.MalKodu
-        //                                                        WHERE STI.KynkEvrakTip=4 AND STI.Chk='{2}' AND STI.EvrakNo IN  
-        //                                                        (
-        //                                                            SELECT EvrakNo FROM FINSAT6{0}.FINSAT6{0}.CHI (nolock) 
-        //                                                            WHERE KynkEvrakTip=4 AND Kod13>0 AND Kod14>0 AND EvrakNo2='{1}' 
-        //                                                            AND HesapKodu='{2}' AND BirimMiktar>0
-        //                                                         )", "17", EvrakNo, HesapKodu)).ToList();
+            try
+            {
+
+                foreach (JObject insertObj in parameters)
+                {
+                    DateTime date = DateTime.Now;
+                    var shortDate = date.ToString("yyyy-MM-dd");                 
 
 
-        //    foreach (MyChi chi in RT)
-        //    {
-        //        chi.FaturaDetay = RT1.FindAll(t => t.EvrakNo == chi.EvrakNo);
-        //    }
+                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod1 = '{1}', Kod2='', Degistiren='" + vUser.UserName + "',DegisTarih='{2}'  where Depo = '{3}'AND Kod2<>''", "17", insertObj["Kod2"].ToString(), shortDate, insertObj["Depo"].ToString());
+                    db.Database.ExecuteSqlCommand(s);
+                }
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+
+            }
+            catch (Exception ex)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult NakliyeFiyatRed(string Data)
+        {
+            Result _Result = new Result(true);
+            //  if (CheckPerm(Perms.TeminatOnay, PermTypes.Writing) == false) return null;
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+
+            try
+            {
+
+                foreach (JObject insertObj in parameters)
+                {
+                    DateTime date = DateTime.Now;
+                    var shortDate = date.ToString("yyyy-MM-dd");
+
+                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod2 = '', Degistiren='" + vUser.UserName + "',DegisTarih='{1}'  where Depo = '{2}'AND Kod2<>''", "17",shortDate, insertObj["Depo"].ToString());
+
+                    db.Database.ExecuteSqlCommand(s);
+                }
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+
+            }
+            catch (Exception ex)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        public ActionResult NakliyeFiyatlar()
+        {
+            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+        public PartialViewResult NakliyeFiyatlar_List()
+        {
+            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string NakliyeFiyatlarCek()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<MyDep>(string.Format("SELECT *  FROM[FINSAT6{0}].[FINSAT6{0}].[DEP]  WHERE Depo LIKE 'H%'", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
+
+        public ActionResult DisDepoStokRapor()
+        {
+            string sorgu = string.Format(@"SELECT MalKodu, MalAdi, Birim1, Birim2, Birim3 FROM FINSAT6{0}.FINSAT6{0}.STK (nolock)
+                                                                            WHERE MalKodu LIKE '095%' ", "17");
+            var malkod = db.Database.SqlQuery<MyStk>(sorgu).ToList();
+            ViewBag.MalKod = new SelectList(malkod, "MalKodu", "MalAdi");
+            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
+            return View();
+        }
+        public PartialViewResult DisDepoStokRapor_List()
+        {
+            // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            return PartialView();
+        }
+        public string DisDepoStokCek()
+        {
+            if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
+            var RT = db.Database.SqlQuery<MyDst>(string.Format(@"SELECT DST.Depo, DEP.DepoAdi, DST.MalKodu, STK.MalAdi, STK.Birim1 as Birim
+                                                                , DST.DvrMiktar, DST.GirMiktar, DST.CikMiktar 
+
+                                                                , ISNULL(A.DevirMiktar,0) as STIDvrMiktar, ISNULL(A.GirisMiktar,0) as STIGirMiktar, ISNULL(A.CikisMiktar,0) as STICikMiktar
+
+                                                                FROM FINSAT6{0}.FINSAT6{0}.DST (nolock)
+                                                                INNER JOIN FINSAT6{0}.FINSAT6{0}.DEP (nolock) ON DEP.Depo=DST.Depo
+                                                                INNER JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) ON STK.MalKodu=DST.MalKodu
+
+                                                                LEFT JOIN
+                                                                (
+	                                                                SELECT Depo, MalKodu
+	                                                                , SUM(CASE WHEN STI.IslemTur=0 AND STI.IslemTip=0 THEN STI.Miktar WHEN STI.IslemTur=1 AND STI.IslemTip=0 THEN -STI.Miktar ELSE 0 END) 
+                                                                    as DevirMiktar
+                                                                    , SUM(CASE WHEN STI.IslemTur=0 and STI.IslemTip  not in (0,18) AND STI.Irsfat not in (2,3) THEN STI.Miktar ELSE 0 END)
+                                                                    as GirisMiktar
+                                                                    , SUM(CASE WHEN STI.Islemtur=1 AND STI.Islemtip not in (0,18) AND STI.Irsfat not in (2,3)  THEN STI.Miktar ELSE 0 END)
+                                                                    as CikisMiktar
+
+ 
+	                                                                FROM FINSAT6{0}.FINSAT6{0}.STI (nolock)
+	                                                                WHERE Depo LIKE 'H%' 	
+	                                                                GROUP BY Depo, MalKodu
+                                                                ) AS A ON A.Depo=DST.Depo AND A.MalKodu=DST.MalKodu
+
+
+                                                                WHERE DST.Depo LIKE 'H%'", "17")).ToList();
+            var json = new JavaScriptSerializer().Serialize(RT);
+            return json;
+        }
+
+
+        
 
 
 
-        //    var json = new JavaScriptSerializer().Serialize(RT);
-        //    return json;
-        //}
 
     }
 }
