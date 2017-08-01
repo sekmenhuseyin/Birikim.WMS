@@ -854,6 +854,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.PicUcuncuKisiImza.LocationFloat = new DevExpress.Utils.PointFloat(572.9999F, 263.8333F);
             this.PicUcuncuKisiImza.Name = "PicUcuncuKisiImza";
             this.PicUcuncuKisiImza.SizeF = new System.Drawing.SizeF(175F, 56.33334F);
+            this.PicUcuncuKisiImza.Sizing = DevExpress.XtraPrinting.ImageSizeMode.StretchImage;
             // 
             // PicikinciKisiImza
             // 
@@ -963,7 +964,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             // lblDovizCins
             // 
             this.lblDovizCins.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Siparis.DovizCins")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Siparis.DovizCinsi")});
             this.lblDovizCins.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold);
             this.lblDovizCins.LocationFloat = new DevExpress.Utils.PointFloat(748.0099F, 55.99995F);
             this.lblDovizCins.Name = "lblDovizCins";
@@ -971,7 +972,6 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblDovizCins.SizeF = new System.Drawing.SizeF(50.41663F, 23F);
             this.lblDovizCins.StylePriority.UseFont = false;
             this.lblDovizCins.StylePriority.UseTextAlignment = false;
-            this.lblDovizCins.Text = "lblDovizCins";
             this.lblDovizCins.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // xrLabel24
