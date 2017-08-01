@@ -659,7 +659,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblUnvan.SizeF = new System.Drawing.SizeF(284.375F, 17.79167F);
             this.lblUnvan.StylePriority.UseBorders = false;
             this.lblUnvan.StylePriority.UseTextAlignment = false;
-            this.lblUnvan.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblUnvan.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // lblEmail
             // 
@@ -671,7 +671,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblEmail.SizeF = new System.Drawing.SizeF(284.375F, 17.79169F);
             this.lblEmail.StylePriority.UseBorders = false;
             this.lblEmail.StylePriority.UseTextAlignment = false;
-            this.lblEmail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblEmail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // lblTel
             // 
@@ -682,7 +682,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblTel.SizeF = new System.Drawing.SizeF(284.375F, 17.79167F);
             this.lblTel.StylePriority.UseBorders = false;
             this.lblTel.StylePriority.UseTextAlignment = false;
-            this.lblTel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblTel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // lblAdrs
             // 
@@ -693,7 +693,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblAdrs.SizeF = new System.Drawing.SizeF(284.375F, 38.62503F);
             this.lblAdrs.StylePriority.UseBorders = false;
             this.lblAdrs.StylePriority.UseTextAlignment = false;
-            this.lblAdrs.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblAdrs.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // lblFax
             // 
@@ -704,7 +704,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblFax.SizeF = new System.Drawing.SizeF(284.375F, 17.79167F);
             this.lblFax.StylePriority.UseBorders = false;
             this.lblFax.StylePriority.UseTextAlignment = false;
-            this.lblFax.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblFax.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // xrLabel13
             // 

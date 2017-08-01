@@ -1,4 +1,5 @@
 ﻿using KurumsalKaynakPlanlaması12M;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -44,7 +45,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
 
-            ViewBag.HesapKodu = HesapKodu;
+            ViewBag.HesapKodu = JsonConvert.SerializeObject(HesapKodu);
             ViewBag.SipTalepNo = SipTalepNo;
             return PartialView("GMOnay_List");
         }
@@ -52,13 +53,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
 
-            ViewBag.HesapKodu = HesapKodu;
+            ViewBag.HesapKodu = JsonConvert.SerializeObject(HesapKodu);
             ViewBag.SipTalepNo = SipTalepNo;
             return PartialView("GMOnayFTD_List");
         }
         public string SipGMOnayListData(string HesapKodu, int SipTalepNo)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
+            MyGlobalVariables.DovizDurum = false;
             if (MyGlobalVariables.GridSource == null)
                 MyGlobalVariables.GridSource = new List<KKP_SPI>();
             else
@@ -128,6 +130,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (MyGlobalVariables.DovizDurum == false)
             {
                 MyGlobalVariables.SipEvrak.FTDHesapla("TL", Convert.ToDecimal(0));
+                MyGlobalVariables.GridFTD = null;
                 MyGlobalVariables.GridFTD = MyGlobalVariables.SipEvrak.FTDList;
             }
             else
@@ -136,6 +139,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 if (kur > 0)
                 {
                     MyGlobalVariables.SipEvrak.FTDHesapla(MyGlobalVariables.TalepSource[0].FTDDovizCinsi, kur);
+                    MyGlobalVariables.GridFTD = null;
                     MyGlobalVariables.GridFTD = MyGlobalVariables.SipEvrak.FTDList;
                 }
             }
