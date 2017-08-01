@@ -1,0 +1,58 @@
+﻿<div class="col-md-12" style="width:100%;">
+    <div id="buttons"></div>
+    <table class="table table-striped table-bordered table-hover" id="sample_1">
+        <thead>
+            <tr>
+
+              
+                <th>Depo </th>
+                <th>Depo Adı </th>
+                <th>Fiyat(KG) </th>
+            </tr>
+        </thead>
+
+    </table>
+
+
+</div>
+<script>
+
+    var secili_satir = new Array();
+    var secili_table = new Array();
+    var table = $('#sample_1').DataTable({
+        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+        "ajax": {
+            "url": '/Approvals/Wood/NakliyeFiyatlarCek',
+            "dataSrc": function (json) {
+
+                return json;
+            },
+        },
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2] }],
+        "columns": [
+          
+            { "data": "Depo" },
+            { "data": "DepoAdi"},
+            { "data": "Kod1", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
+
+            ],
+
+
+        "ordering": false,
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $('td', nRow).attr('nowrap', 'nowrap');
+            return nRow;
+        }
+    });
+    $('#sample_1 tbody').on('click', 'tr', function () {
+        $(this).toggleClass('selected');
+    });
+    var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+            { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn-xs;' },
+            { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn-xs;' }
+        ]
+    }).container().appendTo($('#buttons'));
+    var selectall = true;
+ 
+</script>

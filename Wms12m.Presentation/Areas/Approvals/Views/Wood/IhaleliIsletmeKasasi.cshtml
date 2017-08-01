@@ -102,7 +102,7 @@
     $.ajax({
         url: window.location.origin + "/Approvals/Wood/IhaleEvrakCek",
         data: {},
-        type: "post",
+        type: "post",   
         success: function (data) {
             var result = JSON.parse(data);
             $(".select_evrakno").dxLookup("instance").option("dataSource", result);
@@ -141,7 +141,7 @@
             }
             var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
             rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.EvrakNo + "</b></p>");
-            rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>ListeNo: <i style='font-weight:normal;'>" + itemData.OrmIslt + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Ünvan: <i style='font-weight:normal;'>" + itemData.OrmIsltUnvan + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Yıl: <i style='font-weight:normal;'>" + itemData.Yil + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Hafta: <i style='font-weight:normal;'>" + itemData.Hafta + "</i></span></div>");
+            rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>HesapKodu: <i style='font-weight:normal;'>" + itemData.OrmIslt + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Ünvan: <i style='font-weight:normal;'>" + itemData.OrmIsltUnvan + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Yıl: <i style='font-weight:normal;'>" + itemData.Yil + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Hafta: <i style='font-weight:normal;'>" + itemData.Hafta + "</i></span></div>");
             itemElement.append(rightBlock);
         }
     });

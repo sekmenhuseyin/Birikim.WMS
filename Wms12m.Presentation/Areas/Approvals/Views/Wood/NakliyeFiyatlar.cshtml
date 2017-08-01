@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Nakliye Fiyat Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <style>
+        .btn {
+            width: 120px;
+            text-align: center;
+        }
+    </style>
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Odun</span></li></ul></div>
+<h1 class="page-title">Nakliye Fiyat Listesi</h1>
+<div class="form-horizontal">
+    <div class="form-body">
+
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Nakliye Fiyat Listesi
+                </div>
+                <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+           </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div id="liste">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        
+      
+
+        $(document).ready(function () {
+
+           
+
+
+        });
+
+
+
+        $('.yenile-buton').click(function () {
+            $('#buttons').html("");
+            //setTimeout(function () { window.location.reload(); }, 500);
+            PartialView("/Approvals/Wood/NakliyeFiyatlar_List", 'liste');    
+        });
+    </script>
+}

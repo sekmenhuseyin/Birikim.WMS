@@ -578,4 +578,89 @@ namespace Wms12m.Entity
             return String.Format("{0} {1}", MalKodu, MalAdi);
         }
     }
+    public class MyDep
+    {
+        public bool Secim { get; set; }
+        public string Depo { get; set; }
+        public string DepoAdi { get; set; }
+        public Nullable<decimal> Fiyat { get; set; }
+        public Nullable<decimal> YeniFiyat { get; set; }
+
+        /// <summary>
+        /// <para>Kod1 de Fiyat Tutuluyor.</para>
+        /// <para>Veritabanında şu formatta olması lazım. 150.50</para>
+        /// </summary>
+        public string Kod1 { get; set; }
+        /// <summary>
+        /// <para>Kod2 de Yeni Fiyat tutuluyor.</para>
+        /// <para>Veritabanında şu formatta olması lazım. 150.50</para>
+        /// </summary>
+        public string Kod2 { get; set; }
+
+
+        public void Kod1denFiyat()
+        {
+            string yKod1 = Kod1.Replace('.', ',');
+            decimal fiyat;
+            if (decimal.TryParse(yKod1, out fiyat))
+            {
+                Fiyat = fiyat;
+            }
+        }
+
+        public void Kod2denYeniFiyat()
+        {
+            string yKod2 = Kod2.Replace('.', ',');
+            decimal fiyat;
+            if (decimal.TryParse(yKod2, out fiyat))
+            {
+                YeniFiyat = fiyat;
+            }
+        }
+    }
+
+    public class MyDst
+    {
+        public string Depo { get; set; }
+        public string DepoAdi { get; set; }
+        public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
+        public string Birim { get; set; }
+
+        public decimal DvrMiktar { get; set; }
+        public decimal GirMiktar { get; set; }
+        public decimal CikMiktar { get; set; }
+
+        public decimal StokMiktar { get { return DvrMiktar + GirMiktar - CikMiktar; } set { } }
+
+
+        public decimal STIDvrMiktar { get; set; }
+        public decimal STIGirMiktar { get; set; }
+        public decimal STICikMiktar { get; set; }
+
+        public decimal STIKalanMiktar { get { return STIDvrMiktar + STIGirMiktar - STICikMiktar; } set { } }
+
+        public override string ToString()
+        {
+            return string.Format("{0} - {1}  ({2}-{3})", Depo, DepoAdi, MalKodu, MalAdi);
+        }
+    }
+    public class MyStk
+    {
+        public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
+
+        ///Birim1, Birim2, Birim3
+        public string Birim1 { get; set; }
+        public string Birim2 { get; set; }
+        public string Birim3 { get; set; }
+
+        public decimal BirimFiyat { get; set; }
+
+        public override string ToString()
+        {
+            return MalKodu + "   " + MalAdi;
+        }
+
+    }
 }
