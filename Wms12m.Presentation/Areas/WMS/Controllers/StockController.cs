@@ -190,12 +190,12 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //yerleştirme kaydı yapılır
             if (GC == false)
             {
-                if (tbl.MakaraNo == "")
+                if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
                 {
                     var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", db.GetSirketDBs().FirstOrDefault(), tbl.MalKodu)).FirstOrDefault();
                     if (kkablo == "KKABLO")
                     {
-                        tbl.MakaraNo = "Boş-";
+                        tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(tbl.DepoID).FirstOrDefault();
                     }
                 }
                 if (tbl.MakaraNo == "")
@@ -238,73 +238,73 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         return Json(new Result(false, "Bu makara no kullanılmaktadır"), JsonRequestBehavior.AllowGet);
                     }
                 }
-                    //add to mysql
-                    if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
-            {
-                var listedb = db.GetSirketDBs().ToList();
-                string sql = "";
-                foreach (var item in listedb)
+                //add to mysql
+                if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
                 {
-                    if (sql != "") sql += " UNION ";
-                    sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
-                                        "FROM FINSAT6{0}.FINSAT6{0}.STK " +
-                                        "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", item, tbl.MalKodu);
-                }
-                sql = "SELECT * from (" + sql + ") t";
-                var stks = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
-                if (stks != null)
-                {
-                    using (KabloEntities dbx = new KabloEntities())
+                    var listedb = db.GetSirketDBs().ToList();
+                    string sql = "";
+                    foreach (var item in listedb)
                     {
-                        string depo;
-                        var kbldepoID = db.Depoes.Where(m => m.ID == vUser.DepoId).Select(m => m.KabloDepoID).FirstOrDefault();
-                        if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
-                        else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
-                        try
+                        if (sql != "") sql += " UNION ";
+                        sql += String.Format("SELECT FINSAT6{0}.FINSAT6{0}.STK.MalAdi4 as Marka, FINSAT6{0}.FINSAT6{0}.STK.Nesne2 as Cins, FINSAT6{0}.FINSAT6{0}.STK.Kod15 as Kesit " +
+                                            "FROM FINSAT6{0}.FINSAT6{0}.STK " +
+                                            "WHERE (FINSAT6{0}.FINSAT6{0}.STK.Kod1 = 'KKABLO') AND (FINSAT6{0}.FINSAT6{0}.STK.MalKodu = '{1}')", item, tbl.MalKodu);
+                    }
+                    sql = "SELECT * from (" + sql + ") t";
+                    var stks = db.Database.SqlQuery<frmCableStk>(sql).FirstOrDefault();
+                    if (stks != null)
+                    {
+                        using (KabloEntities dbx = new KabloEntities())
                         {
-                            if (GC == false)
+                            string depo;
+                            var kbldepoID = db.Depoes.Where(m => m.ID == vUser.DepoId).Select(m => m.KabloDepoID).FirstOrDefault();
+                            if (kbldepoID == null) depo = dbx.depoes.Select(m => m.depo1).FirstOrDefault();
+                            else depo = dbx.depoes.Where(m => m.id == kbldepoID).Select(m => m.depo1).FirstOrDefault();
+                            try
                             {
-                                //sid bul
-                                var sid = dbx.indices.Where(m => m.cins == stks.Cins && m.kesit == stks.Kesit).FirstOrDefault();
-                                if (sid == null)
+                                if (GC == false)
                                 {
-                                    sid = new index() { cins = stks.Cins, kesit = stks.Kesit, agirlik = 0 };
-                                    dbx.indices.Add(sid);
-                                    dbx.SaveChanges();
+                                    //sid bul
+                                    var sid = dbx.indices.Where(m => m.cins == stks.Cins && m.kesit == stks.Kesit).FirstOrDefault();
+                                    if (sid == null)
+                                    {
+                                        sid = new index() { cins = stks.Cins, kesit = stks.Kesit, agirlik = 0 };
+                                        dbx.indices.Add(sid);
+                                        dbx.SaveChanges();
+                                    }
+                                    //stoğa kaydet
+                                    stok tbls = new stok()
+                                    {
+                                        marka = stks.Marka,
+                                        cins = stks.Cins,
+                                        kesit = stks.Kesit,
+                                        sid = sid.id,
+                                        depo = depo,
+                                        renk = "",
+                                        makara = "KAPALI",
+                                        rezerve = "0",
+                                        sure = new TimeSpan(),
+                                        tarih = DateTime.Now,
+                                        tip = "",
+                                        rmiktar = 0,
+                                        miktar = tbl.Miktar,
+                                        makarano = tbl.MakaraNo
+                                    };
+                                    dbx.stoks.Add(tbls);
                                 }
-                                //stoğa kaydet
-                                stok tbls = new stok()
+                                else
                                 {
-                                    marka = stks.Marka,
-                                    cins = stks.Cins,
-                                    kesit = stks.Kesit,
-                                    sid = sid.id,
-                                    depo = depo,
-                                    renk = "",
-                                    makara = "KAPALI",
-                                    rezerve = "0",
-                                    sure = new TimeSpan(),
-                                    tarih = DateTime.Now,
-                                    tip = "",
-                                    rmiktar = 0,
-                                    miktar = tbl.Miktar,
-                                    makarano = tbl.MakaraNo
-                                };
-                                dbx.stoks.Add(tbls);
+                                }
+                                dbx.SaveChanges();
                             }
-                            else
+                            catch (Exception ex)
                             {
+                                Logger(ex, "Stock/ManualPlacement");
+                                //return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
                             }
-                            dbx.SaveChanges();
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger(ex, "Stock/ManualPlacement");
-                            //return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
                         }
                     }
                 }
-            }
             }
             else
             {
