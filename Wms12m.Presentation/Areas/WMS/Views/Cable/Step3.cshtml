@@ -105,7 +105,7 @@
     $(".submit").click(function () {
         var selected = ""; var result = false, cont = true;
         table.rows(".selected").every(function (rowIdx, tableLoop, rowLoop) {
-            if (this.data()[10] == "") {
+            if (this.data()[10] == "" && cont == true) {
                 Modaldialog("Lütfen makara seçin", "Hata", "Tamam", "btn-danger");
                 cont = false;
             }
