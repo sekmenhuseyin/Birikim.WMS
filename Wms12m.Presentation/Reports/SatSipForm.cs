@@ -141,7 +141,6 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.xrTableCell16 = new DevExpress.XtraReports.UI.XRTableCell();
             this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
             this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
-            this.objectDataSource1 = new DevExpress.DataAccess.ObjectBinding.ObjectDataSource(this.components);
             this.PageHeader = new DevExpress.XtraReports.UI.PageHeaderBand();
             this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
             this.xrTableRow1 = new DevExpress.XtraReports.UI.XRTableRow();
@@ -201,9 +200,10 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.xrLabel21 = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel22 = new DevExpress.XtraReports.UI.XRLabel();
             this.picBirinciKisiImza = new DevExpress.XtraReports.UI.XRPictureBox();
+            this.objectDataSource1 = new DevExpress.DataAccess.ObjectBinding.ObjectDataSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.objectDataSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectDataSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -351,11 +351,6 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.BottomMargin.Name = "BottomMargin";
             this.BottomMargin.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
             this.BottomMargin.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopLeft;
-            // 
-            // objectDataSource1
-            // 
-            this.objectDataSource1.DataSource = typeof(Wms12m.Presentation.Reports.DsSatinalma);
-            this.objectDataSource1.Name = "objectDataSource1";
             // 
             // PageHeader
             // 
@@ -664,7 +659,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblUnvan.SizeF = new System.Drawing.SizeF(284.375F, 17.79167F);
             this.lblUnvan.StylePriority.UseBorders = false;
             this.lblUnvan.StylePriority.UseTextAlignment = false;
-            this.lblUnvan.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblUnvan.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // lblEmail
             // 
@@ -676,7 +671,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblEmail.SizeF = new System.Drawing.SizeF(284.375F, 17.79169F);
             this.lblEmail.StylePriority.UseBorders = false;
             this.lblEmail.StylePriority.UseTextAlignment = false;
-            this.lblEmail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblEmail.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // lblTel
             // 
@@ -687,7 +682,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblTel.SizeF = new System.Drawing.SizeF(284.375F, 17.79167F);
             this.lblTel.StylePriority.UseBorders = false;
             this.lblTel.StylePriority.UseTextAlignment = false;
-            this.lblTel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblTel.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // lblAdrs
             // 
@@ -698,7 +693,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblAdrs.SizeF = new System.Drawing.SizeF(284.375F, 38.62503F);
             this.lblAdrs.StylePriority.UseBorders = false;
             this.lblAdrs.StylePriority.UseTextAlignment = false;
-            this.lblAdrs.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblAdrs.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // lblFax
             // 
@@ -709,7 +704,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblFax.SizeF = new System.Drawing.SizeF(284.375F, 17.79167F);
             this.lblFax.StylePriority.UseBorders = false;
             this.lblFax.StylePriority.UseTextAlignment = false;
-            this.lblFax.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblFax.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // xrLabel13
             // 
@@ -734,7 +729,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblOrderNo.StylePriority.UseFont = false;
             this.lblOrderNo.StylePriority.UsePadding = false;
             this.lblOrderNo.StylePriority.UseTextAlignment = false;
-            this.lblOrderNo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleCenter;
+            this.lblOrderNo.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // xrLabel15
             // 
@@ -859,6 +854,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.PicUcuncuKisiImza.LocationFloat = new DevExpress.Utils.PointFloat(572.9999F, 263.8333F);
             this.PicUcuncuKisiImza.Name = "PicUcuncuKisiImza";
             this.PicUcuncuKisiImza.SizeF = new System.Drawing.SizeF(175F, 56.33334F);
+            this.PicUcuncuKisiImza.Sizing = DevExpress.XtraPrinting.ImageSizeMode.StretchImage;
             // 
             // PicikinciKisiImza
             // 
@@ -968,7 +964,7 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             // lblDovizCins
             // 
             this.lblDovizCins.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
-            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Siparis.DovizCins")});
+            new DevExpress.XtraReports.UI.XRBinding("Text", null, "Siparis.DovizCinsi")});
             this.lblDovizCins.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Bold);
             this.lblDovizCins.LocationFloat = new DevExpress.Utils.PointFloat(748.0099F, 55.99995F);
             this.lblDovizCins.Name = "lblDovizCins";
@@ -976,7 +972,6 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.lblDovizCins.SizeF = new System.Drawing.SizeF(50.41663F, 23F);
             this.lblDovizCins.StylePriority.UseFont = false;
             this.lblDovizCins.StylePriority.UseTextAlignment = false;
-            this.lblDovizCins.Text = "lblDovizCins";
             this.lblDovizCins.TextAlignment = DevExpress.XtraPrinting.TextAlignment.MiddleLeft;
             // 
             // xrLabel24
@@ -1076,6 +1071,11 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.picBirinciKisiImza.SizeF = new System.Drawing.SizeF(154F, 56.33334F);
             this.picBirinciKisiImza.Sizing = DevExpress.XtraPrinting.ImageSizeMode.StretchImage;
             // 
+            // objectDataSource1
+            // 
+            this.objectDataSource1.DataSource = typeof(Wms12m.Presentation.Reports.DsSatinalma);
+            this.objectDataSource1.Name = "objectDataSource1";
+            // 
             // SatSipForm
             // 
             this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
@@ -1091,8 +1091,8 @@ public class SatSipForm : DevExpress.XtraReports.UI.XtraReport
             this.Margins = new System.Drawing.Printing.Margins(23, 26, 34, 100);
             this.Version = "17.1";
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.objectDataSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.objectDataSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
     }

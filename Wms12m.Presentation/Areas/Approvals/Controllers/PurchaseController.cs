@@ -1,4 +1,5 @@
 ﻿using KurumsalKaynakPlanlaması12M;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -22,6 +23,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public static List<KKP_FTD> GridFTD { get; set; }
         public static bool DovizDurum { get; set; }
         public static string Birim { get; set; }
+        public static string Depo { get; set; }
 
     }
 
@@ -35,6 +37,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public ActionResult Satınalma_GM_Onay()
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            MyGlobalVariables.Depo = "93 DP";
             MyGlobalVariables.DovizDurum = false;
             MyGlobalVariables.SipTalepList = db.Database.SqlQuery<SatTalep>(string.Format("[FINSAT6{0}].[wms].[SatinAlmaGMOnayList]", "17")).ToList();
             return View("GM_Onay", MyGlobalVariables.SipTalepList);
@@ -44,7 +47,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
 
-            ViewBag.HesapKodu = HesapKodu;
+            ViewBag.HesapKodu = JsonConvert.SerializeObject(HesapKodu);
             ViewBag.SipTalepNo = SipTalepNo;
             return PartialView("GMOnay_List");
         }
@@ -52,13 +55,14 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
 
-            ViewBag.HesapKodu = HesapKodu;
+            ViewBag.HesapKodu = JsonConvert.SerializeObject(HesapKodu);
             ViewBag.SipTalepNo = SipTalepNo;
             return PartialView("GMOnayFTD_List");
         }
         public string SipGMOnayListData(string HesapKodu, int SipTalepNo)
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
+            MyGlobalVariables.DovizDurum = false;
             if (MyGlobalVariables.GridSource == null)
                 MyGlobalVariables.GridSource = new List<KKP_SPI>();
             else
@@ -115,7 +119,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 spi.Kod11 = item.TeklifVade ?? 0; //Sırf ekranda göstermek için Kod11' e teklif de ki Vade atıyoruz. Ve kaydediyoruz. SPI.Kod11 daha sonra değiştirilip silinebilir önemli değil. (şimdilik)
 
-                //spi.Depo = Degiskenler.SiparisDepo;
+                spi.Depo = MyGlobalVariables.Depo;
 
                 spi.Operator = (short)(item.Operator != null ? item.Operator.Value : 0);
                 spi.Katsayi = item.Katsayi != null ? item.Katsayi.Value : 0;
@@ -128,6 +132,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (MyGlobalVariables.DovizDurum == false)
             {
                 MyGlobalVariables.SipEvrak.FTDHesapla("TL", Convert.ToDecimal(0));
+                MyGlobalVariables.GridFTD = null;
                 MyGlobalVariables.GridFTD = MyGlobalVariables.SipEvrak.FTDList;
             }
             else
@@ -136,6 +141,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 if (kur > 0)
                 {
                     MyGlobalVariables.SipEvrak.FTDHesapla(MyGlobalVariables.TalepSource[0].FTDDovizCinsi, kur);
+                    MyGlobalVariables.GridFTD = null;
                     MyGlobalVariables.GridFTD = MyGlobalVariables.SipEvrak.FTDList;
                 }
             }
@@ -357,14 +363,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (MyGlobalVariables.GridSource == null || MyGlobalVariables.GridSource.Count == 0 || MyGlobalVariables.SipEvrak == null)
             {
                 _Result.Message = "Siparis Seçmelisiniz!!";
-                _Result.Status = false;
-                return Json(_Result, JsonRequestBehavior.AllowGet);
-            }
-
-
-            if (redAciklama.Trim() == "")
-            {
-                _Result.Message = "Geri Çevirme açıklamasını girmek zorundasınız!!";
                 _Result.Status = false;
                 return Json(_Result, JsonRequestBehavior.AllowGet);
             }

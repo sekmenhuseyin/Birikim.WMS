@@ -67,6 +67,7 @@
             //valueExpr: 'Kod',
             displayExpr: 'SipTalepNo',
             onValueChanged: function (e) {
+                console.log(e);
                 if (e.value == null) {
                     return;
                 }
@@ -108,6 +109,11 @@
     });
 
     $('.onayla-buton').click(function () {
+        var secimKontrol = $(".select_onay").dxLookup("instance").option("value");
+        if (secimKontrol == null) {
+            Modaldialog("Sipariş Seçiniz!!", "Hata", "Tamam", "btn-danger");
+            return;
+        }
         $.ajax({
             url: window.location.origin + "/Approvals/Purchase/BirimDegisimKontrol",
             data: { hesapKodu: CHK, talepNo: TLP },
@@ -142,8 +148,14 @@
     });
 
     $('.reddet-buton').click(function () {
+        var aciklama = $(".txt_geri_cevirme_aciklamasi").dxTextBox("instance").option("value");
+        if (aciklama == "") {
+            Modaldialog("Geri Çevirme açıklamasını girmek zorundasınız!!", "Hata", "Tamam", "btn-danger");
+            return;
+        }
+      
         $.ajax({
-            url: window.location.origin + "/Approvals/Purchase/SipGMReddet?redAciklama="+ $(".txt_geri_cevirme_aciklamasi").dxTextBox("instance").option("value"),
+            url: window.location.origin + "/Approvals/Purchase/SipGMReddet?redAciklama=" + aciklama,
             data: {},
             type: "post",
             success: function (data) {

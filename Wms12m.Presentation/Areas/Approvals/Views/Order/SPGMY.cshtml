@@ -32,6 +32,8 @@
                             <th>Bakiye</th>
                             <th>Risk Bakiyesi</th>
                             <th>Toplam Bakiye</th>
+                            <th>Toplam Değişim Çek Bakiyesi</th>
+                            <th>Müşteri Toplam Bakiyesi</th>
                             <th>Şahsi Çek Limiti</th>
                             <th>Şahsi Çek Riski</th>
                             <th>Müşteri Çek Limiti</th>
@@ -68,6 +70,8 @@
                                 </td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.RiskBakiyesi)</td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.ToplamBakiye)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.DegisimToplamBakiye)</td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.IslemYapılanCHKBakiye)</td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.SahsiCekLimiti)</td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.SahsiCekRiski)</td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.MusteriCekLimiti)</td>

@@ -232,6 +232,8 @@ namespace Wms12m.Entity
         public decimal SahsiCekRiski { get; set; }
         public decimal? MusteriCekLimiti { get; set; }
         public decimal MusteriCekRiski { get; set; }
+        public decimal DegisimToplamBakiye { get; set; }
+        public decimal IslemYapılanCHKBakiye { get; set; }
         public decimal BekleyenSiparisTutari { get; set; }
         public decimal Teminat { get; set; }
         public decimal TeminatAltBayi { get; set; }
