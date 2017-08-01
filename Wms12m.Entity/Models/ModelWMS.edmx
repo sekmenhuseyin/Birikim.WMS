@@ -549,6 +549,7 @@
           <Property Name="KayitTarihi" Type="int" Nullable="false" />
           <Property Name="KayitSaati" Type="int" Nullable="false" />
           <Property Name="IrsaliyeID" Type="int" />
+          <Property Name="MakaraNo" Type="varchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Bolum_Raf">
           <End Role="Raf" Type="Self.Raf" Multiplicity="1" />
@@ -2040,7 +2041,7 @@
             <End Role="GorevPaketNo" EntitySet="GorevPaketNoes" />
           </AssociationSet>
           <FunctionImport Name="SettingsMakaraNo" ReturnType="Collection(Int32)">
-            <Parameter Name="DepoID" Mode="In" Type="Int32" />
+          <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2361,6 +2362,7 @@
           <NavigationProperty Name="Kat" Relationship="MModel.FK_Yer_Log_Kat" FromRole="Yer_Log" ToRole="Kat" />
           <NavigationProperty Name="IR" Relationship="MModel.FK_Yer_Log_IRS" FromRole="Yer_Log" ToRole="IR" />
           <Property Name="DepoID" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="MakaraNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_WebMenu_Simge">
           <End Type="MModel.Simge" Role="Simge" Multiplicity="0..1" />
@@ -3740,6 +3742,7 @@
           <EntitySetMapping Name="Yer_Log">
             <EntityTypeMapping TypeName="MModel.Yer_Log">
               <MappingFragment StoreEntitySet="Yer_Log">
+                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
                 <ScalarProperty Name="DepoID" ColumnName="DepoID" />
                 <ScalarProperty Name="IrsaliyeID" ColumnName="IrsaliyeID" />
                 <ScalarProperty Name="KayitSaati" ColumnName="KayitSaati" />

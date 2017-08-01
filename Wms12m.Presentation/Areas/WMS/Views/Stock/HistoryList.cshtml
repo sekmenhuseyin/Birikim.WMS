@@ -27,6 +27,7 @@
                 <th>Evrak No<br /><input class="w-50 input-circle" type="text" id="EvrakNo" /></th>
                 <th>Hücre Adı<br /><input class="w-50 input-circle" type="text" id="HücreAdi" /></th>
                 <th>Birim</th>
+                <th>Makara No<br /><input class="w-50 input-circle" type="text" id="MakaraNo" /></th>
                 <th class="text-right">Miktar<br /><input class="w-50 input-circle" type="text" id="Miktar" /></th>
                 <th class="text-right">Stok<br /><input class="w-50 input-circle" type="text" id="Stok" /></th>
             </tr>
@@ -39,6 +40,7 @@
                     <td>@item.KayitSaati.FromOaTime()</td>
                     <td>@if (item.IR != null) {<a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Stock/Details/@item.IR.ID')"> @item.IR.EvrakNo </a>}</td>
                     <td>@Html.DisplayFor(modelItem => item.HucreAd)</td>
+                    <td>@Html.DisplayFor(modelItem => item.MakaraNo)</td>
                     <td>@Html.DisplayFor(modelItem => item.Birim)</td>
                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                     <td align="right">@String.Format("{0:n}", i)</td>
@@ -55,8 +57,9 @@
         $("#Saat").on("change paste keyup", function () { filterx(2, $("#Saat").val()); });
         $("#EvrakNo").on("change paste keyup", function () { filterx(3, $("#EvrakNo").val()); });
         $("#HücreAdi").on("change paste keyup", function () { filterx(4, $("#HücreAdi").val()); });
-        $("#Miktar").on("change paste keyup", function () { filterx(6, $("#Miktar").val()); });
-        $("#Stok").on("change paste keyup", function () { filterx(7, $("#Stok").val()); });
+        $("#MakaraNo").on("change paste keyup", function () { filterx(5, $("#MakaraNo").val()); });
+        $("#Miktar").on("change paste keyup", function () { filterx(7, $("#Miktar").val()); });
+        $("#Stok").on("change paste keyup", function () { filterx(8, $("#Stok").val()); });
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
             "ordering": false,
