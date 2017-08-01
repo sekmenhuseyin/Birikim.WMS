@@ -56,11 +56,11 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Musteri> Musteris { get; set; }
         public virtual DbSet<ProjeForm> ProjeForms { get; set; }
         public virtual DbSet<IRS_Detay> IRS_Detay { get; set; }
-        public virtual DbSet<GorevPaketNo> GorevPaketNoes { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<GorevUser> GorevUsers { get; set; }
         public virtual DbSet<GorevPaketler> GorevPaketlers { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
+        public virtual DbSet<GorevPaketNo> GorevPaketNoes { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
@@ -738,6 +738,15 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("Bitis", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CRM_GorusmeNotlari_Result>("WMSEntities.CRM_GorusmeNotlari", baslangicParameter, bitisParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SettingsMakaraNo(Nullable<int> depoID)
+        {
+            var depoIDParameter = depoID.HasValue ?
+                new ObjectParameter("DepoID", depoID) :
+                new ObjectParameter("DepoID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.SettingsMakaraNo", depoIDParameter);
         }
     }
 }

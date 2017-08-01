@@ -15,8 +15,9 @@ namespace Wms12m.Entity.Models
     public partial class GorevPaketNo
     {
         public int DepoID { get; set; }
-        public string SevkiyatNo { get; set; }
-        public string PaketNo { get; set; }
+        public int SevkiyatNo { get; set; }
+        public int PaketNo { get; set; }
+        public int MakaraNo { get; set; }
     
         public virtual Depo Depo { get; set; }
     }

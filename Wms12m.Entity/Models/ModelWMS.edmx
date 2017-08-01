@@ -347,8 +347,9 @@
             <PropertyRef Name="DepoID" />
           </Key>
           <Property Name="DepoID" Type="int" Nullable="false" />
-          <Property Name="SevkiyatNo" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="PaketNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SevkiyatNo" Type="int" Nullable="false" />
+          <Property Name="PaketNo" Type="int" Nullable="false" />
+          <Property Name="MakaraNo" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="GorevUsers">
           <Key>
@@ -1333,6 +1334,9 @@
           <Parameter Name="tarih" Type="int" Mode="In" />
           <Parameter Name="DepoID" Type="int" Mode="In" />
         </Function>
+        <Function Name="SettingsMakaraNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DepoID" Type="int" Mode="In" />
+        </Function>
         <Function Name="SettingsPaketNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DepoID" Type="int" Mode="In" />
           <Parameter Name="GorevID" Type="int" Mode="In" />
@@ -1941,11 +1945,6 @@
             <End Role="IR" EntitySet="IRS" />
             <End Role="IRS_Detay" EntitySet="IRS_Detay" />
           </AssociationSet>
-          <EntitySet Name="GorevPaketNoes" EntityType="MModel.GorevPaketNo" />
-          <AssociationSet Name="FK_GorevPaketNo_Depo" Association="MModel.FK_GorevPaketNo_Depo">
-            <End Role="Depo" EntitySet="Depoes" />
-            <End Role="GorevPaketNo" EntitySet="GorevPaketNoes" />
-          </AssociationSet>
           <FunctionImport Name="SettingsPaketNo">
             <Parameter Name="DepoID" Mode="In" Type="Int32" />
             <Parameter Name="GorevID" Mode="In" Type="Int32" />
@@ -2034,6 +2033,14 @@
           <FunctionImport Name="CRM_GorusmeNotlari" ReturnType="Collection(MModel.CRM_GorusmeNotlari_Result)">
             <Parameter Name="Baslangic" Mode="In" Type="DateTime" />
             <Parameter Name="Bitis" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <EntitySet Name="GorevPaketNoes" EntityType="MModel.GorevPaketNo" />
+          <AssociationSet Name="FK_GorevPaketNo_Depo" Association="MModel.FK_GorevPaketNo_Depo">
+            <End Role="Depo" EntitySet="Depoes" />
+            <End Role="GorevPaketNo" EntitySet="GorevPaketNoes" />
+          </AssociationSet>
+          <FunctionImport Name="SettingsMakaraNo" ReturnType="Collection(Int32)">
+            <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -2192,8 +2199,8 @@
           <NavigationProperty Name="Transfers2" Relationship="MModel.FK_Transfer_Depo2" FromRole="Depo" ToRole="Transfer" />
           <NavigationProperty Name="IRS" Relationship="MModel.FK_IRS_Depo" FromRole="Depo" ToRole="IR" />
           <NavigationProperty Name="GorevNoes" Relationship="MModel.FK_GorevNo_Depo" FromRole="Depo" ToRole="GorevNo" />
-          <NavigationProperty Name="GorevPaketNo" Relationship="MModel.FK_GorevPaketNo_Depo" FromRole="Depo" ToRole="GorevPaketNo" />
           <NavigationProperty Name="UserDetails" Relationship="MModel.FK_Depo_Users_Depo" FromRole="Depo" ToRole="UserDetail" />
+          <NavigationProperty Name="GorevPaketNo" Relationship="MModel.FK_GorevPaketNo_Depo" FromRole="Depo" ToRole="GorevPaketNo" />
         </EntityType>
         <EntityType Name="Gorev">
           <Key>
@@ -3124,27 +3131,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="GorevPaketNo">
-          <Key>
-            <PropertyRef Name="DepoID" />
-          </Key>
-          <Property Name="DepoID" Type="Int32" Nullable="false" />
-          <Property Name="SevkiyatNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PaketNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Depo" Relationship="MModel.FK_GorevPaketNo_Depo" FromRole="GorevPaketNo" ToRole="Depo" />
-        </EntityType>
-        <Association Name="FK_GorevPaketNo_Depo">
-          <End Type="MModel.Depo" Role="Depo" Multiplicity="1" />
-          <End Type="MModel.GorevPaketNo" Role="GorevPaketNo" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Depo">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="GorevPaketNo">
-              <PropertyRef Name="DepoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="UserID" />
@@ -3445,6 +3431,28 @@
           <Property Type="String" Name="Kaydeden" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="KayitTarih" Nullable="false" Precision="23" />
         </ComplexType>
+        <EntityType Name="GorevPaketNo">
+          <Key>
+            <PropertyRef Name="DepoID" />
+          </Key>
+          <Property Name="DepoID" Type="Int32" Nullable="false" />
+          <Property Name="SevkiyatNo" Type="Int32" Nullable="false" />
+          <Property Name="PaketNo" Type="Int32" Nullable="false" />
+          <Property Name="MakaraNo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Depo" Relationship="MModel.FK_GorevPaketNo_Depo" FromRole="GorevPaketNo" ToRole="Depo" />
+        </EntityType>
+        <Association Name="FK_GorevPaketNo_Depo">
+          <End Type="MModel.Depo" Role="Depo" Multiplicity="1" />
+          <End Type="MModel.GorevPaketNo" Role="GorevPaketNo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Depo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GorevPaketNo">
+              <PropertyRef Name="DepoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4037,15 +4045,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GorevPaketNoes">
-            <EntityTypeMapping TypeName="MModel.GorevPaketNo">
-              <MappingFragment StoreEntitySet="GorevPaketNo">
-                <ScalarProperty Name="PaketNo" ColumnName="PaketNo" />
-                <ScalarProperty Name="SevkiyatNo" ColumnName="SevkiyatNo" />
-                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SettingsPaketNo" FunctionName="MModel.Store.SettingsPaketNo" />
           <FunctionImportMapping FunctionImportName="TerminalFinishGorev" FunctionName="MModel.Store.TerminalFinishGorev" />
           <EntitySetMapping Name="UserDetails">
@@ -4349,6 +4348,17 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="GorevPaketNoes">
+            <EntityTypeMapping TypeName="MModel.GorevPaketNo">
+              <MappingFragment StoreEntitySet="GorevPaketNo">
+                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
+                <ScalarProperty Name="PaketNo" ColumnName="PaketNo" />
+                <ScalarProperty Name="SevkiyatNo" ColumnName="SevkiyatNo" />
+                <ScalarProperty Name="DepoID" ColumnName="DepoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SettingsMakaraNo" FunctionName="MModel.Store.SettingsMakaraNo" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
