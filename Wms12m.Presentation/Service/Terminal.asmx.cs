@@ -681,16 +681,16 @@ namespace Wms12m
                         }
                         else
                             if (tmp2.Miktar >= item.Miktar && item.Miktar <= (grvYer.Miktar - (grvYer.YerlestirmeMiktari ?? 0)))
-                        {
-                            //raftan indirdiğini kaydet
-                            grvYer.YerlestirmeMiktari = (grvYer.YerlestirmeMiktari ?? 0) + item.Miktar;
-                            db.SaveChanges();
-                            //yerlestirme tablosuna kaydet
-                            tmp2.Miktar -= item.Miktar;
-                            yerlestirme.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
-                        }
-                        else
-                            _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
+                            {
+                                //raftan indirdiğini kaydet
+                                grvYer.YerlestirmeMiktari = (grvYer.YerlestirmeMiktari ?? 0) + item.Miktar;
+                                db.SaveChanges();
+                                //yerlestirme tablosuna kaydet
+                                tmp2.Miktar -= item.Miktar;
+                                yerlestirme.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
+                            }
+                            else
+                                _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
                     }
                     else
                         _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");

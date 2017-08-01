@@ -192,6 +192,14 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             {
                 if (tbl.MakaraNo == "")
                 {
+                    var kkablo = db.Database.SqlQuery<string>(string.Format("SELECT Kod1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE (MalKodu = '{1}')", db.GetSirketDBs().FirstOrDefault(), tbl.MalKodu)).FirstOrDefault();
+                    if (kkablo == "KKABLO")
+                    {
+                        tbl.MakaraNo = "Boş-";
+                    }
+                }
+                if (tbl.MakaraNo == "")
+                {
                     var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
                     if (tmp2 == null)
                     {
@@ -227,32 +235,11 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                     }
                     else
                     {
-                        tmp2.Miktar += tbl.Miktar;
-                        Yerlestirme.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
+                        return Json(new Result(false, "Bu makara no kullanılmaktadır"), JsonRequestBehavior.AllowGet);
                     }
                 }
-            }
-            else
-            {
-                if (tbl.MakaraNo == "")
-                {
-                    var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
-                    if (tmp2 == null)
-                        return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
-                    tmp2.Miktar -= tbl.Miktar;
-                    Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
-                }
-                else
-                {
-                    var tmp2 = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
-                    if (tmp2 == null)
-                        return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
-                    tmp2.Miktar -= tbl.Miktar;
-                    Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
-                }
-            }
-            //add to mysql
-            if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
+                    //add to mysql
+                    if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
             {
                 var listedb = db.GetSirketDBs().ToList();
                 string sql = "";
@@ -313,9 +300,29 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         catch (Exception ex)
                         {
                             Logger(ex, "Stock/ManualPlacement");
-                            return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
+                            //return Json(new Result(false, "Kablo kaydı hariç her şey tamamlandı!"), JsonRequestBehavior.AllowGet);
                         }
                     }
+                }
+            }
+            }
+            else
+            {
+                if (tbl.MakaraNo == "")
+                {
+                    var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+                    if (tmp2 == null)
+                        return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
+                    tmp2.Miktar -= tbl.Miktar;
+                    Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
+                }
+                else
+                {
+                    var tmp2 = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
+                    if (tmp2 == null)
+                        return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
+                    tmp2.Miktar -= tbl.Miktar;
+                    Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
                 }
             }
             //return
