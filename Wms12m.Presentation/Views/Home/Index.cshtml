@@ -368,5 +368,33 @@ if (tst.CrmOzet == true)
 <script src="~/Content/assets/global/plugins/amcharts/amcharts/themes/light.js"></script>
 <script src="~/Content/assets/global/plugins/amcharts/amstockcharts/amstock.js"></script>
 <script src="~/Content/assets/global/plugins/echarts/echarts.js"></script>
-<script src="~/Content/assets/global/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
-}
+<script src="~/Content/assets/global/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>@*<script>
+    PartialView('/Home/PartialGunlukSatis', 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
+    PartialView('/Home/PartialGunlukSatisPie', 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
+    PartialView('/Home/PartialGunlukSatisYearToDay', 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
+    PartialView('/Home/PartialGunlukSatisYearToDayPie', 'gunluk_satis_yeartoday_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
+    PartialView('/Home/PartialGunlukSatisDoubleKriter', 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', islemtip: 0, tarih: oaDate }));
+    PartialView('/Home/PartialGunlukSatisDoubleKriterPie', 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', islemtip: 0, tarih: oaDate }));
+    PartialView('/Home/PartialAylikSatisAnaliziBar', 'aylik_satis_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
+    PartialView('/Home/PartialAylikSatisCHKAnaliziBar', 'aylik_satis_chk_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', chk: '' }));
+    PartialView('/Home/PartialAylikSatisAnaliziKodTipDovizBar', 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', islemtip: 0, doviz: 'TL' }));
+    PartialView('/Home/PartialUrunGrubuSatis', 'urun_grubu_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 }));
+    PartialView('/Home/PartialUrunGrubuSatisKriter', 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1, kriter: 'TL' }));
+    PartialView('/Home/PartialLokasyonSatis', 'lokasyon_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 }));
+    PartialView('/Home/PartialLokasyonSatisKriter', 'lokasyon_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1, kriter: 'TL' }));
+    PartialView('/Home/PartialBakiyeRiskAnalizi', 'bakiye_risk', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
+    PartialView('/Home/PartialBekleyenSiparisUrunGrubu', 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', bastarih: oaDate - 7, bittarih: oaDate }));
+    PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktar', 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true }));
+    PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktarPie', 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true }));
+    PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter', 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true, kriter: 'TL' }));
+    PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie', 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true, kiter: 'TL' }));
+    PartialView('/Home/PartialBekleyenSiparisMusteriAnalizi', 'bekleyen_siparis_musteri_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', doviz: 'TL' }));
+    PartialView('/Home/PartialSatisTemsilcisiAylikSatisAnalizi', 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', tarih: dateVal.getMonth() + 1 }));
+    PartialView('/Home/PartialBaglantiUrunGrubu', 'baglanti_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
+    PartialView('/Home/PartialBaglantiUrunGrubuPie', 'baglanti_urun_grubu_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
+    PartialView('/Home/PartialGunlukMDFUretimi', 'gunluk_mdf_uretim', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
+    PartialView('/Home/PartialGunlukMDFUretimiPie', 'gunluk_mdf_uretim_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
+    PartialView('/Home/PartialBaglantiZamanCizelgesi', 'baglanti_zaman_cizelgesi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
+    PartialView('/Home/PartialBolgeBazliSatisAnalizi', 'bolge_bazli_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: dateVal.getMonth(), kriter: 'Tümü' }));
+    PartialView('/Home/PartialBolgeBazliSatisAnaliziPie', 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: dateVal.getMonth(), kriter: 'Tümü' }));
+</script>*@}
