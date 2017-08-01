@@ -71,8 +71,52 @@
         type: "post",
         success: function (data) {
             var result = JSON.parse(data);
-            $(".select_malkodubas").dxLookup("instance").option("dataSource", result);
-            $(".select_malkodubit").dxLookup("instance").option("dataSource", result);
+            $(".select_malkodubas").dxLookup({
+                dataSource: result,
+                searchEnabled: true,
+                fullScreen: true,
+                pageLoadMode: "nextButton",
+                searchExpr: ["MalKodu", "MalAdi", "Birim1", "Birim2", "Birim3"],
+                displayExpr: 'MalKodu',
+                onValueChanged: function (e) {
+                    if (e.value == null) return;
+                    MalKoduBas = e.value.MalKodu;
+                },
+
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.MalKodu + "</b></p>");
+                    rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalAdi: <i style='font-weight:normal;'>" + itemData.MalAdi + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
+            $(".select_malkodubit").dxLookup({
+                dataSource: result,
+                searchEnabled: true,
+                fullScreen: true,
+                pageLoadMode: "nextButton",
+                searchExpr: ["MalKodu", "MalAdi", "Birim1", "Birim2", "Birim3"],
+                displayExpr: 'MalKodu',
+                onValueChanged: function (e) {
+                    if (e.value == null) return;
+                    MalKoduBit = e.value.MalKodu;
+                },
+
+                itemTemplate: function (itemData, itemIndex, itemElement) {
+                    itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                    if (itemIndex > 0) {
+                        itemElement.css({ "margin-top": "-40px" });
+                    }
+                    var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                    rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.MalKodu + "</b></p>");
+                    rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalAdi: <i style='font-weight:normal;'>" + itemData.MalAdi + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
+                    itemElement.append(rightBlock);
+                }
+            });
         }
         });
     $.ajax({
@@ -81,99 +125,57 @@
             type: "post",
             success: function (data) {
                 var result = JSON.parse(data);
-                $(".select_depobas").dxLookup("instance").option("dataSource", result);
-                $(".select_depobit").dxLookup("instance").option("dataSource", result);
+                $(".select_depobas").dxLookup({
+                    dataSource:result,
+                    searchEnabled: true,
+                    fullScreen: true,
+                    pageLoadMode: "nextButton",
+                    searchExpr: ["DepoAdi", "Depo"],
+                    displayExpr: 'Depo',
+                    onValueChanged: function (e) {
+                        if (e.value == null) return;
+                        DepoBas = e.value;
+                    },
+
+                    itemTemplate: function (itemData, itemIndex, itemElement) {
+                        itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                        if (itemIndex > 0) {
+                            itemElement.css({ "margin-top": "-40px" });
+                        }
+                        var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                        rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.Depo + "</b></p>");
+                        rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>DepoAdi: <i style='font-weight:normal;'>" + itemData.DepoAdi + "</i></span></div>");
+                        itemElement.append(rightBlock);
+                    }
+                });
+                $(".select_depobit").dxLookup({
+                    dataSource: result,
+                    searchEnabled: true,
+                    fullScreen: true,
+                    pageLoadMode: "nextButton",
+                    searchExpr: ["DepoAdi", "Depo"],
+                    displayExpr: 'Depo',
+                    onValueChanged: function (e) {
+                        if (e.value == null) return;
+                        console.log(e.value);
+                        DepoBit = e.value;
+                    },
+
+                    itemTemplate: function (itemData, itemIndex, itemElement) {
+                        itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
+                        if (itemIndex > 0) {
+                            itemElement.css({ "margin-top": "-40px" });
+                        }
+                        var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+                        rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.Depo + "</b></p>");
+                        rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>DepoAdi: <i style='font-weight:normal;'>" + itemData.DepoAdi + "</i></span></div>");
+                        itemElement.append(rightBlock);
+                    }
+                });
             }
         });
-    $(".select_malkodubas").dxLookup({
-        searchEnabled: true,
-        fullScreen: true,
-        pageLoadMode: "nextButton",
-        searchExpr: ["MalKodu", "MalAdi", "Birim1", "Birim2", "Birim3"],
-        displayExpr: 'MalKodu',
-        onValueChanged: function (e) {
-            if (e.value == null) return;
-            MalKoduBas = e.value.MalKodu;
-        },
-
-        itemTemplate: function (itemData, itemIndex, itemElement) {
-            itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-            if (itemIndex > 0) {
-                itemElement.css({ "margin-top": "-40px" });
-            }
-            var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-            rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.MalKodu + "</b></p>");
-            rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalAdi: <i style='font-weight:normal;'>" + itemData.MalAdi + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
-            itemElement.append(rightBlock);
-        }
-    });
-    $(".select_malkodubit").dxLookup({
-        searchEnabled: true,
-        fullScreen: true,
-        pageLoadMode: "nextButton",
-        searchExpr: ["MalKodu", "MalAdi", "Birim1", "Birim2", "Birim3"],
-        displayExpr: 'MalKodu',
-        onValueChanged: function (e) {
-            if (e.value == null) return;
-            MalKoduBit = e.value.MalKodu;
-        },
-
-        itemTemplate: function (itemData, itemIndex, itemElement) {
-            itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-            if (itemIndex > 0) {
-                itemElement.css({ "margin-top": "-40px" });
-            }
-            var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-            rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.MalKodu + "</b></p>");
-            rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>MalAdi: <i style='font-weight:normal;'>" + itemData.MalAdi + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim1: <i style='font-weight:normal;'>" + itemData.Birim1 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim2: <i style='font-weight:normal;'>" + itemData.Birim2 + "</i></span><span style='line-height: 0%;font-size:11px;font-weight:bold;margin-left:25px;'>Birim3: <i style='font-weight:normal;'>" + itemData.Birim3 + "</i></span></div>");
-            itemElement.append(rightBlock);
-        }
-        });
-    $(".select_depobas").dxLookup({
-            searchEnabled: true,
-            fullScreen: true,
-            pageLoadMode: "nextButton",
-            searchExpr: ["DepoAdi", "Depo"],
-            displayExpr: 'DepoKodu',
-            onValueChanged: function (e) {
-                if (e.value == null) return;
-                alert(e.value.DepoKodu);
-                DepoBas = e.value.DepoKodu;
-            },
-
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-                if (itemIndex > 0) {
-                    itemElement.css({ "margin-top": "-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.Depo + "</b></p>");
-                rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>DepoAdi: <i style='font-weight:normal;'>" + itemData.DepoAdi + "</i></span></div>");
-                itemElement.append(rightBlock);
-            }
-        });
-    $(".select_depobit").dxLookup({
-            searchEnabled: true,
-            fullScreen: true,
-            pageLoadMode: "nextButton",
-            searchExpr: ["DepoAdi", "Depo"],
-            displayExpr: 'DepoKodu',
-            onValueChanged: function (e) {
-                if (e.value == null) return;
-                DepoBit = e.value.DepoKodu;
-            },
-
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({ "text-align": "left", "border-bottom": "1px solid #2fc1d8" });
-                if (itemIndex > 0) {
-                    itemElement.css({ "margin-top": "-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;color:#12ccee;'><b>" + itemData.Depo + "</b></p>");
-                rightBlock.append("<span style='line-height: 0%;font-size:11px;font-weight:bold;'>DepoAdi: <i style='font-weight:normal;'>" + itemData.DepoAdi + "</i></span></div>");
-                itemElement.append(rightBlock);
-            }
-        });
+ 
+   
 
 
     $('.yenile-buton').click(function () {

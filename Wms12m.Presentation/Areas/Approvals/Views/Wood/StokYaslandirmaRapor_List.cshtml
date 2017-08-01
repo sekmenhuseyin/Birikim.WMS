@@ -13,6 +13,7 @@
                 <th>Mal Adı</th>
                 <th>Birim</th>
                 <th>Birim Miktar</th>
+                <th>Depo</th>
                 <th>Toplam</th>
             </tr>
         </thead>
@@ -32,9 +33,9 @@
             "url": '/Approvals/Wood/StokYaslandirmaRaporCek',
             "data": { MalKoduBas: MalKoduBas, MalKoduBit:MalKoduBit,DepoBas:DepoBas,DepoBit:DepoBit},
             "dataSrc": function (json) {
-
+                console.log(json);
                 return json;
-                alert("Merhaba");
+              
             },
         },
         "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [7,9] }],
@@ -43,7 +44,7 @@
             { "data": "EvrakNo" },
             { "data": "Tarih"},
             { "data": "Chk" },
-            { "data": "Unvan1" },
+            { "data": "Unvan" },
             { "data": "MalKodu" },
             { "data": "MalAdi" },
             { "data": "Birim" },
