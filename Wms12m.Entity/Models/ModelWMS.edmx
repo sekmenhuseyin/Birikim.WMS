@@ -371,6 +371,7 @@
           <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="YerlestirmeMiktari" Type="numeric" Precision="25" Scale="6" />
+          <Property Name="MakaraNo" Type="varchar" MaxLength="50" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="GC" Type="bit" Nullable="false" />
           <Property Name="Sira" Type="int" />
@@ -2248,6 +2249,7 @@
           <Property Name="Sira" Type="Int32" />
           <NavigationProperty Name="Gorev" Relationship="MModel.FK_GorevYer_Gorev" FromRole="GorevYer" ToRole="Gorev" />
           <NavigationProperty Name="Yer" Relationship="MModel.FK_GorevYer_Yer" FromRole="GorevYer" ToRole="Yer" />
+          <Property Name="MakaraNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Koridor">
           <Key>
@@ -3638,6 +3640,7 @@
           <EntitySetMapping Name="GorevYers">
             <EntityTypeMapping TypeName="MModel.GorevYer">
               <MappingFragment StoreEntitySet="GorevYer">
+                <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
                 <ScalarProperty Name="Sira" ColumnName="Sira" />
                 <ScalarProperty Name="GC" ColumnName="GC" />
                 <ScalarProperty Name="Birim" ColumnName="Birim" />

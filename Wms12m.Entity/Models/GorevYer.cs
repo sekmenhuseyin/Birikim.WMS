@@ -23,6 +23,7 @@ namespace Wms12m.Entity.Models
         public string Birim { get; set; }
         public bool GC { get; set; }
         public Nullable<int> Sira { get; set; }
+        public string MakaraNo { get; set; }
     
         public virtual Gorev Gorev { get; set; }
         public virtual Yer Yer { get; set; }
