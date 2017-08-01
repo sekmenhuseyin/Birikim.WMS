@@ -394,6 +394,7 @@
     <Content Include="Areas\Reports\Views\Crm\BidList.cshtml" />
     <Content Include="Areas\Reports\Views\Crm\InstitutionList.cshtml" />
     <Content Include="Areas\Reports\Views\Crm\MeetingList.cshtml" />
+    <Content Include="Areas\WMS\Views\Cable\Step3Details.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
