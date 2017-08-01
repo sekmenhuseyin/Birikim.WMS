@@ -42,6 +42,7 @@ namespace Wms12m.Entity
         public decimal Miktar { get; set; }
         public string Birim { get; set; }
         public string HucreAd { get; set; }
+        public string MakaraNo { get; set; }
         public int KatID { get; set; }
         public int Sira { get; set; }
         public decimal Stok { get; set; }
