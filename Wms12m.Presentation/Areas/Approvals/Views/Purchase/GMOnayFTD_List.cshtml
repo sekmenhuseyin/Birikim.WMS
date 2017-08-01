@@ -16,7 +16,6 @@
                         <table class="table table-striped table-bordered table-condensed" id="sample_2">
                             <thead class="aaaaa">
                                 <tr>
-                                    <th></th>
                                     <th>Aciklama</th>
                                     <th>Oran</th>
                                     <th>Tutar</th>
@@ -40,26 +39,26 @@
     var secili_satir = new Array();
     var secili_table = new Array();
     var silinecek = new Array();
+    var chf = JSON.parse('@Html.Raw(ViewBag.HesapKodu)');
     var table2 = $('#sample_2').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/Purchase/SipGMOnayListFTDData?HesapKodu=' + '@ViewBag.HesapKodu'+ '&SipTalepNo=' + '@ViewBag.SipTalepNo',
+            "url": '/Approvals/Purchase/SipGMOnayListFTDData?HesapKodu=' + chf + '&SipTalepNo=' + '@ViewBag.SipTalepNo',
             "dataSrc": function (json) {
                 return json;
             },
         },
         "fixedHeader": true,
         "scrollX": true,
-        "columnDefs": [{ "visible": false, "width": "10%", "targets": [7, 8, 9] }, { "width": "18%", "targets": [1, 2, 3, 4, 5, 6] }],
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2, 3, 5] }, { "visible": false, "width": "10%", "targets": [6, 7, 8] }, { "width": "18%", "targets": [0, 1, 2, 3, 4, 5] }],
         "columns": [
-            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
             { "data": "Aciklama" },
             { "data": "IskontoOran" },
-            { "data": "Iskonto" },
-            { "data": "DovizTutar" },
+            { "data": "Iskonto", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
+            { "data": "DovizTutar", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
             { "data": "DovizCinsi" },
-            { "data": "DovizKuru" },
-           
+            { "data": "DovizKuru", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
+
             { "data": "SiraNo" },
             { "data": "SatirTip" },
             { "data": "DvzTL" }
@@ -70,16 +69,8 @@
             return nRow;
         },
 
-     });
-
-    $('#sample_2 tbody').on('click', 'tr', function () {
-        $(this).toggleClass('selected');
-        if($( this ).hasClass( "selected" )){
-        silinecek.push($( "tr" ).index( this )-1)
-        }else{
-            silinecek.splice($( "tr" ).index( this )-1, 1);
-        }
     });
+
     $(document).ready(function () {
         var buttons2 = new $.fn.dataTable.Buttons(table2, {
             buttons: [

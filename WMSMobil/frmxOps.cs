@@ -159,21 +159,27 @@ namespace WMSMobil
         public delegate void MethodInvoker();
         void Barkod_OnScan(Symbol.Barcode2.ScanDataCollection scanDataCollection)
         {
-            this.Invoke((MethodInvoker)delegate()
+            try
             {
-                string okunan = scanDataCollection.GetFirst.Text;
-                if (okunan.Length < 13)
+                this.Invoke((MethodInvoker)delegate()
                 {
-                    txtRafBarkod.Text = okunan;
-                    txtBarkod.Focus();
-                }
-                else
-                {
-                    txtBarkod.Text = okunan;
-                    if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
-                    else btnUygula_Click(Barkod, null);//uygula
-                }
-            });
+                    string okunan = scanDataCollection.GetFirst.Text;
+                    if (okunan.Length < 13)
+                    {
+                        txtRafBarkod.Text = okunan;
+                        txtBarkod.Focus();
+                    }
+                    else
+                    { 
+                        txtBarkod.Text = okunan;
+                        if (txtRafBarkod.Visible == true && txtRafBarkod.Text == "") txtRafBarkod.Focus();
+                        else btnUygula_Click(Barkod, null);//uygula
+                    }
+                });
+            }
+            catch (Exception)
+            {
+            }
         }
         /// <summary>
         /// irsaliye detaylarını gösterir

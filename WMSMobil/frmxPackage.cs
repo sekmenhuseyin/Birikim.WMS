@@ -37,11 +37,17 @@ namespace WMSMobil
         public delegate void MethodInvoker();
         void Barkod_OnScan(Symbol.Barcode2.ScanDataCollection scanDataCollection)
         {
-            this.Invoke((MethodInvoker)delegate()
+            try
             {
-                txtBarkod.Text = scanDataCollection.GetFirst.Text;
-                btnEkle_Click(Barkod, null);//uygula
-            });
+                this.Invoke((MethodInvoker)delegate()
+                {
+                    txtBarkod.Text = scanDataCollection.GetFirst.Text;
+                    btnEkle_Click(Barkod, null);//uygula
+                });
+            }
+            catch (Exception)
+            {
+            }
         }
         /// <summary>
         /// barkod okut

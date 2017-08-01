@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -11,6 +12,13 @@ namespace Wms12m
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Checks file exists
+        /// </summary>
+        public static bool FileExists(this string FilePathName)
+        {
+            return File.Exists(FilePathName);
+        }
         /// <summary>
         /// CryptographyExtension.Sifrele
         /// </summary>

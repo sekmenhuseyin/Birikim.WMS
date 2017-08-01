@@ -13,28 +13,27 @@
            
                 <div class="row">
                     <div class="col-xs-12">
-                        <table class="table table-striped table-bordered table-condensed" id="sample_1">
+                        <table class="table table-striped table-bordered" id="sample_1">
                             <thead class="aaaaa">
                                 <tr>
-                                    <th></th>
-                                    <th>Mal Kodu</th>
-                                    <th>Mal Adi</th>
-                                    <th>Birim</th>
-                                    <th>Talep Açıklaması</th>
-                                    <th>Teklif Açıklaması</th>
-                                    <th>Birim Miktar</th>
-                                    <th>Birim Fiyat</th>
-                                    <th>Tutar</th>
-                                    <th>Döviz Tutar</th>
-                                    <th>KDV Oran</th>
-                                    <th>KDV</th>
-                                    <th>Dvz Birim Fiyat</th>
-                                    <th>Dvz Cinsi</th>
-                                    <th>Dvz Kuru</th>
-                                    <th>Vade</th>
-                                    <th>Talep Eden</th>
-                                    <th>Tesis Kodu</th>
-                                    <th>Satın Almacı</th>
+                                    <th nowrap>Mal Kodu</th>
+                                    <th nowrap>Mal Adi</th>
+                                    <th nowrap>Birim</th>
+                                    <th nowrap>Talep Açıklaması</th>
+                                    <th nowrap>Teklif Açıklaması</th>
+                                    <th nowrap>Birim Miktar</th>
+                                    <th nowrap>Birim Fiyat</th>
+                                    <th nowrap>Tutar</th>
+                                    <th nowrap>Döviz Tutar</th>
+                                    <th nowrap>KDV Oran</th>
+                                    <th nowrap>KDV</th>
+                                    <th nowrap>Dvz Birim Fiyat</th>
+                                    <th nowrap>Dvz Cinsi</th>
+                                    <th nowrap>Dvz Kuru</th>
+                                    <th nowrap>Vade</th>
+                                    <th nowrap>Talep Eden</th>
+                                    <th nowrap>Tesis Kodu</th>
+                                    <th nowrap>Satın Almacı</th>
 
 
                                     <th>Row_ID</th>
@@ -49,7 +48,7 @@
                                     <th>Iskonto 5</th>
                                     <th>Toplam Iskonto</th>
                                     <th>Teslim Miktar</th>
-                                    <th>KapatilanMiktar</th>
+                                    <th>Kapatilan Miktar</th>
                                     <th>Siparis Durumu</th>
                                     <th>Teslim Tarihi</th>
                                     <th>Operator</th>
@@ -57,6 +56,17 @@
                                     <th>IslemTip</th>
                                 </tr>
                             </thead>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="5"></th>
+                                    <th class="text-right"></th>
+                                    <th class="text-right"></th>
+                                    <th class="text-right"></th>
+                                    <th colspan="2"></th>
+                                    <th class="text-right"></th>
+                                    <th colspan="7"></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -65,36 +75,39 @@
     </div>
 </div>
 <script type="text/javascript">
-    var secili_satir = new Array();
-    var secili_table = new Array();
-    var silinecek = new Array();
+    var ch = JSON.parse('@Html.Raw(ViewBag.HesapKodu)');
+    var BirimMiktar = 0, Tutar = 0, KDV = 0;
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/Purchase/SipGMOnayListData?HesapKodu=' + '@ViewBag.HesapKodu'+ '&SipTalepNo=' + '@ViewBag.SipTalepNo',
+            "url": '/Approvals/Purchase/SipGMOnayListData?HesapKodu=' + ch + '&SipTalepNo=' + '@ViewBag.SipTalepNo',
             "dataSrc": function (json) {
+                jQuery.each(json, function (i, val) {
+                    BirimMiktar += val.BirimMiktar;
+                    Tutar += val.Tutar;
+                    KDV += val.KDV;
+                });
                 return json;
             },
         },
         "fixedHeader": true,
         "scrollX": true,
-        "columnDefs": [{ "visible": false, "targets": [19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36] }],
+        "columnDefs": [{ "visible": false, "targets": [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35] }, { "type": "num-fmt", "className": "dt-right", "targets": [5, 6, 7, 8, 10, 11, 13] }],
         "columns": [
-            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
             { "data": "MalKodu" },
             { "data": "MalAdi" },
             { "data": "Birim" },
             { "data": "Aciklama" },
             { "data": "TeklifAciklamasi" },
-            { "data": "BirimMiktar" },
-            { "data": "BirimFiyat" },
-            { "data": "Tutar" },
-            { "data": "DovizTutar" },
+            { "data": "BirimMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '')   },
+            { "data": "BirimFiyat", "render": $.fn.dataTable.render.number('.', ',', 6, '')   },
+            { "data": "Tutar", "render": $.fn.dataTable.render.number('.', ',', 2, '')   },
+            { "data": "DovizTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '')   },
             { "data": "KDVOran" },
-            { "data": "KDV" },
-            { "data": "DvzBirimFiyat" },
+            { "data": "KDV", "render": $.fn.dataTable.render.number('.', ',', 2, '')   },
+            { "data": "DvzBirimFiyat", "render": $.fn.dataTable.render.number('.', ',', 6, '')   },
             { "data": "DovizCinsi" },
-            { "data": "DovizKuru" },
+            { "data": "DovizKuru", "render": $.fn.dataTable.render.number('.', ',', 6, '')   },
             { "data": "Kod11" },
             { "data": "Kaydeden" },
             { "data": "Nesne3" },
@@ -126,36 +139,26 @@
             $('td', nRow).attr('nowrap', 'nowrap');
             return nRow;
         },
+        "footerCallback": function (row, data, start, end, display) {
+
+                    var api = this.api(), data;
+
+                    $(api.column(5).footer()).html(
+                        ondalikBinlik(Math.round(BirimMiktar * 100) / 100, 2)
+                    );
+                    $(api.column(7).footer()).html(
+                        ondalikBinlik(Math.round(Tutar * 100) / 100, 2)
+                    );
+                    $(api.column(10).footer()).html(
+                        ondalikBinlik(Math.round(KDV * 100) / 100, 2)
+                    );
+        }
 
      });
 
-    $('#sample_1 tbody').on('click', 'tr', function () {
-        $(this).toggleClass('selected');
-        if($( this ).hasClass( "selected" )){
-        silinecek.push($( "tr" ).index( this )-1)
-        }else{
-            silinecek.splice($( "tr" ).index( this )-1, 1);
-        }
-    });
-
-    $('.refresh-buton').click(function () {
-        var x = table.rows('.selected').data();
-        for (var i = 0; i < x.length; i++) {
-            secili_table.push(x[i]);
-        }
-        var _dfd = $.Deferred();
-        $.ajax({
-            url: "/Approval/OnayRisk/OnayRiskInsert",
-            data: { Data: JSON.stringify(secili_table) },
-            type: "post",
-            success: function (data) {
-
-            }
-        });
-        return _dfd.promise();
 
 
-    });
+
     $(document).ready(function () {
         var buttons = new $.fn.dataTable.Buttons(table, {
             buttons: [
@@ -165,73 +168,5 @@
         }).container().appendTo($('#buttons'));
 
     });
-    function dddd() {
-        $("tr").toggleClass('selected');
 
-        var x = table.rows('.selected').data();
-        for (var i = 0; i < x.length; i++) {
-            var jObject = {};
-            jObject["HesapKodu"] = $(".select_musteri_kodu").dxLookup("instance").option("value");
-            jObject["Unvan"] = $(".select_musteri_kodu").dxLookup("instance").option("selectedItem").Unvan;
-            if ($(".swtch_vade_valor").dxSwitch("instance").option("value") == false) {
-                jObject["VadeTarihInt"] = 0;
-                jObject["ValorGun"] = $(".numb_valor_gun").dxNumberBox("instance").option("value");
-            }
-            else {
-                jObject["VadeTarihInt"] =  Math.ceil(($(".date_vade_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-                jObject["VadeTarih"] =  $(".date_vade_tarihi").dxDateBox("instance").option("value");
-                jObject["ValorGun"] = 0;
-            }
-            jObject["ListeNo"] = $(".txt_sozlesme_sira_no").dxTextBox("instance").option("value");
-            jObject["BasTarihInt"] = Math.ceil(($(".date_baslangic_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            jObject["BasTarih"] = $(".date_baslangic_tarihi").dxDateBox("instance").option("value");
-            jObject["BitTarihInt"] = Math.ceil(($(".date_bitis_tarihi").dxDateBox("instance").option("value") - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));
-            jObject["BitTarih"] = $(".date_bitis_tarihi").dxDateBox("instance").option("value");
-            jObject["Not"] = $(".txt_sozlesme_notu").dxTextBox("instance").option("value");
-            jObject["BaglantiTipi"] = $(".select_baglanti_tipi").dxSelectBox("instance").option("value");
-            jObject["SiraNo"] = $(".txt_sira_no").dxTextBox("instance").option("value");
-            jObject["BaglantiTutari"] = $(".numb_baglanti_tutari").dxNumberBox("instance").option("value");
-            jObject["CekTutari"] = $(".numb_alinan_cek_tutari").dxNumberBox("instance").option("value");
-            jObject["CekOrtVadeTarihi"] = $(".date_alinan_cek_ort_vade").dxDateBox("instance").option("value");
-            jObject["NakitTutar"] = $(".numb_alinan_nakit_vb").dxNumberBox("instance").option("value");
-            jObject["BaglantiParaCinsi"] = $(".select_baglanti_tutari_doviz").dxSelectBox("instance").option("value");
-            jObject["AktifPasif"] = $(".swtch_aktif_pasif").dxSwitch("instance").option("value");
-
-            jObject["UrunGrubu"] = x[i][2];
-            jObject["UrunKodu"] = x[i][3];
-            jObject["UrunAdi"] = x[i][4];
-            jObject["Kalite"] = x[i][5];
-            jObject["Iskonto1"] = x[i][6];
-            jObject["Iskonto2"] = x[i][7];
-            jObject["Iskonto3"] = x[i][8];
-            jObject["Iskonto4"] = x[i][9];
-            jObject["Iskonto5"] = x[i][10];
-
-            secili_table.push(jObject);
-        }
-        $.ajax({
-            url: window.location.origin + "/Approvals/Purchase/SozlesmeYeniSatirKayit",
-            data: { Data: JSON.stringify(secili_table) },
-            type: "post",
-            success: function (data) {
-                if (data.Status == true) {
-                    $(".selected").remove();
-                    element=[];
-                }
-                Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Kayıt");
-            }
-        });
-
-    }
-
-    function SatirSil(){
-        for (var i = 0; i < silinecek.length; i++) {
-            element.splice(i, 1);
-            var jsonElement = JSON.stringify(element);
-
-            if ($("#fiyat_listesi_data table").length < 1) {
-                PartialView("/Approvals/Contract/Tanim", 'sozlesme_tanim_data', JSON.stringify({ listeNo: "#12MConsulting#", satir: jsonElement }));
-            }
-        }
-    }
 </script>

@@ -1,0 +1,120 @@
+﻿@model IEnumerable<CRM_KurumKarti_Result>
+<table class="table table-striped table-bordered table-hover table-responsive" id="sample_1">
+    <thead>
+        <tr>
+            <th>Kurum Kodu<br /><input class="w-50 input-circle" type="text" id="Kurum" /></th>
+            <th>Hesap Kodu<br /><input class="w-50 input-circle" type="text" id="Hesap" /></th>
+            <th>Ünvanı<br /><input class="input-circle" type="text" id="Unvan" /></th>
+            <th>Web Sayfası<br /><input class="w-50 input-circle" type="text" id="Web" /></th>
+            <th>Email<br /><input class="w-50 input-circle" type="text" id="Email" /></th>
+            <th>Sektör<br /><input class="w-50 input-circle" type="text" id="Sektor" /></th>
+            <th>Adres<br /><input class="input-circle" type="text" id="Adres" /></th>
+            <th>Posta Kodu<br /><input class="w-50 input-circle" type="text" id="Posta" /></th>
+            <th>Ülke<br /><input class="w-50 input-circle" type="text" id="Ulke" /></th>
+            <th>İl<br /><input class="w-50 input-circle" type="text" id="Il" /></th>
+            <th>İlçe<br /><input class="w-50 input-circle" type="text" id="Ilce" /></th>
+            <th>Bayi Tipi<br /><input class="w-50 input-circle" type="text" id="BayiTipi" /></th>
+            <th>Bölge<br /><input class="w-50 input-circle" type="text" id="Bolge" /></th>
+            <th>Müşteri Tipi<br /><input class="w-50 input-circle" type="text" id="MusteriTipi" /></th>
+            <th>Parke<br /><select class="input-circle" id="Parke"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Plaka<br /><select class="input-circle" id="Plaka"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Kontraplak<br /><select class="input-circle" id="Kontraplak"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Tezgah<br /><select class="input-circle" id="Tezgah"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Kartela<br /><select class="input-circle" id="Kartela"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Stand<br /><select class="input-circle" id="Stand"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Filtre Kağıt<br /><select class="input-circle" id="FiltreKagit"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Emprenyeli Kağıt<br /><select class="input-circle" id="EmprenyeliKagit"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Tutkal<br /><select class="input-circle" id="Tutkal"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Palet<br /><select class="input-circle" id="Palet"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Ahşap Kiriş<br /><select class="input-circle" id="AhsapKiris"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Kereste<br /><select class="input-circle" id="Kereste"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Ticari Mal<br /><select class="input-circle" id="TicariMal"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Formaldehit<br /><select class="input-circle" id="Formaldehit"><option value=""></option><option value="Var">Var</option><option value="Yok">Yok</option></select></th>
+            <th>Kaydeden<br /><input class="w-50 input-circle" type="text" id="Kaydeden" /></th>
+            <th>Kayıt Tarihi<br /><input class="w-50 input-circle" type="text" id="Tarih" /></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Kodu</td>
+                <td>@item.CariHesapKodu</td>
+                <td>@item.KisaAdi</td>
+                <td>@item.WEBSAYFASI</td>
+                <td>@item.EMAIL</td>
+                <td>@item.Sektor</td>
+                <td>@item.Adres</td>
+                <td>@item.PostaKodu</td>
+                <td>@item.Ulke</td>
+                <td>@item.Il</td>
+                <td>@item.Ilce</td>
+                <td>@item.BayiTipi</td>
+                <td>@item.Bolge</td>
+                <td>@item.MusteriTipi</td>
+                <td>@if (item.Parke == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Plaka == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Kontraplak == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.MutfakTezgahi == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Kartela == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Stand == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.FiltreKagit == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.EmprenyeliKagit == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Tutkal == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Palet == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.AhsapKiris == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Kereste == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.TicariMal == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@if (item.Formaldehit == true) {<text>Var</text>}else{<text>Yok</text>}</td>
+                <td>@item.Kaydeden</td>
+                <td>@item.KayitTarih</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(document).ready(function () {
+        $.datepicker.setDefaults($.datepicker.regional["tr"]);
+        $("#Kurum").on("change paste keyup", function () { filterx(0, $("#Kurum").val()); });
+        $("#Hesap").on("change paste keyup", function () { filterx(1, $("#Hesap").val()); });
+        $("#Unvan").on("change paste keyup", function () { filterx(2, $("#Unvan").val()); });
+        $("#Web").on("change paste keyup", function () { filterx(3, $("#Web").val()); });
+        $("#Sektor").on("change paste keyup", function () { filterx(5, $("#Sektor").val()); });
+        $("#Email").on("change paste keyup", function () { filterx(4, $("#Email").val()); });
+        $("#Adres").on("change paste keyup", function () { filterx(6, $("#Adres").val()); });
+        $("#Posta").on("change paste keyup", function () { filterx(7, $("#Posta").val()); });
+        $("#Ulke").on("change paste keyup", function () { filterx(8, $("#Ulke").val()); });
+        $("#Il").on("change paste keyup", function () { filterx(9, $("#Il").val()); });
+        $("#Ilce").on("change paste keyup", function () { filterx(10, $("#Ilce").val()); });
+        $("#BayiTipi").on("change paste keyup", function () { filterx(11, $("#BayiTipi").val()); });
+        $("#Bolge").on("change paste keyup", function () { filterx(12, $("#Bolge").val()); });
+        $("#MusteriTipi").on("change paste keyup", function () { filterx(13, $("#MusteriTipi").val()); });
+        $("#Parke").on("change paste keyup", function () { filterx(14, $("#Parke").val()); });
+        $("#Plaka").on("change paste keyup", function () { filterx(15, $("#Plaka").val()); });
+        $("#Kontraplak").on("change paste keyup", function () { filterx(16, $("#Kontraplak").val()); });
+        $("#Tezgah").on("change paste keyup", function () { filterx(17, $("#Tezgah").val()); });
+        $("#Kartela").on("change paste keyup", function () { filterx(18, $("#Kartela").val()); });
+        $("#Stand").on("change paste keyup", function () { filterx(19, $("#Stand").val()); });
+        $("#FiltreKagit").on("change paste keyup", function () { filterx(20, $("#FiltreKagit").val()); });
+        $("#EmprenyeliKagit").on("change paste keyup", function () { filterx(21, $("#EmprenyeliKagit").val()); });
+        $("#Tutkal").on("change paste keyup", function () { filterx(22, $("#Tutkal").val()); });
+        $("#Palet").on("change paste keyup", function () { filterx(23, $("#Palet").val()); });
+        $("#AhsapKiris").on("change paste keyup", function () { filterx(24, $("#AhsapKiris").val()); });
+        $("#Kereste").on("change paste keyup", function () { filterx(25, $("#Kereste").val()); });
+        $("#TicariMal").on("change paste keyup", function () { filterx(26, $("#TicariMal").val()); });
+        $("#Formaldehit").on("change paste keyup", function () { filterx(27, $("#Formaldehit").val()); });
+        $("#Tarih").datepicker().on("change", function (e) { filterx(29, e.target.value); });
+        var table = $('#sample_1').DataTable({
+            "ordering": false,
+            "scrollX": true,
+            "pagingType": "full_numbers",
+            "dom": 'Bfrtip',
+            "buttons": [
+                { "extend": 'pdf', "text": '<span class="fa fa-file-pdf-o f-s-15 red"></span>', "className": 'btn btn-default btn-xs' },
+                { "extend": 'excel', "text": '<span class="fa fa-file-excel-o f-s-15 green"></span>', "className": 'btn btn-default btn-xs' }
+            ],
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
+        });
+        function filterx(a, b) { filter(table, a, b); }
+    });
+</script>

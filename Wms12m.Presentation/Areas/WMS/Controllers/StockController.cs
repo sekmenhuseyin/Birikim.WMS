@@ -190,32 +190,66 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             //yerleştirme kaydı yapılır
             if (GC == false)
             {
-                var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
-                if (tmp2 == null)
+                if (tbl.MakaraNo == "")
                 {
-                    tmp2 = new Yer()
+                    var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+                    if (tmp2 == null)
                     {
-                        KatID = tbl.KatID,
-                        MalKodu = tbl.MalKodu,
-                        Birim = tbl.Birim,
-                        Miktar = tbl.Miktar
-                    };
-                    if (tbl.MakaraNo != "") tmp2.MakaraNo = tbl.MakaraNo;
-                    Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                        tmp2 = new Yer()
+                        {
+                            KatID = tbl.KatID,
+                            MalKodu = tbl.MalKodu,
+                            Birim = tbl.Birim,
+                            Miktar = tbl.Miktar
+                        };
+                        Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                    }
+                    else
+                    {
+                        tmp2.Miktar += tbl.Miktar;
+                        Yerlestirme.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
+                    }
                 }
                 else
                 {
-                    tmp2.Miktar += tbl.Miktar;
-                    Yerlestirme.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
+                    var tmp2 = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
+                    if (tmp2 == null)
+                    {
+                        tmp2 = new Yer()
+                        {
+                            KatID = tbl.KatID,
+                            MalKodu = tbl.MalKodu,
+                            MakaraNo = tbl.MakaraNo,
+                            Birim = tbl.Birim,
+                            Miktar = tbl.Miktar
+                        };
+                        Yerlestirme.Insert(tmp2, 0, vUser.Id);
+                    }
+                    else
+                    {
+                        tmp2.Miktar += tbl.Miktar;
+                        Yerlestirme.Update(tmp2, 0, vUser.Id, false, tbl.Miktar);
+                    }
                 }
             }
             else
             {
-                var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
-                if (tmp2 == null)
-                    return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
-                tmp2.Miktar -= tbl.Miktar;
-                Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
+                if (tbl.MakaraNo == "")
+                {
+                    var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
+                    if (tmp2 == null)
+                        return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
+                    tmp2.Miktar -= tbl.Miktar;
+                    Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
+                }
+                else
+                {
+                    var tmp2 = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
+                    if (tmp2 == null)
+                        return Json(new Result(false, "Seçili yerde bu ürün bulunamadı."), JsonRequestBehavior.AllowGet);
+                    tmp2.Miktar -= tbl.Miktar;
+                    Yerlestirme.Update(tmp2, 0, vUser.Id, true, tbl.Miktar);
+                }
             }
             //add to mysql
             if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
