@@ -102,7 +102,7 @@
     $.ajax({
         url: window.location.origin + "/Approvals/Wood/IhaleEvrakCek",
         data: {},
-        type: "post",
+        type: "post",   
         success: function (data) {
             var result = JSON.parse(data);
             $(".select_evrakno").dxLookup("instance").option("dataSource", result);

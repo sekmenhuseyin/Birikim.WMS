@@ -405,6 +405,10 @@
     <Content Include="Areas\Approvals\Views\Wood\NakliyeFiyatlar_List.cshtml" />
     <Content Include="Areas\Approvals\Views\Wood\DisDepoStokRapor.cshtml" />
     <Content Include="Areas\Approvals\Views\Wood\DisDepoStokRapor_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\DisDepoStokMaliyetRapor.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\DisDepoStokMaliyetRapor_List.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\StokYaslandirmaRapor.cshtml" />
+    <Content Include="Areas\Approvals\Views\Wood\StokYaslandirmaRapor_List.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

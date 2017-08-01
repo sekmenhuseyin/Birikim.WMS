@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Dış Depo Stok Raporu";
+    ViewBag.Title = "Stok Yaşlandırma Raporu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Styles{
@@ -11,27 +11,38 @@
     </style>
 }
 <div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Odun</span></li></ul></div>
-<h1 class="page-title">Dış Depo Stok Raporu</h1>
-    
-
-    <div class="row">
-        <div class="col-md-2 text-right color-blue-light bold">Mal Kodu</div>
-        <div class="col-md-2"> Başlangıç:</div>
-        <div class="col-md-3"><div class="input select_malkodubas"></div></div>
-        <div class="col-md-2"> Bitiş:</div>
-        <div class="col-md-3"><div class="input select_malkodubit"></div></div>
+<h1 class="page-title">Stok Yaşlandırma Raporu</h1>
 
 
-        </div>
+<div class="row">
+    <div class="col-md-2 text-right color-blue-light bold">Depo</div>
+    <div class="col-md-2"> Başlangıç:</div>
+    <div class="col-md-3"><div class="input select_depobas"></div></div>
+    <div class="col-md-2"> Bitiş:</div>
+    <div class="col-md-3"><div class="input select_depobit"></div></div>
 
-    <div class="row">
+
+</div>
+
+
+<div class="row">
+    <div class="col-md-2 text-right color-blue-light bold">Mal Kodu</div>
+    <div class="col-md-2"> Başlangıç:</div>
+    <div class="col-md-3"><div class="input select_malkodubas"></div></div>
+    <div class="col-md-2"> Bitiş:</div>
+    <div class="col-md-3"><div class="input select_malkodubit"></div></div>
+
+
+</div>
+
+<div class="row">
     <div class="form-horizontal">
         <div class="form-body">
 
             <div class="portlet box green">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-gift"></i>Dış Depo Stok Raporu
+                        <i class="fa fa-gift"></i>Stok Yaşlandırma Raporu
                     </div>
                     <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
                     <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
@@ -51,7 +62,8 @@
         </div>
     </div>
 </div>
-@section Scripts{<script>
+@section Scripts{
+    <script>
     var MalKoduBas, MalKoduBit;
     $.ajax({
         url: window.location.origin + "/Approvals/Wood/MalKoduCek",
@@ -62,7 +74,17 @@
             $(".select_malkodubas").dxLookup("instance").option("dataSource", result);
             $(".select_malkodubit").dxLookup("instance").option("dataSource", result);
         }
-    });
+        });
+        $.ajax({
+            url: window.location.origin + "/Approvals/Wood/NakliyeFiyatlarCek",
+            data: {},
+            type: "post",
+            success: function (data) {
+                var result = JSON.parse(data);
+                $(".select_depobas").dxLookup("instance").option("dataSource", result);
+                $(".select_malkodubit").dxLookup("instance").option("dataSource", result);
+            }
+        });
     $(".select_malkodubas").dxLookup({
         searchEnabled: true,
         fullScreen: true,
@@ -111,7 +133,7 @@
 
     $('.yenile-buton').click(function () {
         $('#buttons').html("");
-        PartialView("/Approvals/Wood/DisDepoStokRapor_List", 'liste');
+        PartialView("/Approvals/Wood/StokYaslandirmaRapor_List", 'liste');
     });
-</script>
+    </script>
 }

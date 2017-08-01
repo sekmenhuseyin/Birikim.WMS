@@ -5,15 +5,15 @@
             <tr>
 
 
-                <th>Depo Kodu</th>
-                <th>Depo Adı </th>
-                <th>Mal Kodu </th>
+                <th>Evrak No</th>
+                <th>Tarih</th>
+                <th>Hesap Kodu</th>
+                <th>Ünvan</th>
+                <th>Mal Kodu</th>
                 <th>Mal Adı</th>
                 <th>Birim</th>
-                <th>Devir Miktar</th>
-                <th>Giriş Miktar</th>
-                <th>Çıkış Miktar</th>
-                <th>Kalan Miktar</th>
+                <th>Birim Miktar</th>
+                <th>Toplam</th>
             </tr>
         </thead>
 
@@ -28,25 +28,26 @@
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/Wood/DisDepoStokCek',
-            "data": { MalKoduBas: MalKoduBas, MalKoduBit:MalKoduBit},
+            "url": '/Approvals/Wood/StokYaslandirmaRaporCek',
+            "data": { MalKoduBas: MalKoduBas, MalKoduBit:MalKoduBit,DepoBas:DepoBas,DepoBit:DepoBit},
             "dataSrc": function (json) {
 
                 return json;
             },
         },
-        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2] }],
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [7,9] }],
         "columns": [
 
-            { "data": "Depo" },
-            { "data": "DepoAdi"},
+            { "data": "EvrakNo" },
+            { "data": "Tarih"},
+            { "data": "Chk" },
+            { "data": "Unvan1" },
             { "data": "MalKodu" },
             { "data": "MalAdi" },
             { "data": "Birim" },
-            { "data": "DvrMiktar" },
-            { "data": "GirMiktar" },
-            { "data": "CikMiktar" },
-            { "data": "STIKalanMiktar" }
+            { "data": "BirimMiktar" },
+            { "data": "Depo" },
+            { "data": "BirimMiktar" },//Toplam
 
             ],
 

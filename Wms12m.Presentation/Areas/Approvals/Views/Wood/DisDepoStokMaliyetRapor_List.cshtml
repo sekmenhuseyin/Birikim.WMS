@@ -1,19 +1,16 @@
-﻿<div class="col-md-12" style="width:100%;">
+﻿
+<div class="col-md-12" style="width:100%;">
     <div id="buttons"></div>
     <table class="table table-striped table-bordered table-hover" id="sample_1">
         <thead>
             <tr>
 
 
-                <th>Depo Kodu</th>
-                <th>Depo Adı </th>
-                <th>Mal Kodu </th>
-                <th>Mal Adı</th>
-                <th>Birim</th>
-                <th>Devir Miktar</th>
-                <th>Giriş Miktar</th>
-                <th>Çıkış Miktar</th>
-                <th>Kalan Miktar</th>
+                <th>Mal Kodu</th>
+                <th>Mal Adı </th>
+                <th>Birim </th>
+                <th>Birim Fiyat</th>
+
             </tr>
         </thead>
 
@@ -22,31 +19,26 @@
 
 </div>
 <script>
-
+    
     var secili_satir = new Array();
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/Wood/DisDepoStokCek',
-            "data": { MalKoduBas: MalKoduBas, MalKoduBit:MalKoduBit},
+            "url": '/Approvals/Wood/DisDepoStokMaliyetCek',
+            "data": { MalKoduBas: MalKoduBas, MalKoduBit: MalKoduBit, isletmeBazli: isletmeBazli, depoBazli: depoBazli, Datebas: Datebas, Datebit: Datebit },
             "dataSrc": function (json) {
 
                 return json;
             },
         },
-        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2] }],
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [3] }],
         "columns": [
 
-            { "data": "Depo" },
-            { "data": "DepoAdi"},
             { "data": "MalKodu" },
-            { "data": "MalAdi" },
-            { "data": "Birim" },
-            { "data": "DvrMiktar" },
-            { "data": "GirMiktar" },
-            { "data": "CikMiktar" },
-            { "data": "STIKalanMiktar" }
+            { "data": "MalAdi"},
+            { "data": "Birim1" },
+            { "data": "Fiyat" , "render": $.fn.dataTable.render.number('.', ',', 6, '') }
 
             ],
 
