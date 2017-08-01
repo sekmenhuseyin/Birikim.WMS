@@ -650,7 +650,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (depoBazli == false && isletmeBazli == false)
             {
                 sorgu = string.Format(
-                    @"SELECT A.MalKodu, STK.MalAdi, STK.Birim1, ISNULL(A.Fiyat,0) as Fiyat 
+                    @"SELECT A.MalKodu, STK.MalAdi, STK.Birim1 as Birim, ISNULL(A.Fiyat,0) as BirimFiyat 
                                         FROM FINSAT6{0}.FINSAT6{0}.STK (nolock)
                                         INNER JOIN
                                         (
@@ -689,8 +689,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 sorgu = string.Format(
 
 @"SELECT A.Chk, CHK.Unvan1, A.Depo, A.MalKodu, A.Tutar, A.BirimMiktar
-                , STK.MalAdi, STK.Birim1
-                , ISNULL(A.Tutar / NULLIF(A.BirimMiktar,0),0) as Fiyat
+                , STK.MalAdi, STK.Birim1 as Birim
+                , ISNULL(A.Tutar / NULLIF(A.BirimMiktar,0),0) as BirimFiyat
                 , DEP.DepoAdi
                 FROM
                 (

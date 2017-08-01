@@ -26,6 +26,7 @@
     var secili_satir = new Array();
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
+        
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approvals/Wood/StokYaslandirmaRaporCek',
@@ -33,6 +34,7 @@
             "dataSrc": function (json) {
 
                 return json;
+                alert("Merhaba");
             },
         },
         "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [7,9] }],
@@ -47,7 +49,7 @@
             { "data": "Birim" },
             { "data": "BirimMiktar" },
             { "data": "Depo" },
-            { "data": "BirimMiktar" },//Toplam
+            { "data": "BirimMiktar" }//Toplam
 
             ],
 
