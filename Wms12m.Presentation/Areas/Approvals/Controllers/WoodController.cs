@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
@@ -830,7 +829,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 string sorgu = string.Format(
                                             @"SELECT STI.EvrakNo, (CASE STI.KynkEvrakTip WHEN 58 THEN STI.VadeTarih ELSE STI.Tarih END) as Tarih
-                                            , STI.Chk, CHK.Unvan1, STI.Birim, STI.BirimMiktar, STI.KynkEvrakTip 
+                                            , ISNULL(STI.CHK,'') AS CHK, ISNULL(CHK.Unvan1,'') as Unvan, STI.Birim, STI.BirimMiktar, STI.KynkEvrakTip 
                                             , (DST.DvrMiktar+DST.GirMiktar-DST.CikMiktar) as DepoStokMiktar, DST.Depo, DEP.DepoAdi
                                             , STI.MalKodu, STK.MalAdi
                                             FROM FINSAT6{0}.FINSAT6{0}.STI (nolock)
@@ -852,11 +851,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     string malKodu = item.MalKodu.ToString();
                     string key = string.Format("{0}-{1}", depo, malKodu);
 
-                    //decimal depoStokMik = (decimal)item.DepoStokMiktar;
+                    decimal depoStokMik = (decimal)item.DepoStokMiktar;
 
                     if (dic.ContainsKey(key))
                     {
-                        if (dic[key] >= 0) //depoStokMik
+                        if (dic[key] >= depoStokMik) //depoStokMik
                             continue;
                     }
                     else
@@ -877,7 +876,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     sti.MalAdi = item.MalAdi.ToString();
                     sti.KynkEvrakTip = (short)item.KynkEvrakTip;
 
-                    sti.Kod13 = 0;// depoStokMik;
+                    sti.Kod13 = depoStokMik;// depoStokMik;
 
                     sti.Kod1 = String.Format("{0}       Depo Stok Miktarı:  {1:N2}", sti.MalKodu, sti.Kod13);
 
@@ -887,9 +886,9 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                     list.Add(sti);
 
-                    if (dic[key] > 0) //depoStokMik
+                    if (dic[key] > depoStokMik) //depoStokMik
                     {
-                        decimal fark = dic[key] - 0;//depoStokMik;
+                        decimal fark = dic[key] - depoStokMik;//depoStokMik;
                         sti.BirimMiktar -= fark;
                     }
                 }

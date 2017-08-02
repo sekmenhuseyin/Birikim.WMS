@@ -1,130 +1,128 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Wms12m.Entity
 {
-    public class TahsisOnayOdun { 
-    /// <summary> Int (Not Null) </summary>
-    public int ID { get; set; }
-    /// <summary> SmallInt (Not Null) </summary>
-    public short Tip { get; set; }
-    /// <summary> Int (Not Null) </summary>
-    public int Yil { get; set; }
-    /// <summary> Int (Not Null) </summary>
-    public int Hafta { get; set; }
-    /// <summary> Int (Not Null) </summary>
-    public int Tarih { get; set; }
-    /// <summary> SmallInt (Not Null) </summary>
-    public short SiraNo { get; set; }
-    /// <summary> VarChar(20) (Not Null) </summary>
-    public string OrmIslt { get; set; }
-    /// <summary> VarChar(18) (Allow Null) </summary>
-    public string TipAck { get; set; }
-    /// <summary> VarChar(30) (Allow Null) </summary>
-    public string EmvalCinsi { get; set; }
-    /// <summary> Decimal(18,2) (Not Null) </summary>
-    public decimal Miktar { get; set; }
-    /// <summary> VarChar(4) (Allow Null) </summary>
-    public string Birim { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? MuhBdl1 { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? MuhBdl2 { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? IbreliMiktarSter { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? IbreliMiktarM3 { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? YaprakliMiktarSter { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? YaprakliMiktarM3 { get; set; }
-    /// <summary> VarChar(100) (Allow Null) </summary>
-    public string NrdKull { get; set; }
-    /// <summary> VarChar(100) (Allow Null) </summary>
-    public string StkDrm { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? NakFiyati { get; set; }
-    /// <summary> VarChar(250) (Allow Null) </summary>
-    public string Aciklama { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TavanMiktar { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TavanFiyat { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? Ortalama { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? VezirOrt { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? Vezir { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? KstEnt { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? Camsan { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? Terme { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? SFC { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? Piyasa { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? Pazarlik { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TahBirimFiyat { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TahMalBedeli { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TahAgFn { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TahVadeFarki { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TahKdv18 { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TahToplam { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TahTeminat { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TahMektupFaizi { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TahTopMektupTutar { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TahPesinat { get; set; }
-    /// <summary> Decimal(18,2) (Allow Null) </summary>
-    public decimal? TahGenelTop { get; set; }
-    /// <summary> VarChar(100) (Allow Null) </summary>
-    public string TahOncelik { get; set; }
-    /// <summary> Bit (Not Null) </summary>
-    public bool Onay { get; set; }
-    /// <summary> VarChar(5) (Allow Null) </summary>
-    public string Onaylayan { get; set; }
-    /// <summary> SmallDatetime (Allow Null) </summary>
-    public DateTime? OnayTarih { get; set; }
-    /// <summary> Decimal(4,4) (Not Null) </summary>
-    public decimal PlanIbreliSter { get; set; }
-    /// <summary> Decimal(4,4) (Not Null) </summary>
-    public decimal PlanIbreliM3 { get; set; }
-    /// <summary> Decimal(4,4) (Not Null) </summary>
-    public decimal PlanYaprakliSter { get; set; }
-    /// <summary> Decimal(4,4) (Not Null) </summary>
-    public decimal PlanYaprakliM3 { get; set; }
-    /// <summary> Decimal(4,4) (Not Null) </summary>
-    public decimal KulIbreliSter { get; set; }
-    /// <summary> Decimal(4,4) (Not Null) </summary>
-    public decimal KulYaprakliSter { get; set; }
-    /// <summary> Decimal(4,4) (Not Null) </summary>
-    public decimal KulIbreliM3 { get; set; }
-    /// <summary> Decimal(4,4) (Not Null) </summary>
-    public decimal KulYaprakliM3 { get; set; }
-    /// <summary> VarChar(81) (Allow Null) </summary>
-    public string OrmIsltUnvan { get; set; }
-    /// <summary> VarChar(50) (Allow Null) </summary>
-    public string EmvalCinsiAdi { get; set; }
-    /// <summary> SmallDatetime (Allow Null) </summary>
-    public DateTime? Tarih2 { get; set; }
-    /// <summary> Bit (Allow Null) </summary>
-    public bool? Secim { get; set; }
+    public class TahsisOnayOdun
+    {
+        /// <summary> Int (Not Null) </summary>
+        public int ID { get; set; }
+        /// <summary> SmallInt (Not Null) </summary>
+        public short Tip { get; set; }
+        /// <summary> Int (Not Null) </summary>
+        public int Yil { get; set; }
+        /// <summary> Int (Not Null) </summary>
+        public int Hafta { get; set; }
+        /// <summary> Int (Not Null) </summary>
+        public int Tarih { get; set; }
+        /// <summary> SmallInt (Not Null) </summary>
+        public short SiraNo { get; set; }
+        /// <summary> VarChar(20) (Not Null) </summary>
+        public string OrmIslt { get; set; }
+        /// <summary> VarChar(18) (Allow Null) </summary>
+        public string TipAck { get; set; }
+        /// <summary> VarChar(30) (Allow Null) </summary>
+        public string EmvalCinsi { get; set; }
+        /// <summary> Decimal(18,2) (Not Null) </summary>
+        public decimal Miktar { get; set; }
+        /// <summary> VarChar(4) (Allow Null) </summary>
+        public string Birim { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? MuhBdl1 { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? MuhBdl2 { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? IbreliMiktarSter { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? IbreliMiktarM3 { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? YaprakliMiktarSter { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? YaprakliMiktarM3 { get; set; }
+        /// <summary> VarChar(100) (Allow Null) </summary>
+        public string NrdKull { get; set; }
+        /// <summary> VarChar(100) (Allow Null) </summary>
+        public string StkDrm { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? NakFiyati { get; set; }
+        /// <summary> VarChar(250) (Allow Null) </summary>
+        public string Aciklama { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TavanMiktar { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TavanFiyat { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? Ortalama { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? VezirOrt { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? Vezir { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? KstEnt { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? Camsan { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? Terme { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? SFC { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? Piyasa { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? Pazarlik { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahBirimFiyat { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahMalBedeli { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahAgFn { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahVadeFarki { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahKdv18 { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahToplam { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahTeminat { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahMektupFaizi { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahTopMektupTutar { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahPesinat { get; set; }
+        /// <summary> Decimal(18,2) (Allow Null) </summary>
+        public decimal? TahGenelTop { get; set; }
+        /// <summary> VarChar(100) (Allow Null) </summary>
+        public string TahOncelik { get; set; }
+        /// <summary> Bit (Not Null) </summary>
+        public bool Onay { get; set; }
+        /// <summary> VarChar(5) (Allow Null) </summary>
+        public string Onaylayan { get; set; }
+        /// <summary> SmallDatetime (Allow Null) </summary>
+        public DateTime? OnayTarih { get; set; }
+        /// <summary> Decimal(4,4) (Not Null) </summary>
+        public decimal PlanIbreliSter { get; set; }
+        /// <summary> Decimal(4,4) (Not Null) </summary>
+        public decimal PlanIbreliM3 { get; set; }
+        /// <summary> Decimal(4,4) (Not Null) </summary>
+        public decimal PlanYaprakliSter { get; set; }
+        /// <summary> Decimal(4,4) (Not Null) </summary>
+        public decimal PlanYaprakliM3 { get; set; }
+        /// <summary> Decimal(4,4) (Not Null) </summary>
+        public decimal KulIbreliSter { get; set; }
+        /// <summary> Decimal(4,4) (Not Null) </summary>
+        public decimal KulYaprakliSter { get; set; }
+        /// <summary> Decimal(4,4) (Not Null) </summary>
+        public decimal KulIbreliM3 { get; set; }
+        /// <summary> Decimal(4,4) (Not Null) </summary>
+        public decimal KulYaprakliM3 { get; set; }
+        /// <summary> VarChar(81) (Allow Null) </summary>
+        public string OrmIsltUnvan { get; set; }
+        /// <summary> VarChar(50) (Allow Null) </summary>
+        public string EmvalCinsiAdi { get; set; }
+        /// <summary> SmallDatetime (Allow Null) </summary>
+        public DateTime? Tarih2 { get; set; }
+        /// <summary> Bit (Allow Null) </summary>
+        public bool? Secim { get; set; }
     }
     public class IHLTAH
     {
@@ -301,199 +299,202 @@ namespace Wms12m.Entity
         public DateTime DegisTarih { get; set; }
 
     }
-    public class IHLTAHKayitResult {
-        public int  ID{get;set;}
+    public class IHLTAHKayitResult
+    {
+        public int ID { get; set; }
 
-        public short  Tip{get;set;}
+        public short Tip { get; set; }
 
-        public int  Yil{get;set;}
+        public int Yil { get; set; }
 
-        public int  Hafta{get;set;}
+        public int Hafta { get; set; }
 
-        public int  Tarih{get;set;}
+        public int Tarih { get; set; }
 
-        public short  SiraNo{get;set;}
+        public short SiraNo { get; set; }
 
-        public string  OrmIslt{get;set;}
+        public string OrmIslt { get; set; }
 
-        public string  TipAck{get;set;}
+        public string TipAck { get; set; }
 
-        public string  EmvalCinsi{get;set;}
+        public string EmvalCinsi { get; set; }
 
-        public decimal  Miktar{get;set;}
+        public decimal Miktar { get; set; }
 
-        public string  Birim{get;set;}
+        public string Birim { get; set; }
 
-        public System.Nullable<decimal>  MuhBdl1{get;set;}
+        public System.Nullable<decimal> MuhBdl1 { get; set; }
 
-        public System.Nullable<decimal>  MuhBdl2{get;set;}
+        public System.Nullable<decimal> MuhBdl2 { get; set; }
 
-        public System.Nullable<decimal>  IbreliMiktarSter{get;set;}
+        public System.Nullable<decimal> IbreliMiktarSter { get; set; }
 
-        public System.Nullable<decimal>  IbreliMiktarM3{get;set;}
+        public System.Nullable<decimal> IbreliMiktarM3 { get; set; }
 
-        public System.Nullable<decimal>  YaprakliMiktarSter{get;set;}
+        public System.Nullable<decimal> YaprakliMiktarSter { get; set; }
 
-        public System.Nullable<decimal>  YaprakliMiktarM3{get;set;}
+        public System.Nullable<decimal> YaprakliMiktarM3 { get; set; }
 
-        public string  NrdKull{get;set;}
+        public string NrdKull { get; set; }
 
-        public string  StkDrm{get;set;}
+        public string StkDrm { get; set; }
 
-        public System.Nullable<decimal>  NakFiyati{get;set;}
+        public System.Nullable<decimal> NakFiyati { get; set; }
 
-        public string  Aciklama{get;set;}
+        public string Aciklama { get; set; }
 
-        public System.Nullable<decimal>  TavanMiktar{get;set;}
+        public System.Nullable<decimal> TavanMiktar { get; set; }
 
-        public System.Nullable<decimal>  TavanFiyat{get;set;}
+        public System.Nullable<decimal> TavanFiyat { get; set; }
 
-        public System.Nullable<decimal>  Ortalama{get;set;}
+        public System.Nullable<decimal> Ortalama { get; set; }
 
-        public System.Nullable<decimal>  VezirOrt{get;set;}
+        public System.Nullable<decimal> VezirOrt { get; set; }
 
-        public System.Nullable<decimal>  Vezir{get;set;}
+        public System.Nullable<decimal> Vezir { get; set; }
 
-        public System.Nullable<decimal>  KstEnt{get;set;}
+        public System.Nullable<decimal> KstEnt { get; set; }
 
-        public System.Nullable<decimal>  Camsan{get;set;}
+        public System.Nullable<decimal> Camsan { get; set; }
 
-        public System.Nullable<decimal>  Terme{get;set;}
+        public System.Nullable<decimal> Terme { get; set; }
 
-        public System.Nullable<decimal>  SFC{get;set;}
+        public System.Nullable<decimal> SFC { get; set; }
 
-        public System.Nullable<decimal>  Piyasa{get;set;}
+        public System.Nullable<decimal> Piyasa { get; set; }
 
-        public System.Nullable<decimal>  Pazarlik{get;set;}
+        public System.Nullable<decimal> Pazarlik { get; set; }
 
-        public string  TebDepo{get;set;}
+        public string TebDepo { get; set; }
 
-        public string  TebPartiNo{get;set;}
+        public string TebPartiNo { get; set; }
 
-        public System.Nullable<decimal>  TebMiktar{get;set;}
+        public System.Nullable<decimal> TebMiktar { get; set; }
 
-        public System.Nullable<decimal>  TebBirimFiyat{get;set;}
+        public System.Nullable<decimal> TebBirimFiyat { get; set; }
 
-        public System.Nullable<decimal>  TebVadeliTeminat{get;set;}
+        public System.Nullable<decimal> TebVadeliTeminat { get; set; }
 
-        public System.Nullable<decimal>  TebVadeliPesinat{get;set;}
+        public System.Nullable<decimal> TebVadeliPesinat { get; set; }
 
-        public System.Nullable<decimal>  TebKampTeminat{get;set;}
+        public System.Nullable<decimal> TebKampTeminat { get; set; }
 
-        public System.Nullable<decimal>  TebKampPesinat{get;set;}
+        public System.Nullable<decimal> TebKampPesinat { get; set; }
 
-        public System.Nullable<decimal>  TebPesinTutar{get;set;}
+        public System.Nullable<decimal> TebPesinTutar { get; set; }
 
-        public string  TebTemMektupDosya{get;set;}
+        public string TebTemMektupDosya { get; set; }
 
-        public string  TebPesDekontDosya{get;set;}
+        public string TebPesDekontDosya { get; set; }
 
-        public string  TebFaturaDosya{get;set;}
+        public string TebFaturaDosya { get; set; }
 
-        public System.Nullable<System.DateTime>  TebTarih{get;set;}
+        public System.Nullable<System.DateTime> TebTarih { get; set; }
 
-        public System.Nullable<System.DateTime>  TebSonSatisTarih{get;set;}
+        public System.Nullable<System.DateTime> TebSonSatisTarih { get; set; }
 
-        public System.Nullable<decimal>  TebKrediKartOdeme{get;set;}
+        public System.Nullable<decimal> TebKrediKartOdeme { get; set; }
 
-        public System.Nullable<decimal>  TebHavaleOdeme{get;set;}
+        public System.Nullable<decimal> TebHavaleOdeme { get; set; }
 
-        public System.Nullable<decimal>  TahBirimFiyat{get;set;}
+        public System.Nullable<decimal> TahBirimFiyat { get; set; }
 
-        public System.Nullable<decimal>  TahMalBedeli{get;set;}
+        public System.Nullable<decimal> TahMalBedeli { get; set; }
 
-        public System.Nullable<decimal>  TahAgFn{get;set;}
+        public System.Nullable<decimal> TahAgFn { get; set; }
 
-        public System.Nullable<decimal>  TahVadeFarki{get;set;}
+        public System.Nullable<decimal> TahVadeFarki { get; set; }
 
-        public System.Nullable<decimal>  TahKdv18{get;set;}
+        public System.Nullable<decimal> TahKdv18 { get; set; }
 
-        public System.Nullable<decimal>  TahToplam{get;set;}
+        public System.Nullable<decimal> TahToplam { get; set; }
 
-        public System.Nullable<decimal>  TahTeminat{get;set;}
+        public System.Nullable<decimal> TahTeminat { get; set; }
 
-        public System.Nullable<decimal>  TahMektupFaizi{get;set;}
+        public System.Nullable<decimal> TahMektupFaizi { get; set; }
 
-        public System.Nullable<decimal>  TahTopMektupTutar{get;set;}
+        public System.Nullable<decimal> TahTopMektupTutar { get; set; }
 
-        public System.Nullable<decimal>  TahPesinat{get;set;}
+        public System.Nullable<decimal> TahPesinat { get; set; }
 
-        public System.Nullable<decimal>  TahGenelTop{get;set;}
+        public System.Nullable<decimal> TahGenelTop { get; set; }
 
-        public string  TahOncelik{get;set;}
+        public string TahOncelik { get; set; }
 
-        public string  TahTemMektupBankaAd{get;set;}
+        public string TahTemMektupBankaAd { get; set; }
 
-        public System.Nullable<System.DateTime>  TahTemMektupTarih{get;set;}
+        public System.Nullable<System.DateTime> TahTemMektupTarih { get; set; }
 
-        public string  TahTemMektupNo{get;set;}
+        public string TahTemMektupNo { get; set; }
 
-        public string  TahTemMektupDosya{get;set;}
+        public string TahTemMektupDosya { get; set; }
 
-        public string  TahTemMektupKargo{get;set;}
+        public string TahTemMektupKargo { get; set; }
 
-        public string  TahTemMektupKargoNo{get;set;}
+        public string TahTemMektupKargoNo { get; set; }
 
-        public string  TahPesDekontBankaAd{get;set;}
+        public string TahPesDekontBankaAd { get; set; }
 
-        public System.Nullable<System.DateTime>  TahPesDekontTarih{get;set;}
+        public System.Nullable<System.DateTime> TahPesDekontTarih { get; set; }
 
-        public string  TahPesDekontDosya{get;set;}
+        public string TahPesDekontDosya { get; set; }
 
-        public string  TahFaturaDosya{get;set;}
+        public string TahFaturaDosya { get; set; }
 
-        public string  EvrakNo{get;set;}
+        public string EvrakNo { get; set; }
 
-        public bool  Onay{get;set;}
+        public bool Onay { get; set; }
 
-        public string  Onaylayan{get;set;}
+        public string Onaylayan { get; set; }
 
-        public System.Nullable<System.DateTime>  OnayTarih{get;set;}
+        public System.Nullable<System.DateTime> OnayTarih { get; set; }
 
-        public string  Kod1{get;set;}
+        public string Kod1 { get; set; }
 
-        public string  Kod2{get;set;}
+        public string Kod2 { get; set; }
 
-        public System.Nullable<int>  Kod3{get;set;}
+        public System.Nullable<int> Kod3 { get; set; }
 
-        public System.Nullable<int>  Kod4{get;set;}
+        public System.Nullable<int> Kod4 { get; set; }
 
-        public System.Nullable<decimal>  Kod5{get;set;}
+        public System.Nullable<decimal> Kod5 { get; set; }
 
-        public System.DateTime  KayitTarih{get;set;}
+        public System.DateTime KayitTarih { get; set; }
 
-        public System.DateTime  DegisTarih{get;set;}
+        public System.DateTime DegisTarih { get; set; }
 
-        public string  AlimFatura{get;set;}
+        public string AlimFatura { get; set; }
 
-        public decimal  PlanIbreliSter{get;set;}
+        public decimal PlanIbreliSter { get; set; }
 
-        public decimal  PlanIbreliM3{get;set;}
+        public decimal PlanIbreliM3 { get; set; }
 
-        public decimal  PlanYaprakliSter{get;set;}
+        public decimal PlanYaprakliSter { get; set; }
 
-        public decimal  PlanYaprakliM3{get;set;}
+        public decimal PlanYaprakliM3 { get; set; }
 
-        public decimal  KulIbreliSter{get;set;}
+        public decimal KulIbreliSter { get; set; }
 
-        public decimal  KulYaprakliSter{get;set;}
+        public decimal KulYaprakliSter { get; set; }
 
-        public decimal  KulIbreliM3{get;set;}
+        public decimal KulIbreliM3 { get; set; }
 
-        public decimal  KulYaprakliM3{get;set;}
+        public decimal KulYaprakliM3 { get; set; }
 
-        public string  OrmIsltUnvan{get;set;}
+        public string OrmIsltUnvan { get; set; }
 
-        public string  EmvalCinsiAdi{get;set;}
+        public string EmvalCinsiAdi { get; set; }
 
-        public System.Nullable<System.DateTime>  Tarih2{get;set;}
+        public System.Nullable<System.DateTime> Tarih2 { get; set; }
     }
-    public class CHKSelect1Result {
+    public class CHKSelect1Result
+    {
         public string HesapKodu { get; set; }
 
         public string Unvan { get; set; }
     }
-    public class TahsisliIsletmeKasa {
+    public class TahsisliIsletmeKasa
+    {
         /// <summary> VarChar(16) (Allow Null) </summary>
         public string EvrakNo { get; set; }
         /// <summary> VarChar(20) (Not Null) </summary>
@@ -561,7 +562,7 @@ namespace Wms12m.Entity
 
         public short KynkEvrakTip { get; set; }
 
-
+        public decimal DepoStokMiktar { get; set; }
         /// <summary>
         /// STok Yaşlandırma Raporunda MalKodu + " "+Depo Stok mİktarını Tutuyoruz. 
         /// </summary>
