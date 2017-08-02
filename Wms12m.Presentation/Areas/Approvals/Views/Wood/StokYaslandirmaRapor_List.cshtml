@@ -42,15 +42,15 @@
         "columns": [
 
             { "data": "EvrakNo" },
-            { "data": "Tarih"},
+            { "data": "Tarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
             { "data": "Chk" },
             { "data": "Unvan" },
             { "data": "MalKodu" },
             { "data": "MalAdi" },
             { "data": "Birim" },
-            { "data": "BirimMiktar" },
+            { "data": "BirimMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "Depo" },
-            { "data": "BirimMiktar" }//Toplam
+            { "data": "BirimMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') } //Toplam
 
             ],
 
