@@ -33,15 +33,14 @@
                             <th> Teslim Yeri Kodu </th>
                             <th>Teslim Yeri Ünvan</th>
                             <th>Sipariş Tutarı</th>
+                            <th>Sipariş CHK Bakiyesi</th>
                             <th>Bakiye</th>
                             <th>Risk Bakiyesi</th>
                             <th>Toplam Bakiye</th>
                             <th>Toplam Değişim Çek Bakiyesi</th>
-                            <th>Müşteri Toplam Bakiyesi</th>
+                            <th>Sipariş CHK Bakiyesi</th>
                             <th>Şahsi Çek Limiti</th>
                             <th>Şahsi Çek Riski</th>
-                            <th>Müşteri Çek Limiti</th>
-                            <th>Müşteri Çek Riski</th>
                             <th>Bekleyen Sipariş Tutarı</th>
                             <th>Teminat</th>
                             <th>Teminat Alt Bayi</th>
@@ -69,17 +68,16 @@
                                 <td nowrap align="right">
                                     @String.Format("{0:n}", item.SiparisTutari)
                                 </td>
+                                <td nowrap align="right">@String.Format("{0:n}", item.IslemYapılanCHKBakiye)</td>
                                 <td nowrap align="right">
                                     @String.Format("{0:n}", item.Bakiye)
                                 </td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.RiskBakiyesi)</td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.ToplamBakiye)</td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.DegisimToplamBakiye)</td>
-                                <td nowrap align="right">@String.Format("{0:n}", item.IslemYapılanCHKBakiye)</td>
+                             
                                 <td nowrap align="right">@String.Format("{0:n}", item.SahsiCekLimiti)</td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.SahsiCekRiski)</td>
-                                <td nowrap align="right">@String.Format("{0:n}", item.MusteriCekLimiti)</td>
-                                <td nowrap align="right">@String.Format("{0:n}", item.MusteriCekRiski)</td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.BekleyenSiparisTutari)</td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.Teminat)</td>
                                 <td nowrap align="right">@String.Format("{0:n}", item.TeminatAltBayi)</td>

@@ -66,7 +66,7 @@ namespace Wms12m
                 row.Malzeme = item.MalKodu.ToString();
                 row.DvzCinsi = item.DovizCinsi.ToString() == "" ? "TL" : item.DovizCinsi.ToString();
                 row.MalzemeAdi = item.MalAdi.ToString().Trim();
-                if (item.EkDosya.ToString().Trim() != "")
+                if (item.EkDosya!= null && item.EkDosya.ToString().Trim() != "")
                     row.MalzemeAdi += string.Format(" ({0}: {1})"
                         , islemTip == (short)KKPIslemTipSPI.İçPiyasa ? "Ek Dosya" : "File"
                         , item.EkDosya);
