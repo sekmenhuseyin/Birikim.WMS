@@ -163,14 +163,14 @@ namespace Wms12m.Presentation.Controllers
             if (result.Tables.Count == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(_Result, JsonRequestBehavior.AllowGet);
             //her satırı tek tek kaydet
-            int basarili = 0, hatali = 0; string hatalilar = "";
+            int basarili = 0, hatali = 0, tarih = fn.ToOADate(); string hatalilar = "";
             for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
                 DataRow dr = result.Tables[0].Rows[i];
                 //kontrol
                 try
                 {
-                    if (dr["Mal Kodu"].ToString() != "" && dr["Birim"].ToString() != "" && dr["En"].ToString2().IsNumeric() != false && dr["Boy"].ToString2().IsNumeric() != false && dr["Derinlik"].ToString2().IsNumeric() != false && dr["Ağırlık"].ToString2().IsNumeric() != false)
+                    if (dr["Mal Kodu"].ToString() != "" && dr["Birim"].ToString() != "" && dr["En"].ToString2() != "" && dr["Boy"].ToString2() != "" && dr["Derinlik"].ToString2() != "" && dr["Ağırlık"].ToString2() != "")
                     {
                         //add new
                         Olcu sti = new Olcu()
@@ -180,7 +180,11 @@ namespace Wms12m.Presentation.Controllers
                             En = dr["En"].ToDecimal(),
                             Boy = dr["Boy"].ToDecimal(),
                             Derinlik = dr["Derinlik"].ToDecimal(),
-                            Agirlik = dr["Ağırlık"].ToDecimal()
+                            Agirlik = dr["Ağırlık"].ToDecimal(),
+                            Kaydeden = vUser.UserName,
+                            KayitTarih = tarih,
+                            Degistiren = vUser.UserName,
+                            DegisTarih = tarih
                         };
                         //ekle
                         db.Olcus.Add(sti);
