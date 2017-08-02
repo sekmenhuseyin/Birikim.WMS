@@ -33,7 +33,13 @@ namespace WMSMobil
             //barkod
             Barkod = new Barcode2();
             Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            Barkod.EnableScanner = true;
+            try
+            {
+                Barkod.EnableScanner = true;
+            }
+            catch (Exception)
+            {
+            }
             Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             try
             {
@@ -769,11 +775,13 @@ namespace WMSMobil
         {
             try
             {
-                Servis.Dispose();
                 Barkod.EnableScanner = false;
-                Barkod.Dispose();
             }
-            catch { }
+            catch (Exception)
+            {
+            }
+            Barkod.Dispose();
+            Servis.Dispose();
         }
         /// <summary>
         /// geri

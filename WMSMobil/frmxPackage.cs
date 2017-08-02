@@ -28,7 +28,13 @@ namespace WMSMobil
             //barkod
             Barkod = new Barcode2();
             Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            Barkod.EnableScanner = true;
+            try
+            {
+                Barkod.EnableScanner = true;
+            }
+            catch (Exception)
+            {
+            }
             Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
         }
         /// <summary>
@@ -179,6 +185,19 @@ namespace WMSMobil
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void frmxPackage_Closing(object sender, CancelEventArgs e)
+        {
+            try
+            {
+                Barkod.EnableScanner = false;
+            }
+            catch (Exception)
+            {
+            }
+            Barkod.Dispose();
+            Servis.Dispose();
         }
     }
 }
