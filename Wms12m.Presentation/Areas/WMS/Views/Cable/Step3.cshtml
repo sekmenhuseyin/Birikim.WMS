@@ -134,8 +134,9 @@
         if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
         else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
     });
-    function SelectMakara(id, row) {
-        $("#mkr" + row).html(id);
+    function SelectMakara(id, row, mno) {
+        if (mno == "") mno = "Seçildi";
+        $("#mkr" + row).html(mno);
         table.rows().every(function (rowIdx, tableLoop, rowLoop) {
             if (this.data()[14] == row) this.data()[10] = id;
         });

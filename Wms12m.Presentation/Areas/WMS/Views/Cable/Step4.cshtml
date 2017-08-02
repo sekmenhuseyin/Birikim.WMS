@@ -49,15 +49,15 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                var match = kalan.Where(m => m.MalKodu == item.MalKodu).FirstOrDefault();
+                                var match = kalan.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.HucreAd).FirstOrDefault();
                                 if (match == null)
                                 {
-                                    match = new frmMalKoduMiktar() { MalKodu = item.MalKodu, Miktar = item.Stok };
+                                    match = new frmMalKoduMiktar() { Birim = item.HucreAd, MalKodu = item.MalKodu, Miktar = item.Stok - item.Miktar };
                                     kalan.Add(match);
                                 }
                                 else
                                 {
-                                    match.Miktar = item.Miktar;
+                                    match.Miktar -= item.Miktar;
                                 }
                                 string tmp = item.MalKodu.GetMalAdi(Sirket[0]);
                                 if (tmp == null) { tmp = item.MalKodu.GetMalAdi(Sirket[1]); }
@@ -67,7 +67,7 @@
                                     <td>@item.HucreAd</td>
                                     <td>@item.MakaraNo</td>
                                     <td align="right">@String.Format("{0:n}", item.Miktar)</td>
-                                    <td align="right">@String.Format("{0:n}", item.Stok)</td>
+                                    <td align="right">@String.Format("{0:n}", match.Miktar + item.Miktar)</td>
                                     <td align="right">@String.Format("{0:n}", match.Miktar)</td>
                                     <td>@item.Birim</td>
                                 </tr>
