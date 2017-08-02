@@ -50,6 +50,7 @@ namespace Wms12m.Entity
         public short MusUygSekli { get; set; }
         public short MusKodGrup { get; set; }
         public string MusteriKod { get; set; }
+        public string Unvan { get; set; }
         public short MalUygSekli { get; set; }
         public short MalKodGrup { get; set; }
         public string MalKod { get; set; }

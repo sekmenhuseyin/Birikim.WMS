@@ -31,6 +31,7 @@
                         <th>Bitiş Tarihi</th>
                         <th>Yeni Bitiş Tarihi</th>
                         <th>Müşteri Kodu</th>
+                        <th>Unvan</th>
                         <th>Sözleşme Notu</th>
                         <th>Kredi Limiti</th>
                         <th>Bakiye</th>
@@ -63,7 +64,7 @@
                     return json;
                 },
             },
-            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4, 6, 12, 13, 14, 15, 17, 19, 21, 22] }],
+            "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4, 6, 13, 14, 15, 16, 18, 20, 22, 23] }],
             "columns": [
 
                 { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
@@ -77,6 +78,7 @@
                 { "data": "BitTarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
                 { "data": "YeniBitTarih", "render": function (data) { if (data != 0) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
                 { "data": "MusteriKod" },
+                { "data": "Unvan" },
                 { "data": "Aciklama" },
                 { "data": "KrediLimiti", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 { "data": "Bakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
