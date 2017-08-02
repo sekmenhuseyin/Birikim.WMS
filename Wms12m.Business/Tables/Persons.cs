@@ -141,7 +141,8 @@ namespace Wms12m.Business
                 var tbl = db.Users.Where(a => a.Kod.ToLower() == P.Kod && a.Aktif == true).FirstOrDefault();
                 if (tbl != null)//if user exists
                 {
-                    if (P.Sifre == CryptographyExtension.Cozumle(tbl.Sifre))//if password matches
+                    string pass = CryptographyExtension.Cozumle(tbl.Sifre);
+                    if (P.Sifre == pass)//if password matches
                     {
                         //update db
                         db.LogLogins(P.Kod, device, true, "");
