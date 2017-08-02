@@ -191,14 +191,14 @@ namespace Wms12m.Presentation.Controllers
                     {
                         hatali++;
                         if (hatalilar != "") hatalilar += ", ";
-                        hatalilar += i;
+                        hatalilar += (i + 1);
                     }
                 }
                 catch (Exception ex)
                 {
                     hatali++;
                     if (hatalilar != "") hatalilar += ", ";
-                    hatalilar += i;
+                    hatalilar += (i + 1);
                     Logger(ex, "Uploads/Malzeme");
                 }
             }
@@ -277,21 +277,21 @@ namespace Wms12m.Presentation.Controllers
                             {
                                 hatali++;
                                 if (hatalilar != "") hatalilar += ", ";
-                                hatalilar += i;
+                                hatalilar += (i + 1);
                             }
                         }
                         else
                         {
                             hatali++;
                             if (hatalilar != "") hatalilar += ", ";
-                            hatalilar += i;
+                            hatalilar += (i + 1);
                         }
                     }
                     catch (Exception ex)
                     {
                         hatali++;
                         if (hatalilar != "") hatalilar += ", ";
-                        hatalilar += i;
+                        hatalilar += (i + 1);
                         Logger(ex, "Uploads/Stock");
                     }
                 }
