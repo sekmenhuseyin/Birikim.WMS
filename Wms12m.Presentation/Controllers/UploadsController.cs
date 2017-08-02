@@ -163,33 +163,48 @@ namespace Wms12m.Presentation.Controllers
             if (result.Tables.Count == 0) return Json(_Result, JsonRequestBehavior.AllowGet);
             if (result.Tables[0].Rows == null) return Json(_Result, JsonRequestBehavior.AllowGet);
             //her satırı tek tek kaydet
-            int basarili = 0, hatali = 0, tarih = fn.ToOADate(); string hatalilar = "";
+            int basarili = 0, hatali = 0, tarih = fn.ToOADate(); string hatalilar = "", birim;
             for (int i = 0; i < result.Tables[0].Rows.Count; i++)
             {
                 DataRow dr = result.Tables[0].Rows[i];
                 //kontrol
                 try
                 {
-                    if (dr["Mal Kodu"].ToString() != "" && dr["Birim"].ToString() != "" && dr["En"].ToString2() != "" && dr["Boy"].ToString2() != "" && dr["Derinlik"].ToString2() != "" && dr["Ağırlık"].ToString2() != "")
+                    if (dr["Mal Kodu"].ToString() != "" && dr["En"].ToString2() != "" && dr["Boy"].ToString2() != "" && dr["Derinlik"].ToString2() != "" && dr["Ağırlık"].ToString2() != "")
                     {
-                        //add new
-                        Olcu sti = new Olcu()
+                        birim = dr["Birim"].ToString();
+                        if (birim == "")
+                            birim = db.Database.SqlQuery<string>(string.Format("SELECT Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE MalKodu='{1}'", db.GetSirketDBs().FirstOrDefault(), dr["Mal Kodu"].ToString())).FirstOrDefault();
+                        if (birim != "")
                         {
-                            MalKodu = dr["Mal Kodu"].ToString(),
-                            Birim = dr["Birim"].ToString(),
-                            En = dr["En"].ToDecimal(),
-                            Boy = dr["Boy"].ToDecimal(),
-                            Derinlik = dr["Derinlik"].ToDecimal(),
-                            Agirlik = dr["Ağırlık"].ToDecimal(),
-                            Kaydeden = vUser.UserName,
-                            KayitTarih = tarih,
-                            Degistiren = vUser.UserName,
-                            DegisTarih = tarih
-                        };
-                        //ekle
-                        db.Olcus.Add(sti);
-                        db.SaveChanges();
-                        basarili++;
+                            //add new
+                            Olcu sti = new Olcu()
+                            {
+                                MalKodu = dr["Mal Kodu"].ToString(),
+                                Birim = dr["Birim"].ToString(),
+                                En = dr["En"].ToDecimal(),
+                                Boy = dr["Boy"].ToDecimal(),
+                                Derinlik = dr["Derinlik"].ToDecimal(),
+                                Agirlik = dr["Ağırlık"].ToDecimal(),
+                                Kaydeden = vUser.UserName,
+                                KayitTarih = tarih,
+                                Degistiren = vUser.UserName,
+                                DegisTarih = tarih
+                            };
+                            //ekle
+                            if (sti.En != 0 || sti.Boy != 0 || sti.Derinlik != 0 || sti.Derinlik != 0)
+                            {
+                                db.Olcus.Add(sti);
+                                db.SaveChanges();
+                                basarili++;
+                            }
+                        }
+                        else
+                        {
+                            hatali++;
+                            if (hatalilar != "") hatalilar += ", ";
+                            hatalilar += (i + 1);
+                        }
                     }
                     else
                     {
