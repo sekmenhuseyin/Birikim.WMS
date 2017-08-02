@@ -527,8 +527,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }
-
-
+        
         public ActionResult NakliyeFiyatlar()
         {
             // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
