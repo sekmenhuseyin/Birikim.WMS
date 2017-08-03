@@ -7,7 +7,7 @@
         </div>
         <div class="portlet-body form p-40">
             <table class="table table-striped table-bordered table-hover" id="sample_1">
-                <thead><tr><th>Firma</th><th>Ünvan</th><th>Açıklama</th><th>Email</th><th>Tel1</th><th>Tel2</th><th>Mesai Kontrol</th><th>Mesai Kota</th><th></th></tr>
+                <thead><tr><th>Firma</th><th>Ünvan</th><th>Açıklama</th><th>Email</th><th>Mesai Kontrol</th><th>Mesai Kota</th><th></th></tr>
                     
                 </thead>
                 <tbody>
@@ -28,12 +28,6 @@
                                 @Html.DisplayFor(modelItem => item.Email)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Tel1)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Tel2)
-                            </td>
-                            <td>
                                 @if (item.MesaiKontrol == true)
                                 {
                                     @("Var");
@@ -50,7 +44,7 @@
                             </td>
                             <td>
                                 <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                                <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Customer/List','liste','@item.ID')"> Sil </a>
+                                <a class="btn btn-danger" href="javascript:;" onclick="DeleteKontrol('@item.ID','/ToDo/Customer/List','liste','/ToDo/Customer/DeleteKontrol')"> Sil </a>
                             </td>
                         </tr>
                     }

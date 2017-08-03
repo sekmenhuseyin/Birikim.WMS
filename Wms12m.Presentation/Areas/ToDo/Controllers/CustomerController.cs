@@ -79,6 +79,25 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         }
 
+        public JsonResult DeleteKontrol(string Id)
+        {
+            Result _Result = new Result();
+            var musteri = db.Database.SqlQuery<ProjeForm>(string.Format("SELECT * FROM BIRIKIM.ong.ProjeForm where MusteriID='{0}'", Id)).ToList();
+            if (musteri.Count() > 0)
+            {
+                _Result.Status = false;
+                _Result.Id = Id.ToInt32();
+                _Result.Message = "Firmaya ait proje bulunduğu için silme işlemi gerçekleştirilememiştir.";
+            }
+            else
+            {
+                _Result.Status = true;
+                _Result.Id = Id.ToInt32();
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+
+        }
+
 
 
     }

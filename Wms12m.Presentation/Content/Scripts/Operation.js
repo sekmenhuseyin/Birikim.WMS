@@ -73,3 +73,22 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
         }
     }
 }
+
+function DeleteKontrol(deleteId, Method, DivName, KontrolMetod, extraId, URL) {
+    URL = URL || DeleteFunctionUrl;
+    $.ajax({
+        url: window.location.origin + KontrolMetod,
+        data: { Id: deleteId.toString() },
+        type: "post",
+        success: function (data) {
+            if (data.Status == false) {
+                Modaldialog(data.Message, "Silme İşlemi", "Tamam", "Sil");
+            }
+            else {
+                Delete(deleteId, Method, DivName, extraId, URL)
+            }
+        }
+    });
+}
+
+
