@@ -36,6 +36,12 @@
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
+        var color = ["#FF0F00", "#FF6600", "#FF9E01", "#FCD202", "#F8FF01", "#B0DE09", "#04D215", "#0D8ECF", "#0D52D1", "#2A0CD0", "#8A0CCF", "#CD0D74", "#754DEB", "#DDDDDD", "#999999", "#333333", "#000000"];
+        for (var i = 0; i < model.length; i++) {
+            $.extend(model[i], {
+                color: color[i % color.length]
+            });
+        }
         $.ajax({
             url: "/Home/BekleyenSiparisMusteriKriter",
             data: { SirketKodu: '@ViewBag.SirketKodu' },
@@ -72,19 +78,15 @@
                     "theme": "light",
                     "type": "serial",
                     "startDuration": 2,
-
-                    "fontFamily": 'Open Sans',
-
                     "color": '#888',
-
                     "valueAxes": [{
                         "position": "left",
                         "axisAlpha": 0,
                         "gridAlpha": 0
-
                     }],
                     "graphs": [{
                         "balloonText": "[[category]]: <b>[[value]]</b>",
+                        "colorField": "color",
                         "fillAlphas": 0.85,
                         "lineAlpha": 0.1,
                         "type": "column",
@@ -116,7 +118,6 @@
                         "menuItems": [{
                             "icon": '/lib/3/images/export.png',
                             "format": 'png'
-
                         }]
                     }
                 }, 0);
@@ -127,27 +128,21 @@
                     var property = jQuery(this).data('property');
                     var target = chart;
                     chart.startDuration = 0;
-
-                    if (property == 'topRadius') {
+                    if (property == 'topRadius')
                         target = chart.graphs[0];
-                    }
-
                     target[property] = this.value;
                     chart.validateNow();
                 });
-
                 $('#chart_7_bek_musteri').closest('.portlet').find('.fullscreen').click(function () {
                     chart.invalidateSize();
                 });
             }
-
             return {
                 init: function () {
                     initChartSample7Mik();
                 }
             };
         }();
-
         jQuery(document).ready(function () {
             ChartsAmchartsMik.init();
         });

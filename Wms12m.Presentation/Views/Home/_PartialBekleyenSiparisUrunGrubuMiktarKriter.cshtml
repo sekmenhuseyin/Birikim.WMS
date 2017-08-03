@@ -9,9 +9,6 @@
             <div class="col-md-2">
                 @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDi", @onchange = "Reloadi(this.value)" })
             </div>
-            <div class="col-md-2">
-                <input type="checkbox" id="toggle-four" checked data-toggle="toggle" name="Miktar" data-on-text="Miktar" data-off-text="Tutar" data-on="Miktar" data-off="Tutar">
-            </div>
             <div class="col-md-2 slct_bekleyen_siparis_kriter kriter_durum"></div>
             <div class="tools">
                 <a href="javascript:;" class="collapse"> </a>
@@ -26,35 +23,14 @@
 </div>
 <script>
     var doviz = [{ state: "TL" }, { state: "Döviz" }, { state: "Birim" }];
-    var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter))==""? "TL":@Html.Raw(Json.Encode(ViewBag.Kriter));
+    var kriter_value="@ViewBag.Kriter";
     if ($('.SirketIDi option').size() == 1) $(".SirketIDi").hide();
     else $(".SirketIDi").val('@ViewBag.SirketKodu');
     function Reloadi(v)
     {
-        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: v, miktarTutar: $('#toggle-four').prop('checked'), kriter: kriter_value }));
+        PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: v, kriter: kriter_value }));
     }
     $(document).ready(function (e) {
-        $('#toggle-four').bootstrapToggle({on: 'Miktar',off: 'Tutar'});
-        if ('@ViewBag.MiktarTutar' == "Miktar")
-        {
-            $('#toggle-four').bootstrapToggle('on')
-            $(".kriter_durum").hide();
-        }
-        else
-        {
-            $('#toggle-four').bootstrapToggle('off')
-            $(".kriter_durum").show();
-        }
-        $('#toggle-four').change(function () {
-            var state = $(this).prop('checked');
-            PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, miktarTutar: state, kriter: kriter_value }));
-            if (state == false) {
-                $(".kriter_durum").show();
-            }
-            else {
-                $(".kriter_durum").hide();
-            }
-        })
         var model = @Html.Raw(Json.Encode(Model));
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
@@ -70,7 +46,7 @@
             value: kriter_value,
             onValueChanged: function (e) {
                 kriter_value=e.value;
-                PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, miktarTutar: false, kriter:kriter_value }));
+                PartialView("/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter", 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: @ViewBag.SirketKodu, kriter:kriter_value }));
             }
         });
         var ChartsAmchartsMik6 = function () {
