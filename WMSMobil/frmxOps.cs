@@ -31,10 +31,16 @@ namespace WMSMobil
             glbTip = tip;
             GorevTip=gorevtip;
             //barkod
-            //Barkod = new Barcode2();
-            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            //Barkod.EnableScanner = true;
-            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            Barkod = new Barcode2();
+            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            try
+            {
+                Barkod.EnableScanner = true;
+            }
+            catch (Exception)
+            {
+            }
+            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             try
             {
                 //görev bilgilerini getir
@@ -769,11 +775,13 @@ namespace WMSMobil
         {
             try
             {
-                Servis.Dispose();
                 Barkod.EnableScanner = false;
-                Barkod.Dispose();
             }
-            catch { }
+            catch (Exception)
+            {
+            }
+            Barkod.Dispose();
+            Servis.Dispose();
         }
         /// <summary>
         /// geri

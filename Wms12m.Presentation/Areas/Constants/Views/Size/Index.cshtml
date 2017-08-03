@@ -117,8 +117,8 @@
 <script src="~/Content/assets/global/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js" type="text/javascript"></script>
 <script src="~/Content/assets/global/plugins/jquery-file-upload/js/jquery.fileupload.js" type="text/javascript"></script>
 <script>
+    var DeleteFunctionUrl = '/Constants/Size/Delete';
     $(document).ready(function () {
-        var DeleteFunctionUrl = '/Constants/Size/Delete';
         RefreshPage()
         $('#sample_1').DataTable({ "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
         $("#MalKodu").autocomplete({

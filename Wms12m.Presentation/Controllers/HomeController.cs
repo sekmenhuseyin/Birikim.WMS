@@ -16,12 +16,11 @@ namespace Wms12m.Presentation.Controllers
         public ActionResult Index()
         {
             var SirketKodu = db.GetSirketDBs().FirstOrDefault();
-            ViewBag.SirketKodu = SirketKodu;
             Setting setts = ViewBag.settings;
-            BekleyenOnaylar bo;
-            if (setts.OnayCek == false && setts.OnayFiyat == false && setts.OnayRisk == false && setts.OnaySiparis == false && setts.OnaySozlesme == false && setts.OnayStok == false && setts.OnayTekno == false && setts.OnayTeminat == false)
-                bo = new BekleyenOnaylar();
-            else
+            BekleyenOnaylar bo = new BekleyenOnaylar();
+            GetHomeSummary_Result hs = new GetHomeSummary_Result();
+            //Bekleyen Onaylar
+            if (setts.OnayCek == true || setts.OnayFiyat == true || setts.OnayRisk == true || setts.OnaySiparis == true || setts.OnaySozlesme == true || setts.OnayStok == true || setts.OnayTekno == true || setts.OnayTeminat == true)
                 try
                 {
                     bo = db.Database.SqlQuery<BekleyenOnaylar>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenOnaylar]", SirketKodu)).FirstOrDefault();
@@ -29,14 +28,23 @@ namespace Wms12m.Presentation.Controllers
                 catch (Exception ex)
                 {
                     Logger(ex, "Home/Index");
-                    bo = new BekleyenOnaylar();
                 }
+            //wms Home Summary
+            if (setts.homeDepo == true || setts.homeTask == true || setts.homeTransfer == true || setts.homeUser == true)
+                hs = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
+            //kasa miktarları
+            ViewBag.MevcudBanka = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudBanka]", SirketKodu)).FirstOrDefault();
+            ViewBag.MevcudCek = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudCek]", SirketKodu)).FirstOrDefault();
+            ViewBag.MevcudKasa = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudKasa]", SirketKodu)).FirstOrDefault();
+            ViewBag.MevcudPOS = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudPOS]", SirketKodu)).FirstOrDefault();
+            //return
+            ViewBag.SirketKodu = SirketKodu;
             ViewBag.Settings = setts;
             ViewBag.BekleyenOnaylar = bo;
+            ViewBag.HomeSummary = hs;
             ViewBag.RoleName = vUser.RoleName;
             ViewBag.Id = vUser.Id;
-            var ozet = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
-            return View("Index", ozet);
+            return View("Index");
         }
         /// <summary>
         /// child view for menu
@@ -60,7 +68,24 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /////////////////////////////////////////////// partials
         /// </summary>
-        /// 
+        public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
+        {
+            if (CheckPerm(Perms.ChartGunlukSatis, PermTypes.Reading) == false) return null;
+            List<ChartBaglantiZaman> BUGS;
+            try
+            {
+                BUGS = db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisGetir]", SirketKodu)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Home/PartialGunlukSatisZamanCizelgesi");
+                BUGS = new List<ChartBaglantiZaman>();
+            }
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            return PartialView("_PartialGunlukSatisZamanCizelgesi", BUGS);
+        }
+
         public PartialViewResult PartialGunlukSatis(string SirketKodu, int tarih)
         {
             if (CheckPerm(Perms.ChartGunlukSatis, PermTypes.Reading) == false) return null;
@@ -708,6 +733,10 @@ namespace Wms12m.Presentation.Controllers
             var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[BekleyenSiparisMusteriKriterSelect]", SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(Kriter);
             return json;
+        }
+        public string Connection()
+        {
+            return System.Configuration.ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString;
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿@model GetHomeSummary_Result
-@{
+﻿@{
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
     BekleyenOnaylar tbl = ViewBag.BekleyenOnaylar;
+    GetHomeSummary_Result hs = ViewBag.HomeSummary;
     Setting tst = ViewBag.Settings;
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
 <style>.white{color:white!important;}</style>
@@ -16,7 +16,7 @@ if (tst.homeDepo == true)
         <a class="dashboard-stat dashboard-stat-v2 red" href="/Constants/Storage">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@Model.depo">@Model.depo</span></div>
+                <div class="number"><span data-counter="counterup" data-value="@hs.depo">@hs.depo</span></div>
                 <div class="desc"> Depo Sayısı </div>
             </div>
         </a>
@@ -28,7 +28,7 @@ if (tst.homeUser == true)
         <a class="dashboard-stat dashboard-stat-v2 green" href="/Users">
             <div class="visual"><i class="fa fa-shopping-cart"></i></div>
             <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@Model.kull">@Model.kull</span></div>
+                <div class="number"><span data-counter="counterup" data-value="@hs.kull">@hs.kull</span></div>
                 <div class="desc"> Kullanıcı Sayısı </div>
             </div>
         </a>
@@ -40,7 +40,7 @@ if (tst.homeTask == true)
         <a class="dashboard-stat dashboard-stat-v2 blue" href="/WMS/Tasks">
             <div class="visual"><i class="fa fa-comments"></i></div>
             <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@Model.gorev">@Model.gorev</span></div>
+                <div class="number"><span data-counter="counterup" data-value="@hs.gorev">@hs.gorev</span></div>
                 <div class="desc"> Açık Görevler </div>
             </div>
         </a>
@@ -52,7 +52,7 @@ if (tst.homeTransfer == true)
         <a class="dashboard-stat dashboard-stat-v2 purple" href="/WMS/Transfer">
             <div class="visual"><i class="fa fa-globe"></i></div>
             <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@Model.transfer">@Model.transfer</span></div>
+                <div class="number"><span data-counter="counterup" data-value="@hs.transfer">@hs.transfer</span></div>
                 <div class="desc"> Depolar Arası Transfer </div>
             </div>
         </a>
@@ -324,6 +324,42 @@ if (tst.OnayTekno == true && (ViewBag.RoleName == "GM" || ViewBag.Id == 1 || Vie
         </a>
     </div>
 }
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <a class="dashboard-stat dashboard-stat-v2 red-thunderbird" href="/Constants/Storage">
+        <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+        <div class="details">
+            <div class="number"><span data-counter="counterup" data-value="@String.Format("{0:n}", ViewBag.MevcudBanka)">@String.Format("{0:n}", ViewBag.MevcudBanka)</span></div>
+            <div class="desc"> Banka Mevcudu </div>
+        </div>
+    </a>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <a class="dashboard-stat dashboard-stat-v2 blue-soft" href="/Constants/Storage">
+        <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+        <div class="details">
+            <div class="number"><span data-counter="counterup" data-value="@String.Format("{0:n}", ViewBag.MevcudCek)">@String.Format("{0:n}", ViewBag.MevcudCek)</span></div>
+            <div class="desc"> Çek Mevcudu </div>
+        </div>
+    </a>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <a class="dashboard-stat dashboard-stat-v2 purple-studio" href="/Constants/Storage">
+        <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+        <div class="details">
+            <div class="number"><span data-counter="counterup" data-value="@String.Format("{0:n}", ViewBag.MevcudKasa)">@String.Format("{0:n}", ViewBag.MevcudKasa)</span></div>
+            <div class="desc"> Kasa Mevcudu </div>
+        </div>
+    </a>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <a class="dashboard-stat dashboard-stat-v2 blue-dark" href="/Constants/Storage">
+        <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+        <div class="details">
+            <div class="number"><span data-counter="counterup" data-value="@String.Format("{0:n}", ViewBag.MevcudPOS)">@String.Format("{0:n}", ViewBag.MevcudPOS)</span></div>
+            <div class="desc"> POS Mevcudu </div>
+        </div>
+    </a>
+</div>
 if (tst.CrmOzet == true)
 {
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -336,19 +372,19 @@ if (tst.CrmOzet == true)
                     <div class="col-md-2">Hafta</div>
                     <div class="col-md-2">Bugün</div>
                 </div>
-                <div class="row desc f-s-14">                    
+                <div class="row desc f-s-14">
                     <div class="col-md-6"><a href="/Reports/CRM/Institution/0" class="white">Kurum Kartları</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Institution/0" class="white">@tbl.KurumKartlari</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Institution/1" class="white">@tbl.KurumKartlariBuHafta</a></div>
-                    <div class="col-md-2"><a href="/Reports/CRM/Institution/2" class="white">@tbl.KurumKartlariBugun</a></div>                    
+                    <div class="col-md-2"><a href="/Reports/CRM/Institution/2" class="white">@tbl.KurumKartlariBugun</a></div>
                 </div>
-                <div class="row desc f-s-14">                    
+                <div class="row desc f-s-14">
                     <div class="col-md-6"><a href="/Reports/CRM/Meeting/0" class="white">Görüşme Notu</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Meeting/0" class="white">@tbl.GorusmeNotlari</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Meeting/1" class="white">@tbl.GorusmeNotlariBuHafta</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Meeting/2" class="white">@tbl.GorusmeNotlariBugun</a></div>
                 </div>
-                <div class="row desc f-s-14">                    
+                <div class="row desc f-s-14">
                     <div class="col-md-6"><a href="/Reports/CRM/Bid/0" class="white">Teklif Analiz</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Bid/0" class="white">@tbl.TeklifAnalizi</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Bid/1" class="white">@tbl.TeklifAnaliziBuHafta</a></div>
@@ -359,7 +395,7 @@ if (tst.CrmOzet == true)
     </div>
 }
 }</div>
-@Html.Partial("Charts", Model)
+@Html.Partial("Charts", hs)
 @section Scripts{<script src="~/Content/assets/global/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
 <script src="~/Content/assets/global/plugins/counterup/jquery.counterup.min.js"></script>
 <script src="~/Content/assets/global/plugins/amcharts/amcharts/amcharts.js"></script>
