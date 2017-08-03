@@ -1,12 +1,13 @@
 ﻿@model Musteri
-<div class="portlet box green">
-    <div class="portlet-title">
-        <div class="caption">
-            <i class="fa fa-gift"></i>Müşteri Düzenle
+<div class="col-md-12">
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.Firma + "  Müşteri Düzenle" : "Müşteri Ekle")
+            </div>
         </div>
-    </div>
-    <div class="portlet-body form">
-        @using (Ajax.BeginForm("Save", "Customer", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
+        <div class="portlet-body form">
+            @using (Ajax.BeginForm("Save", "Customer", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
         {
             @Html.HiddenFor(model => model.ID)
             @Html.AntiForgeryToken()
@@ -62,13 +63,16 @@
                 <div class="form-actions">
                     <div class="row">
                         <div class="col-md-offset-3 col-md-9">
-                            <input type="submit" value="Kaydet" class="btn btn-circle green" />
+                            <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
                             <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                            @*<input type="submit" value="Kaydet" class="btn btn-circle green" />
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>*@
                         </div>
                     </div>
                 </div>
             </div>
         }
+        </div>
     </div>
 </div>
 <script type="text/javascript">

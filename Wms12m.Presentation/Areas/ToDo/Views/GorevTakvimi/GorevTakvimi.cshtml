@@ -1,0 +1,194 @@
+﻿@model List<GorevCalisma>
+@{
+    ViewBag.Title = "GorevTakvimi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+    <style>
+
+        .dx-scheduler-date-table-other-month.dx-scheduler-date-table-cell {
+            opacity: 1;
+            color: rgba(0, 0, 0, 0.3);
+        }
+
+        .dx-scheduler-group-header-content {
+            position: relative;
+        }
+
+        .avatar {
+            width: 155px;
+            float: left;
+            overflow: hidden;
+            position: relative;
+            height: 125px;
+        }
+
+        .name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+            .name h2 {
+                color: #fff;
+                text-align: left;
+                padding: 0 0 5px 175px;
+            }
+
+        .info {
+            width: auto;
+            text-align: left;
+            height: 100%;
+            font-size: 11pt;
+            font-weight: normal;
+            padding: 25px 20px;
+            color: #707070;
+        }
+
+        .dx-color-scheme-contrast .info {
+            color: #FFF;
+        }
+
+        .userInfo div {
+            margin: 20px;
+        }
+
+
+        .day-cell {
+            width: 100%;
+            height: 60px;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+        }
+
+            .day-cell.employee-1 {
+                background-color: rgba(86, 202, 133, 0.1);
+            }
+
+            .day-cell.employee-2 {
+                background-color: rgba(255, 151, 71, 0.1);
+            }
+
+        .employee-weekend-1 {
+            background-color: rgba(86, 202, 133, 0.1);
+        }
+
+        .employee-weekend-2 {
+            background-color: rgba(255, 151, 71, 0.1);
+        }
+
+        .abs-background {
+            background-image: url("images/gym/icon-abs.png");
+        }
+
+        .step-background {
+            background-image: url("images/gym/icon-step.png");
+        }
+
+        .fitball-background {
+            background-image: url("images/gym/icon-fitball.png");
+        }
+    </style>
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Görev Takvimi</span></li></ul></div>
+<h1 class="page-title">Görev Takvimi</h1>
+<div class="row">
+    <div class="grv_Takvim">
+
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Content/assets/global/plugins/moment/moment.min.js"></script>
+    <script src="~/Content/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+            var model = @Html.Raw(Json.Encode(Model));
+        $.ajax({
+            url: window.location.origin + "/ToDo/GorevTakvimi/UserSelect",
+            data: {},
+            type: "post",
+            success: function (data) {
+                var result = JSON.parse(data);
+                $(".grv_Takvim").dxScheduler({
+                   dataSource: model,
+            views: ["month"],
+            currentView: "month",
+            currentDate: new Date(2016, 7, 2, 11, 30),
+            firstDayOfWeek: 1,
+            startDayHour: 8,
+            endDayHour: 18,
+            showAllDayPanel: false,
+            height: 600,
+            groups: ["Kaydeden"],
+            resources: [
+                {
+                    fieldExpr: "Kaydeden",
+                    allowMultiple: false,
+                    dataSource: result,
+                    label: "Employee"
+                }
+            ],
+            dataCellTemplate: function(cellData, index, container) {
+                var employeeID = cellData.groups.Kaydeden,
+                    currentTraining = getCurrentTraining(index, employeeID);
+
+                if(isWeekEnd(cellData.KayitTarih)) {
+                    container.addClass("employee-weekend-" + employeeID);
+                }
+
+                return $("<div>")
+                        .addClass("day-cell")
+                        .addClass(currentTraining)
+                        .addClass("employee-" + employeeID)
+                        .text(cellData.text);
+            },
+            resourceCellTemplate: function(cellData, index, container) {
+                var name = $("<div>")
+                                .addClass("name")
+                                .css({ backgroundColor: "#56ca85"})
+                                .append($("<h2>")
+                                        .text(cellData.AdSoyad));
+
+                var avatar = $("<div>")
+                                .addClass("avatar")
+                                .html("<img src=''>")
+                    .attr("title", cellData.AdSoyad);
+
+                var info =  $("<div>")
+                                .addClass("info")
+                                .html("Age: 25<br/><b>Deneme</b>");
+
+                return $("<div>").append([name, avatar, info]);
+            }
+    });
+
+    function isWeekEnd(date) {
+        var day = date.getDay();
+        return day === 0 || day === 6;
+    }
+
+    function getCurrentTraining(index, employeeID) {
+        var currentTraining,
+            result = (index + employeeID) % 3;
+
+        switch(result) {
+            case 0:
+                currentTraining = "abs-background";
+                break;
+            case 1:
+                currentTraining = "step-background";
+                break;
+            case 2:
+                currentTraining = "fitball-background";
+                break;
+            default:
+                currentTraining = "";
+        }
+
+        return currentTraining;
+    }
+            }
+        });
+    </script>
+}
+
