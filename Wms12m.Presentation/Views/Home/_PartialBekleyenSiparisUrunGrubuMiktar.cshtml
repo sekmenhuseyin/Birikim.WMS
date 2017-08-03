@@ -8,10 +8,10 @@
                     <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu Miktar <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
                 <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDh", @onchange = "Reloadh(this.value)" })
+                    <input type="checkbox" id="toggle-two" checked data-toggle="toggle" name="Miktar" data-on-text="Miktar" data-off-text="Tutar" data-on="Miktar" data-off="Tutar">
                 </div>
                 <div class="col-md-2">
-                    <input type="checkbox" id="toggle-two" checked data-toggle="toggle" name="Miktar" data-on-text="Miktar" data-off-text="Tutar" data-on="Miktar" data-off="Tutar">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDh", @onchange = "Reloadh(this.value)" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
