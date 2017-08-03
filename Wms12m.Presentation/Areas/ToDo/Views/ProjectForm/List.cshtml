@@ -30,9 +30,6 @@
                     <th>
                         Mesai Kota
                     </th>
-                    <th>
-                        Durum
-                    </th>
                     <th></th>
                 </tr>
 
@@ -73,12 +70,9 @@
                             @Html.DisplayFor(modelItem => item.MesaiKota)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Durum)
-                        </td>
-                        <td>
-                            <a class="btn btn-default input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/SubProjectForm/EditAlt/@item.ID')"> Form Ekle </a>
-                            <a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                            <a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete('@item.ID','/ToDo/ProjectForm/List','liste','@item.ID')"> Sil </a>
+                            <a class="btn btn-primary input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/ProjectForm/FormIndex/@item.ID')"> Form Ekle </a>
+                            <a class="btn btn-success input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                            <a class="btn btn-danger input-circle" href="javascript:;" onclick="DeleteKontrol('@item.ID','/ToDo/ProjectForm/List','liste','/ToDo/ProjectForm/DeleteKontrol','@item.ID')"> Sil </a>
                         </td>
                     </tr>
                 }

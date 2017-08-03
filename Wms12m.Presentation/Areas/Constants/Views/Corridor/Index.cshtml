@@ -131,8 +131,9 @@
             $("#ID").val("0");
             $("#KoridorAd").val("");
         }
-        else
+        else{
             PartialView(CorridorDetailUrl, 'CreateEdit', JSON.stringify({ Id: Id == null ? '' : Id }));
+        }
     }
 </script>
 }
