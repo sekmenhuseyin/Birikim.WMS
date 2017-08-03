@@ -373,11 +373,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 foreach (var item in MyGlobalVariables.TalepSource)
                 {
                     string sql = @"UPDATE Kaynak.sta.Talep 
-SET GMOnaylayan='{0}', GMOnayTarih={1}, Durum=13
-, Degistiren='{0}', DegisTarih={1}, DegisSirKodu={3}, Aciklama2='{2}'
+SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13
+, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
 WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
 
-                    db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-MM-dd"), redAciklama, "17", item.ID));
+                    db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-dd-MM"), redAciklama, "17", item.ID));
 
                 }
 

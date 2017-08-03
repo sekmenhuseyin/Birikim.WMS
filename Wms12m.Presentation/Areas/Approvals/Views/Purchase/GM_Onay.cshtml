@@ -73,25 +73,29 @@
                 }
                 CHK = e.value.HesapKodu;
                 TLP = e.value.SipTalepNo;
-                $.ajax({
+                $(".musteri_unvan").text(e.value.Unvan);
+                $(".musteri_unvan").show();
+                PartialView("/Approvals/Purchase/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
+                PartialView("/Approvals/Purchase/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
+                setTimeout(function () {
+                     $.ajax({
                     url: window.location.origin + "/Approvals/Purchase/BirimDegisimKontrol",
                     data: { hesapKodu: e.value.HesapKodu, talepNo: e.value.SipTalepNo },
                     type: "post",
                     success: function (data) {
                         if (data == 0) {
-                            CHK = "";
-                            TLP = "";
                             Modaldialog("Stok kartında birim güncellemesi bulunmaktadır. Mevcut talebin reddedilip yeniden oluşturulması gerekmektedir.", "Onay İşlemi", "Tamam", "Onay");
-                            setTimeout(function () { window.location.reload(); }, 500);
                         }
-                        else {
-                            $(".musteri_unvan").text(e.value.Unvan);
-                            $(".musteri_unvan").show();
-                            PartialView("/Approvals/Purchase/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
-                            PartialView("/Approvals/Purchase/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
-                        }
+                        //else {
+                        //    $(".musteri_unvan").text(e.value.Unvan);
+                        //    $(".musteri_unvan").show();
+                        //    PartialView("/Approvals/Purchase/SipGMOnayList", 'satinalma_gm_onay_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
+                        //    PartialView("/Approvals/Purchase/SipGMOnayListFTD", 'satinalma_gm_onay_ftd_data', JSON.stringify({ HesapKodu: e.value.HesapKodu, SipTalepNo: e.value.SipTalepNo }));
+                        //}
                     }
                 });
+                }, 1000);
+               
                
             },
             itemTemplate: function (itemData, itemIndex, itemElement) {
