@@ -36,13 +36,6 @@
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
-        console.log(model);
-        var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
-        for (var i = 0; i < model.length; i++) {
-            $.extend(model[i],{
-                color: color[i%color.length]
-            });
-        }
         $.ajax({
             url: "/Home/BekleyenSiparisMusteriKriter",
             data: { SirketKodu: '@ViewBag.SirketKodu' },
@@ -92,7 +85,6 @@
                     }],
                     "graphs": [{
                         "balloonText": "[[category]]: <b>[[value]]</b>",
-                        "colorField": "color",
                         "fillAlphas": 0.85,
                         "lineAlpha": 0.1,
                         "type": "column",
@@ -101,7 +93,6 @@
                         "fixedColumnWidth": 40,
                         "labelText": "[[value]]",
                         "labelRotation": 315,
-                        "color": "grey",
                         "labelOffset": 30
                     }],
                     "depth3D": 40,
@@ -160,5 +151,5 @@
         jQuery(document).ready(function () {
             ChartsAmchartsMik.init();
         });
-        });
+    });
 </script>
