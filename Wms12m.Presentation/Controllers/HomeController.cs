@@ -18,7 +18,6 @@ namespace Wms12m.Presentation.Controllers
             var SirketKodu = db.GetSirketDBs().FirstOrDefault();
             Setting setts = ViewBag.settings;
             BekleyenOnaylar bo = new BekleyenOnaylar();
-            GetHomeSummary_Result hs = new GetHomeSummary_Result();
             //Bekleyen Onaylar
             if (setts.OnayCek == true || setts.OnayFiyat == true || setts.OnayRisk == true || setts.OnaySiparis == true || setts.OnaySozlesme == true || setts.OnayStok == true || setts.OnayTekno == true || setts.OnayTeminat == true)
                 try
@@ -29,9 +28,6 @@ namespace Wms12m.Presentation.Controllers
                 {
                     Logger(ex, "Home/Index");
                 }
-            //wms Home Summary
-            if (setts.homeDepo == true || setts.homeTask == true || setts.homeTransfer == true || setts.homeUser == true)
-                hs = db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault();
             //kasa miktarları
             ViewBag.MevcudBanka = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudBanka]", SirketKodu)).FirstOrDefault();
             ViewBag.MevcudCek = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudCek]", SirketKodu)).FirstOrDefault();
@@ -41,10 +37,9 @@ namespace Wms12m.Presentation.Controllers
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.Settings = setts;
             ViewBag.BekleyenOnaylar = bo;
-            ViewBag.HomeSummary = hs;
             ViewBag.RoleName = vUser.RoleName;
             ViewBag.Id = vUser.Id;
-            return View("Index");
+            return View("Index", db.GetHomeSummary(vUser.UserName, vUser.Id).FirstOrDefault());
         }
         /// <summary>
         /// child view for menu
