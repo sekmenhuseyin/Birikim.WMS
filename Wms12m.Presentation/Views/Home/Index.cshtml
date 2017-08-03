@@ -1,8 +1,8 @@
-﻿@{
+﻿@model GetHomeSummary_Result
+@{
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
     BekleyenOnaylar tbl = ViewBag.BekleyenOnaylar;
-    GetHomeSummary_Result hs = ViewBag.HomeSummary;
     Setting tst = ViewBag.Settings;
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
 <style>.white{color:white!important;}</style>
@@ -16,7 +16,7 @@ if (tst.homeDepo == true)
         <a class="dashboard-stat dashboard-stat-v2 red" href="/Constants/Storage">
             <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
             <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@hs.depo">@hs.depo</span></div>
+                <div class="number"><span data-counter="counterup" data-value="@Model.depo">@Model.depo</span></div>
                 <div class="desc"> Depo Sayısı </div>
             </div>
         </a>
@@ -28,7 +28,7 @@ if (tst.homeUser == true)
         <a class="dashboard-stat dashboard-stat-v2 green" href="/Users">
             <div class="visual"><i class="fa fa-shopping-cart"></i></div>
             <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@hs.kull">@hs.kull</span></div>
+                <div class="number"><span data-counter="counterup" data-value="@Model.kull">@Model.kull</span></div>
                 <div class="desc"> Kullanıcı Sayısı </div>
             </div>
         </a>
@@ -40,7 +40,7 @@ if (tst.homeTask == true)
         <a class="dashboard-stat dashboard-stat-v2 blue" href="/WMS/Tasks">
             <div class="visual"><i class="fa fa-comments"></i></div>
             <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@hs.gorev">@hs.gorev</span></div>
+                <div class="number"><span data-counter="counterup" data-value="@Model.gorev">@Model.gorev</span></div>
                 <div class="desc"> Açık Görevler </div>
             </div>
         </a>
@@ -52,7 +52,7 @@ if (tst.homeTransfer == true)
         <a class="dashboard-stat dashboard-stat-v2 purple" href="/WMS/Transfer">
             <div class="visual"><i class="fa fa-globe"></i></div>
             <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@hs.transfer">@hs.transfer</span></div>
+                <div class="number"><span data-counter="counterup" data-value="@Model.transfer">@Model.transfer</span></div>
                 <div class="desc"> Depolar Arası Transfer </div>
             </div>
         </a>
@@ -395,7 +395,7 @@ if (tst.CrmOzet == true)
     </div>
 }
 }</div>
-@Html.Partial("Charts", hs)
+@Html.Partial("Charts", Model)
 @section Scripts{<script src="~/Content/assets/global/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
 <script src="~/Content/assets/global/plugins/counterup/jquery.counterup.min.js"></script>
 <script src="~/Content/assets/global/plugins/amcharts/amcharts/amcharts.js"></script>
