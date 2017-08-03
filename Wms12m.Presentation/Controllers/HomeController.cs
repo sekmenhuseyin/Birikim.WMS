@@ -68,7 +68,24 @@ namespace Wms12m.Presentation.Controllers
         /// <summary>
         /////////////////////////////////////////////// partials
         /// </summary>
-        /// 
+        public PartialViewResult PartialGunlukSatisZamanCizelgesi(string SirketKodu)
+        {
+            if (CheckPerm(Perms.ChartGunlukSatis, PermTypes.Reading) == false) return null;
+            List<ChartBaglantiZaman> BUGS;
+            try
+            {
+                BUGS = db.Database.SqlQuery<ChartBaglantiZaman>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisGetir]", SirketKodu)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "Home/PartialGunlukSatisZamanCizelgesi");
+                BUGS = new List<ChartBaglantiZaman>();
+            }
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            return PartialView("_PartialGunlukSatisZamanCizelgesi", BUGS);
+        }
+
         public PartialViewResult PartialGunlukSatis(string SirketKodu, int tarih)
         {
             if (CheckPerm(Perms.ChartGunlukSatis, PermTypes.Reading) == false) return null;
