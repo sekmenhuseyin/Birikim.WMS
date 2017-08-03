@@ -114,7 +114,7 @@ namespace Wms12m.Business
         /// </summary>
         public override List<Olcu> GetList()
         {
-            return db.Olcus.OrderBy(m => m.MalKodu).ToList();
+            return db.Olcus.OrderBy(m => m.MalKodu).Take(50).ToList();
         }
         public override List<Olcu> GetList(int ParentId)
         {

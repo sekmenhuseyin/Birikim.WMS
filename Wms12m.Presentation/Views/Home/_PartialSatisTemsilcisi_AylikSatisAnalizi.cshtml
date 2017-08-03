@@ -1,20 +1,20 @@
 ﻿@model List<ChartSatisTemsilcisiAylikSatisAnalizi>
 <div class="row">
-    <div class="col-md-12 m-t-40">
+    <div class="col-md-12">
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Satış Temsilcisi Aylık Satış Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDa", @onchange = "Reloada(this.value)" })
-                </div>
-                <div class="col-md-1 p-l-10">
+                <div class="col-md-1">
                     <div class="slct_satis_temsilcisi_aylar" style="width:130px;"></div>
                 </div>
-                <div class="col-md-1 p-l-10">
+                <div class="col-md-1">
                     <div class="slct_satis_temsilcisi_kod" style="width:130px;"></div>
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDa", @onchange = "Reloada(this.value)" })
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
@@ -24,8 +24,6 @@
             </div>
             <div class="portlet-body">
                 <div id="chart_7_satis_temsilcisi" class="chart" style="height: 400px;"> </div>
-                <div class="well margin-top-20">
-                </div>
             </div>
         </div>
     </div>

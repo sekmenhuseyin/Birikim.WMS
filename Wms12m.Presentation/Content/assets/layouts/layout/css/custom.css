@@ -100,8 +100,8 @@ span .green {color:green;}
     z-index: 9999;
     opacity: 0.2;
     filter: alpha(opacity=20);
-    background: url('/Content/ajaxloader.gif') 50% 50% no-repeat rgba(255,255,255,0.25);
-    opacity: 0.5;
+    background: url('/Content/ajaxloader.gif') 50% 50% no-repeat rgba(255,255,255,0.5);
+    opacity: 0.75;
 }
 /* auto css */
 .m-auto { margin: 0 auto !important; }

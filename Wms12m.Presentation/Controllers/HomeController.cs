@@ -450,80 +450,42 @@ namespace Wms12m.Presentation.Controllers
             return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarPie", BSUG);
         }
 
-        public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriter(string SirketKodu, bool miktarTutar, string kriter)
+        public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriter(string SirketKodu, string kriter)
         {
             if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubuMiktarKriter, PermTypes.Reading) == false) return null;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             List<GetCachedChartBekleyenUrunMiktarFiyat_Result> BSUG;
-            if (miktarTutar == true)
+            try
             {
-                BSUG = db.GetCachedChartBekleyenUrunMiktarFiyat(SirketKodu, true).ToList();
-                if (BSUG.Count == 0)
-                    try
-                    {
-                        BSUG = db.Database.SqlQuery<GetCachedChartBekleyenUrunMiktarFiyat_Result>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu_Miktar]", SirketKodu)).ToList();
-                    }
-                    catch (Exception)
-                    {
-                        BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
-                    }
-                ViewBag.MiktarTutar = "Miktar";
-                ViewBag.Kriter = "";
-                return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarKriter", BSUG);
+                BSUG = db.Database.SqlQuery<GetCachedChartBekleyenUrunMiktarFiyat_Result>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu_Fiyat_Kriter] @Kriter='{1}'", SirketKodu, kriter)).ToList();
             }
-            else
+            catch (Exception)
             {
-                try
-                {
-                    BSUG = db.Database.SqlQuery<GetCachedChartBekleyenUrunMiktarFiyat_Result>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu_Fiyat_Kriter] @Kriter='{1}'", SirketKodu, kriter)).ToList();
-                }
-                catch (Exception)
-                {
-                    BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
-                }
-                ViewBag.MiktarTutar = "Tutar";
-                ViewBag.Kriter = kriter;
-                return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarKriter", BSUG);
+                BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
             }
+            ViewBag.MiktarTutar = "Tutar";
+            ViewBag.Kriter = kriter;
+            return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarKriter", BSUG);
         }
 
-        public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriterPie(string SirketKodu, bool miktarTutar, string kriter)
+        public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriterPie(string SirketKodu, string kriter)
         {
             if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubuMiktarKriter, PermTypes.Reading) == false) return null;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             List<GetCachedChartBekleyenUrunMiktarFiyat_Result> BSUG;
-            if (miktarTutar == true)
+            try
             {
-                BSUG = db.GetCachedChartBekleyenUrunMiktarFiyat(SirketKodu, true).ToList();
-                if (BSUG.Count == 0)
-                    try
-                    {
-                        BSUG = db.Database.SqlQuery<GetCachedChartBekleyenUrunMiktarFiyat_Result>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu_Miktar]", SirketKodu)).ToList();
-                    }
-                    catch (Exception)
-                    {
-                        BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
-                    }
-                ViewBag.MiktarTutar = "Miktar";
-                ViewBag.Kriter = "";
-                return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarKriterPie", BSUG);
+                BSUG = db.Database.SqlQuery<GetCachedChartBekleyenUrunMiktarFiyat_Result>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu_Fiyat_Kriter] @Kriter='{1}'", SirketKodu, kriter)).ToList();
             }
-            else
+            catch (Exception)
             {
-                try
-                {
-                    BSUG = db.Database.SqlQuery<GetCachedChartBekleyenUrunMiktarFiyat_Result>(string.Format("[FINSAT6{0}].[wms].[DB_BekleyenSiparis_UrunGrubu_Fiyat_Kriter] @Kriter='{1}'", SirketKodu, kriter)).ToList();
-                }
-                catch (Exception)
-                {
-                    BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
-                }
-                ViewBag.MiktarTutar = "Tutar";
-                ViewBag.Kriter = kriter;
-                return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarKriterPie", BSUG);
+                BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
             }
+            ViewBag.MiktarTutar = "Tutar";
+            ViewBag.Kriter = kriter;
+            return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarKriterPie", BSUG);
         }
 
         public PartialViewResult PartialBekleyenSiparisMusteriAnalizi(string SirketKodu, string kod, string doviz)
