@@ -267,15 +267,15 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialUrunGrubuSatis(string SirketKodu, short tarih)
         {
             if (CheckPerm(Perms.ChartUrunGrubuSatis, PermTypes.Reading) == false) return null;
-            var UGS = db.GetCachedChartLocation(SirketKodu, tarih).ToList();
+            var UGS = db.GetCachedChartUrunGrubu(SirketKodu, tarih).ToList();
             if (UGS.Count == 0)
                 try
                 {
-                    UGS = db.Database.SqlQuery<GetCachedChartLocation_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
+                    UGS = db.Database.SqlQuery<GetCachedChartUrunGrubu_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
                 }
                 catch (Exception)
                 {
-                    UGS = new List<GetCachedChartLocation_Result>();
+                    UGS = new List<GetCachedChartUrunGrubu_Result>();
                 }
             ViewBag.Tarih = tarih;
             ViewBag.SirketKodu = SirketKodu;
@@ -286,15 +286,15 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialUrunGrubuSatisKriter(string SirketKodu, short tarih, string kriter)
         {
             if (CheckPerm(Perms.ChartUrunGrubuSatisKriter, PermTypes.Reading) == false) return null;
-            var UGS = db.GetCachedChartLocationKriter(SirketKodu, tarih, kriter).ToList();
+            var UGS = db.GetCachedChartUrunGrubuKriter(SirketKodu, tarih, kriter).ToList();
             if (UGS.Count == 0)
                 try
                 {
-                    UGS = db.Database.SqlQuery<GetCachedChartLocationKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", SirketKodu, tarih, kriter)).ToList();
+                    UGS = db.Database.SqlQuery<GetCachedChartUrunGrubuKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", SirketKodu, tarih, kriter)).ToList();
                 }
                 catch (Exception)
                 {
-                    UGS = new List<GetCachedChartLocationKriter_Result>();
+                    UGS = new List<GetCachedChartUrunGrubuKriter_Result>();
                 }
             ViewBag.Tarih = tarih;
             ViewBag.Kriter = kriter;
