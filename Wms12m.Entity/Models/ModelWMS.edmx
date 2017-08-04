@@ -1278,6 +1278,11 @@
           <Parameter Name="DB" Type="varchar" Mode="In" />
           <Parameter Name="Ay" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetCachedChartLocationKriter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Ay" Type="int" Mode="In" />
+          <Parameter Name="Kriter" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetCachedChartMonthly" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
@@ -2051,6 +2056,11 @@
           <FunctionImport Name="GetCachedChartLocation" ReturnType="Collection(MModel.GetCachedChartLocation_Result)">
             <Parameter Name="DB" Mode="In" Type="String" />
             <Parameter Name="Ay" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetCachedChartLocationKriter" ReturnType="Collection(MModel.GetCachedChartLocationKriter_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Ay" Mode="In" Type="Int32" />
+            <Parameter Name="Kriter" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3472,6 +3482,13 @@
           <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
           <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
+        <ComplexType Name="GetCachedChartLocationKriter_Result">
+          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4383,6 +4400,17 @@
           <FunctionImportMapping FunctionImportName="GetCachedChartLocation" FunctionName="MModel.Store.GetCachedChartLocation">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetCachedChartLocation_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCachedChartLocationKriter" FunctionName="MModel.Store.GetCachedChartLocationKriter">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetCachedChartLocationKriter_Result">
                 <ScalarProperty Name="Ay" ColumnName="Ay" />
                 <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
                 <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />

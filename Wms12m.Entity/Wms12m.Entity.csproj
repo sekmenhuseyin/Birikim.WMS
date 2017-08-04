@@ -193,6 +193,9 @@
     <Compile Include="Models\GetCachedChartBekleyenUrunMiktarFiyat_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetCachedChartLocationKriter_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetCachedChartLocation_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

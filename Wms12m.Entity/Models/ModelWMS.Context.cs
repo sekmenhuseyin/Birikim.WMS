@@ -761,5 +761,22 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartLocation_Result>("WMSEntities.GetCachedChartLocation", dBParameter, ayParameter);
         }
+    
+        public virtual ObjectResult<GetCachedChartLocationKriter_Result> GetCachedChartLocationKriter(string dB, Nullable<int> ay, string kriter)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var ayParameter = ay.HasValue ?
+                new ObjectParameter("Ay", ay) :
+                new ObjectParameter("Ay", typeof(int));
+    
+            var kriterParameter = kriter != null ?
+                new ObjectParameter("Kriter", kriter) :
+                new ObjectParameter("Kriter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartLocationKriter_Result>("WMSEntities.GetCachedChartLocationKriter", dBParameter, ayParameter, kriterParameter);
+        }
     }
 }
