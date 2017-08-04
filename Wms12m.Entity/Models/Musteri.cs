@@ -11,8 +11,7 @@ namespace Wms12m.Entity.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Musteri
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,11 +19,9 @@ namespace Wms12m.Entity.Models
         {
             this.ProjeForms = new HashSet<ProjeForm>();
         }
-
+    
         public int ID { get; set; }
-        [Required(ErrorMessage = "Firma alaný boþ býrakýlamaz.")]
         public string Firma { get; set; }
-        [Required(ErrorMessage = "Unvan alaný boþ býrakýlamaz.")]
         public string Unvan { get; set; }
         public string Aciklama { get; set; }
         public string Email { get; set; }
@@ -36,7 +33,7 @@ namespace Wms12m.Entity.Models
         public System.DateTime KayitTarih { get; set; }
         public string Degistiren { get; set; }
         public System.DateTime DegisTarih { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjeForm> ProjeForms { get; set; }
     }

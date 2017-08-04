@@ -225,7 +225,6 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialAylikSatisCHKAnaliziBar(string SirketKodu, string chk)
         {
             if (CheckPerm(Perms.ChartAylikSatisCHKAnaliziBar, PermTypes.Reading) == false) return null;
-            chk = chk.ToString2();
             List<ChartAylikSatisAnalizi> liste;
             try
             {
@@ -247,7 +246,7 @@ namespace Wms12m.Presentation.Controllers
             List<ChartAylikSatisAnalizi> GSADK;
             try
             {
-                GSADK = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = '{1}', @Kriter = '{2}', @IslemTip = '{3}'", SirketKodu, kod, doviz, islemtip)).ToList();
+                GSADK = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = '{1}', @Kriter = '{2}', @IslemTip = {3}", SirketKodu, kod, doviz, islemtip)).ToList();
             }
             catch (Exception ex)
             {

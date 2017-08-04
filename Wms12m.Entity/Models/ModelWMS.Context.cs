@@ -28,7 +28,6 @@ namespace Wms12m.Entity.Models
         }
     
         public virtual DbSet<Simge> Simges { get; set; }
-        public virtual DbSet<WebMenu> WebMenus { get; set; }
         public virtual DbSet<Perm> Perms { get; set; }
         public virtual DbSet<RolePerm> RolePerms { get; set; }
         public virtual DbSet<UserPerm> UserPerms { get; set; }
@@ -61,6 +60,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<GorevPaketler> GorevPaketlers { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<GorevPaketNo> GorevPaketNoes { get; set; }
+        public virtual DbSet<WebMenu> WebMenus { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
