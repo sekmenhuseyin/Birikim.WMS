@@ -763,7 +763,6 @@
     <Content Include="Views\Menu\PermissionsList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\RiskAnaliz.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\RiskAnalizList.cshtml" />
-    <Content Include="Views\Home\Charts.cshtml" />
     <Content Include="Views\Users\B2B.cshtml" />
     <Content Include="Views\Users\B2BList.cshtml" />
     <Content Include="Views\Users\B2BNew.cshtml" />
