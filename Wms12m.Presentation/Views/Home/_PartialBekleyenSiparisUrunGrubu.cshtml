@@ -7,11 +7,11 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bekleyen Sipariş Ürün Grubu <span style="color:#8888a7;">BAR CHART</span></span>
                 </div>
-                <div class="col-md-1 p-l-10">
-                    <input type="text" class="form-control w-100" id="bas_tarih" value="@ViewBag.BasTarih2" />
+                <div class="col-md-1 m-l-10">
+                    <input type="text" class="form-control dateboxbg" id="bas_tarih" value="@ViewBag.BasTarih2" />
                 </div>
-                <div class="col-md-1 p-l-10">
-                    <input type="text" class="form-control w-100" id="bit_tarih" value="@ViewBag.BitTarih2" />
+                <div class="col-md-1 m-l-10">
+                    <input type="text" class="form-control dateboxbg" id="bit_tarih" value="@ViewBag.BitTarih2" />
                 </div>
                 <div class="col-md-2">
                     @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDg", @onchange = "Reloadg(this.value)" })

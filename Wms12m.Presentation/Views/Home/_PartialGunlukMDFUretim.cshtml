@@ -7,10 +7,9 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Günlük MDF Üretim (En Boy Kalınlık) <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
-                <div class="col-md-1 p-l-10">
-                    <input type="text" class="form-control w-100" id="mdf_tarih" value="@ViewBag.tarih2" />
+                <div class="col-md-1 m-l-10">
+                    <input type="text" class="form-control dateboxbg" id="mdf_tarih" value="@ViewBag.tarih2" />
                 </div>
-                <div class="col-md-2 mdf_tarih"></div>
                 <div class="col-md-2">
                     @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDn", @onchange = "Reloadn(this.value)" })
                 </div>
