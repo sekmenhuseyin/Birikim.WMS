@@ -290,7 +290,7 @@ namespace Wms12m.Presentation.Controllers
             if (UGS.Count == 0)
                 try
                 {
-                    UGS = db.Database.SqlQuery<GetCachedChartUrunGrubuKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", SirketKodu, tarih, kriter)).ToList();
+                    UGS = db.Database.SqlQuery<GetCachedChartUrunGrubuKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
                 }
                 catch (Exception)
                 {
@@ -329,7 +329,7 @@ namespace Wms12m.Presentation.Controllers
             if (UGS.Count == 0)
                 try
                 {
-                    UGS = db.Database.SqlQuery<GetCachedChartLocationKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", SirketKodu, tarih, kriter)).ToList();
+                    UGS = db.Database.SqlQuery<GetCachedChartLocationKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
                 }
                 catch (Exception)
                 {

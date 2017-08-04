@@ -88,8 +88,7 @@
             displayExpr: 'state',
             value: kriter_value,
             onValueChanged: function (e) {
-                kriter_value=e.value;
-                PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: f_tarih, kriter: kriter_value }));
+                PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: f_tarih, kriter: e.value }));
             }
         });
 
