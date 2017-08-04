@@ -15,18 +15,35 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true)
                 <div class="form-body">
-                    <h4>Gorevler</h4>
-                    <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.ID)
 
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.ProjeFormID, "ProjeFormID", htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.DropDownList("ProjeFormID", null, htmlAttributes: new { @class = "form-control input-circle" })
-                            @Html.ValidationMessageFor(model => model.ProjeFormID, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            <div class="form-group row" style="display:none">
+                                @Html.LabelFor(model => model.ProjeFormID, "ProjeFormID", htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownList("ProjeFormID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.ProjeFormID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-4 control-label">Firma</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control input-circle MusteriID", @onchange = "getProje(this.value,'ProjeList', 'FormList');", @readonly = "readonly" })
+                                    <span class="field-validation-valid" data-valmsg-for="MusteriID" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4  control-label">Proje</div>
+                                <div class="col-sm-4">
+                                    <select id="ProjeList" class="form-control input-circle ProjeID" onchange = "getForm(this.value, 'FormList');" readonly = "readonly" ></select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4  control-label">Form</div>
+                                <div class="col-sm-4">
+                                    <select id="FormList" class="form-control input-circle FormID" readonly = "readonly"></select>
+                                </div>
+                            </div>
 
                     <div class="form-group row">
                         @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-4" })

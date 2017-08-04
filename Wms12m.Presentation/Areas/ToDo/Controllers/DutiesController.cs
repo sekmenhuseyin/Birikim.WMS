@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
             ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje");
+            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             ViewBag.Sorumlu2 = ViewBag.Sorumlu;
             ViewBag.Sorumlu3 = ViewBag.Sorumlu;
@@ -131,6 +133,43 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         }
 
+        public JsonResult ProjeListesi()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            var ID = id.ToInt32();
+            List<ProjeForm> Prj = db.ProjeForms.Where(m => m.MusteriID == ID && m.PID == null).ToList();
+            List<SelectListItem> List = new List<SelectListItem>();
+            foreach (ProjeForm item in Prj)
+            {
+                List.Add(new SelectListItem
+                {
+                    Selected = false,
+                    Text = item.Proje,
+                    Value = item.ID.ToString()
+                });
+            }
+            return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult FormListesi()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            var ID = id.ToInt32();
+            List<ProjeForm> Prj = db.ProjeForms.Where(m => m.PID == ID).ToList();
+            List<SelectListItem> List = new List<SelectListItem>();
+            foreach (ProjeForm item in Prj)
+            {
+                List.Add(new SelectListItem
+                {
+                    Selected = false,
+                    Text = item.Proje,
+                    Value = item.ID.ToString()
+                });
+            }
+            return Json(List.Select(x => new { Value = x.Value, Text = x.Text, Selected = x.Selected }), JsonRequestBehavior.AllowGet);
+
+        }
 
     }
 }

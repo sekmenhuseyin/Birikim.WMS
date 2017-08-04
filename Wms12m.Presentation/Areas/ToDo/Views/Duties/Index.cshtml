@@ -12,21 +12,7 @@
 <h1 class="page-title">Görev İşlemleri</h1>
 <div class="row">
     <div class="col-md-12">
-        <div class="row" id="CreateEdit">
-            <div class="col-md-12">
-                <div class="portlet box green">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="fa fa-gift"></i>Görevler
-
-                        </div>
-                        <div class="col-md-2 pull-right m-t-5">
-                         <a class="btn btn-default pull-right input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/Duties/New')"> Yeni </a>
-                        </div>
-                    </div>                   
-                </div>
-            </div>
-        </div>
+        <div class="row" id="CreateEdit"></div>
         <div id="liste">
         </div>
     </div>
@@ -62,6 +48,42 @@
                 dataType: "html",
                 success: function (data) {
                     $('#new' + d).html(data);
+                }
+            });
+        }
+        function getProje(id, what, what2) {
+            $("#" + what + " option").remove();
+            $("#" + what2 + " option").remove();
+            $.ajax({
+                url: "/ToDo/Duties/ProjeListesi/" + id,
+                type: 'POST',
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data != "") {
+                        $.each(data, function (i, item) {
+                            $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
+                        });
+                        $("#" + what).prepend("<option value=''>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
+                    }
+                }
+            });
+        }
+        function getForm(id, what) {
+            console.log("fff");
+            $("#" + what + " option").remove();
+            $.ajax({
+                url: "/ToDo/Duties/FormListesi/" + id,
+                type: 'POST',
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    if (data != "") {
+                        $.each(data, function (i, item) {
+                            $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
+                        });
+                        $("#" + what).prepend("<option value=''>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;
+                    }
                 }
             });
         }
