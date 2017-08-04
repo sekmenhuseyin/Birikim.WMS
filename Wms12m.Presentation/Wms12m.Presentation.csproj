@@ -805,7 +805,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\ToDo\Views\GörevTakvimi\" />
-    <Folder Include="Uploads\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
