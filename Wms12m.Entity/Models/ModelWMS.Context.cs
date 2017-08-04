@@ -778,5 +778,35 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartLocationKriter_Result>("WMSEntities.GetCachedChartLocationKriter", dBParameter, ayParameter, kriterParameter);
         }
+    
+        public virtual ObjectResult<GetCachedChartUrunGrubu_Result> GetCachedChartUrunGrubu(string dB, Nullable<int> ay)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var ayParameter = ay.HasValue ?
+                new ObjectParameter("Ay", ay) :
+                new ObjectParameter("Ay", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartUrunGrubu_Result>("WMSEntities.GetCachedChartUrunGrubu", dBParameter, ayParameter);
+        }
+    
+        public virtual ObjectResult<GetCachedChartUrunGrubuKriter_Result> GetCachedChartUrunGrubuKriter(string dB, Nullable<int> ay, string kriter)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var ayParameter = ay.HasValue ?
+                new ObjectParameter("Ay", ay) :
+                new ObjectParameter("Ay", typeof(int));
+    
+            var kriterParameter = kriter != null ?
+                new ObjectParameter("Kriter", kriter) :
+                new ObjectParameter("Kriter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartUrunGrubuKriter_Result>("WMSEntities.GetCachedChartUrunGrubuKriter", dBParameter, ayParameter, kriterParameter);
+        }
     }
 }
