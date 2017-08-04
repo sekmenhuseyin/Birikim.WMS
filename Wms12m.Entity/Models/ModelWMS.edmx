@@ -1274,6 +1274,10 @@
           <Parameter Name="DB" Type="varchar" Mode="In" />
           <Parameter Name="Miktarmi" Type="bit" Mode="In" />
         </Function>
+        <Function Name="GetCachedChartLocation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Ay" Type="int" Mode="In" />
+        </Function>
         <Function Name="GetCachedChartMonthly" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
@@ -2044,6 +2048,10 @@
             <End Role="Role" EntitySet="Roles" />
             <End Role="WebMenu" EntitySet="WebMenus" />
           </AssociationSet>
+          <FunctionImport Name="GetCachedChartLocation" ReturnType="Collection(MModel.GetCachedChartLocation_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Ay" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -3457,6 +3465,13 @@
           <End Type="MModel.Role" Role="Role" Multiplicity="*" />
           <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
         </Association>
+        <ComplexType Name="GetCachedChartLocation_Result">
+          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4365,6 +4380,17 @@
               <ScalarProperty Name="RoleName" ColumnName="RoleName" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="GetCachedChartLocation" FunctionName="MModel.Store.GetCachedChartLocation">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetCachedChartLocation_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

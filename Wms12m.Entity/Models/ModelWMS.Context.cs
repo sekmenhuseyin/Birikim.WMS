@@ -748,5 +748,18 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("WMSEntities.SettingsMakaraNo", depoIDParameter);
         }
+    
+        public virtual ObjectResult<GetCachedChartLocation_Result> GetCachedChartLocation(string dB, Nullable<int> ay)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var ayParameter = ay.HasValue ?
+                new ObjectParameter("Ay", ay) :
+                new ObjectParameter("Ay", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartLocation_Result>("WMSEntities.GetCachedChartLocation", dBParameter, ayParameter);
+        }
     }
 }
