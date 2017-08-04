@@ -67,7 +67,6 @@
             //valueExpr: 'Kod',
             displayExpr: 'SipTalepNo',
             onValueChanged: function (e) {
-                console.log(e);
                 if (e.value == null) {
                     return;
                 }
@@ -123,7 +122,6 @@
             data: { hesapKodu: CHK, talepNo: TLP },
             type: "post",
             success: function (data) {
-                console.log(data);
                 if (data == 0) {
                     Modaldialog("Stok kartında birim güncellemesi bulunmaktadır. Mevcut talebin reddedilip yeniden oluşturulması gerekmektedir.", "Onay İşlemi", "Tamam", "Onay");
                     setTimeout(function () { window.location.reload(); }, 500);
