@@ -7,13 +7,13 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Aylık Satış Analizi GrupKod ve İşlemTip <span style="color:#8888a7;">BAR CHART</span></span>
                 </div>
-                <div class="col-md-1 ö-l-10">
+                <div class="col-md-1 m-l-10">
                     <div class="slct_aylik_kriter_islemtip" style="width:130px;"></div>
                 </div>
-                <div class="col-md-1 ö-l-10">
+                <div class="col-md-1 m-l-10">
                     <div class="slct_aylik_kriter_doviz" style="width:130px;"></div>
                 </div>
-                <div class="col-md-1 ö-l-10">
+                <div class="col-md-1 m-l-10">
                     <div class="slct_aylik_kriter_kod" style="width:130px;"></div>
                 </div>
                 <div class="col-md-2">
@@ -43,7 +43,6 @@
     }
     $(document).ready(function (e) {
         var model = @Html.Raw(Json.Encode(Model));
-        console.log(model);
         var color = ["#FF0F00","#FF6600","#FF9E01","#FCD202","#F8FF01","#B0DE09","#04D215","#0D8ECF","#0D52D1","#2A0CD0","#8A0CCF","#CD0D74","#754DEB","#DDDDDD","#999999","#333333","#000000"];
         for (var i = 0; i < model.length; i++) {
             $.extend(model[i],{
