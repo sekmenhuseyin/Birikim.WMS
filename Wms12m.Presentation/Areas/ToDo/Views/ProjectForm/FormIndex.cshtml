@@ -16,6 +16,21 @@
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true)
                             <div class="form-body">
+                                @*<div class="form-group row" style="display:none">
+                                    @Html.LabelFor(model => model.PID, "PID", htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownList("PID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.PID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(model => model.MusteriID, "MusteriID", htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.MusteriID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
                                 <div class="form-group row" style="display:none">
                                     @Html.LabelFor(model => model.PID, "PID", htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
@@ -23,19 +38,10 @@
                                         @Html.ValidationMessageFor(model => model.PID, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-
-                                <div class="form-group row">
-                                    @Html.LabelFor(model => model.MusteriID, "MusteriID", htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-4">
-                                        @Html.DropDownList("MusteriID", null, htmlAttributes: new { @class = "form-control input-circle", @readonly = "readonly", @disabled = "disabled" })
-                                        @Html.ValidationMessageFor(model => model.MusteriID, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
                                 <div class="form-group row">
                                     @Html.LabelFor(model => model.Proje, htmlAttributes: new { @class = "control-label col-md-4" })
                                     <div class="col-md-4">
-                                        @Html.EditorFor(model => model.Proje, new { htmlAttributes = new { @class = "form-control input-circle", @readonly = "readonly", @disabled = "disabled" } })
+                                        @Html.EditorFor(model => model.Proje, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @readonly = "readonly" } })
                                         @Html.ValidationMessageFor(model => model.Proje, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -70,21 +76,20 @@
 
 </div>
 <script type="text/javascript">
+    var DeleteFunctionUrl = '/ToDo/ProjectForm/Delete';
     PartialView("/ToDo/ProjectForm/ListAlt/@ViewBag.id", 'listealt');
     function CreateEditAltF(Id) {
-        $("html, body").animate({ scrollTop: 0 }, "slow");
+        $("#modalEditPage").animate({ scrollTop: 0 }, "slow");
         if (Id == 0) {
             $("#ID").val("0");
-            $("#Proje").val("");
-            $("#Sorumlu").val("");
-            $("#KarsiForumlu").val("");
-            $("#Aciklama").val("");
-            $("#MesaiKota").val("");
+            $("#Form").val("");
             $("#CreateEditAlt .caption").text("Form Ekle");
             $("#CreateEditAlt [type='submit']").text("Ekle");
         }
         else if (Id == "kayit") {
-            PartialView("/ToDo/Customer/List", 'liste');
+            console.log("araraa");
+            editInModal('/ToDo/ProjectForm/FormIndex/@ViewBag.id');
+              @*PartialView("/ToDo/ProjectForm/ListAlt/@ViewBag.id", 'listealt');*@
         }
         else {
             { PartialView("/ToDo/ProjectForm/FormEdit", 'CreateEditAlt', JSON.stringify({ Id: Id })); }

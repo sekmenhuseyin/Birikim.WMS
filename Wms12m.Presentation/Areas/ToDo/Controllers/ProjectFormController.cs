@@ -126,10 +126,14 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var id = Url.RequestContext.RouteData.Values["id"];
             var ID = id.ToInt32();
+
             ProjeForm projeForm = db.ProjeForms.Find(ID);
             ViewBag.id = ID;
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
             ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje", projeForm.ID);
+            var proje = projeForm.Proje;
+            projeForm = new ProjeForm();
+            projeForm.Proje = proje;
             return PartialView(projeForm);
             //ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
             //ViewBag.PID = new SelectList(db.ProjeForms.Where(x => x.PID == null).ToList(), "ID", "Proje");
@@ -181,7 +185,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult FormSave([Bind(Include = "ID,MusteriID,Proje,Form,Sorumlu,KarsiSorumlu,Aciklama,MesaiKontrol,MesaiKota,PID,Durum,Kaydeden,KayitTarih,Degistiren,DegisTarih")] ProjeForm projeForm)
+        public JsonResult FormSave([Bind(Include = "ID,MusteriID,Proje,Form,PID,Durum,Kaydeden,KayitTarih,Degistiren,DegisTarih")] ProjeForm projeForm)
         {
             if (ModelState.IsValid)
             {
@@ -198,19 +202,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 else
                 {
                     var tbl = db.ProjeForms.Where(m => m.ID == projeForm.ID).FirstOrDefault();
-                    tbl.Aciklama = projeForm.Aciklama;//
-                    tbl.Durum = projeForm.Durum;//
                     tbl.Form = projeForm.Form;//
-                    tbl.KarsiSorumlu = projeForm.KarsiSorumlu;//
-                    tbl.MesaiKontrol = projeForm.MesaiKontrol;//
-                    tbl.MesaiKota = projeForm.MesaiKota;//
-
-                    tbl.Proje = projeForm.Proje;//
-                    tbl.Sorumlu = projeForm.Sorumlu;//
-                    tbl.Durum = null;
-
-
-
                 }
                 try
                 {

@@ -12,7 +12,7 @@ function editInModal(URL) {
         type: "POST",
         url: URL,
         datatype: "html",
-        success: function (data) { console.log(data); $("#modalEditPage").html(data); }
+        success: function (data) {$("#modalEditPage").html(data); }
     });
 }
 //url:method adresi ,div:render edeceği div,Id:detay için id göndere bilir
@@ -69,7 +69,10 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
             if (Method == "")
                 window.location.reload();
             else
+            {
+                console.log(Method);
                 PartialView(Method, DivName, JSON.stringify({ Id: extraId }));
+            }
         }
     }
 }
