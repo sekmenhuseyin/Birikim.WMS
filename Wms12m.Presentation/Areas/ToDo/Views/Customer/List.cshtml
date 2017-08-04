@@ -28,6 +28,7 @@
                                 @Html.DisplayFor(modelItem => item.Email)
                             </td>
                             <td>
+                                @Html.DisplayFor(modelItem => item.MesaiKontrol)
                                 @if (item.MesaiKontrol == true)
                                 {
                                     @("Var");
@@ -43,8 +44,8 @@
                                 @Html.DisplayFor(modelItem => item.MesaiKota)
                             </td>
                             <td>
-                                <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                                <a class="btn btn-danger" href="javascript:;" onclick="DeleteKontrol('@item.ID','/ToDo/Customer/List','liste','/ToDo/Customer/DeleteKontrol')"> Sil </a>
+                                <a class="btn btn-success input-circle" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                                <a class="btn btn-danger input-circle" href="javascript:;" onclick="DeleteKontrol('@item.ID','/ToDo/Customer/List','liste','/ToDo/Customer/DeleteKontrol')"> Sil </a>
                             </td>
                         </tr>
                     }
@@ -54,4 +55,7 @@
             </div>
         </div>
 
-<script>$(document).ready(function () { $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>
+<script>
+    $(document).ready(function () {
+        $('#sample_1').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } });
+    });</script>

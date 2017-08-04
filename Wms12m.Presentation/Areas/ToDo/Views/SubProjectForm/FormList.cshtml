@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ProjeForm>
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Form Listesi
+        </div>
+    </div>
+    <div class="portlet-body form p-40">
+        <table class="table table-striped table-bordered table-hover" id="@ViewBag.id">
+            <thead>
+                <tr>
+                    <th>
+                        Firma
+                    </th>
+                    <th>
+                        Proje
+                    </th>
+                    <th>
+                        Form
+                    </th>
+                    <th></th>
+                </tr>
+
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Musteri.Firma)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProjeForm2.Proje)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Form)
+                        </td>
+                        <td>
+                            <a class="btn btn-success input-circle" href="javascript:;" onclick="CreateEditAltF('@item.ID')"> Düzenle </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<script>$(document).ready(function () { $('#@ViewBag.id').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>

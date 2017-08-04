@@ -61,6 +61,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         }
         public string SipGMOnayListData(string HesapKodu, int SipTalepNo)
         {
+
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
             MyGlobalVariables.DovizDurum = false;
             if (MyGlobalVariables.GridSource == null)
@@ -144,6 +145,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     MyGlobalVariables.GridFTD = null;
                     MyGlobalVariables.GridFTD = MyGlobalVariables.SipEvrak.FTDList;
                 }
+                else
+                {
+                    MyGlobalVariables.GridFTD = new List<KKP_FTD>();
+                }
             }
 
             var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridSource);
@@ -152,7 +157,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
         public string SipGMOnayListFTDData(string HesapKodu, int SipTalepNo)
         {
-            if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return null;
             var json = new JavaScriptSerializer().Serialize(MyGlobalVariables.GridFTD);
             return json;
         }
@@ -373,11 +377,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 foreach (var item in MyGlobalVariables.TalepSource)
                 {
                     string sql = @"UPDATE Kaynak.sta.Talep 
-SET GMOnaylayan='{0}', GMOnayTarih={1}, Durum=13
-, Degistiren='{0}', DegisTarih={1}, DegisSirKodu={3}, Aciklama2='{2}'
+SET GMOnaylayan='{0}', GMOnayTarih='{1}', Durum=13
+, Degistiren='{0}', DegisTarih='{1}', DegisSirKodu={3}, Aciklama2='{2}'
 WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
 
-                    db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-MM-dd"), redAciklama, "17", item.ID));
+                    db.Database.ExecuteSqlCommand(string.Format(sql, vUser.UserName.ToString(), DateTime.Now.ToString("yyyy-dd-MM"), redAciklama, "17", item.ID));
 
                 }
 
@@ -407,7 +411,7 @@ WHERE ID={4} AND Durum=11 AND SipTalepNo IS NOT NULL";
 		ELSE 0 END ) AS Miktar
 
 FROM Kaynak.sta.Talep as ST (nolock)
-LEFT JOIN FINSAT617.FINSAT617.STK (nolock) on ST.MalKodu=STK.MalKodu
+LEFT JOIN FINSAT6{0}.FINSAT6{0}.STK (nolock) on ST.MalKodu=STK.MalKodu
 WHERE ST.Durum=11 AND ST.SipTalepNo={1} AND ST.HesapKodu='{2}'
 GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
         WHEN ST.Birim = STK.Birim2 THEN 1
