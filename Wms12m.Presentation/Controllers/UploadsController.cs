@@ -177,26 +177,30 @@ namespace Wms12m.Presentation.Controllers
                             birim = db.Database.SqlQuery<string>(string.Format("SELECT Birim1 FROM FINSAT6{0}.FINSAT6{0}.STK WITH(NOLOCK) WHERE MalKodu='{1}'", db.GetSirketDBs().FirstOrDefault(), dr["Mal Kodu"].ToString())).FirstOrDefault();
                         if (birim != "")
                         {
-                            //add new
-                            Olcu sti = new Olcu()
+                            var test = db.Olcus.Where(m => m.MalKodu == dr["Mal Kodu"].ToString() && m.Birim == birim).FirstOrDefault();
+                            if (test == null)
                             {
-                                MalKodu = dr["Mal Kodu"].ToString(),
-                                Birim = dr["Birim"].ToString(),
-                                En = dr["En"].ToDecimal(),
-                                Boy = dr["Boy"].ToDecimal(),
-                                Derinlik = dr["Derinlik"].ToDecimal(),
-                                Agirlik = dr["Ağırlık"].ToDecimal(),
-                                Kaydeden = vUser.UserName,
-                                KayitTarih = tarih,
-                                Degistiren = vUser.UserName,
-                                DegisTarih = tarih
-                            };
-                            //ekle
-                            if (sti.En != 0 || sti.Boy != 0 || sti.Derinlik != 0 || sti.Derinlik != 0)
-                            {
-                                db.Olcus.Add(sti);
-                                db.SaveChanges();
-                                basarili++;
+                                //add new
+                                Olcu sti = new Olcu()
+                                {
+                                    MalKodu = dr["Mal Kodu"].ToString(),
+                                    Birim = dr["Birim"].ToString(),
+                                    En = dr["En"].ToDecimal(),
+                                    Boy = dr["Boy"].ToDecimal(),
+                                    Derinlik = dr["Derinlik"].ToDecimal(),
+                                    Agirlik = dr["Ağırlık"].ToDecimal(),
+                                    Kaydeden = vUser.UserName,
+                                    KayitTarih = tarih,
+                                    Degistiren = vUser.UserName,
+                                    DegisTarih = tarih
+                                };
+                                //ekle
+                                if (sti.En != 0 || sti.Boy != 0 || sti.Derinlik != 0 || sti.Derinlik != 0)
+                                {
+                                    db.Olcus.Add(sti);
+                                    db.SaveChanges();
+                                    basarili++;
+                                }
                             }
                         }
                         else

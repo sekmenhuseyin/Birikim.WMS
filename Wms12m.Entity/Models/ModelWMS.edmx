@@ -1274,11 +1274,29 @@
           <Parameter Name="DB" Type="varchar" Mode="In" />
           <Parameter Name="Miktarmi" Type="bit" Mode="In" />
         </Function>
+        <Function Name="GetCachedChartLocation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Ay" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetCachedChartLocationKriter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Ay" Type="int" Mode="In" />
+          <Parameter Name="Kriter" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetCachedChartMonthly" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetCachedChartSatisBaglanti" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DB" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetCachedChartUrunGrubu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Ay" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetCachedChartUrunGrubuKriter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Ay" Type="int" Mode="In" />
+          <Parameter Name="Kriter" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetCachedChartYear2Day" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DB" Type="varchar" Mode="In" />
@@ -1655,7 +1673,6 @@
             <Parameter Name="Perm" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="Simges" EntityType="MModel.Simge" />
-          <EntitySet Name="WebMenus" EntityType="MModel.WebMenu" />
           <EntitySet Name="Perms" EntityType="MModel.Perm" />
           <EntitySet Name="RolePerms" EntityType="MModel.RolePerm" />
           <EntitySet Name="UserPerms" EntityType="MModel.UserPerm" />
@@ -1671,14 +1688,6 @@
           <EntitySet Name="Transfer_Detay" EntityType="MModel.Transfer_Detay" />
           <EntitySet Name="Yers" EntityType="MModel.Yer" />
           <EntitySet Name="Yer_Log" EntityType="MModel.Yer_Log" />
-          <AssociationSet Name="FK_WebMenu_Simge" Association="MModel.FK_WebMenu_Simge">
-            <End Role="Simge" EntitySet="Simges" />
-            <End Role="WebMenu" EntitySet="WebMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WebMenu_WebMenu" Association="MModel.FK_WebMenu_WebMenu">
-            <End Role="WebMenu" EntitySet="WebMenus" />
-            <End Role="WebMenu1" EntitySet="WebMenus" />
-          </AssociationSet>
           <AssociationSet Name="FK_Perm_UserPerm2" Association="MModel.FK_Perm_UserPerm2">
             <End Role="Perm" EntitySet="Perms" />
             <End Role="UserPerm" EntitySet="UserPerms" />
@@ -1833,14 +1842,6 @@
             <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
             <End Role="Kat" EntitySet="Kats" />
           </AssociationSet>
-          <AssociationSet Name="FK_WebMenu_MenuYeri" Association="MModel.FK_WebMenu_MenuYeri">
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="WebMenu" EntitySet="WebMenus" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WebMenu_SiteTipi" Association="MModel.FK_WebMenu_SiteTipi">
-            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
-            <End Role="WebMenu" EntitySet="WebMenus" />
-          </AssociationSet>
           <AssociationSet Name="FK_RolePerm_Roles" Association="MModel.FK_RolePerm_Roles">
             <End Role="Role" EntitySet="Roles" />
             <End Role="RolePerm" EntitySet="RolePerms" />
@@ -1848,10 +1849,6 @@
           <AssociationSet Name="FK_Users_Roles" Association="MModel.FK_Users_Roles">
             <End Role="Role" EntitySet="Roles" />
             <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="WebMenuRol" Association="MModel.WebMenuRol">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="WebMenu" EntitySet="WebMenus" />
           </AssociationSet>
           <FunctionImport Name="GetHomeSummary" ReturnType="Collection(MModel.GetHomeSummary_Result)">
             <Parameter Name="UserName" Mode="In" Type="String" />
@@ -2044,6 +2041,45 @@
           <FunctionImport Name="SettingsMakaraNo" ReturnType="Collection(Int32)">
           <Parameter Name="DepoID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="WebMenus" EntityType="MModel.WebMenu" />
+          <AssociationSet Name="FK_WebMenu_MenuYeri" Association="MModel.FK_WebMenu_MenuYeri">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="WebMenu" EntitySet="WebMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebMenu_SiteTipi" Association="MModel.FK_WebMenu_SiteTipi">
+            <End Role="ComboItem_Name" EntitySet="ComboItem_Name" />
+            <End Role="WebMenu" EntitySet="WebMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebMenu_Simge" Association="MModel.FK_WebMenu_Simge">
+            <End Role="Simge" EntitySet="Simges" />
+            <End Role="WebMenu" EntitySet="WebMenus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebMenu_WebMenu" Association="MModel.FK_WebMenu_WebMenu">
+            <End Role="WebMenu" EntitySet="WebMenus" />
+            <End Role="WebMenu1" EntitySet="WebMenus" />
+          </AssociationSet>
+          <AssociationSet Name="WebMenuRol" Association="MModel.WebMenuRol">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="WebMenu" EntitySet="WebMenus" />
+          </AssociationSet>
+          <FunctionImport Name="GetCachedChartLocation" ReturnType="Collection(MModel.GetCachedChartLocation_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Ay" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetCachedChartLocationKriter" ReturnType="Collection(MModel.GetCachedChartLocationKriter_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Ay" Mode="In" Type="Int32" />
+            <Parameter Name="Kriter" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetCachedChartUrunGrubu" ReturnType="Collection(MModel.GetCachedChartUrunGrubu_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Ay" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetCachedChartUrunGrubuKriter" ReturnType="Collection(MModel.GetCachedChartUrunGrubuKriter_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Ay" Mode="In" Type="Int32" />
+            <Parameter Name="Kriter" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -2061,26 +2097,6 @@
           <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Icon" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="WebMenus" Relationship="MModel.FK_WebMenu_Simge" FromRole="Simge" ToRole="WebMenu" />
-        </EntityType>
-        <EntityType Name="WebMenu">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SiteTipiID" Type="Int32" Nullable="false" />
-          <Property Name="MenuYeriID" Type="Int32" Nullable="false" />
-          <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Sira" Type="Byte" Nullable="false" />
-          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="SimgeID" Type="Int16" />
-          <Property Name="UstMenuID" Type="Int16" />
-          <Property Name="Aktif" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Simge" Relationship="MModel.FK_WebMenu_Simge" FromRole="WebMenu" ToRole="Simge" />
-          <NavigationProperty Name="WebMenu1" Relationship="MModel.FK_WebMenu_WebMenu" FromRole="WebMenu" ToRole="WebMenu1" />
-          <NavigationProperty Name="WebMenu2" Relationship="MModel.FK_WebMenu_WebMenu" FromRole="WebMenu1" ToRole="WebMenu" />
-          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_WebMenu_MenuYeri" FromRole="WebMenu" ToRole="ComboItem_Name" />
-          <NavigationProperty Name="ComboItem_Name1" Relationship="MModel.FK_WebMenu_SiteTipi" FromRole="WebMenu" ToRole="ComboItem_Name" />
-          <NavigationProperty Name="Roles" Relationship="MModel.WebMenuRol" FromRole="WebMenu" ToRole="Role" />
         </EntityType>
         <EntityType Name="Perm">
           <Key>
@@ -2366,30 +2382,6 @@
           <Property Name="DepoID" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="MakaraNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <Association Name="FK_WebMenu_Simge">
-          <End Type="MModel.Simge" Role="Simge" Multiplicity="0..1" />
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Simge">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu">
-              <PropertyRef Name="SimgeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WebMenu_WebMenu">
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="0..1" />
-          <End Type="MModel.WebMenu" Role="WebMenu1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WebMenu">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu1">
-              <PropertyRef Name="UstMenuID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Perm_UserPerm2">
           <End Type="MModel.Perm" Role="Perm" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2749,13 +2741,13 @@
           <NavigationProperty Name="Gorevs" Relationship="MModel.FK_Gorev_ComboItem_NameDurum" FromRole="ComboItem_Name" ToRole="Gorev" />
           <NavigationProperty Name="Gorevs1" Relationship="MModel.FK_Gorev_ComboItem_NameOzellik" FromRole="ComboItem_Name" ToRole="Gorev" />
           <NavigationProperty Name="Kats" Relationship="MModel.FK_Kat_ComboItem_Name" FromRole="ComboItem_Name" ToRole="Kat" />
-          <NavigationProperty Name="WebMenus" Relationship="MModel.FK_WebMenu_MenuYeri" FromRole="ComboItem_Name" ToRole="WebMenu" />
-          <NavigationProperty Name="WebMenus1" Relationship="MModel.FK_WebMenu_SiteTipi" FromRole="ComboItem_Name" ToRole="WebMenu" />
           <NavigationProperty Name="Gorevlers" Relationship="MModel.FK_Gorevler_ComboItem_Name_Departman" FromRole="ComboItem_Name" ToRole="Gorevler" />
           <NavigationProperty Name="Gorevlers1" Relationship="MModel.FK_Gorevler_ComboItem_Name_Durum" FromRole="ComboItem_Name" ToRole="Gorevler" />
           <NavigationProperty Name="Gorevlers2" Relationship="MModel.FK_Gorevler_ComboItem_Name_GorevTipi" FromRole="ComboItem_Name" ToRole="Gorevler" />
           <NavigationProperty Name="Gorevlers3" Relationship="MModel.FK_Gorevler_ComboItem_Name_Oncelik" FromRole="ComboItem_Name" ToRole="Gorevler" />
           <NavigationProperty Name="GorevPaketlers" Relationship="MModel.FK_GorevPaketler_ComboItem_Name" FromRole="ComboItem_Name" ToRole="GorevPaketler" />
+          <NavigationProperty Name="WebMenus" Relationship="MModel.FK_WebMenu_MenuYeri" FromRole="ComboItem_Name" ToRole="WebMenu" />
+          <NavigationProperty Name="WebMenus1" Relationship="MModel.FK_WebMenu_SiteTipi" FromRole="ComboItem_Name" ToRole="WebMenu" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -2765,8 +2757,8 @@
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="RolePerms" Relationship="MModel.FK_RolePerm_Roles" FromRole="Role" ToRole="RolePerm" />
           <NavigationProperty Name="Users" Relationship="MModel.FK_Users_Roles" FromRole="Role" ToRole="User" />
-          <NavigationProperty Name="WebMenus" Relationship="MModel.WebMenuRol" FromRole="Role" ToRole="WebMenu" />
           <Property Name="Aciklama" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WebMenus" Relationship="MModel.WebMenuRol" FromRole="Role" ToRole="WebMenu" />
         </EntityType>
         <Association Name="FK_ComboItemName_ComboName">
           <End Type="MModel.Combo_Name" Role="Combo_Name" Multiplicity="1" />
@@ -2816,30 +2808,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WebMenu_MenuYeri">
-          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItem_Name">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu">
-              <PropertyRef Name="MenuYeriID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WebMenu_SiteTipi">
-          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ComboItem_Name">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="WebMenu">
-              <PropertyRef Name="SiteTipiID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_RolePerm_Roles">
           <End Type="MModel.Role" Role="Role" Multiplicity="1" />
           <End Type="MModel.RolePerm" Role="RolePerm" Multiplicity="*" />
@@ -2863,10 +2831,6 @@
               <PropertyRef Name="RoleName" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="WebMenuRol">
-          <End Type="MModel.Role" Role="Role" Multiplicity="*" />
-          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
         </Association>
         <ComplexType Name="GetHomeSummary_Result">
           <Property Type="Int32" Name="depo" Nullable="true" />
@@ -3457,6 +3421,106 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WebMenu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteTipiID" Type="Int32" Nullable="false" />
+          <Property Name="MenuYeriID" Type="Int32" Nullable="false" />
+          <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sira" Type="Byte" Nullable="false" />
+          <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SimgeID" Type="Int16" />
+          <Property Name="UstMenuID" Type="Int16" />
+          <Property Name="Aktif" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ComboItem_Name" Relationship="MModel.FK_WebMenu_MenuYeri" FromRole="WebMenu" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="ComboItem_Name1" Relationship="MModel.FK_WebMenu_SiteTipi" FromRole="WebMenu" ToRole="ComboItem_Name" />
+          <NavigationProperty Name="Simge" Relationship="MModel.FK_WebMenu_Simge" FromRole="WebMenu" ToRole="Simge" />
+          <NavigationProperty Name="WebMenu1" Relationship="MModel.FK_WebMenu_WebMenu" FromRole="WebMenu" ToRole="WebMenu1" />
+          <NavigationProperty Name="WebMenu2" Relationship="MModel.FK_WebMenu_WebMenu" FromRole="WebMenu1" ToRole="WebMenu" />
+          <NavigationProperty Name="Roles" Relationship="MModel.WebMenuRol" FromRole="WebMenu" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_WebMenu_MenuYeri">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu">
+              <PropertyRef Name="MenuYeriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WebMenu_SiteTipi">
+          <End Type="MModel.ComboItem_Name" Role="ComboItem_Name" Multiplicity="1" />
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ComboItem_Name">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu">
+              <PropertyRef Name="SiteTipiID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WebMenu_Simge">
+          <End Type="MModel.Simge" Role="Simge" Multiplicity="0..1" />
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Simge">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu">
+              <PropertyRef Name="SimgeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WebMenu_WebMenu">
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="0..1" />
+          <End Type="MModel.WebMenu" Role="WebMenu1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WebMenu">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WebMenu1">
+              <PropertyRef Name="UstMenuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="WebMenuRol">
+          <End Type="MModel.Role" Role="Role" Multiplicity="*" />
+          <End Type="MModel.WebMenu" Role="WebMenu" Multiplicity="*" />
+        </Association>
+        <ComplexType Name="GetCachedChartLocation_Result">
+          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="GetCachedChartLocationKriter_Result">
+          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="GetCachedChartUrunGrubu_Result">
+          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="GetCachedChartUrunGrubuKriter_Result">
+          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="GrupKod" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3491,21 +3555,6 @@
               <MappingFragment StoreEntitySet="Simge">
                 <ScalarProperty Name="Icon" ColumnName="Icon" />
                 <ScalarProperty Name="Ad" ColumnName="Ad" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WebMenus">
-            <EntityTypeMapping TypeName="MModel.WebMenu">
-              <MappingFragment StoreEntitySet="WebMenu">
-                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
-                <ScalarProperty Name="UstMenuID" ColumnName="UstMenuID" />
-                <ScalarProperty Name="SimgeID" ColumnName="SimgeID" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Sira" ColumnName="Sira" />
-                <ScalarProperty Name="Ad" ColumnName="Ad" />
-                <ScalarProperty Name="MenuYeriID" ColumnName="MenuYeriID" />
-                <ScalarProperty Name="SiteTipiID" ColumnName="SiteTipiID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3887,14 +3936,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="WebMenuRol" TypeName="MModel.WebMenuRol" StoreEntitySet="WebMenuRol">
-            <EndProperty Name="WebMenu">
-              <ScalarProperty Name="ID" ColumnName="MenuID" />
-            </EndProperty>
-            <EndProperty Name="Role">
-              <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-            </EndProperty>
-          </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="GetHomeSummary" FunctionName="MModel.Store.GetHomeSummary">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetHomeSummary_Result">
@@ -4365,6 +4406,73 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SettingsMakaraNo" FunctionName="MModel.Store.SettingsMakaraNo" />
+          <EntitySetMapping Name="WebMenus">
+            <EntityTypeMapping TypeName="MModel.WebMenu">
+              <MappingFragment StoreEntitySet="WebMenu">
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+                <ScalarProperty Name="UstMenuID" ColumnName="UstMenuID" />
+                <ScalarProperty Name="SimgeID" ColumnName="SimgeID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="MenuYeriID" ColumnName="MenuYeriID" />
+                <ScalarProperty Name="SiteTipiID" ColumnName="SiteTipiID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="WebMenuRol" TypeName="MModel.WebMenuRol" StoreEntitySet="WebMenuRol">
+            <EndProperty Name="WebMenu">
+              <ScalarProperty Name="ID" ColumnName="MenuID" />
+            </EndProperty>
+            <EndProperty Name="Role">
+              <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="GetCachedChartLocation" FunctionName="MModel.Store.GetCachedChartLocation">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetCachedChartLocation_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCachedChartLocationKriter" FunctionName="MModel.Store.GetCachedChartLocationKriter">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetCachedChartLocationKriter_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCachedChartUrunGrubu" FunctionName="MModel.Store.GetCachedChartUrunGrubu">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetCachedChartUrunGrubu_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCachedChartUrunGrubuKriter" FunctionName="MModel.Store.GetCachedChartUrunGrubuKriter">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetCachedChartUrunGrubuKriter_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="GrupKod" ColumnName="GrupKod" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
+                <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

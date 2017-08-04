@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="425b037492ed4a51bcc4f7bc9c8f38f9" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="MModel.Simge" Width="1.5" PointX="25.25" PointY="5.875" />
-        <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="22.875" PointY="4.75" />
         <EntityTypeShape EntityType="MModel.Perm" Width="1.5" PointX="28.375" PointY="11" />
         <EntityTypeShape EntityType="MModel.RolePerm" Width="1.5" PointX="25.5" PointY="10.875" />
         <EntityTypeShape EntityType="MModel.UserPerm" Width="1.5" PointX="31.125" PointY="11" />
@@ -22,8 +21,6 @@
         <EntityTypeShape EntityType="MModel.Transfer_Detay" Width="1.5" PointX="10.5" PointY="11.125" />
         <EntityTypeShape EntityType="MModel.Yer" Width="1.5" PointX="11.125" PointY="26.625" />
         <EntityTypeShape EntityType="MModel.Yer_Log" Width="1.5" PointX="11.125" PointY="21.875" />
-        <AssociationConnector Association="MModel.FK_WebMenu_Simge" />
-        <AssociationConnector Association="MModel.FK_WebMenu_WebMenu" />
         <AssociationConnector Association="MModel.FK_Perm_UserPerm2" />
         <AssociationConnector Association="MModel.FK_RolePerm_Perm" />
         <AssociationConnector Association="MModel.FK_Users_Users" />
@@ -56,11 +53,8 @@
         <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameDurum" />
         <AssociationConnector Association="MModel.FK_Gorev_ComboItem_NameOzellik" />
         <AssociationConnector Association="MModel.FK_Kat_ComboItem_Name" />
-        <AssociationConnector Association="MModel.FK_WebMenu_MenuYeri" />
-        <AssociationConnector Association="MModel.FK_WebMenu_SiteTipi" />
         <AssociationConnector Association="MModel.FK_RolePerm_Roles" />
         <AssociationConnector Association="MModel.FK_Users_Roles" />
-        <AssociationConnector Association="MModel.WebMenuRol" />
         <EntityTypeShape EntityType="MModel.GorevCalisma" Width="1.5" PointX="30.875" PointY="5" />
         <EntityTypeShape EntityType="MModel.UserDevice" Width="1.5" PointX="22.375" PointY="13.375" />
         <AssociationConnector Association="MModel.FK_UserDevices_Users" />
@@ -88,6 +82,12 @@
         <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="MModel.GorevPaketNo" Width="1.5" PointX="15" PointY="6.125" />
         <AssociationConnector Association="MModel.FK_GorevPaketNo_Depo" />
+        <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="22.75" PointY="5.25" />
+        <AssociationConnector Association="MModel.FK_WebMenu_MenuYeri" />
+        <AssociationConnector Association="MModel.FK_WebMenu_SiteTipi" />
+        <AssociationConnector Association="MModel.FK_WebMenu_Simge" />
+        <AssociationConnector Association="MModel.FK_WebMenu_WebMenu" />
+        <AssociationConnector Association="MModel.WebMenuRol" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

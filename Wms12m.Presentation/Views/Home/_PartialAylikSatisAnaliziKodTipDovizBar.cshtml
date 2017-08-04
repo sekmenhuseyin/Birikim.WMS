@@ -7,13 +7,13 @@
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Aylık Satış Analizi GrupKod ve İşlemTip <span style="color:#8888a7;">BAR CHART</span></span>
                 </div>
-                <div class="col-md-1 p-l-10">
+                <div class="col-md-1 m-l-10">
                     <div class="slct_aylik_kriter_islemtip" style="width:130px;"></div>
                 </div>
-                <div class="col-md-1 p-l-10">
+                <div class="col-md-1 m-l-10">
                     <div class="slct_aylik_kriter_doviz" style="width:130px;"></div>
                 </div>
-                <div class="col-md-1 p-l-10">
+                <div class="col-md-1 m-l-10">
                     <div class="slct_aylik_kriter_kod" style="width:130px;"></div>
                 </div>
                 <div class="col-md-2">
@@ -32,7 +32,7 @@
     </div>
 </div>
 <script>
-    var islemtip_value= @ViewBag.IslemTip;
+    var islemtip_value= '@ViewBag.IslemTip';
     var doviz_value= @Html.Raw(Json.Encode(ViewBag.Doviz));
     var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
     if ($('.SirketID9 option').size() == 1) $(".SirketID9").hide();
@@ -49,10 +49,10 @@
                 color: color[i%color.length]
             });
         }
-        if(model.length==1 && model[0].GenelTutar==null)
+        @*if(model.length==1 && model[0].GenelTutar==null)
         {
             model = @Html.Raw(Json.Encode(null));
-        }
+        }*@
         var aylar = new Array();
         var Yil2015 = new Array();
         var Yil2016 = new Array();
@@ -89,18 +89,18 @@
         });
         $(".slct_aylik_kriter_islemtip").dxSelectBox({
             dataSource: islemtip,
-            valueExpr: 'state',
+            valueExpr: 'id',
             displayExpr: 'state',
             value: islemtip_value,
             onValueChanged: function (e) {
-                islemtip_value=e.value;
+                islemtip_value = e.value;
                 PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
             }
         });
 
         $(".slct_aylik_kriter_doviz").dxSelectBox({
             dataSource: doviz,
-            valueExpr: 'id',
+            valueExpr: 'state',
             displayExpr: 'state',
             value: doviz_value,
             onValueChanged: function (e) {

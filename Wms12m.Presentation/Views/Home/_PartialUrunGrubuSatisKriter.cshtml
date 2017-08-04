@@ -1,4 +1,4 @@
-﻿@model List<ChartUrunGrubuSatisAnalizi>
+﻿@model List<GetCachedChartUrunGrubuKriter_Result>
 <style>
     .morris-hover {position: absolute;z-index: 1000;}
     .morris-hover.morris-default-style {border-radius: 10px;padding: 6px;color: #666;background: rgba(255, 255, 255, 0.8);border: solid 2px rgba(230, 230, 230, 0.8);font-family: sans-serif;font-size: 12px;text-align: center;}
@@ -88,8 +88,7 @@
             displayExpr: 'state',
             value: kriter_value,
             onValueChanged: function (e) {
-                kriter_value=e.value;
-                PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: f_tarih, kriter: kriter_value }));
+                PartialView("/Home/PartialUrunGrubuSatisKriter", 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: f_tarih, kriter: e.value }));
             }
         });
 

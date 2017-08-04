@@ -225,16 +225,18 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialAylikSatisCHKAnaliziBar(string SirketKodu, string chk)
         {
             if (CheckPerm(Perms.ChartAylikSatisCHKAnaliziBar, PermTypes.Reading) == false) return null;
-            chk = chk.ToString2();
             List<ChartAylikSatisAnalizi> liste;
-            try
-            {
-                liste = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_CHK] @chk='{1}'", SirketKodu, chk)).ToList();
-            }
-            catch (Exception)
-            {
+            if (chk == "")
                 liste = new List<ChartAylikSatisAnalizi>();
-            }
+            else
+                try
+                {
+                    liste = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_CHK] @chk='{1}'", SirketKodu, chk)).ToList();
+                }
+                catch (Exception)
+                {
+                    liste = new List<ChartAylikSatisAnalizi>();
+                }
             ViewBag.CHK = chk;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
@@ -247,7 +249,7 @@ namespace Wms12m.Presentation.Controllers
             List<ChartAylikSatisAnalizi> GSADK;
             try
             {
-                GSADK = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = '{1}', @Kriter = '{2}', @IslemTip = '{3}'", SirketKodu, kod, doviz, islemtip)).ToList();
+                GSADK = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = '{1}', @Kriter = '{2}', @IslemTip = {3}", SirketKodu, kod, doviz, islemtip)).ToList();
             }
             catch (Exception ex)
             {
@@ -265,15 +267,16 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialUrunGrubuSatis(string SirketKodu, short tarih)
         {
             if (CheckPerm(Perms.ChartUrunGrubuSatis, PermTypes.Reading) == false) return null;
-            List<ChartUrunGrubuSatisAnalizi> UGS;
-            try
-            {
-                UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
-            }
-            catch (Exception)
-            {
-                UGS = new List<ChartUrunGrubuSatisAnalizi>();
-            }
+            var UGS = db.GetCachedChartUrunGrubu(SirketKodu, tarih).ToList();
+            if (UGS.Count == 0)
+                try
+                {
+                    UGS = db.Database.SqlQuery<GetCachedChartUrunGrubu_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
+                }
+                catch (Exception)
+                {
+                    UGS = new List<GetCachedChartUrunGrubu_Result>();
+                }
             ViewBag.Tarih = tarih;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
@@ -283,15 +286,16 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialUrunGrubuSatisKriter(string SirketKodu, short tarih, string kriter)
         {
             if (CheckPerm(Perms.ChartUrunGrubuSatisKriter, PermTypes.Reading) == false) return null;
-            List<ChartUrunGrubuSatisAnalizi> UGS;
-            try
-            {
-                UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", SirketKodu, tarih, kriter)).ToList();
-            }
-            catch (Exception)
-            {
-                UGS = new List<ChartUrunGrubuSatisAnalizi>();
-            }
+            var UGS = db.GetCachedChartUrunGrubuKriter(SirketKodu, tarih, kriter).ToList();
+            if (UGS.Count == 0)
+                try
+                {
+                    UGS = db.Database.SqlQuery<GetCachedChartUrunGrubuKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_UrunGrubu_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
+                }
+                catch (Exception)
+                {
+                    UGS = new List<GetCachedChartUrunGrubuKriter_Result>();
+                }
             ViewBag.Tarih = tarih;
             ViewBag.Kriter = kriter;
             ViewBag.SirketKodu = SirketKodu;
@@ -302,33 +306,35 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialLokasyonSatis(string SirketKodu, short tarih)
         {
             if (CheckPerm(Perms.ChartLokasyonSatis, PermTypes.Reading) == false) return null;
-            List<ChartUrunGrubuSatisAnalizi> UGS;
-            try
-            {
-                UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
-            }
-            catch (Exception)
-            {
-                UGS = new List<ChartUrunGrubuSatisAnalizi>();
-            }
+            var UGS = db.GetCachedChartLocation(SirketKodu, tarih).ToList();
+            if (UGS.Count == 0)
+                try
+                {
+                    UGS = db.Database.SqlQuery<GetCachedChartLocation_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi] @Ay = {1}", SirketKodu, tarih)).ToList();
+                }
+                catch (Exception)
+                {
+                    UGS = new List<GetCachedChartLocation_Result>();
+                }
             ViewBag.Tarih = tarih;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialLokasyonSatis", UGS);
         }
 
-        public PartialViewResult PartialLokasyonSatisKriter(string SirketKodu, short tarih, string kriter)
+        public PartialViewResult PartialLokasyonSatisKriter(string SirketKodu, int tarih, string kriter)
         {
             if (CheckPerm(Perms.ChartLokasyonSatisKriter, PermTypes.Reading) == false) return null;
-            List<ChartUrunGrubuSatisAnalizi> UGS;
-            try
-            {
-                UGS = db.Database.SqlQuery<ChartUrunGrubuSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter={2}", SirketKodu, tarih, kriter)).ToList();
-            }
-            catch (Exception)
-            {
-                UGS = new List<ChartUrunGrubuSatisAnalizi>();
-            }
+            var UGS = db.GetCachedChartLocationKriter(SirketKodu, tarih, kriter).ToList();
+            if (UGS.Count == 0)
+                try
+                {
+                    UGS = db.Database.SqlQuery<GetCachedChartLocationKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_LokasyonBazli_SatisAnalizi_Kriter] @Ay = {1}, @Kriter='{2}'", SirketKodu, tarih, kriter)).ToList();
+                }
+                catch (Exception)
+                {
+                    UGS = new List<GetCachedChartLocationKriter_Result>();
+                }
             ViewBag.Tarih = tarih;
             ViewBag.Kriter = kriter;
             ViewBag.SirketKodu = SirketKodu;
@@ -340,7 +346,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm(Perms.ChartBakiyeRiskAnalizi, PermTypes.Reading) == false) return null;
             var BRA = db.GetCachedChartBakiyeRisk(SirketKodu).ToList();
-            if (BRA == null)
+            if (BRA.Count == 0)
                 try
                 {
                     BRA = db.Database.SqlQuery<GetCachedChartBakiyeRisk_Result>(string.Format("[FINSAT6{0}].[wms].[DB_BakiyeRiskAnalizi]", SirketKodu)).ToList();
@@ -530,7 +536,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return null;
             var BUGS = db.GetCachedChartSatisBaglanti(SirketKodu).ToList();
-            if (BUGS == null)
+            if (BUGS.Count == 0)
                 try
                 {
                     BUGS = db.Database.SqlQuery<GetCachedChartSatisBaglanti_Result>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", SirketKodu)).ToList();
@@ -549,7 +555,7 @@ namespace Wms12m.Presentation.Controllers
         {
             if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return null;
             var BUGS = db.GetCachedChartSatisBaglanti(SirketKodu).ToList();
-            if (BUGS == null)
+            if (BUGS.Count == 0)
                 try
                 {
                     BUGS = db.Database.SqlQuery<GetCachedChartSatisBaglanti_Result>(string.Format("[FINSAT6{0}].[wms].[DB_SatisBaglanti_UrunGrubu]", SirketKodu)).ToList();

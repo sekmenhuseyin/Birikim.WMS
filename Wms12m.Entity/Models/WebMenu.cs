@@ -31,12 +31,12 @@ namespace Wms12m.Entity.Models
         public Nullable<short> UstMenuID { get; set; }
         public bool Aktif { get; set; }
     
+        public virtual ComboItem_Name ComboItem_Name { get; set; }
+        public virtual ComboItem_Name ComboItem_Name1 { get; set; }
         public virtual Simge Simge { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WebMenu> WebMenu1 { get; set; }
         public virtual WebMenu WebMenu2 { get; set; }
-        public virtual ComboItem_Name ComboItem_Name { get; set; }
-        public virtual ComboItem_Name ComboItem_Name1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Role> Roles { get; set; }
     }
