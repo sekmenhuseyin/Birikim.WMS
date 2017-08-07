@@ -30,7 +30,6 @@
         PartialView("/Home/PartialAylikSatisAnaliziBar", 'aylik_satis_bar', JSON.stringify({ SirketKodu: v }));
     }
     var model = @Html.Raw(Json.Encode(Model));
-    console.log(model);
     var aylar = new Array();
     var Yil2015 = new Array();
     var Yil2016 = new Array();
@@ -47,7 +46,6 @@
             echarts: '/content/assets/global/plugins/echarts'
         }
     });
-
     require(
         [
             'echarts',
@@ -55,7 +53,6 @@
             'echarts/chart/bar'
         ],
         function (ec) {
-            //--- BAR ---
             var myChart = ec.init(document.getElementById('echarts_bar'));
             myChart.setOption({
                 tooltip: {

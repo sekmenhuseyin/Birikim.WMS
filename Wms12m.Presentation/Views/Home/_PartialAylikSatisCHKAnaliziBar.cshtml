@@ -49,7 +49,6 @@
                         PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', chk: e.value }));
                     }
                 },
-
                 itemTemplate: function (itemData, itemIndex, itemElement) {
                     itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
                     if(itemIndex>0)
@@ -66,7 +65,6 @@
 
         }
     });
-
     var model = @Html.Raw(Json.Encode(Model));
     var aylar = new Array();
     var Yil2015 = new Array();
@@ -78,7 +76,6 @@
         Yil2016.push(val.Yil2016);
         Yil2017.push(val.Yil2017);
     });
-
     require.config({
         paths: {
             echarts: '/content/assets/global/plugins/echarts'
@@ -91,7 +88,6 @@
             'echarts/chart/bar'
         ],
         function(ec) {
-            //--- BAR ---
             var myChart = ec.init(document.getElementById('echarts_bar_chk'));
             myChart.setOption({
                 tooltip: {
