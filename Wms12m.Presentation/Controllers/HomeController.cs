@@ -680,13 +680,7 @@ namespace Wms12m.Presentation.Controllers
             var json = new JavaScriptSerializer().Serialize(Kriter);
             return json;
         }
-        public string GunlukSatisAnaliziDoubleKriter(string SirketKodu)
-        {
-            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisAnaliziKriterSelect]", SirketKodu)).ToList();
-            var json = new JavaScriptSerializer().Serialize(Kriter);
-            return json;
-        }
-        public string AylikSatisAnaliziKodTipDovizKriter(string SirketKodu)
+        public string GunlukSatisAnaliziKriterSelect(string SirketKodu)
         {
             var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[GunlukSatisAnaliziKriterSelect]", SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(Kriter);

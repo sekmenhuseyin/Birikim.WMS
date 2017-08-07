@@ -66,7 +66,7 @@
         var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
         var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
         $.ajax({
-            url: "/Home/AylikSatisAnaliziKodTipDovizKriter",
+            url: "/Home/GunlukSatisAnaliziKriterSelect",
             data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
