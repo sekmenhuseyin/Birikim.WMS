@@ -43,6 +43,7 @@ namespace Wms12m.Presentation
                 .Include("~/Content/assets/global/plugins/bootstrap/js/bootstrap.min.js")
                 .Include("~/Content/assets/global/plugins/bootbox/bootbox.min.js")
                 .Include("~/Content/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js")
+                .Include("~/Content/assets/global/plugins/jquery.blockui.min.js")
                 .Include("~/Content/assets/global/plugins/js.cookie.min.js")
                 //datatables
                 .Include("~/Content/assets/global/plugins/datatables/dataTables.min.js")
