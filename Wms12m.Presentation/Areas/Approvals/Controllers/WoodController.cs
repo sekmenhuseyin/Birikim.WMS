@@ -527,7 +527,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return Json(_Result, JsonRequestBehavior.AllowGet);
 
         }
-        
+
         public ActionResult NakliyeFiyatlar()
         {
             // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
@@ -618,7 +618,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             // if (CheckPerm(Perms.FiyatOnaylamaGM, PermTypes.Reading) == false) return null;
             return PartialView();
         }
-        public string DisDepoStokMaliyetCek(string MalKoduBas, string MalKoduBit, bool isletmeBazli, bool depoBazli, Nullable<DateTime> datebas, Nullable<DateTime> datebit)
+        public string DisDepoStokMaliyetCek(string MalKoduBas, string MalKoduBit, bool isletmeBazli, bool depoBazli, Nullable<int> datebas, Nullable<int> datebit)
         {
 
             List<MySti> list = new List<MySti>();
@@ -637,11 +637,11 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             string tarihsql = "";
             if (datebas != null && datebit != null)
-                tarihsql = string.Format("AND STI.Tarih BETWEEN {0:F00} AND {1:F00}", ((DateTime)datebas).ToOADate(), ((DateTime)datebit).ToOADate());
+                tarihsql = string.Format("AND STI.Tarih BETWEEN {0} AND {1}", datebas, datebit);
             else if (datebas == null && datebit != null)
-                tarihsql = string.Format("AND STI.Tarih <= {0:F00}", ((DateTime)datebit).ToOADate());
+                tarihsql = string.Format("AND STI.Tarih <= {0}", datebit);
             else if (datebas != null && datebit == null)
-                tarihsql = string.Format("AND STI.Tarih >= {0:F00}", ((DateTime)datebas).ToOADate());
+                tarihsql = string.Format("AND STI.Tarih >= {0}", datebas);
 
 
             string sorgu = "";
@@ -722,24 +722,39 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 List<MySti> list2 = new List<MySti>();
                 RT = db.Database.SqlQuery<MySti>(sorgu).ToList();
-                while (RT.Count() > 0)
+                if (RT.Count() > 0)
                 {
-                    foreach (MySti item in RT)
+                    int Sayac = 0;
+                    try
                     {
-                        MySti sti = new MySti();
-                        sti.Chk = item.Chk;
-                        sti.Unvan = item.Unvan;
-                        sti.Depo = item.Depo;
-                        sti.MalKodu = item.MalKodu;
-                        sti.Tutar = item.Tutar;
-                        sti.BirimMiktar = item.BirimMiktar;
-                        sti.MalAdi = item.MalAdi;
-                        sti.Birim = item.Birim;
-                        sti.BirimFiyat = item.BirimFiyat;
-                        sti.DepoAdi = item.DepoAdi;
+                        foreach (MySti item in RT)
+                        {
 
-                        list2.Add(sti);
+
+                            MySti sti = new MySti();
+                            sti.Chk = item.Chk;
+                            sti.Unvan = item.Unvan;
+                            sti.Depo = item.Depo;
+                            sti.MalKodu = item.MalKodu;
+                            sti.Tutar = item.Tutar;
+                            sti.BirimMiktar = item.BirimMiktar;
+                            sti.MalAdi = item.MalAdi;
+                            sti.Birim = item.Birim;
+                            sti.BirimFiyat = item.BirimFiyat;
+                            sti.DepoAdi = item.DepoAdi;
+
+                            list2.Add(sti);
+
+
+                            Sayac++;
+                        }
                     }
+                    catch (Exception ex)
+                    {
+
+
+                    }
+
 
                 }
 

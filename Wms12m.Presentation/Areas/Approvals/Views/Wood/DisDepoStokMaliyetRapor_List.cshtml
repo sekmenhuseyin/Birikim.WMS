@@ -19,14 +19,15 @@
 
 </div>
 <script>
-    
+    console.log(Datebas);
+    console.log(Datebit);
     var secili_satir = new Array();
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approvals/Wood/DisDepoStokMaliyetCek',
-            "data": { MalKoduBas: MalKoduBas, MalKoduBit: MalKoduBit, isletmeBazli: isletmeBazli, depoBazli: depoBazli, Datebas: Datebas, Datebit: Datebit },
+            "data": { MalKoduBas: MalKoduBas, MalKoduBit: MalKoduBit, isletmeBazli: isletmeBazli, depoBazli: depoBazli, datebas: Datebas, datebit: Datebit },
             "dataSrc": function (json) {
 
                 return json;
