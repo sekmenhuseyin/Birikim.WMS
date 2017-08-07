@@ -195,7 +195,7 @@ namespace Wms12m.Presentation.Controllers
                                     DegisTarih = tarih
                                 };
                                 //ekle
-                                if (sti.En != 0 || sti.Boy != 0 || sti.Derinlik != 0 || sti.Derinlik != 0)
+                                if (sti.En != 0 || sti.Boy != 0 || sti.Derinlik != 0 || sti.Agirlik != 0)
                                 {
                                     db.Olcus.Add(sti);
                                     db.SaveChanges();
