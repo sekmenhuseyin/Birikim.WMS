@@ -30,7 +30,8 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             string Locked = "";
             try
             {
-                if (Id.IndexOf("#") > -1)
+                if (Id.Right(1) == "#") { }
+                else if (Id.IndexOf("#") > -1)
                 {
                     StoreId = Convert.ToInt32(Id.Split('#')[1]);
                     Locked = Id.Split('#')[0];

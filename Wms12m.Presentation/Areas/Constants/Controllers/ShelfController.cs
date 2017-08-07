@@ -31,18 +31,18 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             List<Raf> _List = new List<Raf>();
             try
             {
-                if (Id.IndexOf("#") > -1)
+                if (Id.Right(1) == "#") { }
+                else if (Id.IndexOf("#") > -1)
                 {
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
                     Locked = Id.Split('#')[0];
                     _List = Locked == "Locked" ? Shelf.GetListByDepo(StoreId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Shelf.GetListByDepo(StoreId).Where(a => a.Aktif == false).ToList() : Shelf.GetListByDepo(StoreId).ToList();
-                    return PartialView("_ShelfGridPartial", _List);
                 }
                 else
                 {
                     _List = Shelf.GetListByDepo(Convert.ToInt16(Id));
-                    return PartialView("_ShelfGridPartial", _List);
                 }
+                return PartialView("_ShelfGridPartial", _List);
             }
             catch (Exception ex)
             {
@@ -121,7 +121,7 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
                     List.Add(new SelectListItem
                     {
                         Selected = false,
-                        Text = item.Koridor.KoridorAd + "-" +item.RafAd,
+                        Text = item.Koridor.KoridorAd + "-" + item.RafAd,
                         Value = item.ID.ToString()
                     });
                 }
