@@ -10,7 +10,6 @@ Candan Altıntaş
 Gizem Altıntaş
 Emre Ünal
 /* SITE */
-Name: 12M Yönetim Paneli
+Name: ERP Yönetim Paneli
 Language: Turkish
 Web: http://www.12mconsulting.com.tr/
-Last update: 2017/08/01
