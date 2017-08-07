@@ -107,7 +107,7 @@
         var EvrakNo = $(this).find("td").eq(1).text();
         $.ajax({
             type: 'POST',
-            url: '/Reports/SiparisKampanyaDetay',
+            url: '/Reports/Financial/SiparisKampanyaDetay',
             data: { "CHK": CHK, "EvrakNo": EvrakNo, "bastarih": basTarih, "bittarih": bitTarih },
             dataType: "html",
             success: function (data) {
