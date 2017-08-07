@@ -49,7 +49,6 @@
                         PartialView("/Home/PartialAylikSatisCHKAnaliziBar", 'aylik_satis_chk_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', chk: e.value }));
                     }
                 },
-
                 itemTemplate: function (itemData, itemIndex, itemElement) {
                     itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
                     if(itemIndex>0)
@@ -66,113 +65,113 @@
 
         }
     });
-
-    var model = @Html.Raw(Json.Encode(Model));
-    var aylar = new Array();
-    var Yil2015 = new Array();
-    var Yil2016 = new Array();
-    var Yil2017 = new Array();
-    jQuery.each( model, function( i, val ) {
-        aylar.push(val.Ay);
-        Yil2015.push(val.Yil2015);
-        Yil2016.push(val.Yil2016);
-        Yil2017.push(val.Yil2017);
-    });
-
-    require.config({
-        paths: {
-            echarts: '/content/assets/global/plugins/echarts'
-        }
-    });
-    require(
-        [
-            'echarts',
-            'echarts/chart/line',
-            'echarts/chart/bar'
-        ],
-        function(ec) {
-            //--- BAR ---
-            var myChart = ec.init(document.getElementById('echarts_bar_chk'));
-            myChart.setOption({
-                tooltip: {
-                    show: true
-                },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        magicType: {
-                            show: true,
-                            title: 'Dönüştür',
-                            type: ['line', 'bar']
-                        },
-                        saveAsImage: {
-                            title: 'Resim olarak kaydet',
+    @if(Html.Raw(Json.Encode(Model)).ToString() != "[]")
+    {<text>
+        var model = @Html.Raw(Json.Encode(Model));
+        var aylar = new Array();
+        var Yil2015 = new Array();
+        var Yil2016 = new Array();
+        var Yil2017 = new Array();
+        jQuery.each( model, function( i, val ) {
+            aylar.push(val.Ay);
+            Yil2015.push(val.Yil2015);
+            Yil2016.push(val.Yil2016);
+            Yil2017.push(val.Yil2017);
+        });
+        require.config({
+            paths: {
+                echarts: '/content/assets/global/plugins/echarts'
+            }
+        });
+        require(
+            [
+                'echarts',
+                'echarts/chart/line',
+                'echarts/chart/bar'
+            ],
+            function(ec) {
+                var myChart = ec.init(document.getElementById('echarts_bar_chk'));
+                myChart.setOption({
+                    tooltip: {
+                        show: true
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            magicType: {
+                                show: true,
+                                title: 'Dönüştür',
+                                type: ['line', 'bar']
+                            },
+                            saveAsImage: {
+                                title: 'Resim olarak kaydet',
+                                show: true
+                            }
+                        }
+                    },
+                    legend: {
+                        data: ['2015', '2016', '2017']
+                    },
+                    calculable: true,
+                    xAxis: [{
+                        type: 'category',
+                        data: aylar
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        splitArea: {
                             show: true
                         }
-                    }
-                },
-                legend: {
-                    data: ['2015', '2016', '2017']
-                },
-                calculable: true,
-                xAxis: [{
-                    type: 'category',
-                    data: aylar
-                }],
-                yAxis: [{
-                    type: 'value',
-                    splitArea: {
-                        show: true
-                    }
-                }],
-                series: [{
-                    name: '2015',
-                    type: 'bar',
-                    data: Yil2015,
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '2015'},
-                            {type : 'min', name: '2015'}
-                        ]
-                    },
-                    markLine : {
-                        data : [
-                            {type : 'average', name: '2015'}
-                        ]
-                    }
-                }, {
-                    name: '2016',
-                    type: 'bar',
-                    data: Yil2016,
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '2016'},
-                            {type : 'min', name: '2016'}
-                        ]
-                    },
-                    markLine : {
-                        data : [
-                            {type : 'average', name: '2016'}
-                        ]
-                    }
-                }, {
-                    name: '2017',
-                    type: 'bar',
-                    data: Yil2017,
-                    markPoint : {
-                        data : [
-                            {type : 'max', name: '2017'},
-                            {type : 'min', name: '2017'}
-                        ]
-                    },
-                    markLine : {
-                        data : [
-                            {type : 'average', name: '2017'}
-                        ]
-                    }
-                }]
-            });
+                    }],
+                    series: [{
+                        name: '2015',
+                        type: 'bar',
+                        data: Yil2015,
+                        markPoint : {
+                            data : [
+                                {type : 'max', name: '2015'},
+                                {type : 'min', name: '2015'}
+                            ]
+                        },
+                        markLine : {
+                            data : [
+                                {type : 'average', name: '2015'}
+                            ]
+                        }
+                    }, {
+                        name: '2016',
+                        type: 'bar',
+                        data: Yil2016,
+                        markPoint : {
+                            data : [
+                                {type : 'max', name: '2016'},
+                                {type : 'min', name: '2016'}
+                            ]
+                        },
+                        markLine : {
+                            data : [
+                                {type : 'average', name: '2016'}
+                            ]
+                        }
+                    }, {
+                        name: '2017',
+                        type: 'bar',
+                        data: Yil2017,
+                        markPoint : {
+                            data : [
+                                {type : 'max', name: '2017'},
+                                {type : 'min', name: '2017'}
+                            ]
+                        },
+                        markLine : {
+                            data : [
+                                {type : 'average', name: '2017'}
+                            ]
+                        }
+                    }]
+                });
 
-        }
-    );
+            }
+        );
+    </text>}
 </script>

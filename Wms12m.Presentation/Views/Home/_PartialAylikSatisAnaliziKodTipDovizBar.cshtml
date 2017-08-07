@@ -108,14 +108,11 @@
                 PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
             }
         });
-
         require.config({
             paths: {
                 echarts: '/content/assets/global/plugins/echarts'
             }
         });
-
-        // DEMOS
         require(
             [
                 'echarts',
@@ -123,7 +120,6 @@
                 'echarts/chart/bar'
             ],
             function(ec) {
-                //--- BAR ---
                 var myChart = ec.init(document.getElementById('echarts_bar2'));
                 myChart.setOption({
                     tooltip: {

@@ -34,19 +34,19 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             List<Bolum> _List = new List<Bolum>();
             try
             {
-                if (Id.IndexOf("#") > -1)
+                if (Id.Right(1) == "#") { }
+                else if (Id.IndexOf("#") > -1)
                 {
                     Locked = Id.Split('#')[0];
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
                     ShelfId = Convert.ToInt16(Id.Split('#')[2]);
                     _List = Locked == "Locked" ? SectionOperation.GetList(ShelfId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? SectionOperation.GetList(ShelfId).Where(a => a.Aktif == false).ToList() : SectionOperation.GetList(ShelfId).ToList();
-                    return PartialView("_SectionGridPartial", _List);
                 }
                 else
                 {
                     _List = SectionOperation.GetList(Convert.ToInt16(Id));
-                    return PartialView("_SectionGridPartial", _List);
                 }
+                return PartialView("_SectionGridPartial", _List);
             }
             catch (Exception ex)
             {

@@ -97,8 +97,6 @@
                 echarts: '/content/assets/global/plugins/echarts'
             }
         });
-
-        // DEMOS
         require(
             [
                 'echarts',
@@ -106,7 +104,6 @@
                 'echarts/chart/bar'
             ],
             function(ec) {
-                //--- BAR ---
                 var myChart = ec.init(document.getElementById('echarts_bar_urungrubu_kriter'));
                 myChart.setOption({
                     tooltip: {
