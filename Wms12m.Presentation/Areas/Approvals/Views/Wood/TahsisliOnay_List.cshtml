@@ -16,6 +16,7 @@
                 <th>İşletme Ünvan </th>
                 <th>İbreli Miktar Ster </th>
                 <th>İbreli Miktar M3</th>
+                <th>Yapraklı Miktar Ster</th>
                 <th>Yapraklı Miktar M3</th>
                 <th>Miktar</th>
                 <th>Birim Fiyat</th>
@@ -67,7 +68,7 @@
                 return json;
             },
         },
-        "columnDefs": [{ "visible": false, "targets": [0] }, { "type": "num-fmt", "className": "dt-right", "targets": [5, 6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24,25,26,27,28,29,30,31,32,33] }],
+        "columnDefs": [{ "visible": false, "targets": [0] }, { "type": "num-fmt", "className": "dt-right", "targets": [5, 6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29,30,31,32,33,34] }],
         "columns": [
             { "data": "ID" },
             { "data": "Yil" },
@@ -76,6 +77,7 @@
             { "data": "OrmIsltUnvan" },
             { "data": "IbreliMiktarSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "IbreliMiktarM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "YaprakliMiktarSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') }, 
             { "data": "YaprakliMiktarM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "Miktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "TahBirimFiyat", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
