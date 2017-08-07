@@ -410,7 +410,7 @@ if (tst.CrmOzet == true)
 <script src="~/Content/assets/global/plugins/amcharts/amcharts/themes/light.js"></script>
 <script src="~/Content/assets/global/plugins/amcharts/amstockcharts/amstock.js"></script>
 <script src="~/Content/assets/global/plugins/echarts/echarts.js"></script>
-<script src="~/Content/assets/global/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script><script>@{
+<script src="~/Content/assets/global/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script><script>$(document).ready(function (e) {@{
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>PartialView('/Home/PartialGunlukSatis', 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>PartialView('/Home/PartialGunlukSatisPie', 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
     if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>PartialView('/Home/PartialGunlukSatisZamanCizelgesi', 'gunluk_satis_zaman_cizelgesi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
@@ -440,4 +440,4 @@ if (tst.CrmOzet == true)
     if (Model.yetki.Contains("'ChartBaglantiZamanCizelgesi'") == true){<text>PartialView('/Home/PartialBaglantiZamanCizelgesi', 'baglanti_zaman_cizelgesi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));</text>}
     if (Model.yetki.Contains("'ChartBolgeBazliSatisAnalizi'") == true){<text>PartialView('/Home/PartialBolgeBazliSatisAnalizi', 'bolge_bazli_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: dateVal.getMonth(), kriter: 'Tümü' }));</text>}
     if (Model.yetki.Contains("'ChartBolgeBazliSatisAnalizi'") == true){<text>PartialView('/Home/PartialBolgeBazliSatisAnaliziPie', 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: dateVal.getMonth(), kriter: 'Tümü' }));</text>}
-}</script>}
+}});</script>}

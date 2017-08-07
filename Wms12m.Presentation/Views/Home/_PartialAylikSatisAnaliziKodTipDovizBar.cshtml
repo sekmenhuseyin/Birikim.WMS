@@ -32,9 +32,9 @@
     </div>
 </div>
 <script>
-    var islemtip_value= '@ViewBag.IslemTip';
+    var islemtip_value= @ViewBag.IslemTip;
     var doviz_value= @Html.Raw(Json.Encode(ViewBag.Doviz));
-    var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
+    var kriter_value =@Html.Raw(Json.Encode(ViewBag.Kriter));
     if ($('.SirketID9 option').size() == 1) $(".SirketID9").hide();
     else $(".SirketID9").val('@ViewBag.SirketKodu');
     function Reload9(v)
