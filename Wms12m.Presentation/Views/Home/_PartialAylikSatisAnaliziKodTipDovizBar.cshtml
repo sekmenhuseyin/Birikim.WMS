@@ -1,4 +1,4 @@
-﻿@model List<ChartAylikSatisAnalizi>
+﻿@model List<GetCachedChartMonthlyByKriter_Result>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light bordered">
@@ -49,10 +49,10 @@
                 color: color[i%color.length]
             });
         }
-        @*if(model.length==1 && model[0].GenelTutar==null)
+        if(model.length==1 && model[0].GenelTutar==null)
         {
             model = @Html.Raw(Json.Encode(null));
-        }*@
+        }
         var aylar = new Array();
         var Yil2015 = new Array();
         var Yil2016 = new Array();

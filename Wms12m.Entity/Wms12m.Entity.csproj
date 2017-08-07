@@ -199,6 +199,9 @@
     <Compile Include="Models\GetCachedChartLocation_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GetCachedChartMonthlyByKriter_Result.cs">
+      <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GetCachedChartMonthly_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>

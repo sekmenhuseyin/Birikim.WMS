@@ -1286,6 +1286,12 @@
         <Function Name="GetCachedChartMonthly" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="GetCachedChartMonthlyByKriter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
+          <Parameter Name="DB" Type="varchar" Mode="In" />
+          <Parameter Name="Grup" Type="varchar" Mode="In" />
+          <Parameter Name="Kriter" Type="varchar" Mode="In" />
+          <Parameter Name="IslemTip" Type="smallint" Mode="In" />
+        </Function>
         <Function Name="GetCachedChartSatisBaglanti" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="wms">
           <Parameter Name="DB" Type="varchar" Mode="In" />
         </Function>
@@ -2079,6 +2085,12 @@
             <Parameter Name="DB" Mode="In" Type="String" />
             <Parameter Name="Ay" Mode="In" Type="Int32" />
             <Parameter Name="Kriter" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetCachedChartMonthlyByKriter" ReturnType="Collection(MModel.GetCachedChartMonthlyByKriter_Result)">
+            <Parameter Name="DB" Mode="In" Type="String" />
+            <Parameter Name="Grup" Mode="In" Type="String" />
+            <Parameter Name="Kriter" Mode="In" Type="String" />
+            <Parameter Name="IslemTip" Mode="In" Type="Int16" />
           </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
@@ -3521,6 +3533,12 @@
           <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
           <Property Type="Decimal" Name="Toplam" Nullable="false" Precision="25" Scale="6" />
         </ComplexType>
+        <ComplexType Name="GetCachedChartMonthlyByKriter_Result">
+          <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Yil2015" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2016" Nullable="false" Precision="25" Scale="6" />
+          <Property Type="Decimal" Name="Yil2017" Nullable="false" Precision="25" Scale="6" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4470,6 +4488,16 @@
                 <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
                 <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
                 <ScalarProperty Name="Toplam" ColumnName="Toplam" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetCachedChartMonthlyByKriter" FunctionName="MModel.Store.GetCachedChartMonthlyByKriter">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MModel.GetCachedChartMonthlyByKriter_Result">
+                <ScalarProperty Name="Ay" ColumnName="Ay" />
+                <ScalarProperty Name="Yil2015" ColumnName="Yil2015" />
+                <ScalarProperty Name="Yil2016" ColumnName="Yil2016" />
+                <ScalarProperty Name="Yil2017" ColumnName="Yil2017" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

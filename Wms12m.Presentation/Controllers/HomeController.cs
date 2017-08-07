@@ -246,16 +246,17 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialAylikSatisAnaliziKodTipDovizBar(string SirketKodu, string kod, int islemtip, string doviz)
         {
             if (CheckPerm(Perms.ChartAylikSatisAnaliziKodTipDovizBar, PermTypes.Reading) == false) return null;
-            List<ChartAylikSatisAnalizi> GSADK;
-            try
-            {
-                GSADK = db.Database.SqlQuery<ChartAylikSatisAnalizi>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = '{1}', @Kriter = '{2}', @IslemTip = {3}", SirketKodu, kod, doviz, islemtip)).ToList();
-            }
-            catch (Exception ex)
-            {
-                Logger(ex, "Home/PartialAylikSatisAnaliziKodTipDovizBar");
-                GSADK = new List<ChartAylikSatisAnalizi>();
-            }
+            var GSADK = db.GetCachedChartMonthlyByKriter(SirketKodu, kod, doviz, islemtip.ToShort()).ToList();
+            if (GSADK.Count == 0)
+                try
+                {
+                    GSADK = db.Database.SqlQuery<GetCachedChartMonthlyByKriter_Result>(string.Format("[FINSAT6{0}].[wms].[DB_Aylik_SatisAnalizi_Tip_Kod_Doviz] @Grup = '{1}', @Kriter = '{2}', @IslemTip = {3}", SirketKodu, kod, doviz, islemtip)).ToList();
+                }
+                catch (Exception ex)
+                {
+                    Logger(ex, "Home/PartialAylikSatisAnaliziKodTipDovizBar");
+                    GSADK = new List<GetCachedChartMonthlyByKriter_Result>();
+                }
             ViewBag.Doviz = doviz;
             ViewBag.IslemTip = islemtip;
             ViewBag.Kriter = kod;

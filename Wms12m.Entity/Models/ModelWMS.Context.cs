@@ -808,5 +808,26 @@ namespace Wms12m.Entity.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartUrunGrubuKriter_Result>("WMSEntities.GetCachedChartUrunGrubuKriter", dBParameter, ayParameter, kriterParameter);
         }
+    
+        public virtual ObjectResult<GetCachedChartMonthlyByKriter_Result> GetCachedChartMonthlyByKriter(string dB, string grup, string kriter, Nullable<short> islemTip)
+        {
+            var dBParameter = dB != null ?
+                new ObjectParameter("DB", dB) :
+                new ObjectParameter("DB", typeof(string));
+    
+            var grupParameter = grup != null ?
+                new ObjectParameter("Grup", grup) :
+                new ObjectParameter("Grup", typeof(string));
+    
+            var kriterParameter = kriter != null ?
+                new ObjectParameter("Kriter", kriter) :
+                new ObjectParameter("Kriter", typeof(string));
+    
+            var islemTipParameter = islemTip.HasValue ?
+                new ObjectParameter("IslemTip", islemTip) :
+                new ObjectParameter("IslemTip", typeof(short));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartMonthlyByKriter_Result>("WMSEntities.GetCachedChartMonthlyByKriter", dBParameter, grupParameter, kriterParameter, islemTipParameter);
+        }
     }
 }
