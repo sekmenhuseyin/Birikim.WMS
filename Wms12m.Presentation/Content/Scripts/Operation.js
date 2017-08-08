@@ -13,7 +13,6 @@ function editInModal(URL) {
         url: URL,
         datatype: "html",
         success: function (data) {
-            console.log(data);
             $("#modalEditPage").html(data);
         }
     });
@@ -71,9 +70,10 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
         if (Status) {
             if (Method == "")
                 window.location.reload();
+            else if (DivName == "")
+                Method();
             else
             {
-                console.log(Method);
                 PartialView(Method, DivName, JSON.stringify({ Id: extraId }));
             }
         }

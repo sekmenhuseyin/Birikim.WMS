@@ -87,9 +87,7 @@
             $("#CreateEditAlt [type='submit']").text("Ekle");
         }
         else if (Id == "kayit") {
-            console.log("araraa");
             editInModal('/ToDo/ProjectForm/FormIndex/@ViewBag.id');
-              @*PartialView("/ToDo/ProjectForm/ListAlt/@ViewBag.id", 'listealt');*@
         }
         else {
             { PartialView("/ToDo/ProjectForm/FormEdit", 'CreateEditAlt', JSON.stringify({ Id: Id })); }
