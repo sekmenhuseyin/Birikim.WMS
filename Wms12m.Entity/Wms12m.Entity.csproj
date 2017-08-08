@@ -70,75 +70,6 @@
     <Compile Include="Models\Bolum.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CAR002.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR003.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR004.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR005.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR006.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR036.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR121.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR123.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR124.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR151.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR152.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR153.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR154.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR155.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR156.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR201.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR202.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR203.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR204.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR205.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR208.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR210.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CAR211.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ComboItem_Name.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -157,32 +88,8 @@
     <Compile Include="Models\CRM_TeklifAnaliz_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DEM006.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Depo.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DVZ002.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EvrakIni.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GEN14CAR.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GEN14DVZ.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GEN14MHS.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GEN14SCS.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GEN14STK.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetAppLog_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
@@ -283,113 +190,17 @@
     <Compile Include="Models\IRS_Detay.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ISL006.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Kat.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\KGT14.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Koridor.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MBO006.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MenuGetirici_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MenuRolGetir_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS002.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS003.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS004.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS005.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS006.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS007.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS009.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS010.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS151.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS156.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS161.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS171.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS181.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS191.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS201.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS202.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS204.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS210.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS211.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS212.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS213.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS214.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS215.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS216.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS217.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS218.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS219.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS224.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MHS244.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ModelYeniNesil.Context.cs">
       <AutoGen>True</AutoGen>
@@ -412,18 +223,6 @@
     <Compile Include="Models\Olcu.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PER002.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PER003.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PER004.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PER006.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Perm.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -439,24 +238,6 @@
     <Compile Include="Models\RolePerm.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SCS002.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SCS003.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SCS004.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SCS005.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SCS006.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SCS051.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Setting.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -464,39 +245,6 @@
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STK002.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STK003.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STK004.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STK005.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STK006.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STK007.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STK008.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STK010.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STK027.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STK150.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\STK160.cs">
-      <DependentUpon>ModelYeniNesil.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Tahsilat.cs">
       <DependentUpon>ModelYeniNesil.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Transfer.cs">

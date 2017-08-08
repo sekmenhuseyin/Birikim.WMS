@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs8C4C.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs31E3.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs8C4C.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs31E3.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -421,6 +421,7 @@
     <Content Include="Areas\ToDo\Views\ProjectForm\FormIndex.cshtml" />
     <Content Include="Areas\System\Views\Settings\Sql.cshtml" />
     <Content Include="Areas\YN\Views\web.config" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Index.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -485,6 +486,7 @@
     <Compile Include="Areas\ToDo\Controllers\DutiesController.cs" />
     <Compile Include="Areas\ToDo\Controllers\DutyWorkController.cs" />
     <Compile Include="Areas\ToDo\Controllers\SubProjectFormController.cs" />
+    <Compile Include="Areas\YN\Controllers\OnayBekleyenlerController.cs" />
     <Compile Include="Areas\YN\YNAreaRegistration.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Areas\System\Controllers\LogsController.cs" />
@@ -803,7 +805,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\ToDo\Views\GörevTakvimi\" />
-    <Folder Include="Areas\YN\Controllers\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
