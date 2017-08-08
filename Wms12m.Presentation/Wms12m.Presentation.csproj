@@ -585,7 +585,6 @@
     <Content Include="Areas\WMS\Views\Purchase\SiparisList.cshtml" />
     <Content Include="Areas\Constants\Views\Size\Index.cshtml" />
     <Content Include="Areas\Constants\Views\Size\_Edit.cshtml" />
-    <Content Include="Areas\Constants\Views\Size\_List.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Areas\WMS\Views\Sales\Index.cshtml" />
     <Content Include="Areas\WMS\Views\Sales\_Siparis.cshtml" />
