@@ -78,6 +78,7 @@
     var secili_table = new Array();
     var HFT = '@ViewBag.Hafta';
     var PTH = '@ViewBag.Path';
+    console.log(PTH);
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
@@ -181,11 +182,7 @@
             switch (key) {
                 case 'teminat':
 
-                    if (satir.TahTemMektupDosya == null) {
-                        return;
-                    }
-                    var UrlDosya= PTH + "../Belgeler/Tahsisli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TahTemMektupDosya;
-                    console.log(UrlDosya);
+                    window.open("/Belgeler/Tahsisli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TahTemMektupDosya);
                     break;
                 default:
                     break;
