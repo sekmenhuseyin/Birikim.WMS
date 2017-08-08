@@ -1,6 +1,6 @@
 ﻿<div class="col-md-12" style="width:100%;">
     <div id="buttons"></div>
-    <table class="table table-striped table-bordered table-hover" id="sample_1">
+    <table class="table table-striped table-bordered" id="sample_1">
         <thead>
             <tr>
                 <th>Yıl </th>
@@ -175,14 +175,25 @@
     $.contextMenu({
         selector: '#sample_1 tbody tr',
         callback: function (key, options) {
-            var cellIndex = parseInt(options.$trigger[0].cellIndex),
-                row = table.row(options.$trigger[0].parentNode),
-                rowIndex = row.index();
+            var rowIndex = parseInt(options.$trigger[0].rowIndex)-1;
+            console.log(rowIndex);
             var satir = table.row(rowIndex).data();
+            console.log(satir);
             switch (key) {
                 case 'teminat':
-
+                    if (satir.TahTemMektupDosya == null || satir.TahTemMektupDosya == "" )
+                        return;
                     window.open("/Belgeler/Tahsisli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TahTemMektupDosya);
+                    break;
+                case 'pesinat':
+                    if (satir.TahPesDekontDosya == null || satir.TahPesDekontDosya == "" )
+                        return;
+                    window.open("/Belgeler/Tahsisli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TahPesDekontDosya);
+                    break;
+                case 'fatura':
+                    if (satir.TahFaturaDosya == null || satir.TahFaturaDosya == "" )
+                        return;
+                    window.open("/Belgeler/Tahsisli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TahFaturaDosya);
                     break;
                 default:
                     break;
