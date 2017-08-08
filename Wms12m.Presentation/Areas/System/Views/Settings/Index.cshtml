@@ -1,4 +1,5 @@
-﻿@model Setting
+﻿
+@model Setting
 @{
     ViewBag.Title = "Ayarlar";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -264,15 +265,6 @@
                                 <div class="checkbox">
                                     @Html.CheckBoxFor(a => a.homeTask, new { @checked = Model.homeTask ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
                                     @Html.ValidationMessageFor(model => model.homeTask, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.homeTransfer, "Transfer Sayısı", htmlAttributes: new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                <div class="checkbox">
-                                    @Html.CheckBoxFor(a => a.homeTransfer, new { @checked = Model.homeTransfer ? "checked" : string.Empty, @class = "make-switch", @data_size = "normal", @data_on_color = "success", @data_off_text = "Pasif", @data_on_text = "Aktif", @data_off_color = "danger" })
-                                    @Html.ValidationMessageFor(model => model.homeTransfer, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>

@@ -79,7 +79,6 @@
         <EntityTypeShape EntityType="MModel.GorevPaketler" Width="1.5" PointX="8.125" PointY="1.5" />
         <AssociationConnector Association="MModel.FK_GorevPaketler_ComboItem_Name" />
         <AssociationConnector Association="MModel.FK_GorevPaketler_Gorev" />
-        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="MModel.GorevPaketNo" Width="1.5" PointX="15" PointY="6.125" />
         <AssociationConnector Association="MModel.FK_GorevPaketNo_Depo" />
         <EntityTypeShape EntityType="MModel.WebMenu" Width="1.5" PointX="22.75" PointY="5.25" />
@@ -88,6 +87,7 @@
         <AssociationConnector Association="MModel.FK_WebMenu_Simge" />
         <AssociationConnector Association="MModel.FK_WebMenu_WebMenu" />
         <AssociationConnector Association="MModel.WebMenuRol" />
+        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="5.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

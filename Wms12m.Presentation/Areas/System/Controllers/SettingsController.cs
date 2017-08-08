@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Areas.System.Controllers
@@ -37,7 +39,6 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.homeDepo = tbl.homeDepo;
                 set.homeUser = tbl.homeUser;
                 set.homeTask = tbl.homeTask;
-                set.homeTransfer = tbl.homeTransfer;
                 set.OnayStok = tbl.OnayStok;
                 set.OnayTeminat = tbl.OnayTeminat;
                 set.OnaySiparis = tbl.OnaySiparis;
@@ -47,6 +48,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.OnayCek = tbl.OnayCek;
                 set.OnayTekno = tbl.OnayTekno;
                 set.SevkiyatVarmi = tbl.SevkiyatVarmi;
+                set.CrmOzet = tbl.CrmOzet;
                 set.MaliYil = tbl.MaliYil;
                 set.MaliYil1 = tbl.MaliYil1;
                 set.MaliYil2 = tbl.MaliYil2;
@@ -58,6 +60,32 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 db.SaveChanges();
             }
             return Redirect(Request.UrlReferrer.ToString());
+        }
+        /// <summary>
+        /// ayarlar
+        /// </summary>
+        public ActionResult Sql()
+        {
+            if (CheckPerm(Perms.Menü, PermTypes.Reading) == false) return Redirect("/");
+            return View("Sql");
+        }
+        /// <summary>
+        /// stok malzeme sil
+        /// </summary>
+        public JsonResult RunSql(string Sql)
+        {
+            if (CheckPerm(Perms.Menü, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            int r = 0;
+            try
+            {
+                r = db.Database.ExecuteSqlCommand(Sql);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "System/Settings/RunSql");
+                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+            }
+            return Json(new Result(true, r.ToString()), JsonRequestBehavior.AllowGet);
         }
     }
 }
