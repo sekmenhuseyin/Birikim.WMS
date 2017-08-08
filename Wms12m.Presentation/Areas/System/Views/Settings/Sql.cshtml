@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Sql Çalıştır";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Sql Çalıştır</span></li></ul></div>
+<h1 class="page-title">Sql Çalıştır</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Sql Çalıştır
+                </div>
+            </div>
+            <div class="portlet-body form">
+                @using (Ajax.BeginForm("RunSql", "Settings", new { area = "System" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "StoreGrid", OnSuccess = "getResult",  OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <textarea id="Sql" name="Sql" class="form-control" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <input type="submit" value="Çalıştır" class="btn btn-block btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="row"><div class="col-md-12" id="result"></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{<script type="text/javascript">
+    function getResult(data) {
+        if (data.Status == true)
+            Modaldialog("İşlem Sonucu: " + data.Message, "Başarı", "Tamam", "btn-success");
+        else {
+            Modaldialog(data.Message == null ? "Sayfayı yenileyin" : data.Message, "Hata", "Tamam", "btn-danger");
+        }
+    };
+</script>}

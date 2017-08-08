@@ -419,6 +419,7 @@
     <Content Include="Areas\ToDo\Views\ProjectForm\FormList.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\FormEdit.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\FormIndex.cshtml" />
+    <Content Include="Areas\System\Views\Settings\Sql.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

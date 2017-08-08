@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
+using Wms12m.Entity;
 using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Areas.System.Controllers
@@ -58,6 +60,32 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 db.SaveChanges();
             }
             return Redirect(Request.UrlReferrer.ToString());
+        }
+        /// <summary>
+        /// ayarlar
+        /// </summary>
+        public ActionResult Sql()
+        {
+            if (CheckPerm(Perms.Menü, PermTypes.Reading) == false) return Redirect("/");
+            return View("Sql");
+        }
+        /// <summary>
+        /// stok malzeme sil
+        /// </summary>
+        public JsonResult RunSql(string Sql)
+        {
+            if (CheckPerm(Perms.Menü, PermTypes.Deleting) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            int r = 0;
+            try
+            {
+                r = db.Database.ExecuteSqlCommand(Sql);
+            }
+            catch (Exception ex)
+            {
+                Logger(ex, "System/Settings/RunSql");
+                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+            }
+            return Json(new Result(true, r.ToString()), JsonRequestBehavior.AllowGet);
         }
     }
 }
