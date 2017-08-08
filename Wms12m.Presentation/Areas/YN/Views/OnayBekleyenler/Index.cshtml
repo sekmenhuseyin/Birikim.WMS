@@ -23,6 +23,7 @@
                             <th>Tutar</th>
                             <th>Kaydeden</th>
                             <th>Tarih</th>
+                            <th></th>
                         </tr>
                     </thead>
                 </table>
@@ -53,7 +54,12 @@
             { "data": "DovizCinsi" },
             { "data": "Tutar" },
             { "data": "Kaydeden" },
-            { "data": "Tarih" }
+            { "data": "Tarih" },
+            { "data": "ID" ,
+                "render": function (data, type, full, meta) {
+                    return '<a class="btn btn-info btn-sm" href="/YN/OnayBekleyenler/SiparisOnayla/' + data + '">Onayla</a><a class="btn btn-danger btn-sm" href="/YN/OnayBekleyenler/SiparisRed/' + data +'">Red</a>';
+                }
+            }
         ]
     });
 </script>}
