@@ -77,7 +77,7 @@
     var secili_satir = new Array();
     var secili_table = new Array();
     var HFT = '@ViewBag.Hafta';
-    console.log(HFT);
+    var PTH = '@ViewBag.Path';
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
@@ -177,38 +177,15 @@
             var cellIndex = parseInt(options.$trigger[0].cellIndex),
                 row = table.row(options.$trigger[0].parentNode),
                 rowIndex = row.index();
-
+            var satir = table.row(rowIndex).data();
             switch (key) {
                 case 'teminat':
-                    var satir = table.row(rowIndex).data();
-                    console.log(satir);
-                    $.ajax({
-                        url: window.location.origin + "/Approvals/Wood/BelgeAc",
-                        data: { Data: JSON.stringify(satir), Tip: 0 },
-                        type: "post",
-                        success: function (data) {
-                            if (data == "OK") {
-                                $(".select_urun_kodu").dxLookup("instance").option("value", null);
-                                $(".select_hesap_kod").dxLookup("instance").option("value", null);
-                                $(".numb-satis-fiyat").dxTextBox("instance").option("value", 0);
-                                $(".numb-doviz-satis-fiyat").dxTextBox("instance").option("value", 0);
-                                $(".txt-birim").dxSelectBox("instance").option("text", "");
-                                $(".txt-doviz-birim").dxSelectBox("instance").option("text", "");
-                                $(".txt-birim").dxSelectBox("instance").option("value", "");
-                                $(".txt-doviz-birim").dxSelectBox("instance").option("value", "");
-                                $(".txt-doviz-cinsi").dxSelectBox("instance").option("value", "");
-                                Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "Guncel");
-                                setTimeout(function () { window.location.reload(); }, 500);
-                            }
-                            else if (data == "NO") {
-                                Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "Guncel");
-                                setTimeout(function () { window.location.reload(); }, 500);
-                            }
-                            else if (data == "MEVCUT") {
-                                Modaldialog("Ürün Listede Mevcut.", "Güncelleme İşlemi", "Tamam", "Guncel");
-                            }
-                        }
-                    });
+
+                    if (satir.TahTemMektupDosya == null) {
+                        return;
+                    }
+                    var UrlDosya= PTH + "../Belgeler/Tahsisli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TahTemMektupDosya;
+                    console.log(UrlDosya);
                     break;
                 default:
                     break;

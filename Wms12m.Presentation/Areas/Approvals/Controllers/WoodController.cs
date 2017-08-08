@@ -143,6 +143,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             ViewBag.Hafta = Isletme;
             ViewBag.Isletme = Hafta;
+            string s = HttpContext.Request.Url.AbsolutePath;
+            Uri uri = new Uri(s);
+            string link = string.Format("{0}://{1}:{2}", "file", uri.Host, uri.Port);
+            ViewBag.Path = link;
             return PartialView();
         }
         public string TahsisliAlimCek(string Hafta, string Isletme)
