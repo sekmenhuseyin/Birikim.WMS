@@ -427,7 +427,6 @@
     <Content Include="Content\KatSablon.xlsx" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
-    <Content Include="Service\Mobile.asmx" />
     <Content Include="Service\Terminal.asmx" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
@@ -541,10 +540,6 @@
     </Compile>
     <Compile Include="Helper\Client.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\Mobile.asmx.cs">
-      <DependentUpon>Mobile.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Service\Terminal.asmx.cs">
       <DependentUpon>Terminal.asmx</DependentUpon>
       <SubType>Component</SubType>
