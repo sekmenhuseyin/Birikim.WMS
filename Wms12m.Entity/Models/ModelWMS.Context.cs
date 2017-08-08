@@ -58,9 +58,9 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<GorevUser> GorevUsers { get; set; }
         public virtual DbSet<GorevPaketler> GorevPaketlers { get; set; }
-        public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<GorevPaketNo> GorevPaketNoes { get; set; }
         public virtual DbSet<WebMenu> WebMenus { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
     
         public virtual ObjectResult<string> GetSirketDBs()
         {
@@ -354,19 +354,6 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("UserID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUserPermsFor_Result>("WMSEntities.GetUserPermsFor", userIDParameter);
-        }
-    
-        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary(string userName, Nullable<int> userID)
-        {
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-    
-            var userIDParameter = userID.HasValue ?
-                new ObjectParameter("UserID", userID) :
-                new ObjectParameter("UserID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter);
         }
     
         public virtual ObjectResult<GetRolePermsFor_Result> GetRolePermsFor(string roleName, string group)
@@ -828,6 +815,19 @@ namespace Wms12m.Entity.Models
                 new ObjectParameter("IslemTip", typeof(short));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCachedChartMonthlyByKriter_Result>("WMSEntities.GetCachedChartMonthlyByKriter", dBParameter, grupParameter, kriterParameter, islemTipParameter);
+        }
+    
+        public virtual ObjectResult<GetHomeSummary_Result> GetHomeSummary(string userName, Nullable<int> userID)
+        {
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("UserID", userID) :
+                new ObjectParameter("UserID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetHomeSummary_Result>("WMSEntities.GetHomeSummary", userNameParameter, userIDParameter);
         }
     }
 }

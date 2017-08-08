@@ -39,7 +39,6 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.homeDepo = tbl.homeDepo;
                 set.homeUser = tbl.homeUser;
                 set.homeTask = tbl.homeTask;
-                set.homeTransfer = tbl.homeTransfer;
                 set.OnayStok = tbl.OnayStok;
                 set.OnayTeminat = tbl.OnayTeminat;
                 set.OnaySiparis = tbl.OnaySiparis;
@@ -49,6 +48,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
                 set.OnayCek = tbl.OnayCek;
                 set.OnayTekno = tbl.OnayTekno;
                 set.SevkiyatVarmi = tbl.SevkiyatVarmi;
+                set.CrmOzet = tbl.CrmOzet;
                 set.MaliYil = tbl.MaliYil;
                 set.MaliYil1 = tbl.MaliYil1;
                 set.MaliYil2 = tbl.MaliYil2;
