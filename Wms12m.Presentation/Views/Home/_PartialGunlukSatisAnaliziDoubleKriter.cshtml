@@ -5,7 +5,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-bar-chart font-green-haze"></i>
-                    <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Analizi GrupKod ve İşlemTip <span style="color:#8888a7;">3D CHART</span></span>
+                    <span class="caption-subject bold uppercase font-green-haze gs-islemtip"> Günlük Satış Analizi GrupKod ve İşlemTip </span><span class="gs-islemtip-d" style="color:#8888a7;font-weight: bold;font-size:16px;">3D CHART</span>
                 </div>
                 <div class="col-md-1 m-l-10 slct_islemtip"></div>
                 <div class="col-md-1 m-l-10 slct_double-kriter"></div>
@@ -60,6 +60,11 @@
             type: "post",
             success: function (data)
             {
+                if (data.length < 40) {
+                    $(".slct_double-kriter").css("display", "none");
+                    $(".gs-islemtip").text("Günlük Satış Analizi İşlemTip ");
+                    $(".gs-islemtip-d").text("3D CHART"); 
+                }
                 $(".slct_double-kriter").dxSelectBox({
                     dataSource: $.parseJSON(data),
                     width: 85,
