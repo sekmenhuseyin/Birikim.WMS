@@ -9,9 +9,9 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
     public class OnayBekleyenlerController : RootController
     {
         // GET: YN/OnayBekleyenler
-        public ActionResult Index()
+        public ActionResult SiparisOnay()
         {
-            return View("Index");
+            return View("SiparisOnay");
         }
         /// <summary>
         /// sipariş onayı bekleyenler listesi
