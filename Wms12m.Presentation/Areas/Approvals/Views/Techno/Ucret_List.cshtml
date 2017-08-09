@@ -147,8 +147,6 @@
         }
         else {
 
-            console.log("fghtre");
-
             $(".butondiv").hide();
             table55.columns([17]).visible(false, false);
             table55.columns([18]).visible(false, false);
@@ -159,13 +157,11 @@
         }
 
         //if ($(".butondiv").css("display") != "none") {
-        //    console.log("trtrtr");
         //    if (tip1 == 'Reddedilenler') {
         //        table55.columns([17, 18]).visible(true, true);
         //        $(".butondiv").css("display", "none");
         //    }
         //    else if (tip1 == 'Onayladiklarim') {
-        //        console.log("kkk");
         //        table55.columns([17, 18]).visible(false, false);
         //        $(".butondiv").css("display", "none");
         //    }
@@ -181,7 +177,6 @@
             secili_table.push(x[i]);
         }
         if (secili_table.length > 0) {
-            console.log("aa");
         $.ajax({
             url: window.location.origin + "/Approvals/Techno/Ucret_Onayla",
             data: { Data: JSON.stringify(secili_table) },
@@ -198,7 +193,6 @@
             }
         });
         } else {
-            console.log("bb");
             Modaldialog("Satır Seçiniz", "Hata", "Tamam", "btn-danger");
             return;
         }

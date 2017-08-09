@@ -1,25 +1,31 @@
 ﻿@{
     ViewBag.Title = "Onay Bekleyenler";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{<style>
+    td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
+    tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+</style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onay Bekleyenler</span></li></ul></div>
 <h1 class="page-title">Onay Bekleyenler</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box green">
-            <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Onay Bekleyen Siparişler</div></div>
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-gift"></i>Onay Bekleyen Siparişler</div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
+                <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
+            </div>
             <div class="portlet-body form p-30 p-t-15">
                 <table class="table table-striped table-bordered" id="sample_1">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Evrak No</th>
-                            <th>MalKodu</th>
                             <th>Hesap Kodu</th>
                             <th>Ünvan</th>
-                            <th>Evrak Seri No</th>
-                            <th>Depo</th>
+                            <th>MalKodu</th>
                             <th>Miktar</th>
-                            <th>Birim Fiyat</th>
-                            <th>Doviz Cinsi</th>
                             <th>Tutar</th>
                             <th>Kaydeden</th>
                             <th>Tarih</th>
@@ -31,29 +37,63 @@
     </div>
 </div>
 @section Scripts{<script>
-    var table = $('#sample_1').DataTable({
-        "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
-        "ordering": false,
-        "ajax": {
-            "url": '/YN/OnayBekleyenler/SiparisOnay_List',
-            "dataSrc": function (json) {
-                return json;
+    $(document).ready(function () {
+        var table = $('#sample_1').DataTable({
+            "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
+            "ordering": false,
+            "ajax": {
+                "url": '/YN/OnayBekleyenler/SiparisOnay_List',
+                "dataSrc": function (json) {
+                    return json;
+                },
             },
-        },
-        "fixedHeader": true,
-        "columns": [
-            { "data": "EvrakSeriNo" },
-            { "data": "MalKodu" },
-            { "data": "HesapKodu" },
-            { "data": "Unvan" },
-            { "data": "EvrakSeriNo" },
-            { "data": "Depo" },
-            { "data": "Miktar" },
-            { "data": "BirimFiyat" },
-            { "data": "DovizCinsi" },
-            { "data": "Tutar" },
-            { "data": "Kaydeden" },
-            { "data": "Tarih" }
-        ]
+            "fixedHeader": true,
+            "columns": [
+                {
+                    "class": "details-control",
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ""
+                },
+                { "data": "EvrakSeriNo" },
+                { "data": "HesapKodu" },
+                { "data": "Unvan" },
+                { "data": "Cesit" },
+                { "data": "Miktar" },
+                { "data": "Tutar" },
+                { "data": "Kaydeden" },
+                { "data": "Tarih" }
+            ]
+        });
+        $('#sample_1 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
+            else { row.child(newrow(row.data().EvrakSeriNo)).show(); format(row.data().EvrakSeriNo); tr.addClass('shown'); }
+        });
     });
+    function newrow(id) {
+        return "<table style='background:transparent;' id='new" + id + "'></table>";
+    }
+    function format(d) {
+        var html = "<tr style='background: transparent;'><th>HesapKodu</th><th>Unvan</th><th>MalKodu</th><th>Miktar</th><th>BirimFiyat</th><th>Tutar</th><th>Depo</th></tr>";
+        $.ajax({
+            type: 'POST',
+            url: '/YN/OnayBekleyenler/SiparisOnay_Details',
+            data: { "ID": d },
+            dataType: "json",
+            success: function (data) {
+                for (var i in data) {
+                    html += '<tr style="background:transparent;"><td>' + data[i].HesapKodu + '</td><td>' + data[i].Unvan + '</td><td align=right>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].BirimFiyat + '</td><td>' + data[i].Tutar + '</td><td>' + data[i].Depo + '</td></tr>';
+                };
+                $('#new' + d).html(html);
+            }
+        });
+    }
+    function toggle(row, id) {
+        $(row).toggleClass('selected');
+        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
+        else selected = selected.replace(id + "#", "");
+        $("#checkboxes").val(selected);
+    }
 </script>}

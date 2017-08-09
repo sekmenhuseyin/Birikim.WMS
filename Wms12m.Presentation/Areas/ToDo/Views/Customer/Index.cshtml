@@ -94,7 +94,6 @@
     $(document).ready(function () {
         $('#MesaiKontrol').on('switchChange.bootstrapSwitch', function (e, data) {
             var state = $(this).bootstrapSwitch('state');//returns true or false
-            console.log(state);
             if (state) {
                 $('#MesaiKota').prop("readonly", false)
                 $('#MesaiKota').prop("required", true)
