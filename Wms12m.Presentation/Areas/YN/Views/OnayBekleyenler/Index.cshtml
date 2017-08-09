@@ -4,6 +4,7 @@
 }@section Styles{<style>
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
+    tr{cursor:pointer;}
 </style>
 }<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onay Bekleyenler</span></li></ul></div>
 <h1 class="page-title">Onay Bekleyenler</h1>
@@ -37,6 +38,7 @@
     </div>
 </div>
 @section Scripts{<script>
+    var selected = "";
     $(document).ready(function () {
         var table = $('#sample_1').DataTable({
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
@@ -71,6 +73,13 @@
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
             else { row.child(newrow(row.data().EvrakSeriNo)).show(); format(row.data().EvrakSeriNo); tr.addClass('shown'); }
         });
+        $('#sample_1 tbody').on('click', 'tr', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            $(tr).toggleClass('selected');
+            if ($(tr).hasClass('selected') == true) selected = selected + row.data().EvrakSeriNo + "#";
+            else selected = selected.replace(row.data().EvrakSeriNo + "#", "");
+        });
     });
     function newrow(id) {
         return "<table style='background:transparent;' id='new" + id + "'></table>";
@@ -84,16 +93,19 @@
             dataType: "json",
             success: function (data) {
                 for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].HesapKodu + '</td><td>' + data[i].Unvan + '</td><td align=right>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].BirimFiyat + '</td><td>' + data[i].Tutar + '</td><td>' + data[i].Depo + '</td></tr>';
+                    html += '<tr style="background:transparent;"><td>' + data[i].HesapKodu + '</td><td>' + data[i].Unvan + '</td><td align=right>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].BirimFiyat + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Tutar + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Depo + '</td></tr>';
                 };
                 $('#new' + d).html(html);
             }
         });
     }
-    function toggle(row, id) {
-        $(row).toggleClass('selected');
-        if ($(row).hasClass('selected') == true) selected = selected + id + "#";
-        else selected = selected.replace(id + "#", "");
-        $("#checkboxes").val(selected);
-    }
+    $('.onay-buton').click(function () {
+
+    });
+    $('.reddet-buton').click(function () {
+
+    });
+    $('.yenile-buton').click(function () {
+        window.location.reload();
+    });
 </script>}
