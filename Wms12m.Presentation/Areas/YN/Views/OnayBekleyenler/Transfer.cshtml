@@ -70,6 +70,49 @@
             if ($(tr).hasClass('selected') == true) selected = selected + row.data().TransferNo + "#";
             else selected = selected.replace(row.data().TransferNo + "#", "");
         });
+        $('.onay-buton').click(function () {
+            if (selected == "") {
+                Modaldialog("Bir kayıt seçmediniz", 'Hata', 'Tamam', 'btn-danger');
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/YN/OnayBekleyenler/Siparis_Onay',
+                data: { "ID": selected, "Onay": true },
+                dataType: "json",
+                success: function (data) {
+                    if (data.Status == true)
+                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
+                    else if (data.Message != "" && data.Message != null)
+                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                    else
+                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                }
+            });
+        });
+        $('.reddet-buton').click(function () {
+            if (selected == "") {
+                Modaldialog("Bir kayıt seçmediniz", 'Hata', 'Tamam', 'btn-danger');
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/YN/OnayBekleyenler/Siparis_Onay',
+                data: { "ID": selected, "Onay": false },
+                dataType: "json",
+                success: function (data) {
+                    if (data.Status == true)
+                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
+                    else if (data.Message != "" && data.Message != null)
+                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                    else
+                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                }
+            });
+        });
+        $('.yenile-buton').click(function () {
+            table.ajax.reload();
+        });
     });
     function newrow(id) {
         return "<table style='background:transparent;' id='new" + id + "'></table>";
@@ -89,13 +132,4 @@
             }
         });
     }
-    $('.onay-buton').click(function () {
-
-    });
-    $('.reddet-buton').click(function () {
-
-    });
-    $('.yenile-buton').click(function () {
-        window.location.reload();
-    });
 </script>}

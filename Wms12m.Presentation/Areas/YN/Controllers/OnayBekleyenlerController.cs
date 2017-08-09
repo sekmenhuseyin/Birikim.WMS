@@ -52,6 +52,25 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
             }
         }
         /// <summary>
+        /// onayla veya reddet
+        /// </summary>
+        [HttpPost]
+        public JsonResult Siparis_Onay(string ID, bool Onay)
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                if (Onay == true)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            return Json(new Result(true), JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
         /// transfer onayı bekleyenler sayfası
         /// </summary>
         public ActionResult Transfer()
@@ -86,6 +105,25 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                                                                     WHERE        TransferNo = '" + ID + "'").ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
+        }
+        /// <summary>
+        /// onayla veya reddet
+        /// </summary>
+        [HttpPost]
+        public JsonResult Transfer_Onay(string ID, bool Onay)
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                if (Onay == true)
+                {
+                    db.Database.ExecuteSqlCommand(@"UPDATE YNS0TEST.TransferDepo SET OnayDurumu = 1 WHERE (TransferNo = '" + ID + "')");
+                }
+                else
+                {
+                    db.Database.ExecuteSqlCommand(@"UPDATE YNS0TEST.TransferDepo SET OnayDurumu = 2 WHERE (TransferNo = '" + ID + "')");
+                }
+            }
+            return Json(new Result(true), JsonRequestBehavior.AllowGet);
         }
     }
 }
