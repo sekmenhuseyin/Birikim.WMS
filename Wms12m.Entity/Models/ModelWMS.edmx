@@ -1167,6 +1167,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="DeleteLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="table" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="GetAppLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetELMAH_Error" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetErrorLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -2091,6 +2095,10 @@
             <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="Settings" EntityType="MModel.Setting" />
+          <FunctionImport Name="DeleteLog">
+            <Parameter Name="table" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="GetSirkets_Result">
           <Property Type="String" Name="Kod" Nullable="false" MaxLength="2" />
@@ -4498,6 +4506,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeleteLog" FunctionName="MModel.Store.DeleteLog" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
