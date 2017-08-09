@@ -26,5 +26,6 @@ namespace Wms12m.Entity.Models
         }
     
         public virtual DbSet<STK002> STK002 { get; set; }
+        public virtual DbSet<TransferDepo> TransferDepoes { get; set; }
     }
 }
