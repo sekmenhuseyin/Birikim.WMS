@@ -421,7 +421,8 @@
     <Content Include="Areas\ToDo\Views\ProjectForm\FormIndex.cshtml" />
     <Content Include="Areas\System\Views\Settings\Sql.cshtml" />
     <Content Include="Areas\YN\Views\web.config" />
-    <Content Include="Areas\YN\Views\OnayBekleyenler\SiparisOnay.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Siparis.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Transfer.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

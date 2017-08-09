@@ -1,18 +1,18 @@
 ﻿@{
-    ViewBag.Title = "Onay Bekleyenler";
+    ViewBag.Title = "Onay Bekleyen Transferler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
     tr{cursor:pointer;}
 </style>
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onay Bekleyenler</span></li></ul></div>
-<h1 class="page-title">Onay Bekleyenler</h1>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onay Bekleyen Transferler</span></li></ul></div>
+<h1 class="page-title">Onay Bekleyen Transferler</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box green">
             <div class="portlet-title">
-                <div class="caption"><i class="fa fa-gift"></i>Onay Bekleyen Siparişler</div>
+                <div class="caption"><i class="fa fa-gift"></i>Onay Bekleyen Transferler</div>
                 <div class="col-md-2 pull-right m-t-5"><button class="btn btn-default pull-right input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
                 <div class="col-md-2 pull-right m-t-5"><button class="btn btn-success pull-right input-circle onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
                 <div class="col-md-2 pull-right m-t-5"><button class="btn btn-danger pull-right input-circle reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
@@ -44,7 +44,7 @@
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ordering": false,
             "ajax": {
-                "url": '/YN/OnayBekleyenler/SiparisOnay_List',
+                "url": '/YN/OnayBekleyenler/Transfer_List',
                 "dataSrc": function (json) {
                     return json;
                 },
@@ -88,7 +88,7 @@
         var html = "<tr style='background: transparent;'><th>HesapKodu</th><th>Unvan</th><th>MalKodu</th><th>Miktar</th><th>BirimFiyat</th><th>Tutar</th><th>Depo</th></tr>";
         $.ajax({
             type: 'POST',
-            url: '/YN/OnayBekleyenler/SiparisOnay_Details',
+            url: '/YN/OnayBekleyenler/Transfer_Details',
             data: { "ID": d },
             dataType: "json",
             success: function (data) {
