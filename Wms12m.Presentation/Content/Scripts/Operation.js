@@ -70,12 +70,19 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
         if (Status) {
             if (Method == "")
                 window.location.reload();
-            else if (DivName == "")
-                Method();
             else
             {
                 PartialView(Method, DivName, JSON.stringify({ Id: extraId }));
             }
+        }
+    }
+}
+function DeleteCallBack(deleteId) {
+    ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz !!!', ' İşlemi', "Evet", 'btn-success', DeleteTriger, 'Hayır', 'btn-warning', null);
+    function DeleteTriger() {
+        var Status = FunctionDelete(DeleteFunctionUrl, deleteId);
+        if (Status) {
+            RefreshPage();
         }
     }
 }
