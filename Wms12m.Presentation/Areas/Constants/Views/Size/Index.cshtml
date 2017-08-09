@@ -162,8 +162,8 @@
                     "render": function (data, type, full, meta) {
                         return full.En + 'x' + full.Boy + 'x' + full.Derinlik;
                     } },
-                { "data": "Hacim" },
-                { "data": "Agirlik" },
+                { "data": "Hacim", "className": "text-right", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Agirlik", "className": "text-right", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 {
                     "data": "ID",
                     "render": function (data, type, full, meta) {
