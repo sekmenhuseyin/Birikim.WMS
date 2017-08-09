@@ -93,7 +93,7 @@
             dataType: "json",
             success: function (data) {
                 for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].HesapKodu + '</td><td>' + data[i].Unvan + '</td><td align=right>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].BirimFiyat + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Tutar + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Depo + '</td></tr>';
+                    html += '<tr style="background:transparent;"><td>' + data[i].HesapKodu + '</td><td>' + data[i].Unvan + '</td><td>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].BirimFiyat + ' ' + data[i].DovizCinsi + '</td><td align=right>' + data[i].Tutar + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Depo + '</td></tr>';
                 };
                 $('#new' + d).html(html);
             }

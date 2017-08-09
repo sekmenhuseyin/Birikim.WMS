@@ -22,13 +22,8 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Evrak No</th>
-                            <th>Hesap Kodu</th>
-                            <th>Ünvan</th>
-                            <th>MalKodu</th>
-                            <th>Miktar</th>
-                            <th>Tutar</th>
-                            <th>Kaydeden</th>
+                            <th>Transfer No</th>
+                            <th>Talep Eden</th>
                             <th>Tarih</th>
                         </tr>
                     </thead>
@@ -57,12 +52,7 @@
                     "data": null,
                     "defaultContent": ""
                 },
-                { "data": "EvrakSeriNo" },
-                { "data": "HesapKodu" },
-                { "data": "Unvan" },
-                { "data": "Cesit" },
-                { "data": "Miktar" },
-                { "data": "Tutar" },
+                { "data": "TransferNo" },
                 { "data": "Kaydeden" },
                 { "data": "Tarih" }
             ]
@@ -71,21 +61,21 @@
             var tr = $(this).closest('tr');
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-            else { row.child(newrow(row.data().EvrakSeriNo)).show(); format(row.data().EvrakSeriNo); tr.addClass('shown'); }
+            else { row.child(newrow(row.data().TransferNo)).show(); format(row.data().TransferNo); tr.addClass('shown'); }
         });
         $('#sample_1 tbody').on('click', 'tr', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
             $(tr).toggleClass('selected');
-            if ($(tr).hasClass('selected') == true) selected = selected + row.data().EvrakSeriNo + "#";
-            else selected = selected.replace(row.data().EvrakSeriNo + "#", "");
+            if ($(tr).hasClass('selected') == true) selected = selected + row.data().TransferNo + "#";
+            else selected = selected.replace(row.data().TransferNo + "#", "");
         });
     });
     function newrow(id) {
         return "<table style='background:transparent;' id='new" + id + "'></table>";
     }
     function format(d) {
-        var html = "<tr style='background: transparent;'><th>HesapKodu</th><th>Unvan</th><th>MalKodu</th><th>Miktar</th><th>BirimFiyat</th><th>Tutar</th><th>Depo</th></tr>";
+        var html = "<tr style='background: transparent;'><th>MalKodu</th><th>Miktar</th><th>Birim</th><th>CikisDepo</th></tr>";
         $.ajax({
             type: 'POST',
             url: '/YN/OnayBekleyenler/Transfer_Details',
@@ -93,7 +83,7 @@
             dataType: "json",
             success: function (data) {
                 for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].HesapKodu + '</td><td>' + data[i].Unvan + '</td><td align=right>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].BirimFiyat + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Tutar + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Depo + '</td></tr>';
+                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].Birim + '</td><td>' + data[i].CikisDepo + '</td></tr>';
                 };
                 $('#new' + d).html(html);
             }
