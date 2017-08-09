@@ -156,7 +156,36 @@
         }
 
      });
-
+    $.contextMenu({
+        selector: '#sample_1 tbody tr',
+        callback: function (key, options) {
+            var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
+            var satir = table.row(rowIndex).data();
+            MLK = satir.MalKodu;
+            MLA = satir.MalAdi;
+            switch (key) {
+                case 'teklif':
+                    $('#modalEditPage').modal('toggle');
+                    editInModal('/Approvals/Purchase/SatGMContext/teklif')
+                    break;
+                case 'tedarikci':
+                    $('#modalEditPage').modal('toggle');
+                    editInModal('/Approvals/Purchase/SatGMContext/tedarikci')
+                    break;
+                case 'sonalim':
+                    $('#modalEditPage').modal('toggle');
+                    editInModal('/Approvals/Purchase/SatGMContext/sonalim')
+                    break;
+                default:
+                    break;
+            }
+        },
+        items: {
+            "teklif": { name: "Teklif Listesi", icon: "file" },
+            "tedarikci": { name: "Onaylı Tedarikçi Listesi", icon: "file" },
+            "sonalim": { name: "Son Alım Listesi", icon: "file" },
+        }
+    });
 
 
 
