@@ -69,22 +69,22 @@
             var tr = $(this).closest('tr');
             var row = table.row(tr);
             if (row.child.isShown()) { row.child.hide(); tr.removeClass('shown'); }
-            else { row.child(newrow(tr.data('id'))).show(); format(tr.data('id')); tr.addClass('shown'); }
+            else { row.child(newrow(row.data().EvrakSeriNo)).show(); format(row.data().EvrakSeriNo); tr.addClass('shown'); }
         });
     });
     function newrow(id) {
         return "<table style='background:transparent;' id='new" + id + "'></table>";
     }
     function format(d) {
-        var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th><th>Stok</th><th>Durum</th></tr>";
+        var html = "<tr style='background: transparent;'><th>HesapKodu</th><th>Unvan</th><th>MalKodu</th><th>Miktar</th><th>BirimFiyat</th><th>Tutar</th><th>Depo</th></tr>";
         $.ajax({
             type: 'POST',
-            url: '/WMS/Sales/Details',
+            url: '/YN/OnayBekleyenler/SiparisOnay_Details',
             data: { "ID": d },
             dataType: "json",
             success: function (data) {
                 for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td><td align=right>' + data[i].Miktar.formatMoney(2) + '</td><td>' + data[i].Birim + '</td><td align=right>' + data[i].Stok.formatMoney(2) + '</td><td>' + data[i].HucreAd + '</td></tr>';
+                    html += '<tr style="background:transparent;"><td>' + data[i].HesapKodu + '</td><td>' + data[i].Unvan + '</td><td align=right>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].BirimFiyat + '</td><td>' + data[i].Tutar + '</td><td>' + data[i].Depo + '</td></tr>';
                 };
                 $('#new' + d).html(html);
             }

@@ -29,10 +29,20 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Home/Index");
                 }
             //kasa miktarları
-            ViewBag.MevcudBanka = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudBanka]", SirketKodu)).FirstOrDefault();
-            ViewBag.MevcudCek = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudCek]", SirketKodu)).FirstOrDefault();
-            ViewBag.MevcudKasa = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudKasa]", SirketKodu)).FirstOrDefault();
-            ViewBag.MevcudPOS = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudPOS]", SirketKodu)).FirstOrDefault();
+            try
+            {
+                ViewBag.MevcudBanka = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudBanka]", SirketKodu)).FirstOrDefault();
+                ViewBag.MevcudCek = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudCek]", SirketKodu)).FirstOrDefault();
+                ViewBag.MevcudKasa = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudKasa]", SirketKodu)).FirstOrDefault();
+                ViewBag.MevcudPOS = db.Database.SqlQuery<decimal>(string.Format("[FINSAT6{0}].[wms].[MevcudPOS]", SirketKodu)).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                ViewBag.MevcudBanka = 0;
+                ViewBag.MevcudCek = 0;
+                ViewBag.MevcudKasa = 0;
+                ViewBag.MevcudPOS = 0;
+            }
             //return
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.Settings = setts;
