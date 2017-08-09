@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
@@ -57,18 +58,27 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public JsonResult Siparis_Onay(string ID, bool Onay)
         {
-            using (YNSEntities dby = new YNSEntities())
+            ID = ID.RemoveLastCharacter();
+            ID = "'" + ID.Replace("#", "','") + "'";
+            try
             {
-                if (Onay == true)
+                using (YNSEntities dby = new YNSEntities())
                 {
+                    if (Onay == true)
+                    {
 
-                }
-                else
-                {
+                    }
+                    else
+                    {
 
+                    }
                 }
+                return Json(new Result(true), JsonRequestBehavior.AllowGet);
             }
-            return Json(new Result(true), JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+            }
         }
         /// <summary>
         /// transfer onayı bekleyenler sayfası
@@ -112,18 +122,27 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         [HttpPost]
         public JsonResult Transfer_Onay(string ID, bool Onay)
         {
-            using (YNSEntities dby = new YNSEntities())
+            ID = ID.RemoveLastCharacter();
+            ID = "'" + ID.Replace("#", "','") + "'";
+            try
             {
-                if (Onay == true)
+                using (YNSEntities dby = new YNSEntities())
                 {
-                    db.Database.ExecuteSqlCommand(@"UPDATE YNS0TEST.TransferDepo SET OnayDurumu = 1 WHERE (TransferNo = '" + ID + "')");
+                    if (Onay == true)
+                    {
+                        dby.Database.ExecuteSqlCommand(@"UPDATE YNS0TEST.TransferDepo SET OnayDurumu = 1 WHERE (TransferNo IN (" + ID + "))");
+                    }
+                    else
+                    {
+                        dby.Database.ExecuteSqlCommand(@"UPDATE YNS0TEST.TransferDepo SET OnayDurumu = 2 WHERE (TransferNo IN (" + ID + "))");
+                    }
                 }
-                else
-                {
-                    db.Database.ExecuteSqlCommand(@"UPDATE YNS0TEST.TransferDepo SET OnayDurumu = 2 WHERE (TransferNo = '" + ID + "')");
-                }
+                return Json(new Result(true), JsonRequestBehavior.AllowGet);
             }
-            return Json(new Result(true), JsonRequestBehavior.AllowGet);
+            catch (Exception ex)
+            {
+                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

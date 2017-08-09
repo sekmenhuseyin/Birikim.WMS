@@ -77,7 +77,7 @@
             }
             $.ajax({
                 type: 'POST',
-                url: '/YN/OnayBekleyenler/Siparis_Onay',
+                url: '/YN/OnayBekleyenler/Transfer_Onay',
                 data: { "ID": selected, "Onay": true },
                 dataType: "json",
                 success: function (data) {
@@ -97,7 +97,7 @@
             }
             $.ajax({
                 type: 'POST',
-                url: '/YN/OnayBekleyenler/Siparis_Onay',
+                url: '/YN/OnayBekleyenler/Transfer_Onay',
                 data: { "ID": selected, "Onay": false },
                 dataType: "json",
                 success: function (data) {
