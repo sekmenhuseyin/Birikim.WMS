@@ -60,7 +60,10 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.Status == true)
+                    {
                         Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
+                        table.ajax.reload();
+                    }
                     else if (data.Message != "" && data.Message != null)
                         Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
                     else
@@ -76,7 +79,10 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.Status == true)
+                    {
                         Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
+                        table.ajax.reload();
+                    }
                     else if (data.Message != "" && data.Message != null)
                         Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
                     else
