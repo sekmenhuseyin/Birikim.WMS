@@ -8,6 +8,8 @@
 
                 <th>Mal Kodu</th>
                 <th>Mal Adı </th>
+                <th>Hesap Kodu</th>
+                <th>Ünvan </th>
                 <th>Birim </th>
                 <th>Birim Fiyat</th>
 
@@ -27,7 +29,7 @@
             "url": '/Approvals/Wood/DisDepoStokMaliyetCek',
             "data": { MalKoduBas: MalKoduBas, MalKoduBit: MalKoduBit, isletmeBazli: isletmeBazli, depoBazli: depoBazli, datebas: Datebas, datebit: Datebit },
             "dataSrc": function (json) {
-
+                console.log(json);
                 return json;
             },
         },
@@ -36,8 +38,10 @@
 
             { "data": "MalKodu" },
             { "data": "MalAdi"},
+            { "data": "Chk" },
+            { "data": "Unvan" },
             { "data": "Birim" },
-            { "data": "BirimFiyat" , "render": $.fn.dataTable.render.number('.', ',', 6, '') }
+            { "data": "BirimFiyat" , "render": $.fn.dataTable.render.number('.', ',', 4, '') }
 
             ],
 
@@ -58,5 +62,14 @@
         ]
     }).container().appendTo($('#buttons'));
     var selectall = true;
+
+    if (isletmeBazli) {
+        table.columns([2]).visible(true, true);
+        table.columns([3]).visible(true, true);
+    }
+    else {
+        table.columns([2]).visible(false, false);
+        table.columns([3]).visible(false, false);
+    }
 
 </script>

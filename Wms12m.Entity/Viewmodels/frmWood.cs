@@ -558,6 +558,7 @@ namespace Wms12m.Entity
         public string Depo { get; set; }
 
         public string Unvan { get; set; }
+        public string Unvan1 { get; set; }
         public string DepoAdi { get; set; }
 
         public short KynkEvrakTip { get; set; }
