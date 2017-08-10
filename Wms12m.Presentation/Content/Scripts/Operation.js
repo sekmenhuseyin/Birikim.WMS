@@ -13,6 +13,19 @@ function editInModal(URL) {
         url: URL,
         datatype: "html",
         success: function (data) {
+            console.log(data);
+            $("#modalEditPage").html(data);
+        }
+    });
+}
+function editInModal2(URL,data) {
+    $("#modalEditPage").html("");
+    $.ajax({
+        type: "POST",
+        data: data,
+        url: URL,
+        datatype: "html",
+        success: function (data) {
             $("#modalEditPage").html(data);
         }
     });

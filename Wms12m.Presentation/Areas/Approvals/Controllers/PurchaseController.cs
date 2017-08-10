@@ -34,7 +34,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public ActionResult Satınalma_GM_Onay()
+        public ActionResult GM_Onay()
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
             MyGlobalVariables.Depo = "93 DP";
@@ -426,6 +426,37 @@ GROUP BY (CASE WHEN ST.Birim = STK.Birim1 THEN 1
                 return 0;
             else
                 return 1;
+        }
+
+        public ActionResult SatGMContext()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            ViewBag.ContextType = id;
+            return PartialView();
+        }
+
+        public PartialViewResult TeklifList()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            ViewBag.id = id;
+            List<SatTeklif> TL = db.Database.SqlQuery<SatTeklif>(string.Format("[FINSAT6{0}].[wms].[TeklifListesi] @MalKodu='{1}'", "17", id)).ToList();
+
+            return PartialView(TL);
+        }
+        public PartialViewResult OnayliTedarikciList()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            ViewBag.id = id;
+            List<SatOnayliTed> OTL = db.Database.SqlQuery<SatOnayliTed>(string.Format("[FINSAT6{0}].[wms].[OnayliTedarikciListesi] @MalKodu='{1}'", "17", id)).ToList();
+            return PartialView(OTL);
+        }
+        public PartialViewResult SonAlimListesi()
+        {
+            var id = Url.RequestContext.RouteData.Values["id"];
+            ViewBag.id = id;
+            List<SonAlimListesi> SAL = db.Database.SqlQuery<SonAlimListesi>(string.Format("[FINSAT6{0}].[wms].[SonAlimListesi] @MalKodu='{1}'", "17", id)).ToList();
+
+            return PartialView(SAL);
         }
     }
 }

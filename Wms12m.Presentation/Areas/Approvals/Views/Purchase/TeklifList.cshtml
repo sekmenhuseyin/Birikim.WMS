@@ -1,0 +1,186 @@
+﻿@model IEnumerable<SatTeklif>
+<div class="portlet box green">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gift"></i>Teklif Listesi
+        </div>
+    </div>
+    <div class="portlet-body form p-40">
+        <table class="table table-striped table-bordered" id="@ViewBag.id">
+            <thead>
+                <tr>
+                    <th nowrap style="display:none;">
+                        ID
+                    </th>
+                    <th nowrap>
+                        Mal Kodu
+                    </th>
+                    <th nowrap>
+                        Mal Adı
+                    </th>
+                    <th  nowrap>
+                        Hesap Kodu
+                    </th>
+                    <th  nowrap>
+                        Ünvan
+                    </th>
+                    <th  nowrap>
+                        Birim
+                    </th>
+                    <th  nowrap>
+                        Birim Fiyat
+                    </th>
+                    <th  nowrap>
+                        Teklif Miktar
+                    </th>
+                    <th  nowrap>
+                        Döviz / TL
+                    </th>
+                    <th  nowrap>
+                        Döviz Cinsi
+                    </th>
+                    <th  nowrap>
+                        Termin Süresi
+                    </th>
+                    <th  nowrap>
+                        Min. Sip. Miktarı
+                    </th>
+                    <th  nowrap>
+                        Teklif Baş. Tarihi
+                    </th>
+                    <th  nowrap>
+                        Teklif Bitiş Tarihi
+                    </th>
+                    <th  nowrap>
+                        Durum
+                    </th>
+                    <th  nowrap>
+                        Önerilen
+                    </th>
+                    <th  nowrap>
+                        Teklif No
+                    </th>
+                    <th  nowrap>
+                        Tarih
+                    </th>
+                    <th  nowrap style="display:none;">
+                        Açıklama
+                    </th>
+                    <th  nowrap style="display:none;">
+                        Açıklama 2
+                    </th>
+                    <th  nowrap style="display:none;">
+                        Açıklama 3
+                    </th>
+                    <th  nowrap style="display:none;">
+                        2. Kademe Onaylayan
+                    </th>
+                    <th  nowrap style="display:none;">
+                        2. Kademe Onay Tarih
+                    </th>
+                    <th  nowrap style="display:none;">
+                        1. Kademe Onaylayan
+                    </th>
+                    <th  nowrap style="display:none;">
+                        1. Kademe Onay Tarih
+                    </th>
+                    <th  nowrap style="display:none;">
+                        Kayank Talep No
+                    </th>
+                </tr>
+
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td  nowrap style="display:none;">
+                            @item.ID
+                        </td>
+                        <td  nowrap>
+                            @item.MalKodu
+                        </td>
+                        <td  nowrap>
+                            @item.MalAdi
+                        </td>
+                        <td  nowrap>
+                            @item.HesapKodu
+                        </td>
+                        <td  nowrap>
+                            @item.Unvan
+                        </td>
+                        <td  nowrap>
+                            @item.Birim
+                        </td>
+                        <td  nowrap align="right">
+                            @String.Format("{0:0.00}", item.BirimFiyat).ToDecimal().ToOnFormat()
+                        </td>
+                        <td  nowrap align="right">
+                            @String.Format("{0:0.00}", item.TeklifMiktar).ToDecimal().ToOnFormat()
+                        </td>
+                        <td  nowrap>
+                            @item.DvzTLStr
+                        </td>
+                        <td  nowrap>
+                            @item.DvzCinsi
+                        </td>
+                        <td  nowrap>
+                            @item.TerminSure
+                        </td>
+                        <td  nowrap>
+                            @item.MinSipMiktar
+                        </td>
+                        <td  nowrap>
+                            @item.TeklifBasTarih.Value.ToString("dd/MM/yyyy")
+                        </td>
+                        <td  nowrap>
+                            @item.TeklifBitTarih.Value.ToString("dd/MM/yyyy")
+                        </td>
+                        <td  nowrap>
+                            @item.DurumStr
+                        </td>
+                        <td  nowrap>
+                            @item.OneriDurum
+                        </td>
+                        <td  nowrap>
+                            @item.TeklifNo
+                        </td>
+                        <td  nowrap>
+                            @item.Tarih.ToString("dd/MM/yyyy")
+                        </td>
+                        <td  nowrap style="display:none;">
+                            @item.Aciklama
+                        </td>
+                        <td  nowrap style="display:none;">
+                            @item.Aciklama2
+                        </td>
+                        <td  nowrap style="display:none;">
+                            @item.Aciklama3
+                        </td>
+                        <td  nowrap style="display:none;">
+                            @item.Kademe2Onaylayan
+                        </td>
+                        <td  nowrap style="display:none;">
+                            @item.Kademe2OnayTarih
+                        </td>
+                        <td  nowrap style="display:none;">
+                            @item.Kademe1Onaylayan
+                        </td>
+                        <td  nowrap style="display:none;">
+                            @item.Kademe1OnayTarih
+                        </td>
+                        <td  nowrap style="display:none;">
+                            @item.KynkTalepNo
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<script>$(document).ready(function () { $('#@ViewBag.id').DataTable({ "pagingType": "full_numbers", "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" } }); });</script>
+
+
