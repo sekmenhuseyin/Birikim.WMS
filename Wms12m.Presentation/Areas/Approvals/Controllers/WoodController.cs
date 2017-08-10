@@ -477,11 +477,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
-
-
-                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod1 = '{1}', Kod2='', Degistiren='" + vUser.UserName + "',DegisTarih='{2}'  where Depo = '{3}'AND Kod2<>''", "17", insertObj["Kod2"].ToString(), shortDate, insertObj["Depo"].ToString());
+                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod1 = '{1}', Kod2='', Degistiren='" + vUser.UserName + "',DegisTarih='{2}'  where Depo = '{3}'AND Kod2<>''", "17", insertObj["Kod2"].ToString(), (int)DateTime.Now.ToOADate(), insertObj["Depo"].ToString());
                     db.Database.ExecuteSqlCommand(s);
                 }
                 _Result.Status = true;
@@ -510,10 +506,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                 foreach (JObject insertObj in parameters)
                 {
-                    DateTime date = DateTime.Now;
-                    var shortDate = date.ToString("yyyy-MM-dd");
-
-                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod2 = '', Degistiren='" + vUser.UserName + "',DegisTarih='{1}'  where Depo = '{2}'AND Kod2<>''", "17", shortDate, insertObj["Depo"].ToString());
+                    string s = string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[DEP] SET Kod2 = '', Degistiren='" + vUser.UserName + "',DegisTarih='{1}'  where Depo = '{2}'AND Kod2<>''", "17", (int)DateTime.Now.ToOADate(), insertObj["Depo"].ToString());
 
                     db.Database.ExecuteSqlCommand(s);
                 }
@@ -737,7 +730,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
                             MySti sti = new MySti();
                             sti.Chk = item.Chk;
-                            sti.Unvan = item.Unvan;
+                            sti.Unvan = item.Unvan1;
                             sti.Depo = item.Depo;
                             sti.MalKodu = item.MalKodu;
                             sti.Tutar = item.Tutar;
