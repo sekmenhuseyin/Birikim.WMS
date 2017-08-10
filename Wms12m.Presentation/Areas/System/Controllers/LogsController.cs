@@ -34,7 +34,7 @@ namespace Wms12m.Presentation.Areas.System.Controllers
             {
                 var tip = Url.RequestContext.RouteData.Values["id"].ToString();
                 db.DeleteLog(tip, ID);
-                return Json(new Result(true), JsonRequestBehavior.AllowGet);
+                return Json(new Result(true, 1), JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

@@ -696,12 +696,6 @@ namespace Wms12m.Presentation.Controllers
             var json = new JavaScriptSerializer().Serialize(Kriter);
             return json;
         }
-        public string BekleyenSiparisMusteriKriter(string SirketKodu)
-        {
-            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[BekleyenSiparisMusteriKriterSelect]", SirketKodu)).ToList();
-            var json = new JavaScriptSerializer().Serialize(Kriter);
-            return json;
-        }
         public string Connection()
         {
             return System.Configuration.ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString;
