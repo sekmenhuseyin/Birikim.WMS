@@ -18,7 +18,7 @@
                 <img src="~/Content/images/@setts.LoginLogo" class="img-responsive" alt="" />
             </div>
             <div class="col-xs-6" style="color:rgba(13, 166, 191, 0.78);">
-                <p>@Model.GENEL[0].EvrakNo / @Model.GENEL[0].Tarih<span class="muted">  </span></p>
+                <p>@Model.GENEL[0].EvrakNo / @Model.GENEL[0].Tarih<span class="muted"></span></p>
             </div>
         </div>
         <table class="table">
@@ -132,9 +132,7 @@
                 <td></td>
                 <td></td>
             </tr>
-
         </table>
-
         <div class="row">
             <div class="col-xs-12">
                 <table class="table table-striped table-bordered table-condensed" id="sample_1">
@@ -277,11 +275,9 @@
     $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" }
     });
-
     $(document).on("ready", function () {
         $(".txtRedNeden").dxTextArea({ placeholder: 'Açıklama girin', height: 150, maxLength: '128' });
     });
-
     $(document).on("click", ".geri-buton", function () {
         window.location.href = '/Approvals/Invoice';
     });
@@ -305,30 +301,23 @@
                 }
                 else if (data == "DEGISIM") {
                     Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "btn-danger");
-                    //setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + f_evrakNo; }, 500);
-
-
                 }
                 else {
                     Modaldialog("Kayıt sırasında hata oluştu. İşleminiz gerçekleştirilemedi.", "Güncelleme İşlemi", "Tamam", "btn-danger");
-                    //setTimeout(function () { window.location.href = '/Approvals/Invoice'; }, 500);
                 }
             }
         });
         return _dfd.promise();
     }
-
     $(document).on("click", ".red-buton", function () {
         $(".rdgrpSil").dxRadioGroup({
             value: "Silme"
         });
         $('#x-modal-faturared').modal("show");
-
     });
     $(document).on("click", "#mdlSilKayit", function () {
         ModalYesNoClick("Reddetmek istediğinize emin misiniz?", "Red Uyarı", "Reddet", "btn-primary", Red, "İptal", "btn-danger", null);
     });
-
     function Red() {
         var _dfd = $.Deferred();
         var f_redNeden;
@@ -344,14 +333,10 @@
                 }
                 else if (data == "DEGISIM") {
                     Modaldialog("Faturada değişiklik tespit edildi. Fatura Durumu : Onay Bekliyor", "Güncelleme İşlemi", "Tamam", "btn-dange");
-                    //setTimeout(function () { window.location.href = '/Approvals/Invoice/Detail?EvrakNo=' + evrakNo; }, 500);
-
-
                 }
                 else {
                     Modaldialog("İşlem Başarılı", "Güncelleme İşlemi", "Tamam", "btn-dange");
                     setTimeout(function () { window.location.href = '/Approvals/Invoice';}, 500);
-
                 }
             }
         });

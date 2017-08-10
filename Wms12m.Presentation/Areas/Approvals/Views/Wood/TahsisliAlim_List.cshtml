@@ -175,9 +175,7 @@
         selector: '#sample_1 tbody tr',
         callback: function (key, options) {
             var rowIndex = parseInt(options.$trigger[0].rowIndex)-1;
-            console.log(rowIndex);
             var satir = table.row(rowIndex).data();
-            console.log(satir);
             switch (key) {
                 case 'teminat':
                     if (satir.TahTemMektupDosya == null || satir.TahTemMektupDosya == "" )
