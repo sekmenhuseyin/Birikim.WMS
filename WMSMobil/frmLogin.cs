@@ -131,11 +131,11 @@ namespace WMSMobil
             try
             {
                 Barkod.EnableScanner = false;
+                Barkod.Dispose();
             }
             catch (Exception)
             {
             }
-            Barkod.Dispose();
             Servis.Dispose();
             Application.Exit();
         }
