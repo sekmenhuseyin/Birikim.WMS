@@ -78,7 +78,7 @@ namespace Wms12m.Business
                         Birim = tbl.Birim,
                         Miktar = tbl.Miktar
                     };
-                    if (tbl.MakaraNo != "")
+                    if (tbl.MakaraNo != "" && tbl.MakaraNo != null)
                     {
                         var tmpx = db.IRS_Detay.Where(m => m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
                         if (tmpx != null)
