@@ -15,7 +15,7 @@
             </div>
             <div class="portlet-body form p-30 p-t-15">
                 <table class="table table-striped table-bordered" id="sample_1">
-                    <thead><tr><th></th><th>Evrak No</th><th>Hesap Kodu</th><th>Ünvan</th><th>MalKodu</th><th>Miktar</th><th>Tutar</th><th>Kaydeden</th><th>Tarih</th></tr></thead>
+                    <thead><tr><th>Evrak No</th><th>Hesap Kodu</th><th>Ünvan</th><th>Çeşit</th><th>Miktar</th><th>Talep Eden</th><th>Tarih</th></tr></thead>
                 </table>
             </div>
         </div>
@@ -39,7 +39,6 @@
                 { "data": "Unvan" },
                 { "data": "Cesit" },
                 { "data": "Miktar" },
-                { "data": "Tutar" },
                 { "data": "Kaydeden" },
                 { "data": "Tarih" }
             ]
@@ -47,7 +46,7 @@
         $('#sample_1 tbody').on('dblclick', 'tr', function () {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
-            editInModal2('/YN/OnayBekleyenler/Siparis_Details', row.data().EvrakSeriNo)
+            editInModal2('/YN/OnayBekleyenler/Siparis_Details', { ID: row.data().EvrakSeriNo })
             $('#modalEditPage').modal('toggle');
         });
         $('.yenile-buton').click(function () {

@@ -39,7 +39,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// liste detayı
         /// </summary>
         [HttpPost]
-        public JsonResult Siparis_Details(string ID)
+        public PartialViewResult Siparis_Details(string ID)
         {
             using (YNSEntities dby = new YNSEntities())
             {
@@ -49,7 +49,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                                                                 FROM            YNS0TEST.STK002 INNER JOIN
                                                                                             YNS0TEST.CAR002 ON YNS0TEST.STK002.STK002_CariHesapKodu = YNS0TEST.CAR002.CAR002_HesapKodu
                                                                 WHERE        (YNS0TEST.STK002.STK002_GC = 1) AND (YNS0TEST.STK002.STK002_SipDurumu = 0) AND YNS0TEST.STK002.STK002_EvrakSeriNo = '" + ID + "'").ToList();
-                return Json(list, JsonRequestBehavior.AllowGet);
+                return PartialView("Siparis_Details", list);
             }
         }
         /// <summary>
