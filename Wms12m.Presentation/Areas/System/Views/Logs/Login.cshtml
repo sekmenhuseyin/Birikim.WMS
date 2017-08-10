@@ -17,6 +17,7 @@
                             <th>Tarih<br /><input class="w-50 input-circle" type="text" id="Tarih" /></th>
                             <th>Başarılı mı</th>
                             <th>Detay</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,8 +27,9 @@
                                 <td>@item.Username</td>
                                 <td>@item.IP</td>
                                 <td>@item.DateTime</td>
-                                <td>@if (item.LoggedIn == true) {<text>Evet</text>}else{<text>Hayırw</text>}</td>
+                                <td>@if (item.LoggedIn == true) {<text>Evet</text>}else{<text>Hayır</text>}</td>
                                 <td>@item.Comment</td>
+                                <td><a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','','','')"> Sil </a></td>
                             </tr>
                         }
                     </tbody>
@@ -37,6 +39,7 @@
     </div>
 </div>
 @section Scripts{<script>
+    var DeleteFunctionUrl = '/System/Logs/Delete/Login';
     $(document).ready(function () {
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#Username").on("change paste keyup", function () { filterx(0, $("#Username").val()); });

@@ -1,12 +1,13 @@
 ﻿@model Musteri
-<div class="portlet box green">
-    <div class="portlet-title">
-        <div class="caption">
-            <i class="fa fa-gift"></i>Müşteri Düzenle
+<div class="col-md-12">
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>@(Model.ID > 0 ? Model.Firma + "  Müşteri Düzenle" : "Müşteri Ekle")
+            </div>
         </div>
-    </div>
-    <div class="portlet-body form">
-        @using (Ajax.BeginForm("Save", "Customer", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
+        <div class="portlet-body form">
+            @using (Ajax.BeginForm("Save", "Customer", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('kayit');" }, new { @class = "form-horizontal" }))
         {
             @Html.HiddenFor(model => model.ID)
             @Html.AntiForgeryToken()
@@ -15,7 +16,7 @@
                 <div class="form-group row">
                     @Html.LabelFor(model => model.Firma, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-4">
-                        @Html.EditorFor(model => model.Firma, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                        @Html.EditorFor(model => model.Firma, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
                         @Html.ValidationMessageFor(model => model.Firma, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -23,7 +24,7 @@
                 <div class="form-group row">
                     @Html.LabelFor(model => model.Unvan, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-4">
-                        @Html.EditorFor(model => model.Unvan, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                        @Html.EditorFor(model => model.Unvan, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
                         @Html.ValidationMessageFor(model => model.Unvan, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -39,8 +40,10 @@
                 <div class="form-group row">
                     @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4" })
                     <div class="col-md-4">
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-circle", required = "required", @type = "email", @maxlength = "100" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        @*@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })*@
                     </div>
                 </div>
 
@@ -62,13 +65,16 @@
                 <div class="form-actions">
                     <div class="row">
                         <div class="col-md-offset-3 col-md-9">
-                            <input type="submit" value="Kaydet" class="btn btn-circle green" />
+                            <button type="submit" class="btn btn-circle green">@(Model.ID > 0 ? "Düzenle" : "Ekle")</button>
                             <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                            @*<input type="submit" value="Kaydet" class="btn btn-circle green" />
+                                <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>*@
                         </div>
                     </div>
                 </div>
             </div>
         }
+        </div>
     </div>
 </div>
 <script type="text/javascript">
@@ -79,9 +85,11 @@
 
             if (state) {
                 $('#MesaiKota').prop("readonly", false)
+                $('#MesaiKota').prop("required", true)
             }
             else {
                 $('#MesaiKota').prop("readonly", true)
+                $('#MesaiKota').removeAttr("required")
             }
         });
     });

@@ -1,17 +1,17 @@
 ﻿@model List<ChartBolgeBazliSatisAnalizi>
 <div class="row">
-    <div class="col-md-12 m-t-40">
+    <div class="col-md-12">
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Bölge Bazlı Satış Analizi <span style="color:#8888a7;">3D PIE CHART</span></span>
                 </div>
+                <div class="col-md-1 m-l-10 slct_ay_pie"></div>
+                <div class="col-md-1 m-l-10 slct_kriter_pie"></div>
                 <div class="col-md-2">
                     @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDs", @onchange = "Reloads(this.value)" })
                 </div>
-                <div class="col-md-2 slct_ay_pie"></div>
-                <div class="col-md-2 slct_kriter_pie"></div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="javascript:;" class="fullscreen"> </a>
@@ -28,7 +28,7 @@
     var ay_value= @ViewBag.Ay;
     var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
     var ay = [{ id: 0, state: "Tümü"},{ id: 1, state: "Ocak"},{ id: 2, state: "Şubat" },{ id: 3, state: "Mart"},{ id: 4, state: "Nisan"},{ id: 5, state: "Mayıs" },{ id: 6, state: "Haziran"},{ id: 7, state: "Temmuz"},{ id: 8, state: "Ağustos" },{ id: 9, state: "Eylül"},{ id: 10, state: "Ekim"},{ id: 11, state: "Kasım" },{ id: 12, state: "Aralik"}];
-    var kriter = [{ state: "Tüm Bölgeler" }, { state: "Akdeniz Böl." }, { state: "Doğu Anad. Böl." }, { state: "Ege Böl." }, { state: "G.Doğu Anad.Böl." }, { state: "İç Anadolu Böl." }, { state: "Karadeniz Böl." }, { state: "Marmara Böl." }];
+    //var kriter = [{ state: "Tümü" }, { state: "Akdeniz Böl." }, { state: "Doğu Anad. Böl." }, { state: "Ege Böl." }, { state: "G.Doğu Anad.Böl." }, { state: "İç Anadolu Böl." }, { state: "Karadeniz Böl." }, { state: "Marmara Böl." }];
     if ($('.SirketIDs option').size() == 1) $(".SirketIDs").hide();
     else $(".SirketIDs").val('@ViewBag.SirketKodu');
     function Reloads(v)
@@ -53,16 +53,25 @@
                 PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: ay_value, kriter:kriter_value}));
             }
         });
-        $(".slct_kriter_pie").dxSelectBox({
+               $.ajax({
+           url: "/Home/BolgeBazliSatisAnaliziKriter",
+            data: { SirketKodu: '@ViewBag.SirketKodu'},
+            type: "post",
+            success: function (data)
+            {
+                   $(".slct_kriter_pie").dxSelectBox({
             dataSource: kriter,
-            valueExpr: 'state',
-            displayExpr: 'state',
+            valueExpr: 'Kriter',
+            displayExpr: 'Kriter',
             value: kriter_value,
             onValueChanged: function (e) {
                 kriter_value=e.value;
                 PartialView("/Home/PartialBolgeBazliSatisAnaliziPie", 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: ay_value, kriter:kriter_value}));
             }
         });
+            }
+        });
+
         var ChartsAmchartsa = function () {
             var initChartSample7 = function () {
                 var chart = AmCharts.makeChart("chart_5_bolge_pie", {

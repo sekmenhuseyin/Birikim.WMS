@@ -24,7 +24,7 @@
                         <input type="hidden" name="Hesap" id="Hesap" value="" />
                     }
                 </div>
-                <div class="col-md-1 pull-right m-t-5"><a id="btnSablon" href="~/Content/STISablon.xlsx" class="btn btn-default showlater2">Şablon İndir</a></div>
+                <div class="col-md-2 pull-right m-t-5 text-right"><a id="btnSablon" href="~/Content/STISablon.xlsx" class="btn btn-default showlater2">Şablon İndir</a></div>
             </div>
             <div class="portlet-body form">
                 @using (Ajax.BeginForm("New", "Purchase", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnBegin = "$('#StoreGrid').html('');", UpdateTargetId = "StoreGrid", OnFailure= "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "form-horizontal" }))
@@ -196,7 +196,7 @@
     function getresult(data) {
         if (data.Status == false)
             Modaldialog(data.Message, "Hata", "Tamam", "btn-danger");
-        $('#submitForm').click();
+        //$('#submitForm').click();
     };
     $(function () {
         $('#linkUpload').click(function () {

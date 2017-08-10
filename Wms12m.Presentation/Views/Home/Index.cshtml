@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     BekleyenOnaylar tbl = ViewBag.BekleyenOnaylar;
     Setting tst = ViewBag.Settings;
+    string[] gorevler = Model.GorevSayilari.Split(',');
 }@section Styles{<link href="~/Content/assets/global/plugins/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet" type="text/css" />
 <style>.white{color:white!important;}</style>
 <script>var dateVal = new Date(); dateVal.setHours(0, 0, 0); var oaDate = Math.ceil((dateVal - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000));</script>
@@ -40,20 +41,26 @@ if (tst.homeTask == true)
         <a class="dashboard-stat dashboard-stat-v2 blue" href="/WMS/Tasks">
             <div class="visual"><i class="fa fa-comments"></i></div>
             <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@Model.gorev">@Model.gorev</span></div>
-                <div class="desc"> Açık Görevler </div>
+                <div class="number"><span data-counter="counterup" data-value="@gorevler[1]">@gorevler[1]</span></div>
+                <div class="desc"> Rafa Kaldırılıcak </div>
             </div>
         </a>
     </div>
-}
-if (tst.homeTransfer == true)
-{
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 purple" href="/WMS/Transfer">
-            <div class="visual"><i class="fa fa-globe"></i></div>
+        <a class="dashboard-stat dashboard-stat-v2 purple" href="/WMS/Tasks">
+            <div class="visual"><i class="fa fa-comments"></i></div>
             <div class="details">
-                <div class="number"><span data-counter="counterup" data-value="@Model.transfer">@Model.transfer</span></div>
-                <div class="desc"> Depolar Arası Transfer </div>
+                <div class="number"><span data-counter="counterup" data-value="@gorevler[2]">@gorevler[2]</span></div>
+                <div class="desc"> Faturalandırılacak </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <a class="dashboard-stat dashboard-stat-v2 purple-medium" href="/WMS/Tasks">
+            <div class="visual"><i class="fa fa-comments"></i></div>
+            <div class="details">
+                <div class="number"><span data-counter="counterup" data-value="@gorevler[5]">@gorevler[5]</span></div>
+                <div class="desc"> Paketlenecek </div>
             </div>
         </a>
     </div>
@@ -324,6 +331,42 @@ if (tst.OnayTekno == true && (ViewBag.RoleName == "GM" || ViewBag.Id == 1 || Vie
         </a>
     </div>
 }
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <a class="dashboard-stat dashboard-stat-v2 red-thunderbird" href="javascript:">
+        <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+        <div class="details">
+            <div class="number"><span>@String.Format("{0:n}", ViewBag.MevcudBanka)</span></div>
+            <div class="desc"> Banka Mevcudu </div>
+        </div>
+    </a>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <a class="dashboard-stat dashboard-stat-v2 blue-soft" href="javascript:">
+        <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+        <div class="details">
+            <div class="number"><span>@String.Format("{0:n}", ViewBag.MevcudCek)</span></div>
+            <div class="desc"> Çek Mevcudu </div>
+        </div>
+    </a>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <a class="dashboard-stat dashboard-stat-v2 purple-studio" href="javascript:">
+        <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+        <div class="details">
+            <div class="number"><span>@String.Format("{0:n}", ViewBag.MevcudKasa)</span></div>
+            <div class="desc"> Kasa Mevcudu </div>
+        </div>
+    </a>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <a class="dashboard-stat dashboard-stat-v2 blue-dark" href="javascript:">
+        <div class="visual"><i class="fa fa-bar-chart-o"></i></div>
+        <div class="details">
+            <div class="number"><span>@String.Format("{0:n}", ViewBag.MevcudPOS)</span></div>
+            <div class="desc"> POS Mevcudu </div>
+        </div>
+    </a>
+</div>
 if (tst.CrmOzet == true)
 {
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -336,19 +379,19 @@ if (tst.CrmOzet == true)
                     <div class="col-md-2">Hafta</div>
                     <div class="col-md-2">Bugün</div>
                 </div>
-                <div class="row desc f-s-14">                    
+                <div class="row desc f-s-14">
                     <div class="col-md-6"><a href="/Reports/CRM/Institution/0" class="white">Kurum Kartları</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Institution/0" class="white">@tbl.KurumKartlari</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Institution/1" class="white">@tbl.KurumKartlariBuHafta</a></div>
-                    <div class="col-md-2"><a href="/Reports/CRM/Institution/2" class="white">@tbl.KurumKartlariBugun</a></div>                    
+                    <div class="col-md-2"><a href="/Reports/CRM/Institution/2" class="white">@tbl.KurumKartlariBugun</a></div>
                 </div>
-                <div class="row desc f-s-14">                    
+                <div class="row desc f-s-14">
                     <div class="col-md-6"><a href="/Reports/CRM/Meeting/0" class="white">Görüşme Notu</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Meeting/0" class="white">@tbl.GorusmeNotlari</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Meeting/1" class="white">@tbl.GorusmeNotlariBuHafta</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Meeting/2" class="white">@tbl.GorusmeNotlariBugun</a></div>
                 </div>
-                <div class="row desc f-s-14">                    
+                <div class="row desc f-s-14">
                     <div class="col-md-6"><a href="/Reports/CRM/Bid/0" class="white">Teklif Analiz</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Bid/0" class="white">@tbl.TeklifAnalizi</a></div>
                     <div class="col-md-2"><a href="/Reports/CRM/Bid/1" class="white">@tbl.TeklifAnaliziBuHafta</a></div>
@@ -359,7 +402,13 @@ if (tst.CrmOzet == true)
     </div>
 }
 }</div>
-@Html.Partial("Charts", Model)
+<div id="gunluk_satis"></div><div id="gunluk_satis_pie"></div><div id="gunluk_satis_zaman_cizelgesi"></div><div id="gunluk_satis_yeartoday"></div>
+<div id="gunluk_satis_yeartoday_pie"></div><div id="gunluk_satis_double_kriter"></div><div id="gunluk_satis_double_kriter_pie"></div>
+<div id="aylik_satis_bar"></div><div id="aylik_satis_chk_bar"></div><div id="aylik_satis_kod_tip_doviz_bar"></div>
+<div id="urun_grubu_satis"></div><div id="urun_grubu_satis_kriter"></div><div id="lokasyon_satis"></div><div id="lokasyon_satis_kriter"></div><div id="bakiye_risk"></div>
+<div id="bekleyen_siparis_urun_grubu"></div><div id="bekleyen_siparis_urun_grubu_miktar"></div><div id="bekleyen_siparis_urun_grubu_miktar_pie"></div><div id="bekleyen_siparis_urun_grubu_miktar_kriter"></div><div id="bekleyen_siparis_urun_grubu_miktar_kriter_pie"></div><div id="bekleyen_siparis_musteri_analizi"></div>
+<div id="satis_temsilcisi_aylik_satis_analizi"></div><div id="baglanti_urun_grubu"></div><div id="baglanti_urun_grubu_pie"></div><div id="gunluk_mdf_uretim"></div><div id="gunluk_mdf_uretim_pie"></div>
+<div id="baglanti_zaman_cizelgesi"></div><div id="bolge_bazli_satis_analizi"></div><div id="bolge_bazli_satis_analizi_pie"></div>
 @section Scripts{<script src="~/Content/assets/global/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
 <script src="~/Content/assets/global/plugins/counterup/jquery.counterup.min.js"></script>
 <script src="~/Content/assets/global/plugins/amcharts/amcharts/amcharts.js"></script>
@@ -368,33 +417,34 @@ if (tst.CrmOzet == true)
 <script src="~/Content/assets/global/plugins/amcharts/amcharts/themes/light.js"></script>
 <script src="~/Content/assets/global/plugins/amcharts/amstockcharts/amstock.js"></script>
 <script src="~/Content/assets/global/plugins/echarts/echarts.js"></script>
-<script src="~/Content/assets/global/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>@*<script>
-    PartialView('/Home/PartialGunlukSatis', 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
-    PartialView('/Home/PartialGunlukSatisPie', 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
-    PartialView('/Home/PartialGunlukSatisYearToDay', 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
-    PartialView('/Home/PartialGunlukSatisYearToDayPie', 'gunluk_satis_yeartoday_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
-    PartialView('/Home/PartialGunlukSatisDoubleKriter', 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', islemtip: 0, tarih: oaDate }));
-    PartialView('/Home/PartialGunlukSatisDoubleKriterPie', 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', islemtip: 0, tarih: oaDate }));
-    PartialView('/Home/PartialAylikSatisAnaliziBar', 'aylik_satis_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
-    PartialView('/Home/PartialAylikSatisCHKAnaliziBar', 'aylik_satis_chk_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', chk: '' }));
-    PartialView('/Home/PartialAylikSatisAnaliziKodTipDovizBar', 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', islemtip: 0, doviz: 'TL' }));
-    PartialView('/Home/PartialUrunGrubuSatis', 'urun_grubu_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 }));
-    PartialView('/Home/PartialUrunGrubuSatisKriter', 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1, kriter: 'TL' }));
-    PartialView('/Home/PartialLokasyonSatis', 'lokasyon_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 }));
-    PartialView('/Home/PartialLokasyonSatisKriter', 'lokasyon_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1, kriter: 'TL' }));
-    PartialView('/Home/PartialBakiyeRiskAnalizi', 'bakiye_risk', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
-    PartialView('/Home/PartialBekleyenSiparisUrunGrubu', 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', bastarih: oaDate - 7, bittarih: oaDate }));
-    PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktar', 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true }));
-    PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktarPie', 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true }));
-    PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter', 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true, kriter: 'TL' }));
-    PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie', 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true, kiter: 'TL' }));
-    PartialView('/Home/PartialBekleyenSiparisMusteriAnalizi', 'bekleyen_siparis_musteri_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', doviz: 'TL' }));
-    PartialView('/Home/PartialSatisTemsilcisiAylikSatisAnalizi', 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', tarih: dateVal.getMonth() + 1 }));
-    PartialView('/Home/PartialBaglantiUrunGrubu', 'baglanti_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
-    PartialView('/Home/PartialBaglantiUrunGrubuPie', 'baglanti_urun_grubu_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
-    PartialView('/Home/PartialGunlukMDFUretimi', 'gunluk_mdf_uretim', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
-    PartialView('/Home/PartialGunlukMDFUretimiPie', 'gunluk_mdf_uretim_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));
-    PartialView('/Home/PartialBaglantiZamanCizelgesi', 'baglanti_zaman_cizelgesi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));
-    PartialView('/Home/PartialBolgeBazliSatisAnalizi', 'bolge_bazli_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: dateVal.getMonth(), kriter: 'Tümü' }));
-    PartialView('/Home/PartialBolgeBazliSatisAnaliziPie', 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: dateVal.getMonth(), kriter: 'Tümü' }));
-</script>*@}
+<script src="~/Content/assets/global/plugins/bootstrap-toggle/js/bootstrap-toggle.min.js"></script><script>$(document).ready(function (e) {@{
+    if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>PartialView('/Home/PartialGunlukSatis', 'gunluk_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
+    if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>PartialView('/Home/PartialGunlukSatisPie', 'gunluk_satis_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
+    if (Model.yetki.Contains("'ChartGunlukSatis'") == true){<text>PartialView('/Home/PartialGunlukSatisZamanCizelgesi', 'gunluk_satis_zaman_cizelgesi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
+    if (Model.yetki.Contains("'ChartGunlukSatisYearToDay'") == true){<text>PartialView('/Home/PartialGunlukSatisYearToDay', 'gunluk_satis_yeartoday', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));</text>}
+    if (Model.yetki.Contains("'ChartGunlukSatisYearToDay'") == true){<text>PartialView('/Home/PartialGunlukSatisYearToDayPie', 'gunluk_satis_yeartoday_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));</text>}
+    if (Model.yetki.Contains("'ChartGunlukSatisDoubleKriter'") == true){<text>PartialView('/Home/PartialGunlukSatisDoubleKriter', 'gunluk_satis_double_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', islemtip: 0, tarih: oaDate }));</text>}
+    if (Model.yetki.Contains("'ChartGunlukSatisDoubleKriter'") == true){<text>PartialView('/Home/PartialGunlukSatisDoubleKriterPie', 'gunluk_satis_double_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', islemtip: 0, tarih: oaDate }));</text>}
+    if (Model.yetki.Contains("'ChartAylikSatisAnaliziBar'") == true){<text>PartialView('/Home/PartialAylikSatisAnaliziBar', 'aylik_satis_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));</text>}
+    if (Model.yetki.Contains("'ChartAylikSatisAnaliziBar'") == true){<text>PartialView('/Home/PartialAylikSatisCHKAnaliziBar', 'aylik_satis_chk_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', chk: '' }));</text>}
+    if (Model.yetki.Contains("'ChartAylikSatisAnaliziBar'") == true){<text>PartialView('/Home/PartialAylikSatisAnaliziKodTipDovizBar', 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', islemtip: 0, doviz: 'TL' }));</text>}
+    if (Model.yetki.Contains("'ChartUrunGrubuSatis'") == true){<text>PartialView('/Home/PartialUrunGrubuSatis', 'urun_grubu_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 }));</text>}
+    if (Model.yetki.Contains("'ChartUrunGrubuSatis'") == true){<text>PartialView('/Home/PartialUrunGrubuSatisKriter', 'urun_grubu_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1, kriter: 'TL' }));</text>}
+    if (Model.yetki.Contains("'ChartLokasyonSatis'") == true){<text>PartialView('/Home/PartialLokasyonSatis', 'lokasyon_satis', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1 }));</text>}
+    if (Model.yetki.Contains("'ChartLokasyonSatisKriter'") == true){<text>PartialView('/Home/PartialLokasyonSatisKriter', 'lokasyon_satis_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: dateVal.getMonth() + 1, kriter: 'TL' }));</text>}
+    if (Model.yetki.Contains("'ChartBakiyeRiskAnalizi'") == true){<text>PartialView('/Home/PartialBakiyeRiskAnalizi', 'bakiye_risk', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));</text>}
+    if (Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubu'") == true){<text>PartialView('/Home/PartialBekleyenSiparisUrunGrubu', 'bekleyen_siparis_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', bastarih: oaDate - 7, bittarih: oaDate }));</text>}
+    if (Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubuMiktar'") == true){<text>PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktar', 'bekleyen_siparis_urun_grubu_miktar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true }));</text>}
+    if (Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubuMiktar'") == true){<text>PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktarPie', 'bekleyen_siparis_urun_grubu_miktar_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true }));</text>}
+    if (Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubuMiktarKriter'") == true){<text>PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktarKriter', 'bekleyen_siparis_urun_grubu_miktar_kriter', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true, kriter: 'TL' }));</text>}
+    if (Model.yetki.Contains("'ChartBekleyenSiparisUrunGrubuMiktarKriter'") == true){<text>PartialView('/Home/PartialBekleyenSiparisUrunGrubuMiktarKriterPie', 'bekleyen_siparis_urun_grubu_miktar_kriter_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', miktarTutar: true, kriter: 'TL' }));</text>}
+    if (Model.yetki.Contains("'ChartBekleyenSiparisMusteriAnalizi'") == true){<text>PartialView('/Home/PartialBekleyenSiparisMusteriAnalizi', 'bekleyen_siparis_musteri_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', doviz: 'TL' }));</text>}
+    if (Model.yetki.Contains("'ChartSatisTemsilcisiAylikSatisAnalizi'") == true){<text>PartialView('/Home/PartialSatisTemsilcisiAylikSatisAnalizi', 'satis_temsilcisi_aylik_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: 'Tümü', tarih: dateVal.getMonth() + 1 }));</text>}
+    if (Model.yetki.Contains("'ChartBaglantiUrunGrubu'") == true){<text>PartialView('/Home/PartialBaglantiUrunGrubu', 'baglanti_urun_grubu', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));</text>}
+    if (Model.yetki.Contains("'ChartBaglantiUrunGrubu'") == true){<text>PartialView('/Home/PartialBaglantiUrunGrubuPie', 'baglanti_urun_grubu_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));</text>}
+    if (Model.yetki.Contains("'ChartGunlukMDFUretimi'") == true){<text>PartialView('/Home/PartialGunlukMDFUretimi', 'gunluk_mdf_uretim', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
+    if (Model.yetki.Contains("'ChartGunlukMDFUretimi'") == true){<text>PartialView('/Home/PartialGunlukMDFUretimiPie', 'gunluk_mdf_uretim_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', tarih: oaDate }));</text>}
+    if (Model.yetki.Contains("'ChartBaglantiZamanCizelgesi'") == true){<text>PartialView('/Home/PartialBaglantiZamanCizelgesi', 'baglanti_zaman_cizelgesi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu' }));</text>}
+    if (Model.yetki.Contains("'ChartBolgeBazliSatisAnalizi'") == true){<text>PartialView('/Home/PartialBolgeBazliSatisAnalizi', 'bolge_bazli_satis_analizi', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: dateVal.getMonth(), kriter: 'Tümü' }));</text>}
+    if (Model.yetki.Contains("'ChartBolgeBazliSatisAnalizi'") == true){<text>PartialView('/Home/PartialBolgeBazliSatisAnaliziPie', 'bolge_bazli_satis_analizi_pie', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', ay: dateVal.getMonth(), kriter: 'Tümü' }));</text>}
+}});</script>}

@@ -159,6 +159,37 @@
             return nRow;
         }
     });
+    $.contextMenu({
+        selector: '#sample_1 tbody tr',
+        callback: function (key, options) {
+            var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
+            var satir = table.row(rowIndex).data();
+            switch (key) {
+                case 'teminat':
+                    if (satir.TebTemMektupDosya == null || satir.TebTemMektupDosya == "")
+                        return;
+                    window.open("/Belgeler/Ihaleli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TebTemMektupDosya);
+                    break;
+                case 'pesinat':
+                    if (satir.TebPesDekontDosya == null || satir.TebPesDekontDosya == "")
+                        return;
+                    window.open("/Belgeler/Ihaleli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TebPesDekontDosya);
+                    break;
+                case 'fatura':
+                    if (satir.TebFaturaDosya == null || satir.TebFaturaDosya == "")
+                        return;
+                    window.open("/Belgeler/Ihaleli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TebFaturaDosya);
+                    break;
+                default:
+                    break;
+            }
+        },
+        items: {
+            "teminat": { name: "Teminat Mektubu Belgesini Aç", icon: "file" },
+            "pesinat": { name: "Peşinat Dekontu Belgesini Aç", icon: "file" },
+            "fatura": { name: "Fatura Belgesini Aç", icon: "file" },
+        }
+    });
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });

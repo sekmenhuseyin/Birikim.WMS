@@ -34,6 +34,10 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string OnayCek(string Durum)
         {
             if (CheckPerm(Perms.StokOnaylama, PermTypes.Reading) == false) return null;
+            JavaScriptSerializer json = new JavaScriptSerializer()
+            {
+                MaxJsonLength = int.MaxValue
+            };
             int param = 1;
             if (Durum == "Tumu") { param = 0; }
             else if (Durum == "Onay") { param = 1; }
@@ -41,8 +45,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             else if (Durum == "Aktif") { param = 3; }
             else if (Durum == "Red") { param = 4; }
             var KOD = db.Database.SqlQuery<StokOnaySelect>(string.Format("[FINSAT6{0}].[wms].[StokOnaySelect] {1}", "17", param)).ToList();
-            var json = new JavaScriptSerializer().Serialize(KOD);
-            return json;
+            return json.Serialize(KOD);
         }
         /// <summary>
         /// onayla

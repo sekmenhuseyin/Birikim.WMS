@@ -1,23 +1,23 @@
-﻿@model List<ChartAylikSatisAnalizi>
+﻿@model List<GetCachedChartMonthlyByKriter_Result>
 <div class="row">
-    <div class="col-md-12 m-t-40">
+    <div class="col-md-12">
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-bar-chart font-green-haze"></i>
-                    <span class="caption-subject bold uppercase font-green-haze"> Aylık Satış Analizi GrupKod ve İşlemTip <span style="color:#8888a7;">BAR CHART</span></span>
+                    <span class="ay-grup caption-subject bold uppercase font-green-haze"> Aylık Satış Analizi GrupKod ve İşlemTip </span><span class="ay-grup-d" style="color:#8888a7;font-weight: bold;font-size:16px;">BAR CHART</span>
+                </div>
+                <div class="col-md-1 m-l-10 slct_aylik_kriter_islemtip" style="width:130px;">
+                    @*<div class="slct_aylik_kriter_islemtip" style="width:130px;"></div>*@
+                </div>
+                <div class="col-md-1 m-l-10 slct_aylik_kriter_doviz" style="width:130px;">
+                    @*<div class="slct_aylik_kriter_doviz" style="width:130px;"></div>*@
+                </div>
+                <div class="col-md-1 m-l-10 slct_aylik_kriter_kod" style="width:130px;">
+                    @*<div class="slct_aylik_kriter_kod" style="width:130px;"></div>*@
                 </div>
                 <div class="col-md-2">
                     @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID9", @onchange = "Reload9(this.value)" })
-                </div>
-                <div class="col-md-1 p-l-10">
-                    <div class="slct_aylik_kriter_islemtip" style="width:130px;"></div>
-                </div>
-                <div class="col-md-1 p-l-10">
-                    <div class="slct_aylik_kriter_doviz" style="width:130px;"></div>
-                </div>
-                <div class="col-md-1 p-l-10">
-                    <div class="slct_aylik_kriter_kod" style="width:130px;"></div>
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
@@ -34,7 +34,7 @@
 <script>
     var islemtip_value= @ViewBag.IslemTip;
     var doviz_value= @Html.Raw(Json.Encode(ViewBag.Doviz));
-    var kriter_value=@Html.Raw(Json.Encode(ViewBag.Kriter));
+    var kriter_value =@Html.Raw(Json.Encode(ViewBag.Kriter));
     if ($('.SirketID9 option').size() == 1) $(".SirketID9").hide();
     else $(".SirketID9").val('@ViewBag.SirketKodu');
     function Reload9(v)
@@ -59,18 +59,23 @@
         var Yil2017 = new Array();
         jQuery.each( model, function( i, val ) {
             aylar.push(val.Ay);
-            Yil2015.push(val.Yil2015);
-            Yil2016.push(val.Yil2016);
-            Yil2017.push(val.Yil2017);
+            Yil2015.push(jDecimal(ondalikBinlik(Math.round(val.Yil2015 * 100) / 100, 2)));
+            Yil2016.push(jDecimal(ondalikBinlik(Math.round(val.Yil2016 * 100) / 100, 2)));
+            Yil2017.push(jDecimal(ondalikBinlik(Math.round(val.Yil2017 * 100) / 100, 2)));
         });
         var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
         var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];
         $.ajax({
-            url: "/Home/AylikSatisAnaliziKodTipDovizKriter",
+            url: "/Home/GunlukSatisAnaliziKriterSelect",
             data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)
             {
+                if (data.length < 40) {
+                    $(".slct_aylik_kriter_kod").css("display", "none");
+                    $(".ay-grup").text("Aylık Satış Analizi İşlemTip ");
+                    $(".ay-grup-d").text("BAR CHART");
+                }
                 $(".slct_aylik_kriter_kod").dxSelectBox({
                     dataSource: $.parseJSON(data),
                     valueExpr: 'Kriter',
@@ -89,18 +94,18 @@
         });
         $(".slct_aylik_kriter_islemtip").dxSelectBox({
             dataSource: islemtip,
-            valueExpr: 'state',
+            valueExpr: 'id',
             displayExpr: 'state',
             value: islemtip_value,
             onValueChanged: function (e) {
-                islemtip_value=e.value;
+                islemtip_value = e.value;
                 PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
             }
         });
 
         $(".slct_aylik_kriter_doviz").dxSelectBox({
             dataSource: doviz,
-            valueExpr: 'id',
+            valueExpr: 'state',
             displayExpr: 'state',
             value: doviz_value,
             onValueChanged: function (e) {
@@ -108,14 +113,11 @@
                 PartialView("/Home/PartialAylikSatisAnaliziKodTipDovizBar", 'aylik_satis_kod_tip_doviz_bar', JSON.stringify({ SirketKodu: '@ViewBag.SirketKodu', kod: kriter_value, islemtip: islemtip_value, doviz: doviz_value }));
             }
         });
-
         require.config({
             paths: {
                 echarts: '/content/assets/global/plugins/echarts'
             }
         });
-
-        // DEMOS
         require(
             [
                 'echarts',
@@ -123,7 +125,6 @@
                 'echarts/chart/bar'
             ],
             function(ec) {
-                //--- BAR ---
                 var myChart = ec.init(document.getElementById('echarts_bar2'));
                 myChart.setOption({
                     tooltip: {

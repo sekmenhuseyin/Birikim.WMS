@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs2420.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs6CCD.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs2420.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs6CCD.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -413,6 +413,21 @@
     <Content Include="Areas\Approvals\Views\Wood\TahsisliIsletmeKasasi.cshtml" />
     <Content Include="Areas\Approvals\Views\Wood\TahsisliIsletmeKasasi_List.cshtml" />
     <Content Include="Areas\WMS\Views\Cable\Step3Details.cshtml" />
+    <Content Include="Areas\ToDo\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\ToDo\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\ToDo\Views\GorevTakvimi\GorevTakvimi.cshtml" />
+    <Content Include="Areas\ToDo\Views\ProjectForm\FormList.cshtml" />
+    <Content Include="Areas\ToDo\Views\ProjectForm\FormEdit.cshtml" />
+    <Content Include="Areas\ToDo\Views\ProjectForm\FormIndex.cshtml" />
+    <Content Include="Areas\System\Views\Settings\Sql.cshtml" />
+    <Content Include="Areas\YN\Views\web.config" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Siparis.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Transfer.cshtml" />
+    <Content Include="Areas\Approvals\Views\Purchase\OnayliTedarikciList.cshtml" />
+    <Content Include="Areas\Approvals\Views\Purchase\SatGMContext.cshtml" />
+    <Content Include="Areas\Approvals\Views\Purchase\SonAlimListesi.cshtml" />
+    <Content Include="Areas\Approvals\Views\Purchase\TeklifList.cshtml" />
+    <Content Include="Areas\YN\Views\OnayBekleyenler\Siparis_Details.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -420,7 +435,6 @@
     <Content Include="Content\KatSablon.xlsx" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
-    <Content Include="Service\Mobile.asmx" />
     <Content Include="Service\Terminal.asmx" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
@@ -472,11 +486,14 @@
     <Compile Include="Areas\Reports\ReportsAreaRegistration.cs" />
     <Compile Include="Areas\System\Controllers\SettingsController.cs" />
     <Compile Include="Areas\System\SystemAreaRegistration.cs" />
+    <Compile Include="Areas\ToDo\Controllers\GorevTakvimiController.cs" />
     <Compile Include="Areas\ToDo\ToDoAreaRegistration.cs" />
     <Compile Include="Areas\WMS\WMSAreaRegistration.cs" />
     <Compile Include="Areas\ToDo\Controllers\DutiesController.cs" />
     <Compile Include="Areas\ToDo\Controllers\DutyWorkController.cs" />
     <Compile Include="Areas\ToDo\Controllers\SubProjectFormController.cs" />
+    <Compile Include="Areas\YN\Controllers\OnayBekleyenlerController.cs" />
+    <Compile Include="Areas\YN\YNAreaRegistration.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Areas\System\Controllers\LogsController.cs" />
     <Compile Include="Areas\Approvals\Controllers\WoodController.cs" />
@@ -533,10 +550,6 @@
     </Compile>
     <Compile Include="Helper\Client.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\Mobile.asmx.cs">
-      <DependentUpon>Mobile.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Service\Terminal.asmx.cs">
       <DependentUpon>Terminal.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -578,7 +591,6 @@
     <Content Include="Areas\WMS\Views\Purchase\SiparisList.cshtml" />
     <Content Include="Areas\Constants\Views\Size\Index.cshtml" />
     <Content Include="Areas\Constants\Views\Size\_Edit.cshtml" />
-    <Content Include="Areas\Constants\Views\Size\_List.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Areas\WMS\Views\Sales\Index.cshtml" />
     <Content Include="Areas\WMS\Views\Sales\_Siparis.cshtml" />
@@ -714,15 +726,15 @@
     <Content Include="Areas\ToDo\Views\ProjectForm\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\GMOnayHTML.cshtml" />
-    <Content Include="Areas\ToDo\Views\SubProjectForm\Edit.cshtml" />
-    <Content Include="Areas\ToDo\Views\SubProjectForm\Index.cshtml" />
+    <Content Include="Areas\ToDo\Views\SubProjectForm\FormEdit.cshtml" />
+    <Content Include="Areas\ToDo\Views\SubProjectForm\FormIndex.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\Duties\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\Create.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\Edit.cshtml" />
     <Content Include="Areas\ToDo\Views\DutyWork\Index.cshtml" />
     <Content Include="Areas\ToDo\Views\ProjectForm\List.cshtml" />
-    <Content Include="Areas\ToDo\Views\SubProjectForm\List.cshtml" />
+    <Content Include="Areas\ToDo\Views\SubProjectForm\FormList.cshtml" />
     <Content Include="Reports\DsSatinalma.xsc">
       <DependentUpon>DsSatinalma.xsd</DependentUpon>
     </Content>
@@ -756,10 +768,10 @@
     <Content Include="Views\Menu\PermissionsList.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\RiskAnaliz.cshtml" />
     <Content Include="Areas\Reports\Views\Financial\RiskAnalizList.cshtml" />
-    <Content Include="Views\Home\Charts.cshtml" />
     <Content Include="Views\Users\B2B.cshtml" />
     <Content Include="Views\Users\B2BList.cshtml" />
     <Content Include="Views\Users\B2BNew.cshtml" />
+    <Content Include="Views\Home\_PartialGunlukSatisZamanCizelgesi.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -797,7 +809,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Uploads\" />
+    <Folder Include="Areas\ToDo\Views\GörevTakvimi\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,130 @@
+﻿@model List<ChartBaglantiZaman>
+@{
+    System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-bar-chart font-green-haze"></i>
+                    <span class="caption-subject bold uppercase font-green-haze"> Günlük Satış Zaman Çizelgesi <span style="color:#8888a7;">LINE CHART</span></span>
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketID33", @onchange = "Reload33(this.value)" })
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="javascript:;" class="fullscreen"> </a>
+                    <a href="javascript:;" class="reload" onclick="Reload33('@ViewBag.SirketKodu');"> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div id="chart_12" class="chart" style="height: 400px;"> </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    if ($('.SirketID33 option').size() == 1) $(".SirketID33").hide();
+    else $(".SirketID33").val('@ViewBag.SirketKodu');
+    function Reload33(v)
+    {
+        PartialView("/Home/PartialGunlukSatisZamanCizelgesi", 'gunluk_satis_zaman_cizelgesi', JSON.stringify({ SirketKodu: v }));
+    }
+    $(document).ready(function (e) {
+        var model =  @Html.Raw(serializer.Serialize(Model));
+        jQuery.each(model, function (i, val) {
+            val.Tarih = new Date(parseInt(val.Tarih.substr(6)));
+        });
+        var ChartsAmcharts33 = function () {
+            var initChartSample123 = function() {
+                var chart = AmCharts.makeChart("chart_12", {
+                    type: "stock",
+                    "theme": "light",
+                    pathToImages: "/content/assets/global/plugins/amcharts/amcharts/images/",
+                    "fontFamily": 'Open Sans',
+
+                    "color":    '#888',
+                    dataSets: [{
+                        color: "#b0de09",
+                        fieldMappings: [{
+                            fromField: "KalanTutar",
+                            toField: "KalanTutar"
+                        }],
+                        dataProvider: model,
+                        categoryField: "Tarih"
+                    }],
+
+
+                    panels: [{
+                        title: "Value",
+                        percentHeight: 70,
+                        stockGraphs: [{
+                            id: "g1",
+                            valueField: "KalanTutar"
+                        }],
+
+                        stockLegend: {
+                            valueTextRegular: " ",
+                            markerType: "none"
+                        }
+                    }],
+
+                    chartScrollbarSettings: {
+                        graph: "g1"
+                    },
+
+                    chartCursorSettings: {
+                        valueBalloonsEnabled: true,
+                        graphBulletSize: 1,
+                        valueLineBalloonEnabled:true,
+                        valueLineEnabled:true,
+                        valueLineAlpha:0.5
+                    },
+
+                    periodSelector: {
+                        periods: [{
+                            period: "DD",
+                            count: 10,
+                            label: "10 gün"
+                        }, {
+                            period: "MM",
+                            count: 1,
+                            label: "1 ay"
+                        }, {
+                            period: "YYYY",
+                            count: 1,
+                            label: "1 yıl"
+                        }, {
+                            period: "YTD",
+                            label: "Bu Yıl"
+                        }, {
+                            period: "MAX",
+                            label: "Hepsi"
+                        }]
+                    },
+
+                    panelsSettings: {
+                        usePrefixes: true
+                    }
+                });
+
+                $('#gunluk_satis_zaman_cizelgesi').closest('.portlet').find('.fullscreen').click(function() {
+                    chart.invalidateSize();
+                });
+            }
+
+            return {
+                init: function () {
+                    initChartSample123();
+                }
+            };
+        }();
+
+        jQuery(document).ready(function () {
+            ChartsAmcharts33.init();
+        });
+    });
+</script>

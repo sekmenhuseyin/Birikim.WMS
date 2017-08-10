@@ -228,6 +228,7 @@ namespace WMSMobil
             }
             catch (Exception ex)
             {
+                sonuc.Status = false;
                 sonuc.Message = ex.Message;
             }
             //sonuç

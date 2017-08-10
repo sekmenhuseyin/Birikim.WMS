@@ -17,7 +17,7 @@
                 <td>@item.MakaraNo</td>
                 <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                 <td>@item.Birim</td>
-                <td><button class="btn btn-default btn-sm" type="button" onclick="SelectMakara(@item.ID, @ViewBag.satir);">Seç</button></td>
+                <td><button class="btn btn-default btn-sm" type="button" onclick="SelectMakara(@item.ID, @ViewBag.satir,'@item.MakaraNo');">Seç</button></td>
             </tr>
         }
     </tbody>

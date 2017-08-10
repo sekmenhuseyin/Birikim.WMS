@@ -2,134 +2,162 @@
 <div class="modal-content">
     <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
     <div class="container">
-        <div class="portlet-body form">
-            @using (Ajax.BeginForm("Save", "Duties", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
-            {
-                @Html.HiddenFor(model => model.ID)
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
-                <div class="form-body">
-                    <h4>Gorevler</h4>
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.ID)
-
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.ProjeFormID, "ProjeFormID", htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.DropDownList("ProjeFormID", null, htmlAttributes: new { @class = "form-control input-circle" })
-                            @Html.ValidationMessageFor(model => model.ProjeFormID, "", new { @class = "text-danger" })
+        <div class="row" id="CreateEditAlt">
+            <div class="col-lg-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>Görev Ekle
                         </div>
                     </div>
+                    <div class="portlet-body form">
+                        @using (Ajax.BeginForm("Save", "Duties", new { area = "ToDo" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');", OnSuccess = "CreateEdit('0');" }, new { @class = "form-horizontal" }))
+                    {
+                        @Html.HiddenFor(model => model.ID)
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="form-body">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.ID)
 
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.DropDownList("Sorumlu", null, htmlAttributes: new { @class = "form-control input-circle" })
-                            @Html.ValidationMessageFor(model => model.Sorumlu, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            @*<div class="form-group row" style="display:none">
+                                @Html.LabelFor(model => model.ProjeFormID, "ProjeFormID", htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownList("ProjeFormID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.ProjeFormID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+                            <div class="form-group row">
+                                <label class="col-md-4 control-label">Firma</label>
+                                <div class="col-md-4">
+                                    @Html.DropDownList("MusteriID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle MusteriID", @onchange = "getProje(this.value,'ProjeList', 'FormList');" })
+                                    <span class="field-validation-valid" data-valmsg-for="MusteriID" data-valmsg-replace="true" style="color:red;"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4  control-label">Proje</div>
+                                <div class="col-sm-4">
+                                    <select id="ProjeList" class="form-control input-circle ProjeID" onchange = "getForm(this.value, 'FormList');" ></select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4  control-label">Form</div>
+                                <div class="col-sm-4">
+                                    <select name="ProjeFormID" id="FormList" class="form-control input-circle FormID"></select>
+                                </div>
+                            </div>
 
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Sorumlu2, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.DropDownList("Sorumlu2", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
-                            @Html.ValidationMessageFor(model => model.Sorumlu2, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Sorumlu, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownList("Sorumlu", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.Sorumlu, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Sorumlu3, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.DropDownList("Sorumlu3", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
-                            @Html.ValidationMessageFor(model => model.Sorumlu3, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Sorumlu2, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownList("Sorumlu2", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.Sorumlu2, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Gorev, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.Gorev, new { htmlAttributes = new { @class = "form-control input-circle" } })
-                            @Html.ValidationMessageFor(model => model.Gorev, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Sorumlu3, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownList("Sorumlu3", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.Sorumlu3, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" } })
-                            @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Gorev, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.Gorev, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                                    @Html.ValidationMessageFor(model => model.Gorev, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.OncelikID, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.DropDownList("OncelikID", null, htmlAttributes: new { @class = "form-control input-circle" })
-                            @Html.ValidationMessageFor(model => model.OncelikID, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" } })
+                                    @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.DurumID, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.DropDownList("DurumID", null, htmlAttributes: new { @class = "form-control input-circle" })
-                            @Html.ValidationMessageFor(model => model.DurumID, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.GorevTipiID, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.DropDownList("GorevTipiID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
-                            @Html.ValidationMessageFor(model => model.GorevTipiID, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.OncelikID, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownList("OncelikID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.OncelikID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.DepartmanID, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.DropDownList("DepartmanID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
-                            @Html.ValidationMessageFor(model => model.DepartmanID, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.DurumID, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownList("DurumID", null, htmlAttributes: new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.DurumID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.GorevTipiID, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownList("GorevTipiID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.GorevTipiID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="form-group row">
-                        @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker" } })
-                            @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.DepartmanID, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownList("DepartmanID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle" })
+                                    @Html.ValidationMessageFor(model => model.DepartmanID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(model => model.TahminiBitis, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.TahminiBitis, new { htmlAttributes = new { @class = "form-control input-circle date-picker" } })
+                                    @Html.ValidationMessageFor(model => model.TahminiBitis, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
 
 
-                    <div class="form-group" style="display: none;">
-                        @Html.LabelFor(model => model.Kaydeden, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.Kaydeden, new { htmlAttributes = new { @class = "form-control input-circle" } })
-                            @Html.ValidationMessageFor(model => model.Kaydeden, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            <div class="form-group" style="display: none;">
+                                @Html.LabelFor(model => model.Kaydeden, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.Kaydeden, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                                    @Html.ValidationMessageFor(model => model.Kaydeden, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="form-group" style="display: none;">
-                        @Html.LabelFor(model => model.KayitTarih, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.EditorFor(model => model.KayitTarih, new { htmlAttributes = new { @class = "form-control input-circle" } })
-                            @Html.ValidationMessageFor(model => model.KayitTarih, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                            <div class="form-group" style="display: none;">
+                                @Html.LabelFor(model => model.KayitTarih, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.KayitTarih, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                                    @Html.ValidationMessageFor(model => model.KayitTarih, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="form-actions">
-                        <div class="row">
-                            <div class="col-md-offset-3 col-md-9">
-                                <input type="submit" value="Ekle" class="btn btn-circle green" />
-                                <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <input type="submit" value="Ekle" class="btn btn-circle green" />
+                                        <button type="button" class="btn btn-circle grey-salsa btn-outline" onclick="CreateEdit('0')">Temizle</button>
 
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    }
                     </div>
                 </div>
-            }
+            </div>
         </div>
     </div>
 </div>

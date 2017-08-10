@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Wms12m.Business;
 using Wms12m.Entity;
 using Wms12m.Entity.Models;
@@ -17,22 +17,26 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
         {
             if (CheckPerm(Perms.BoyutKartı, PermTypes.Reading) == false) return Redirect("/");
             ViewBag.Yetki = CheckPerm(Perms.BoyutKartı, PermTypes.Writing);
+            ViewBag.YetkiSil = CheckPerm(Perms.BoyutKartı, PermTypes.Deleting);
             return View("Index", new Olcu());
         }
         /// <summary>
-        /// silme sonrası listeyi yenile
+        /// listeyi yenile
         /// </summary>
-        public PartialViewResult List()
+        public string List()
         {
-            if (CheckPerm(Perms.BoyutKartı, PermTypes.Reading) == false) return null;
-            //dbler tempe aktarılıyor
-            var list = db.GetSirketDBs();
-            List<string> liste = new List<string>();
-            foreach (var item in list) { liste.Add(item); }
-            ViewBag.Sirket = liste;
-            ViewBag.Yetki = CheckPerm(Perms.BoyutKartı, PermTypes.Writing);
-            ViewBag.YetkiSil = CheckPerm(Perms.BoyutKartı, PermTypes.Deleting);
-            return PartialView("_List", Dimension.GetList());
+            string sql = "";
+            var dblist = db.GetSirketDBs().ToList();
+            foreach (var item in dblist)
+            {
+                if (sql != "")
+                    sql = string.Format("ISNULL({1},(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = wms.Olcu.MalKodu)))", item, sql);
+                else
+                    sql += string.Format("(SELECT MalAdi FROM FINSAT6{0}.FINSAT6{0}.STK WHERE (MalKodu = wms.Olcu.MalKodu))", item);
+            }
+            var list = db.Database.SqlQuery<Olcu>("SELECT ID, MalKodu, Birim, En, Boy, Derinlik, Agirlik, Hacim, " + sql + " as Kaydeden, KayitTarih, Degistiren, DegisTarih FROM wms.Olcu").ToList();
+            var json = new JavaScriptSerializer().Serialize(list);
+            return json;
         }
         /// <summary>
         /// düzenleme

@@ -80,7 +80,6 @@
                 displayExpr: 'MalKodu',
                 onValueChanged: function (e) {
                     if (e.value == null) return;
-                    alert(e.value);
                     MalKoduBas = e.value.MalKodu;
                 },
 
@@ -135,7 +134,7 @@
                     displayExpr: 'Depo',
                     onValueChanged: function (e) {
                         if (e.value == null) return;
-                        DepoBas = e.value;
+                        DepoBas = e.value.Depo;
                     },
 
                     itemTemplate: function (itemData, itemIndex, itemElement) {
@@ -158,8 +157,7 @@
                     displayExpr: 'Depo',
                     onValueChanged: function (e) {
                         if (e.value == null) return;
-                        console.log(e.value);
-                        DepoBit = e.value;
+                        DepoBit = e.value.Depo;
                     },
 
                     itemTemplate: function (itemData, itemIndex, itemElement) {

@@ -16,13 +16,21 @@
                 <th>Kalan Miktar</th>
             </tr>
         </thead>
-
+        <tfoot>
+            <tr>
+                <th colspan="5" class="text-right"></th>
+                <th class="text-right" style="text-align:'right !important';width:100%;padding:8px 10px !important;"></th>
+                <th class="text-right" style="text-align:'right !important';width:100%;padding:8px 10px !important;"></th>
+                <th class="text-right" style="text-align:'right !important';width:100%;padding:8px 10px !important;"></th>
+                <th class="text-right" style="text-align:'right !important';width:100%;padding:8px 10px !important;"></th>
+            </tr>
+        </tfoot>
     </table>
 
 
 </div>
 <script>
-
+    var DvrMiktar = 0, GirMiktar = 0, CikMiktar = 0, STIKalanMiktar = 0;
     var secili_satir = new Array();
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
@@ -31,11 +39,17 @@
             "url": '/Approvals/Wood/DisDepoStokCek',
             "data": { MalKoduBas: MalKoduBas, MalKoduBit:MalKoduBit},
             "dataSrc": function (json) {
-
+                jQuery.each(json, function (i, val) {
+                    DvrMiktar += val.DvrMiktar;
+                    GirMiktar += val.GirMiktar;
+                    CikMiktar += val.CikMiktar;
+                    STIKalanMiktar += val.STIKalanMiktar;
+                });
+               
                 return json;
             },
         },
-        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2] }],
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [5,6,7,8] }],
         "columns": [
 
             { "data": "Depo" },
@@ -43,10 +57,10 @@
             { "data": "MalKodu" },
             { "data": "MalAdi" },
             { "data": "Birim" },
-            { "data": "DvrMiktar" },
-            { "data": "GirMiktar" },
-            { "data": "CikMiktar" },
-            { "data": "STIKalanMiktar" }
+            { "data": "DvrMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "GirMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "CikMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "STIKalanMiktar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
 
             ],
 
@@ -55,7 +69,24 @@
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
             $('td', nRow).attr('nowrap', 'nowrap');
             return nRow;
-        }
+        },
+        "footerCallback": function (row, data, start, end, display) {
+
+            var api = this.api(), data;
+
+            $(api.column(5).footer()).html(
+                ondalikBinlik(Math.round(DvrMiktar * 100) / 100, 2)
+            );
+            $(api.column(6).footer()).html(
+                ondalikBinlik(Math.round(GirMiktar * 100) / 100, 2)
+            );
+            $(api.column(7).footer()).html(
+                ondalikBinlik(Math.round(CikMiktar * 100) / 100, 2)
+            );
+            $(api.column(8).footer()).html(
+                ondalikBinlik(Math.round(STIKalanMiktar * 100) / 100, 2)
+            );
+        },
     });
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');

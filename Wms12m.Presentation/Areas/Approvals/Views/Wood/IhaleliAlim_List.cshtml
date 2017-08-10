@@ -1,15 +1,17 @@
 ﻿<div class="col-md-12" style="width:100%;">
     <div id="buttons"></div>
-    <table class="table table-striped table-bordered table-hover" id="sample_1">
+    <table class="table table-striped table-bordered" id="sample_1">
         <thead>
             <tr>
 
-                <th>
+                @*<th>
                     <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                         <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
                         <span></span>
                     </label>
-                </th>
+                </th>*@
+                <th></th>
+                <th>ID</th>
                 <th>Hafta </th>
                 <th>Tarih </th>
                 <th>Orman İşletmesi </th>
@@ -33,7 +35,7 @@
         </thead>
         <tfoot>
             <tr>
-                <th colspan="7" class="text-right"></th>
+                <th colspan="8" class="text-right"></th>
                 <th class="text-right" style="text-align:'right !important';width:100%;padding:8px 10px !important;"></th>
                 <th colspan="9" class="text-right"></th>
 
@@ -62,8 +64,9 @@
                 return json;
             },
         },
-        "columnDefs": [{ "visible": false, "targets": [0] }, { "type": "num-fmt", "className": "dt-right", "targets": [7,8,9,10,13,14,15,16] }],
+        "columnDefs": [{ "visible": false, "targets": [1] }, { "type": "num-fmt", "className": "dt-right", "targets": [8,9,10,11,14,15,16,17] }],
         "columns": [
+            { "data": null, "defaultContent": '', "className": 'select-checkbox', "orderable": false },
             { "data": "ID" },
             { "data": "Hafta" },
             { "data": "Tarih", "render": function (data) { if (data != null) return fromOADate(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
@@ -92,7 +95,7 @@
             var api = this.api(), data;
 
 
-            $(api.column(7).footer()).html(
+            $(api.column(8).footer()).html(
                 ondalikBinlik(Math.round(Miktar * 100) / 100, 2)
             );
 
@@ -103,6 +106,7 @@
             return nRow;
         }
     });
+
     $('#sample_1 tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
     });

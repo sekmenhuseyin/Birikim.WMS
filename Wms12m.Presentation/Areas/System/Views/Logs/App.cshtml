@@ -10,41 +10,7 @@
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>İşlem Kayıtları</div></div>
             <div class="portlet-body form p-30 p-t-15">
                 <table class="table table-striped table-bordered table-hover table-responsive" id="sample_1">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Site)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Area)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Controller)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Action)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Type)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Details)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Request)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Username)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.IpAddress)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Tarih)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Site</th><th>Area</th><th>Controller</th><th>Action</th><th>Type</th><th>Details</th><th>Request</th><th>Username</th><th>IP</th><th>Tarih</th><th></th></tr></thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
@@ -80,7 +46,7 @@
                                     @Html.DisplayFor(modelItem => item.Tarih)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                    <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','','','')"> Sil </a>
                                 </td>
                             </tr>
                         }
@@ -90,3 +56,4 @@
         </div>
     </div>
 </div>
+<script>var DeleteFunctionUrl = '/System/Logs/Delete/App';</script>

@@ -43,7 +43,8 @@
     var table2 = $('#sample_2').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/Purchase/SipGMOnayListFTDData?HesapKodu=' + chf + '&SipTalepNo=' + '@ViewBag.SipTalepNo',
+            "url": '/Approvals/Purchase/SipGMOnayListFTDData',
+            "data": { HesapKodu: chf, SipTalepNo:'@ViewBag.SipTalepNo'},
             "dataSrc": function (json) {
                 return json;
             },
@@ -54,8 +55,8 @@
         "columns": [
             { "data": "Aciklama" },
             { "data": "IskontoOran" },
-            { "data": "Iskonto", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
-            { "data": "DovizTutar", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
+            { "data": "Iskonto", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "DovizTutar", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "DovizCinsi" },
             { "data": "DovizKuru", "render": $.fn.dataTable.render.number('.', ',', 6, '') },
 

@@ -10,7 +10,8 @@
 <h1 class="page-title">Bakiye</h1>
 <div class="row m-t-20">
     <div class="col-md-2 text-right p-0 m-t-5 color-blue-light bold">Bakiye: </div>
-    <div class="col-md-2 p-l-5 p-r-0"><div class="bakiye"></div></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="txtHesapBas" /></div>
+    <div class="col-md-2 p-l-5 p-r-0"><input class="form-control" type="text" id="txtHesapBit" /></div>
     <div class="col-md-2 col-md-offset-2"><button id="btnListele" class="btn btn-block green">Listele<i class="fa fa-check"></i></button></div>
 </div>
 <div class="row m-t-20">
@@ -68,51 +69,65 @@
             var bakiye = $(".bakiye").dxNumberBox("instance").option("value");
             PartialView("/Reports/Financial/BakiyeList", 'bakiye-grid', JSON.stringify({ bastarih: basTarih, bittarih: bitTarih, basvadetarih: basVadeTarih, bitvadetarih: bitVadeTarih, chk_bas: chk_bas, chk_bit: chk_bit, bakiye: bakiye }));
         });
-        $(".bakiye").dxNumberBox({ value: 0, min: 0, placeholder: 'Gün sayısı girin' });        
-        $(".chk-bas-select").dxLookup({
-            dataSource: model,
-            searchEnabled: true,
-            pageLoadMode:"nextButton",
-            searchExpr: ["HesapKodu", "Unvan"],
-            valueExpr: 'HesapKodu',
-            displayExpr: 'Unvan',
-            onValueChanged: function (e) {
-                chk_bas = e.value;
-            },
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
-                if(itemIndex>0)
-                {
-                    itemElement.css({ "margin-top":"-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
-                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
-                itemElement.append(rightBlock);
+        $(".bakiye").dxNumberBox({ value: 0, min: 0, placeholder: 'Gün sayısı girin' });    
+        $("#txtHesapBas").autocomplete({
+            source: "/Reports/Financial/GetChKCode/0",
+            minLength: 2,
+            select: function (event, ui) {
+                chk_bas = ui.item.id;
             }
         });
-        $(".chk-bit-select").dxLookup({
-            dataSource: model,
-            searchEnabled: true,
-            pageLoadMode:"nextButton",
-            searchExpr: ["HesapKodu", "Unvan"],
-            valueExpr: 'HesapKodu',
-            displayExpr: 'Unvan',
-            onValueChanged: function (e) {
-                chk_bit = e.value;
-            },
-            itemTemplate: function (itemData, itemIndex, itemElement) {
-                itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
-                if(itemIndex>0)
-                {
-                    itemElement.css({ "margin-top":"-40px" });
-                }
-                var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
-                rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
-                rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
-                itemElement.append(rightBlock);
+        $("#txtHesapBit").autocomplete({
+            source: "/Reports/Financial/GetChKCode/0",
+            minLength: 2,
+            select: function (event, ui) {
+                chk_bit = ui.item.id;
             }
         });
+        //$(".chk-bas-select").dxLookup({
+        //    dataSource: model,
+        //    searchEnabled: true,
+        //    pageLoadMode:"nextButton",
+        //    searchExpr: ["HesapKodu", "Unvan"],
+        //    valueExpr: 'HesapKodu',
+        //    displayExpr: 'Unvan',
+        //    onValueChanged: function (e) {
+        //        chk_bas = e.value;
+        //    },
+        //    itemTemplate: function (itemData, itemIndex, itemElement) {
+        //        itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+        //        if(itemIndex>0)
+        //        {
+        //            itemElement.css({ "margin-top":"-40px" });
+        //        }
+        //        var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+        //        rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+        //        rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+        //        itemElement.append(rightBlock);
+        //    }
+        //});
+        //$(".chk-bit-select").dxLookup({
+        //    dataSource: model,
+        //    searchEnabled: true,
+        //    pageLoadMode:"nextButton",
+        //    searchExpr: ["HesapKodu", "Unvan"],
+        //    valueExpr: 'HesapKodu',
+        //    displayExpr: 'Unvan',
+        //    onValueChanged: function (e) {
+        //        chk_bit = e.value;
+        //    },
+        //    itemTemplate: function (itemData, itemIndex, itemElement) {
+        //        itemElement.css({"text-align":"left", "border-bottom":"1px solid #2fc1d8"});
+        //        if(itemIndex>0)
+        //        {
+        //            itemElement.css({ "margin-top":"-40px" });
+        //        }
+        //        var rightBlock = $("<div style=' margin: 2px; width:100%;'>");
+        //        rightBlock.append("<div><p style='font-size:11px; font-weight:bold; line-height: 0%;'><b>" + itemData.Unvan + "</b></p>");
+        //        rightBlock.append("<p style='line-height: 0%;font-size:11px;'>HesapKodu: <i>" + itemData.HesapKodu + "</i></p></div>");
+        //        itemElement.append(rightBlock);
+        //    }
+        //});
     });
     function newrow(CHK) { return "<table style='background:transparent;' id='new" + CHK + "'></table>"; }
     function format(d) {

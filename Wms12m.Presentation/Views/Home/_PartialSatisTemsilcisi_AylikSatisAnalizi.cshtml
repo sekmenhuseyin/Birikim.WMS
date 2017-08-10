@@ -1,20 +1,20 @@
 ﻿@model List<ChartSatisTemsilcisiAylikSatisAnalizi>
 <div class="row">
-    <div class="col-md-12 m-t-40">
+    <div class="col-md-12">
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-bar-chart font-green-haze"></i>
                     <span class="caption-subject bold uppercase font-green-haze"> Satış Temsilcisi Aylık Satış Analizi <span style="color:#8888a7;">3D CHART</span></span>
                 </div>
+                <div class="col-md-1 m-l-10">
+                    <div class="slct_satis_temsilcisi_aylar"></div>
+                </div>
+                <div class="col-md-2 m-l-25">
+                    <div class="slct_satis_temsilcisi_kod"></div>
+                </div>
                 <div class="col-md-2">
                     @Html.DropDownList("SirketID", null, htmlAttributes: new { @class = "form-control SirketIDa", @onchange = "Reloada(this.value)" })
-                </div>
-                <div class="col-md-1 p-l-10">
-                    <div class="slct_satis_temsilcisi_aylar" style="width:130px;"></div>
-                </div>
-                <div class="col-md-1 p-l-10">
-                    <div class="slct_satis_temsilcisi_kod" style="width:130px;"></div>
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
@@ -24,8 +24,6 @@
             </div>
             <div class="portlet-body">
                 <div id="chart_7_satis_temsilcisi" class="chart" style="height: 400px;"> </div>
-                <div class="well margin-top-20">
-                </div>
             </div>
         </div>
     </div>
@@ -48,22 +46,23 @@
             });
         }
         var states = [
-            { id: 1, state: "Ocak 2016-2017"},
-            { id: 2, state: "Şubat 2016-2017" },
-            { id: 3, state: "Mart 2016-2017"},
-            { id: 4, state: "Nisan 2016-2017"},
-            { id: 5, state: "Mayıs 2016-2017" },
-            { id: 6, state: "Haziran 2016-2017"},
-            { id: 7, state: "Temmuz 2016-2017"},
-            { id: 8, state: "Ağustos 2016-2017" },
-            { id: 9, state: "Eylül 2016-2017"},
-            { id: 10, state: "Ekim 2016-2017"},
-            { id: 11, state: "Kasım 2016-2017" },
-            { id: 12, state: "Aralik 2016-2017"},
+            { id: 0, state: "Tümü" },
+            { id: 1, state: "Ocak" },
+            { id: 2, state: "Şubat" },
+            { id: 3, state: "Mart" },
+            { id: 4, state: "Nisan" },
+            { id: 5, state: "Mayıs" },
+            { id: 6, state: "Haziran" },
+            { id: 7, state: "Temmuz" },
+            { id: 8, state: "Ağustos" },
+            { id: 9, state: "Eylül" },
+            { id: 10, state: "Ekim" },
+            { id: 11, state: "Kasım" },
+            { id: 12, state: "Aralik" }
         ];
 
         $.ajax({
-            url: "/Home/AylikSatisAnaliziKodTipDovizKriter",
+            url: "/Home/GunlukSatisAnaliziKriterSelect",
             data: { SirketKodu: '@ViewBag.SirketKodu'},
             type: "post",
             success: function (data)

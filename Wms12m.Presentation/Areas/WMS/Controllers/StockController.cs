@@ -198,7 +198,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                         tbl.MakaraNo = "Boş-" + db.SettingsMakaraNo(tbl.DepoID).FirstOrDefault();
                     }
                 }
-                if (tbl.MakaraNo == "")
+                if (tbl.MakaraNo == "" || tbl.MakaraNo == null)
                 {
                     var tmp2 = Yerlestirme.Detail(tbl.KatID, tbl.MalKodu, tbl.Birim);
                     if (tmp2 == null)

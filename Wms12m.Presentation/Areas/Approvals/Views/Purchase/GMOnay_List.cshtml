@@ -80,7 +80,8 @@
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/Purchase/SipGMOnayListData?HesapKodu=' + ch + '&SipTalepNo=' + '@ViewBag.SipTalepNo',
+            "url": '/Approvals/Purchase/SipGMOnayListData',
+            "data": {HesapKodu:ch, SipTalepNo:'@ViewBag.SipTalepNo'},
             "dataSrc": function (json) {
                 jQuery.each(json, function (i, val) {
                     BirimMiktar += val.BirimMiktar;
@@ -155,7 +156,36 @@
         }
 
      });
-
+    $.contextMenu({
+        selector: '#sample_1 tbody tr',
+        callback: function (key, options) {
+            var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
+            var satir = table.row(rowIndex).data();
+            MLK = satir.MalKodu;
+            MLA = satir.MalAdi;
+            switch (key) {
+                case 'teklif':
+                    $('#modalEditPage').modal('toggle');
+                    editInModal('/Approvals/Purchase/SatGMContext/teklif')
+                    break;
+                case 'tedarikci':
+                    $('#modalEditPage').modal('toggle');
+                    editInModal('/Approvals/Purchase/SatGMContext/tedarikci')
+                    break;
+                case 'sonalim':
+                    $('#modalEditPage').modal('toggle');
+                    editInModal('/Approvals/Purchase/SatGMContext/sonalim')
+                    break;
+                default:
+                    break;
+            }
+        },
+        items: {
+            "teklif": { name: "Teklif Listesi", icon: "file" },
+            "tedarikci": { name: "Onaylı Tedarikçi Listesi", icon: "file" },
+            "sonalim": { name: "Son Alım Listesi", icon: "file" },
+        }
+    });
 
 
 

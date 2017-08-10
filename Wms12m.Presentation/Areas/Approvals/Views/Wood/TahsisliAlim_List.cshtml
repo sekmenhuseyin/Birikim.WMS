@@ -1,9 +1,10 @@
 ﻿<div class="col-md-12" style="width:100%;">
     <div id="buttons"></div>
-    <table class="table table-striped table-bordered table-hover" id="sample_1">
+    <table class="table table-striped table-bordered" id="sample_1">
         <thead>
             <tr>
-
+                <th>Yıl </th>
+                <th>Hafta </th>
                 <th>İşletme </th>
                 <th>İşletme Ünvan </th>
                 <th>İbreli Miktar Ster </th>
@@ -53,6 +54,18 @@
 
             </tr>
         </thead>
+        <tfoot>
+            <tr>
+                <th colspan="4" class="text-right"></th>
+                <th class="text-right" style="text-align:'right !important';width:100%;padding:8px 10px !important;"></th>
+                <th class="text-right" style="text-align:'right !important';width:100%;padding:8px 10px !important;"></th>
+                <th class="text-right" style="text-align:'right !important';width:100%;padding:8px 10px !important;"></th>
+                <th class="text-right" style="text-align:'right !important';width:100%;padding:8px 10px !important;"></th>
+                <th class="text-right" style="text-align:'right !important';width:100%;padding:8px 10px !important;"></th>
+                <th colspan="37" class="text-right"></th>
+
+            </tr>
+        </tfoot>
     </table>
     <div class="row">
 
@@ -60,20 +73,31 @@
 
 </div>
 <script>
-
+    var IbreliMiktarSter = 0, IbreliMiktarM3 = 0, YaprakliMiktarSter = 0, YaprakliMiktarM3 = 0, Miktar = 0;
     var secili_satir = new Array();
     var secili_table = new Array();
+    var HFT = '@ViewBag.Hafta';
+    var PTH = '@ViewBag.Path';
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approvals/Wood/TahsisliAlimCek',
             "data":{ Hafta: '@ViewBag.Hafta', Isletme: '@ViewBag.Isletme' },
             "dataSrc": function (json) {
+                jQuery.each(json, function (i, val) {
+                    IbreliMiktarSter += val.IbreliMiktarSter;
+                    IbreliMiktarM3 += val.IbreliMiktarM3;
+                    YaprakliMiktarSter += val.YaprakliMiktarSter;
+                    YaprakliMiktarM3 += val.YaprakliMiktarM3;
+                    Miktar += val.Miktar;
+                });
                 return json;
             },
         },
-        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [2,3,4,5, 6,7,8,9,10,11,12,13,14,15,16,17,20,22,23,24,25,26,27,28,29,30,31] }],
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [4,5, 6,7,8,9,10,11,12,13,14,15,16,17,18,19,22,24,25,26,27,28,29,30,31,32,33] }],
         "columns": [
+            { "data": "Yil" },
+            { "data": "Hafta" },
             { "data": "OrmIslt" },
             { "data": "OrmIsltUnvan" },
             { "data": "IbreliMiktarSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
@@ -96,13 +120,13 @@
             { "data": "Aciklama" },
             { "data": "PlanIbreliSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KulIbreliSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "KalanIbreliSter", "render": function (data, type, row) { return row.PlanIbreliSter - row.KulIbreliSter } },//Kalan ibreli Ster?
+            { "data": "KalanIbreliSter", "render": function (data, type, row) { return ondalikBinlik(Math.round((row.PlanIbreliSter - row.KulIbreliSter) * 100) / 100, 2) } },//Kalan ibreli Ster?
             { "data": "PlanIbreliM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KulIbreliM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KalanIbreliM3", "render": function (data, type, row) { return row.PlanIbreliM3 - row.KulIbreliM3 } },//Kalan ibreli Ster?
             { "data": "PlanYaprakliSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KulYaprakliSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "KalanYaprakliSter", "render": function (data, type, row) { return row.PlanYaprakliSter - row.KulYaprakliSter } },//Kalan yaprakli ster
+            { "data": "KalanYaprakliSter", "render": function (data, type, row) { return ondalikBinlik(Math.round((row.PlanYaprakliSter - row.KulYaprakliSter) * 100) / 100, 2) } },//Kalan yaprakli ster
             { "data": "PlanYaprakliM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KulYaprakliM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KalanYaprakliM3", "render": function (data, type, row) { return row.PlanYaprakliM3 - row.KulYaprakliM3 } },//Kalan yaprakli M3
@@ -125,6 +149,57 @@
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
             $('td', nRow).attr('nowrap', 'nowrap');
             return nRow;
+        },
+        "footerCallback": function (row, data, start, end, display) {
+
+            var api = this.api(), data;
+
+            $(api.column(4).footer()).html(
+                ondalikBinlik(Math.round(IbreliMiktarSter * 100) / 100, 2)
+            );
+            $(api.column(5).footer()).html(
+                ondalikBinlik(Math.round(IbreliMiktarM3 * 100) / 100, 2)
+            );
+            $(api.column(6).footer()).html(
+                ondalikBinlik(Math.round(YaprakliMiktarSter * 100) / 100, 2)
+            );
+            $(api.column(7).footer()).html(
+                ondalikBinlik(Math.round(YaprakliMiktarM3 * 100) / 100, 2)
+            );
+            $(api.column(8).footer()).html(
+                ondalikBinlik(Math.round(Miktar * 100) / 100, 2)
+            );
+        },
+    });
+    $.contextMenu({
+        selector: '#sample_1 tbody tr',
+        callback: function (key, options) {
+            var rowIndex = parseInt(options.$trigger[0].rowIndex)-1;
+            var satir = table.row(rowIndex).data();
+            switch (key) {
+                case 'teminat':
+                    if (satir.TahTemMektupDosya == null || satir.TahTemMektupDosya == "" )
+                        return;
+                    window.open("/Belgeler/Tahsisli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TahTemMektupDosya);
+                    break;
+                case 'pesinat':
+                    if (satir.TahPesDekontDosya == null || satir.TahPesDekontDosya == "" )
+                        return;
+                    window.open("/Belgeler/Tahsisli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TahPesDekontDosya);
+                    break;
+                case 'fatura':
+                    if (satir.TahFaturaDosya == null || satir.TahFaturaDosya == "" )
+                        return;
+                    window.open("/Belgeler/Tahsisli_Alim/" + satir.Yil + "_" + satir.Hafta + "/" + satir.TahFaturaDosya);
+                    break;
+                default:
+                    break;
+            }
+        },
+        items: {
+            "teminat": { name: "Teminat Mektubu Belgesini Aç", icon: "file" },
+            "pesinat": { name: "Peşinat Dekontu Belgesini Aç", icon: "file" },
+            "fatura": { name: "Fatura Belgesini Aç", icon: "file" },
         }
     });
     $('#sample_1 tbody').on('click', 'tr', function () {
@@ -149,4 +224,12 @@
             table.rows().every(function (rowIdx, tableLoop, rowLoop) { this.deselect(); });
         }
     });
+    if (HFT == '') {
+        table.columns([0]).visible(true, true);
+        table.columns([1]).visible(true, true);
+    }
+    else{
+        table.columns([0]).visible(false, false);
+        table.columns([1]).visible(false, false);
+    }
 </script>

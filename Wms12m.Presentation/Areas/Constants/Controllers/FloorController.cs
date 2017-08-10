@@ -32,20 +32,20 @@ namespace Wms12m.Presentation.Areas.Constants.Controllers
             List<Kat> _List = new List<Kat>();
             try
             {
-                if (Id.IndexOf("#") > -1)
+                if (Id.Right(1) == "#") { }
+                else if (Id.IndexOf("#") > -1)
                 {
                     Locked = Id.Split('#')[0];
                     StoreId = Convert.ToInt16(Id.Split('#')[1]);
                     ShelfId = Convert.ToInt16(Id.Split('#')[2]);
                     SectionId = Convert.ToInt16(Id.Split('#')[3]);
                     _List = Locked == "Locked" ? Floor.GetList(SectionId).Where(a => a.Aktif == true).ToList() : Locked == "noLocked" ? Floor.GetList(SectionId).Where(a => a.Aktif == false).ToList() : Floor.GetList(SectionId).ToList();
-                    return PartialView("_FloorGridPartial", _List);
                 }
                 else
                 {
                     _List = Floor.GetList(Convert.ToInt16(Id));
-                    return PartialView("_FloorGridPartial", _List);
                 }
+                return PartialView("_FloorGridPartial", _List);
             }
             catch (Exception ex)
             {

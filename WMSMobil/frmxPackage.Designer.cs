@@ -285,6 +285,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmxPackage";
             this.Text = "Paket Oku";
+            this.Closing += new System.ComponentModel.CancelEventHandler(this.frmxPackage_Closing);
             this.panelUst.ResumeLayout(false);
             this.panelOrta.ResumeLayout(false);
             this.panelAlt.ResumeLayout(false);

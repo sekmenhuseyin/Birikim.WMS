@@ -12,7 +12,7 @@ using Wms12m.Entity.Mysql;
 namespace Wms12m
 {
     /// <summary>
-    /// Summary description for Terminal
+    /// el Terminalleri için web servisi
     /// </summary>
     [WebService(Namespace = "http://www.12mconsulting.com.tr/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -427,25 +427,28 @@ namespace Wms12m
                                 if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
                                 stok.Insert(tmp2, 0, KullID);
                             }
-                            else if (tmp2.MakaraNo != item2.MakaraNo)
-                            {
-                                tmp2 = new Yer()
+                            else if (item2.MakaraNo != "" || item2.MakaraNo != null)
+                                if (tmp2.MakaraNo != item2.MakaraNo)
                                 {
-                                    KatID = KatID.Value,
-                                    MalKodu = item2.MalKodu,
-                                    Birim = item2.Birim,
-                                    Miktar = item2.Miktar.Value
-                                };
-                                if (item2.MakaraNo != "" || item2.MakaraNo != null) tmp2.MakaraNo = item2.MakaraNo;
-                                stok.Insert(tmp2, 0, KullID);
-                            }
-                            else
-                            {
-                                tmp2.Miktar += item2.Miktar.Value;
-                                stok.Update(tmp2, 0, KullID, false, item2.Miktar.Value);
-                            }
+                                    tmp2 = new Yer()
+                                    {
+                                        KatID = KatID.Value,
+                                        MalKodu = item2.MalKodu,
+                                        Birim = item2.Birim,
+                                        Miktar = item2.Miktar.Value
+                                    };
+                                    tmp2.MakaraNo = item2.MakaraNo;
+                                    stok.Insert(tmp2, 0, KullID);
+                                }
+                                else
+                                {
+                                    tmp2.Miktar += item2.Miktar.Value;
+                                    stok.Update(tmp2, 0, KullID, false, item2.Miktar.Value);
+                                }
                         }
                     }
+                    else
+                        return new Result(false, "Deponun rezerv katı bulunamadı");
                     //add to mysql
                     if (db.Settings.FirstOrDefault().KabloSiparisMySql == true)
                     {

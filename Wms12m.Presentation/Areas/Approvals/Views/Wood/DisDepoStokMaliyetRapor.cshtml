@@ -74,7 +74,7 @@
 @section Scripts{
 <script type="text/javascript">
         var MalKoduBas, MalKoduBit, isletmeBazli = false, depoBazli = false;
-        var Datebas, Datebit;
+        var Datebas=null, Datebit=null;
         $.ajax({
             url: window.location.origin + "/Approvals/Wood/MalKoduCek",
             data: {},
@@ -134,7 +134,8 @@
             formatString: 'dd/MM/yyyy',
             width: "60%",
             onValueChanged: function (e) {
-                Datebas= e.value;
+               if(e.value!=null)
+                Datebas = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))
             }
         });
         $(".date_bitis_tarihi").dxDateBox({
@@ -142,8 +143,8 @@
             formatString: 'dd/MM/yyyy',
             width: "60%",
             onValueChanged: function (e) {
-                alert(e.value);
-                Datebit= e.value;
+                if (e.value != null)
+                Datebit = Math.ceil((new Date(e.value) - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000))
             }
         });
         $('#chkIsletme').click(function () {

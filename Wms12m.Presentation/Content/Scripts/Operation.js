@@ -12,12 +12,26 @@ function editInModal(URL) {
         type: "POST",
         url: URL,
         datatype: "html",
-        success: function (data) { $("#modalEditPage").html(data); }
+        success: function (data) {
+            console.log(data);
+            $("#modalEditPage").html(data);
+        }
+    });
+}
+function editInModal2(URL,data) {
+    $("#modalEditPage").html("");
+    $.ajax({
+        type: "POST",
+        data: data,
+        url: URL,
+        datatype: "html",
+        success: function (data) {
+            $("#modalEditPage").html(data);
+        }
     });
 }
 //url:method adresi ,div:render edeceği div,Id:detay için id göndere bilir
 function PartialView(Url, Div, Id) {
-    $('#' + Div).html("");
     $.ajax({
         url: Url,
         type: 'POST',
@@ -70,7 +84,37 @@ function Delete(deleteId, Method, DivName, extraId, URL) {
             if (Method == "")
                 window.location.reload();
             else
+            {
                 PartialView(Method, DivName, JSON.stringify({ Id: extraId }));
+            }
         }
     }
 }
+function DeleteCallBack(deleteId) {
+    ModalYesNoClick('Kaydı silmek istediğinizden eminmisiniz !!!', ' İşlemi', "Evet", 'btn-success', DeleteTriger, 'Hayır', 'btn-warning', null);
+    function DeleteTriger() {
+        var Status = FunctionDelete(DeleteFunctionUrl, deleteId);
+        if (Status) {
+            RefreshPage();
+        }
+    }
+}
+
+function DeleteKontrol(deleteId, Method, DivName, KontrolMetod, extraId, URL) {
+    URL = URL || DeleteFunctionUrl;
+    $.ajax({
+        url: window.location.origin + KontrolMetod,
+        data: { Id: deleteId.toString() },
+        type: "post",
+        success: function (data) {
+            if (data.Status == false) {
+                Modaldialog(data.Message, "Silme İşlemi", "Tamam", "Sil");
+            }
+            else {
+                Delete(deleteId, Method, DivName, extraId, URL)
+            }
+        }
+    });
+}
+
+

@@ -8,6 +8,8 @@
 
                 <th>Mal Kodu</th>
                 <th>Mal Adı </th>
+                <th>Hesap Kodu</th>
+                <th>Ünvan </th>
                 <th>Birim </th>
                 <th>Birim Fiyat</th>
 
@@ -19,16 +21,15 @@
 
 </div>
 <script>
-    
     var secili_satir = new Array();
     var secili_table = new Array();
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
             "url": '/Approvals/Wood/DisDepoStokMaliyetCek',
-            "data": { MalKoduBas: MalKoduBas, MalKoduBit: MalKoduBit, isletmeBazli: isletmeBazli, depoBazli: depoBazli, Datebas: Datebas, Datebit: Datebit },
+            "data": { MalKoduBas: MalKoduBas, MalKoduBit: MalKoduBit, isletmeBazli: isletmeBazli, depoBazli: depoBazli, datebas: Datebas, datebit: Datebit },
             "dataSrc": function (json) {
-
+                console.log(json);
                 return json;
             },
         },
@@ -37,8 +38,10 @@
 
             { "data": "MalKodu" },
             { "data": "MalAdi"},
+            { "data": "Chk" },
+            { "data": "Unvan" },
             { "data": "Birim" },
-            { "data": "BirimFiyat" , "render": $.fn.dataTable.render.number('.', ',', 6, '') }
+            { "data": "BirimFiyat" , "render": $.fn.dataTable.render.number('.', ',', 4, '') }
 
             ],
 
@@ -59,5 +62,14 @@
         ]
     }).container().appendTo($('#buttons'));
     var selectall = true;
+
+    if (isletmeBazli) {
+        table.columns([2]).visible(true, true);
+        table.columns([3]).visible(true, true);
+    }
+    else {
+        table.columns([2]).visible(false, false);
+        table.columns([3]).visible(false, false);
+    }
 
 </script>
