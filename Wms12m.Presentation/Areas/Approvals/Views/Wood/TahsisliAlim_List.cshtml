@@ -120,13 +120,13 @@
             { "data": "Aciklama" },
             { "data": "PlanIbreliSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KulIbreliSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "KalanIbreliSter", "render": function (data, type, row) { return row.PlanIbreliSter - row.KulIbreliSter } },//Kalan ibreli Ster?
+            { "data": "KalanIbreliSter", "render": function (data, type, row) { return ondalikBinlik(Math.round((row.PlanIbreliSter - row.KulIbreliSter) * 100) / 100, 2) } },//Kalan ibreli Ster?
             { "data": "PlanIbreliM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KulIbreliM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KalanIbreliM3", "render": function (data, type, row) { return row.PlanIbreliM3 - row.KulIbreliM3 } },//Kalan ibreli Ster?
             { "data": "PlanYaprakliSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KulYaprakliSter", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "KalanYaprakliSter", "render": function (data, type, row) { return row.PlanYaprakliSter - row.KulYaprakliSter } },//Kalan yaprakli ster
+            { "data": "KalanYaprakliSter", "render": function (data, type, row) { return ondalikBinlik(Math.round((row.PlanYaprakliSter - row.KulYaprakliSter) * 100) / 100, 2) } },//Kalan yaprakli ster
             { "data": "PlanYaprakliM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KulYaprakliM3", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
             { "data": "KalanYaprakliM3", "render": function (data, type, row) { return row.PlanYaprakliM3 - row.KulYaprakliM3 } },//Kalan yaprakli M3

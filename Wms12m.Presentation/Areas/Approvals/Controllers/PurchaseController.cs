@@ -34,7 +34,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
             return View();
         }
-        public ActionResult Satınalma_GM_Onay()
+        public ActionResult GM_Onay()
         {
             if (CheckPerm(Perms.SatinalmaOnaylama, PermTypes.Reading) == false) return Redirect("/");
             MyGlobalVariables.Depo = "93 DP";
