@@ -8,7 +8,7 @@
                     <span class="caption-subject bold uppercase font-green-haze gs-islemtip"> Günlük Satış Analizi GrupKod ve İşlemTip </span><span class="gs-islemtip-d" style="color:#8888a7;font-weight: bold;font-size:16px;">3D CHART</span>
                 </div>
                 <div class="col-md-1 m-l-10 slct_islemtip"></div>
-                <div class="col-md-1 m-l-10 slct_double-kriter"></div>
+                <div class="col-md-2 m-l-25 slct_double-kriter"></div>
                 <div class="col-md-1 m-l-10">
                     <input type="text" class="form-control dateboxbg" id="gs_tarih_double" value="@ViewBag.tarih2" />
                 </div>
@@ -67,7 +67,7 @@
                 }
                 $(".slct_double-kriter").dxSelectBox({
                     dataSource: $.parseJSON(data),
-                    width: 85,
+                    //width: 85,
                     valueExpr: 'Kriter',
                     displayExpr: 'Kriter',
                     value: kriter_value,

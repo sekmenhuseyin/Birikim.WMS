@@ -684,9 +684,9 @@ namespace Wms12m.Presentation.Controllers
             var json = new JavaScriptSerializer().Serialize(CHK);
             return json;
         }
-        public string BolgeBazliSatisAnaliziKriter()
+        public string BolgeBazliSatisAnaliziKriter(string SirketKodu)
         {
-            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[BolgeBazliSatisAnaliziKriterSelect]", "33")).ToList();
+            var Kriter = db.Database.SqlQuery<ChartBolgeBazliSatisAnaliziKriter>(string.Format("[FINSAT6{0}].[wms].[BolgeBazliSatisAnaliziKriterSelect]", SirketKodu)).ToList();
             var json = new JavaScriptSerializer().Serialize(Kriter);
             return json;
         }

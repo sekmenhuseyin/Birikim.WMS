@@ -23,7 +23,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
             ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
-            ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje");
+            //ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje");
             ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma");
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             ViewBag.Sorumlu2 = ViewBag.Sorumlu;
@@ -51,11 +51,13 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
         {
             var tbl = db.Gorevlers.Find(id);
             Gorevler gorevler = db.Gorevlers.Find(id);
+            ProjeForm projeForm = db.ProjeForms.Find(gorevler.ProjeFormID);
 
+            ViewBag.MusteriID = new SelectList(db.Musteris.ToList(), "ID", "Firma", projeForm.MusteriID);
+            //ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje", gorevler.ProjeFormID);
             ViewBag.DurumID = new SelectList(ComboSub.GetList(Combos.GörevYönetimDurumları.ToInt32()), "ID", "Name");
             ViewBag.OncelikID = new SelectList(ComboSub.GetList(Combos.Öncelik.ToInt32()), "ID", "Name");
             ViewBag.GorevTipiID = new SelectList(ComboSub.GetList(Combos.GörevYönetimTipleri.ToInt32()), "ID", "Name", "");
-            ViewBag.ProjeFormID = new SelectList(db.ProjeForms, "ID", "Proje", gorevler.ProjeFormID);
             ViewBag.DepartmanID = new SelectList(ComboSub.GetList(Combos.Departman.ToInt32()), "ID", "Name", "");
             ViewBag.Sorumlu = new SelectList(db.Users.ToList(), "Kod", "AdSoyad");
             ViewBag.Sorumlu2 = new SelectList(db.Users.ToList(), "Kod", "AdSoyad", "");
@@ -163,7 +165,7 @@ namespace Wms12m.Presentation.Areas.ToDo.Controllers
                 List.Add(new SelectListItem
                 {
                     Selected = false,
-                    Text = item.Proje,
+                    Text = item.Form,
                     Value = item.ID.ToString()
                 });
             }
