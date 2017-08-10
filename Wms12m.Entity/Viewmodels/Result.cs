@@ -7,20 +7,27 @@
     {
         public Result()
         {
+            Status = true;
+            Id = 0;
+            Message = "";
         }
         public Result(bool status)
         {
             Status = status;
+            Id = 0;
+            Message = "";
         }
         public Result(bool status, string message)
         {
             Status = status;
             Message = message;
+            Id = 0;
         }
         public Result(bool status, int id)
         {
             Status = status;
             Id = id;
+            Message = "";
         }
         public Result(bool status, int id, string message)
         {

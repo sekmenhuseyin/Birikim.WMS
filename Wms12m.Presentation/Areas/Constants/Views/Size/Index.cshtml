@@ -162,13 +162,13 @@
                     "render": function (data, type, full, meta) {
                         return full.En + 'x' + full.Boy + 'x' + full.Derinlik;
                     } },
-                { "data": "Hacim" },
-                { "data": "Agirlik" },
+                { "data": "Hacim", "className": "text-right", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+                { "data": "Agirlik", "className": "text-right", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
                 {
                     "data": "ID",
                     "render": function (data, type, full, meta) {
                         return @{ if (ViewBag.Yetki == true) { <text>'<a class="btn btn-default input-circle" href="javascript:;" onclick="CreateEdit(' + data + ')"> Düzenle </a>'</text> } else { <text>''</text> } } +
-                                @{ if (ViewBag.YetkiSil == true) { <text>'<a class="btn btn-danger input-circle" href="javascript:;" onclick="Delete(' + data +',\'RefreshPage\',\'\',\'\')"> Sil </a>'</text> } else { <text>''</text> } };
+                                @{ if (ViewBag.YetkiSil == true) { <text>'<a class="btn btn-danger input-circle" href="javascript:;" onclick="DeleteCallBack(' + data +')"> Sil </a>'</text> } else { <text>''</text> } };
                     }
                 }
             ]

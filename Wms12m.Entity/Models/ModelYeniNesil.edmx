@@ -92,8 +92,33 @@
           <Property Name="STK002_Not4" Type="nvarchar" MaxLength="128" />
           <Property Name="STK002_Not5" Type="nvarchar" MaxLength="128" />
         </EntityType>
+        <EntityType Name="TransferDepo">
+          <Key>
+            <PropertyRef Name="TransferNo" />
+            <PropertyRef Name="TransferTarihi" />
+            <PropertyRef Name="SiraNo" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransferNo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TransferTarihi" Type="int" Nullable="false" />
+          <Property Name="SiraNo" Type="smallint" Nullable="false" />
+          <Property Name="MalKodu" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Miktar" Type="numeric" Precision="17" Scale="4" Nullable="false" />
+          <Property Name="Birim" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="CikisDepo" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="GirisDepo" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="TalepEden" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="OnayDurumu" Type="smallint" Nullable="false" />
+          <Property Name="Kaydeden" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="KayitTarih" Type="int" Nullable="false" />
+          <Property Name="KayitSaat" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Degistiren" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DegisTarih" Type="int" Nullable="false" />
+          <Property Name="DegisSaat" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="YNSModelStoreContainer">
           <EntitySet Name="STK002" EntityType="Self.STK002" Schema="YNS0TEST" store:Type="Tables" />
+          <EntitySet Name="TransferDepo" EntityType="Self.TransferDepo" Schema="YNS0TEST" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -101,6 +126,7 @@
       <Schema Namespace="YNSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="YNSEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="STK002" EntityType="YNSModel.STK002" />
+          <EntitySet Name="TransferDepoes" EntityType="YNSModel.TransferDepo" />
         </EntityContainer>
         <EntityType Name="STK002">
           <Key>
@@ -188,6 +214,30 @@
           <Property Name="STK002_Not3" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="STK002_Not4" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="STK002_Not5" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TransferDepo">
+          <Key>
+            <PropertyRef Name="TransferNo" />
+            <PropertyRef Name="TransferTarihi" />
+            <PropertyRef Name="SiraNo" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransferNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TransferTarihi" Type="Int32" Nullable="false" />
+          <Property Name="SiraNo" Type="Int16" Nullable="false" />
+          <Property Name="MalKodu" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="17" Scale="4" />
+          <Property Name="Birim" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="CikisDepo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="GirisDepo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TalepEden" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OnayDurumu" Type="Int16" Nullable="false" />
+          <Property Name="Kaydeden" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="KayitTarih" Type="Int32" Nullable="false" />
+          <Property Name="KayitSaat" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+          <Property Name="DegisSaat" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -280,6 +330,29 @@
                 <ScalarProperty Name="STK002_IslemTarihi" ColumnName="STK002_IslemTarihi" />
                 <ScalarProperty Name="STK002_MalKodu" ColumnName="STK002_MalKodu" />
                 <ScalarProperty Name="STK002_Row_ID" ColumnName="STK002_Row_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransferDepoes">
+            <EntityTypeMapping TypeName="YNSModel.TransferDepo">
+              <MappingFragment StoreEntitySet="TransferDepo">
+                <ScalarProperty Name="DegisSaat" ColumnName="DegisSaat" />
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="KayitSaat" ColumnName="KayitSaat" />
+                <ScalarProperty Name="KayitTarih" ColumnName="KayitTarih" />
+                <ScalarProperty Name="Kaydeden" ColumnName="Kaydeden" />
+                <ScalarProperty Name="OnayDurumu" ColumnName="OnayDurumu" />
+                <ScalarProperty Name="TalepEden" ColumnName="TalepEden" />
+                <ScalarProperty Name="GirisDepo" ColumnName="GirisDepo" />
+                <ScalarProperty Name="CikisDepo" ColumnName="CikisDepo" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="MalKodu" ColumnName="MalKodu" />
+                <ScalarProperty Name="SiraNo" ColumnName="SiraNo" />
+                <ScalarProperty Name="TransferTarihi" ColumnName="TransferTarihi" />
+                <ScalarProperty Name="TransferNo" ColumnName="TransferNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

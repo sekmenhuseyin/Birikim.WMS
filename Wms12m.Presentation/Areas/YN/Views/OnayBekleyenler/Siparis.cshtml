@@ -1,13 +1,13 @@
 ﻿@{
-    ViewBag.Title = "Onay Bekleyenler";
+    ViewBag.Title = "Onay Bekleyen Siparişler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }@section Styles{<style>
     td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;cursor: pointer;}
     tr.shown td.details-control {background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;}
     tr{cursor:pointer;}
 </style>
-}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onay Bekleyenler</span></li></ul></div>
-<h1 class="page-title">Onay Bekleyenler</h1>
+}<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onay Bekleyen Siparişler</span></li></ul></div>
+<h1 class="page-title">Onay Bekleyen Siparişler</h1>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet box green">
@@ -44,7 +44,7 @@
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "ordering": false,
             "ajax": {
-                "url": '/YN/OnayBekleyenler/SiparisOnay_List',
+                "url": '/YN/OnayBekleyenler/Siparis_List',
                 "dataSrc": function (json) {
                     return json;
                 },
@@ -80,6 +80,50 @@
             if ($(tr).hasClass('selected') == true) selected = selected + row.data().EvrakSeriNo + "#";
             else selected = selected.replace(row.data().EvrakSeriNo + "#", "");
         });
+        $('.onay-buton').click(function () {
+            if (selected == "")
+            {
+                Modaldialog("Bir kayıt seçmediniz", 'Hata', 'Tamam', 'btn-danger');
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/YN/OnayBekleyenler/Siparis_Onay',
+                data: { "ID": selected, "Onay": true },
+                dataType: "json",
+                success: function (data) {
+                    if (data.Status == true)
+                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
+                    else if (data.Message != "" && data.Message != null)
+                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                    else
+                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                }
+            });
+        });
+        $('.reddet-buton').click(function () {
+            if (selected == "") {
+                Modaldialog("Bir kayıt seçmediniz", 'Hata', 'Tamam', 'btn-danger');
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/YN/OnayBekleyenler/Siparis_Onay',
+                data: { "ID": selected, "Onay": false },
+                dataType: "json",
+                success: function (data) {
+                    if (data.Status == true)
+                        Modaldialog("İşlem Tamamlandı", 'Onaylandı', 'Tamam', 'btn-success');
+                    else if (data.Message != "" && data.Message != null)
+                        Modaldialog(data.Message, 'Hata', 'Tamam', 'btn-danger');
+                    else
+                        Modaldialog("Hata oldu", 'Hata', 'Tamam', 'btn-danger');
+                }
+            });
+        });
+        $('.yenile-buton').click(function () {
+            table.ajax.reload();
+        });
     });
     function newrow(id) {
         return "<table style='background:transparent;' id='new" + id + "'></table>";
@@ -88,24 +132,15 @@
         var html = "<tr style='background: transparent;'><th>HesapKodu</th><th>Unvan</th><th>MalKodu</th><th>Miktar</th><th>BirimFiyat</th><th>Tutar</th><th>Depo</th></tr>";
         $.ajax({
             type: 'POST',
-            url: '/YN/OnayBekleyenler/SiparisOnay_Details',
+            url: '/YN/OnayBekleyenler/Siparis_Details',
             data: { "ID": d },
             dataType: "json",
             success: function (data) {
                 for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].HesapKodu + '</td><td>' + data[i].Unvan + '</td><td align=right>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].BirimFiyat + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Tutar + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Depo + '</td></tr>';
+                    html += '<tr style="background:transparent;"><td>' + data[i].HesapKodu + '</td><td>' + data[i].Unvan + '</td><td>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].BirimFiyat + ' ' + data[i].DovizCinsi + '</td><td align=right>' + data[i].Tutar + ' ' + data[i].DovizCinsi + '</td><td>' + data[i].Depo + '</td></tr>';
                 };
                 $('#new' + d).html(html);
             }
         });
     }
-    $('.onay-buton').click(function () {
-
-    });
-    $('.reddet-buton').click(function () {
-
-    });
-    $('.yenile-buton').click(function () {
-        window.location.reload();
-    });
 </script>}

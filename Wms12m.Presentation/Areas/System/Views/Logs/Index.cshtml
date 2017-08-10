@@ -10,38 +10,7 @@
             <div class="portlet-title"><div class="caption"><i class="fa fa-gift"></i>Kayıtsız Hatalar</div></div>
             <div class="portlet-body form p-30 p-t-15">
                 <table class="table table-striped table-bordered table-hover table-responsive" id="sample_1">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ErrorId)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Application)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Host)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Type)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Source)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Message)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.User)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.TimeUtc)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.AllXml)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>ErrorId</th><th>Application</th><th>Host</th><th>Type</th><th>Source</th><th>Message</th><th>User</th><th>TimeUtc</th><th>AllXml</th><th></th></tr></thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
@@ -74,7 +43,7 @@
                                     @Html.DisplayFor(modelItem => item.AllXml)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                    <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','','','')"> Sil </a>
                                 </td>
                             </tr>
                         }
@@ -84,3 +53,4 @@
         </div>
     </div>
 </div>
+<script>var DeleteFunctionUrl = '/System/Logs/Delete/Elmah';</script>

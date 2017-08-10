@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
@@ -8,15 +9,17 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
 {
     public class OnayBekleyenlerController : RootController
     {
-        // GET: YN/OnayBekleyenler
-        public ActionResult Index()
+        /// <summary>
+        /// sipariş onayı bekleyenler sayfası
+        /// </summary>
+        public ActionResult Siparis()
         {
-            return View("Index");
+            return View("Siparis");
         }
         /// <summary>
         /// sipariş onayı bekleyenler listesi
         /// </summary>
-        public string SiparisOnay_List()
+        public string Siparis_List()
         {
             using (YNSEntities dby = new YNSEntities())
             {
@@ -36,7 +39,7 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         /// liste detayı
         /// </summary>
         [HttpPost]
-        public JsonResult SiparisOnay_Details(string ID)
+        public JsonResult Siparis_Details(string ID)
         {
             using (YNSEntities dby = new YNSEntities())
             {
@@ -47,6 +50,98 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
                                                                                             YNS0TEST.CAR002 ON YNS0TEST.STK002.STK002_CariHesapKodu = YNS0TEST.CAR002.CAR002_HesapKodu
                                                                 WHERE        (YNS0TEST.STK002.STK002_GC = 1) AND (YNS0TEST.STK002.STK002_SipDurumu = 0) AND YNS0TEST.STK002.STK002_EvrakSeriNo = '" + ID + "'").ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// onayla veya reddet
+        /// </summary>
+        [HttpPost]
+        public JsonResult Siparis_Onay(string ID, bool Onay)
+        {
+            ID = ID.RemoveLastCharacter();
+            ID = "'" + ID.Replace("#", "','") + "'";
+            try
+            {
+                using (YNSEntities dby = new YNSEntities())
+                {
+                    if (Onay == true)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+                return Json(new Result(true), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// transfer onayı bekleyenler sayfası
+        /// </summary>
+        public ActionResult Transfer()
+        {
+            return View("Transfer");
+        }
+        /// <summary>
+        /// transfer onayı bekleyenler listesi
+        /// </summary>
+        public string Transfer_List()
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var list = dby.Database.SqlQuery<frmOnayTransferList>(@"SELECT        TransferNo, Kaydeden, CONVERT(VARCHAR(15), CAST(TransferTarihi - 2 AS datetime), 104) AS Tarih
+                                                                    FROM            YNS0TEST.TransferDepo
+                                                                    WHERE        (OnayDurumu = 0)
+                                                                    GROUP BY TransferNo, Kaydeden, CONVERT(VARCHAR(15), CAST(TransferTarihi - 2 AS datetime), 104)").ToList();
+                var json = new JavaScriptSerializer().Serialize(list);
+                return json;
+            }
+        }
+        /// <summary>
+        /// liste detayı
+        /// </summary>
+        [HttpPost]
+        public JsonResult Transfer_Details(string ID)
+        {
+            using (YNSEntities dby = new YNSEntities())
+            {
+                var list = dby.Database.SqlQuery<frmOnayTransferList>(@"SELECT        ID, TransferNo, TransferTarihi, SiraNo, MalKodu, Miktar, Birim, CikisDepo, GirisDepo, TalepEden, OnayDurumu, Kaydeden, KayitTarih
+                                                                    FROM            YNS0TEST.TransferDepo
+                                                                    WHERE        TransferNo = '" + ID + "'").ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+        }
+        /// <summary>
+        /// onayla veya reddet
+        /// </summary>
+        [HttpPost]
+        public JsonResult Transfer_Onay(string ID, bool Onay)
+        {
+            ID = ID.RemoveLastCharacter();
+            ID = "'" + ID.Replace("#", "','") + "'";
+            try
+            {
+                using (YNSEntities dby = new YNSEntities())
+                {
+                    if (Onay == true)
+                    {
+                        dby.Database.ExecuteSqlCommand(@"UPDATE YNS0TEST.TransferDepo SET OnayDurumu = 1 WHERE (TransferNo IN (" + ID + "))");
+                    }
+                    else
+                    {
+                        dby.Database.ExecuteSqlCommand(@"UPDATE YNS0TEST.TransferDepo SET OnayDurumu = 2 WHERE (TransferNo IN (" + ID + "))");
+                    }
+                }
+                return Json(new Result(true), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new Result(false, ex.Message), JsonRequestBehavior.AllowGet);
             }
         }
     }

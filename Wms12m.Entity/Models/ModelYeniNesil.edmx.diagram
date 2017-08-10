@@ -4,8 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bffd8774ec2847ff917c095ec915d93a" Name="Diagram1" ZoomLevel="133">
+      <Diagram DiagramId="bffd8774ec2847ff917c095ec915d93a" Name="Diagram1" ZoomLevel="89">
         <EntityTypeShape EntityType="YNSModel.STK002" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="YNSModel.TransferDepo" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
