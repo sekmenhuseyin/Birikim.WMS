@@ -23,9 +23,9 @@
                                     <td>@item.HesapKodu</td>
                                     <td>@item.Unvan</td>
                                     <td>@item.MalKodu</td>
-                                    <td>@item.Miktar</td>
-                                    <td>@item.BirimFiyat @item.DovizCinsi</td>
-                                    <td>@item.Tutar @item.DovizCinsi</td>
+                                    <td align="right">@String.Format("{0:n}", item.Miktar)</td>
+                                    <td align="right">@String.Format("{0:n}", item.BirimFiyat) @item.DovizCinsi</td>
+                                    <td align="right">@String.Format("{0:n}", item.Tutar) @item.DovizCinsi</td>
                                     <td>@item.Depo</td>
                                     <td>@item.Kaydeden</td>
                                     <td>@item.Tarih</td>
