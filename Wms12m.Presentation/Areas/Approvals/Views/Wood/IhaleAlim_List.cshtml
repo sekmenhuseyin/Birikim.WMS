@@ -164,7 +164,6 @@
         callback: function (key, options) {
             var rowIndex = parseInt(options.$trigger[0].rowIndex) - 1;
             var satir = table.row(rowIndex).data();
-            console.log(satir);
             switch (key) {
                 case 'teminat':
                     if (satir.TebTemMektupDosya == null || satir.TebTemMektupDosya == "")
