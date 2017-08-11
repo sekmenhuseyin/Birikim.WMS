@@ -435,6 +435,7 @@
     <Content Include="Areas\Approvals\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Approvals\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Approvals\Views\IzOrder\Index.cshtml" />
+    <Content Include="Areas\Approvals\Views\IzOrder\List.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />

@@ -15,7 +15,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Reading) == false) return Redirect("/");
             if (onayRed == null)
             {
-                ViewBag.OnayDurum = "OnayBekleyenler";
+                ViewBag.OnayDurum = "Beklemede";
             }
             else
             {
@@ -28,7 +28,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         {
             if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Reading) == false) return null;
             ViewBag.Tip = Tip;
-            return PartialView();
+            return PartialView("List");
         }
 
         public string IzOrderListData(string tip)
