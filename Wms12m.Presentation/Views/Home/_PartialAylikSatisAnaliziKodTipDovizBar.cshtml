@@ -59,9 +59,9 @@
         var Yil2017 = new Array();
         jQuery.each( model, function( i, val ) {
             aylar.push(val.Ay);
-            Yil2015.push(val.Yil2015);
-            Yil2016.push(val.Yil2016);
-            Yil2017.push(val.Yil2017);
+            Yil2015.push(jDecimal(ondalikBinlik(Math.round(val.Yil2015 * 100) / 100, 2)));
+            Yil2016.push(jDecimal(ondalikBinlik(Math.round(val.Yil2016 * 100) / 100, 2)));
+            Yil2017.push(jDecimal(ondalikBinlik(Math.round(val.Yil2017 * 100) / 100, 2)));
         });
         var islemtip = [{ id: 0, state: "Tümü"},{ id: 1, state: "İç Piyasa"},{ id: 2, state: "Dış Piyasa" }];
         var doviz = [{ state: "TL"},{ state: "Döviz"},{ state: "Birim" }];

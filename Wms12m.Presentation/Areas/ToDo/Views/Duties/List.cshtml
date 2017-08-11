@@ -56,7 +56,7 @@
                         <td>@item.ComboItem_Name1.Name</td>
                         <td>@if (item.ComboItem_Name2 != null) { @item.ComboItem_Name2.Name}</td>
                         <td>@if (item.ComboItem_Name != null) { @item.ComboItem_Name.Name}</td>
-                        <td>@item.TahminiBitis.Value.ToString("dd MMM yyyy")</td>
+                        <td>@if (item.TahminiBitis != null) { @item.TahminiBitis.Value.ToString("dd MMM yyyy")}</td>
                         <td nowrap>
                             <a class="btn btn-info" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/ToDo/DutyWork/NewWork/@item.ID')"><span class="glyphicon glyphicon-floppy-save"></span>Çalışma</a>
                             <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/ToDo/Duties/List','liste','@item.ID')"> Sil </a>
