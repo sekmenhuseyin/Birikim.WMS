@@ -25,7 +25,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var FO = new List<FaturaOnay>();
             if (Refresh != "")
             {
-                FO = db.Database.SqlQuery<FaturaOnay>(string.Format("[FINSAT6{0}].[wms].[Fatura_Onay] @onayTip='{1}'", "99", ListType)).ToList();
+                FO = db.Database.SqlQuery<FaturaOnay>(string.Format("[FINSAT6{0}].[wms].[Fatura_Onay] @onayTip='{1}'", "17", ListType)).ToList();
 
             }
             return PartialView("List", FO);
@@ -42,7 +42,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 STI = new List<FaturaDetaySTI>(),
                 FTD = new List<FaturaDetayFTD>()
             };
-            var FDD = db.MultipleResults(string.Format("[FINSAT6{0}].[wms].[Fatura_OnayDetay] @EvrakNo='{1}'", "99", EvrakNo)).With<FaturaDetayGenel>().With<FaturaDetaySTI>().With<FaturaDetayFTD>().Execute();
+            var FDD = db.MultipleResults(string.Format("[FINSAT6{0}].[wms].[Fatura_OnayDetay] @EvrakNo='{1}'", "17", EvrakNo)).With<FaturaDetayGenel>().With<FaturaDetaySTI>().With<FaturaDetayFTD>().Execute();
             foreach (FaturaDetayGenel item in FDD[0])
             {
                 _FDD.GENEL.Add(item);
@@ -70,16 +70,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 chck += item + ",";
             }
             chck = chck.Substring(0, chck.Length - 1);
-            var FO = db.Database.SqlQuery<int>(string.Format("SELECT Count(*) FROM FINSAT6{0}.FINSAT6{0}.STI (NOLOCK) WHERE EvrakNo='{1}' AND CheckSum IN ({2})", "99", EvrakNo, chck)).FirstOrDefault();
+            var FO = db.Database.SqlQuery<int>(string.Format("SELECT Count(*) FROM FINSAT6{0}.FINSAT6{0}.STI (NOLOCK) WHERE EvrakNo='{1}' AND CheckSum IN ({2})", "17", EvrakNo, chck)).FirstOrDefault();
 
             if (FO != ChckSm.Length)
             {
                 return "DEGISIM";
             }
-            CHK = db.Database.SqlQuery<string>(string.Format("SELECT Chk FROM [FINSAT6{0}].[FINSAT6{0}].STI WHERE (EvrakNo = '{1}')", "99", EvrakNo)).FirstOrDefault();
+            CHK = db.Database.SqlQuery<string>(string.Format("SELECT Chk FROM [FINSAT6{0}].[FINSAT6{0}].STI WHERE (EvrakNo = '{1}')", "17", EvrakNo)).FirstOrDefault();
             try
             {
-                var x = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[Fatura_OnayUpdate] @Tip={1}, @EvrakNo='{2}',@Chk='{3}',@Tarih={4},@RedNedeni='{5}',@Degistiren='{6}',@Degistarih={7}", "99", 1, EvrakNo, CHK, Convert.ToInt32(Convert.ToDateTime(Tarih.ToString()).ToOADate()), "", vUser.UserName, Convert.ToInt32(DateTime.Today.ToOADate()))).ToList();
+                var x = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[Fatura_OnayUpdate] @Tip={1}, @EvrakNo='{2}',@Chk='{3}',@Tarih={4},@RedNedeni='{5}',@Degistiren='{6}',@Degistarih={7}", "17", 1, EvrakNo, CHK, Convert.ToInt32(Convert.ToDateTime(Tarih.ToString()).ToOADate()), "", vUser.UserName, Convert.ToInt32(DateTime.Today.ToOADate()))).ToList();
                 return "YES";
             }
             catch (Exception)
@@ -99,16 +99,16 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 chck += item + ",";
             }
             chck = chck.Substring(0, chck.Length - 1);
-            var FO = db.Database.SqlQuery<int>(string.Format("SELECT Count(*) FROM FINSAT6{0}.FINSAT6{0}.STI (NOLOCK) WHERE EvrakNo='{1}' AND CheckSum IN ({2})", "99", EvrakNo, chck)).FirstOrDefault();
+            var FO = db.Database.SqlQuery<int>(string.Format("SELECT Count(*) FROM FINSAT6{0}.FINSAT6{0}.STI (NOLOCK) WHERE EvrakNo='{1}' AND CheckSum IN ({2})", "17", EvrakNo, chck)).FirstOrDefault();
 
             if (FO != ChckSm.Length)
             {
                 return "DEGISIM";
             }
-            CHK = db.Database.SqlQuery<string>(string.Format("SELECT Chk FROM [FINSAT6{0}].[FINSAT6{0}].STI WHERE (EvrakNo = '{1}')", "99", EvrakNo)).FirstOrDefault();
+            CHK = db.Database.SqlQuery<string>(string.Format("SELECT Chk FROM [FINSAT6{0}].[FINSAT6{0}].STI WHERE (EvrakNo = '{1}')", "17", EvrakNo)).FirstOrDefault();
             try
             {
-                var x = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[Fatura_OnayUpdate] @Tip={1}, @EvrakNo='{2}',@Chk='{3}',@Tarih={4},@RedNedeni='{5}',@Degistiren='{6}',@Degistarih={7}", "99", 0, EvrakNo, CHK, Convert.ToInt32(Convert.ToDateTime(Tarih.ToString()).ToOADate()), RedNeden, vUser.UserName, Convert.ToInt32(DateTime.Today.ToOADate()))).ToList();
+                var x = db.Database.SqlQuery<int>(string.Format("[FINSAT6{0}].[wms].[Fatura_OnayUpdate] @Tip={1}, @EvrakNo='{2}',@Chk='{3}',@Tarih={4},@RedNedeni='{5}',@Degistiren='{6}',@Degistarih={7}", "17", 0, EvrakNo, CHK, Convert.ToInt32(Convert.ToDateTime(Tarih.ToString()).ToOADate()), RedNeden, vUser.UserName, Convert.ToInt32(DateTime.Today.ToOADate()))).ToList();
                 return "YES";
             }
             catch (Exception)
