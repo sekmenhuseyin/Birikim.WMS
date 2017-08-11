@@ -60,7 +60,7 @@
             success: function (data)
             {
                    $(".slct_kriter_pie").dxSelectBox({
-            dataSource: kriter,
+                       dataSource: $.parseJSON(data),
             valueExpr: 'Kriter',
             displayExpr: 'Kriter',
             value: kriter_value,
