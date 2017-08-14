@@ -132,19 +132,17 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialGunlukSatisYearToDay(string SirketKodu)
         {
             if (CheckPerm(Perms.ChartGunlukSatisYearToDay, PermTypes.Reading) == false) return null;
-            int tarih = fn.ToOADate();
             var GSA = db.GetCachedChartYear2Day(SirketKodu).ToList();
             if (GSA.Count == 0)
                 try
                 {
-                    GSA = db.Database.SqlQuery<GetCachedChartYear2Day_Result>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", SirketKodu, tarih)).ToList();
+                    GSA = db.Database.SqlQuery<GetCachedChartYear2Day_Result>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay]", SirketKodu)).ToList();
                 }
                 catch (Exception ex)
                 {
                     Logger(ex, "Home/ChartGunlukSatisYearToDay");
                     GSA = new List<GetCachedChartYear2Day_Result>();
                 }
-            ViewBag.tarih = tarih;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialGunlukSatısAnaliziYearToDay", GSA);
@@ -153,19 +151,17 @@ namespace Wms12m.Presentation.Controllers
         public PartialViewResult PartialGunlukSatisYearToDayPie(string SirketKodu)
         {
             if (CheckPerm(Perms.ChartGunlukSatisYearToDay, PermTypes.Reading) == false) return null;
-            int tarih = fn.ToOADate();
             var GSA = db.GetCachedChartYear2Day(SirketKodu).ToList();
             if (GSA.Count == 0)
                 try
                 {
-                    GSA = db.Database.SqlQuery<GetCachedChartYear2Day_Result>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay] @Tarih = {1}", SirketKodu, tarih)).ToList();
+                    GSA = db.Database.SqlQuery<GetCachedChartYear2Day_Result>(string.Format("[FINSAT6{0}].[wms].[DB_GunlukSatisAnaliziYearToDay]", SirketKodu)).ToList();
                 }
                 catch (Exception ex)
                 {
                     Logger(ex, "Home/PartialGunlukSatisYearToDayPie");
                     GSA = new List<GetCachedChartYear2Day_Result>();
                 }
-            ViewBag.tarih = tarih;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialGunlukSatısAnaliziYearToDayPie", GSA);
