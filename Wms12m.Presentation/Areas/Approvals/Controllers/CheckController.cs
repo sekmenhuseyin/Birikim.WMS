@@ -21,7 +21,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string SPGMY_List()
         {
             if (CheckPerm(Perms.ÇekOnaylamaSPGMY, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnaySPGMY]", "17")).ToList();
+            var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnaySPGMY]", "99")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -32,7 +32,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "99");
 
             try
             {
@@ -43,7 +43,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET SPGMYOnay = 1, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}'  where ID = '{1}'", "99", insertObj["ID"].ToString(), shortDate));
 
 
 
@@ -71,7 +71,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "99");
 
             try
             {
@@ -82,7 +82,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET SPGMYOnay = 0, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}', Durum = 1 where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET SPGMYOnay = 0, SPGMYOnaylayan='" + vUser.UserName + "', SPGMYOnayTarih='{2}', Durum = 1 where ID = '{1}'", "99", insertObj["ID"].ToString(), shortDate));
 
 
 
@@ -114,7 +114,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string MIGMY_List()
         {
             if (CheckPerm(Perms.ÇekOnaylamaMIGMY, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnayMIGMY]", "17")).ToList();
+            var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnayMIGMY]", "99")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -125,7 +125,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "99");
 
             try
             {
@@ -136,7 +136,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET MIGMYOnay = 1, MIGMYOnaylayan='" + vUser.UserName + "', MIGMYOnayTarih='{2}'  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET MIGMYOnay = 1, MIGMYOnaylayan='" + vUser.UserName + "', MIGMYOnayTarih='{2}'  where ID = '{1}'", "99", insertObj["ID"].ToString(), shortDate));
 
 
 
@@ -164,7 +164,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "99");
 
             try
             {
@@ -175,7 +175,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET MIGMYOnay = 0, MIGMYOnaylayan='" + vUser.UserName + "', MIGMYOnayTarih='{2}', Durum = 1 where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET MIGMYOnay = 0, MIGMYOnaylayan='" + vUser.UserName + "', MIGMYOnayTarih='{2}', Durum = 1 where ID = '{1}'", "99", insertObj["ID"].ToString(), shortDate));
 
 
 
@@ -207,7 +207,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public string GM_List()
         {
             if (CheckPerm(Perms.ÇekOnaylamaGM, PermTypes.Reading) == false) return null;
-            var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnayGM]", "17")).ToList();
+            var RT = db.Database.SqlQuery<CekOnaySelect>(string.Format("[FINSAT6{0}].[wms].[CekOnayGM]", "99")).ToList();
             var json = new JavaScriptSerializer().Serialize(RT);
             return json;
         }
@@ -218,7 +218,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "99");
 
             try
             {
@@ -229,7 +229,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}', Durum=1  where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET GMOnay = 1, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}', Durum=1  where ID = '{1}'", "99", insertObj["ID"].ToString(), shortDate));
 
 
 
@@ -257,7 +257,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
 
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
 
-            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "17");
+            SqlExper sqlexper = new SqlExper(ConfigurationManager.ConnectionStrings["WMSConnection"].ConnectionString, "99");
 
             try
             {
@@ -268,7 +268,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     DateTime date = DateTime.Now;
                     var shortDate = date.ToString("yyyy-MM-dd HH:mm:ss");
                     var sonuc = sqlexper.AcceptChanges();
-                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET GMOnay = 0, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}', Durum = 1 where ID = '{1}'", "17", insertObj["ID"].ToString(), shortDate));
+                    db.Database.ExecuteSqlCommand(string.Format("UPDATE [FINSAT6{0}].[FINSAT6{0}].[CEK] SET GMOnay = 0, GMOnaylayan='" + vUser.UserName + "', GMOnayTarih='{2}', Durum = 1 where ID = '{1}'", "99", insertObj["ID"].ToString(), shortDate));
 
 
 
@@ -298,7 +298,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 MaxJsonLength = int.MaxValue
             };
             if (CheckPerm(Perms.ÇekOnaylama, PermTypes.Reading) == false) return null;
-            var CE = db.Database.SqlQuery<CekOnayDetay>(string.Format("[FINSAT6{0}].[wms].[CekOnayDetay] @EvrakNo = '{1}'", "17", EvrakNo)).ToList();
+            var CE = db.Database.SqlQuery<CekOnayDetay>(string.Format("[FINSAT6{0}].[wms].[CekOnayDetay] @EvrakNo = '{1}'", "99", EvrakNo)).ToList();
             return json.Serialize(CE);
         }
     }

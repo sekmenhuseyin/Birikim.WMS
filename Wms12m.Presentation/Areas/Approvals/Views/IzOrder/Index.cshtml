@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "Sipariş Onay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}@section Styles{
+    <style>
+        td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('/Content/assets/global/plugins/datatables/images/details_close.png') no-repeat center center;
+        }
+
+        .input_content {
+            margin-bottom: 3px;
+            height: 40px;
+            line-height: 20px;
+        }
+
+        .input_label {
+            float: left;
+            width: 35%;
+            font-weight: bold;
+            color: #5bc8d2;
+            font-size: 9px;
+            padding-top: 4px;
+        }
+
+        .input {
+            float: left;
+            width: 60%;
+            font-size: 10px;
+            height: 30px;
+        }
+
+        .input_style {
+            background-color: rgba(245, 239, 239, 0.85);
+            padding: 10px;
+            margin: 0;
+        }
+
+        .dx-header-row {
+            background-color: #86d8ea;
+            color: window;
+        }
+
+        .dx-state-readonly {
+            background-color: #e0dede !important;
+        }
+
+            .dx-state-readonly input {
+                background-color: #e0dede !important;
+            }
+
+        .btn {
+            width: 120px;
+            text-align: center;
+        }
+    </style>
+}
+<div class="page-bar"><ul class="page-breadcrumb"><li><a href="/">Anasayfa</a><i class="fa fa-circle"></i></li><li><span>Onaylama</span><i class="fa fa-circle"></i></li><li><span>Sipariş</span></li></ul></div>
+<h1 class="page-title">Sipariş Onay</h1>
+<div class="row m-10">
+    <div class="rdgrpOnayRed col-md-5"></div>
+    <div class="col-md-2 col-md-offset-5"><button class="btn btn-default input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+</div>
+<div class="row">
+    <div class="form-horizontal">
+        <div class="form-body">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Sipariş Onay
+                    </div>
+                    <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
+                    <div class="col-md-2 butondiv pull-right m-t-5"><button class="btn btn-success pull-right input-circle siparis-onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
+                    <div class="col-md-2 butondiv pull-right m-t-5"><button class="btn btn-danger pull-right input-circle siparis-reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="row" id="siparis_onay_data">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        var OnayDurum = "@ViewBag.OnayDurum";
+        var rdrValue = OnayDurum;
+        var radioGroupItems = [
+            { text: "Beklemede", value: "Beklemede" },
+            { text: "Onaylandı", value: "Onaylandı" },
+            { text: "Reddedildi", value: "Reddedildi" }
+        ];
+        $(function () {
+            $(".rdgrpOnayRed").dxRadioGroup({
+                dataSource: radioGroupItems,
+                displayExpr: "text",
+                valueExpr: "value",
+                value: OnayDurum,
+                layout: "horizontal",
+                onValueChanged: function (e) {
+                    rdrValue = e.value;
+                    PartialView("/Approvals/IzOrder/IzOrderList", 'siparis_onay_data', JSON.stringify({ Tip: rdrValue }));
+
+                }
+            });
+            $(".rdgrpOnayRed").dxRadioGroup("instance").option("value", rdrValue);
+        });
+        $(".dx-item.dx-radiobutton").hide();
+        PartialView("/Approvals/IzOrder/IzOrderList", 'siparis_onay_data', JSON.stringify({ Tip: rdrValue }));
+        //$('.siparis-onay-buton').click(function () {
+         
+        //});
+        //$('.siparis-reddet-buton').click(function () {
+        //    var x = table55.rows('.selected').data();
+        //    if (x.length > 0) {
+        //        //UcretReddet();
+        //    }
+        //    else {
+        //        Modaldialog("Satır Seçiniz", "Hata", "Tamam", "btn-danger");
+        //        return;
+        //    }
+        //});
+        //$('.yenile-buton').click(function () {
+        //    setTimeout(function () { window.location.reload(); }, 500);
+        //});
+    </script>
+}
+

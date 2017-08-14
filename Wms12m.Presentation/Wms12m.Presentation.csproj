@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs7993.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsC79.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vs7993.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vsC79.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -212,6 +212,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\assets\pages\img\texbox-cal.png" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\12M-Logo-30.png" />
     <Content Include="Content\images\12M-Logo-90.png" />
     <Content Include="Content\images\12M-Logo.png" />
@@ -348,7 +350,9 @@
     <Content Include="Content\Scripts\Operation.min.js">
       <DependentUpon>Operation.js</DependentUpon>
     </Content>
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
     <Content Include="humans.txt" />
@@ -428,13 +432,26 @@
     <Content Include="Areas\Approvals\Views\Purchase\SonAlimListesi.cshtml" />
     <Content Include="Areas\Approvals\Views\Purchase\TeklifList.cshtml" />
     <Content Include="Areas\YN\Views\OnayBekleyenler\Siparis_Details.cshtml" />
+    <Content Include="Areas\Approvals\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Approvals\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Approvals\Views\IzOrder\Index.cshtml" />
+    <Content Include="Areas\Approvals\Views\IzOrder\List.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
     <Content Include="Content\STISablon.xlsx" />
     <Content Include="Content\KatSablon.xlsx" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Service\Terminal.asmx" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
@@ -468,6 +485,7 @@
     <Compile Include="Areas\Approvals\ApprovalsAreaRegistration.cs" />
     <Compile Include="Areas\Approvals\Controllers\CheckController.cs" />
     <Compile Include="Areas\Approvals\Controllers\ContractController.cs" />
+    <Compile Include="Areas\Approvals\Controllers\IzOrderController.cs" />
     <Compile Include="Areas\Approvals\Controllers\RiskController.cs" />
     <Compile Include="Areas\Approvals\Controllers\PurchaseController.cs" />
     <Compile Include="Areas\Approvals\Controllers\GuaranteeController.cs" />
@@ -772,6 +790,7 @@
     <Content Include="Views\Users\B2BList.cshtml" />
     <Content Include="Views\Users\B2BNew.cshtml" />
     <Content Include="Views\Home\_PartialGunlukSatisZamanCizelgesi.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
