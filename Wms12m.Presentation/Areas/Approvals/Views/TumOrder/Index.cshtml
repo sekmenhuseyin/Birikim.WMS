@@ -64,7 +64,7 @@
 <h1 class="page-title">Sipariş Onay</h1>
 <div class="row m-10">
     <div class="rdgrpOnayRed col-md-5"></div>
-    <div class="col-md-2 col-md-offset-5"><button class="btn btn-default input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
+    <div class="col-md-2 col-md-offset-5" style="padding-left:0 !important;"><button class="btn btn-default input-circle yenile-buton glyphicon glyphicon-refresh"> Yenile </button></div>
 </div>
 <div class="row">
     <div class="form-horizontal">
@@ -92,6 +92,20 @@
 </div>
 @section Scripts{
     <script type="text/javascript">
+        $(document).load($(window).bind("resize", checkPosition));
+
+        function checkPosition() {
+            if ($(window).width() < 550) {
+                $(".butondiv").removeClass("pull-right");
+                $(".siparis-onay-buton").removeClass("pull-right");
+                $(".siparis-reddet-buton").removeClass("pull-right");
+            } 
+            else {
+                $(".butondiv").addClass("pull-right");
+                $(".siparis-onay-buton").addClass("pull-right");
+                $(".siparis-reddet-buton").addClass("pull-right");
+            }
+        }
         var OnayDurum = "@ViewBag.OnayDurum";
         var rdrValue = OnayDurum;
         var radioGroupItems = [
@@ -108,14 +122,14 @@
                 layout: "horizontal",
                 onValueChanged: function (e) {
                     rdrValue = e.value;
-                    PartialView("/Approvals/IzOrder/IzOrderList", 'siparis_onay_data', JSON.stringify({ Tip: rdrValue }));
+                    PartialView("/Approvals/TumOrder/TumOrderList", 'siparis_onay_data', JSON.stringify({ Tip: rdrValue }));
 
                 }
             });
             $(".rdgrpOnayRed").dxRadioGroup("instance").option("value", rdrValue);
         });
         $(".dx-item.dx-radiobutton").hide();
-        PartialView("/Approvals/IzOrder/IzOrderList", 'siparis_onay_data', JSON.stringify({ Tip: rdrValue }));
+        PartialView("/Approvals/TumOrder/TumOrderList", 'siparis_onay_data', JSON.stringify({ Tip: rdrValue }));
         //$('.siparis-onay-buton').click(function () {
          
         //});

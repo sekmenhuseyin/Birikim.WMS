@@ -434,8 +434,8 @@
     <Content Include="Areas\YN\Views\OnayBekleyenler\Siparis_Details.cshtml" />
     <Content Include="Areas\Approvals\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Approvals\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Approvals\Views\IzOrder\Index.cshtml" />
-    <Content Include="Areas\Approvals\Views\IzOrder\List.cshtml" />
+    <Content Include="Areas\Approvals\Views\TumOrder\Index.cshtml" />
+    <Content Include="Areas\Approvals\Views\TumOrder\List.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -485,7 +485,7 @@
     <Compile Include="Areas\Approvals\ApprovalsAreaRegistration.cs" />
     <Compile Include="Areas\Approvals\Controllers\CheckController.cs" />
     <Compile Include="Areas\Approvals\Controllers\ContractController.cs" />
-    <Compile Include="Areas\Approvals\Controllers\IzOrderController.cs" />
+    <Compile Include="Areas\Approvals\Controllers\TumOrderController.cs" />
     <Compile Include="Areas\Approvals\Controllers\RiskController.cs" />
     <Compile Include="Areas\Approvals\Controllers\PurchaseController.cs" />
     <Compile Include="Areas\Approvals\Controllers\GuaranteeController.cs" />
