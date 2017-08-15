@@ -11,8 +11,8 @@
                 <td>@{if (item.BitisTarihi != null) { @item.BitisTarihi.Value.FromOADateInt() } }</td>
                 <td>
                     @if (item.DurumID == ComboItems.Açık.ToInt32()){ 
-                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/CountFark/1-@item.ID')"> Tüm Liste </a>                        
-                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/CountFark/0-@item.ID')"> Fark Liste </a>
+                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/CountFark/1-@item.ID')"> Tüm Liste </a>                        
+                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/CountFark/0-@item.ID')"> Fark Liste </a>
                         using (Ajax.BeginForm("Finish", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))
                         {
                             @Html.AntiForgeryToken()
@@ -22,8 +22,8 @@
                     }
                     @if (item.DurumID == ComboItems.Tamamlanan.ToInt32())
                     {
-                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/CountFark/1-@item.ID')"> Tüm Liste </a>
-                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/Tasks/CountFark/0-@item.ID')"> Fark Liste </a>
+                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/CountFark/1-@item.ID')"> Tüm Liste </a>
+                        <a class="btn btn-default pull-left input-circle" href="#modalEditPage" data-toggle="modal" onclick="editInModal('/WMS/Tasks/CountFark/0-@item.ID')"> Fark Liste </a>
                         if (item.IR.Onay == false)
                         {
                             using (Ajax.BeginForm("CountCreate", "Tasks", new { area = "WMS" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, OnSuccess = "getresult", OnFailure = "Modaldialog('Lütfen Tekrar Deneyin', 'Hata', 'Tamam', 'btn-danger');" }, new { @class = "pull-left" }))

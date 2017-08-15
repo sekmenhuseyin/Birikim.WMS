@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmxOps));
             this.panelUst = new System.Windows.Forms.Panel();
+            this.btnUygula = new System.Windows.Forms.Button();
             this.txtRafBarkod = new System.Windows.Forms.TextBox();
             this.txtBarkod = new System.Windows.Forms.TextBox();
             this.btnEkle = new System.Windows.Forms.Button();
@@ -53,7 +54,6 @@
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnKaydet = new System.Windows.Forms.Button();
-            this.btnUygula = new System.Windows.Forms.Button();
             this.panelUst.SuspendLayout();
             this.panelOrta.SuspendLayout();
             this.panelAlt.SuspendLayout();
@@ -78,6 +78,17 @@
             this.panelUst.Location = new System.Drawing.Point(0, 0);
             this.panelUst.Name = "panelUst";
             this.panelUst.Size = new System.Drawing.Size(240, 90);
+            // 
+            // btnUygula
+            // 
+            this.btnUygula.BackColor = System.Drawing.Color.SkyBlue;
+            this.btnUygula.ForeColor = System.Drawing.Color.Black;
+            this.btnUygula.Location = new System.Drawing.Point(181, 2);
+            this.btnUygula.Name = "btnUygula";
+            this.btnUygula.Size = new System.Drawing.Size(57, 21);
+            this.btnUygula.TabIndex = 9;
+            this.btnUygula.Text = "+";
+            this.btnUygula.Click += new System.EventHandler(this.btnUygula_Click);
             // 
             // txtRafBarkod
             // 
@@ -211,7 +222,6 @@
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(70, 18);
             this.label12.Text = "İşlemMiktar";
-            this.label12.Visible = false;
             // 
             // label6
             // 
@@ -304,17 +314,6 @@
             this.btnKaydet.TabIndex = 0;
             this.btnKaydet.Text = "Kaydet";
             this.btnKaydet.Click += new System.EventHandler(this.btnKaydet_Click);
-            // 
-            // btnUygula
-            // 
-            this.btnUygula.BackColor = System.Drawing.Color.SkyBlue;
-            this.btnUygula.ForeColor = System.Drawing.Color.Black;
-            this.btnUygula.Location = new System.Drawing.Point(181, 2);
-            this.btnUygula.Name = "btnUygula";
-            this.btnUygula.Size = new System.Drawing.Size(57, 21);
-            this.btnUygula.TabIndex = 9;
-            this.btnUygula.Text = "+";
-            this.btnUygula.Click += new System.EventHandler(this.btnUygula_Click);
             // 
             // frmxOps
             // 
