@@ -91,7 +91,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             Result _Result = new Result(true);
             if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray>(Request["Data"]);
-            int[] birimID = { 4263, 2211, 2214, 4063, 4864, 2213, 6163, 6164, 6165, 6166, 6167, 6168, 6169, 6170, 2363, 5364, 5764, 4764, 55555 };
+            int[] birimID = { 4263, 2211, 2214, 4063, 4864, 2213, 6163, 6164, 6165, 6166, 6167, 6168, 6169, 6170, 2363, 5364, 5764, 4764, 55555, 1901, 1603, 1902 };
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 try
