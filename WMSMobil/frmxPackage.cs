@@ -26,16 +26,16 @@ namespace WMSMobil
             InitializeComponent();
             Servis.Url = Ayarlar.ServisURL;
             //barkod
-            Barkod = new Barcode2();
-            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            try
-            {
-                Barkod.EnableScanner = true;
-            }
-            catch (Exception)
-            {
-            }
-            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            //Barkod = new Barcode2();
+            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            //try
+            //{
+            //    Barkod.EnableScanner = true;
+            //}
+            //catch (Exception)
+            //{
+            //}
+            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
         }
         /// <summary>
         /// barkod okursa

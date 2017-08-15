@@ -192,7 +192,13 @@ namespace WMSMobil
         {
             if (GorevID == 0) return;
             frmxOps frm = new frmxOps(GorevID, IrsaliyeID, true, Ayarlar.MenuTip.ToInt32());
-            frm.ShowDialog();
+            try
+            {
+                frm.ShowDialog();
+            }
+            catch (Exception)
+            {
+            }
         }
         /// <summary>
         /// linke aktara basınca

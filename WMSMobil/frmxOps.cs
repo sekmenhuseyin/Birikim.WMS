@@ -32,15 +32,15 @@ namespace WMSMobil
             GorevTip=gorevtip;
             //barkod
             Barkod = new Barcode2();
-            Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
-            try
-            {
-                Barkod.EnableScanner = true;
-            }
-            catch (Exception)
-            {
-            }
-            Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            //Barkod.DeviceType = Symbol.Barcode2.DEVICETYPES.FIRSTAVAILABLE;
+            //try
+            //{
+            //    Barkod.EnableScanner = true;
+            //}
+            //catch (Exception)
+            //{
+            //}
+            //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
             try
             {
                 //görev bilgilerini getir
@@ -59,6 +59,8 @@ namespace WMSMobil
                         glbTip = false;
                         Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
                     }
+                    else
+                        this.Close();
                 //listele
                 STIGetir();
             }
