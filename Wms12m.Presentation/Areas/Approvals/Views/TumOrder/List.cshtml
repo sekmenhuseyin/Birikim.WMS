@@ -14,34 +14,30 @@
     <table class="table table-striped table-bordered" id="sample_1">
         <thead>
             <tr>
-                <th style="display:none;"></th>
-                <th style="display:none;"></th>
                 <th></th>
-
-                <th>Ad</th>
-                <th>Soyad</th>
-                <th>İşyeri Adı</th>
-                <th>Birim Adı</th>
-                <th>Pozisyon Adı</th>
-                <th>Geçerlilik Ayı</th>
-                <th>Geçerlilik Yılı</th>
-                <th>Değişim Tarihi</th>
-                <th>Ücret Tipi</th>
-                <th>Döviz Tipi</th>
-                <th>Birim Ücret</th>
-                <th>Genel Aylık Ücret</th>
-                <th>Brüt/Net</th>
-                <th>Onay Sırası</th>
-                <th>Red Nedeni</th>
-                <th>Reddeden Kullanıcı</th>
-                <th>Kayıt Tarihi</th>
-                <th>Kaydeden Kullanıcı</th>
-                <th>Güncelleme Tarihi</th>
-                <th>Güncelleyen Kullanıcı</th>
-                <th>Açıklama</th>
-                <th style="display:none;"></th>
-                <th style="display:none;"></th>
-                <th style="display:none;"></th>
+                <th>Seçim</th>
+                <th>Hesap Kodu</th>
+                <th>Ünvan</th>
+                <th>Tip Kodu</th>
+                <th>Kredi Limiti</th>
+                <th>Bakiye</th>
+                <th>PRT Bakiye</th>
+                <th>Risk%</th>
+                <th>Ş.Çek</th>
+                <th>T.Çek</th>
+                <th>Kod2</th>
+                <th>Ortalama Gun</th>
+                <th>Kod3 Ort. Gun</th>
+                <th>Kod3 Ort. Bakiye</th>
+                <th>Sipariş Türü</th>
+                <th>Sıcak Sipariş</th>
+                <th>Soğuk Sipariş</th>
+                <th>Evrak No</th>
+                <th>Onay Durumu</th>
+                <th>Tarih</th>
+                <th>Firma</th>
+                <th>Onaylayan</th>
+                <th>Gün İçindeki Sipariş</th>
             </tr>
         </thead>
     </table>
@@ -81,40 +77,37 @@
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
         "ajax": {
-            "url": '/Approvals/IzOrder/IzOrderListData?tip=' + tip1,
+            "url": '/Approvals/TumOrder/TumOrderListData?tip=' + tip1,
             "dataSrc": function (json) {
                 return json;
             },
         },
-        "columnDefs": [{ "type": "num-fmt", "className": "dt-right", "targets": [13, 14] }, { "visible": false, "targets": [0, 1, 24, 25, 26] }],
+        "columnDefs": [{ "type": "num-fmt", "className": "dt-right" }],
         "columns": [
-            { "data": "PERSONELID" },
-            { "data": "ID" },
             { "data": null, "defaultContent": '', "className": 'details-control', "orderable": false },
-            { "data": "Ad" },
-            { "data": "Soyad" },
-            { "data": "IsyeriAdi" },
-            { "data": "BirimAdi" },
-            { "data": "PozisyonAdi" },
-            { "data": "GecerlilikAyi" },
-            { "data": "GecerlilikYili" },
-            { "data": "DegisimTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
-            { "data": "UcretTipi" },
-            { "data": "DovizTipi" },
-            { "data": "BirimUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "GenelAylikUcret", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
-            { "data": "BrutNet" },
-            { "data": "OnayindaBekleyen" },
-            { "data": "RedNedeni" },
-            { "data": "Reddeden" },
-            { "data": "KayitTarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
-            { "data": "KaydedenKullanici" },
-            { "data": "GuncellemeTarihi", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
-            { "data": "GuncelleyenKullanici" },
-            { "data": "Aciklama" },
-            { "data": "DBUTUCRETID" },
-            { "data": "IslemTipi" },
-            { "data": "DBIRIMID" },
+            { "data": "Secim" },
+            { "data": "HesapKodu" },
+            { "data": "Unvan" },
+            { "data": "TipKodu" },
+            { "data": "KrediLimiti" },
+            { "data": "Bakiye" },
+            { "data": "PRTBakiye" },
+            { "data": "Risk" },
+            { "data": "SCek" },
+            { "data": "TCek", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
+            { "data": "Kod2" },
+            { "data": "OrtGun" },
+            { "data": "Kod3OrtGun", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "Kod3OrtBakiye", "render": $.fn.dataTable.render.number('.', ',', 2, '') },
+            { "data": "SicakSiparis" },
+            { "data": "SogukSiparis" },
+            { "data": "GunIciSiparis" },
+            { "data": "SiparisTuru" },
+            { "data": "EvrakNo", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
+            { "data": "OnayDurumu" },
+            { "data": "Tarih", "render": function (data) { if (data != null) return formatDateFromJson(data); else return "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"; } },
+            { "data": "Firma" },
+            { "data": "Onaylayan" },
         ],
         "ordering": false,
         "fnRowCallback": function (nRow, aData, iDisplayIndex) {
