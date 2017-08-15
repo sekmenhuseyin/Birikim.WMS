@@ -335,7 +335,7 @@ namespace Wms12m
                 foreach (var item in StiList)
                 {
                     var tmp = stok.Detail(item.ID);
-                    tmp.OkutulanMiktar = item.OkutulanMiktar;
+                    tmp.OkutulanMiktar += item.OkutulanMiktar;
                     try
                     {
                         stok.Operation(tmp);
@@ -863,9 +863,9 @@ namespace Wms12m
                 foreach (var item in StiList)
                 {
                     var tmp = stok.Detail(item.ID);
-                    if (tmp.Miktar >= item.OkutulanMiktar)
+                    if (tmp.Miktar >= (tmp.OkutulanMiktar + item.OkutulanMiktar))
                     {
-                        tmp.OkutulanMiktar = item.OkutulanMiktar;
+                        tmp.OkutulanMiktar += item.OkutulanMiktar;
                         stok.Operation(tmp);
                     }
                     else
