@@ -105,53 +105,60 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
             int aDepoID = Store.Detail(tbl.AraDepo).ID;
             var cDepoID = Store.Detail(tbl.CikisDepo);
             var gDepoID = Store.Detail(tbl.GirisDepo);
-            //yeni bir görev eklenir
             int today = fn.ToOADate(), time = fn.ToOATime();
-            int idDepo = db.Depoes.Where(m => m.DepoKodu == tbl.CikisDepo).Select(m => m.ID).FirstOrDefault();
-            string GorevNo = db.SettingsGorevNo(today, idDepo).FirstOrDefault();
-            var cevap = db.InsertIrsaliye(tbl.SirketID, idDepo, GorevNo, GorevNo, today, "Giriş: " + tbl.AraDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
-            //yeni transfer eklenir
-            var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
-            if (sonuc.Status == false)
-                return RedirectToAction("Index");
-            //find detays
-            foreach (var item in mallistesi)
+            //kontrol
+            var kontrol = db.Transfers.Where(m => m.Onay == false && m.SirketKod == tbl.SirketID && m.GirisDepoID == gDepoID.ID && m.AraDepoID == aDepoID && m.CikisDepoID == cDepoID.ID && m.Gorev.OlusturmaTarihi == today).FirstOrDefault();
+            if (kontrol == null)
             {
-                //stok kontrol
-                var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo && m.Miktar > 0).OrderBy(m => m.Miktar).ToList();
-                decimal toplam = 0, miktar = 0;
-                if (tmpYer != null)
+                //yeni bir görev eklenir
+                string GorevNo = db.SettingsGorevNo(today, cDepoID.ID).FirstOrDefault();
+                var cevap = db.InsertIrsaliye(tbl.SirketID, cDepoID.ID, GorevNo, GorevNo, today, "Giriş: " + tbl.AraDepo + ", Çıkış: " + tbl.CikisDepo, true, ComboItems.TransferÇıkış.ToInt32(), vUser.UserName, today, time, cDepoID.DepoAd, "", 0, "").FirstOrDefault();
+                //yeni transfer eklenir
+                var sonuc = Transfers.Operation(new Transfer() { SirketKod = tbl.SirketID, GirisDepoID = gDepoID.ID, CikisDepoID = cDepoID.ID, AraDepoID = aDepoID, GorevID = cevap.GorevID.Value });
+                if (sonuc.Status == false)
+                    return RedirectToAction("Index");
+                //find detays
+                foreach (var item in mallistesi)
                 {
-                    foreach (var itemyer in tmpYer)
+                    //stok kontrol
+                    var tmpYer = db.Yers.Where(m => m.MalKodu == item.MalKodu && m.Birim == item.Birim && m.Kat.Bolum.Raf.Koridor.Depo.DepoKodu == tbl.CikisDepo && m.Miktar > 0).OrderBy(m => m.Miktar).ToList();
+                    decimal toplam = 0, miktar = 0;
+                    if (tmpYer != null)
                     {
-                        if (itemyer.Miktar >= (item.Miktar - toplam))
-                            miktar = item.Miktar - toplam;
-                        else
-                            miktar = itemyer.Miktar;
-                        toplam += miktar;
-                        //miktarı tabloya ekle
-                        GorevYer tblyer = new GorevYer()
+                        foreach (var itemyer in tmpYer)
                         {
-                            GorevID = cevap.GorevID.Value,
-                            YerID = itemyer.ID,
-                            MalKodu = item.MalKodu,
-                            Birim = item.Birim,
-                            Miktar = miktar,
-                            GC = true
-                        };
-                        if (miktar > 0) TaskYer.Operation(tblyer);
-                        //toplam yeterli miktardaysa
-                        if (toplam == item.Miktar) break;
+                            if (itemyer.Miktar >= (item.Miktar - toplam))
+                                miktar = item.Miktar - toplam;
+                            else
+                                miktar = itemyer.Miktar;
+                            toplam += miktar;
+                            //miktarı tabloya ekle
+                            GorevYer tblyer = new GorevYer()
+                            {
+                                GorevID = cevap.GorevID.Value,
+                                YerID = itemyer.ID,
+                                MalKodu = item.MalKodu,
+                                Birim = item.Birim,
+                                Miktar = miktar,
+                                GC = true
+                            };
+                            if (miktar > 0) TaskYer.Operation(tblyer);
+                            //toplam yeterli miktardaysa
+                            if (toplam == item.Miktar) break;
+                        }
+                        item.Miktar = toplam;
+                        item.TransferID = sonuc.Id;
+                        //hepsi eklenince detayı db'ye ekle
+                        if (item.Miktar > 0) Transfers.AddDetay(item);
+                        if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim });
                     }
-                    item.Miktar = toplam;
-                    item.TransferID = sonuc.Id;
-                    //hepsi eklenince detayı db'ye ekle
-                    if (item.Miktar > 0) Transfers.AddDetay(item);
-                    if (item.Miktar > 0) IrsaliyeDetay.Operation(new IRS_Detay() { IrsaliyeID = cevap.IrsaliyeID.Value, MalKodu = item.MalKodu, Miktar = item.Miktar, Birim = item.Birim });
                 }
+                today = sonuc.Id;
             }
+            else
+                today = kontrol.ID;
             //return
-            var list = db.Transfers.Where(m => m.ID == sonuc.Id).FirstOrDefault();
+            var list = db.Transfers.Where(m => m.ID == today).FirstOrDefault();
             return View("Summary", list);
         }
         /// <summary>
