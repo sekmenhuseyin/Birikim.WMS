@@ -85,7 +85,8 @@ namespace WMSMobil
         /// </summary>
         private void btnBack_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if (Mesaj.Soru("Paket bilgilerini kaydetmeden kapatmak istiyor musunuz?") == DialogResult.Yes)
+                this.Close();
         }
     }
 }
