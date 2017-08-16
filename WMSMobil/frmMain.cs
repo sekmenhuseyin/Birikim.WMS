@@ -82,20 +82,18 @@ namespace WMSMobil
             frm.ShowDialog();
         }
         /// <summary>
+        /// kapat
+        /// </summary>
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        /// <summary>
         /// dispose and exit
         /// </summary>
         private void AnaForm_Closing(object sender, CancelEventArgs e)
         {
             Servis.Dispose();
-            Application.Exit();
-        }
-        /// <summary>
-        /// kapat
-        /// </summary>
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-            this.Close();
         }
     }
 }

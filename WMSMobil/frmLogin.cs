@@ -105,6 +105,7 @@ namespace WMSMobil
                     frmMain anaForm = new frmMain();
                     this.Enabled = true;
                     anaForm.ShowDialog();
+                    this.Close();
                 }
                 else
                 {
