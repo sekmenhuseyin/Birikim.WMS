@@ -60,6 +60,7 @@ namespace WMSMobil
         /// </summary>
         private void btnEkle_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             try
             {
                 //görev bilgilerini getir
@@ -71,20 +72,21 @@ namespace WMSMobil
                 txtAgirlik.Text = Ayarlar.SeciliGorev.TeslimCHK;
                 //ürün bilgilerini getir
                 Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(Ayarlar.SeciliGorev.ID, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
-                //listele
-                STIGetir();
             }
             catch (Exception ex)
             {
                 Mesaj.Hata(ex);
-                return;
             }
+            Cursor.Current = Cursors.Default;
+            //listele
+            STIGetir();
         }
         /// <summary>
         /// irsaliye detaylarını gösterir
         /// </summary>
         void STIGetir()
         {
+            Cursor.Current = Cursors.WaitCursor;
             foreach (PanelEx rmvItem in PanelVeriList)
             {
                 panelOrta.Controls.Remove(rmvItem);
@@ -164,9 +166,10 @@ namespace WMSMobil
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
             }
+            Cursor.Current = Cursors.Default;
         }
         /// <summary>
-        /// txt focua
+        /// txt focus
         /// </summary>
         void TextBoxlar_GotFocus(object sender, EventArgs e)
         {

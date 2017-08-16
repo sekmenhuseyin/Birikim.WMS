@@ -22,6 +22,7 @@ namespace WMSMobil
         public frmLogin()
         {
             InitializeComponent();
+            Cursor.Current = Cursors.WaitCursor;
             Ayarlar.KatSayi = (decimal)Screen.PrimaryScreen.Bounds.Width / (decimal)240;
             if (Ayarlar.KatSayi > 4) Ayarlar.KatSayi = 1;
             //get servis url
@@ -48,6 +49,7 @@ namespace WMSMobil
             //{
             //}
             //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            Cursor.Current = Cursors.Default;
         }
         /// <summary>
         /// barkod okursa
@@ -91,9 +93,12 @@ namespace WMSMobil
                 return;
             }
             this.Enabled = false;
+
             try
             {
+                Cursor.Current = Cursors.WaitCursor;
                 Login login = Servis.LoginKontrol(txtKullaniciAdi.Text.Trim().Left(5), txtParola.Text.Trim(), Ayarlar.AuthCode);
+                Cursor.Current = Cursors.Default;
                 if (login.ID != 0)
                 {
                     Ayarlar.Kullanici = login;

@@ -24,50 +24,50 @@ namespace WMSMobil
         public frmTasks()
         {            
             InitializeComponent();
+            Cursor.Current = Cursors.WaitCursor;
             Servis.Url = Ayarlar.ServisURL;
+            switch (Ayarlar.MenuTip)
+            {
+                case MenuType.None:
+                    break;
+                case MenuType.MalKabul:
+                    this.Text = "Mal Kabul";
+                    btnLinkeAktar.Text = "Linke Aktar";
+                    break;
+                case MenuType.RafaYerlestirme:
+                    this.Text = "Rafa Yerleştirme";
+                    btnLinkeAktar.Text="Görevi Sonlandır";
+                    break;
+                case MenuType.SiparisToplama:
+                    this.Text = "Sipariş Toplama";
+                    btnLinkeAktar.Text = "Linke Aktar";
+                    break;
+                case MenuType.Paketle:
+                    this.Text = "Paketle";
+                    btnLinkeAktar.Text = "Görevi Sonlandır";
+                    break;
+                case MenuType.Sevkiyat:
+                    this.Text = "Sevkiyat";
+                    btnLinkeAktar.Text = "Görevi Sonlandır";
+                    break;
+                case MenuType.TransferÇıkış:
+                    this.Text = "Transfer";
+                    btnLinkeAktar.Text = "Linke Aktar";
+                    break;
+                case MenuType.TransferGiriş:
+                    this.Text = "Transfer";
+                    btnLinkeAktar.Text = "Linke Aktar";
+                    break;
+                case MenuType.KontrollüSayım:
+                    this.Text = "Kontrollü Sayım";
+                    btnLinkeAktar.Text = "Görevi Sonlandır";
+                    break;
+                default:
+                    break;
+            }
+            aktif = true;
             try
             {
-
-                switch (Ayarlar.MenuTip)
-                {
-                    case MenuType.None:
-                        break;
-                    case MenuType.MalKabul:
-                        this.Text = "Mal Kabul";
-                        btnLinkeAktar.Text = "Linke Aktar";
-                        break;
-                    case MenuType.RafaYerlestirme:
-                        this.Text = "Rafa Yerleştirme";
-                        btnLinkeAktar.Text="Görevi Sonlandır";
-                        break;
-                    case MenuType.SiparisToplama:
-                        this.Text = "Sipariş Toplama";
-                        btnLinkeAktar.Text = "Linke Aktar";
-                        break;
-                    case MenuType.Paketle:
-                        this.Text = "Paketle";
-                        btnLinkeAktar.Text = "Görevi Sonlandır";
-                        break;
-                    case MenuType.Sevkiyat:
-                        this.Text = "Sevkiyat";
-                        btnLinkeAktar.Text = "Görevi Sonlandır";
-                        break;
-                    case MenuType.TransferÇıkış:
-                        this.Text = "Transfer";
-                        btnLinkeAktar.Text = "Linke Aktar";
-                        break;
-                    case MenuType.TransferGiriş:
-                        this.Text = "Transfer";
-                        btnLinkeAktar.Text = "Linke Aktar";
-                        break;
-                    case MenuType.KontrollüSayım:
-                        this.Text = "Kontrollü Sayım";
-                        btnLinkeAktar.Text = "Görevi Sonlandır";
-                        break;
-                    default:
-                        break;
-                }
-                aktif = true;
                 //görevliler
                 Ayarlar.Gorevliler = new List<GetGorevlis_Result>(Servis.GetUsers(Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
                 Ayarlar.Gorevliler.Add(new GetGorevlis_Result { ID = 0, Kod = " Tümü" });
@@ -79,13 +79,14 @@ namespace WMSMobil
                 cmbDurum.ValueMember = "ID";
                 cmbDurum.DisplayMember = "Name";
                 cmbDurum.DataSource = Ayarlar.GorevDurumlari;
-                //click listele
-                btnListele_Click(null,null);
             }
             catch (Exception ex)
             {
                 Mesaj.Hata(ex);
             }
+            Cursor.Current = Cursors.Default;
+            //click listele
+            btnListele_Click(null,null);
         }
         /// <summary>
         /// listeden bir eleman seçince
@@ -112,7 +113,8 @@ namespace WMSMobil
         /// </summary>
         private void btnListele_Click(object sender, EventArgs e)
         {
-            Ayarlar.Gorevler = new List<Tip_GOREV>(Servis.GetGorevList(cmbGorevli.Text.Replace(" Tümü",""), cmbDurum.SelectedValue.ToInt32(), Ayarlar.MenuTip.ToInt32(), Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+            Cursor.Current = Cursors.WaitCursor;
+            Ayarlar.Gorevler = new List<Tip_GOREV>(Servis.GetGorevList(cmbGorevli.Text.Replace(" Tümü", ""), cmbDurum.SelectedValue.ToInt32(), Ayarlar.MenuTip.ToInt32(), Ayarlar.Kullanici.DepoID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
             Sayac = 0;
             //listeyi temizle
             foreach (PanelGrv rmvItem in PanelVeriList){panelOrta.Controls.Remove(rmvItem);}
@@ -174,7 +176,8 @@ namespace WMSMobil
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
             }
-            aktif = false;            
+            aktif = false;
+            Cursor.Current = Cursors.Default;
         }
         /// <summary>
         /// düzenle tuşuna basınca
@@ -206,14 +209,18 @@ namespace WMSMobil
         private void btnLinkeAktar_Click(object sender, EventArgs e)
         {
             Result sonuc = new Result();
+            Cursor.Current = Cursors.WaitCursor;
             try
             {
                 if (Ayarlar.MenuTip == MenuType.MalKabul)
                 {
                     sonuc = Servis.MalKabul_GorevKontrol(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                     if (sonuc.Status == false && sonuc.Id == -1)
+                    {
+                        Cursor.Current = Cursors.Default;
                         if (Mesaj.Soru("Okunan mal miktarları tutarsız. Yine de devam etmek istiyor musunuz?") == DialogResult.Yes)
                             sonuc.Status = true;
+                    }
                     if (sonuc.Status == true) sonuc = Servis.MalKabul_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme)
@@ -229,14 +236,21 @@ namespace WMSMobil
                 else if (Ayarlar.MenuTip == MenuType.TransferGiriş)
                     sonuc = Servis.TransferGiris_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
                 else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
+                {
+                    Cursor.Current = Cursors.Default;
                     if (Mesaj.Soru("Bu görevi tamamladınız mı?") == DialogResult.Yes)
+                    {
+                        Cursor.Current = Cursors.WaitCursor;
                         sonuc = Servis.KontrolluSay_GoreviTamamla(GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                    }
+                }
             }
             catch (Exception ex)
             {
                 sonuc.Status = false;
                 sonuc.Message = ex.Message;
             }
+            Cursor.Current = Cursors.Default;
             //sonuç
             if (sonuc.Status)
             {

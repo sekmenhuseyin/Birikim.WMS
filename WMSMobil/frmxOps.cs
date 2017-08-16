@@ -27,6 +27,7 @@ namespace WMSMobil
         public frmxOps(int grvId, int irsID, bool tip, int gorevtip)
         {
             InitializeComponent();
+            Cursor.Current = Cursors.WaitCursor;
             Servis.Url = Ayarlar.ServisURL;
             glbTip = tip;
             GorevTip=gorevtip;
@@ -41,34 +42,6 @@ namespace WMSMobil
             //{
             //}
             //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
-            try
-            {
-                //görev bilgilerini getir
-                Ayarlar.SeciliGorev = Servis.GetIrsaliye(grvId, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
-                txtUnvan.Text = Ayarlar.SeciliGorev.Unvan;
-                txtHesapKodu.Text = Ayarlar.SeciliGorev.HesapKodu;
-                txtEvrakno.Text = Ayarlar.SeciliGorev.EvrakNo;
-                txtEvrakno.Tag = Ayarlar.SeciliGorev.ID;
-                GorevID = grvId;
-                IrsaliyeID = irsID;
-                //ürün bilgilerini getir
-                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
-                if (Ayarlar.STIKalemler.Count == 0 && gorevtip != 8)
-                    if (Mesaj.Soru("Bu görevin işleri bitmiş. Tüm listeye bakmak istiyor musunuz?") == DialogResult.Yes)
-                    {
-                        glbTip = false;
-                        Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
-                    }
-                    else
-                        this.Close();
-                //listele
-                STIGetir();
-            }
-            catch (Exception ex)
-            {
-                Mesaj.Hata(ex);
-                return;
-            }
             //gizle göster
             label1.Visible = true;
             label2.Visible = true;
@@ -158,8 +131,40 @@ namespace WMSMobil
                 txtEvrakno.Visible = false;
                 label12.Left = 483;
             }
+            try
+            {
+                //görev bilgilerini getir
+                Ayarlar.SeciliGorev = Servis.GetIrsaliye(grvId, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                txtUnvan.Text = Ayarlar.SeciliGorev.Unvan;
+                txtHesapKodu.Text = Ayarlar.SeciliGorev.HesapKodu;
+                txtEvrakno.Text = Ayarlar.SeciliGorev.EvrakNo;
+                txtEvrakno.Tag = Ayarlar.SeciliGorev.ID;
+                GorevID = grvId;
+                IrsaliyeID = irsID;
+                //ürün bilgilerini getir
+                Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, tip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+                if (Ayarlar.STIKalemler.Count == 0 && gorevtip != 8)
+                {
+                    Cursor.Current = Cursors.Default;
+                    if (Mesaj.Soru("Bu görevin işleri bitmiş. Tüm listeye bakmak istiyor musunuz?") == DialogResult.Yes)
+                    {
+                        glbTip = false;
+                        Cursor.Current = Cursors.WaitCursor;
+                        Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(grvId, Ayarlar.Kullanici.ID, false, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+                    }
+                    else
+                        this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Mesaj.Hata(ex);
+            }
+            Cursor.Current = Cursors.Default;
             //end
             txtRafBarkod.Focus();
+                //listele
+                STIGetir();
         }
         /// <summary>
         /// barkod okursa
@@ -194,6 +199,7 @@ namespace WMSMobil
         /// </summary>
         void STIGetir()
         {
+            Cursor.Current = Cursors.WaitCursor;
             foreach (PanelEx rmvItem in PanelVeriList)
             {
                 panelOrta.Controls.Remove(rmvItem);
@@ -372,6 +378,7 @@ namespace WMSMobil
                 panelOrta.Controls.Add(panelSatir);
                 PanelVeriList.Add(panelSatir);
             }
+            Cursor.Current = Cursors.Default;
         }
         /// <summary>
         /// txt focua
@@ -414,6 +421,7 @@ namespace WMSMobil
                 txtRafBarkod.Focus();
                 return;
             }
+            Cursor.Current = Cursors.WaitCursor;
             bool mal_var = false;
             bool raf_var = false;
             Tip_STI temp_sti = new Tip_STI();
@@ -697,16 +705,24 @@ namespace WMSMobil
                     PanelVeriList.Add(panelSatir);
                 }
                 else
+                {
                     Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
+                    Cursor.Current = Cursors.Default;
+                }
             }
             else if (!mal_var)
+            {
                 Mesaj.Uyari("Göreve ait böyle bir ürün bulunmamaktadır.");
+                Cursor.Current = Cursors.Default;
+            }
+            Cursor.Current = Cursors.Default;
         }
         /// <summary>
         /// veritabanına kaydeder
         /// </summary>
         private void btnKaydet_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             var StiList = new List<frmMalKabul>();
             var YerList = new List<frmYerlesme>();
             var Sonuc = new Result();
@@ -763,13 +779,16 @@ namespace WMSMobil
                 Sonuc = Servis.Paketle(StiList.ToArray(), GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
             else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
                 Sonuc = Servis.Kontrollu_Say(YerList.ToArray(), GorevID, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+            Cursor.Current = Cursors.Default;
             //sonuç işlemleri
             if (Sonuc.Status == false)
                 Mesaj.Uyari(Sonuc.Message);
             else
                 Mesaj.Basari("Kayıt tamamlandı");
             //sayfayı yenile
+            Cursor.Current = Cursors.WaitCursor;
             Ayarlar.STIKalemler = new List<Tip_STI>(Servis.GetMalzemes(GorevID, Ayarlar.Kullanici.ID, glbTip, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid));
+            Cursor.Current = Cursors.Default;
             if (Ayarlar.STIKalemler.Count == 0) this.Close();
             STIGetir();
             txtBarkod.Text = "";
