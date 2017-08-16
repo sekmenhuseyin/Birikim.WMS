@@ -863,6 +863,7 @@ namespace Wms12m
                 foreach (var item in StiList)
                 {
                     var tmp = stok.Detail(item.ID);
+                    if (tmp.OkutulanMiktar == null) tmp.OkutulanMiktar = 0;
                     if (tmp.Miktar >= (tmp.OkutulanMiktar + item.OkutulanMiktar))
                     {
                         tmp.OkutulanMiktar += item.OkutulanMiktar;

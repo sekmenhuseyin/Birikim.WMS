@@ -81,16 +81,6 @@ namespace WMSMobil
             }
         }
         /// <summary>
-        /// entera basarsa
-        /// </summary>
-        private void txt_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar==13)
-            {
-                btnGiris_Click(sender, null);
-            }
-        }
-        /// <summary>
         /// login
         /// </summary>
         private void btnGiris_Click(object sender, EventArgs e)
@@ -124,20 +114,14 @@ namespace WMSMobil
             }
         }
         /// <summary>
-        /// dispose
+        /// entera basarsa
         /// </summary>
-        private void GirisForm_Closing(object sender, CancelEventArgs e)
+        private void txt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            try
+            if (e.KeyChar==13)
             {
-                Barkod.EnableScanner = false;
-                Barkod.Dispose();
+                btnGiris_Click(sender, null);
             }
-            catch (Exception)
-            {
-            }
-            Servis.Dispose();
-            Application.Exit();
         }
         /// <summary>
         /// textbox focusta selectall yap
@@ -153,6 +137,22 @@ namespace WMSMobil
         {
             Application.Exit();
             this.Close();
+        }
+        /// <summary>
+        /// dispose
+        /// </summary>
+        private void GirisForm_Closing(object sender, CancelEventArgs e)
+        {
+            try
+            {
+                Barkod.EnableScanner = false;
+                Barkod.Dispose();
+            }
+            catch (Exception)
+            {
+            }
+            Servis.Dispose();
+            Application.Exit();
         }
     }
 }
