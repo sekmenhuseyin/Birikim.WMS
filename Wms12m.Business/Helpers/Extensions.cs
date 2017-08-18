@@ -15,18 +15,18 @@ namespace Wms12m
         /// <summary>
         /// linq için order by asc/desc
         /// </summary>
-        public static IEnumerable<T> OrderBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> selector, bool ascending = true)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source));
+        //public static IEnumerable<T> OrderBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> selector, bool ascending = true)
+        //{
+        //    if (source == null)
+        //        throw new ArgumentNullException(nameof(source));
 
-            if (ascending)
-            {
-                return source.OrderBy(selector);
-            }
+        //    if (ascending)
+        //    {
+        //        return source.OrderBy(selector);
+        //    }
 
-            return source.OrderByDescending(selector);
-        }
+        //    return source.OrderByDescending(selector);
+        //}
         /// <summary>
         /// Checks file exists
         /// </summary>
