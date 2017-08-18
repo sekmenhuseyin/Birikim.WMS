@@ -231,7 +231,7 @@
             this.btnRefresh.Size = new System.Drawing.Size(95, 22);
             this.btnRefresh.TabIndex = 23;
             this.btnRefresh.Text = "Güncelle";
-            this.btnRefresh.Click += new System.EventHandler(this.AnaForm_Activated);
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnBarcode
             // 

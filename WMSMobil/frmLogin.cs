@@ -22,6 +22,7 @@ namespace WMSMobil
         public frmLogin()
         {
             InitializeComponent();
+            Cursor.Current = Cursors.WaitCursor;
             Ayarlar.KatSayi = (decimal)Screen.PrimaryScreen.Bounds.Width / (decimal)240;
             if (Ayarlar.KatSayi > 4) Ayarlar.KatSayi = 1;
             //get servis url
@@ -48,6 +49,7 @@ namespace WMSMobil
             //{
             //}
             //Barkod.OnScan += new Barcode2.OnScanEventHandler(Barkod_OnScan);
+            Cursor.Current = Cursors.Default;
         }
         /// <summary>
         /// barkod okursa
@@ -81,16 +83,6 @@ namespace WMSMobil
             }
         }
         /// <summary>
-        /// entera basarsa
-        /// </summary>
-        private void txt_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar==13)
-            {
-                btnGiris_Click(sender, null);
-            }
-        }
-        /// <summary>
         /// login
         /// </summary>
         private void btnGiris_Click(object sender, EventArgs e)
@@ -101,15 +93,19 @@ namespace WMSMobil
                 return;
             }
             this.Enabled = false;
+
             try
             {
+                Cursor.Current = Cursors.WaitCursor;
                 Login login = Servis.LoginKontrol(txtKullaniciAdi.Text.Trim().Left(5), txtParola.Text.Trim(), Ayarlar.AuthCode);
+                Cursor.Current = Cursors.Default;
                 if (login.ID != 0)
                 {
                     Ayarlar.Kullanici = login;
                     frmMain anaForm = new frmMain();
                     this.Enabled = true;
                     anaForm.ShowDialog();
+                    this.Close();
                 }
                 else
                 {
@@ -122,6 +118,31 @@ namespace WMSMobil
                 this.Enabled = true;
                 Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
             }
+        }
+        /// <summary>
+        /// entera basarsa
+        /// </summary>
+        private void txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar==13)
+            {
+                btnGiris_Click(sender, null);
+            }
+        }
+        /// <summary>
+        /// textbox focusta selectall yap
+        /// </summary>
+        private void txt_GotFocus(object sender, EventArgs e)
+        {
+            ((TextBox)sender).SelectAll();
+        }
+        /// <summary>
+        /// kapat
+        /// </summary>
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+            this.Close();
         }
         /// <summary>
         /// dispose
@@ -138,21 +159,6 @@ namespace WMSMobil
             }
             Servis.Dispose();
             Application.Exit();
-        }
-        /// <summary>
-        /// textbox focusta selectall yap
-        /// </summary>
-        private void txt_GotFocus(object sender, EventArgs e)
-        {
-            ((TextBox)sender).SelectAll();
-        }
-        /// <summary>
-        /// kapat
-        /// </summary>
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-            this.Close();
         }
     }
 }

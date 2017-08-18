@@ -14,6 +14,7 @@ namespace WMSMobil
     public partial class frmMain : Form
     {
         Terminal Servis = new Terminal();
+        bool Baglandi = true;
         /// <summary>
         /// form load
         /// </summary>
@@ -28,6 +29,9 @@ namespace WMSMobil
         /// </summary>
         private void AnaForm_Activated(object sender, EventArgs e)
         {
+            if (Baglandi == false)
+                return;
+            Cursor.Current = Cursors.WaitCursor;
             try
             {
                 lblMalKabul.Text = ""; lblRafKaldirma.Text = ""; lblSiparisToplama.Text = ""; lblSayim.Text = ""; lblPaketleme.Text = ""; lblTransferIn.Text = ""; lblTransferOut.Text = "";
@@ -46,8 +50,18 @@ namespace WMSMobil
             catch (Exception)
             {
                 this.Enabled = true;
+                Baglandi = false;
                 Mesaj.Uyari("Bağlantı hatası. Lütfen daha sonra tekrar deneyin");
             }
+            Cursor.Current = Cursors.Default;
+        }
+        /// <summary>
+        /// yenile
+        /// </summary>
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            Baglandi = true;
+            AnaForm_Activated(sender, e);
         }
         /// <summary>
         /// btn click
@@ -68,20 +82,18 @@ namespace WMSMobil
             frm.ShowDialog();
         }
         /// <summary>
+        /// kapat
+        /// </summary>
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        /// <summary>
         /// dispose and exit
         /// </summary>
         private void AnaForm_Closing(object sender, CancelEventArgs e)
         {
             Servis.Dispose();
-            Application.Exit();
-        }
-        /// <summary>
-        /// kapat
-        /// </summary>
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-            this.Close();
         }
     }
 }
