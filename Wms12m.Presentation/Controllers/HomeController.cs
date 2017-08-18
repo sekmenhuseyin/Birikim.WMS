@@ -277,7 +277,10 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialUrunGrubuSatis(string SirketKodu, short tarih)
         {
-            if (CheckPerm(Perms.ChartUrunGrubuSatis, PermTypes.Reading) == false) return null;
+            ViewBag.Tarih = tarih;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartUrunGrubuSatis, PermTypes.Reading) == false) return PartialView("_PartialUrunGrubuSatis", new List<GetCachedChartUrunGrubu_Result>());
             var UGS = db.GetCachedChartUrunGrubu(SirketKodu, tarih).ToList();
             if (UGS.Count == 0)
                 try
@@ -288,15 +291,16 @@ namespace Wms12m.Presentation.Controllers
                 {
                     UGS = new List<GetCachedChartUrunGrubu_Result>();
                 }
-            ViewBag.Tarih = tarih;
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialUrunGrubuSatis", UGS);
         }
 
         public PartialViewResult PartialUrunGrubuSatisKriter(string SirketKodu, short tarih, string kriter)
         {
-            if (CheckPerm(Perms.ChartUrunGrubuSatis, PermTypes.Reading) == false) return null;
+            ViewBag.Tarih = tarih;
+            ViewBag.Kriter = kriter;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartUrunGrubuSatis, PermTypes.Reading) == false) return PartialView("_PartialUrunGrubuSatisKriter", new List<GetCachedChartUrunGrubuKriter_Result>());
             var UGS = db.GetCachedChartUrunGrubuKriter(SirketKodu, tarih, kriter).ToList();
             if (UGS.Count == 0)
                 try
@@ -307,16 +311,15 @@ namespace Wms12m.Presentation.Controllers
                 {
                     UGS = new List<GetCachedChartUrunGrubuKriter_Result>();
                 }
-            ViewBag.Tarih = tarih;
-            ViewBag.Kriter = kriter;
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialUrunGrubuSatisKriter", UGS);
         }
 
         public PartialViewResult PartialLokasyonSatis(string SirketKodu, short tarih)
         {
-            if (CheckPerm(Perms.ChartLokasyonSatis, PermTypes.Reading) == false) return null;
+            ViewBag.Tarih = tarih;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartLokasyonSatis, PermTypes.Reading) == false) return PartialView("_PartialLokasyonSatis", new List<GetCachedChartLocation_Result>());
             var UGS = db.GetCachedChartLocation(SirketKodu, tarih).ToList();
             if (UGS.Count == 0)
                 try
@@ -327,15 +330,16 @@ namespace Wms12m.Presentation.Controllers
                 {
                     UGS = new List<GetCachedChartLocation_Result>();
                 }
-            ViewBag.Tarih = tarih;
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialLokasyonSatis", UGS);
         }
 
         public PartialViewResult PartialLokasyonSatisKriter(string SirketKodu, int tarih, string kriter)
         {
-            if (CheckPerm(Perms.ChartLokasyonSatis, PermTypes.Reading) == false) return null;
+            ViewBag.Tarih = tarih;
+            ViewBag.Kriter = kriter;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartLokasyonSatis, PermTypes.Reading) == false) return PartialView("_PartialLokasyonSatisKriter", new List<GetCachedChartLocationKriter_Result>());
             var UGS = db.GetCachedChartLocationKriter(SirketKodu, tarih, kriter).ToList();
             if (UGS.Count == 0)
                 try
@@ -346,16 +350,14 @@ namespace Wms12m.Presentation.Controllers
                 {
                     UGS = new List<GetCachedChartLocationKriter_Result>();
                 }
-            ViewBag.Tarih = tarih;
-            ViewBag.Kriter = kriter;
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialLokasyonSatisKriter", UGS);
         }
 
         public PartialViewResult PartialBakiyeRiskAnalizi(string SirketKodu)
         {
-            if (CheckPerm(Perms.ChartBakiyeRiskAnalizi, PermTypes.Reading) == false) return null;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartBakiyeRiskAnalizi, PermTypes.Reading) == false) return PartialView("_PartialBakiyeRiskAnalizi", new List<GetCachedChartBakiyeRisk_Result>());
             var BRA = db.GetCachedChartBakiyeRisk(SirketKodu).ToList();
             if (BRA.Count == 0)
                 try
@@ -366,20 +368,18 @@ namespace Wms12m.Presentation.Controllers
                 {
                     BRA = new List<GetCachedChartBakiyeRisk_Result>();
                 }
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialBakiyeRiskAnalizi", BRA);
         }
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubu(string SirketKodu, int bastarih, int bittarih)
         {
-            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return null;
             ViewBag.BasTarih = bastarih;
             ViewBag.BasTarih2 = bastarih.FromOADateInt();
             ViewBag.BitTarih = bittarih;
             ViewBag.BitTarih2 = bittarih.FromOADateInt();
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return PartialView("_PartialBekleyenSiparisUrunGrubu", new List<ChartBekleyenSiparisUrunGrubu>());
             List<ChartBekleyenSiparisUrunGrubu> BSUG;
             try
             {
@@ -395,9 +395,10 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktar(string SirketKodu, bool miktarTutar)
         {
-            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return null;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+                ViewBag.MiktarTutar = "Miktar";
+            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return PartialView("_PartialBekleyenSiparisUrunGrubuMiktar", new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>());
             List<GetCachedChartBekleyenUrunMiktarFiyat_Result> BSUG;
             if (miktarTutar == true)
             {
@@ -432,9 +433,10 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarPie(string SirketKodu, bool miktarTutar)
         {
-            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return null;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+                ViewBag.MiktarTutar = "Miktar";
+            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarPie", new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>());
             List<GetCachedChartBekleyenUrunMiktarFiyat_Result> BSUG;
             if (miktarTutar == true)
             {
@@ -469,9 +471,11 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriter(string SirketKodu, string kriter)
         {
-            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return null;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            ViewBag.MiktarTutar = "Tutar";
+            ViewBag.Kriter = kriter;
+            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarKriter", new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>());
             List<GetCachedChartBekleyenUrunMiktarFiyat_Result> BSUG;
             try
             {
@@ -481,16 +485,16 @@ namespace Wms12m.Presentation.Controllers
             {
                 BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
             }
-            ViewBag.MiktarTutar = "Tutar";
-            ViewBag.Kriter = kriter;
             return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarKriter", BSUG);
         }
 
         public PartialViewResult PartialBekleyenSiparisUrunGrubuMiktarKriterPie(string SirketKodu, string kriter)
         {
-            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return null;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            ViewBag.MiktarTutar = "Tutar";
+            ViewBag.Kriter = kriter;
+            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarKriterPie", new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>());
             List<GetCachedChartBekleyenUrunMiktarFiyat_Result> BSUG;
             try
             {
@@ -500,14 +504,16 @@ namespace Wms12m.Presentation.Controllers
             {
                 BSUG = new List<GetCachedChartBekleyenUrunMiktarFiyat_Result>();
             }
-            ViewBag.MiktarTutar = "Tutar";
-            ViewBag.Kriter = kriter;
             return PartialView("_PartialBekleyenSiparisUrunGrubuMiktarKriterPie", BSUG);
         }
 
         public PartialViewResult PartialBekleyenSiparisMusteriAnalizi(string SirketKodu, string kod, string doviz)
         {
-            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return null;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            ViewBag.Doviz = doviz;
+            ViewBag.Kriter = kod;
+            if (CheckPerm(Perms.ChartBekleyenSiparisUrunGrubu, PermTypes.Reading) == false) return PartialView("_PartialBekleyenSiparisMusteriAnalizi", new List<ChartBekleyenSiparisUrunGrubu>());
             List<ChartBekleyenSiparisUrunGrubu> liste;
             try
             {
@@ -517,16 +523,16 @@ namespace Wms12m.Presentation.Controllers
             {
                 liste = new List<ChartBekleyenSiparisUrunGrubu>();
             }
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            ViewBag.Doviz = doviz;
-            ViewBag.Kriter = kod;
             return PartialView("_PartialBekleyenSiparisMusteriAnalizi", liste);
         }
 
         public PartialViewResult PartialSatisTemsilcisiAylikSatisAnalizi(string SirketKodu, string kod, short tarih)
         {
-            if (CheckPerm(Perms.ChartSatisTemsilcisiAylikSatisAnalizi, PermTypes.Reading) == false) return null;
+            ViewBag.Tarih = tarih;
+            ViewBag.Kriter = kod;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartSatisTemsilcisiAylikSatisAnalizi, PermTypes.Reading) == false) return PartialView("_PartialSatisTemsilcisi_AylikSatisAnalizi", new List<ChartSatisTemsilcisiAylikSatisAnalizi>());
             List<ChartSatisTemsilcisiAylikSatisAnalizi> list;
             try
             {
@@ -536,16 +542,14 @@ namespace Wms12m.Presentation.Controllers
             {
                 list = new List<ChartSatisTemsilcisiAylikSatisAnalizi>();
             }
-            ViewBag.Tarih = tarih;
-            ViewBag.Kriter = kod;
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialSatisTemsilcisi_AylikSatisAnalizi", list);
         }
 
         public PartialViewResult PartialBaglantiUrunGrubu(string SirketKodu)
         {
-            if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return null;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return PartialView("_PartialBaglantiUrunGrubu", new List<GetCachedChartSatisBaglanti_Result>());
             var BUGS = db.GetCachedChartSatisBaglanti(SirketKodu).ToList();
             if (BUGS.Count == 0)
                 try
@@ -557,14 +561,14 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Home/PartialBaglantiUrunGrubu");
                     BUGS = new List<GetCachedChartSatisBaglanti_Result>();
                 }
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialBaglantiUrunGrubu", BUGS);
         }
 
         public PartialViewResult PartialBaglantiUrunGrubuPie(string SirketKodu)
         {
-            if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return null;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartBaglantiUrunGrubu, PermTypes.Reading) == false) return PartialView("_PartialBaglantiUrunGrubuPie", new List<GetCachedChartSatisBaglanti_Result>());
             var BUGS = db.GetCachedChartSatisBaglanti(SirketKodu).ToList();
             if (BUGS.Count == 0)
                 try
@@ -576,14 +580,16 @@ namespace Wms12m.Presentation.Controllers
                     Logger(ex, "Home/PartialBaglantiUrunGrubuPie");
                     BUGS = new List<GetCachedChartSatisBaglanti_Result>();
                 }
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialBaglantiUrunGrubuPie", BUGS);
         }
 
         public PartialViewResult PartialGunlukMDFUretimi(string SirketKodu, int tarih)
         {
-            if (CheckPerm(Perms.ChartGunlukMDFUretimi, PermTypes.Reading) == false) return null;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            ViewBag.tarih = tarih;
+            ViewBag.tarih2 = tarih.FromOADateInt();
+            if (CheckPerm(Perms.ChartGunlukMDFUretimi, PermTypes.Reading) == false) return PartialView("_PartialGunlukMDFUretim", new List<ChartGunlukMDFUretimi>());
             List<ChartGunlukMDFUretimi> UGS;
             try
             {
@@ -593,16 +599,16 @@ namespace Wms12m.Presentation.Controllers
             {
                 UGS = new List<ChartGunlukMDFUretimi>();
             }
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            ViewBag.tarih = tarih;
-            ViewBag.tarih2 = tarih.FromOADateInt();
             return PartialView("_PartialGunlukMDFUretim", UGS);
         }
 
         public PartialViewResult PartialGunlukMDFUretimiPie(string SirketKodu, int tarih)
         {
-            if (CheckPerm(Perms.ChartGunlukMDFUretimi, PermTypes.Reading) == false) return null;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            ViewBag.tarih = tarih;
+            ViewBag.tarih2 = tarih.FromOADateInt();
+            if (CheckPerm(Perms.ChartGunlukMDFUretimi, PermTypes.Reading) == false) return PartialView("_PartialGunlukMDFUretimPie", new List<ChartGunlukMDFUretimi>());
             List<ChartGunlukMDFUretimi> GSA;
             try
             {
@@ -612,16 +618,14 @@ namespace Wms12m.Presentation.Controllers
             {
                 GSA = new List<ChartGunlukMDFUretimi>();
             }
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
-            ViewBag.tarih = tarih;
-            ViewBag.tarih2 = tarih.FromOADateInt();
             return PartialView("_PartialGunlukMDFUretimPie", GSA);
         }
 
         public PartialViewResult PartialBaglantiZamanCizelgesi(string SirketKodu)
         {
-            if (CheckPerm(Perms.ChartBaglantiZamanCizelgesi, PermTypes.Reading) == false) return null;
+            ViewBag.SirketKodu = SirketKodu;
+            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartBaglantiZamanCizelgesi, PermTypes.Reading) == false) return PartialView("_PartialBaglantiZamanCizelgesi", new List<ChartBaglantiZaman>());
             List<ChartBaglantiZaman> BUGS;
             try
             {
@@ -632,18 +636,16 @@ namespace Wms12m.Presentation.Controllers
                 Logger(ex, "Home/PartialBaglantiZamanCizelgesi");
                 BUGS = new List<ChartBaglantiZaman>();
             }
-            ViewBag.SirketKodu = SirketKodu;
-            ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
             return PartialView("_PartialBaglantiZamanCizelgesi", BUGS);
         }
 
         public PartialViewResult PartialBolgeBazliSatisAnalizi(string SirketKodu, int ay, string kriter)
         {
-            if (CheckPerm(Perms.ChartBolgeBazliSatisAnalizi, PermTypes.Reading) == false) return null;
             ViewBag.Ay = ay;
             ViewBag.Kriter = kriter;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartBolgeBazliSatisAnalizi, PermTypes.Reading) == false) return PartialView("_PartialBolgeBazliSatisAnalizi", new List<ChartBolgeBazliSatisAnalizi>());
             List<ChartBolgeBazliSatisAnalizi> BSUG;
             try
             {
@@ -658,11 +660,11 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialBolgeBazliSatisAnaliziPie(string SirketKodu, int ay, string kriter)
         {
-            if (CheckPerm(Perms.ChartBolgeBazliSatisAnalizi, PermTypes.Reading) == false) return null;
             ViewBag.Ay = ay;
             ViewBag.Kriter = kriter;
             ViewBag.SirketKodu = SirketKodu;
             ViewBag.SirketID = new SelectList(db.GetSirkets().ToList(), "Kod", "Ad");
+            if (CheckPerm(Perms.ChartBolgeBazliSatisAnalizi, PermTypes.Reading) == false) return PartialView("_PartialBolgeBazliSatisAnaliziPie", new List<ChartBolgeBazliSatisAnalizi>());
             List<ChartBolgeBazliSatisAnalizi> BSUG;
             try
             {
