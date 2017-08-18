@@ -138,7 +138,7 @@ namespace Wms12m.Business
             try
             {
                 P.Kod = P.Kod.Left(5).ToLower();
-                var tbl = db.Users.Where(a => a.Kod.ToLower() == P.Kod && a.Aktif == true).FirstOrDefault();
+                var tbl = db.Users.Where(a => a.Kod.ToLower() == P.Kod && a.Sirket == "" && a.Tip == 0 && a.Aktif == true).FirstOrDefault();
                 if (tbl != null)//if user exists
                 {
                     string pass = CryptographyExtension.Cozumle(tbl.Sifre);
