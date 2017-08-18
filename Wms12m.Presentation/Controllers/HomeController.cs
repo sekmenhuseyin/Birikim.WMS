@@ -230,10 +230,13 @@ namespace Wms12m.Presentation.Controllers
 
         public PartialViewResult PartialAylikSatisCHKAnaliziBar(string SirketKodu, string chk)
         {
-            if (CheckPerm(Perms.ChartAylikSatisCHKAnaliziBar, PermTypes.Reading) == false) return null;
+            if (CheckPerm(Perms.ChartAylikSatisAnaliziBar, PermTypes.Reading) == false) return null;
             List<ChartAylikSatisAnalizi> liste;
             if (chk == "")
+            {
                 liste = new List<ChartAylikSatisAnalizi>();
+                liste.Add(new ChartAylikSatisAnalizi() { Ay = "0", Yil2015 = 0, Yil2016 = 0, Yil2017 = 0 });
+            }
             else
                 try
                 {
@@ -242,6 +245,7 @@ namespace Wms12m.Presentation.Controllers
                 catch (Exception)
                 {
                     liste = new List<ChartAylikSatisAnalizi>();
+                    liste.Add(new ChartAylikSatisAnalizi() { Ay = "0", Yil2015 = 0, Yil2016 = 0, Yil2017 = 0 });
                 }
             ViewBag.CHK = chk;
             ViewBag.SirketKodu = SirketKodu;

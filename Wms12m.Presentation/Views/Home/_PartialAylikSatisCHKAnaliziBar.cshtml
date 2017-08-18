@@ -65,7 +65,7 @@
 
         }
     });
-    @if(Html.Raw(Json.Encode(Model)).ToString() != "[]")
+    @if(Html.Raw(Json.Encode(Model)).ToString() != "[]" && Html.Raw(Json.Encode(Model)).ToString() != "")
     {<text>
         var model = @Html.Raw(Json.Encode(Model));
         var aylar = new Array();
