@@ -79,7 +79,6 @@
                 success: function (data) {
                     if (data != "") {
                         $.each(data, function (i, item) {
-                            console.log(item.Value);
                             $('#' + what).append($('<option>', { value: item.Value, text: item.Text }));
                         });
                         $("#" + what).prepend("<option value=''>Seçiniz !!!</option>"); $("#" + what)[0].selectedIndex = 0;

@@ -13,7 +13,6 @@ function editInModal(URL) {
         url: URL,
         datatype: "html",
         success: function (data) {
-            console.log(data);
             $("#modalEditPage").html(data);
         }
     });

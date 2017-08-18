@@ -58,7 +58,6 @@
     });
     function FuncSearchBtn() {
         var Type = $("input[type='radio'][name='Locked']:checked").val();
-        console.log(Type);
         PartialView("/Approvals/Stock/List", 'liste', JSON.stringify({ Durum: Type }));
     }
     $('.onay-buton').click(function () {
