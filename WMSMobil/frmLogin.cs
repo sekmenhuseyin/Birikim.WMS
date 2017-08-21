@@ -118,6 +118,13 @@ namespace WMSMobil
             }
         }
         /// <summary>
+        /// connection info
+        /// </summary>
+        private void btnConnection_Click(object sender, EventArgs e)
+        {
+            Mesaj.Uyari(Ayarlar.ServisURL);
+        }
+        /// <summary>
         /// entera basarsa
         /// </summary>
         private void txt_KeyPress(object sender, KeyPressEventArgs e)

@@ -38,6 +38,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnConnection = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -142,12 +143,24 @@
             this.label2.Size = new System.Drawing.Size(240, 18);
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // btnConnection
+            // 
+            this.btnConnection.BackColor = System.Drawing.Color.DimGray;
+            this.btnConnection.ForeColor = System.Drawing.Color.White;
+            this.btnConnection.Location = new System.Drawing.Point(0, 0);
+            this.btnConnection.Name = "btnConnection";
+            this.btnConnection.Size = new System.Drawing.Size(24, 22);
+            this.btnConnection.TabIndex = 1;
+            this.btnConnection.Text = "*";
+            this.btnConnection.Click += new System.EventHandler(this.btnConnection_Click);
+            // 
             // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(240, 294);
+            this.Controls.Add(this.btnConnection);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmLogin";
@@ -169,6 +182,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnConnection;
 
     }
 }
