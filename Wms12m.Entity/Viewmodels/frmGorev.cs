@@ -94,6 +94,15 @@ namespace Wms12m.Entity
         public string Kod { get; set; }
     }
     /// <summary>
+    /// 
+    /// </summary>
+    public class frmSiparisToplaKontrol
+    {
+        public string MalKodu { get; set; }
+        public decimal Miktar { get; set; }
+        public decimal YerlestirmeMiktari { get; set; }
+    }
+    /// <summary>
     /// şirket
     /// </summary>
     public class frmPaketBarkod
