@@ -150,7 +150,8 @@
             this.btnConnection.Location = new System.Drawing.Point(0, 0);
             this.btnConnection.Name = "btnConnection";
             this.btnConnection.Size = new System.Drawing.Size(24, 22);
-            this.btnConnection.TabIndex = 1;
+            this.btnConnection.TabIndex = 0;
+            this.btnConnection.TabStop = false;
             this.btnConnection.Text = "*";
             this.btnConnection.Click += new System.EventHandler(this.btnConnection_Click);
             // 

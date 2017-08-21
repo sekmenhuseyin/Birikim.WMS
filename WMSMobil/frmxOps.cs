@@ -681,7 +681,10 @@ namespace WMSMobil
                     tYerlestirmeMiktari.Text = tMiktar.Text;
                     tIslemMiktar.Text = (sender == btnUygula) ? temp_sti.Miktar.ToString("N2") : "1";
 
-                    tMalKodu.Tag = temp_sti.ID.ToInt32();
+                    if (Ayarlar.MenuTip == MenuType.SiparisToplama) 
+                        tMalKodu.Tag = 0;
+                    else
+                        tMalKodu.Tag = temp_sti.ID.ToInt32();
 
                     panelSatir.Barkod = temp_sti.Barkod;
                     panelSatir.MalAdi = temp_sti.MalAdi;
