@@ -124,7 +124,7 @@
         return "<table style='background:transparent;' id='new" + id + "'></table>";
     }
     function format(d) {
-        var html = "<tr style='background: transparent;'><th>MalKodu</th><th>Miktar</th><th>Birim</th><th>CikisDepo</th></tr>";
+        var html = "<tr style='background: transparent;'><th>Mal Kodu</th><th>Mal Adı</th><th>Miktar</th><th>Birim</th><th>CikisDepo</th></tr>";
         $.ajax({
             type: 'POST',
             url: '/YN/OnayBekleyenler/Transfer_Details',
@@ -132,7 +132,7 @@
             dataType: "json",
             success: function (data) {
                 for (var i in data) {
-                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].Miktar + '</td><td align=right>' + data[i].Birim + '</td><td>' + data[i].CikisDepo + '</td></tr>';
+                    html += '<tr style="background:transparent;"><td>' + data[i].MalKodu + '</td><td>' + data[i].MalAdi + '</td><td class="text-right">' + data[i].Miktar + '</td><td align=right>' + data[i].Birim + '</td><td>' + data[i].CikisDepo + '</td></tr>';
                 };
                 $('#new' + d).html(html);
             }

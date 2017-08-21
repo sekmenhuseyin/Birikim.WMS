@@ -10,6 +10,7 @@
         public string Unvan { get; set; }
         public string EvrakSeriNo { get; set; }
         public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
         public string Depo { get; set; }
         public int Cesit { get; set; }
         public decimal? Miktar { get; set; }
@@ -29,6 +30,7 @@
         public int TransferTarihi { get; set; }
         public string Tarih { get; set; }
         public string MalKodu { get; set; }
+        public string MalAdi { get; set; }
         public decimal Miktar { get; set; }
         public string Birim { get; set; }
         public string CikisDepo { get; set; }

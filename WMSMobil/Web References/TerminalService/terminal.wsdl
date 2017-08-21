@@ -522,23 +522,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetIrsaliyeFromBarcode">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="barkod" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetIrsaliyeFromBarcodeResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetIrsaliyeFromBarcodeResult" type="tns:Tip_IRS" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="UpdatePackageBarcode">
         <s:complexType>
           <s:sequence>
@@ -554,6 +537,23 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="UpdatePackageBarcodeResult" type="tns:Result" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetIrsaliyeFromBarcode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="barkod" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetIrsaliyeFromBarcodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetIrsaliyeFromBarcodeResult" type="tns:Tip_IRS" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -772,17 +772,17 @@
   <wsdl:message name="GetPackageBarcodeDetailsSoapOut">
     <wsdl:part name="parameters" element="tns:GetPackageBarcodeDetailsResponse" />
   </wsdl:message>
-  <wsdl:message name="GetIrsaliyeFromBarcodeSoapIn">
-    <wsdl:part name="parameters" element="tns:GetIrsaliyeFromBarcode" />
-  </wsdl:message>
-  <wsdl:message name="GetIrsaliyeFromBarcodeSoapOut">
-    <wsdl:part name="parameters" element="tns:GetIrsaliyeFromBarcodeResponse" />
-  </wsdl:message>
   <wsdl:message name="UpdatePackageBarcodeSoapIn">
     <wsdl:part name="parameters" element="tns:UpdatePackageBarcode" />
   </wsdl:message>
   <wsdl:message name="UpdatePackageBarcodeSoapOut">
     <wsdl:part name="parameters" element="tns:UpdatePackageBarcodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetIrsaliyeFromBarcodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetIrsaliyeFromBarcode" />
+  </wsdl:message>
+  <wsdl:message name="GetIrsaliyeFromBarcodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetIrsaliyeFromBarcodeResponse" />
   </wsdl:message>
   <wsdl:message name="Sevkiyat_GoreviTamamlaSoapIn">
     <wsdl:part name="parameters" element="tns:Sevkiyat_GoreviTamamla" />
@@ -899,13 +899,13 @@
       <wsdl:input message="tns:GetPackageBarcodeDetailsSoapIn" />
       <wsdl:output message="tns:GetPackageBarcodeDetailsSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetIrsaliyeFromBarcode">
-      <wsdl:input message="tns:GetIrsaliyeFromBarcodeSoapIn" />
-      <wsdl:output message="tns:GetIrsaliyeFromBarcodeSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="UpdatePackageBarcode">
       <wsdl:input message="tns:UpdatePackageBarcodeSoapIn" />
       <wsdl:output message="tns:UpdatePackageBarcodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetIrsaliyeFromBarcode">
+      <wsdl:input message="tns:GetIrsaliyeFromBarcodeSoapIn" />
+      <wsdl:output message="tns:GetIrsaliyeFromBarcodeSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Sevkiyat_GoreviTamamla">
       <wsdl:input message="tns:Sevkiyat_GoreviTamamlaSoapIn" />
@@ -1119,8 +1119,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetIrsaliyeFromBarcode">
-      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliyeFromBarcode" style="document" />
+    <wsdl:operation name="UpdatePackageBarcode">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/UpdatePackageBarcode" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1128,8 +1128,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="UpdatePackageBarcode">
-      <soap:operation soapAction="http://www.12mconsulting.com.tr/UpdatePackageBarcode" style="document" />
+    <wsdl:operation name="GetIrsaliyeFromBarcode">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliyeFromBarcode" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1374,8 +1374,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetIrsaliyeFromBarcode">
-      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliyeFromBarcode" style="document" />
+    <wsdl:operation name="UpdatePackageBarcode">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/UpdatePackageBarcode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1383,8 +1383,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="UpdatePackageBarcode">
-      <soap12:operation soapAction="http://www.12mconsulting.com.tr/UpdatePackageBarcode" style="document" />
+    <wsdl:operation name="GetIrsaliyeFromBarcode">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetIrsaliyeFromBarcode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1440,10 +1440,10 @@
   </wsdl:binding>
   <wsdl:service name="Terminal">
     <wsdl:port name="TerminalSoap" binding="tns:TerminalSoap">
-      <soap:address location="http://192.168.2.228/service/terminal.asmx" />
+      <soap:address location="http://localhost:3841/service/terminal.asmx" />
     </wsdl:port>
     <wsdl:port name="TerminalSoap12" binding="tns:TerminalSoap12">
-      <soap12:address location="http://192.168.2.228/service/terminal.asmx" />
+      <soap12:address location="http://localhost:3841/service/terminal.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

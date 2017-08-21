@@ -43,11 +43,12 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             using (YNSEntities dby = new YNSEntities())
             {
-                var list = dby.Database.SqlQuery<frmOnaySiparisList>(@"SELECT        YNS0TEST.STK002.STK002_MalKodu AS MalKodu, YNS0TEST.STK002.STK002_CariHesapKodu AS HesapKodu, YNS0TEST.CAR002.CAR002_Unvan1 AS Unvan, 
+                var list = dby.Database.SqlQuery<frmOnaySiparisList>(@"SELECT        YNS0TEST.STK002.STK002_MalKodu AS MalKodu, YNS0TEST.STK004.STK004_Aciklama AS MalAdi, YNS0TEST.STK002.STK002_CariHesapKodu AS HesapKodu, YNS0TEST.CAR002.CAR002_Unvan1 AS Unvan, 
                                                                                             YNS0TEST.STK002.STK002_EvrakSeriNo AS EvrakSeriNo, YNS0TEST.STK002.STK002_Depo AS Depo, YNS0TEST.STK002.STK002_Miktari AS Miktar, YNS0TEST.STK002.STK002_BirimFiyati AS BirimFiyat, 
                                                                                             YNS0TEST.STK002.STK002_Tutari AS Tutar, YNS0TEST.STK002.STK002_DovizCinsi AS DovizCinsi, YNS0TEST.STK002.STK002_GirenKodu AS Kaydeden, CONVERT(VARCHAR(15), CAST(YNS0TEST.STK002.STK002_GirenTarih - 2 AS datetime), 104) AS Tarih
                                                                 FROM            YNS0TEST.STK002 INNER JOIN
-                                                                                            YNS0TEST.CAR002 ON YNS0TEST.STK002.STK002_CariHesapKodu = YNS0TEST.CAR002.CAR002_HesapKodu
+                                                                                            YNS0TEST.CAR002 ON YNS0TEST.STK002.STK002_CariHesapKodu = YNS0TEST.CAR002.CAR002_HesapKodu INNER JOIN
+                                                                                            YNS0TEST.STK004 ON YNS0TEST.STK002.STK002_MalKodu = YNS0TEST.STK004.STK004_MalKodu
                                                                 WHERE        (YNS0TEST.STK002.STK002_GC = 1) AND (YNS0TEST.STK002.STK002_SipDurumu = 0) AND YNS0TEST.STK002.STK002_EvrakSeriNo = '" + ID + "'").ToList();
                 return PartialView("Siparis_Details", list);
             }
@@ -110,9 +111,12 @@ namespace Wms12m.Presentation.Areas.YN.Controllers
         {
             using (YNSEntities dby = new YNSEntities())
             {
-                var list = dby.Database.SqlQuery<frmOnayTransferList>(@"SELECT        ID, TransferNo, TransferTarihi, SiraNo, MalKodu, Miktar, Birim, CikisDepo, GirisDepo, TalepEden, OnayDurumu, Kaydeden, KayitTarih
-                                                                    FROM            YNS0TEST.TransferDepo
-                                                                    WHERE        TransferNo = '" + ID + "'").ToList();
+                var list = dby.Database.SqlQuery<frmOnayTransferList>(@"SELECT        YNS0TEST.TransferDepo.ID, YNS0TEST.TransferDepo.TransferNo, YNS0TEST.TransferDepo.TransferTarihi, YNS0TEST.TransferDepo.SiraNo, YNS0TEST.TransferDepo.MalKodu, YNS0TEST.STK004.STK004_Aciklama AS MalAdi,
+                                                                                                  YNS0TEST.TransferDepo.Miktar, YNS0TEST.TransferDepo.Birim, YNS0TEST.TransferDepo.CikisDepo, YNS0TEST.TransferDepo.GirisDepo, YNS0TEST.TransferDepo.TalepEden, YNS0TEST.TransferDepo.OnayDurumu, 
+                                                                                                 YNS0TEST.TransferDepo.Kaydeden, YNS0TEST.TransferDepo.KayitTarih
+                                                                        FROM            YNS0TEST.TransferDepo INNER JOIN
+                                                                                                 YNS0TEST.STK004 ON YNS0TEST.TransferDepo.MalKodu = YNS0TEST.STK004.STK004_MalKodu
+                                                                        WHERE        YNS0TEST.TransferDepo.TransferNo = '" + ID + "'").ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
         }

@@ -1,1 +1,0 @@
-﻿http://88.248.139.219/Service/terminal.asmx
