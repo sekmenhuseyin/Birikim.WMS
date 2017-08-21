@@ -1,0 +1,27 @@
+﻿@model UserDetail
+<div class="modal-content">
+    <div class="close-modal" data-dismiss="modal"><div class="lr"><div class="rl"></div></div></div>
+    <div class="container">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Sipariş Onay Yetkileri Düzenle
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <div class="row">
+                    <div>Hesap Kodu Aralığı</div>
+                    <div class="bas-chk"></div>
+                    <div class="bit-chk"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var model = @Html.Raw(Json.Encode(Model));
+    $(".bas-chk").dxTextBox();
+    $(".bit-chk").dxTextBox();
+
+</script>
+

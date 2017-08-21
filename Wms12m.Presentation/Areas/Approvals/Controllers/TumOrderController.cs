@@ -161,5 +161,17 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
         }
+
+        public PartialViewResult YetkiDuzenle()
+        {
+            var tbl = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
+            SipOnayYetkiler yetki = new SipOnayYetkiler();
+            yetki.GostCHKKodAlani = tbl.GostCHKKodAlani;
+            yetki.GosterilecekSirket = tbl.GosterilecekSirket;
+            yetki.GostKod3OrtBakiye = tbl.GostKod3OrtBakiye;
+            yetki.GostRiskDeger = tbl.GostRiskDeger;
+            yetki.GostSTKDeger = tbl.GostSTKDeger;
+            return PartialView("YetkiDuzenle", yetki);
+        }
     }
 }
