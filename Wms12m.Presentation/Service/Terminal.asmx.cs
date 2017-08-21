@@ -717,21 +717,17 @@ namespace Wms12m
             var mGorev = db.Gorevs.Where(m => m.ID == GorevID && m.DurumID == durumID).FirstOrDefault();
             if (mGorev.IsNull())
                 return new Result(false, "İrsaliye bulunamadı !");
-            var tmpYer = mGorev.GorevYers.Where(m => m.GorevID == mGorev.ID && (m.YerlestirmeMiktari < m.Miktar || m.YerlestirmeMiktari == null)).FirstOrDefault();
-            if (tmpYer.IsNotNull())
-                return new Result(false, "İşlem bitmemiş !");
+
             //yeterince okutulmuş mu kontrol edilir
             var kontrol1 = db.Database.SqlQuery<frmSiparisToplaKontrol>(@"SELECT        SUM(wms.GorevYer.Miktar) AS Miktar, SUM(wms.GorevYer.YerlestirmeMiktari) AS YerlestirmeMiktari, wms.GorevYer.MalKodu
-                                                            FROM            wms.GorevYer WITH (nolock) INNER JOIN
-                                                                                     wms.Yer WITH (nolock) ON wms.GorevYer.YerID = wms.Yer.ID
-                                                            WHERE        wms.GorevYer.GorevID = " + GorevID + " GROUP BY wms.GorevYer.MalKodu").ToList();
+                                                                        FROM            wms.GorevYer WITH (nolock) INNER JOIN
+                                                                                                 wms.Yer WITH (nolock) ON wms.GorevYer.YerID = wms.Yer.ID
+                                                                        WHERE        wms.GorevYer.GorevID = " + GorevID + " GROUP BY wms.GorevYer.MalKodu").ToList();
             foreach (var item in kontrol1)
             {
                 if (item.Miktar != item.YerlestirmeMiktari)
-                    return new Result(false, "İrsaliye bulunamadı !");
+                    return new Result(false, "İşlem bitmemiş !");
             }
-            //yerleştirmeden düşülür
-
             //kaydeden bulunur
             var kull = db.Users.Where(m => m.ID == KullID).FirstOrDefault();
             if (kull.UserDetail.SatisFaturaSeri == null || kull.UserDetail.SatisIrsaliyeSeri == null)
@@ -772,6 +768,17 @@ namespace Wms12m
                 var sonuc = finsat.FaturaKayıt(item.IrsaliyeID, mGorev.Depo.DepoKodu, efatKullanici, item.Tarih, item.HesapKodu, kull.Kod, kull.UserDetail.SatisIrsaliyeSeri.Value, kull.UserDetail.SatisFaturaSeri.Value, yil);
                 if (sonuc.Status == true)
                 {
+                    //yerleştirmeden düşülür
+                    var yerleştirilen = db.Database.SqlQuery<frmSiparisToplayerlestirilen>(@"SELECT        YerID, SUM(YerlestirmeMiktari) AS YerlestirmeMiktari, MalKodu, Birim
+                                                                                            FROM            wms.GorevYer WITH (nolock)
+                                                                                            WHERE        GorevID =  " + GorevID + " GROUP BY YerID, MalKodu, Birim").ToList();
+                    using (var yerleştirme = new Yerlestirme())
+                        foreach (var item2 in yerleştirilen)
+                        {
+                            var dusulecek = yerleştirme.Detail(item2.YerID);
+                            dusulecek.Miktar += item2.YerlestirmeMiktari;
+                            yerleştirme.Update(dusulecek, item.IrsaliyeID, KullID, true, item2.YerlestirmeMiktari);
+                        }
                     //update irsaliye
                     string fatNo = sonuc.Message.Left(sonuc.Message.IndexOf(","));
                     string irsNo = sonuc.Message.Substring(sonuc.Message.IndexOf(",") + 1);

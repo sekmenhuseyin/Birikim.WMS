@@ -94,12 +94,22 @@ namespace Wms12m.Entity
         public string Kod { get; set; }
     }
     /// <summary>
-    /// 
+    /// sipariş toplamadaki kontrol
     /// </summary>
     public class frmSiparisToplaKontrol
     {
         public string MalKodu { get; set; }
         public decimal Miktar { get; set; }
+        public decimal YerlestirmeMiktari { get; set; }
+    }
+    /// <summary>
+    /// sipariş toplamadaki yerleştirmeden düşme
+    /// </summary>
+    public class frmSiparisToplayerlestirilen
+    {
+        public int YerID { get; set; }
+        public string MalKodu { get; set; }
+        public string Birim { get; set; }
         public decimal YerlestirmeMiktari { get; set; }
     }
     /// <summary>
