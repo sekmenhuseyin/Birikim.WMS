@@ -1238,7 +1238,7 @@ namespace Wms12m.Entity
         public decimal Risk { get; set; }
         public decimal SCek { get; set; }
         public decimal TCek { get; set; }
-        public int Kod2 { get; set; }
+        public string Kod2 { get; set; }
         public decimal OrtGun { get; set; }
         public decimal Kod3OrtGun { get; set; }
         public decimal Kod3OrtBakiye { get; set; }

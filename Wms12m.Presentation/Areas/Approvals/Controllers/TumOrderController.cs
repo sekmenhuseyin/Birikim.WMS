@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -12,7 +14,7 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         // GET: Approvals/IzOrder
         public ActionResult Index(string onayRed)
         {
-            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Reading) == false) return Redirect("/");
+            if (CheckPerm(Perms.SiparişOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
             if (onayRed == null)
             {
                 ViewBag.OnayDurum = "Beklemede";
@@ -24,56 +26,140 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             return View();
         }
 
-        public PartialViewResult TumOrderList(string Tip)
+        public PartialViewResult TumOrderList(string Tip, int bastarih, int bittarih)
         {
-            if (CheckPerm(Perms.TechnoIKOnaylama, PermTypes.Reading) == false) return null;
             ViewBag.Tip = Tip;
+            ViewBag.bastarih = bastarih;
+            ViewBag.bittarih = bittarih;
             return PartialView("List");
         }
 
-        public string TumOrderListData(string tip)
+        public string TumOrderListData(string tip, int bastarih, int bittarih)
         {
+
             JavaScriptSerializer json = new JavaScriptSerializer()
             {
                 MaxJsonLength = int.MaxValue
             };
-            List<SipOnay> sipBilgi;
+            List<SipOnay> sipBilgi = new List<SipOnay>();
+
             try
             {
-                sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format(@"
-select 
-convert(bit, 'False') as Secim,
-a.Chk as HesapKodu,
-max(d.Unvan1 + ' ' + d.Unvan2) as Unvan,
-d.TipKod as TipKodu,
-d.KrediLimiti as KrediLimiti,
-(d.DvrB + d.OdemeB + (d.CiroB + IadeFatB) + d.KDVB + d.DigerB) - (d.DvrA + d.OdemeA + (d.CiroA + d.IadeFatA) + d.KDVA + d.DigerA) as Bakiye,
-0.00 as PRTBakiye,
-0.00 as Risk,
-0.00 as SCek,
-0.00 as TCek,
-d.Kod2 as Kod2,
-0.00 as OrtGun,
-0.00 as Kod3OrtGun,
-0.00 as Kod3OrtBakiye,
-isnull((select Sum(t.Kod14) from FINSAT671.FINSAT671.SPI (nolock)t where t.Chk = a.Chk and t.EvrakNo = a.EvrakNo and t.Tarih = 42961 and t.SiparisDurumu = 0 and t.Kod10 = 'Beklemede'), 0) as SicakSiparis,
-isnull((select Sum(t.Kod14) from FINSAT671.FINSAT671.SPI (nolock)t where t.Chk = a.Chk and t.SiparisDurumu = 0 and t.Tarih < 42961 and t.EvrakNo = a.EvrakNo and t.Kod10 = 'Beklemede'), 0) as SogukSiparis ,
-isnull((select Sum(t.Kod14) from FINSAT671.FINSAT671.SPI (nolock)t where t.Chk = a.Chk and t.SiparisDurumu = 0 and t.Kod10 <> 'Reddedildi' and t.Tarih < 42961),0) as GunIciSiparis,
-case a.Tarih when 42961 then 'SICAK' else 'SOĞUK' end as SiparisTuru,
-a.EvrakNo as EvrakNo,
-a.Kod10 as OnayDurumu,
-Convert(nvarchar(10), cast(a.Tarih as datetime) - 2, 104) as Tarih,
-a.Kod3 as Firma,
-a.Kod2 as Onaylayan
-from FINSAT671.FINSAT671.SPI (nolock)a
-inner join FINSAT671.FINSAT671.CHK(nolock) d on d.HesapKodu = a.Chk
-group by a.Chk,d.TipKod,d.KrediLimiti,(d.DvrB + d.OdemeB + (d.CiroB + IadeFatB) + d.KDVB + d.DigerB) - (d.DvrA + d.OdemeA + (d.CiroA + d.IadeFatA) + d.KDVA + d.DigerA),d.Kod2,a.Tarih,a.EvrakNo,a.Kod10,a.Kod3,a.Kod2 ")).ToList();
+                var tbl = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
+                var Sirketler = tbl.GosterilecekSirket;
+                var CHKAraligi = tbl.GostCHKKodAlani;
+                var TipKodlari = tbl.GostSTKDeger;
+                var Grup = vUser.RoleName;
+
+                if (Sirketler.Contains("Tüm;"))
+                {
+                    if (Sirketler.Contains("Tümpa;"))
+                    {
+                        // TÜmAndTümpaProcedure Çağır
+                        sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumAndTumpaSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}', @Grup='{5}', @BasTarih={6}, @BitTarih={7}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Grup, bastarih, bittarih)).ToList();
+                    }
+                    else
+                    {
+                        // TÜm Procedure Çağır
+                        sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}', @Grup='{5}', @BasTarih={6}, @BitTarih={7}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Grup, bastarih, bittarih)).ToList();
+                    }
+                }
+                else if (Sirketler.Contains("Tümpa;"))
+                {
+                    // TÜmpa Procedure Çağır
+                    sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}', @Grup='{5}', @BasTarih={6}, @BitTarih={7}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Grup, bastarih, bittarih)).ToList();
+                }
+
             }
             catch (Exception ex)
             {
-                sipBilgi = new List<Entity.SipOnay>();
+
             }
             return json.Serialize(sipBilgi);
+        }
+
+
+        public JsonResult Onayla(string Data)
+        {
+            Result _Result = new Result(true);
+            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var logDetay = "";
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+
+                foreach (JObject insertObj in parameters)
+                {
+                    if (insertObj["Firma"].ToString() == "Tümpa")
+                    {
+                        db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisOnayla] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
+                        logDetay = "FINSAT671.SPI tablosunda Evrak Numarası '" + insertObj["EvrakNo"].ToString() + "' ve Onay Durumu '" + insertObj["OnayDurumu"].ToString() + "' olan satırların OnayDurumu " + vUser.UserName + " kullanıcısının siparişi onaylaması sonucu 'Onaylandı' olarak güncellenmiştir.";
+                    }
+                    else if (insertObj["Firma"].ToString() == "Tüm")
+                    {
+                        db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumSiparisOnayla] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
+                        logDetay = "FINSAT633.SPI tablosunda Evrak Numarası '" + insertObj["EvrakNo"].ToString() + "' ve Onay Durumu '" + insertObj["OnayDurumu"].ToString() + "' olan satırların OnayDurumu " + vUser.UserName + " kullanıcısının siparişi onaylaması sonucu 'Onaylandı' olarak güncellenmiştir.";
+                    }
+
+                    LogActions("Approvals", "TumOrder", "Onayla", ComboItems.alOnayla, 0, logDetay);
+                }
+                try
+                {
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+
+                    _Result.Status = true;
+                    _Result.Message = "İşlem Başarılı ";
+                }
+                catch (Exception ex)
+                {
+                    _Result.Status = false;
+                    _Result.Message = "Hata Oluştu.";
+                }
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult Reddet(string Data)
+        {
+            Result _Result = new Result(true);
+            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
+            JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
+            var logDetay = "";
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+
+                foreach (JObject insertObj in parameters)
+                {
+                    if (insertObj["Firma"].ToString() == "Tümpa")
+                    {
+                        db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisReddet] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
+                        logDetay = "FINSAT671.SPI tablosunda Evrak Numarası '" + insertObj["EvrakNo"].ToString() + "' ve Onay Durumu '" + insertObj["OnayDurumu"].ToString() + "' olan satırların OnayDurumu " + vUser.UserName + " kullanıcısının siparişi reddetmesi sonucu 'Reddedildi' olarak güncellenmiştir.";
+                    }
+                    else if (insertObj["Firma"].ToString() == "Tüm")
+                    {
+                        db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumSiparisReddet] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
+                        logDetay = "FINSAT633.SPI tablosunda Evrak Numarası '" + insertObj["EvrakNo"].ToString() + "' ve Onay Durumu '" + insertObj["OnayDurumu"].ToString() + "' olan satırların OnayDurumu " + vUser.UserName + " kullanıcısının siparişi reddetmesi sonucu 'Reddedildi' olarak güncellenmiştir.";
+                    }
+
+                    LogActions("Approvals", "TumOrder", "Reddet", ComboItems.alRed, 0, logDetay);
+                }
+                try
+                {
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+
+                    _Result.Status = true;
+                    _Result.Message = "İşlem Başarılı ";
+                }
+                catch (Exception ex)
+                {
+                    _Result.Status = false;
+                    _Result.Message = "Hata Oluştu.";
+                }
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }
