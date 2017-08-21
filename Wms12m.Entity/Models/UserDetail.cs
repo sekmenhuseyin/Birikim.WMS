@@ -28,6 +28,8 @@ namespace Wms12m.Entity.Models
         public string GostCHKDeger { get; set; }
         public string GostSTKKodAlani { get; set; }
         public string GostSTKDeger { get; set; }
+        public Nullable<decimal> GostRiskDeger { get; set; }
+        public Nullable<decimal> GostKod3OrtBakiye { get; set; }
     
         public virtual User User { get; set; }
         public virtual Depo Depo { get; set; }

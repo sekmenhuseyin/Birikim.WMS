@@ -515,10 +515,12 @@
           <Property Name="GosterilecekSirket" Type="nvarchar" MaxLength="100" />
           <Property Name="GosterilecekDepo" Type="nvarchar" MaxLength="100" />
           <Property Name="PasifKartlariGoster" Type="bit" Nullable="false" />
-          <Property Name="GostCHKKodAlani" Type="varchar" MaxLength="50" />
+          <Property Name="GostCHKKodAlani" Type="varchar" MaxLength="100" />
           <Property Name="GostCHKDeger" Type="varchar" MaxLength="150" />
           <Property Name="GostSTKKodAlani" Type="varchar" MaxLength="50" />
-          <Property Name="GostSTKDeger" Type="varchar" MaxLength="150" />
+          <Property Name="GostSTKDeger" Type="varchar" MaxLength="500" />
+          <Property Name="GostRiskDeger" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="GostKod3OrtBakiye" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="Yer">
           <Key>
@@ -3125,12 +3127,14 @@
           <Property Name="GosterilecekSirket" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="GosterilecekDepo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PasifKartlariGoster" Type="Boolean" Nullable="false" />
-          <Property Name="GostCHKKodAlani" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GostCHKKodAlani" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="GostCHKDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="GostSTKKodAlani" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="GostSTKDeger" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="GostSTKDeger" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="User" Relationship="MModel.FK_Depo_Users_Users" FromRole="UserDetail" ToRole="User" />
           <NavigationProperty Name="Depo" Relationship="MModel.FK_Depo_Users_Depo" FromRole="UserDetail" ToRole="Depo" />
+          <Property Name="GostRiskDeger" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="GostKod3OrtBakiye" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         <Association Name="FK_Depo_Users_Users">
           <End Type="MModel.User" Role="User" Multiplicity="1" />
@@ -4110,6 +4114,8 @@
           <EntitySetMapping Name="UserDetails">
             <EntityTypeMapping TypeName="MModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="GostKod3OrtBakiye" ColumnName="GostKod3OrtBakiye" />
+                <ScalarProperty Name="GostRiskDeger" ColumnName="GostRiskDeger" />
                 <ScalarProperty Name="GostSTKDeger" ColumnName="GostSTKDeger" />
                 <ScalarProperty Name="GostSTKKodAlani" ColumnName="GostSTKKodAlani" />
                 <ScalarProperty Name="GostCHKDeger" ColumnName="GostCHKDeger" />

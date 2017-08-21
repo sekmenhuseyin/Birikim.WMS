@@ -32,7 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vsF20D.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs5F04.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\user\AppData\Local\Temp\vsF20D.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\yazilim4\AppData\Local\Temp\vs5F04.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
@@ -432,6 +432,7 @@
     <Content Include="Areas\Approvals\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Approvals\Views\TumOrder\Index.cshtml" />
     <Content Include="Areas\Approvals\Views\TumOrder\List.cshtml" />
+    <Content Include="Areas\Approvals\Views\TumOrder\YetkiDuzenle.cshtml" />
     <None Include="bundleconfig.json" />
     <Content Include="Content\SizeSablon.xlsx" />
     <Content Include="Content\StockSablon.xlsx" />
@@ -502,6 +503,7 @@
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Areas\System\Controllers\LogsController.cs" />
     <Compile Include="Areas\Approvals\Controllers\WoodController.cs" />
+    <Compile Include="Controllers\SiparisYetkiController.cs" />
     <Compile Include="Reports\ByteArrayToImage.cs" />
     <Compile Include="Reports\DsSatinalma.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -777,6 +779,9 @@
     <Content Include="Views\Users\B2BList.cshtml" />
     <Content Include="Views\Users\B2BNew.cshtml" />
     <Content Include="Views\Home\_PartialGunlukSatisZamanCizelgesi.cshtml" />
+    <Content Include="Views\SiparisYetki\Index.cshtml" />
+    <Content Include="Views\SiparisYetki\List.cshtml" />
+    <Content Include="Views\SiparisYetki\YetkiDuzenle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
