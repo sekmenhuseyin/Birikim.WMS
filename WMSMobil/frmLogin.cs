@@ -25,17 +25,15 @@ namespace WMSMobil
             Cursor.Current = Cursors.WaitCursor;
             Ayarlar.KatSayi = (decimal)Screen.PrimaryScreen.Bounds.Width / (decimal)240;
             if (Ayarlar.KatSayi > 4) Ayarlar.KatSayi = 1;
+            //create if file doesnt exists
+            if (!File.Exists(@"\WMSMobil-ip.txt"))
+                using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.OpenOrCreate, FileAccess.Write))
+                    using (var Oku = new StreamWriter(Dosya))
+                        Oku.WriteLine(Servis.Url);
             //get servis url
-            if (File.Exists(@"\Program Files\12M Consulting\WMSMobil\ip.txt"))
-            {
-                FileStream Dosya = new FileStream(@"\Program Files\12M Consulting\WMSMobil\ip.txt", FileMode.Open);
-                StreamReader Oku = new StreamReader(Dosya);
-                Ayarlar.ServisURL = Oku.ReadLine();
-                Oku.Close();
-                Dosya.Close();
-            }
-            else
-                Ayarlar.ServisURL = "http://88.248.139.219/service/terminal.asmx";
+            using (var Dosya = new FileStream(@"\WMSMobil-ip.txt", FileMode.Open))
+                using (var Oku = new StreamReader(Dosya))
+                    Ayarlar.ServisURL = Oku.ReadLine();
             //set servis
             Servis.Url = Ayarlar.ServisURL;
             //barkod

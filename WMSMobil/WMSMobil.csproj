@@ -172,9 +172,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
-    <Content Include="ip.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Web References\TerminalService\Durum1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>

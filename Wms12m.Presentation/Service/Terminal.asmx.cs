@@ -675,26 +675,16 @@ namespace Wms12m
                 if (kat != null)
                 {
                     var grvYer = db.GorevYers.Where(m => m.ID == GorevYerID).FirstOrDefault();
-                    if (grvYer == null)
+                    if (grvYer == null)//new gorev yer satırı
                     {
-                        _result = new Result(false, "Raf bulunamadı !");
+                        grvYer = new GorevYer() { GorevID = GorevID, YerID = GorevYerID, MalKodu = item.MalKodu, Miktar = 0, YerlestirmeMiktari = 0, Birim = item.Birim, GC = true };
+                        db.GorevYers.Add(grvYer);
                     }
-                    else
+                    else//update gorevyer satırı
                     {
-                        if (grvYer.Yer.Miktar >= item.Miktar && item.Miktar <= (grvYer.Miktar - (grvYer.YerlestirmeMiktari ?? 0)))
-                        {
-                            //raftan indirdiğini kaydet
-                            grvYer.YerlestirmeMiktari = (grvYer.YerlestirmeMiktari ?? 0) + item.Miktar;
-                            db.SaveChanges();
-                            //yerlestirme tablosuna kaydet
-                            var yerlestirme = new Yerlestirme();
-                            var tmp2 = yerlestirme.Detail(grvYer.YerID);
-                            tmp2.Miktar -= item.Miktar;
-                            yerlestirme.Update(tmp2, item.IrsID, KullID, true, item.Miktar);
-                        }
-                        else
-                            _result = new Result(false, item.MalKodu + " için fazla mal yazılmış");
+                        grvYer.YerlestirmeMiktari = (grvYer.YerlestirmeMiktari ?? 0) + item.Miktar;
                     }
+                    db.SaveChanges();
                 }
                 else
                     _result = new Result(false, "İrsaliye bulunamadı !");
