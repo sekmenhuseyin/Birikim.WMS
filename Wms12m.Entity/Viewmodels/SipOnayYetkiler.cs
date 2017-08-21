@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Wms12m.Entity
+﻿namespace Wms12m.Entity
 {
     public class SipOnayYetkiler
     {
@@ -10,7 +8,7 @@ namespace Wms12m.Entity
         public string GosterilecekSirket { get; set; }
         public string GostCHKKodAlani { get; set; }
         public string GostSTKDeger { get; set; }
-        public Nullable<decimal> GostRiskDeger { get; set; }
-        public Nullable<decimal> GostKod3OrtBakiye { get; set; }
+        public string GostRiskDeger { get; set; }
+        public string GostKod3OrtBakiye { get; set; }
     }
 }

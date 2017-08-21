@@ -71,9 +71,6 @@
         <AssociationConnector Association="MModel.FK_ProjeForm_ProjeForm" />
         <EntityTypeShape EntityType="MModel.IRS_Detay" Width="1.5" PointX="7.5" PointY="17.625" />
         <AssociationConnector Association="MModel.FK_IRS_Detay_IRS" />
-        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="19.75" PointY="7.375" />
-        <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
-        <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         <EntityTypeShape EntityType="MModel.GorevUser" Width="1.5" PointX="4.125" PointY="1.75" />
         <AssociationConnector Association="MModel.FK_GorevUsers_Gorev" />
         <EntityTypeShape EntityType="MModel.GorevPaketler" Width="1.5" PointX="8.125" PointY="1.5" />
@@ -88,6 +85,9 @@
         <AssociationConnector Association="MModel.FK_WebMenu_WebMenu" />
         <AssociationConnector Association="MModel.WebMenuRol" />
         <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="25.125" PointY="15.125" />
+        <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
+        <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

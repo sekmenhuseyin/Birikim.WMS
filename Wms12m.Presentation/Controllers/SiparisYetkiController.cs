@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -51,6 +52,7 @@ namespace Wms12m.Presentation.Controllers
             yetki.GostKod3OrtBakiye = tbl.GostKod3OrtBakiye;
             yetki.GostRiskDeger = tbl.GostRiskDeger;
             yetki.GostSTKDeger = tbl.GostSTKDeger;
+            ViewBag.ID = ID;
             return PartialView("YetkiDuzenle", yetki);
         }
 
@@ -59,6 +61,29 @@ namespace Wms12m.Presentation.Controllers
             var KOD = db.Database.SqlQuery<RaporGetKod>(string.Format("[FINSAT6{0}].[wms].[DB_GetTipKod]", "71")).ToList();
             var json = new JavaScriptSerializer().Serialize(KOD);
             return json;
+        }
+
+
+        public JsonResult ParametreUpdate(string CHKAraligi, string Sirketler, string Tipler, string Kod3, string Risk, int ID)
+        {
+            Result _Result = new Result(true);
+            if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
+            db.Database.ExecuteSqlCommand(string.Format("[BIRIKIM].[wms].[TumpaSiparisParametreOnayla] @CHKAraligi = '{0}',@Sirketler = '{1}', @Tipler='{2}',@Kod3 = '{3}', @Risk='{4}', @UserID={5}", CHKAraligi, Sirketler, Tipler, Kod3, Risk, ID));
+            try
+            {
+                db.SaveChanges();
+                _Result.Status = true;
+                _Result.Message = "İşlem Başarılı ";
+
+            }
+            catch (Exception ex)
+            {
+
+                _Result.Status = false;
+                _Result.Message = "Hata Oluştu. ";
+
+            }
+            return Json(_Result, JsonRequestBehavior.AllowGet);
         }
     }
 }

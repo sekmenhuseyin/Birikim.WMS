@@ -26,13 +26,15 @@
                         <div class="col-md-4 m-l-20 bit-risk"></div>
                     </div>
                     <div class="row m-t-10">
-                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Şirketler</div>
-                        <div class="col-md-4 m-l-20 bas-sirket"></div>
+                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Tip Kodları</div>
+                        <div class="col-md-8 m-l-20 p-r-10 bas-tipkod"></div>
                     </div>
                     <div class="row m-t-10">
-                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Tip Kodları</div>
-                        <div class="col-md-4 m-l-20 bas-tipkod"></div>
+                        <div class="col-md-3 m-l-10" style="line-height:36px;color: #5bc8d2;font-weight:bold;">Şirketler</div>
+                        <div class="col-md-4 m-l-20 bas-sirket"></div>
+                        <div class="col-md-4 butondiv pull-right m-t-5"><button class="btn btn-primary pull-right input-circle save-buton"> Kaydet <i class="fa fa-pencil-square-o" style="margin-left:5px;"></i></button></div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -40,19 +42,64 @@
 </div>
 <script type="text/javascript">
     var model = @Html.Raw(Json.Encode(Model));
+    var ID = "@ViewBag.ID";
     var sirketlist = model.GosterilecekSirket.split(";");
-    if
-    var chklist = model.GostCHKKodAlani.split(";");
-    var kod3list = model.GostKod3OrtBakiye.split(";");
-    var risklist = model.GostRiskDeger.split(";");
-    console.log(kod3list);
-    console.log(risklist);
     sirketlist.pop();
     var tiplist = model.GostSTKDeger.split(";");
     tiplist.pop();
+    var chklist, kod3list, risklist,secilitipkod,secilisirket,secilichk="",secilikod3="",secilirisk="";
+    if (model.GostCHKKodAlani == null) {chklist = ["", ""];}
+    else { chklist = model.GostCHKKodAlani.split(";"); }
+    if (model.GostKod3OrtBakiye == null) {kod3list = [0, 0];}
+    else {
+        kod3list = model.GostKod3OrtBakiye.split(";");
+        if (kod3list[0] == "") kod3list[0] = 0;
+        if (kod3list[1] == "") kod3list[1] = 0;
+    }
+    if (model.GostRiskDeger == null) {risklist = [0, 0,];}
+    else {
+        risklist = model.GostRiskDeger.split(";");
+        if (risklist[0] == "") risklist[0] = 0;
+        if (risklist[1] == "") risklist[1] = 0;
+    }
+    secilitipkod = model.GostSTKDeger;
+    secilisirket = model.GosterilecekSirket;
+    secilichk = model.GostCHKKodAlani;
+    secilikod3 = model.GostKod3OrtBakiye;
+    secilirisk = model.GostRiskDeger;
     DevExpress.ui.dxOverlay.baseZIndex(20000);
-    $(".bas-chk").dxTextBox({ value: chklist[0]});
-    $(".bit-chk").dxTextBox({ value: chklist[1] });
+    $(".bas-chk").dxTextBox({
+        value: chklist[0],
+        onValueChanged: function (e) {
+            secilichk = "";
+            if (e.value == 0 || "") {
+                secilichk += "" + ";"
+            }
+            else {
+                secilichk += e.value + ";"
+            }
+
+            if ($(".bit-chk").dxTextBox("instance").option("value") != 0 && $(".bit-chk").dxTextBox("instance").option("value") != "") {
+                secilichk += $(".bit-chk").dxTextBox("instance").option("value");
+            }
+        }
+    });
+    $(".bit-chk").dxTextBox({
+        value: chklist[1],
+        onValueChanged: function (e) {
+            secilichk = "";
+            if ($(".bas-chk").dxTextBox("instance").option("value") == 0 && $(".bas-chk").dxTextBox("instance").option("value") == "") {
+                secilichk += "" + ";"
+            }
+            else {
+                secilichk += $(".bas-chk").dxTextBox("instance").option("value") + ";"
+            }
+
+            if (e.value != 0 && e.value != "") {
+                secilichk += e.value;
+            }
+        }
+    });
     tipKod = new Array();
     var sirkets = [{ state: "Tüm" }, { state: "Tümpa" }];
     $(".bas-sirket").dxTagBox({
@@ -62,28 +109,85 @@
         valueExpr: 'state',
         value: sirketlist,
         onValueChanged: function (e) {
-
+            secilisirket = "";
+            for (var i = 0; i < e.value.length; i++) {
+                secilisirket += e.value[i] + ";";
+            }
         }
     });
     $(".bas-kod3").dxNumberBox({
-        value: 0,
-        min: 0
+        value: kod3list[0],
+        min: 0,
+        onValueChanged: function (e) {
+            secilikod3 = "";
+            if (e.value == 0 || e.value == null) {
+                secilikod3+="" +";"
+            }
+            else {
+                secilikod3 += e.value + ";"
+            }
+
+            if ($(".bit-kod3").dxNumberBox("instance").option("value") != 0 && $(".bit-kod3").dxNumberBox("instance").option("value") != null)
+            {
+                secilikod3 += $(".bit-kod3").dxNumberBox("instance").option("value");
+            }
+        }
+
     });
     $(".bit-kod3").dxNumberBox({
-        value: 0,
-        min: 0
+        value: kod3list[1],
+        min: 0,
+        onValueChanged: function (e) {
+            secilikod3 = "";
+            if ($(".bas-kod3").dxNumberBox("instance").option("value") == 0 && $(".bas-kod3").dxNumberBox("instance").option("value") == null) {
+                secilikod3 += "" + ";"
+            }
+            else {
+                secilikod3 += $(".bas-kod3").dxNumberBox("instance").option("value") + ";"
+            }
+
+            if (e.value != 0 && e.value != null) {
+                secilikod3 += e.value;
+            }
+        }
     });
     $(".bas-risk").dxNumberBox({
-        value: 0,
+        value: risklist[0],
         min: 0,
-        max: 100
+        max: 100,
+        onValueChanged: function (e) {
+            secilirisk = "";
+            if (e.value == 0 || e.value ==null) {
+                secilirisk += "" + ";"
+            }
+            else {
+                secilirisk += e.value + ";"
+            }
+
+            if ($(".bit-risk").dxNumberBox("instance").option("value") != 0 && $(".bit-risk").dxNumberBox("instance").option("value") != null) {
+                secilirisk += $(".bit-risk").dxNumberBox("instance").option("value");
+            }
+        }
     });
     $(".bit-risk").dxNumberBox({
-        value: 0,
+        value: risklist[1],
         min: 0,
-        max: 100
+        max: 100,
+        onValueChanged: function (e) {
+            secilirisk = "";
+            if ($(".bas-risk").dxNumberBox("instance").option("value") == 0 && $(".bas-risk").dxNumberBox("instance").option("value") == null) {
+                secilirisk += "" + ";"
+            }
+            else {
+                secilirisk += $(".bas-risk").dxNumberBox("instance").option("value") + ";"
+            }
+
+            if (e.value != 0 && e.value != null) {
+                secilirisk += e.value;
+            }
+        }
     });
-    
+
     $.ajax({
         url: window.location.origin + "/SiparisYetki/TipKodSelect",
                 data: {},
@@ -91,13 +195,13 @@
                 success: function (data)
                 {
                     var result = JSON.parse(data);
-                   
+
                     jQuery.each(result, function (i, val) {
                         if (val.Tip == 2) {
                             var inputAttr = {};
                             inputAttr["Kod"] = val.Kod;
                             tipKod.push(inputAttr);
-                        } 
+                        }
                     });
 
                     $(".bas-tipkod").dxTagBox({
@@ -107,14 +211,34 @@
                         valueExpr: 'Kod',
                         value: tiplist,
                         onValueChanged: function (e) {
-
+                            console.log(e.value);
+                            secilitipkod = "";
+                            for (var i = 0; i < e.value.length; i++) {
+                                secilitipkod += e.value[i] + ";";
+                            }
                         }
                     });
                 }
     });
 
-   
-   
+
+    $('.save-buton').click(function () {
+      $.ajax({
+         url: window.location.origin + "/SiparisYetki/ParametreUpdate",
+         data: { CHKAraligi: secilichk, Sirketler: secilisirket, Tipler: secilitipkod, Kod3: secilikod3, Risk: secilirisk, ID :ID},
+         type: "post",
+         success: function (data) {
+         if (data.Status == true) {
+             Modaldialog(data.Message, "Güncelleme İşlemi", "Tamam", "Güncelleme");
+             setTimeout(function () { window.location.reload(); }, 500);
+         }
+         else {
+             Modaldialog(data.Message, "Kayıt İşlemi", "Tamam", "Uyarı");
+         }
+
+         }
+     });
+    });
 
 </script>
 
