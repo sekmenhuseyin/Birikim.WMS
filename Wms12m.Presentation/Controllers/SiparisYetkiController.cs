@@ -52,6 +52,7 @@ namespace Wms12m.Presentation.Controllers
             yetki.GostKod3OrtBakiye = tbl.GostKod3OrtBakiye;
             yetki.GostRiskDeger = tbl.GostRiskDeger;
             yetki.GostSTKDeger = tbl.GostSTKDeger;
+            yetki.AdSoyad = tbl.User.AdSoyad;
             ViewBag.ID = ID;
             return PartialView("YetkiDuzenle", yetki);
         }
