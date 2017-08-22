@@ -202,6 +202,21 @@
     <Compile Include="Models\MenuRolGetir_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelLog.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelLog.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelLog.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelLog.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelLog.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\ModelYeniNesil.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -255,6 +270,9 @@
     </Compile>
     <Compile Include="Models\Transfer_Detay.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TumSiparisOnayLog.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
@@ -392,6 +410,13 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelYeniNesil.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <EntityDeploy Include="Models\ModelLog.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelLog.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\ModelLog.edmx.diagram">
+      <DependentUpon>ModelLog.edmx</DependentUpon>
+    </None>
     <None Include="Models\ModelYeniNesil.edmx.diagram">
       <DependentUpon>ModelYeniNesil.edmx</DependentUpon>
     </None>
@@ -406,6 +431,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Models\ModelLog.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelLog.edmx</DependentUpon>
+      <LastGenOutput>ModelLog.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ModelLog.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelLog.edmx</DependentUpon>
+      <LastGenOutput>ModelLog.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\ModelYeniNesil.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelYeniNesil.edmx</DependentUpon>

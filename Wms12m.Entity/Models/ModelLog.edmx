@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BIRIKIM_LOGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TumSiparisOnayLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HesapKodu" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Firma" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="SiparisTuru" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="OnayDurumu" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TipKodu" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="KrediLimiti" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Bakiye" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="SCek" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TCek" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="PRTBakiye" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Kod2" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Kod3OrtBakiye" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Kod3OrtGun" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="OrtGun" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="SicakSiparis" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="SogukSiparis" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="GunIciSiparis" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CHKAralik" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TipKodlari" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="RiskBakiyeAralik" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="RiskAralik" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="SirketAralik" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Degistiren" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DegisTarih" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="BIRIKIM_LOGModelStoreContainer">
+          <EntitySet Name="TumSiparisOnayLog" EntityType="Self.TumSiparisOnayLog" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BIRIKIM_LOGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="LOGEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="TumSiparisOnayLogs" EntityType="BIRIKIM_LOGModel.TumSiparisOnayLog" />
+        </EntityContainer>
+        <EntityType Name="TumSiparisOnayLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HesapKodu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Firma" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SiparisTuru" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OnayDurumu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="TipKodu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="KrediLimiti" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Bakiye" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="SCek" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TCek" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="PRTBakiye" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Kod2" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Kod3OrtBakiye" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Kod3OrtGun" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="OrtGun" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="SicakSiparis" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="SogukSiparis" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="GunIciSiparis" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CHKAralik" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TipKodlari" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="RiskBakiyeAralik" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="RiskAralik" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="SirketAralik" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Degistiren" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DegisTarih" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BIRIKIM_LOGModelStoreContainer" CdmEntityContainer="LOGEntities" >
+          <EntitySetMapping Name="TumSiparisOnayLogs">
+            <EntityTypeMapping TypeName="BIRIKIM_LOGModel.TumSiparisOnayLog">
+              <MappingFragment StoreEntitySet="TumSiparisOnayLog">
+                <ScalarProperty Name="DegisTarih" ColumnName="DegisTarih" />
+                <ScalarProperty Name="Degistiren" ColumnName="Degistiren" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="SirketAralik" ColumnName="SirketAralik" />
+                <ScalarProperty Name="RiskAralik" ColumnName="RiskAralik" />
+                <ScalarProperty Name="RiskBakiyeAralik" ColumnName="RiskBakiyeAralik" />
+                <ScalarProperty Name="TipKodlari" ColumnName="TipKodlari" />
+                <ScalarProperty Name="CHKAralik" ColumnName="CHKAralik" />
+                <ScalarProperty Name="GunIciSiparis" ColumnName="GunIciSiparis" />
+                <ScalarProperty Name="SogukSiparis" ColumnName="SogukSiparis" />
+                <ScalarProperty Name="SicakSiparis" ColumnName="SicakSiparis" />
+                <ScalarProperty Name="OrtGun" ColumnName="OrtGun" />
+                <ScalarProperty Name="Kod3OrtGun" ColumnName="Kod3OrtGun" />
+                <ScalarProperty Name="Kod3OrtBakiye" ColumnName="Kod3OrtBakiye" />
+                <ScalarProperty Name="Kod2" ColumnName="Kod2" />
+                <ScalarProperty Name="PRTBakiye" ColumnName="PRTBakiye" />
+                <ScalarProperty Name="TCek" ColumnName="TCek" />
+                <ScalarProperty Name="SCek" ColumnName="SCek" />
+                <ScalarProperty Name="Bakiye" ColumnName="Bakiye" />
+                <ScalarProperty Name="KrediLimiti" ColumnName="KrediLimiti" />
+                <ScalarProperty Name="TipKodu" ColumnName="TipKodu" />
+                <ScalarProperty Name="OnayDurumu" ColumnName="OnayDurumu" />
+                <ScalarProperty Name="SiparisTuru" ColumnName="SiparisTuru" />
+                <ScalarProperty Name="Firma" ColumnName="Firma" />
+                <ScalarProperty Name="HesapKodu" ColumnName="HesapKodu" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
