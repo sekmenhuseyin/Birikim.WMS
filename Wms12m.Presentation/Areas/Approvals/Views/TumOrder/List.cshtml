@@ -78,17 +78,17 @@
     var bittarih ="@ViewBag.bittarih";
 
     if (tip1 == "Onaylandı") {
-        $(".siparis-onay-buton").css("display","none");
+        $(".onay").css("display","none");
     }
     else {
-        $(".siparis-onay-buton").css("display", "block");
+        $(".onay").css("display", "block");
     }
 
     if (tip1 == "Reddedildi") {
-        $(".siparis-reddet-buton").css("display", "none");
+        $(".reddet").css("display", "none");
     }
     else {
-        $(".siparis-reddet-buton").css("display", "block");
+        $(".reddet").css("display", "block");
     }
     var table = $('#sample_1').DataTable({
         "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },

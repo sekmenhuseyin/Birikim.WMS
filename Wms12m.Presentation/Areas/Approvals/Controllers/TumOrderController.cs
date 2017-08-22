@@ -14,7 +14,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         // GET: Approvals/IzOrder
         public ActionResult Index(string onayRed)
         {
-            if (CheckPerm(Perms.SiparişOnaylamaGM, PermTypes.Reading) == false) return Redirect("/");
             if (onayRed == null)
             {
                 ViewBag.OnayDurum = "Beklemede";
@@ -49,6 +48,8 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 var Sirketler = tbl.GosterilecekSirket;
                 var CHKAraligi = tbl.GostCHKKodAlani;
                 var TipKodlari = tbl.GostSTKDeger;
+                var Kod3Araligi = tbl.GostKod3OrtBakiye;
+                var RiskAraligi = tbl.GostRiskDeger;
                 var Grup = vUser.RoleName;
 
                 if (Sirketler.Contains("Tüm;"))
@@ -56,18 +57,18 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                     if (Sirketler.Contains("Tümpa;"))
                     {
                         // TÜmAndTümpaProcedure Çağır
-                        sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumAndTumpaSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}', @Grup='{5}', @BasTarih={6}, @BitTarih={7}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Grup, bastarih, bittarih)).ToList();
+                        sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumAndTumpaSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}',@Kod3Aralik='{5}',@RiskAralik='{6}', @Grup='{7}', @BasTarih={8}, @BitTarih={9}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Kod3Araligi, RiskAraligi, Grup, bastarih, bittarih)).ToList();
                     }
                     else
                     {
                         // TÜm Procedure Çağır
-                        sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}', @Grup='{5}', @BasTarih={6}, @BitTarih={7}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Grup, bastarih, bittarih)).ToList();
+                        sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}',@Kod3Aralik='{5}',@RiskAralik='{6}', @Grup='{7}', @BasTarih={8}, @BitTarih={9}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Kod3Araligi, RiskAraligi, Grup, bastarih, bittarih)).ToList();
                     }
                 }
                 else if (Sirketler.Contains("Tümpa;"))
                 {
                     // TÜmpa Procedure Çağır
-                    sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}', @Grup='{5}', @BasTarih={6}, @BitTarih={7}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Grup, bastarih, bittarih)).ToList();
+                    sipBilgi = db.Database.SqlQuery<SipOnay>(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisOnayList] @OnayDurm='{1}', @Secim=0, @ChkAralik='{2}', @Sirketler='{3}', @TipKodlari='{4}',@Kod3Aralik='{5}',@RiskAralik='{6}', @Grup='{7}', @BasTarih={8}, @BitTarih={9}", "71", tip, CHKAraligi, Sirketler, TipKodlari, Kod3Araligi, RiskAraligi, Grup, bastarih, bittarih)).ToList();
                 }
 
             }
@@ -82,7 +83,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Onayla(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var logDetay = "";
             using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -124,7 +124,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
         public JsonResult Reddet(string Data)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.SiparişOnaylama, PermTypes.Writing) == false) return Json(new Result(false, "Yetkiniz yok"), JsonRequestBehavior.AllowGet);
             JArray parameters = JsonConvert.DeserializeObject<JArray>(Request["Data"]);
             var logDetay = "";
             using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -160,18 +159,6 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
                 }
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);
-        }
-
-        public PartialViewResult YetkiDuzenle()
-        {
-            var tbl = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
-            SipOnayYetkiler yetki = new SipOnayYetkiler();
-            yetki.GostCHKKodAlani = tbl.GostCHKKodAlani;
-            yetki.GosterilecekSirket = tbl.GosterilecekSirket;
-            yetki.GostKod3OrtBakiye = tbl.GostKod3OrtBakiye;
-            yetki.GostRiskDeger = tbl.GostRiskDeger;
-            yetki.GostSTKDeger = tbl.GostSTKDeger;
-            return PartialView("YetkiDuzenle", yetki);
         }
     }
 }

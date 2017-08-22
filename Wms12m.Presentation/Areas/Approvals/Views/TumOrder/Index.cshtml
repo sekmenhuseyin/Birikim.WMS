@@ -67,7 +67,6 @@
     <div class="col-md-1 text-left p-l-5 m-t-5 color-blue-light bold">Tarih Aralığı: </div>
     <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBaslangic" value="@DateTime.Today.ToShortDateString()" /></div>
     <div class="col-md-2 p-l-5 p-r-0"><input class="form-control dateboxbg" type="text" id="txtBitis" value="@DateTime.Today.ToShortDateString()" /></div>
-    <div class="col-md-3 col-md-offset-1" style="padding-left:0 !important;"><button class="btn btn-lg purple input-circle yetki-duzenle-buton" style="width:60%;margin-left:40%;"> Onay Yetkleri Düzenle <i class="fa fa-pencil-square-o" style="margin-left:5px;"></i></button></div>
 </div>
 
 <div class="row">
@@ -78,10 +77,10 @@
                     <div class="caption">
                         <i class="fa fa-gift"></i>Sipariş Onay
                     </div>
-                    <div class="col-md-1 pull-right m-t-5 p-0" id="buttons"></div>
-                    <div class="col-md-2 butondiv pull-right m-t-5"><button class="btn btn-danger pull-right input-circle siparis-reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
-                    <div class="col-md-2 butondiv pull-right m-t-5"><button class="btn btn-success pull-right input-circle siparis-onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
-                    <div class="col-md-2 butondiv pull-right m-t-5"><button class="btn btn-primary pull-right input-circle listele-buton glyphicon glyphicon-refresh"> Listele </button></div>
+                    <div class="col-md-1 pull-right m-t-5 p-0 " id="buttons"></div>
+                    <div class="col-md-2 butondiv pull-right m-t-5 reddet"><button class="btn btn-danger pull-right input-circle siparis-reddet-buton glyphicon glyphicon-remove"> Reddet </button></div>
+                    <div class="col-md-2 butondiv pull-right m-t-5 onay"><button class="btn btn-success pull-right input-circle siparis-onay-buton glyphicon glyphicon-ok"> Onayla </button></div>
+                    <div class="col-md-2 butondiv pull-right m-t-5 listele"><button class="btn btn-primary pull-right input-circle listele-buton glyphicon glyphicon-refresh"> Listele </button></div>
                 </div>
                 <div class="portlet-body">
                     <div class="row">
@@ -148,11 +147,6 @@
         });
         $('.listele-buton').click(function () {
             PartialView("/Approvals/TumOrder/TumOrderList", 'siparis_onay_data', JSON.stringify({ Tip: rdrValue, bastarih: basTarih, bittarih: bitTarih }));
-        });
-
-        $('.yetki-duzenle-buton').click(function () {
-             $('#modalEditPage').modal('toggle');
-             editInModal('/Approvals/TumOrder/YetkiDuzenle');
         });
 
     </script>
