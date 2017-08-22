@@ -41,7 +41,6 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<Raf> Rafs { get; set; }
         public virtual DbSet<Transfer> Transfers { get; set; }
         public virtual DbSet<Transfer_Detay> Transfer_Detay { get; set; }
-        public virtual DbSet<Yer> Yers { get; set; }
         public virtual DbSet<Yer_Log> Yer_Log { get; set; }
         public virtual DbSet<Kat> Kats { get; set; }
         public virtual DbSet<IR> IRS { get; set; }
@@ -61,6 +60,7 @@ namespace Wms12m.Entity.Models
         public virtual DbSet<WebMenu> WebMenus { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
+        public virtual DbSet<Yer> Yers { get; set; }
 
         public virtual ObjectResult<string> GetSirketDBs()
         {

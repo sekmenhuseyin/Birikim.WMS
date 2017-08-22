@@ -22,11 +22,11 @@ namespace Wms12m.Entity.Models
     
         public int ID { get; set; }
         public int KatID { get; set; }
+        public Nullable<int> DepoID { get; set; }
         public string HucreAd { get; set; }
         public string MalKodu { get; set; }
-        public string Birim { get; set; }
         public decimal Miktar { get; set; }
-        public Nullable<int> DepoID { get; set; }
+        public string Birim { get; set; }
         public string MakaraNo { get; set; }
         public bool MakaraDurum { get; set; }
     

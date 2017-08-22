@@ -19,7 +19,6 @@
         <EntityTypeShape EntityType="MModel.Raf" Width="1.5" PointX="16.125" PointY="17.125" />
         <EntityTypeShape EntityType="MModel.Transfer" Width="1.5" PointX="12.5" PointY="9.375" />
         <EntityTypeShape EntityType="MModel.Transfer_Detay" Width="1.5" PointX="10.5" PointY="11.125" />
-        <EntityTypeShape EntityType="MModel.Yer" Width="1.5" PointX="11.125" PointY="26.625" />
         <EntityTypeShape EntityType="MModel.Yer_Log" Width="1.5" PointX="11.125" PointY="21.875" />
         <AssociationConnector Association="MModel.FK_Perm_UserPerm2" />
         <AssociationConnector Association="MModel.FK_RolePerm_Perm" />
@@ -32,12 +31,10 @@
         <AssociationConnector Association="MModel.FK_Transfer_Depo2" />
         <AssociationConnector Association="MModel.FK_GorevYer_Gorev" />
         <AssociationConnector Association="MModel.FK_Transfer_Gorev" />
-        <AssociationConnector Association="MModel.FK_GorevYer_Yer" />
         <AssociationConnector Association="MModel.FK_Raf_Koridor" />
         <AssociationConnector Association="MModel.FK_Transfer_Detay_Transfer" />
         <EntityTypeShape EntityType="MModel.Kat" Width="1.5" PointX="17.125" PointY="24.25" />
         <AssociationConnector Association="MModel.FK_Kat_Bolum" />
-        <AssociationConnector Association="MModel.FK_Yer_Kat" />
         <AssociationConnector Association="MModel.FK_Yer_Log_Kat" />
         <EntityTypeShape EntityType="MModel.IR" Width="1.5" PointX="5" PointY="16.375" />
         <AssociationConnector Association="MModel.FK_IRS_Depo" />
@@ -88,6 +85,9 @@
         <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="20" PointY="6.375" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
+        <EntityTypeShape EntityType="MModel.Yer" Width="1.5" PointX="11.25" PointY="27.5" />
+        <AssociationConnector Association="MModel.FK_GorevYer_Yer" />
+        <AssociationConnector Association="MModel.FK_Yer_Kat" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
