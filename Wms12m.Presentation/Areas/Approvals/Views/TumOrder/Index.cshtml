@@ -102,7 +102,6 @@
         $.datepicker.setDefaults($.datepicker.regional["tr"]);
         $("#txtBaslangic").datepicker().on("change", function (e) { basTarih = toOADateFromString(e.target.value); });
         $("#txtBitis").datepicker().on("change", function (e) { bitTarih = toOADateFromString(e.target.value); });
-        console.log(basTarih);
         function checkPosition() {
             if ($(window).width() < 550) {
                 $(".butondiv").removeClass("pull-right");

@@ -79,7 +79,6 @@
     $("#sAdSoyad").on("change paste keyup", function () { filter(table, 1, $("#sAdSoyad").val()); });
 
     $('.duzenle-buton').click(function () {
-        console.log($(this).parents("td").siblings().eq(0).text());
         $('#modalEditPage').modal('toggle');
         editInModal('/SiparisYetki/YetkiDuzenle/' + $(this).parents("td").siblings().eq(0).text());
     });
