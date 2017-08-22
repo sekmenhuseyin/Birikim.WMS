@@ -534,6 +534,7 @@
           <Property Name="Miktar" Type="numeric" Precision="25" Scale="6" Nullable="false" />
           <Property Name="Birim" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="MakaraNo" Type="varchar" MaxLength="50" />
+          <Property Name="MakaraDurum" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Yer_Log">
           <Key>
@@ -2382,6 +2383,7 @@
           <NavigationProperty Name="Kat" Relationship="MModel.FK_Yer_Kat" FromRole="Yer" ToRole="Kat" />
           <Property Name="DepoID" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="MakaraNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MakaraDurum" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Yer_Log">
           <Key>
@@ -3808,6 +3810,7 @@
           <EntitySetMapping Name="Yers">
             <EntityTypeMapping TypeName="MModel.Yer">
               <MappingFragment StoreEntitySet="Yer">
+                <ScalarProperty Name="MakaraDurum" ColumnName="MakaraDurum" />
                 <ScalarProperty Name="MakaraNo" ColumnName="MakaraNo" />
                 <ScalarProperty Name="DepoID" ColumnName="DepoID" />
                 <ScalarProperty Name="Miktar" ColumnName="Miktar" />
