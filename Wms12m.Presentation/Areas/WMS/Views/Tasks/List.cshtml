@@ -48,7 +48,7 @@
         //datatable
         var table = $('#sample_1').DataTable({
             "pagingType": "full_numbers",
-            //"ordering": false,
+            "order": [[6, "desc"]],
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "columnDefs": [{ "targets": [0], "orderable": false }],
             initComplete: function () {
