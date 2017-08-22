@@ -98,14 +98,14 @@ namespace Wms12m.Business
         /// </summary>
         public override List<UserDetail> GetList()
         {
-            return db.UserDetails.ToList();
+            return db.UserDetails.Where(m=>m.Depo != null).ToList();
         }
         /// <summary>
         /// yetkiye sahip kişiler
         /// </summary>
         public override List<UserDetail> GetList(int ParentId)
         {
-            return db.UserDetails.ToList();
+            return GetList();
         }
     }
 }
