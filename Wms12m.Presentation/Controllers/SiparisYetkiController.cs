@@ -17,7 +17,6 @@ namespace Wms12m.Presentation.Controllers
         }
         public PartialViewResult List()
         {
-            if (CheckPerm(Perms.Kullanıcılar, PermTypes.Reading) == false) return null;
             List<UserDetail> list;
             List<SipOnayYetkiler> yetkiler = new List<SipOnayYetkiler>();
             if (vUser.Id == 1)
@@ -36,6 +35,7 @@ namespace Wms12m.Presentation.Controllers
                 yetki.Kod = item.User.Kod;
                 yetki.AdSoyad = item.User.AdSoyad;
                 yetki.UserID = item.UserID;
+                yetki.RoleName = item.User.RoleName;
 
                 yetkiler.Add(yetki);
             }
@@ -68,7 +68,6 @@ namespace Wms12m.Presentation.Controllers
         public JsonResult ParametreUpdate(string CHKAraligi, string Sirketler, string Tipler, string Kod3, string Risk, int ID)
         {
             Result _Result = new Result(true);
-            if (CheckPerm(Perms.SözleşmeTanim, PermTypes.Writing) == false) return null;
             db.Database.ExecuteSqlCommand(string.Format("[BIRIKIM].[wms].[TumpaSiparisParametreOnayla] @CHKAraligi = '{0}',@Sirketler = '{1}', @Tipler='{2}',@Kod3 = '{3}', @Risk='{4}', @UserID={5}", CHKAraligi, Sirketler, Tipler, Kod3, Risk, ID));
             try
             {
