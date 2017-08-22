@@ -220,7 +220,7 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                 }
                 else
                 {
-                    var tmp2 = db.Yers.Where(m => m.KatID == tbl.KatID && m.MalKodu == tbl.MalKodu && m.Birim == tbl.Birim && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
+                    var tmp2 = db.Yers.Where(m => m.DepoID == tbl.DepoID && m.MakaraNo == tbl.MakaraNo).FirstOrDefault();
                     if (tmp2 == null)
                     {
                         tmp2 = new Yer()
