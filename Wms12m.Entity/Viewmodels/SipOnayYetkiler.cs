@@ -5,6 +5,7 @@
         public int UserID { get; set; }
         public string Kod { get; set; }
         public string AdSoyad { get; set; }
+        public string RoleName { get; set; }
         public string GosterilecekSirket { get; set; }
         public string GostCHKKodAlani { get; set; }
         public string GostSTKDeger { get; set; }
