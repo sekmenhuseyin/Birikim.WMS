@@ -82,7 +82,7 @@
     var selected = ""; var selectall = true;
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
-            "ordering": false,
+            //"ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             initComplete: function () {
                 this.api().columns([0, 1]).every(function () {

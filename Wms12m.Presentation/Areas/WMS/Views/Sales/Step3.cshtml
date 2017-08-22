@@ -88,7 +88,7 @@
     var selectall = true; var list = [@{for (int i = 0; i < Model.Count(); i++){ if(i>0){<text>,</text>} <text>"</text>@list[i]<text>"</text> }}];
     $(document).ready(function () {
         var table = $('#sample_2').DataTable({
-            "ordering": false,
+            //"ordering": false,
             "language": { "url": "http://cdn.datatables.net/plug-ins/1.10.13/i18n/Turkish.json" },
             "columnDefs": [{ "targets": [7, 8], "visible": false, "searchable": false }],
             initComplete: function () {
