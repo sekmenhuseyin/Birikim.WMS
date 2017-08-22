@@ -6,15 +6,18 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.BolumAd</td>
-                    <td>@item.SiraNo </td>
-                    <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
-                    <td>
-                        <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                        <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Constants/Section/SectionGridPartial','SectionGrid','@item.RafID')"> Sil </a>
-                    </td>
-                </tr>
+                if (item.Raf.Koridor.KoridorAd != "R" && item.Raf.RafAd != "Z" && item.BolumAd != "R")
+                {
+                    <tr>
+                        <td>@item.BolumAd</td>
+                        <td>@item.SiraNo </td>
+                        <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
+                        <td>
+                            <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Constants/Section/SectionGridPartial','SectionGrid','@item.RafID')"> Sil </a>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>

@@ -6,19 +6,22 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.KatAd</td>
-                    <td>@item.SiraNo </td>
-                    <td align="right">@String.Format("{0:n}", item.En) x @String.Format("{0:n}", item.Boy) x @String.Format("{0:n}", item.Derinlik) mm<sup>3</sup></td>
-                    <td align="right">@String.Format("{0:n}", item.AgirlikKapasite) kg</td>
-                    <td>@item.ComboItem_Name.Name </td>
-                    <td>@item.Aciklama </td>
-                    <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
-                    <td>
-                        <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
-                        <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Constants/Floor/FloorGridPartial','FloorGrid','@item.BolumID')"> Sil </a>
-                    </td>
-                </tr>
+                if (item.Bolum.Raf.Koridor.KoridorAd != "R" && item.Bolum.Raf.RafAd != "Z" && item.Bolum.BolumAd != "R" && item.KatAd != "V")
+                {
+                    <tr>
+                        <td>@item.KatAd</td>
+                        <td>@item.SiraNo </td>
+                        <td align="right">@String.Format("{0:n}", item.En) x @String.Format("{0:n}", item.Boy) x @String.Format("{0:n}", item.Derinlik) mm<sup>3</sup></td>
+                        <td align="right">@String.Format("{0:n}", item.AgirlikKapasite) kg</td>
+                        <td>@item.ComboItem_Name.Name </td>
+                        <td>@item.Aciklama </td>
+                        <td>@(item.Aktif ? "Aktif" : "Pasif")</td>
+                        <td>
+                            <a class="btn btn-default" href="javascript:;" onclick="CreateEdit('@item.ID')"> Düzenle </a>
+                            <a class="btn btn-danger" href="javascript:;" onclick="Delete('@item.ID','/Constants/Floor/FloorGridPartial','FloorGrid','@item.BolumID')"> Sil </a>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
