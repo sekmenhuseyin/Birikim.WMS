@@ -4,6 +4,7 @@
         <tr>
             <th>Yer</th>
             <th>Makara No</th>
+            <th>Makara Durum</th>
             <th>Miktar</th>
             <th>Birim</th>
             <th></th>
@@ -15,6 +16,7 @@
             <tr>
                 <td>@item.HucreAd</td>
                 <td>@item.MakaraNo</td>
+                <td>@if (item.MakaraDurum == false) { <text>Açık</text> } else { <text>Kapalı</text> }</td>
                 <td align="right">@String.Format("{0:n}", item.Miktar)</td>
                 <td>@item.Birim</td>
                 <td><button class="btn btn-default btn-sm" type="button" onclick="SelectMakara(@item.ID, @ViewBag.satir,'@item.MakaraNo');">Seç</button></td>

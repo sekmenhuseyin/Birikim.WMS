@@ -208,7 +208,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             KatID = tbl.KatID,
                             MalKodu = tbl.MalKodu,
                             Birim = tbl.Birim,
-                            Miktar = tbl.Miktar
+                            Miktar = tbl.Miktar,
+                            MakaraDurum = true
                         };
                         Yerlestirme.Insert(tmp2, 0, vUser.Id);
                     }
@@ -229,7 +230,8 @@ namespace Wms12m.Presentation.Areas.WMS.Controllers
                             MalKodu = tbl.MalKodu,
                             MakaraNo = tbl.MakaraNo,
                             Birim = tbl.Birim,
-                            Miktar = tbl.Miktar
+                            Miktar = tbl.Miktar,
+                            MakaraDurum = true
                         };
                         Yerlestirme.Insert(tmp2, 0, vUser.Id);
                     }
