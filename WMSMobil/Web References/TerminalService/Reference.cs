@@ -1194,6 +1194,8 @@ namespace WMSMobil.TerminalService {
         
         private string birimField;
         
+        private string makaraNoField;
+        
         private string barkodField;
         
         private int siraNoField;
@@ -1267,6 +1269,16 @@ namespace WMSMobil.TerminalService {
             }
             set {
                 this.birimField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MakaraNo {
+            get {
+                return this.makaraNoField;
+            }
+            set {
+                this.makaraNoField = value;
             }
         }
         

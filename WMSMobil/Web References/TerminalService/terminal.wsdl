@@ -265,6 +265,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
           <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MakaraNo" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="SiraNo" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Kaydeden" type="s:string" />

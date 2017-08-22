@@ -9,7 +9,10 @@ namespace WMSMobil
 {
     public static class Extensions
     {
-
+        public static int Carpim(this int value)
+        {
+            return (value * Ayarlar.KatSayi).ToInt32();
+        }
         /// <summary>
         /// sembolleri sil
         /// </summary>

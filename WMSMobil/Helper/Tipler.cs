@@ -12,18 +12,15 @@ namespace WMSMobil
         public string MalAdi { get; set; }
         public decimal Miktar { get; set; }
         public string Birim { get; set; }
+        public string MakaraNo { get; set; }
         public string Barkod { get; set; }
         public int SiraNo { get; set; }
         public decimal OkutulanMiktar { get; set; }
         public string Raf { get; set; }
         public decimal YerlestirmeMiktari { get; set; }
         public decimal IslemMiktar { get; set; }
-
-        //public List<SetItem> SetItems = new List<SetItem>();
         public decimal SetMamulMiktar { get; set; }
-
     }
-
     class PanelIrs : Panel
     {
         public string EvrakNo { get; set; }
@@ -35,10 +32,6 @@ namespace WMSMobil
         public int IrsaliyeTarihi { get; set; }
         public string SirketKodu { get; set; }
         public string Unvan { get; set; }
-
-        //public List<SetItem> SetItems = new List<SetItem>();
-        //public decimal SetMamulMiktar { get; set; }
-
     }
 
     class PanelGrv : Panel
@@ -50,10 +43,6 @@ namespace WMSMobil
         public string Atayan { get; set; }
         public string Gorevli { get; set; }
         public string Bilgi { get; set; }
-
-        //public List<SetItem> SetItems = new List<SetItem>();
-        //public decimal SetMamulMiktar { get; set; }
-
     }
     class IRS_Detay
     {
@@ -68,7 +57,5 @@ namespace WMSMobil
         public Nullable<decimal> KynkSiparisMiktar { get; set; }
         public Nullable<decimal> OkutulanMiktar { get; set; }
         public Nullable<decimal> YerlestirmeMiktari { get; set; }
-    }
-
-    
+    }    
 }

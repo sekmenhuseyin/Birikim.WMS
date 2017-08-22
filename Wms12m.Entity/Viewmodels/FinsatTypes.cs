@@ -8,6 +8,7 @@
         public string MalAdi { get; set; }
         public decimal Miktar { get; set; }
         public string Birim { get; set; }
+        public string MakaraNo { get; set; }
         public string Barkod { get; set; }
         public int SiraNo { get; set; }
         public string Kaydeden { get; set; }
