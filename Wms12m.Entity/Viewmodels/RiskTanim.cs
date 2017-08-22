@@ -1251,6 +1251,7 @@ namespace Wms12m.Entity
         public string Tarih { get; set; }
         public string Firma { get; set; }
         public string Onaylayan { get; set; }
+        public decimal RiskBakiyesi { get; set; }
     }
     #endregion
 

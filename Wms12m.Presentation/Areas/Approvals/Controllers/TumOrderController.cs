@@ -6,11 +6,13 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Areas.Approvals.Controllers
 {
     public class TumOrderController : RootController
     {
+        public LOGEntities logdb = new LOGEntities();
         // GET: Approvals/IzOrder
         public ActionResult Index(string onayRed)
         {
@@ -87,34 +89,68 @@ namespace Wms12m.Presentation.Areas.Approvals.Controllers
             var logDetay = "";
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
-
-                foreach (JObject insertObj in parameters)
+                using (var logdbContextTransaction = logdb.Database.BeginTransaction())
                 {
-                    if (insertObj["Firma"].ToString() == "Tümpa")
+                    var tbl = db.UserDetails.Where(m => m.UserID == vUser.Id).FirstOrDefault();
+                    foreach (JObject insertObj in parameters)
                     {
-                        db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisOnayla] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
-                        logDetay = "FINSAT671.SPI tablosunda Evrak Numarası '" + insertObj["EvrakNo"].ToString() + "' ve Onay Durumu '" + insertObj["OnayDurumu"].ToString() + "' olan satırların OnayDurumu " + vUser.UserName + " kullanıcısının siparişi onaylaması sonucu 'Onaylandı' olarak güncellenmiştir.";
+                        if (insertObj["Firma"].ToString() == "Tümpa")
+                        {
+                            db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumpaSiparisOnayla] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
+                            logDetay = "FINSAT671.SPI tablosunda Evrak Numarası '" + insertObj["EvrakNo"].ToString() + "' ve Onay Durumu '" + insertObj["OnayDurumu"].ToString() + "' olan satırların OnayDurumu " + vUser.UserName + " kullanıcısının siparişi onaylaması sonucu 'Onaylandı' olarak güncellenmiştir.";
+                        }
+                        else if (insertObj["Firma"].ToString() == "Tüm")
+                        {
+                            db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumSiparisOnayla] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
+                            logDetay = "FINSAT633.SPI tablosunda Evrak Numarası '" + insertObj["EvrakNo"].ToString() + "' ve Onay Durumu '" + insertObj["OnayDurumu"].ToString() + "' olan satırların OnayDurumu " + vUser.UserName + " kullanıcısının siparişi onaylaması sonucu 'Onaylandı' olarak güncellenmiştir.";
+                        }
+
+                        LogActions("Approvals", "TumOrder", "Onayla", ComboItems.alOnayla, 0, logDetay);
+
+                        TumSiparisOnayLog sip = new TumSiparisOnayLog();
+                        sip.Bakiye = insertObj["Bakiye"].ToDecimal();
+                        sip.DegisTarih = (int)DateTime.Now.ToOADate();
+                        sip.Degistiren = vUser.UserName.ToString();
+                        sip.SirketAralik = tbl.GosterilecekSirket;
+                        sip.CHKAralik = tbl.GostCHKKodAlani;
+                        sip.TipKodlari = tbl.GostSTKDeger;
+                        sip.RiskBakiyeAralik = tbl.GostKod3OrtBakiye;
+                        sip.RiskAralik = tbl.GostRiskDeger;
+                        sip.RoleName = vUser.RoleName;
+                        sip.Firma = insertObj["Firma"].ToString();
+                        sip.GunIciSiparis = insertObj["GunIciSiparis"].ToDecimal();
+                        sip.HesapKodu = insertObj["HesapKodu"].ToString();
+                        sip.Kod2 = insertObj["Kod2"].ToString();
+                        sip.Kod3OrtBakiye = insertObj["Kod3OrtBakiye"].ToDecimal();
+                        sip.Kod3OrtGun = insertObj["Kod3OrtGun"].ToDecimal();
+                        sip.KrediLimiti = insertObj["KrediLimiti"].ToDecimal();
+                        sip.OnayDurumu = insertObj["OnayDurumu"].ToString();
+                        sip.OrtGun = insertObj["OrtGun"].ToDecimal();
+                        sip.PRTBakiye = insertObj["PRTBakiye"].ToDecimal();
+                        sip.SCek = insertObj["SCek"].ToDecimal();
+                        sip.SicakSiparis = insertObj["SicakSiparis"].ToDecimal();
+                        sip.SiparisTuru = insertObj["SiparisTuru"].ToString();
+                        sip.SogukSiparis = insertObj["SogukSiparis"].ToDecimal();
+                        sip.TCek = insertObj["TCek"].ToDecimal();
+                        sip.TipKodu = insertObj["TipKodu"].ToString();
+                        sip.RiskBakiyesi = insertObj["RiskBakiyesi"].ToDecimal();
+
+                        logdb.TumSiparisOnayLogs.Add(sip);
                     }
-                    else if (insertObj["Firma"].ToString() == "Tüm")
+                    try
                     {
-                        db.Database.ExecuteSqlCommand(string.Format("[FINSAT6{0}].[wms].[TumSiparisOnayla] @OncekiDurum = '{1}',@Kullanici = '{2}', @EvrakNo='{3}'", "71", insertObj["OnayDurumu"].ToString(), vUser.UserName, insertObj["EvrakNo"].ToString()));
-                        logDetay = "FINSAT633.SPI tablosunda Evrak Numarası '" + insertObj["EvrakNo"].ToString() + "' ve Onay Durumu '" + insertObj["OnayDurumu"].ToString() + "' olan satırların OnayDurumu " + vUser.UserName + " kullanıcısının siparişi onaylaması sonucu 'Onaylandı' olarak güncellenmiştir.";
+                        db.SaveChanges();
+                        logdb.SaveChanges();
+                        dbContextTransaction.Commit();
+                        logdbContextTransaction.Commit();
+                        _Result.Status = true;
+                        _Result.Message = "İşlem Başarılı ";
                     }
-
-                    LogActions("Approvals", "TumOrder", "Onayla", ComboItems.alOnayla, 0, logDetay);
-                }
-                try
-                {
-                    db.SaveChanges();
-                    dbContextTransaction.Commit();
-
-                    _Result.Status = true;
-                    _Result.Message = "İşlem Başarılı ";
-                }
-                catch (Exception ex)
-                {
-                    _Result.Status = false;
-                    _Result.Message = "Hata Oluştu.";
+                    catch (Exception ex)
+                    {
+                        _Result.Status = false;
+                        _Result.Message = "Hata Oluştu.";
+                    }
                 }
             }
             return Json(_Result, JsonRequestBehavior.AllowGet);

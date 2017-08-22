@@ -33,6 +33,7 @@ namespace Wms12m.Entity.Models
         public decimal SogukSiparis { get; set; }
         public decimal GunIciSiparis { get; set; }
         public string CHKAralik { get; set; }
+        public decimal RiskBakiyesi { get; set; }
         public string TipKodlari { get; set; }
         public string RiskBakiyeAralik { get; set; }
         public string RiskAralik { get; set; }
