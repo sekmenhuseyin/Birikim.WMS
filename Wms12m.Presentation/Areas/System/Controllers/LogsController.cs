@@ -38,8 +38,12 @@ namespace Wms12m.Presentation.Areas.System.Controllers
         }
         public ActionResult App()
         {
-            var list = db.GetAppLog().ToList();
-            return View("App", list);
+            using (var dbx = new LOGEntities())
+            {
+                var list = dbx.AppLogs.ToList();
+                return View("App", list);
+
+            }
         }
         public JsonResult Delete(string ID)
         {
