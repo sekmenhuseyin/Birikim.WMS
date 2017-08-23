@@ -1174,10 +1174,6 @@
           <Parameter Name="table" Type="varchar" Mode="In" />
           <Parameter Name="ID" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="GetAppLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetELMAH_Error" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetErrorLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetLoginLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetMenuRoleFor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
         </Function>
@@ -1984,10 +1980,6 @@
             <Parameter Name="RoleName" Mode="In" Type="String" />
             <Parameter Name="MenuIDs" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetAppLog" ReturnType="Collection(MModel.GetAppLog_Result)" />
-          <FunctionImport Name="GetELMAH_Error" ReturnType="Collection(MModel.GetELMAH_Error_Result)" />
-          <FunctionImport Name="GetErrorLog" ReturnType="Collection(MModel.GetErrorLog_Result)" />
-          <FunctionImport Name="GetLoginLog" ReturnType="Collection(MModel.GetLoginLog_Result)" />
           <FunctionImport Name="GetCachedChartMonthly" ReturnType="Collection(MModel.GetCachedChartMonthly_Result)">
           <Parameter Name="DB" Mode="In" Type="String" />
           </FunctionImport>
@@ -3155,51 +3147,6 @@
           <Property Type="String" Name="Ad" Nullable="true" MaxLength="154" />
           <Property Type="String" Name="RoleName" Nullable="false" MaxLength="8" />
         </ComplexType>
-        <ComplexType Name="GetAppLog_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Site" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Area" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Controller" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Action" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Type" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="SelectedID" Nullable="true" />
-          <Property Type="String" Name="Details" Nullable="true" />
-          <Property Type="String" Name="Request" Nullable="true" />
-          <Property Type="String" Name="Username" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="IpAddress" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="Tarih" Nullable="false" Precision="16" />
-        </ComplexType>
-        <ComplexType Name="GetELMAH_Error_Result">
-          <Property Type="Guid" Name="ErrorId" Nullable="false" />
-          <Property Type="String" Name="Application" Nullable="false" MaxLength="60" />
-          <Property Type="String" Name="Host" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Type" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Source" Nullable="false" MaxLength="60" />
-          <Property Type="String" Name="Message" Nullable="false" MaxLength="500" />
-          <Property Type="String" Name="User" Nullable="false" MaxLength="50" />
-          <Property Type="Int32" Name="StatusCode" Nullable="false" />
-          <Property Type="DateTime" Name="TimeUtc" Nullable="false" Precision="23" />
-          <Property Type="Int32" Name="Sequence" Nullable="false" />
-          <Property Type="String" Name="AllXml" Nullable="false" MaxLength="Max" />
-        </ComplexType>
-        <ComplexType Name="GetErrorLog_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Description" Nullable="false" />
-          <Property Type="String" Name="Message" Nullable="false" />
-          <Property Type="String" Name="Source" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="DateTime" Nullable="false" Precision="23" />
-          <Property Type="String" Name="Machine" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="IpAddress" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="GetLoginLog_Result">
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="IP" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="DateTime" Nullable="true" Precision="16" />
-          <Property Type="Boolean" Name="LoggedIn" Nullable="false" />
-          <Property Type="String" Name="Comment" Nullable="true" MaxLength="150" />
-        </ComplexType>
         <ComplexType Name="GetCachedChartMonthly_Result">
           <Property Type="String" Name="Ay" Nullable="false" MaxLength="50" />
           <Property Type="Decimal" Name="Yil2015" Nullable="false" Precision="25" Scale="6" />
@@ -4151,67 +4098,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="RolMenuEkle" FunctionName="MModel.Store.RolMenuEkle" />
-          <FunctionImportMapping FunctionImportName="GetAppLog" FunctionName="MModel.Store.GetAppLog">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetAppLog_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Site" ColumnName="Site" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="Controller" ColumnName="Controller" />
-                <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="SelectedID" ColumnName="SelectedID" />
-                <ScalarProperty Name="Details" ColumnName="Details" />
-                <ScalarProperty Name="Request" ColumnName="Request" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="IpAddress" ColumnName="IpAddress" />
-                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetELMAH_Error" FunctionName="MModel.Store.GetELMAH_Error">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetELMAH_Error_Result">
-                <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
-                <ScalarProperty Name="Application" ColumnName="Application" />
-                <ScalarProperty Name="Host" ColumnName="Host" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="User" ColumnName="User" />
-                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
-                <ScalarProperty Name="TimeUtc" ColumnName="TimeUtc" />
-                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
-                <ScalarProperty Name="AllXml" ColumnName="AllXml" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetErrorLog" FunctionName="MModel.Store.GetErrorLog">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetErrorLog_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="Source" ColumnName="Source" />
-                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="Machine" ColumnName="Machine" />
-                <ScalarProperty Name="IpAddress" ColumnName="IpAddress" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetLoginLog" FunctionName="MModel.Store.GetLoginLog">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MModel.GetLoginLog_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="IP" ColumnName="IP" />
-                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="LoggedIn" ColumnName="LoggedIn" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetCachedChartMonthly" FunctionName="MModel.Store.GetCachedChartMonthly">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MModel.GetCachedChartMonthly_Result">

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GetAppLog_Result>
+﻿@model IEnumerable<AppLog>
 @{
     ViewBag.Title = "İşlem Kayıtları";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -28,7 +28,7 @@
                                     @Html.DisplayFor(modelItem => item.Action)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Type)
+                                    @Html.DisplayFor(modelItem => item.TypeName)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Details)
