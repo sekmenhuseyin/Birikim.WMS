@@ -67,6 +67,9 @@
   <ItemGroup>
     <Compile Include="BaseConfigurationSection.cs" />
     <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Models\AppLog.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Bolum.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -90,6 +93,12 @@
     </Compile>
     <Compile Include="Models\Depo.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ELMAH_Error.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ErrorLog.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GetAppLog_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
@@ -196,6 +205,9 @@
     <Compile Include="Models\Koridor.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginLog.cs">
+      <DependentUpon>ModelLog.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MenuGetirici_Result.cs">
       <DependentUpon>ModelWMS.tt</DependentUpon>
     </Compile>
@@ -216,6 +228,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelLog.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelWMS.Context1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelWMS.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ModelYeniNesil.Context.cs">
       <AutoGen>True</AutoGen>
@@ -464,6 +481,7 @@
     <Content Include="Models\ModelWMS.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelWMS.edmx</DependentUpon>
+      <LastGenOutput>ModelWMS.Context1.cs</LastGenOutput>
     </Content>
     <Content Include="Models\ModelWMS.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

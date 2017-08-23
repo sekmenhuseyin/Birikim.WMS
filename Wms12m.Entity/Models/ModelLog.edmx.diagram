@@ -6,6 +6,10 @@
     <edmx:Diagrams>
       <Diagram DiagramId="1e1d06baa6a5408e8171fbb1601d3cb2" Name="Diagram1" ZoomLevel="82" >
         <EntityTypeShape EntityType="BIRIKIM_LOGModel.TumSiparisOnayLog" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.AppLog" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.ELMAH_Error" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.ErrorLog" Width="1.5" PointX="7.625" PointY="0.75" />
+        <EntityTypeShape EntityType="BIRIKIM_LOGModel.LoginLog" Width="1.5" PointX="9.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
