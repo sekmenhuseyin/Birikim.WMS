@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Wms12m.Entity;
+using Wms12m.Entity.Models;
 
 namespace Wms12m.Presentation.Areas.System.Controllers
 {
@@ -10,18 +11,30 @@ namespace Wms12m.Presentation.Areas.System.Controllers
         // GET: Logs
         public ActionResult Index()
         {
-            var list = db.GetELMAH_Error().ToList();
-            return View("Index", list);
+            using (var dbx = new LOGEntities())
+            {
+                var list = dbx.ELMAH_Error.ToList();
+                return View("Index", list);
+
+            }
         }
         public ActionResult Error()
         {
-            var list = db.GetErrorLog().ToList();
-            return View("Error", list);
+            using (var dbx = new LOGEntities())
+            {
+                var list = dbx.ErrorLogs.ToList();
+                return View("Error", list);
+
+            }
         }
         public ActionResult Login()
         {
-            var list = db.GetLoginLog().ToList();
-            return View("Login", list);
+            using (var dbx = new LOGEntities())
+            {
+                var list = dbx.LoginLogs.ToList();
+                return View("Login", list);
+
+            }
         }
         public ActionResult App()
         {
