@@ -385,7 +385,7 @@ namespace Wms12m.Presentation.Controllers
                     string tkat = dr["Rafın Katı"].ToString();
                     string tozellik = dr["Özellik"].ToString();
                     string taciklama = dr["Açıklama"].ToString();
-                    if (tdepo != "" && tkoridor != "" && traf != "" && tbolum != "" && tkat != "" && tozellik != ""  &&
+                    if (tdepo != "" && tkoridor != "" && traf != "" && tbolum != "" && tkat != "" && tozellik != "" &&
                     (dr["Genişlik (mm)"].ToString2().IsNumeric() != false || dr["Genişlik (mm)"].ToString2() == "*") &&
                     (dr["Derinlik (mm)"].ToString2().IsNumeric() != false || dr["Derinlik (mm)"].ToString2() == "*") &&
                     (dr["Yükseklik (mm)"].ToString2().IsNumeric() != false || dr["Yükseklik (mm)"].ToString2() == "*") &&
@@ -452,7 +452,7 @@ namespace Wms12m.Presentation.Controllers
                     {
                         hatali++;
                         if (hatalilar != "") hatalilar += ", ";
-                        hatalilar += (i+1);
+                        hatalilar += (i + 1);
                     }
                 }
                 catch (Exception ex)

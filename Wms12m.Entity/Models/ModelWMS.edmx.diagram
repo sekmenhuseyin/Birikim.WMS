@@ -81,13 +81,13 @@
         <AssociationConnector Association="MModel.FK_WebMenu_Simge" />
         <AssociationConnector Association="MModel.FK_WebMenu_WebMenu" />
         <AssociationConnector Association="MModel.WebMenuRol" />
-        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="5.75" />
         <EntityTypeShape EntityType="MModel.UserDetail" Width="1.5" PointX="20" PointY="6.375" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Users" />
         <AssociationConnector Association="MModel.FK_Depo_Users_Depo" />
         <EntityTypeShape EntityType="MModel.Yer" Width="1.5" PointX="11.25" PointY="27.5" />
         <AssociationConnector Association="MModel.FK_GorevYer_Yer" />
         <AssociationConnector Association="MModel.FK_Yer_Kat" />
+        <EntityTypeShape EntityType="MModel.Setting" Width="1.5" PointX="0.75" PointY="5.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

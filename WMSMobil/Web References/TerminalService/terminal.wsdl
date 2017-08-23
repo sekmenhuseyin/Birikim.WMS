@@ -265,6 +265,7 @@
           <s:element minOccurs="0" maxOccurs="1" name="MalAdi" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="Miktar" type="s:decimal" />
           <s:element minOccurs="0" maxOccurs="1" name="Birim" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MakaraNo" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="SiraNo" type="s:int" />
           <s:element minOccurs="0" maxOccurs="1" name="Kaydeden" type="s:string" />
@@ -301,6 +302,24 @@
           <s:element minOccurs="0" maxOccurs="1" name="Barkod" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="IfExistsRaf">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DepoID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Raf" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="KullID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="AuthGiven" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Guid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IfExistsRafResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IfExistsRafResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="Mal_Kabul">
         <s:complexType>
           <s:sequence>
@@ -712,6 +731,12 @@
   <wsdl:message name="GetMalzemeFromBarcodeSoapOut">
     <wsdl:part name="parameters" element="tns:GetMalzemeFromBarcodeResponse" />
   </wsdl:message>
+  <wsdl:message name="IfExistsRafSoapIn">
+    <wsdl:part name="parameters" element="tns:IfExistsRaf" />
+  </wsdl:message>
+  <wsdl:message name="IfExistsRafSoapOut">
+    <wsdl:part name="parameters" element="tns:IfExistsRafResponse" />
+  </wsdl:message>
   <wsdl:message name="Mal_KabulSoapIn">
     <wsdl:part name="parameters" element="tns:Mal_Kabul" />
   </wsdl:message>
@@ -858,6 +883,10 @@
     <wsdl:operation name="GetMalzemeFromBarcode">
       <wsdl:input message="tns:GetMalzemeFromBarcodeSoapIn" />
       <wsdl:output message="tns:GetMalzemeFromBarcodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="IfExistsRaf">
+      <wsdl:input message="tns:IfExistsRafSoapIn" />
+      <wsdl:output message="tns:IfExistsRafSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Mal_Kabul">
       <wsdl:input message="tns:Mal_KabulSoapIn" />
@@ -1022,6 +1051,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetMalzemeFromBarcode">
       <soap:operation soapAction="http://www.12mconsulting.com.tr/GetMalzemeFromBarcode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IfExistsRaf">
+      <soap:operation soapAction="http://www.12mconsulting.com.tr/IfExistsRaf" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1277,6 +1315,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetMalzemeFromBarcode">
       <soap12:operation soapAction="http://www.12mconsulting.com.tr/GetMalzemeFromBarcode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IfExistsRaf">
+      <soap12:operation soapAction="http://www.12mconsulting.com.tr/IfExistsRaf" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -80,7 +80,6 @@
     $("#sUnvan").on("change paste keyup", function () { filter(table, 3, $("#sUnvan").val()); });
 
     $('.duzenle-buton').click(function () {
-        console.log($(this).parents("td").siblings().eq(0).text());
         $('#modalEditPage').modal('toggle');
         editInModal('/SiparisYetki/YetkiDuzenle/' + $(this).parents("td").siblings().eq(0).text());
     });

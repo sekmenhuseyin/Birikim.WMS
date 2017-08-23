@@ -54,6 +54,7 @@
             this.panelAlt = new System.Windows.Forms.Panel();
             this.btnBack = new System.Windows.Forms.Button();
             this.btnKaydet = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
             this.panelUst.SuspendLayout();
             this.panelOrta.SuspendLayout();
             this.panelAlt.SuspendLayout();
@@ -203,6 +204,7 @@
             // 
             this.panelOrta.AutoScroll = true;
             this.panelOrta.BackColor = System.Drawing.Color.White;
+            this.panelOrta.Controls.Add(this.label13);
             this.panelOrta.Controls.Add(this.label12);
             this.panelOrta.Controls.Add(this.label6);
             this.panelOrta.Controls.Add(this.label5);
@@ -218,7 +220,7 @@
             // 
             this.label12.BackColor = System.Drawing.Color.CadetBlue;
             this.label12.ForeColor = System.Drawing.SystemColors.Window;
-            this.label12.Location = new System.Drawing.Point(483, 0);
+            this.label12.Location = new System.Drawing.Point(556, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(70, 18);
             this.label12.Text = "İşlem Miktarı";
@@ -227,7 +229,7 @@
             // 
             this.label6.BackColor = System.Drawing.Color.CadetBlue;
             this.label6.ForeColor = System.Drawing.SystemColors.Window;
-            this.label6.Location = new System.Drawing.Point(377, 0);
+            this.label6.Location = new System.Drawing.Point(450, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(105, 18);
             this.label6.Text = "Yerleştirme Miktar";
@@ -237,7 +239,7 @@
             // 
             this.label5.BackColor = System.Drawing.Color.CadetBlue;
             this.label5.ForeColor = System.Drawing.SystemColors.Window;
-            this.label5.Location = new System.Drawing.Point(284, 0);
+            this.label5.Location = new System.Drawing.Point(357, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(92, 18);
             this.label5.Text = "Okutulan Miktar";
@@ -315,6 +317,16 @@
             this.btnKaydet.Text = "Kaydet";
             this.btnKaydet.Click += new System.EventHandler(this.btnKaydet_Click);
             // 
+            // label13
+            // 
+            this.label13.BackColor = System.Drawing.Color.CadetBlue;
+            this.label13.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
+            this.label13.ForeColor = System.Drawing.SystemColors.Window;
+            this.label13.Location = new System.Drawing.Point(284, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(72, 18);
+            this.label13.Text = "Makara No";
+            // 
             // frmxOps
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -363,5 +375,6 @@
         public System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnUygula;
+        private System.Windows.Forms.Label label13;
     }
 }
