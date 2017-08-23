@@ -492,7 +492,7 @@ namespace WMSMobil
                         {
                             raf_var = true;
                             itemPanel.Controls[5].Text = raf;
-                            itemPanel.Controls[7].Text = (sender == btnUygula) ? itemPanel.Controls[3].Text : (itemPanel.Controls[7].Text.ToDecimal() + 1).ToString();
+                            itemPanel.Controls[8].Text = (sender == btnUygula) ? itemPanel.Controls[3].Text : (itemPanel.Controls[8].Text.ToDecimal() + 1).ToString();
                             foreach (Control item in itemPanel.Controls)
                                 item.BackColor = Color.DarkOrange;
                         }
@@ -794,10 +794,10 @@ namespace WMSMobil
                 }
                 else if (Ayarlar.MenuTip == MenuType.KontrollüSayım)
                 {
-                    if (itemPanel.Controls[6].Text.ToDecimal() > 0)
+                    if (itemPanel.Controls[8].Text.ToDecimal() > 0)
                     {
                         yer.MalKodu = itemPanel.Controls[1].Text;
-                        yer.Miktar = itemPanel.Controls[7].Text.ToDecimal();
+                        yer.Miktar = itemPanel.Controls[8].Text.ToDecimal();
                         yer.Birim = itemPanel.Controls[4].Text;
                         yer.DepoID = Ayarlar.Kullanici.DepoID;
                         yer.IrsDetayID = itemPanel.Controls[1].Tag.ToInt32();
@@ -809,10 +809,10 @@ namespace WMSMobil
                 }
                 else if (Ayarlar.MenuTip == MenuType.RafaYerlestirme || Ayarlar.MenuTip == MenuType.SiparisToplama || Ayarlar.MenuTip == MenuType.TransferÇıkış || Ayarlar.MenuTip == MenuType.TransferGiriş)
                 {
-                    if (itemPanel.Controls[7].Text.ToDecimal() > 0)
+                    if (itemPanel.Controls[8].Text.ToDecimal() > 0)
                     {
                         yer.MalKodu = itemPanel.Controls[1].Text;
-                        yer.Miktar = itemPanel.Controls[7].Text.ToDecimal();
+                        yer.Miktar = itemPanel.Controls[8].Text.ToDecimal();
                         yer.Birim = itemPanel.Controls[4].Text;
                         yer.DepoID = Ayarlar.Kullanici.DepoID;
                         yer.IrsDetayID = itemPanel.Controls[1].Tag.ToInt32();
