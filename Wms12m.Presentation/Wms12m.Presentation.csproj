@@ -349,7 +349,6 @@
     <Content Include="Content\Scripts\Operation.min.js">
       <DependentUpon>Operation.js</DependentUpon>
     </Content>
-    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="robots.txt" />
@@ -446,10 +445,6 @@
     <Content Include="Content\KatSablon.xlsx" />
     <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Properties\PublishProfiles\WmsPublish.pubxml" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Service\Terminal.asmx" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_PartialAylikSatisAnaliziBar.cshtml" />
