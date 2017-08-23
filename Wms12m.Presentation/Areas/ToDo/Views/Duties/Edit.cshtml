@@ -28,22 +28,22 @@
                         <div class="form-group row">
                             <label class="col-md-4 control-label">Firma</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("MusteriID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle MusteriID", @onchange = "getProje(this.value,'ProjeList', 'FormList');" })
+                                @Html.DropDownList("MusteriID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle MusteriID", @onchange = "getProje(this.value,'ProjeList', 'FormList');", required = "required" })
                                 <span class="field-validation-valid" data-valmsg-for="MusteriID" data-valmsg-replace="true" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-4 control-label">Proje</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("Proje", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle Proje", @id = "ProjeList", @onchange = "getForm(this.value, 'FormList');" })
-                                <span class="field-validation-valid" style="color:red;"></span>
+                                @Html.DropDownList("Proje", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle Proje", @id = "ProjeList", @onchange = "getForm(this.value, 'FormList');", required = "required" })
+                                <span class="field-validation-valid" data-valmsg-for="MusteriID" data-valmsg-replace="Proje" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-md-4 control-label">Form</label>
                             <div class="col-md-4">
-                                @Html.DropDownList("ProjeFormID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle ProjeFormID", @id= "FormList" })
-                                <span class="field-validation-valid"  style="color:red;"></span>
+                                @Html.DropDownList("ProjeFormID", null, string.Empty, htmlAttributes: new { @class = "form-control input-circle ProjeFormID", @id= "FormList", required = "required" })
+                                <span class="field-validation-valid" data-valmsg-for="ProjeFormID" data-valmsg-replace="true"  style="color:red;"></span>
                             </div>
                         </div>
                         @*<div class="form-group row">
@@ -86,7 +86,7 @@
                         <div class="form-group row">
                             @Html.LabelFor(model => model.Gorev, htmlAttributes: new { @class = "control-label col-md-4" })
                             <div class="col-md-4">
-                                @Html.EditorFor(model => model.Gorev, new { htmlAttributes = new { @class = "form-control input-circle" } })
+                                @Html.EditorFor(model => model.Gorev, new { htmlAttributes = new { @class = "form-control input-circle", required = "required" } })
                                 @Html.ValidationMessageFor(model => model.Gorev, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                         <div class="form-group row">
                             @Html.LabelFor(model => model.Aciklama, htmlAttributes: new { @class = "control-label col-md-4" })
                             <div class="col-md-4">
-                                @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded" } })
+                                @Html.TextAreaFor(model => model.Aciklama, 10, 55, new { htmlAttributes = new { @class = "form-control form-rounded"}, required = "required" })
                                 @Html.ValidationMessageFor(model => model.Aciklama, "", new { @class = "text-danger" })
                             </div>
                         </div>

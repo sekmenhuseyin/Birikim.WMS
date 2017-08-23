@@ -32,7 +32,8 @@
             $("#Gorev").val("");
             $("#Aciklama").val("");
             $("#TahminiBitis").val("");
-            PartialView("/ToDo/Duties/List", 'liste');
+            setTimeout(function () { window.location.reload(); }, 500);
+            //PartialView("/ToDo/Duties/List", 'liste');
         }
         else
         { PartialView('/ToDo/Duties/Edit', 'CreateEdit', JSON.stringify({ Id: Id })); }
@@ -52,7 +53,6 @@
             });
         }
         function getProje(id, what, what2) {
-            console.log("vvvv");
             $("#" + what + " option").remove();
             $("#" + what2 + " option").remove();
             $.ajax({

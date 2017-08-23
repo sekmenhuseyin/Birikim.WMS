@@ -228,7 +228,6 @@
 
 
     $('.save-buton').click(function () {
-        console.log(ID);
       $.ajax({
          url: window.location.origin + "/Users/ParametreUpdate",
          data: { CHKAraligi: secilichk, Sirketler: secilisirket, Tipler: secilitipkod, Kod3: secilikod3, Risk: secilirisk, ID :ID},
