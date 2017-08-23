@@ -432,6 +432,16 @@ namespace WMSMobil
                 txtRafBarkod.Focus();
                 return;
             }
+            if (txtRafBarkod.Visible == true)
+            { 
+                var kontrol = Servis.IfExistsRaf(Ayarlar.Kullanici.DepoID, raf, Ayarlar.Kullanici.ID, Ayarlar.AuthCode, Ayarlar.Kullanici.Guid);
+                if (kontrol == false)
+                { 
+                    Mesaj.Uyari("Böyle bir raf sistemde kayıtlı değil!");
+                    txtRafBarkod.Focus();
+                    return;
+                }
+            }
             Cursor.Current = Cursors.WaitCursor;
             bool mal_var = false;
             bool raf_var = false;

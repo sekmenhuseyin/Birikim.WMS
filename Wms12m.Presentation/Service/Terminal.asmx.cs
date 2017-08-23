@@ -300,6 +300,15 @@ namespace Wms12m
             return db.Database.SqlQuery<Tip_Malzeme>(sql).FirstOrDefault();
         }
         /// <summary>
+        /// seçili depoda böyle bir raf var mı
+        /// </summary>
+        [WebMethod]
+        public bool IfExistsRaf(int DepoID, string Raf, int KullID, string AuthGiven, string Guid)
+        {
+            var kat = db.GetHucreKatID(DepoID, Raf).FirstOrDefault();
+            return kat != null;
+        }
+        /// <summary>
         /// mal kabul kayıt işlemleri
         /// </summary>
         [WebMethod]

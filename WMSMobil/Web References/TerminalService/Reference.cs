@@ -316,6 +316,34 @@ namespace WMSMobil.TerminalService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/IfExistsRaf", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool IfExistsRaf(int DepoID, string Raf, int KullID, string AuthGiven, string Guid) {
+            object[] results = this.Invoke("IfExistsRaf", new object[] {
+                        DepoID,
+                        Raf,
+                        KullID,
+                        AuthGiven,
+                        Guid});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public System.IAsyncResult BeginIfExistsRaf(int DepoID, string Raf, int KullID, string AuthGiven, string Guid, System.AsyncCallback callback, object asyncState) {
+            return this.BeginInvoke("IfExistsRaf", new object[] {
+                        DepoID,
+                        Raf,
+                        KullID,
+                        AuthGiven,
+                        Guid}, callback, asyncState);
+        }
+        
+        /// <remarks/>
+        public bool EndIfExistsRaf(System.IAsyncResult asyncResult) {
+            object[] results = this.EndInvoke(asyncResult);
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.12mconsulting.com.tr/Mal_Kabul", RequestNamespace="http://www.12mconsulting.com.tr/", ResponseNamespace="http://www.12mconsulting.com.tr/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public Result Mal_Kabul(frmMalKabul[] StiList, int GorevID, int KullID, string AuthGiven, string Guid) {
             object[] results = this.Invoke("Mal_Kabul", new object[] {
